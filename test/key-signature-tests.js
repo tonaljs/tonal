@@ -20,10 +20,24 @@ vows.describe('Key keyature').addBatch({
     assert.equal(key.number, 10)
     assert.equal(key.minor, 'G')
   },
-  'alterations': function () {
-    assert.equal(KeySignature('Bb').alterations, 'bb')
-    assert.equal(KeySignature('Ab').alterations, 'bbbb')
-    assert.equal(KeySignature('D').alterations, '##')
-    assert.equal(KeySignature('E').alterations, '####')
+  'signature': function () {
+    assert.equal(KeySignature('Bb').signature, 'bb')
+    assert.equal(KeySignature('Ab').signature, 'bbbb')
+    assert.equal(KeySignature('D').signature, '##')
+    assert.equal(KeySignature('E').signature, '####')
+  },
+  '# alterations': function () {
+    assert.deepEqual(KeySignature('C').alterations(), [])
+    assert.deepEqual(KeySignature('D').alterations(), ['F#', 'C#'])
+    assert.deepEqual(KeySignature('E').alterations(), ['F#', 'C#', 'G#', 'D#'])
+    assert.deepEqual(KeySignature('C#').alterations(), ['F#', 'C#', 'G#', 'D#', 'A#', 'E#', 'B#'])
+    assert.deepEqual(KeySignature('D#').alterations(), ['F#', 'C#', 'G#', 'D#', 'A#', 'E#', 'B#', 'F##', 'C##'])
+  },
+  'b alterations': function () {
+    assert.deepEqual(KeySignature('F').alterations(), ['Bb'])
+    assert.deepEqual(KeySignature('Ab').alterations(), ['Bb', 'Eb', 'Ab', 'Db'])
+    assert.deepEqual(KeySignature('Cb').alterations(), ['Bb', 'Eb', 'Ab', 'Db', 'Gb', 'Cb', 'Fb'])
+    assert.deepEqual(KeySignature('Fb').alterations(), ['Bb', 'Eb', 'Ab', 'Db', 'Gb', 'Cb', 'Fb', 'Bbb'])
+    assert.deepEqual(KeySignature('Bbb').alterations(), ['Bb', 'Eb', 'Ab', 'Db', 'Gb', 'Cb', 'Fb', 'Bbb', 'Ebb'])
   }
 }).export(module)

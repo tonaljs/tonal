@@ -17,6 +17,9 @@ vows.describe('Cycle of fifths').addBatch({
     })
     assert.equal(notes.join(' '), 'C F Bb Eb Ab Db Gb Cb Fb Bbb Ebb Abb C F Bb Eb Ab')
   },
+  'size 0 is empty': function () {
+    assert.deepEqual(cycle(0, 0), [])
+  },
   'ascendent': function () {
     assert.equal(cycle(0, 4).join(' '), 'C G D A')
     assert.equal(cycle(2, 4).join(' '), 'D A E B')
