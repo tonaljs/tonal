@@ -16,3 +16,11 @@ function cycle (number, size, reverse) {
   }
   return result
 }
+
+cycle.indexOf = function (note) {
+  var index = ASC.indexOf(note)
+  if (index !== -1 && index < 11) return index
+  index = DESC.indexOf(note)
+  if (index !== -1) return -1 * index
+  throw Error('Invalid note: ' + note)
+}

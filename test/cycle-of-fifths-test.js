@@ -32,5 +32,10 @@ vows.describe('Cycle of fifths').addBatch({
     assert.equal(cycle(0, 14, true).join(' '), 'C F Bb Eb Ab Db Gb Cb Fb Bbb Ebb Abb C F')
     assert.equal(cycle(-1, 7, true).join(' '), 'Abb C F Bb Eb Ab Db')
     assert.equal(cycle(-5, 2, true).join(' '), 'Cb Fb')
+  },
+  'index of': function () {
+    assert.equal(cycle.indexOf('C'), 0)
+    assert.equal(cycle.indexOf('C#'), 7)
+    assert.equal(cycle.indexOf('Bb'), -2)
   }
 }).export(module)
