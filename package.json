@@ -1,0 +1,39 @@
+{
+  "name": "tonal",
+  "version": "0.1.0",
+  "description": "Music theory for javascript",
+  "main": "tonal.js",
+  "scripts": {
+    "test": "vows test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danigb/tonal.git"
+  },
+  "keywords": [
+    "music",
+    "theory",
+    "note",
+    "notes",
+    "transpose",
+    "midi",
+    "interval",
+    "chords",
+    "chord",
+    "scale",
+    "scales"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "homepage": "https://github.com/danigb/tonal#readme",
+  "dependencies": {
+    "musical-interval": "^0.2.0",
+    "musical-note": "^0.1.0"
+  },
+  "devDependencies": {
+    "vows": "^0.8.1"
+  }
+}
