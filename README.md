@@ -10,6 +10,8 @@ The swiss army knife of music theory
 
 ### Tonal.keySignature(number | tonic)
 
+### Tonal.scale(name | number)
+
 ## License
 
 MIT License

@@ -16,10 +16,12 @@ function spell (num) {
 
 var SUBSTITUTIONS = {'m3': 'A2', 'P5': 'd6', 'd5': 'A4', 'm6': 'A5', 'M3': 'd4', 'm7': 'A6'}
 function normalizeHeptatonic (result) {
+  var number, substitute
   for (var i = 0; i < 7; i++) {
-    var number = result[i][1]
+    number = result[i][1]
     if (number !== '' + (i + 1)) {
-      result[i] = SUBSTITUTIONS[result[i]]
+      substitute = SUBSTITUTIONS[result[i]]
+      if (substitute) result[i] = substitute
     }
   }
 }
