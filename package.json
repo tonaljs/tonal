@@ -12,7 +12,7 @@
   },
   "keywords": [
     "music",
-    "theory",
+    "music theory",
     "note",
     "notes",
     "transpose",
@@ -32,7 +32,7 @@
   "dependencies": {
     "binary-scale": "^0.1.0",
     "musical-interval": "^0.2.0",
-    "musical-note": "^0.1.0",
+    "musical-note": "^0.2.0",
     "scale-names": "file:../scale-names"
   },
   "devDependencies": {

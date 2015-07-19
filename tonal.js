@@ -8,8 +8,15 @@ function newCache (values) {
 }
 
 var Tonal = {}
-Tonal.interval = require('musical-interval')
-Tonal.note = require('musical-note')
+Tonal.Interval = require('musical-interval')
+Tonal.Note = require('musical-note')
+Tonal.note = Tonal.Note
+Tonal.transpose = function (tonic, intervals) {
+  var note = Tonal.note(tonic)
+  return intervals.map(function (interval) {
+    return note.transpose(interval)
+  })
+}
 Tonal.keySignature = require('./key-signature.js')
 
 Tonal.Scale = require('binary-scale')
@@ -28,6 +35,14 @@ Tonal.Scale.all = function () {
 Tonal.Scale.prototype.names = function () {
   return Tonal.ScaleNames.get(this.decimal)
 }
+var scaleSpell = require('./scale-spell')
+Tonal.Scale.prototype.spell = function () {
+  return scaleSpell(this.binary)
+}
+Tonal.Scale.prototype.notes = function (tonic) {
+  return Tonal.transpose(tonic, this.spell())
+}
+
 var scalesCache = newCache({})
 Tonal.scale = function (identifier) {
   return scalesCache(identifier, function () {
