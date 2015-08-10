@@ -9,9 +9,9 @@ transpose('M2', 'f#4') // => 'G#4'
 
 It's modular because you can require just what you need. The library is still big, but your dependencies can be tiny.
 
-It's modular because all the library is built using functions with no side effects, just data-in, data-out. Notes and intervals are represented by strings. No objects. Functions are isolated, simpler and easily tested.
+It's functional because all the library is built using functions with no side effects, just data-in, data-out. Notes and intervals are represented by strings. No objects. Functions are isolated, simpler and tested.
 
-__This is alpha software__, if you need a stable music theory library in javascript you can use [teoria](https://github.com/saebekassebil/teoria)
+__This is alpha software__, if you need a stable music theory library in javascript you can use the excellent [teoria](https://github.com/saebekassebil/teoria)
 
 ## What
 
@@ -31,7 +31,7 @@ First of all, because I want to learn:
 
 The more I code music entities, the more I understand the relations between them.
 
-Also, I want a complete library, where I can model all what I learn, with some esoteric features like interval classes, binary scales and weird stuff. That's not possible if its not modular.
+Also, I want a complete library, where I can model all what I learn, with some esoteric features like interval classes, binary scales and weird stuff. You can require the parts you need.
 
 ## Usage
 
@@ -42,7 +42,7 @@ var tonal = require('tonal')
 tonal.tranpose('P5', 'C')
 ```
 
-The idea is that you only require the required methods:
+The idea is that you only require the methods you need:
 
 ```js
 var transpose = require('tonal/transpose')
@@ -51,11 +51,11 @@ tranpose('P5', 'C')
 
 ## Documentation
 
-You can read the [generated documentation]
+You can read the generated documentation [here]](https://github.com/danigb/tonal/blob/master/documentation.md)
 
 ## References
 
-The binary representation of the scales are based on the book 
+The binary representation of the scales are based on the awesome book
 
 ## License
 
