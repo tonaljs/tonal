@@ -7,11 +7,20 @@ var transpose = require('tonal/transpose')
 transpose('M2', 'f#4') // => 'G#4'
 ```
 
+__This is alpha software__, if you need a stable music theory library in javascript you can use [teoria](https://github.com/saebekassebil/teoria)
+
+## What
+
 ## Why
 
-First of all, because I want to learn. The more I code music entities, the more I understand the relations between them.
+First of all, because I want to learn:
 
-Also, I want a complete library (where I can model all what I learn) and that's not possible if its not modular.
+> Reinventing the wheel is bad for business, but it’s great for learning
+[*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
+
+The more I code music entities, the more I understand the relations between them.
+
+Also, I want a complete library, where I can model all what I learn, with some esoteric features like interval classes, binary scales and weird stuff. That's not possible if its not modular.
 
 ## Usage
 
