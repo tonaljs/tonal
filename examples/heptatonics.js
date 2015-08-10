@@ -3,12 +3,15 @@ var Tonal = require('../')
 var hepta = Tonal.Scale.all().filter(function (scale) {
   return scale.length === 7
 })
+
 var allModes = []
-var modes = []
-var correct = hepta.filter(function (scale) {
+hepta.forEach(function (scale) {
   if (allModes.indexOf(scale.rootMode) === -1) {
     allModes.push(scale.rootMode)
   }
+})
+var modes = []
+var correct = hepta.filter(function (scale) {
   var spell = scale.spell()
   for (var i = 1; i < 8; i++) {
     if (spell[i - 1][1] !== '' + i) return false

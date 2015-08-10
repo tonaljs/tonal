@@ -1,10 +1,8 @@
 {
-  "name": "tonal-tools",
+  "name": "tonal",
   "version": "0.1.0",
-  "description": "Music theory for javascript",
-  "scripts": {
-    "test": "vows test/*.js"
-  },
+  "description": "Functional, modular music theory library",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/danigb/tonal.git"
@@ -28,8 +26,13 @@
     "url": "https://github.com/danigb/tonal/issues"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
+  "dependencies": {
+    "binary-scale": "^0.1.0",
+    "musical-interval": "^0.2.0",
+    "musical-note": "^0.2.0",
+    "scale-names": "file:../scale-names"
+  },
   "devDependencies": {
-    "lodash": "^3.10.1",
     "vows": "^0.8.1"
   }
 }
