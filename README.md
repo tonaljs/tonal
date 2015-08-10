@@ -7,9 +7,20 @@ var transpose = require('tonal/transpose')
 transpose('M2', 'f#4') // => 'G#4'
 ```
 
+It's modular because you can require just what you need. The library is still big, but your dependencies can be tiny.
+
+It's modular because all the library is built using functions with no side effects, just data-in, data-out. Notes and intervals are represented by strings. No objects. Functions are isolated, simpler and easily tested.
+
 __This is alpha software__, if you need a stable music theory library in javascript you can use [teoria](https://github.com/saebekassebil/teoria)
 
 ## What
+
+The library functions are divided in some different areas:
+
+- __notes__: parseNote, freq, midi, transpose, enharmonics, pitchClass
+- __intervals__: parseInterval, intervalNames, intervalNumber, invertInterval, distance
+- __scales__:
+- __chords__:
 
 ## Why
 
@@ -38,43 +49,13 @@ var transpose = require('tonal/transpose')
 tranpose('P5', 'C')
 ```
 
+## Documentation
 
-## API
+You can read the [generated documentation]
 
-### Notes
+## References
 
-#### parseNote(string)
-
-Parse a note string a return an object with the following properties:
-
-- pc: the [pitch class](https://en.wikipedia.org/wiki/Pitch_class). __Always uppercase__
-- acc: the [note accidentals](https://en.wikipedia.org/wiki/Musical_note#Accidentals)
-- oct: the octave, as an integer. __Always present__, 4 if not present in the string
-
-#### midi(note)
-
-Returns the midi number of the given note. The note param can be a note string or a note object.
-
-#### freq(note, [, tuning = 440])
-
-#### enharmonics(note [, pitchClass])
-
-#### midiNoteName(midiNumber)
-
-### pitchClass(note[, steps])
-
-### Intervals
-
-#### parseInterval(string)
-
-#### invertInterval(interval)
-
-#### distance(origNote, destNote)
-
-#### diatonicNumber()
-
-#### intervalNames([semitones])
-
+The binary representation of the scales are based on the book 
 
 ## License
 

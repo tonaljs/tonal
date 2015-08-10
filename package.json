@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "Music theory for javascript",
   "scripts": {
-    "test": "vows test/*.js"
+    "test": "vows test/*.js",
+    "docs": "doxdox lib/ -l markdown > documentation.md"
   },
   "repository": {
     "type": "git",
