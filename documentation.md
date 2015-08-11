@@ -4,18 +4,54 @@
 
 
 
-## cycle(root, interval, size, offset) 
+## cycleOfFifths(value) 
+
+Get the relation between a note and the number of steps in the cycle of fifths
+
+
+
+
+### Parameters
+
+- **value** `Integer` `String`   - if a integer is given, return the note name moving value steps in the cycle. If a note name is given, it returns the number
+of steps
+
+
+
+
+### Examples
+
+```javascript
+var cycle = require('tonal/cycle-of-fifths')
+cycle(0) // => 'C'
+cycle(1) // => 'G'
+cycle(-1) // => 'F'
+cycle('C') // => 0
+cycle('G') // => 1
+cycle('F') // => -1
+```
+
+
+### Returns
+
+
+- `String` `Integer`   - the note name or the number of steps (depending of the param)
+
+
+
+
+## cycle(root, interval, length, offset) 
 
 Create cycles of notes by transposing them by an interval.
 
-You can use it, for example, to create a cycle of fifths
+
 
 
 ### Parameters
 
 - **root** `String` `Note`   - the first note of the cycle (required)
 - **interval** `String` `Interval`   - the interval used to transpose the note (required)
-- **size** `Integer`   - the size of the returned array (required, must be > 0)
+- **length** `Integer`   - the length of the returned array (required, must be > 0)
 - **offset** `Integer`   - if specified, the first note of the cycle will be the root after _offset_ steps. Optional, 0 by default
 
 
@@ -260,6 +296,37 @@ invert('M3') // => 'm6'
 
 
 
+## keySignature(signature) 
+
+Given a key signature, get key signature information
+
+The key signature can be expressed in several ways:
+- with number: 2 means 'two sharps', -2 means 'two flats'
+- with accidentals: '##' or 'bb'
+- with major tonic: for example, 'C'
+
+The key signature object has the following properties:
+- num: the key signature number
+- acc: the key signature accidentals
+- major: the note name of the major tonality associated to this key signature
+- minor: the note name of the minor tonality associated to this key signature
+
+
+### Parameters
+
+- **signature** `Integer` `String`   - the key signature expressen in number, accidentals, or major tonic
+
+
+
+
+### Returns
+
+
+- `Object`   an object with the key signature information
+
+
+
+
 ## midiNoteName(midi, pitchClass) 
 
 Get the note name of the given midi number
@@ -309,6 +376,24 @@ midi('A4') // => 69
 
 
 - `Integer`   - the midi number
+
+
+
+
+## noteName() 
+
+Get the note name of a note represented in [scientific notation](https://en.wikipedia.org/wiki/Scientific_pitch_notation)
+
+The note name is the [pitch class](https://en.wikipedia.org/wiki/Pitch_class)
+of the note (__always__ in uppercase) with the alterations (the octave is ignored)
+
+
+
+
+### Returns
+
+
+- `Void`
 
 
 
@@ -366,8 +451,8 @@ in uppercase__. One of 'A', 'B', 'C', 'D', 'E', 'F', 'G'
 with '##'. If the note has no accidentals, the value is an empty string (never null).
 - `oct`: the octave (as integer, can be negative). If no octave is present in
 the string to be parsed, it is set to 4.
-- `name`: the name of the note (uppercase pitch class, with accidentals and
-__whithout__ octave)
+
+If the string is not a valid note, an exception is thrown
 
 
 ### Parameters
@@ -381,9 +466,9 @@ __whithout__ octave)
 
 ```javascript
 var parse = require('tonal/parse-note')
-parse('db2') // => { pc: 'D', acc: 'b', oct: 2, name: 'Db' }
-parse('b#3') // => { pc: 'B', acc: '#', oct: 3, name: 'B#' }
-parse('c') // => { pc: 'C', acc: '', oct: 4, name: 'C' }
+parse('db2') // => { pc: 'D', acc: 'b', oct: 2 }
+parse('b#3') // => { pc: 'B', acc: '#', oct: 3 }
+parse('c') // => { pc: 'C', acc: '', oct: 4 }
 ```
 
 
@@ -428,7 +513,7 @@ pitchClass('db4', 2) // => 'F'
 
 
 
-## transpose(interval, note, the) 
+## transpose(interval, note) 
 
 Transpose a note a given interval
 
@@ -439,7 +524,6 @@ Transpose a note a given interval
 
 - **interval** `String` `Interval`   - the interval to tranpose
 - **note** `String` `Note`   - the note to be transposed
-- **the** `String`   transposed note
 
 
 
@@ -455,7 +539,7 @@ transpose('M2', 'E') // => 'F#4'
 ### Returns
 
 
-- `Void`
+- `String`   the transposed note
 
 
 
