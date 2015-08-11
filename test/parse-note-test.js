@@ -13,6 +13,9 @@ vows.describe('note').addBatch({
   'default octave is 4': function () {
     assert.equal(parse('d').oct, 4)
   },
+  'no accidentals is an empty string': function () {
+    assert.equal(parse('c').acc, '')
+  },
   'parse a note object, returns itself': function () {
     var note = parse('c')
     assert(note === parse(note))
