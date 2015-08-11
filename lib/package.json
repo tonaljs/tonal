@@ -20,19 +20,12 @@
     "scale",
     "scales"
   ],
-  "author": "danigb",
+  "author": "danigb <danigb@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "dependencies": {
-    "binary-scale": "^0.1.0",
-    "musical-interval": "^0.2.0",
-    "musical-note": "^0.2.0",
-    "scale-names": "file:../scale-names"
-  },
-  "devDependencies": {
-    "vows": "^0.8.1"
   }
 }
