@@ -296,6 +296,28 @@ invert('M3') // => 'm6'
 
 
 
+## isScaleBinaryNumber(binary) 
+
+Determine if a given binary string represents a valid scale
+
+A valid binary number is a 12 digit binary number with a 1 in the first position
+
+
+### Parameters
+
+- **binary** `String`   - the binary number
+
+
+
+
+### Returns
+
+
+- `boolean`   true if its a valid scale binary number
+
+
+
+
 ## keySignature(signature) 
 
 Given a key signature, get key signature information
@@ -323,29 +345,6 @@ The key signature object has the following properties:
 
 
 - `Object`   an object with the key signature information
-
-
-
-
-## midiNoteName(midi, pitchClass) 
-
-Get the note name of the given midi number
-
-Since there are several names, you can choose the pitch class of the enharmonics
-
-
-### Parameters
-
-- **midi** `Integer`   - the midi number
-- **pitchClass** `String`   - desired pitch class. Must be uppercase
-
-
-
-
-### Returns
-
-
-- `Void`
 
 
 
@@ -380,12 +379,18 @@ midi('A4') // => 69
 
 
 
-## noteName() 
+## noteFromMidi(midi, pitchClass) 
 
-Get the note name of a note represented in [scientific notation](https://en.wikipedia.org/wiki/Scientific_pitch_notation)
+Get the note of the given midi number
 
-The note name is the [pitch class](https://en.wikipedia.org/wiki/Pitch_class)
-of the note (__always__ in uppercase) with the alterations (the octave is ignored)
+Since there are several names for each number, optionally you can choose
+the pitch class of the enharmonics
+
+
+### Parameters
+
+- **midi** `Integer`   - the midi number
+- **pitchClass** `String`   - desired pitch class. (Optional, must be uppercase)
 
 
 
@@ -393,7 +398,32 @@ of the note (__always__ in uppercase) with the alterations (the octave is ignore
 ### Returns
 
 
-- `Void`
+- `String`   the note or null if there's no pitchClass available to this note name
+
+
+
+
+## noteName(note) 
+
+Get the note name of a note represented in [scientific notation](https://en.wikipedia.org/wiki/Scientific_pitch_notation)
+
+The note name is the [pitch class](https://en.wikipedia.org/wiki/Pitch_class)
+of the note (__always__ in uppercase) with the alterations (the octave is ignored)
+
+If the note given is not a valid note, an exception is thrown
+
+
+### Parameters
+
+- **note** `String`   - the note to get the name of
+
+
+
+
+### Returns
+
+
+- `String`   the note name
 
 
 
