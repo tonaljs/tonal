@@ -11,18 +11,20 @@ It's modular because you can require just what you need. The library is still bi
 
 It's functional because all the library is built using functions with no side effects, just data-in, data-out. Notes and intervals are represented by strings. No objects. Functions are isolated, simpler and tested.
 
+You can read de [documentation here](https://github.com/danigb/tonal/blob/master/documentation.md)
+
 __This is alpha software__, if you need a stable music theory library in javascript you can use the excellent [teoria](https://github.com/saebekassebil/teoria)
 
 ## What
 
-The library functions are divided in some different areas (functions marked with asterisk are work in progress or not implemented)
+The library functions are divided in some different areas (functions in _italic_ are work in progress or not implemented)
 
-- __notes__: parseNote, freq, midi, transpose, enharmonics, pitchClass, cycle*
-- __intervals__: parseInterval, intervalNames, intervalNumber, invertInterval, distance, intervalClass, intervalAnalisys*
-- __scales__: scaleIntervals*, scaleNotes*, scaleBinary*, scaleModes*, cannonicalScaleMode*, coscale*, reflection*, scaleName*, isBinaryScale*, isDecimalScale*
+- __notes__: parseNote, noteName, freq, midi, transpose, enharmonics, pitchClass, cycle
+- __intervals__: parseInterval, intervalNames, intervalNumber, invertInterval, distance, intervalClass, _intervalAnalisys_
+- __scales__: _scaleIntervals_, _scaleNotes_, scaleBinary, scaleModes, cannonicalScaleMode, coscale, reflection, scaleName, isBinaryScale, isDecimalScale
 - __chords__:
-- __tonallity__: keySignature*
-- __sequences__: sequence*, timeStretch*
+- __tonallity__: keySignature
+- __sequences__: sequence, timeStretch
 
 ## Why
 
@@ -51,9 +53,16 @@ var transpose = require('tonal/transpose')
 tranpose('P5', 'C')
 ```
 
-## Documentation
+## Documentation and tests
 
-You can read the generated documentation [here]](https://github.com/danigb/tonal/blob/master/documentation.md)
+The functions are documented inside the code. The generated documentation can be read [here](https://github.com/danigb/tonal/blob/master/documentation.md)
+
+To run the tests, clone this repository and run:
+
+```bash
+npm install
+npm test
+```
 
 ## References
 

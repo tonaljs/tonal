@@ -7,7 +7,6 @@ vows.describe('note').addBatch({
     var note = parse('c#4')
     assert.equal(note.pc, 'C')
     assert.equal(note.acc, '#')
-    assert.equal(note.name, 'C#')
     assert.equal(note.oct, 4)
   },
   'default octave is 4': function () {
