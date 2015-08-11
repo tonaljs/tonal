@@ -1,6 +1,7 @@
 {
   "name": "tonal-tools",
   "version": "0.1.0",
+  "private": "true",
   "description": "Music theory for javascript",
   "scripts": {
     "test": "vows test/*.js",
