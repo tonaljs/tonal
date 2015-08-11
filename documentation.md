@@ -4,6 +4,40 @@
 
 
 
+## cycle(root, interval, size, offset) 
+
+Create cycles of notes by transposing them by an interval.
+
+You can use it, for example, to create a cycle of fifths
+
+
+### Parameters
+
+- **root** `String` `Note`   - the first note of the cycle (required)
+- **interval** `String` `Interval`   - the interval used to transpose the note (required)
+- **size** `Integer`   - the size of the returned array (required, must be > 0)
+- **offset** `Integer`   - if specified, the first note of the cycle will be the root after _offset_ steps. Optional, 0 by default
+
+
+
+
+### Examples
+
+```javascript
+var cycle = require('tonal/cycle')
+cycle('C', 'P5', 4) // ['C', 'G', 'D', 'A']
+cycle('C', 'P5', 4', 2) // ['D', 'A', 'E', 'B']
+```
+
+
+### Returns
+
+
+- `Array`   an array of notes __without__ octave
+
+
+
+
 ## distance(noteA, noteB) 
 
 Get the interval name of the distsance between two notes
@@ -95,6 +129,39 @@ freq('A3', 444) // => 222
 
 
 - `Float`   - the note frequency
+
+
+
+
+## intervalClass(interval) 
+
+Get the [interval class](https://en.wikipedia.org/wiki/Interval_class) of
+a given interval.
+
+In musical set theory, an interval class  is the shortest distance in
+pitch class space between two unordered pitch classes
+
+
+### Parameters
+
+- **interval** `String` `Interval`   - the Interval
+
+
+
+
+### Examples
+
+```javascript
+var intervalClass = require('tonal/interval-class')
+intervalClass('P8') // => 0
+intervalClass('m6') // => 4
+```
+
+
+### Returns
+
+
+- `Integer`   A value between 0 and 6
 
 
 
@@ -253,11 +320,11 @@ Parse a interval name and returns an object with interval properties
 Valid intervals are: 'P5', 'm3', 'd-2', 'P-4', 'M13'...
 
 The returned object has the following properties:
-- name: the full name of the interval
-- quality: the quality of the interval ('d', 'm', 'P', 'M' or 'A')
-- number: the __simplified__ number of the interval (always between -9 and 9)
-- oct: the number of octaves (can be negative)
-- dist: the distance in semitiones (__whithout octaves__: a number between -12 and 12)
+- `name`: the full name of the interval
+- `quality`: the quality of the interval ('d', 'm', 'P', 'M' or 'A')
+- `num`: the __simplified__ number of the interval (always between -9 and 9)
+- `oct`: the number of octaves (can be negative)
+- `dist`: the distance in semitiones (__whithout octaves__: a number between -12 and 12)
 
 If the string is not a interval ('g3') or its a invalid interval ('M5') an
 exception is thrown.
@@ -289,16 +356,18 @@ parse('M9') // => { name: 'M9', num: 2, oct: 1, dist: 2 }
 
 ## parseNote(note) 
 
-Parse a note name and returns an object with its properties
+Parse a note string in [scientific pitch notation](https://en.wikipedia.org/wiki/Scientific_pitch_notation)
 
-The note object has the following properties:
+The octave in the note string is optional, and this parse method returns an
+object with the following properties:
 - `pc`: the [pitch class](https://en.wikipedia.org/wiki/Pitch_class). __Always
 in uppercase__. One of 'A', 'B', 'C', 'D', 'E', 'F', 'G'
 - `acc`: the accidentals. A string of 'b' or '#'. Double sharp is notated
-with '##'. If the note has no accidentals, the value is an empty string.
+with '##'. If the note has no accidentals, the value is an empty string (never null).
 - `oct`: the octave (as integer, can be negative). If no octave is present in
-the string to be parsed, its 4 by default
-- `name`: the name of the note (with uppercase pitch class, accidentals __and__ octave)
+the string to be parsed, it is set to 4.
+- `name`: the name of the note (uppercase pitch class, with accidentals and
+__whithout__ octave)
 
 
 ### Parameters
@@ -312,8 +381,9 @@ the string to be parsed, its 4 by default
 
 ```javascript
 var parse = require('tonal/parse-note')
-parse('c') // => { pc: 'C', acc: '', oct: 4, name: 'C4' }
-parse('db2') // => { pc: 'D', acc: 'b', oct: 2, name: 'Db2' }
+parse('db2') // => { pc: 'D', acc: 'b', oct: 2, name: 'Db' }
+parse('b#3') // => { pc: 'B', acc: '#', oct: 3, name: 'B#' }
+parse('c') // => { pc: 'C', acc: '', oct: 4, name: 'C' }
 ```
 
 

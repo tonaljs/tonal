@@ -15,12 +15,14 @@ __This is alpha software__, if you need a stable music theory library in javascr
 
 ## What
 
-The library functions are divided in some different areas:
+The library functions are divided in some different areas (functions marked with asterisk are work in progress or not implemented)
 
-- __notes__: parseNote, freq, midi, transpose, enharmonics, pitchClass
-- __intervals__: parseInterval, intervalNames, intervalNumber, invertInterval, distance
-- __scales__:
+- __notes__: parseNote, freq, midi, transpose, enharmonics, pitchClass, cycle*
+- __intervals__: parseInterval, intervalNames, intervalNumber, invertInterval, distance, intervalClass, intervalAnalisys*
+- __scales__: scaleIntervals*, scaleNotes*, scaleBinary*, scaleModes*, cannonicalScaleMode*, coscale*, reflection*, scaleName*, isBinaryScale*, isDecimalScale*
 - __chords__:
+- __tonallity__: keySignature*
+- __sequences__: sequence*, timeStretch*
 
 ## Why
 
