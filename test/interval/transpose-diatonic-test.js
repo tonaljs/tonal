@@ -4,6 +4,6 @@ var transpose = require('../../lib/interval/transpose-diatonic')
 
 vows.describe('Interval').addBatch({
   'diatonic transposition': function () {
-    assert.equal(transpose('P5', 'C'), 'G4')
+    assert.equal(transpose('P1', 'C'), 'C4')
   }
 }).export(module)

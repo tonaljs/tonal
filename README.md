@@ -23,14 +23,17 @@ __This is alpha software__, if you need a stable music theory library in javascr
 
 ## What
 
-The library functions are divided in some different areas (functions in _italic_ are work in progress or not implemented)
+The library is divided in a number of modules:
 
-- __notes__: parseNote, noteName, freq, midi, noteFromMidi, transpose, enharmonics, pitchClass, cycle, cycleOfFifths
-- __intervals__: parseInterval, intervalNames, intervalNumber, invertInterval, distance, intervalClass, _intervalAnalisys_
-- __scales__: _scaleIntervals_, _scaleNotes_, scaleBinary, scaleModes, cannonicalScaleMode, coscale, reflection, scaleName, isScaleBinaryNumber, isScaleDecimalNumber
-- __chords__:
-- __tonallity__: keySignature
-- __sequences__: sequence, timeStretch
+- [notes](https://github.com/danigb/tonal/blob/master/docs/note.md): functions to parse and manipulate note pitches (fromMidi, midi, transpose...)
+- [intervals](https://github.com/danigb/tonal/blob/master/docs/interval.md): functions to manipulate intervals
+- [scales](https://github.com/danigb/tonal/blob/master/docs/scale.md): scales
+- [chords](https://github.com/danigb/tonal/blob/master/docs/chord.md): chords
+- [set](https://github.com/danigb/tonal/blob/master/docs/set.md): working with list of intervals or notes
+- [key](https://github.com/danigb/tonal/blob/master/docs/key.md): key signature related functions
+- [cycles](https://github.com/danigb/tonal/blob/master/docs/cycles.md): cycles related functions
+- [misc](https://github.com/danigb/tonal/blob/master/docs/misc.md): yet uncategorized functions
+
 
 ## Why
 
