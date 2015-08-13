@@ -66,16 +66,33 @@ direction('P-4') // => -1
 
 
 
+## genericToDiationic() 
+
+
+
+
+
+
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
 ## genericType(number) 
 
-Return the type ('perfect' or 'major') of the generic interval
+Return the type ('perfect' or 'major') of the [generic interval](https://en.wikipedia.org/wiki/Generic_interval)
 
 A generic interval its the number of a diatonic interval
 
 
 ### Parameters
 
-- **number** `Integer`   - the generic interval (positive or negative, can't be zero)
+- **number** `Integer`   - the generic interval (positive integer)
 
 
 
@@ -83,11 +100,11 @@ A generic interval its the number of a diatonic interval
 ### Examples
 
 ```javascript
-genericType(1) // 'perfect'
-genericType(4) // 'perfect'
-genericType(5) // 'perfect'
-genericType(8) // 'perfect'
-genericType(9) // 'major'
+genericType(0) // 'perfect'  <- unison
+genericType(3) // 'perfect'  <- fourth
+genericType(4) // 'perfect'  <- fifth
+genericType(7) // 'perfect'  <- octave
+genericType(8) // 'major'    <- nineth
 ```
 
 
@@ -95,6 +112,36 @@ genericType(9) // 'major'
 
 
 - `String`   the type ('perfect' or 'major')
+
+
+
+
+## generic(interval) 
+
+Convert a [diatonic interval](https://en.wikipedia.org/wiki/Interval_(music))
+into a [generic interval](https://en.wikipedia.org/wiki/Generic_interval)
+
+
+
+
+### Parameters
+
+- **interval** `String`   - the diatonic interval
+
+
+
+
+### Examples
+
+```javascript
+generic('M9') // => 1
+```
+
+
+### Returns
+
+
+- `Integer`   the generic interval
 
 
 
@@ -112,6 +159,28 @@ genericType(9) // 'major'
 
 
 - `Void`
+
+
+
+
+## numberToGeneric(number) 
+
+Give a interval number, returns a [generic interval](https://en.wikipedia.org/wiki/Generic_interval)
+
+
+
+
+### Parameters
+
+- **number** `Integer`   - the interval number
+
+
+
+
+### Returns
+
+
+- `Integer`   the generic interval (an integer bewteen 0 and 6)
 
 
 
@@ -210,13 +279,28 @@ semitones('P5') // => 7
 
 
 
-## number() 
+## simple(interval, ascending) 
+
+Simplify an interval
 
 
 
 
+### Parameters
+
+- **interval** `String`   - the interval to be simplified
+- **ascending** `boolean`   - (optional) if true, the simplified interval will be always ascending
 
 
+
+
+### Examples
+
+```javascript
+simple('M9') // => 'M2'
+simple('M-9') // => 'M-2'
+simple('M-9', true) // => 'M2'
+```
 
 
 ### Returns
@@ -261,7 +345,7 @@ semitones('P5') // => 7
 
 
 
-## transposeGeneric(number, note) 
+## transposeGeneric(generic, note) 
 
 Transpose note a generic interval
 
@@ -272,7 +356,7 @@ The generic interval do not take account of diatonic spelling
 
 ### Parameters
 
-- **number** `Integer`   - the generic interal: number of steps to tranpose (is a one-based index, zero is not allowed, and can be negative to move backwards)
+- **generic** `Integer`   - the generic interval
 - **note** `String`   - the note (everything but the step is ignored)
 
 
@@ -281,11 +365,9 @@ The generic interval do not take account of diatonic spelling
 ### Examples
 
 ```javascript
-transpose('C', 0) // => 'C'
-transpose('C', 1) // => 'D'
-transpose('C#', 1) // => 'D'
-transpose('C2', -1) // => 'B'
-transpose('C##3', -1) // => 'B'
+transpose(0, 'C') // => 'C'
+transpose(1, 'C') // => 'D'
+transpose(-1, 'C') // => 'B'
 ```
 
 
