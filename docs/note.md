@@ -67,6 +67,30 @@ alteration('bb') // => -1 (first char is the step)
 
 
 
+## module.exports() 
+
+Get the interval between two notes
+
+
+
+
+
+
+### Examples
+
+```javascript
+transpose('P5', 'D') // => 'A4'
+```
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
 ## enharmonic() 
 
 Get the enharmonic of a note with a given step

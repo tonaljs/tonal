@@ -103,9 +103,9 @@ Determine if a given scale is a valid scale
 
 
 
-## intervals() 
+## notes() 
 
-
+Get the notes of a scale
 
 
 
