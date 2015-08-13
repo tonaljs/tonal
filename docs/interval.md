@@ -66,9 +66,89 @@ direction('P-4') // => -1
 
 
 
+## distanceChromatic(root, destination) 
+
+Get the distance in semitones between two notes
+
+
+
+
+### Parameters
+
+- **root** `String`   - the root note
+- **destination** `String`   - the destination note
+
+
+
+
+### Examples
+
+```javascript
+distanceChromatic('C', 'G') // => 7
+distanceChromatic('G', 'C') // => -7
+```
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
+## distanceGeneric() 
+
+Get the generic interval distance between two notes
+
+
+
+
+
+
+### Examples
+
+```javascript
+distanceGeneric('C', 'G') // => 4
+distanceGeneric('G', 'C') // => -4
+```
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
+## distanceInterval(root, destination) 
+
+Get the interval between two notes
+
+
+
+
+### Parameters
+
+- **root** `String`   - root or tonic note
+- **destination** `String`   - the destination note
+
+
+
+
+### Returns
+
+
+- `String`   an interval
+
+
+
+
 ## genericToDiationic() 
 
-
+Given a generic interval and a number of semitones, return the interval
+(if exists)
 
 
 
@@ -328,23 +408,6 @@ simple('M-9', true) // => 'M2'
 
 
 
-## transposeGeneric() 
-
-
-
-
-
-
-
-
-### Returns
-
-
-- `Void`
-
-
-
-
 ## transposeGeneric(generic, note) 
 
 Transpose note a generic interval
@@ -375,6 +438,23 @@ transpose(-1, 'C') // => 'B'
 
 
 - `String`   the tranposed step (in uppercase)
+
+
+
+
+## transposeGeneric() 
+
+
+
+
+
+
+
+
+### Returns
+
+
+- `Void`
 
 
 

@@ -35,11 +35,16 @@ accidenals('E') // => ''
 
 
 
-## alteration() 
+## alteration(note) 
+
+Return the alteration number of the note
 
 
 
 
+### Parameters
+
+- **note** `String`   - the note
 
 
 
@@ -57,7 +62,7 @@ alteration('bb') // => -1 (first char is the step)
 ### Returns
 
 
-- `Void`
+- `Integer`   the alteration number
 
 
 
