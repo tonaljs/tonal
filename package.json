@@ -4,8 +4,8 @@
   "private": "true",
   "description": "Music theory for javascript",
   "scripts": {
-    "test": "vows test/*.js",
-    "docs": "doxdox lib/ -l markdown > documentation.md"
+    "test": "vows test/*.js test/**/*.js",
+    "docs": "node ./utils/generate-docs.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "devDependencies": {
+    "doxdox": "^0.1.8",
     "lodash": "^3.10.1",
     "vows": "^0.8.1"
   }

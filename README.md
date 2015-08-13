@@ -3,15 +3,21 @@
 Tonal is a modular, functional (but currently __experimental__) music theory library. It provides lot of functions to create and manipulate musical entities:
 
 ```js
-var transpose = require('tonal/transpose')
+var transpose = require('tonal/interval/transpose')
 transpose('M2', 'f#4') // => 'G#4'
+var fromMidi = require('tonal/pitch/from-midi')
+fromMidi(69) // => 'A4'
 ```
 
-It's modular because you can require just what you need. The library is still big, but your dependencies can be tiny.
+This library grows with different ideas in mind:
+- Modular: get what you need. Require the desired methods, no more.
+- Functional: all is data-in data-out, no objects, no side effects, no mutations.
+- Prefer string representations when possible. Notes are 'C#2', intervals 'P5', key signatures: '###'.
+- Provide lot of functions (the swiss army knife)
+- Well tested
+- Documented
 
-It's functional because all the library is built using functions with no side effects, just data-in, data-out. Notes and intervals are represented by strings. No objects. Functions are isolated, simpler and tested.
-
-You can read de [documentation here](https://github.com/danigb/tonal/blob/master/documentation.md)
+This scope of this library is music theory objects: generation and analisys of music pieces. This is __not__ for _real_ music or sound synthesys.
 
 __This is alpha software__, if you need a stable music theory library in javascript you can use the excellent [teoria](https://github.com/saebekassebil/teoria)
 
@@ -21,7 +27,7 @@ The library functions are divided in some different areas (functions in _italic_
 
 - __notes__: parseNote, noteName, freq, midi, noteFromMidi, transpose, enharmonics, pitchClass, cycle, cycleOfFifths
 - __intervals__: parseInterval, intervalNames, intervalNumber, invertInterval, distance, intervalClass, _intervalAnalisys_
-- __scales__: _scaleIntervals_, _scaleNotes_, scaleBinary, scaleModes, cannonicalScaleMode, coscale, reflection, scaleName, isScaleBinaryNumber, isDecimalScale
+- __scales__: _scaleIntervals_, _scaleNotes_, scaleBinary, scaleModes, cannonicalScaleMode, coscale, reflection, scaleName, isScaleBinaryNumber, isScaleDecimalNumber
 - __chords__:
 - __tonallity__: keySignature
 - __sequences__: sequence, timeStretch
@@ -43,7 +49,7 @@ You can install it using npm: `npm i --save tonal` and although you can require 
 
 ```js
 var tonal = require('tonal')
-tonal.tranpose('P5', 'C')
+tonal.interval.tranpose('P5', 'C')
 ```
 
 The idea is that you only require the methods you need:
