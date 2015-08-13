@@ -5,19 +5,19 @@ Tonal is a modular, functional (but currently __experimental__) music theory lib
 ```js
 var transpose = require('tonal/interval/transpose')
 transpose('M2', 'f#4') // => 'G#4'
-var fromMidi = require('tonal/pitch/from-midi')
+var fromMidi = require('tonal/note/from-midi')
 fromMidi(69) // => 'A4'
 ```
 
 This library grows with different ideas in mind:
 - Modular: get what you need. Require the desired methods, no more.
 - Functional: all is data-in data-out, no objects, no side effects, no mutations.
-- Prefer string representations when possible. Notes are 'C#2', intervals 'P5', key signatures: '###'.
+- Prefer string representations when possible. Notes are 'C#2', intervals 'P5', scales: ['P1', 'P5'], key signatures: '###' and so on.
 - Provide lot of functions (the swiss army knife)
 - Well tested
 - Documented
 
-This scope of this library is music theory objects: generation and analisys of music pieces. This is __not__ for _real_ music or sound synthesys.
+This scope of this library is music theory objects: generation and analisys of music pieces. This is __not__ for _real_ music or sound synthesis.
 
 __This is alpha software__, if you need a stable music theory library in javascript you can use the excellent [teoria](https://github.com/saebekassebil/teoria)
 
@@ -25,7 +25,7 @@ __This is alpha software__, if you need a stable music theory library in javascr
 
 The library is divided in a number of modules:
 
-- [notes](https://github.com/danigb/tonal/blob/master/docs/note.md): functions to parse and manipulate note pitches (fromMidi, midi, transpose...)
+- [notes](https://github.com/danigb/tonal/blob/master/docs/note.md): note pitch related functions (the most used package, I suppose)
 - [intervals](https://github.com/danigb/tonal/blob/master/docs/interval.md): functions to manipulate intervals
 - [scales](https://github.com/danigb/tonal/blob/master/docs/scale.md): scales
 - [chords](https://github.com/danigb/tonal/blob/master/docs/chord.md): chords
@@ -48,19 +48,14 @@ Also, I want a complete library, where I can model all what I learn, with some e
 
 ## Usage
 
-You can install it using npm: `npm i --save tonal` and although you can require the whole library:
-
-```js
-var tonal = require('tonal')
-tonal.interval.tranpose('P5', 'C')
-```
-
 The idea is that you only require the methods you need:
 
 ```js
-var transpose = require('tonal/transpose')
+var transpose = require('tonal/note/transpose')
 tranpose('P5', 'C')
 ```
+
+Currently there's no way to load the entire library in one require.
 
 ## Documentation and tests
 
