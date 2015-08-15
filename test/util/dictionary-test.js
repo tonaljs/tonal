@@ -2,7 +2,7 @@ var vows = require('vows')
 var assert = require('assert')
 var dictionary = require('../../lib/utils/dictionary')
 
-vows.describe('Utils').addBatch({
+vows.describe('Set').addBatch({
   'dictionary': function () {
     var plain = function (value) { return value }
     assert.equal(plain('a'), 'a')
