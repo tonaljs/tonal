@@ -4,7 +4,7 @@ var parse = require('../../lib/interval/parse')
 
 vows.describe('Interval').addBatch({
   'parse': function () {
-    assert.deepEqual(parse('P5'), ['P', 1, 5])
-    assert.deepEqual(parse('M-2'), ['M', -1, 2])
+    assert.deepEqual(parse('P5'), { q: 'P', d: 1, n: 5 })
+    assert.deepEqual(parse('M-2'), { q: 'M', d: -1, n: 2 })
   }
 }).export(module)
