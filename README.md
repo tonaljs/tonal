@@ -1,5 +1,7 @@
 # tonal
 
+[![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal)
+
 Tonal is a modular, functional (but currently __experimental__) music theory library. It provides lot of functions to create and manipulate musical entities:
 
 ```js
@@ -108,13 +110,16 @@ npm install
 npm test
 ```
 
-## References
+## Resources and inspiration
 
 The binary representation of the scales are based on the awesome book [Arpeggio & Scale Resources](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia) by [Rich Cochrane](http://cochranemusic.com/). Additional scale code is inspired by the works of [Walter Zettel](http://www.muzuu.org/new_life/pics/simpleblog/scales/scalesadvice.html) and [William Zeitler](http://www.allthescales.org/)
 
 Interval analisys is based on the book [Harmonic Materials of Modern Music](https://archive.org/details/harmonicmaterial00hans) of Howard Hanson.
 
 A Corpus Study of Rock Music:  http://theory.esm.rochester.edu/rock_corpus/index.html
+Musical futures: https://www.musicalfutures.org/
+
+Music JSON proposal: https://github.com/soundio/music-json
 
 ## License
 
