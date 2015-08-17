@@ -5,12 +5,15 @@
 Tonal is a modular, functional (but currently __experimental__) music theory library. It provides lot of functions to create and manipulate musical entities:
 
 ```js
+var transpose = require('tonal/note/transpose')
 transpose('M2', 'f#4') // => 'G#4'
-fromMidi(69) // => 'A4'
+var scale = require('tonal/scale/scale')
 scale('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
 ```
 
-This library grows with some ideas in mind:
+Since you only require the methods needed (_a-la-lodash_) the dependencies are reduced to the minimum.
+
+This library is growing with this ideas in mind:
 - String representations are first class citizens. Notes are 'C#2', 'Db4'..., intervals 'P5', 'm2', 'M-7'..., scales are 'C major', 'D harmonic minor'..., chords are 'Cmaj7', 'Bb79', interval sets are 'P1 M2 P5', 'P1 M-3'..., a valid note sets is 'C D E', and key signatures are defined with (for example) '###'
 - Modular: get what you need. Require the desired functions, no more.
 - Functional: all is data-in data-out, no classes, no side effects, no mutations.
@@ -47,9 +50,10 @@ Notes is the basic building block of tonal. A note is represented with a string:
 The note module has some functions to query and manipulate notes. Here are some examples:
 
 ```js
-parse('c') // => { note: 'cx', step: 'C', acc: '##', oct: 4 }
+var parse = require('tonal/note/parse')
+parse('cx') // => { note: 'cx', step: 'C', acc: '##', oct: 4 }
+var freq = require('tonal/note/freq')
 freq('a') // => 440
-alteration('Abb4') // => -2
 ```
 
 Complete module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/note.md)
@@ -59,8 +63,12 @@ Complete module documentation is [here](https://github.com/danigb/tonal/blob/mas
 Intervals are the next building block. The main purpose of this module is calculate transpositions and distances:
 
 ```js
-transpose-interval('M2', 'C') // => 'D4'
-distance-interval('C', 'G') // => 'P5'
+var parse = require('tonal/interval/parse')
+parse('m-2') // => { q: 'm', d: -1, n: 2 }
+var transpose = require('tonal/interval/transpose-interval')
+transpose('M2', 'C') // => 'D4'
+var distance = require('tonal/interval/distance-interval')
+distance('C', 'G') // => 'P5'
 ```
 
 In tonal, an interval is also represented with a string. These are valid intervals:  `P5`, `m2`, `M-3`. The intervals has three parts:
@@ -77,6 +85,7 @@ Complete interval module documentation is [here](https://github.com/danigb/tonal
 A set is a group of intervals or notes, and they are the building blocks of scales and chords. They can be constructed using a space separated string list or an array:
 
 ```js
+var set = require('tonal/set/set')
 set('P1 P5 M6', 'C') // => 'C4 G4 A4'
 set(['P1', 'M2'], 'C') // => 'C4 D4'
 set('C D') // => ['P1', 'M2']
