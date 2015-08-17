@@ -1,9 +1,9 @@
-# duration 
+# time 
 
 
 
 
-## name(value) 
+## durationName(value) 
 
 Given a [note value](https://en.wikipedia.org/wiki/Note_value) get its name
 
@@ -20,7 +20,7 @@ Given a [note value](https://en.wikipedia.org/wiki/Note_value) get its name
 ### Examples
 
 ```javascript
-var name = require('tonal/duration/name')
+var name = require('tonal/time/duration-name')
 name(1/2 + 1/4)        // => 'h.'
 name(1/4 + 1/2 + 1/8)  // => 'q..'
 ```
@@ -29,14 +29,14 @@ name(1/4 + 1/2 + 1/8)  // => 'q..'
 ### Returns
 
 
--   
+- `String`   The name (expressed with letters and dots) of that value
 
 
 
 
-## value(name) 
+## durationValue(name) 
 
-Given a note duration name get its [value](https://en.wikipedia.org/wiki/Note_value)
+Given a note duration name, get its [value](https://en.wikipedia.org/wiki/Note_value)
 
 
 
@@ -52,6 +52,7 @@ dots ('2.', '4..')
 ### Examples
 
 ```javascript
+var value = require('tonal/time/duration-value')
 // You can convert from names to values:
 value('long');          // => 4
 value('double');         // => 2
@@ -92,11 +93,19 @@ value('4t');  // => triplet: (1/4 + 1/4) / 3
 
 
 
-## names() 
+## timeMeter(meter) 
 
-BUILD DICTIONARY
+Parse a time meter signature
+
+The returned time meter object has the following properties:
+- beats: number of beats per measure (integer)
+- subdivision: the meter subdivision (4 or 8)
+- measure: the length (in duration value) of the measure
 
 
+### Parameters
+
+- **meter** `String`   - the string representing the time meter
 
 
 
@@ -104,7 +113,7 @@ BUILD DICTIONARY
 ### Returns
 
 
-- `Void`
+- `Object`   a time meter object
 
 
 

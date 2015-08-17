@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var name = require('../../lib/duration/name')
+var name = require('../../lib/time/duration-name')
 
 vows.describe('time').addBatch({
   'null as parameter': function () {

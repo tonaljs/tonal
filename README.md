@@ -102,9 +102,9 @@ Complete scale module documentation is [here](https://github.com/danigb/tonal/bl
 
 Complete chord module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/chord.md)
 
-### Duration
+### Time
 
-A module to work with musical event durations.
+A module with functions to work with time. You can parse time measures, or work with note durations.
 
 A complete duration module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/duration.md)
 
