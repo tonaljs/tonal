@@ -7,6 +7,6 @@ vows.describe('Chord').addBatch({
     assert.deepEqual(chord('m7b5'), ['P1', 'm3', 'd5', 'm7'])
   },
   'chord notes': function () {
-    assert.deepEqual(chord('Cmaj7'), ['C4', 'E4', 'G4', 'B4'])
+    assert.deepEqual(chord('C#maj7'), ['C#4', 'E#4', 'G#4', 'B#4'])
   }
 }).export(module)

@@ -14,5 +14,6 @@ vows.describe('Note').addBatch({
   'name prefix': function () {
     assert.throws(function () { parse('C#3m') })
     assert.deepEqual(parse('C#3maj7', true), { note: 'C#', step: 'C', acc: '#', oct: 4 })
+    assert.deepEqual(parse('Cb3maj7', true), { note: 'Cb', step: 'C', acc: 'b', oct: 4 })
   }
 }).export(module)
