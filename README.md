@@ -100,7 +100,13 @@ Complete scale module documentation is [here](https://github.com/danigb/tonal/bl
 
 ### Chords
 
-Complete chord module documentation is [chords](https://github.com/danigb/tonal/blob/master/docs/chord.md)
+Complete chord module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/chord.md)
+
+### Duration
+
+A module to work with musical event durations.
+
+A complete duration module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/duration.md)
 
 
 ### Key

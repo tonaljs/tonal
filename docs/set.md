@@ -47,13 +47,33 @@ scales plus flattened second and sharpened fourth degrees
 
 
 
-## dictionary() 
+## dictionary(data, parser) 
 
-Create a set generator from a hash map
+Create a set generator from a hash map data and a name parser
 
-A set generator is a function that generates sets from strings
+A set generator is a function that generates sets from strings. It uses
+a parser to separate the tonic (if any) from the real name. Then look up
+into the hash for a name and pass it to a set generator.
+
+If the name is not found in the hash data, it throws an exception
 
 
+### Parameters
+
+- **data** `Hash`   - the data hash (dictionary)
+- **parser** `Function`   - a function that parses the name and returns an object with tonic (if not present) and the name properties
+
+For different parser implementations:
+
+
+
+
+### Examples
+
+```javascript
+var scales = dictionary({'major': 2773})
+scales('C major') // => ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4']
+```
 
 
 ### Returns

@@ -20,8 +20,8 @@ Given a chord name returns the intervals or notes
 ### Examples
 
 ```javascript
-chord('C') // => ['C4', 'E4', 'G4']
-chord('C major') // => []
+chord('M') // => ['P1', 'M3', 'P5']
+chord('C7') // => ['C4', 'E4', 'G4', 'B4']
 ```
 
 
@@ -29,6 +29,23 @@ chord('C major') // => []
 
 
 - `Array`   a set (of notes or intervals depending on the name)
+
+
+
+
+## parse() 
+
+Parse a chord name and returns the tonic (if any) and the chord type
+
+
+
+
+
+
+### Returns
+
+
+- `Void`
 
 
 

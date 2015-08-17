@@ -3,6 +3,37 @@
 
 
 
+## parse(scale) 
+
+Parase a scale name and returns its components
+
+A scale name can have two components:
+- tonic: a note specifing the tonic
+- type: the scale type
+
+
+### Parameters
+
+- **scale** `String`   - the scale name (with optional tonic)
+
+
+
+
+### Examples
+
+```javascript
+parse('C major') // => { tonic: 'C', type: 'major' }
+```
+
+
+### Returns
+
+
+- `Object`   the parsed scale name
+
+
+
+
 ## scaleSpace() 
 
 Get the 2048 scales
