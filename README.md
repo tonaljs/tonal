@@ -11,7 +11,7 @@ var scale = require('tonal/scale/scale')
 scale('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
 ```
 
-Since you only require the methods needed (_a-la-lodash_) the dependencies are reduced to the minimum.
+Since you only require the methods needed (_a-la-lodash_) the dependencies are reduced to the minimum. You can think each function in tonal like a npm micro-module.
 
 This library is growing with this ideas in mind:
 - String representations are first class citizens. Notes are 'C#2', 'Db4'..., intervals 'P5', 'm2', 'M-7'..., scales are 'C major', 'D harmonic minor'..., chords are 'Cmaj7', 'Bb79', interval sets are 'P1 M2 P5', 'P1 M-3'..., a valid note sets is 'C D E', and key signatures are defined with (for example) '###'
@@ -53,7 +53,7 @@ The note module has some functions to query and manipulate notes. Here are some 
 var parse = require('tonal/note/parse')
 parse('cx') // => { note: 'cx', step: 'C', acc: '##', oct: 4 }
 var freq = require('tonal/note/freq')
-freq('a') // => 440
+freq('A4') // => 440
 ```
 
 Complete module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/note.md)
@@ -74,7 +74,7 @@ distance('C', 'G') // => 'P5'
 In tonal, an interval is also represented with a string. These are valid intervals:  `P5`, `m2`, `M-3`. The intervals has three parts:
 - quality: a letter representing the interval quality (`d` is dimished, `m` is minor, `P` is perfect, `M` is major and `A` is augmented)
 - direction: number 1 or -1 for ascending or descending intervals respectively
-- number: the interval's [diatonic number](https://en.wikipedia.org/wiki/Interval_(music)#Number). A positive or negative integer. Can't be 0
+- number: the interval's [diatonic number](https://en.wikipedia.org/wiki/Interval_(music)#Number). A positive or negative integer. Can't be 0.
 
 The interval module has functions to query and manipulate intervals. Here are some examples:
 
@@ -89,8 +89,9 @@ var set = require('tonal/set/set')
 set('P1 P5 M6', 'C') // => 'C4 G4 A4'
 set(['P1', 'M2'], 'C') // => 'C4 D4'
 set('C D') // => ['P1', 'M2']
-set(['C', 'G']) // => ['P1', 'P5']
 set('C D', 'E') // => ['E4', 'F#4']
+var intervals = require('tonal/set/intervals')
+intervals(['C', 'G']) // => ['P1', 'P5']
 ```
 
 A set can also be constructed with a binary string or its decimal equivalent:
@@ -105,15 +106,23 @@ For a complete module documentation look [here](https://github.com/danigb/tonal/
 
 ### Scales
 
+Basically it contains different .json dictionaries to generate scales from scale names. By default `tonal/scale/scale` load all the scales. You can reduce the size of the code choosing a lighter dictionary.
+
 Complete scale module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/scale.md)
 
 ### Chords
 
 Complete chord module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/chord.md)
 
+### Score
+
+This has functions to parse and manipulate music events (notes, chords or whatever with position and duration).
+
+Complete score module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/score.md)
+
 ### Time
 
-A module with functions to work with time. You can parse time measures, or work with note durations.
+A module with functions to work with time values. You can parse time meters (time signature), or work with note durations.
 
 A complete duration module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/duration.md)
 
