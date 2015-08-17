@@ -21,6 +21,7 @@ vows.describe('fifths of fifths').addBatch({
   'with notes': function () {
     assert.equal(fifths('C'), 0)
     assert.equal(fifths('G'), 1)
-    assert.equal(fifths('F'), -1)
+    assert.equal(fifths('G#'), 8)
+    assert.equal(fifths('F4'), -1)
   }
 }).export(module)
