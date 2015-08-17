@@ -171,6 +171,28 @@ pitch class is given to the same midi number. @see enahrmonic
 
 
 
+## isNote(string) 
+
+Determine if the given string is a valid note
+
+
+
+
+### Parameters
+
+- **string** `String`   - the string to be tested
+
+
+
+
+### Returns
+
+
+- `Boolean`   true if is a valid note
+
+
+
+
 ## midi(note) 
 
 Get the midi number of the given note
@@ -240,22 +262,20 @@ The step is __always__ in uppercase
 
 
 
-## parse(note)  *private method*
+## parse(note, namePrefix) 
 
-Parse a note (or more exactly, a pitch: a step and, optionally, accidentals
-and octave)
+Get the components of a note (step, accidentals and octave)
 
-It returns an array with:
-- __step__: the step letter __always__ in uppercase
-- __accidentals__: a string with the accidentals or '' if no accidentals
-- __octave__: a integer with the octave. If not present is set to 4
-
-This is a low level method and should __not__ be used (@see pitch/name,
+It returns an object with the following properties:
+- step: the step letter __always__ in uppercase
+- acc: a string with the accidentals or '' if no accidentals (never null)
+- oct: a integer with the octave. If not present in the note, is set to 4
 
 
 ### Parameters
 
 - **note** `String`   - the note (pitch) to be parsed
+- **namePrefix** `boolean`   - if name prefix is true, then a note name (without octave) is extracted from the beggining of the string
 
 
 

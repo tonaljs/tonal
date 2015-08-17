@@ -282,11 +282,15 @@ Return the number (diatonic number or generic interval) of an interval
 
 
 
-## parse(name)  *private method*
+## parse(name) 
 
-Parse a interval
+Get the interval components
 
-
+This method retuns an object with the following properties:
+- q: the quality (one of `dmPMA` for dimished, minor, perfect, major and
+augmented respectively)
+- d: direction, 1 for ascending intervals, -1 for descending ones
+- n: diatonic number (a positive integer bigger that 0)
 
 
 ### Parameters
@@ -300,8 +304,8 @@ Parse a interval
 
 ```javascript
 var parse = require('tonal/interval/parse')
-parse('P-5') // => ['P', -1, 5]
-parse('M9') // => ['M', 1, 9]
+parse('P-5') // => {q: 'P', d: -1, n: 5}
+parse('M9') // => {q: 'M', d: 1, n: 9}
 ```
 
 

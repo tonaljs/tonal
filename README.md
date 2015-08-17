@@ -5,14 +5,13 @@
 Tonal is a modular, functional (but currently __experimental__) music theory library. It provides lot of functions to create and manipulate musical entities:
 
 ```js
-var transpose = require('tonal/interval/transpose')
 transpose('M2', 'f#4') // => 'G#4'
-var fromMidi = require('tonal/note/from-midi')
 fromMidi(69) // => 'A4'
+notes('C major', 'A') => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
 ```
 
 This library grows with some ideas in mind:
-- String representations are first class citizens. Notes are 'C#2', intervals 'P5', scales: ['P1', 'P5'], key signatures: '###' and so on.
+- String representations are first class citizens. Notes are 'C#2', 'Db4'..., intervals 'P5', 'm2', 'M-7'..., scales are 'C major', 'D harmonic minor'..., chords are 'Cmaj7', 'Bb79', interval sets are 'P1 M2 P5', 'P1 M-3'..., a valid note sets is 'C D E', and key signatures are defined with (for example) '###'
 - Modular: get what you need. Require the desired functions, no more.
 - Functional: all is data-in data-out, no classes, no side effects, no mutations.
 - Provide lot of functions (the swiss army knife)
