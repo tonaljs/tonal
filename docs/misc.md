@@ -37,7 +37,7 @@ accidenals(0) // => ''
 
 ## alteration() 
 
-
+TODO: write proper docs
 
 
 

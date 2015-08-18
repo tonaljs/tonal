@@ -34,6 +34,23 @@ parse('C major') // => { tonic: 'C', type: 'major' }
 
 
 
+## module.exports() 
+
+Get all scale names
+
+
+
+
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
 ## scaleSpace() 
 
 Get the 2048 scales

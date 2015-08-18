@@ -47,43 +47,6 @@ scales plus flattened second and sharpened fourth degrees
 
 
 
-## dictionary(data, parser) 
-
-Create a set generator from a hash map data and a name parser
-
-A set generator is a function that generates sets from strings. It uses
-a parser to separate the tonic (if any) from the real name. Then look up
-into the hash for a name and pass it to a set generator.
-
-If the name is not found in the hash data, it throws an exception
-
-
-### Parameters
-
-- **data** `Hash`   - the data hash (dictionary)
-- **parser** `Function`   - a function that parses the name and returns an object with tonic (if not present) and the name properties
-
-For different parser implementations:
-
-
-
-
-### Examples
-
-```javascript
-var scales = dictionary({'major': 2773})
-scales('C major') // => ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4']
-```
-
-
-### Returns
-
-
-- `Void`
-
-
-
-
 ## intervalSet(set) 
 
 Given a set identifier return the intervals
@@ -125,8 +88,8 @@ The binary number can be expressed in decimal
 
 ```javascript
 isBinary('100') // => true
-isBinarySet('010') // => false
 isBinarySet(2773) // => true
+isBinarySet('010') // => false
 ```
 
 
@@ -208,6 +171,52 @@ Given a set and a note, return a set with the same intervals but starting from n
 
 
 - `Void`
+
+
+
+
+## module.exports() 
+
+Get the retrograde of a set
+
+Alias of set/reverse
+
+
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
+## reverse(set) 
+
+Get the reverse (retrograde) of a set
+
+
+
+
+### Parameters
+
+- **set** `String` `Array` `Integer`   - the set to be reversed
+
+
+
+
+### Examples
+
+```javascript
+reverse('A B C') // => ['C', 'B', 'A']
+```
+
+
+### Returns
+
+
+-   
 
 
 
