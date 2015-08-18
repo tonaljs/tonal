@@ -15,6 +15,7 @@ vows.describe('Scale').addBatch({
   'interval set from interval set': function () {
     assert.deepEqual(intervals(['P1', 'm3']), ['P1', 'm3'])
     assert.deepEqual(intervals('P1 m3'), ['P1', 'm3'])
+    assert.deepEqual(intervals(['P-1', 'm-3']), ['P-1', 'm-3'])
   },
   'interval set from note set': function () {
     assert.deepEqual(intervals(['C', 'D', 'E', 'F', 'G', 'A', 'B']),

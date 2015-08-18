@@ -141,7 +141,7 @@ Complete misc module documentation is [here](https://github.com/danigb/tonal/blo
 
 ## Usage
 
-The idea is that you only require the functions you need:
+Install via npm: `npm i --save tonal` and require the functions you need:
 
 ```js
 var transpose = require('tonal/note/transpose')
@@ -149,6 +149,8 @@ tranpose('P5', 'C')
 ```
 
 Currently there's no way to load the entire library in one require.
+
+If you need browser support you can use browserify, webpack o webmake. If using webpack, you need json support in order to use scales or chords.
 
 ## Documentation and tests
 
