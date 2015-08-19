@@ -8,6 +8,12 @@ function pluck (name, intervals) {
 }
 
 vows.describe('Interval').addBatch({
+  'invalid intervals': function () {
+    assert.equal(parse('M1'), null)
+    assert.equal(parse('P2'), null)
+    assert.equal(parse('P0'), null)
+    assert.equal(parse('C#3'), null)
+  },
   'quality': function () {
     assert.deepEqual(pluck('quality', 'd1 P1 A1 d2 m2 M2 A2'),
       ['d', 'P', 'A', 'd', 'm', 'M', 'A'])
