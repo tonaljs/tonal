@@ -227,6 +227,7 @@ name('Gx4') // => 'G##'
 Parse a note and return its properties
 
 It returns an object with the following properties:
+- __note__: the parsed note
 - __step__: the step letter __always__ in uppercase
 - __acc__: a string with the accidentals or '' if no accidentals (never null)
 - __oct__: a integer with the octave. If not present in the note, is set to 4
@@ -255,6 +256,56 @@ parse('C#2') // => { }
 
 
 -   
+
+
+
+
+## parseStrict() 
+
+Parse a string and throws exception if its not valid note
+
+This method is exactly the same as `note/parse` but with
+exceptions
+
+
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
+## step(note, amount) 
+
+Transpose note steps
+
+
+
+
+### Parameters
+
+- **note** `String`   - the note to get the step from
+- **amount** `Integer`   - (Optional) the amount of steps to move. 0 by default
+
+
+
+
+### Examples
+
+```javascript
+step('C#2') // => 'C'
+step('C#2', 1) // => 'D'
+step('C#2', -1) // => 'B'
+```
+
+
+### Returns
+
+
+- `Void`
 
 
 

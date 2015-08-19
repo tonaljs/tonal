@@ -2,8 +2,16 @@ var vows = require('vows')
 var assert = require('assert')
 var set = require('../../lib/set/set')
 var invert = require('../../lib/interval/invert')
+var parse = require('../../lib/interval/parse')
 
 vows.describe('Interval').addBatch({
+  'basic inversion': function () {
+    assert.equal(invert('M2'), 'm7')
+    assert.equal(invert(parse('M2')), 'm7')
+  },
+  'force ascending': function () {
+    assert.equal(invert('M-2', true), 'm7')
+  },
   'simple inversions': function () {
     assert.deepEqual(set('P1 M2 M3 P4 P5 M6 M7').map(invert),
       ['P8', 'm7', 'm6', 'P5', 'P4', 'm3', 'm2'])

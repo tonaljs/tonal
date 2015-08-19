@@ -3,50 +3,17 @@
 
 
 
-## classNumber(interval) 
+## fromAlter(interval, amount) 
 
-Get the [interval class](https://en.wikipedia.org/wiki/Interval_class) of
-a given interval.
-
-In musical set theory, an interval class is the shortest distance in
-pitch class space between two unordered pitch classes
-
-
-### Parameters
-
-- **interval** `String` `Interval`   - the Interval
-
-
-
-
-### Examples
-
-```javascript
-var classNumber = require('tonal/classNumber')
-classNumber('P8') // => 0
-classNumber('m6') // => 4
-```
-
-
-### Returns
-
-
-- `Integer`   A value between 0 and 6
-
-
-
-
-## distanceChromatic(root, destination) 
-
-Get the distance in semitones between two notes
+Modify an interval by an alteration amount
 
 
 
 
 ### Parameters
 
-- **root** `String`   - the root note
-- **destination** `String`   - the destination note
+- **interval** `String`   - the interval to be modified
+- **amount** `Integer`   - (Options) the amount of alteration you want (positive or negative integers are allowed). It's 0 by default.
 
 
 
@@ -54,45 +21,25 @@ Get the distance in semitones between two notes
 ### Examples
 
 ```javascript
-distanceChromatic('C', 'G') // => 7
-distanceChromatic('G', 'C') // => -7
+quality('P5', 1) // => 'A5'
+quality(5, 1) // => 'A5'
+quality(5, -1) // => 'd5'
+quality(5, 0) // => 'P5'
+quality('A5', 0) // => 'A5'
+quality('M3', 1) // => 'A3'
+quality(3, -1) // => 'A3'
 ```
 
 
 ### Returns
 
 
-- `Void`
+- `String`   the modified interval
 
 
 
 
-## distanceGeneric() 
-
-Get the generic interval distance between two notes
-
-
-
-
-
-
-### Examples
-
-```javascript
-distanceGeneric('C', 'G') // => 4
-distanceGeneric('G', 'C') // => -4
-```
-
-
-### Returns
-
-
-- `Void`
-
-
-
-
-## distanceInterval(root, destination) 
+## fromNotes(from, to) 
 
 Get the interval between two notes
 
@@ -101,48 +48,8 @@ Get the interval between two notes
 
 ### Parameters
 
-- **root** `String`   - root or tonic note
-- **destination** `String`   - the destination note
-
-
-
-
-### Returns
-
-
-- `String`   an interval
-
-
-
-
-## genericToDiationic() 
-
-Given a generic interval and a number of semitones, return the interval
-(if exists)
-
-
-
-
-
-
-### Returns
-
-
-- `Void`
-
-
-
-
-## genericType(number) 
-
-Return the type ('perfect' or 'major') of the [generic interval](https://en.wikipedia.org/wiki/Generic_interval)
-
-A generic interval its the number of a diatonic interval
-
-
-### Parameters
-
-- **number** `Integer`   - the generic interval (positive integer)
+- **from** `String`   - first note
+- **to** `String`   - second note
 
 
 
@@ -150,59 +57,42 @@ A generic interval its the number of a diatonic interval
 ### Examples
 
 ```javascript
-genericType(0) // 'perfect'  <- unison
-genericType(3) // 'perfect'  <- fourth
-genericType(4) // 'perfect'  <- fifth
-genericType(7) // 'perfect'  <- octave
-genericType(8) // 'major'    <- nineth
+fromNotes('C', 'D') // => 'M2'
 ```
 
 
 ### Returns
 
 
-- `String`   the type ('perfect' or 'major')
+- `String`   the interval between notes
 
 
 
 
-## generic(interval) 
-
-Convert a [diatonic interval](https://en.wikipedia.org/wiki/Interval_(music))
-into a [generic interval](https://en.wikipedia.org/wiki/Generic_interval)
-
-
-
-
-### Parameters
-
-- **interval** `String`   - the diatonic interval
-
-
-
-
-### Examples
-
-```javascript
-generic('M9') // => 1
-```
-
-
-### Returns
-
-
-- `Integer`   the generic interval
-
-
-
-
-## invert() 
+## invert(interval, ascending) 
 
 Invert an interval
 
+Get the [inversion](https://en.wikipedia.org/wiki/Interval_(music)#Inversion)
+of an interval.
+
+
+### Parameters
+
+- **interval** `String`   - the interval to invert
+- **ascending** `Boolean`   - (Optional) if true, the inverted interval will be ascending, if false (by default) the direction will be the same as the
+given interval
 
 
 
+
+### Examples
+
+```javascript
+simple('M9') // => 'M2'
+simple('M-10') // => 'M-3'
+simple('P-11', true) // => 'P4'
+```
 
 
 ### Returns
@@ -244,39 +134,19 @@ isInterval('P6') // false
 
 
 
-## numberToGeneric(number) 
-
-Give a interval number, returns a [generic interval](https://en.wikipedia.org/wiki/Generic_interval)
-
-
-
-
-### Parameters
-
-- **number** `Integer`   - the interval number
-
-
-
-
-### Returns
-
-
-- `Integer`   the generic interval (an integer bewteen 0 and 6)
-
-
-
-
 ## parse(name) 
 
 Parse an interval and get its properties
 
 This method retuns an object with the following properties:
+- interval: the parsed interval
 - quality: the quality (one of `dmPMA` for dimished, minor, perfect, major and
 augmented respectively)
 - dir: direction, 1 for ascending intervals, -1 for descending ones
 - num: diatonic number (a positive integer bigger that 0)
 - generic: generic interval (https://en.wikipedia.org/wiki/Generic_interval), an
 integer between (0 and 6)
+- oct: the number of octaves (a positive integer)
 - perfectable: true if the interval is perfectable
 - alter: an integer with the alteration respect to the cannonical.
 For perfectable intervals is 'P': 0, 'd': -1, 'A': +1 and for
@@ -307,7 +177,24 @@ parse('m9') // => {quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfecta
 
 
 
-## semitones(interval) 
+## parseStrict() 
+
+Parses an interval and throws an exception if is not valid
+
+Is the same as `interval/parse` but with exceptions
+
+
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
+## semitones(interval, simplified) 
 
 Get the semitones distance of an intervals
 
@@ -317,6 +204,7 @@ Get the semitones distance of an intervals
 ### Parameters
 
 - **interval** `String`   - the interval
+- **simplified** `Boolean`   - if true, returns the semitones distance of the simplified interval
 
 
 
@@ -368,58 +256,23 @@ simple('M-9', true) // => 'M2'
 
 
 
-## simplifyNumber(number) 
+## transpose(interval, note) 
 
-Given a valid interval number, return its simplified version
+Transpose a note by an interval
 
+This is the principal function of interval module. You should be able to
+transpose any note with any interval. (if not, is a bug ;-)
 
-
-
-### Parameters
-
-- **number** `Integer`   - the number to be simplified (must be a positive integer)
-
-
-
-
-### Returns
-
-
-- `Integer`   the simplified number (a number between 1 and 8)
-
-
-
-
-## midi() 
-
-
-
-
-
-
-
-
-### Returns
-
-
-- `Void`
-
-
-
-
-## transposeGeneric(generic, note) 
-
-Transpose note a generic interval
-
-A generic interval is defined is the number part of a diationc interval
-(2: ascendent second, 3: ascendent thirth, -4: descending fourth, ...)
-The generic interval do not take account of diatonic spelling
+You can also get a currified version by passing one parameter instead
+of two. For example, with `transpose('M2')` you get a function that transposes
+any note by a 'M2' interval. The same way, with `transpose('C4')` you get
+a function that transposes C4 to the given interval. See examples below.
 
 
 ### Parameters
 
-- **generic** `Integer`   - the generic interval
-- **note** `String`   - the note (everything but the step is ignored)
+- **interval** `String`   - the interval to tranpose
+- **note** `String`   - the note to be transposed
 
 
 
@@ -427,33 +280,17 @@ The generic interval do not take account of diatonic spelling
 ### Examples
 
 ```javascript
-transpose(0, 'C') // => 'C'
-transpose(1, 'C') // => 'D'
-transpose(-1, 'C') // => 'B'
+transpose('M2', 'E') // => 'F#4'
+transpose('M-2', 'C') // => 'Bb3'
+['C', 'D', 'E'].map(transpose('M2')) // => ['D4', 'E4', 'F#4']
+['M2', 'm3', 'P-8'].map(tranapose('C')) // => ['D4', 'Eb4', 'C3']
 ```
 
 
 ### Returns
 
 
-- `String`   the tranposed step (in uppercase)
-
-
-
-
-## transposeGeneric() 
-
-
-
-
-
-
-
-
-### Returns
-
-
-- `Void`
+- `String`   the resulting note
 
 
 

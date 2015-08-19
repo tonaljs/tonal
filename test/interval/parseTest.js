@@ -23,6 +23,14 @@ vows.describe('Interval').addBatch({
     assert.deepEqual(pluck('generic', 'P8 M9 M10 P11 P12 M13 M14'), [0, 1, 2, 3, 4, 5, 6])
     assert.deepEqual(pluck('generic', 'P15 M16 M17 P18 P19 M20 M21'), [0, 1, 2, 3, 4, 5, 6])
   },
+  'octaves': function () {
+    assert.deepEqual(pluck('oct', 'P1 M2 M3 P4 P-5 M-6 M-7'),
+      [0, 0, 0, 0, 0, 0, 0])
+    assert.deepEqual(pluck('oct', 'P-8 M-9 M-10 P-11 P12 M13 M14'),
+      [1, 1, 1, 1, 1, 1, 1])
+    assert.deepEqual(pluck('oct', 'P15 M16 M17 P18 P-19 M-20 M-21'),
+      [2, 2, 2, 2, 2, 2, 2])
+  },
   'perfectable': function () {
     assert.deepEqual(pluck('perfectable', 'P1 M2 M3 P4 P5 M6 M7'),
       [true, false, false, true, true, false, false])
