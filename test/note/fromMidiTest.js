@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var fromMidi = require('../../lib/note/from-midi')
+var fromMidi = require('../../lib/note/fromMidi')
 
 vows.describe('Note').addBatch({
   'note from midi': function () {

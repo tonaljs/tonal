@@ -33,19 +33,34 @@ chord('C7') // => ['C4', 'E4', 'G4', 'B4']
 
 
 
-## parse() 
+## parse(chord) 
 
 Parse a chord name and returns the tonic (if any) and the chord type
 
+The returned object has the properties:
+- tonic: the tonic note or null if not specified
+- type: the chord type
+
+
+### Parameters
+
+- **chord** `String`   - the chord string to be parsed
 
 
 
+
+### Examples
+
+```javascript
+parse('C#major') // => { tonic: 'C#', type: 'major' }
+parse('minor') // => { tonic: null, type: 'minor' }
+```
 
 
 ### Returns
 
 
-- `Void`
+- `Object`   the chord object
 
 
 

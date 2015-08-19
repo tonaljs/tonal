@@ -3,16 +3,16 @@
 
 
 
-## accidentals(note) 
+## accidentals(number) 
 
-Return an accidentals of a note
+Given an alteration number, get the accidentals string
 
 
 
 
 ### Parameters
 
-- **note** `String`   - the note
+- **number** `Integer`   - the number of accidentals (posivite for shaprs, negative for flats, zero for an empty string)
 
 
 
@@ -21,9 +21,9 @@ Return an accidentals of a note
 
 ```javascript
 var accidentals = require('tonal/note/accidentals')
-accidenals('C#4') // => '#'
-accidenals('Db') // => 'b'
-accidenals('E') // => ''
+accidenals(2) // => '##'
+accidenals(-2) // => 'bb'
+accidenals(0) // => ''
 ```
 
 
@@ -31,38 +31,6 @@ accidenals('E') // => ''
 
 
 - `String`   an accidentals string
-
-
-
-
-## alteration(note) 
-
-Return the alteration number of the note
-
-
-
-
-### Parameters
-
-- **note** `String`   - the note
-
-
-
-
-### Examples
-
-```javascript
-alteration('C#6') // 1
-alteration('Db') // -1
-alteration('E') // 0
-alteration('bb') // => -1 (first char is the step)
-```
-
-
-### Returns
-
-
-- `Integer`   the alteration number
 
 
 
@@ -227,7 +195,8 @@ midi('A4') // => 69
 
 Get the name (step and accidentals) of the note
 
-The step is __always__ in uppercase
+The step is __always__ in uppercase. The accidentals is always using '#' or 'b'
+never 'x'
 
 
 ### Parameters
@@ -235,6 +204,14 @@ The step is __always__ in uppercase
 - **note** `String`   - the note
 
 
+
+
+### Examples
+
+```javascript
+name('C#4') // => 'C#'
+name('Gx4') // => 'G##'
+```
 
 
 ### Returns
@@ -245,103 +222,39 @@ The step is __always__ in uppercase
 
 
 
-## parse() 
+## parse(note) 
 
-
-
-
-
-
-
-
-### Returns
-
-
-- `Void`
-
-
-
-
-## parse(note, namePrefix) 
-
-Get the components of a note (step, accidentals and octave)
+Parse a note and return its properties
 
 It returns an object with the following properties:
-- step: the step letter __always__ in uppercase
-- acc: a string with the accidentals or '' if no accidentals (never null)
-- oct: a integer with the octave. If not present in the note, is set to 4
+- __step__: the step letter __always__ in uppercase
+- __acc__: a string with the accidentals or '' if no accidentals (never null)
+- __oct__: a integer with the octave. If not present in the note, is set to 4
+- __alter__: the integer representic the accidentals (0 for no accidentals,
+-1 for 'b', -2 for 'bb', 1 for '#', 2 for '##', etc...)
+- __pc__: the [pitch class](https://en.wikipedia.org/wiki/Pitch_class#Integer_notation)
+of the note. The pitch class is an integer value between 0 and 11
+where C=0, C#=1, D=2...B=11
 
 
 ### Parameters
 
-- **note** `String`   - the note (pitch) to be parsed
-- **namePrefix** `boolean`   - if name prefix is true, then a note name (without octave) is extracted from the beggining of the string
+- **note** `String`   - the note (pitch) to be p
 
 
+
+
+### Examples
+
+```javascript
+parse('C#2') // => { }
+```
 
 
 ### Returns
 
 
 -   
-
-
-
-
-## pitchClass() 
-
-Get the [pitch class](https://en.wikipedia.org/wiki/Pitch_class#Integer_notation)
-of the note
-
-The pitch class is an integer value of the pitch where C=0, C#=1, D=2...B=11
-
-
-
-
-### Examples
-
-```javascript
-pitchClass('C2') // => 0
-pitchClass('C3') // => 0
-pitchClass('C#') // => 1
-pitchClass('Db') // => 1
-```
-
-
-### Returns
-
-
-- `Void`
-
-
-
-
-## step(note) 
-
-Get the step of a note (the letter in uppercase, ignoring the accidentals and octave)
-
-
-
-
-### Parameters
-
-- **note** `String`   - the note to get the step of
-
-
-
-
-### Examples
-
-```javascript
-step('C#4') // => 'C'
-step('db7') // => 'D'
-```
-
-
-### Returns
-
-
-- `String`   the step letter (__always in uppercase__)
 
 
 

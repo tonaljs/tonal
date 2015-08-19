@@ -3,7 +3,7 @@
 
 
 
-## intervalClass(interval) 
+## classNumber(interval) 
 
 Get the [interval class](https://en.wikipedia.org/wiki/Interval_class) of
 a given interval.
@@ -22,9 +22,9 @@ pitch class space between two unordered pitch classes
 ### Examples
 
 ```javascript
-var intervalClass = require('tonal/interval-class')
-intervalClass('P8') // => 0
-intervalClass('m6') // => 4
+var classNumber = require('tonal/classNumber')
+classNumber('P8') // => 0
+classNumber('m6') // => 4
 ```
 
 
@@ -32,36 +32,6 @@ intervalClass('m6') // => 4
 
 
 - `Integer`   A value between 0 and 6
-
-
-
-
-## direction(interval) 
-
-Get the interval direction (1 ascending, -1 descending)
-
-
-
-
-### Parameters
-
-- **interval** `String`   - the interval
-
-
-
-
-### Examples
-
-```javascript
-direction('P5') // => 1
-direction('P-4') // => -1
-```
-
-
-### Returns
-
-
-- `Integer`   the direction (1: ascending interval, -1: descending interval)
 
 
 
@@ -226,9 +196,9 @@ generic('M9') // => 1
 
 
 
-## INTERVAL() 
+## invert() 
 
-
+Invert an interval
 
 
 
@@ -239,6 +209,37 @@ generic('M9') // => 1
 
 
 - `Void`
+
+
+
+
+## isInterval(interval) 
+
+Test if a string is a valid interval
+
+
+
+
+### Parameters
+
+- **interval** `String`   - the interval to be tested
+
+
+
+
+### Examples
+
+```javascript
+isInterval('blah') // false
+isInterval('P5') // true
+isInterval('P6') // false
+```
+
+
+### Returns
+
+
+- `Boolean`   true if its a valid interval
 
 
 
@@ -265,32 +266,21 @@ Give a interval number, returns a [generic interval](https://en.wikipedia.org/wi
 
 
 
-## number() 
-
-Return the number (diatonic number or generic interval) of an interval
-
-
-
-
-
-
-### Returns
-
-
-- `Void`
-
-
-
-
 ## parse(name) 
 
-Get the interval components
+Parse an interval and get its properties
 
 This method retuns an object with the following properties:
-- q: the quality (one of `dmPMA` for dimished, minor, perfect, major and
+- quality: the quality (one of `dmPMA` for dimished, minor, perfect, major and
 augmented respectively)
-- d: direction, 1 for ascending intervals, -1 for descending ones
-- n: diatonic number (a positive integer bigger that 0)
+- dir: direction, 1 for ascending intervals, -1 for descending ones
+- num: diatonic number (a positive integer bigger that 0)
+- generic: generic interval (https://en.wikipedia.org/wiki/Generic_interval), an
+integer between (0 and 6)
+- perfectable: true if the interval is perfectable
+- alter: an integer with the alteration respect to the cannonical.
+For perfectable intervals is 'P': 0, 'd': -1, 'A': +1 and for
+non perfectable intervals is 'M': 0, 'm', -1, 'd': -2, 'A': +1
 
 
 ### Parameters
@@ -304,32 +294,15 @@ augmented respectively)
 
 ```javascript
 var parse = require('tonal/interval/parse')
-parse('P-5') // => {q: 'P', d: -1, n: 5}
-parse('M9') // => {q: 'M', d: 1, n: 9}
+parse('P-5') // => {quality: 'P', dir: -1, num: 5, generic: 4, alter: 0, perfectable: true }
+parse('m9') // => {quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfectable: false }
 ```
 
 
 ### Returns
 
 
-- `Array`   an array in the form [quality, direction, number]
-
-
-
-
-## parse() 
-
-
-
-
-
-
-
-
-### Returns
-
-
-- `Void`
+- `Array`   a interval object or null if not a valid interval
 
 
 
@@ -391,6 +364,28 @@ simple('M-9', true) // => 'M2'
 
 
 - `Void`
+
+
+
+
+## simplifyNumber(number) 
+
+Given a valid interval number, return its simplified version
+
+
+
+
+### Parameters
+
+- **number** `Integer`   - the number to be simplified (must be a positive integer)
+
+
+
+
+### Returns
+
+
+- `Integer`   the simplified number (a number between 1 and 8)
 
 
 
