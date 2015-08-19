@@ -8,6 +8,11 @@ function pluck (name, notes) {
 }
 
 vows.describe('note/parse').addBatch({
+  'parse note cached and coerced': function () {
+    assert.deepEqual(parse('A##2'), parse('A##2'), 'parse the same note is equal data')
+    assert.deepEqual(parse(parse('Db5')), parse('Db5'), 'parse a parsed note is legal ;-)')
+    assert(parse('Ab3') === parse('Ab3'), 'parse note should be cached')
+  },
   'parsed note': function () {
     assert.deepEqual(pluck('note', 'C#2 bbb5 Cx3'),
       ['C#2', 'bbb5', 'Cx3'])
