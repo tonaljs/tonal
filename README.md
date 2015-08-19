@@ -1,14 +1,18 @@
 # tonal
 
 [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
-Tonal is a modular, functional (but currently __experimental__) music theory library. It provides lot of functions to create and manipulate musical entities:
+Tonal is a modular, functional (but currently __experimental__) music theory library. It provides functions to create and manipulate musical entities:
 
 ```js
 var transpose = require('tonal/note/transpose')
 transpose('M2', 'f#4') // => 'G#4'
+['E', 'F'].map(transpose('M2')) // => ['F#4', 'G4']
+['M2', 'm3'].map(transpose('C')) // => ['D4', 'Eb4']
 var scale = require('tonal/scale/scale')
-scale('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
+scale('A major') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
+scale('A major').map(transpose('P8')) // => ['A5, 'B5', ...]
 ```
 
 Since you only require the methods needed (_a-la-lodash_) the dependencies are reduced to the minimum. You can think each function in tonal like a npm micro-module.
