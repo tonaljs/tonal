@@ -177,7 +177,24 @@ reverse('A B C') // => ['C', 'B', 'A']
 ### Returns
 
 
--   
+- `Array`   The reversed list
+
+
+
+
+## module.exports() 
+
+Rotate a list
+
+
+
+
+
+
+### Returns
+
+
+- `Void`
 
 
 

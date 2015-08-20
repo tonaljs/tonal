@@ -21,15 +21,13 @@ It allows parse to be called on itself:
 
 
 
-## memoize(the)  *private method*
+## memoize(func)  *private method*
 
-Simplest and fast memoize function
+Simplest and fastest memoize function I can imagine
 
-This is base in two restrictive asumptions:
+This is in base of two restrictive asumptions:
 - the function only receives __one paramater__
 - the parameter __is a string__
-
-The idea is to be fast and small.
 
 For a more complete memoize solution see:
 https://github.com/addyosmani/memoize.js
@@ -37,7 +35,7 @@ https://github.com/addyosmani/memoize.js
 
 ### Parameters
 
-- **the** `Function`   function to memoize
+- **func** `Function`   - the function to memoize
 
 
 
@@ -45,7 +43,7 @@ https://github.com/addyosmani/memoize.js
 ### Returns
 
 
--   
+- `Function`   A memoized function
 
 
 

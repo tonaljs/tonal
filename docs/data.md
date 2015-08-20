@@ -52,26 +52,4 @@ scale() // => ['major']
 
 
 
-## names(hash) 
-
-Given a data hash, return the keys
-
-
-
-
-### Parameters
-
-- **hash** `Hash`   - the data hash
-
-
-
-
-### Returns
-
-
--   
-
-
-
-
 *Documentation generated with [doxdox](https://github.com/neogeek/doxdox).*

@@ -17,7 +17,7 @@ vows.describe('list/noteList').addBatch({
   },
   'note list from note list': function () {
     assert.deepEqual(toNotes(['C', 'D', 'E', 'F', 'G', 'A', 'B'], 'C'),
-      ['C', 'D', 'E', 'F', 'G', 'A', 'B'])
+      ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4'])
     assert.deepEqual(toNotes(['C', 'D', 'E', 'F', 'G', 'A', 'B'], 'D'),
       ['D4', 'E4', 'F#4', 'G4', 'A4', 'B4', 'C#5'])
   }

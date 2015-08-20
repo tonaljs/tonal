@@ -278,7 +278,7 @@ exceptions
 
 
 
-## step(note, amount) 
+## step(note, steps) 
 
 Transpose note steps
 
@@ -288,7 +288,7 @@ Transpose note steps
 ### Parameters
 
 - **note** `String`   - the note to get the step from
-- **amount** `Integer`   - (Optional) the amount of steps to move. 0 by default
+- **steps** `Integer`   - (Optional) the number of steps to move (ascending if positive or descending oterwise). 0 by default
 
 
 
@@ -296,16 +296,17 @@ Transpose note steps
 ### Examples
 
 ```javascript
-step('C#2') // => 'C'
-step('C#2', 1) // => 'D'
+step('C', 1) // => 'D'
+step('C#', 1) // => 'D'
 step('C#2', -1) // => 'B'
+step('C#') // => 'C'
 ```
 
 
 ### Returns
 
 
-- `Void`
+- `String`   the step (in uppercase)
 
 
 
@@ -314,7 +315,7 @@ step('C#2', -1) // => 'B'
 
 Transpose a note by an (diatonic) interval
 
-
+An alias for `interval/transpose`
 
 
 
@@ -323,6 +324,7 @@ Transpose a note by an (diatonic) interval
 
 ```javascript
 transpose('P5', 'D') // => 'A4'
+ ^
 ```
 
 
