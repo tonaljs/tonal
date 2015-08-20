@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var isBinary = require('../../lib/set/is-binary-set')
+var isBinary = require('../../lib/list/isBinaryList')
 
 vows.describe('Set').addBatch({
   'valid binary numbers': function () {

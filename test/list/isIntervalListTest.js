@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var isIntervalSet = require('../../lib/set/is-interval-set')
+var isIntervalSet = require('../../lib/list/isIntervalList')
 
 vows.describe('Set').addBatch({
   'valid intervals': function () {

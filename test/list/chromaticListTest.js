@@ -1,16 +1,16 @@
 var vows = require('vows')
 var assert = require('assert')
-var chromatic = require('../../lib/set/chromatic-interval-set')
+var chromatic = require('../../lib/list/chromaticList')
 
 vows.describe('Set').addBatch({
-  'empty set': function () {
+  'empty list': function () {
     assert.deepEqual(chromatic(0), [])
   },
-  'one octave chromatic interval set': function () {
+  'one octave chromatic interval list': function () {
     assert.deepEqual(chromatic(1), ['P1'])
     assert.deepEqual(chromatic(12), ['P1', 'm2', 'M2', 'm3', 'M3', 'P4', 'A4', 'P5', 'm6', 'M6', 'm7', 'M7'])
   },
-  'two octaves chromatic set': function () {
+  'two octaves chromatic list': function () {
     assert.deepEqual(chromatic(13), ['P1', 'm2', 'M2', 'm3', 'M3', 'P4', 'A4', 'P5', 'm6', 'M6', 'm7', 'M7', 'P8'])
     assert.deepEqual(chromatic(24), [
       'P1', 'm2', 'M2', 'm3', 'M3', 'P4', 'A4', 'P5', 'm6', 'M6', 'm7', 'M7',
