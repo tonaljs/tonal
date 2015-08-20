@@ -91,7 +91,7 @@ A list is a group of intervals or notes, and they are the building blocks of sca
 - If its a list of intervals, the first one MUST be P1
 
 ```js
-var list = require('tonal/list/list')
+var list = require('tonal/list/toList')
 list('P1 P5 M6', 'C') // => 'C4 G4 A4'
 list(['P1', 'M2'], 'C') // => 'C4 D4'
 list('C D') // => ['P1', 'M2']

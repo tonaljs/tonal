@@ -4,12 +4,12 @@ var reverse = require('../../lib/list/reverse')
 
 vows.describe('list/reverse').addBatch({
   'reverse strings': function () {
-    assert.deepEqual(reverse('C D E'), ['E', 'D', 'C'])
+    assert.deepEqual(reverse('C D E'), ['E4', 'D4', 'C4'])
     assert.deepEqual(reverse('P1 P4 P5'), ['P5', 'P4', 'P1'])
   },
   'reverse arrays': function () {
     var notes = 'A B C'.split(' ')
-    assert.deepEqual(reverse(notes), ['C', 'B', 'A'])
+    assert.deepEqual(reverse(notes), ['C4', 'B4', 'A4'])
     assert.deepEqual(notes, ['A', 'B', 'C'])
   },
   'reverse binary': function () {
