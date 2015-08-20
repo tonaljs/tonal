@@ -8,5 +8,8 @@ vows.describe('Scale').addBatch({
   },
   'scale notes': function () {
     assert.deepEqual(scale('C minor'), ['C4', 'D4', 'Eb4', 'F4', 'G4', 'Ab4', 'Bb4'])
+  },
+  'scale names': function () {
+    assert.equal(scale().length, 108)
   }
 }).export(module)
