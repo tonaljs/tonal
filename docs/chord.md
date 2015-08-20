@@ -5,9 +5,9 @@
 
 ## module.exports(name) 
 
-A chord set generator
+A chord dictionary.
 
-Given a chord name returns the intervals or notes
+Given a chord name, returns the intervals or notes
 
 
 ### Parameters
@@ -28,7 +28,7 @@ chord('C7') // => ['C4', 'E4', 'G4', 'B4']
 ### Returns
 
 
-- `Array`   a set (of notes or intervals depending on the name)
+- `Array`   a list (of notes or intervals depending on the name)
 
 
 

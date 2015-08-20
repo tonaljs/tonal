@@ -1,36 +1,11 @@
-# set 
+# list 
 
 
 
 
-## binary(set) 
+## chromaticList() 
 
-Return a binary representation of the set
-
-The binary representation of a set is a binary number in which the first
-digit is always 1 (the 'P1' interval). It's important to note that
-`set === intervals(binary(set))` is not always true (you loose some
-information when converting to a binary set)
-
-
-### Parameters
-
-- **set** `Array` `Integer` `Binary`   - the set to get the binary from
-
-
-
-
-### Returns
-
-
-- `String`   the binary string representation of that set
-
-
-
-
-## chromaticIntervalSet() 
-
-Returns a set of intervals that represents an harmonic chromatic scale
+Returns a list with a chromatic scale
 
 The harmonic chromatic scale is the same whether rising or falling and
 includes all the notes in the major, harmonic minor or melodic minor
@@ -47,16 +22,16 @@ scales plus flattened second and sharpened fourth degrees
 
 
 
-## intervalSet(set) 
+## intervalSet(list) 
 
-Given a set identifier return the intervals
+Given a list identifier return the intervals
 
 
 
 
 ### Parameters
 
-- **set** `String` `Decimal` `Array`   - the set to get the intervals from
+- **list** `String` `Decimal` `Array`   - the list to get the intervals from
 
 
 
@@ -153,16 +128,19 @@ A valid note set is an array of note strings
 
 
 
-## noteSet(set) 
+## list(note, identifier) 
 
-Given a set and a note, return a set with the same intervals but starting from note
+Create a list (either a group of intervals or notes depending if you provide
+a tonic parameter or not)
 
-
+It uses `list/intervals` or `list/notes` depending
+on the action. Is a convenience function when creating scales or chords
 
 
 ### Parameters
 
-- **set** `Array` `String` `Integer`   - the original set. Can be a notes or intervals array, a binary string set or a decimal set
+- **note** `String`   - the tonic note (can be null)
+- **identifier** `String` `Integer` `Array`   - the list identifier
 
 
 
@@ -170,7 +148,34 @@ Given a set and a note, return a set with the same intervals but starting from n
 ### Returns
 
 
-- `Void`
+- `Array`   an array of notes or intervals
+
+
+
+
+## noteList(source, note) 
+
+Return a note list
+
+You need a source and a root. As a source you can use a binary number (or
+decimal equivalent), an interval list or a note list (both as arrays or strings)
+
+If a note list is provided, the notes are transposed to ensure the first note
+is the given one
+
+
+### Parameters
+
+- **source** `Array` `String` `Integer`   - an interval or note list in any of its representations
+- **note** `String`   - the tonic or root
+
+
+
+
+### Returns
+
+
+- `Array`   a list of notes
 
 
 
@@ -192,16 +197,16 @@ Alias of set/reverse
 
 
 
-## reverse(set) 
+## reverse(list) 
 
-Get the reverse (retrograde) of a set
+Get the reverse (retrograde) of a list
 
 
 
 
 ### Parameters
 
-- **set** `String` `Array` `Integer`   - the set to be reversed
+- **list** `String` `Array` `Integer`   - the list to be reversed
 
 
 
@@ -221,19 +226,19 @@ reverse('A B C') // => ['C', 'B', 'A']
 
 
 
-## set(note, identifier) 
+## binary(set) 
 
-Create a set (either a group of intervals or notes depending if you provide
-a tonic parameter or not)
+Return a binary representation of the set
 
-It uses `set/intervals` or `set/notes` depending
-on the action. Is a convenience function when creating scales or chords
+The binary representation of a set is a binary number in which the first
+digit is always 1 (the 'P1' interval). It's important to note that
+`set === intervals(binary(set))` is not always true (you loose some
+information when converting to a binary set)
 
 
 ### Parameters
 
-- **note** `String`   - the tonic note (can be null)
-- **identifier** `String` `Integer` `Array`   - the set identifier
+- **set** `Array` `Integer` `Binary`   - the set to get the binary from
 
 
 
@@ -241,7 +246,7 @@ on the action. Is a convenience function when creating scales or chords
 ### Returns
 
 
-- `Array`   an array of notes or intervals
+- `String`   the binary string representation of that set
 
 
 

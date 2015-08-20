@@ -120,6 +120,13 @@ Complete scale module documentation is [here](https://github.com/danigb/tonal/bl
 
 Complete chord module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/chord.md)
 
+### Misc
+
+Yet uncategorized functions.
+
+Complete misc module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/misc.md)
+
+
 ## Incubator modules
 
 ### Score
@@ -140,12 +147,6 @@ A complete duration module documentation is [here](https://github.com/danigb/ton
 Key signature related functions
 
 Complete key module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/key.md)
-
-### Misc
-
-Yet uncategorized functions. Currently is a bag of utilities.
-
-Complete misc module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/misc.md)
 
 ## Usage
 

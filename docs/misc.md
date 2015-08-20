@@ -3,16 +3,18 @@
 
 
 
-## accidentals(number) 
+## fifths(step) 
 
-Given a number of accidentals returns the string representation
+Get the relation between a note and the number of steps in the
+cycle of fifths (with root in C)
 
 
 
 
 ### Parameters
 
-- **number** `Integer`   - the number of accidentals (posivite for shaprs, negative for flats, zero for an empty string)
+- **step** `Integer` `String`   - if it's an integer, returns the note step after moving `step` steps in the cycle. If it's a step string, returns the number
+of steps starting from 'C' to the given step
 
 
 
@@ -20,48 +22,21 @@ Given a number of accidentals returns the string representation
 ### Examples
 
 ```javascript
-var accidentals = require('tonal/misc/accidentals')
-accidenals(2) // => '##'
-accidenals(-2) // => 'bb'
-accidenals(0) // => ''
+var cycle = require('tonal/cycle-of-fifths')
+cycle(0) // => 'C'
+cycle(1) // => 'G'
+cycle(-1) // => 'F'
+cycle('C') // => 0
+cycle('G') // => 1
+cycle('F') // => -1
+cycle('C2') // => undefined
 ```
 
 
 ### Returns
 
 
-- `String`   an accidentals string
-
-
-
-
-## alteration() 
-
-TODO: write proper docs
-
-
-
-
-
-
-### Examples
-
-```javascript
-alteration('C#6') // 1
-alteration('Db') // -1
-alteration('E') // 0
-alteration('#') // => 1
-alteration('##') // => 2
-alteration('b') // => -1
-alteration('bb') // => -2
-alteration('') // 0
-```
-
-
-### Returns
-
-
-- `Void`
+- `String` `Integer`   - the note name or the number of steps (depending of the param)
 
 
 

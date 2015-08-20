@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var fifths = require('../../lib/cycles/fifths.js')
+var fifths = require('../../lib/misc/fifths.js')
 
 vows.describe('fifths of fifths').addBatch({
   'with positive numbers': function () {

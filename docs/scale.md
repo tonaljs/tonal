@@ -77,9 +77,9 @@ scaleSpace() // => an array of 2048 binary numbers
 
 ## module.exports(name) 
 
-A scale set generator
+A scale dictionary
 
-Given a scale name returns the intervals or notes
+Given a scale name, returns the intervals or notes
 
 
 ### Parameters
@@ -100,7 +100,7 @@ scale('C major') // => []
 ### Returns
 
 
-- `Array`   a set (of notes or intervals depending on the name)
+- `Array`   a list (of notes or intervals depending on the name)
 
 
 
