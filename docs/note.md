@@ -39,7 +39,7 @@ accidenals(0) // => ''
 
 Get the interval between two notes
 
-
+This is an alias for `interval/fromNotes`
 
 
 
@@ -47,7 +47,7 @@ Get the interval between two notes
 ### Examples
 
 ```javascript
-transpose('P5', 'D') // => 'A4'
+distance('C', 'D') => 'M2'
 ```
 
 

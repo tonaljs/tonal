@@ -3,17 +3,23 @@
 
 
 
-## fromAlter(interval, amount) 
+## fromAlter(interval, alter, octave, opposite) 
 
-Modify an interval by an alteration amount
+Create or modify an interval
 
+You can create an interval by the interval number, the alteration and octave
 
+If instead a interval number, a real interval is provided, the alter and
+octave values are offsets from the actual value and a copy of the interval
+is returned
 
 
 ### Parameters
 
 - **interval** `String`   - the interval to be modified
-- **amount** `Integer`   - (Options) the amount of alteration you want (positive or negative integers are allowed). It's 0 by default.
+- **alter** `Integer`   - (Optional) the alteration of the new interval, or the alteration change for modified intervals. 0 by default.
+- **octave** `Integer`   - (Optional) the octave size of the new interval, or the octave change for modified intervals. 0 by default.
+- **opposite** `Boolean`   - (optional) if true, change the direction of the interval num. By default is false
 
 
 
@@ -21,10 +27,14 @@ Modify an interval by an alteration amount
 ### Examples
 
 ```javascript
-quality('P5', 1) // => 'A5'
+// number and alteration
+quality(5, 0) // => 'P5'
 quality(5, 1) // => 'A5'
 quality(5, -1) // => 'd5'
-quality(5, 0) // => 'P5'
+// number, alteration and octave
+quality(5, 0, 1) // => 'P12'
+// modify an interval by an alteration and octave amount
+quality('P5', 1) // => 'A5'
 quality('A5', 0) // => 'A5'
 quality('M3', 1) // => 'A3'
 quality(3, -1) // => 'A3'
@@ -34,7 +44,7 @@ quality(3, -1) // => 'A3'
 ### Returns
 
 
-- `String`   the modified interval
+- `String`   the created or modified interval
 
 
 
@@ -43,7 +53,11 @@ quality(3, -1) // => 'A3'
 
 Get the interval between two notes
 
+This is the function to calculate distances (expressed in intervals) for
+two notes. An alias of this function is in `note/distance`
 
+You can get a _curryfied_ version of this function by passing only one
+parameter. See examples below:
 
 
 ### Parameters
@@ -58,6 +72,7 @@ Get the interval between two notes
 
 ```javascript
 fromNotes('C', 'D') // => 'M2'
+['C', 'D', 'Eb'].map(fromNotes('C')) // => ['P1', 'M2', 'm3']
 ```
 
 
@@ -130,6 +145,31 @@ isInterval('P6') // false
 
 
 - `Boolean`   true if its a valid interval
+
+
+
+
+## opposite() 
+
+Given an interval, return its opposite
+
+
+
+
+
+
+### Examples
+
+```javascript
+opposite('M2') // => 'M-2'
+opposite('P-8') // => 'P8'
+```
+
+
+### Returns
+
+
+- `Void`
 
 
 

@@ -3,36 +3,49 @@
 
 
 
-## dictionary(data, func, position) 
+## coerce()  *private method*
 
-Apply a dictionary to a function parameter
+Internal function: ensures the param is a string
 
-This function decorates anotehr one by substituting a parameter with a
-lookup into a hashmap
-
-
-### Parameters
-
-- **data** `Hash`   - the hashmap with data
-- **func** `Function`   - the function to be decorated
-- **position** `Integer`   - (Optional) the argument position to be replaced. It's 0 by default
+It allows parse to be called on itself:
+`parse(parse(parse('C3')))`
 
 
-
-
-### Examples
-
-```javascript
-var intervals = require('notelab/scale/intervals')
-dictionary({ major: 2773 }, intervals)
-intervals('major') => ['P1', 'M2', ...]
-```
 
 
 ### Returns
 
 
-- `Function`   the decorated function
+- `Void`
+
+
+
+
+## memoize(the)  *private method*
+
+Simplest and fast memoize function
+
+This is base in two restrictive asumptions:
+- the function only receives __one paramater__
+- the parameter __is a string__
+
+The idea is to be fast and small.
+
+For a more complete memoize solution see:
+https://github.com/addyosmani/memoize.js
+
+
+### Parameters
+
+- **the** `Function`   function to memoize
+
+
+
+
+### Returns
+
+
+-   
 
 
 
