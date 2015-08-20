@@ -2,7 +2,7 @@ var vows = require('vows')
 var assert = require('assert')
 var chromatic = require('../../lib/list/chromaticList')
 
-vows.describe('Set').addBatch({
+vows.describe('list/chromaticList').addBatch({
   'empty list': function () {
     assert.deepEqual(chromatic(0), [])
   },

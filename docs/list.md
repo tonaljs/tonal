@@ -3,35 +3,18 @@
 
 
 
-## chromaticList() 
+## chromaticList(length) 
 
-Returns a list with a chromatic scale
+Returns a interval list with a chromatic scale
 
 The harmonic chromatic scale is the same whether rising or falling and
 includes all the notes in the major, harmonic minor or melodic minor
 scales plus flattened second and sharpened fourth degrees
 
 
-
-
-### Returns
-
-
-- `Void`
-
-
-
-
-## intervalSet(list) 
-
-Given a list identifier return the intervals
-
-
-
-
 ### Parameters
 
-- **list** `String` `Decimal` `Array`   - the list to get the intervals from
+- **length** `Integer`   - the number of items in the list
 
 
 
@@ -39,7 +22,7 @@ Given a list identifier return the intervals
 ### Returns
 
 
-- `Array`   an array of intervals
+- `Array`   a list (of intervals or notes, depending of params)
 
 
 
@@ -106,16 +89,16 @@ isIntervalSet(['P1']) // => true
 
 
 
-## isNoteSet(set) 
+## isNoteList(list) 
 
-Test if the given set is a valid note set
+Test if the given list is a valid note list
 
-A valid note set is an array of note strings
+A valid note list is an array of note strings
 
 
 ### Parameters
 
-- **set** `Object`   - the set to be tested
+- **list** `Object`   - the list to be tested
 
 
 
@@ -123,12 +106,12 @@ A valid note set is an array of note strings
 ### Returns
 
 
-- `Boolean`   true if is a note set
+- `Boolean`   true if is a note list
 
 
 
 
-## list(note, identifier) 
+## toList(note, identifier) 
 
 Create a list (either a group of intervals or notes depending if you provide
 a tonic parameter or not)
@@ -149,33 +132,6 @@ on the action. Is a convenience function when creating scales or chords
 
 
 - `Array`   an array of notes or intervals
-
-
-
-
-## noteList(source, note) 
-
-Return a note list
-
-You need a source and a root. As a source you can use a binary number (or
-decimal equivalent), an interval list or a note list (both as arrays or strings)
-
-If a note list is provided, the notes are transposed to ensure the first note
-is the given one
-
-
-### Parameters
-
-- **source** `Array` `String` `Integer`   - an interval or note list in any of its representations
-- **note** `String`   - the tonic or root
-
-
-
-
-### Returns
-
-
-- `Array`   a list of notes
 
 
 
@@ -232,7 +188,7 @@ Return a binary representation of the set
 
 The binary representation of a set is a binary number in which the first
 digit is always 1 (the 'P1' interval). It's important to note that
-`set === intervals(binary(set))` is not always true (you loose some
+`set === toIntervals(binary(set))` is not always true (you loose some
 information when converting to a binary set)
 
 
@@ -247,6 +203,55 @@ information when converting to a binary set)
 
 
 - `String`   the binary string representation of that set
+
+
+
+
+## toIntervals(list) 
+
+Given a list return its intervals
+
+
+
+
+### Parameters
+
+- **list** `String` `Decimal` `Array`   - the list to get the intervals from
+
+
+
+
+### Returns
+
+
+- `Array`   an array of intervals
+
+
+
+
+## noteList(source, note) 
+
+Return a note list from a source
+
+You need a source and a root. As a source you can use a binary number (or
+decimal equivalent), an interval list or a note list (both as arrays or strings)
+
+If a note list is provided, the notes are transposed to ensure the first note
+is the given one
+
+
+### Parameters
+
+- **source** `Array` `String` `Integer`   - an interval or note list in any of its representations
+- **note** `String`   - the tonic or root
+
+
+
+
+### Returns
+
+
+- `Array`   a list of notes
 
 
 

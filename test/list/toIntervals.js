@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var intervals = require('../../lib/list/intervalList')
+var intervals = require('../../lib/list/toIntervals')
 
 vows.describe('Scale').addBatch({
   'interval list from decimal': function () {
