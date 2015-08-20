@@ -34,47 +34,6 @@ parse('C major') // => { tonic: 'C', type: 'major' }
 
 
 
-## module.exports() 
-
-Get all scale names
-
-
-
-
-
-
-### Returns
-
-
-- `Void`
-
-
-
-
-## scaleSpace() 
-
-Get the 2048 scales
-
-
-
-
-
-
-### Examples
-
-```javascript
-scaleSpace() // => an array of 2048 binary numbers
-```
-
-
-### Returns
-
-
-- `Void`
-
-
-
-
 ## module.exports(name) 
 
 A scale dictionary
@@ -101,6 +60,30 @@ scale('C major') // => []
 
 
 - `Array`   a list (of notes or intervals depending on the name)
+
+
+
+
+## scaleSpace() 
+
+Get the 2048 scales
+
+
+
+
+
+
+### Examples
+
+```javascript
+scaleSpace() // => an array of 2048 binary numbers
+```
+
+
+### Returns
+
+
+- `Void`
 
 
 

@@ -27,7 +27,7 @@ scales plus flattened second and sharpened fourth degrees
 
 
 
-## isBinarySet(number) 
+## isBinaryList(number) 
 
 Determine if a given number is a valid binary set number
 
@@ -46,8 +46,8 @@ The binary number can be expressed in decimal
 
 ```javascript
 isBinary('100') // => true
-isBinarySet(2773) // => true
-isBinarySet('010') // => false
+isBinaryList(2773) // => true
+isBinaryList('010') // => false
 ```
 
 
@@ -59,7 +59,7 @@ isBinarySet('010') // => false
 
 
 
-## isIntervalSet(set) 
+## isIntervalList(set) 
 
 Test is the given set is an interval set
 
@@ -77,7 +77,7 @@ the first item is 'P1'
 ### Examples
 
 ```javascript
-isIntervalSet(['P1']) // => true
+isIntervalList(['P1']) // => true
 ```
 
 
