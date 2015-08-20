@@ -1,9 +1,8 @@
 {
   "name": "tonal",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "description": "Functional, modular music theory library",
   "main": "index.js",
-  "readme": "../README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/danigb/tonal.git"
