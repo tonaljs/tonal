@@ -5,9 +5,10 @@
 
 ## module.exports(name) 
 
-A chord dictionary.
+Create a list from a chord name
 
-Given a chord name, returns the intervals or notes
+If the chord name contains the tonic, a note list is returned. If only the
+chord type is given, you get an interval list.
 
 
 ### Parameters

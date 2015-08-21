@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var dictionary = require('../../lib/data/listDict')
+var dictionary = require('../../lib/list/dictionary')
 
 vows.describe('data/listDict').addBatch({
   'interval list from dictionary': function () {
