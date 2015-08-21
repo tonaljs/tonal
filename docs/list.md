@@ -3,6 +3,40 @@
 
 
 
+## areIntervals() 
+
+Given a list, check it its a interval list
+
+
+
+
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
+## areIntervals() 
+
+Given a list, check it its a note list
+
+
+
+
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
 ## chromaticList(length) 
 
 Returns a interval list with a chromatic scale
@@ -27,11 +61,28 @@ scales plus flattened second and sharpened fourth degrees
 
 
 
+## distance() 
+
+
+
+
+
+
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
 ## isBinaryList(number) 
 
-Determine if a given number is a valid binary set number
+Determine if a given number is a valid binary list number
 
-A valid binary set is any binary number that starts with 1 (P1 interval)
+A valid binary list is any binary number that starts with 1 (P1 interval)
 The binary number can be expressed in decimal
 
 
@@ -59,17 +110,18 @@ isBinaryList('010') // => false
 
 
 
-## isIntervalList(set) 
+## list(list) 
 
-Test is the given set is an interval set
+Get a list of notes or isInterval
 
-An interval set is an array where all items are inteval strings and
-the first item is 'P1'
+This is the principal function to create lists. Basically does the same as
+`list/parse` but if an array is given, it returns it without modification
+or validation (so, only pass an array when you are sure that is a valid list)
 
 
 ### Parameters
 
-- **set** `Object`   - the set to be tested
+- **list** `String` `Array`   - the list to be parsed or passed
 
 
 
@@ -77,28 +129,28 @@ the first item is 'P1'
 ### Examples
 
 ```javascript
-isIntervalList(['P1']) // => true
+list('c d# e5') // => ['C4', 'D#4', 'E5']
+list('P1 m2') // => ['P1', 'm2']
+list('bb2') // => ['Bb2']
+list('101') // => ['P1', 'M2']
+// to validate an array
+list(['C#3', 'P2'].join(' ')) // => null
 ```
 
 
 ### Returns
 
 
-- `Boolean`   true if is an interval set
+- `Array`   an array list of notes or intervals (or anything it you pass an array to the function)
 
 
 
 
-## isNoteList(list) 
-
-Test if the given list is a valid note list
-
-A valid note list is an array of note strings
+## transpose() 
 
 
-### Parameters
 
-- **list** `Object`   - the list to be tested
+
 
 
 
@@ -106,24 +158,22 @@ A valid note list is an array of note strings
 ### Returns
 
 
-- `Boolean`   true if is a note list
+- `Void`
 
 
 
 
-## toList(note, identifier) 
+## parse(list) 
 
-Create a list (either a group of intervals or notes depending if you provide
-a tonic parameter or not)
+Parse a string to a note or interval list
 
-It uses `list/intervals` or `list/notes` depending
-on the action. Is a convenience function when creating scales or chords
+The string can be notes or intervals separated by white spaces or a binary
+or decimal representation of a interval list
 
 
 ### Parameters
 
-- **note** `String`   - the tonic note (can be null)
-- **identifier** `String` `Integer` `Array`   - the list identifier
+- **list** `String` `Integer`   - the string to be parsed
 
 
 
@@ -131,7 +181,7 @@ on the action. Is a convenience function when creating scales or chords
 ### Returns
 
 
-- `Array`   an array of notes or intervals
+- `Array`   an array of notes or intervals, null if not valid list
 
 
 
@@ -182,7 +232,7 @@ reverse('A B C') // => ['C', 'B', 'A']
 
 
 
-## module.exports() 
+## rotate() 
 
 Rotate a list
 
@@ -195,80 +245,6 @@ Rotate a list
 
 
 - `Void`
-
-
-
-
-## binary(set) 
-
-Return a binary representation of the set
-
-The binary representation of a set is a binary number in which the first
-digit is always 1 (the 'P1' interval). It's important to note that
-`set === toIntervals(binary(set))` is not always true (you loose some
-information when converting to a binary set)
-
-
-### Parameters
-
-- **set** `Array` `Integer` `Binary`   - the set to get the binary from
-
-
-
-
-### Returns
-
-
-- `String`   the binary string representation of that set
-
-
-
-
-## toIntervals(list) 
-
-Given a list return its intervals
-
-
-
-
-### Parameters
-
-- **list** `String` `Decimal` `Array`   - the list to get the intervals from
-
-
-
-
-### Returns
-
-
-- `Array`   an array of intervals
-
-
-
-
-## noteList(source, note) 
-
-Return a note list from a source
-
-You need a source and a root. As a source you can use a binary number (or
-decimal equivalent), an interval list or a note list (both as arrays or strings)
-
-If a note list is provided, the notes are transposed to ensure the first note
-is the given one
-
-
-### Parameters
-
-- **source** `Array` `String` `Integer`   - an interval or note list in any of its representations
-- **note** `String`   - the tonic or root
-
-
-
-
-### Returns
-
-
-- `Array`   a list of notes
 
 
 

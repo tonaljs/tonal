@@ -222,6 +222,30 @@ name('Gx4') // => 'G##'
 
 
 
+## normalize() 
+
+Normalize a note
+
+TODO: docs
+
+
+
+
+### Examples
+
+```javascript
+normalize('Cx') // => 'C##4'
+```
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
 ## parse(note) 
 
 Parse a note and return its properties
@@ -256,24 +280,6 @@ parse('C#2') // => { }
 
 
 -   
-
-
-
-
-## parseStrict() 
-
-Parse a string and throws exception if its not valid note
-
-This method is exactly the same as `note/parse` but with
-exceptions
-
-
-
-
-### Returns
-
-
-- `Void`
 
 
 

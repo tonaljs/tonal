@@ -56,6 +56,9 @@ Get the interval between two notes
 This is the function to calculate distances (expressed in intervals) for
 two notes. An alias of this function is in `note/distance`
 
+This is an 'strict' function: if the notes are note valid, an
+exception is thrown.
+
 You can get a _curryfied_ version of this function by passing only one
 parameter. See examples below:
 
@@ -217,28 +220,12 @@ parse('m9') // => {quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfecta
 
 
 
-## parseStrict() 
-
-Parses an interval and throws an exception if is not valid
-
-Is the same as `interval/parse` but with exceptions
-
-
-
-
-### Returns
-
-
-- `Void`
-
-
-
-
 ## semitones(interval, simplified) 
 
 Get the semitones distance of an intervals
 
-
+This is an _strict_ function: if the interval is note valid, an exception
+is thrown.
 
 
 ### Parameters
@@ -307,6 +294,9 @@ You can also get a currified version by passing one parameter instead
 of two. For example, with `transpose('M2')` you get a function that transposes
 any note by a 'M2' interval. The same way, with `transpose('C4')` you get
 a function that transposes C4 to the given interval. See examples below.
+
+This is an _strict_ function: if note or interval are not valid, an exception
+is thrown
 
 
 ### Parameters

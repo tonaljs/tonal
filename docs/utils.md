@@ -48,4 +48,55 @@ https://github.com/addyosmani/memoize.js
 
 
 
+## strict() 
+
+Decorate a function to throw exception when return null
+
+
+
+
+
+
+### Examples
+
+```javascript
+var parse = require('tonal/note/parse')
+var strictParse = strict('Not a valid note', parse)
+strictParse('P8') // throws Error with msg 'Not a valid note'
+```
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
+## unstrict() 
+
+Decorate a function to return null when a exception is thrown
+
+The opposite of `util/strict`
+
+
+
+
+### Examples
+
+```javascript
+var alwaysNull = unstrict(function () { throw Error() })
+alwaysNull() // => null
+```
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
 *Documentation generated with [doxdox](https://github.com/neogeek/doxdox).*
