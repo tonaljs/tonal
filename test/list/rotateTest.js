@@ -11,15 +11,9 @@ vows.describe('list/rotate').addBatch({
     assert.deepEqual(rotate('C D E F G A B', -1),
       ['B4', 'C4', 'D4', 'E4', 'F4', 'G4', 'A4'])
   },
-  'rotate ascending': function () {
-    assert.deepEqual(rotate('C D E F G A B', 1, true),
-      ['D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5'])
-    assert.deepEqual(rotate('C D E F G A B', 4, true),
-      ['G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5'])
-  },
   'rotate intervals': function () {
     assert.deepEqual(rotate('P1 M2 M3', 1), ['M2', 'M3', 'P1'])
     assert.deepEqual(rotate('P1 M2 M3', 4), ['M2', 'M3', 'P1'])
-    assert.deepEqual(rotate('P1 M2 M3', 4, true), ['M2', 'M3', 'P8'])
+    assert.deepEqual(rotate('P1 M2 M3', 5), ['M3', 'P1', 'M2'])
   }
 }).export(module)
