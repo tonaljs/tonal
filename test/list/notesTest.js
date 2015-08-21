@@ -7,10 +7,7 @@ vows.describe('list/notes').addBatch({
     assert.deepEqual(notes(2773, 'C'), ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4'])
   },
   'note list from binary': function () {
-    assert.deepEqual(notes('11', 'C'), ['C4', 'Db4'])
-    assert.deepEqual(notes('101', 'C'), ['C4', 'D4'])
     assert.deepEqual(notes('100000000001', 'C'), ['C4', 'B4'])
-    assert.deepEqual(notes('1000000000001', 'C'), ['C4', 'C5'])
   },
   'note list from interval list': function () {
     assert.deepEqual(notes(['P1', 'm3'], 'C'), ['C4', 'Eb4'])

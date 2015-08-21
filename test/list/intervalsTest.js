@@ -7,10 +7,8 @@ vows.describe('list/intervals').addBatch({
     assert.deepEqual(intervals(2773), ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'])
   },
   'interval list from binary': function () {
-    assert.deepEqual(intervals('11'), ['P1', 'm2'])
-    assert.deepEqual(intervals('101'), ['P1', 'M2'])
     assert.deepEqual(intervals('100000000001'), ['P1', 'M7'])
-    assert.deepEqual(intervals('1000000000001'), ['P1', 'P8'])
+    assert.deepEqual(intervals('11'), null)
   },
   'interval list from interval list': function () {
     assert.deepEqual(intervals(['P1', 'm3']), ['P1', 'm3'])
