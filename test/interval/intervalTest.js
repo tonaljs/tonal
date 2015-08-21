@@ -16,8 +16,8 @@ vows.describe('interval/interval').addBatch({
     assert.equal(interval(1, 0, 1), 'P8')
     assert.equal(interval(5, 0, 1), 'P12')
     assert.equal(interval(9, -1, 1), 'm16')
-    assert.equal(interval(1, 0, 1, -1), 'P-8')
-    assert.equal(interval(10, -1, 1, -1), 'm-17')
+    assert.equal(interval(1, 0, 1, true), 'P-8')
+    assert.equal(interval(10, -1, 1, true), 'm-17')
   },
   'intervals from number and alterations': function () {
     var alters = [-3, -2, -1, 0, 1, 2, 3]
