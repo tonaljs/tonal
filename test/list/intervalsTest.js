@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var intervals = require('../../lib/list/toIntervals')
+var intervals = require('../../lib/list/intervals')
 
-vows.describe('Scale').addBatch({
+vows.describe('list/intervals').addBatch({
   'interval list from decimal': function () {
     assert.deepEqual(intervals(2773), ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'])
   },

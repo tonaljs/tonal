@@ -9,7 +9,7 @@ vows.describe('list/reverse').addBatch({
   },
   'reverse arrays': function () {
     var notes = 'A B C'.split(' ')
-    assert.deepEqual(reverse(notes), ['C4', 'B4', 'A4'])
+    assert.deepEqual(reverse(notes), ['C', 'B', 'A'])
     assert.deepEqual(notes, ['A', 'B', 'C'])
   },
   'reverse binary': function () {
