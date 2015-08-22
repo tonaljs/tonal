@@ -9,7 +9,7 @@
  * @return {Float} the duration value
  *
  * @module time
- * @see time/duration-name (does exactly the opposite)
+ * @see time/duration-name
  *
  * @example
  * var value = require('tonal/time/duration-value')
