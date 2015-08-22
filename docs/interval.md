@@ -3,52 +3,6 @@
 
 
 
-## fromAlter(interval, alter, octave, opposite) 
-
-Create or modify an interval
-
-You can create an interval by the interval number, the alteration and octave
-
-If instead a interval number, a real interval is provided, the alter and
-octave values are offsets from the actual value and a copy of the interval
-is returned
-
-
-### Parameters
-
-- **interval** `String`   - the interval to be modified
-- **alter** `Integer`   - (Optional) the alteration of the new interval, or the alteration change for modified intervals. 0 by default.
-- **octave** `Integer`   - (Optional) the octave size of the new interval, or the octave change for modified intervals. 0 by default.
-- **opposite** `Boolean`   - (optional) if true, change the direction of the interval num. By default is false
-
-
-
-
-### Examples
-
-```javascript
-// number and alteration
-quality(5, 0) // => 'P5'
-quality(5, 1) // => 'A5'
-quality(5, -1) // => 'd5'
-// number, alteration and octave
-quality(5, 0, 1) // => 'P12'
-// modify an interval by an alteration and octave amount
-quality('P5', 1) // => 'A5'
-quality('A5', 0) // => 'A5'
-quality('M3', 1) // => 'A3'
-quality(3, -1) // => 'A3'
-```
-
-
-### Returns
-
-
-- `String`   the created or modified interval
-
-
-
-
 ## fromNotes(from, to) 
 
 Get the interval between two notes
@@ -83,6 +37,50 @@ fromNotes('C', 'D') // => 'M2'
 
 
 - `String`   the interval between notes
+
+
+
+
+## generic(number)  *private method*
+
++ Given an interval number, return its generic interval
+
+Probably you don't need this function. Use ´interval/parse´ to obtain the
+generic number of an interval
+
+The generic interval is an object with two properties:
+- num: {Integer} the generic number
+- perfectable: {Boolean} if the generic interval is perfectable or note
+
+
+### Parameters
+
+- **number** `Integer`   - the interval number
+
+
+
+
+### Returns
+
+
+- `Object`   the generic interval object
+
+
+
+
+## interval() 
+
+Create a interval from its components
+
+
+
+
+
+
+### Returns
+
+
+- `Void`
 
 
 

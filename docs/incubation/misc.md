@@ -3,6 +3,30 @@
 
 
 
+## chromaticList(length) 
+
+Returns a interval list with a chromatic scale
+
+The harmonic chromatic scale is the same whether rising or falling and
+includes all the notes in the major, harmonic minor or melodic minor
+scales plus flattened second and sharpened fourth degrees
+
+
+### Parameters
+
+- **length** `Integer`   - the number of items in the list
+
+
+
+
+### Returns
+
+
+- `Array`   a list (of intervals or notes, depending of params)
+
+
+
+
 ## fifths(step) 
 
 Get the relation between a note and the number of steps in the
