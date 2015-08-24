@@ -21,6 +21,10 @@ vows.describe('note/parse').addBatch({
     assert.deepEqual(pluck('acc', 'd C#2 Bb5 bbb5 Cx2 cxx3'),
       ['', '#', 'b', 'bb', '##', '####'])
   },
+  'parsed midi': function () {
+    assert.deepEqual(pluck('midi', 'C D E F G A B'),
+      [60, 62, 64, 65, 67, 69, 71])
+  },
   'parsed alterations': function () {
     assert.deepEqual(pluck('alter', 'd C#2 Bb5 bbb5 Cx2 cxx3'),
       [0, 1, -1, -2, 2, 4])

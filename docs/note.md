@@ -251,60 +251,6 @@ Type
 </dl>
 </dd>
 <dt>
-<h4 class="name" id="midi"><span class="type-signature"></span>midi<span class="signature">(note)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Get the midi number of the given note</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>note</code></td>
-<td class="type">
-<span class="param-type">String</span>
-</td>
-<td class="description last"><p>the note</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/midi.js">midi.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/midi.js#L13">lineno 13</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Returns:</h5>
-<div class="param-desc">
-<ul>
-<li>the midi number</li>
-</ul>
-</div>
-<dl>
-<dt>
-Type
-</dt>
-<dd>
-<span class="param-type">Integer</span>
-</dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>var midi = require('tonal/note/midi')
-midi('A4') // => 69</code></pre>
-</dd>
-<dt>
 <h4 class="name" id="name"><span class="type-signature"></span>name<span class="signature">(note)</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>
@@ -435,6 +381,7 @@ note('Cx', null, 2) // => 'C##2'</code></pre>
 - <strong>acc</strong>: a string with the accidentals or '' if no accidentals (never null)
 - <strong>oct</strong>: a integer with the octave. If not present in the note, is set to 4
 - <strong>alter</strong>: the integer representic the accidentals (0 for no accidentals,
+- <strong>midi</strong>: {Integer} the midi value
 -1 for 'b', -2 for 'bb', 1 for '#', 2 for '##', etc...)
 - <strong>pc</strong>: the <a href="https://en.wikipedia.org/wiki/Pitch_class#Integer_notation">pitch class</a>
 of the note. The pitch class is an integer value between 0 and 11
@@ -465,7 +412,7 @@ where C=0, C#=1, D=2...B=11</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js#L24">lineno 24</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js#L25">lineno 25</a>
 </li>
 </ul></dd>
 </dl>
