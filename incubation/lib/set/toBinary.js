@@ -1,5 +1,4 @@
 var isBinary = require('../list/isBinary')
-var semitones = require('../interval/semitones')
 var intervals = require('../list/intervals')
 
 // TODO: performance?
@@ -17,7 +16,7 @@ var intervals = require('../list/intervals')
  */
 function binary (set) {
   if (isBinary(set)) return set
-  var nums = intervals(set).map(semitones)
+  var nums = intervals(set).map(function (i) { return i.semitones })
   var max = Math.max.apply(null, nums) + 1
   var binary = []
   for (var i = 0; i < max; i++) {

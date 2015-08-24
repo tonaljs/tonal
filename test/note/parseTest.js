@@ -17,6 +17,10 @@ vows.describe('note/parse').addBatch({
     assert.deepEqual(pluck('name', 'C#2 bbb5 Cx3'),
       ['C#2', 'bbb5', 'Cx3'])
   },
+  'parsed note pitch class': function () {
+    assert.deepEqual(pluck('pitchClass', 'C#2 bbb5 Cx3'),
+      ['C#', 'Bbb', 'C##'])
+  },
   'parsed note letter': function () {
     assert.deepEqual(pluck('letter', 'C#2 bbb5 ex3'),
       ['C', 'B', 'E'])
