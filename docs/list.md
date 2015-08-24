@@ -91,7 +91,7 @@ descending (1 by default)</p></td>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/direction.js">direction.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/direction.js#L20">lineno 20</a>
+<a href="https://github.com/danigb/tonal/blob/master/direction.js#L21">lineno 21</a>
 </li>
 </ul></dd>
 </dl>

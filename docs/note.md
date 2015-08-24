@@ -13,62 +13,6 @@
 </div>
 <dl>
 <dt>
-<h4 class="name" id="accidentals"><span class="type-signature"></span>accidentals<span class="signature">(number)</span><span class="type-signature"> &rarr; {String}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Given an alteration number, get the accidentals string</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>number</code></td>
-<td class="type">
-<span class="param-type">Integer</span>
-</td>
-<td class="description last"><p>the number of accidentals (posivite for shaprs,
-negative for flats, zero for an empty string)</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="important tag-deprecated">Deprecated:</dt><dd class="yes-def tag-deprecated"><ul class="dummy"><li>Yes</li></ul></dd>
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/accidentals.js">accidentals.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/accidentals.js#L17">lineno 17</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Returns:</h5>
-<div class="param-desc">
-<p>an accidentals string</p>
-</div>
-<dl>
-<dt>
-Type
-</dt>
-<dd>
-<span class="param-type">String</span>
-</dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>var accidentals = require('tonal/note/accidentals')
-accidenals(2) // => '##'
-accidenals(-2) // => 'bb'
-accidenals(0) // => ''</code></pre>
-</dd>
-<dt>
 <h4 class="name" id="enharmonic"><span class="type-signature"></span>enharmonic<span class="signature">()</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
@@ -81,7 +25,7 @@ accidenals(0) // => ''</code></pre>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/enharmonic.js">enharmonic.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/enharmonic.js#L11">lineno 11</a>
+<a href="https://github.com/danigb/tonal/blob/master/enharmonic.js#L10">lineno 10</a>
 </li>
 </ul></dd>
 </dl>
@@ -387,7 +331,7 @@ In tonal it means a string with:
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/note.js">note.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/note.js#L4">lineno 4</a>
+<a href="https://github.com/danigb/tonal/blob/master/note.js#L6">lineno 6</a>
 </li>
 </ul></dd>
 </dl>

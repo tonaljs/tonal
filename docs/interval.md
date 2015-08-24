@@ -470,9 +470,7 @@ augmented respectively)
 - oct: the number of octaves (a positive integer)
 - type: the interval type. 'P' for 'perfect', 'M' for major. This is not the
 quality of the interval, just if it is perfectable or not.
-- semitones: the size of the interval in semitones
-For perfectable intervals is 'P': 0, 'd': -1, 'A': +1 and for
-non perfectable intervals is 'M': 0, 'm', -1, 'd': -2, 'A': +1</p></div>
+- semitones: the size of the interval in semitones</p></div>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
