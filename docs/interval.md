@@ -3,23 +3,17 @@
 
 
 
-## fromAlter(interval, alter, octave, opposite) 
+## add(interval1, interval2) 
 
-Create or modify an interval
+Add two intervals
 
-You can create an interval by the interval number, the alteration and octave
 
-If instead a interval number, a real interval is provided, the alter and
-octave values are offsets from the actual value and a copy of the interval
-is returned
 
 
 ### Parameters
 
-- **interval** `String`   - the interval to be modified
-- **alter** `Integer`   - (Optional) the alteration of the new interval, or the alteration change for modified intervals. 0 by default.
-- **octave** `Integer`   - (Optional) the octave size of the new interval, or the octave change for modified intervals. 0 by default.
-- **opposite** `Boolean`   - (optional) if true, change the direction of the interval num. By default is false
+- **interval1** `String`   - the first interval
+- **interval2** `String`   - the second interval
 
 
 
@@ -27,24 +21,14 @@ is returned
 ### Examples
 
 ```javascript
-// number and alteration
-quality(5, 0) // => 'P5'
-quality(5, 1) // => 'A5'
-quality(5, -1) // => 'd5'
-// number, alteration and octave
-quality(5, 0, 1) // => 'P12'
-// modify an interval by an alteration and octave amount
-quality('P5', 1) // => 'A5'
-quality('A5', 0) // => 'A5'
-quality('M3', 1) // => 'A3'
-quality(3, -1) // => 'A3'
+add('M2', 'M2') // => 'M3'
 ```
 
 
 ### Returns
 
 
-- `String`   the created or modified interval
+- `String`   the resulting interval
 
 
 
@@ -83,6 +67,69 @@ fromNotes('C', 'D') // => 'M2'
 
 
 - `String`   the interval between notes
+
+
+
+
+## generic(number)  *private method*
+
++ Given an interval number, return its generic interval
+
+Probably you don't need this function. Use ´interval/parse´ to obtain the
+generic number of an interval
+
+The generic interval is an object with two properties:
+- num: {Integer} the generic number
+- perfectable: {Boolean} if the generic interval is perfectable or note
+
+
+### Parameters
+
+- **number** `Integer`   - the interval number
+
+
+
+
+### Returns
+
+
+- `Object`   the generic interval object
+
+
+
+
+## interval(num, alter, oct, descending) 
+
+Create a interval from its components
+
+
+
+
+### Parameters
+
+- **num** `Integer`   - the interval number
+- **alter** `Integer`   - the interval alteration (0 is perfect or major)
+- **oct** `Integer`   - (Optional) the octaves, 0 by default
+- **descending** `boolean`   - (Optional) create a descending interval (false by default)
+
+
+
+
+### Examples
+
+```javascript
+interval(1) // => 'P1'
+interval(1, 1) // => 'A1'
+interval(1, 1, 2) // => 'A8'
+interval(1, 1, 2, -1) // => 'A-8'
+interval(2, -1, 2, -1) // => 'm-9'
+```
+
+
+### Returns
+
+
+- `Void`
 
 
 
@@ -182,7 +229,7 @@ opposite('P-8') // => 'P8'
 Parse an interval and get its properties
 
 This method retuns an object with the following properties:
-- interval: the parsed interval
+- name: the parsed interval
 - quality: the quality (one of `dmPMA` for dimished, minor, perfect, major and
 augmented respectively)
 - dir: direction, 1 for ascending intervals, -1 for descending ones
@@ -222,7 +269,7 @@ parse('m9') // => {quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfecta
 
 ## semitones(interval, simplified) 
 
-Get the semitones distance of an intervals
+Get the size in semitones of an interval
 
 This is an _strict_ function: if the interval is note valid, an exception
 is thrown.

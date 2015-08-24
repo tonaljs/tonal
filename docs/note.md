@@ -222,11 +222,22 @@ name('Gx4') // => 'G##'
 
 
 
-## normalize() 
+## note(note, alteration, octave) 
 
-Normalize a note
+Create a note from its components (step, alteration, octave)
 
-TODO: docs
+It returns the cannonical representation of a note (ie. 'C##2', 'Db3')
+In tonal it means a string with:
+- step (in upper case)
+- accidentals (with '#' or 'b', never 'x')
+- a octave number (a positive decimal, always present)
+
+
+### Parameters
+
+- **note** `String`   or step - a string with a note or a strp
+- **alteration** `Integer`   - (Optional) the alteration number. If not set uses the alterations from the note (if present) or 0
+- **octave** `Integer`   - (Optional) the note octave. If note set uses the octave from the note (if present) or 4
 
 
 
@@ -234,7 +245,12 @@ TODO: docs
 ### Examples
 
 ```javascript
-normalize('Cx') // => 'C##4'
+note('D', -2, 3) // => 'Dbb3'
+note('G', 2, 1) // => 'G##1'
+note('C', 1) // => 'C#4'
+note('C##', -1) // => 'Cb4'
+note('Cx') // => 'C##4'
+note('Cx', null, 2) // => 'C##2'
 ```
 
 

@@ -34,6 +34,23 @@ chord('C7') // => ['C4', 'E4', 'G4', 'B4']
 
 
 
+## module.exports() 
+
+achord
+
+
+
+
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
 ## parse(chord) 
 
 Parse a chord name and returns the tonic (if any) and the chord type

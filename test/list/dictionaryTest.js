@@ -10,5 +10,9 @@ vows.describe('data/listDict').addBatch({
   'note list from dictionary': function () {
     var scale = dictionary({'major': 2773})
     assert.deepEqual(scale('C major'), ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4'])
+  },
+  'bypass arrays': function () {
+    var scale = dictionary({'major': 2773})
+    assert.deepEqual(scale(['a', 'b', 'c']), ['a', 'b', 'c'])
   }
 }).export(module)

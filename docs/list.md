@@ -37,30 +37,6 @@ Given a list, check it its a note list
 
 
 
-## chromaticList(length) 
-
-Returns a interval list with a chromatic scale
-
-The harmonic chromatic scale is the same whether rising or falling and
-includes all the notes in the major, harmonic minor or melodic minor
-scales plus flattened second and sharpened fourth degrees
-
-
-### Parameters
-
-- **length** `Integer`   - the number of items in the list
-
-
-
-
-### Returns
-
-
-- `Array`   a list (of intervals or notes, depending of params)
-
-
-
-
 ## listDict(data, parser) 
 
 Create a list dictionary from a hash map data and a name parser
@@ -131,8 +107,11 @@ scale() // => ['major']
 
 Determine if a given number is a valid binary list number
 
-A valid binary list is any binary number that starts with 1 (P1 interval)
-The binary number can be expressed in decimal
+A valid binary list is a binary number with two conditions:
+- its 12 digit long
+- starts with 1 (P1 interval)
+
+The binary number can be expressed in decimal as well (i.e 2773)
 
 
 ### Parameters
@@ -145,9 +124,10 @@ The binary number can be expressed in decimal
 ### Examples
 
 ```javascript
-isBinary('100') // => true
-isBinaryList(2773) // => true
-isBinaryList('010') // => false
+isBinary('101010101010') // => true
+isBinary(2773) // => true
+isBinary('001010101010') // => false (missing first 1)
+isBinary('1001') // => false
 ```
 
 
@@ -284,6 +264,23 @@ reverse('A B C') // => ['C', 'B', 'A']
 ## rotate() 
 
 Rotate a list
+
+
+
+
+
+
+### Returns
+
+
+- `Void`
+
+
+
+
+## trNote() 
+
+
 
 
 

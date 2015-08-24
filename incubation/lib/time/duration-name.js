@@ -7,7 +7,6 @@
  * @return {String} The name (expressed with letters and dots) of that value
  *
  * @module time
- * @see time/duration-value (does exactly the opposite)
  *
  * @example
  * var name = require('tonal/time/duration-name')
