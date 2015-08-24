@@ -42,7 +42,14 @@ vows.describe('key/triads').addBatch({
       ['Maj7', 'm7', 'm7', 'Maj7', '7', 'm7', '7b5'])
   },
   '5 interval triads': function () {
-    // TODO
-    //assert.deepEqual(triads('dorian', 5))
+    assert.deepEqual(triads('dorian', 5), [
+      [ 'P1', 'm3', 'P5', 'm7', 'M9' ],
+      [ 'P1', 'm3', 'P5', 'm7', 'm9' ],
+      [ 'P1', 'M3', 'P5', 'M7', 'M9' ],
+      [ 'P1', 'M3', 'P5', 'm7', 'M9' ],
+      [ 'P1', 'm3', 'P5', 'm7', 'M9' ],
+      [ 'P1', 'm3', 'd5', 'm7', 'm9' ],
+      [ 'P1', 'M3', 'P5', 'M7', 'M9' ]
+    ])
   }
 }).export(module)
