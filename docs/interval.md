@@ -51,7 +51,7 @@
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/add.js">add.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/add.js#L16">lineno 16</a>
+<a href="https://github.com/danigb/tonal/blob/master/add.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -245,7 +245,7 @@ by default)</p></td>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/interval.js">interval.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/interval.js#L19">lineno 19</a>
+<a href="https://github.com/danigb/tonal/blob/master/interval.js#L24">lineno 24</a>
 </li>
 </ul></dd>
 </dl>
@@ -383,72 +383,6 @@ isInterval('P6') // false</code></pre>
 opposite('P-8') // => 'P8'</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="parse"><span class="type-signature"></span>parse<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Parse an interval and get its properties</p>
-<p>This method retuns an object with the following properties:
-- name: the parsed interval
-- quality: the quality (one of <code>dmPMA</code> for dimished, minor, perfect, major and
-augmented respectively)
-- dir: direction, 1 for ascending intervals, -1 for descending ones
-- num: diatonic number (a positive integer bigger that 0)
-- generic: generic interval (https://en.wikipedia.org/wiki/Generic_interval), an
-integer between (0 and 6)
-- oct: the number of octaves (a positive integer)
-- perfectable: true if the interval is perfectable
-- alter: an integer with the alteration respect to the cannonical.
-For perfectable intervals is 'P': 0, 'd': -1, 'A': +1 and for
-non perfectable intervals is 'M': 0, 'm', -1, 'd': -2, 'A': +1</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>name</code></td>
-<td class="type">
-<span class="param-type">String</span>
-</td>
-<td class="description last"><p>the name of the interval to be parsed</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js#L29">lineno 29</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Returns:</h5>
-<div class="param-desc">
-<p>a interval object or null if not a valid interval</p>
-</div>
-<dl>
-<dt>
-Type
-</dt>
-<dd>
-<span class="param-type">Array</span>
-</dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>var parse = require('tonal/interval/parse')
-parse('P-5') // => {quality: 'P', dir: -1, num: 5, generic: 4, alter: 0, perfectable: true }
-parse('m9') // => {quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfectable: false }</code></pre>
-</dd>
-<dt>
 <h4 class="name" id="transpose"><span class="type-signature"></span>transpose<span class="signature">(interval, note)</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>
@@ -495,7 +429,7 @@ is thrown</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/transpose.js">transpose.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/transpose.js#L36">lineno 36</a>
+<a href="https://github.com/danigb/tonal/blob/master/transpose.js#L35">lineno 35</a>
 </li>
 </ul></dd>
 </dl>
@@ -524,6 +458,46 @@ transpose('M-2', 'C') // => 'Bb3'
 <section>
 <article>
 <div class="container-overview">
+<div class="description"><p>Parse an interval and get its properties</p>
+<p>Probably you will want to use <code>interval/interval</code> instead.</p>
+<p>This method retuns an object with the following properties:
+- name: the parsed interval
+- quality: the quality (one of <code>dmPMA</code> for dimished, minor, perfect, major and
+augmented respectively)
+- num: diatonic number (a positive integer bigger that 0)
+- alter: an integer with the alteration respect to 'P' or 'M' (depending on the type)
+- dir: direction, 1 for ascending intervals, -1 for descending ones
+- oct: the number of octaves (a positive integer)
+- type: the interval type. 'P' for 'perfect', 'M' for major. This is not the
+quality of the interval, just if it is perfectable or not.
+- semitones: the size of the interval in semitones
+For perfectable intervals is 'P': 0, 'd': -1, 'A': +1 and for
+non perfectable intervals is 'M': 0, 'm', -1, 'd': -2, 'A': +1</p></div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js#L13">lineno 13</a>
+</li>
+</ul></dd>
+<dt class="tag-see">See:</dt>
+<dd class="tag-see">
+<ul>
+<li>interval/interval</li>
+</ul>
+</dd>
+</dl>
+<pre class="prettyprint"><code>var parse = require('tonal/interval/parse')
+parse('P-5') // => {quality: 'P', dir: -1, num: 5, generic: 4, alter: 0, perfectable: true }
+parse('m9') // => {quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfectable: false }</code></pre>
+</div>
+</article>
+</section>
+<section>
+<article>
+<div class="container-overview">
 <div class="description"><p>Simplify an interval</p></div>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
@@ -538,26 +512,6 @@ transpose('M-2', 'C') // => 'Bb3'
 <pre class="prettyprint"><code>simple('M9') // => 'M2'
 simple('M-9') // => 'M-2'
 simple('M-9', true) // => 'M2'</code></pre>
-</div>
-</article>
-</section>
-<section>
-<article>
-<div class="container-overview">
-<div class="description"><p>Get the size in semitones of an interval</p>
-<p>This is an <em>strict</em> function: if the interval is note valid, an exception
-is thrown.</p></div>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/semitones.js">semitones.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/semitones.js#L7">lineno 7</a>
-</li>
-</ul></dd>
-</dl>
-<pre class="prettyprint"><code>semitones('P5') // => 7</code></pre>
 </div>
 </article>
 </section>

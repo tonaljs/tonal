@@ -40,12 +40,13 @@ negative for flats, zero for an empty string)</p></td>
 </tbody>
 </table>
 <dl class="details">
+<dt class="important tag-deprecated">Deprecated:</dt><dd class="yes-def tag-deprecated"><ul class="dummy"><li>Yes</li></ul></dd>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/accidentals.js">accidentals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/accidentals.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/accidentals.js#L17">lineno 17</a>
 </li>
 </ul></dd>
 </dl>
@@ -251,140 +252,22 @@ Type
 </dl>
 </dd>
 <dt>
-<h4 class="name" id="name"><span class="type-signature"></span>name<span class="signature">(note)</span><span class="type-signature"> &rarr; {String}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Get the name (step and accidentals) of the note</p>
-<p>The step is <strong>always</strong> in uppercase. The accidentals is always using '#' or 'b'
-never 'x'</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>note</code></td>
-<td class="type">
-<span class="param-type">String</span>
-</td>
-<td class="description last"><p>the note</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/name.js">name.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/name.js#L17">lineno 17</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Returns:</h5>
-<div class="param-desc">
-<p>the note name</p>
-</div>
-<dl>
-<dt>
-Type
-</dt>
-<dd>
-<span class="param-type">String</span>
-</dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>name('C#4') // => 'C#'
-name('Gx4') // => 'G##'</code></pre>
-</dd>
-<dt>
-<h4 class="name" id="note"><span class="type-signature"></span>note<span class="signature">(note, alteration, octave)</span><span class="type-signature"></span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Create a note from its components (step, alteration, octave)</p>
-<p>It returns the cannonical representation of a note (ie. 'C##2', 'Db3')
-In tonal it means a string with:
-- step (in upper case)
-- accidentals (with '#' or 'b', never 'x')
-- a octave number (a positive decimal, always present)</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>note</code></td>
-<td class="type">
-<span class="param-type">String</span>
-</td>
-<td class="description last"><p>or step - a string with a note or a strp</p></td>
-</tr>
-<tr>
-<td class="name"><code>alteration</code></td>
-<td class="type">
-<span class="param-type">Integer</span>
-</td>
-<td class="description last"><p>(Optional) the alteration number. If not set
-uses the alterations from the note (if present) or 0</p></td>
-</tr>
-<tr>
-<td class="name"><code>octave</code></td>
-<td class="type">
-<span class="param-type">Integer</span>
-</td>
-<td class="description last"><p>(Optional) the note octave. If note set uses the
-octave from the note (if present) or 4</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/note.js">note.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/note.js#L27">lineno 27</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>note('D', -2, 3) // => 'Dbb3'
-note('G', 2, 1) // => 'G##1'
-note('C', 1) // => 'C#4'
-note('C##', -1) // => 'Cb4'
-note('Cx') // => 'C##4'
-note('Cx', null, 2) // => 'C##2'</code></pre>
-</dd>
-<dt>
 <h4 class="name" id="parse"><span class="type-signature"></span>parse<span class="signature">(note)</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
 <div class="description">
 <p>Parse a note and return its properties</p>
 <p>It returns an object with the following properties:
-- <strong>note</strong>: the parsed note
-- <strong>step</strong>: the step letter <strong>always</strong> in uppercase
+- <strong>name</strong>: {String} the parsed note string
+- <strong>letter</strong>: the note letter <strong>always</strong> in uppercase
+- <strong>pitchClass</strong>: the note <a href="https://en.wikipedia.org/wiki/Pitch_class">pitch class</a>
+(letter in uppercase, accidentals using 'b' or '#', never 'x', no octave)
 - <strong>acc</strong>: a string with the accidentals or '' if no accidentals (never null)
 - <strong>oct</strong>: a integer with the octave. If not present in the note, is set to 4
 - <strong>alter</strong>: the integer representic the accidentals (0 for no accidentals,
 - <strong>midi</strong>: {Integer} the midi value
 -1 for 'b', -2 for 'bb', 1 for '#', 2 for '##', etc...)
-- <strong>pc</strong>: the <a href="https://en.wikipedia.org/wiki/Pitch_class#Integer_notation">pitch class</a>
-of the note. The pitch class is an integer value between 0 and 11
+- <strong>chroma</strong>: {Integer} the pitch class interger value (between 0 and 11)
 where C=0, C#=1, D=2...B=11</p>
 </div>
 <h5>Parameters:</h5>
@@ -412,7 +295,7 @@ where C=0, C#=1, D=2...B=11</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js#L25">lineno 25</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js#L26">lineno 26</a>
 </li>
 </ul></dd>
 </dl>
@@ -486,6 +369,35 @@ step('C#2', -1) // => 'B'
 step('C#') // => 'C'</code></pre>
 </dd>
 </dl>
+</article>
+</section>
+</div><div class="jsdoc-githubify">
+<section>
+<article>
+<div class="container-overview">
+<div class="description"><p>Create a note from its components (letter, octave, alteration)</p>
+<p>It returns the cannonical representation of a note (ie. 'C##2', 'Db3')
+In tonal it means a string with:
+- letter (in upper case)
+- accidentals (with '#' or 'b', never 'x')
+- a octave number (a positive decimal, always present)</p></div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/note.js">note.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/note.js#L4">lineno 4</a>
+</li>
+</ul></dd>
+</dl>
+<pre class="prettyprint"><code>note('D', -2, 3) // => 'Dbb3'
+note('G', 2, 1) // => 'G##1'
+note('C', 1) // => 'C#4'
+note('C##', -1) // => 'Cb4'
+note('Cx') // => 'C##4'
+note('Cx', null, 2) // => 'C##2'</code></pre>
+</div>
 </article>
 </section>
 </div>

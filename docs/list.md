@@ -49,6 +49,69 @@
 </dl>
 </dd>
 <dt>
+<h4 class="name" id="direction"><span class="type-signature"></span>direction<span class="signature">(list, direction)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Force the items to a list to be always ascending or descending by transposing
+octaves (without changing the note order)</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>list</code></td>
+<td class="type">
+<span class="param-type">String</span>
+|
+<span class="param-type">Array</span>
+</td>
+<td class="description last"><p>the list</p></td>
+</tr>
+<tr>
+<td class="name"><code>direction</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>(Optional) 1 to force ascending, -1 to force
+descending (1 by default)</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/direction.js">direction.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/direction.js#L20">lineno 20</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>a list in ascending or descending direction</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>direction('C B A') // => ['C4', 'B5', 'A6']
+direction('C B A', -1) // => ['C4', 'B4', 'A4']</code></pre>
+</dd>
+<dt>
 <h4 class="name" id="isBinaryList"><span class="type-signature"></span>isBinaryList<span class="signature">(number)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 </dt>
 <dd>
