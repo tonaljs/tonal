@@ -32,7 +32,6 @@
   "homepage": "https://github.com/danigb/tonal#readme",
   "devDependencies": {
     "docme": "^0.3.0",
-    "doxdox": "^0.1.8",
     "lodash": "^3.10.1",
     "vows": "^0.8.1"
   }

@@ -1,86 +1,166 @@
-# chord 
+# Chord module
 
+Create chords by using a dictionary or a scale
 
+<!-- START docme generated API please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
 
-
-## module.exports(name) 
-
-Create a list from a chord name
-
-If the chord name contains the tonic, a note list is returned. If only the
-chord type is given, you get an interval list.
-
-
-### Parameters
-
-- **name** `String`   - a chord name (with or without tonic)
-
-
-
-
-### Examples
-
-```javascript
-chord('M') // => ['P1', 'M3', 'P5']
-chord('C7') // => ['C4', 'E4', 'G4', 'B4']
-```
-
-
-### Returns
-
-
-- `Array`   a list (of notes or intervals depending on the name)
-
-
-
-
-## module.exports() 
-
-achord
-
-
-
-
-
-
-### Returns
-
-
-- `Void`
-
-
-
-
-## parse(chord) 
-
-Parse a chord name and returns the tonic (if any) and the chord type
-
-The returned object has the properties:
+<div>
+<div class="jsdoc-githubify">
+<section>
+<article>
+<div class="container-overview">
+<dl class="details">
+</dl>
+</div>
+<dl>
+<dt>
+<h4 class="name" id="parse"><span class="type-signature"></span>parse<span class="signature">(chord)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Parse a chord name and returns the tonic (if any) and the chord type</p>
+<p>The returned object has the properties:
 - tonic: the tonic note or null if not specified
-- type: the chord type
+- type: the chord type</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>chord</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the chord string to be parsed</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js#L16">lineno 16</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the chord object</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Object</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>parse('C#major') // => { tonic: 'C#', type: 'major' }
+parse('minor') // => { tonic: null, type: 'minor' }</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="triad"><span class="type-signature"></span>triad<span class="signature">(scale, size)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Given a scale, get its triad chord</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>scale</code></td>
+<td class="type">
+<span class="param-type">String</span>
+|
+<span class="param-type">Array</span>
+</td>
+<td class="description last"><p>the scale</p></td>
+</tr>
+<tr>
+<td class="name"><code>size</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>(Optional) the number of notes of the triad
+(3 by default)</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/triad.js">triad.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/triad.js#L11">lineno 11</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>an array of notes or intervals</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
+</dd>
+</dl>
+</article>
+</section>
+</div><div class="jsdoc-githubify">
+<section>
+<article>
+<div class="container-overview">
+<div class="description"><p>Create a list from a chord name</p>
+<p>If the chord name contains the tonic, a note list is returned. If only the
+chord type is given, you get an interval list.</p></div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/chord.js">chord.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/chord.js#L5">lineno 5</a>
+</li>
+</ul></dd>
+<dt class="tag-see">See:</dt>
+<dd class="tag-see">
+<ul>
+<li>list/dictionary</li>
+</ul>
+</dd>
+</dl>
+<pre class="prettyprint"><code>chord('M') // => ['P1', 'M3', 'P5']
+chord('C7') // => ['C4', 'E4', 'G4', 'B4']</code></pre>
+</div>
+</article>
+</section>
+</div>
 
-
-### Parameters
-
-- **chord** `String`   - the chord string to be parsed
-
-
-
-
-### Examples
-
-```javascript
-parse('C#major') // => { tonic: 'C#', type: 'major' }
-parse('minor') // => { tonic: null, type: 'minor' }
-```
-
-
-### Returns
-
-
-- `Object`   the chord object
-
-
-
-
-*Documentation generated with [doxdox](https://github.com/neogeek/doxdox).*
+*generated with [docme](https://github.com/thlorenz/docme)*
+</div>
+<!-- END docme generated API please keep comment here to allow auto update -->
