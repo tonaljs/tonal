@@ -42,6 +42,7 @@ vows.describe('key/triads').addBatch({
       ['Maj7', 'm7', 'm7', 'Maj7', '7', 'm7', '7b5'])
   },
   '5 interval triads': function () {
+    // TODO
     //assert.deepEqual(triads('dorian', 5))
   }
 }).export(module)
