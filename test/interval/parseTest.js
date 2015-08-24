@@ -24,11 +24,6 @@ vows.describe('Interval').addBatch({
   'number': function () {
     assert.deepEqual(pluck('num', 'P1 M2 M3 P4 P5 M6 M7'), [1, 2, 3, 4, 5, 6, 7])
   },
-  'generic': function () {
-    assert.deepEqual(pluck('generic', 'P1 M2 M3 P4 P5 M6 M7'), [0, 1, 2, 3, 4, 5, 6])
-    assert.deepEqual(pluck('generic', 'P8 M9 M10 P11 P12 M13 M14'), [0, 1, 2, 3, 4, 5, 6])
-    assert.deepEqual(pluck('generic', 'P15 M16 M17 P18 P19 M20 M21'), [0, 1, 2, 3, 4, 5, 6])
-  },
   'octaves': function () {
     assert.deepEqual(pluck('oct', 'P1 M2 M3 P4 P5 M6 M7 P8'),
       [0, 0, 0, 0, 0, 0, 0, 1])
@@ -52,10 +47,10 @@ vows.describe('Interval').addBatch({
       [0, 0, 0, 0, 0, 0, 0])
     assert.deepEqual(pluck('alter', 'A1 A2 A3 A4 A5 A6 A7'),
       [1, 1, 1, 1, 1, 1, 1])
-    assert.deepEqual(pluck('alter', 'dddd4 ddd4 dd4 d4 P4 A4 AA4 AAA4 AAAA4'),
-      [-4, -3, -2, -1, 0, 1, 2, 3, 4])
-    assert.deepEqual(pluck('alter', 'dddd2 ddd2 dd2 d2 m2 M2 A2 AA2 AAA2 AAAA2'),
-      [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4])
+    assert.deepEqual(pluck('alter', 'ddd4 dd4 d4 P4 A4 AA4 AAA4'),
+      [undefined, -2, -1, 0, 1, 2, undefined])
+    assert.deepEqual(pluck('alter', 'ddd2 dd2 d2 m2 M2 A2 AA2 AAA2'),
+      [undefined, -3, -2, -1, 0, 1, 2, undefined])
   },
   'semitones': function () {
     assert.deepEqual(pluck('semitones', 'P1 M2 M3 P4 P5 M6 M7 P8'),

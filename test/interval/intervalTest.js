@@ -16,8 +16,8 @@ vows.describe('interval/interval').addBatch({
   'build with interval number': function () {
     assert.equal(interval(1).name, 'P1')
     assert.equal(interval(9, 1).name, 'A9')
-    assert.equal(interval(-1).name, 'P-1')
-    assert.equal(interval(-10, -1).name, 'm-10')
+    assert.equal(interval(1, 0, 0, true).name, 'P-1')
+    assert.equal(interval(10, -1, 0, true).name, 'm-10')
   },
   'build with interval number and octave': function () {
     assert.equal(interval(1, 0, 1).name, 'P8')
@@ -27,12 +27,11 @@ vows.describe('interval/interval').addBatch({
     assert.equal(interval(10, -1, 1, true).name, 'm-17')
   },
   'intervals from number and alterations': function () {
-    var alters = [-3, -2, -1, 0, 1, 2, 3]
-    assert.deepEqual(alters.map(function (alter) {
+    assert.deepEqual([-2, -1, 0, 1, 2].map(function (alter) {
       return interval(5, alter).name
-    }), ['ddd5', 'dd5', 'd5', 'P5', 'A5', 'AA5', 'AAA5'])
-    assert.deepEqual(alters.map(function (alter) {
+    }), ['dd5', 'd5', 'P5', 'A5', 'AA5'])
+    assert.deepEqual([-3, -2, -1, 0, 1, 2].map(function (alter) {
       return interval(2, alter).name
-    }), ['dd2', 'd2', 'm2', 'M2', 'A2', 'AA2', 'AAA2'])
+    }), ['dd2', 'd2', 'm2', 'M2', 'A2', 'AA2'])
   }
 }).export(module)
