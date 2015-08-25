@@ -2,8 +2,10 @@ var vows = require('vows')
 var assert = require('assert')
 var transpose = require('../../lib/interval/transpose')
 
-vows.describe('Interval').addBatch({
+vows.describe('interval/transpose').addBatch({
   'transpose edge cases': function () {
+    assert.equal(transpose('P4', 'Gb'), 'Cb5')
+    assert.equal(transpose('P-5', 'F4'), 'Bb3')
     assert.equal(transpose('M2', 'E4'), 'F#4')
     assert.equal(transpose('M-2', 'F4'), 'Eb4')
   },
@@ -24,10 +26,10 @@ vows.describe('Interval').addBatch({
       ['C4', 'Bb3', 'Ab3', 'G3', 'F3', 'Eb3', 'Db3', 'C3'])
   },
   'transpose notes': function () {
-    var notes = 'C D E F G A B'.split(' ')
+    var notes = 'C4 D4 E4 F4 G4 A4 B4'.split(' ')
     assert.deepEqual(notes.map(transpose('M9')),
       ['D5', 'E5', 'F#5', 'G5', 'A5', 'B5', 'C#6'])
     assert.deepEqual(notes.map(transpose('M-9')),
-      ['Bb3', 'C4', 'D4', 'Eb4', 'F4', 'G4', 'A4'])
+      ['Bb2', 'C3', 'D3', 'Eb3', 'F3', 'G3', 'A3'])
   }
 }).export(module)
