@@ -307,6 +307,69 @@ scale('major') // => ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7']
 scale() // => ['major']</code></pre>
 </dd>
 <dt>
+<h4 class="name" id="octaves"><span class="type-signature"></span>octaves<span class="signature">(list, number)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Return a list spanning a number of octaves</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>list</code></td>
+<td class="type">
+<span class="param-type">String</span>
+|
+<span class="param-type">Array</span>
+</td>
+<td class="description last"><p>the list</p></td>
+</tr>
+<tr>
+<td class="name"><code>number</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>the number of octaves</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/octaves.js">octaves.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/octaves.js#L19">lineno 19</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>a list spanning the specified number of octaves</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>octaves('C D', 0) // => ['C4', 'D4']
+octaves('C D', 1) // => ['C4', 'D4', 'C5']
+octaves('C D', 2) // => ['C4', 'D4', 'C5', 'D5', 'C6']
+octaves('P1 M2', 2) // => ['P1', 'M2', 'P8', 'M9', 'P15']</code></pre>
+</dd>
+<dt>
 <h4 class="name" id="parse"><span class="type-signature"></span>parse<span class="signature">(list)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 </dt>
 <dd>

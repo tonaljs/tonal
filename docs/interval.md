@@ -429,7 +429,7 @@ is thrown</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/transpose.js">transpose.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/transpose.js#L35">lineno 35</a>
+<a href="https://github.com/danigb/tonal/blob/master/transpose.js#L33">lineno 33</a>
 </li>
 </ul></dd>
 </dl>

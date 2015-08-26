@@ -10,6 +10,7 @@ var transpose = require('tonal/note/transpose')
 transpose('M2', 'f#4') // => 'G#4'
 ['E', 'F'].map(transpose('M2')) // => ['F#4', 'G4']
 ['M2', 'm3'].map(transpose('C')) // => ['D4', 'Eb4']
+
 var scale = require('tonal/scale/scale')
 scale('A major') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
 scale('A major').map(transpose('P8')) // => ['A5, 'B5', ...]
@@ -31,12 +32,10 @@ __This is alpha software__, if you need a stable music theory library in javascr
 
 ## Why
 
-First of all, because I want to learn:
+Mostly, because I want to learn:
 
 > Reinventing the wheel is bad for business, but it’s great for learning
 [*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
-
-The more I code music entities, the more I understand the relations between them.
 
 Also, I want a complete library, where I can model all what I learn, with some (for me) esoteric features like interval classes, binary scales and other weird stuff.
 

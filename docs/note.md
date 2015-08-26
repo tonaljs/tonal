@@ -201,18 +201,21 @@ Type
 <dd>
 <div class="description">
 <p>Parse a note and return its properties</p>
-<p>It returns an object with the following properties:
-- <strong>name</strong>: {String} the parsed note string
-- <strong>letter</strong>: the note letter <strong>always</strong> in uppercase
-- <strong>pitchClass</strong>: the note <a href="https://en.wikipedia.org/wiki/Pitch_class">pitch class</a>
-(letter in uppercase, accidentals using 'b' or '#', never 'x', no octave)
-- <strong>acc</strong>: a string with the accidentals or '' if no accidentals (never null)
-- <strong>oct</strong>: a integer with the octave. If not present in the note, is set to 4
-- <strong>alter</strong>: the integer representic the accidentals (0 for no accidentals,
-- <strong>midi</strong>: {Integer} the midi value
--1 for 'b', -2 for 'bb', 1 for '#', 2 for '##', etc...)
-- <strong>chroma</strong>: {Integer} the pitch class interger value (between 0 and 11)
-where C=0, C#=1, D=2...B=11</p>
+<p>Probably you want to use <code>note/note</code> instead.</p>
+<p>It returns an object with the following properties:</p>
+<ul>
+<li><strong>name</strong>: {String} the parsed note string</li>
+<li><strong>letter</strong>: the note letter <strong>always</strong> in uppercase</li>
+<li><strong>pitchClass</strong>: the note <a href="https://en.wikipedia.org/wiki/Pitch_class">pitch class</a>
+(letter in uppercase, accidentals using 'b' or '#', never 'x', no octave)</li>
+<li><strong>acc</strong>: a string with the accidentals or '' if no accidentals (never null)</li>
+<li><strong>oct</strong>: a integer with the octave. If not present in the note, is set to 4</li>
+<li><strong>alter</strong>: the integer representic the accidentals (0 for no accidentals,</li>
+<li><strong>midi</strong>: {Integer} the midi value
+-1 for 'b', -2 for 'bb', 1 for '#', 2 for '##', etc...)</li>
+<li><strong>chroma</strong>: {Integer} the pitch class interger value (between 0 and 11)
+where C=0, C#=1, D=2...B=11</li>
+</ul>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -239,9 +242,15 @@ where C=0, C#=1, D=2...B=11</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js#L26">lineno 26</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js#L31">lineno 31</a>
 </li>
 </ul></dd>
+<dt class="tag-see">See:</dt>
+<dd class="tag-see">
+<ul>
+<li>note/note</li>
+</ul>
+</dd>
 </dl>
 <h5>Returns:</h5>
 <div class="param-desc">
