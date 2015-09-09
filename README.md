@@ -43,109 +43,10 @@ Also, I want a complete library, where I can model all what I learn, with some (
 
 The library is divided in a number of modules:
 
-### Notes
-
-Notes is the basic building block of tonal. A note is represented with a string: `C`, `D#`, `F#8` are valid notes. A note always have three parts:
-- step: a uppercase letter between A and code
-- accidentals: a string representing the note accidentals: `##`, `bb`
-- octave: a integer representing the octave (if note present, 4 by default)
-
-The note module has some functions to query and manipulate notes. Here are some examples:
-
-```js
-var parse = require('tonal/note/parse')
-parse('cx') // => { note: 'cx', step: 'C', acc: '##', oct: 4 }
-var freq = require('tonal/note/freq')
-freq('A4') // => 440
-```
-
-Complete module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/note.md)
-
-### Intervals
-
-Intervals are the next building block. The main purpose of this module is calculate transpositions and distances:
-
-```js
-var parse = require('tonal/interval/parse')
-parse('m-2') // => { q: 'm', d: -1, n: 2 }
-var transpose = require('tonal/interval/transpose-interval')
-transpose('M2', 'C') // => 'D4'
-var distance = require('tonal/interval/distance-interval')
-distance('C', 'G') // => 'P5'
-```
-
-In tonal, an interval is also represented with a string. These are valid intervals:  `P5`, `m2`, `M-3`. The intervals has three parts:
-- quality: a letter representing the interval quality (`d` is dimished, `m` is minor, `P` is perfect, `M` is major and `A` is augmented)
-- direction: number 1 or -1 for ascending or descending intervals respectively
-- number: the interval's [diatonic number](https://en.wikipedia.org/wiki/Interval_(music)#Number). A positive or negative integer. Can't be 0.
-
-The interval module has functions to query and manipulate intervals. Here are some examples:
-
-Complete interval module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/interval.md)
-
-### Lists
-
-A list is a group of intervals or notes, and they are the building blocks of scales and chords. They can be constructed using a space separated string list or with an array. They have some constrains:
-- All items MUST be same type: a list or notes or intervals, but no both
-- If its a list of intervals, the first one MUST be P1
-
-```js
-var list = require('tonal/list/toList')
-list('P1 P5 M6', 'C') // => 'C4 G4 A4'
-list(['P1', 'M2'], 'C') // => 'C4 D4'
-list('C D') // => ['P1', 'M2']
-list('C D', 'E') // => ['E4', 'F#4']
-var intervals = require('tonal/list/intervals')
-intervals(['C', 'G']) // => ['P1', 'P5']
-```
-
-A list can also be constructed with a binary string or its decimal equivalent:
-
-```js
-list('101') // => ['P1', 'M2']
-list('101', 'C') // => ['C4', 'D4']
-list(2773, 'C') // => ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4']
-```
-
-For a complete module documentation look [here](https://github.com/danigb/tonal/blob/master/docs/list.md)
-
-### Scales
-
-Basically it contains different .json dictionaries to generate scales from scale names. By default `tonal/scale/scale` load all the scales. You can reduce the size of the code choosing a lighter dictionary.
-
-Complete scale module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/scale.md)
-
-### Chords
-
-Complete chord module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/chord.md)
-
-### Misc
-
-Yet uncategorized functions.
-
-Complete misc module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/misc.md)
-
-
-## Incubator modules
-
-### Score
-
-This has functions to parse and manipulate music events (notes, chords or whatever with position and duration).
-
-Complete score module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/score.md)
-
-### Time
-
-A module with functions to work with time values. You can parse time meters (time signature), or work with note durations.
-
-A complete duration module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/duration.md)
-
-
-### Key
-
-Key signature related functions
-
-Complete key module documentation is [here](https://github.com/danigb/tonal/blob/master/docs/key.md)
+- [Pitch](https://github.com/danigb/tonal/blob/master/docs/pitch.md)
+- [Interval](https://github.com/danigb/tonal/blob/master/docs/interval.md)
+- [Harmonizer](https://github.com/danigb/tonal/blob/master/docs/scale.md)
+- [Misc](https://github.com/danigb/tonal/blob/master/docs/misc.md)
 
 ## Usage
 
@@ -158,7 +59,39 @@ tranpose('P5', 'C')
 
 Currently there's no way to load the entire library in one require.
 
-If you need browser support you can use browserify, webpack o webmake. If using webpack, you need json support in order to use scales or chords.
+## Examples
+
+This are the examples from teoria ported to `tonal`:
+
+```js
+// Create notes:
+pitch('a4') // => { name: 'a4', pitchClass: 'A', midi: 69 ... }
+fromKey(28) // =>
+
+// Create intervals:
+distance('A4', 'G7') // => 'm7'
+transpose('A4', 'M6') // => 'F#5'
+invert(distance('a4', 'bb5')) // => 'M7'
+
+// Scales:
+var mixolidian = scale('mixolidian')
+mixolidian('a4') // => ['A4', 'B4', 'C#5', 'D5', 'E5', 'F#5', 'G5']
+scale('aeolian')('a4') // => ['A4', 'B4', 'C5', ...]
+scale('ionian')('g5') // => ['G5', 'A5', ...]
+scale('diminished whole tone')('C#4')
+
+// Chords:
+var sus2 = chord('sus2')
+sus2('A4') // => [ 'A4', 'B4', 'E5' ]
+chord('M69#11')('Bb') // => [ 'Bb4', 'D5', 'F5', 'G5', 'C5', 'E5' ]
+
+// Tonal doesn't allow crazy chaining:
+var lidian = scale('lidian')
+var note = get('thirth', lidian('A4').map(transpose.by('M2')))
+chord('maj9')(note)
+```
+
+
 
 ## Documentation and tests
 
@@ -173,7 +106,7 @@ npm test
 
 ## Resources and inspiration
 
-Music libraries:
+This library takes inspiration from lot of places. Music libraries:
 - https://github.com/saebekassebil/teoria
 - https://github.com/benzguo/MusicKit
 
