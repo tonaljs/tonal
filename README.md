@@ -91,10 +91,10 @@ var note = get('thirth', lidian('A4').map(transpose.by('M2')))
 chord('maj9')(note)
 ```
 
-Examples ported from MuskKit:
+Examples ported from MusikKit:
 
 ```js
-var V7ofV = function(pitch) { chord('7', transpose(pitch, 'P5') }
+var V7ofV = function(pitch) { chord('7', transpose(pitch, 'P5')) }
 V7ofV('D') // => ['A4', 'C#5', 'E5', 'G5']
 ```
 
