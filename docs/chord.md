@@ -47,9 +47,9 @@ Create chords by using a dictionary or a scale
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js#L16">lineno 16</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/parse.js#L16">lineno 16</a>
 </li>
 </ul></dd>
 </dl>
@@ -109,9 +109,9 @@ parse('minor') // => { tonic: null, type: 'minor' }</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/triad.js">triad.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/triad.js">triad.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/triad.js#L11">lineno 11</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/triad.js#L11">lineno 11</a>
 </li>
 </ul></dd>
 </dl>
@@ -142,9 +142,9 @@ chord type is given, you get an interval list.</p></div>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/chord.js">chord.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/chord.js">chord.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/chord.js#L5">lineno 5</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/chord.js#L5">lineno 5</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>

@@ -51,9 +51,9 @@
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/mode.js">mode.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/mode.js">mode.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/mode.js#L12">lineno 12</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/mode.js#L12">lineno 12</a>
 </li>
 </ul></dd>
 </dl>
@@ -103,9 +103,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js#L16">lineno 16</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/parse.js#L16">lineno 16</a>
 </li>
 </ul></dd>
 </dl>
@@ -136,9 +136,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/scaleSpace.js">scaleSpace.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/scaleSpace.js">scaleSpace.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/scaleSpace.js#L2">lineno 2</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/scaleSpace.js#L2">lineno 2</a>
 </li>
 </ul></dd>
 </dl>

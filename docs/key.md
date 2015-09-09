@@ -52,9 +52,9 @@
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/triads.js">triads.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/triads.js">triads.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/triads.js#L11">lineno 11</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/triads.js#L11">lineno 11</a>
 </li>
 </ul></dd>
 </dl>

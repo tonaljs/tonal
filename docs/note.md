@@ -23,9 +23,9 @@
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/enharmonic.js">enharmonic.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/enharmonic.js">enharmonic.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/enharmonic.js#L10">lineno 10</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/enharmonic.js#L10">lineno 10</a>
 </li>
 </ul></dd>
 </dl>
@@ -70,9 +70,9 @@ enharmonic('B#', 'C') // => 'C'</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/freq.js">freq.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/freq.js">freq.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/freq.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/freq.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -127,9 +127,9 @@ pitch class is given to the same midi number. @see enahrmonic</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/fromMidi.js">fromMidi.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/fromMidi.js">fromMidi.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/fromMidi.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/fromMidi.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -176,9 +176,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/isNote.js">isNote.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/isNote.js">isNote.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/isNote.js#L8">lineno 8</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/isNote.js#L8">lineno 8</a>
 </li>
 </ul></dd>
 </dl>
@@ -240,9 +240,9 @@ where C=0, C#=1, D=2...B=11</li>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js#L31">lineno 31</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/parse.js#L31">lineno 31</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -297,9 +297,9 @@ positive or descending oterwise). 0 by default</p></td>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/step.js">step.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/step.js">step.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/step.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/step.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -338,9 +338,9 @@ In tonal it means a string with:
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/note.js">note.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/note.js">note.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/note.js#L6">lineno 6</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/note.js#L6">lineno 6</a>
 </li>
 </ul></dd>
 </dl>

@@ -23,9 +23,9 @@
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/areIntervals.js">areIntervals.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/areIntervals.js">areIntervals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/areIntervals.js#L7">lineno 7</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/areIntervals.js#L7">lineno 7</a>
 </li>
 </ul></dd>
 </dl>
@@ -41,9 +41,9 @@
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/areNotes.js">areNotes.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/areNotes.js">areNotes.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/areNotes.js#L7">lineno 7</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/areNotes.js#L7">lineno 7</a>
 </li>
 </ul></dd>
 </dl>
@@ -89,9 +89,9 @@ descending (1 by default)</p></td>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/direction.js">direction.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/direction.js">direction.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/direction.js#L21">lineno 21</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/direction.js#L21">lineno 21</a>
 </li>
 </ul></dd>
 </dl>
@@ -145,9 +145,9 @@ direction('C B A', -1) // => ['C4', 'B4', 'A4']</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/isBinary.js">isBinary.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/isBinary.js">isBinary.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/isBinary.js#L23">lineno 23</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/isBinary.js#L23">lineno 23</a>
 </li>
 </ul></dd>
 </dl>
@@ -204,9 +204,9 @@ or validation (so, only pass an array when you are sure that is a valid list)</p
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/list.js">list.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/list.js">list.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/list.js#L21">lineno 21</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/list.js#L21">lineno 21</a>
 </li>
 </ul></dd>
 </dl>
@@ -280,9 +280,9 @@ an object with tonic (if not present) and the name properties</p></td>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/dictionary.js">dictionary.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/dictionary.js">dictionary.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/dictionary.js#L36">lineno 36</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/dictionary.js#L36">lineno 36</a>
 </li>
 </ul></dd>
 </dl>
@@ -345,9 +345,9 @@ scale() // => ['major']</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/octaves.js">octaves.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/octaves.js">octaves.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/octaves.js#L19">lineno 19</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/octaves.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>
@@ -403,9 +403,9 @@ or decimal representation of a interval list</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/parse.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -456,9 +456,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/reverse.js">reverse.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/reverse.js">reverse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/reverse.js#L13">lineno 13</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/reverse.js#L13">lineno 13</a>
 </li>
 </ul></dd>
 </dl>
@@ -488,9 +488,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/rotate.js">rotate.js</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/rotate.js">rotate.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/rotate.js#L11">lineno 11</a>
+<a href="https://github.com/danigb/tonal/blob/harmonizers/rotate.js#L11">lineno 11</a>
 </li>
 </ul></dd>
 </dl>
