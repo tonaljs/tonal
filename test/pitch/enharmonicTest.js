@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var enharmonic = require('../../lib/note/enharmonic')
+var enharmonic = require('../../lib/pitch/enharmonic')
 
 vows.describe('Note').addBatch({
   'pitch enharmonic': function () {
