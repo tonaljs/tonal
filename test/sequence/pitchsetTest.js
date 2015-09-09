@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var set = require('../../lib/pitchset/set')
+var set = require('../../lib/sequence/pitchset')
 
-vows.describe('pitchset/set').addBatch({
+vows.describe('sequence/pitchset').addBatch({
   'convert to array of notes': function () {
     assert.deepEqual(set('C D'), ['C4', 'D4'])
   },
