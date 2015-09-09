@@ -1,18 +1,18 @@
 var vows = require('vows')
 var assert = require('assert')
-var parse = require('../../lib/interval/parse')
+var props = require('../../lib/interval/props')
 var _ = require('lodash')
 
 function pluck (name, intervals) {
-  return _.pluck(intervals.split(' ').map(parse), name)
+  return _.pluck(intervals.split(' ').map(props), name)
 }
 
 vows.describe('Interval').addBatch({
   'invalid intervals': function () {
-    assert.equal(parse('M1'), null)
-    assert.equal(parse('P2'), null)
-    assert.equal(parse('P0'), null)
-    assert.equal(parse('C#3'), null)
+    assert.equal(props('M1'), null)
+    assert.equal(props('P2'), null)
+    assert.equal(props('P0'), null)
+    assert.equal(props('C#3'), null)
   },
   'quality': function () {
     assert.deepEqual(pluck('quality', 'd1 P1 A1 d2 m2 M2 A2'),

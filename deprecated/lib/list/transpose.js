@@ -1,11 +1,11 @@
-var trNote = require('../interval/transpose')
+var trNote = require('../pitch/transpose')
 var isInterval = require('../interval/isInterval')
 var trInterval = require('../interval/add')
 var toList = require('./list')
 
 function transpose (interval, list) {
   list = toList(list)
-  var tr = isInterval(list[0]) ? trInterval : trNote
+  var tr = isInterval(list[0]) ? trInterval : trNote.by
   return list.map(tr(interval))
 }
 

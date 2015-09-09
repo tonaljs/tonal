@@ -21,9 +21,9 @@ function octaves (list, number) {
   if (!number) return list
   var o = list
   for (var i = 1; i < number; i++) {
-    o = o.concat(transpose(interval('P1', 0, i), list))
+    o = o.concat(transpose(interval('P1', i, 0), list))
   }
-  return o.concat(transpose(interval(1, 0, number), list[0]))
+  return o.concat(transpose(interval(1, number, 0), list[0]))
 }
 
 module.exports = octaves

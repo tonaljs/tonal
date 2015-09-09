@@ -1,7 +1,7 @@
 var vows = require('vows')
 var assert = require('assert')
 var strict = require('../../lib/utils/strict')
-var strictParse = strict('Note not valid.', require('../../lib/note/parse'))
+var strictParse = strict('Note not valid.', require('../../lib/pitch/props'))
 
 vows.describe('Interval').addBatch({
   'strict parse note': function () {

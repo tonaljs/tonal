@@ -1,4 +1,4 @@
-var transpose = require('../interval/transpose')
+var transpose = require('../pitch/transpose')
 var intervals = require('./intervals')
 var toList = require('./list')
 
