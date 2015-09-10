@@ -76,14 +76,14 @@ invert(distance('a4', 'bb5')) // => 'M7'
 // Scales:
 var mixolidian = scale('mixolidian')
 mixolidian('a4') // => ['A4', 'B4', 'C#5', 'D5', 'E5', 'F#5', 'G5']
-scale('aeolian')('a4') // => ['A4', 'B4', 'C5', ...]
-scale('ionian')('g5') // => ['G5', 'A5', ...]
+scale('a4', 'aeolian') // => ['A4', 'B4', 'C5', ...]
+scale('g5', 'ionian') // => ['G5', 'A5', ...]
 scale('diminished whole tone')('C#4')
 
 // Chords:
 var sus2 = chord('sus2')
 sus2('A4') // => [ 'A4', 'B4', 'E5' ]
-chord('M69#11')('Bb') // => [ 'Bb4', 'D5', 'F5', 'G5', 'C5', 'E5' ]
+chord('Bb', 'M69#11')('Bb') // => [ 'Bb4', 'D5', 'F5', 'G5', 'C5', 'E5' ]
 
 // Tonal doesn't allow crazy chaining:
 var lidian = scale('lidian')
@@ -94,13 +94,13 @@ chord('maj9')(note)
 Examples ported from MusikKit:
 
 ```js
-var V7ofV = function(pitch) { chord('7', transpose(pitch, 'P5')) }
+var V7ofV = function(pitch) { chord(transpose(pitch, 'P5'), '7') }
 V7ofV('D') // => ['A4', 'C#5', 'E5', 'G5']
 ```
 
 ## Documentation and tests
 
-The functions are documented inside the code. The generated documentation can be read [here](https://github.com/danigb/tonal/blob/master/docs)
+The functions are extensively documented inside the code. The documentation can be read [here](https://github.com/danigb/tonal/blob/master/docs)
 
 To run the tests, clone this repository and run:
 
@@ -112,8 +112,9 @@ npm test
 ## Resources and inspiration
 
 This library takes inspiration from lot of places. Music libraries:
-- https://github.com/saebekassebil/teoria
-- https://github.com/benzguo/MusicKit
+- Teoria: https://github.com/saebekassebil/teoria
+- MusicKit: https://github.com/benzguo/MusicKit
+- Music21: http://web.mit.edu/music21/doc/index.html
 
 The binary representation of the scales are based on the awesome book [Arpeggio & Scale Resources](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia) by [Rich Cochrane](http://cochranemusic.com/). Additional scale code is inspired by the works of [Walter Zettel](http://www.muzuu.org/new_life/pics/simpleblog/scales/scalesadvice.html) and [William Zeitler](http://www.allthescales.org/)
 
