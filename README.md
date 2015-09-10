@@ -45,8 +45,8 @@ The library is divided in a number of modules:
 
 - [Pitch](https://github.com/danigb/tonal/blob/master/docs/pitch.md)
 - [Interval](https://github.com/danigb/tonal/blob/master/docs/interval.md)
-- [Harmonizer](https://github.com/danigb/tonal/blob/master/docs/scale.md)
-- [Misc](https://github.com/danigb/tonal/blob/master/docs/misc.md)
+
+And [more](https://github.com/danigb/tonal/blob/master/lib)
 
 ## Usage
 
@@ -64,30 +64,26 @@ Currently there's no way to load the entire library in one require.
 This are the examples from teoria ported to `tonal`:
 
 ```js
-// Create notes:
+// Create notes
 pitch('a4') // => { name: 'a4', pitchClass: 'A', midi: 69 ... }
 fromKey(28) // =>
 
-// Create intervals:
+// Create notes from intervals
 distance('A4', 'G7') // => 'm7'
 transpose('A4', 'M6') // => 'F#5'
 invert(distance('a4', 'bb5')) // => 'M7'
 
-// Scales:
-var mixolidian = scale('mixolidian')
-mixolidian('a4') // => ['A4', 'B4', 'C#5', 'D5', 'E5', 'F#5', 'G5']
-scale('a4', 'aeolian') // => ['A4', 'B4', 'C5', ...]
-scale('g5', 'ionian') // => ['G5', 'A5', ...]
-scale('diminished whole tone')('C#4')
+// Scales
+scale('A aeolian') // => ['A4', 'B4', 'C5', ...]
+scale('g5 ionian') // => ['G5', 'A5', ...]
+scale('mixolydian') // => ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'm7']
 
-// Chords:
-var sus2 = chord('sus2')
-sus2('A4') // => [ 'A4', 'B4', 'E5' ]
-chord('Bb', 'M69#11')('Bb') // => [ 'Bb4', 'D5', 'F5', 'G5', 'C5', 'E5' ]
+// Chords
+chord('Asus4') // => [ 'A4', 'B4', 'E5' ]
+chord('BbM69#11') // => [ 'Bb4', 'D5', 'F5', 'G5', 'C5', 'E5' ]
 
 // Tonal doesn't allow crazy chaining:
-var lidian = scale('lidian')
-var note = get('thirth', lidian('A4').map(transpose.by('M2')))
+var note = get('thirth', scale('A4 lidian').map(transpose.by('M2')))
 chord('maj9')(note)
 ```
 

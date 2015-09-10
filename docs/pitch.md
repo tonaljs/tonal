@@ -1,6 +1,8 @@
 # Pitch module
 
+This is the basic building block of tonal.
 
+## API
 
 <!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
