@@ -1,4 +1,0 @@
-/**
- * @example
- * accidentalsToMajor('###') // => 'A'
- */

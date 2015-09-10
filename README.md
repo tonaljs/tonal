@@ -125,6 +125,8 @@ Musical futures: https://www.musicalfutures.org/
 
 Music JSON proposal: https://github.com/soundio/music-json
 
+Staff notation: http://opusmodus.com/omn.html
+
 ## License
 
 MIT License

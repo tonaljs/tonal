@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var fifths = require('../../lib/misc/fifths.js')
+var fifths = require('../../lib/incubator/fifths.js')
 
-vows.describe('fifths of fifths').addBatch({
+vows.describe('incubator/fifths').addBatch({
   'with positive numbers': function () {
     assert.equal(fifths(0), 'C')
     assert.equal(fifths(6), 'F#')

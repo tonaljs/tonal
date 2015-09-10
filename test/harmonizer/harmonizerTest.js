@@ -15,7 +15,7 @@ vows.describe('harmonizer/harmonizer').addBatch({
     assert.deepEqual(harmonizer(2773)('C2'), ['C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2'])
   },
   'invalid source': function () {
-    assert.equal(harmonizer(), null)
-    assert.equal(harmonizer('P1 C2'), null)
+    assert.equal(harmonizer()(), null)
+    assert.equal(harmonizer('P1 C2')(), null)
   }
 }).export(module)
