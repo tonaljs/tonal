@@ -7,6 +7,9 @@ vows.describe('pitch/distance').addBatch({
     assert.equal(distance('E', 'F'), 'm2')
     assert.equal(distance('B4', 'C5'), 'm2')
     assert.equal(distance('eb', 'f#'), 'A2')
+    assert.equal(distance('a', 'c'), 'M-6')
+    assert.equal(distance('a3', 'c4'), 'm3')
+    assert.equal(distance('a', 'd'), 'P-5')
   },
   'distances to a tonic': function () {
     var notes = 'C D E F G A B C5'.split(' ')

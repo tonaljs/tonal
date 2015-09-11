@@ -18,18 +18,21 @@ vows.describe('interval/interval').addBatch({
     assert.equal(interval(0), null)
     assert.equal(interval(), null)
   },
+  'edge cases': function () {
+    assert.equal(interval(-5, 0).name, 'P-5')
+  },
   'build with interval number': function () {
     assert.equal(interval(1).name, 'P1')
     assert.equal(interval(9, null, 1).name, 'A9')
-    assert.equal(interval(1, 0, 0, true).name, 'P-1')
-    assert.equal(interval(10, 0, -1, true).name, 'm-3')
+    assert.equal(interval(-1, 0, 0).name, 'P-1')
+    assert.equal(interval(-10, 0, -1).name, 'm-3')
   },
   'build with interval number and octave': function () {
     assert.equal(interval(1, 1).name, 'P8')
     assert.equal(interval(5, 1).name, 'P12')
     assert.equal(interval(9, 0, -1).name, 'm2')
-    assert.equal(interval(1, 1, 0, true).name, 'P-8')
-    assert.equal(interval(10, 2, -1, true).name, 'm-17')
+    assert.equal(interval(-1, 1, 0).name, 'P-8')
+    assert.equal(interval(-10, 2, -1).name, 'm-17')
   },
   'intervals from number and alterations': function () {
     assert.deepEqual([-2, -1, 0, 1, 2].map(function (alter) {
