@@ -4,6 +4,7 @@ var name = require('../../lib/scale/name')
 
 vows.describe('scale/name').addBatch({
   'scale names': function () {
-    assert.equal(name('C D E F G A B'), 'C4 ionian')
+    assert.deepEqual(name('C D E F G A B'), ['C major', 'C ionian'])
+    assert.deepEqual(name('D E F G A B C'), ['D dorian'])
   }
 }).export(module)

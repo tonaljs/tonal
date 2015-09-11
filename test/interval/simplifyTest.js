@@ -7,6 +7,7 @@ vows.describe('interval/simplify').addBatch({
     assert.equal(simplify('M9'), 'M2')
     assert.equal(simplify('M-9'), 'M-2')
     assert.equal(simplify('M-9', true), 'M2')
+    assert.equal(simplify('M-2', true), 'M2')
     assert.equal(simplify('P8'), 'P8')
   }
 }).export(module)

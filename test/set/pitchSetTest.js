@@ -4,15 +4,14 @@ var pitchSet = require('../../lib/set/pitchSet')
 
 vows.describe('set/pitchSet').addBatch({
   'convert to array of notes': function () {
-    assert.deepEqual(pitchSet('C D'), ['C4', 'D4'])
-  },
-  'sort by pitch': function () {
-    assert.deepEqual(pitchSet('C4 D3'), ['D3', 'C4'])
+    assert.deepEqual(pitchSet('C D'), ['C', 'D'])
+    assert.deepEqual(pitchSet('c3 D7'), ['C', 'D'])
   },
   'remove duplicates': function () {
-    assert.deepEqual(pitchSet('C D E C'), ['C4', 'D4', 'E4'])
+    assert.deepEqual(pitchSet('C D E C'), ['C', 'D', 'E'])
   },
-  'pitch classes only': function () {
-    assert.deepEqual(pitchSet('C D E C5 D7 F9', true), ['C', 'D', 'E', 'F'])
+  'keep tonic': function () {
+    assert.deepEqual(pitchSet('c e g a'), ['C', 'E', 'G', 'A'])
+    assert.deepEqual(pitchSet('d e f g a b c'), ['D', 'E', 'F', 'G', 'A', 'B', 'C'])
   }
 }).export(module)
