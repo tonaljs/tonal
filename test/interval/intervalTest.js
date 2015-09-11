@@ -14,8 +14,9 @@ vows.describe('interval/interval').addBatch({
     assert.equal(interval('A2', 1).name, 'A9')
     assert.equal(interval('A2', null, 0).name, 'M2')
   },
-  'invalid interval number': function () {
-    assert.throws(function () { interval(0) }, /valid/)
+  'invalid intervals': function () {
+    assert.equal(interval(0), null)
+    assert.equal(interval(), null)
   },
   'build with interval number': function () {
     assert.equal(interval(1).name, 'P1')
