@@ -3,7 +3,6 @@ var join = require('path').join
 var docme = require('docme')
 
 generate('lib', 'docs')
-generate('incubation/lib', 'docs/incubation')
 
 function generate (lib, docs) {
   var libPath = join(__dirname, '../', lib)

@@ -74,11 +74,14 @@ Type
 <pre class="prettyprint"><code>add('M2', 'M2') // => 'M3'</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="interval"><span class="type-signature"></span>interval<span class="signature">(num, alter, oct, descending)</span><span class="type-signature"></span></h4>
+<h4 class="name" id="interval"><span class="type-signature"></span>interval<span class="signature">(interval, alter, oct, descending)</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Create a interval from its components</p>
+<p>Get an interval properties from a name and optional an octave, alteration
+and direction</p>
+<p>This is the same as <code>interval/props</code> but with the possibility of build a
+new intervals based on a given one</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -91,18 +94,20 @@ Type
 </thead>
 <tbody>
 <tr>
-<td class="name"><code>num</code></td>
+<td class="name"><code>interval</code></td>
 <td class="type">
+<span class="param-type">String</span>
+|
 <span class="param-type">Integer</span>
 </td>
-<td class="description last"><p>the interval number</p></td>
+<td class="description last"><p>the interval or the interval number</p></td>
 </tr>
 <tr>
 <td class="name"><code>alter</code></td>
 <td class="type">
 <span class="param-type">Integer</span>
 </td>
-<td class="description last"><p>the interval alteration (0 is perfect or major)</p></td>
+<td class="description last"><p>(Optional) the interval alteration (0 is perfect or major)</p></td>
 </tr>
 <tr>
 <td class="name"><code>oct</code></td>
@@ -127,18 +132,24 @@ by default)</p></td>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/interval.js">interval.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/interval.js#L26">lineno 26</a>
+<a href="https://github.com/danigb/tonal/blob/master/interval.js#L32">lineno 32</a>
 </li>
 </ul></dd>
+<dt class="tag-see">See:</dt>
+<dd class="tag-see">
+<ul>
+<li>interval/props</li>
+</ul>
+</dd>
 </dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>interval('M2') // => 'M2'
-interval('M2', 1) // => 'A2'
-interval(1) // => 'P1'
-interval(1, 1) // => 'A1'
-interval(1, 1, 2) // => 'A8'
-interval(1, 1, 2, -1) // => 'A-8'
-interval(2, -1, 2, -1) // => 'm-9'</code></pre>
+<pre class="prettyprint"><code>interval('M2') // => { name: 'M2', ... }
+interval('M2', 1) // => { name: 'A2', ... }
+interval(1) // => { name: 'P1', ... }
+interval(1, 1) // => { name: 'A1', ... }
+interval(1, 1, 2) // => { name: 'A8', ... }
+interval(1, 1, 2, -1) // => { name: 'A-8', ... }
+interval(2, -1, 2, -1) // => { name: 'm-9', ... }</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="invert"><span class="type-signature"></span>invert<span class="signature">(interval, ascending)</span><span class="type-signature"></span></h4>
@@ -303,8 +314,8 @@ quality of the interval, just if it is perfectable or not.
 </dd>
 </dl>
 <pre class="prettyprint"><code>var props = require('tonal/interval/props')
-props('P-5') // => {quality: 'P', dir: -1, num: 5, generic: 4, alter: 0, perfectable: true }
-props('m9') // => {quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfectable: false }</code></pre>
+props('P-5') // => { name: 'P-5', quality: 'P', dir: -1, num: 5, generic: 4, alter: 0, perfectable: true }
+props('m9') // => { name: 'm9', quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfectable: false }</code></pre>
 </div>
 </article>
 </section>

@@ -43,9 +43,9 @@
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/harmonizer.js">harmonizer.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/intervals.js">intervals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/harmonizer.js#L36">lineno 36</a>
+<a href="https://github.com/danigb/tonal/blob/master/intervals.js#L36">lineno 36</a>
 </li>
 </ul></dd>
 </dl>
@@ -67,7 +67,7 @@ Type
 </dt>
 <dd>
 <div class="description">
-<p>Create an harmonizer: a function that returns an array of notes
+<p>Create an harmonizer from a interval list: a function that returns an array of notes
 from a note</p>
 </div>
 <h5>Parameters:</h5>
@@ -115,6 +115,67 @@ Type
 <span class="param-type">function</span>
 </dd>
 </dl>
+</dd>
+<dt>
+<h4 class="name" id="intervals"><span class="type-signature"></span>intervals<span class="signature">(source)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get an array of intervals given a string, an integer or an Array</p>
+<p>The source can be one of the following forms:
+- An array of intervals (they are returned without modification)
+- A string with a intervals separated by a space
+- A string with a binay representation
+- A decimal (that is converted to a binary representation)</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>source</code></td>
+<td class="type">
+<span class="param-type">Array</span>
+|
+<span class="param-type">String</span>
+|
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>an interval list in any of its valid forms</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/intervals.js">intervals.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/intervals.js#L22">lineno 22</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>An array of intervals</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>intervals('P1 M2') // => ['P1', 'M2']
+intervals(2773) // => ['P1', 'M2', 'M3']</code></pre>
 </dd>
 </dl>
 </article>

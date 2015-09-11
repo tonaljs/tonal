@@ -22,10 +22,6 @@ This is the basic building block of tonal.
 <dd>
 <div class="description">
 <p>Get the interval between two pitches</p>
-<p>This is the function to calculate distances (expressed in intervals) for
-two pitches. An alias of this function is in <code>pitch/distance</code></p>
-<p>This is an 'strict' function: if the pitches are pitch valid, an
-exception is thrown.</p>
 <p>You can get a partially applied version of this function by passing only one
 parameter. See examples below:</p>
 </div>
@@ -61,7 +57,7 @@ parameter. See examples below:</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/distance.js">distance.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/distance.js#L25">lineno 25</a>
+<a href="https://github.com/danigb/tonal/blob/master/distance.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>
@@ -82,11 +78,11 @@ Type
 ['C', 'D', 'Eb'].map(distance.from('C')) // => ['P1', 'M2', 'm3']</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="enharmonic"><span class="type-signature"></span>enharmonic<span class="signature">()</span><span class="type-signature"></span></h4>
+<h4 class="name" id="enharmonic"><span class="type-signature"></span>enharmonic<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Get the enharmonic of a src with a given step</p>
+<p>Get the enharmonic of a pitch with a given step</p>
 </div>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
@@ -94,9 +90,21 @@ Type
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/enharmonic.js">enharmonic.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/enharmonic.js#L10">lineno 10</a>
+<a href="https://github.com/danigb/tonal/blob/master/enharmonic.js#L14">lineno 14</a>
 </li>
 </ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the enharmonic pitch name</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">String</span>
+</dd>
 </dl>
 <h5>Example</h5>
 <pre class="prettyprint"><code>enharmonic('C#4', 'D') // => 'Db4'
@@ -214,6 +222,77 @@ Type
 <span class="param-type">String</span>
 </dd>
 </dl>
+</dd>
+<dt>
+<h4 class="name" id="pitch"><span class="type-signature"></span>pitch<span class="signature">(pitch, octave, alteration)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get a pitch properties from a string and optionally change the octave or the
+accidentals</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>pitch</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>a string with a step letter and optinally
+aaccidentals and octave number</p></td>
+</tr>
+<tr>
+<td class="name"><code>octave</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>(Optional) the pitch octave.</p></td>
+</tr>
+<tr>
+<td class="name"><code>alteration</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>(Optional) the alteration number</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/pitch.js">pitch.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/pitch.js#L23">lineno 23</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>an object with the pitch properties</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Object</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>pitch('Db3') // properties of 'Db3'
+pitch('C4', 2) // properties of 'C2'
+pitch('G', 1, 1) // properties of 'G#1'
+pitch('G', null, 2) // properties of 'G##4'
+pitch('C##', 3, -1) // properties of 'Cb3'</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="props"><span class="type-signature"></span>props<span class="signature">(pitch)</span><span class="type-signature"></span></h4>
@@ -344,30 +423,6 @@ transpose('C', 'M-2') // => 'Bb3'
 ['C', 'D', 'E'].map(transpose.by('M2')) // => ['D4', 'E4', 'F#4']</code></pre>
 </dd>
 </dl>
-</article>
-</section>
-</div><div class="jsdoc-githubify">
-<section>
-<article>
-<div class="container-overview">
-<div class="description"><p>Get a pitch properties from a string and optionally change the octave or the
-accidentals</p></div>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/pitch.js">pitch.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/pitch.js#L6">lineno 6</a>
-</li>
-</ul></dd>
-</dl>
-<pre class="prettyprint"><code>pitch('Db3') // properties of 'Db3'
-pitch('C4', 2) // properties of 'C2'
-pitch('G', 1, 1) // properties of 'G#1'
-pitch('G', null, 2) // properties of 'G##4'
-pitch('C##', 3, -1) // properties of 'Cb3'</code></pre>
-</div>
 </article>
 </section>
 </div>
