@@ -1,0 +1,21 @@
+{
+  "dominant": "mixolydian",
+  "super locrian": "altered",
+  "diminished whole tone": "altered",
+  "arabian": "locrian major",
+  "ionian": "major",
+  "minor": "aeolian",
+  "pomeroy": "altered",
+  "pentatonic": "major pentatonic",
+  "minor seven flat five pentatonic": "locrian pentatonic",
+  "chinese": "lydian pentatonic",
+  "kumoi": "flat three pentatonic",
+  "blues": "minor blues",
+  "gypsy": "double harmonic major",
+  "hindu": "melodic minor fifth mode",
+  "indian": "mixolydian pentatonic",
+  "dorian b2": "neopolitan major",
+  "lydian b7": "lydian dominant",
+  "mixolydian b6": "melodic minor fifth mode",
+  "phrygian major": "spanish"
+}
