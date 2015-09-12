@@ -57,6 +57,7 @@ The library is divided in a number of modules:
 - [Intervals](https://github.com/danigb/tonal/blob/master/docs/interval.md)
 - [Chords](https://github.com/danigb/tonal/blob/master/docs/chord.md)
 - [Scales](https://github.com/danigb/tonal/blob/master/docs/scale.md)
+- [Key](https://github.com/danigb/tonal/blob/master/docs/key.md)
 - [Sequences](https://github.com/danigb/tonal/blob/master/docs/sequence.md)
 - [Binary Scales](https://github.com/danigb/tonal/blob/master/docs/binary-scale.md)
 
