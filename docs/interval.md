@@ -54,7 +54,7 @@ Interval creation and manipulation.
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/add.js">add.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/add.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/master/add.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -74,7 +74,7 @@ Type
 <pre class="prettyprint"><code>add('M2', 'M2') // => 'M3'</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="interval"><span class="type-signature"></span>interval<span class="signature">(interval, alter, oct, descending)</span><span class="type-signature"></span></h4>
+<h4 class="name" id="interval"><span class="type-signature"></span>interval<span class="signature">(interval, alter, oct)</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
 <div class="description">
@@ -100,7 +100,8 @@ new intervals based on a given one</p>
 |
 <span class="param-type">Integer</span>
 </td>
-<td class="description last"><p>the interval or the interval number</p></td>
+<td class="description last"><p>the interval or the interval number
+(can be negative to express descengin intervals)</p></td>
 </tr>
 <tr>
 <td class="name"><code>alter</code></td>
@@ -116,14 +117,6 @@ new intervals based on a given one</p>
 </td>
 <td class="description last"><p>(Optional) the octaves, 0 by default</p></td>
 </tr>
-<tr>
-<td class="name"><code>descending</code></td>
-<td class="type">
-<span class="param-type">boolean</span>
-</td>
-<td class="description last"><p>(Optional) create a descending interval (false
-by default)</p></td>
-</tr>
 </tbody>
 </table>
 <dl class="details">
@@ -132,7 +125,7 @@ by default)</p></td>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/interval.js">interval.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/interval.js#L32">lineno 32</a>
+<a href="https://github.com/danigb/tonal/blob/master/interval.js#L31">lineno 31</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -148,8 +141,8 @@ interval('M2', 1) // => { name: 'A2', ... }
 interval(1) // => { name: 'P1', ... }
 interval(1, 1) // => { name: 'A1', ... }
 interval(1, 1, 2) // => { name: 'A8', ... }
-interval(1, 1, 2, -1) // => { name: 'A-8', ... }
-interval(2, -1, 2, -1) // => { name: 'm-9', ... }</code></pre>
+interval(-1, 1, 2) // => { name: 'A-8', ... }
+interval(-2, -1, 2) // => { name: 'm-9', ... }</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="invert"><span class="type-signature"></span>invert<span class="signature">(interval, ascending)</span><span class="type-signature"></span></h4>

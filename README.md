@@ -45,8 +45,11 @@ The library is divided in a number of modules:
 
 - [Pitch](https://github.com/danigb/tonal/blob/master/docs/pitch.md)
 - [Interval](https://github.com/danigb/tonal/blob/master/docs/interval.md)
+- [Chord](https://github.com/danigb/tonal/blob/master/docs/chord.md)
+- [Scale](https://github.com/danigb/tonal/blob/master/docs/scale.md)
+- [Sequence](https://github.com/danigb/tonal/blob/master/docs/sequence.md)
 
-And [more](https://github.com/danigb/tonal/blob/master/lib)
+And [more](https://github.com/danigb/tonal/blob/master/docs)
 
 ## Usage
 

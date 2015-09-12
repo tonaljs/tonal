@@ -21,9 +21,9 @@
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/name.js">name.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/names.js">names.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/name.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/names.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>

@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var reverse = require('../../lib/list/reverse')
+var reverse = require('../../lib/sequence/reverse')
 
-vows.describe('list/reverse').addBatch({
+vows.describe('sequence/reverse').addBatch({
   'reverse strings': function () {
     assert.deepEqual(reverse('C D E'), ['E', 'D', 'C'])
   },

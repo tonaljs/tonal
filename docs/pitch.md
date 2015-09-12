@@ -400,7 +400,7 @@ applied function with the pitch is returned</p></td>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/transpose.js">transpose.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/transpose.js#L23">lineno 23</a>
+<a href="https://github.com/danigb/tonal/blob/master/transpose.js#L24">lineno 24</a>
 </li>
 </ul></dd>
 </dl>
