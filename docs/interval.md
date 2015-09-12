@@ -12,8 +12,10 @@ Or transform them:
 ```js
 var simplify = require('interval/simplify')
 simplify('M9') // => 'M2'
+
 var invert = require('interval/invert')
 invert('M2') // => 'm7'
+
 var add = require('interval/add')
 add('M2', 'P4') // => 'P5'
 ```

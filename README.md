@@ -47,12 +47,12 @@ Mostly, because I want to learn:
 
 The library is divided in a number of modules:
 
-- [Pitch](https://github.com/danigb/tonal/blob/master/docs/pitch.md)
-- [Interval](https://github.com/danigb/tonal/blob/master/docs/interval.md)
-- [Chord](https://github.com/danigb/tonal/blob/master/docs/chord.md)
-- [Scale](https://github.com/danigb/tonal/blob/master/docs/scale.md)
-- [Sequence](https://github.com/danigb/tonal/blob/master/docs/sequence.md)
-- [BinaryScale](https://github.com/danigb/tonal/blob/master/docs/binaryScale.md)
+- [Pitches](https://github.com/danigb/tonal/blob/master/docs/pitch.md)
+- [Intervals](https://github.com/danigb/tonal/blob/master/docs/interval.md)
+- [Chords](https://github.com/danigb/tonal/blob/master/docs/chord.md)
+- [Scales](https://github.com/danigb/tonal/blob/master/docs/scale.md)
+- [Sequences](https://github.com/danigb/tonal/blob/master/docs/sequence.md)
+- [Binary Scales](https://github.com/danigb/tonal/blob/master/docs/binary-scale.md)
 
 Take a look to [the source](https://github.com/danigb/tonal/blob/master/lib) or the [documentation](https://github.com/danigb/tonal/tree/master/docs)
 

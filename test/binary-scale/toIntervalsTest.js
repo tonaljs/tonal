@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var intervals = require('../../lib/binaryScale/toIntervals')
+var intervals = require('../../lib/binary-scale/toIntervals')
 
-vows.describe('binaryScale/toIntervals').addBatch({
+vows.describe('binary-scale/toIntervals').addBatch({
   'intervals from decimal number': function () {
     assert.deepEqual(intervals(2773), ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'])
   },
