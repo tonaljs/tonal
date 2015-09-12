@@ -70,22 +70,66 @@ Some tonal functions (like scales) returns pitch sets instead of sequences.
 </dl>
 <dl>
 <dt>
-<h4 class="name" id="cycle"><span class="type-signature"></span>cycle<span class="signature">()</span><span class="type-signature"></span></h4>
+<h4 class="name" id="cycle"><span class="type-signature"></span>cycle<span class="signature">(tonic, interval, length, offset)</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Given an interval create a cycle</p>
+<p>Create a sequence by repeating a interval transposition a number of length</p>
 </div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>tonic</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the pitch to begin with (is the first pitch of the
+sequence if the offset is 0)</p></td>
+</tr>
+<tr>
+<td class="name"><code>interval</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the interval used to tranpose</p></td>
+</tr>
+<tr>
+<td class="name"><code>length</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>the length of the resulting sequence (1 by default)</p></td>
+</tr>
+<tr>
+<td class="name"><code>offset</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>the number of notes to be skipped before build the
+sequence (0 by default)</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/cycle.js">cycle.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/cycle.js#L8">lineno 8</a>
+<a href="https://github.com/danigb/tonal/blob/master/cycle.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>cycle('C', 'P5', 5) // => ['C4', 'G4', 'D5', 'A5', 'E6']</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="harmonize"><span class="type-signature"></span>harmonize<span class="signature">(tonic, intervals)</span><span class="type-signature"> &rarr; {Array}</span></h4>
