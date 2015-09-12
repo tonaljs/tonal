@@ -1,14 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var intervals = require('../../lib/harmonizer/intervals')
+var intervals = require('../../lib/binaryScale/toIntervals')
 
-vows.describe('intervals/intervals').addBatch({
-  'intervals from array': function () {
-    assert.deepEqual(intervals(['M2', 'M3']), ['M2', 'M3'])
-  },
-  'intervals from string list': function () {
-    assert.deepEqual(intervals('M3 P-5'), ['M3', 'P-5'])
-  },
+vows.describe('binaryScale/toIntervals').addBatch({
   'intervals from decimal number': function () {
     assert.deepEqual(intervals(2773), ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'])
   },

@@ -1,3 +1,13 @@
+# Module sequence
+
+Sequence are arrays of events. The most common sequences in tonal are pitch and interval sequences. Sequences help with tonal functional programming:
+
+´´´js
+sequence('C4 D4 E4 G4 C5').map(transpose('M2')) // => ['D4', 'E4', 'F#4', 'A4', 'D5']
+```
+
+## API
+
 <!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
 
