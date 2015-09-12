@@ -58,9 +58,9 @@ chord('Cmaj7') // => ['C4', 'E4', 'G4', 'B4']
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/chord.js">chord.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/chord.js">chord.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/chord.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/chord.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -88,9 +88,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/names.js">names.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/names.js">names.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/names.js#L12">lineno 12</a>
+<a href="https://github.com/danigb/tonal/blob/master/names.js#L12">lineno 12</a>
 </li>
 </ul></dd>
 </dl>
@@ -128,9 +128,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/parse.js#L16">lineno 16</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js#L16">lineno 16</a>
 </li>
 </ul></dd>
 </dl>

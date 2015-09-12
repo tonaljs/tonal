@@ -75,9 +75,9 @@ parameter. See examples below:</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/distance.js">distance.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/distance.js">distance.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/distance.js#L19">lineno 19</a>
+<a href="https://github.com/danigb/tonal/blob/master/distance.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>
@@ -108,9 +108,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/enharmonic.js">enharmonic.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/enharmonic.js">enharmonic.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/enharmonic.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/enharmonic.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -167,9 +167,9 @@ enharmonic('B#', 'C') // => 'C'</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/freq.js">freq.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/freq.js">freq.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/freq.js#L17">lineno 17</a>
+<a href="https://github.com/danigb/tonal/blob/master/freq.js#L17">lineno 17</a>
 </li>
 </ul></dd>
 </dl>
@@ -224,9 +224,9 @@ pitch class is given to the same midi number. @see enahrmonic</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/fromMidi.js">fromMidi.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/fromMidi.js">fromMidi.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/fromMidi.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/master/fromMidi.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -289,9 +289,9 @@ aaccidentals and octave number</p></td>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/pitch.js">pitch.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/pitch.js">pitch.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/pitch.js#L23">lineno 23</a>
+<a href="https://github.com/danigb/tonal/blob/master/pitch.js#L23">lineno 23</a>
 </li>
 </ul></dd>
 </dl>
@@ -359,9 +359,9 @@ where C=0, C#=1, D=2...B=11</li>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/props.js">props.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/props.js">props.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/props.js#L31">lineno 31</a>
+<a href="https://github.com/danigb/tonal/blob/master/props.js#L31">lineno 31</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -418,9 +418,9 @@ applied function with the pitch is returned</p></td>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/transpose.js">transpose.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/transpose.js">transpose.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/transpose.js#L24">lineno 24</a>
+<a href="https://github.com/danigb/tonal/blob/master/transpose.js#L24">lineno 24</a>
 </li>
 </ul></dd>
 </dl>

@@ -50,9 +50,9 @@ __This will be moved to scorejs library__
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/time-meter.js">time-meter.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/time-meter.js">time-meter.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/time-meter.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/time-meter.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -81,9 +81,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/duration-name.js">duration-name.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/duration-name.js">duration-name.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/duration-name.js#L3">lineno 3</a>
+<a href="https://github.com/danigb/tonal/blob/master/duration-name.js#L3">lineno 3</a>
 </li>
 </ul></dd>
 </dl>
@@ -101,9 +101,9 @@ name(1/4 + 1/2 + 1/8)  // => 'q..'</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/duration-value.js">duration-value.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/duration-value.js">duration-value.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/duration-value.js#L3">lineno 3</a>
+<a href="https://github.com/danigb/tonal/blob/master/duration-value.js#L3">lineno 3</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>

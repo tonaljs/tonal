@@ -39,9 +39,9 @@ names('D E F# G A B C#') // => ['D dorian']
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/names.js">names.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/names.js">names.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/names.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/master/names.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -81,9 +81,9 @@ names('D E F# G A B C#') // => ['D dorian']
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/parse.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -132,9 +132,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/scale.js">scale.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/scale.js">scale.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/scale.js#L19">lineno 19</a>
+<a href="https://github.com/danigb/tonal/blob/master/scale.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>
@@ -166,9 +166,9 @@ scale('bebop') // => '1P 2M 3M 4P 5P 6M 7m 7M'</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/intervals/mode.js">mode.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/mode.js">mode.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/intervals/mode.js#L4">lineno 4</a>
+<a href="https://github.com/danigb/tonal/blob/master/mode.js#L4">lineno 4</a>
 </li>
 </ul></dd>
 </dl>
