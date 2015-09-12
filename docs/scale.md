@@ -116,7 +116,7 @@ Type
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/scale.js">scale.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/scale.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/scale.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>
@@ -132,6 +132,10 @@ Type
 <span class="param-type">Array</span>
 </dd>
 </dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+scale('D diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
+scale('bebop') // => 'P1 M2 M3 P4 P5 M6 m7 M7'</code></pre>
 </dd>
 </dl>
 </article>
