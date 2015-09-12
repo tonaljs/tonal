@@ -4,11 +4,11 @@ var opposite = require('../../lib/interval/opposite')
 
 vows.describe('interval/opposite').addBatch({
   'opposite interval': function () {
-    assert.equal(opposite('P1'), 'P-1')
-    assert.equal(opposite('M2'), 'M-2')
-    assert.equal(opposite('M-2'), 'M2')
-    assert.equal(opposite('M-9'), 'M9')
-    assert.equal(opposite('M14'), 'M-14')
-    assert.equal(opposite('A-14'), 'A14')
+    assert.equal(opposite('1P'), '-1P')
+    assert.equal(opposite('2M'), '-2M')
+    assert.equal(opposite('-2M'), '2M')
+    assert.equal(opposite('-9M'), '9M')
+    assert.equal(opposite('14M'), '-14M')
+    assert.equal(opposite('-14A'), '14A')
   }
 }).export(module)

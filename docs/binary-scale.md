@@ -4,8 +4,8 @@ Create scales using binary numbers:
 
 ```js
 var scaleIntervals = require('tonal/binaryScale/toIntervals')
-scaleIntervals('101') // => ['P1', 'M2']
-scaleIntervals(2773) // => ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7']
+scaleIntervals('101') // => ['1P', '2M']
+scaleIntervals(2773) // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
 ```
 
 This module is inspired by the works of [Rich Cochrane](http://cochranemusic.com), [Walter Zettel](http://www.muzuu.org/new_life/pics/simpleblog/scales/scalesadvice.html) and [William Zeitler](http://www.allthescales.org/)
@@ -75,9 +75,9 @@ For example, at [allthescales.org site](http://allthescales.org) they limit all 
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/fromIntervals.js">fromIntervals.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/fromIntervals.js">fromIntervals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/fromIntervals.js#L11">lineno 11</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/fromIntervals.js#L11">lineno 11</a>
 </li>
 </ul></dd>
 </dl>
@@ -114,9 +114,9 @@ For example, at [allthescales.org site](http://allthescales.org) they limit all 
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/fromPitches.js">fromPitches.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/fromPitches.js">fromPitches.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/fromPitches.js#L12">lineno 12</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/fromPitches.js#L12">lineno 12</a>
 </li>
 </ul></dd>
 </dl>
@@ -172,9 +172,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/toIntervals.js">toIntervals.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/toIntervals.js">toIntervals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/toIntervals.js#L22">lineno 22</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/toIntervals.js#L22">lineno 22</a>
 </li>
 </ul></dd>
 </dl>
@@ -191,8 +191,8 @@ Type
 </dd>
 </dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>intervals('P1 M2') // => ['P1', 'M2']
-intervals(2773) // => ['P1', 'M2', 'M3']</code></pre>
+<pre class="prettyprint"><code>intervals('1P 2M') // => ['1P', '2M']
+intervals(2773) // => ['1P', '2M', '3M']</code></pre>
 </dd>
 </dl>
 </article>

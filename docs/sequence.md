@@ -3,14 +3,14 @@
 Sequence are arrays of events. The most common sequences in tonal are pitch and interval sequences. Sequences help with tonal functional programming:
 
 ```js
-sequence('C4 D4 E4 G4 C5').map(transpose('M2')) // => ['D4', 'E4', 'F#4', 'A4', 'D5']
+sequence('C4 D4 E4 G4 C5').map(transpose('2M')) // => ['D4', 'E4', 'F#4', 'A4', 'D5']
 ```
 
 The functions of this module help to create and manipulate sequences. Here are some examples:
 
 ```js
 // create a pitch sequence from an interval sequence
-harmonize('D', ['M2', 'M3']) // => ['E4', 'F#4']
+harmonize('D', ['2M', '3M']) // => ['E4', 'F#4']
 // manipulate sequences
 reverse('C D E') // => ['E', 'D', 'C']
 rotate('C D E', 1) // => ['D', 'E', 'C']
@@ -54,9 +54,9 @@ Some tonal functions (like scales) returns pitch sets instead of sequences.
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/retrograde.js">retrograde.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/retrograde.js">retrograde.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/retrograde.js#L3">lineno 3</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/retrograde.js#L3">lineno 3</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -122,9 +122,9 @@ sequence (0 by default)</p></td>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/cycle.js">cycle.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/cycle.js">cycle.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/cycle.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/cycle.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -170,9 +170,9 @@ sequence (0 by default)</p></td>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/harmonize.js">harmonize.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/harmonize.js">harmonize.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/harmonize.js#L17">lineno 17</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/harmonize.js#L17">lineno 17</a>
 </li>
 </ul></dd>
 </dl>
@@ -225,9 +225,9 @@ with the first pitch class of the original sequence</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/pitchSet.js">pitchSet.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/pitchSet.js">pitchSet.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/pitchSet.js#L19">lineno 19</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/pitchSet.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>
@@ -279,9 +279,9 @@ pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/reverse.js">reverse.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/reverse.js">reverse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/reverse.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/reverse.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -339,9 +339,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/rotate.js">rotate.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/rotate.js">rotate.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/rotate.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/rotate.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -404,9 +404,9 @@ into events.</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/sequence.js">sequence.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/sequence.js">sequence.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/sequence.js#L31">lineno 31</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/sequence.js#L31">lineno 31</a>
 </li>
 </ul></dd>
 </dl>

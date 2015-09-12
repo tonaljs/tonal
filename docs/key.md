@@ -28,9 +28,9 @@ Functions to work with keys and key signatures.
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/accidentals.js">accidentals.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/accidentals.js">accidentals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/accidentals.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/accidentals.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -74,9 +74,9 @@ a 'major' or 'minor' appended, or a string with the accidentals</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/keyNumber.js">keyNumber.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/keyNumber.js">keyNumber.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/keyNumber.js#L24">lineno 24</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/keyNumber.js#L24">lineno 24</a>
 </li>
 </ul></dd>
 </dl>

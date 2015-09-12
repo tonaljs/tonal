@@ -4,10 +4,10 @@ var simplify = require('../../lib/interval/simplify')
 
 vows.describe('interval/simplify').addBatch({
   'simplify interval': function () {
-    assert.equal(simplify('M9'), 'M2')
-    assert.equal(simplify('M-9'), 'M-2')
-    assert.equal(simplify('M-9', true), 'M2')
-    assert.equal(simplify('M-2', true), 'M2')
-    assert.equal(simplify('P8'), 'P8')
+    assert.equal(simplify('9M'), '2M')
+    assert.equal(simplify('-9M'), '-2M')
+    assert.equal(simplify('-9M', true), '2M')
+    assert.equal(simplify('-2M', true), '2M')
+    assert.equal(simplify('8P'), '8P')
   }
 }).export(module)

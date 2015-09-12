@@ -4,13 +4,13 @@ var intervals = require('../../lib/binary-scale/toIntervals')
 
 vows.describe('binary-scale/toIntervals').addBatch({
   'intervals from decimal number': function () {
-    assert.deepEqual(intervals(2773), ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'])
+    assert.deepEqual(intervals(2773), ['1P', '2M', '3M', '4P', '5P', '6M', '7M'])
   },
   'intervals from binary': function () {
-    assert.deepEqual(intervals('101'), ['P1', 'M2'])
+    assert.deepEqual(intervals('101'), ['1P', '2M'])
   },
   'invalid source': function () {
     assert.equal(intervals(), null)
-    assert.equal(intervals('P1 C2'), null)
+    assert.equal(intervals('1P C2'), null)
   }
 }).export(module)

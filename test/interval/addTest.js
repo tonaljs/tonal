@@ -4,23 +4,23 @@ var add = require('../../lib/interval/add')
 
 vows.describe('interval/add').addBatch({
   'add ascending intervals': function () {
-    assert.equal(add('M2', 'M2'), 'M3')
-    assert.equal(add('M2', 'm2'), 'm3')
-    assert.equal(add('M2', 'P8'), 'M9')
-    assert.equal(add('P4', 'P4'), 'm7')
+    assert.equal(add('2M', '2M'), '3M')
+    assert.equal(add('2M', '2m'), '3m')
+    assert.equal(add('2M', '8P'), '9M')
+    assert.equal(add('4P', '4P'), '7m')
   },
   'add ascending descending intervals': function () {
-    assert.equal(add('M2', 'M-2'), 'P1')
-    assert.equal(add('P5', 'M-2'), 'P4')
-    assert.equal(add('M-2', 'P5'), 'P4')
-    assert.equal(add('P4', 'P-5'), 'M-2')
-    assert.equal(add('P1', 'm-2'), 'm-2')
-    assert.equal(add('P1', 'm-9'), 'm-9')
-    assert.equal(add('m-9', 'P8'), 'm-2')
-    assert.equal(add('P8', 'm-9'), 'm-2')
-    assert.equal(add('P8', 'M-2'), 'm7')
+    assert.equal(add('2M', '-2M'), '1P')
+    assert.equal(add('5P', '-2M'), '4P')
+    assert.equal(add('-2M', '5P'), '4P')
+    assert.equal(add('4P', '-5P'), '-2M')
+    assert.equal(add('1P', '-2m'), '-2m')
+    assert.equal(add('1P', '-9m'), '-9m')
+    assert.equal(add('-9m', '8P'), '-2m')
+    assert.equal(add('8P', '-9m'), '-2m')
+    assert.equal(add('8P', '-2M'), '7m')
   },
   'add descending intervals': function () {
-    assert.equal(add('M-2', 'M-2'), 'M-3')
+    assert.equal(add('-2M', '-2M'), '-3M')
   }
 }).export(module)

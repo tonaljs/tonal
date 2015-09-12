@@ -6,18 +6,23 @@
 Tonal is a library to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and it is a library for composing, transforming or analyse music:
 
 ```js
-// pitch and interval manipulation
+// pitches and intervals
 var pitch = require('tonal/pitch/pitch')
 pitch('C#4') // => { name: 'C#4', pitchClass: 'C#', oct: '4', ... }
 
 var transpose = require('tonal/note/transpose')
-transpose('M2', 'f#4') // => 'G#4'
+transpose('f#4', '2M') // => 'G#4'
 
-// functional programming
-['P1', 'M2', 'M3'].map(transpose('D')) // => ['D4', 'E4', 'F#4']
-['A', 'B', 'C', 'D', 'E'].map(transpose.by('M2')) // => ['B4', 'C#5', 'D5', 'E5', 'F#5']
+var distance = require('tonal/note/distance')
+distance('F', 'G#') // => '3A'
+distance('c4', 'bb3') // => '-2M'
+
+// sequences
+['A', 'B', 'C', 'D', 'E'].map(transpose('2M')) // => ['B4', 'C#5', 'D5', 'E5', 'F#5']
+['1P', '2M', '3M'].map(transpose('D')) // => ['D4', 'E4', 'F#4']
 var sequence = require('tonal/sequence/sequence')
-sequence('C D E').map(transpose.by('M6')) // => ['A4', 'B4', 'C#5']
+sequence('C D E').map(transpose('6M')) // => ['A4', 'B4', 'C#5']
+sequence('CMaj7 Dm7 G7') // => ['Cmaj7', 'Dm7', 'G7']
 
 // pitch class sets
 var set = require('tonal/sequence/pitchClass')
@@ -26,7 +31,7 @@ set('C4 D4 E6 D5 F2') // => ['C', 'D', 'E', 'F']
 // scales and chords
 var scale = require('tonal/scale/scale')
 scale('A major') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
-scale('A major').map(transpose('P8')) // => ['A5, 'B5', ...]
+scale('A major').map(transpose('8P')) // => ['A5, 'B5', ...]
 
 var scaleNames = require('tonal/scale/names')
 scaleNames('C D E F G A B C') // => ['C major', 'C ionian']
@@ -38,9 +43,11 @@ chord('CMaj7') // => ['C4', 'E4', 'G4', 'B4']
 Tonal has a number of characteristics that make it unique:
 
 - It is __functional__: no classes, no side effects, no mutations, just data and functions.
-- Heavy use of __strings to represent entities__: pitches (`'C#2'`, `'Bb'`, `'G##'`), intevals (`'M2'`, `'m-9'`), chords (`'Cmaj7'`, `'Bb79'`), scales (`'C major'`, `'Bb bebop'`), sequences (`'C D E F'`, `'P1 M2 M3'`, `'Cmaj7 Dm9'`), keys (`'C major'`, `'Bb minor'`, `'###'`)
+- Heavy use of __strings to represent entities__: pitches (`'C#2'`, `'Bb'`, `'G##'`), intevals (`'2M'`, `'-9m'`), chords (`'Cmaj7'`, `'Bb79'`), scales (`'C major'`, `'Bb bebop'`), sequences (`'C D E F'`, `'1P 2M 3M'`, `'Cmaj7 D9m'`), keys (`'C major'`, `'Bb minor'`, `'###'`)
 - Extremely __modular__: require the functions not the library (_a-la-lodash_) so the dependencies are reduced to the minimum. You can think each function in tonal like a npm micro-module.
 - Advanced features: binary scales, chord and scale detection, ...
+
+For [teoria](https://github.com/saebekassebil/teoria) users: it's important to notice that the interval string representation is different: `'P-8'` vs. `'-8P'`
 
 ## Why
 
@@ -69,7 +76,7 @@ Install via npm: `npm i --save tonal` and require the functions you need:
 
 ```js
 var transpose = require('tonal/note/transpose')
-tranpose('P5', 'C')
+tranpose('5P', 'C')
 ```
 
 Currently there's no way to load the entire library in one require.
@@ -85,28 +92,28 @@ fromMidi(60) // => 'C4'
 fromKey(28) // =>
 
 // Create notes from intervals
-distance('A4', 'G7') // => 'm7'
-transpose('A4', 'M6') // => 'F#5'
-invert(distance('a4', 'bb5')) // => 'M7'
+distance('A4', 'G7') // => '7m'
+transpose('A4', '6M') // => 'F#5'
+invert(distance('a4', 'bb5')) // => '7M'
 
 // Scales
 scale('A aeolian') // => ['A4', 'B4', 'C5', ...]
 scale('g5 ionian') // => ['G5', 'A5', ...]
-scale('mixolydian') // => ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'm7']
+scale('mixolydian') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m']
 
 // Chords
 chord('Asus4') // => [ 'A4', 'B4', 'E5' ]
-chord('BbM69#11') // => [ 'Bb4', 'D5', 'F5', 'G5', 'C5', 'E5' ]
+chord('Bb69M#11') // => [ 'Bb4', 'D5', 'F5', 'G5', 'C5', 'E5' ]
 
 // Tonal doesn't allow crazy chaining:
-var note = get('thirth', scale('A4 lidian').map(transpose.by('M2')))
+var note = get('thirth', scale('A4 lidian').map(transpose.by('2M')))
 chord('maj9')(note)
 ```
 
 Examples ported from MusikKit:
 
 ```js
-var V7ofV = function(pitch) { chord(transpose(pitch, 'P5'), '7') }
+var V7ofV = function(pitch) { chord(transpose(pitch, '5P'), '7') }
 V7ofV('D') // => ['A4', 'C#5', 'E5', 'G5']
 ```
 

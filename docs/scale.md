@@ -5,7 +5,7 @@ Create or detect scales:
 ```js
 var scale = require('tonal/scale')
 scale('C myxolidian') // => ['C', 'D', 'E', 'F', 'G', 'A', 'Bb']
-scale('major') // => ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7']
+scale('major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
 
 var mode = require('tonal/scale/mode')
 mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
@@ -39,9 +39,9 @@ names('D E F# G A B C#') // => ['D dorian']
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/names.js">names.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/names.js">names.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/names.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/names.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -81,9 +81,9 @@ names('D E F# G A B C#') // => ['D dorian']
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/parse.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -132,9 +132,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/scale.js">scale.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/scale.js">scale.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/scale.js#L19">lineno 19</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/scale.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>
@@ -153,7 +153,7 @@ Type
 <h5>Example</h5>
 <pre class="prettyprint"><code>scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 scale('D diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
-scale('bebop') // => 'P1 M2 M3 P4 P5 M6 m7 M7'</code></pre>
+scale('bebop') // => '1P 2M 3M 4P 5P 6M 7m 7M'</code></pre>
 </dd>
 </dl>
 </article>
@@ -166,9 +166,9 @@ scale('bebop') // => 'P1 M2 M3 P4 P5 M6 m7 M7'</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/mode.js">mode.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/mode.js">mode.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/mode.js#L4">lineno 4</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/mode.js#L4">lineno 4</a>
 </li>
 </ul></dd>
 </dl>

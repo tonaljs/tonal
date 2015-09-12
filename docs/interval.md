@@ -1,23 +1,31 @@
 # Interval module
 
-Create intervals:
+This module is for interval creation and modulation. It's probably you use interval string representations so you don't need anything from this.
+
+## Interval string representation
+
+In tonal a interval is a string with the following form: ([+-]?)(\d+)([dmPMA]) where the first part is the direction (optional), then the interval number and the quality. Valid intervals are: `'3M'`, `'-5P'`, `'7m'`
+
+If you need an interval object properties, use `interval` function:
 
 ```js
 var interval = require('interval/interval')
-interval('P5') // => { name: 'P5', num: 5, quality: 'P', ...}
+interval('5P') // => { name: '5P', num: 5, quality: 'P', ...}
 ```
 
-Or transform them:
+## Transform intervals
+
+There are a bunch of methods to transform intervals:
 
 ```js
 var simplify = require('interval/simplify')
-simplify('M9') // => 'M2'
+simplify('9M') // => '2M'
 
 var invert = require('interval/invert')
-invert('M2') // => 'm7'
+invert('2M') // => '7m'
 
 var add = require('interval/add')
-add('M2', 'P4') // => 'P5'
+add('2M', '4P') // => '5P'
 ```
 
 ## Functions
@@ -70,9 +78,9 @@ add('M2', 'P4') // => 'P5'
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/add.js">add.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/add.js">add.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/add.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/add.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -141,9 +149,9 @@ new intervals based on a given one</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/interval.js">interval.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/interval.js">interval.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/interval.js#L31">lineno 31</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/interval.js#L31">lineno 31</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -203,9 +211,9 @@ given interval</p></td>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/invert.js">invert.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/invert.js">invert.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/invert.js#L20">lineno 20</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/invert.js#L20">lineno 20</a>
 </li>
 </ul></dd>
 </dl>
@@ -244,9 +252,9 @@ simple('P-11', true) // => 'P4'</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/isInterval.js">isInterval.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/isInterval.js">isInterval.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/isInterval.js#L13">lineno 13</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/isInterval.js#L13">lineno 13</a>
 </li>
 </ul></dd>
 </dl>
@@ -278,9 +286,9 @@ isInterval('P6') // false</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/opposite.js">opposite.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/opposite.js">opposite.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/opposite.js#L9">lineno 9</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/opposite.js#L9">lineno 9</a>
 </li>
 </ul></dd>
 </dl>
@@ -312,9 +320,9 @@ quality of the interval, just if it is perfectable or not.
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/props.js">props.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/props.js">props.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/props.js#L13">lineno 13</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/props.js#L13">lineno 13</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -325,8 +333,8 @@ quality of the interval, just if it is perfectable or not.
 </dd>
 </dl>
 <pre class="prettyprint"><code>var props = require('tonal/interval/props')
-props('P-5') // => { name: 'P-5', quality: 'P', dir: -1, num: 5, generic: 4, alter: 0, perfectable: true }
-props('m9') // => { name: 'm9', quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfectable: false }</code></pre>
+props('-5P') // => { name: '-5P', quality: 'P', dir: -1, num: 5, generic: 4, alter: 0, perfectable: true }
+props('9m') // => { name: '9m', quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfectable: false }</code></pre>
 </div>
 </article>
 </section>
@@ -338,9 +346,9 @@ props('m9') // => { name: 'm9', quality: 'm', dir: 1, num: 9, generic: 1, alter:
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/simplify.js">simplify.js</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/simplify.js">simplify.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/simplify.js#L3">lineno 3</a>
+<a href="https://github.com/danigb/tonal/blob/intervals/simplify.js#L3">lineno 3</a>
 </li>
 </ul></dd>
 </dl>
