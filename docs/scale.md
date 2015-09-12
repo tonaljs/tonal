@@ -204,6 +204,65 @@ Type
 scale('D diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
 scale('bebop') // => '1P 2M 3M 4P 5P 6M 7m 7M'</code></pre>
 </dd>
+<dt>
+<h4 class="name" id="triadic"><span class="type-signature"></span>triadic<span class="signature">(scale, size)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get a scale intervals in triadic form</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>scale</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the scale name</p></td>
+</tr>
+<tr>
+<td class="name"><code>size</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>the number of intervals</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/triadic.js">triadic.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/triadic.js#L18">lineno 18</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>an array of intervals</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>triadic('major') // => ['1P', '3M', '5P', '7M', '9M', '11P', '13M']
+triadic('dorian', 4) // => ['1P', '3m', '5P', '7m']</code></pre>
+</dd>
 </dl>
 </article>
 </section>
@@ -220,6 +279,12 @@ scale('bebop') // => '1P 2M 3M 4P 5P 6M 7m 7M'</code></pre>
 <a href="https://github.com/danigb/tonal/blob/master/mode.js#L4">lineno 4</a>
 </li>
 </ul></dd>
+<dt class="tag-see">See:</dt>
+<dd class="tag-see">
+<ul>
+<li>sequence/rotate</li>
+</ul>
+</dd>
 </dl>
 <pre class="prettyprint"><code>mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']</code></pre>
 </div>
