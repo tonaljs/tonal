@@ -27,9 +27,9 @@ vows.describe('pitch/transpose').addBatch({
   },
   'transpose notes': function () {
     var notes = 'C4 D4 E4 F4 G4 A4 B4'.split(' ')
-    assert.deepEqual(notes.map(transpose.by('9M')),
+    assert.deepEqual(notes.map(transpose('9M')),
       ['D5', 'E5', 'F#5', 'G5', 'A5', 'B5', 'C#6'])
-    assert.deepEqual(notes.map(transpose.by('-9M')),
+    assert.deepEqual(notes.map(transpose('-9M')),
       ['Bb2', 'C3', 'D3', 'Eb3', 'F3', 'G3', 'A3'])
   }
 }).export(module)

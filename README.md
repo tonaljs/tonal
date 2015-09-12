@@ -106,7 +106,7 @@ chord('Asus4') // => [ 'A4', 'B4', 'E5' ]
 chord('Bb69M#11') // => [ 'Bb4', 'D5', 'F5', 'G5', 'C5', 'E5' ]
 
 // Tonal doesn't allow crazy chaining:
-var note = get('thirth', scale('A4 lidian').map(transpose.by('2M')))
+var note = get('thirth', scale('A4 lidian').map(transpose('2M')))
 chord('maj9')(note)
 ```
 

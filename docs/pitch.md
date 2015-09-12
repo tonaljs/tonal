@@ -440,7 +440,7 @@ Type
 <pre class="prettyprint"><code>transpose('E', 'M2') // => 'F#4'
 transpose('C', 'M-2') // => 'Bb3'
 ['M2', 'm3', 'P-8'].map(tranapose('C')) // => ['D4', 'Eb4', 'C3']
-['C', 'D', 'E'].map(transpose.by('M2')) // => ['D4', 'E4', 'F#4']</code></pre>
+['C', 'D', 'E'].map(transpose('M2')) // => ['D4', 'E4', 'F#4']</code></pre>
 </dd>
 </dl>
 </article>
