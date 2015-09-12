@@ -3,32 +3,38 @@
 [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
-Tonal is a modular, functional (but currently __experimental__) music theory library. It provides functions to create and manipulate musical entities:
+Tonal is a library to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and it iss a library for composing, transforming or analyse music:
 
 ```js
+// pitch and interval manipulation
+var pitch = require('tonal/pitch/pitch')
+pitch('C#4') // => { name: 'C#4', pitchClass: 'C#', oct: '4', ... }
+
 var transpose = require('tonal/note/transpose')
 transpose('M2', 'f#4') // => 'G#4'
-['E', 'F'].map(transpose('M2')) // => ['F#4', 'G4']
-['M2', 'm3'].map(transpose('C')) // => ['D4', 'Eb4']
 
+// functional programming
+var sequence = require('tonal/sequence/sequence')
+sequence('A B C D').map(transpose('M2'))
+
+// scales and chords
 var scale = require('tonal/scale/scale')
 scale('A major') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
 scale('A major').map(transpose('P8')) // => ['A5, 'B5', ...]
+
+var scaleNames = require('tonal/scale/names')
+scaleNames('C D E F G A B C') // => ['C major', 'C ionian']
+
+var chord = require('tonal/chord/chord')
+chord('CMaj7') // => ['C4', 'E4', 'G4', 'B4']
 ```
 
-Since you only require the methods needed (_a-la-lodash_) the dependencies are reduced to the minimum. You can think each function in tonal like a npm micro-module.
+Tonal has a number of characteristics that make it unique:
 
-This library is growing with this ideas in mind:
-- String representations are first class citizens. Notes are 'C#2', 'Db4'..., intervals 'P5', 'm2', 'M-7'..., scales are 'C major', 'D harmonic minor'..., chords are 'Cmaj7', 'Bb79', interval lists are 'P1 M2 P5', 'P1 M-3'..., a valid note lists is 'C D E', and key signatures are defined with (for example) '###'
-- Modular: get what you need. Require the desired functions, no more.
-- Functional: all is data-in data-out, no classes, no side effects, no mutations.
-- Provide lot of functions (the swiss army knife)
-- Well tested
-- Documented
-
-This scope of this library is music theory objects: generation and analysis of music pieces. This is __not__ for _real_ music or sound synthesis although it can be used to create it ;-)
-
-__This is alpha software__, if you need a stable music theory library in javascript you can use the excellent [teoria](https://github.com/saebekassebil/teoria)
+- It is __functional__: no classes, no side effects, no mutations, just data and functions.
+- Heavy use of __strings to represent entities__: pitches (`C#2`, `Bb`, `G##`), intevals (`M2`, `m-9`), chords (`Cmaj7` `Bb79`), scales (`C major`, `Bb bebop`), sequences (`C D E F`, `P1 M2 M3`, `Cmaj7 Dm9`), keys (`C major`, `Bb minor`, `###`)
+- Extremely __modular__: require the functions not the library. Since you only require the functions you need (_a-la-lodash_) the dependencies are reduced to the minimum. You can think each function in tonal like a npm micro-module.
+- Advanced features: binary scales, chord and scale detection, ...
 
 ## Why
 
@@ -36,8 +42,6 @@ Mostly, because I want to learn:
 
 > Reinventing the wheel is bad for business, but it’s great for learning
 [*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
-
-Also, I want a complete library, where I can model all what I learn, with some (for me) esoteric features like interval classes, binary scales and other weird stuff.
 
 ## What
 
@@ -48,8 +52,9 @@ The library is divided in a number of modules:
 - [Chord](https://github.com/danigb/tonal/blob/master/docs/chord.md)
 - [Scale](https://github.com/danigb/tonal/blob/master/docs/scale.md)
 - [Sequence](https://github.com/danigb/tonal/blob/master/docs/sequence.md)
+- [BinaryScale](https://github.com/danigb/tonal/blob/master/docs/binaryScale.md)
 
-And [more](https://github.com/danigb/tonal/blob/master/docs)
+Take a look to [the source](https://github.com/danigb/tonal/blob/master/lib) or the [documentation](https://github.com/danigb/tonal/tree/master/docs)
 
 ## Usage
 
@@ -67,8 +72,9 @@ Currently there's no way to load the entire library in one require.
 This are the examples from teoria ported to `tonal`:
 
 ```js
-// Create notes
+// Create pitches
 pitch('a4') // => { name: 'a4', pitchClass: 'A', midi: 69 ... }
+fromMidi(60) // => 'C4'
 fromKey(28) // =>
 
 // Create notes from intervals
@@ -110,12 +116,14 @@ npm test
 
 ## Resources and inspiration
 
-This library takes inspiration from lot of places. Music libraries:
+This library takes inspiration from lot of places:
+
 - Teoria: https://github.com/saebekassebil/teoria
+- Impro-Visor: https://www.cs.hmc.edu/~keller/jazz/improvisor/
 - MusicKit: https://github.com/benzguo/MusicKit
 - Music21: http://web.mit.edu/music21/doc/index.html
 
-The binary representation of the scales are based on the awesome book [Arpeggio & Scale Resources](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia) by [Rich Cochrane](http://cochranemusic.com/). Additional scale code is inspired by the works of [Walter Zettel](http://www.muzuu.org/new_life/pics/simpleblog/scales/scalesadvice.html) and [William Zeitler](http://www.allthescales.org/)
+The binary representation of the scales are based on the awesome book [Arpeggio & Scale Resources](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia) by [Rich Cochrane](http://cochranemusic.com/). Additional scale stuff (like scale spaces) are inspired by the works of [Walter Zettel](http://www.muzuu.org/new_life/pics/simpleblog/scales/scalesadvice.html) and [William Zeitler](http://www.allthescales.org/)
 
 Interval analisys is based on the book [Harmonic Materials of Modern Music](https://archive.org/details/harmonicmaterial00hans) of Howard Hanson.
 
