@@ -177,7 +177,7 @@ pitches('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']</code></pre>
 </dt>
 <dd>
 <div class="description">
-<p>Get the pitch class set from a key.</p>
+<p>Get the triads of</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
