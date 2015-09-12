@@ -14,8 +14,14 @@ var transpose = require('tonal/note/transpose')
 transpose('M2', 'f#4') // => 'G#4'
 
 // functional programming
+['P1', 'M2', 'M3'].map(transpose('D')) // => ['D4', 'E4', 'F#4']
+['A', 'B', 'C', 'D', 'E'].map(transpose.by('M2')) // => ['B4', 'C#5', 'D5', 'E5', 'F#5']
 var sequence = require('tonal/sequence/sequence')
-sequence('A B C D E').map(transpose('M2')) // => ['B4', 'C#5', 'D5', 'E5', 'F#5']
+sequence('C D E').map(transpose.by('M6')) // => ['A4', 'B4', 'C#5']
+
+// pitch class sets
+var set = require('tonal/sequence/pitchClass')
+set('C4 D4 E6 D5 F2') // => ['C', 'D', 'E', 'F']
 
 // scales and chords
 var scale = require('tonal/scale/scale')

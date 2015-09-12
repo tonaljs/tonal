@@ -22,7 +22,7 @@ transpose('C2', 'P5') // => 'G5'
 
 If you are building an app to deal with notes and midi and frequencies, this is your module.
 
-## API
+## Functions
 
 <!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->

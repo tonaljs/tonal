@@ -1,4 +1,4 @@
-# Module sequence
+# Sequence module
 
 Sequence are arrays of events. The most common sequences in tonal are pitch and interval sequences. Sequences help with tonal functional programming:
 
@@ -28,7 +28,7 @@ set('D C F E') // => ['D', 'E', 'F', 'C']
 
 Some tonal functions (like scales) returns pitch sets instead of sequences.
 
-## API
+## Functions
 
 <!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
