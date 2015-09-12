@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Functional, modular music theory library",
   "main": "tonal.js",
   "repository": {
@@ -18,7 +18,8 @@
     "chords",
     "chord",
     "scale",
-    "scales"
+    "scales",
+    "key"
   ],
   "author": "danigb <danigb@gmail.com>",
   "license": "MIT",
