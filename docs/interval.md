@@ -1,6 +1,22 @@
 # Interval module
 
-Interval creation and manipulation.
+Create intervals:
+
+```js
+var interval = require('interval/interval')
+interval('P5') // => { name: 'P5', num: 5, quality: 'P', ...}
+```
+
+Or transform them:
+
+```js
+var simplify = require('interval/simplify')
+simplify('M9') // => 'M2'
+var invert = require('interval/invert')
+invert('M2') // => 'm7'
+var add = require('interval/add')
+add('M2', 'P4') // => 'P5'
+```
 
 ## API
 <!-- START docme generated API please keep comment here to allow auto update -->

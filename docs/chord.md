@@ -1,3 +1,14 @@
+# Chord module
+
+Create or manipulate chords:
+
+```js
+var chord = require('tonal/chord/chord')
+chord('Cmaj7') // => ['C4', 'E4', 'G4', 'B4']
+```
+
+## API
+
 <!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
 

@@ -1,3 +1,9 @@
+# Time module
+
+__This will be moved to scorejs library__
+
+## API
+
 <!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
 

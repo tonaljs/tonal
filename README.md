@@ -3,7 +3,7 @@
 [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
-Tonal is a library to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and it iss a library for composing, transforming or analyse music:
+Tonal is a library to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and it is a library for composing, transforming or analyse music:
 
 ```js
 // pitch and interval manipulation
@@ -15,7 +15,7 @@ transpose('M2', 'f#4') // => 'G#4'
 
 // functional programming
 var sequence = require('tonal/sequence/sequence')
-sequence('A B C D').map(transpose('M2'))
+sequence('A B C D E').map(transpose('M2')) // => ['B4', 'C#5', 'D5', 'E5', 'F#5']
 
 // scales and chords
 var scale = require('tonal/scale/scale')
@@ -32,8 +32,8 @@ chord('CMaj7') // => ['C4', 'E4', 'G4', 'B4']
 Tonal has a number of characteristics that make it unique:
 
 - It is __functional__: no classes, no side effects, no mutations, just data and functions.
-- Heavy use of __strings to represent entities__: pitches (`C#2`, `Bb`, `G##`), intevals (`M2`, `m-9`), chords (`Cmaj7` `Bb79`), scales (`C major`, `Bb bebop`), sequences (`C D E F`, `P1 M2 M3`, `Cmaj7 Dm9`), keys (`C major`, `Bb minor`, `###`)
-- Extremely __modular__: require the functions not the library. Since you only require the functions you need (_a-la-lodash_) the dependencies are reduced to the minimum. You can think each function in tonal like a npm micro-module.
+- Heavy use of __strings to represent entities__: pitches (`'C#2'`, `'Bb'`, `'G##'`), intevals (`'M2'`, `'m-9'`), chords (`'Cmaj7'`, `'Bb79'`), scales (`'C major'`, `'Bb bebop'`), sequences (`'C D E F'`, `'P1 M2 M3'`, `'Cmaj7 Dm9'`), keys (`'C major'`, `'Bb minor'`, `'###'`)
+- Extremely __modular__: require the functions not the library (_a-la-lodash_) so the dependencies are reduced to the minimum. You can think each function in tonal like a npm micro-module.
 - Advanced features: binary scales, chord and scale detection, ...
 
 ## Why

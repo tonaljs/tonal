@@ -1,3 +1,21 @@
+# Scale module
+
+Create or detect scales:
+
+```js
+var scale = require('tonal/scale')
+scale('C myxolidian') // => ['C', 'D', 'E', 'F', 'G', 'A', 'Bb']
+scale('major') // => ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7']
+
+var mode = require('tonal/scale/mode')
+mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
+
+var names = require('tonal/scale/names')
+names('D E F# G A B C#') // => ['D dorian']
+```
+
+## API
+
 <!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
 

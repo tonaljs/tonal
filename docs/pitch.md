@@ -1,6 +1,26 @@
 # Pitch module
 
-This is the basic building block of tonal.
+This is the basic building block of tonal. You can create pitches in a variety of ways:
+
+```js
+var pitch = require('tonal/pitch/pitch')
+pitch('C4') // => { name: 'C4', pitchClass: 'C', midi: 60 ... }
+pitch('D', 5, 1) // => { name: 'D#5', ... }
+pitch('B', 2, -1) // => { name: 'Bb2', ... }
+```
+
+And transform them:
+
+```js
+var freq = require('tonal/freq/freq')
+freq('A3') // => 220
+freq('A4', 444) // => 444
+
+var transpose = require('tonal/transpose')
+transpose('C2', 'P5') // => 'G5'
+```
+
+If you are building an app to deal with notes and midi and frequencies, this is your module.
 
 ## API
 
