@@ -33,7 +33,7 @@ vows.describe('key/keyNumber').addBatch({
     assert.deepEqual(keyNumber('bbb'), -3)
   },
   'invalid': function () {
-    assert.throws(function () { keyNumber('C bla') }, /Mode/)
-    assert.throws(function () { keyNumber('A dorian') }, /Mode/)
+    assert.equal(keyNumber('C bla'), null)
+    assert.equal(keyNumber('D dorian'), null)
   }
 }).export(module)

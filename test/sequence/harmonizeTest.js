@@ -7,5 +7,8 @@ vows.describe('sequence/harmonize').addBatch({
     assert.deepEqual(harmonize('C2', ['1P', '2M', '3M', '4P', '5P', '6M', '7M']),
       ['C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2'])
     assert.deepEqual(harmonize('D3', '2M 3M'), ['E3', 'F#3'])
+  },
+  'pitch classes only': function () {
+    assert.deepEqual(harmonize('D3', '-2M -3M', true), ['C', 'Bb'])
   }
 }).export(module)
