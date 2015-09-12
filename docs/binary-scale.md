@@ -83,21 +83,54 @@ For example, at [allthescales.org site](http://allthescales.org) they limit all 
 </dl>
 </dd>
 <dt>
-<h4 class="name" id="toBinary"><span class="type-signature"></span>toBinary<span class="signature">()</span><span class="type-signature"></span></h4>
+<h4 class="name" id="toBinary"><span class="type-signature"></span>toBinary<span class="signature">(pitches)</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Return the binary scale number of a sequence of notes</p>
+<p>Return the binary scale number of a sequence of pitches</p>
 </div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>pitches</code></td>
+<td class="type">
+<span class="param-type">String</span>
+|
+<span class="param-type">Array</span>
+</td>
+<td class="description last"><p>a sequence of pitches</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/fromPitches.js">fromPitches.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/fromPitches.js#L9">lineno 9</a>
+<a href="https://github.com/danigb/tonal/blob/master/fromPitches.js#L12">lineno 12</a>
 </li>
 </ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>a binary number representing the given pitch set</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">String</span>
+</dd>
 </dl>
 </dd>
 <dt>

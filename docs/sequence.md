@@ -16,6 +16,18 @@ reverse('C D E') // => ['E', 'D', 'C']
 rotate('C D E', 1) // => ['D', 'E', 'C']
 ```
 
+### Pitch sets
+
+A special type of sequence is the pitchSet. A pitch set is an sequence of pitch classes, where they can't be repeated.
+
+```js
+var set = require('tonal/sequence/pitchSet')
+set('C2 D E3 C3 E3 D') // => ['C', 'D', 'E']
+set('D C F E') // => ['D', 'E', 'F', 'C']
+```
+
+Some tonal functions (like scales) returns pitch sets instead of sequences.
+
 ## API
 
 <!-- START docme generated API please keep comment here to allow auto update -->
@@ -57,6 +69,24 @@ rotate('C D E', 1) // => ['D', 'E', 'C']
 </dd>
 </dl>
 <dl>
+<dt>
+<h4 class="name" id="cycle"><span class="type-signature"></span>cycle<span class="signature">()</span><span class="type-signature"></span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Given an interval create a cycle</p>
+</div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/cycle.js">cycle.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/cycle.js#L8">lineno 8</a>
+</li>
+</ul></dd>
+</dl>
+</dd>
 <dt>
 <h4 class="name" id="harmonize"><span class="type-signature"></span>harmonize<span class="signature">(tonic, intervals)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 </dt>
@@ -116,6 +146,62 @@ Type
 </dl>
 <h5>Example</h5>
 <pre class="prettyprint"><code>harmonize('C2', ['P1 P5']) // => ['C2', 'G2']</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="pitchSet"><span class="type-signature"></span>pitchSet<span class="signature">(pitches)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>A pitch set is a sequence of unique pitch classes ordered by frequency</p>
+<p>This method will order the pitch classes by frequency, but starting always
+with the first pitch class of the original sequence</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>pitches</code></td>
+<td class="type">
+<span class="param-type">Array</span>
+|
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>a group of pitches</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/pitchSet.js">pitchSet.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/pitchSet.js#L19">lineno 19</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>a pitch set</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>pitchSet('D E G G A E') // => ['D', 'E', 'G', 'A']
+pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="reverse"><span class="type-signature"></span>reverse<span class="signature">(sequence)</span><span class="type-signature"> &rarr; {Array}</span></h4>
