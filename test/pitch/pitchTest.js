@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var pitch = require('../../lib/pitch/pitch')
+var pitch = require('../../lib/pitch/build')
 
-vows.describe('pitch/pitch').addBatch({
+vows.describe('pitch/build').addBatch({
   'normalize pitch': function () {
     assert.equal(pitch('C#2').name, 'C#2')
     assert.equal(pitch('bbb').name, 'Bbb4')
