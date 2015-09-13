@@ -3,10 +3,10 @@ var assert = require('assert')
 var pitch = require('../../lib/pitch/build')
 
 vows.describe('pitch/build').addBatch({
-  'normalize pitch': function () {
-    assert.equal(pitch('C#2').name, 'C#2')
-    assert.equal(pitch('bbb').name, 'Bbb4')
-    assert.equal(pitch('f').name, 'F4')
+  'name as it': function () {
+    assert.equal(pitch('Cx2').name, 'Cx2')
+    assert.equal(pitch('bbb').name, 'bbb')
+    assert.equal(pitch('f').name, 'f')
   },
   'set octaves': function () {
     assert.equal(pitch('Dbb5', 2).name, 'Dbb2')
