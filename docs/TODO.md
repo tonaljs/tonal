@@ -4,7 +4,8 @@ Tonal is not complete yet. Here are some stuff i'm planning to implement:
 
 ## Pitch
 
-- `build` should only build a string (not an object)
+- toKey and fromKey functions
+- fromFreq functions
 
 ## Interval
 

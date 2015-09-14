@@ -12,7 +12,8 @@
 - Move pitchSet to set
 - Move binary-scale functions into set
 - Rename pitch property sci to str
-- interval/build only build an string and renamed to interval/interval
+- interval/build only builds an string and renamed to interval/interval
+- pitch/build only builds an string and renamed to pitch/pitch
 
 [0.6.0]
-- First near feature complete release
+- Last iteration without changelog ;-)
