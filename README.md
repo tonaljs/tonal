@@ -3,7 +3,7 @@
 [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
-Tonal is a library to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and it is a library for composing, transforming or analyse music:
+Tonal is a library to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and it is a library for apps that deals with midi or web audio api, algorithmic composing or music analysis or manipulation.
 
 ```js
 var tonal = require('tonal')
@@ -18,6 +18,7 @@ tonal.octave('Eb2') // => 2
 tonal.interval('M2') // => 'M2'
 tonal.interval('-P4') // => '-P4'
 tonal.interval('nope') // => null
+tonal.semitones('P5') // => 7
 
 // working with frequency and midi is easy
 tonal.midi('A4') // => 69
@@ -35,12 +36,15 @@ tonal('A B C D E').transpose('2M') // => ['B4', 'C#5', 'D5', 'E5', 'F#5']
 tonal('1P 2M 3M').transpose('D4') // => ['D4', 'E4', 'F#4']
 
 // pitch class sets
-tonal('C4 D4 E6 D5 F2').set() // => ['C', 'D', 'E', 'F']
+tonal('C4 D4 E6 D5 F2 C5 F6').set() // => ['C', 'D', 'E', 'F']
 
 // scales and chords
 tonal.scale('A major').transpose('8P') // => ['A5, 'B5', ...]
 tonal('A Bb').scale('major') // => [ ['A', 'B', 'C#', ...], ['Bb', 'C', 'D', ...]
+tonal.scale('A major').modes()
+tonal.scale('Bb dorian').modes().triadic()
 tonal.scaleName('C D E F# G A B') // => ['C lydian']
+
 tonal.chord('CMaj7') // => ['C4', 'E4', 'G4', 'B4']
 tonal('Dm7 | G7 | CMaj7').chord() // => [ ['D', 'F', ...], ['G', ...], ['C', ...]]
 ```
@@ -52,11 +56,11 @@ Tonal has a number of characteristics that make it unique:
 - Extremely __modular__: require the functions not the library (_a-la-lodash_) so the dependencies are reduced to the minimum. You can think each function in tonal like a npm micro-module.
 - Advanced features: binary scales, chord and scale detection, ...
 
-For [teoria](https://github.com/saebekassebil/teoria) users: it's important to notice that the interval string representation is different: `'P-8'` vs. `'-8P'`
+_This is still beta software_ For a stable library see [teoria](https://github.com/saebekassebil/teoria)
 
 ## Why
 
-Mostly, because I want to learn:
+Mostly, because I want to [learn](https://github.com/danigb/tonal/blob/master/RESOURCES.md):
 
 > Reinventing the wheel is bad for business, but it’s great for learning
 [*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)

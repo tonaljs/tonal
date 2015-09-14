@@ -8,6 +8,7 @@
 - Remove sequence/reverse and sequence/retrograde
 - Move sequence/cycle to incubator
 - Tonal object facade
+- Move sequence/harmonize to interval/harmonize
 
 [0.6.0]
 - First near feature complete release

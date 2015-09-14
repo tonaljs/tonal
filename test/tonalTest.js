@@ -3,8 +3,19 @@ var assert = require('assert')
 var tonal = require('../lib/tonal')
 
 vows.describe('tonal').addBatch({
-  'tonal transpose': function () {
-    assert.equal(tonal('E').transpose('2M'), 'F#4')
-    assert.deepEqual(tonal('E F').transpose('2M'), [ 'F#4', 'G4' ])
+  'pitch': function () {
+    assert.equal(tonal.pitch('ebb2'), 'Ebb2')
+    assert.equal(tonal.octave('bb3'), 3)
+    assert.equal(tonal.pitchClass('bb3'), 'Bb')
+    assert.equal(tonal.midi('bb3'), 58)
+    assert.equal(tonal.fromMidi(87), 'Eb6')
+    assert.equal(tonal.freq('Eb6'), 1244.5079348883237)
+  },
+  'scales': function () {
+    assert.deepEqual(tonal.scale('Bb dorian'), ['Bb', 'C', 'Db', 'Eb', 'F', 'G', 'Ab'])
+  },
+  'collections': function () {
+    assert.deepEqual(tonal('A B C'), ['A', 'B', 'C'])
+    assert.deepEqual(tonal('C D E').map(tonal.transpose('-2M')), ['Bb3', 'C4', 'D4'])
   }
 }).export(module)

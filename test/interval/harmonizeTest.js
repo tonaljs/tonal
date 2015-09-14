@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var harmonize = require('../../lib/sequence/harmonize')
+var harmonize = require('../../lib/interval/harmonize')
 
-vows.describe('sequence/harmonize').addBatch({
+vows.describe('interval/harmonize').addBatch({
   'harmonize': function () {
     assert.deepEqual(harmonize('C2', ['1P', '2M', '3M', '4P', '5P', '6M', '7M']),
       ['C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2'])
