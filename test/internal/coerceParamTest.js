@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var coerce = require('../../lib/utils/coerceParam')
+var coerce = require('../../lib/internal/coerceParam')
 
 vows.describe('Interval').addBatch({
   'coerce param': function () {

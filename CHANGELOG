@@ -14,6 +14,7 @@
 - Rename pitch property sci to str
 - interval/build only builds an string and renamed to interval/interval
 - pitch/build only builds an string and renamed to pitch/pitch
+- rename utils to internal to explicit the use case of those functions
 
 [0.6.0]
 - Last iteration without changelog ;-)
