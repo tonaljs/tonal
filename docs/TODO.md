@@ -8,8 +8,6 @@ Tonal is not complete yet. Here are some stuff i'm planning to implement:
 
 ## Interval
 
-- Create interval/interval method that mimics pitch/pitch
-- `build` should only build a string (not an object)
 - `simplify` should have an option to create only ascending intervals (by inverting them)
 
 ## Set
