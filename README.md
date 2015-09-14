@@ -6,14 +6,14 @@
 Tonal is a library to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and it is a library for composing, transforming or analyse music:
 
 ```js
-// pitches and intervals
+// pitches are strings with scientific notation
 var pitch = require('tonal/pitch/pitch')
-pitch('C#4') // => { name: 'C#4', pitchClass: 'C#', oct: '4', ... }
+pitch('cb') // 'Cb'
 
-var transpose = require('tonal/note/transpose')
+var transpose = require('tonal/pitch/transpose')
 transpose('f#4', '2M') // => 'G#4'
 
-var distance = require('tonal/note/distance')
+var distance = require('tonal/pitch/distance')
 distance('F', 'G#') // => '3A'
 distance('c4', 'bb3') // => '-2M'
 
@@ -75,7 +75,7 @@ Take a look to [the source](https://github.com/danigb/tonal/blob/master/lib) or 
 Install via npm: `npm i --save tonal` and require the functions you need:
 
 ```js
-var transpose = require('tonal/note/transpose')
+var transpose = require('tonal/pitch/transpose')
 tranpose('5P', 'C')
 ```
 
