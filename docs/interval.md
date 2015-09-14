@@ -42,6 +42,27 @@ add('2M', '4P') // => '5P'
 </div>
 <dl>
 <dt>
+<h4 class="name" id="semitones
+Get the semitones of a interval"><span class="type-signature"></span>semitones
+Get the semitones of a interval<span class="type-signature"></span></h4>
+</dt>
+<dd>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/next/semitones.js">semitones.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/next/semitones.js#L5">lineno 5</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>semitones('5P') // => 7</code></pre>
+</dd>
+</dl>
+<dl>
+<dt>
 <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(interval1, interval2)</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>
@@ -78,9 +99,9 @@ add('2M', '4P') // => '5P'
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/add.js">add.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/add.js">add.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/add.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/next/add.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -100,14 +121,13 @@ Type
 <pre class="prettyprint"><code>add('M2', 'M2') // => 'M3'</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="interval"><span class="type-signature"></span>interval<span class="signature">(interval, alter, oct)</span><span class="type-signature"></span></h4>
+<h4 class="name" id="build"><span class="type-signature"></span>build<span class="signature">(interval, alter, oct)</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Get an interval properties from a name and optional an octave, alteration
-and direction</p>
-<p>This is the same as <code>interval/props</code> but with the possibility of build a
-new intervals based on a given one</p>
+<p>Get an interval properties from a string or a number, and optinally alterations
+and octave.</p>
+<p>The aclterations and octave parameters will have precedence over the string interval</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -149,9 +169,9 @@ new intervals based on a given one</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/interval.js">interval.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/build.js">build.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/interval.js#L31">lineno 31</a>
+<a href="https://github.com/danigb/tonal/blob/next/build.js#L30">lineno 30</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -162,13 +182,13 @@ new intervals based on a given one</p>
 </dd>
 </dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>interval('M2') // => { name: 'M2', ... }
-interval('M2', 1) // => { name: 'A2', ... }
-interval(1) // => { name: 'P1', ... }
-interval(1, 1) // => { name: 'A1', ... }
-interval(1, 1, 2) // => { name: 'A8', ... }
-interval(-1, 1, 2) // => { name: 'A-8', ... }
-interval(-2, -1, 2) // => { name: 'm-9', ... }</code></pre>
+<pre class="prettyprint"><code>build('M2') // => { name: 'M2', ... }
+build('M2', 1) // => { name: 'A2', ... }
+build(1) // => { name: 'P1', ... }
+build(1, 1) // => { name: 'A1', ... }
+build(1, 1, 2) // => { name: 'A8', ... }
+build(-1, 1, 2) // => { name: 'A-8', ... }
+build(-2, -1, 2) // => { name: 'm-9', ... }</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="invert"><span class="type-signature"></span>invert<span class="signature">(interval, ascending)</span><span class="type-signature"></span></h4>
@@ -211,9 +231,9 @@ given interval</p></td>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/invert.js">invert.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/invert.js">invert.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/invert.js#L20">lineno 20</a>
+<a href="https://github.com/danigb/tonal/blob/next/invert.js#L20">lineno 20</a>
 </li>
 </ul></dd>
 </dl>
@@ -252,9 +272,9 @@ simple('P-11', true) // => 'P4'</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/isInterval.js">isInterval.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/isInterval.js">isInterval.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/isInterval.js#L13">lineno 13</a>
+<a href="https://github.com/danigb/tonal/blob/next/isInterval.js#L13">lineno 13</a>
 </li>
 </ul></dd>
 </dl>
@@ -286,9 +306,9 @@ isInterval('P6') // false</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/opposite.js">opposite.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/opposite.js">opposite.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/opposite.js#L9">lineno 9</a>
+<a href="https://github.com/danigb/tonal/blob/next/opposite.js#L9">lineno 9</a>
 </li>
 </ul></dd>
 </dl>
@@ -304,7 +324,7 @@ opposite('P-8') // => 'P8'</code></pre>
 <article>
 <div class="container-overview">
 <div class="description"><p>Get interval properties</p>
-<p>Probably you will want to use <code>interval/interval</code> instead.</p>
+<p>Probably you will want to use <code>interval/build</code> instead.</p>
 <p>This method retuns an object with the following properties:
 - name: the interval name
 - quality: the quality (one of <code>dmPMA</code> for dimished, minor, perfect, major and
@@ -320,15 +340,15 @@ quality of the interval, just if it is perfectable or not.
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/props.js">props.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/props.js">props.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/props.js#L13">lineno 13</a>
+<a href="https://github.com/danigb/tonal/blob/next/props.js#L13">lineno 13</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
 <dd class="tag-see">
 <ul>
-<li>interval/interval</li>
+<li>interval/build</li>
 </ul>
 </dd>
 </dl>
@@ -346,9 +366,9 @@ props('9m') // => { name: '9m', quality: 'm', dir: 1, num: 9, generic: 1, alter:
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/simplify.js">simplify.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/simplify.js">simplify.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/simplify.js#L3">lineno 3</a>
+<a href="https://github.com/danigb/tonal/blob/next/simplify.js#L3">lineno 3</a>
 </li>
 </ul></dd>
 </dl>

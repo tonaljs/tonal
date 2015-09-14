@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var interval = require('../../lib/interval/interval')
+var interval = require('../../lib/interval/build')
 
-vows.describe('interval/interval').addBatch({
+vows.describe('interval/build').addBatch({
   'parse interval': function () {
     assert.equal(interval('5P').name, '5P')
     assert.equal(interval('2A').quality, 'A')

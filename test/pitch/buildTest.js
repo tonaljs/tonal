@@ -1,12 +1,12 @@
 var vows = require('vows')
 var assert = require('assert')
-var pitch = require('../../lib/pitch/pitch')
+var pitch = require('../../lib/pitch/build')
 
-vows.describe('pitch/pitch').addBatch({
-  'normalize pitch': function () {
-    assert.equal(pitch('C#2').name, 'C#2')
-    assert.equal(pitch('bbb').name, 'Bbb4')
-    assert.equal(pitch('f').name, 'F4')
+vows.describe('pitch/build').addBatch({
+  'name as it': function () {
+    assert.equal(pitch('Cx2').name, 'Cx2')
+    assert.equal(pitch('bbb').name, 'bbb')
+    assert.equal(pitch('f').name, 'f')
   },
   'set octaves': function () {
     assert.equal(pitch('Dbb5', 2).name, 'Dbb2')

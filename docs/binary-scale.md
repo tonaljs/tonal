@@ -75,9 +75,9 @@ For example, at [allthescales.org site](http://allthescales.org) they limit all 
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/fromIntervals.js">fromIntervals.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/fromIntervals.js">fromIntervals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/fromIntervals.js#L11">lineno 11</a>
+<a href="https://github.com/danigb/tonal/blob/next/fromIntervals.js#L11">lineno 11</a>
 </li>
 </ul></dd>
 </dl>
@@ -114,9 +114,9 @@ For example, at [allthescales.org site](http://allthescales.org) they limit all 
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/fromPitches.js">fromPitches.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/fromPitches.js">fromPitches.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/fromPitches.js#L12">lineno 12</a>
+<a href="https://github.com/danigb/tonal/blob/next/fromPitches.js#L12">lineno 12</a>
 </li>
 </ul></dd>
 </dl>
@@ -172,9 +172,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/toIntervals.js">toIntervals.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/toIntervals.js">toIntervals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/toIntervals.js#L22">lineno 22</a>
+<a href="https://github.com/danigb/tonal/blob/next/toIntervals.js#L22">lineno 22</a>
 </li>
 </ul></dd>
 </dl>

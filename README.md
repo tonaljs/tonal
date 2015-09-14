@@ -6,38 +6,43 @@
 Tonal is a library to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and it is a library for composing, transforming or analyse music:
 
 ```js
-// pitches and intervals
-var pitch = require('tonal/pitch/pitch')
-pitch('C#4') // => { name: 'C#4', pitchClass: 'C#', oct: '4', ... }
+var tonal = require('tonal')
 
-var transpose = require('tonal/note/transpose')
-transpose('f#4', '2M') // => 'G#4'
+// pitches and intervals are just strings (using scientific notation)
+tonal.pitch('Cb') // 'Cb4'
+tonal.pitch('ebb2') // 'Ebb2'
+tonal.pitch('Fx') // => 'F##'
+tonal.pitch('Ebbbbb') // => null
+tonal.octave('Eb2') // => 2
 
-var distance = require('tonal/note/distance')
-distance('F', 'G#') // => '3A'
-distance('c4', 'bb3') // => '-2M'
+tonal.interval('M2') // => 'M2'
+tonal.interval('-P4') // => '-P4'
+tonal.interval('nope') // => null
 
-// sequences
-['A', 'B', 'C', 'D', 'E'].map(transpose('2M')) // => ['B4', 'C#5', 'D5', 'E5', 'F#5']
-['1P', '2M', '3M'].map(transpose('D')) // => ['D4', 'E4', 'F#4']
-var sequence = require('tonal/sequence/sequence')
-sequence('C D E').map(transpose('6M')) // => ['A4', 'B4', 'C#5']
-sequence('CMaj7 Dm7 G7') // => ['Cmaj7', 'Dm7', 'G7']
+// working with frequency and midi is easy
+tonal.midi('A4') // => 69
+tonal.fromMidi(60) // => 'C4'
+tonal.freq('A4') // => 440
+tonal.fromFreq(220) // => 'A3'
+
+// manipulate pitches and intervals
+tonal.transpose('F#2', '2M') // => 'G#2'
+tonal.transpose('2M', '2M') // => '3M'
+tonal.interval('F2', 'B2') // => '4A'
+
+// work with collections
+tonal('A B C D E').transpose('2M') // => ['B4', 'C#5', 'D5', 'E5', 'F#5']
+tonal('1P 2M 3M').transpose('D4') // => ['D4', 'E4', 'F#4']
 
 // pitch class sets
-var set = require('tonal/sequence/pitchClass')
-set('C4 D4 E6 D5 F2') // => ['C', 'D', 'E', 'F']
+tonal('C4 D4 E6 D5 F2').set() // => ['C', 'D', 'E', 'F']
 
 // scales and chords
-var scale = require('tonal/scale/scale')
-scale('A major') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
-scale('A major').map(transpose('8P')) // => ['A5, 'B5', ...]
-
-var scaleNames = require('tonal/scale/names')
-scaleNames('C D E F G A B C') // => ['C major', 'C ionian']
-
-var chord = require('tonal/chord/chord')
-chord('CMaj7') // => ['C4', 'E4', 'G4', 'B4']
+tonal.scale('A major').transpose('8P') // => ['A5, 'B5', ...]
+tonal('A Bb').scale('major') // => [ ['A', 'B', 'C#', ...], ['Bb', 'C', 'D', ...]
+tonal.scaleName('C D E F# G A B') // => ['C lydian']
+tonal.chord('CMaj7') // => ['C4', 'E4', 'G4', 'B4']
+tonal('Dm7 | G7 | CMaj7').chord() // => [ ['D', 'F', ...], ['G', ...], ['C', ...]]
 ```
 
 Tonal has a number of characteristics that make it unique:
@@ -75,7 +80,7 @@ Take a look to [the source](https://github.com/danigb/tonal/blob/master/lib) or 
 Install via npm: `npm i --save tonal` and require the functions you need:
 
 ```js
-var transpose = require('tonal/note/transpose')
+var transpose = require('tonal/pitch/transpose')
 tranpose('5P', 'C')
 ```
 

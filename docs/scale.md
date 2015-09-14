@@ -29,11 +29,11 @@ names('D E F# G A B C#') // => ['D dorian']
 </div>
 <dl>
 <dt>
-<h4 class="name" id="intervals"><span class="type-signature"></span>intervals<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+<h4 class="name" id="generic"><span class="type-signature"></span>generic<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Get the intervals of a scale name</p>
+<p>Get a generic scale (the intervals) from a scale name without tonic</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -58,9 +58,9 @@ names('D E F# G A B C#') // => ['D dorian']
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/intervals.js">intervals.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/generic.js">generic.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/intervals.js#L12">lineno 12</a>
+<a href="https://github.com/danigb/tonal/blob/next/generic.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -76,6 +76,8 @@ Type
 <span class="param-type">Array</span>
 </dd>
 </dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>generic('C major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="name"><span class="type-signature"></span>name<span class="signature">()</span><span class="type-signature"></span></h4>
@@ -88,9 +90,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/name.js">name.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/name.js">name.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/name.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/next/name.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -104,7 +106,7 @@ Type
 <div class="description">
 <p>Parase a scale name and returns its components</p>
 <p>A scale name can have two components:
-- tonic: a note specifing the tonic
+- tonic: a pitch specifing the tonic
 - type: the scale type</p>
 </div>
 <h5>Parameters:</h5>
@@ -130,9 +132,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/next/parse.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -181,9 +183,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/scale.js">scale.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/scale.js">scale.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/scale.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/next/scale.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -241,9 +243,9 @@ scale('bebop') // => '1P 2M 3M 4P 5P 6M 7m 7M'</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/triadic.js">triadic.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/triadic.js">triadic.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/triadic.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/next/triadic.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -274,9 +276,9 @@ triadic('dorian', 4) // => ['1P', '3m', '5P', '7m']</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/mode.js">mode.js</a>
+<a href="https://github.com/danigb/tonal/blob/next/mode.js">mode.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/mode.js#L4">lineno 4</a>
+<a href="https://github.com/danigb/tonal/blob/next/mode.js#L4">lineno 4</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
