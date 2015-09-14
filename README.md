@@ -56,11 +56,11 @@ Tonal has a number of characteristics that make it unique:
 - Extremely __modular__: your can require individual functions not (_a-la-lodash_) so the dependencies are reduced to the minimum. Think each function in tonal like a npm micro-module.
 - Advanced features: binary sets, chord and scale detection, ...
 
-_This is still beta software_ For a stable library see [teoria](https://github.com/saebekassebil/teoria)
+__Tonal is [far from complete](https://github.com/danigb/tonal/blob/master/docs/TODO.md)__ For a stable library see [teoria](https://github.com/saebekassebil/teoria)
 
 ## Why
 
-Mostly, because I want to [learn](https://github.com/danigb/tonal/blob/master/RESOURCES.md):
+Mostly, because I want to [learn](https://github.com/danigb/tonal/blob/master/docs/RESOURCES.md):
 
 > Reinventing the wheel is bad for business, but it’s great for learning
 [*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
@@ -70,7 +70,6 @@ Mostly, because I want to [learn](https://github.com/danigb/tonal/blob/master/RE
 The library is divided in a number of modules:
 
 [Pitches](https://github.com/danigb/tonal/blob/master/docs/pitch.md)
-
 
 [Intervals](https://github.com/danigb/tonal/blob/master/docs/interval.md)
 

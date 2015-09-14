@@ -2,6 +2,8 @@
 
 Functions to work with keys and key signatures.
 
+Work in progress.
+
 ## Functions
 
 

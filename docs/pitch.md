@@ -1,6 +1,37 @@
 # Pitch module
 
-This is the basic building block of tonal. You can create pitches in a variety of ways:
+This is the basic building block of tonal. A pitch is a string with the note pitch in scientific notation. To create a pitch use `pitch/pitch`
+
+```js
+var pitch = require('tonal/pitch/pitch')
+pitch('c') // => 'C4'
+pitch('bbb') // => 'Bbb4'
+pitch('eb2') // => 'Eb2'
+```
+
+Not very interesting. You can get the pitch properties with `pitchClass`, `octave`, `midi` and ´freq´ functions:
+
+```js
+var pitchClass = require('tonal/pitch/pitchClass')
+pitchClass('db4') // => 'Db'
+var midi = require('tonal/pitch/midi')
+midi('g#2') // => 44
+var freq = require('tonal/pitch/freq')
+freq('A3') // => 220
+freq('A4', 444) // => 444
+...
+```
+
+You can get all the properties with the `props` function:
+
+```js
+var pitch = require('tonal/pitch/props')
+pitch('C4') // => { name: 'C4', pitchClass: 'C', midi: 60 ... }
+pitch('D#5') // => { name: 'D#5', ... }
+pitch('Bb2') // => { name: 'Bb2', ... }
+```
+
+If you need to build a pitch from its components, you can use `build`
 
 ```js
 var pitch = require('tonal/pitch/pitch')
@@ -12,10 +43,6 @@ pitch('B', 2, -1) // => { name: 'Bb2', ... }
 And transform them:
 
 ```js
-var freq = require('tonal/freq/freq')
-freq('A3') // => 220
-freq('A4', 444) // => 444
-
 var transpose = require('tonal/transpose')
 transpose('C2', '5P') // => 'G5'
 ```
@@ -405,6 +432,7 @@ Type
 <ul>
 <li><strong>name</strong>: the propsd pitch string</li>
 <li><strong>letter</strong>: the pitch letter <strong>always</strong> in uppercase</li>
+<li><strong>str</strong>: the pitch in scientific representation</li>
 <li><strong>pitchClass</strong>: the pitch <a href="https://en.wikipedia.org/wiki/Pitch_class">pitch class</a>
 (letter in uppercase, accidentals using 'b' or '#', never 'x', no octave)</li>
 <li><strong>acc</strong>: a string with the accidentals or '' if no accidentals (never null)</li>
@@ -441,7 +469,7 @@ where C=0, C#=1, D=2...B=11</li>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/props.js">props.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/props.js#L29">lineno 29</a>
+<a href="https://github.com/danigb/tonal/blob/master/props.js#L30">lineno 30</a>
 </li>
 </ul></dd>
 </dl>

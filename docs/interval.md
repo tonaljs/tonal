@@ -6,10 +6,10 @@ This module is for interval creation and modulation. It's probably you use inter
 
 In tonal a interval is a string with the following form: ([+-]?)(\d+)([dmPMA]) where the first part is the direction (optional), then the interval number and the quality. Valid intervals are: `'3M'`, `'-5P'`, `'7m'`
 
-If you need an interval object properties, use `interval` function:
+If you need an interval object properties, use `interval/props` function:
 
 ```js
-var interval = require('interval/interval')
+var interval = require('interval/props')
 interval('5P') // => { name: '5P', num: 5, quality: 'P', ...}
 ```
 
