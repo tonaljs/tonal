@@ -9,6 +9,8 @@
 - Move sequence/cycle to incubator
 - Tonal object facade
 - Move sequence/harmonize to interval/harmonize
+- Move pitchSet to set
+- Move binary-scale functions into set
 
 [0.6.0]
 - First near feature complete release

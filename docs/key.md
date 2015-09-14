@@ -28,9 +28,9 @@ Functions to work with keys and key signatures.
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/accidentals.js">accidentals.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/accidentals.js">accidentals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/accidentals.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/accidentals.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -74,9 +74,9 @@ a 'major' or 'minor' appended, or a string with the accidentals</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/keyNumber.js">keyNumber.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/keyNumber.js">keyNumber.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/keyNumber.js#L23">lineno 23</a>
+<a href="https://github.com/danigb/tonal/blob/master/keyNumber.js#L23">lineno 23</a>
 </li>
 </ul></dd>
 </dl>
@@ -110,9 +110,9 @@ keyNumber('bbb') // => -3</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/parse.js#L12">lineno 12</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js#L12">lineno 12</a>
 </li>
 </ul></dd>
 </dl>
@@ -150,9 +150,9 @@ parse('C#') // => { tonic: 'C#', type: 'major'}</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/pitches.js">pitches.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/pitches.js">pitches.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/pitches.js#L21">lineno 21</a>
+<a href="https://github.com/danigb/tonal/blob/master/pitches.js#L21">lineno 21</a>
 </li>
 </ul></dd>
 </dl>
@@ -202,9 +202,9 @@ pitches('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/triads.js">triads.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/triads.js">triads.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/triads.js#L17">lineno 17</a>
+<a href="https://github.com/danigb/tonal/blob/master/triads.js#L17">lineno 17</a>
 </li>
 </ul></dd>
 </dl>

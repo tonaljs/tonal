@@ -37,6 +37,158 @@ If you are building an app to deal with notes and midi and frequencies, this is 
 </div>
 <dl>
 <dt>
+<h4 class="name" id="midi
+Get the midi of a pitch"><span class="type-signature"></span>midi
+Get the midi of a pitch<span class="type-signature"></span></h4>
+</dt>
+<dd>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/midi.js">midi.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/midi.js#L5">lineno 5</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>midi('a4') // => 69</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="octave
+Get the octave of a pitch"><span class="type-signature"></span>octave
+Get the octave of a pitch<span class="type-signature"></span></h4>
+</dt>
+<dd>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/octave.js">octave.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/octave.js#L5">lineno 5</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>octave('a4') // => 4</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="pitch
+Get the scientific name of a pitch"><span class="type-signature"></span>pitch
+Get the scientific name of a pitch<span class="type-signature"></span></h4>
+</dt>
+<dd>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/pitch.js">pitch.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/pitch.js#L5">lineno 5</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>pitch('a2') // => A2
+pitch('bbb') // => Bbb4
+pitch('c#') // => C#4</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="pitchClass"><span class="type-signature"></span>pitchClass<span class="type-signature"></span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get the <a href="https://en.wikipedia.org/wiki/Pitch_class">pitchClass</a> of a pitch</p>
+</div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/pitchClass.js">pitchClass.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/pitchClass.js#L5">lineno 5</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>pitchClass('a4') // => 69</code></pre>
+</dd>
+</dl>
+<dl>
+<dt>
+<h4 class="name" id="build"><span class="type-signature"></span>build<span class="signature">(pitch, octave, alteration)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Build a pitch properties object from a string and (optionally) the octave
+and/or accidentals</p>
+<p>The parameters of octave and accidentals overrides the values of the pitch string</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>pitch</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>a pitch, a pitch class or a pitch letter</p></td>
+</tr>
+<tr>
+<td class="name"><code>octave</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>(Optional) the octave.</p></td>
+</tr>
+<tr>
+<td class="name"><code>alteration</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>(Optional) the alteration number</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/build.js">build.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/build.js#L24">lineno 24</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>an object with the pitch properties</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Object</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>build('Db3') // properties of 'Db3'
+build('C4', 2) // properties of 'C2'
+build('G', 1, 1) // properties of 'G#1'
+build('G', null, 2) // properties of 'G##4'
+build('C##', 3, -1) // properties of 'Cb3'</code></pre>
+</dd>
+<dt>
 <h4 class="name" id="distance"><span class="type-signature"></span>distance<span class="signature">(from, to)</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>
@@ -244,83 +396,11 @@ Type
 </dl>
 </dd>
 <dt>
-<h4 class="name" id="pitch"><span class="type-signature"></span>pitch<span class="signature">(pitch, octave, alteration)</span><span class="type-signature"> &rarr; {Object}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Get a pitch properties from a string and optionally change the octave or the
-accidentals</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>pitch</code></td>
-<td class="type">
-<span class="param-type">String</span>
-</td>
-<td class="description last"><p>a string with a step letter and optinally
-aaccidentals and octave number</p></td>
-</tr>
-<tr>
-<td class="name"><code>octave</code></td>
-<td class="type">
-<span class="param-type">Integer</span>
-</td>
-<td class="description last"><p>(Optional) the pitch octave.</p></td>
-</tr>
-<tr>
-<td class="name"><code>alteration</code></td>
-<td class="type">
-<span class="param-type">Integer</span>
-</td>
-<td class="description last"><p>(Optional) the alteration number</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/pitch.js">pitch.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/pitch.js#L23">lineno 23</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Returns:</h5>
-<div class="param-desc">
-<p>an object with the pitch properties</p>
-</div>
-<dl>
-<dt>
-Type
-</dt>
-<dd>
-<span class="param-type">Object</span>
-</dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>pitch('Db3') // properties of 'Db3'
-pitch('C4', 2) // properties of 'C2'
-pitch('G', 1, 1) // properties of 'G#1'
-pitch('G', null, 2) // properties of 'G##4'
-pitch('C##', 3, -1) // properties of 'Cb3'</code></pre>
-</dd>
-<dt>
 <h4 class="name" id="props"><span class="type-signature"></span>props<span class="signature">(pitch)</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
 <div class="description">
 <p>Get pitch properties</p>
-<p>Probably you want to use <code>pitch/pitch</code> instead.</p>
 <p>It returns an object with the following properties:</p>
 <ul>
 <li><strong>name</strong>: the propsd pitch string</li>
@@ -361,15 +441,9 @@ where C=0, C#=1, D=2...B=11</li>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/props.js">props.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/props.js#L31">lineno 31</a>
+<a href="https://github.com/danigb/tonal/blob/master/props.js#L29">lineno 29</a>
 </li>
 </ul></dd>
-<dt class="tag-see">See:</dt>
-<dd class="tag-see">
-<ul>
-<li>pitch/pitch</li>
-</ul>
-</dd>
 </dl>
 <h5>Returns:</h5>
 <div class="param-desc">

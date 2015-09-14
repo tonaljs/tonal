@@ -58,9 +58,9 @@ names('D E F# G A B C#') // => ['D dorian']
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/generic.js">generic.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/generic.js">generic.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/generic.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/generic.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -90,9 +90,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/name.js">name.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/name.js">name.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/name.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/master/name.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -132,9 +132,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/parse.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -183,9 +183,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/scale.js">scale.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/scale.js">scale.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/scale.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/master/scale.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -243,9 +243,9 @@ scale('bebop') // => '1P 2M 3M 4P 5P 6M 7m 7M'</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/triadic.js">triadic.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/triadic.js">triadic.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/triadic.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/master/triadic.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -276,15 +276,15 @@ triadic('dorian', 4) // => ['1P', '3m', '5P', '7m']</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/mode.js">mode.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/mode.js">mode.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/mode.js#L4">lineno 4</a>
+<a href="https://github.com/danigb/tonal/blob/master/mode.js#L4">lineno 4</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
 <dd class="tag-see">
 <ul>
-<li>sequence/rotate</li>
+<li>utils/rotate</li>
 </ul>
 </dd>
 </dl>

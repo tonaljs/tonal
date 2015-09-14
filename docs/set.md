@@ -1,16 +1,16 @@
-# Binary Scale module
+# Set module
 
-Create scales using binary numbers:
+Functions to create pitch class sets in different representations. A pitch set is a collection of pitch classes, where they can't be repeated.
 
 ```js
-var scaleIntervals = require('tonal/binaryScale/toIntervals')
-scaleIntervals('101') // => ['1P', '2M']
-scaleIntervals(2773) // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
+var set = require('tonal/set/pitchSet')
+set('C2 D E3 C3 E3 D') // => ['C', 'D', 'E']
+set('D C F E') // => ['D', 'E', 'F', 'C']
 ```
 
-This module is inspired by the works of [Rich Cochrane](http://cochranemusic.com), [Walter Zettel](http://www.muzuu.org/new_life/pics/simpleblog/scales/scalesadvice.html) and [William Zeitler](http://www.allthescales.org/)
+Some tonal functions (like scales) returns pitch sets instead of sets.
 
-### Binary representations of scales
+### Binary representations of sets (or scales)
 
 This is a implementation of binary scales as presented in the awesome book [Arpeggio & Scale Resources](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia) by Rich Cochrane, chapter 18.
 
@@ -31,7 +31,8 @@ the biggest is '111111111111' (4095), so the total number is 2048 (4096 - 2048)
 Most of they are not interesting enough to be used in music.
 For example, at [allthescales.org site](http://allthescales.org) they limit all the possibilities to those with leap < 5 (1490)
 
-## Functions
+## Functions
+
 
 <!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
@@ -46,11 +47,66 @@ For example, at [allthescales.org site](http://allthescales.org) they limit all 
 </div>
 <dl>
 <dt>
-<h4 class="name" id="intervalsToBinary"><span class="type-signature"></span>intervalsToBinary<span class="signature">(intervals)</span><span class="type-signature"></span></h4>
+<h4 class="name" id="pitchSet"><span class="type-signature"></span>pitchSet<span class="signature">(pitches)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Return the binary representation of sequence of intervals</p>
+<p>Create a pitch class set from a collection of pitches. The pitch classes
+are ordered by frequency starting from the first note of the collection</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>pitches</code></td>
+<td class="type">
+<span class="param-type">Array</span>
+|
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the collection of pitches</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/pitchSet.js">pitchSet.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/pitchSet.js#L17">lineno 17</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>a pitch set</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>pitchSet('D E G G A E') // => ['D', 'E', 'G', 'A']
+pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="toBinary"><span class="type-signature"></span>toBinary<span class="signature">(intervals)</span><span class="type-signature"></span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Return the binary set representation of a collection of intervals</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -75,62 +131,11 @@ For example, at [allthescales.org site](http://allthescales.org) they limit all 
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/fromIntervals.js">fromIntervals.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/toBinary.js">toBinary.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/fromIntervals.js#L11">lineno 11</a>
+<a href="https://github.com/danigb/tonal/blob/master/toBinary.js#L12">lineno 12</a>
 </li>
 </ul></dd>
-</dl>
-</dd>
-<dt>
-<h4 class="name" id="toBinary"><span class="type-signature"></span>toBinary<span class="signature">(pitches)</span><span class="type-signature"> &rarr; {String}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Return the binary scale number of a sequence of pitches</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>pitches</code></td>
-<td class="type">
-<span class="param-type">String</span>
-|
-<span class="param-type">Array</span>
-</td>
-<td class="description last"><p>a sequence of pitches</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/next/fromPitches.js">fromPitches.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/fromPitches.js#L12">lineno 12</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Returns:</h5>
-<div class="param-desc">
-<p>a binary number representing the given pitch set</p>
-</div>
-<dl>
-<dt>
-Type
-</dt>
-<dd>
-<span class="param-type">String</span>
-</dd>
 </dl>
 </dd>
 <dt>
@@ -138,7 +143,7 @@ Type
 </dt>
 <dd>
 <div class="description">
-<p>Convert a binary scale to an intervals sequence</p>
+<p>Convert a binary set number to an intervals collection</p>
 <p>The source can be one of the following forms:
 - An array of intervals (they are returned without modification)
 - A string with a intervals separated by a space
@@ -172,9 +177,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/toIntervals.js">toIntervals.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/binaryIntervals.js">binaryIntervals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/toIntervals.js#L22">lineno 22</a>
+<a href="https://github.com/danigb/tonal/blob/master/binaryIntervals.js#L22">lineno 22</a>
 </li>
 </ul></dd>
 </dl>

@@ -51,10 +51,10 @@ tonal('Dm7 | G7 | CMaj7').chord() // => [ ['D', 'F', ...], ['G', ...], ['C', ...
 
 Tonal has a number of characteristics that make it unique:
 
-- It is __functional__: no classes, no side effects, no mutations, just data and functions.
+- In its core (except the `tonal` facade object) all is pure __functional__: no classes, no side effects, no mutations, just data-in-and-out and functions.
 - Heavy use of __strings to represent entities__: pitches (`'C#2'`, `'Bb'`, `'G##'`), intevals (`'2M'`, `'-9m'`), chords (`'Cmaj7'`, `'Bb79'`), scales (`'C major'`, `'Bb bebop'`), sequences (`'C D E F'`, `'1P 2M 3M'`, `'Cmaj7 D9m'`), keys (`'C major'`, `'Bb minor'`, `'###'`)
-- Extremely __modular__: require the functions not the library (_a-la-lodash_) so the dependencies are reduced to the minimum. You can think each function in tonal like a npm micro-module.
-- Advanced features: binary scales, chord and scale detection, ...
+- Extremely __modular__: your can require individual functions not (_a-la-lodash_) so the dependencies are reduced to the minimum. Think each function in tonal like a npm micro-module.
+- Advanced features: binary sets, chord and scale detection, ...
 
 _This is still beta software_ For a stable library see [teoria](https://github.com/saebekassebil/teoria)
 
@@ -69,26 +69,38 @@ Mostly, because I want to [learn](https://github.com/danigb/tonal/blob/master/RE
 
 The library is divided in a number of modules:
 
-- [Pitches](https://github.com/danigb/tonal/blob/master/docs/pitch.md)
-- [Intervals](https://github.com/danigb/tonal/blob/master/docs/interval.md)
-- [Chords](https://github.com/danigb/tonal/blob/master/docs/chord.md)
-- [Scales](https://github.com/danigb/tonal/blob/master/docs/scale.md)
-- [Key](https://github.com/danigb/tonal/blob/master/docs/key.md)
-- [Sequences](https://github.com/danigb/tonal/blob/master/docs/sequence.md)
-- [Binary Scales](https://github.com/danigb/tonal/blob/master/docs/binary-scale.md)
+[Pitches](https://github.com/danigb/tonal/blob/master/docs/pitch.md)
+
+
+[Intervals](https://github.com/danigb/tonal/blob/master/docs/interval.md)
+
+[Chords](https://github.com/danigb/tonal/blob/master/docs/chord.md)
+
+[Scales](https://github.com/danigb/tonal/blob/master/docs/scale.md)
+
+[Key](https://github.com/danigb/tonal/blob/master/docs/key.md)
 
 Take a look to [the source](https://github.com/danigb/tonal/blob/master/lib) or the [documentation](https://github.com/danigb/tonal/tree/master/docs)
 
 ## Usage
 
-Install via npm: `npm i --save tonal` and require the functions you need:
+Install via npm: `npm i --save tonal`
+
+Then you can use the tonal facade:
+
+```js
+var tonal = require('tonal')
+tonal.transpose(tonal.fromMidi(60), '2M')
+```
+
+or require the functions individually:
 
 ```js
 var transpose = require('tonal/pitch/transpose')
 tranpose('5P', 'C')
 ```
 
-Currently there's no way to load the entire library in one require.
+The tonal facade only have a selection of all the available functions.
 
 ## Examples
 

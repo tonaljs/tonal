@@ -58,9 +58,9 @@ chord('Cmaj7') // => ['C4', 'E4', 'G4', 'B4']
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/chord.js">chord.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/chord.js">chord.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/chord.js#L19">lineno 19</a>
+<a href="https://github.com/danigb/tonal/blob/master/chord.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>
@@ -111,9 +111,9 @@ chord('7b5', 'Bb2')</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/intervals.js">intervals.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/intervals.js">intervals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/intervals.js#L13">lineno 13</a>
+<a href="https://github.com/danigb/tonal/blob/master/intervals.js#L13">lineno 13</a>
 </li>
 </ul></dd>
 </dl>
@@ -141,9 +141,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/name.js">name.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/name.js">name.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/name.js#L12">lineno 12</a>
+<a href="https://github.com/danigb/tonal/blob/master/name.js#L11">lineno 11</a>
 </li>
 </ul></dd>
 </dl>
@@ -181,9 +181,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/next/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/next/parse.js#L16">lineno 16</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js#L16">lineno 16</a>
 </li>
 </ul></dd>
 </dl>
