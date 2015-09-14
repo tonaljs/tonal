@@ -7,6 +7,7 @@
 - Rename scale/intervals to scale/generic
 - Remove sequence/reverse and sequence/retrograde
 - Move sequence/cycle to incubator
+- Tonal object facade
 
 [0.6.0]
 - First near feature complete release
