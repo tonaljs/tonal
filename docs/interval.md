@@ -101,7 +101,7 @@ Get the semitones of a interval<span class="type-signature"></span></h4>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/add.js">add.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/add.js#L16">lineno 16</a>
+<a href="https://github.com/danigb/tonal/blob/master/add.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -189,13 +189,13 @@ Type
 <pre class="prettyprint"><code>harmonize('C2', ['P1 P5']) // => ['C2', 'G2']</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="interval"><span class="type-signature"></span>interval<span class="signature">(interval, alter, oct)</span><span class="type-signature"></span></h4>
+<h4 class="name" id="interval"><span class="type-signature"></span>interval<span class="signature">(interval, quality, oct)</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Get an interval properties from a string or a number, and optinally alterations
+<p>Get an interval properties from a string or a number, and optionally a quality
 and octave.</p>
-<p>The aclterations and octave parameters will have precedence over the string interval</p>
+<p>The quality and octave parameters will have precedence over the string interval</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -218,18 +218,21 @@ and octave.</p>
 (can be negative to express descengin intervals)</p></td>
 </tr>
 <tr>
-<td class="name"><code>alter</code></td>
+<td class="name"><code>quality</code></td>
 <td class="type">
+<span class="param-type">String</span>
+|
 <span class="param-type">Integer</span>
 </td>
-<td class="description last"><p>(Optional) the interval alteration (0 is perfect or major)</p></td>
+<td class="description last"><p>(Optional) the interval quality or
+numberic alteration (0 is perfect or major). Can be null to avoid override the string</p></td>
 </tr>
 <tr>
 <td class="name"><code>oct</code></td>
 <td class="type">
 <span class="param-type">Integer</span>
 </td>
-<td class="description last"><p>(Optional) the octaves, 0 by default</p></td>
+<td class="description last"><p>(Optional) the octaves</p></td>
 </tr>
 </tbody>
 </table>
@@ -239,7 +242,7 @@ and octave.</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/interval.js">interval.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/interval.js#L30">lineno 30</a>
+<a href="https://github.com/danigb/tonal/blob/master/interval.js#L32">lineno 32</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -251,12 +254,13 @@ and octave.</p>
 </dl>
 <h5>Example</h5>
 <pre class="prettyprint"><code>interval('2') // => '2M'
-interval('2M', 1) // => '2A'
-interval(1) // => '1P'
-interval(1, 1) // => '1A'
-interval(1, 1, 2) // => '8A'
-interval(-1, 1, 2) // => '-8A'
-interval(-2, -1, 2) // => '-9m'</code></pre>
+interval('2', 'm') // => '2m'
+interval('2', 'a', 1) // => '9A'
+interval('2', null, 1) // => '9M'
+interval(-2, 'm', 1) // => '-9m'
+interval(-2, -1, 1) // => '-9m'
+interval('2AA') // => '2AA'
+interval('2AAA') // => null</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="invert"><span class="type-signature"></span>invert<span class="signature">(interval, ascending)</span><span class="type-signature"></span></h4>
