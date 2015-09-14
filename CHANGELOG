@@ -11,6 +11,7 @@
 - Move sequence/harmonize to interval/harmonize
 - Move pitchSet to set
 - Move binary-scale functions into set
+- Rename pitch property sci to str
 
 [0.6.0]
 - First near feature complete release
