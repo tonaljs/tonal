@@ -323,12 +323,12 @@ Type
 </dl>
 </dd>
 <dt>
-<h4 class="name" id="pitch"><span class="type-signature"></span>pitch<span class="signature">(pitch, octave, alteration)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+<h4 class="name" id="pitch"><span class="type-signature"></span>pitch<span class="signature">(pitch, alteration, octave)</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Build a pitch with a pitch letter, octave and alteration</p>
-<p>The parameters of octave and accidentals overrides the values of the pitch string</p>
+<p>Get the scientific notation of a pitch from a pitch and optional octave and
+alteration. The octave and alteration will override the ones from the pitch</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -348,18 +348,21 @@ Type
 <td class="description last"><p>a pitch, a pitch class or a pitch letter</p></td>
 </tr>
 <tr>
+<td class="name"><code>alteration</code></td>
+<td class="type">
+<span class="param-type">String</span>
+|
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>(Optional) the alteration number
+(overrides the one from the pitch string). Can be null to avoid overrides</p></td>
+</tr>
+<tr>
 <td class="name"><code>octave</code></td>
 <td class="type">
 <span class="param-type">Integer</span>
 </td>
-<td class="description last"><p>(Optional) the octave.</p></td>
-</tr>
-<tr>
-<td class="name"><code>alteration</code></td>
-<td class="type">
-<span class="param-type">Integer</span>
-</td>
-<td class="description last"><p>(Optional) the alteration number</p></td>
+<td class="description last"><p>(Optional) the octave (overrides the one from the pitch string)</p></td>
 </tr>
 </tbody>
 </table>
@@ -369,30 +372,31 @@ Type
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/pitch.js">pitch.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/pitch.js#L25">lineno 25</a>
+<a href="https://github.com/danigb/tonal/blob/master/pitch.js#L26">lineno 26</a>
 </li>
 </ul></dd>
 </dl>
 <h5>Returns:</h5>
 <div class="param-desc">
-<p>an object with the pitch properties</p>
+<p>the pitch in scientific notation or null if not valid pitch</p>
 </div>
 <dl>
 <dt>
 Type
 </dt>
 <dd>
-<span class="param-type">Object</span>
+<span class="param-type">String</span>
 </dd>
 </dl>
 <h5>Example</h5>
 <pre class="prettyprint"><code>pitch('c') // => 'C4'
-pitch('c', 1) // => 'C1'
-pitch('C4', 2) // => 'C2'
-pitch('Db3') // => 'Db3'
-pitch('G', 1, 1) // => 'G#1'
-pitch('G', null, 2) // => 'G##4'
-pitch('C##', 3, -1) // => 'Cb3'</code></pre>
+pitch('c', '#') // => 'C#4'
+pitch('c', '#', 2) // => 'C#2'
+pitch('c#4') // => 'C#4'
+pitch('C#4', 'b', 2) // => 'Cb2'
+pitch('C#4', null, 2) // => 'C#2'
+pitch('C7', -1) // => 'Cb7'
+pitch('bluf') // => null</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="props"><span class="type-signature"></span>props<span class="signature">(pitch)</span><span class="type-signature"></span></h4>

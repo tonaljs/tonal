@@ -284,7 +284,7 @@ triadic('dorian', 4) // => ['1P', '3m', '5P', '7m']</code></pre>
 <dt class="tag-see">See:</dt>
 <dd class="tag-see">
 <ul>
-<li>utils/rotate</li>
+<li>internal/rotate</li>
 </ul>
 </dd>
 </dl>
