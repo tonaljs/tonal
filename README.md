@@ -7,36 +7,8 @@ Tonal is a library to create and manipulate tonal elements of music (pitches, ch
 
 ```js
 var tonal = require('tonal')
-
-// pitches and intervals are just strings (using scientific notation)
-tonal.pitch('Cb') // 'Cb4'
-tonal.pitch('ebb2') // 'Ebb2'
-tonal.pitch('Fx') // => 'F##'
-tonal.pitch('Ebbbbb') // => null
-tonal.octave('Eb2') // => 2
-
-tonal.interval('M2') // => 'M2'
-tonal.interval('-P4') // => '-P4'
-tonal.interval('nope') // => null
-tonal.semitones('P5') // => 7
-
-// working with frequency and midi is easy
-tonal.midi('A4') // => 69
-tonal.fromMidi(60) // => 'C4'
-tonal.freq('A4') // => 440
-tonal.fromFreq(220) // => 'A3'
-
-// manipulate pitches and intervals
-tonal.transpose('F#2', '2M') // => 'G#2'
-tonal.transpose('2M', '2M') // => '3M'
-tonal.interval('F2', 'B2') // => '4A'
-
-// work with collections
-tonal('A B C D E').transpose('2M') // => ['B4', 'C#5', 'D5', 'E5', 'F#5']
-tonal('1P 2M 3M').transpose('D4') // => ['D4', 'E4', 'F#4']
-
-// pitch class sets
-tonal('C4 D4 E6 D5 F2 C5 F6').set() // => ['C', 'D', 'E', 'F']
+tonal.transpose('D4', '2M') // => 'E#4'
+tonal.interval('C', 'G') // => '5P'
 
 // scales and chords
 tonal.scale('A major').transpose('8P') // => ['A5, 'B5', ...]
@@ -56,11 +28,11 @@ Tonal has a number of characteristics that make it unique:
 - Extremely __modular__: your can require individual functions not (_a-la-lodash_) so the dependencies are reduced to the minimum. Think each function in tonal like a npm micro-module.
 - Advanced features: binary sets, chord and scale detection, ...
 
-__Tonal is [far from complete](https://github.com/danigb/tonal/blob/master/docs/TODO.md)__ For a stable library see [teoria](https://github.com/saebekassebil/teoria)
+_This is still beta software_ For a stable library see [teoria](https://github.com/saebekassebil/teoria)
 
 ## Why
 
-Mostly, because I want to [learn](https://github.com/danigb/tonal/blob/master/docs/RESOURCES.md):
+Mostly, because I want to [learn](https://github.com/danigb/tonal/blob/master/RESOURCES.md):
 
 > Reinventing the wheel is bad for business, but it’s great for learning
 [*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
@@ -69,17 +41,70 @@ Mostly, because I want to [learn](https://github.com/danigb/tonal/blob/master/do
 
 The library is divided in a number of modules:
 
-[Pitches](https://github.com/danigb/tonal/blob/master/docs/pitch.md)
+#### [Pitches](https://github.com/danigb/tonal/blob/master/docs/pitch.md)
 
-[Intervals](https://github.com/danigb/tonal/blob/master/docs/interval.md)
+In tonal, pitches and intervals are just strings (using scientific notation):
+```js
+tonal.pitch('c') // 'C4'
+tonal.pitch('c', '#', 2) // => 'D#2'
+tonal.pitch('e', -2, 5) // => 'Ebb5'
+tonal.pitch('ebb2') // 'Ebb2'
+tonal.pitch('Fx') // => 'F##'
+tonal.pitch('Ebbbbb') // => null
+```
 
-[Chords](https://github.com/danigb/tonal/blob/master/docs/chord.md)
+Work with midi and frequencies:
+```js
+tonal.midi('A4') // => 69
+tonal.fromMidi(60) // => 'C4'
+tonal.freq('A4') // => 440
+tonal.fromFreq(220) // => 'A3'
+```
 
-[Scales](https://github.com/danigb/tonal/blob/master/docs/scale.md)
+Distance and transposition:
+```js
+tonal.transpose('F#2', '2M') // => 'G#2'
+tonal.transpose('2M', '2M') // => '3M'
+tonal.interval('F2', 'B2') // => '4A'
+```
 
-[Key](https://github.com/danigb/tonal/blob/master/docs/key.md)
+#### [Intervals](https://github.com/danigb/tonal/blob/master/docs/interval.md)
+
+Intervals are also strings:
+
+```js
+tonal.interval('M2') // => 'M2'
+tonal.interval('-P4') // => '-P4'
+tonal.interval('nope') // => null
+tonal.semitones('P5') // => 7
+```
+
+And can also be manipulated:
+```js
+tonal.simplify('9m') // => '2m'
+tonal.add('2M', '2M') // => '3M'
+tonal.invert('2M') // => '7m'
+```
+
+#### Collections and pitch sets
+
+```js
+// work with collections
+tonal('A B C D E').transpose('2M') // => ['B4', 'C#5', 'D5', 'E5', 'F#5']
+tonal('1P 2M 3M').transpose('D4') // => ['D4', 'E4', 'F#4']
+
+// pitch class sets
+tonal('C4 D4 E6 D5 F2 C5 F6').set() // => ['C', 'D', 'E', 'F']
+```
+
+#### [Chords](https://github.com/danigb/tonal/blob/master/docs/chord.md)
+
+#### [Scales](https://github.com/danigb/tonal/blob/master/docs/scale.md)
+
+#### [Key](https://github.com/danigb/tonal/blob/master/docs/key.md)
 
 Take a look to [the source](https://github.com/danigb/tonal/blob/master/lib) or the [documentation](https://github.com/danigb/tonal/tree/master/docs)
+
 
 ## Usage
 
