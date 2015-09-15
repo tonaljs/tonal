@@ -82,55 +82,6 @@ chord('7b5') // => ['1P', '3M', '5d', '7m']
 chord('7b5', 'Bb2')</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="intervals"><span class="type-signature"></span>intervals<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Get the intervals of a chord name</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>name</code></td>
-<td class="type">
-<span class="param-type">String</span>
-</td>
-<td class="description last"><p>the chord name</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/intervals.js">intervals.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/intervals.js#L13">lineno 13</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Returns:</h5>
-<div class="param-desc">
-<p>the intervals or null if not found</p>
-</div>
-<dl>
-<dt>
-Type
-</dt>
-<dd>
-<span class="param-type">Array</span>
-</dd>
-</dl>
-</dd>
-<dt>
 <h4 class="name" id="name"><span class="type-signature"></span>name<span class="signature">()</span><span class="type-signature"></span></h4>
 </dt>
 <dd>

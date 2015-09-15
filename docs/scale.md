@@ -25,60 +25,27 @@ names('D E F# G A B C#') // => ['D dorian']
 <article>
 <div class="container-overview">
 <dl class="details">
-</dl>
-</div>
-<dl>
-<dt>
-<h4 class="name" id="generic"><span class="type-signature"></span>generic<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Get a generic scale (the intervals) from a scale name without tonic</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>name</code></td>
-<td class="type">
-<span class="param-type">String</span>
-</td>
-<td class="description last"><p>the scale name</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/generic.js">generic.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/names.js">names.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/generic.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/names.js#L7">lineno 7</a>
 </li>
 </ul></dd>
 </dl>
-<h5>Returns:</h5>
-<div class="param-desc">
-<p>the intervals or null if not found</p>
+<pre class="prettyprint"><code>names() => ['major', 'minor', ....]</code></pre>
+</div>
+</article>
+</section>
+</div><div class="jsdoc-githubify">
+<section>
+<article>
+<div class="container-overview">
+<dl class="details">
+</dl>
 </div>
 <dl>
-<dt>
-Type
-</dt>
-<dd>
-<span class="param-type">Array</span>
-</dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>generic('C major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']</code></pre>
-</dd>
 <dt>
 <h4 class="name" id="name"><span class="type-signature"></span>name<span class="signature">()</span><span class="type-signature"></span></h4>
 </dt>
@@ -318,6 +285,24 @@ triadic('dorian', 4) // => ['1P', '3m', '5P', '7m']</code></pre>
 </article>
 </section>
 </div><div class="jsdoc-githubify">
+<section>
+<article>
+<div class="container-overview">
+<div class="description"><p>Get a generic scale (the intervals) from a scale name without tonic</p></div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/generic.js">generic.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/generic.js#L6">lineno 6</a>
+</li>
+</ul></dd>
+</dl>
+<pre class="prettyprint"><code>generic('C major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']</code></pre>
+</div>
+</article>
+</section>
 <section>
 <article>
 <div class="container-overview">

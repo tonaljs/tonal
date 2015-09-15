@@ -19,6 +19,8 @@
 - change interval/interval function signature to match the order of components in the string
 - add pitch/letter and scale/triad
 - don't use Uint8Array for compatibility
+- scales and chords uses internal/lookup and internal/keys
+- new function chord/names
 
 [0.6.0]
 - Last iteration without changelog ;-)
