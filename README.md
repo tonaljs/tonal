@@ -3,22 +3,36 @@
 [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
-Tonal is a library to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and it is a library for apps that deals with midi or web audio api, algorithmic composing or music analysis or manipulation.
+Tonal is a library to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and can be used to develop midi or audio software:
 
 ```js
 var tonal = require('tonal')
-tonal.transpose('D4', '2M') // => 'E#4'
+
+// pitches
+tonal.fromMidi(60) // => 'C4'
+tonal.midi('A4') // => 69
+tonal.fromFreq(220) // => 'A3'
+tonal.freq('C') // => ...
+
+// intervals
+tonal.tranpose('D4', '2M') // => 'E#4'
 tonal.interval('C', 'G') // => '5P'
 
-// scales and chords
-tonal.scale('A major').transpose('8P') // => ['A5, 'B5', ...]
-tonal('A Bb').scale('major') // => [ ['A', 'B', 'C#', ...], ['Bb', 'C', 'D', ...]
-tonal.scale('A major').modes()
-tonal.scale('Bb dorian').modes().triadic()
-tonal.scaleName('C D E F# G A B') // => ['C lydian']
+// collections
+['A', 'B', 'C'].map(tonal.transpose('5P'))
+tonal('c d e') // => ['C4', 'D4', 'E4']
+tonal('c d e').map(tonal.transpose('3M')) // => ['E4', 'F#4', 'G#4']
 
+// scales
+tonal.scale('A major') // => ['A4', 'B4', 'C#5', ...]
+tonal.scale('A major').map(tonal.transpose('8P')) // => ['A5, 'B5', ...]
+tonal.modes(tonal.scale('Bb dorian')) // => [ an array of arrays with 7 scales notes ]
+tonal.scaleName('C D E F# G A B') // => ['C lydian']
+tonal('A Bb').map(tonal.scale('major')) // => [ ['A', 'B', 'C#', ...], ['Bb', 'C', 'D', ...]
+
+// chords
 tonal.chord('CMaj7') // => ['C4', 'E4', 'G4', 'B4']
-tonal('Dm7 | G7 | CMaj7').chord() // => [ ['D', 'F', ...], ['G', ...], ['C', ...]]
+tonal('Dm7 | G7 | CMaj7').map(tonal.chord) // => [ ['D', 'F', ...], ['G', ...], ['C', ...]]
 ```
 
 Tonal has a number of characteristics that make it unique:
