@@ -323,6 +323,29 @@ Type
 </dl>
 </dd>
 <dt>
+<h4 class="name" id="letter"><span class="type-signature"></span>letter<span class="signature">()</span><span class="type-signature"></span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get the letter of a pitch (optionally move a number of steps)</p>
+</div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/letter.js">letter.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/letter.js#L14">lineno 14</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>letter('c#5') // => 'C'
+letter('c', 0) // => 'C'
+letter('c', 1) // => 'D'
+letter('c', 2) // => 'E'</code></pre>
+</dd>
+<dt>
 <h4 class="name" id="pitch"><span class="type-signature"></span>pitch<span class="signature">(pitch, alteration, octave)</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>

@@ -47,6 +47,59 @@ For example, at [allthescales.org site](http://allthescales.org) they limit all 
 </div>
 <dl>
 <dt>
+<h4 class="name" id="modes"><span class="type-signature"></span>modes<span class="signature">(pitchSet)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Return all modes of a pitch set</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>pitchSet</code></td>
+<td class="type">
+<span class="param-type">Array</span>
+|
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the pitch set</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/modes.js">modes.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/modes.js#L15">lineno 15</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>an array of arrays with the set rotated set.length times</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]</code></pre>
+</dd>
+<dt>
 <h4 class="name" id="pitchSet"><span class="type-signature"></span>pitchSet<span class="signature">(pitches)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 </dt>
 <dd>

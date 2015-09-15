@@ -17,6 +17,7 @@
 - rename utils to internal to explicit the use case of those functions
 - change pitch/pitch function signature to match the order of components in the string
 - change interval/interval function signature to match the order of components in the string
+- add pitch/letter and scale/triad
 
 [0.6.0]
 - Last iteration without changelog ;-)

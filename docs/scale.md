@@ -207,6 +207,55 @@ scale('D diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
 scale('bebop') // => '1P 2M 3M 4P 5P 6M 7m 7M'</code></pre>
 </dd>
 <dt>
+<h4 class="name" id="triad"><span class="type-signature"></span>triad<span class="signature">(set, len)</span><span class="type-signature"></span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get a triad from a set, a simplistic implementation.</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>set</code></td>
+<td class="type">
+<span class="param-type">String</span>
+|
+<span class="param-type">Array</span>
+</td>
+<td class="description last"><p>the pitch class set</p></td>
+</tr>
+<tr>
+<td class="name"><code>len</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>the number of notes of the triad (3 by default)</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/triad.js">triad.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/triad.js#L14">lineno 14</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>triad(scale('C major')) // => ['C', 'E', 'G']
+triad(scale('C major'), 4) // => ['C', 'E', 'G', 'B', 'D']</code></pre>
+</dd>
+<dt>
 <h4 class="name" id="triadic"><span class="type-signature"></span>triadic<span class="signature">(scale, size)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 </dt>
 <dd>
