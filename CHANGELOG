@@ -18,6 +18,7 @@
 - change pitch/pitch function signature to match the order of components in the string
 - change interval/interval function signature to match the order of components in the string
 - add pitch/letter and scale/triad
+- don't use Uint8Array for compatibility
 
 [0.6.0]
 - Last iteration without changelog ;-)
