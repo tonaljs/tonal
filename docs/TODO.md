@@ -4,8 +4,6 @@ Tonal is not complete yet. Here are some stuff i'm planning to implement:
 
 ## Pitch
 
-- toKey and fromKey functions
-- fromFreq functions
 
 ## Interval
 

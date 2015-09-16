@@ -24,6 +24,7 @@
 - incubator/cycle now returns a pitch set
 - move scale/triadic to incubator
 - add pitch/key and pitch/fromKey
+- add pitch/fromFreq function
 
 [0.6.0]
 - Last iteration without changelog ;-)
