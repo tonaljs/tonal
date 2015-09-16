@@ -14,7 +14,7 @@ var names = require('tonal/scale/names')
 names('D E F# G A B C#') // => ['D dorian']
 ```
 
-## API<!-- START docme generated API please keep comment here to allow auto update -->
+<!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
 
 <div>

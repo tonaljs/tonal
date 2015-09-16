@@ -27,6 +27,7 @@ vows.describe('interval/interval').addBatch({
   },
   'edge cases': function () {
     assert.equal(interval(-5, null, 0), '-5P')
+    assert.equal(interval(1, null, -1), '-8P')
   },
   'from number and octaves': function () {
     assert.equal(interval(1, null, 1), '8P')

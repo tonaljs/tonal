@@ -37,9 +37,11 @@ fromFreq(330) // => 'E4'
 Transpose pitches:
 
 ```js
-var transpose = require('tonal/transpose')
+var transpose = require('tonal/pitch/transpose')
 transpose('C2', '5P') // => 'G5'
 ['C', 'D', 'E'].map(transpose('3M')) // => ['E4', 'F#4', 'G#4']
+var interval = require('tonal/pitch/interval')
+interval('C', 'D') // => '2M'
 ```
 
 ## API
@@ -182,67 +184,6 @@ Type
 <pre class="prettyprint"><code>cents(440, 444) // => 15.66
 cents('A4', 444) // => 15.66
 cents('A4', 'A#4') // => 100</code></pre>
-</dd>
-<dt>
-<h4 class="name" id="distance"><span class="type-signature"></span>distance<span class="signature">(from, to)</span><span class="type-signature"> &rarr; {String}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Get the interval between two pitches</p>
-<p>You can get a partially applied version of this function by passing only one
-parameter. See examples below:</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>from</code></td>
-<td class="type">
-<span class="param-type">String</span>
-</td>
-<td class="description last"><p>first pitch</p></td>
-</tr>
-<tr>
-<td class="name"><code>to</code></td>
-<td class="type">
-<span class="param-type">String</span>
-</td>
-<td class="description last"><p>second pitch</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/distance.js">distance.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/distance.js#L20">lineno 20</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Returns:</h5>
-<div class="param-desc">
-<p>the interval between pitches</p>
-</div>
-<dl>
-<dt>
-Type
-</dt>
-<dd>
-<span class="param-type">String</span>
-</dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>distance('C', 'D') // => 'M2'
-['C', 'D', 'Eb'].map(distance.from('C')) // => ['P1', 'M2', 'm3']</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="enharmonic"><span class="type-signature"></span>enharmonic<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
@@ -502,6 +443,171 @@ Type
 <span class="param-type">String</span>
 </dd>
 </dl>
+</dd>
+<dt>
+<h4 class="name" id="interval"><span class="type-signature"></span>interval<span class="signature">(from, to)</span><span class="type-signature"> &rarr; {String}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get the interval between two pitches</p>
+<p>You can get a partially applied version of this function by passing only one
+parameter. See examples below:</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>from</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>first pitch</p></td>
+</tr>
+<tr>
+<td class="name"><code>to</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>second pitch</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/interval.js">interval.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/interval.js#L20">lineno 20</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the interval between pitches</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">String</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>interval('C', 'D') // => 'M2'
+['C', 'D', 'Eb'].map(interval.from('C')) // => ['P1', 'M2', 'm3']</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="intervalFrom"><span class="type-signature"></span>intervalFrom<span class="signature">(from)</span><span class="type-signature"> &rarr; {function}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Partial apply <code>picth/interval</code> to return a interval from a pitch</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>from</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the base pitch</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/intervalFrom.js">intervalFrom.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/intervalFrom.js#L15">lineno 15</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>a function that returns a interval from the base pitch
+to a given one</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">function</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>['C', 'D', 'E'].map(intervalFrom('C')) // => ['1P', '2M', '3M']</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="intervalTo"><span class="type-signature"></span>intervalTo<span class="signature">(to)</span><span class="type-signature"> &rarr; {function}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Partial apply <code>picth/interval</code> to return a interval to a pitch</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>to</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the destination pitch</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/intervalTo.js">intervalTo.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/intervalTo.js#L15">lineno 15</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>a function that returns a interval from a pitch
+to the destination one</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">function</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>['C', 'D', 'E'].map(intervalTo('E')) // => ['3M', '2M', '1P']</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="key"><span class="type-signature"></span>key<span class="signature">(pitch)</span><span class="type-signature"> &rarr; {Integer}</span></h4>

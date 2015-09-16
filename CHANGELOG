@@ -26,6 +26,10 @@
 - add pitch/key and pitch/fromKey
 - add pitch/fromFreq function
 - add pitch/cents
+- move pitch/distance to pitch/interval
+- add pitch/intervalTo and pitch/intervalFrom
+- interval/props and pitch/props now returns an immutable object (via Object.freeze)
+- interval/interval can receive a negative octave number
 
 [0.6.0]
 - Last iteration without changelog ;-)

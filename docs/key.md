@@ -4,7 +4,7 @@ Functions to work with keys and key signatures.
 
 Work in progress.
 
-## API<!-- START docme generated API please keep comment here to allow auto update -->
+<!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
 
 <div>

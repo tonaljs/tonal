@@ -28,7 +28,7 @@ var add = require('interval/add')
 add('2M', '4P') // => '5P'
 ```
 
-## API<!-- START docme generated API please keep comment here to allow auto update -->
+<!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
 
 <div>
@@ -231,7 +231,8 @@ numberic alteration (0 is perfect or major). Can be null to avoid override the s
 <td class="type">
 <span class="param-type">Integer</span>
 </td>
-<td class="description last"><p>(Optional) the octaves</p></td>
+<td class="description last"><p>(Optional) the octaves. If negative, the direction of
+the interval is descendent. 0 by default.</p></td>
 </tr>
 </tbody>
 </table>
@@ -241,7 +242,7 @@ numberic alteration (0 is perfect or major). Can be null to avoid override the s
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/interval.js">interval.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/interval.js#L32">lineno 32</a>
+<a href="https://github.com/danigb/tonal/blob/master/interval.js#L36">lineno 36</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -255,6 +256,7 @@ numberic alteration (0 is perfect or major). Can be null to avoid override the s
 <pre class="prettyprint"><code>interval('2') // => '2M'
 interval('2', 'm') // => '2m'
 interval('2', 'a', 1) // => '9A'
+interval('2', 'a', -1) // => '-9A'
 interval('2', null, 1) // => '9M'
 interval(-2, 'm', 1) // => '-9m'
 interval(-2, -1, 1) // => '-9m'
