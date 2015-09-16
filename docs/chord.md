@@ -18,6 +18,24 @@ chord('Cmaj7') // => ['C4', 'E4', 'G4', 'B4']
 <article>
 <div class="container-overview">
 <dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/names.js">names.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/names.js#L7">lineno 7</a>
+</li>
+</ul></dd>
+</dl>
+<pre class="prettyprint"><code>names() => ['major', 'minor', ....]</code></pre>
+</div>
+</article>
+</section>
+</div><div class="jsdoc-githubify">
+<section>
+<article>
+<div class="container-overview">
+<dl class="details">
 </dl>
 </div>
 <dl>

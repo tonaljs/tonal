@@ -116,6 +116,71 @@ Get the octave of a pitch<span class="type-signature"></span></h4>
 </dl>
 <dl>
 <dt>
+<h4 class="name" id="cents"><span class="type-signature"></span>cents<span class="signature">(from, to)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Return the distance in cents between to pitches or frequencies with two
+decimals precision</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>from</code></td>
+<td class="type">
+<span class="param-type">String</span>
+|
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>first pitch or frequency</p></td>
+</tr>
+<tr>
+<td class="name"><code>to</code></td>
+<td class="type">
+<span class="param-type">String</span>
+|
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>other pitch or frequency</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/cents.js">cents.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/cents.js#L18">lineno 18</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the distance in cents</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Integer</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>cents(440, 444) // => 15.66
+cents('A4', 444) // => 15.66
+cents('A4', 'A#4') // => 100</code></pre>
+</dd>
+<dt>
 <h4 class="name" id="distance"><span class="type-signature"></span>distance<span class="signature">(from, to)</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>
@@ -272,6 +337,119 @@ freq('A4') // => 440
 freq('A3', 444) // => 222</code></pre>
 </dd>
 <dt>
+<h4 class="name" id="fromFreq"><span class="type-signature"></span>fromFreq<span class="signature">(freq)</span><span class="type-signature"> &rarr; {String}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Given a frequency, get the pitch. It will round the frequency to the nearest
+pitch frequency</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>freq</code></td>
+<td class="type">
+<span class="param-type">Float</span>
+</td>
+<td class="description last"><p>the frequency</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/fromFreq.js">fromFreq.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/fromFreq.js#L14">lineno 14</a>
+</li>
+</ul></dd>
+<dt class="tag-see">See:</dt>
+<dd class="tag-see">
+<ul>
+<li><a href="global.html#cents">cents</a></li>
+</ul>
+</dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the pitch</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">String</span>
+</dd>
+</dl>
+</dd>
+<dt>
+<h4 class="name" id="fromKey"><span class="type-signature"></span>fromKey<span class="signature">(key)</span><span class="type-signature"> &rarr; {String}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get the pitch of the given piano key number</p>
+<p>This method doesn't take into account diatonic spelling. Always the same
+pitch class is given to the same key number.</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>key</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>the key number</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/fromKey.js">fromKey.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/fromKey.js#L16">lineno 16</a>
+</li>
+</ul></dd>
+<dt class="tag-see">See:</dt>
+<dd class="tag-see">
+<ul>
+<li>pitch/fromMidi</li>
+</ul>
+</dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the pitch</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">String</span>
+</dd>
+</dl>
+</dd>
+<dt>
 <h4 class="name" id="fromMidi"><span class="type-signature"></span>fromMidi<span class="signature">(midi)</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>
@@ -319,6 +497,55 @@ Type
 </dt>
 <dd>
 <span class="param-type">String</span>
+</dd>
+</dl>
+</dd>
+<dt>
+<h4 class="name" id="key"><span class="type-signature"></span>key<span class="signature">(pitch)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Return the key number from a pitch</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>pitch</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the pitch</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/key.js">key.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/key.js#L10">lineno 10</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the key number</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Integer</span>
 </dd>
 </dl>
 </dd>

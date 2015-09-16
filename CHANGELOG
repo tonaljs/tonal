@@ -25,6 +25,7 @@
 - move scale/triadic to incubator
 - add pitch/key and pitch/fromKey
 - add pitch/fromFreq function
+- add pitch/cents
 
 [0.6.0]
 - Last iteration without changelog ;-)

@@ -3,6 +3,11 @@ var assert = require('assert')
 var freq = require('../../lib/pitch/freq')
 
 vows.describe('pitch/freq').addBatch({
+  'number freq': function () {
+    assert.equal(freq('440'), 440)
+    assert.equal(freq(1), 1)
+    assert.equal(freq(329.62), 329.62)
+  },
   'pitch freq': function () {
     assert.equal(freq('A4'), 440)
     assert.equal(freq('A3'), 220)
