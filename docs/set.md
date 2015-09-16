@@ -31,10 +31,7 @@ the biggest is '111111111111' (4095), so the total number is 2048 (4096 - 2048)
 Most of they are not interesting enough to be used in music.
 For example, at [allthescales.org site](http://allthescales.org) they limit all the possibilities to those with leap < 5 (1490)
 
-## Functions
-
-
-<!-- START docme generated API please keep comment here to allow auto update -->
+## API<!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
 
 <div>

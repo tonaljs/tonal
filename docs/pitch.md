@@ -1,6 +1,6 @@
 # Pitch module
 
-This is the basic building block of tonal. A pitch is a string with the note pitch in scientific notation. To create a pitch use `pitch/pitch`
+This is the basic building block of tonal. A pitch is a string with the note pitch in scientific notation. To create a pitch use `pitch/pitch` (although you normally won't need this method):
 
 ```js
 var pitch = require('tonal/pitch/pitch')
@@ -10,18 +10,6 @@ pitch('bbb') // => 'Bbb4'
 pitch('eb2') // => 'Eb2'
 ```
 
-Not very interesting. You can get the pitch properties with `pitchClass`, `octave`, `midi` and ´freq´ functions:
-
-```js
-var pitchClass = require('tonal/pitch/pitchClass')
-pitchClass('db4') // => 'Db'
-var midi = require('tonal/pitch/midi')
-midi('g#2') // => 44
-var freq = require('tonal/pitch/freq')
-freq('A3') // => 220
-freq('A4', 444) // => 444
-...
-```
 
 You can get all the properties with the `props` function:
 
@@ -32,16 +20,29 @@ pitch('D#5') // => { name: 'D#5', ... }
 pitch('Bb2') // => { name: 'Bb2', ... }
 ```
 
-And transform them:
+Work with midi and frequencies:
+
+```js
+var midi = require('tonal/pitch/midi')
+midi('g#2') // => 44
+var fromMidi = require('tonal/pitch/fromMidi')
+fromMidi(44) // => 'G#2'
+var freq = require('tonal/pitch/freq')
+freq('A3') // => 220
+freq('A4', 444) // => 444
+var fromFreq = require('tonal/pitch/fromFreq')
+fromFreq(330) // => 'E4'
+```
+
+Transpose pitches:
 
 ```js
 var transpose = require('tonal/transpose')
 transpose('C2', '5P') // => 'G5'
+['C', 'D', 'E'].map(transpose('3M')) // => ['E4', 'F#4', 'G#4']
 ```
 
-If you are building an app to deal with notes and midi and frequencies, this is your module.
-
-## Functions
+## API
 
 <!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
@@ -56,11 +57,12 @@ If you are building an app to deal with notes and midi and frequencies, this is 
 </div>
 <dl>
 <dt>
-<h4 class="name" id="midi
-Get the midi of a pitch"><span class="type-signature"></span>midi
-Get the midi of a pitch<span class="type-signature"></span></h4>
+<h4 class="name" id="midi"><span class="type-signature"></span>midi<span class="type-signature"></span></h4>
 </dt>
 <dd>
+<div class="description">
+<p>Get the midi of a pitch</p>
+</div>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
@@ -75,11 +77,12 @@ Get the midi of a pitch<span class="type-signature"></span></h4>
 <pre class="prettyprint"><code>midi('a4') // => 69</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="octave
-Get the octave of a pitch"><span class="type-signature"></span>octave
-Get the octave of a pitch<span class="type-signature"></span></h4>
+<h4 class="name" id="octave"><span class="type-signature"></span>octave<span class="type-signature"></span></h4>
 </dt>
 <dd>
+<div class="description">
+<p>Get the octave of a pitch</p>
+</div>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
