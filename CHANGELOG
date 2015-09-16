@@ -1,4 +1,5 @@
 [MASTER]
+- Add internal/findByValue and refactor scale/name
 
 [0.8.0]
 - Rename pitch/pitch to pitch/build
