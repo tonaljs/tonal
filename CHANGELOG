@@ -1,4 +1,6 @@
 [MASTER]
+
+[0.8.0]
 - Rename pitch/pitch to pitch/build
 - Add utils/prop
 - Using utils/prop add pitch/octave pitch/midi pitch/pitchClass
@@ -31,5 +33,5 @@
 - interval/props and pitch/props now returns an immutable object (via Object.freeze)
 - interval/interval can receive a negative octave number
 
-[0.6.0]
+[0.7.0]
 - Last iteration without changelog ;-)
