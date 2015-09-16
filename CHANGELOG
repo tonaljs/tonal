@@ -23,6 +23,7 @@
 - new function chord/names
 - incubator/cycle now returns a pitch set
 - move scale/triadic to incubator
+- add pitch/key and pitch/fromKey
 
 [0.6.0]
 - Last iteration without changelog ;-)
