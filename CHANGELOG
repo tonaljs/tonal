@@ -21,6 +21,8 @@
 - don't use Uint8Array for compatibility
 - scales and chords uses internal/lookup and internal/keys
 - new function chord/names
+- incubator/cycle now returns a pitch set
+- move scale/triadic to incubator
 
 [0.6.0]
 - Last iteration without changelog ;-)

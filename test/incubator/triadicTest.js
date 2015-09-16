@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var triadic = require('../../lib/scale/triadic')
+var triadic = require('../../lib/incubator/triadic')
 
 vows.describe('scale/triadic').addBatch({
   'scale triadic': function () {
