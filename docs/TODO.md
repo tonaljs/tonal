@@ -8,20 +8,17 @@ Tonal is not complete yet. Here are some stuff i'm planning to implement:
 ## Interval
 
 - interval/interval should accept letters as alteration
-- `simplify` should have an option to create only ascending intervals (by inverting them)
 
 ## Set
 
+- Get ascending and descending sets
 
 ## Scale
 
-- Extract the hash lookup to utils
-- Get ascending and descending scales
 - Better scale detection
 
 ## Chord
 
-- Extract the hash lookup to utils
 - Create chord inversions
 - Better chord detection
 

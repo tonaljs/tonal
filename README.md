@@ -38,16 +38,16 @@ tonal('Dm7 | G7 | CMaj7').map(tonal.chord) // => [ ['D', 'F', ...], ['G', ...], 
 
 Tonal has a number of characteristics that make it unique:
 
-- In its core (except the `tonal` facade object) all is pure __functional__: no classes, no side effects, no mutations, just data-in-and-out and functions.
+- It is pure __functional__: no classes, no side effects, no mutations, just data-in-and-out and functions
 - Heavy use of __strings to represent entities__: pitches (`'C#2'`, `'Bb'`, `'G##'`), intevals (`'2M'`, `'-9m'`), chords (`'Cmaj7'`, `'Bb79'`), scales (`'C major'`, `'Bb bebop'`), sequences (`'C D E F'`, `'1P 2M 3M'`, `'Cmaj7 D9m'`), keys (`'C major'`, `'Bb minor'`, `'###'`)
 - Extremely __modular__: your can require individual functions not (_a-la-lodash_) so the dependencies are reduced to the minimum. Think each function in tonal like a npm micro-module.
 - Advanced features: binary sets, chord and scale detection, ...
 
-_This is still beta software_ For a stable library see [teoria](https://github.com/saebekassebil/teoria)
+_This is still [beta software](https://github.com/danigb/tonal/blob/master/docs/TODO.md)_ and it's being actively developed. For a stable library see [teoria](https://github.com/saebekassebil/teoria)
 
 ## Why
 
-Mostly, because I want to [learn](https://github.com/danigb/tonal/blob/master/RESOURCES.md):
+Mostly, because I want to [learn](https://github.com/danigb/tonal/blob/master/docs/RESOURCES.md):
 
 > Reinventing the wheel is bad for business, but it’s great for learning
 [*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
