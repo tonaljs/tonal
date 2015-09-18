@@ -24,6 +24,7 @@ generateIndex('lib', 'docs/index.md')
 function generateIndex (lib, file) {
   var all = []
   modules(path(lib)).forEach(function (module) {
+    if (['pitch', 'interval', 'set', 'scale', 'chord', 'key'].indexOf(module) === -1) return
     sources(path(lib, module)).forEach(function (file) {
       all.push({ name: file.slice(0, -3), module: module })
     })

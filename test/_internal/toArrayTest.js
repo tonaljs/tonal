@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var toArray = require('../../lib/internal/toArray')
+var toArray = require('../../lib/_internal/toArray')
 
-vows.describe('internal/toArray').addBatch({
+vows.describe('_internal/toArray').addBatch({
   'strings': function () {
     assert.deepEqual(toArray('C d'), ['C', 'd'])
     assert.deepEqual(toArray('c 2'), ['c', '2'])
