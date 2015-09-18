@@ -2,7 +2,8 @@ var fs = require('fs')
 var join = require('path').join
 var docme = require('docme')
 
-var GITHUB = 'https://github.com/danigb/tonal/tree/master/lib'
+var GITHUB = 'https://github.com/danigb/tonal/tree/master'
+var MODULES = ['pitch', 'interval', 'set', 'scale', 'chord', 'key']
 
 // MARKDOWN
 var MD = {
@@ -11,38 +12,38 @@ var MD = {
   thead: function () {
     var args = Array.prototype.slice.call(arguments)
     var sep = args.map(function () { return '---' })
-    return args.join('|') + '\n' + sep.join('|') + '\n'
+    return args.join('|') + '\n' + sep.join('|')
   },
-  tbody: function () { return Array.prototype.slice.call(arguments).join('|') },
+  tbody: function () { return Array.prototype.slice.call(arguments).join('|') + '\n' },
   line: function () { return Array.prototype.slice.call(arguments).join('') + '\n' },
   lines: function () { return Array.prototype.slice.call(arguments).join('\n') }
 }
 
-generateIndex('lib', 'docs/index.md')
-// generate('lib', 'docs')
+generateIndex('lib', 'docs/INDEX.md')
+generate('lib', 'docs')
 
 function generateIndex (lib, file) {
-  var all = []
-  modules(path(lib)).forEach(function (module) {
-    if (['pitch', 'interval', 'set', 'scale', 'chord', 'key'].indexOf(module) === -1) return
+  var lines = []
+  MODULES.forEach(function (module) {
     sources(path(lib, module)).forEach(function (file) {
-      all.push({ name: file.slice(0, -3), module: module })
+      lines.push({ name: file.slice(0, -3), module: module })
     })
   })
-  console.log('Number of functions: ', all.length)
-  var lines = all.sort(sorter('name')).map(function (src) {
-    return MD.tbody(
-      src.name,
-      MD.link('source', [GITHUB, src.module, src.name + '.js'].join('/')),
-      MD.link(src.module, [GITHUB, src.module].join('/'))
-    )
-  })
+  lines.sort(sorter('name'))
+  console.log('Number of functions: ', lines.length)
 
   var output = MD.lines(
     MD.h1('Function index'),
-    MD.line('Number of functions: ', all.length),
-    MD.thead('name', 'source', 'module')
-  ) + lines.join('\n')
+    MD.line('Number of functions: ', lines.length),
+    MD.thead('name', 'source', 'module'),
+    lines.map(function (src) {
+      return MD.tbody(
+        src.name,
+        MD.link('source', [GITHUB, 'lib', src.module, src.name + '.js'].join('/')),
+        MD.link(src.module, [GITHUB, 'docs', src.module + '.md'].join('/'))
+      )
+    }).join('')
+  )
   fs.writeFileSync(path(file), output)
 }
 
@@ -54,20 +55,15 @@ function sorter (key) {
   }
 }
 
-function modules (lib) {
-  return fs.readdirSync(lib).filter(function (name) {
-    return name.indexOf('.') === -1
-  })
-}
-function sources (lib) {
-  return fs.readdirSync(lib).filter(function (name) {
+function sources (path) {
+  return fs.readdirSync(path).filter(function (name) {
     return /\.js$/.test(name)
   })
 }
 
 function generate (lib, docs) {
   lib = path(lib)
-  modules(lib).forEach(function (module) {
+  MODULES.forEach(function (module) {
     docme('docs/' + module + '.md', { projectRoot: join(lib, module) }, null, function () {
       console.log('DOCME', module, 'done!')
     })

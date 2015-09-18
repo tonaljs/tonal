@@ -45,6 +45,27 @@ names('D E F# G A B C#') // => ['D dorian']
 </div>
 <dl>
 <dt>
+<h4 class="name" id="mode
+Get the mode of a scale"><span class="type-signature"></span>mode
+Get the mode of a scale<span class="type-signature"></span></h4>
+</dt>
+<dd>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/mode.js">mode.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/mode.js#L4">lineno 4</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']</code></pre>
+</dd>
+</dl>
+<dl>
+<dt>
 <h4 class="name" id="name"><span class="type-signature"></span>name<span class="signature">(scale)</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
@@ -261,29 +282,6 @@ triad(scale('C major'), 5) // => ['C', 'E', 'G', 'B', 'D']</code></pre>
 </ul></dd>
 </dl>
 <pre class="prettyprint"><code>generic('C major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']</code></pre>
-</div>
-</article>
-</section>
-<section>
-<article>
-<div class="container-overview">
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/mode.js">mode.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/mode.js#L4">lineno 4</a>
-</li>
-</ul></dd>
-<dt class="tag-see">See:</dt>
-<dd class="tag-see">
-<ul>
-<li>internal/rotate</li>
-</ul>
-</dd>
-</dl>
-<pre class="prettyprint"><code>mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']</code></pre>
 </div>
 </article>
 </section>
