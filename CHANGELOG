@@ -1,4 +1,5 @@
 [MASTER]
+- Rename set/binaryIntervals to set/fromBinary
 - Add internal/findByValue and refactor scale/name
 - interval/interval now accepts quality as second parameter
 

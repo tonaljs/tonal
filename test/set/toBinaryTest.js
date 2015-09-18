@@ -12,5 +12,8 @@ vows.describe('set/toBinary').addBatch({
   'intervals to binary': function () {
     assert.equal(toBinary('1P 2M 3M'), '101010000000')
     assert.equal(toBinary('2M 3M 4P'), '101100000000')
+    assert.equal(toBinary('1P'), '100000000000')
+    assert.equal(toBinary('1P 8P'), '100000000000')
+    assert.equal(toBinary('1P 8P 9M'), '101000000000')
   }
 }).export(module)
