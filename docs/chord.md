@@ -7,6 +7,8 @@ var chord = require('tonal/chord/chord')
 chord('Cmaj7') // => ['C4', 'E4', 'G4', 'B4']
 ```
 
+## API
+
 <!-- START docme generated API please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN docme TO UPDATE -->
 
@@ -121,9 +123,11 @@ chord('7b5', 'Bb2')</code></pre>
 <dd>
 <div class="description">
 <p>Parse a chord name and returns the tonic (if any) and the chord type</p>
-<p>The returned object has the properties:
-- tonic: the tonic note or null if not specified
-- type: the chord type</p>
+<p>The returned object has the properties:</p>
+<ul>
+<li><strong>tonic</strong>: the tonic note or null if not specified</li>
+<li><strong>type</strong>: the chord type</li>
+</ul>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -150,7 +154,7 @@ chord('7b5', 'Bb2')</code></pre>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js#L16">lineno 16</a>
+<a href="https://github.com/danigb/tonal/blob/master/parse.js#L17">lineno 17</a>
 </li>
 </ul></dd>
 </dl>

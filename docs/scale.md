@@ -45,19 +45,41 @@ names('D E F# G A B C#') // => ['D dorian']
 </div>
 <dl>
 <dt>
-<h4 class="name" id="name"><span class="type-signature"></span>name<span class="signature">()</span><span class="type-signature"></span></h4>
+<h4 class="name" id="name"><span class="type-signature"></span>name<span class="signature">(scale)</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
 <div class="description">
 <p>Given a pitch set return the scale name (if any)</p>
 </div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>scale</code></td>
+<td class="type">
+<span class="param-type">Array</span>
+|
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the scale notes
+®return {String} the scale name or null if not found</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/name.js">name.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/name.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/master/name.js#L17">lineno 17</a>
 </li>
 </ul></dd>
 </dl>

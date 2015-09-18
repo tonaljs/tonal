@@ -188,13 +188,13 @@ Type
 <pre class="prettyprint"><code>harmonize('C2', ['P1 P5']) // => ['C2', 'G2']</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="interval"><span class="type-signature"></span>interval<span class="signature">(interval, quality, oct)</span><span class="type-signature"></span></h4>
+<h4 class="name" id="interval"><span class="type-signature"></span>interval<span class="signature">(interval, quality|alteration, oct)</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
 <div class="description">
 <p>Get an interval properties from a string or a number, and optionally a quality
 and octave.</p>
-<p>The quality and octave parameters will have precedence over the string interval</p>
+<p>The quality and octave parameters will override the given string interval</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -217,7 +217,7 @@ and octave.</p>
 (can be negative to express descengin intervals)</p></td>
 </tr>
 <tr>
-<td class="name"><code>quality</code></td>
+<td class="name"><code>quality|alteration</code></td>
 <td class="type">
 <span class="param-type">String</span>
 |
@@ -260,17 +260,17 @@ interval('2', 'a', -1) // => '-9A'
 interval('2', null, 1) // => '9M'
 interval(-2, 'm', 1) // => '-9m'
 interval(-2, -1, 1) // => '-9m'
-interval('2AA') // => '2AA'
-interval('2AAA') // => null</code></pre>
+interval(2, 'AA') // => '2AA'
+interval(2, 'AAA') // => null</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="invert"><span class="type-signature"></span>invert<span class="signature">(interval, ascending)</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Invert an interval</p>
 <p>Get the <a href="https://en.wikipedia.org/wiki/Interval_(music">inversion</a>#Inversion)
 of an interval.</p>
+<p>Notice that all inverted intervals are simple.</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -311,9 +311,9 @@ given interval</p></td>
 </ul></dd>
 </dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>simple('M9') // => 'M2'
-simple('M-10') // => 'M-3'
-simple('P-11', true) // => 'P4'</code></pre>
+<pre class="prettyprint"><code>invert('M9') // => 'M2'
+invert('M-10') // => 'M-3'
+invert('P-11', true) // => 'P4'</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="isInterval"><span class="type-signature"></span>isInterval<span class="signature">(interval)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
@@ -471,9 +471,9 @@ props('9m') // => { name: '9m', quality: 'm', dir: 1, num: 9, generic: 1, alter:
 </li>
 </ul></dd>
 </dl>
-<pre class="prettyprint"><code>simplify('M9') // => 'M2'
-simplify('M-9') // => 'M-2'
-simplify('M-9', true) // => 'M2'</code></pre>
+<pre class="prettyprint"><code>simplify('9M') // => '2M'
+simplify('-9M') // => '-2M'
+simplify('-2M', true) // => '2M'</code></pre>
 </div>
 </article>
 </section>
