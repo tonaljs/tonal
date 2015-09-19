@@ -41,11 +41,12 @@ add('2M', '4P') // => '5P'
 </div>
 <dl>
 <dt>
-<h4 class="name" id="semitones
-Get the semitones of a interval"><span class="type-signature"></span>semitones
-Get the semitones of a interval<span class="type-signature"></span></h4>
+<h4 class="name" id="semitones"><span class="type-signature"></span>semitones<span class="type-signature"></span></h4>
 </dt>
 <dd>
+<div class="description">
+<p>Get the semitones of a interval</p>
+</div>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">

@@ -23,33 +23,16 @@ names('D E F# G A B C#') // => ['D dorian']
 <article>
 <div class="container-overview">
 <dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/scale/names.js">names.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/scale/names.js#L7">lineno 7</a>
-</li>
-</ul></dd>
-</dl>
-<pre class="prettyprint"><code>names() => ['major', 'minor', ....]</code></pre>
-</div>
-</article>
-</section>
-</div><div class="jsdoc-githubify">
-<section>
-<article>
-<div class="container-overview">
-<dl class="details">
 </dl>
 </div>
 <dl>
 <dt>
-<h4 class="name" id="mode
-Get the mode of a scale"><span class="type-signature"></span>mode
-Get the mode of a scale<span class="type-signature"></span></h4>
+<h4 class="name" id="mode()"><span class="type-signature"></span>mode()<span class="type-signature"></span></h4>
 </dt>
 <dd>
+<div class="description">
+<p>Get the mode of a scale</p>
+</div>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
@@ -62,6 +45,26 @@ Get the mode of a scale<span class="type-signature"></span></h4>
 </dl>
 <h5>Example</h5>
 <pre class="prettyprint"><code>mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="names()"><span class="type-signature"></span>names()<span class="type-signature"></span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get the known scale names</p>
+</div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/names.js">names.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/names.js#L7">lineno 7</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>names() => ['major', 'minor', ....]</code></pre>
 </dd>
 </dl>
 <dl>
