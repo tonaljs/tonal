@@ -23,7 +23,7 @@ function buildSourceModel (lib) {
       var model = {
         name: file.slice(0, -3),
         module: module,
-        jsdoc: dox.parseComments(fs.readFileSync(path(lib, module, file)).toString())[0]
+        jsdoc: dox.parseComments(fs.readFileSync(path(lib, module, file)).toString(), { raw: false })[0]
       }
       code.files.push(model)
       code.modules[module].push(model)
@@ -37,13 +37,12 @@ function markdownIndex (sources) {
   return markdown(function (md) {
     return md.lines(
       md.h1('Function index'),
-      md.line('Number of functions: ', sources.length),
-      md.thead('name', 'description', 'source', 'module'),
+      md.line('Number of functions: ', sources.files.length),
+      md.thead('name', 'description', 'module'),
       sources.files.map(function (src) {
         return md.tbody(
-          md.bold(src.name),
+          md.bold(md.link(src.name, [GITHUB, 'lib', src.module, src.name + '.js'].join('/'))),
           src.jsdoc.description.summary,
-          md.link('source', [GITHUB, 'lib', src.module, src.name + '.js'].join('/')),
           md.link(src.module, [GITHUB, 'docs', src.module + '.md'].join('/'))
         )
       }).join('')
