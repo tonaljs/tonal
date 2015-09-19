@@ -1,6 +1,7 @@
 // MARKDOWN
 var MD = {
   h1: function (title) { return '# ' + title },
+  bold: function (text) { return '__' + text + '__' },
   link: function (name, url) { return '[' + name + '](' + url + ')' },
   thead: function () {
     var args = Array.prototype.slice.call(arguments)

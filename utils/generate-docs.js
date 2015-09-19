@@ -41,7 +41,7 @@ function markdownIndex (sources) {
       md.thead('name', 'description', 'source', 'module'),
       sources.files.map(function (src) {
         return md.tbody(
-          src.name,
+          md.bold(src.name),
           src.jsdoc.description.summary,
           md.link('source', [GITHUB, 'lib', src.module, src.name + '.js'].join('/')),
           md.link(src.module, [GITHUB, 'docs', src.module + '.md'].join('/'))
