@@ -44,6 +44,78 @@ For example, at [allthescales.org site](http://allthescales.org) they limit all 
 </div>
 <dl>
 <dt>
+<h4 class="name" id="binarySets"><span class="type-signature"></span>binarySets<span class="signature">()</span><span class="type-signature"></span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Return all possible set binary numbers</p>
+</div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/set/binarySets.js">binarySets.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/set/binarySets.js#L8">lineno 8</a>
+</li>
+</ul></dd>
+</dl>
+</dd>
+<dt>
+<h4 class="name" id="fromBinary"><span class="type-signature"></span>fromBinary<span class="signature">(binary)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Convert a binary set number to an intervals collection</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>binary</code></td>
+<td class="type">
+<span class="param-type">String</span>
+|
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>an interval list in any of its valid forms</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/set/fromBinary.js">fromBinary.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/set/fromBinary.js#L16">lineno 16</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>An array of intervals</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>intervals('1P 2M') // => ['1P', '2M']
+intervals(2773) // => ['1P', '2M', '3M']</code></pre>
+</dd>
+<dt>
 <h4 class="name" id="modes"><span class="type-signature"></span>modes<span class="signature">(pitchSet)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 </dt>
 <dd>
@@ -75,9 +147,9 @@ For example, at [allthescales.org site](http://allthescales.org) they limit all 
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/modes.js">modes.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/set/modes.js">modes.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/modes.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/set/modes.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -129,9 +201,9 @@ are ordered by frequency starting from the first note of the collection</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/pitchSet.js">pitchSet.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/set/pitchSet.js">pitchSet.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/pitchSet.js#L17">lineno 17</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/set/pitchSet.js#L17">lineno 17</a>
 </li>
 </ul></dd>
 </dl>
@@ -152,7 +224,7 @@ Type
 pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="toBinary"><span class="type-signature"></span>toBinary<span class="signature">(intervals)</span><span class="type-signature"></span></h4>
+<h4 class="name" id="toBinary"><span class="type-signature"></span>toBinary<span class="signature">(intervals)</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>
 <div class="description">
@@ -172,54 +244,10 @@ pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']</code></pre>
 <td class="name"><code>intervals</code></td>
 <td class="type">
 <span class="param-type">Array</span>
-</td>
-<td class="description last"><p>an interval array</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/toBinary.js">toBinary.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/toBinary.js#L12">lineno 12</a>
-</li>
-</ul></dd>
-</dl>
-</dd>
-<dt>
-<h4 class="name" id="toIntervals"><span class="type-signature"></span>toIntervals<span class="signature">(source)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Convert a binary set number to an intervals collection</p>
-<p>The source can be one of the following forms:
-- An array of intervals (they are returned without modification)
-- A string with a intervals separated by a space
-- A string with a binay representation
-- A decimal (that is converted to a binary representation)</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>source</code></td>
-<td class="type">
-<span class="param-type">Array</span>
 |
 <span class="param-type">String</span>
-|
-<span class="param-type">Integer</span>
 </td>
-<td class="description last"><p>an interval list in any of its valid forms</p></td>
+<td class="description last"><p>a collection of intervals</p></td>
 </tr>
 </tbody>
 </table>
@@ -227,27 +255,49 @@ pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/binaryIntervals.js">binaryIntervals.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/set/toBinary.js">toBinary.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/binaryIntervals.js#L22">lineno 22</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/set/toBinary.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>
 <h5>Returns:</h5>
 <div class="param-desc">
-<p>An array of intervals</p>
+<p>a binary number</p>
 </div>
 <dl>
 <dt>
 Type
 </dt>
 <dd>
-<span class="param-type">Array</span>
+<span class="param-type">String</span>
 </dd>
 </dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>intervals('1P 2M') // => ['1P', '2M']
-intervals(2773) // => ['1P', '2M', '3M']</code></pre>
+<pre class="prettyprint"><code>toBinary('1P 2M') // => '101000000000'
+toBinary('1P 9M') // => '101000000000'
+toBinary('1P 7M') // => '100000000001'
+toBinary('1P 8P') // => '100000000000'</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="toIntervals"><span class="type-signature"></span>toIntervals<span class="signature">()</span><span class="type-signature"></span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get the intervals of a pitch set</p>
+</div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/set/genericSet.js">genericSet.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/set/genericSet.js#L10">lineno 10</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>toIntervals()</code></pre>
 </dd>
 </dl>
 </article>

@@ -69,9 +69,9 @@ interval('C', 'D') // => '2M'
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/midi.js">midi.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/midi.js">midi.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/midi.js#L5">lineno 5</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/midi.js#L5">lineno 5</a>
 </li>
 </ul></dd>
 </dl>
@@ -89,9 +89,9 @@ interval('C', 'D') // => '2M'
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/octave.js">octave.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/octave.js">octave.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/octave.js#L5">lineno 5</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/octave.js#L5">lineno 5</a>
 </li>
 </ul></dd>
 </dl>
@@ -109,9 +109,9 @@ interval('C', 'D') // => '2M'
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/pitchClass.js">pitchClass.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/pitchClass.js">pitchClass.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/pitchClass.js#L5">lineno 5</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/pitchClass.js#L5">lineno 5</a>
 </li>
 </ul></dd>
 </dl>
@@ -162,9 +162,9 @@ decimals precision</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/cents.js">cents.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/cents.js">cents.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/cents.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/cents.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -196,9 +196,9 @@ cents('A4', 'A#4') // => 100</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/enharmonic.js">enharmonic.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/enharmonic.js">enharmonic.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/enharmonic.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/enharmonic.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -255,9 +255,9 @@ enharmonic('B#', 'C') // => 'C'</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/freq.js">freq.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/freq.js">freq.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/freq.js#L17">lineno 17</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/freq.js#L17">lineno 17</a>
 </li>
 </ul></dd>
 </dl>
@@ -311,9 +311,9 @@ pitch frequency</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/fromFreq.js">fromFreq.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromFreq.js">fromFreq.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/fromFreq.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromFreq.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -368,9 +368,9 @@ pitch class is given to the same key number.</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/fromKey.js">fromKey.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromKey.js">fromKey.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/fromKey.js#L16">lineno 16</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromKey.js#L16">lineno 16</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -425,9 +425,9 @@ pitch class is given to the same midi number. @see enahrmonic</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/fromMidi.js">fromMidi.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromMidi.js">fromMidi.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/fromMidi.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromMidi.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -483,9 +483,9 @@ parameter. See examples below:</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/interval.js">interval.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/interval.js">interval.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/interval.js#L20">lineno 20</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/interval.js#L20">lineno 20</a>
 </li>
 </ul></dd>
 </dl>
@@ -535,9 +535,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/intervalFrom.js">intervalFrom.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/intervalFrom.js">intervalFrom.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/intervalFrom.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/intervalFrom.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -587,9 +587,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/intervalTo.js">intervalTo.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/intervalTo.js">intervalTo.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/intervalTo.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/intervalTo.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -639,9 +639,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/key.js">key.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/key.js">key.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/key.js#L10">lineno 10</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/key.js#L10">lineno 10</a>
 </li>
 </ul></dd>
 </dl>
@@ -669,9 +669,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/letter.js">letter.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/letter.js">letter.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/letter.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/letter.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -729,9 +729,9 @@ alteration. The octave and alteration will override the ones from the pitch</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/pitch.js">pitch.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/pitch.js">pitch.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/pitch.js#L26">lineno 26</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/pitch.js#L26">lineno 26</a>
 </li>
 </ul></dd>
 </dl>
@@ -802,9 +802,9 @@ where C=0, C#=1, D=2...B=11</li>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/props.js">props.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/props.js">props.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/props.js#L30">lineno 30</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/props.js#L30">lineno 30</a>
 </li>
 </ul></dd>
 </dl>
@@ -855,9 +855,9 @@ applied function with the pitch is returned</p></td>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/transpose.js">transpose.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/transpose.js">transpose.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/transpose.js#L25">lineno 25</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/transpose.js#L25">lineno 25</a>
 </li>
 </ul></dd>
 </dl>

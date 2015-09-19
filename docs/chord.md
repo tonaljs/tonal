@@ -21,9 +21,9 @@ chord('Cmaj7') // => ['C4', 'E4', 'G4', 'B4']
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/names.js">names.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/names.js">names.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/names.js#L7">lineno 7</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/names.js#L7">lineno 7</a>
 </li>
 </ul></dd>
 </dl>
@@ -76,9 +76,9 @@ chord('Cmaj7') // => ['C4', 'E4', 'G4', 'B4']
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/chord.js">chord.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/chord.js">chord.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/chord.js#L19">lineno 19</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/chord.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>
@@ -100,6 +100,24 @@ chord('7b5') // => ['1P', '3M', '5d', '7m']
 chord('7b5', 'Bb2')</code></pre>
 </dd>
 <dt>
+<h4 class="name" id="fromScale"><span class="type-signature"></span>fromScale<span class="signature">()</span><span class="type-signature"></span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Return all the chord names of a given scale</p>
+</div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/fromScale.js">fromScale.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/fromScale.js#L10">lineno 10</a>
+</li>
+</ul></dd>
+</dl>
+</dd>
+<dt>
 <h4 class="name" id="name"><span class="type-signature"></span>name<span class="signature">()</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
@@ -110,9 +128,9 @@ chord('7b5', 'Bb2')</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/name.js">name.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/name.js">name.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/name.js#L11">lineno 11</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/name.js#L11">lineno 11</a>
 </li>
 </ul></dd>
 </dl>
@@ -152,9 +170,9 @@ chord('7b5', 'Bb2')</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js#L17">lineno 17</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/parse.js#L17">lineno 17</a>
 </li>
 </ul></dd>
 </dl>

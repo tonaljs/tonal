@@ -26,9 +26,9 @@ names('D E F# G A B C#') // => ['D dorian']
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/names.js">names.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/names.js">names.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/names.js#L7">lineno 7</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/names.js#L7">lineno 7</a>
 </li>
 </ul></dd>
 </dl>
@@ -54,9 +54,9 @@ Get the mode of a scale<span class="type-signature"></span></h4>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/mode.js">mode.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/mode.js">mode.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/mode.js#L4">lineno 4</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/mode.js#L4">lineno 4</a>
 </li>
 </ul></dd>
 </dl>
@@ -66,11 +66,11 @@ Get the mode of a scale<span class="type-signature"></span></h4>
 </dl>
 <dl>
 <dt>
-<h4 class="name" id="name"><span class="type-signature"></span>name<span class="signature">(scale)</span><span class="type-signature"></span></h4>
+<h4 class="name" id="name"><span class="type-signature"></span>name<span class="signature">(scale)</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Given a pitch set return the scale name (if any)</p>
+<p>Given a scale notes return the scale name (if any)</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -89,8 +89,7 @@ Get the mode of a scale<span class="type-signature"></span></h4>
 |
 <span class="param-type">String</span>
 </td>
-<td class="description last"><p>the scale notes
-®return {String} the scale name or null if not found</p></td>
+<td class="description last"><p>the scale notes</p></td>
 </tr>
 </tbody>
 </table>
@@ -98,14 +97,26 @@ Get the mode of a scale<span class="type-signature"></span></h4>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/name.js">name.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/name.js">name.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/name.js#L17">lineno 17</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/name.js#L16">lineno 16</a>
 </li>
 </ul></dd>
 </dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the scale name or null if not found</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">String</span>
+</dd>
+</dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>name('C D E F G A B')</code></pre>
+<pre class="prettyprint"><code>name('C D E F G A B') // => 'C major'</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="parse"><span class="type-signature"></span>parse<span class="signature">(scale)</span><span class="type-signature"> &rarr; {Object}</span></h4>
@@ -140,9 +151,9 @@ Get the mode of a scale<span class="type-signature"></span></h4>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/parse.js">parse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/parse.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/parse.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -191,9 +202,9 @@ Type
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/scale.js">scale.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/scale.js">scale.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/scale.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/scale.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -253,9 +264,9 @@ scale('bebop') // => '1P 2M 3M 4P 5P 6M 7m 7M'</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/triad.js">triad.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/triad.js">triad.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/triad.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/triad.js#L14">lineno 14</a>
 </li>
 </ul></dd>
 </dl>
@@ -275,9 +286,9 @@ triad(scale('C major'), 5) // => ['C', 'E', 'G', 'B', 'D']</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/generic.js">generic.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/generic.js">generic.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/generic.js#L6">lineno 6</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/generic.js#L6">lineno 6</a>
 </li>
 </ul></dd>
 </dl>

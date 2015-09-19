@@ -50,9 +50,9 @@ Get the semitones of a interval<span class="type-signature"></span></h4>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/semitones.js">semitones.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/semitones.js">semitones.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/semitones.js#L5">lineno 5</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/semitones.js#L5">lineno 5</a>
 </li>
 </ul></dd>
 </dl>
@@ -98,9 +98,9 @@ Get the semitones of a interval<span class="type-signature"></span></h4>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/add.js">add.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/add.js">add.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/add.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/add.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -166,9 +166,9 @@ octave information</p></td>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/harmonize.js">harmonize.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/harmonize.js">harmonize.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/harmonize.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/harmonize.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 </dl>
@@ -240,9 +240,9 @@ the interval is descendent. 0 by default.</p></td>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/interval.js">interval.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/interval.js">interval.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/interval.js#L36">lineno 36</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/interval.js#L36">lineno 36</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -304,9 +304,9 @@ given interval</p></td>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/invert.js">invert.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/invert.js">invert.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/invert.js#L20">lineno 20</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/invert.js#L20">lineno 20</a>
 </li>
 </ul></dd>
 </dl>
@@ -345,9 +345,9 @@ invert('P-11', true) // => 'P4'</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/isInterval.js">isInterval.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/isInterval.js">isInterval.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/isInterval.js#L13">lineno 13</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/isInterval.js#L13">lineno 13</a>
 </li>
 </ul></dd>
 </dl>
@@ -379,9 +379,9 @@ isInterval('P6') // false</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/opposite.js">opposite.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/opposite.js">opposite.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/opposite.js#L9">lineno 9</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/opposite.js#L9">lineno 9</a>
 </li>
 </ul></dd>
 </dl>
@@ -430,9 +430,9 @@ quality of the interval, just if it is perfectable or not.
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/props.js">props.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/props.js">props.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/props.js#L36">lineno 36</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/props.js#L36">lineno 36</a>
 </li>
 </ul></dd>
 </dl>
@@ -465,9 +465,9 @@ props('9m') // => { name: '9m', quality: 'm', dir: 1, num: 9, generic: 1, alter:
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/simplify.js">simplify.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/simplify.js">simplify.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/simplify.js#L3">lineno 3</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/simplify.js#L3">lineno 3</a>
 </li>
 </ul></dd>
 </dl>
