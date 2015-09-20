@@ -112,7 +112,7 @@ chord('7b5', 'Bb2')</code></pre>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/chord/fromScale.js">fromScale.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/chord/fromScale.js#L10">lineno 10</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/fromScale.js#L11">lineno 11</a>
 </li>
 </ul></dd>
 </dl>

@@ -13,8 +13,9 @@ var MD = {
   line: function () { return Array.prototype.slice.call(arguments).join('') + '\n' },
   lines: function () { return Array.prototype.slice.call(arguments).join('\n') },
   code: function (code, lang) {
+    if (!code || code === '') return ''
     return arguments.length === 1
-      ? '```' + code + '```'
+      ? '`' + code + '`'
       : '```' + lang + '\n' + code + '\n' + '```' + '\n'
   }
 }

@@ -368,7 +368,7 @@ pitch frequency</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromFreq.js">fromFreq.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromFreq.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromFreq.js#L18">lineno 18</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -390,6 +390,9 @@ Type
 <span class="param-type">String</span>
 </dd>
 </dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>fromFreq(440) // => 'A4'
+fromFreq(441) // => 'A4'</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="fromKey"><span class="type-signature"></span>fromKey<span class="signature">(key)</span><span class="type-signature"> &rarr; {String}</span></h4>
@@ -425,7 +428,7 @@ pitch class is given to the same key number.</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromKey.js">fromKey.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromKey.js#L16">lineno 16</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromKey.js#L20">lineno 20</a>
 </li>
 </ul></dd>
 <dt class="tag-see">See:</dt>
@@ -447,6 +450,9 @@ Type
 <span class="param-type">String</span>
 </dd>
 </dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>fromKey(40) // => 'C4'
+fromKey(49) // => 'A4'</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="fromMidi"><span class="type-signature"></span>fromMidi<span class="signature">(midi)</span><span class="type-signature"> &rarr; {String}</span></h4>
