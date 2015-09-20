@@ -1,4 +1,6 @@
 [MASTER]
+- Add fifths/distance to calculate distances in fifths
+- Add fifths module
 - Add set/genericSet
 - Add set/binarySets
 - Rename set/binaryIntervals to set/fromBinary

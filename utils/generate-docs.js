@@ -5,7 +5,7 @@ var markdown = require('./markdown')
 var dox = require('dox')
 
 var GITHUB = 'https://github.com/danigb/tonal/tree/master'
-var MODULES = ['pitch', 'interval', 'set', 'scale', 'chord', 'key']
+var MODULES = ['pitch', 'interval', 'set', 'scale', 'chord', 'key', 'fifths']
 
 var CODE = buildSourceModel('lib')
 

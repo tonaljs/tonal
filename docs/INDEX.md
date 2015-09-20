@@ -1,5 +1,5 @@
 # Function index
-Number of functions: 52
+Number of functions: 53
 
 name|description|module
 ---|---|---
@@ -9,6 +9,7 @@ __[alteredNotes](https://github.com/danigb/tonal/tree/master/lib/key/alteredNote
 __[binarySets](https://github.com/danigb/tonal/tree/master/lib/set/binarySets.js)__|<p>Return all possible set binary numbers</p>|[set](https://github.com/danigb/tonal/tree/master/docs/set.md)
 __[cents](https://github.com/danigb/tonal/tree/master/lib/pitch/cents.js)__|<p>Return the distance in cents between to pitches or frequencies with two<br />decimals precision</p>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)
 __[chord](https://github.com/danigb/tonal/tree/master/lib/chord/chord.js)__|<p>Get chord notes or intervals by its type and (optionally) tonic pitch</p>|[chord](https://github.com/danigb/tonal/tree/master/docs/chord.md)
+__[distance](https://github.com/danigb/tonal/tree/master/lib/fifths/distance.js)__|<p>Return the number of fifths between two pitches</p>|[fifths](https://github.com/danigb/tonal/tree/master/docs/fifths.md)
 __[enharmonic](https://github.com/danigb/tonal/tree/master/lib/pitch/enharmonic.js)__|<p>Get the enharmonic of a pitch with a given step</p>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)
 __[freq](https://github.com/danigb/tonal/tree/master/lib/pitch/freq.js)__|<p>Get the pitch frequency in hertzs</p>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)
 __[fromBinary](https://github.com/danigb/tonal/tree/master/lib/set/fromBinary.js)__|<p>Convert a binary set number to an intervals collection</p>|[set](https://github.com/danigb/tonal/tree/master/docs/set.md)
@@ -20,8 +21,8 @@ __[fromScale](https://github.com/danigb/tonal/tree/master/lib/chord/fromScale.js
 __[generic](https://github.com/danigb/tonal/tree/master/lib/scale/generic.js)__|<p>Get a generic scale (the intervals) from a scale name without tonic</p>|[scale](https://github.com/danigb/tonal/tree/master/docs/scale.md)
 __[genericSet](https://github.com/danigb/tonal/tree/master/lib/set/genericSet.js)__|<p>Get the intervals of a pitch set</p>|[set](https://github.com/danigb/tonal/tree/master/docs/set.md)
 __[harmonize](https://github.com/danigb/tonal/tree/master/lib/interval/harmonize.js)__|<p>Given a collection of intervals, and a tonic create a collection of pitches</p>|[interval](https://github.com/danigb/tonal/tree/master/docs/interval.md)
-__[interval](https://github.com/danigb/tonal/tree/master/lib/pitch/interval.js)__|<p>Get the interval between two pitches</p>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)
 __[interval](https://github.com/danigb/tonal/tree/master/lib/interval/interval.js)__|<p>Get an interval properties from a string or a number, and optionally a quality<br />and octave.</p>|[interval](https://github.com/danigb/tonal/tree/master/docs/interval.md)
+__[interval](https://github.com/danigb/tonal/tree/master/lib/pitch/interval.js)__|<p>Get the interval between two pitches</p>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)
 __[intervalFrom](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalFrom.js)__|<p>Partial apply <code>picth/interval</code> to return a interval from a pitch</p>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)
 __[intervalTo](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalTo.js)__|<p>Partial apply <code>picth/interval</code> to return a interval to a pitch</p>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)
 __[intervals](https://github.com/danigb/tonal/tree/master/lib/chord/intervals.js)__|<p>Get the intervals of a chord name</p>|[chord](https://github.com/danigb/tonal/tree/master/docs/chord.md)
@@ -33,21 +34,21 @@ __[letter](https://github.com/danigb/tonal/tree/master/lib/pitch/letter.js)__|<p
 __[midi](https://github.com/danigb/tonal/tree/master/lib/pitch/midi.js)__|<p>Get the midi of a pitch</p>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)
 __[mode](https://github.com/danigb/tonal/tree/master/lib/scale/mode.js)__|<p>Get the mode of a scale</p>|[scale](https://github.com/danigb/tonal/tree/master/docs/scale.md)
 __[modes](https://github.com/danigb/tonal/tree/master/lib/set/modes.js)__|<p>Return all modes of a pitch set</p>|[set](https://github.com/danigb/tonal/tree/master/docs/set.md)
-__[name](https://github.com/danigb/tonal/tree/master/lib/scale/name.js)__|<p>Given a scale notes return the scale name (if any)</p>|[scale](https://github.com/danigb/tonal/tree/master/docs/scale.md)
 __[name](https://github.com/danigb/tonal/tree/master/lib/chord/name.js)__|<p>Get the chord name(s) of a given pitches</p>|[chord](https://github.com/danigb/tonal/tree/master/docs/chord.md)
+__[name](https://github.com/danigb/tonal/tree/master/lib/scale/name.js)__|<p>Given a scale notes return the scale name (if any)</p>|[scale](https://github.com/danigb/tonal/tree/master/docs/scale.md)
 __[names](https://github.com/danigb/tonal/tree/master/lib/scale/names.js)__|<p>Get the known scale names</p>|[scale](https://github.com/danigb/tonal/tree/master/docs/scale.md)
 __[names](https://github.com/danigb/tonal/tree/master/lib/chord/names.js)__||[chord](https://github.com/danigb/tonal/tree/master/docs/chord.md)
 __[octave](https://github.com/danigb/tonal/tree/master/lib/pitch/octave.js)__|<p>Get the octave of a pitch</p>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)
 __[opposite](https://github.com/danigb/tonal/tree/master/lib/interval/opposite.js)__|<p>Given an interval, return its opposite</p>|[interval](https://github.com/danigb/tonal/tree/master/docs/interval.md)
 __[parse](https://github.com/danigb/tonal/tree/master/lib/key/parse.js)__|<p>Parse a key name</p>|[key](https://github.com/danigb/tonal/tree/master/docs/key.md)
-__[parse](https://github.com/danigb/tonal/tree/master/lib/chord/parse.js)__|<p>Parse a chord name and returns the tonic (if any) and the chord type</p>|[chord](https://github.com/danigb/tonal/tree/master/docs/chord.md)
 __[parse](https://github.com/danigb/tonal/tree/master/lib/scale/parse.js)__|<p>Parase a scale name and returns its components</p>|[scale](https://github.com/danigb/tonal/tree/master/docs/scale.md)
+__[parse](https://github.com/danigb/tonal/tree/master/lib/chord/parse.js)__|<p>Parse a chord name and returns the tonic (if any) and the chord type</p>|[chord](https://github.com/danigb/tonal/tree/master/docs/chord.md)
 __[pitch](https://github.com/danigb/tonal/tree/master/lib/pitch/pitch.js)__|<p>Get the scientific notation of a pitch from a pitch and optional octave and<br />alteration. The octave and alteration will override the ones from the pitch</p>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)
 __[pitchClass](https://github.com/danigb/tonal/tree/master/lib/pitch/pitchClass.js)__|<p>Get the <a href="https://en.wikipedia.org/wiki/Pitch_class">pitchClass</a> of a pitch</p>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)
 __[pitchSet](https://github.com/danigb/tonal/tree/master/lib/set/pitchSet.js)__|<p>Create a pitch class set from a collection of pitches. The pitch classes<br />are ordered by frequency starting from the first note of the collection</p>|[set](https://github.com/danigb/tonal/tree/master/docs/set.md)
 __[pitches](https://github.com/danigb/tonal/tree/master/lib/key/pitches.js)__|<p>Get the pitch class set from a key.</p>|[key](https://github.com/danigb/tonal/tree/master/docs/key.md)
-__[props](https://github.com/danigb/tonal/tree/master/lib/pitch/props.js)__|<p>Get pitch properties</p>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)
 __[props](https://github.com/danigb/tonal/tree/master/lib/interval/props.js)__|<p>Get interval properties</p>|[interval](https://github.com/danigb/tonal/tree/master/docs/interval.md)
+__[props](https://github.com/danigb/tonal/tree/master/lib/pitch/props.js)__|<p>Get pitch properties</p>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)
 __[scale](https://github.com/danigb/tonal/tree/master/lib/scale/scale.js)__|<p>Given a scale name, returns its pitches or intervals</p>|[scale](https://github.com/danigb/tonal/tree/master/docs/scale.md)
 __[semitones](https://github.com/danigb/tonal/tree/master/lib/interval/semitones.js)__|<p>Get the semitones of a interval</p>|[interval](https://github.com/danigb/tonal/tree/master/docs/interval.md)
 __[simplify](https://github.com/danigb/tonal/tree/master/lib/interval/simplify.js)__|<p>Simplify an interval</p>|[interval](https://github.com/danigb/tonal/tree/master/docs/interval.md)
