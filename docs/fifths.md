@@ -23,11 +23,62 @@ distance('F', 'C') // => -1
 </div>
 <dl>
 <dt>
-<h4 class="name" id="distance"><span class="type-signature"></span>distance<span class="signature">(pitch, from)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+<h4 class="name" id="byFifths"><span class="type-signature"></span>byFifths<span class="signature">(from)</span><span class="type-signature"> &rarr; {function}</span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Return the number of fifths between two pitches</p>
+<p>Get a comparator function to sort a collection of pitch classes</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>from</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>(Optional) the base pitch</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/byFifths.js">byFifths.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/byFifths.js#L14">lineno 14</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>a comparator function</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">function</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>['A', 'B', 'C'].sort(byFifths()) // =></code></pre>
+</dd>
+<dt>
+<h4 class="name" id="fifths"><span class="type-signature"></span>fifths<span class="signature">(pitch, from)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Return the number of fifths between two pitch classes.</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -44,14 +95,14 @@ distance('F', 'C') // => -1
 <td class="type">
 <span class="param-type">String</span>
 </td>
-<td class="description last"><p>the pitch to calc the distance to</p></td>
+<td class="description last"><p>the pitch to calc the fifths distance to</p></td>
 </tr>
 <tr>
 <td class="name"><code>from</code></td>
 <td class="type">
 <span class="param-type">String</span>
 </td>
-<td class="description last"><p>(Optional) the pitch to calc the distance from
+<td class="description last"><p>(Optional) the pitch to calc the fifths distance from
 (C if not specified)</p></td>
 </tr>
 </tbody>
@@ -60,15 +111,15 @@ distance('F', 'C') // => -1
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/distance.js">distance.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/fifths.js">fifths.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/distance.js#L23">lineno 23</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/fifths.js#L24">lineno 24</a>
 </li>
 </ul></dd>
 </dl>
 <h5>Returns:</h5>
 <div class="param-desc">
-<p>the step distance in the line of fifths</p>
+<p>the number fifths between the two pitches</p>
 </div>
 <dl>
 <dt>
@@ -79,12 +130,13 @@ Type
 </dd>
 </dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>distance('C') // => 0
-distance('G') // => 1
-distance('D') // => 2
-distance('F') // => -1
-distance('Bb') // => -2
-distance('A', 'D') // => 1</code></pre>
+<pre class="prettyprint"><code>fifths('C') // => 0
+fifths('G') // => 1
+fifths('D') // => 2
+fifths('F') // => -1
+fifths('Bb') // => -2
+fifths('A', 'D') // => 1
+fifths('C4', 'C2') // => 0</code></pre>
 </dd>
 </dl>
 </article>

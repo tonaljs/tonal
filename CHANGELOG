@@ -1,5 +1,6 @@
 [MASTER]
-- Add fifths/distance to calculate distances in fifths
+- Add fifths/byFifths to sort collections by fifths distance
+- Add fifths/fifths to calculate distances in fifths between two pitch classes
 - Add fifths module
 - Add set/genericSet
 - Add set/binarySets
