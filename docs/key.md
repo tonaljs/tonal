@@ -40,7 +40,7 @@ accidentals(3) // => '###'
 accidentals(-2) // => 'bb'</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="keyNumber"><span class="type-signature"></span>keyNumber<span class="signature">(name)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+<h4 class="name" id="keyNumber"><span class="type-signature"></span>keyNumber<span class="signature">(key)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
 </dt>
 <dd>
 <div class="description">
@@ -61,11 +61,11 @@ a 'major' or 'minor' appended, or a string with the accidentals</p>
 </thead>
 <tbody>
 <tr>
-<td class="name"><code>name</code></td>
+<td class="name"><code>key</code></td>
 <td class="type">
 <span class="param-type">String</span>
 </td>
-<td class="description last"><p>the name of the key</p></td>
+<td class="description last"><p>the key (can be the name or the accidentals)</p></td>
 </tr>
 </tbody>
 </table>
@@ -75,13 +75,13 @@ a 'major' or 'minor' appended, or a string with the accidentals</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/key/keyNumber.js">keyNumber.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/key/keyNumber.js#L23">lineno 23</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/key/keyNumber.js#L24">lineno 24</a>
 </li>
 </ul></dd>
 </dl>
 <h5>Returns:</h5>
 <div class="param-desc">
-<p>the key number (number of alterations)</p>
+<p>the key number (alteration number)</p>
 </div>
 <dl>
 <dt>

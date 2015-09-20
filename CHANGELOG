@@ -1,4 +1,5 @@
 [MASTER]
+- Refactor key/keyNumber to use fifths/fifths
 - Add fifths/byFifths to sort collections by fifths distance
 - Add fifths/fifths to calculate distances in fifths between two pitch classes
 - Add fifths module
