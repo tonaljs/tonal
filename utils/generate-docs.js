@@ -38,12 +38,13 @@ function markdownIndex (sources) {
     return md.lines(
       md.h1('Function index'),
       md.line('Number of functions: ', sources.files.length),
-      md.thead('name', 'description', 'module'),
+      md.thead('name', 'description', 'module', 'source'),
       sources.files.map(function (src) {
         return md.tbody(
-          md.bold(md.link(src.name, [GITHUB, 'lib', src.module, src.name + '.js'].join('/'))),
+          md.bold(src.name),
           src.jsdoc.description.summary,
-          md.link(src.module, [GITHUB, 'docs', src.module + '.md'].join('/'))
+          md.link(src.module, [GITHUB, 'docs', src.module + '.md'].join('/')),
+          md.link(src.name + '.js', [GITHUB, 'lib', src.module, src.name + '.js'].join('/'))
         )
       }).join('')
     )
