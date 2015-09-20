@@ -117,7 +117,7 @@ Type
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/fifths/fifths.js">fifths.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/fifths.js#L24">lineno 24</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/fifths.js#L23">lineno 23</a>
 </li>
 </ul></dd>
 </dl>
@@ -141,6 +141,65 @@ fifths('F') // => -1
 fifths('Bb') // => -2
 fifths('A', 'D') // => 1
 fifths('C4', 'C2') // => 0</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="transpose"><span class="type-signature"></span>transpose<span class="signature">(pitchClass, number)</span><span class="type-signature"> &rarr; {String}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Transpose a pitch class by a number of fifths</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>pitchClass</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the pitch class to be transposed</p></td>
+</tr>
+<tr>
+<td class="name"><code>number</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>the number of fifths (can be negative)</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/transpose.js">transpose.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/transpose.js#L19">lineno 19</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the transposed pitch class</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">String</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>transpose('C', 2) // => 'D'
+transpose('C5', -2) // => 'Bb'</code></pre>
 </dd>
 </dl>
 </article>

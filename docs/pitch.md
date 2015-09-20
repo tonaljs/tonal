@@ -121,6 +121,61 @@ interval('C', 'D') // => '2M'
 </dl>
 <dl>
 <dt>
+<h4 class="name" id="alterToAcc"><span class="type-signature"></span>alterToAcc<span class="signature">(alteration)</span><span class="type-signature"> &rarr; {String}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get the accidentals from an alteration number</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>alteration</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>the alteration number</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/alterToAcc.js">alterToAcc.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/alterToAcc.js#L16">lineno 16</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the accidentals string</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">String</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>alterToAcc(1) // => '#'
+alterToAcc(3) // => '###'
+alterToAcc(0) // => ''
+alterToAcc(-1) // => 'b'
+alterToAcc(-2) // => 'bb'</code></pre>
+</dd>
+<dt>
 <h4 class="name" id="cents"><span class="type-signature"></span>cents<span class="signature">(from, to)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
 </dt>
 <dd>

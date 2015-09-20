@@ -29,7 +29,7 @@ Work in progress.
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/key/accidentals.js">accidentals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/key/accidentals.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/key/accidentals.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>

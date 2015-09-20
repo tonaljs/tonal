@@ -1,4 +1,6 @@
 [MASTER]
+- Add fifths/transpose to transpose a pitch class a num of fifths
+- Add pitch/alterToAcc to convert from alter number to accidentals
 - Refactor key/keyNumber to use fifths/fifths
 - Add fifths/byFifths to sort collections by fifths distance
 - Add fifths/fifths to calculate distances in fifths between two pitch classes
