@@ -1,5 +1,6 @@
 var MD = require('./markdown')
 var _ = require('lodash')
+var GITHUB = 'https://github.com/danigb/tonal/tree/master'
 
 module.exports = function (sources) {
   return MD.lines(
@@ -26,9 +27,10 @@ function markdownFunction (src) {
   var example = examples.length ? examples[0]['string'] : ''
   var summary = src.jsdoc.description.summary
   return MD.lines(
-    MD.h4(src.name),
+    MD.h4(src.module + '/' + src.name),
     MD.line(),
     MD.line(summary),
-    MD.code(example, 'js')
+    MD.code(example, 'js'),
+    MD.link(src.name + '.js', [GITHUB, 'lib', src.module, src.name + '.js'].join('/'))
   )
 }

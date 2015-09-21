@@ -1,4 +1,5 @@
 # Tonal functions
+
 A list of all functions available grouped by modules.
 
 
@@ -6,9 +7,11 @@ A list of all functions available grouped by modules.
 ## Pitch module
 
 
+
 Number of functions: 18
 
-#### alterToAcc
+#### pitch/alterToAcc
+
 
 
 <p>Get the accidentals from an alteration number</p>
@@ -21,10 +24,14 @@ alterToAcc(-1) // => 'b'
 alterToAcc(-2) // => 'bb'
 ```
 
-#### cents
+[alterToAcc.js](https://github.com/danigb/tonal/tree/master/lib/pitch/alterToAcc.js)
 
 
-<p>Return the distance in cents between to pitches or frequencies with two<br />decimals precision</p>
+#### pitch/cents
+
+
+
+<p>Get the distance in cents between pitches or frequencies</p>
 
 ```js
 cents(440, 444) // => 15.66
@@ -32,7 +39,11 @@ cents('A4', 444) // => 15.66
 cents('A4', 'A#4') // => 100
 ```
 
-#### enharmonic
+[cents.js](https://github.com/danigb/tonal/tree/master/lib/pitch/cents.js)
+
+
+#### pitch/enharmonic
+
 
 
 <p>Get the enharmonic of a pitch with a given step</p>
@@ -42,18 +53,25 @@ enharmonic('C#4', 'D') // => 'Db4'
 enharmonic('B#', 'C') // => 'C'
 ```
 
-#### freq
+[enharmonic.js](https://github.com/danigb/tonal/tree/master/lib/pitch/enharmonic.js)
+
+
+#### pitch/freq
+
 
 
 <p>Get the pitch frequency in hertzs</p>
 
 ```js
-var freq = require('tonal/freq')
 freq('A4') // => 440
 freq('A3', 444) // => 222
 ```
 
-#### fromFreq
+[freq.js](https://github.com/danigb/tonal/tree/master/lib/pitch/freq.js)
+
+
+#### pitch/fromFreq
+
 
 
 <p>Given a frequency, get the pitch. It will round the frequency to the nearest<br />pitch frequency</p>
@@ -63,7 +81,11 @@ fromFreq(440) // => 'A4'
 fromFreq(441) // => 'A4'
 ```
 
-#### fromKey
+[fromFreq.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromFreq.js)
+
+
+#### pitch/fromKey
+
 
 
 <p>Get the pitch of the given piano key number</p>
@@ -73,13 +95,21 @@ fromKey(40) // => 'C4'
 fromKey(49) // => 'A4'
 ```
 
-#### fromMidi
+[fromKey.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromKey.js)
+
+
+#### pitch/fromMidi
+
 
 
 <p>Get the pitch of the given midi number</p>
 
 
-#### interval
+[fromMidi.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromMidi.js)
+
+
+#### pitch/interval
+
 
 
 <p>Get the interval between two pitches</p>
@@ -89,7 +119,11 @@ interval('C', 'D') // => 'M2'
 ['C', 'D', 'Eb'].map(interval.from('C')) // => ['P1', 'M2', 'm3']
 ```
 
-#### intervalFrom
+[interval.js](https://github.com/danigb/tonal/tree/master/lib/pitch/interval.js)
+
+
+#### pitch/intervalFrom
+
 
 
 <p>Partial apply <code>picth/interval</code> to return a interval from a pitch</p>
@@ -98,7 +132,11 @@ interval('C', 'D') // => 'M2'
 ['C', 'D', 'E'].map(intervalFrom('C')) // => ['1P', '2M', '3M']
 ```
 
-#### intervalTo
+[intervalFrom.js](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalFrom.js)
+
+
+#### pitch/intervalTo
+
 
 
 <p>Partial apply <code>picth/interval</code> to return a interval to a pitch</p>
@@ -107,7 +145,11 @@ interval('C', 'D') // => 'M2'
 ['C', 'D', 'E'].map(intervalTo('E')) // => ['3M', '2M', '1P']
 ```
 
-#### key
+[intervalTo.js](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalTo.js)
+
+
+#### pitch/key
+
 
 
 <p>Get the key number from a pitch</p>
@@ -116,7 +158,11 @@ interval('C', 'D') // => 'M2'
 key(49) // => 'A4'
 ```
 
-#### letter
+[key.js](https://github.com/danigb/tonal/tree/master/lib/pitch/key.js)
+
+
+#### pitch/letter
+
 
 
 <p>Get the letter of a pitch (and optionally move a number of steps)</p>
@@ -128,7 +174,11 @@ letter('c', 1) // => 'D'
 letter('c', 2) // => 'E'
 ```
 
-#### midi
+[letter.js](https://github.com/danigb/tonal/tree/master/lib/pitch/letter.js)
+
+
+#### pitch/midi
+
 
 
 <p>Get the midi of a pitch</p>
@@ -137,7 +187,11 @@ letter('c', 2) // => 'E'
 midi('a4') // => 69
 ```
 
-#### octave
+[midi.js](https://github.com/danigb/tonal/tree/master/lib/pitch/midi.js)
+
+
+#### pitch/octave
+
 
 
 <p>Get the octave of a pitch</p>
@@ -146,7 +200,11 @@ midi('a4') // => 69
 octave('a4') // => 4
 ```
 
-#### pitch
+[octave.js](https://github.com/danigb/tonal/tree/master/lib/pitch/octave.js)
+
+
+#### pitch/pitch
+
 
 
 <p>Get the scientific notation of a pitch (and optionally change its octave and alteration)</p>
@@ -162,7 +220,11 @@ pitch('C7', -1) // => 'Cb7'
 pitch('bluf') // => null
 ```
 
-#### pitchClass
+[pitch.js](https://github.com/danigb/tonal/tree/master/lib/pitch/pitch.js)
+
+
+#### pitch/pitchClass
+
 
 
 <p>Get the <a href="https://en.wikipedia.org/wiki/Pitch_class">pitchClass</a> of a pitch</p>
@@ -171,7 +233,11 @@ pitch('bluf') // => null
 pitchClass('a4') // => 69
 ```
 
-#### props
+[pitchClass.js](https://github.com/danigb/tonal/tree/master/lib/pitch/pitchClass.js)
+
+
+#### pitch/props
+
 
 
 <p>Get pitch properties</p>
@@ -180,7 +246,11 @@ pitchClass('a4') // => 69
 props('C#2') // => { }
 ```
 
-#### transpose
+[props.js](https://github.com/danigb/tonal/tree/master/lib/pitch/props.js)
+
+
+#### pitch/transpose
+
 
 
 <p>Transpose a pitch by an interval</p>
@@ -192,18 +262,28 @@ transpose('C', 'M-2') // => 'Bb3'
 ['C', 'D', 'E'].map(transpose('M2')) // => ['D4', 'E4', 'F#4']
 ```
 
+[transpose.js](https://github.com/danigb/tonal/tree/master/lib/pitch/transpose.js)
+
+
+
 ## Set module
+
 
 
 Number of functions: 6
 
-#### binarySets
+#### set/binarySets
+
 
 
 <p>Return all possible set binary numbers</p>
 
 
-#### fromBinary
+[binarySets.js](https://github.com/danigb/tonal/tree/master/lib/set/binarySets.js)
+
+
+#### set/fromBinary
+
 
 
 <p>Convert a binary set number to an intervals collection</p>
@@ -213,7 +293,11 @@ intervals('1P 2M') // => ['1P', '2M']
 intervals(2773) // => ['1P', '2M', '3M']
 ```
 
-#### genericSet
+[fromBinary.js](https://github.com/danigb/tonal/tree/master/lib/set/fromBinary.js)
+
+
+#### set/genericSet
+
 
 
 <p>Get the intervals of a pitch set</p>
@@ -222,7 +306,11 @@ intervals(2773) // => ['1P', '2M', '3M']
 toIntervals()
 ```
 
-#### modes
+[genericSet.js](https://github.com/danigb/tonal/tree/master/lib/set/genericSet.js)
+
+
+#### set/modes
+
 
 
 <p>Return all modes of a pitch set</p>
@@ -231,7 +319,11 @@ toIntervals()
 modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]
 ```
 
-#### pitchSet
+[modes.js](https://github.com/danigb/tonal/tree/master/lib/set/modes.js)
+
+
+#### set/pitchSet
+
 
 
 <p>Create a pitch class set from a collection of pitches.</p>
@@ -241,7 +333,11 @@ pitchSet('D E G G A E') // => ['D', 'E', 'G', 'A']
 pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']
 ```
 
-#### toBinary
+[pitchSet.js](https://github.com/danigb/tonal/tree/master/lib/set/pitchSet.js)
+
+
+#### set/toBinary
+
 
 
 <p>Return the binary set representation of a collection of intervals</p>
@@ -253,12 +349,18 @@ toBinary('1P 7M') // => '100000000001'
 toBinary('1P 8P') // => '100000000000'
 ```
 
+[toBinary.js](https://github.com/danigb/tonal/tree/master/lib/set/toBinary.js)
+
+
+
 ## Scale module
+
 
 
 Number of functions: 7
 
-#### generic
+#### scale/generic
+
 
 
 <p>Get a generic scale (the intervals) from a scale name without tonic</p>
@@ -267,7 +369,11 @@ Number of functions: 7
 generic('C major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
 ```
 
-#### mode
+[generic.js](https://github.com/danigb/tonal/tree/master/lib/scale/generic.js)
+
+
+#### scale/mode
+
 
 
 <p>Get the mode of a scale</p>
@@ -276,7 +382,11 @@ generic('C major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
 mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
 ```
 
-#### name
+[mode.js](https://github.com/danigb/tonal/tree/master/lib/scale/mode.js)
+
+
+#### scale/name
+
 
 
 <p>Given a scale notes return the scale name (if any)</p>
@@ -285,7 +395,11 @@ mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
 name('C D E F G A B') // => 'C major'
 ```
 
-#### names
+[name.js](https://github.com/danigb/tonal/tree/master/lib/scale/name.js)
+
+
+#### scale/names
+
 
 
 <p>Get the known scale names</p>
@@ -294,7 +408,11 @@ name('C D E F G A B') // => 'C major'
 names() => ['major', 'minor', ....]
 ```
 
-#### parse
+[names.js](https://github.com/danigb/tonal/tree/master/lib/scale/names.js)
+
+
+#### scale/parse
+
 
 
 <p>Get the components of a scale name</p>
@@ -303,7 +421,11 @@ names() => ['major', 'minor', ....]
 parse('C major') // => { tonic: 'C', type: 'major' }
 ```
 
-#### scale
+[parse.js](https://github.com/danigb/tonal/tree/master/lib/scale/parse.js)
+
+
+#### scale/scale
+
 
 
 <p>Get the scale (pitch set) of a scale name</p>
@@ -314,7 +436,11 @@ scale('D diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
 scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']
 ```
 
-#### triad
+[scale.js](https://github.com/danigb/tonal/tree/master/lib/scale/scale.js)
+
+
+#### scale/triad
+
 
 
 <p>Get a triad from a set starting from the first note, a simplistic implementation.</p>
@@ -324,12 +450,18 @@ triad(scale('C major')) // => ['C', 'E', 'G']
 triad(scale('C major'), 5) // => ['C', 'E', 'G', 'B', 'D']
 ```
 
+[triad.js](https://github.com/danigb/tonal/tree/master/lib/scale/triad.js)
+
+
+
 ## Chord module
+
 
 
 Number of functions: 6
 
-#### chord
+#### chord/chord
+
 
 
 <p>Get chord notes or intervals by its type and (optionally) tonic pitch</p>
@@ -340,13 +472,21 @@ chord('7b5') // => ['1P', '3M', '5d', '7m']
 chord('7b5', 'Bb2')
 ```
 
-#### fromScale
+[chord.js](https://github.com/danigb/tonal/tree/master/lib/chord/chord.js)
+
+
+#### chord/fromScale
+
 
 
 <p>Return all the chord names of a given scale</p>
 
 
-#### intervals
+[fromScale.js](https://github.com/danigb/tonal/tree/master/lib/chord/fromScale.js)
+
+
+#### chord/intervals
+
 
 
 <p>Get the intervals of a chord name</p>
@@ -355,13 +495,21 @@ chord('7b5', 'Bb2')
 intervals('Cmaj7') // => ['1P', '3M', '5P', '7M']
 ```
 
-#### name
+[intervals.js](https://github.com/danigb/tonal/tree/master/lib/chord/intervals.js)
+
+
+#### chord/name
+
 
 
 <p>Get the chord name(s) of a given pitches</p>
 
 
-#### names
+[name.js](https://github.com/danigb/tonal/tree/master/lib/chord/name.js)
+
+
+#### chord/names
+
 
 
 
@@ -370,7 +518,11 @@ intervals('Cmaj7') // => ['1P', '3M', '5P', '7M']
 names() => ['major', 'minor', ....]
 ```
 
-#### parse
+[names.js](https://github.com/danigb/tonal/tree/master/lib/chord/names.js)
+
+
+#### chord/parse
+
 
 
 <p>Get the components of a chord name</p>
@@ -380,12 +532,18 @@ parse('C#Maj7') // => { tonic: 'C#', type: 'Maj7' }
 parse('7b5') // => { tonic: null, type: '7b5' }
 ```
 
+[parse.js](https://github.com/danigb/tonal/tree/master/lib/chord/parse.js)
+
+
+
 ## Interval module
+
 
 
 Number of functions: 9
 
-#### add
+#### interval/add
+
 
 
 <p>Add two intervals</p>
@@ -394,7 +552,11 @@ Number of functions: 9
 add('M2', 'M2') // => 'M3'
 ```
 
-#### harmonize
+[add.js](https://github.com/danigb/tonal/tree/master/lib/interval/add.js)
+
+
+#### interval/harmonize
+
 
 
 <p>Given a collection of intervals, and a tonic create a collection of pitches</p>
@@ -403,7 +565,11 @@ add('M2', 'M2') // => 'M3'
 harmonize('C2', ['P1 P5']) // => ['C2', 'G2']
 ```
 
-#### interval
+[harmonize.js](https://github.com/danigb/tonal/tree/master/lib/interval/harmonize.js)
+
+
+#### interval/interval
+
 
 
 <p>Get an interval properties from a string or a number, and optionally a quality<br />and octave.</p>
@@ -420,7 +586,11 @@ interval(2, 'AA') // => '2AA'
 interval(2, 'AAA') // => null
 ```
 
-#### invert
+[interval.js](https://github.com/danigb/tonal/tree/master/lib/interval/interval.js)
+
+
+#### interval/invert
+
 
 
 <p>Get the <a href="https://en.wikipedia.org/wiki/Interval_(music">inversion</a>#Inversion)<br />of an interval.</p>
@@ -431,7 +601,11 @@ invert('M-10') // => 'M-3'
 invert('P-11', true) // => 'P4'
 ```
 
-#### isInterval
+[invert.js](https://github.com/danigb/tonal/tree/master/lib/interval/invert.js)
+
+
+#### interval/isInterval
+
 
 
 <p>Test if a string is a valid interval</p>
@@ -442,7 +616,11 @@ isInterval('P5') // true
 isInterval('P6') // false
 ```
 
-#### opposite
+[isInterval.js](https://github.com/danigb/tonal/tree/master/lib/interval/isInterval.js)
+
+
+#### interval/opposite
+
 
 
 <p>Get the opposite of an interval</p>
@@ -452,7 +630,11 @@ opposite('M2') // => 'M-2'
 opposite('P-8') // => 'P8'
 ```
 
-#### props
+[opposite.js](https://github.com/danigb/tonal/tree/master/lib/interval/opposite.js)
+
+
+#### interval/props
+
 
 
 <p>Get interval properties</p>
@@ -463,7 +645,11 @@ props('-5P') // => { name: '-5P', quality: 'P', dir: -1, num: 5, generic: 4, alt
 props('9m') // => { name: '9m', quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfectable: false }
 ```
 
-#### semitones
+[props.js](https://github.com/danigb/tonal/tree/master/lib/interval/props.js)
+
+
+#### interval/semitones
+
 
 
 <p>Get the semitones of a interval</p>
@@ -472,7 +658,11 @@ props('9m') // => { name: '9m', quality: 'm', dir: 1, num: 9, generic: 1, alter:
 semitones('5P') // => 7
 ```
 
-#### simplify
+[semitones.js](https://github.com/danigb/tonal/tree/master/lib/interval/semitones.js)
+
+
+#### interval/simplify
+
 
 
 <p>Simplify an interval</p>
@@ -483,12 +673,18 @@ simplify('-9M') // => '-2M'
 simplify('-2M', true) // => '2M'
 ```
 
+[simplify.js](https://github.com/danigb/tonal/tree/master/lib/interval/simplify.js)
+
+
+
 ## Key module
+
 
 
 Number of functions: 7
 
-#### accidentals
+#### key/accidentals
+
 
 
 <p>Given a key (number) returns the accidentals</p>
@@ -500,7 +696,11 @@ accidentals(3) // => '###'
 accidentals(-2) // => 'bb'
 ```
 
-#### alteredNotes
+[accidentals.js](https://github.com/danigb/tonal/tree/master/lib/key/accidentals.js)
+
+
+#### key/alteredNotes
+
 
 
 <p>Given a key, return the altered pitches</p>
@@ -511,7 +711,11 @@ alteredNotes(3) // => ['F#', 'C#', 'G#']
 alteredNotes('bb') // => ['Bb', 'Eb']
 ```
 
-#### fromPitchSet
+[alteredNotes.js](https://github.com/danigb/tonal/tree/master/lib/key/alteredNotes.js)
+
+
+#### key/fromPitchSet
+
 
 
 <p>Given a pitch set, return its key</p>
@@ -520,7 +724,11 @@ alteredNotes('bb') // => ['Bb', 'Eb']
 fromPitchSet('C Bb F') // => -1
 ```
 
-#### keyNumber
+[fromPitchSet.js](https://github.com/danigb/tonal/tree/master/lib/key/fromPitchSet.js)
+
+
+#### key/keyNumber
+
 
 
 <p>Get the key number (the number of sharps or flats) of a key</p>
@@ -534,7 +742,11 @@ keyNumber('##') // => 2
 keyNumber('bbb') // => -3
 ```
 
-#### parse
+[keyNumber.js](https://github.com/danigb/tonal/tree/master/lib/key/keyNumber.js)
+
+
+#### key/parse
+
 
 
 <p>Get the components of a key name</p>
@@ -544,7 +756,11 @@ parse('C minor') // => { tonic: 'C', type: 'minor'}
 parse('C#') // => { tonic: 'C#', type: 'major'}
 ```
 
-#### pitchSet
+[parse.js](https://github.com/danigb/tonal/tree/master/lib/key/parse.js)
+
+
+#### key/pitchSet
+
 
 
 <p>Get the pitch class set from a key.</p>
@@ -554,7 +770,11 @@ pitchSet('g major') // => ['G', 'A', 'B', 'C', 'D', 'E', 'F#']
 pitchSet('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']
 ```
 
-#### triads
+[pitchSet.js](https://github.com/danigb/tonal/tree/master/lib/key/pitchSet.js)
+
+
+#### key/triads
+
 
 
 <p>Get the triads of</p>
@@ -564,12 +784,18 @@ triads('g major') // => ['G', 'A', 'B', 'C', 'D', 'E', 'F#']
 triads('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']
 ```
 
+[triads.js](https://github.com/danigb/tonal/tree/master/lib/key/triads.js)
+
+
+
 ## Fifths module
+
 
 
 Number of functions: 3
 
-#### byFifths
+#### fifths/byFifths
+
 
 
 <p>Get a comparator function to sort a collection of pitch classes</p>
@@ -578,7 +804,11 @@ Number of functions: 3
 ['C#', 'G#', 'F#'].sort(byFifths()) // => ['F#', 'C#', 'D#']
 ```
 
-#### fifths
+[byFifths.js](https://github.com/danigb/tonal/tree/master/lib/fifths/byFifths.js)
+
+
+#### fifths/fifths
+
 
 
 <p>Return the number of fifths between two pitch classes.</p>
@@ -593,7 +823,11 @@ fifths('A', 'D') // => 1
 fifths('C4', 'C2') // => 0
 ```
 
-#### transpose
+[fifths.js](https://github.com/danigb/tonal/tree/master/lib/fifths/fifths.js)
+
+
+#### fifths/transpose
+
 
 
 <p>Transpose a pitch class by a number of fifths</p>
@@ -602,3 +836,8 @@ fifths('C4', 'C2') // => 0
 transpose('C', 2) // => 'D'
 transpose('C5', -2) // => 'Bb'
 ```
+
+[transpose.js](https://github.com/danigb/tonal/tree/master/lib/fifths/transpose.js)
+
+
+
