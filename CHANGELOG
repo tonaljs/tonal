@@ -1,4 +1,5 @@
 [MASTER]
+- Add precision to pitch/cents
 - Add fifths/transpose to transpose a pitch class a num of fifths
 - Add pitch/alterToAcc to convert from alter number to accidentals
 - Refactor key/keyNumber to use fifths/fifths
