@@ -1,21 +1,27 @@
 var fs = require('fs')
 var dox = require('dox')
 
+var GITHUB = 'https://github.com/danigb/tonal/tree/master/'
+
 module.exports = function (lib, modules) {
-  var model = { modules: modules, ordered: [], byModule: {} }
+  var sources = { modules: modules, ordered: [], byModule: {} }
 
   modules.forEach(function (module) {
-    model.byModule[module] = []
+    sources.byModule[module] = []
     return fs.readdirSync(lib + '/' + module).filter(function (name) {
       return /\.js$/.test(name)
     }).forEach(function (file) {
       var src = buildModel(file, module, lib)
-      model.ordered.push(src)
-      model.byModule[module].push(src)
+      sources.ordered.push(src)
+      sources.byModule[module].push(src)
     })
   })
-  model.ordered.sort(sorter('name'))
-  return model
+  sources.ordered.sort(sorter('name'))
+
+  sources.repo = function (path) {
+    return [GITHUB].concat(Array.prototype.slice.call(arguments)).join('/')
+  }
+  return sources
 }
 
 function buildModel (file, module, lib) {
