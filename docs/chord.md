@@ -140,7 +140,7 @@ chord('7b5', 'Bb2')</code></pre>
 </dt>
 <dd>
 <div class="description">
-<p>Parse a chord name and returns the tonic (if any) and the chord type</p>
+<p>Get the components of a chord name</p>
 <p>The returned object has the properties:</p>
 <ul>
 <li><strong>tonic</strong>: the tonic note or null if not specified</li>
@@ -189,8 +189,8 @@ Type
 </dd>
 </dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>parse('C#major') // => { tonic: 'C#', type: 'major' }
-parse('minor') // => { tonic: null, type: 'minor' }</code></pre>
+<pre class="prettyprint"><code>parse('C#Maj7') // => { tonic: 'C#', type: 'Maj7' }
+parse('7b5') // => { tonic: null, type: '7b5' }</code></pre>
 </dd>
 </dl>
 </article>

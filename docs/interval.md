@@ -374,7 +374,8 @@ isInterval('P6') // false</code></pre>
 </dt>
 <dd>
 <div class="description">
-<p>Given an interval, return its opposite</p>
+<p>Get the opposite of an interval</p>
+<p>An opposite interval is the same interval with the opposite direction</p>
 </div>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
@@ -382,7 +383,7 @@ isInterval('P6') // false</code></pre>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/interval/opposite.js">opposite.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/interval/opposite.js#L9">lineno 9</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/interval/opposite.js#L11">lineno 11</a>
 </li>
 </ul></dd>
 </dl>

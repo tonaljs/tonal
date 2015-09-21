@@ -1,5 +1,5 @@
-// MARKDOWN
-var MD = {
+
+var markdown = {
   h1: function (title) { return '# ' + title },
   h4: function (title) { return '#### ' + title },
   bold: function (text) { return '__' + text + '__' },
@@ -20,6 +20,4 @@ var MD = {
   }
 }
 
-module.exports = function (cb) {
-  return cb(MD)
-}
+module.exports = markdown

@@ -126,7 +126,7 @@ Type
 </dt>
 <dd>
 <div class="description">
-<p>Parase a scale name and returns its components</p>
+<p>Get the components of a scale name</p>
 <p>A scale name can have two components:
 - tonic: a pitch specifing the tonic
 - type: the scale type</p>
@@ -180,7 +180,8 @@ Type
 </dt>
 <dd>
 <div class="description">
-<p>Given a scale name, returns its pitches or intervals</p>
+<p>Get the scale (pitch set) of a scale name</p>
+<p>If the scale name does not contains the tonic, a list of intervals is returned</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -207,7 +208,7 @@ Type
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/scale/scale.js">scale.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/scale/scale.js#L18">lineno 18</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/scale.js#L20">lineno 20</a>
 </li>
 </ul></dd>
 </dl>
@@ -226,7 +227,7 @@ Type
 <h5>Example</h5>
 <pre class="prettyprint"><code>scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 scale('D diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
-scale('bebop') // => '1P 2M 3M 4P 5P 6M 7m 7M'</code></pre>
+scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="triad"><span class="type-signature"></span>triad<span class="signature">(set, len)</span><span class="type-signature"></span></h4>

@@ -675,7 +675,7 @@ Type
 </dt>
 <dd>
 <div class="description">
-<p>Return the key number from a pitch</p>
+<p>Get the key number from a pitch</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -702,7 +702,7 @@ Type
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/pitch/key.js">key.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/key.js#L10">lineno 10</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/key.js#L13">lineno 13</a>
 </li>
 </ul></dd>
 </dl>
@@ -718,13 +718,15 @@ Type
 <span class="param-type">Integer</span>
 </dd>
 </dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>key(49) // => 'A4'</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="letter"><span class="type-signature"></span>letter<span class="signature">()</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Get the letter of a pitch (optionally move a number of steps)</p>
+<p>Get the letter of a pitch (and optionally move a number of steps)</p>
 </div>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
@@ -747,8 +749,7 @@ letter('c', 2) // => 'E'</code></pre>
 </dt>
 <dd>
 <div class="description">
-<p>Get the scientific notation of a pitch from a pitch and optional octave and
-alteration. The octave and alteration will override the ones from the pitch</p>
+<p>Get the scientific notation of a pitch (and optionally change its octave and alteration)</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -792,7 +793,7 @@ alteration. The octave and alteration will override the ones from the pitch</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/pitch/pitch.js">pitch.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/pitch.js#L26">lineno 26</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/pitch.js#L25">lineno 25</a>
 </li>
 </ul></dd>
 </dl>
@@ -809,9 +810,9 @@ Type
 </dd>
 </dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>pitch('c') // => 'C4'
+<pre class="prettyprint"><code>pitch('c', '#', 2) // => 'C#2'
 pitch('c', '#') // => 'C#4'
-pitch('c', '#', 2) // => 'C#2'
+pitch('c') // => 'C4'
 pitch('c#4') // => 'C#4'
 pitch('C#4', 'b', 2) // => 'Cb2'
 pitch('C#4', null, 2) // => 'C#2'

@@ -173,8 +173,9 @@ Type
 </dt>
 <dd>
 <div class="description">
-<p>Create a pitch class set from a collection of pitches. The pitch classes
-are ordered by frequency starting from the first note of the collection</p>
+<p>Create a pitch class set from a collection of pitches.</p>
+<p>The pitch classes are ordered by frequency starting from the first note
+of the given collection</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -203,7 +204,7 @@ are ordered by frequency starting from the first note of the collection</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/set/pitchSet.js">pitchSet.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/set/pitchSet.js#L17">lineno 17</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/set/pitchSet.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>

@@ -75,7 +75,7 @@ Type
 </dd>
 </dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>['A', 'B', 'C'].sort(byFifths()) // =></code></pre>
+<pre class="prettyprint"><code>['C#', 'G#', 'F#'].sort(byFifths()) // => ['F#', 'C#', 'D#']</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="fifths"><span class="type-signature"></span>fifths<span class="signature">(pitch, from)</span><span class="type-signature"> &rarr; {Integer}</span></h4>

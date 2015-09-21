@@ -44,9 +44,7 @@ accidentals(-2) // => 'bb'</code></pre>
 </dt>
 <dd>
 <div class="description">
-<p>Given a key (<code>C major</code> for example), get the key number. The key number is the
-number of sharps (if positive number) or flats (if the number is negative) of
-the key</p>
+<p>Get the key number (the number of sharps or flats) of a key</p>
 <p>The name can be a pitch class (and major key is supposed), a pitch class with
 a 'major' or 'minor' appended, or a string with the accidentals</p>
 </div>
@@ -65,7 +63,7 @@ a 'major' or 'minor' appended, or a string with the accidentals</p>
 <td class="type">
 <span class="param-type">String</span>
 </td>
-<td class="description last"><p>the key (can be the name or the accidentals)</p></td>
+<td class="description last"><p>the key (name, pitch or accidentals)</p></td>
 </tr>
 </tbody>
 </table>
@@ -75,7 +73,7 @@ a 'major' or 'minor' appended, or a string with the accidentals</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/key/keyNumber.js">keyNumber.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/key/keyNumber.js#L24">lineno 24</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/key/keyNumber.js#L23">lineno 23</a>
 </li>
 </ul></dd>
 </dl>
@@ -92,8 +90,9 @@ Type
 </dd>
 </dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>keyNumber('C major') // => 0
-keyNumber('G') // => 1
+<pre class="prettyprint"><code>keyNumber('G major') // => 1
+keyNumber('F major') // => -1
+keyNumber('C') // => 0
 keyNumber('Eb minor') // => -6
 keyNumber('##') // => 2
 keyNumber('bbb') // => -3</code></pre>
@@ -103,7 +102,7 @@ keyNumber('bbb') // => -3</code></pre>
 </dt>
 <dd>
 <div class="description">
-<p>Parse a key name</p>
+<p>Get the components of a key name</p>
 </div>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
@@ -120,7 +119,7 @@ keyNumber('bbb') // => -3</code></pre>
 parse('C#') // => { tonic: 'C#', type: 'major'}</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="pitches"><span class="type-signature"></span>pitches<span class="signature">(key)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+<h4 class="name" id="pitchSet"><span class="type-signature"></span>pitchSet<span class="signature">(key)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 </dt>
 <dd>
 <div class="description">
@@ -149,9 +148,9 @@ parse('C#') // => { tonic: 'C#', type: 'major'}</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/key/pitches.js">pitches.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/key/pitchSet.js">pitchSet.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/key/pitches.js#L21">lineno 21</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/key/pitchSet.js#L21">lineno 21</a>
 </li>
 </ul></dd>
 </dl>
@@ -168,8 +167,8 @@ Type
 </dd>
 </dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>pitches('g major') // => ['G', 'A', 'B', 'C', 'D', 'E', 'F#']
-pitches('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']</code></pre>
+<pre class="prettyprint"><code>pitchSet('g major') // => ['G', 'A', 'B', 'C', 'D', 'E', 'F#']
+pitchSet('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="triads"><span class="type-signature"></span>triads<span class="signature">(key)</span><span class="type-signature"> &rarr; {Array}</span></h4>
