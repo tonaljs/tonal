@@ -28,7 +28,7 @@ module.exports = function (sources) {
 
   function mdModuleIndex (module) {
     var href = sources.repo('docs', 'ALL.md#' + module + '-module')
-    return MD.item(MD.link(_.capitalize(module), href))
+    return MD.item(MD.link(_.capitalize(module), '#' + module + '-module'))
   }
 
   return MD.lines(
