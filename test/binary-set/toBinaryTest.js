@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var toBinary = require('../../lib/set/toBinary')
+var toBinary = require('../../lib/binary-set/toBinary')
 
-vows.describe('set/toBinary').addBatch({
+vows.describe('binary-set/toBinary').addBatch({
   'pitches to binary': function () {
     assert.equal(toBinary('C D E'), '101010000000')
     assert.equal(toBinary('C4 D5 E4'), '101010000000')

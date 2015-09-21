@@ -176,12 +176,11 @@ alterToAcc(-1) // => 'b'
 alterToAcc(-2) // => 'bb'</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="cents"><span class="type-signature"></span>cents<span class="signature">(from, to)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+<h4 class="name" id="cents"><span class="type-signature"></span>cents<span class="signature">(from, to, decimals)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Return the distance in cents between to pitches or frequencies with two
-decimals precision</p>
+<p>Get the distance in cents between pitches or frequencies</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -210,6 +209,13 @@ decimals precision</p>
 <span class="param-type">Integer</span>
 </td>
 <td class="description last"><p>other pitch or frequency</p></td>
+</tr>
+<tr>
+<td class="name"><code>decimals</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>the decimal precision (2 by default)</p></td>
 </tr>
 </tbody>
 </table>
@@ -312,7 +318,7 @@ enharmonic('B#', 'C') // => 'C'</code></pre>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/pitch/freq.js">freq.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/freq.js#L17">lineno 17</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/freq.js#L16">lineno 16</a>
 </li>
 </ul></dd>
 </dl>
@@ -331,8 +337,7 @@ Type
 </dd>
 </dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>var freq = require('tonal/freq')
-freq('A4') // => 440
+<pre class="prettyprint"><code>freq('A4') // => 440
 freq('A3', 444) // => 222</code></pre>
 </dd>
 <dt>

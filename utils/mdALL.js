@@ -36,7 +36,7 @@ module.exports = function (sources) {
   }
 
   function mdFuncItem (src) {
-    return MD.link(src.name, '#' + src.module + src.name)
+    return MD.link(src.name, ('#' + src.module + src.name).toLowerCase())
   }
 
   return MD.lines(

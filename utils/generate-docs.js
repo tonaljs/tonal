@@ -11,10 +11,10 @@ function path (dir) {
 }
 
 var sources = sourceModel(path('lib'),
-  ['pitch', 'set', 'scale', 'chord', 'interval', 'key', 'fifths'])
+  ['pitch', 'set', 'scale', 'chord', 'interval', 'key', 'binary-set', 'fifths'])
 
 fs.writeFileSync(path('docs', 'INDEX.md'), mdINDEX(sources))
 fs.writeFileSync(path('docs', 'ALL.md'), mdALL(sources))
 
-// var moduleDocs = require('./generate-module-docs')
-// moduleDocs(sources.modules, path('lib'), path('docs'))
+var moduleDocs = require('./generate-module-docs')
+moduleDocs(sources.modules, path('lib'), path('docs'))
