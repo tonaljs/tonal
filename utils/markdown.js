@@ -6,10 +6,12 @@ var markdown = {
   h2: function (title) { return '## ' + title + '\n' },
   h3: function (title) { return '### ' + title + '\n' },
   h4: function (title) { return '#### ' + title + '\n' },
+  h6: function (title) { return '###### ' + title + '\n' },
   item: function () {
     var text = _.flatten(slice.call(arguments), true).join(' ')
     return '- ' + text + '\n'
   },
+  separator: function () { return '----' },
 
   // INLINE
   bold: function (text) { return '__' + text + '__' },

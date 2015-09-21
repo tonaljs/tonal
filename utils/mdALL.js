@@ -17,20 +17,47 @@ module.exports = function (sources) {
     var source = sources.repo('lib', src.module, src.name + '.js')
 
     return MD.lines(
-      MD.h4(src.module + '/' + src.name),
+      MD.separator(),
+      MD.h6(src.module + '/' + src.name),
+      MD.line(),
+      mdSignature(src),
       MD.line(),
       MD.line(src.jsdoc.description.full),
+
+      MD.line(),
       MD.line(MD.bold('Arguments:')),
       MD.thead('Name', 'Type', 'Description'),
       src.findTags('param').map(mdParam),
+
       MD.line(),
+      MD.line(MD.bold('Returns:')),
+      MD.thead('Type', 'Description'),
+      src.findTags('return').map(mdReturn),
+
+      MD.line(),
+      MD.line(MD.bold('Example:')),
       MD.code(example, 'js'),
       MD.line(MD.link(src.name + '.js', source))
     )
   }
 
+  function mdSignature (src) {
+    var params = src.findTags('param').map(function (tag) {
+      return tag.name
+    }).join(', ')
+    var ret = _.first(_.pluck(src.findTags('return'), 'types'))
+    return MD.h4(
+      MD.join(src.name, '(', params, ')', ' → ', '{', ret, '}')
+    )
+  }
+
   function mdParam (param) {
-    return MD.tbody(param.name, param.types, param.description)
+    return MD.tbody(MD.code(param.name), param.types,
+      param.description.replace(/^\s*-\s*/, ''))
+  }
+
+  function mdReturn (tag) {
+    return MD.tbody(tag.types, tag.description)
   }
 
   function mdModuleIndex (module) {
