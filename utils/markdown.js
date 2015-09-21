@@ -19,7 +19,9 @@ var markdown = {
   line: function () {
     return arguments.length ? Array.prototype.slice.call(arguments).join(' ') + '\n' : '\n'
   },
-  lines: function () { return Array.prototype.slice.call(arguments).join('\n') + '\n' },
+  lines: function () {
+    return _.flatten(slice.call(arguments)).join('\n') + '\n'
+  },
 
   code: function (code, lang) {
     if (!code || code === '') return ''
@@ -34,7 +36,7 @@ var markdown = {
     var sep = args.map(function () { return '---' })
     return args.join('|') + '\n' + sep.join('|')
   },
-  tbody: function () { return Array.prototype.slice.call(arguments).join('|') + '\n' }
+  tbody: function () { return Array.prototype.slice.call(arguments).join('|') }
 }
 
 module.exports = markdown

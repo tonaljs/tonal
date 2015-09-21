@@ -14,16 +14,23 @@ module.exports = function (sources) {
   function mdFunction (src) {
     var examples = src.findTags('example')
     var example = examples.length ? examples[0]['string'] : ''
-    var summary = src.jsdoc.description.summary
     var source = sources.repo('lib', src.module, src.name + '.js')
 
     return MD.lines(
       MD.h4(src.module + '/' + src.name),
       MD.line(),
-      MD.line(summary),
+      MD.line(src.jsdoc.description.full),
+      MD.line(MD.bold('Arguments:')),
+      MD.thead('Name', 'Type', 'Description'),
+      src.findTags('param').map(mdParam),
+      MD.line(),
       MD.code(example, 'js'),
       MD.line(MD.link(src.name + '.js', source))
     )
+  }
+
+  function mdParam (param) {
+    return MD.tbody(param.name, param.types, param.description)
   }
 
   function mdModuleIndex (module) {

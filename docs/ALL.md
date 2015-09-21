@@ -25,7 +25,14 @@ Number of functions:  18
 
 
 
-<p>Get the accidentals from an alteration number</p>
+Get the accidentals from an alteration number
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+alteration|Integer|- the alteration number
+
 
 ```js
 alterToAcc(1) // => '#'
@@ -42,7 +49,16 @@ alterToAcc(-2) // => 'bb'
 
 
 
-<p>Get the distance in cents between pitches or frequencies</p>
+Get the distance in cents between pitches or frequencies
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+from|String,Integer|- first pitch or frequency
+to|String,Integer|- other pitch or frequency
+decimals|Integer|- the decimal precision (2 by default)
+
 
 ```js
 cents(440, 444) // => 15.66
@@ -57,7 +73,13 @@ cents('A4', 'A#4') // => 100
 
 
 
-<p>Get the enharmonic of a pitch with a given step</p>
+Get the enharmonic of a pitch with a given step
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
 
 ```js
 enharmonic('C#4', 'D') // => 'Db4'
@@ -71,7 +93,15 @@ enharmonic('B#', 'C') // => 'C'
 
 
 
-<p>Get the pitch frequency in hertzs</p>
+Get the pitch frequency in hertzs
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+pitch|String|- the pitch
+tuning|Integer|- optional tuning, 440 by default
+
 
 ```js
 freq('A4') // => 440
@@ -85,7 +115,15 @@ freq('A3', 444) // => 222
 
 
 
-<p>Given a frequency, get the pitch. It will round the frequency to the nearest<br />pitch frequency</p>
+Given a frequency, get the pitch. It will round the frequency to the nearest
+pitch frequency
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+freq|Float|- the frequency
+
 
 ```js
 fromFreq(440) // => 'A4'
@@ -99,7 +137,17 @@ fromFreq(441) // => 'A4'
 
 
 
-<p>Get the pitch of the given piano key number</p>
+Get the pitch of the given piano key number
+
+This method doesn't take into account diatonic spelling. Always the same
+pitch class is given to the same key number.
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+key|Integer|- the key number
+
 
 ```js
 fromKey(40) // => 'C4'
@@ -113,8 +161,21 @@ fromKey(49) // => 'A4'
 
 
 
-<p>Get the pitch of the given midi number</p>
+Get the pitch of the given midi number
 
+This method doesn't take into account diatonic spelling. Always the same
+pitch class is given to the same midi number.
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+midi|Integer|- the midi number
+
+
+```js
+fromMidi(69) // => 'A4'
+```
 
 [fromMidi.js](https://github.com/danigb/tonal/tree/master//lib/pitch/fromMidi.js)
 
@@ -123,7 +184,18 @@ fromKey(49) // => 'A4'
 
 
 
-<p>Get the interval between two pitches</p>
+Get the interval between two pitches
+
+You can get a partially applied version of this function by passing only one
+parameter. See examples below:
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+from|String|- first pitch
+to|String|- second pitch
+
 
 ```js
 interval('C', 'D') // => 'M2'
@@ -137,7 +209,14 @@ interval('C', 'D') // => 'M2'
 
 
 
-<p>Partial apply <code>picth/interval</code> to return a interval from a pitch</p>
+Partial apply `picth/interval` to return a interval from a pitch
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+from|String|- the base pitch
+
 
 ```js
 ['C', 'D', 'E'].map(intervalFrom('C')) // => ['1P', '2M', '3M']
@@ -150,7 +229,14 @@ interval('C', 'D') // => 'M2'
 
 
 
-<p>Partial apply <code>picth/interval</code> to return a interval to a pitch</p>
+Partial apply `picth/interval` to return a interval to a pitch
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+to|String|- the destination pitch
+
 
 ```js
 ['C', 'D', 'E'].map(intervalTo('E')) // => ['3M', '2M', '1P']
@@ -163,7 +249,14 @@ interval('C', 'D') // => 'M2'
 
 
 
-<p>Get the key number from a pitch</p>
+Get the key number from a pitch
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+pitch|String|- the pitch
+
 
 ```js
 key(49) // => 'A4'
@@ -176,7 +269,13 @@ key(49) // => 'A4'
 
 
 
-<p>Get the letter of a pitch (and optionally move a number of steps)</p>
+Get the letter of a pitch (and optionally move a number of steps)
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
 
 ```js
 letter('c#5') // => 'C'
@@ -192,7 +291,14 @@ letter('c', 2) // => 'E'
 
 
 
-<p>Get the midi of a pitch</p>
+Get the midi of a pitch
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+pitch|String|- the pitch to get the midi number from
+
 
 ```js
 midi('a4') // => 69
@@ -205,7 +311,14 @@ midi('a4') // => 69
 
 
 
-<p>Get the octave of a pitch</p>
+Get the octave of a pitch
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+pitch|String|- the pitch to get the octave from
+
 
 ```js
 octave('a4') // => 4
@@ -218,7 +331,16 @@ octave('a4') // => 4
 
 
 
-<p>Get the scientific notation of a pitch (and optionally change its octave and alteration)</p>
+Get the scientific notation of a pitch (and optionally change its octave and alteration)
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+pitch|String|- a pitch, a pitch class or a pitch letter
+alteration|String,Integer|- (Optional) the alteration number (overrides the one from the pitch string). Can be null to avoid overrides
+octave|Integer|- (Optional) the octave (overrides the one from the pitch string)
+
 
 ```js
 pitch('c', '#', 2) // => 'C#2'
@@ -238,7 +360,14 @@ pitch('bluf') // => null
 
 
 
-<p>Get the <a href="https://en.wikipedia.org/wiki/Pitch_class">pitchClass</a> of a pitch</p>
+Get the [pitchClass](https://en.wikipedia.org/wiki/Pitch_class) of a pitch
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+pitch|String|- the pitch to get the pitchClass number from
+
 
 ```js
 pitchClass('a4') // => 69
@@ -251,7 +380,29 @@ pitchClass('a4') // => 69
 
 
 
-<p>Get pitch properties</p>
+Get pitch properties
+
+It returns an object with the following properties:
+
+- __name__: the propsd pitch string
+- __letter__: the pitch letter __always__ in uppercase
+- __str__: the pitch in scientific representation
+- __pitchClass__: the pitch [pitch class](https://en.wikipedia.org/wiki/Pitch_class)
+(letter in uppercase, accidentals using 'b' or '#', never 'x', no octave)
+- __acc__: a string with the accidentals or '' if no accidentals (never null)
+- __oct__: a integer with the octave. If not present in the pitch, is set to 4
+- __alter__: the integer representic the accidentals (0 for no accidentals,
+- __midi__: {Integer} the midi value
+-1 for 'b', -2 for 'bb', 1 for '#', 2 for '##', etc...)
+- __chroma__: {Integer} the pitch class interger value (between 0 and 11)
+where C=0, C#=1, D=2...B=11
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+pitch|String|- the pitch to get the properties from
+
 
 ```js
 props('C#2') // => { }
@@ -264,7 +415,18 @@ props('C#2') // => { }
 
 
 
-<p>Transpose a pitch by an interval</p>
+Transpose a pitch by an interval
+
+This is an _strict_ function: if pitch or interval are not valid, an exception
+is thrown
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+pitch|String|- the pitch to be transposed
+interval|String|- (Optional) the interval. If not present, a partially applied function with the pitch is returned
+
 
 ```js
 transpose('E', 'M2') // => 'F#4'
@@ -287,7 +449,13 @@ Number of functions:  3
 
 
 
-<p>Get the intervals of a pitch set</p>
+Get the intervals of a pitch set
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
 
 ```js
 toIntervals()
@@ -300,7 +468,14 @@ toIntervals()
 
 
 
-<p>Return all modes of a pitch set</p>
+Return all modes of a pitch set
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+pitchSet|Array,String|- the pitch set
+
 
 ```js
 modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]
@@ -313,7 +488,17 @@ modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]
 
 
 
-<p>Create a pitch class set from a collection of pitches.</p>
+Create a pitch class set from a collection of pitches.
+
+The pitch classes are ordered by frequency starting from the first note
+of the given collection
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+pitches|Array,String|- the collection of pitches
+
 
 ```js
 pitchSet('D E G G A E') // => ['D', 'E', 'G', 'A']
@@ -334,7 +519,14 @@ Number of functions:  7
 
 
 
-<p>Get a generic scale (the intervals) from a scale name without tonic</p>
+Get a generic scale (the intervals) from a scale name without tonic
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+name|String|- the scale name
+
 
 ```js
 generic('C major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
@@ -347,7 +539,15 @@ generic('C major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
 
 
 
-<p>Get the mode of a scale</p>
+Get the mode of a scale
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+name|String|- the scale name
+num|Integer|- the mode number (1-based index)
+
 
 ```js
 mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
@@ -360,7 +560,14 @@ mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
 
 
 
-<p>Given a scale notes return the scale name (if any)</p>
+Given a scale notes return the scale name (if any)
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+scale|Array,String|- the scale notes
+
 
 ```js
 name('C D E F G A B') // => 'C major'
@@ -373,7 +580,13 @@ name('C D E F G A B') // => 'C major'
 
 
 
-<p>Get the known scale names</p>
+Get the known scale names
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
 
 ```js
 names() => ['major', 'minor', ....]
@@ -386,7 +599,18 @@ names() => ['major', 'minor', ....]
 
 
 
-<p>Get the components of a scale name</p>
+Get the components of a scale name
+
+A scale name can have two components:
+- tonic: a pitch specifing the tonic
+- type: the scale type
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+scale|String|- the scale name (with optional tonic)
+
 
 ```js
 parse('C major') // => { tonic: 'C', type: 'major' }
@@ -399,7 +623,16 @@ parse('C major') // => { tonic: 'C', type: 'major' }
 
 
 
-<p>Get the scale (pitch set) of a scale name</p>
+Get the scale (pitch set) of a scale name
+
+If the scale name does not contains the tonic, a list of intervals is returned
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+name|String|- the scale name
+
 
 ```js
 scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
@@ -414,7 +647,15 @@ scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']
 
 
 
-<p>Get a triad from a set starting from the first note, a simplistic implementation.</p>
+Get a triad from a set starting from the first note, a simplistic implementation.
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+set|String,Array|- the pitch class set
+len|Integer|- the number of notes of the triad (3 by default)
+
 
 ```js
 triad(scale('C major')) // => ['C', 'E', 'G']
@@ -435,7 +676,15 @@ Number of functions:  6
 
 
 
-<p>Get chord notes or intervals by its type and (optionally) tonic pitch</p>
+Get chord notes or intervals by its type and (optionally) tonic pitch
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+name|String|- the chord name (may include the tonic)
+tonic|String|- (Optional) the tonic pitch
+
 
 ```js
 chord('CMaj7') // => ['C4', 'E4', 'G4', 'B4']
@@ -450,7 +699,13 @@ chord('7b5', 'Bb2')
 
 
 
-<p>Return all the chord names of a given scale</p>
+Return all the chord names of a given scale
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
 
 
 [fromScale.js](https://github.com/danigb/tonal/tree/master//lib/chord/fromScale.js)
@@ -460,7 +715,14 @@ chord('7b5', 'Bb2')
 
 
 
-<p>Get the intervals of a chord name</p>
+Get the intervals of a chord name
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+name|String|- the chord name
+
 
 ```js
 intervals('Cmaj7') // => ['1P', '3M', '5P', '7M']
@@ -473,7 +735,13 @@ intervals('Cmaj7') // => ['1P', '3M', '5P', '7M']
 
 
 
-<p>Get the chord name(s) of a given pitches</p>
+Get the chord name(s) of a given pitches
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
 
 
 [name.js](https://github.com/danigb/tonal/tree/master//lib/chord/name.js)
@@ -483,6 +751,12 @@ intervals('Cmaj7') // => ['1P', '3M', '5P', '7M']
 
 
 
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
 
 
 ```js
@@ -496,7 +770,19 @@ names() => ['major', 'minor', ....]
 
 
 
-<p>Get the components of a chord name</p>
+Get the components of a chord name
+
+The returned object has the properties:
+
+- __tonic__: the tonic note or null if not specified
+- __type__: the chord type
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+chord|String|- the chord string to be parsed
+
 
 ```js
 parse('C#Maj7') // => { tonic: 'C#', type: 'Maj7' }
@@ -517,7 +803,15 @@ Number of functions:  9
 
 
 
-<p>Add two intervals</p>
+Add two intervals
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+interval1|String|- the first interval
+interval2|String|- the second interval
+
 
 ```js
 add('M2', 'M2') // => 'M3'
@@ -530,7 +824,16 @@ add('M2', 'M2') // => 'M3'
 
 
 
-<p>Given a collection of intervals, and a tonic create a collection of pitches</p>
+Given a collection of intervals, and a tonic create a collection of pitches
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+tonic|String|- the tonic
+intervals|String,Array|- a collection of intervals
+pitchClassOnly|boolean|- if true, the returned pitches don't include octave information
+
 
 ```js
 harmonize('C2', ['P1 P5']) // => ['C2', 'G2']
@@ -543,7 +846,19 @@ harmonize('C2', ['P1 P5']) // => ['C2', 'G2']
 
 
 
-<p>Get an interval properties from a string or a number, and optionally a quality<br />and octave.</p>
+Get an interval properties from a string or a number, and optionally a quality
+and octave.
+
+The quality and octave parameters will override the given string interval
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+interval|String,Integer|- the interval or the interval number (can be negative to express descengin intervals)
+quality|alteration|String,Integer|- (Optional) the interval quality or numberic alteration (0 is perfect or major). Can be null to avoid override the string
+oct|Integer|- (Optional) the octaves. If negative, the direction of the interval is descendent. 0 by default.
+
 
 ```js
 interval('2') // => '2M'
@@ -564,7 +879,19 @@ interval(2, 'AAA') // => null
 
 
 
-<p>Get the <a href="https://en.wikipedia.org/wiki/Interval_(music">inversion</a>#Inversion)<br />of an interval.</p>
+Get the [inversion](https://en.wikipedia.org/wiki/Interval_(music)#Inversion)
+of an interval.
+
+Notice that all inverted intervals are simple.
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+interval|String|- the interval to invert
+ascending|Boolean|- (Optional) if true, the inverted interval will be ascending, if false (by default) the direction will be the same as the
+given interval
+
 
 ```js
 invert('M9') // => 'M2'
@@ -579,7 +906,14 @@ invert('P-11', true) // => 'P4'
 
 
 
-<p>Test if a string is a valid interval</p>
+Test if a string is a valid interval
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+interval|String|- the interval to be tested
+
 
 ```js
 isInterval('blah') // false
@@ -594,7 +928,15 @@ isInterval('P6') // false
 
 
 
-<p>Get the opposite of an interval</p>
+Get the opposite of an interval
+
+An opposite interval is the same interval with the opposite direction
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
 
 ```js
 opposite('M2') // => 'M-2'
@@ -608,7 +950,26 @@ opposite('P-8') // => 'P8'
 
 
 
-<p>Get interval properties</p>
+Get interval properties
+
+This method retuns an object with the following properties:
+- name: the interval name
+- quality: the quality (one of `dmPMA` for dimished, minor, perfect, major and
+augmented respectively)
+- num: diatonic number (a positive integer bigger that 0)
+- alter: an integer with the alteration respect to 'P' or 'M' (depending on the type)
+- dir: direction, 1 for ascending intervals, -1 for descending ones
+- oct: the number of octaves (a positive integer)
+- type: the interval type. 'P' for 'perfect', 'M' for major. This is not the
+quality of the interval, just if it is perfectable or not.
+- semitones: the size of the interval in semitones
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+name|String|- the name of the interval to be propsd
+
 
 ```js
 var props = require('tonal/interval/props')
@@ -623,7 +984,14 @@ props('9m') // => { name: '9m', quality: 'm', dir: 1, num: 9, generic: 1, alter:
 
 
 
-<p>Get the semitones of a interval</p>
+Get the semitones of a interval
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+interval|String|- the interval to get the semitones number from
+
 
 ```js
 semitones('5P') // => 7
@@ -636,7 +1004,15 @@ semitones('5P') // => 7
 
 
 
-<p>Simplify an interval</p>
+Simplify an interval
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+interval|String|- the interval to be simplified
+ascending|boolean|- (optional) if true, the simplified interval will be always ascending
+
 
 ```js
 simplify('9M') // => '2M'
@@ -658,7 +1034,13 @@ Number of functions:  7
 
 
 
-<p>Given a key (number) returns the accidentals</p>
+Given a key (number) returns the accidentals
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
 
 ```js
 accidentals('G major') // => '#'
@@ -674,7 +1056,13 @@ accidentals(-2) // => 'bb'
 
 
 
-<p>Given a key, return the altered pitches</p>
+Given a key, return the altered pitches
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
 
 ```js
 alteredNotes('D major') // => ['F#', 'C#']
@@ -689,7 +1077,13 @@ alteredNotes('bb') // => ['Bb', 'Eb']
 
 
 
-<p>Given a pitch set, return its key</p>
+Given a pitch set, return its key
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
 
 ```js
 fromPitchSet('C Bb F') // => -1
@@ -702,7 +1096,17 @@ fromPitchSet('C Bb F') // => -1
 
 
 
-<p>Get the key number (the number of sharps or flats) of a key</p>
+Get the key number (the number of sharps or flats) of a key
+
+The name can be a pitch class (and major key is supposed), a pitch class with
+a 'major' or 'minor' appended, or a string with the accidentals
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+key|String|- the key (name, pitch or accidentals)
+
 
 ```js
 keyNumber('G major') // => 1
@@ -720,7 +1124,13 @@ keyNumber('bbb') // => -3
 
 
 
-<p>Get the components of a key name</p>
+Get the components of a key name
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
 
 ```js
 parse('C minor') // => { tonic: 'C', type: 'minor'}
@@ -734,7 +1144,14 @@ parse('C#') // => { tonic: 'C#', type: 'major'}
 
 
 
-<p>Get the pitch class set from a key.</p>
+Get the pitch class set from a key.
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+key|String|- the key name
+
 
 ```js
 pitchSet('g major') // => ['G', 'A', 'B', 'C', 'D', 'E', 'F#']
@@ -748,7 +1165,14 @@ pitchSet('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']
 
 
 
-<p>Get the triads of</p>
+Get the triads of
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+key|String|- the key name
+
 
 ```js
 triads('g major') // => ['G', 'A', 'B', 'C', 'D', 'E', 'F#']
@@ -769,7 +1193,13 @@ Number of functions:  3
 
 
 
-<p>Return all possible set binary numbers</p>
+Return all possible set binary numbers
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
 
 
 [allBinarySets.js](https://github.com/danigb/tonal/tree/master//lib/binary-set/allBinarySets.js)
@@ -779,7 +1209,14 @@ Number of functions:  3
 
 
 
-<p>Convert a binary set number to an intervals collection</p>
+Convert a binary set number to an intervals collection
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+binary|String,Integer|- an interval list in any of its valid forms
+
 
 ```js
 intervals('1P 2M') // => ['1P', '2M']
@@ -793,7 +1230,14 @@ intervals(2773) // => ['1P', '2M', '3M']
 
 
 
-<p>Return the binary set representation of a collection of intervals</p>
+Return the binary set representation of a collection of intervals
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+intervals|Array,String|- a collection of intervals
+
 
 ```js
 toBinary('1P 2M') // => '101000000000'
@@ -816,7 +1260,14 @@ Number of functions:  3
 
 
 
-<p>Get a comparator function to sort a collection of pitch classes</p>
+Get a comparator function to sort a collection of pitch classes
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+from|String|- (Optional) the base pitch
+
 
 ```js
 ['C#', 'G#', 'F#'].sort(byFifths()) // => ['F#', 'C#', 'D#']
@@ -829,7 +1280,15 @@ Number of functions:  3
 
 
 
-<p>Return the number of fifths between two pitch classes.</p>
+Return the number of fifths between two pitch classes.
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+pitch|String|- the pitch to calc the fifths distance to
+from|String|- (Optional) the pitch to calc the fifths distance from (C if not specified)
+
 
 ```js
 fifths('C') // => 0
@@ -848,7 +1307,15 @@ fifths('C4', 'C2') // => 0
 
 
 
-<p>Transpose a pitch class by a number of fifths</p>
+Transpose a pitch class by a number of fifths
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+pitchClass|String|- the pitch class to be transposed
+number|Integer|- the number of fifths (can be negative)
+
 
 ```js
 transpose('C', 2) // => 'D'

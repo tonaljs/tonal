@@ -466,7 +466,7 @@ fromKey(49) // => 'A4'</code></pre>
 <div class="description">
 <p>Get the pitch of the given midi number</p>
 <p>This method doesn't take into account diatonic spelling. Always the same
-pitch class is given to the same midi number. @see enahrmonic</p>
+pitch class is given to the same midi number.</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -493,7 +493,7 @@ pitch class is given to the same midi number. @see enahrmonic</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromMidi.js">fromMidi.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromMidi.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/fromMidi.js#L17">lineno 17</a>
 </li>
 </ul></dd>
 </dl>
@@ -509,6 +509,8 @@ Type
 <span class="param-type">String</span>
 </dd>
 </dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>fromMidi(69) // => 'A4'</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="interval"><span class="type-signature"></span>interval<span class="signature">(from, to)</span><span class="type-signature"> &rarr; {String}</span></h4>

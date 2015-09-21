@@ -17,6 +17,9 @@ module.exports = function (lib, modules) {
     })
   })
   sources.ordered.sort(sorter('name'))
+  modules.forEach(function (module) {
+    sources.byModule[module].sort(sorter('name'))
+  })
 
   sources.repo = function (path) {
     return [GITHUB].concat(Array.prototype.slice.call(arguments)).join('/')
@@ -26,7 +29,7 @@ module.exports = function (lib, modules) {
 
 function buildModel (file, module, lib) {
   var src = { module: module, name: file.slice(0, -3) }
-  src.jsdoc = dox.parseComments(fs.readFileSync([lib, module, file].join('/')).toString(), { raw: false })[0]
+  src.jsdoc = dox.parseComments(fs.readFileSync([lib, module, file].join('/')).toString(), { raw: true })[0]
 
   src.findTags = function (type) {
     return src.jsdoc.tags.filter(function (tag) {
