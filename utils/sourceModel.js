@@ -1,25 +1,33 @@
 var fs = require('fs')
 var dox = require('dox')
 
-module.exports = function (mods, lib) {
-  var model = { modules: mods, ordered: [], byModule: {} }
+module.exports = function (lib, modules) {
+  var model = { modules: modules, ordered: [], byModule: {} }
 
-  mods.forEach(function (module) {
+  modules.forEach(function (module) {
     model.byModule[module] = []
     return fs.readdirSync(lib + '/' + module).filter(function (name) {
       return /\.js$/.test(name)
     }).forEach(function (file) {
-      var src = {
-        name: file.slice(0, -3),
-        module: module,
-        jsdoc: dox.parseComments(fs.readFileSync([lib, module, file].join('/')).toString(), { raw: false })[0]
-      }
+      var src = buildModel(file, module, lib)
       model.ordered.push(src)
       model.byModule[module].push(src)
     })
   })
   model.ordered.sort(sorter('name'))
   return model
+}
+
+function buildModel (file, module, lib) {
+  var src = { module: module, name: file.slice(0, -3) }
+  src.jsdoc = dox.parseComments(fs.readFileSync([lib, module, file].join('/')).toString(), { raw: false })[0]
+
+  src.findTags = function (type) {
+    return src.jsdoc.tags.filter(function (tag) {
+      return tag.type === type
+    })
+  }
+  return src
 }
 
 function sorter (key) {

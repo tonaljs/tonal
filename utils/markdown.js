@@ -1,6 +1,8 @@
 
 var markdown = {
   h1: function (title) { return '# ' + title },
+  h2: function (title) { return '## ' + title },
+  h3: function (title) { return '### ' + title },
   h4: function (title) { return '#### ' + title },
   bold: function (text) { return '__' + text + '__' },
   link: function (name, url) { return '[' + name + '](' + url + ')' },
@@ -10,7 +12,9 @@ var markdown = {
     return args.join('|') + '\n' + sep.join('|')
   },
   tbody: function () { return Array.prototype.slice.call(arguments).join('|') + '\n' },
-  line: function () { return Array.prototype.slice.call(arguments).join('') + '\n' },
+  line: function () {
+    return arguments.length ? Array.prototype.slice.call(arguments).join('') + '\n' : '\n'
+  },
   lines: function () { return Array.prototype.slice.call(arguments).join('\n') },
   code: function (code, lang) {
     if (!code || code === '') return ''
