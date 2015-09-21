@@ -827,14 +827,14 @@ pitch('C7', -1) // => 'Cb7'
 pitch('bluf') // => null</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="props"><span class="type-signature"></span>props<span class="signature">(pitch)</span><span class="type-signature"></span></h4>
+<h4 class="name" id="props"><span class="type-signature"></span>props<span class="signature">(pitch)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 </dt>
 <dd>
 <div class="description">
 <p>Get pitch properties</p>
 <p>It returns an object with the following properties:</p>
 <ul>
-<li><strong>name</strong>: the propsd pitch string</li>
+<li><strong>name</strong>: the given pitch string</li>
 <li><strong>letter</strong>: the pitch letter <strong>always</strong> in uppercase</li>
 <li><strong>str</strong>: the pitch in scientific representation</li>
 <li><strong>pitchClass</strong>: the pitch <a href="https://en.wikipedia.org/wiki/Pitch_class">pitch class</a>
@@ -881,6 +881,14 @@ where C=0, C#=1, D=2...B=11</li>
 <div class="param-desc">
 <p>an object with the pitch components or null if its not a valid pitch</p>
 </div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Object</span>
+</dd>
+</dl>
 <h5>Example</h5>
 <pre class="prettyprint"><code>props('C#2') // => { }</code></pre>
 </dd>

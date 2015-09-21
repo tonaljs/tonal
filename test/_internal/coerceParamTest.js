@@ -11,7 +11,7 @@ vows.describe('Interval').addBatch({
     assert.equal(func(func('hello')).value, 'hello')
     assert.equal(func({ value: 'blah' }).value, 'blah')
 
-    assert.throws(function () { func([]) }, 'only strings')
-    assert.throws(function () { func(1) }, 'only strings')
+    assert.equal(func({ not: 'objects' }), null)
+    assert.equal(func(1), null)
   }
 }).export(module)

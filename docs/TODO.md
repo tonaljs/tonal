@@ -12,6 +12,8 @@ Tonal is not complete yet. Here are some stuff i'm planning to implement:
 
 ## Interval
 
+## Enharmonics
+
 ## Set
 
 - Get ascending and descending sets

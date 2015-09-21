@@ -636,7 +636,7 @@ pitchClass('a4') // => 69
 
 
 
-#### props(pitch) → {}
+#### props(pitch) → {Object}
 
 
 
@@ -644,7 +644,7 @@ Get pitch properties
 
 It returns an object with the following properties:
 
-- __name__: the propsd pitch string
+- __name__: the given pitch string
 - __letter__: the pitch letter __always__ in uppercase
 - __str__: the pitch in scientific representation
 - __pitchClass__: the pitch [pitch class](https://en.wikipedia.org/wiki/Pitch_class)
@@ -670,7 +670,7 @@ __Returns:__
 
 Type|Description
 ---|---
-|an object with the pitch components or null if its not a valid pitch
+Object|an object with the pitch components or null if its not a valid pitch
 
 
 __Example:__

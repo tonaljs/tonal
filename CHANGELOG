@@ -1,4 +1,7 @@
 [MASTER]
+- _internal/coerce was returining null in some cases and throwing exceptions
+in anothers. Now it just return null when something is not valid
+- Rename scale/names to scale/allScales and chord/names to chord/allChords
 - Move binary set functions to its own module
 - Add precision to pitch/cents
 - Add fifths/transpose to transpose a pitch class a num of fifths

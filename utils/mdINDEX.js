@@ -7,7 +7,7 @@ module.exports = function markdownIndex (sources) {
     MD.h1('Function index'),
     MD.line('Number of functions: ', sources.ordered.length),
     MD.thead('name', 'description', 'module', 'source'),
-    sources.ordered.map(markdownSourceRow).join('')
+    sources.ordered.map(markdownSourceRow)
   )
 }
 

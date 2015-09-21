@@ -3,6 +3,9 @@ var assert = require('assert')
 var fifths = require('../../lib/fifths/fifths')
 
 vows.describe('fifths/fifths').addBatch({
+  'map fifhts': function () {
+    assert.deepEqual('C D E F G A B'.split(' ').map(fifths), [0, 2, 4, -1, 1, 3, 5])
+  },
   'positive fifths from C': function () {
     assert.equal(fifths('C'), 0)
     assert.equal(fifths('G'), 1)
