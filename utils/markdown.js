@@ -1,15 +1,21 @@
+var _ = require('lodash')
+var slice = Array.prototype.slice
 
 var markdown = {
   h1: function (title) { return '# ' + title + '\n' },
   h2: function (title) { return '## ' + title + '\n' },
   h3: function (title) { return '### ' + title + '\n' },
   h4: function (title) { return '#### ' + title + '\n' },
-  item: function (text) { return '- ' + text + '\n' },
+  item: function () {
+    var text = _.flatten(slice.call(arguments), true).join(' ')
+    return '- ' + text + '\n'
+  },
 
   // INLINE
-  bold: function (text) { return ' __' + text + '__ ' },
-  link: function (name, url) { return ' [' + name + '](' + url + ') ' },
+  bold: function (text) { return '__' + text + '__' },
+  link: function (name, url) { return '[' + name + '](' + url + ')' },
 
+  join: function () { return _.flatten(slice.call(arguments), true).join('') },
   line: function () {
     return arguments.length ? Array.prototype.slice.call(arguments).join(' ') + '\n' : '\n'
   },
