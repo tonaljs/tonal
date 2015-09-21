@@ -1,6 +1,6 @@
 # Tonal functions
 
-A list of all functions available grouped by modules.
+A list of  [all functions](https://github.com/danigb/tonal/blob/master/docs/INDEX.md)  available grouped by modules.
 
 
 
@@ -8,7 +8,7 @@ A list of all functions available grouped by modules.
 
 
 
-Number of functions: 18
+Number of functions:  18
 
 #### pitch/alterToAcc
 
@@ -24,7 +24,7 @@ alterToAcc(-1) // => 'b'
 alterToAcc(-2) // => 'bb'
 ```
 
-[alterToAcc.js](https://github.com/danigb/tonal/tree/master/lib/pitch/alterToAcc.js)
+ [alterToAcc.js](https://github.com/danigb/tonal/tree/master/lib/pitch/alterToAcc.js) 
 
 
 #### pitch/cents
@@ -39,7 +39,7 @@ cents('A4', 444) // => 15.66
 cents('A4', 'A#4') // => 100
 ```
 
-[cents.js](https://github.com/danigb/tonal/tree/master/lib/pitch/cents.js)
+ [cents.js](https://github.com/danigb/tonal/tree/master/lib/pitch/cents.js) 
 
 
 #### pitch/enharmonic
@@ -53,7 +53,7 @@ enharmonic('C#4', 'D') // => 'Db4'
 enharmonic('B#', 'C') // => 'C'
 ```
 
-[enharmonic.js](https://github.com/danigb/tonal/tree/master/lib/pitch/enharmonic.js)
+ [enharmonic.js](https://github.com/danigb/tonal/tree/master/lib/pitch/enharmonic.js) 
 
 
 #### pitch/freq
@@ -67,7 +67,7 @@ freq('A4') // => 440
 freq('A3', 444) // => 222
 ```
 
-[freq.js](https://github.com/danigb/tonal/tree/master/lib/pitch/freq.js)
+ [freq.js](https://github.com/danigb/tonal/tree/master/lib/pitch/freq.js) 
 
 
 #### pitch/fromFreq
@@ -81,7 +81,7 @@ fromFreq(440) // => 'A4'
 fromFreq(441) // => 'A4'
 ```
 
-[fromFreq.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromFreq.js)
+ [fromFreq.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromFreq.js) 
 
 
 #### pitch/fromKey
@@ -95,7 +95,7 @@ fromKey(40) // => 'C4'
 fromKey(49) // => 'A4'
 ```
 
-[fromKey.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromKey.js)
+ [fromKey.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromKey.js) 
 
 
 #### pitch/fromMidi
@@ -105,7 +105,7 @@ fromKey(49) // => 'A4'
 <p>Get the pitch of the given midi number</p>
 
 
-[fromMidi.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromMidi.js)
+ [fromMidi.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromMidi.js) 
 
 
 #### pitch/interval
@@ -119,7 +119,7 @@ interval('C', 'D') // => 'M2'
 ['C', 'D', 'Eb'].map(interval.from('C')) // => ['P1', 'M2', 'm3']
 ```
 
-[interval.js](https://github.com/danigb/tonal/tree/master/lib/pitch/interval.js)
+ [interval.js](https://github.com/danigb/tonal/tree/master/lib/pitch/interval.js) 
 
 
 #### pitch/intervalFrom
@@ -132,7 +132,7 @@ interval('C', 'D') // => 'M2'
 ['C', 'D', 'E'].map(intervalFrom('C')) // => ['1P', '2M', '3M']
 ```
 
-[intervalFrom.js](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalFrom.js)
+ [intervalFrom.js](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalFrom.js) 
 
 
 #### pitch/intervalTo
@@ -145,7 +145,7 @@ interval('C', 'D') // => 'M2'
 ['C', 'D', 'E'].map(intervalTo('E')) // => ['3M', '2M', '1P']
 ```
 
-[intervalTo.js](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalTo.js)
+ [intervalTo.js](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalTo.js) 
 
 
 #### pitch/key
@@ -158,7 +158,7 @@ interval('C', 'D') // => 'M2'
 key(49) // => 'A4'
 ```
 
-[key.js](https://github.com/danigb/tonal/tree/master/lib/pitch/key.js)
+ [key.js](https://github.com/danigb/tonal/tree/master/lib/pitch/key.js) 
 
 
 #### pitch/letter
@@ -174,7 +174,7 @@ letter('c', 1) // => 'D'
 letter('c', 2) // => 'E'
 ```
 
-[letter.js](https://github.com/danigb/tonal/tree/master/lib/pitch/letter.js)
+ [letter.js](https://github.com/danigb/tonal/tree/master/lib/pitch/letter.js) 
 
 
 #### pitch/midi
@@ -187,7 +187,7 @@ letter('c', 2) // => 'E'
 midi('a4') // => 69
 ```
 
-[midi.js](https://github.com/danigb/tonal/tree/master/lib/pitch/midi.js)
+ [midi.js](https://github.com/danigb/tonal/tree/master/lib/pitch/midi.js) 
 
 
 #### pitch/octave
@@ -200,7 +200,7 @@ midi('a4') // => 69
 octave('a4') // => 4
 ```
 
-[octave.js](https://github.com/danigb/tonal/tree/master/lib/pitch/octave.js)
+ [octave.js](https://github.com/danigb/tonal/tree/master/lib/pitch/octave.js) 
 
 
 #### pitch/pitch
@@ -220,7 +220,7 @@ pitch('C7', -1) // => 'Cb7'
 pitch('bluf') // => null
 ```
 
-[pitch.js](https://github.com/danigb/tonal/tree/master/lib/pitch/pitch.js)
+ [pitch.js](https://github.com/danigb/tonal/tree/master/lib/pitch/pitch.js) 
 
 
 #### pitch/pitchClass
@@ -233,7 +233,7 @@ pitch('bluf') // => null
 pitchClass('a4') // => 69
 ```
 
-[pitchClass.js](https://github.com/danigb/tonal/tree/master/lib/pitch/pitchClass.js)
+ [pitchClass.js](https://github.com/danigb/tonal/tree/master/lib/pitch/pitchClass.js) 
 
 
 #### pitch/props
@@ -246,7 +246,7 @@ pitchClass('a4') // => 69
 props('C#2') // => { }
 ```
 
-[props.js](https://github.com/danigb/tonal/tree/master/lib/pitch/props.js)
+ [props.js](https://github.com/danigb/tonal/tree/master/lib/pitch/props.js) 
 
 
 #### pitch/transpose
@@ -262,7 +262,7 @@ transpose('C', 'M-2') // => 'Bb3'
 ['C', 'D', 'E'].map(transpose('M2')) // => ['D4', 'E4', 'F#4']
 ```
 
-[transpose.js](https://github.com/danigb/tonal/tree/master/lib/pitch/transpose.js)
+ [transpose.js](https://github.com/danigb/tonal/tree/master/lib/pitch/transpose.js) 
 
 
 
@@ -270,7 +270,7 @@ transpose('C', 'M-2') // => 'Bb3'
 
 
 
-Number of functions: 6
+Number of functions:  6
 
 #### set/binarySets
 
@@ -279,7 +279,7 @@ Number of functions: 6
 <p>Return all possible set binary numbers</p>
 
 
-[binarySets.js](https://github.com/danigb/tonal/tree/master/lib/set/binarySets.js)
+ [binarySets.js](https://github.com/danigb/tonal/tree/master/lib/set/binarySets.js) 
 
 
 #### set/fromBinary
@@ -293,7 +293,7 @@ intervals('1P 2M') // => ['1P', '2M']
 intervals(2773) // => ['1P', '2M', '3M']
 ```
 
-[fromBinary.js](https://github.com/danigb/tonal/tree/master/lib/set/fromBinary.js)
+ [fromBinary.js](https://github.com/danigb/tonal/tree/master/lib/set/fromBinary.js) 
 
 
 #### set/genericSet
@@ -306,7 +306,7 @@ intervals(2773) // => ['1P', '2M', '3M']
 toIntervals()
 ```
 
-[genericSet.js](https://github.com/danigb/tonal/tree/master/lib/set/genericSet.js)
+ [genericSet.js](https://github.com/danigb/tonal/tree/master/lib/set/genericSet.js) 
 
 
 #### set/modes
@@ -319,7 +319,7 @@ toIntervals()
 modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]
 ```
 
-[modes.js](https://github.com/danigb/tonal/tree/master/lib/set/modes.js)
+ [modes.js](https://github.com/danigb/tonal/tree/master/lib/set/modes.js) 
 
 
 #### set/pitchSet
@@ -333,7 +333,7 @@ pitchSet('D E G G A E') // => ['D', 'E', 'G', 'A']
 pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']
 ```
 
-[pitchSet.js](https://github.com/danigb/tonal/tree/master/lib/set/pitchSet.js)
+ [pitchSet.js](https://github.com/danigb/tonal/tree/master/lib/set/pitchSet.js) 
 
 
 #### set/toBinary
@@ -349,7 +349,7 @@ toBinary('1P 7M') // => '100000000001'
 toBinary('1P 8P') // => '100000000000'
 ```
 
-[toBinary.js](https://github.com/danigb/tonal/tree/master/lib/set/toBinary.js)
+ [toBinary.js](https://github.com/danigb/tonal/tree/master/lib/set/toBinary.js) 
 
 
 
@@ -357,7 +357,7 @@ toBinary('1P 8P') // => '100000000000'
 
 
 
-Number of functions: 7
+Number of functions:  7
 
 #### scale/generic
 
@@ -369,7 +369,7 @@ Number of functions: 7
 generic('C major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
 ```
 
-[generic.js](https://github.com/danigb/tonal/tree/master/lib/scale/generic.js)
+ [generic.js](https://github.com/danigb/tonal/tree/master/lib/scale/generic.js) 
 
 
 #### scale/mode
@@ -382,7 +382,7 @@ generic('C major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
 mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
 ```
 
-[mode.js](https://github.com/danigb/tonal/tree/master/lib/scale/mode.js)
+ [mode.js](https://github.com/danigb/tonal/tree/master/lib/scale/mode.js) 
 
 
 #### scale/name
@@ -395,7 +395,7 @@ mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
 name('C D E F G A B') // => 'C major'
 ```
 
-[name.js](https://github.com/danigb/tonal/tree/master/lib/scale/name.js)
+ [name.js](https://github.com/danigb/tonal/tree/master/lib/scale/name.js) 
 
 
 #### scale/names
@@ -408,7 +408,7 @@ name('C D E F G A B') // => 'C major'
 names() => ['major', 'minor', ....]
 ```
 
-[names.js](https://github.com/danigb/tonal/tree/master/lib/scale/names.js)
+ [names.js](https://github.com/danigb/tonal/tree/master/lib/scale/names.js) 
 
 
 #### scale/parse
@@ -421,7 +421,7 @@ names() => ['major', 'minor', ....]
 parse('C major') // => { tonic: 'C', type: 'major' }
 ```
 
-[parse.js](https://github.com/danigb/tonal/tree/master/lib/scale/parse.js)
+ [parse.js](https://github.com/danigb/tonal/tree/master/lib/scale/parse.js) 
 
 
 #### scale/scale
@@ -436,7 +436,7 @@ scale('D diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
 scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']
 ```
 
-[scale.js](https://github.com/danigb/tonal/tree/master/lib/scale/scale.js)
+ [scale.js](https://github.com/danigb/tonal/tree/master/lib/scale/scale.js) 
 
 
 #### scale/triad
@@ -450,7 +450,7 @@ triad(scale('C major')) // => ['C', 'E', 'G']
 triad(scale('C major'), 5) // => ['C', 'E', 'G', 'B', 'D']
 ```
 
-[triad.js](https://github.com/danigb/tonal/tree/master/lib/scale/triad.js)
+ [triad.js](https://github.com/danigb/tonal/tree/master/lib/scale/triad.js) 
 
 
 
@@ -458,7 +458,7 @@ triad(scale('C major'), 5) // => ['C', 'E', 'G', 'B', 'D']
 
 
 
-Number of functions: 6
+Number of functions:  6
 
 #### chord/chord
 
@@ -472,7 +472,7 @@ chord('7b5') // => ['1P', '3M', '5d', '7m']
 chord('7b5', 'Bb2')
 ```
 
-[chord.js](https://github.com/danigb/tonal/tree/master/lib/chord/chord.js)
+ [chord.js](https://github.com/danigb/tonal/tree/master/lib/chord/chord.js) 
 
 
 #### chord/fromScale
@@ -482,7 +482,7 @@ chord('7b5', 'Bb2')
 <p>Return all the chord names of a given scale</p>
 
 
-[fromScale.js](https://github.com/danigb/tonal/tree/master/lib/chord/fromScale.js)
+ [fromScale.js](https://github.com/danigb/tonal/tree/master/lib/chord/fromScale.js) 
 
 
 #### chord/intervals
@@ -495,7 +495,7 @@ chord('7b5', 'Bb2')
 intervals('Cmaj7') // => ['1P', '3M', '5P', '7M']
 ```
 
-[intervals.js](https://github.com/danigb/tonal/tree/master/lib/chord/intervals.js)
+ [intervals.js](https://github.com/danigb/tonal/tree/master/lib/chord/intervals.js) 
 
 
 #### chord/name
@@ -505,7 +505,7 @@ intervals('Cmaj7') // => ['1P', '3M', '5P', '7M']
 <p>Get the chord name(s) of a given pitches</p>
 
 
-[name.js](https://github.com/danigb/tonal/tree/master/lib/chord/name.js)
+ [name.js](https://github.com/danigb/tonal/tree/master/lib/chord/name.js) 
 
 
 #### chord/names
@@ -518,7 +518,7 @@ intervals('Cmaj7') // => ['1P', '3M', '5P', '7M']
 names() => ['major', 'minor', ....]
 ```
 
-[names.js](https://github.com/danigb/tonal/tree/master/lib/chord/names.js)
+ [names.js](https://github.com/danigb/tonal/tree/master/lib/chord/names.js) 
 
 
 #### chord/parse
@@ -532,7 +532,7 @@ parse('C#Maj7') // => { tonic: 'C#', type: 'Maj7' }
 parse('7b5') // => { tonic: null, type: '7b5' }
 ```
 
-[parse.js](https://github.com/danigb/tonal/tree/master/lib/chord/parse.js)
+ [parse.js](https://github.com/danigb/tonal/tree/master/lib/chord/parse.js) 
 
 
 
@@ -540,7 +540,7 @@ parse('7b5') // => { tonic: null, type: '7b5' }
 
 
 
-Number of functions: 9
+Number of functions:  9
 
 #### interval/add
 
@@ -552,7 +552,7 @@ Number of functions: 9
 add('M2', 'M2') // => 'M3'
 ```
 
-[add.js](https://github.com/danigb/tonal/tree/master/lib/interval/add.js)
+ [add.js](https://github.com/danigb/tonal/tree/master/lib/interval/add.js) 
 
 
 #### interval/harmonize
@@ -565,7 +565,7 @@ add('M2', 'M2') // => 'M3'
 harmonize('C2', ['P1 P5']) // => ['C2', 'G2']
 ```
 
-[harmonize.js](https://github.com/danigb/tonal/tree/master/lib/interval/harmonize.js)
+ [harmonize.js](https://github.com/danigb/tonal/tree/master/lib/interval/harmonize.js) 
 
 
 #### interval/interval
@@ -586,7 +586,7 @@ interval(2, 'AA') // => '2AA'
 interval(2, 'AAA') // => null
 ```
 
-[interval.js](https://github.com/danigb/tonal/tree/master/lib/interval/interval.js)
+ [interval.js](https://github.com/danigb/tonal/tree/master/lib/interval/interval.js) 
 
 
 #### interval/invert
@@ -601,7 +601,7 @@ invert('M-10') // => 'M-3'
 invert('P-11', true) // => 'P4'
 ```
 
-[invert.js](https://github.com/danigb/tonal/tree/master/lib/interval/invert.js)
+ [invert.js](https://github.com/danigb/tonal/tree/master/lib/interval/invert.js) 
 
 
 #### interval/isInterval
@@ -616,7 +616,7 @@ isInterval('P5') // true
 isInterval('P6') // false
 ```
 
-[isInterval.js](https://github.com/danigb/tonal/tree/master/lib/interval/isInterval.js)
+ [isInterval.js](https://github.com/danigb/tonal/tree/master/lib/interval/isInterval.js) 
 
 
 #### interval/opposite
@@ -630,7 +630,7 @@ opposite('M2') // => 'M-2'
 opposite('P-8') // => 'P8'
 ```
 
-[opposite.js](https://github.com/danigb/tonal/tree/master/lib/interval/opposite.js)
+ [opposite.js](https://github.com/danigb/tonal/tree/master/lib/interval/opposite.js) 
 
 
 #### interval/props
@@ -645,7 +645,7 @@ props('-5P') // => { name: '-5P', quality: 'P', dir: -1, num: 5, generic: 4, alt
 props('9m') // => { name: '9m', quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfectable: false }
 ```
 
-[props.js](https://github.com/danigb/tonal/tree/master/lib/interval/props.js)
+ [props.js](https://github.com/danigb/tonal/tree/master/lib/interval/props.js) 
 
 
 #### interval/semitones
@@ -658,7 +658,7 @@ props('9m') // => { name: '9m', quality: 'm', dir: 1, num: 9, generic: 1, alter:
 semitones('5P') // => 7
 ```
 
-[semitones.js](https://github.com/danigb/tonal/tree/master/lib/interval/semitones.js)
+ [semitones.js](https://github.com/danigb/tonal/tree/master/lib/interval/semitones.js) 
 
 
 #### interval/simplify
@@ -673,7 +673,7 @@ simplify('-9M') // => '-2M'
 simplify('-2M', true) // => '2M'
 ```
 
-[simplify.js](https://github.com/danigb/tonal/tree/master/lib/interval/simplify.js)
+ [simplify.js](https://github.com/danigb/tonal/tree/master/lib/interval/simplify.js) 
 
 
 
@@ -681,7 +681,7 @@ simplify('-2M', true) // => '2M'
 
 
 
-Number of functions: 7
+Number of functions:  7
 
 #### key/accidentals
 
@@ -696,7 +696,7 @@ accidentals(3) // => '###'
 accidentals(-2) // => 'bb'
 ```
 
-[accidentals.js](https://github.com/danigb/tonal/tree/master/lib/key/accidentals.js)
+ [accidentals.js](https://github.com/danigb/tonal/tree/master/lib/key/accidentals.js) 
 
 
 #### key/alteredNotes
@@ -711,7 +711,7 @@ alteredNotes(3) // => ['F#', 'C#', 'G#']
 alteredNotes('bb') // => ['Bb', 'Eb']
 ```
 
-[alteredNotes.js](https://github.com/danigb/tonal/tree/master/lib/key/alteredNotes.js)
+ [alteredNotes.js](https://github.com/danigb/tonal/tree/master/lib/key/alteredNotes.js) 
 
 
 #### key/fromPitchSet
@@ -724,7 +724,7 @@ alteredNotes('bb') // => ['Bb', 'Eb']
 fromPitchSet('C Bb F') // => -1
 ```
 
-[fromPitchSet.js](https://github.com/danigb/tonal/tree/master/lib/key/fromPitchSet.js)
+ [fromPitchSet.js](https://github.com/danigb/tonal/tree/master/lib/key/fromPitchSet.js) 
 
 
 #### key/keyNumber
@@ -742,7 +742,7 @@ keyNumber('##') // => 2
 keyNumber('bbb') // => -3
 ```
 
-[keyNumber.js](https://github.com/danigb/tonal/tree/master/lib/key/keyNumber.js)
+ [keyNumber.js](https://github.com/danigb/tonal/tree/master/lib/key/keyNumber.js) 
 
 
 #### key/parse
@@ -756,7 +756,7 @@ parse('C minor') // => { tonic: 'C', type: 'minor'}
 parse('C#') // => { tonic: 'C#', type: 'major'}
 ```
 
-[parse.js](https://github.com/danigb/tonal/tree/master/lib/key/parse.js)
+ [parse.js](https://github.com/danigb/tonal/tree/master/lib/key/parse.js) 
 
 
 #### key/pitchSet
@@ -770,7 +770,7 @@ pitchSet('g major') // => ['G', 'A', 'B', 'C', 'D', 'E', 'F#']
 pitchSet('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']
 ```
 
-[pitchSet.js](https://github.com/danigb/tonal/tree/master/lib/key/pitchSet.js)
+ [pitchSet.js](https://github.com/danigb/tonal/tree/master/lib/key/pitchSet.js) 
 
 
 #### key/triads
@@ -784,7 +784,7 @@ triads('g major') // => ['G', 'A', 'B', 'C', 'D', 'E', 'F#']
 triads('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']
 ```
 
-[triads.js](https://github.com/danigb/tonal/tree/master/lib/key/triads.js)
+ [triads.js](https://github.com/danigb/tonal/tree/master/lib/key/triads.js) 
 
 
 
@@ -792,7 +792,7 @@ triads('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']
 
 
 
-Number of functions: 3
+Number of functions:  3
 
 #### fifths/byFifths
 
@@ -804,7 +804,7 @@ Number of functions: 3
 ['C#', 'G#', 'F#'].sort(byFifths()) // => ['F#', 'C#', 'D#']
 ```
 
-[byFifths.js](https://github.com/danigb/tonal/tree/master/lib/fifths/byFifths.js)
+ [byFifths.js](https://github.com/danigb/tonal/tree/master/lib/fifths/byFifths.js) 
 
 
 #### fifths/fifths
@@ -823,7 +823,7 @@ fifths('A', 'D') // => 1
 fifths('C4', 'C2') // => 0
 ```
 
-[fifths.js](https://github.com/danigb/tonal/tree/master/lib/fifths/fifths.js)
+ [fifths.js](https://github.com/danigb/tonal/tree/master/lib/fifths/fifths.js) 
 
 
 #### fifths/transpose
@@ -837,7 +837,7 @@ transpose('C', 2) // => 'D'
 transpose('C5', -2) // => 'Bb'
 ```
 
-[transpose.js](https://github.com/danigb/tonal/tree/master/lib/fifths/transpose.js)
+ [transpose.js](https://github.com/danigb/tonal/tree/master/lib/fifths/transpose.js) 
 
 
 

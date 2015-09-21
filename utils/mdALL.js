@@ -5,7 +5,7 @@ var GITHUB = 'https://github.com/danigb/tonal/tree/master'
 module.exports = function (sources) {
   return MD.lines(
     MD.h1('Tonal functions'),
-    MD.line('A list of all functions available grouped by modules.'),
+    MD.line('A list of', MD.link('all functions', 'https://github.com/danigb/tonal/blob/master/docs/INDEX.md'), 'available grouped by modules.'),
     MD.line(),
     sources.modules.map(markdonModule(sources)).join('\n')
   )
@@ -31,6 +31,6 @@ function markdownFunction (src) {
     MD.line(),
     MD.line(summary),
     MD.code(example, 'js'),
-    MD.link(src.name + '.js', [GITHUB, 'lib', src.module, src.name + '.js'].join('/'))
+    MD.line(MD.link(src.name + '.js', [GITHUB, 'lib', src.module, src.name + '.js'].join('/')))
   )
 }

@@ -4,11 +4,13 @@ var markdown = {
   h2: function (title) { return '## ' + title + '\n' },
   h3: function (title) { return '### ' + title + '\n' },
   h4: function (title) { return '#### ' + title + '\n' },
-  bold: function (text) { return '__' + text + '__' },
-  link: function (name, url) { return '[' + name + '](' + url + ')\n' },
+
+  // INLINE
+  bold: function (text) { return ' __' + text + '__ ' },
+  link: function (name, url) { return ' [' + name + '](' + url + ') ' },
 
   line: function () {
-    return arguments.length ? Array.prototype.slice.call(arguments).join('') + '\n' : '\n'
+    return arguments.length ? Array.prototype.slice.call(arguments).join(' ') + '\n' : '\n'
   },
   lines: function () { return Array.prototype.slice.call(arguments).join('\n') + '\n' },
 
