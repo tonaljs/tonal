@@ -1,4 +1,6 @@
 [MASTER]
+- Rename module binary-set to binarySet
+- Rename module set to pitchSet
 - Chord and scale names are no longer chached
 - Remove scale/parse
 - Fix chord aliases

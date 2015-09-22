@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var genericSet = require('../../lib/binary-set/genericSet')
+var genericSet = require('../../lib/binarySet/genericSet')
 
 vows.describe('binary-set/genericSet').addBatch({
   'intervals from decimal number': function () {

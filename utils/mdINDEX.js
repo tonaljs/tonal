@@ -19,7 +19,7 @@ function markdownSourceRow (src) {
 
   return MD.tbody(
     MD.bold(src.name),
-    summary + MD.code(example),
+    summary + '<br>' + MD.code(example),
     MD.link(src.module, [GITHUB, 'docs', src.module + '.md'].join('/')),
     MD.link(src.name + '.js', [GITHUB, 'lib', src.module, src.name + '.js'].join('/'))
   )

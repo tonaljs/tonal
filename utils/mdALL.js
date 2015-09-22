@@ -62,10 +62,10 @@ module.exports = function (sources) {
 
   function mdModuleIndex (module) {
     var files = sources.byModule[module]
-    return MD.item(
+    return MD.li(
       MD.bold(MD.link(_.capitalize(module), '#' + module + '-module')),
-      MD.join('(', files.length, ' functions): '),
-      files.map(mdFuncItem)
+      '- ',
+      files.map(mdFuncItem).join(', ')
     )
   }
 

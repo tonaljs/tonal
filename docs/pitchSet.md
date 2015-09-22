@@ -1,4 +1,4 @@
-# Set module
+# Pitch Set module
 
 Functions to create pitch class sets in different representations. A pitch set is a collection of pitch classes, where they can't be repeated.
 
@@ -57,9 +57,9 @@ Some tonal functions (like scales) returns pitch sets instead of sets.
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/set/modes.js">modes.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitchSet/modes.js">modes.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/set/modes.js#L15">lineno 15</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitchSet/modes.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
@@ -112,9 +112,9 @@ of the given collection</p>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/set/pitchSet.js">pitchSet.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitchSet/pitchSet.js">pitchSet.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/set/pitchSet.js#L19">lineno 19</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitchSet/pitchSet.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>
@@ -145,9 +145,9 @@ pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/set/genericSet.js">genericSet.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitchSet/genericSet.js">genericSet.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/set/genericSet.js#L10">lineno 10</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitchSet/genericSet.js#L10">lineno 10</a>
 </li>
 </ul></dd>
 </dl>

@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var pitchSet = require('../../lib/set/pitchSet')
+var pitchSet = require('../../lib/pitchSet/pitchSet')
 
 vows.describe('set/pitchSet').addBatch({
   'convert to array of notes': function () {

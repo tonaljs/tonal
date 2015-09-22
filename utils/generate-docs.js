@@ -11,7 +11,7 @@ function path (dir) {
 }
 
 var sources = sourceModel(path('lib'),
-  ['pitch', 'set', 'scale', 'chord', 'interval', 'key', 'binary-set', 'fifths'])
+  ['pitch', 'scale', 'chord', 'interval', 'pitchSet', 'binarySet', 'key', 'fifths'])
 
 fs.writeFileSync(path('docs', 'INDEX.md'), mdINDEX(sources))
 fs.writeFileSync(path('docs', 'ALL.md'), mdALL(sources))

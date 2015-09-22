@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var modes = require('../../lib/set/modes')
+var modes = require('../../lib/pitchSet/modes')
 
 vows.describe('set/modes').addBatch({
   'convert to array of notes': function () {

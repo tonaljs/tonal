@@ -6,14 +6,14 @@ A list of [all functions](https://github.com/danigb/tonal/tree/master//docs/INDE
 
 __Index of modules__
 
-- __[Pitch](#pitch-module)__ (18 functions):  [alterToAcc](#pitchaltertoacc) [cents](#pitchcents) [enharmonic](#pitchenharmonic) [freq](#pitchfreq) [fromFreq](#pitchfromfreq) [fromKey](#pitchfromkey) [fromMidi](#pitchfrommidi) [interval](#pitchinterval) [intervalFrom](#pitchintervalfrom) [intervalTo](#pitchintervalto) [key](#pitchkey) [letter](#pitchletter) [midi](#pitchmidi) [octave](#pitchoctave) [pitch](#pitchpitch) [pitchClass](#pitchpitchclass) [props](#pitchprops) [transpose](#pitchtranspose)
-- __[Set](#set-module)__ (3 functions):  [genericSet](#setgenericset) [modes](#setmodes) [pitchSet](#setpitchset)
-- __[Scale](#scale-module)__ (6 functions):  [intervals](#scaleintervals) [mode](#scalemode) [name](#scalename) [scale](#scalescale) [scaleNames](#scalescalenames) [triad](#scaletriad)
-- __[Chord](#chord-module)__ (6 functions):  [chord](#chordchord) [chordNames](#chordchordnames) [deparse](#chorddeparse) [fromScale](#chordfromscale) [intervals](#chordintervals) [name](#chordname)
-- __[Interval](#interval-module)__ (9 functions):  [add](#intervaladd) [harmonize](#intervalharmonize) [interval](#intervalinterval) [invert](#intervalinvert) [isInterval](#intervalisinterval) [opposite](#intervalopposite) [props](#intervalprops) [semitones](#intervalsemitones) [simplify](#intervalsimplify)
-- __[Key](#key-module)__ (7 functions):  [accidentals](#keyaccidentals) [alteredNotes](#keyalterednotes) [fromPitchSet](#keyfrompitchset) [keyNumber](#keykeynumber) [parse](#keyparse) [pitchSet](#keypitchset) [triads](#keytriads)
-- __[Binary-set](#binary-set-module)__ (3 functions):  [allBinarySets](#binary-setallbinarysets) [genericSet](#binary-setgenericset) [toBinary](#binary-settobinary)
-- __[Fifths](#fifths-module)__ (4 functions):  [byFifths](#fifthsbyfifths) [fifths](#fifthsfifths) [fifthsFrom](#fifthsfifthsfrom) [transpose](#fifthstranspose)
+- __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [freq](#pitchfreq), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [key](#pitchkey), [letter](#pitchletter), [midi](#pitchmidi), [octave](#pitchoctave), [pitch](#pitchpitch), [pitchClass](#pitchpitchclass), [props](#pitchprops), [transpose](#pitchtranspose)
+- __[Scale](#scale-module)__ -  [intervals](#scaleintervals), [mode](#scalemode), [name](#scalename), [scale](#scalescale), [scaleNames](#scalescalenames), [triad](#scaletriad)
+- __[Chord](#chord-module)__ -  [chord](#chordchord), [chordNames](#chordchordnames), [deparse](#chorddeparse), [fromScale](#chordfromscale), [intervals](#chordintervals), [name](#chordname)
+- __[Interval](#interval-module)__ -  [add](#intervaladd), [harmonize](#intervalharmonize), [interval](#intervalinterval), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
+- __[PitchSet](#pitchSet-module)__ -  [genericSet](#pitchsetgenericset), [modes](#pitchsetmodes), [pitchSet](#pitchsetpitchset)
+- __[BinarySet](#binarySet-module)__ -  [allBinarySets](#binarysetallbinarysets), [genericSet](#binarysetgenericset), [toBinary](#binarysettobinary)
+- __[Key](#key-module)__ -  [accidentals](#keyaccidentals), [alteredNotes](#keyalterednotes), [fromPitchSet](#keyfrompitchset), [keyNumber](#keykeynumber), [parse](#keyparse), [pitchSet](#keypitchset), [triads](#keytriads)
+- __[Fifths](#fifths-module)__ -  [byFifths](#fifthsbyfifths), [fifths](#fifthsfifths), [fifthsFrom](#fifthsfifthsfrom), [transpose](#fifthstranspose)
 
 ## Pitch module
 
@@ -723,123 +723,6 @@ transpose('C', 'M-2') // => 'Bb3'
 ```
 
 [transpose.js](https://github.com/danigb/tonal/tree/master//lib/pitch/transpose.js)
-
-
-
-## Set module
-
-
-
-Number of functions:  3
-
-----
-###### set/genericSet
-
-
-
-#### genericSet() → {}
-
-
-
-Get the intervals of a pitch set
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-
-
-__Returns:__
-
-Type|Description
----|---
-
-
-__Example:__
-
-```js
-toIntervals()
-```
-
-[genericSet.js](https://github.com/danigb/tonal/tree/master//lib/set/genericSet.js)
-
-
-----
-###### set/modes
-
-
-
-#### modes(pitchSet) → {Array}
-
-
-
-Return all modes of a pitch set
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`pitchSet`|Array,String|the pitch set
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|an array of arrays with the set rotated set.length times
-
-
-__Example:__
-
-```js
-modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]
-```
-
-[modes.js](https://github.com/danigb/tonal/tree/master//lib/set/modes.js)
-
-
-----
-###### set/pitchSet
-
-
-
-#### pitchSet(pitches) → {Array}
-
-
-
-Create a pitch class set from a collection of pitches.
-
-The pitch classes are ordered by frequency starting from the first note
-of the given collection
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`pitches`|Array,String|the collection of pitches
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|a pitch set
-
-
-__Example:__
-
-```js
-pitchSet('D E G G A E') // => ['D', 'E', 'G', 'A']
-pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']
-```
-
-[pitchSet.js](https://github.com/danigb/tonal/tree/master//lib/set/pitchSet.js)
 
 
 
@@ -1669,6 +1552,237 @@ simplify('-2M', true) // => '2M'
 
 
 
+## PitchSet module
+
+
+
+Number of functions:  3
+
+----
+###### pitchSet/genericSet
+
+
+
+#### genericSet() → {}
+
+
+
+Get the intervals of a pitch set
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
+
+__Returns:__
+
+Type|Description
+---|---
+
+
+__Example:__
+
+```js
+toIntervals()
+```
+
+[genericSet.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/genericSet.js)
+
+
+----
+###### pitchSet/modes
+
+
+
+#### modes(pitchSet) → {Array}
+
+
+
+Return all modes of a pitch set
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`pitchSet`|Array,String|the pitch set
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array of arrays with the set rotated set.length times
+
+
+__Example:__
+
+```js
+modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]
+```
+
+[modes.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/modes.js)
+
+
+----
+###### pitchSet/pitchSet
+
+
+
+#### pitchSet(pitches) → {Array}
+
+
+
+Create a pitch class set from a collection of pitches.
+
+The pitch classes are ordered by frequency starting from the first note
+of the given collection
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`pitches`|Array,String|the collection of pitches
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|a pitch set
+
+
+__Example:__
+
+```js
+pitchSet('D E G G A E') // => ['D', 'E', 'G', 'A']
+pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']
+```
+
+[pitchSet.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/pitchSet.js)
+
+
+
+## BinarySet module
+
+
+
+Number of functions:  3
+
+----
+###### binarySet/allBinarySets
+
+
+
+#### allBinarySets() → {}
+
+
+
+Return all possible set binary numbers
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
+
+__Returns:__
+
+Type|Description
+---|---
+
+
+__Example:__
+
+
+[allBinarySets.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/allBinarySets.js)
+
+
+----
+###### binarySet/genericSet
+
+
+
+#### genericSet(binary) → {Array}
+
+
+
+Convert a binary set number to an intervals collection
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`binary`|String,Integer|an interval list in any of its valid forms
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|An array of intervals
+
+
+__Example:__
+
+```js
+intervals('1P 2M') // => ['1P', '2M']
+intervals(2773) // => ['1P', '2M', '3M']
+```
+
+[genericSet.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/genericSet.js)
+
+
+----
+###### binarySet/toBinary
+
+
+
+#### toBinary(intervals) → {String}
+
+
+
+Return the binary set representation of a collection of intervals
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`intervals`|Array,String|a collection of intervals
+
+
+__Returns:__
+
+Type|Description
+---|---
+String|a binary number
+
+
+__Example:__
+
+```js
+toBinary('1P 2M') // => '101000000000'
+toBinary('1P 9M') // => '101000000000'
+toBinary('1P 7M') // => '100000000001'
+toBinary('1P 8P') // => '100000000000'
+```
+
+[toBinary.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/toBinary.js)
+
+
+
 ## Key module
 
 
@@ -1933,120 +2047,6 @@ triads('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']
 ```
 
 [triads.js](https://github.com/danigb/tonal/tree/master//lib/key/triads.js)
-
-
-
-## Binary-set module
-
-
-
-Number of functions:  3
-
-----
-###### binary-set/allBinarySets
-
-
-
-#### allBinarySets() → {}
-
-
-
-Return all possible set binary numbers
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-
-
-__Returns:__
-
-Type|Description
----|---
-
-
-__Example:__
-
-
-[allBinarySets.js](https://github.com/danigb/tonal/tree/master//lib/binary-set/allBinarySets.js)
-
-
-----
-###### binary-set/genericSet
-
-
-
-#### genericSet(binary) → {Array}
-
-
-
-Convert a binary set number to an intervals collection
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`binary`|String,Integer|an interval list in any of its valid forms
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|An array of intervals
-
-
-__Example:__
-
-```js
-intervals('1P 2M') // => ['1P', '2M']
-intervals(2773) // => ['1P', '2M', '3M']
-```
-
-[genericSet.js](https://github.com/danigb/tonal/tree/master//lib/binary-set/genericSet.js)
-
-
-----
-###### binary-set/toBinary
-
-
-
-#### toBinary(intervals) → {String}
-
-
-
-Return the binary set representation of a collection of intervals
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`intervals`|Array,String|a collection of intervals
-
-
-__Returns:__
-
-Type|Description
----|---
-String|a binary number
-
-
-__Example:__
-
-```js
-toBinary('1P 2M') // => '101000000000'
-toBinary('1P 9M') // => '101000000000'
-toBinary('1P 7M') // => '100000000001'
-toBinary('1P 8P') // => '100000000000'
-```
-
-[toBinary.js](https://github.com/danigb/tonal/tree/master//lib/binary-set/toBinary.js)
 
 
 

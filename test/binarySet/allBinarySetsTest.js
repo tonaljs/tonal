@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var allBinarySets = require('../../lib/binary-set/allBinarySets')
+var allBinarySets = require('../../lib/binarySet/allBinarySets')
 
 vows.describe('binary-set/allBinarySets').addBatch({
   'binary sets': function () {

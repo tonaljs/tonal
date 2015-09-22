@@ -24,9 +24,9 @@
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/binary-set/allBinarySets.js">allBinarySets.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/binarySet/allBinarySets.js">allBinarySets.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/binary-set/allBinarySets.js#L8">lineno 8</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/binarySet/allBinarySets.js#L8">lineno 8</a>
 </li>
 </ul></dd>
 </dl>
@@ -63,9 +63,9 @@
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/binary-set/genericSet.js">genericSet.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/binarySet/genericSet.js">genericSet.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/binary-set/genericSet.js#L16">lineno 16</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/binarySet/genericSet.js#L16">lineno 16</a>
 </li>
 </ul></dd>
 </dl>
@@ -117,9 +117,9 @@ intervals(2773) // => ['1P', '2M', '3M']</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/binary-set/toBinary.js">toBinary.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/binarySet/toBinary.js">toBinary.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/binary-set/toBinary.js#L19">lineno 19</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/binarySet/toBinary.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>

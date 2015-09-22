@@ -7,7 +7,7 @@ var markdown = {
   h3: function (title) { return '### ' + title + '\n' },
   h4: function (title) { return '#### ' + title + '\n' },
   h6: function (title) { return '###### ' + title + '\n' },
-  item: function () {
+  li: function () {
     var text = _.flatten(slice.call(arguments), true).join(' ')
     return '- ' + text + '\n'
   },
