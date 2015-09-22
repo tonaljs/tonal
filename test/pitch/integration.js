@@ -1,6 +1,6 @@
 var vows = require('vows')
 var assert = require('assert')
-var scaleNames = require('../../lib/scale/allScales')
+var scaleNames = require('../../lib/scale/scaleNames')
 var scale = require('../../lib/scale/scale')
 var distance = require('../../lib/pitch/interval')
 
