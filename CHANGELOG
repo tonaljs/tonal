@@ -1,4 +1,5 @@
 [MASTER]
+- Rename genericSet to toIntervals
 - Rename module binary-set to binarySet
 - Rename module set to pitchSet
 - Chord and scale names are no longer chached

@@ -10,8 +10,8 @@ __Index of modules__
 - __[Scale](#scale-module)__ -  [intervals](#scaleintervals), [mode](#scalemode), [name](#scalename), [scale](#scalescale), [scaleNames](#scalescalenames), [triad](#scaletriad)
 - __[Chord](#chord-module)__ -  [chord](#chordchord), [chordNames](#chordchordnames), [deparse](#chorddeparse), [fromScale](#chordfromscale), [intervals](#chordintervals), [name](#chordname)
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [harmonize](#intervalharmonize), [interval](#intervalinterval), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
-- __[PitchSet](#pitchSet-module)__ -  [genericSet](#pitchsetgenericset), [modes](#pitchsetmodes), [pitchSet](#pitchsetpitchset)
-- __[BinarySet](#binarySet-module)__ -  [allBinarySets](#binarysetallbinarysets), [genericSet](#binarysetgenericset), [toBinary](#binarysettobinary)
+- __[PitchSet](#pitchSet-module)__ -  [modes](#pitchsetmodes), [pitchSet](#pitchsetpitchset), [toIntervals](#pitchsettointervals)
+- __[BinarySet](#binarySet-module)__ -  [allBinarySets](#binarysetallbinarysets), [toBinary](#binarysettobinary), [toIntervals](#binarysettointervals)
 - __[Key](#key-module)__ -  [accidentals](#keyaccidentals), [alteredNotes](#keyalterednotes), [fromPitchSet](#keyfrompitchset), [keyNumber](#keykeynumber), [parse](#keyparse), [pitchSet](#keypitchset), [triads](#keytriads)
 - __[Fifths](#fifths-module)__ -  [byFifths](#fifthsbyfifths), [fifths](#fifthsfifths), [fifthsFrom](#fifthsfifthsfrom), [transpose](#fifthstranspose)
 
@@ -1559,40 +1559,6 @@ simplify('-2M', true) // => '2M'
 Number of functions:  3
 
 ----
-###### pitchSet/genericSet
-
-
-
-#### genericSet() → {}
-
-
-
-Get the intervals of a pitch set
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-
-
-__Returns:__
-
-Type|Description
----|---
-
-
-__Example:__
-
-```js
-toIntervals()
-```
-
-[genericSet.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/genericSet.js)
-
-
-----
 ###### pitchSet/modes
 
 
@@ -1668,6 +1634,42 @@ pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']
 [pitchSet.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/pitchSet.js)
 
 
+----
+###### pitchSet/toIntervals
+
+
+
+#### toIntervals(set) → {Array}
+
+
+
+Get the intervals of a pitch set
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`set`|Array|the pitch set
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|the intervals of the pitch set (starting from 1P)
+
+
+__Example:__
+
+```js
+toIntervals(['C', 'D', 'Eb']) // => ['1P', '2M', '3m']
+```
+
+[toIntervals.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/toIntervals.js)
+
+
 
 ## BinarySet module
 
@@ -1707,43 +1709,6 @@ __Example:__
 
 
 ----
-###### binarySet/genericSet
-
-
-
-#### genericSet(binary) → {Array}
-
-
-
-Convert a binary set number to an intervals collection
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`binary`|String,Integer|an interval list in any of its valid forms
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|An array of intervals
-
-
-__Example:__
-
-```js
-intervals('1P 2M') // => ['1P', '2M']
-intervals(2773) // => ['1P', '2M', '3M']
-```
-
-[genericSet.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/genericSet.js)
-
-
-----
 ###### binarySet/toBinary
 
 
@@ -1780,6 +1745,43 @@ toBinary('1P 8P') // => '100000000000'
 ```
 
 [toBinary.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/toBinary.js)
+
+
+----
+###### binarySet/toIntervals
+
+
+
+#### toIntervals(binary) → {Array}
+
+
+
+Convert a binary set number to an intervals collection
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`binary`|String,Integer|an interval list in any of its valid forms
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|An array of intervals
+
+
+__Example:__
+
+```js
+intervals('1P 2M') // => ['1P', '2M']
+intervals(2773) // => ['1P', '2M', '3M']
+```
+
+[toIntervals.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/toIntervals.js)
 
 
 

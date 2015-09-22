@@ -135,24 +135,55 @@ Type
 pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="toIntervals"><span class="type-signature"></span>toIntervals<span class="signature">()</span><span class="type-signature"></span></h4>
+<h4 class="name" id="toIntervals"><span class="type-signature"></span>toIntervals<span class="signature">(set)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 </dt>
 <dd>
 <div class="description">
 <p>Get the intervals of a pitch set</p>
 </div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>set</code></td>
+<td class="type">
+<span class="param-type">Array</span>
+</td>
+<td class="description last"><p>the pitch set</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitchSet/genericSet.js">genericSet.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitchSet/toIntervals.js">toIntervals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitchSet/genericSet.js#L10">lineno 10</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitchSet/toIntervals.js#L13">lineno 13</a>
 </li>
 </ul></dd>
 </dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the intervals of the pitch set (starting from 1P)</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
 <h5>Example</h5>
-<pre class="prettyprint"><code>toIntervals()</code></pre>
+<pre class="prettyprint"><code>toIntervals(['C', 'D', 'Eb']) // => ['1P', '2M', '3m']</code></pre>
 </dd>
 </dl>
 </article>

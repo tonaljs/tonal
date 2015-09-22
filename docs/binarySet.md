@@ -63,9 +63,9 @@
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/binarySet/genericSet.js">genericSet.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/binarySet/toIntervals.js">toIntervals.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/binarySet/genericSet.js#L16">lineno 16</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/binarySet/toIntervals.js#L16">lineno 16</a>
 </li>
 </ul></dd>
 </dl>
