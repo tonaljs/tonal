@@ -82,6 +82,38 @@ chord('7b5') // => ['1P', '3M', '5d', '7m']
 chord('7b5', 'Bb2')</code></pre>
 </dd>
 <dt>
+<h4 class="name" id="chordNames"><span class="type-signature"></span>chordNames<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get all known scale names</p>
+</div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/chordNames.js">chordNames.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/chordNames.js#L14">lineno 14</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>array with all the known names</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>names() => ['major', 'minor', ....]</code></pre>
+</dd>
+<dt>
 <h4 class="name" id="fromScale"><span class="type-signature"></span>fromScale<span class="signature">()</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
@@ -179,25 +211,6 @@ parse('c#Maj7') // => { tonic: null, type: 'c#Maj7' }
 parse('add9') // => { tonic: null, type: 'add9'}</code></pre>
 </dd>
 </dl>
-</article>
-</section>
-</div><div class="jsdoc-githubify">
-<section>
-<article>
-<div class="container-overview">
-<div class="description"><p>Get all known scale names</p></div>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/chord/chordNames.js">chordNames.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/chord/chordNames.js#L7">lineno 7</a>
-</li>
-</ul></dd>
-</dl>
-<pre class="prettyprint"><code>names() => ['major', 'minor', ....]</code></pre>
-</div>
 </article>
 </section>
 </div>

@@ -66,26 +66,6 @@ names('D E F# G A B C#') // => ['D dorian']
 <h5>Example</h5>
 <pre class="prettyprint"><code>mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']</code></pre>
 </dd>
-<dt>
-<h4 class="name" id="scaleNames"><span class="type-signature"></span>scaleNames<span class="type-signature"></span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Get all known scale names</p>
-</div>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/scale/scaleNames.js">scaleNames.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/scale/scaleNames.js#L7">lineno 7</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>names() => ['major', 'minor', ....]</code></pre>
-</dd>
 </dl>
 <dl>
 <dt>
@@ -201,6 +181,38 @@ Type
 <pre class="prettyprint"><code>scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 scale('D diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
 scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="scaleNames"><span class="type-signature"></span>scaleNames<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get all known scale names</p>
+</div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/scaleNames.js">scaleNames.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/scaleNames.js#L14">lineno 14</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>array with all the known names</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Array</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>names() => ['major', 'minor', ....]</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="triad"><span class="type-signature"></span>triad<span class="signature">(set, len)</span><span class="type-signature"></span></h4>
