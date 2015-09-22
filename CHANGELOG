@@ -1,4 +1,5 @@
 [MASTER]
+- Rename chord/allChords to chord/chordNames
 - Chord tonics must be uppercase
 - _internal/coerce was returining null in some cases and throwing exceptions
 in anothers. Now it just return null when something is not valid
