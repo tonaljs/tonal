@@ -12,5 +12,8 @@ vows.describe('chord/parse').addBatch({
     assert.deepEqual(parse('C#maj7'), { tonic: 'C#', type: 'maj7' })
     assert.deepEqual(parse('A    minor melodic '), { tonic: 'A', type: 'minor melodic' })
     assert.deepEqual(parse('Cb3maj7'), { tonic: 'Cb', type: '3maj7' })
+  },
+  'tonic must be uppercase': function () {
+    assert.deepEqual(parse('add9'), { tonic: null, type: 'add9' })
   }
 }).export(module)
