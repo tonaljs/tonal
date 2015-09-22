@@ -2144,8 +2144,7 @@ fifths('C4', 'C2') // => 0
 
 
 
-Create a function to get fifths distance from a given note. Suited for
-using with arrays of notes
+Create a function to get fifths distance from a given note.
 
 
 

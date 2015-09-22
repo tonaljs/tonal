@@ -12,7 +12,7 @@ module.exports = function markdownIndex (sources) {
 }
 
 function markdownSourceRow (src) {
-  var summary = src.jsdoc.description.summary
+  var summary = src.jsdoc.description.summary.replace('\n', ' ')
   var examples = src.findTags('example', src.jsdoc)
   var example = examples.length ? examples[0]['string'] : ''
   example = example.split('\n')[0]

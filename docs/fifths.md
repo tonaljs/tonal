@@ -147,8 +147,7 @@ fifths('C4', 'C2') // => 0</code></pre>
 </dt>
 <dd>
 <div class="description">
-<p>Create a function to get fifths distance from a given note. Suited for
-using with arrays of notes</p>
+<p>Create a function to get fifths distance from a given note.</p>
 </div>
 <h5>Parameters:</h5>
 <table class="params">
@@ -175,7 +174,7 @@ using with arrays of notes</p>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/fifths/fifthsFrom.js">fifthsFrom.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/fifthsFrom.js#L16">lineno 16</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/fifthsFrom.js#L15">lineno 15</a>
 </li>
 </ul></dd>
 </dl>
