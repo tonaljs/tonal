@@ -11,7 +11,7 @@ __Index of modules__
 - __[Chord](#chord-module)__ -  [chord](#chordchord), [chordNames](#chordchordnames), [deparse](#chorddeparse), [fromScale](#chordfromscale), [intervals](#chordintervals), [name](#chordname)
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [harmonize](#intervalharmonize), [interval](#intervalinterval), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
 - __[PitchSet](#pitchSet-module)__ -  [modes](#pitchsetmodes), [pitchSet](#pitchsetpitchset), [toIntervals](#pitchsettointervals)
-- __[BinarySet](#binarySet-module)__ -  [allBinarySets](#binarysetallbinarysets), [toBinary](#binarysettobinary), [toIntervals](#binarysettointervals)
+- __[BinarySet](#binarySet-module)__ -  [binarySet](#binarysetbinaryset), [binarySets](#binarysetbinarysets), [toIntervals](#binarysettointervals)
 - __[Key](#key-module)__ -  [accidentals](#keyaccidentals), [alteredNotes](#keyalterednotes), [fromPitchSet](#keyfrompitchset), [keyNumber](#keykeynumber), [parse](#keyparse), [pitchSet](#keypitchset), [triads](#keytriads)
 - __[Fifths](#fifths-module)__ -  [byFifths](#fifthsbyfifths), [fifths](#fifthsfifths), [fifthsFrom](#fifthsfifthsfrom), [transpose](#fifthstranspose)
 
@@ -1678,46 +1678,15 @@ toIntervals(['C', 'D', 'Eb']) // => ['1P', '2M', '3m']
 Number of functions:  3
 
 ----
-###### binarySet/allBinarySets
+###### binarySet/binarySet
 
 
 
-#### allBinarySets() → {}
+#### binarySet(collection) → {String}
 
 
 
-Return all possible set binary numbers
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-
-
-__Returns:__
-
-Type|Description
----|---
-
-
-__Example:__
-
-
-[allBinarySets.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/allBinarySets.js)
-
-
-----
-###### binarySet/toBinary
-
-
-
-#### toBinary(intervals) → {String}
-
-
-
-Return the binary set representation of a collection of intervals
+Get the binary set number of a collection of pitches or intervals
 
 
 
@@ -1725,7 +1694,7 @@ __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`intervals`|Array,String|a collection of intervals
+`collection`|Array,String|a collection of pitches or intervals
 
 
 __Returns:__
@@ -1738,13 +1707,50 @@ String|a binary number
 __Example:__
 
 ```js
+toBinary('C D') // => '101000000000'
+toBinary('C4 D8') // => '101000000000'
 toBinary('1P 2M') // => '101000000000'
 toBinary('1P 9M') // => '101000000000'
 toBinary('1P 7M') // => '100000000001'
-toBinary('1P 8P') // => '100000000000'
 ```
 
-[toBinary.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/toBinary.js)
+[binarySet.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/binarySet.js)
+
+
+----
+###### binarySet/binarySets
+
+
+
+#### binarySets(filter) → {Array}
+
+
+
+Return all possible set binary set numbers
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`filter`|Function|(Optional) a filter function
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array of binary numbers. 2048 if no filter
+
+
+__Example:__
+
+```js
+binarySets() // => ['1000000000', '1000000001', ...]
+```
+
+[binarySets.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/binarySets.js)
 
 
 ----
