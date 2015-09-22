@@ -1,9 +1,10 @@
 [MASTER]
+- Chord tonics can be lowercase (revert previous change) and remove chord/parse
 - Rename scale/scaleNames to scale/scaleNames
 - Rename chord/allChords to chord/chordNames
 - Chord tonics must be uppercase
-- _internal/coerce was returining null in some cases and throwing exceptions
-in anothers. Now it just return null when something is not valid
+- _internal/coerce was returning null in some cases and throwing exceptions
+in others. Now it just return null when something is not valid
 - Rename scale/names to scale/allScales and chord/names to chord/allChords
 - Move binary set functions to its own module
 - Add precision to pitch/cents
