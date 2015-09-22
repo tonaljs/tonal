@@ -10,5 +10,8 @@ vows.describe('chord/chord').addBatch({
   'explicit tonic': function () {
     assert.deepEqual(chord('M', 'C'), ['C4', 'E4', 'G4'])
     assert.deepEqual(chord('Cm', 'D5'), ['D5', 'F5', 'A5'])
+  },
+  'ambiguous tonic': function () {
+    assert.deepEqual(chord('add9'), [ '1P', '3M', '5P', '2M' ])
   }
 }).export(module)
