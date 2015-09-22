@@ -10,5 +10,9 @@ vows.describe('scale/scale').addBatch({
   },
   'invalid scales': function () {
     assert.equal(scale('C blah'), null)
+  },
+  'tonic parameter': function () {
+    assert.deepEqual(scale('major', 'F#'), ['F#', 'G#', 'A#', 'B', 'C#', 'D#', 'E#'])
+    assert.deepEqual(scale('G minor', 'C'), ['C', 'D', 'Eb', 'F', 'G', 'Ab', 'Bb'])
   }
 }).export(module)

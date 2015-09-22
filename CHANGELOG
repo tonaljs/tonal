@@ -1,4 +1,5 @@
 [MASTER]
+- Remove scale/parse
 - Fix chord aliases
 - Chord tonics can be lowercase (revert previous change) and remove chord/parse
 - Rename scale/scaleNames to scale/scaleNames

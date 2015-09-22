@@ -143,6 +143,58 @@ fifths('A', 'D') // => 1
 fifths('C4', 'C2') // => 0</code></pre>
 </dd>
 <dt>
+<h4 class="name" id="fifthsFrom"><span class="type-signature"></span>fifthsFrom<span class="signature">(from)</span><span class="type-signature"> &rarr; {function}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Create a function to get fifths distance from a given note. Suited for
+using with arrays of notes</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>from</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the from note of the fifths distance</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/fifthsFrom.js">fifthsFrom.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/fifths/fifthsFrom.js#L16">lineno 16</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the functtion to calculate distances</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">function</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>['A', 'B', 'C'].map(fifthsFrom('G'))</code></pre>
+</dd>
+<dt>
 <h4 class="name" id="transpose"><span class="type-signature"></span>transpose<span class="signature">(pitchClass, number)</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>

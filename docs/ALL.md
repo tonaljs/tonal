@@ -8,12 +8,12 @@ __Index of modules__
 
 - __[Pitch](#pitch-module)__ (18 functions):  [alterToAcc](#pitchaltertoacc) [cents](#pitchcents) [enharmonic](#pitchenharmonic) [freq](#pitchfreq) [fromFreq](#pitchfromfreq) [fromKey](#pitchfromkey) [fromMidi](#pitchfrommidi) [interval](#pitchinterval) [intervalFrom](#pitchintervalfrom) [intervalTo](#pitchintervalto) [key](#pitchkey) [letter](#pitchletter) [midi](#pitchmidi) [octave](#pitchoctave) [pitch](#pitchpitch) [pitchClass](#pitchpitchclass) [props](#pitchprops) [transpose](#pitchtranspose)
 - __[Set](#set-module)__ (3 functions):  [genericSet](#setgenericset) [modes](#setmodes) [pitchSet](#setpitchset)
-- __[Scale](#scale-module)__ (7 functions):  [generic](#scalegeneric) [mode](#scalemode) [name](#scalename) [names](#scalenames) [parse](#scaleparse) [scale](#scalescale) [triad](#scaletriad)
-- __[Chord](#chord-module)__ (6 functions):  [chord](#chordchord) [fromScale](#chordfromscale) [intervals](#chordintervals) [name](#chordname) [names](#chordnames) [parse](#chordparse)
+- __[Scale](#scale-module)__ (6 functions):  [intervals](#scaleintervals) [mode](#scalemode) [name](#scalename) [scale](#scalescale) [scaleNames](#scalescalenames) [triad](#scaletriad)
+- __[Chord](#chord-module)__ (6 functions):  [chord](#chordchord) [chordNames](#chordchordnames) [deparse](#chorddeparse) [fromScale](#chordfromscale) [intervals](#chordintervals) [name](#chordname)
 - __[Interval](#interval-module)__ (9 functions):  [add](#intervaladd) [harmonize](#intervalharmonize) [interval](#intervalinterval) [invert](#intervalinvert) [isInterval](#intervalisinterval) [opposite](#intervalopposite) [props](#intervalprops) [semitones](#intervalsemitones) [simplify](#intervalsimplify)
 - __[Key](#key-module)__ (7 functions):  [accidentals](#keyaccidentals) [alteredNotes](#keyalterednotes) [fromPitchSet](#keyfrompitchset) [keyNumber](#keykeynumber) [parse](#keyparse) [pitchSet](#keypitchset) [triads](#keytriads)
 - __[Binary-set](#binary-set-module)__ (3 functions):  [allBinarySets](#binary-setallbinarysets) [genericSet](#binary-setgenericset) [toBinary](#binary-settobinary)
-- __[Fifths](#fifths-module)__ (3 functions):  [byFifths](#fifthsbyfifths) [fifths](#fifthsfifths) [transpose](#fifthstranspose)
+- __[Fifths](#fifths-module)__ (4 functions):  [byFifths](#fifthsbyfifths) [fifths](#fifthsfifths) [fifthsFrom](#fifthsfifthsfrom) [transpose](#fifthstranspose)
 
 ## Pitch module
 
@@ -847,18 +847,18 @@ pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']
 
 
 
-Number of functions:  7
+Number of functions:  6
 
 ----
-###### scale/generic
+###### scale/intervals
 
 
 
-#### generic(name) → {Array}
+#### intervals(name) → {Array}
 
 
 
-Get a generic scale (the intervals) from a scale name without tonic
+Get the intervals of a scale name (without tonic)
 
 
 
@@ -866,7 +866,7 @@ __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`name`|String|the scale name
+`name`|String|the scale name (without tonic)
 
 
 __Returns:__
@@ -879,10 +879,10 @@ Array|the intervals or null if not found
 __Example:__
 
 ```js
-generic('C major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
+generic('major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
 ```
 
-[generic.js](https://github.com/danigb/tonal/tree/master//lib/scale/generic.js)
+[intervals.js](https://github.com/danigb/tonal/tree/master//lib/scale/intervals.js)
 
 
 ----
@@ -959,15 +959,56 @@ name('C D E F G A B') // => 'C major'
 
 
 ----
-###### scale/names
+###### scale/scale
 
 
 
-#### names() → {Array}
+#### scale(name, tonic) → {Array}
 
 
 
-Get the known scale names
+Get the scale (pitch set) of a scale name
+
+If the scale name does not contains the tonic, a list of intervals is returned
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`name`|String|the scale name
+`tonic`|String|(Optional) the tonic
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array of intervals or notes (if tonic is present)
+
+
+__Example:__
+
+```js
+scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+scale('D diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
+scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']
+```
+
+[scale.js](https://github.com/danigb/tonal/tree/master//lib/scale/scale.js)
+
+
+----
+###### scale/scaleNames
+
+
+
+#### scaleNames() → {Array}
+
+
+
+Get all known scale names
 
 
 
@@ -990,87 +1031,7 @@ __Example:__
 names() => ['major', 'minor', ....]
 ```
 
-[names.js](https://github.com/danigb/tonal/tree/master//lib/scale/names.js)
-
-
-----
-###### scale/parse
-
-
-
-#### parse(scale) → {Object}
-
-
-
-Get the components of a scale name
-
-A scale name can have two components:
-- tonic: a pitch specifing the tonic
-- type: the scale type
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`scale`|String|the scale name (with optional tonic)
-
-
-__Returns:__
-
-Type|Description
----|---
-Object|the parsed scale name
-
-
-__Example:__
-
-```js
-parse('C major') // => { tonic: 'C', type: 'major' }
-```
-
-[parse.js](https://github.com/danigb/tonal/tree/master//lib/scale/parse.js)
-
-
-----
-###### scale/scale
-
-
-
-#### scale(name) → {Array}
-
-
-
-Get the scale (pitch set) of a scale name
-
-If the scale name does not contains the tonic, a list of intervals is returned
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`name`|String|the scale name
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|an array of intervals or notes (if tonic is present)
-
-
-__Example:__
-
-```js
-scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-scale('D diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
-scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']
-```
-
-[scale.js](https://github.com/danigb/tonal/tree/master//lib/scale/scale.js)
+[scaleNames.js](https://github.com/danigb/tonal/tree/master//lib/scale/scaleNames.js)
 
 
 ----
@@ -1157,6 +1118,85 @@ chord('7b5', 'Bb2')
 
 
 ----
+###### chord/chordNames
+
+
+
+#### chordNames() → {Array}
+
+
+
+Get all known scale names
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|array with all the known names
+
+
+__Example:__
+
+```js
+names() => ['major', 'minor', ....]
+```
+
+[chordNames.js](https://github.com/danigb/tonal/tree/master//lib/chord/chordNames.js)
+
+
+----
+###### chord/deparse
+
+
+
+#### deparse(chord) → {Object}
+
+
+
+Get the components of a chord name
+
+The returned object has the properties:
+
+- __tonic__: the tonic note or null if not specified
+- __type__: the chord type
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`chord`|String|the chord string to be parsed
+
+
+__Returns:__
+
+Type|Description
+---|---
+Object|the chord object
+
+
+__Example:__
+
+```js
+parse('C#Maj7') // => { tonic: 'C#', type: 'Maj7' }
+parse('7b5') // => { tonic: null, type: '7b5' }
+parse('c#Maj7') // => { tonic: null, type: 'c#Maj7' }
+parse('add9') // => { tonic: null, type: 'add9'}
+```
+
+[deparse.js](https://github.com/danigb/tonal/tree/master//lib/chord/deparse.js)
+
+
+----
 ###### chord/fromScale
 
 
@@ -1165,7 +1205,7 @@ chord('7b5', 'Bb2')
 
 
 
-Return all the chord names of a given scale
+Get the chord names that _fits_ a given scale
 
 
 
@@ -1183,6 +1223,9 @@ Type|Description
 
 __Example:__
 
+```js
+fromScale('C D E F G A B') // => ['CM', 'CMaj7']
+```
 
 [fromScale.js](https://github.com/danigb/tonal/tree/master//lib/chord/fromScale.js)
 
@@ -1252,83 +1295,6 @@ __Example:__
 
 
 [name.js](https://github.com/danigb/tonal/tree/master//lib/chord/name.js)
-
-
-----
-###### chord/names
-
-
-
-#### names() → {Array}
-
-
-
-
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|array with all the known names
-
-
-__Example:__
-
-```js
-names() => ['major', 'minor', ....]
-```
-
-[names.js](https://github.com/danigb/tonal/tree/master//lib/chord/names.js)
-
-
-----
-###### chord/parse
-
-
-
-#### parse(chord) → {Object}
-
-
-
-Get the components of a chord name
-
-The returned object has the properties:
-
-- __tonic__: the tonic note or null if not specified
-- __type__: the chord type
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`chord`|String|the chord string to be parsed
-
-
-__Returns:__
-
-Type|Description
----|---
-Object|the chord object
-
-
-__Example:__
-
-```js
-parse('C#Maj7') // => { tonic: 'C#', type: 'Maj7' }
-parse('7b5') // => { tonic: null, type: '7b5' }
-```
-
-[parse.js](https://github.com/danigb/tonal/tree/master//lib/chord/parse.js)
 
 
 
@@ -2088,7 +2054,7 @@ toBinary('1P 8P') // => '100000000000'
 
 
 
-Number of functions:  3
+Number of functions:  4
 
 ----
 ###### fifths/byFifths
@@ -2167,6 +2133,43 @@ fifths('C4', 'C2') // => 0
 ```
 
 [fifths.js](https://github.com/danigb/tonal/tree/master//lib/fifths/fifths.js)
+
+
+----
+###### fifths/fifthsFrom
+
+
+
+#### fifthsFrom(from) → {function}
+
+
+
+Create a function to get fifths distance from a given note. Suited for
+using with arrays of notes
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`from`|String|the from note of the fifths distance
+
+
+__Returns:__
+
+Type|Description
+---|---
+function|the functtion to calculate distances
+
+
+__Example:__
+
+```js
+['A', 'B', 'C'].map(fifthsFrom('G'))
+```
+
+[fifthsFrom.js](https://github.com/danigb/tonal/tree/master//lib/fifths/fifthsFrom.js)
 
 
 ----

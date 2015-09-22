@@ -27,6 +27,26 @@ names('D E F# G A B C#') // => ['D dorian']
 </div>
 <dl>
 <dt>
+<h4 class="name" id="generic"><span class="type-signature"></span>generic<span class="type-signature"></span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get the intervals of a scale name (without tonic)</p>
+</div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/intervals.js">intervals.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/intervals.js#L7">lineno 7</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>generic('major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']</code></pre>
+</dd>
+<dt>
 <h4 class="name" id="mode()"><span class="type-signature"></span>mode()<span class="type-signature"></span></h4>
 </dt>
 <dd>
@@ -47,19 +67,19 @@ names('D E F# G A B C#') // => ['D dorian']
 <pre class="prettyprint"><code>mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="names()"><span class="type-signature"></span>names()<span class="type-signature"></span></h4>
+<h4 class="name" id="scaleNames"><span class="type-signature"></span>scaleNames<span class="type-signature"></span></h4>
 </dt>
 <dd>
 <div class="description">
-<p>Get the known scale names</p>
+<p>Get all known scale names</p>
 </div>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/scale/names.js">names.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/scaleNames.js">scaleNames.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/scale/names.js#L7">lineno 7</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/scale/scaleNames.js#L7">lineno 7</a>
 </li>
 </ul></dd>
 </dl>
@@ -122,61 +142,7 @@ Type
 <pre class="prettyprint"><code>name('C D E F G A B') // => 'C major'</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="parse"><span class="type-signature"></span>parse<span class="signature">(scale)</span><span class="type-signature"> &rarr; {Object}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Get the components of a scale name</p>
-<p>A scale name can have two components:
-- tonic: a pitch specifing the tonic
-- type: the scale type</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>scale</code></td>
-<td class="type">
-<span class="param-type">String</span>
-</td>
-<td class="description last"><p>the scale name (with optional tonic)</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/scale/parse.js">parse.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/scale/parse.js#L18">lineno 18</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Returns:</h5>
-<div class="param-desc">
-<p>the parsed scale name</p>
-</div>
-<dl>
-<dt>
-Type
-</dt>
-<dd>
-<span class="param-type">Object</span>
-</dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>parse('C major') // => { tonic: 'C', type: 'major' }</code></pre>
-</dd>
-<dt>
-<h4 class="name" id="scale"><span class="type-signature"></span>scale<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+<h4 class="name" id="scale"><span class="type-signature"></span>scale<span class="signature">(name, tonic)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 </dt>
 <dd>
 <div class="description">
@@ -199,6 +165,13 @@ Type
 <span class="param-type">String</span>
 </td>
 <td class="description last"><p>the scale name</p></td>
+</tr>
+<tr>
+<td class="name"><code>tonic</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>(Optional) the tonic</p></td>
 </tr>
 </tbody>
 </table>
@@ -279,25 +252,6 @@ scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']</code></pr
 triad(scale('C major'), 5) // => ['C', 'E', 'G', 'B', 'D']</code></pre>
 </dd>
 </dl>
-</article>
-</section>
-</div><div class="jsdoc-githubify">
-<section>
-<article>
-<div class="container-overview">
-<div class="description"><p>Get a generic scale (the intervals) from a scale name without tonic</p></div>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/scale/generic.js">generic.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/scale/generic.js#L6">lineno 6</a>
-</li>
-</ul></dd>
-</dl>
-<pre class="prettyprint"><code>generic('C major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']</code></pre>
-</div>
 </article>
 </section>
 </div>

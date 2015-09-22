@@ -86,7 +86,7 @@ chord('7b5', 'Bb2')</code></pre>
 </dt>
 <dd>
 <div class="description">
-<p>Return all the chord names of a given scale</p>
+<p>Get the chord names that <em>fits</em> a given scale</p>
 </div>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
@@ -94,10 +94,12 @@ chord('7b5', 'Bb2')</code></pre>
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/chord/fromScale.js">fromScale.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/chord/fromScale.js#L11">lineno 11</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/fromScale.js#L13">lineno 13</a>
 </li>
 </ul></dd>
 </dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>fromScale('C D E F G A B') // => ['CM', 'CMaj7']</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="name"><span class="type-signature"></span>name<span class="signature">()</span><span class="type-signature"></span></h4>
@@ -152,9 +154,9 @@ chord('7b5', 'Bb2')</code></pre>
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/chord/parse.js">parse.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/deparse.js">deparse.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/chord/parse.js#L17">lineno 17</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/deparse.js#L19">lineno 19</a>
 </li>
 </ul></dd>
 </dl>
@@ -172,7 +174,9 @@ Type
 </dl>
 <h5>Example</h5>
 <pre class="prettyprint"><code>parse('C#Maj7') // => { tonic: 'C#', type: 'Maj7' }
-parse('7b5') // => { tonic: null, type: '7b5' }</code></pre>
+parse('7b5') // => { tonic: null, type: '7b5' }
+parse('c#Maj7') // => { tonic: null, type: 'c#Maj7' }
+parse('add9') // => { tonic: null, type: 'add9'}</code></pre>
 </dd>
 </dl>
 </article>
@@ -181,13 +185,14 @@ parse('7b5') // => { tonic: null, type: '7b5' }</code></pre>
 <section>
 <article>
 <div class="container-overview">
+<div class="description"><p>Get all known scale names</p></div>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/chord/names.js">names.js</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/chordNames.js">chordNames.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/chord/names.js#L7">lineno 7</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/chord/chordNames.js#L7">lineno 7</a>
 </li>
 </ul></dd>
 </dl>
