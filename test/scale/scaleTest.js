@@ -8,6 +8,9 @@ vows.describe('scale/scale').addBatch({
     assert.deepEqual(scale('C minor'), ['C', 'D', 'Eb', 'F', 'G', 'Ab', 'Bb'])
     assert.deepEqual(scale('F# major'), ['F#', 'G#', 'A#', 'B', 'C#', 'D#', 'E#'])
   },
+  'scale intervals': function () {
+    assert.deepEqual(scale('dorian b2'), ['1P', '2m', '3m', '4P', '5P', '6M', '7M'])
+  },
   'invalid scales': function () {
     assert.equal(scale('C blah'), null)
   },

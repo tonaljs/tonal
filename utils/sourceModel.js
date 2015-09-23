@@ -4,7 +4,7 @@ var dox = require('dox')
 var GITHUB = 'https://github.com/danigb/tonal/tree/master/'
 
 module.exports = function (lib, modules) {
-  var sources = { modules: modules, ordered: [], byModule: {} }
+  var sources = { modules: modules, ordered: [], byModule: {}, readmes: {} }
 
   modules.forEach(function (module) {
     sources.byModule[module] = []
@@ -17,7 +17,12 @@ module.exports = function (lib, modules) {
     })
   })
   sources.ordered.sort(sorter('name'))
+
   modules.forEach(function (module) {
+    var moduleDoc = lib + '/' + module + '/README.md'
+    if (fs.existsSync(moduleDoc)) {
+      sources.readmes[module] = fs.readFileSync(moduleDoc, null).toString()
+    }
     sources.byModule[module].sort(sorter('name'))
   })
 

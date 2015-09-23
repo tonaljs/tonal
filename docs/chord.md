@@ -151,65 +151,6 @@ Type
 </ul></dd>
 </dl>
 </dd>
-<dt>
-<h4 class="name" id="parse"><span class="type-signature"></span>parse<span class="signature">(chord)</span><span class="type-signature"> &rarr; {Object}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Get the components of a chord name</p>
-<p>The returned object has the properties:</p>
-<ul>
-<li><strong>tonic</strong>: the tonic note or null if not specified</li>
-<li><strong>type</strong>: the chord type</li>
-</ul>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>chord</code></td>
-<td class="type">
-<span class="param-type">String</span>
-</td>
-<td class="description last"><p>the chord string to be parsed</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/chord/deparse.js">deparse.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/chord/deparse.js#L19">lineno 19</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Returns:</h5>
-<div class="param-desc">
-<p>the chord object</p>
-</div>
-<dl>
-<dt>
-Type
-</dt>
-<dd>
-<span class="param-type">Object</span>
-</dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>parse('C#Maj7') // => { tonic: 'C#', type: 'Maj7' }
-parse('7b5') // => { tonic: null, type: '7b5' }
-parse('c#Maj7') // => { tonic: null, type: 'c#Maj7' }
-parse('add9') // => { tonic: null, type: 'add9'}</code></pre>
-</dd>
 </dl>
 </article>
 </section>

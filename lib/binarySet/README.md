@@ -1,6 +1,8 @@
-## Binary set module
+# Binary set module
 
-This is a implementation of binary scales as presented in the awesome book [Arpeggio & Scale Resources](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia) by Rich Cochrane, chapter 18.
+A binary set is a 12 digit binary number that represents a pitch class set.
+
+The first time I've read about it was in the awesome book [Arpeggio & Scale Resources](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia) by Rich Cochrane, chapter 18.
 
 The following explanation is extracted from the book. (The book has a Creative Commons Usage Attribution-Noncommercial-No Derivative Works 3.0... thanks a lot Rich!)
 
@@ -11,7 +13,7 @@ The following explanation is extracted from the book. (The book has a Creative C
 1  b2   2  b3   3   4   b5   5  b6   6  b7   7
 ```
 
-### Why 2048 scales?
+### 2048 scales
 
 All the scales have root, so the smallest scale is '100000000000' (2048) and
 the biggest is '111111111111' (4095), so the total number is 2048 (4096 - 2048)

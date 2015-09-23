@@ -8,7 +8,7 @@ __Index of modules__
 
 - __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitch](#pitchpitch), [pitchClass](#pitchpitchclass), [props](#pitchprops), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
 - __[Scale](#scale-module)__ -  [intervals](#scaleintervals), [mode](#scalemode), [name](#scalename), [scale](#scalescale), [scaleNames](#scalescalenames), [triad](#scaletriad)
-- __[Chord](#chord-module)__ -  [chord](#chordchord), [chordNames](#chordchordnames), [deparse](#chorddeparse), [fromScale](#chordfromscale), [intervals](#chordintervals), [name](#chordname)
+- __[Chord](#chord-module)__ -  [chord](#chordchord), [chordNames](#chordchordnames), [fromScale](#chordfromscale), [intervals](#chordintervals), [name](#chordname)
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [harmonize](#intervalharmonize), [interval](#intervalinterval), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
 - __[PitchSet](#pitchset-module)__ -  [modes](#pitchsetmodes), [pitchSet](#pitchsetpitchset), [toIntervals](#pitchsettointervals)
 - __[BinarySet](#binaryset-module)__ -  [binarySet](#binarysetbinaryset), [binarySets](#binarysetbinarysets), [toIntervals](#binarysettointervals)
@@ -22,43 +22,34 @@ __Index of modules__
 [Back to top](#tonal-functions)
 
 
+
+
+This is the building block of tonal. Pitches are just strings in scientific notation. You can create it from midi numbers or frequencies (and reverse), query for its properties, transpose them or find interval distances. Almost everything you need from pitches is here.
+
+### Function list
+
 - [alterToAcc](#pitchaltertoacc) -  Get the accidentals from an alteration number
-
 - [cents](#pitchcents) -  Get the distance in cents between pitches or frequencies
-
 - [enharmonic](#pitchenharmonic) -  Get the enharmonic of a pitch with a given step
-
 - [fromFreq](#pitchfromfreq) -  Given a frequency, get the pitch. It will round the frequency to the nearest pitch frequency
-
 - [fromKey](#pitchfromkey) -  Get the pitch of the given piano key number
-
 - [fromMidi](#pitchfrommidi) -  Get the pitch of the given midi number
-
 - [interval](#pitchinterval) -  Get the interval between two pitches
-
 - [intervalFrom](#pitchintervalfrom) -  Partial apply `picth/interval` to return a interval from a pitch
-
 - [intervalTo](#pitchintervalto) -  Partial apply `picth/interval` to return a interval to a pitch
-
 - [letter](#pitchletter) -  Get the letter of a pitch (and optionally move a number of steps)
-
 - [octave](#pitchoctave) -  Get the octave of a pitch
-
 - [pitch](#pitchpitch) -  Get the scientific notation of a pitch (and optionally change its octave and alteration)
-
 - [pitchClass](#pitchpitchclass) -  Get the [pitchClass](https://en.wikipedia.org/wiki/Pitch_class) of a pitch
-
 - [props](#pitchprops) -  Get pitch properties
-
 - [toFreq](#pitchtofreq) -  Get the pitch frequency in hertzs
-
 - [toKey](#pitchtokey) -  Get the key number from a pitch
-
 - [toMidi](#pitchtomidi) -  Get the midi of a pitch
-
 - [transpose](#pitchtranspose) -  Transpose a pitch by an interval
 
 
+
+### API
 
 ----
 ###### [pitch/alterToAcc](#pitch-module)
@@ -808,19 +799,30 @@ Test:  [pitch/transposeTest.js](https://github.com/danigb/tonal/tree/master//tes
 [Back to top](#tonal-functions)
 
 
+
+
+A scale is a set of consecutive pitch classes.
+
+Tonal provides a big dictionary of scales (108 at this moment) mapped to its names. The main function of this module is `scale/scale` to obtain scale notes or intervals:
+
+```js
+var scale = require('tonal/scale/scale')
+scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
+```
+
+### Function list
+
 - [intervals](#scaleintervals) -  Get the intervals of a scale name (without tonic)
-
 - [mode](#scalemode) -  Get the mode of a scale
-
 - [name](#scalename) -  Given a scale notes return the scale name (if any)
-
 - [scale](#scalescale) -  Get the scale (pitch set) of a scale name
-
 - [scaleNames](#scalescalenames) -  Get all known scale names
-
 - [triad](#scaletriad) -  Get a triad from a set starting from the first note, a simplistic implementation.
 
 
+
+### API
 
 ----
 ###### [scale/intervals](#scale-module)
@@ -1064,19 +1066,23 @@ Test:  [scale/triadTest.js](https://github.com/danigb/tonal/tree/master//test/sc
 [Back to top](#tonal-functions)
 
 
+# Chord module
+
+Create chords by name and detect a chord by its pitches.
+
+It uses a big .json dataset to get the chord intervals from the name.
+
+### Function list
+
 - [chord](#chordchord) -  Get chord notes or intervals by its type and (optionally) tonic pitch
-
 - [chordNames](#chordchordnames) -  Get all known scale names
-
-- [deparse](#chorddeparse) -  Get the components of a chord name
-
 - [fromScale](#chordfromscale) -  Get the chord names that _fits_ a given scale
-
 - [intervals](#chordintervals) -  Get the intervals of a chord name
-
 - [name](#chordname) -  Get the chord name(s) of a given pitches
 
 
+
+### API
 
 ----
 ###### [chord/chord](#chord-module)
@@ -1154,52 +1160,6 @@ names() => ['major', 'minor', ....]
 Source:  [chord/chordNames.js](https://github.com/danigb/tonal/tree/master//lib/chord/chordNames.js)
 
 Test:  [chord/chordNamesTest.js](https://github.com/danigb/tonal/tree/master//test/chord/chordNamesTest.js)
-
-
-----
-###### [chord/deparse](#chord-module)
-
-
-
-#### deparse(chord) → {Object}
-
-
-
-Get the components of a chord name
-
-The returned object has the properties:
-
-- __tonic__: the tonic note or null if not specified
-- __type__: the chord type
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`chord`|String|the chord string to be parsed
-
-
-__Returns:__
-
-Type|Description
----|---
-Object|the chord object
-
-
-__Example:__
-
-```js
-parse('C#Maj7') // => { tonic: 'C#', type: 'Maj7' }
-parse('7b5') // => { tonic: null, type: '7b5' }
-parse('c#Maj7') // => { tonic: null, type: 'c#Maj7' }
-parse('add9') // => { tonic: null, type: 'add9'}
-```
-
-Source:  [chord/deparse.js](https://github.com/danigb/tonal/tree/master//lib/chord/deparse.js)
-
-Test:  [chord/deparseTest.js](https://github.com/danigb/tonal/tree/master//test/chord/deparseTest.js)
 
 
 ----
@@ -1317,25 +1277,27 @@ Test:  [chord/nameTest.js](https://github.com/danigb/tonal/tree/master//test/cho
 [Back to top](#tonal-functions)
 
 
+
+
+Create and manipulate intervals. An interval in tonal is a string in the form: [direction+]number+quality. `'1P'` and `-9m` are valid intervals.
+
+You can get the interval properties with `interval/props` and manipulate in the standard ways: add two intervals, simplify intervals, get opposite...
+
+### Function list
+
 - [add](#intervaladd) -  Add two intervals
-
 - [harmonize](#intervalharmonize) -  Given a collection of intervals, and a tonic create a collection of pitches
-
 - [interval](#intervalinterval) -  Get an interval properties from a string or a number, and optionally a quality and octave.
-
 - [invert](#intervalinvert) -  Get the [inversion](https://en.wikipedia.org/wiki/Interval_(music)#Inversion) of an interval.
-
 - [isInterval](#intervalisinterval) -  Test if a string is a valid interval
-
 - [opposite](#intervalopposite) -  Get the opposite of an interval
-
 - [props](#intervalprops) -  Get interval properties
-
 - [semitones](#intervalsemitones) -  Get the semitones of a interval
-
 - [simplify](#intervalsimplify) -  Simplify an interval
 
 
+
+### API
 
 ----
 ###### [interval/add](#interval-module)
@@ -1727,13 +1689,21 @@ Test:  [interval/simplifyTest.js](https://github.com/danigb/tonal/tree/master//t
 [Back to top](#tonal-functions)
 
 
+
+
+A module to create and manipulate pitch class sets. A pitch class set is a collection of pitch classes, where they can't be repeated.
+
+Some tonal functions (like scales, for example) uses pitch sets.
+
+### Function list
+
 - [modes](#pitchsetmodes) -  Return all modes of a pitch set
-
 - [pitchSet](#pitchsetpitchset) -  Create a pitch class set from a collection of pitches.
-
 - [toIntervals](#pitchsettointervals) -  Get the intervals of a pitch set
 
 
+
+### API
 
 ----
 ###### [pitchSet/modes](#pitchset-module)
@@ -1861,13 +1831,40 @@ Test:  [pitchSet/toIntervalsTest.js](https://github.com/danigb/tonal/tree/master
 [Back to top](#tonal-functions)
 
 
+
+
+A binary set is a 12 digit binary number that represents a pitch class set.
+
+The first time I've read about it was in the awesome book [Arpeggio & Scale Resources](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia) by Rich Cochrane, chapter 18.
+
+The following explanation is extracted from the book. (The book has a Creative Commons Usage Attribution-Noncommercial-No Derivative Works 3.0... thanks a lot Rich!)
+
+> The major scale is `1 0 1 0 1 1 0 1 0 1 0 1`. This number (2773 in decimal) uniquely represents the Major scale. The method of representation is simple: each position, reading left to right, represents a note: 1, b2, 2 and so on. A `1` in that position means the note is included in the scale and a `0` means it is not included. So we have:
+
+```
+1   0   1   0   1   1    0   1   0   1   0   1
+1  b2   2  b3   3   4   b5   5  b6   6  b7   7
+```
+
+### 2048 scales
+
+All the scales have root, so the smallest scale is '100000000000' (2048) and
+the biggest is '111111111111' (4095), so the total number is 2048 (4096 - 2048)
+
+The way to get them all is with the function [`binary-set/allBinarySets`](#binarysetallbinarysets).
+
+Most of they are not interesting enough to be used in music.
+For example, at [allthescales.org site](http://allthescales.org) they limit all the possibilities to those with leap < 5 (1490)
+
+### Function list
+
 - [binarySet](#binarysetbinaryset) -  Get the binary set number of a collection of pitches or intervals
-
 - [binarySets](#binarysetbinarysets) -  Return all possible set binary set numbers
-
 - [toIntervals](#binarysettointervals) -  Convert a binary set number to an intervals collection
 
 
+
+### API
 
 ----
 ###### [binarySet/binarySet](#binaryset-module)
@@ -1996,21 +1993,23 @@ Test:  [binarySet/toIntervalsTest.js](https://github.com/danigb/tonal/tree/maste
 [Back to top](#tonal-functions)
 
 
+
+
+At this moment, this module is a work in progress.
+
+### Function list
+
 - [accidentals](#keyaccidentals) -  Given a key (number) returns the accidentals
-
 - [alteredNotes](#keyalterednotes) -  Given a key, return the altered pitches
-
 - [fromPitchSet](#keyfrompitchset) -  Given a pitch set, return its key
-
 - [keyNumber](#keykeynumber) -  Get the key number (the number of sharps or flats) of a key
-
 - [parse](#keyparse) -  Get the components of a key name
-
 - [pitchSet](#keypitchset) -  Get the pitch class set from a key.
-
 - [triads](#keytriads) -  Get the triads of
 
 
+
+### API
 
 ----
 ###### [key/accidentals](#key-module)
@@ -2294,15 +2293,29 @@ Test:  [key/triadsTest.js](https://github.com/danigb/tonal/tree/master//test/key
 [Back to top](#tonal-functions)
 
 
+
+
+Generate line or cycle of fifths, and calculate distances in fifths
+
+```js
+var distance = require('tonal/fifths/distance')
+distance('F', 'C') // => -1
+```
+
+## Resources
+
+- The line of fifths by David Temperley: http://www.theory.esm.rochester.edu/temperley/papers/temperley-ma00.pdf
+
+### Function list
+
 - [byFifths](#fifthsbyfifths) -  Get a comparator function to sort a collection of pitch classes
-
 - [fifths](#fifthsfifths) -  Return the number of fifths between two pitch classes.
-
 - [fifthsFrom](#fifthsfifthsfrom) -  Create a function to get fifths distance from a given note.
-
 - [transpose](#fifthstranspose) -  Transpose a pitch class by a number of fifths
 
 
+
+### API
 
 ----
 ###### [fifths/byFifths](#fifths-module)
@@ -2463,6 +2476,3 @@ transpose('C5', -2) // => 'Bb'
 Source:  [fifths/transpose.js](https://github.com/danigb/tonal/tree/master//lib/fifths/transpose.js)
 
 Test:  [fifths/transposeTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/transposeTest.js)
-
-
-

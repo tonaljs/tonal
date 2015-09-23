@@ -5,6 +5,10 @@ function linkToModule (module) {
   return '#' + module.toLowerCase() + '-module'
 }
 
+function mdReadme (readme) {
+  return readme ? readme.replace(/^# .*/m, '') : ''
+}
+
 module.exports = function (sources) {
   function mdModule (module) {
     var files = sources.byModule[module]
@@ -13,8 +17,11 @@ module.exports = function (sources) {
       MD.line(),
       MD.link('Back to top', '#tonal-functions'),
       MD.line(),
-      files.map(mdFunctionSummary),
+      mdReadme(sources.readmes[module]),
+      MD.h3('Function list'),
+      files.map(mdFunctionSummary).join(''),
       MD.line(),
+      MD.h3('API'),
       files.map(mdFunction)
     )
   }
