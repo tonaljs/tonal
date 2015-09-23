@@ -59,26 +59,6 @@ interval('C', 'D') // => '2M'
 </div>
 <dl>
 <dt>
-<h4 class="name" id="midi"><span class="type-signature"></span>midi<span class="type-signature"></span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Get the midi of a pitch</p>
-</div>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/midi.js">midi.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/midi.js#L5">lineno 5</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>midi('a4') // => 69</code></pre>
-</dd>
-<dt>
 <h4 class="name" id="octave"><span class="type-signature"></span>octave<span class="type-signature"></span></h4>
 </dt>
 <dd>
@@ -117,6 +97,26 @@ interval('C', 'D') // => '2M'
 </dl>
 <h5>Example</h5>
 <pre class="prettyprint"><code>pitchClass('a4') // => 69</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="toMidi"><span class="type-signature"></span>toMidi<span class="type-signature"></span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get the midi of a pitch</p>
+</div>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/toMidi.js">toMidi.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/toMidi.js#L5">lineno 5</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>toMidi('a4') // => 69</code></pre>
 </dd>
 </dl>
 <dl>
@@ -278,67 +278,6 @@ Type
 <h5>Example</h5>
 <pre class="prettyprint"><code>enharmonic('C#4', 'D') // => 'Db4'
 enharmonic('B#', 'C') // => 'C'</code></pre>
-</dd>
-<dt>
-<h4 class="name" id="freq"><span class="type-signature"></span>freq<span class="signature">(pitch, tuning)</span><span class="type-signature"> &rarr; {Float}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Get the pitch frequency in hertzs</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>pitch</code></td>
-<td class="type">
-<span class="param-type">String</span>
-</td>
-<td class="description last"><p>the pitch</p></td>
-</tr>
-<tr>
-<td class="name"><code>tuning</code></td>
-<td class="type">
-<span class="param-type">Integer</span>
-</td>
-<td class="description last"><p>optional tuning, 440 by default</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/freq.js">freq.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/freq.js#L16">lineno 16</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Returns:</h5>
-<div class="param-desc">
-<ul>
-<li>the pitch frequency</li>
-</ul>
-</div>
-<dl>
-<dt>
-Type
-</dt>
-<dd>
-<span class="param-type">Float</span>
-</dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>freq('A4') // => 440
-freq('A3', 444) // => 222</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="fromFreq"><span class="type-signature"></span>fromFreq<span class="signature">(freq)</span><span class="type-signature"> &rarr; {String}</span></h4>
@@ -678,57 +617,6 @@ Type
 <pre class="prettyprint"><code>['C', 'D', 'E'].map(intervalTo('E')) // => ['3M', '2M', '1P']</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="key"><span class="type-signature"></span>key<span class="signature">(pitch)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
-</dt>
-<dd>
-<div class="description">
-<p>Get the key number from a pitch</p>
-</div>
-<h5>Parameters:</h5>
-<table class="params">
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th class="last">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="name"><code>pitch</code></td>
-<td class="type">
-<span class="param-type">String</span>
-</td>
-<td class="description last"><p>the pitch</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="details">
-<dt class="tag-source">Source:</dt>
-<dd class="tag-source"><ul class="dummy">
-<li>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/key.js">key.js</a>
-<span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/key.js#L13">lineno 13</a>
-</li>
-</ul></dd>
-</dl>
-<h5>Returns:</h5>
-<div class="param-desc">
-<p>the key number</p>
-</div>
-<dl>
-<dt>
-Type
-</dt>
-<dd>
-<span class="param-type">Integer</span>
-</dd>
-</dl>
-<h5>Example</h5>
-<pre class="prettyprint"><code>key(49) // => 'A4'</code></pre>
-</dd>
-<dt>
 <h4 class="name" id="letter"><span class="type-signature"></span>letter<span class="signature">()</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
@@ -891,6 +779,118 @@ Type
 </dl>
 <h5>Example</h5>
 <pre class="prettyprint"><code>props('C#2') // => { }</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="toFreq"><span class="type-signature"></span>toFreq<span class="signature">(pitch, tuning)</span><span class="type-signature"> &rarr; {Float}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get the pitch frequency in hertzs</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>pitch</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the pitch</p></td>
+</tr>
+<tr>
+<td class="name"><code>tuning</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>optional tuning, 440 by default</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/toFreq.js">toFreq.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/toFreq.js#L16">lineno 16</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<ul>
+<li>the pitch frequency</li>
+</ul>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Float</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>toFreq('A4') // => 440
+toFreq('A3', 444) // => 222</code></pre>
+</dd>
+<dt>
+<h4 class="name" id="toKey"><span class="type-signature"></span>toKey<span class="signature">(pitch)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+</dt>
+<dd>
+<div class="description">
+<p>Get the key number from a pitch</p>
+</div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>pitch</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the pitch</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="details">
+<dt class="tag-source">Source:</dt>
+<dd class="tag-source"><ul class="dummy">
+<li>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/toKey.js">toKey.js</a>
+<span>, </span>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/toKey.js#L13">lineno 13</a>
+</li>
+</ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>the key number</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">Integer</span>
+</dd>
+</dl>
+<h5>Example</h5>
+<pre class="prettyprint"><code>toKey(49) // => 'A4'</code></pre>
 </dd>
 <dt>
 <h4 class="name" id="transpose"><span class="type-signature"></span>transpose<span class="signature">(pitch, interval)</span><span class="type-signature"> &rarr; {String}</span></h4>

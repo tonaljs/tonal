@@ -6,7 +6,7 @@ A list of [all functions](https://github.com/danigb/tonal/tree/master//docs/INDE
 
 __Index of modules__
 
-- __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [freq](#pitchfreq), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [key](#pitchkey), [letter](#pitchletter), [midi](#pitchmidi), [octave](#pitchoctave), [pitch](#pitchpitch), [pitchClass](#pitchpitchclass), [props](#pitchprops), [transpose](#pitchtranspose)
+- __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitch](#pitchpitch), [pitchClass](#pitchpitchclass), [props](#pitchprops), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
 - __[Scale](#scale-module)__ -  [intervals](#scaleintervals), [mode](#scalemode), [name](#scalename), [scale](#scalescale), [scaleNames](#scalescalenames), [triad](#scaletriad)
 - __[Chord](#chord-module)__ -  [chord](#chordchord), [chordNames](#chordchordnames), [deparse](#chorddeparse), [fromScale](#chordfromscale), [intervals](#chordintervals), [name](#chordname)
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [harmonize](#intervalharmonize), [interval](#intervalinterval), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
@@ -28,8 +28,6 @@ __Index of modules__
 
 - [enharmonic](#pitchenharmonic) -  Get the enharmonic of a pitch with a given step
 
-- [freq](#pitchfreq) -  Get the pitch frequency in hertzs
-
 - [fromFreq](#pitchfromfreq) -  Given a frequency, get the pitch. It will round the frequency to the nearest pitch frequency
 
 - [fromKey](#pitchfromkey) -  Get the pitch of the given piano key number
@@ -42,11 +40,7 @@ __Index of modules__
 
 - [intervalTo](#pitchintervalto) -  Partial apply `picth/interval` to return a interval to a pitch
 
-- [key](#pitchkey) -  Get the key number from a pitch
-
 - [letter](#pitchletter) -  Get the letter of a pitch (and optionally move a number of steps)
-
-- [midi](#pitchmidi) -  Get the midi of a pitch
 
 - [octave](#pitchoctave) -  Get the octave of a pitch
 
@@ -55,6 +49,12 @@ __Index of modules__
 - [pitchClass](#pitchpitchclass) -  Get the [pitchClass](https://en.wikipedia.org/wiki/Pitch_class) of a pitch
 
 - [props](#pitchprops) -  Get pitch properties
+
+- [toFreq](#pitchtofreq) -  Get the pitch frequency in hertzs
+
+- [toKey](#pitchtokey) -  Get the key number from a pitch
+
+- [toMidi](#pitchtomidi) -  Get the midi of a pitch
 
 - [transpose](#pitchtranspose) -  Transpose a pitch by an interval
 
@@ -180,46 +180,6 @@ enharmonic('B#', 'C') // => 'C'
 Source:  [pitch/enharmonic.js](https://github.com/danigb/tonal/tree/master//lib/pitch/enharmonic.js)
 
 Test:  [pitch/enharmonicTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/enharmonicTest.js)
-
-
-----
-###### [pitch/freq](#pitch-module)
-
-
-
-#### freq(pitch, tuning) → {Float}
-
-
-
-Get the pitch frequency in hertzs
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`pitch`|String|the pitch
-`tuning`|Integer|optional tuning, 440 by default
-
-
-__Returns:__
-
-Type|Description
----|---
-Float|- the pitch frequency
-
-
-__Example:__
-
-```js
-freq('A4') // => 440
-freq('A3', 444) // => 222
-```
-
-Source:  [pitch/freq.js](https://github.com/danigb/tonal/tree/master//lib/pitch/freq.js)
-
-Test:  [pitch/freqTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/freqTest.js)
 
 
 ----
@@ -465,44 +425,6 @@ Test:  [pitch/intervalToTest.js](https://github.com/danigb/tonal/tree/master//te
 
 
 ----
-###### [pitch/key](#pitch-module)
-
-
-
-#### key(pitch) → {Integer}
-
-
-
-Get the key number from a pitch
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`pitch`|String|the pitch
-
-
-__Returns:__
-
-Type|Description
----|---
-Integer|the key number
-
-
-__Example:__
-
-```js
-key(49) // => 'A4'
-```
-
-Source:  [pitch/key.js](https://github.com/danigb/tonal/tree/master//lib/pitch/key.js)
-
-Test:  [pitch/keyTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/keyTest.js)
-
-
-----
 ###### [pitch/letter](#pitch-module)
 
 
@@ -539,44 +461,6 @@ letter('c', 2) // => 'E'
 Source:  [pitch/letter.js](https://github.com/danigb/tonal/tree/master//lib/pitch/letter.js)
 
 Test:  [pitch/letterTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/letterTest.js)
-
-
-----
-###### [pitch/midi](#pitch-module)
-
-
-
-#### midi(pitch) → {Interger}
-
-
-
-Get the midi of a pitch
-
-
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`pitch`|String|the pitch to get the midi number from
-
-
-__Returns:__
-
-Type|Description
----|---
-Interger|the midi number or null if not a valid pitch
-
-
-__Example:__
-
-```js
-midi('a4') // => 69
-```
-
-Source:  [pitch/midi.js](https://github.com/danigb/tonal/tree/master//lib/pitch/midi.js)
-
-Test:  [pitch/midiTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/midiTest.js)
 
 
 ----
@@ -753,6 +637,122 @@ props('C#2') // => { }
 Source:  [pitch/props.js](https://github.com/danigb/tonal/tree/master//lib/pitch/props.js)
 
 Test:  [pitch/propsTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/propsTest.js)
+
+
+----
+###### [pitch/toFreq](#pitch-module)
+
+
+
+#### toFreq(pitch, tuning) → {Float}
+
+
+
+Get the pitch frequency in hertzs
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`pitch`|String|the pitch
+`tuning`|Integer|optional tuning, 440 by default
+
+
+__Returns:__
+
+Type|Description
+---|---
+Float|- the pitch frequency
+
+
+__Example:__
+
+```js
+toFreq('A4') // => 440
+toFreq('A3', 444) // => 222
+```
+
+Source:  [pitch/toFreq.js](https://github.com/danigb/tonal/tree/master//lib/pitch/toFreq.js)
+
+Test:  [pitch/toFreqTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/toFreqTest.js)
+
+
+----
+###### [pitch/toKey](#pitch-module)
+
+
+
+#### toKey(pitch) → {Integer}
+
+
+
+Get the key number from a pitch
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`pitch`|String|the pitch
+
+
+__Returns:__
+
+Type|Description
+---|---
+Integer|the key number
+
+
+__Example:__
+
+```js
+toKey(49) // => 'A4'
+```
+
+Source:  [pitch/toKey.js](https://github.com/danigb/tonal/tree/master//lib/pitch/toKey.js)
+
+Test:  [pitch/toKeyTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/toKeyTest.js)
+
+
+----
+###### [pitch/toMidi](#pitch-module)
+
+
+
+#### toMidi(pitch) → {Interger}
+
+
+
+Get the midi of a pitch
+
+
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`pitch`|String|the pitch to get the midi number from
+
+
+__Returns:__
+
+Type|Description
+---|---
+Interger|the midi number or null if not a valid pitch
+
+
+__Example:__
+
+```js
+toMidi('a4') // => 69
+```
+
+Source:  [pitch/toMidi.js](https://github.com/danigb/tonal/tree/master//lib/pitch/toMidi.js)
+
+Test:  [pitch/toMidiTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/toMidiTest.js)
 
 
 ----

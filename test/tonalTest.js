@@ -7,9 +7,9 @@ vows.describe('tonal').addBatch({
     assert.equal(tonal.pitch('ebb2'), 'Ebb2')
     assert.equal(tonal.octave('bb3'), 3)
     assert.equal(tonal.pitchClass('bb3'), 'Bb')
-    assert.equal(tonal.midi('bb3'), 58)
+    assert.equal(tonal.toMidi('bb3'), 58)
     assert.equal(tonal.fromMidi(87), 'Eb6')
-    assert.equal(tonal.freq('Eb6'), 1244.5079348883237)
+    assert.equal(tonal.toFreq('Eb6'), 1244.5079348883237)
   },
   'scales': function () {
     assert.deepEqual(tonal.scale('Bb dorian'), ['Bb', 'C', 'Db', 'Eb', 'F', 'G', 'Ab'])
