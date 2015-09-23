@@ -7,18 +7,28 @@ function linkToModule (module) {
 
 module.exports = function (sources) {
   function mdModule (module) {
+    var files = sources.byModule[module]
     return MD.lines(
       MD.h2(_.capitalize(module + ' module')),
       MD.line(),
-      MD.line('Number of functions: ', sources.byModule[module].length),
-      sources.byModule[module].map(mdFunction).join('\n')
+      MD.link('Back to top', '#tonal-functions'),
+      MD.line(),
+      files.map(mdFunctionSummary),
+      MD.line(),
+      files.map(mdFunction)
     )
+  }
+
+  function mdFunctionSummary (src) {
+    var summary = src.jsdoc.description.summary.replace('\n', ' ')
+    return MD.li(mdFunctionLink(src), '- ', summary)
   }
 
   function mdFunction (src) {
     var examples = src.findTags('example')
     var example = examples.length ? examples[0]['string'] : ''
     var source = sources.repo('lib', src.module, src.name + '.js')
+    var test = sources.repo('test', src.module, src.name + 'Test.js')
 
     return MD.lines(
       MD.separator(),
@@ -41,7 +51,8 @@ module.exports = function (sources) {
       MD.line(),
       MD.line(MD.bold('Example:')),
       MD.code(example, 'js'),
-      MD.line(MD.link(src.name + '.js', source))
+      MD.line('Source: ', MD.link(src.module + '/' + src.name + '.js', source)),
+      MD.line('Test: ', MD.link(src.module + '/' + src.name + 'Test.js', test))
     )
   }
 
@@ -69,11 +80,11 @@ module.exports = function (sources) {
     return MD.li(
       MD.bold(MD.link(_.capitalize(module), linkToModule(module))),
       '- ',
-      files.map(mdFuncItem).join(', ')
+      files.map(mdFunctionLink).join(', ')
     )
   }
 
-  function mdFuncItem (src) {
+  function mdFunctionLink (src) {
     return MD.link(src.name, ('#' + src.module + src.name).toLowerCase())
   }
 
