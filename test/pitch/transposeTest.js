@@ -8,6 +8,7 @@ vows.describe('pitch/transpose').addBatch({
     assert.equal(transpose('F4', '-5P'), 'Bb3')
     assert.equal(transpose('E4', '2M'), 'F#4')
     assert.equal(transpose('F4', '-2M'), 'Eb4')
+    assert.equal(transpose('B#2', '5P'), 'F##3')
   },
   'transpose simple intervals': function () {
     var intervals = '1P 2M 3M 4P 5P 6M 7M 8P'.split(' ')

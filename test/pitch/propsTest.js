@@ -39,13 +39,15 @@ vows.describe('pitch/props').addBatch({
   },
   'pitch props chroma': function () {
     assert.deepEqual(pluck('chroma', 'C C# D D# E F F# G G# A A# B B#'),
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0])
     assert.deepEqual(pluck('chroma', 'Cb C Db D Eb E F Gb G Ab A Bb B'),
-      [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+      [11, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
     // edge cases
     assert.equal(props('Bb').chroma, 10)
     assert.equal(props('Bbb').chroma, 9)
     assert.equal(props('bbb').chroma, 9)
+    assert.equal(props('B#').chroma, 0)
+    assert.equal(props('B##').chroma, 1)
   },
   'invalid pitch propss': function () {
     assert.equal(props('blah'), null)
