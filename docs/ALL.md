@@ -22,7 +22,7 @@ __Index of modules__
 Number of functions:  18
 
 ----
-###### pitch/alterToAcc
+###### [pitch/alterToAcc](#[object Object]-module)
 
 
 
@@ -62,7 +62,7 @@ alterToAcc(-2) // => 'bb'
 
 
 ----
-###### pitch/cents
+###### [pitch/cents](#[object Object]-module)
 
 
 
@@ -102,7 +102,7 @@ cents('A4', 'A#4') // => 100
 
 
 ----
-###### pitch/enharmonic
+###### [pitch/enharmonic](#[object Object]-module)
 
 
 
@@ -138,7 +138,7 @@ enharmonic('B#', 'C') // => 'C'
 
 
 ----
-###### pitch/freq
+###### [pitch/freq](#[object Object]-module)
 
 
 
@@ -176,7 +176,7 @@ freq('A3', 444) // => 222
 
 
 ----
-###### pitch/fromFreq
+###### [pitch/fromFreq](#[object Object]-module)
 
 
 
@@ -214,7 +214,7 @@ fromFreq(441) // => 'A4'
 
 
 ----
-###### pitch/fromKey
+###### [pitch/fromKey](#[object Object]-module)
 
 
 
@@ -254,7 +254,7 @@ fromKey(49) // => 'A4'
 
 
 ----
-###### pitch/fromMidi
+###### [pitch/fromMidi](#[object Object]-module)
 
 
 
@@ -293,7 +293,7 @@ fromMidi(69) // => 'A4'
 
 
 ----
-###### pitch/interval
+###### [pitch/interval](#[object Object]-module)
 
 
 
@@ -334,7 +334,7 @@ interval('C', 'D') // => 'M2'
 
 
 ----
-###### pitch/intervalFrom
+###### [pitch/intervalFrom](#[object Object]-module)
 
 
 
@@ -370,7 +370,7 @@ __Example:__
 
 
 ----
-###### pitch/intervalTo
+###### [pitch/intervalTo](#[object Object]-module)
 
 
 
@@ -406,7 +406,7 @@ __Example:__
 
 
 ----
-###### pitch/key
+###### [pitch/key](#[object Object]-module)
 
 
 
@@ -442,7 +442,7 @@ key(49) // => 'A4'
 
 
 ----
-###### pitch/letter
+###### [pitch/letter](#[object Object]-module)
 
 
 
@@ -479,7 +479,7 @@ letter('c', 2) // => 'E'
 
 
 ----
-###### pitch/midi
+###### [pitch/midi](#[object Object]-module)
 
 
 
@@ -515,7 +515,7 @@ midi('a4') // => 69
 
 
 ----
-###### pitch/octave
+###### [pitch/octave](#[object Object]-module)
 
 
 
@@ -551,7 +551,7 @@ octave('a4') // => 4
 
 
 ----
-###### pitch/pitch
+###### [pitch/pitch](#[object Object]-module)
 
 
 
@@ -596,7 +596,7 @@ pitch('bluf') // => null
 
 
 ----
-###### pitch/pitchClass
+###### [pitch/pitchClass](#[object Object]-module)
 
 
 
@@ -632,7 +632,7 @@ pitchClass('a4') // => 69
 
 
 ----
-###### pitch/props
+###### [pitch/props](#[object Object]-module)
 
 
 
@@ -683,7 +683,7 @@ props('C#2') // => { }
 
 
 ----
-###### pitch/transpose
+###### [pitch/transpose](#[object Object]-module)
 
 
 
@@ -733,7 +733,7 @@ transpose('C', 'M-2') // => 'Bb3'
 Number of functions:  6
 
 ----
-###### scale/intervals
+###### [scale/intervals](#[object Object]-module)
 
 
 
@@ -769,7 +769,7 @@ generic('major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
 
 
 ----
-###### scale/mode
+###### [scale/mode](#[object Object]-module)
 
 
 
@@ -806,7 +806,7 @@ mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
 
 
 ----
-###### scale/name
+###### [scale/name](#[object Object]-module)
 
 
 
@@ -842,7 +842,7 @@ name('C D E F G A B') // => 'C major'
 
 
 ----
-###### scale/scale
+###### [scale/scale](#[object Object]-module)
 
 
 
@@ -883,7 +883,7 @@ scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']
 
 
 ----
-###### scale/scaleNames
+###### [scale/scaleNames](#[object Object]-module)
 
 
 
@@ -918,7 +918,7 @@ names() => ['major', 'minor', ....]
 
 
 ----
-###### scale/triad
+###### [scale/triad](#[object Object]-module)
 
 
 
@@ -962,7 +962,7 @@ triad(scale('C major'), 5) // => ['C', 'E', 'G', 'B', 'D']
 Number of functions:  6
 
 ----
-###### chord/chord
+###### [chord/chord](#[object Object]-module)
 
 
 
@@ -1001,7 +1001,7 @@ chord('7b5', 'Bb2')
 
 
 ----
-###### chord/chordNames
+###### [chord/chordNames](#[object Object]-module)
 
 
 
@@ -1036,7 +1036,7 @@ names() => ['major', 'minor', ....]
 
 
 ----
-###### chord/deparse
+###### [chord/deparse](#[object Object]-module)
 
 
 
@@ -1080,7 +1080,7 @@ parse('add9') // => { tonic: null, type: 'add9'}
 
 
 ----
-###### chord/fromScale
+###### [chord/fromScale](#[object Object]-module)
 
 
 
@@ -1114,7 +1114,7 @@ fromScale('C D E F G A B') // => ['CM', 'CMaj7']
 
 
 ----
-###### chord/intervals
+###### [chord/intervals](#[object Object]-module)
 
 
 
@@ -1150,7 +1150,7 @@ intervals('Cmaj7') // => ['1P', '3M', '5P', '7M']
 
 
 ----
-###### chord/name
+###### [chord/name](#[object Object]-module)
 
 
 
@@ -1188,7 +1188,7 @@ __Example:__
 Number of functions:  9
 
 ----
-###### interval/add
+###### [interval/add](#[object Object]-module)
 
 
 
@@ -1225,7 +1225,7 @@ add('M2', 'M2') // => 'M3'
 
 
 ----
-###### interval/harmonize
+###### [interval/harmonize](#[object Object]-module)
 
 
 
@@ -1263,7 +1263,7 @@ harmonize('C2', ['P1 P5']) // => ['C2', 'G2']
 
 
 ----
-###### interval/interval
+###### [interval/interval](#[object Object]-module)
 
 
 
@@ -1311,7 +1311,7 @@ interval(2, 'AAA') // => null
 
 
 ----
-###### interval/invert
+###### [interval/invert](#[object Object]-module)
 
 
 
@@ -1353,7 +1353,7 @@ invert('P-11', true) // => 'P4'
 
 
 ----
-###### interval/isInterval
+###### [interval/isInterval](#[object Object]-module)
 
 
 
@@ -1391,7 +1391,7 @@ isInterval('P6') // false
 
 
 ----
-###### interval/opposite
+###### [interval/opposite](#[object Object]-module)
 
 
 
@@ -1428,7 +1428,7 @@ opposite('P-8') // => 'P8'
 
 
 ----
-###### interval/props
+###### [interval/props](#[object Object]-module)
 
 
 
@@ -1478,7 +1478,7 @@ props('9m') // => { name: '9m', quality: 'm', dir: 1, num: 9, generic: 1, alter:
 
 
 ----
-###### interval/semitones
+###### [interval/semitones](#[object Object]-module)
 
 
 
@@ -1514,7 +1514,7 @@ semitones('5P') // => 7
 
 
 ----
-###### interval/simplify
+###### [interval/simplify](#[object Object]-module)
 
 
 
@@ -1559,7 +1559,7 @@ simplify('-2M', true) // => '2M'
 Number of functions:  3
 
 ----
-###### pitchSet/modes
+###### [pitchSet/modes](#[object Object]-module)
 
 
 
@@ -1595,7 +1595,7 @@ modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]
 
 
 ----
-###### pitchSet/pitchSet
+###### [pitchSet/pitchSet](#[object Object]-module)
 
 
 
@@ -1635,7 +1635,7 @@ pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']
 
 
 ----
-###### pitchSet/toIntervals
+###### [pitchSet/toIntervals](#[object Object]-module)
 
 
 
@@ -1678,7 +1678,7 @@ toIntervals(['C', 'D', 'Eb']) // => ['1P', '2M', '3m']
 Number of functions:  3
 
 ----
-###### binarySet/binarySet
+###### [binarySet/binarySet](#[object Object]-module)
 
 
 
@@ -1718,7 +1718,7 @@ toBinary('1P 7M') // => '100000000001'
 
 
 ----
-###### binarySet/binarySets
+###### [binarySet/binarySets](#[object Object]-module)
 
 
 
@@ -1754,7 +1754,7 @@ binarySets() // => ['1000000000', '1000000001', ...]
 
 
 ----
-###### binarySet/toIntervals
+###### [binarySet/toIntervals](#[object Object]-module)
 
 
 
@@ -1798,7 +1798,7 @@ intervals(2773) // => ['1P', '2M', '3M']
 Number of functions:  7
 
 ----
-###### key/accidentals
+###### [key/accidentals](#[object Object]-module)
 
 
 
@@ -1835,7 +1835,7 @@ accidentals(-2) // => 'bb'
 
 
 ----
-###### key/alteredNotes
+###### [key/alteredNotes](#[object Object]-module)
 
 
 
@@ -1871,7 +1871,7 @@ alteredNotes('bb') // => ['Bb', 'Eb']
 
 
 ----
-###### key/fromPitchSet
+###### [key/fromPitchSet](#[object Object]-module)
 
 
 
@@ -1905,7 +1905,7 @@ fromPitchSet('C Bb F') // => -1
 
 
 ----
-###### key/keyNumber
+###### [key/keyNumber](#[object Object]-module)
 
 
 
@@ -1949,7 +1949,7 @@ keyNumber('bbb') // => -3
 
 
 ----
-###### key/parse
+###### [key/parse](#[object Object]-module)
 
 
 
@@ -1984,7 +1984,7 @@ parse('C#') // => { tonic: 'C#', type: 'major'}
 
 
 ----
-###### key/pitchSet
+###### [key/pitchSet](#[object Object]-module)
 
 
 
@@ -2021,7 +2021,7 @@ pitchSet('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']
 
 
 ----
-###### key/triads
+###### [key/triads](#[object Object]-module)
 
 
 
@@ -2065,7 +2065,7 @@ triads('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']
 Number of functions:  4
 
 ----
-###### fifths/byFifths
+###### [fifths/byFifths](#[object Object]-module)
 
 
 
@@ -2101,7 +2101,7 @@ __Example:__
 
 
 ----
-###### fifths/fifths
+###### [fifths/fifths](#[object Object]-module)
 
 
 
@@ -2144,7 +2144,7 @@ fifths('C4', 'C2') // => 0
 
 
 ----
-###### fifths/fifthsFrom
+###### [fifths/fifthsFrom](#[object Object]-module)
 
 
 
@@ -2180,7 +2180,7 @@ __Example:__
 
 
 ----
-###### fifths/transpose
+###### [fifths/transpose](#[object Object]-module)
 
 
 

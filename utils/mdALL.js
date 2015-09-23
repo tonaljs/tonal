@@ -18,7 +18,7 @@ module.exports = function (sources) {
 
     return MD.lines(
       MD.separator(),
-      MD.h6(src.module + '/' + src.name),
+      MD.h6(MD.link(src.module + '/' + src.name, '#' + module + '-module')),
       MD.line(),
       mdSignature(src),
       MD.line(),
