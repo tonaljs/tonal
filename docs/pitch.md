@@ -617,21 +617,59 @@ Type
 <pre class="prettyprint"><code>['C', 'D', 'E'].map(intervalTo('E')) // => ['3M', '2M', '1P']</code></pre>
 </dd>
 <dt>
-<h4 class="name" id="letter"><span class="type-signature"></span>letter<span class="signature">()</span><span class="type-signature"></span></h4>
+<h4 class="name" id="letter"><span class="type-signature"></span>letter<span class="signature">(pitch, steps)</span><span class="type-signature"> &rarr; {String}</span></h4>
 </dt>
 <dd>
 <div class="description">
 <p>Get the letter of a pitch (and optionally move a number of steps)</p>
 </div>
+<h5>Parameters:</h5>
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name"><code>pitch</code></td>
+<td class="type">
+<span class="param-type">String</span>
+</td>
+<td class="description last"><p>the pitch to get the letter from</p></td>
+</tr>
+<tr>
+<td class="name"><code>steps</code></td>
+<td class="type">
+<span class="param-type">Integer</span>
+</td>
+<td class="description last"><p>(Optional) the number of steps to move</p></td>
+</tr>
+</tbody>
+</table>
 <dl class="details">
 <dt class="tag-source">Source:</dt>
 <dd class="tag-source"><ul class="dummy">
 <li>
 <a href="https://github.com/danigb/tonal/blob/master/lib/pitch/letter.js">letter.js</a>
 <span>, </span>
-<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/letter.js#L14">lineno 14</a>
+<a href="https://github.com/danigb/tonal/blob/master/lib/pitch/letter.js#L18">lineno 18</a>
 </li>
 </ul></dd>
+</dl>
+<h5>Returns:</h5>
+<div class="param-desc">
+<p>a pitch letter</p>
+</div>
+<dl>
+<dt>
+Type
+</dt>
+<dd>
+<span class="param-type">String</span>
+</dd>
 </dl>
 <h5>Example</h5>
 <pre class="prettyprint"><code>letter('c#5') // => 'C'

@@ -4,7 +4,7 @@ A list of [all functions](https://github.com/danigb/tonal/tree/master//docs/INDE
 
 
 
-__Index of modules__
+__Module summary__
 
 - __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitch](#pitchpitch), [pitchClass](#pitchpitchclass), [props](#pitchprops), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
 - __[Scale](#scale-module)__ -  [intervals](#scaleintervals), [mode](#scalemode), [name](#scalename), [scale](#scalescale), [scaleNames](#scalescalenames), [triad](#scaletriad)
@@ -25,6 +25,13 @@ __Index of modules__
 
 
 This is the building block of tonal. Pitches are just strings in scientific notation. You can create it from midi numbers or frequencies (and reverse), query for its properties, transpose them or find interval distances. Almost everything you need from pitches is here.
+
+### Resources
+
+Dive into the world of pitch class sets:
+
+- http://www.mta.ca/pc-set/pc-set_new/pages/introduction/toc.html
+- http://composertools.com/Theory/PCSets/
 
 ### Function list
 
@@ -62,8 +69,6 @@ This is the building block of tonal. Pitches are just strings in scientific nota
 
 Get the accidentals from an alteration number
 
-
-
 __Arguments:__
 
 Name|Type|Description
@@ -88,10 +93,8 @@ alterToAcc(-1) // => 'b'
 alterToAcc(-2) // => 'bb'
 ```
 
-Source:  [pitch/alterToAcc.js](https://github.com/danigb/tonal/tree/master//lib/pitch/alterToAcc.js)
-
-Test:  [pitch/alterToAccTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/alterToAccTest.js)
-
+Source: [pitch/alterToAcc.js](https://github.com/danigb/tonal/tree/master//lib/pitch/alterToAcc.js)
+Test: [pitch/alterToAccTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/alterToAccTest.js)
 
 ----
 ###### [pitch/cents](#pitch-module)
@@ -103,8 +106,6 @@ Test:  [pitch/alterToAccTest.js](https://github.com/danigb/tonal/tree/master//te
 
 
 Get the distance in cents between pitches or frequencies
-
-
 
 __Arguments:__
 
@@ -130,10 +131,8 @@ cents('A4', 444) // => 15.66
 cents('A4', 'A#4') // => 100
 ```
 
-Source:  [pitch/cents.js](https://github.com/danigb/tonal/tree/master//lib/pitch/cents.js)
-
-Test:  [pitch/centsTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/centsTest.js)
-
+Source: [pitch/cents.js](https://github.com/danigb/tonal/tree/master//lib/pitch/cents.js)
+Test: [pitch/centsTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/centsTest.js)
 
 ----
 ###### [pitch/enharmonic](#pitch-module)
@@ -145,8 +144,6 @@ Test:  [pitch/centsTest.js](https://github.com/danigb/tonal/tree/master//test/pi
 
 
 Get the enharmonic of a pitch with a given step
-
-
 
 __Arguments:__
 
@@ -168,10 +165,8 @@ enharmonic('C#4', 'D') // => 'Db4'
 enharmonic('B#', 'C') // => 'C'
 ```
 
-Source:  [pitch/enharmonic.js](https://github.com/danigb/tonal/tree/master//lib/pitch/enharmonic.js)
-
-Test:  [pitch/enharmonicTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/enharmonicTest.js)
-
+Source: [pitch/enharmonic.js](https://github.com/danigb/tonal/tree/master//lib/pitch/enharmonic.js)
+Test: [pitch/enharmonicTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/enharmonicTest.js)
 
 ----
 ###### [pitch/fromFreq](#pitch-module)
@@ -184,8 +179,6 @@ Test:  [pitch/enharmonicTest.js](https://github.com/danigb/tonal/tree/master//te
 
 Given a frequency, get the pitch. It will round the frequency to the nearest
 pitch frequency
-
-
 
 __Arguments:__
 
@@ -208,10 +201,8 @@ fromFreq(440) // => 'A4'
 fromFreq(441) // => 'A4'
 ```
 
-Source:  [pitch/fromFreq.js](https://github.com/danigb/tonal/tree/master//lib/pitch/fromFreq.js)
-
-Test:  [pitch/fromFreqTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/fromFreqTest.js)
-
+Source: [pitch/fromFreq.js](https://github.com/danigb/tonal/tree/master//lib/pitch/fromFreq.js)
+Test: [pitch/fromFreqTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/fromFreqTest.js)
 
 ----
 ###### [pitch/fromKey](#pitch-module)
@@ -226,8 +217,6 @@ Get the pitch of the given piano key number
 
 This method doesn't take into account diatonic spelling. Always the same
 pitch class is given to the same key number.
-
-
 
 __Arguments:__
 
@@ -250,10 +239,8 @@ fromKey(40) // => 'C4'
 fromKey(49) // => 'A4'
 ```
 
-Source:  [pitch/fromKey.js](https://github.com/danigb/tonal/tree/master//lib/pitch/fromKey.js)
-
-Test:  [pitch/fromKeyTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/fromKeyTest.js)
-
+Source: [pitch/fromKey.js](https://github.com/danigb/tonal/tree/master//lib/pitch/fromKey.js)
+Test: [pitch/fromKeyTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/fromKeyTest.js)
 
 ----
 ###### [pitch/fromMidi](#pitch-module)
@@ -268,8 +255,6 @@ Get the pitch of the given midi number
 
 This method doesn't take into account diatonic spelling. Always the same
 pitch class is given to the same midi number.
-
-
 
 __Arguments:__
 
@@ -291,10 +276,8 @@ __Example:__
 fromMidi(69) // => 'A4'
 ```
 
-Source:  [pitch/fromMidi.js](https://github.com/danigb/tonal/tree/master//lib/pitch/fromMidi.js)
-
-Test:  [pitch/fromMidiTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/fromMidiTest.js)
-
+Source: [pitch/fromMidi.js](https://github.com/danigb/tonal/tree/master//lib/pitch/fromMidi.js)
+Test: [pitch/fromMidiTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/fromMidiTest.js)
 
 ----
 ###### [pitch/interval](#pitch-module)
@@ -309,8 +292,6 @@ Get the interval between two pitches
 
 You can get a partially applied version of this function by passing only one
 parameter. See examples below:
-
-
 
 __Arguments:__
 
@@ -334,10 +315,8 @@ interval('C', 'D') // => 'M2'
 ['C', 'D', 'Eb'].map(interval.from('C')) // => ['P1', 'M2', 'm3']
 ```
 
-Source:  [pitch/interval.js](https://github.com/danigb/tonal/tree/master//lib/pitch/interval.js)
-
-Test:  [pitch/intervalTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/intervalTest.js)
-
+Source: [pitch/interval.js](https://github.com/danigb/tonal/tree/master//lib/pitch/interval.js)
+Test: [pitch/intervalTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/intervalTest.js)
 
 ----
 ###### [pitch/intervalFrom](#pitch-module)
@@ -349,8 +328,6 @@ Test:  [pitch/intervalTest.js](https://github.com/danigb/tonal/tree/master//test
 
 
 Partial apply `picth/interval` to return a interval from a pitch
-
-
 
 __Arguments:__
 
@@ -372,10 +349,8 @@ __Example:__
 ['C', 'D', 'E'].map(intervalFrom('C')) // => ['1P', '2M', '3M']
 ```
 
-Source:  [pitch/intervalFrom.js](https://github.com/danigb/tonal/tree/master//lib/pitch/intervalFrom.js)
-
-Test:  [pitch/intervalFromTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/intervalFromTest.js)
-
+Source: [pitch/intervalFrom.js](https://github.com/danigb/tonal/tree/master//lib/pitch/intervalFrom.js)
+Test: [pitch/intervalFromTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/intervalFromTest.js)
 
 ----
 ###### [pitch/intervalTo](#pitch-module)
@@ -387,8 +362,6 @@ Test:  [pitch/intervalFromTest.js](https://github.com/danigb/tonal/tree/master//
 
 
 Partial apply `picth/interval` to return a interval to a pitch
-
-
 
 __Arguments:__
 
@@ -410,34 +383,33 @@ __Example:__
 ['C', 'D', 'E'].map(intervalTo('E')) // => ['3M', '2M', '1P']
 ```
 
-Source:  [pitch/intervalTo.js](https://github.com/danigb/tonal/tree/master//lib/pitch/intervalTo.js)
-
-Test:  [pitch/intervalToTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/intervalToTest.js)
-
+Source: [pitch/intervalTo.js](https://github.com/danigb/tonal/tree/master//lib/pitch/intervalTo.js)
+Test: [pitch/intervalToTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/intervalToTest.js)
 
 ----
 ###### [pitch/letter](#pitch-module)
 
 
 
-#### letter() → {}
+#### letter(pitch, steps) → {String}
 
 
 
 Get the letter of a pitch (and optionally move a number of steps)
 
-
-
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
+`pitch`|String|the pitch to get the letter from
+`steps`|Integer|(Optional) the number of steps to move
 
 
 __Returns:__
 
 Type|Description
 ---|---
+String|a pitch letter
 
 
 __Example:__
@@ -449,10 +421,8 @@ letter('c', 1) // => 'D'
 letter('c', 2) // => 'E'
 ```
 
-Source:  [pitch/letter.js](https://github.com/danigb/tonal/tree/master//lib/pitch/letter.js)
-
-Test:  [pitch/letterTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/letterTest.js)
-
+Source: [pitch/letter.js](https://github.com/danigb/tonal/tree/master//lib/pitch/letter.js)
+Test: [pitch/letterTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/letterTest.js)
 
 ----
 ###### [pitch/octave](#pitch-module)
@@ -464,8 +434,6 @@ Test:  [pitch/letterTest.js](https://github.com/danigb/tonal/tree/master//test/p
 
 
 Get the octave of a pitch
-
-
 
 __Arguments:__
 
@@ -487,10 +455,8 @@ __Example:__
 octave('a4') // => 4
 ```
 
-Source:  [pitch/octave.js](https://github.com/danigb/tonal/tree/master//lib/pitch/octave.js)
-
-Test:  [pitch/octaveTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/octaveTest.js)
-
+Source: [pitch/octave.js](https://github.com/danigb/tonal/tree/master//lib/pitch/octave.js)
+Test: [pitch/octaveTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/octaveTest.js)
 
 ----
 ###### [pitch/pitch](#pitch-module)
@@ -502,8 +468,6 @@ Test:  [pitch/octaveTest.js](https://github.com/danigb/tonal/tree/master//test/p
 
 
 Get the scientific notation of a pitch (and optionally change its octave and alteration)
-
-
 
 __Arguments:__
 
@@ -534,10 +498,8 @@ pitch('C7', -1) // => 'Cb7'
 pitch('bluf') // => null
 ```
 
-Source:  [pitch/pitch.js](https://github.com/danigb/tonal/tree/master//lib/pitch/pitch.js)
-
-Test:  [pitch/pitchTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/pitchTest.js)
-
+Source: [pitch/pitch.js](https://github.com/danigb/tonal/tree/master//lib/pitch/pitch.js)
+Test: [pitch/pitchTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/pitchTest.js)
 
 ----
 ###### [pitch/pitchClass](#pitch-module)
@@ -549,8 +511,6 @@ Test:  [pitch/pitchTest.js](https://github.com/danigb/tonal/tree/master//test/pi
 
 
 Get the [pitchClass](https://en.wikipedia.org/wiki/Pitch_class) of a pitch
-
-
 
 __Arguments:__
 
@@ -572,10 +532,8 @@ __Example:__
 pitchClass('a4') // => 69
 ```
 
-Source:  [pitch/pitchClass.js](https://github.com/danigb/tonal/tree/master//lib/pitch/pitchClass.js)
-
-Test:  [pitch/pitchClassTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/pitchClassTest.js)
-
+Source: [pitch/pitchClass.js](https://github.com/danigb/tonal/tree/master//lib/pitch/pitchClass.js)
+Test: [pitch/pitchClassTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/pitchClassTest.js)
 
 ----
 ###### [pitch/props](#pitch-module)
@@ -603,8 +561,6 @@ It returns an object with the following properties:
 - __chroma__: {Integer} the pitch class interger value (between 0 and 11)
 where C=0, C#=1, D=2...B=11
 
-
-
 __Arguments:__
 
 Name|Type|Description
@@ -625,10 +581,8 @@ __Example:__
 props('C#2') // => { }
 ```
 
-Source:  [pitch/props.js](https://github.com/danigb/tonal/tree/master//lib/pitch/props.js)
-
-Test:  [pitch/propsTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/propsTest.js)
-
+Source: [pitch/props.js](https://github.com/danigb/tonal/tree/master//lib/pitch/props.js)
+Test: [pitch/propsTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/propsTest.js)
 
 ----
 ###### [pitch/toFreq](#pitch-module)
@@ -640,8 +594,6 @@ Test:  [pitch/propsTest.js](https://github.com/danigb/tonal/tree/master//test/pi
 
 
 Get the pitch frequency in hertzs
-
-
 
 __Arguments:__
 
@@ -665,10 +617,8 @@ toFreq('A4') // => 440
 toFreq('A3', 444) // => 222
 ```
 
-Source:  [pitch/toFreq.js](https://github.com/danigb/tonal/tree/master//lib/pitch/toFreq.js)
-
-Test:  [pitch/toFreqTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/toFreqTest.js)
-
+Source: [pitch/toFreq.js](https://github.com/danigb/tonal/tree/master//lib/pitch/toFreq.js)
+Test: [pitch/toFreqTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/toFreqTest.js)
 
 ----
 ###### [pitch/toKey](#pitch-module)
@@ -680,8 +630,6 @@ Test:  [pitch/toFreqTest.js](https://github.com/danigb/tonal/tree/master//test/p
 
 
 Get the key number from a pitch
-
-
 
 __Arguments:__
 
@@ -703,10 +651,8 @@ __Example:__
 toKey(49) // => 'A4'
 ```
 
-Source:  [pitch/toKey.js](https://github.com/danigb/tonal/tree/master//lib/pitch/toKey.js)
-
-Test:  [pitch/toKeyTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/toKeyTest.js)
-
+Source: [pitch/toKey.js](https://github.com/danigb/tonal/tree/master//lib/pitch/toKey.js)
+Test: [pitch/toKeyTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/toKeyTest.js)
 
 ----
 ###### [pitch/toMidi](#pitch-module)
@@ -718,8 +664,6 @@ Test:  [pitch/toKeyTest.js](https://github.com/danigb/tonal/tree/master//test/pi
 
 
 Get the midi of a pitch
-
-
 
 __Arguments:__
 
@@ -741,10 +685,8 @@ __Example:__
 toMidi('a4') // => 69
 ```
 
-Source:  [pitch/toMidi.js](https://github.com/danigb/tonal/tree/master//lib/pitch/toMidi.js)
-
-Test:  [pitch/toMidiTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/toMidiTest.js)
-
+Source: [pitch/toMidi.js](https://github.com/danigb/tonal/tree/master//lib/pitch/toMidi.js)
+Test: [pitch/toMidiTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/toMidiTest.js)
 
 ----
 ###### [pitch/transpose](#pitch-module)
@@ -759,8 +701,6 @@ Transpose a pitch by an interval
 
 This is an _strict_ function: if pitch or interval are not valid, an exception
 is thrown
-
-
 
 __Arguments:__
 
@@ -786,10 +726,8 @@ transpose('C', 'M-2') // => 'Bb3'
 ['C', 'D', 'E'].map(transpose('M2')) // => ['D4', 'E4', 'F#4']
 ```
 
-Source:  [pitch/transpose.js](https://github.com/danigb/tonal/tree/master//lib/pitch/transpose.js)
-
-Test:  [pitch/transposeTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/transposeTest.js)
-
+Source: [pitch/transpose.js](https://github.com/danigb/tonal/tree/master//lib/pitch/transpose.js)
+Test: [pitch/transposeTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/transposeTest.js)
 
 
 ## Scale module
@@ -835,8 +773,6 @@ scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
 
 Get the intervals of a scale name (without tonic)
 
-
-
 __Arguments:__
 
 Name|Type|Description
@@ -857,10 +793,8 @@ __Example:__
 generic('major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
 ```
 
-Source:  [scale/intervals.js](https://github.com/danigb/tonal/tree/master//lib/scale/intervals.js)
-
-Test:  [scale/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/scale/intervalsTest.js)
-
+Source: [scale/intervals.js](https://github.com/danigb/tonal/tree/master//lib/scale/intervals.js)
+Test: [scale/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/scale/intervalsTest.js)
 
 ----
 ###### [scale/mode](#scale-module)
@@ -872,8 +806,6 @@ Test:  [scale/intervalsTest.js](https://github.com/danigb/tonal/tree/master//tes
 
 
 Get the mode of a scale
-
-
 
 __Arguments:__
 
@@ -896,10 +828,8 @@ __Example:__
 mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
 ```
 
-Source:  [scale/mode.js](https://github.com/danigb/tonal/tree/master//lib/scale/mode.js)
-
-Test:  [scale/modeTest.js](https://github.com/danigb/tonal/tree/master//test/scale/modeTest.js)
-
+Source: [scale/mode.js](https://github.com/danigb/tonal/tree/master//lib/scale/mode.js)
+Test: [scale/modeTest.js](https://github.com/danigb/tonal/tree/master//test/scale/modeTest.js)
 
 ----
 ###### [scale/name](#scale-module)
@@ -911,8 +841,6 @@ Test:  [scale/modeTest.js](https://github.com/danigb/tonal/tree/master//test/sca
 
 
 Given a scale notes return the scale name (if any)
-
-
 
 __Arguments:__
 
@@ -934,10 +862,8 @@ __Example:__
 name('C D E F G A B') // => 'C major'
 ```
 
-Source:  [scale/name.js](https://github.com/danigb/tonal/tree/master//lib/scale/name.js)
-
-Test:  [scale/nameTest.js](https://github.com/danigb/tonal/tree/master//test/scale/nameTest.js)
-
+Source: [scale/name.js](https://github.com/danigb/tonal/tree/master//lib/scale/name.js)
+Test: [scale/nameTest.js](https://github.com/danigb/tonal/tree/master//test/scale/nameTest.js)
 
 ----
 ###### [scale/scale](#scale-module)
@@ -951,8 +877,6 @@ Test:  [scale/nameTest.js](https://github.com/danigb/tonal/tree/master//test/sca
 Get the scale (pitch set) of a scale name
 
 If the scale name does not contains the tonic, a list of intervals is returned
-
-
 
 __Arguments:__
 
@@ -977,10 +901,8 @@ scale('D diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
 scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']
 ```
 
-Source:  [scale/scale.js](https://github.com/danigb/tonal/tree/master//lib/scale/scale.js)
-
-Test:  [scale/scaleTest.js](https://github.com/danigb/tonal/tree/master//test/scale/scaleTest.js)
-
+Source: [scale/scale.js](https://github.com/danigb/tonal/tree/master//lib/scale/scale.js)
+Test: [scale/scaleTest.js](https://github.com/danigb/tonal/tree/master//test/scale/scaleTest.js)
 
 ----
 ###### [scale/scaleNames](#scale-module)
@@ -992,8 +914,6 @@ Test:  [scale/scaleTest.js](https://github.com/danigb/tonal/tree/master//test/sc
 
 
 Get all known scale names
-
-
 
 __Arguments:__
 
@@ -1014,10 +934,8 @@ __Example:__
 names() => ['major', 'minor', ....]
 ```
 
-Source:  [scale/scaleNames.js](https://github.com/danigb/tonal/tree/master//lib/scale/scaleNames.js)
-
-Test:  [scale/scaleNamesTest.js](https://github.com/danigb/tonal/tree/master//test/scale/scaleNamesTest.js)
-
+Source: [scale/scaleNames.js](https://github.com/danigb/tonal/tree/master//lib/scale/scaleNames.js)
+Test: [scale/scaleNamesTest.js](https://github.com/danigb/tonal/tree/master//test/scale/scaleNamesTest.js)
 
 ----
 ###### [scale/triad](#scale-module)
@@ -1029,8 +947,6 @@ Test:  [scale/scaleNamesTest.js](https://github.com/danigb/tonal/tree/master//te
 
 
 Get a triad from a set starting from the first note, a simplistic implementation.
-
-
 
 __Arguments:__
 
@@ -1053,10 +969,8 @@ triad(scale('C major')) // => ['C', 'E', 'G']
 triad(scale('C major'), 5) // => ['C', 'E', 'G', 'B', 'D']
 ```
 
-Source:  [scale/triad.js](https://github.com/danigb/tonal/tree/master//lib/scale/triad.js)
-
-Test:  [scale/triadTest.js](https://github.com/danigb/tonal/tree/master//test/scale/triadTest.js)
-
+Source: [scale/triad.js](https://github.com/danigb/tonal/tree/master//lib/scale/triad.js)
+Test: [scale/triadTest.js](https://github.com/danigb/tonal/tree/master//test/scale/triadTest.js)
 
 
 ## Chord module
@@ -1095,8 +1009,6 @@ It uses a big .json dataset to get the chord intervals from the name.
 
 Get chord notes or intervals by its type and (optionally) tonic pitch
 
-
-
 __Arguments:__
 
 Name|Type|Description
@@ -1120,10 +1032,8 @@ chord('7b5') // => ['1P', '3M', '5d', '7m']
 chord('7b5', 'Bb2')
 ```
 
-Source:  [chord/chord.js](https://github.com/danigb/tonal/tree/master//lib/chord/chord.js)
-
-Test:  [chord/chordTest.js](https://github.com/danigb/tonal/tree/master//test/chord/chordTest.js)
-
+Source: [chord/chord.js](https://github.com/danigb/tonal/tree/master//lib/chord/chord.js)
+Test: [chord/chordTest.js](https://github.com/danigb/tonal/tree/master//test/chord/chordTest.js)
 
 ----
 ###### [chord/chordNames](#chord-module)
@@ -1135,8 +1045,6 @@ Test:  [chord/chordTest.js](https://github.com/danigb/tonal/tree/master//test/ch
 
 
 Get all known scale names
-
-
 
 __Arguments:__
 
@@ -1157,10 +1065,8 @@ __Example:__
 names() => ['major', 'minor', ....]
 ```
 
-Source:  [chord/chordNames.js](https://github.com/danigb/tonal/tree/master//lib/chord/chordNames.js)
-
-Test:  [chord/chordNamesTest.js](https://github.com/danigb/tonal/tree/master//test/chord/chordNamesTest.js)
-
+Source: [chord/chordNames.js](https://github.com/danigb/tonal/tree/master//lib/chord/chordNames.js)
+Test: [chord/chordNamesTest.js](https://github.com/danigb/tonal/tree/master//test/chord/chordNamesTest.js)
 
 ----
 ###### [chord/fromScale](#chord-module)
@@ -1172,8 +1078,6 @@ Test:  [chord/chordNamesTest.js](https://github.com/danigb/tonal/tree/master//te
 
 
 Get the chord names that _fits_ a given scale
-
-
 
 __Arguments:__
 
@@ -1193,10 +1097,8 @@ __Example:__
 fromScale('C D E F G A B') // => ['CM', 'CMaj7']
 ```
 
-Source:  [chord/fromScale.js](https://github.com/danigb/tonal/tree/master//lib/chord/fromScale.js)
-
-Test:  [chord/fromScaleTest.js](https://github.com/danigb/tonal/tree/master//test/chord/fromScaleTest.js)
-
+Source: [chord/fromScale.js](https://github.com/danigb/tonal/tree/master//lib/chord/fromScale.js)
+Test: [chord/fromScaleTest.js](https://github.com/danigb/tonal/tree/master//test/chord/fromScaleTest.js)
 
 ----
 ###### [chord/intervals](#chord-module)
@@ -1208,8 +1110,6 @@ Test:  [chord/fromScaleTest.js](https://github.com/danigb/tonal/tree/master//tes
 
 
 Get the intervals of a chord name
-
-
 
 __Arguments:__
 
@@ -1231,10 +1131,8 @@ __Example:__
 intervals('Cmaj7') // => ['1P', '3M', '5P', '7M']
 ```
 
-Source:  [chord/intervals.js](https://github.com/danigb/tonal/tree/master//lib/chord/intervals.js)
-
-Test:  [chord/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/chord/intervalsTest.js)
-
+Source: [chord/intervals.js](https://github.com/danigb/tonal/tree/master//lib/chord/intervals.js)
+Test: [chord/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/chord/intervalsTest.js)
 
 ----
 ###### [chord/name](#chord-module)
@@ -1246,8 +1144,6 @@ Test:  [chord/intervalsTest.js](https://github.com/danigb/tonal/tree/master//tes
 
 
 Get the chord name(s) of a given pitches
-
-
 
 __Arguments:__
 
@@ -1264,10 +1160,8 @@ Type|Description
 __Example:__
 
 
-Source:  [chord/name.js](https://github.com/danigb/tonal/tree/master//lib/chord/name.js)
-
-Test:  [chord/nameTest.js](https://github.com/danigb/tonal/tree/master//test/chord/nameTest.js)
-
+Source: [chord/name.js](https://github.com/danigb/tonal/tree/master//lib/chord/name.js)
+Test: [chord/nameTest.js](https://github.com/danigb/tonal/tree/master//test/chord/nameTest.js)
 
 
 ## Interval module
@@ -1310,8 +1204,6 @@ You can get the interval properties with `interval/props` and manipulate in the 
 
 Add two intervals
 
-
-
 __Arguments:__
 
 Name|Type|Description
@@ -1333,10 +1225,8 @@ __Example:__
 add('M2', 'M2') // => 'M3'
 ```
 
-Source:  [interval/add.js](https://github.com/danigb/tonal/tree/master//lib/interval/add.js)
-
-Test:  [interval/addTest.js](https://github.com/danigb/tonal/tree/master//test/interval/addTest.js)
-
+Source: [interval/add.js](https://github.com/danigb/tonal/tree/master//lib/interval/add.js)
+Test: [interval/addTest.js](https://github.com/danigb/tonal/tree/master//test/interval/addTest.js)
 
 ----
 ###### [interval/harmonize](#interval-module)
@@ -1348,8 +1238,6 @@ Test:  [interval/addTest.js](https://github.com/danigb/tonal/tree/master//test/i
 
 
 Given a collection of intervals, and a tonic create a collection of pitches
-
-
 
 __Arguments:__
 
@@ -1373,10 +1261,8 @@ __Example:__
 harmonize('C2', ['P1 P5']) // => ['C2', 'G2']
 ```
 
-Source:  [interval/harmonize.js](https://github.com/danigb/tonal/tree/master//lib/interval/harmonize.js)
-
-Test:  [interval/harmonizeTest.js](https://github.com/danigb/tonal/tree/master//test/interval/harmonizeTest.js)
-
+Source: [interval/harmonize.js](https://github.com/danigb/tonal/tree/master//lib/interval/harmonize.js)
+Test: [interval/harmonizeTest.js](https://github.com/danigb/tonal/tree/master//test/interval/harmonizeTest.js)
 
 ----
 ###### [interval/interval](#interval-module)
@@ -1391,8 +1277,6 @@ Get an interval properties from a string or a number, and optionally a quality
 and octave.
 
 The quality and octave parameters will override the given string interval
-
-
 
 __Arguments:__
 
@@ -1423,10 +1307,8 @@ interval(2, 'AA') // => '2AA'
 interval(2, 'AAA') // => null
 ```
 
-Source:  [interval/interval.js](https://github.com/danigb/tonal/tree/master//lib/interval/interval.js)
-
-Test:  [interval/intervalTest.js](https://github.com/danigb/tonal/tree/master//test/interval/intervalTest.js)
-
+Source: [interval/interval.js](https://github.com/danigb/tonal/tree/master//lib/interval/interval.js)
+Test: [interval/intervalTest.js](https://github.com/danigb/tonal/tree/master//test/interval/intervalTest.js)
 
 ----
 ###### [interval/invert](#interval-module)
@@ -1441,8 +1323,6 @@ Get the [inversion](https://en.wikipedia.org/wiki/Interval_(music)#Inversion)
 of an interval.
 
 Notice that all inverted intervals are simple.
-
-
 
 __Arguments:__
 
@@ -1467,10 +1347,8 @@ invert('M-10') // => 'M-3'
 invert('P-11', true) // => 'P4'
 ```
 
-Source:  [interval/invert.js](https://github.com/danigb/tonal/tree/master//lib/interval/invert.js)
-
-Test:  [interval/invertTest.js](https://github.com/danigb/tonal/tree/master//test/interval/invertTest.js)
-
+Source: [interval/invert.js](https://github.com/danigb/tonal/tree/master//lib/interval/invert.js)
+Test: [interval/invertTest.js](https://github.com/danigb/tonal/tree/master//test/interval/invertTest.js)
 
 ----
 ###### [interval/isInterval](#interval-module)
@@ -1482,8 +1360,6 @@ Test:  [interval/invertTest.js](https://github.com/danigb/tonal/tree/master//tes
 
 
 Test if a string is a valid interval
-
-
 
 __Arguments:__
 
@@ -1507,10 +1383,8 @@ isInterval('P5') // true
 isInterval('P6') // false
 ```
 
-Source:  [interval/isInterval.js](https://github.com/danigb/tonal/tree/master//lib/interval/isInterval.js)
-
-Test:  [interval/isIntervalTest.js](https://github.com/danigb/tonal/tree/master//test/interval/isIntervalTest.js)
-
+Source: [interval/isInterval.js](https://github.com/danigb/tonal/tree/master//lib/interval/isInterval.js)
+Test: [interval/isIntervalTest.js](https://github.com/danigb/tonal/tree/master//test/interval/isIntervalTest.js)
 
 ----
 ###### [interval/opposite](#interval-module)
@@ -1524,8 +1398,6 @@ Test:  [interval/isIntervalTest.js](https://github.com/danigb/tonal/tree/master/
 Get the opposite of an interval
 
 An opposite interval is the same interval with the opposite direction
-
-
 
 __Arguments:__
 
@@ -1546,10 +1418,8 @@ opposite('M2') // => 'M-2'
 opposite('P-8') // => 'P8'
 ```
 
-Source:  [interval/opposite.js](https://github.com/danigb/tonal/tree/master//lib/interval/opposite.js)
-
-Test:  [interval/oppositeTest.js](https://github.com/danigb/tonal/tree/master//test/interval/oppositeTest.js)
-
+Source: [interval/opposite.js](https://github.com/danigb/tonal/tree/master//lib/interval/opposite.js)
+Test: [interval/oppositeTest.js](https://github.com/danigb/tonal/tree/master//test/interval/oppositeTest.js)
 
 ----
 ###### [interval/props](#interval-module)
@@ -1574,8 +1444,6 @@ augmented respectively)
 quality of the interval, just if it is perfectable or not.
 - semitones: the size of the interval in semitones
 
-
-
 __Arguments:__
 
 Name|Type|Description
@@ -1598,10 +1466,8 @@ props('-5P') // => { name: '-5P', quality: 'P', dir: -1, num: 5, generic: 4, alt
 props('9m') // => { name: '9m', quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfectable: false }
 ```
 
-Source:  [interval/props.js](https://github.com/danigb/tonal/tree/master//lib/interval/props.js)
-
-Test:  [interval/propsTest.js](https://github.com/danigb/tonal/tree/master//test/interval/propsTest.js)
-
+Source: [interval/props.js](https://github.com/danigb/tonal/tree/master//lib/interval/props.js)
+Test: [interval/propsTest.js](https://github.com/danigb/tonal/tree/master//test/interval/propsTest.js)
 
 ----
 ###### [interval/semitones](#interval-module)
@@ -1613,8 +1479,6 @@ Test:  [interval/propsTest.js](https://github.com/danigb/tonal/tree/master//test
 
 
 Get the semitones of a interval
-
-
 
 __Arguments:__
 
@@ -1636,10 +1500,8 @@ __Example:__
 semitones('5P') // => 7
 ```
 
-Source:  [interval/semitones.js](https://github.com/danigb/tonal/tree/master//lib/interval/semitones.js)
-
-Test:  [interval/semitonesTest.js](https://github.com/danigb/tonal/tree/master//test/interval/semitonesTest.js)
-
+Source: [interval/semitones.js](https://github.com/danigb/tonal/tree/master//lib/interval/semitones.js)
+Test: [interval/semitonesTest.js](https://github.com/danigb/tonal/tree/master//test/interval/semitonesTest.js)
 
 ----
 ###### [interval/simplify](#interval-module)
@@ -1651,8 +1513,6 @@ Test:  [interval/semitonesTest.js](https://github.com/danigb/tonal/tree/master//
 
 
 Simplify an interval
-
-
 
 __Arguments:__
 
@@ -1676,10 +1536,8 @@ simplify('-9M') // => '-2M'
 simplify('-2M', true) // => '2M'
 ```
 
-Source:  [interval/simplify.js](https://github.com/danigb/tonal/tree/master//lib/interval/simplify.js)
-
-Test:  [interval/simplifyTest.js](https://github.com/danigb/tonal/tree/master//test/interval/simplifyTest.js)
-
+Source: [interval/simplify.js](https://github.com/danigb/tonal/tree/master//lib/interval/simplify.js)
+Test: [interval/simplifyTest.js](https://github.com/danigb/tonal/tree/master//test/interval/simplifyTest.js)
 
 
 ## PitchSet module
@@ -1716,8 +1574,6 @@ Some tonal functions (like scales, for example) uses pitch sets.
 
 Return all modes of a pitch set
 
-
-
 __Arguments:__
 
 Name|Type|Description
@@ -1738,10 +1594,8 @@ __Example:__
 modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]
 ```
 
-Source:  [pitchSet/modes.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/modes.js)
-
-Test:  [pitchSet/modesTest.js](https://github.com/danigb/tonal/tree/master//test/pitchSet/modesTest.js)
-
+Source: [pitchSet/modes.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/modes.js)
+Test: [pitchSet/modesTest.js](https://github.com/danigb/tonal/tree/master//test/pitchSet/modesTest.js)
 
 ----
 ###### [pitchSet/pitchSet](#pitchset-module)
@@ -1756,8 +1610,6 @@ Create a pitch class set from a collection of pitches.
 
 The pitch classes are ordered by frequency starting from the first note
 of the given collection
-
-
 
 __Arguments:__
 
@@ -1780,10 +1632,8 @@ pitchSet('D E G G A E') // => ['D', 'E', 'G', 'A']
 pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']
 ```
 
-Source:  [pitchSet/pitchSet.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/pitchSet.js)
-
-Test:  [pitchSet/pitchSetTest.js](https://github.com/danigb/tonal/tree/master//test/pitchSet/pitchSetTest.js)
-
+Source: [pitchSet/pitchSet.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/pitchSet.js)
+Test: [pitchSet/pitchSetTest.js](https://github.com/danigb/tonal/tree/master//test/pitchSet/pitchSetTest.js)
 
 ----
 ###### [pitchSet/toIntervals](#pitchset-module)
@@ -1795,8 +1645,6 @@ Test:  [pitchSet/pitchSetTest.js](https://github.com/danigb/tonal/tree/master//t
 
 
 Get the intervals of a pitch set
-
-
 
 __Arguments:__
 
@@ -1818,10 +1666,8 @@ __Example:__
 toIntervals(['C', 'D', 'Eb']) // => ['1P', '2M', '3m']
 ```
 
-Source:  [pitchSet/toIntervals.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/toIntervals.js)
-
-Test:  [pitchSet/toIntervalsTest.js](https://github.com/danigb/tonal/tree/master//test/pitchSet/toIntervalsTest.js)
-
+Source: [pitchSet/toIntervals.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/toIntervals.js)
+Test: [pitchSet/toIntervalsTest.js](https://github.com/danigb/tonal/tree/master//test/pitchSet/toIntervalsTest.js)
 
 
 ## BinarySet module
@@ -1877,8 +1723,6 @@ For example, at [allthescales.org site](http://allthescales.org) they limit all 
 
 Get the binary set number of a collection of pitches or intervals
 
-
-
 __Arguments:__
 
 Name|Type|Description
@@ -1903,10 +1747,8 @@ toBinary('1P 9M') // => '101000000000'
 toBinary('1P 7M') // => '100000000001'
 ```
 
-Source:  [binarySet/binarySet.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/binarySet.js)
-
-Test:  [binarySet/binarySetTest.js](https://github.com/danigb/tonal/tree/master//test/binarySet/binarySetTest.js)
-
+Source: [binarySet/binarySet.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/binarySet.js)
+Test: [binarySet/binarySetTest.js](https://github.com/danigb/tonal/tree/master//test/binarySet/binarySetTest.js)
 
 ----
 ###### [binarySet/binarySets](#binaryset-module)
@@ -1918,8 +1760,6 @@ Test:  [binarySet/binarySetTest.js](https://github.com/danigb/tonal/tree/master/
 
 
 Return all possible set binary set numbers
-
-
 
 __Arguments:__
 
@@ -1941,10 +1781,8 @@ __Example:__
 binarySets() // => ['1000000000', '1000000001', ...]
 ```
 
-Source:  [binarySet/binarySets.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/binarySets.js)
-
-Test:  [binarySet/binarySetsTest.js](https://github.com/danigb/tonal/tree/master//test/binarySet/binarySetsTest.js)
-
+Source: [binarySet/binarySets.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/binarySets.js)
+Test: [binarySet/binarySetsTest.js](https://github.com/danigb/tonal/tree/master//test/binarySet/binarySetsTest.js)
 
 ----
 ###### [binarySet/toIntervals](#binaryset-module)
@@ -1956,8 +1794,6 @@ Test:  [binarySet/binarySetsTest.js](https://github.com/danigb/tonal/tree/master
 
 
 Convert a binary set number to an intervals collection
-
-
 
 __Arguments:__
 
@@ -1980,10 +1816,8 @@ intervals('1P 2M') // => ['1P', '2M']
 intervals(2773) // => ['1P', '2M', '3M']
 ```
 
-Source:  [binarySet/toIntervals.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/toIntervals.js)
-
-Test:  [binarySet/toIntervalsTest.js](https://github.com/danigb/tonal/tree/master//test/binarySet/toIntervalsTest.js)
-
+Source: [binarySet/toIntervals.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/toIntervals.js)
+Test: [binarySet/toIntervalsTest.js](https://github.com/danigb/tonal/tree/master//test/binarySet/toIntervalsTest.js)
 
 
 ## Key module
@@ -1995,7 +1829,7 @@ Test:  [binarySet/toIntervalsTest.js](https://github.com/danigb/tonal/tree/maste
 
 
 
-At this moment, this module is a work in progress.
+At this moment, this module is a work in progress. 
 
 ### Function list
 
@@ -2022,8 +1856,6 @@ At this moment, this module is a work in progress.
 
 Given a key (number) returns the accidentals
 
-
-
 __Arguments:__
 
 Name|Type|Description
@@ -2045,10 +1877,8 @@ accidentals(3) // => '###'
 accidentals(-2) // => 'bb'
 ```
 
-Source:  [key/accidentals.js](https://github.com/danigb/tonal/tree/master//lib/key/accidentals.js)
-
-Test:  [key/accidentalsTest.js](https://github.com/danigb/tonal/tree/master//test/key/accidentalsTest.js)
-
+Source: [key/accidentals.js](https://github.com/danigb/tonal/tree/master//lib/key/accidentals.js)
+Test: [key/accidentalsTest.js](https://github.com/danigb/tonal/tree/master//test/key/accidentalsTest.js)
 
 ----
 ###### [key/alteredNotes](#key-module)
@@ -2060,8 +1890,6 @@ Test:  [key/accidentalsTest.js](https://github.com/danigb/tonal/tree/master//tes
 
 
 Given a key, return the altered pitches
-
-
 
 __Arguments:__
 
@@ -2083,10 +1911,8 @@ alteredNotes(3) // => ['F#', 'C#', 'G#']
 alteredNotes('bb') // => ['Bb', 'Eb']
 ```
 
-Source:  [key/alteredNotes.js](https://github.com/danigb/tonal/tree/master//lib/key/alteredNotes.js)
-
-Test:  [key/alteredNotesTest.js](https://github.com/danigb/tonal/tree/master//test/key/alteredNotesTest.js)
-
+Source: [key/alteredNotes.js](https://github.com/danigb/tonal/tree/master//lib/key/alteredNotes.js)
+Test: [key/alteredNotesTest.js](https://github.com/danigb/tonal/tree/master//test/key/alteredNotesTest.js)
 
 ----
 ###### [key/fromPitchSet](#key-module)
@@ -2098,8 +1924,6 @@ Test:  [key/alteredNotesTest.js](https://github.com/danigb/tonal/tree/master//te
 
 
 Given a pitch set, return its key
-
-
 
 __Arguments:__
 
@@ -2119,10 +1943,8 @@ __Example:__
 fromPitchSet('C Bb F') // => -1
 ```
 
-Source:  [key/fromPitchSet.js](https://github.com/danigb/tonal/tree/master//lib/key/fromPitchSet.js)
-
-Test:  [key/fromPitchSetTest.js](https://github.com/danigb/tonal/tree/master//test/key/fromPitchSetTest.js)
-
+Source: [key/fromPitchSet.js](https://github.com/danigb/tonal/tree/master//lib/key/fromPitchSet.js)
+Test: [key/fromPitchSetTest.js](https://github.com/danigb/tonal/tree/master//test/key/fromPitchSetTest.js)
 
 ----
 ###### [key/keyNumber](#key-module)
@@ -2137,8 +1959,6 @@ Get the key number (the number of sharps or flats) of a key
 
 The name can be a pitch class (and major key is supposed), a pitch class with
 a 'major' or 'minor' appended, or a string with the accidentals
-
-
 
 __Arguments:__
 
@@ -2165,10 +1985,8 @@ keyNumber('##') // => 2
 keyNumber('bbb') // => -3
 ```
 
-Source:  [key/keyNumber.js](https://github.com/danigb/tonal/tree/master//lib/key/keyNumber.js)
-
-Test:  [key/keyNumberTest.js](https://github.com/danigb/tonal/tree/master//test/key/keyNumberTest.js)
-
+Source: [key/keyNumber.js](https://github.com/danigb/tonal/tree/master//lib/key/keyNumber.js)
+Test: [key/keyNumberTest.js](https://github.com/danigb/tonal/tree/master//test/key/keyNumberTest.js)
 
 ----
 ###### [key/parse](#key-module)
@@ -2180,8 +1998,6 @@ Test:  [key/keyNumberTest.js](https://github.com/danigb/tonal/tree/master//test/
 
 
 Get the components of a key name
-
-
 
 __Arguments:__
 
@@ -2202,10 +2018,8 @@ parse('C minor') // => { tonic: 'C', type: 'minor'}
 parse('C#') // => { tonic: 'C#', type: 'major'}
 ```
 
-Source:  [key/parse.js](https://github.com/danigb/tonal/tree/master//lib/key/parse.js)
-
-Test:  [key/parseTest.js](https://github.com/danigb/tonal/tree/master//test/key/parseTest.js)
-
+Source: [key/parse.js](https://github.com/danigb/tonal/tree/master//lib/key/parse.js)
+Test: [key/parseTest.js](https://github.com/danigb/tonal/tree/master//test/key/parseTest.js)
 
 ----
 ###### [key/pitchSet](#key-module)
@@ -2217,8 +2031,6 @@ Test:  [key/parseTest.js](https://github.com/danigb/tonal/tree/master//test/key/
 
 
 Get the pitch class set from a key.
-
-
 
 __Arguments:__
 
@@ -2241,10 +2053,8 @@ pitchSet('g major') // => ['G', 'A', 'B', 'C', 'D', 'E', 'F#']
 pitchSet('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']
 ```
 
-Source:  [key/pitchSet.js](https://github.com/danigb/tonal/tree/master//lib/key/pitchSet.js)
-
-Test:  [key/pitchSetTest.js](https://github.com/danigb/tonal/tree/master//test/key/pitchSetTest.js)
-
+Source: [key/pitchSet.js](https://github.com/danigb/tonal/tree/master//lib/key/pitchSet.js)
+Test: [key/pitchSetTest.js](https://github.com/danigb/tonal/tree/master//test/key/pitchSetTest.js)
 
 ----
 ###### [key/triads](#key-module)
@@ -2256,8 +2066,6 @@ Test:  [key/pitchSetTest.js](https://github.com/danigb/tonal/tree/master//test/k
 
 
 Get the triads of
-
-
 
 __Arguments:__
 
@@ -2280,10 +2088,8 @@ triads('g major') // => ['G', 'A', 'B', 'C', 'D', 'E', 'F#']
 triads('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']
 ```
 
-Source:  [key/triads.js](https://github.com/danigb/tonal/tree/master//lib/key/triads.js)
-
-Test:  [key/triadsTest.js](https://github.com/danigb/tonal/tree/master//test/key/triadsTest.js)
-
+Source: [key/triads.js](https://github.com/danigb/tonal/tree/master//lib/key/triads.js)
+Test: [key/triadsTest.js](https://github.com/danigb/tonal/tree/master//test/key/triadsTest.js)
 
 
 ## Fifths module
@@ -2302,7 +2108,7 @@ var distance = require('tonal/fifths/distance')
 distance('F', 'C') // => -1
 ```
 
-## Resources
+### Resources
 
 - The line of fifths by David Temperley: http://www.theory.esm.rochester.edu/temperley/papers/temperley-ma00.pdf
 
@@ -2328,8 +2134,6 @@ distance('F', 'C') // => -1
 
 Get a comparator function to sort a collection of pitch classes
 
-
-
 __Arguments:__
 
 Name|Type|Description
@@ -2350,10 +2154,8 @@ __Example:__
 ['C#', 'G#', 'F#'].sort(byFifths()) // => ['F#', 'C#', 'D#']
 ```
 
-Source:  [fifths/byFifths.js](https://github.com/danigb/tonal/tree/master//lib/fifths/byFifths.js)
-
-Test:  [fifths/byFifthsTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/byFifthsTest.js)
-
+Source: [fifths/byFifths.js](https://github.com/danigb/tonal/tree/master//lib/fifths/byFifths.js)
+Test: [fifths/byFifthsTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/byFifthsTest.js)
 
 ----
 ###### [fifths/fifths](#fifths-module)
@@ -2365,8 +2167,6 @@ Test:  [fifths/byFifthsTest.js](https://github.com/danigb/tonal/tree/master//tes
 
 
 Return the number of fifths between two pitch classes.
-
-
 
 __Arguments:__
 
@@ -2395,10 +2195,8 @@ fifths('A', 'D') // => 1
 fifths('C4', 'C2') // => 0
 ```
 
-Source:  [fifths/fifths.js](https://github.com/danigb/tonal/tree/master//lib/fifths/fifths.js)
-
-Test:  [fifths/fifthsTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/fifthsTest.js)
-
+Source: [fifths/fifths.js](https://github.com/danigb/tonal/tree/master//lib/fifths/fifths.js)
+Test: [fifths/fifthsTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/fifthsTest.js)
 
 ----
 ###### [fifths/fifthsFrom](#fifths-module)
@@ -2410,8 +2208,6 @@ Test:  [fifths/fifthsTest.js](https://github.com/danigb/tonal/tree/master//test/
 
 
 Create a function to get fifths distance from a given note.
-
-
 
 __Arguments:__
 
@@ -2433,10 +2229,8 @@ __Example:__
 ['A', 'B', 'C'].map(fifthsFrom('G'))
 ```
 
-Source:  [fifths/fifthsFrom.js](https://github.com/danigb/tonal/tree/master//lib/fifths/fifthsFrom.js)
-
-Test:  [fifths/fifthsFromTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/fifthsFromTest.js)
-
+Source: [fifths/fifthsFrom.js](https://github.com/danigb/tonal/tree/master//lib/fifths/fifthsFrom.js)
+Test: [fifths/fifthsFromTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/fifthsFromTest.js)
 
 ----
 ###### [fifths/transpose](#fifths-module)
@@ -2448,8 +2242,6 @@ Test:  [fifths/fifthsFromTest.js](https://github.com/danigb/tonal/tree/master//t
 
 
 Transpose a pitch class by a number of fifths
-
-
 
 __Arguments:__
 
@@ -2473,6 +2265,7 @@ transpose('C', 2) // => 'D'
 transpose('C5', -2) // => 'Bb'
 ```
 
-Source:  [fifths/transpose.js](https://github.com/danigb/tonal/tree/master//lib/fifths/transpose.js)
+Source: [fifths/transpose.js](https://github.com/danigb/tonal/tree/master//lib/fifths/transpose.js)
+Test: [fifths/transposeTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/transposeTest.js)
 
-Test:  [fifths/transposeTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/transposeTest.js)
+

@@ -16,9 +16,6 @@ The binary representation of the scales are based on the awesome book [Arpeggio 
 Trying to get the correct name of the things:
 http://music.stackexchange.com/questions/17780/naming-pitch-and-interval-collections
 
-Dive into the world of pitch class sets:
-http://www.mta.ca/pc-set/pc-set_new/pages/introduction/toc.html
-http://composertools.com/Theory/PCSets/
 
 Interval analysis stuff are based on the book [Harmonic Materials of Modern Music](https://archive.org/details/harmonicmaterial00hans) of Howard Hanson.
 

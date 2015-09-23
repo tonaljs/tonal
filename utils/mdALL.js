@@ -45,7 +45,6 @@ module.exports = function (sources) {
       MD.line(),
       MD.line(src.jsdoc.description.full),
 
-      MD.line(),
       MD.line(MD.bold('Arguments:')),
       MD.thead('Name', 'Type', 'Description'),
       src.findTags('param').map(mdParam),
@@ -58,8 +57,8 @@ module.exports = function (sources) {
       MD.line(),
       MD.line(MD.bold('Example:')),
       MD.code(example, 'js'),
-      MD.line('Source: ', MD.link(src.module + '/' + src.name + '.js', source)),
-      MD.line('Test: ', MD.link(src.module + '/' + src.name + 'Test.js', test))
+      MD.join('Source: ', MD.link(src.module + '/' + src.name + '.js', source)),
+      MD.join('Test: ', MD.link(src.module + '/' + src.name + 'Test.js', test))
     )
   }
 
@@ -99,7 +98,7 @@ module.exports = function (sources) {
     MD.h1('Tonal functions'),
     MD.line('A list of', MD.link('all functions', sources.repo('docs/INDEX.md')), 'available grouped by modules.'),
     MD.line(),
-    MD.line(MD.bold('Index of modules')),
+    MD.line(MD.bold('Module summary')),
     sources.modules.map(mdModuleIndex).join(''),
     sources.modules.map(mdModule).join('\n')
   )
