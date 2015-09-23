@@ -14,7 +14,7 @@ var sources = sourceModel(path('lib'),
   ['pitch', 'scale', 'chord', 'interval', 'pitchSet', 'binarySet', 'key', 'fifths'])
 
 fs.writeFileSync(path('docs', 'INDEX.md'), mdINDEX(sources))
-fs.writeFileSync(path('docs', 'ALL.md'), mdALL(sources))
+fs.writeFileSync(path('DOCUMENTATION.md'), mdALL(sources))
 
-var moduleDocs = require('./generate-module-docs')
-moduleDocs(sources.modules, path('lib'), path('docs'))
+//var moduleDocs = require('./generate-module-docs')
+//moduleDocs(sources.modules, path('lib'), path('docs'))

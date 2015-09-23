@@ -1,10 +1,12 @@
 # Tonal functions
 
-A list of [all functions](https://github.com/danigb/tonal/tree/master//docs/INDEX.md) available grouped by modules.
+Tonal is a collection of js functions to work with tonal elements of music.
+
+Tonal functions are grouped by modules.
 
 
 
-__Module summary__
+__Modules summary__
 
 - __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitch](#pitchpitch), [pitchClass](#pitchpitchclass), [props](#pitchprops), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
 - __[Scale](#scale-module)__ -  [intervals](#scaleintervals), [mode](#scalemode), [name](#scalename), [scale](#scalescale), [scaleNames](#scalescalenames), [triad](#scaletriad)
@@ -14,6 +16,10 @@ __Module summary__
 - __[BinarySet](#binaryset-module)__ -  [binarySet](#binarysetbinaryset), [binarySets](#binarysetbinarysets), [toIntervals](#binarysettointervals)
 - __[Key](#key-module)__ -  [accidentals](#keyaccidentals), [alteredNotes](#keyalterednotes), [fromPitchSet](#keyfrompitchset), [keyNumber](#keykeynumber), [parse](#keyparse), [pitchSet](#keypitchset), [triads](#keytriads)
 - __[Fifths](#fifths-module)__ -  [byFifths](#fifthsbyfifths), [fifths](#fifthsfifths), [fifthsFrom](#fifthsfifthsfrom), [transpose](#fifthstranspose)
+
+
+
+A list of [all functions](https://github.com/danigb/tonal/tree/master//docs/INDEX.md) is available.
 
 ## Pitch module
 

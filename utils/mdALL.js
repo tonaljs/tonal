@@ -96,10 +96,13 @@ module.exports = function (sources) {
 
   return MD.lines(
     MD.h1('Tonal functions'),
-    MD.line('A list of', MD.link('all functions', sources.repo('docs/INDEX.md')), 'available grouped by modules.'),
+    MD.line('Tonal is a collection of js functions to work with tonal elements of music.'),
+    MD.line('Tonal functions are grouped by modules.'),
     MD.line(),
-    MD.line(MD.bold('Module summary')),
+    MD.line(MD.bold('Modules summary')),
     sources.modules.map(mdModuleIndex).join(''),
+    MD.line(),
+    MD.line('A list of', MD.link('all functions', sources.repo('docs/INDEX.md')), 'is available.'),
     sources.modules.map(mdModule).join('\n')
   )
 }
