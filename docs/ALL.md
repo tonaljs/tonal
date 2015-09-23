@@ -10,8 +10,8 @@ __Index of modules__
 - __[Scale](#scale-module)__ -  [intervals](#scaleintervals), [mode](#scalemode), [name](#scalename), [scale](#scalescale), [scaleNames](#scalescalenames), [triad](#scaletriad)
 - __[Chord](#chord-module)__ -  [chord](#chordchord), [chordNames](#chordchordnames), [deparse](#chorddeparse), [fromScale](#chordfromscale), [intervals](#chordintervals), [name](#chordname)
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [harmonize](#intervalharmonize), [interval](#intervalinterval), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
-- __[PitchSet](#pitchSet-module)__ -  [modes](#pitchsetmodes), [pitchSet](#pitchsetpitchset), [toIntervals](#pitchsettointervals)
-- __[BinarySet](#binarySet-module)__ -  [binarySet](#binarysetbinaryset), [binarySets](#binarysetbinarysets), [toIntervals](#binarysettointervals)
+- __[PitchSet](#pitchset-module)__ -  [modes](#pitchsetmodes), [pitchSet](#pitchsetpitchset), [toIntervals](#pitchsettointervals)
+- __[BinarySet](#binaryset-module)__ -  [binarySet](#binarysetbinaryset), [binarySets](#binarysetbinarysets), [toIntervals](#binarysettointervals)
 - __[Key](#key-module)__ -  [accidentals](#keyaccidentals), [alteredNotes](#keyalterednotes), [fromPitchSet](#keyfrompitchset), [keyNumber](#keykeynumber), [parse](#keyparse), [pitchSet](#keypitchset), [triads](#keytriads)
 - __[Fifths](#fifths-module)__ -  [byFifths](#fifthsbyfifths), [fifths](#fifthsfifths), [fifthsFrom](#fifthsfifthsfrom), [transpose](#fifthstranspose)
 
@@ -1559,7 +1559,7 @@ simplify('-2M', true) // => '2M'
 Number of functions:  3
 
 ----
-###### [pitchSet/modes](#pitchSet-module)
+###### [pitchSet/modes](#pitchset-module)
 
 
 
@@ -1595,7 +1595,7 @@ modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]
 
 
 ----
-###### [pitchSet/pitchSet](#pitchSet-module)
+###### [pitchSet/pitchSet](#pitchset-module)
 
 
 
@@ -1635,7 +1635,7 @@ pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']
 
 
 ----
-###### [pitchSet/toIntervals](#pitchSet-module)
+###### [pitchSet/toIntervals](#pitchset-module)
 
 
 
@@ -1678,7 +1678,7 @@ toIntervals(['C', 'D', 'Eb']) // => ['1P', '2M', '3m']
 Number of functions:  3
 
 ----
-###### [binarySet/binarySet](#binarySet-module)
+###### [binarySet/binarySet](#binaryset-module)
 
 
 
@@ -1718,7 +1718,7 @@ toBinary('1P 7M') // => '100000000001'
 
 
 ----
-###### [binarySet/binarySets](#binarySet-module)
+###### [binarySet/binarySets](#binaryset-module)
 
 
 
@@ -1754,7 +1754,7 @@ binarySets() // => ['1000000000', '1000000001', ...]
 
 
 ----
-###### [binarySet/toIntervals](#binarySet-module)
+###### [binarySet/toIntervals](#binaryset-module)
 
 
 

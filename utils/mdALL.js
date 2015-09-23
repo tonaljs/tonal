@@ -1,6 +1,10 @@
 var MD = require('./markdown')
 var _ = require('lodash')
 
+function linkToModule (module) {
+  return '#' + module.toLowerCase() + '-module'
+}
+
 module.exports = function (sources) {
   function mdModule (module) {
     return MD.lines(
@@ -18,7 +22,7 @@ module.exports = function (sources) {
 
     return MD.lines(
       MD.separator(),
-      MD.h6(MD.link(src.module + '/' + src.name, '#' + src.module + '-module')),
+      MD.h6(MD.link(src.module + '/' + src.name, linkToModule(src.module))),
       MD.line(),
       mdSignature(src),
       MD.line(),
@@ -63,7 +67,7 @@ module.exports = function (sources) {
   function mdModuleIndex (module) {
     var files = sources.byModule[module]
     return MD.li(
-      MD.bold(MD.link(_.capitalize(module), '#' + module + '-module')),
+      MD.bold(MD.link(_.capitalize(module), linkToModule(module))),
       '- ',
       files.map(mdFuncItem).join(', ')
     )
