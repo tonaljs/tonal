@@ -1,4 +1,5 @@
 [MASTER]
+- add pitch/enharmonics to get all enharmonics of a pitch
 - pitch/props chroma property is always between 0 and 11
 - Rename genericSet to toIntervals
 - Rename module binary-set to binarySet

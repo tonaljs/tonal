@@ -1,6 +1,6 @@
 # Function index
 
-Number of functions:  55
+Number of functions:  56
 
 name|description|module|source
 ---|---|---|---
@@ -15,6 +15,7 @@ __cents__|Get the distance in cents between pitches or frequencies<br>`cents(440
 __chord__|Get chord notes or intervals by its type and (optionally) tonic pitch<br>`chord('CMaj7') // => ['C4', 'E4', 'G4', 'B4']`|[chord](https://github.com/danigb/tonal/tree/master/docs/chord.md)|[chord.js](https://github.com/danigb/tonal/tree/master/lib/chord/chord.js)
 __chordNames__|Get all known scale names<br>`names() => ['major', 'minor', ....]`|[chord](https://github.com/danigb/tonal/tree/master/docs/chord.md)|[chordNames.js](https://github.com/danigb/tonal/tree/master/lib/chord/chordNames.js)
 __enharmonic__|Get the enharmonic of a pitch with a given step<br>`enharmonic('C#4', 'D') // => 'Db4'`|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)|[enharmonic.js](https://github.com/danigb/tonal/tree/master/lib/pitch/enharmonic.js)
+__enharmonics__|Get all the enharmonics of a pitch (up to 4 alterations)<br>`enharmonics('C') // => [ 'A###3', 'B#3', 'Dbb4', 'Ebbbb4' ]`|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)|[enharmonics.js](https://github.com/danigb/tonal/tree/master/lib/pitch/enharmonics.js)
 __fifths__|Return the number of fifths between two pitch classes.<br>`fifths('C') // => 0`|[fifths](https://github.com/danigb/tonal/tree/master/docs/fifths.md)|[fifths.js](https://github.com/danigb/tonal/tree/master/lib/fifths/fifths.js)
 __fifthsFrom__|Create a function to get fifths distance from a given note.<br>`['A', 'B', 'C'].map(fifthsFrom('G'))`|[fifths](https://github.com/danigb/tonal/tree/master/docs/fifths.md)|[fifthsFrom.js](https://github.com/danigb/tonal/tree/master/lib/fifths/fifthsFrom.js)
 __fromFreq__|Given a frequency, get the pitch. It will round the frequency to the nearest pitch frequency<br>`fromFreq(440) // => 'A4'`|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)|[fromFreq.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromFreq.js)
@@ -23,8 +24,8 @@ __fromMidi__|Get the pitch of the given midi number<br>`fromMidi(69) // => 'A4'`
 __fromPitchSet__|Given a pitch set, return its key<br>`fromPitchSet('C Bb F') // => -1`|[key](https://github.com/danigb/tonal/tree/master/docs/key.md)|[fromPitchSet.js](https://github.com/danigb/tonal/tree/master/lib/key/fromPitchSet.js)
 __fromScale__|Get the chord names that _fits_ a given scale<br>`fromScale('C D E F G A B') // => ['CM', 'CMaj7']`|[chord](https://github.com/danigb/tonal/tree/master/docs/chord.md)|[fromScale.js](https://github.com/danigb/tonal/tree/master/lib/chord/fromScale.js)
 __harmonize__|Given a collection of intervals, and a tonic create a collection of pitches<br>`harmonize('C2', ['P1 P5']) // => ['C2', 'G2']`|[interval](https://github.com/danigb/tonal/tree/master/docs/interval.md)|[harmonize.js](https://github.com/danigb/tonal/tree/master/lib/interval/harmonize.js)
-__interval__|Get the interval between two pitches<br>`interval('C', 'D') // => 'M2'`|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)|[interval.js](https://github.com/danigb/tonal/tree/master/lib/pitch/interval.js)
 __interval__|Get an interval properties from a string or a number, and optionally a quality and octave.<br>`interval('2') // => '2M'`|[interval](https://github.com/danigb/tonal/tree/master/docs/interval.md)|[interval.js](https://github.com/danigb/tonal/tree/master/lib/interval/interval.js)
+__interval__|Get the interval between two pitches<br>`interval('C', 'D') // => 'M2'`|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)|[interval.js](https://github.com/danigb/tonal/tree/master/lib/pitch/interval.js)
 __intervalFrom__|Partial apply `picth/interval` to return a interval from a pitch<br>`['C', 'D', 'E'].map(intervalFrom('C')) // => ['1P', '2M', '3M']`|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)|[intervalFrom.js](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalFrom.js)
 __intervalTo__|Partial apply `picth/interval` to return a interval to a pitch<br>`['C', 'D', 'E'].map(intervalTo('E')) // => ['3M', '2M', '1P']`|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)|[intervalTo.js](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalTo.js)
 __intervals__|Get the intervals of a chord name<br>`intervals('Cmaj7') // => ['1P', '3M', '5P', '7M']`|[chord](https://github.com/danigb/tonal/tree/master/docs/chord.md)|[intervals.js](https://github.com/danigb/tonal/tree/master/lib/chord/intervals.js)

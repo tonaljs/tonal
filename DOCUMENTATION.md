@@ -8,7 +8,7 @@ Tonal functions are grouped by modules.
 
 __Modules summary__
 
-- __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitch](#pitchpitch), [pitchClass](#pitchpitchclass), [props](#pitchprops), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
+- __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [enharmonics](#pitchenharmonics), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitch](#pitchpitch), [pitchClass](#pitchpitchclass), [props](#pitchprops), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
 - __[Scale](#scale-module)__ -  [intervals](#scaleintervals), [mode](#scalemode), [name](#scalename), [scale](#scalescale), [scaleNames](#scalescalenames), [triad](#scaletriad)
 - __[Chord](#chord-module)__ -  [chord](#chordchord), [chordNames](#chordchordnames), [fromScale](#chordfromscale), [intervals](#chordintervals), [name](#chordname)
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [harmonize](#intervalharmonize), [interval](#intervalinterval), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
@@ -89,6 +89,7 @@ var transpose = require('tonal/pitch/transpose')
 - [alterToAcc](#pitchaltertoacc) -  Get the accidentals from an alteration number
 - [cents](#pitchcents) -  Get the distance in cents between pitches or frequencies
 - [enharmonic](#pitchenharmonic) -  Get the enharmonic of a pitch with a given step
+- [enharmonics](#pitchenharmonics) -  Get all the enharmonics of a pitch (up to 4 alterations)
 - [fromFreq](#pitchfromfreq) -  Given a frequency, get the pitch. It will round the frequency to the nearest pitch frequency
 - [fromKey](#pitchfromkey) -  Get the pitch of the given piano key number
 - [fromMidi](#pitchfrommidi) -  Get the pitch of the given midi number
@@ -218,6 +219,43 @@ enharmonic('B#', 'C') // => 'C'
 
 Source: [pitch/enharmonic.js](https://github.com/danigb/tonal/tree/master//lib/pitch/enharmonic.js)
 Test: [pitch/enharmonicTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/enharmonicTest.js)
+
+----
+###### [pitch/enharmonics](#pitch-module)
+
+
+
+#### enharmonics(pitch, includeSource) → {Array}
+
+
+
+Get all the enharmonics of a pitch (up to 4 alterations)
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`pitch`|String|the pitch to get the enharmonics from
+`includeSource`|boolean|(Optional) If true, the returned array will contain the given pitch. False by default
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array of pitches ordered by distance to the given one
+
+
+__Example:__
+
+```js
+enharmonics('C') // => [ 'A###3', 'B#3', 'Dbb4', 'Ebbbb4' ]
+enharmonics('Ab3') // => ['E####3', 'F###3', 'G#3', 'Bbbb3', 'Cbbbb4']
+enharmonics('C', true) // => [ 'A###3', 'B#3', 'C4', 'Dbb4', 'Ebbbb4' ]
+```
+
+Source: [pitch/enharmonics.js](https://github.com/danigb/tonal/tree/master//lib/pitch/enharmonics.js)
+Test: [pitch/enharmonicsTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/enharmonicsTest.js)
 
 ----
 ###### [pitch/fromFreq](#pitch-module)
