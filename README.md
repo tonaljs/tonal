@@ -56,76 +56,19 @@ Mostly, because I want to [learn](https://github.com/danigb/tonal/blob/master/do
 
 The library is divided in a number of modules:
 
-#### [Pitches](https://github.com/danigb/tonal/blob/master/docs/pitch.md)
+- [Pitch module](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md#pitch-module): work with pitches (`C#4` is one), midi and frequencies. Transpose pitches and find distances.
+- [Interval module](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md#interval-module): Work with intervals.
+- [Scale](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md#scale-module): get scale intervals or pitches by its name (more than 100)
+- [Chord](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md#chord-module): get chord intervals or pitches by its name (more than 100) and detect chords by its pitches
+- [PitchSet](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md#pitchSet-module): work with pitch class sets
 
-In tonal, pitches and intervals are just strings (using scientific notation):
-```js
-tonal.pitch('c') // 'C4'
-tonal.pitch('c', '#', 2) // => 'D#2'
-tonal.pitch('e', -2, 5) // => 'Ebb5'
-tonal.pitch('ebb2') // 'Ebb2'
-tonal.pitch('Fx') // => 'F##'
-tonal.pitch('Ebbbbb') // => null
-```
-
-Work with midi and frequencies:
-```js
-tonal.midi('A4') // => 69
-tonal.fromMidi(60) // => 'C4'
-tonal.freq('A4') // => 440
-tonal.fromFreq(220) // => 'A3'
-```
-
-Distance and transposition:
-```js
-tonal.transpose('F#2', '2M') // => 'G#2'
-tonal.transpose('2M', '2M') // => '3M'
-tonal.interval('F2', 'B2') // => '4A'
-```
-
-#### [Intervals](https://github.com/danigb/tonal/blob/master/docs/interval.md)
-
-Intervals are also strings:
-
-```js
-tonal.interval('M2') // => 'M2'
-tonal.interval('-P4') // => '-P4'
-tonal.interval('nope') // => null
-tonal.semitones('P5') // => 7
-```
-
-And can also be manipulated:
-```js
-tonal.simplify('9m') // => '2m'
-tonal.add('2M', '2M') // => '3M'
-tonal.invert('2M') // => '7m'
-```
-
-#### Collections and pitch sets
-
-```js
-// work with collections
-tonal('A B C D E').transpose('2M') // => ['B4', 'C#5', 'D5', 'E5', 'F#5']
-tonal('1P 2M 3M').transpose('D4') // => ['D4', 'E4', 'F#4']
-
-// pitch class sets
-tonal('C4 D4 E6 D5 F2 C5 F6').set() // => ['C', 'D', 'E', 'F']
-```
-
-#### [Chords](https://github.com/danigb/tonal/blob/master/docs/chord.md)
-
-#### [Scales](https://github.com/danigb/tonal/blob/master/docs/scale.md)
-
-#### [Key](https://github.com/danigb/tonal/blob/master/docs/key.md)
-
-Take a look to [the source](https://github.com/danigb/tonal/blob/master/lib) or the [documentation](https://github.com/danigb/tonal/tree/master/docs)
-
+And [more ...](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md)
 
 ## Usage
 
 Install via npm: `npm i --save tonal`
 
-Then you can use the tonal facade:
+Then you can use the tonal facade (with only a subset of all the functions):
 
 ```js
 var tonal = require('tonal')
@@ -138,8 +81,6 @@ or require the functions individually:
 var transpose = require('tonal/pitch/transpose')
 tranpose('5P', 'C')
 ```
-
-The tonal facade only have a selection of all the available functions.
 
 ## Examples
 
@@ -179,7 +120,7 @@ V7ofV('D') // => ['A4', 'C#5', 'E5', 'G5']
 
 ## Documentation and tests
 
-The functions are extensively documented inside the code. The documentation can be read [here](https://github.com/danigb/tonal/blob/master/docs)
+The functions are extensively documented inside the code. The documentation can be read [here](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md)
 
 To run the tests, clone this repository and run:
 
@@ -197,16 +138,7 @@ This library takes inspiration from lot of places:
 - MusicKit: https://github.com/benzguo/MusicKit
 - Music21: http://web.mit.edu/music21/doc/index.html
 
-The binary representation of the scales are based on the awesome book [Arpeggio & Scale Resources](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia) by [Rich Cochrane](http://cochranemusic.com/). Additional scale stuff (like scale spaces) are inspired by the works of [Walter Zettel](http://www.muzuu.org/new_life/pics/simpleblog/scales/scalesadvice.html) and [William Zeitler](http://www.allthescales.org/)
-
-Interval analisys is based on the book [Harmonic Materials of Modern Music](https://archive.org/details/harmonicmaterial00hans) of Howard Hanson.
-
-A Corpus Study of Rock Music:  http://theory.esm.rochester.edu/rock_corpus/index.html
-Musical futures: https://www.musicalfutures.org/
-
-Music JSON proposal: https://github.com/soundio/music-json
-
-Staff notation: http://opusmodus.com/omn.html
+And many more... (see documentation)
 
 ## License
 

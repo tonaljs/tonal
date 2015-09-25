@@ -1,4 +1,6 @@
 [MASTER]
+
+[0.9.0]
 - remove incubator/fifths since there is a fifths module with all this functionallity (and more)
 - add pitch/enharmonics to get all enharmonics of a pitch
 - pitch/props chroma property is always between 0 and 11
