@@ -1,24 +1,14 @@
 # Tonal documentation
 
-This folder contains the documentation of tonal.
+This folder contains the documentation of tonal:
+
+- The full documentation is here: https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md
+- A function index is here: https://github.com/danigb/tonal/blob/master/docs/INDEX.md
 
 ## Library overview
 
-Tonal is a collection of functions, grouped by modules. Each module has functions related to the same problem:
+Tonal is a collection of functions, grouped by modules. Each module has functions related to the same problem: pitch, chord, fifths are examples of modules.
 
-- pitch: create and manipulate pitches. Get pitch properties like pitchClass, midi number or frequency. For apps dealing with midi (and nothing more) a couple of functions of this module is all you need.
-- interval: create and manipulate intervals. Since most of the time you will write interval strings you probably won't need anything of this (except, maybe, `simplify` to convert compound intervals to simple ones)
-- chord and scales: a dictionary of chord and scales
-- sequence: create arrays of events (mostly pitches) easily. A `pitchSet` function to create pitch class sets is included.
-- key: work with keys and key signatures
+At this moment you should require each function individually, for example: `var toMidi = require('tonal/pitch/toMidi')`. This has the adventage of reduce the dependencies to the minimum.
 
-The most important function of each module (if any) is called the same as the module: `pitch/pitch`, `scale/scale`, ...
-
-The sequences are almost sugar to work with arrays:
-
-```js
-var sequence = require('tonal/sequence/sequence')
-var set = require('tonal/sequence/pitchSet')
-sequence('A B C').map(transpose('5P')) // => ['E5', 'F#5', 'G4']
-set(sequence('A B C').map(transpose('3M'))) // => ['E', 'F#', 'G']
-```
+The most important function of each module (if any) is called the same as the module: `pitch/pitch`, `scale/scale`, and so on.

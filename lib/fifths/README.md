@@ -1,6 +1,6 @@
 # Fifths module
 
-Generate line or cycle of fifths, and calculate distances in fifths
+Fifths plays an important role in western music. This module contains functions to work with line and cycle of fiths, calculate distance in fifths, transpose by fifths and order pitches by fifths distances.
 
 ```js
 var distance = require('tonal/fifths/distance')
