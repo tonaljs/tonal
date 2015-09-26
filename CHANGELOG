@@ -1,4 +1,5 @@
 [MASTER]
+- generate json files with arrays
 
 [0.9.0]
 - remove incubator/fifths since there is a fifths module with all this functionallity (and more)
