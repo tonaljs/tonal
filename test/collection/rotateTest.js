@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var rotate = require('../../lib/_internal/rotate')
+var rotate = require('../../lib/collection/rotate')
 
-vows.describe('_internal/rotate').addBatch({
+vows.describe('collection/rotate').addBatch({
   'rotate strings': function () {
     assert.deepEqual(rotate('C D E'.split(' '), 1), ['D', 'E', 'C'])
     assert.deepEqual(rotate('C D E'.split(' '), 2), ['E', 'C', 'D'])

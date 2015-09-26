@@ -1,4 +1,6 @@
 [MASTER]
+- move rotate to collection module
+- add collection/dictionary and remove _internal functions
 - generate json files with arrays
 
 [0.9.0]
