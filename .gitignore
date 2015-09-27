@@ -1,6 +1,3 @@
 node_modules/
-npm-debug.log
-docs/*.json
 pruebas/
-lib/npm-debug.log
-lib/README.md
+dist/
