@@ -1,4 +1,6 @@
 [MASTER]
+
+[0.10.0]
 - Add chord/scaleNames
 - Add chord/voicings
 - Add pitch/byFreq to order pitches by frequencies
