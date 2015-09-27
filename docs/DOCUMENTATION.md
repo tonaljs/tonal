@@ -1842,7 +1842,7 @@ Test: [chord/extensionsTest.js](https://github.com/danigb/tonal/tree/master//tes
 
 
 
-#### find(pitches) → {Array.<String>}
+#### find(pitches) → {Array}
 
 
 
@@ -1852,14 +1852,14 @@ __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`pitches`|String,Array.<String>|the pitch collection
+`pitches`|String,Array|the pitch collection
 
 
 __Returns:__
 
 Type|Description
 ---|---
-Array.<String>|an array of the chord names that has that pitches
+Array|an array of the chord names that has that pitches
 
 
 __Example:__

@@ -3,6 +3,15 @@ var dox = require('dox')
 
 var GITHUB = 'https://github.com/danigb/tonal/tree/master/'
 
+/**
+ * - modules: a modules list
+ * - ordered: all functions ordered alphabetically
+ * - byModule: function by modulle ordered alphabetically
+ *
+ * Each function:
+ * - module: the module name
+ * - name: the function name
+ */
 module.exports = function (lib, modules) {
   var sources = { modules: modules, ordered: [], byModule: {}, readmes: {} }
 
