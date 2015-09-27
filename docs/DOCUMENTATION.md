@@ -1256,7 +1256,7 @@ Dive into the world of pitch class sets:
 - [harmonize](#collectionharmonize) -  Create a collection of pitches by transposing a tonic by a collection of intervals
 - [intervals](#collectionintervals) -  Get the intervals of a collection of pitches starting from a tonic
 - [mode](#collectionmode) -  Get the mode of a collection of pitches.
-- [modes](#collectionmodes) -  Return all modes of a pitch set
+- [modes](#collectionmodes) -  Return all modes of a collection of notes
 - [pitchSet](#collectionpitchset) -  Create a set of pitch classes (ordered by frequency) from a collection
 - [rotate](#collectionrotate) -  Rotate a collection
 - [toArray](#collectiontoarray) -  Return an array (collection) of anything. If the source is an array, return it unaltered. If its an string, split it and anything else is wrapped to an array.
@@ -1424,7 +1424,7 @@ Test: [collection/modeTest.js](https://github.com/danigb/tonal/tree/master//test
 
 
 
-Return all modes of a pitch set
+Return all modes of a collection of notes
 
 __Arguments:__
 
@@ -1754,7 +1754,7 @@ It uses a big .json dataset to get the chord intervals from the name.
 ### Function list
 
 - [chord](#chordchord) -  Get a chord from a chord name. The chord is an array of pitches or intervals depending if a tonic is given or not.
-- [extensions](#chordextensions) -  Given a chord, get its extensions (same chord with more notes)
+- [extensions](#chordextensions) -  Given a chord type, get its extensions (same chord with more notes)
 - [find](#chordfind) -  Get the chord name(s) of a given pitches
 - [names](#chordnames) -  Get all known chord names
 - [scaleNames](#chordscalenames) -  Given a chord type return its scale names
@@ -1808,24 +1808,24 @@ Test: [chord/chordTest.js](https://github.com/danigb/tonal/tree/master//test/cho
 
 
 
-#### extensions(type, an) → {}
+#### extensions(type) → {Array}
 
 
 
-Given a chord, get its extensions (same chord with more notes)
+Given a chord type, get its extensions (same chord with more notes)
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
 `type`|String|the chord type
-`an`|Array|array with all the chord types that extends the given ones
 
 
 __Returns:__
 
 Type|Description
 ---|---
+Array|an array with all the chord types that extends the given ones
 
 
 __Example:__
@@ -1842,7 +1842,7 @@ Test: [chord/extensionsTest.js](https://github.com/danigb/tonal/tree/master//tes
 
 
 
-#### find() → {}
+#### find(pitches) → {Array.<String>}
 
 
 
@@ -1852,16 +1852,21 @@ __Arguments:__
 
 Name|Type|Description
 ---|---|---
+`pitches`|String,Array.<String>|the pitch collection
 
 
 __Returns:__
 
 Type|Description
 ---|---
+Array.<String>|an array of the chord names that has that pitches
 
 
 __Example:__
 
+```js
+find('G2 E3 C4') // => ['CM/G', 'Em#5/G']
+```
 
 Source: [chord/find.js](https://github.com/danigb/tonal/tree/master//lib/chord/find.js)
 Test: [chord/findTest.js](https://github.com/danigb/tonal/tree/master//test/chord/findTest.js)
