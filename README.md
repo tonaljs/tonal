@@ -11,9 +11,9 @@ var tonal = require('tonal')
 
 // pitches
 tonal.fromMidi(60) // => 'C4'
-tonal.midi('A4') // => 69
+tonal.toMidi('A4') // => 69
 tonal.fromFreq(220) // => 'A3'
-tonal.freq('C') // => ...
+tonal.toFreq('C') // => ...
 
 // intervals
 tonal.tranpose('D4', '2M') // => 'E#4'
@@ -28,7 +28,7 @@ tonal('c d e').map(tonal.transpose('3M')) // => ['E4', 'F#4', 'G#4']
 tonal.scale('A major') // => ['A4', 'B4', 'C#5', ...]
 tonal.scale('A major').map(tonal.transpose('8P')) // => ['A5, 'B5', ...]
 tonal.modes(tonal.scale('Bb dorian')) // => [ an array of arrays with 7 scales notes ]
-tonal.scaleName('C D E F# G A B') // => ['C lydian']
+tonal.scale.find('C D E F# G A B') // => ['C lydian']
 tonal('A Bb').map(tonal.scale('major')) // => [ ['A', 'B', 'C#', ...], ['Bb', 'C', 'D', ...]
 
 // chords

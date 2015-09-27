@@ -2,7 +2,7 @@
   "name": "tonal",
   "version": "0.9.0",
   "description": "Functional, modular music theory library",
-  "main": "tonal.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/danigb/tonal.git"
