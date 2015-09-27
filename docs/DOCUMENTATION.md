@@ -8,7 +8,7 @@ Tonal functions are grouped by modules.
 
 __Modules summary__
 
-- __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [enharmonics](#pitchenharmonics), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitchClass](#pitchpitchclass), [props](#pitchprops), [sci](#pitchsci), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
+- __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [byFreq](#pitchbyfreq), [cents](#pitchcents), [distance](#pitchdistance), [enharmonic](#pitchenharmonic), [enharmonics](#pitchenharmonics), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitchClass](#pitchpitchclass), [props](#pitchprops), [sci](#pitchsci), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [build](#intervalbuild), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
 - __[Collection](#collection-module)__ -  [dictionary](#collectiondictionary), [harmonize](#collectionharmonize), [intervals](#collectionintervals), [mode](#collectionmode), [modes](#collectionmodes), [pitchSet](#collectionpitchset), [rotate](#collectionrotate), [toArray](#collectiontoarray), [triad](#collectiontriad)
 - __[Scale](#scale-module)__ -  [find](#scalefind), [names](#scalenames), [scale](#scalescale)
@@ -85,7 +85,9 @@ var transpose = require('tonal/pitch/transpose')
 ### Function list
 
 - [alterToAcc](#pitchaltertoacc) -  Get the accidentals from an alteration number
+- [byFreq](#pitchbyfreq) -  Get a comparator function to sort pitches by frequency
 - [cents](#pitchcents) -  Get the distance in cents between pitches or frequencies
+- [distance](#pitchdistance) -  Return the distance in semitones between to pitches
 - [enharmonic](#pitchenharmonic) -  Get the enharmonic of a pitch with a given step
 - [enharmonics](#pitchenharmonics) -  Get all the enharmonics of a pitch (up to 4 alterations)
 - [fromFreq](#pitchfromfreq) -  Given a frequency, get the pitch. It will round the frequency to the nearest pitch frequency
@@ -147,6 +149,40 @@ Source: [pitch/alterToAcc.js](https://github.com/danigb/tonal/tree/master//lib/p
 Test: [pitch/alterToAccTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/alterToAccTest.js)
 
 ----
+###### [pitch/byFreq](#pitch-module)
+
+
+
+#### byFreq(descending) → {Function}
+
+
+
+Get a comparator function to sort pitches by frequency
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`descending`|boolean|(Optional) true to sort descending
+
+
+__Returns:__
+
+Type|Description
+---|---
+Function|a comparator function
+
+
+__Example:__
+
+```js
+['G', 'E', 'A', 'D'].sort(byFreq()) // => ['D', 'E', 'G', 'A']
+```
+
+Source: [pitch/byFreq.js](https://github.com/danigb/tonal/tree/master//lib/pitch/byFreq.js)
+Test: [pitch/byFreqTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/byFreqTest.js)
+
+----
 ###### [pitch/cents](#pitch-module)
 
 
@@ -183,6 +219,35 @@ cents('A4', 'A#4') // => 100
 
 Source: [pitch/cents.js](https://github.com/danigb/tonal/tree/master//lib/pitch/cents.js)
 Test: [pitch/centsTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/centsTest.js)
+
+----
+###### [pitch/distance](#pitch-module)
+
+
+
+#### distance() → {}
+
+
+
+Return the distance in semitones between to pitches
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
+
+__Returns:__
+
+Type|Description
+---|---
+
+
+__Example:__
+
+
+Source: [pitch/distance.js](https://github.com/danigb/tonal/tree/master//lib/pitch/distance.js)
+Test: [pitch/distanceTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/distanceTest.js)
 
 ----
 ###### [pitch/enharmonic](#pitch-module)
@@ -2243,7 +2308,7 @@ distance('F', 'C') // => -1
 
 ### Function list
 
-- [byFifths](#fifthsbyfifths) -  Get a comparator function to sort a collection of pitch classes
+- [byFifths](#fifthsbyfifths) -  Get a comparator function to sort a collection of pitch classes by fifths
 - [fifths](#fifthsfifths) -  Return the number of fifths between two pitch classes.
 - [fifthsFrom](#fifthsfifthsfrom) -  Create a function to get fifths distance from a given note.
 - [transpose](#fifthstranspose) -  Transpose a pitch class by a number of fifths
@@ -2261,7 +2326,7 @@ distance('F', 'C') // => -1
 
 
 
-Get a comparator function to sort a collection of pitch classes
+Get a comparator function to sort a collection of pitch classes by fifths
 
 __Arguments:__
 

@@ -1,5 +1,6 @@
 [MASTER]
-- move pitchClass functions to collections (remove pitchClass module)
+- Add pitch/byFreq to order pitches by frequencies
+- move pitchClass functions to collections (remove pitchSet module)
 - rename pitch/pitch to pitch/sci
 - rename interval/interval to interval/build
 - move interval/harmonize to collection/harmonize
