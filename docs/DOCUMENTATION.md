@@ -12,7 +12,7 @@ __Modules summary__
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [build](#intervalbuild), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
 - __[Collection](#collection-module)__ -  [dictionary](#collectiondictionary), [harmonize](#collectionharmonize), [intervals](#collectionintervals), [mode](#collectionmode), [modes](#collectionmodes), [pitchSet](#collectionpitchset), [rotate](#collectionrotate), [toArray](#collectiontoarray), [triad](#collectiontriad)
 - __[Scale](#scale-module)__ -  [find](#scalefind), [names](#scalenames), [scale](#scalescale)
-- __[Chord](#chord-module)__ -  [chord](#chordchord), [find](#chordfind), [names](#chordnames), [scaleNames](#chordscalenames), [voicings](#chordvoicings)
+- __[Chord](#chord-module)__ -  [chord](#chordchord), [extensions](#chordextensions), [find](#chordfind), [names](#chordnames), [scaleNames](#chordscalenames), [voicings](#chordvoicings)
 - __[BinarySet](#binaryset-module)__ -  [binarySet](#binarysetbinaryset), [binarySets](#binarysetbinarysets), [toIntervals](#binarysettointervals)
 - __[Key](#key-module)__ -  [accidentals](#keyaccidentals), [alteredNotes](#keyalterednotes), [fromPitchSet](#keyfrompitchset), [keyNumber](#keykeynumber), [parse](#keyparse), [pitchSet](#keypitchset), [triads](#keytriads)
 - __[Fifths](#fifths-module)__ -  [byFifths](#fifthsbyfifths), [fifths](#fifthsfifths), [fifthsFrom](#fifthsfifthsfrom), [transpose](#fifthstranspose)
@@ -1754,6 +1754,7 @@ It uses a big .json dataset to get the chord intervals from the name.
 ### Function list
 
 - [chord](#chordchord) -  Get a chord from a chord name. The chord is an array of pitches or intervals depending if a tonic is given or not.
+- [extensions](#chordextensions) -  Given a chord, get its extensions (same chord with more notes)
 - [find](#chordfind) -  Get the chord name(s) of a given pitches
 - [names](#chordnames) -  Get all known chord names
 - [scaleNames](#chordscalenames) -  Given a chord type return its scale names
@@ -1801,6 +1802,40 @@ chord(null, '7b5') // => ['1P', '3M', '5d', '7m']
 
 Source: [chord/chord.js](https://github.com/danigb/tonal/tree/master//lib/chord/chord.js)
 Test: [chord/chordTest.js](https://github.com/danigb/tonal/tree/master//test/chord/chordTest.js)
+
+----
+###### [chord/extensions](#chord-module)
+
+
+
+#### extensions(type, an) → {}
+
+
+
+Given a chord, get its extensions (same chord with more notes)
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`type`|String|the chord type
+`an`|Array|array with all the chord types that extends the given ones
+
+
+__Returns:__
+
+Type|Description
+---|---
+
+
+__Example:__
+
+```js
+extensions('Maj7') // => ['M13', 'M13#11', 'M7#11', ...]
+```
+
+Source: [chord/extensions.js](https://github.com/danigb/tonal/tree/master//lib/chord/extensions.js)
+Test: [chord/extensionsTest.js](https://github.com/danigb/tonal/tree/master//test/chord/extensionsTest.js)
 
 ----
 ###### [chord/find](#chord-module)

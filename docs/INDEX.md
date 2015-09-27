@@ -1,6 +1,6 @@
 # Function index
 
-Number of functions:  60
+Number of functions:  61
 
 name|description|module|source
 ---|---|---|---
@@ -19,6 +19,7 @@ __dictionary__|A dictionary is a function that, given a name, returns an array o
 __distance__|Return the distance in semitones between to pitches<br>|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)|[distance.js](https://github.com/danigb/tonal/tree/master/lib/pitch/distance.js)
 __enharmonic__|Get the enharmonic of a pitch with a given step<br>`enharmonic('C#4', 'D') // => 'Db4'`|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)|[enharmonic.js](https://github.com/danigb/tonal/tree/master/lib/pitch/enharmonic.js)
 __enharmonics__|Get all the enharmonics of a pitch (up to 4 alterations)<br>`enharmonics('C') // => [ 'A###3', 'B#3', 'Dbb4', 'Ebbbb4' ]`|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)|[enharmonics.js](https://github.com/danigb/tonal/tree/master/lib/pitch/enharmonics.js)
+__extensions__|Given a chord, get its extensions (same chord with more notes)<br>`extensions('Maj7') // => ['M13', 'M13#11', 'M7#11', ...]`|[chord](https://github.com/danigb/tonal/tree/master/docs/chord.md)|[extensions.js](https://github.com/danigb/tonal/tree/master/lib/chord/extensions.js)
 __fifths__|Return the number of fifths between two pitch classes.<br>`fifths('C') // => 0`|[fifths](https://github.com/danigb/tonal/tree/master/docs/fifths.md)|[fifths.js](https://github.com/danigb/tonal/tree/master/lib/fifths/fifths.js)
 __fifthsFrom__|Create a function to get fifths distance from a given note.<br>`['A', 'B', 'C'].map(fifthsFrom('G'))`|[fifths](https://github.com/danigb/tonal/tree/master/docs/fifths.md)|[fifthsFrom.js](https://github.com/danigb/tonal/tree/master/lib/fifths/fifthsFrom.js)
 __find__|Get the chord name(s) of a given pitches<br>|[chord](https://github.com/danigb/tonal/tree/master/docs/chord.md)|[find.js](https://github.com/danigb/tonal/tree/master/lib/chord/find.js)
@@ -38,8 +39,8 @@ __keyNumber__|Get the key number (the number of sharps or flats) of a key<br>`ke
 __letter__|Get the letter of a pitch (and optionally move a number of steps)<br>`letter('c#5') // => 'C'`|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)|[letter.js](https://github.com/danigb/tonal/tree/master/lib/pitch/letter.js)
 __mode__|Get the mode of a collection of pitches.<br>`mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']`|[collection](https://github.com/danigb/tonal/tree/master/docs/collection.md)|[mode.js](https://github.com/danigb/tonal/tree/master/lib/collection/mode.js)
 __modes__|Return all modes of a pitch set<br>`modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]`|[collection](https://github.com/danigb/tonal/tree/master/docs/collection.md)|[modes.js](https://github.com/danigb/tonal/tree/master/lib/collection/modes.js)
-__names__|Get all known scale names<br>`names() => ['major', 'minor', ....]`|[scale](https://github.com/danigb/tonal/tree/master/docs/scale.md)|[names.js](https://github.com/danigb/tonal/tree/master/lib/scale/names.js)
 __names__|Get all known chord names<br>`names() => ['major', 'minor', ....]`|[chord](https://github.com/danigb/tonal/tree/master/docs/chord.md)|[names.js](https://github.com/danigb/tonal/tree/master/lib/chord/names.js)
+__names__|Get all known scale names<br>`names() => ['major', 'minor', ....]`|[scale](https://github.com/danigb/tonal/tree/master/docs/scale.md)|[names.js](https://github.com/danigb/tonal/tree/master/lib/scale/names.js)
 __octave__|Get the octave of a pitch<br>`octave('a4') // => 4`|[pitch](https://github.com/danigb/tonal/tree/master/docs/pitch.md)|[octave.js](https://github.com/danigb/tonal/tree/master/lib/pitch/octave.js)
 __opposite__|Get the opposite of an interval<br>`opposite('M2') // => 'M-2'`|[interval](https://github.com/danigb/tonal/tree/master/docs/interval.md)|[opposite.js](https://github.com/danigb/tonal/tree/master/lib/interval/opposite.js)
 __parse__|Get the components of a key name<br>`parse('C minor') // => { tonic: 'C', type: 'minor'}`|[key](https://github.com/danigb/tonal/tree/master/docs/key.md)|[parse.js](https://github.com/danigb/tonal/tree/master/lib/key/parse.js)
