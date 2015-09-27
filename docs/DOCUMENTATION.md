@@ -12,7 +12,7 @@ __Modules summary__
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [build](#intervalbuild), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
 - __[Collection](#collection-module)__ -  [dictionary](#collectiondictionary), [harmonize](#collectionharmonize), [intervals](#collectionintervals), [mode](#collectionmode), [modes](#collectionmodes), [pitchSet](#collectionpitchset), [rotate](#collectionrotate), [toArray](#collectiontoarray), [triad](#collectiontriad)
 - __[Scale](#scale-module)__ -  [find](#scalefind), [names](#scalenames), [scale](#scalescale)
-- __[Chord](#chord-module)__ -  [chord](#chordchord), [find](#chordfind), [names](#chordnames)
+- __[Chord](#chord-module)__ -  [chord](#chordchord), [find](#chordfind), [names](#chordnames), [scaleNames](#chordscalenames), [voicings](#chordvoicings)
 - __[BinarySet](#binaryset-module)__ -  [binarySet](#binarysetbinaryset), [binarySets](#binarysetbinarysets), [toIntervals](#binarysettointervals)
 - __[Key](#key-module)__ -  [accidentals](#keyaccidentals), [alteredNotes](#keyalterednotes), [fromPitchSet](#keyfrompitchset), [keyNumber](#keykeynumber), [parse](#keyparse), [pitchSet](#keypitchset), [triads](#keytriads)
 - __[Fifths](#fifths-module)__ -  [byFifths](#fifthsbyfifths), [fifths](#fifthsfifths), [fifthsFrom](#fifthsfifthsfrom), [transpose](#fifthstranspose)
@@ -1349,7 +1349,7 @@ Test: [collection/harmonizeTest.js](https://github.com/danigb/tonal/tree/master/
 
 
 
-#### intervals(collection) → {Array}
+#### intervals(pitches) → {Array}
 
 
 
@@ -1359,21 +1359,22 @@ __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`collection`|Array|the pitch collection
+`pitches`|Array|the pitch collection
 
 
 __Returns:__
 
 Type|Description
 ---|---
-Array|the intervals of the pitch collection (starting from 1P) 
+Array|the intervals 
 TODO: better implementation, tests
 
 
 __Example:__
 
 ```js
-toIntervals(['C', 'D', 'Eb']) // => ['1P', '2M', '3m']
+intervals(['C', 'D', 'Eb']) // => ['1P', '2M', '3m']
+intervals('Bb', ['C', 'D', 'Eb']) // => ['2M', '3M', '4P']
 ```
 
 Source: [collection/intervals.js](https://github.com/danigb/tonal/tree/master//lib/collection/intervals.js)
@@ -1728,6 +1729,7 @@ __Example:__
 
 ```js
 scale('C', 'major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 scale('D', 'diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
 scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']
 ```
@@ -1754,6 +1756,8 @@ It uses a big .json dataset to get the chord intervals from the name.
 - [chord](#chordchord) -  Get a chord from a chord name. The chord is an array of pitches or intervals depending if a tonic is given or not.
 - [find](#chordfind) -  Get the chord name(s) of a given pitches
 - [names](#chordnames) -  Get all known chord names
+- [scaleNames](#chordscalenames) -  Given a chord type return its scale names
+- [voicings](#chordvoicings) -  Get a voice (array of intervals) or a list of voicings for a given chord type
 
 
 
@@ -1764,7 +1768,7 @@ It uses a big .json dataset to get the chord intervals from the name.
 
 
 
-#### chord(name, tonic) → {Array}
+#### chord(tonic, name) → {Array}
 
 
 
@@ -1775,8 +1779,8 @@ __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`name`|String|the chord name (may include the tonic)
 `tonic`|String|(Optional) the tonic pitch
+`name`|String|the chord name (may include the tonic)
 
 
 __Returns:__
@@ -1790,8 +1794,9 @@ __Example:__
 
 ```js
 chord('CMaj7') // => ['C4', 'E4', 'G4', 'B4']
+chord('C', 'Maj7') // => ['C4', 'E4', 'G4', 'B4']
 chord('7b5') // => ['1P', '3M', '5d', '7m']
-chord('7b5', 'Bb2')
+chord(null, '7b5') // => ['1P', '3M', '5d', '7m']
 ```
 
 Source: [chord/chord.js](https://github.com/danigb/tonal/tree/master//lib/chord/chord.js)
@@ -1858,6 +1863,80 @@ names() => ['major', 'minor', ....]
 
 Source: [chord/names.js](https://github.com/danigb/tonal/tree/master//lib/chord/names.js)
 Test: [chord/namesTest.js](https://github.com/danigb/tonal/tree/master//test/chord/namesTest.js)
+
+----
+###### [chord/scaleNames](#chord-module)
+
+
+
+#### scaleNames(tonic, chord) → {Array}
+
+
+
+Given a chord type return its scale names
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`tonic`|String|(Optional) the chord tonic
+`chord`|String|the chord name
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array of scale names or an empty array if no scale names found
+
+
+__Example:__
+
+```js
+scaleNames('D', 'M7b5') // => ['D4 lydian', 'Ab4 locrian pentatonic' ]
+scaleNames('DM7b5') // => ['D4 lydian', 'Ab4 locrian pentatonic']
+scaleNames('M7b5') // => ['P1 lydian', '5d locrian pentatonic']
+scaleNames('Bbmaj7') // => ['Bb4 major', 'Bb4 lydian', 'F5 major pentatonic', 'D5 bebop minor', ...]
+```
+
+Source: [chord/scaleNames.js](https://github.com/danigb/tonal/tree/master//lib/chord/scaleNames.js)
+Test: [chord/scaleNamesTest.js](https://github.com/danigb/tonal/tree/master//test/chord/scaleNamesTest.js)
+
+----
+###### [chord/voicings](#chord-module)
+
+
+
+#### voicings(chordType, voiceName) → {Array}
+
+
+
+Get a voice (array of intervals) or a list of voicings for a given chord type
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`chordType`|String|the type of the chord
+`voiceName`|String|(Optional) the voice name
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array of intervals (if voiceName is provided and it's a valid voice) or an array of strings with voice names (if voiceName is not given)
+
+
+__Example:__
+
+```js
+voicings('Maj7') // => ['left-hand-A', 'left-hand-B',..]
+voicings('Maj7', 'left-hand-A') // => ['3M', '5P', '7M']
+```
+
+Source: [chord/voicings.js](https://github.com/danigb/tonal/tree/master//lib/chord/voicings.js)
+Test: [chord/voicingsTest.js](https://github.com/danigb/tonal/tree/master//test/chord/voicingsTest.js)
 
 
 ## BinarySet module

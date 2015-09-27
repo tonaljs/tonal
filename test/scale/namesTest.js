@@ -7,7 +7,7 @@ vows.describe('scale/names').addBatch({
     assert.equal(names().length, 108)
     // from scales.json
     assert(names().indexOf('major') > 0)
-    // from scale-aliases.json
+    // from aliases.json
     assert(names().indexOf('kumoi') > 0)
   }
 }).export(module)
