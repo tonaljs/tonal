@@ -102,7 +102,6 @@ module.exports = function (sources) {
     MD.line(MD.bold('Modules summary')),
     sources.modules.map(mdModuleIndex).join(''),
     MD.line(),
-    MD.line('A list of', MD.link('all functions', sources.repo('docs/INDEX.md')), 'is available.'),
     sources.modules.map(mdModule).join('\n')
   )
 }

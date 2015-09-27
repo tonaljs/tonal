@@ -10,17 +10,14 @@ __Modules summary__
 
 - __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [enharmonics](#pitchenharmonics), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitchClass](#pitchpitchclass), [props](#pitchprops), [sci](#pitchsci), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [build](#intervalbuild), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
-- __[Collection](#collection-module)__ -  [dictionary](#collectiondictionary), [harmonize](#collectionharmonize), [mode](#collectionmode), [rotate](#collectionrotate), [toArray](#collectiontoarray), [triad](#collectiontriad)
+- __[Collection](#collection-module)__ -  [dictionary](#collectiondictionary), [harmonize](#collectionharmonize), [intervals](#collectionintervals), [mode](#collectionmode), [modes](#collectionmodes), [pitchSet](#collectionpitchset), [rotate](#collectionrotate), [toArray](#collectiontoarray), [triad](#collectiontriad)
 - __[Scale](#scale-module)__ -  [find](#scalefind), [names](#scalenames), [scale](#scalescale)
 - __[Chord](#chord-module)__ -  [chord](#chordchord), [find](#chordfind), [names](#chordnames)
-- __[PitchSet](#pitchset-module)__ -  [modes](#pitchsetmodes), [pitchSet](#pitchsetpitchset), [toIntervals](#pitchsettointervals)
 - __[BinarySet](#binaryset-module)__ -  [binarySet](#binarysetbinaryset), [binarySets](#binarysetbinarysets), [toIntervals](#binarysettointervals)
 - __[Key](#key-module)__ -  [accidentals](#keyaccidentals), [alteredNotes](#keyalterednotes), [fromPitchSet](#keyfrompitchset), [keyNumber](#keykeynumber), [parse](#keyparse), [pitchSet](#keypitchset), [triads](#keytriads)
 - __[Fifths](#fifths-module)__ -  [byFifths](#fifthsbyfifths), [fifths](#fifthsfifths), [fifthsFrom](#fifthsfifthsfrom), [transpose](#fifthstranspose)
 
 
-
-A list of [all functions](https://github.com/danigb/tonal/tree/master//docs/INDEX.md) is available.
 
 ## Pitch module
 
@@ -95,8 +92,8 @@ var transpose = require('tonal/pitch/transpose')
 - [fromKey](#pitchfromkey) -  Get the pitch of the given piano key number
 - [fromMidi](#pitchfrommidi) -  Get the pitch of the given midi number
 - [interval](#pitchinterval) -  Get the interval between two pitches
-- [intervalFrom](#pitchintervalfrom) -  Partial apply `picth/interval` to return a interval from a pitch
-- [intervalTo](#pitchintervalto) -  Partial apply `picth/interval` to return a interval to a pitch
+- [intervalFrom](#pitchintervalfrom) -  Get a function that returns an interval from a pitch
+- [intervalTo](#pitchintervalto) -  Get a function that returns a interval to a pitch
 - [letter](#pitchletter) -  Get the letter of a pitch (and optionally move a number of steps)
 - [octave](#pitchoctave) -  Get the octave of a pitch
 - [pitchClass](#pitchpitchclass) -  Get the [pitchClass](https://en.wikipedia.org/wiki/Pitch_class) of a pitch
@@ -417,7 +414,7 @@ Test: [pitch/intervalTest.js](https://github.com/danigb/tonal/tree/master//test/
 
 
 
-Partial apply `picth/interval` to return a interval from a pitch
+Get a function that returns an interval from a pitch
 
 __Arguments:__
 
@@ -451,7 +448,7 @@ Test: [pitch/intervalFromTest.js](https://github.com/danigb/tonal/tree/master//t
 
 
 
-Partial apply `picth/interval` to return a interval to a pitch
+Get a function that returns a interval to a pitch
 
 __Arguments:__
 
@@ -1181,11 +1178,21 @@ Test: [interval/simplifyTest.js](https://github.com/danigb/tonal/tree/master//te
 
 Functions to work with a collection of pitches or intervals.
 
+### Resources
+
+Dive into the world of pitch class sets:
+
+- http://www.mta.ca/pc-set/pc-set_new/pages/introduction/toc.html
+- http://composertools.com/Theory/PCSets/
+
 ### Function list
 
 - [dictionary](#collectiondictionary) -  A dictionary is a function that, given a name, returns an array of intervals. And given a fileter function it returns all the names filtered by that function.
 - [harmonize](#collectionharmonize) -  Create a collection of pitches by transposing a tonic by a collection of intervals
+- [intervals](#collectionintervals) -  Get the intervals of a collection of pitches starting from a tonic
 - [mode](#collectionmode) -  Get the mode of a collection of pitches.
+- [modes](#collectionmodes) -  Return all modes of a pitch set
+- [pitchSet](#collectionpitchset) -  Create a set of pitch classes (ordered by frequency) from a collection
 - [rotate](#collectionrotate) -  Rotate a collection
 - [toArray](#collectiontoarray) -  Return an array (collection) of anything. If the source is an array, return it unaltered. If its an string, split it and anything else is wrapped to an array.
 - [triad](#collectiontriad) -  Get a triad from a collection of notes, a simplistic implementation.
@@ -1273,6 +1280,41 @@ Source: [collection/harmonize.js](https://github.com/danigb/tonal/tree/master//l
 Test: [collection/harmonizeTest.js](https://github.com/danigb/tonal/tree/master//test/collection/harmonizeTest.js)
 
 ----
+###### [collection/intervals](#collection-module)
+
+
+
+#### intervals(collection) → {Array}
+
+
+
+Get the intervals of a collection of pitches starting from a tonic
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`collection`|Array|the pitch collection
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|the intervals of the pitch collection (starting from 1P) 
+TODO: better implementation, tests
+
+
+__Example:__
+
+```js
+toIntervals(['C', 'D', 'Eb']) // => ['1P', '2M', '3m']
+```
+
+Source: [collection/intervals.js](https://github.com/danigb/tonal/tree/master//lib/collection/intervals.js)
+Test: [collection/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/collection/intervalsTest.js)
+
+----
 ###### [collection/mode](#collection-module)
 
 
@@ -1306,6 +1348,80 @@ mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
 
 Source: [collection/mode.js](https://github.com/danigb/tonal/tree/master//lib/collection/mode.js)
 Test: [collection/modeTest.js](https://github.com/danigb/tonal/tree/master//test/collection/modeTest.js)
+
+----
+###### [collection/modes](#collection-module)
+
+
+
+#### modes(pitchSet) → {Array}
+
+
+
+Return all modes of a pitch set
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`pitchSet`|Array,String|the pitch set
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array of arrays with the set rotated set.length times
+
+
+__Example:__
+
+```js
+modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]
+```
+
+Source: [collection/modes.js](https://github.com/danigb/tonal/tree/master//lib/collection/modes.js)
+Test: [collection/modesTest.js](https://github.com/danigb/tonal/tree/master//test/collection/modesTest.js)
+
+----
+###### [collection/pitchSet](#collection-module)
+
+
+
+#### pitchSet(pitches, first) → {Array}
+
+
+
+Create a set of pitch classes (ordered by frequency) from a collection
+
+The pitch classes are ordered by frequency starting from the first note
+of the given collection
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`pitches`|Array,String|the collection of pitches
+`first`|String|(Optional) the first pitch class of the set (or the first pitch class of the collection if not given)
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|a pitch set
+
+
+__Example:__
+
+```js
+pitchSet('D E G G A E') // => ['D', 'E', 'G', 'A']
+pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']
+pitchSet('D3 Db3 C3 D3', 'C') // => ['C', 'Db', 'Db', 'C']
+```
+
+Source: [collection/pitchSet.js](https://github.com/danigb/tonal/tree/master//lib/collection/pitchSet.js)
+Test: [collection/pitchSetTest.js](https://github.com/danigb/tonal/tree/master//test/collection/pitchSetTest.js)
 
 ----
 ###### [collection/rotate](#collection-module)
@@ -1677,143 +1793,6 @@ names() => ['major', 'minor', ....]
 
 Source: [chord/names.js](https://github.com/danigb/tonal/tree/master//lib/chord/names.js)
 Test: [chord/namesTest.js](https://github.com/danigb/tonal/tree/master//test/chord/namesTest.js)
-
-
-## PitchSet module
-
-
-
-[Back to top](#tonal-functions)
-
-
-
-
-A module to create and manipulate pitch class sets. A pitch class set is a collection of pitch classes, where they can't be repeated.
-
-Some tonal functions (like scales, for example) uses pitch sets.
-
-### Resources
-
-Dive into the world of pitch class sets:
-
-- http://www.mta.ca/pc-set/pc-set_new/pages/introduction/toc.html
-- http://composertools.com/Theory/PCSets/
-
-### Function list
-
-- [modes](#pitchsetmodes) -  Return all modes of a pitch set
-- [pitchSet](#pitchsetpitchset) -  Create a pitch class set from a collection of pitches.
-- [toIntervals](#pitchsettointervals) -  Get the intervals of a pitch set
-
-
-
-### API
-
-----
-###### [pitchSet/modes](#pitchset-module)
-
-
-
-#### modes(pitchSet) → {Array}
-
-
-
-Return all modes of a pitch set
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`pitchSet`|Array,String|the pitch set
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|an array of arrays with the set rotated set.length times
-
-
-__Example:__
-
-```js
-modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]
-```
-
-Source: [pitchSet/modes.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/modes.js)
-Test: [pitchSet/modesTest.js](https://github.com/danigb/tonal/tree/master//test/pitchSet/modesTest.js)
-
-----
-###### [pitchSet/pitchSet](#pitchset-module)
-
-
-
-#### pitchSet(pitches) → {Array}
-
-
-
-Create a pitch class set from a collection of pitches.
-
-The pitch classes are ordered by frequency starting from the first note
-of the given collection
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`pitches`|Array,String|the collection of pitches
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|a pitch set
-
-
-__Example:__
-
-```js
-pitchSet('D E G G A E') // => ['D', 'E', 'G', 'A']
-pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']
-```
-
-Source: [pitchSet/pitchSet.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/pitchSet.js)
-Test: [pitchSet/pitchSetTest.js](https://github.com/danigb/tonal/tree/master//test/pitchSet/pitchSetTest.js)
-
-----
-###### [pitchSet/toIntervals](#pitchset-module)
-
-
-
-#### toIntervals(set) → {Array}
-
-
-
-Get the intervals of a pitch set
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`set`|Array|the pitch set
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|the intervals of the pitch set (starting from 1P)
-
-
-__Example:__
-
-```js
-toIntervals(['C', 'D', 'Eb']) // => ['1P', '2M', '3m']
-```
-
-Source: [pitchSet/toIntervals.js](https://github.com/danigb/tonal/tree/master//lib/pitchSet/toIntervals.js)
-Test: [pitchSet/toIntervalsTest.js](https://github.com/danigb/tonal/tree/master//test/pitchSet/toIntervalsTest.js)
 
 
 ## BinarySet module
