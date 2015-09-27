@@ -9,8 +9,8 @@ Tonal functions are grouped by modules.
 __Modules summary__
 
 - __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [enharmonics](#pitchenharmonics), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitch](#pitchpitch), [pitchClass](#pitchpitchclass), [props](#pitchprops), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
-- __[Interval](#interval-module)__ -  [add](#intervaladd), [harmonize](#intervalharmonize), [interval](#intervalinterval), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
-- __[Collection](#collection-module)__ -  [dictionary](#collectiondictionary), [mode](#collectionmode), [rotate](#collectionrotate), [toArray](#collectiontoarray), [triad](#collectiontriad)
+- __[Interval](#interval-module)__ -  [add](#intervaladd), [interval](#intervalinterval), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
+- __[Collection](#collection-module)__ -  [dictionary](#collectiondictionary), [harmonize](#collectionharmonize), [mode](#collectionmode), [rotate](#collectionrotate), [toArray](#collectiontoarray), [triad](#collectiontriad)
 - __[Scale](#scale-module)__ -  [find](#scalefind), [names](#scalenames), [scale](#scalescale)
 - __[Chord](#chord-module)__ -  [chord](#chordchord), [find](#chordfind), [names](#chordnames)
 - __[PitchSet](#pitchset-module)__ -  [modes](#pitchsetmodes), [pitchSet](#pitchsetpitchset), [toIntervals](#pitchsettointervals)
@@ -836,7 +836,6 @@ You can get the interval properties with `interval/props` and manipulate in the 
 ### Function list
 
 - [add](#intervaladd) -  Add two intervals
-- [harmonize](#intervalharmonize) -  Given a collection of intervals, and a tonic create a collection of pitches
 - [interval](#intervalinterval) -  Get an interval properties from a string or a number, and optionally a quality and octave.
 - [invert](#intervalinvert) -  Get the [inversion](https://en.wikipedia.org/wiki/Interval_(music)#Inversion) of an interval.
 - [isInterval](#intervalisinterval) -  Test if a string is a valid interval
@@ -883,42 +882,6 @@ add('M2', 'M2') // => 'M3'
 
 Source: [interval/add.js](https://github.com/danigb/tonal/tree/master//lib/interval/add.js)
 Test: [interval/addTest.js](https://github.com/danigb/tonal/tree/master//test/interval/addTest.js)
-
-----
-###### [interval/harmonize](#interval-module)
-
-
-
-#### harmonize(tonic, intervals, pitchClassOnly) → {Array}
-
-
-
-Given a collection of intervals, and a tonic create a collection of pitches
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`tonic`|String|the tonic
-`intervals`|String,Array|a collection of intervals
-`pitchClassOnly`|boolean|if true, the returned pitches don't include octave information
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|a collection of pitches
-
-
-__Example:__
-
-```js
-harmonize('C2', ['P1 P5']) // => ['C2', 'G2']
-```
-
-Source: [interval/harmonize.js](https://github.com/danigb/tonal/tree/master//lib/interval/harmonize.js)
-Test: [interval/harmonizeTest.js](https://github.com/danigb/tonal/tree/master//test/interval/harmonizeTest.js)
 
 ----
 ###### [interval/interval](#interval-module)
@@ -1209,8 +1172,9 @@ Functions to work with a collection of pitches or intervals.
 
 ### Function list
 
-- [dictionary](#collectiondictionary) -  Get a dictionary from a hash map of { name -> intervals }. A dictionary is a function that returns arrays of intervals given a name
-- [mode](#collectionmode) -  Get the mode of a scale
+- [dictionary](#collectiondictionary) -  A dictionary is a function that, given a name, returns an array of intervals. And given a fileter function it returns all the names filtered by that function.
+- [harmonize](#collectionharmonize) -  Create a collection of pitches by transposing a tonic by a collection of intervals
+- [mode](#collectionmode) -  Get the mode of a collection of pitches.
 - [rotate](#collectionrotate) -  Rotate a collection
 - [toArray](#collectiontoarray) -  Return an array (collection) of anything. If the source is an array, return it unaltered. If its an string, split it and anything else is wrapped to an array.
 - [triad](#collectiontriad) -  Get a triad from a collection of notes, a simplistic implementation.
@@ -1228,11 +1192,11 @@ Functions to work with a collection of pitches or intervals.
 
 
 
-Get a dictionary from a hash map of { name -> intervals }. A dictionary
-is a function that returns arrays of intervals given a name
+A dictionary is a function that, given a name, returns an array of intervals.
+And given a fileter function it returns all the names filtered by that function.
 
 The returned function has the following signature:
-`fn([tonic, ]name)` (see examples)
+`fn({String|Function}) -> {Array<Intervals>}` (see examples)
 
 __Arguments:__
 
@@ -1255,10 +1219,47 @@ __Example:__
 chords = dictionary({'Maj7': '1P 3M 5P 7M'}, {'M7': 'Maj7'})
 chords('Maj7') // => ['1P', '3M', '5P', '7M']
 chords('M7') // => ['1P', '3M', '5P', '7M']
+chords(function(c) { return c[1] === '3M' }) // => ['Maj7']
 ```
 
 Source: [collection/dictionary.js](https://github.com/danigb/tonal/tree/master//lib/collection/dictionary.js)
 Test: [collection/dictionaryTest.js](https://github.com/danigb/tonal/tree/master//test/collection/dictionaryTest.js)
+
+----
+###### [collection/harmonize](#collection-module)
+
+
+
+#### harmonize(tonic, intervals, pitchClassOnly) → {Array}
+
+
+
+Create a collection of pitches by transposing a tonic by a collection of intervals
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`tonic`|String|the tonic
+`intervals`|String,Array|a collection of intervals
+`pitchClassOnly`|boolean|if true, the returned pitches don't include octave information
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|a collection of pitches
+
+
+__Example:__
+
+```js
+harmonize('C2', ['P1 P5']) // => ['C2', 'G2']
+```
+
+Source: [collection/harmonize.js](https://github.com/danigb/tonal/tree/master//lib/collection/harmonize.js)
+Test: [collection/harmonizeTest.js](https://github.com/danigb/tonal/tree/master//test/collection/harmonizeTest.js)
 
 ----
 ###### [collection/mode](#collection-module)
@@ -1269,7 +1270,7 @@ Test: [collection/dictionaryTest.js](https://github.com/danigb/tonal/tree/master
 
 
 
-Get the mode of a scale
+Get the mode of a collection of pitches.
 
 __Arguments:__
 

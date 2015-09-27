@@ -1,4 +1,5 @@
 [MASTER]
+- move interval/harmonize to collection/harmonize
 - simplify chord and scale modules by moving all shared to collection module
 - move json to data folders
 - move rotate to collection module

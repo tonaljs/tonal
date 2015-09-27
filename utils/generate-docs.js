@@ -15,6 +15,3 @@ var sources = sourceModel(path('lib'),
 
 fs.writeFileSync(path('docs', 'INDEX.md'), mdINDEX(sources))
 fs.writeFileSync(path('docs/DOCUMENTATION.md'), mdALL(sources))
-
-//var moduleDocs = require('./generate-module-docs')
-//moduleDocs(sources.modules, path('lib'), path('docs'))
