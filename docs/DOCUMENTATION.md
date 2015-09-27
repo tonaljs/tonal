@@ -9,9 +9,10 @@ Tonal functions are grouped by modules.
 __Modules summary__
 
 - __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [enharmonics](#pitchenharmonics), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitch](#pitchpitch), [pitchClass](#pitchpitchclass), [props](#pitchprops), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
-- __[Scale](#scale-module)__ -  [intervals](#scaleintervals), [mode](#scalemode), [name](#scalename), [scale](#scalescale), [scaleNames](#scalescalenames), [triad](#scaletriad)
-- __[Chord](#chord-module)__ -  [chord](#chordchord), [chordNames](#chordchordnames), [fromScale](#chordfromscale), [intervals](#chordintervals), [name](#chordname)
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [harmonize](#intervalharmonize), [interval](#intervalinterval), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
+- __[Collection](#collection-module)__ -  [dictionary](#collectiondictionary), [mode](#collectionmode), [rotate](#collectionrotate), [toArray](#collectiontoarray), [triad](#collectiontriad)
+- __[Scale](#scale-module)__ -  [find](#scalefind), [names](#scalenames), [scale](#scalescale)
+- __[Chord](#chord-module)__ -  [chord](#chordchord), [find](#chordfind), [names](#chordnames)
 - __[PitchSet](#pitchset-module)__ -  [modes](#pitchsetmodes), [pitchSet](#pitchsetpitchset), [toIntervals](#pitchsettointervals)
 - __[BinarySet](#binaryset-module)__ -  [binarySet](#binarysetbinaryset), [binarySets](#binarysetbinarysets), [toIntervals](#binarysettointervals)
 - __[Key](#key-module)__ -  [accidentals](#keyaccidentals), [alteredNotes](#keyalterednotes), [fromPitchSet](#keyfrompitchset), [keyNumber](#keykeynumber), [parse](#keyparse), [pitchSet](#keypitchset), [triads](#keytriads)
@@ -819,440 +820,6 @@ Source: [pitch/transpose.js](https://github.com/danigb/tonal/tree/master//lib/pi
 Test: [pitch/transposeTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/transposeTest.js)
 
 
-## Scale module
-
-
-
-[Back to top](#tonal-functions)
-
-
-
-
-A scale is a set of consecutive pitch classes.
-
-Tonal provides a big dictionary of scales (108 at this moment) mapped to its names. The main function of this module is `scale/scale` to obtain scale notes or intervals:
-
-```js
-var scale = require('tonal/scale/scale')
-scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
-```
-
-### Function list
-
-- [intervals](#scaleintervals) -  Get the intervals of a scale name (without tonic)
-- [mode](#scalemode) -  Get the mode of a scale
-- [name](#scalename) -  Given a scale notes return the scale name (if any)
-- [scale](#scalescale) -  Get the scale (pitch set) of a scale name
-- [scaleNames](#scalescalenames) -  Get all known scale names
-- [triad](#scaletriad) -  Get a triad from a set starting from the first note, a simplistic implementation.
-
-
-
-### API
-
-----
-###### [scale/intervals](#scale-module)
-
-
-
-#### intervals(name) → {Array}
-
-
-
-Get the intervals of a scale name (without tonic)
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`name`|String|the scale name (without tonic)
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|the intervals or null if not found
-
-
-__Example:__
-
-```js
-generic('major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
-```
-
-Source: [scale/intervals.js](https://github.com/danigb/tonal/tree/master//lib/scale/intervals.js)
-Test: [scale/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/scale/intervalsTest.js)
-
-----
-###### [scale/mode](#scale-module)
-
-
-
-#### mode(name, num) → {Array}
-
-
-
-Get the mode of a scale
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`name`|String|the scale name
-`num`|Integer|the mode number (1-based index)
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|the set of the mode
-
-
-__Example:__
-
-```js
-mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
-```
-
-Source: [scale/mode.js](https://github.com/danigb/tonal/tree/master//lib/scale/mode.js)
-Test: [scale/modeTest.js](https://github.com/danigb/tonal/tree/master//test/scale/modeTest.js)
-
-----
-###### [scale/name](#scale-module)
-
-
-
-#### name(scale) → {String}
-
-
-
-Given a scale notes return the scale name (if any)
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`scale`|Array,String|the scale notes
-
-
-__Returns:__
-
-Type|Description
----|---
-String|the scale name or null if not found
-
-
-__Example:__
-
-```js
-name('C D E F G A B') // => 'C major'
-```
-
-Source: [scale/name.js](https://github.com/danigb/tonal/tree/master//lib/scale/name.js)
-Test: [scale/nameTest.js](https://github.com/danigb/tonal/tree/master//test/scale/nameTest.js)
-
-----
-###### [scale/scale](#scale-module)
-
-
-
-#### scale(name, tonic) → {Array}
-
-
-
-Get the scale (pitch set) of a scale name
-
-If the scale name does not contains the tonic, a list of intervals is returned
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`name`|String|the scale name
-`tonic`|String|(Optional) the tonic
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|an array of intervals or notes (if tonic is present)
-
-
-__Example:__
-
-```js
-scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-scale('D diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
-scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']
-```
-
-Source: [scale/scale.js](https://github.com/danigb/tonal/tree/master//lib/scale/scale.js)
-Test: [scale/scaleTest.js](https://github.com/danigb/tonal/tree/master//test/scale/scaleTest.js)
-
-----
-###### [scale/scaleNames](#scale-module)
-
-
-
-#### scaleNames() → {Array}
-
-
-
-Get all known scale names
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|array with all the known names
-
-
-__Example:__
-
-```js
-names() => ['major', 'minor', ....]
-```
-
-Source: [scale/scaleNames.js](https://github.com/danigb/tonal/tree/master//lib/scale/scaleNames.js)
-Test: [scale/scaleNamesTest.js](https://github.com/danigb/tonal/tree/master//test/scale/scaleNamesTest.js)
-
-----
-###### [scale/triad](#scale-module)
-
-
-
-#### triad(set, len) → {}
-
-
-
-Get a triad from a set starting from the first note, a simplistic implementation.
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`set`|String,Array|the pitch class set
-`len`|Integer|the number of notes of the triad (3 by default)
-
-
-__Returns:__
-
-Type|Description
----|---
-
-
-__Example:__
-
-```js
-triad(scale('C major')) // => ['C', 'E', 'G']
-triad(scale('C major'), 5) // => ['C', 'E', 'G', 'B', 'D']
-```
-
-Source: [scale/triad.js](https://github.com/danigb/tonal/tree/master//lib/scale/triad.js)
-Test: [scale/triadTest.js](https://github.com/danigb/tonal/tree/master//test/scale/triadTest.js)
-
-
-## Chord module
-
-
-
-[Back to top](#tonal-functions)
-
-
-# Chord module
-
-Create chords by name and detect a chord by its pitches.
-
-It uses a big .json dataset to get the chord intervals from the name.
-
-### Function list
-
-- [chord](#chordchord) -  Get chord notes or intervals by its type and (optionally) tonic pitch
-- [chordNames](#chordchordnames) -  Get all known scale names
-- [fromScale](#chordfromscale) -  Get the chord names that _fits_ a given scale
-- [intervals](#chordintervals) -  Get the intervals of a chord name
-- [name](#chordname) -  Get the chord name(s) of a given pitches
-
-
-
-### API
-
-----
-###### [chord/chord](#chord-module)
-
-
-
-#### chord(name, tonic) → {Array}
-
-
-
-Get chord notes or intervals by its type and (optionally) tonic pitch
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`name`|String|the chord name (may include the tonic)
-`tonic`|String|(Optional) the tonic pitch
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|an array of intervals or notes (if the tonic is provided)
-
-
-__Example:__
-
-```js
-chord('CMaj7') // => ['C4', 'E4', 'G4', 'B4']
-chord('7b5') // => ['1P', '3M', '5d', '7m']
-chord('7b5', 'Bb2')
-```
-
-Source: [chord/chord.js](https://github.com/danigb/tonal/tree/master//lib/chord/chord.js)
-Test: [chord/chordTest.js](https://github.com/danigb/tonal/tree/master//test/chord/chordTest.js)
-
-----
-###### [chord/chordNames](#chord-module)
-
-
-
-#### chordNames() → {Array}
-
-
-
-Get all known scale names
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|array with all the known names
-
-
-__Example:__
-
-```js
-names() => ['major', 'minor', ....]
-```
-
-Source: [chord/chordNames.js](https://github.com/danigb/tonal/tree/master//lib/chord/chordNames.js)
-Test: [chord/chordNamesTest.js](https://github.com/danigb/tonal/tree/master//test/chord/chordNamesTest.js)
-
-----
-###### [chord/fromScale](#chord-module)
-
-
-
-#### fromScale() → {}
-
-
-
-Get the chord names that _fits_ a given scale
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-
-
-__Returns:__
-
-Type|Description
----|---
-
-
-__Example:__
-
-```js
-fromScale('C D E F G A B') // => ['CM', 'CMaj7']
-```
-
-Source: [chord/fromScale.js](https://github.com/danigb/tonal/tree/master//lib/chord/fromScale.js)
-Test: [chord/fromScaleTest.js](https://github.com/danigb/tonal/tree/master//test/chord/fromScaleTest.js)
-
-----
-###### [chord/intervals](#chord-module)
-
-
-
-#### intervals(name) → {Array}
-
-
-
-Get the intervals of a chord name
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`name`|String|the chord name
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|the intervals or null if not found
-
-
-__Example:__
-
-```js
-intervals('Cmaj7') // => ['1P', '3M', '5P', '7M']
-```
-
-Source: [chord/intervals.js](https://github.com/danigb/tonal/tree/master//lib/chord/intervals.js)
-Test: [chord/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/chord/intervalsTest.js)
-
-----
-###### [chord/name](#chord-module)
-
-
-
-#### name() → {}
-
-
-
-Get the chord name(s) of a given pitches
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-
-
-__Returns:__
-
-Type|Description
----|---
-
-
-__Example:__
-
-
-Source: [chord/name.js](https://github.com/danigb/tonal/tree/master//lib/chord/name.js)
-Test: [chord/nameTest.js](https://github.com/danigb/tonal/tree/master//test/chord/nameTest.js)
-
-
 ## Interval module
 
 
@@ -1262,7 +829,7 @@ Test: [chord/nameTest.js](https://github.com/danigb/tonal/tree/master//test/chor
 
 
 
-Create and manipulate intervals. An interval in tonal is a string in the form: [direction+]number+quality. `'1P'` and `-9m` are valid intervals.
+Create and manipulate intervals. An interval in tonal is a string in the form: `(direction)?(number)(quality)` where direction is `'-'` or empty string, number is a positive decimal number and quality is one of `dd`, `d`, `m`, `M`, `A` or `AA`. `'1P'` and `-9m` are valid intervals.
 
 You can get the interval properties with `interval/props` and manipulate in the standard ways: add two intervals, simplify intervals, get opposite...
 
@@ -1629,6 +1196,477 @@ Source: [interval/simplify.js](https://github.com/danigb/tonal/tree/master//lib/
 Test: [interval/simplifyTest.js](https://github.com/danigb/tonal/tree/master//test/interval/simplifyTest.js)
 
 
+## Collection module
+
+
+
+[Back to top](#tonal-functions)
+
+
+
+
+Functions to work with a collection of pitches or intervals.
+
+### Function list
+
+- [dictionary](#collectiondictionary) -  Get a dictionary from a hash map of { name -> intervals }. A dictionary is a function that returns arrays of intervals given a name
+- [mode](#collectionmode) -  Get the mode of a scale
+- [rotate](#collectionrotate) -  Rotate a collection
+- [toArray](#collectiontoarray) -  Return an array (collection) of anything. If the source is an array, return it unaltered. If its an string, split it and anything else is wrapped to an array.
+- [triad](#collectiontriad) -  Get a triad from a collection of notes, a simplistic implementation.
+
+
+
+### API
+
+----
+###### [collection/dictionary](#collection-module)
+
+
+
+#### dictionary(data, aliases) → {Function}
+
+
+
+Get a dictionary from a hash map of { name -> intervals }. A dictionary
+is a function that returns arrays of intervals given a name
+
+The returned function has the following signature:
+`fn([tonic, ]name)` (see examples)
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`data`|HashMap|the hashmap data
+`aliases`|HashMap|(Optional) the aliases hashmap
+
+
+__Returns:__
+
+Type|Description
+---|---
+Function|a dictionary
+
+
+__Example:__
+
+```js
+chords = dictionary({'Maj7': '1P 3M 5P 7M'}, {'M7': 'Maj7'})
+chords('Maj7') // => ['1P', '3M', '5P', '7M']
+chords('M7') // => ['1P', '3M', '5P', '7M']
+```
+
+Source: [collection/dictionary.js](https://github.com/danigb/tonal/tree/master//lib/collection/dictionary.js)
+Test: [collection/dictionaryTest.js](https://github.com/danigb/tonal/tree/master//test/collection/dictionaryTest.js)
+
+----
+###### [collection/mode](#collection-module)
+
+
+
+#### mode(name, num) → {Array}
+
+
+
+Get the mode of a scale
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`name`|String|the scale name
+`num`|Integer|the mode number (1-based index)
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|the set of the mode
+
+
+__Example:__
+
+```js
+mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
+```
+
+Source: [collection/mode.js](https://github.com/danigb/tonal/tree/master//lib/collection/mode.js)
+Test: [collection/modeTest.js](https://github.com/danigb/tonal/tree/master//test/collection/modeTest.js)
+
+----
+###### [collection/rotate](#collection-module)
+
+
+
+#### rotate(times, array) → {Array}
+
+
+
+Rotate a collection
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`times`|Integer|
+`array`|String,Array|the source (se toArray)
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|the rotated array
+
+
+__Example:__
+
+```js
+rotate(1, 'A B C') // => ['B', 'C', 'A']
+```
+
+Source: [collection/rotate.js](https://github.com/danigb/tonal/tree/master//lib/collection/rotate.js)
+Test: [collection/rotateTest.js](https://github.com/danigb/tonal/tree/master//test/collection/rotateTest.js)
+
+----
+###### [collection/toArray](#collection-module)
+
+
+
+#### toArray(source) → {Array}
+
+
+
+Return an array (collection) of anything. If the source is an array, return it
+unaltered. If its an string, split it and anything else is wrapped to an array.
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`source`|Array,String,Object|the source
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array
+
+
+__Example:__
+
+```js
+// a toArray is an array of events
+toArray(['A', 'B', 'C']) // => ['A', 'B', 'C']
+toArray('A B C') // => ['A', 'B', 'C']
+toArray('A | b | C') // => ['A', 'B', 'C']
+toArray('A , b , C') // => ['A', 'B', 'C']
+toArray(2) // => [ 2 ]
+```
+
+Source: [collection/toArray.js](https://github.com/danigb/tonal/tree/master//lib/collection/toArray.js)
+Test: [collection/toArrayTest.js](https://github.com/danigb/tonal/tree/master//test/collection/toArrayTest.js)
+
+----
+###### [collection/triad](#collection-module)
+
+
+
+#### triad(set, len) → {}
+
+
+
+Get a triad from a collection of notes, a simplistic implementation.
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`set`|String,Array|the pitch class set
+`len`|Integer|the number of notes of the triad (3 by default)
+
+
+__Returns:__
+
+Type|Description
+---|---
+
+
+__Example:__
+
+```js
+triad(scale('C major')) // => ['C', 'E', 'G']
+triad(scale('C major'), 5) // => ['C', 'E', 'G', 'B', 'D']
+```
+
+Source: [collection/triad.js](https://github.com/danigb/tonal/tree/master//lib/collection/triad.js)
+Test: [collection/triadTest.js](https://github.com/danigb/tonal/tree/master//test/collection/triadTest.js)
+
+
+## Scale module
+
+
+
+[Back to top](#tonal-functions)
+
+
+
+
+A scale is a set of consecutive pitch classes.
+
+Tonal provides a big dictionary of scales (108 at this moment) mapped to its names. The main function of this module is `scale/scale` to obtain scale notes or intervals:
+
+```js
+var scale = require('tonal/scale/scale')
+scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
+```
+
+### Function list
+
+- [find](#scalefind) -  Given collection of pitches return the scale name (if any)
+- [names](#scalenames) -  Get all known scale names
+- [scale](#scalescale) -  Get the scale (a set of intervals or pitch classes) with a given name and optionally a tonic
+
+
+
+### API
+
+----
+###### [scale/find](#scale-module)
+
+
+
+#### find(pitches) → {String}
+
+
+
+Given collection of pitches return the scale name (if any)
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`pitches`|Array,String|the pitches collection
+
+
+__Returns:__
+
+Type|Description
+---|---
+String|the scale name or null if not found
+
+
+__Example:__
+
+```js
+ find('C D E F G A B') // => 'C major'
+```
+
+Source: [scale/find.js](https://github.com/danigb/tonal/tree/master//lib/scale/find.js)
+Test: [scale/findTest.js](https://github.com/danigb/tonal/tree/master//test/scale/findTest.js)
+
+----
+###### [scale/names](#scale-module)
+
+
+
+#### names() → {Array}
+
+
+
+Get all known scale names
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|array with all the known names
+
+
+__Example:__
+
+```js
+names() => ['major', 'minor', ....]
+```
+
+Source: [scale/names.js](https://github.com/danigb/tonal/tree/master//lib/scale/names.js)
+Test: [scale/namesTest.js](https://github.com/danigb/tonal/tree/master//test/scale/namesTest.js)
+
+----
+###### [scale/scale](#scale-module)
+
+
+
+#### scale(tonic, name) → {Array}
+
+
+
+Get the scale (a set of intervals or pitch classes) with a given name and
+optionally a tonic
+
+If the scale name does not contains the tonic, a list of intervals is returned
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`tonic`|String|(Optional) the tonic
+`name`|String|the scale name
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array of intervals or notes (if tonic is present)
+
+
+__Example:__
+
+```js
+scale('C', 'major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+scale('D', 'diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C' ]
+scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']
+```
+
+Source: [scale/scale.js](https://github.com/danigb/tonal/tree/master//lib/scale/scale.js)
+Test: [scale/scaleTest.js](https://github.com/danigb/tonal/tree/master//test/scale/scaleTest.js)
+
+
+## Chord module
+
+
+
+[Back to top](#tonal-functions)
+
+
+# Chord module
+
+Create chords by name and detect a chord by its pitches.
+
+It uses a big .json dataset to get the chord intervals from the name.
+
+### Function list
+
+- [chord](#chordchord) -  Get a chord from a chord name. The chord is an array of pitches or intervals depending if a tonic is given or not.
+- [find](#chordfind) -  Get the chord name(s) of a given pitches
+- [names](#chordnames) -  Get all known chord names
+
+
+
+### API
+
+----
+###### [chord/chord](#chord-module)
+
+
+
+#### chord(name, tonic) → {Array}
+
+
+
+Get a chord from a chord name. The chord is an array of pitches or intervals
+depending if a tonic is given or not.
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`name`|String|the chord name (may include the tonic)
+`tonic`|String|(Optional) the tonic pitch
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array of intervals or notes (if the tonic is provided)
+
+
+__Example:__
+
+```js
+chord('CMaj7') // => ['C4', 'E4', 'G4', 'B4']
+chord('7b5') // => ['1P', '3M', '5d', '7m']
+chord('7b5', 'Bb2')
+```
+
+Source: [chord/chord.js](https://github.com/danigb/tonal/tree/master//lib/chord/chord.js)
+Test: [chord/chordTest.js](https://github.com/danigb/tonal/tree/master//test/chord/chordTest.js)
+
+----
+###### [chord/find](#chord-module)
+
+
+
+#### find() → {}
+
+
+
+Get the chord name(s) of a given pitches
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
+
+__Returns:__
+
+Type|Description
+---|---
+
+
+__Example:__
+
+
+Source: [chord/find.js](https://github.com/danigb/tonal/tree/master//lib/chord/find.js)
+Test: [chord/findTest.js](https://github.com/danigb/tonal/tree/master//test/chord/findTest.js)
+
+----
+###### [chord/names](#chord-module)
+
+
+
+#### names() → {Array}
+
+
+
+Get all known chord names
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|array with all the known names
+
+
+__Example:__
+
+```js
+names() => ['major', 'minor', ....]
+```
+
+Source: [chord/names.js](https://github.com/danigb/tonal/tree/master//lib/chord/names.js)
+Test: [chord/namesTest.js](https://github.com/danigb/tonal/tree/master//test/chord/namesTest.js)
+
+
 ## PitchSet module
 
 
@@ -1987,6 +2025,8 @@ Test: [key/accidentalsTest.js](https://github.com/danigb/tonal/tree/master//test
 
 Given a key, return the altered pitches
 
+TODO: implementation
+
 __Arguments:__
 
 Name|Type|Description
@@ -2020,6 +2060,8 @@ Test: [key/alteredNotesTest.js](https://github.com/danigb/tonal/tree/master//tes
 
 
 Given a pitch set, return its key
+
+TODO: implementation
 
 __Arguments:__
 

@@ -12,7 +12,7 @@ vows.describe('tonal').addBatch({
     assert.equal(tonal.toFreq('Eb6'), 1244.5079348883237)
   },
   'scales': function () {
-    assert.deepEqual(tonal.scale('Bb dorian'), ['Bb', 'C', 'Db', 'Eb', 'F', 'G', 'Ab'])
+    assert.deepEqual(tonal.scale('Bb', 'dorian'), ['Bb', 'C', 'Db', 'Eb', 'F', 'G', 'Ab'])
   },
   'collections': function () {
     assert.deepEqual(tonal('A B C'), ['A', 'B', 'C'])
