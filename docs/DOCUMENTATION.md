@@ -9,7 +9,7 @@ Tonal functions are grouped by modules.
 __Modules summary__
 
 - __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [enharmonics](#pitchenharmonics), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitch](#pitchpitch), [pitchClass](#pitchpitchclass), [props](#pitchprops), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
-- __[Interval](#interval-module)__ -  [add](#intervaladd), [interval](#intervalinterval), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
+- __[Interval](#interval-module)__ -  [add](#intervaladd), [build](#intervalbuild), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
 - __[Collection](#collection-module)__ -  [dictionary](#collectiondictionary), [harmonize](#collectionharmonize), [mode](#collectionmode), [rotate](#collectionrotate), [toArray](#collectiontoarray), [triad](#collectiontriad)
 - __[Scale](#scale-module)__ -  [find](#scalefind), [names](#scalenames), [scale](#scalescale)
 - __[Chord](#chord-module)__ -  [chord](#chordchord), [find](#chordfind), [names](#chordnames)
@@ -619,7 +619,9 @@ Interger|the pitchClass number or null if not a valid pitch
 __Example:__
 
 ```js
-pitchClass('a4') // => 69
+pitchClass('a4') // => 'A'
+pitchClass('ab') // => 'Ab'
+pitchClass('cx2') // => 'C##'
 ```
 
 Source: [pitch/pitchClass.js](https://github.com/danigb/tonal/tree/master//lib/pitch/pitchClass.js)
@@ -836,7 +838,7 @@ You can get the interval properties with `interval/props` and manipulate in the 
 ### Function list
 
 - [add](#intervaladd) -  Add two intervals
-- [interval](#intervalinterval) -  Get an interval properties from a string or a number, and optionally a quality and octave.
+- [build](#intervalbuild) -  Build an interval (string) given a number, and optionally a quality and octave.
 - [invert](#intervalinvert) -  Get the [inversion](https://en.wikipedia.org/wiki/Interval_(music)#Inversion) of an interval.
 - [isInterval](#intervalisinterval) -  Test if a string is a valid interval
 - [opposite](#intervalopposite) -  Get the opposite of an interval
@@ -884,24 +886,28 @@ Source: [interval/add.js](https://github.com/danigb/tonal/tree/master//lib/inter
 Test: [interval/addTest.js](https://github.com/danigb/tonal/tree/master//test/interval/addTest.js)
 
 ----
-###### [interval/interval](#interval-module)
+###### [interval/build](#interval-module)
 
 
 
-#### interval(interval, quality|alteration, oct) → {}
+#### build(number, quality|alteration, oct) → {}
 
 
 
-Get an interval properties from a string or a number, and optionally a quality
+Build an interval (string) given a number, and optionally a quality
 and octave.
 
-The quality and octave parameters will override the given string interval
+It can be used to check if a interval is a valid interval:
+`build('5M') // => null`
+
+The first parameter can be another interval, but in this case the quality
+and octave parameters will have precedence over the interval.
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`interval`|String,Integer|the interval or the interval number (can be negative to express descengin intervals)
+`number`|String,Integer|the interval number (can be negative to express descengin intervals) or another interval
 `quality|alteration`|String,Integer|(Optional) the interval quality or numberic alteration (0 is perfect or major). Can be null to avoid override the string
 `oct`|Integer|(Optional) the octaves. If negative, the direction of the interval is descendent. 0 by default.
 
@@ -915,19 +921,20 @@ Type|Description
 __Example:__
 
 ```js
-interval('2') // => '2M'
-interval('2', 'm') // => '2m'
-interval('2', 'a', 1) // => '9A'
-interval('2', 'a', -1) // => '-9A'
-interval('2', null, 1) // => '9M'
-interval(-2, 'm', 1) // => '-9m'
-interval(-2, -1, 1) // => '-9m'
-interval(2, 'AA') // => '2AA'
-interval(2, 'AAA') // => null
+build(2) // => '2M'
+build(2, 'm') // => '2m'
+build(2, 'a', 1) // => '9A'
+build(2, 'a', -1) // => '-9A'
+build(2, null, 1) // => '9M'
+build(-2, 'm', 1) // => '-9m'
+build(-2, -1, 1) // => '-9m'
+build(2, 'AA') // => '2AA'
+build(2, 'AAA') // => null
+build('2P') // => null
 ```
 
-Source: [interval/interval.js](https://github.com/danigb/tonal/tree/master//lib/interval/interval.js)
-Test: [interval/intervalTest.js](https://github.com/danigb/tonal/tree/master//test/interval/intervalTest.js)
+Source: [interval/build.js](https://github.com/danigb/tonal/tree/master//lib/interval/build.js)
+Test: [interval/buildTest.js](https://github.com/danigb/tonal/tree/master//test/interval/buildTest.js)
 
 ----
 ###### [interval/invert](#interval-module)
