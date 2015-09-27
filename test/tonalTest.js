@@ -4,7 +4,7 @@ var tonal = require('../lib/tonal')
 
 vows.describe('tonal').addBatch({
   'pitch': function () {
-    assert.equal(tonal.pitch('ebb2'), 'Ebb2')
+    assert.equal(tonal.sci('ebb2'), 'Ebb2')
     assert.equal(tonal.octave('bb3'), 3)
     assert.equal(tonal.pitchClass('bb3'), 'Bb')
     assert.equal(tonal.toMidi('bb3'), 58)

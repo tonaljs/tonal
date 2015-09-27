@@ -1,4 +1,5 @@
 [MASTER]
+- rename pitch/pitch to pitch/sci
 - rename interval/interval to interval/build
 - move interval/harmonize to collection/harmonize
 - simplify chord and scale modules by moving all shared to collection module

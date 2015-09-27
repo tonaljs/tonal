@@ -8,7 +8,7 @@ Tonal functions are grouped by modules.
 
 __Modules summary__
 
-- __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [enharmonics](#pitchenharmonics), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitch](#pitchpitch), [pitchClass](#pitchpitchclass), [props](#pitchprops), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
+- __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [cents](#pitchcents), [enharmonic](#pitchenharmonic), [enharmonics](#pitchenharmonics), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitchClass](#pitchpitchclass), [props](#pitchprops), [sci](#pitchsci), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [build](#intervalbuild), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
 - __[Collection](#collection-module)__ -  [dictionary](#collectiondictionary), [harmonize](#collectionharmonize), [mode](#collectionmode), [rotate](#collectionrotate), [toArray](#collectiontoarray), [triad](#collectiontriad)
 - __[Scale](#scale-module)__ -  [find](#scalefind), [names](#scalenames), [scale](#scalescale)
@@ -67,7 +67,7 @@ Here is the properties list and examples:
 | Prop name  | Description | c#2 | bbb | Bx6 |
 |---|---|-----|-----|-----|
 |name| The provided string |c#2 | bbb | Bx6 |
-|str| Scientific notation | C#2 | Bbb4 | B##6 |
+|sci| Scientific notation | C#2 | Bbb4 | B##6 |
 |letter| Pitch letter | C | B | B |
 |pitchClass| Pitch class | C# | Bbb | B## |
 |chroma| Pitch class integer | 1 | 9 | 1 |
@@ -99,9 +99,9 @@ var transpose = require('tonal/pitch/transpose')
 - [intervalTo](#pitchintervalto) -  Partial apply `picth/interval` to return a interval to a pitch
 - [letter](#pitchletter) -  Get the letter of a pitch (and optionally move a number of steps)
 - [octave](#pitchoctave) -  Get the octave of a pitch
-- [pitch](#pitchpitch) -  Get the scientific notation of a pitch (and optionally change its octave and alteration)
 - [pitchClass](#pitchpitchclass) -  Get the [pitchClass](https://en.wikipedia.org/wiki/Pitch_class) of a pitch
 - [props](#pitchprops) -  Get pitch properties
+- [sci](#pitchsci) -  Get the scientific representation of a given pitch (or null if its not a valid pitch).
 - [toFreq](#pitchtofreq) -  Get the pitch frequency in hertzs
 - [toKey](#pitchtokey) -  Get the key number from a pitch
 - [toMidi](#pitchtomidi) -  Get the midi of a pitch
@@ -549,49 +549,6 @@ Source: [pitch/octave.js](https://github.com/danigb/tonal/tree/master//lib/pitch
 Test: [pitch/octaveTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/octaveTest.js)
 
 ----
-###### [pitch/pitch](#pitch-module)
-
-
-
-#### pitch(pitch, alteration, octave) → {String}
-
-
-
-Get the scientific notation of a pitch (and optionally change its octave and alteration)
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`pitch`|String|a pitch, a pitch class or a pitch letter
-`alteration`|String,Integer|(Optional) the alteration number (overrides the one from the pitch string). Can be null to avoid overrides
-`octave`|Integer|(Optional) the octave (overrides the one from the pitch string)
-
-
-__Returns:__
-
-Type|Description
----|---
-String|the pitch in scientific notation or null if not valid pitch
-
-
-__Example:__
-
-```js
-pitch('c', '#', 2) // => 'C#2'
-pitch('c', '#') // => 'C#4'
-pitch('c') // => 'C4'
-pitch('c#4') // => 'C#4'
-pitch('C#4', 'b', 2) // => 'Cb2'
-pitch('C#4', null, 2) // => 'C#2'
-pitch('C7', -1) // => 'Cb7'
-pitch('bluf') // => null
-```
-
-Source: [pitch/pitch.js](https://github.com/danigb/tonal/tree/master//lib/pitch/pitch.js)
-Test: [pitch/pitchTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/pitchTest.js)
-
-----
 ###### [pitch/pitchClass](#pitch-module)
 
 
@@ -642,7 +599,7 @@ It returns an object with the following properties:
 
 - __name__: the given pitch string
 - __letter__: the pitch letter __always__ in uppercase
-- __str__: the pitch in scientific representation
+- __sci__: the pitch in scientific representation
 - __pitchClass__: the pitch [pitch class](https://en.wikipedia.org/wiki/Pitch_class)
 (letter in uppercase, accidentals using 'b' or '#', never 'x', no octave)
 - __acc__: a string with the accidentals or '' if no accidentals (never null)
@@ -675,6 +632,53 @@ props('C#2') // => { }
 
 Source: [pitch/props.js](https://github.com/danigb/tonal/tree/master//lib/pitch/props.js)
 Test: [pitch/propsTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/propsTest.js)
+
+----
+###### [pitch/sci](#pitch-module)
+
+
+
+#### sci(pitch, alteration, octave) → {String}
+
+
+
+Get the scientific representation of a given pitch (or null if its not a valid
+pitch).
+
+If not given, the octave is 4 by default. You can override the alteration
+and/or octave with optionals parameters
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`pitch`|String|a pitch, a pitch class or a pitch letter
+`alteration`|String,Integer|(Optional) the alteration number (overrides the one from the pitch string). Can be null to avoid overrides
+`octave`|Integer|(Optional) the octave (overrides the one from the pitch string)
+
+
+__Returns:__
+
+Type|Description
+---|---
+String|the pitch in scientific notation or null if not valid pitch
+
+
+__Example:__
+
+```js
+sci('c') // => 'C4'
+sci('c', '#') // => 'C#4'
+sci('c', '#', 2) // => 'C#2'
+sci('b#4') // => 'B#4'
+sci('C#4', 'b', 2) // => 'Cb2'
+sci('C#4', null, 2) // => 'C#2'
+sci('C7', -1) // => 'Cb7'
+sci('bluf') // => null
+```
+
+Source: [pitch/sci.js](https://github.com/danigb/tonal/tree/master//lib/pitch/sci.js)
+Test: [pitch/sciTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/sciTest.js)
 
 ----
 ###### [pitch/toFreq](#pitch-module)

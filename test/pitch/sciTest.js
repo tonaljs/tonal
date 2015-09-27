@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var pitch = require('../../lib/pitch/pitch')
+var pitch = require('../../lib/pitch/sci')
 
-vows.describe('pitch/pitch').addBatch({
+vows.describe('pitch/sci').addBatch({
   'scientific notation': function () {
     assert.equal(pitch('Cx2'), 'C##2')
     assert.equal(pitch('bbb'), 'Bbb4')

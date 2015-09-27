@@ -36,7 +36,7 @@ Here is the properties list and examples:
 | Prop name  | Description | c#2 | bbb | Bx6 |
 |---|---|-----|-----|-----|
 |name| The provided string |c#2 | bbb | Bx6 |
-|str| Scientific notation | C#2 | Bbb4 | B##6 |
+|sci| Scientific notation | C#2 | Bbb4 | B##6 |
 |letter| Pitch letter | C | B | B |
 |pitchClass| Pitch class | C# | Bbb | B## |
 |chroma| Pitch class integer | 1 | 9 | 1 |
