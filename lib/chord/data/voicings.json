@@ -1,0 +1,643 @@
+{
+  "4": {
+    "left-hand-A": "4P 7m 10m"
+  },
+  "5": {
+    "left-hand-B": "1P 5P 8P"
+  },
+  "7": {
+    "two-hand-C": "21m -4P -2M 3M",
+    "two-hand-B": "17M 21m -4P 3M",
+    "two-hand-A": "19P 21m -6m -4P -2M",
+    "left-hand-A": "3M 5P 7m",
+    "left-hand-B": "7m 10M 12P",
+    "left-hand-C": "19P 21m -6m -4P",
+    "left-hand-D": "21m -6m -4P -2M",
+    "drop-2-A": "-3d 3M 5P 8P",
+    "drop-2-B": "-8P -4P -3d 3M",
+    "drop-2-C": "-6m -3d 1P 5P",
+    "drop-2-D": "-4P 1P 3M 6A"
+  },
+  "9": {
+    "shout-A": "21m -6m -4P -2M 5P 8P 12P",
+    "two-hand-B": "21m -7m -6m -4P -2M",
+    "left-hand-A": "3M 5P 7m 9M",
+    "left-hand-B": "7m 9M 10M 12P",
+    "two-hand-A": "5P 9M 10M 14m"
+  },
+  "10": {
+    "left-hand-A": "1P 5P 10M"
+  },
+  "11": {},
+  "13": {
+    "left-hand-A": "3M 6M 7m 9M",
+    "left-hand-B": "7m 9M 10M 13M",
+    "drop-2-A": "3M 7m 9M 13M",
+    "drop-2-B": "2M 6M 7m 10M",
+    "drop-2-C": "-2M 3M 6M 9M",
+    "drop-2-D": "-3m 2M 3M 7m",
+    "drop-3-A": "2M 7m 10M 13M",
+    "drop-3-B": "-2M 6M 9M 10M",
+    "drop-3-C": "3M 9M 13M 14m",
+    "drop-2-3-A": "2M 3M 7m 13M",
+    "drop-2-3-B": "-2M 2M 6M 10M",
+    "drop-2-3-C": "6M 7m 10M 16M",
+    "two-hand-A": "6M 9M 10M 14m",
+    "shout-A": "3M 6M 7m 9M",
+    "shout-B": "7m 10M 13M"
+  },
+  "Note": {
+    "A": "1P",
+    "B": "1P"
+  },
+  "M": {
+    "left-hand-A": "3M 5P 8P",
+    "left-hand-B": "5P 8P 10M",
+    "open-A": "3M 8P 12P",
+    "open-B": "5P 8P 10M",
+    "open-C": "5P 10M 15P",
+    "open-D": "1P 5P 10M 15P",
+    "open-E": "-6m -4P 1P 3M 5P"
+  },
+  "M6": {
+    "left-hand-C": "-3m 1P 3M 5P",
+    "left-hand-A": "3M 5P 6M 8P",
+    "left-hand-B": "5P 8P 10M 13M",
+    "open-A": "3M 6M 8P 12P",
+    "open-B": "5P 10M 13M 15P",
+    "drop-2-A": "20M -6m -4P 1P",
+    "drop-2-B": "-8P -4P -3m 3M",
+    "drop-2-C": "-6m -3m 1P 5P",
+    "drop-2-D": "-4P 1P 3M 6M"
+  },
+  "M69": {
+    "left-hand-A": "3M 5P 6M 9M",
+    "left-hand-B": "5P 9M 10M 13M",
+    "quartal": "3M 6M 9M 12P",
+    "shout-A": "3M 5P 6M 9M",
+    "shout-B": "5P 9M 10M 13M"
+  },
+  "M6#11": {},
+  "M69#11": {
+    "left-hand-A": "3M 6M 9M 11A",
+    "left-hand-B": "6M 9M 10M 11A 13M",
+    "open-A": "3M 5P 9M 11A 13M",
+    "shout-A": "3M 6M 9M 11A",
+    "shout-B": "6M 9M 10M 11A 13M"
+  },
+  "Madd9": {
+    "left-hand-B": "2M 3M 5P",
+    "left-hand-A": "3M 5P 9M",
+    "two-hand-B": "3M 8P 12P 16M",
+    "two-hand-A": "3M 8P 9M 12P"
+  },
+  "Msus2": {
+    "left-hand-B": "2M 5P 8P",
+    "left-hand-A": "5P 8P 9M",
+    "two-hand-A": "5P 9M 15P"
+  },
+  "sus24": {
+    "left-hand-B": "2M 4P 5P 8P",
+    "left-hand-A": "5P 8P 9M 11P",
+    "two-hand-A": "5P 9M 15P 18P"
+  },
+  "Maj7": {
+    "left-hand-A": "3M 5P 7M",
+    "left-hand-B": "7M 10M 12P",
+    "left-hand-C": "5P 7M 10M",
+    "two-hand-A": "5P 10M 14M",
+    "two-hand-B": "7M 12P 17M",
+    "two-hand-C": "-6m -2m 5P"
+  },
+  "M9": {
+    "left-hand-A": "3M 5P 7M 9M",
+    "left-hand-B": "7M 9M 10M 12P",
+    "left-hand-C": "5P 7M 9M 10M",
+    "drop-2-A": "-2m 3M 5P 9M",
+    "drop-2-B": "-4P 2M 3M 7M",
+    "drop-2-C": "-6m -2m 2M 5P",
+    "drop-2-D": "2M 5P 7M 10M",
+    "drop-3-A": "-4P 3M 7M 9M",
+    "drop-3-B": "-6m 2M 5P 7M",
+    "drop-3-C": "-2m 5P 9M 10M",
+    "drop-2-3-A": "-4P -2m 3M 9M",
+    "drop-2-3-B": "-6m -4P 9M 14M",
+    "drop-2-3-C": "-7m -6m -2m 5P",
+    "two-hand-A": "5P 9M 14M 17M",
+    "two-hand-B": "7M 10M 12P 16M",
+    "two-hand-C": "-6m -2m 2M 5P",
+    "shout-A": "3M 5P 7M 9M",
+    "shout-B": "7M 10M 12P"
+  },
+  "M7#11": {
+    "left-hand-A": "3M 4A 7M",
+    "left-hand-B": "7M 10M 11A",
+    "left-hand-C": "5P 7M 10M 11A",
+    "two-hand-A": "5P 10M 14M 18A",
+    "two-hand-B": "5P 11A 14M 17M",
+    "two-hand-C": "-6m -4P -2m 3M 4A"
+  },
+  "M9#11": {
+    "left-hand-A": "3M 4A 7M 9M",
+    "left-hand-B": "7M 9M 10M 11A",
+    "left-hand-C": "5P 7M 9M 10M 4A",
+    "two-hand-A": "5P 9M 10M 14M 18A",
+    "two-hand-B": "5P 9M 11A 14M 17M"
+  },
+  "M13": {
+    "two-hand-A": "3M 7M 9M 13M 19P",
+    "two-hand-B": "7M 9M 13M 17M 19P",
+    "two-hand-C": "3M 5P 7M 9M 13M",
+    "quartal-A": "-2m 3M 6M 9M 12P",
+    "so-what": "3M 6M 9M 12P 14M",
+    "shout-A": "3M 7M 9M 13M",
+    "shout-B": "7M 9M 13M 17M"
+  },
+  "M7add13": {
+    "two-hand-A": "-6m -4P -2m 6M",
+    "two-hand-B": "-4P -2m 3M 6M",
+    "left-hand-A": "3M 6M 7M",
+    "left-hand-B": "7M 10M 13M"
+  },
+  "M13#11": {
+    "two-hand-A": "3M 7M 9M 13M 18A",
+    "two-hand-B": "-6m -2m 2M 4A 6M",
+    "two-hand-C": "-6m -3m -2m 2M 4A",
+    "left-hand-A": "3M 6M 7M 9M 11A",
+    "left-hand-B": "3M 7M 9M 11A 13M",
+    "shout-A": "3M 6M 7M 9M 11A",
+    "shout-B": "7M 9M 10M 11A 13M"
+  },
+  "69#11": {
+    "two-hand-B": "-6m -2m 2M 6M",
+    "left-hand-A": "3M 6M 9M 11A",
+    "left-hand-B": "3M 9M 11A 13M",
+    "two-hand-A": "3M 9M 13M 18A",
+    "shout-A": "3M 6M 9M 11A",
+    "shout-B": "9M 10M 11A 13M"
+  },
+  "Mb5": {
+    "two-hand-A": "-6m 1P 4A",
+    "left-hand-A": "4A 8P 10M",
+    "left-hand-B": "-6m -5d 1P"
+  },
+  "M7b5": {
+    "left-hand-A": "3M 7M 12d",
+    "left-hand-B": "5d 10M 14M"
+  },
+  "M9b5": {
+    "left-hand-A": "3M 7M 9M 12d",
+    "left-hand-B": "7M 9M 10M 12d"
+  },
+  "M7#9#11": {
+    "left-hand-A": "3M 4A 7M 9A",
+    "left-hand-B": "7M 9A 10M 11A",
+    "left-hand-C": "5P 7M 9A 10M 4A",
+    "two-hand-A": "5P 9A 10M 14M 18A",
+    "two-hand-B": "5P 9A 11A 14M 17M"
+  },
+  "Msus4": {
+    "open-A": "-8P -5P -4P",
+    "left-hand-A": "4P 5P 8P",
+    "left-hand-B": "5P 8P 11P"
+  },
+  "M7b6": {
+    "left-hand-A": "3M 6m 7M",
+    "left-hand-B": "7M 10M 13m"
+  },
+  "9no5": {
+    "left-hand-A": "3M 7m 9M"
+  },
+  "M#5": {
+    "left-hand-A": "3M 5A 8P",
+    "left-hand-B": "5A 8P 10M",
+    "open-A": "3M 8P 12A",
+    "open-B": "5A 10M 15P"
+  },
+  "M7#5": {
+    "closed-1": "3M 5A 7M",
+    "open-1": "3M 7M 12A",
+    "open-2": "7M 10M 12A"
+  },
+  "M9#5": {
+    "closed-1": "3M 5A 7M 9M",
+    "closed-2": "7M 9M 10M 12A",
+    "open-1": "3M 7M 9M 12A",
+    "open-2": "7M 10M 12A 16M"
+  },
+  "M#5add9": {
+    "closed-1": "3M 5A 9M",
+    "closed-2": "2M 3M 5A",
+    "open-1": "3M 9M 12A",
+    "open-2": "3M 5A 9M"
+  },
+  "M7sus4": {
+    "left-hand-A": "4P 5P 7M",
+    "open-1": "5P 7M 11P"
+  },
+  "M9sus4": {
+    "left-hand-A": "4P 5P 7M 9M",
+    "open-1": "5P 9M 11P 7M"
+  },
+  "M7#5sus4": {
+    "left-hand-A": "4P 5A 7M 9M",
+    "open-1": "5A 9M 11P 7M"
+  },
+  "M9#5sus4": {
+    "left-hand-A": "4P 5A 7M 9M",
+    "left-hand-B": "7M 9M 11P 12A",
+    "open-A": "5A 9M 11P 14M"
+  },
+  "+add#9": {
+    "left-hand-A": "3M 5A 9A",
+    "left-hand-B": "9A 10M 12A",
+    "open-A": "3M 5A 9A"
+  },
+  "M7b9": {
+    "left-hand-A": "3M 5P 7M 9m",
+    "left-hand-B": "7M 9m 10M 12P"
+  },
+  "Mb6": {
+    "left-hand-A": "3M 6m 1P",
+    "left-hand-B": "5P 10M 13m"
+  },
+  "m": {
+    "left-hand-A": "3m 5P 8P",
+    "left-hand-B": "5P 8P 10m",
+    "open-A": "3m 8P 12P",
+    "open-B": "5P 10m 15P",
+    "open-C": "-6M 1P 5P",
+    "open-D": "-8P -4P 3m"
+  },
+  "m7": {
+    "left-hand-A": "-7d -4P -3d 1P",
+    "left-hand-B": "-3d 1P 2A 5P",
+    "left-hand-C": "-4P -3d 2A",
+    "two-hand-A": "5P 8P 10m 14m",
+    "two-hand-B": "3m 7m 8P 12P",
+    "two-hand-C": "-3d 1P 2A 5P",
+    "drop-2-A": "21m -6M -4P 1P",
+    "drop-2-B": "-6M -2M 1P 5P"
+  },
+  "m6": {
+    "two-hand-A": "6M 10m 15P 19P",
+    "two-hand-B": "20M -6M -4P 1P",
+    "left-hand-A": "-6M -4P -3m 1P",
+    "left-hand-B": "20M -8P 3m -4P",
+    "drop-2-A": "20M -6M -4P 1P",
+    "drop-2-B": "-8P -4P -3m 3m",
+    "drop-2-C": "-6M -3m 1P 5P",
+    "drop-2-D": "-4P 1P 3m 6M"
+  },
+  "m69": {
+    "left-hand-A": "3m 5P 6M 9M",
+    "left-hand-B": "6M 9M 10m 12P",
+    "two-hand-A": "6M 10m 16M 19P",
+    "two-hand-B": "3m 6M 9M 12P"
+  },
+  "madd9": {
+    "left-hand-A": "3m 5P 9M",
+    "left-hand-B": "2M 3m 5P",
+    "two-hand-A": "10m 16M 19P"
+  },
+  "madd4": {
+    "left-hand-A": "3m 5P 11P",
+    "left-hand-B": "3m 4P 5P",
+    "two-hand-A": "10m 4P 16M 19P"
+  },
+  "mM7": {
+    "left-hand-A": "3m 5P 7M",
+    "left-hand-B": "7M 10m 12P"
+  },
+  "mM9": {
+    "left-hand-A": "3m 5P 7M 9M",
+    "left-hand-B": "14M 9M 10m 12P"
+  },
+  "mM7b6": {
+    "left-hand-A": "3m 6m 7M",
+    "left-hand-B": "7M 10m 13m"
+  },
+  "mM9b6": {
+    "left-hand-A": "3m 6m 7M 2M",
+    "left-hand-B": "7M 2M 10m 13m"
+  },
+  "m9": {
+    "left-hand-A": "3m 5P 7m 9M",
+    "left-hand-B": "7m 9M 10m 12P",
+    "two-hand-A": "5P 9M 14m 17m",
+    "two-hand-B": "3m 7m 9M 12P",
+    "drop-2-A": "-2M 3m 5P 9M",
+    "drop-2-B": "5P 9M 10m 14m",
+    "drop-2-C": "3m 7m 9M 12P",
+    "drop-2-D": "2M 5P 7m 10m",
+    "drop-3-A": "-4P 3m 7m 9M",
+    "drop-3-B": "-6M 2M 5P 7m",
+    "drop-3-C": "-2M 5P 9M 10m",
+    "drop-2-3-A": "-4P -2M 3m 9M",
+    "drop-2-3-B": "-6M -4P 2M 7m",
+    "drop-2-3-C": "2M 3m 7m 12P",
+    "shout-A": "3m 5P 7m 9M",
+    "shout-B": "7m 9M 10m 12P"
+  },
+  "m11": {
+    "two-hand-B": "21m -4P -2M 2M 4P",
+    "so-what": "19P -8P -5P -2M 2M",
+    "two-hand-A": "5P 9M 10m 14m 18P"
+  },
+  "m7add11": {
+    "two-hand-A": "5P 10m 14m 18P"
+  },
+  "m13": {
+    "two-hand-A": "5P 9M 11P 13M 14m 17m"
+  },
+  "m7b5": {
+    "left-hand-A": "3m 5d 7m 8P",
+    "left-hand-B": "7m 8P 10m 12d",
+    "two-hand-A": "5d 8P 10m 14m"
+  },
+  "m9b5": {
+    "left-hand-A": "3m 5d 7m 9M",
+    "left-hand-B": "7m 9M 10m 12d",
+    "two-hand-A": "5d 10m 14m 16M"
+  },
+  "m11b5": {
+    "two-hand-A": "5d 10m 14m 16M 18P"
+  },
+  "m#5": {
+    "left-hand-A": "3m 5A 8P",
+    "left-hand-B": "5A 8P 10m",
+    "open-A": "3m 8P 12A",
+    "open-B": "5A 10m 15P"
+  },
+  "mb6b9": {
+    "left-hand-A": "3m 6m 9m",
+    "left-hand-B": "6m 9m 10m",
+    "open-A": "3m 8P 12A 16m",
+    "open-B": "5A 9m 10m 15P"
+  },
+  "mb6M7": {
+    "left-hand-A": "3m 6m 7M",
+    "left-hand-B": "6m 7M 10m",
+    "open-A": "3m 7M 8P 12A",
+    "open-B": "5A 10m 14M 15P"
+  },
+  "m7#5": {
+    "left-hand-A": "3m 5A 7m",
+    "left-hand-B": "5A 7m 10m"
+  },
+  "m9#5": {
+    "left-hand-A": "3m 5A 7m 9M",
+    "left-hand-B": "5A 7m 9M 10m"
+  },
+  "m11#5": {
+    "left-hand-A": "3m 5A 7m 9M 11P",
+    "left-hand-B": "4P 5A 7m 9M 10m"
+  },
+  "addb9": {
+    "left-hand-A": "3M 5P 9m",
+    "left-hand-B": "2m 3M 5P",
+    "two-hand-A": "3M 8P 9m 12P",
+    "two-hand-B": "3M 8P 12P 16m"
+  },
+  "7no5": {
+    "left-hand-A": "-6m -2M 1P",
+    "left-hand-B": "7m 10M",
+    "two-hand-A": "21m -6m 1P"
+  },
+  "7b9": {
+    "left-hand-A": "3M 5P 7m 9m",
+    "left-hand-B": "7m 9m 10M 12P",
+    "two-hand-A": "5P 10M 14m 16m"
+  },
+  "7b9#9": {
+    "left-hand-A": "3M 5P 7m 9m",
+    "two-hand-A": "5P 10M 14m 16m"
+  },
+  "7#5": {
+    "two-hand-A": "17M 21m -8P -4d",
+    "left-hand-C": "19A 21m -8P -6m",
+    "left-hand-A": "-8P -6m -3M -2M",
+    "left-hand-B": "7m 10M 12A",
+    "two-hand-B": "21m -6m -3M 1P"
+  },
+  "7#9": {
+    "left-hand-A": "3M 5P 7m 9A",
+    "left-hand-B": "7m 9A 10M 12P",
+    "two-hand-A": "5P 10M 14m 16A"
+  },
+  "7#11": {
+    "left-hand-A": "21m -8P -6m -4A",
+    "left-hand-B": "21m -6m -4A -4P",
+    "two-hand-A": "17M 19P 21m -4A",
+    "two-hand-B": "21m -6m -4A 1P"
+  },
+  "7#9#11": {},
+  "7#9b13": {},
+  "7#9#11b13": {},
+  "7b5": {},
+  "9#11": {
+    "left-hand-A": "3M 4A 7m 9M",
+    "left-hand-B": "7m 9M 10M 11A",
+    "two-hand-A": "3M 9M 14m 18A",
+    "two-hand-B": "7m 10M 11A 16M"
+  },
+  "9b5": {
+    "left-hand-A": "3M 5d 7m 9M",
+    "left-hand-B": "7m 9M 10M 12d",
+    "two-hand-A": "9M 10M 14m 19d",
+    "two-hand-B": "7m 10M 12d 16M"
+  },
+  "9#5": {
+    "left-hand-A": "3M 5A 7m 9M",
+    "left-hand-B": "7m 9M 10M 12A",
+    "two-hand-A": "9M 10M 14m 19A",
+    "two-hand-B": "7m 10M 12A 16M"
+  },
+  "9#5#11": {
+    "left-hand-A": "3M 5A 7m 9M 11A",
+    "two-hand-A": "3M 7m 12A 18A",
+    "two-hand-B": "7m 10M 12A 18A"
+  },
+  "11b9": {},
+  "7add6": {
+    "left-hand-A": "3M 6M 7m",
+    "left-hand-B": "7m 10M 13M",
+    "drop-2-A": "3M 7m 13M",
+    "drop-2-B": "2M 6M 7m 10M",
+    "drop-2-C": "-2M 3M 6M",
+    "drop-2-D": "-3m 3M 7m",
+    "drop-3-A": "7m 10M 13M",
+    "drop-3-B": "-2M 6M 10M",
+    "drop-3-C": "3M 13M 14m",
+    "drop-2-3-A": "3M 7m 13M",
+    "drop-2-3-B": "-2M 6M 10M",
+    "drop-2-3-C": "6M 7m 10M",
+    "two-hand-A": "6M 10M 14m"
+  },
+  "13no5": {
+    "left-hand-A": "3M 6M 7m 9M",
+    "left-hand-B": "7m 9M 10M 13M",
+    "two-hand-A": "6M 9M 10M 14m",
+    "shout-A": "3M 6M 7m 9M",
+    "shout-B": "7m 10M 13M"
+  },
+  "7b13": {
+    "left-hand-A": "3M 6m 7m 9M",
+    "left-hand-B": "7m 9M 10M 13m",
+    "two-hand-A": "6m 9M 10M 14m"
+  },
+  "7b6": {
+    "left-hand-A": "3M 6m 7m",
+    "left-hand-B": "7m 10M 13m",
+    "two-hand-A": "6m 10M 14m"
+  },
+  "9b13": {
+    "left-hand-A": "3M 6m 7m 9M",
+    "left-hand-B": "7m 9M 10M 13m",
+    "two-hand-A": "6m 10M 14m 16M"
+  },
+  "7#11b13": {
+    "left-hand-A": "3M 6m 7m 11A",
+    "left-hand-B": "7m 10M 11A 13m",
+    "two-hand-A": "6m 10M 14m 18A"
+  },
+  "9#11b13": {
+    "left-hand-A": "3M 6m 7m 9M 11A",
+    "left-hand-B": "7m 9M 10M 11A 13m",
+    "two-hand-A": "6m 10M 14m 16M 18A"
+  },
+  "13b9": {
+    "left-hand-A": "7m 9m 10M 13M",
+    "two-hand-A": "7m 13M 10M 16m",
+    "two-hand-B": "3M 7m 9m 13M",
+    "two-hand-C": "-6m 7m 2m 6M",
+    "shout-A": "7m 13M 10M 16m",
+    "shout-B": "3M 7m 9m 13M",
+    "shout-C": "-6m -2M 2m 6M"
+  },
+  "13b5": {
+    "left-hand-A": "3M 5d 6M 7m 2M",
+    "left-hand-B": "7m 9M 10M 12d 13M",
+    "two-hand-A": "7m 10M 13M 16M 19d"
+  },
+  "13#9": {
+    "left-hand-A": "3M 6M 7m 9A",
+    "left-hand-B": "7m 9A 13M 17M",
+    "open-A": "-2M 3M 6M 9A"
+  },
+  "13#11": {
+    "left-hand-A": "3M 4A 6M 7m 9M",
+    "left-hand-B": "7m 10M 11A 13M 16M",
+    "open-A": "7m 10M 9M 16M 18A",
+    "open-B": "7m 10M 13M 16M 18A"
+  },
+  "13#9#11": {
+    "left-hand-A": "3M 4A 6M 7m 9A",
+    "left-hand-B": "7m 9A 10M 11A 13M",
+    "open-A": "7m 10M 11A 16A 20M"
+  },
+  "7sus4": {
+    "left-hand-A": "4P 5P 7m",
+    "left-hand-B": "5P 7m 11P",
+    "two-hand-A": "4P 7m 12P"
+  },
+  "9sus4": {
+    "left-hand-A": "4P 7m 9M",
+    "left-hand-B": "7m 9M 11P",
+    "open-A": "4P 9M 14m",
+    "open-B": "-2M 4P 9M"
+  },
+  "7#5sus4": {
+    "left-hand-A": "4P 5A 7m",
+    "left-hand-B": "7m 11P 12A",
+    "two-hand-A": "4P 7m 12A"
+  },
+  "7sus4b9": {
+    "left-hand-A": "7m 9m 11P",
+    "open-A": "4P 7m 9m",
+    "open-B": "-2M 4P 9m"
+  },
+  "7sus4b9b13": {
+    "left-hand-A": "6m 7m 9m 11P",
+    "left-hand-B": "7m 9m 11P 13m",
+    "open-A": "4P 7m 9m 13m",
+    "open-B": "-2M 4P 9m 13m"
+  },
+  "13sus4": {
+    "left-hand-A": "6M 7m 9M 11P",
+    "left-hand-B": "7m 9M 11P 13M",
+    "open-A": "4P 7m 9M 13M",
+    "open-B": "-2M 4P 9M 13M"
+  },
+  "7b9#11": {
+    "open-A": "-2M 3M 9m 11A",
+    "open-B": "-2M 9m 10M 11A"
+  },
+  "13b9#11": {
+    "open-A": "7m 10M 13M 16m 18A",
+    "shout-A": "7m 13M 16m 18A"
+  },
+  "7b9b13": {
+    "open-A": "-2M 3M 6m 9m",
+    "open-B": "-2M 6m 9m 10M"
+  },
+  "7b9b13#11": {
+    "open-A": "-2M 3M 6m 9m 11A",
+    "open-B": "-2M 6m 9m 10M 11A"
+  },
+  "7#5b9": {
+    "open-A": "-2M 3M 5A 9m",
+    "open-B": "-2M 5A 9m 10M"
+  },
+  "7#5b9#11": {
+    "open-A": "-2M 3M 5A 9m 11A",
+    "open-B": "-2M 5A 9m 10M 11A"
+  },
+  "7#5#9": {
+    "left-hand-C": "21m -6M -6m -3M",
+    "left-hand-A": "3M 5A 7m 9A",
+    "left-hand-B": "7m 9A 10M 12A",
+    "open-A": "-2M 3M 5A 9A"
+  },
+  "o": {
+    "left-hand-A": "3m 5d 8P",
+    "left-hand-B": "5d 8P 10m",
+    "left-hand-C": "1P 3m 5d",
+    "open-A": "3m 8P 12d",
+    "open-B": "5d 8P 10m"
+  },
+  "o7": {
+    "open-G": "-3m 1P 2A 4A 6M",
+    "open-F": "-7d -5d 1P 4A 6M",
+    "open-E": "17m 20M -8P -4A",
+    "left-hand-A": "3m 5d 6M 8P",
+    "left-hand-B": "5d 6M 8P 10m",
+    "left-hand-C": "6M 8P 10m 12d",
+    "left-hand-D": "-8P -6M -4A -3m",
+    "open-A": "3m 6M 12d 15P",
+    "open-B": "5d 10m 13M 15P",
+    "open-C": "20M -4A 1P 3m",
+    "open-D": "-8P -4A -3m 3m",
+    "shout-A": "3m 5d 6M 8P",
+    "shout-B": "5d 6M 8P 10m",
+    "shout-C": "6M 8P 10m 12d",
+    "shout-D": "-8P -6M -4A -3m"
+  },
+  "oM7": {},
+  "o7M7": {
+    "left-hand-A": "3m 5d 6M 7M",
+    "left-hand-B": "5d 6M 7M 10m",
+    "left-hand-C": "7M 10m 12d 13M",
+    "open-A": "3m 6M 12d 14M",
+    "open-B": "5d 7M 10m 13M"
+  },
+  "Blues": {
+    "left-hand-A": "3m 4P 5d 7m",
+    "left-hand-B": "4P 5d 7m 10m",
+    "open-A": "3m 5d 7m 11P",
+    "open-B": "4P 5d 10m 14m"
+  },
+  "m10": {
+    "left-hand-A": "1P 5P 10m"
+  }
+}

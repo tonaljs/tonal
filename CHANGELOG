@@ -1,4 +1,5 @@
 [MASTER]
+- Add chord voicings
 - Add pitch/byFreq to order pitches by frequencies
 - move pitchClass functions to collections (remove pitchSet module)
 - rename pitch/pitch to pitch/sci
