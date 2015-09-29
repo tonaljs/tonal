@@ -15,7 +15,7 @@ __Modules summary__
 - __[Chord](#chord-module)__ -  [chord](#chordchord), [extensions](#chordextensions), [find](#chordfind), [intervals](#chordintervals), [names](#chordnames), [scaleNames](#chordscalenames), [voicings](#chordvoicings)
 - __[BinaryScale](#binaryscale-module)__ -  [filter](#binaryscalefilter), [fromCollection](#binaryscalefromcollection), [fromNumber](#binaryscalefromnumber), [intervals](#binaryscaleintervals), [isValid](#binaryscaleisvalid), [modes](#binaryscalemodes), [props](#binaryscaleprops)
 - __[Key](#key-module)__ -  [accidentals](#keyaccidentals), [alteredNotes](#keyalterednotes), [fromPitchSet](#keyfrompitchset), [keyNumber](#keykeynumber), [parse](#keyparse), [pitchSet](#keypitchset), [triads](#keytriads)
-- __[Fifths](#fifths-module)__ -  [byFifths](#fifthsbyfifths), [fifths](#fifthsfifths), [fifthsFrom](#fifthsfifthsfrom), [transpose](#fifthstranspose)
+- __[Fifths](#fifths-module)__ -  [byFifths](#fifthsbyfifths), [distance](#fifthsdistance), [distanceFrom](#fifthsdistancefrom), [transpose](#fifthstranspose)
 
 
 
@@ -2716,9 +2716,9 @@ distance('F', 'C') // => -1
 
 ### Function list
 
-- [byFifths](#fifthsbyfifths) -  Get a comparator function to sort a collection of pitch classes by fifths
-- [fifths](#fifthsfifths) -  Return the number of fifths between two pitch classes.
-- [fifthsFrom](#fifthsfifthsfrom) -  Create a function to get fifths distance from a given note.
+- [byFifths](#fifthsbyfifths) -  Get a comparator function to sort a collection of pitch classes by distance distance in fifths to a base (or C4)
+- [distance](#fifthsdistance) -  Return the number of fifths between two pitch classes.
+- [distanceFrom](#fifthsdistancefrom) -  Create a function to get distance in fifths from a given note.
 - [transpose](#fifthstranspose) -  Transpose a pitch class by a number of fifths
 
 
@@ -2734,7 +2734,8 @@ distance('F', 'C') // => -1
 
 
 
-Get a comparator function to sort a collection of pitch classes by fifths
+Get a comparator function to sort a collection of pitch classes by
+distance distance in fifths to a base (or C4)
 
 __Arguments:__
 
@@ -2760,11 +2761,11 @@ Source: [fifths/byFifths.js](https://github.com/danigb/tonal/tree/master/lib/fif
 Test: [fifths/byFifthsTest.js](https://github.com/danigb/tonal/tree/master/test/fifths/byFifthsTest.js)
 
 ----
-###### [fifths/fifths](#fifths-module)
+###### [fifths/distance](#fifths-module)
 
 
 
-#### fifths(pitch, from) → {Integer}
+#### distance(pitch, from) → {Integer}
 
 
 
@@ -2797,25 +2798,25 @@ fifths('A', 'D') // => 1
 fifths('C4', 'C2') // => 0
 ```
 
-Source: [fifths/fifths.js](https://github.com/danigb/tonal/tree/master/lib/fifths/fifths.js)
-Test: [fifths/fifthsTest.js](https://github.com/danigb/tonal/tree/master/test/fifths/fifthsTest.js)
+Source: [fifths/distance.js](https://github.com/danigb/tonal/tree/master/lib/fifths/distance.js)
+Test: [fifths/distanceTest.js](https://github.com/danigb/tonal/tree/master/test/fifths/distanceTest.js)
 
 ----
-###### [fifths/fifthsFrom](#fifths-module)
+###### [fifths/distanceFrom](#fifths-module)
 
 
 
-#### fifthsFrom(from) → {function}
+#### distanceFrom(from) → {function}
 
 
 
-Create a function to get fifths distance from a given note.
+Create a function to get distance in fifths from a given note.
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`from`|String|the from note of the fifths distance
+`from`|String|the from note of the distance distance
 
 
 __Returns:__
@@ -2828,11 +2829,11 @@ function|the functtion to calculate distances
 __Example:__
 
 ```js
-['A', 'B', 'C'].map(fifthsFrom('G'))
+['A', 'B', 'C'].map(distanceFrom('G'))
 ```
 
-Source: [fifths/fifthsFrom.js](https://github.com/danigb/tonal/tree/master/lib/fifths/fifthsFrom.js)
-Test: [fifths/fifthsFromTest.js](https://github.com/danigb/tonal/tree/master/test/fifths/fifthsFromTest.js)
+Source: [fifths/distanceFrom.js](https://github.com/danigb/tonal/tree/master/lib/fifths/distanceFrom.js)
+Test: [fifths/distanceFromTest.js](https://github.com/danigb/tonal/tree/master/test/fifths/distanceFromTest.js)
 
 ----
 ###### [fifths/transpose](#fifths-module)
