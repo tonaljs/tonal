@@ -41,7 +41,7 @@ binaryScale.filter(function (binary) {
 }
 ```
 
-## Function list
+## BinaryScale function list
 
 - [filter](#binaryscalefilter) -  Return all possible set binary set numbers
 - [fromCollection](#binaryscalefromcollection) -  Get the binary set number of a collection of pitches or intervals
@@ -86,8 +86,8 @@ __Example:__
 binarySets() // => ['1000000000', '1000000001', ...]
 ```
 
-Source: [binaryScale/filter.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/filter.js)
-Test: [binaryScale/filterTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/filterTest.js)
+Source: [binaryScale/filter.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/filter.js)
+Test: [binaryScale/filterTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/filterTest.js)
 
 ----
 ###### [binaryScale/fromCollection](#binaryscale-module)
@@ -124,8 +124,8 @@ toBinary('1P 9M') // => '101000000000'
 toBinary('1P 7M') // => '100000000001'
 ```
 
-Source: [binaryScale/fromCollection.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/fromCollection.js)
-Test: [binaryScale/fromCollectionTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/fromCollectionTest.js)
+Source: [binaryScale/fromCollection.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/fromCollection.js)
+Test: [binaryScale/fromCollectionTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/fromCollectionTest.js)
 
 ----
 ###### [binaryScale/fromNumber](#binaryscale-module)
@@ -159,8 +159,8 @@ fromNumber(0) // => '10000000000'
 fromNumber(2773) // => '101011010101' (major scale)
 ```
 
-Source: [binaryScale/fromNumber.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/fromNumber.js)
-Test: [binaryScale/fromNumberTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/fromNumberTest.js)
+Source: [binaryScale/fromNumber.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/fromNumber.js)
+Test: [binaryScale/fromNumberTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/fromNumberTest.js)
 
 ----
 ###### [binaryScale/intervals](#binaryscale-module)
@@ -194,8 +194,8 @@ intervals('1P 2M') // => ['1P', '2M']
 intervals(2773) // => ['1P', '2M', '3M']
 ```
 
-Source: [binaryScale/intervals.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/intervals.js)
-Test: [binaryScale/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/intervalsTest.js)
+Source: [binaryScale/intervals.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/intervals.js)
+Test: [binaryScale/intervalsTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/intervalsTest.js)
 
 ----
 ###### [binaryScale/isValid](#binaryscale-module)
@@ -223,8 +223,8 @@ Type|Description
 __Example:__
 
 
-Source: [binaryScale/isValid.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/isValid.js)
-Test: [binaryScale/isValidTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/isValidTest.js)
+Source: [binaryScale/isValid.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/isValid.js)
+Test: [binaryScale/isValidTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/isValidTest.js)
 
 ----
 ###### [binaryScale/modes](#binaryscale-module)
@@ -263,8 +263,8 @@ modes('101011010101') // => [ '101010110101', '101011010101', '101011010110', ..
 modes('101010110101') // => [ '101010110101', '101011010101', '101011010110', ...]
 ```
 
-Source: [binaryScale/modes.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/modes.js)
-Test: [binaryScale/modesTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/modesTest.js)
+Source: [binaryScale/modes.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/modes.js)
+Test: [binaryScale/modesTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/modesTest.js)
 
 ----
 ###### [binaryScale/props](#binaryscale-module)
@@ -307,6 +307,6 @@ props('101011010101').distances // => [ 2, 2, 1, 2, 2, 2, 1 ]
 props('101011010101').leap // => 7
 ```
 
-Source: [binaryScale/props.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/props.js)
-Test: [binaryScale/propsTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/propsTest.js)
+Source: [binaryScale/props.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/props.js)
+Test: [binaryScale/propsTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/propsTest.js)
 

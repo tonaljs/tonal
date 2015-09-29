@@ -4,7 +4,7 @@ Create and manipulate intervals. An interval in tonal is a string in the form: `
 
 You can get the interval properties with `interval/props` and manipulate in the standard ways: add two intervals, simplify intervals, get opposite...
 
-## Function list
+## Interval function list
 
 - [add](#intervaladd) -  Add two intervals
 - [build](#intervalbuild) -  Build an interval (string) given a number, and optionally a quality and octave.
@@ -51,8 +51,8 @@ __Example:__
 add('M2', 'M2') // => 'M3'
 ```
 
-Source: [interval/add.js](https://github.com/danigb/tonal/tree/master//lib/interval/add.js)
-Test: [interval/addTest.js](https://github.com/danigb/tonal/tree/master//test/interval/addTest.js)
+Source: [interval/add.js](https://github.com/danigb/tonal/tree/master/lib/interval/add.js)
+Test: [interval/addTest.js](https://github.com/danigb/tonal/tree/master/test/interval/addTest.js)
 
 ----
 ###### [interval/build](#interval-module)
@@ -102,8 +102,8 @@ build(2, 'AAA') // => null
 build('2P') // => null
 ```
 
-Source: [interval/build.js](https://github.com/danigb/tonal/tree/master//lib/interval/build.js)
-Test: [interval/buildTest.js](https://github.com/danigb/tonal/tree/master//test/interval/buildTest.js)
+Source: [interval/build.js](https://github.com/danigb/tonal/tree/master/lib/interval/build.js)
+Test: [interval/buildTest.js](https://github.com/danigb/tonal/tree/master/test/interval/buildTest.js)
 
 ----
 ###### [interval/invert](#interval-module)
@@ -142,8 +142,8 @@ invert('M-10') // => 'M-3'
 invert('P-11', true) // => 'P4'
 ```
 
-Source: [interval/invert.js](https://github.com/danigb/tonal/tree/master//lib/interval/invert.js)
-Test: [interval/invertTest.js](https://github.com/danigb/tonal/tree/master//test/interval/invertTest.js)
+Source: [interval/invert.js](https://github.com/danigb/tonal/tree/master/lib/interval/invert.js)
+Test: [interval/invertTest.js](https://github.com/danigb/tonal/tree/master/test/interval/invertTest.js)
 
 ----
 ###### [interval/isInterval](#interval-module)
@@ -178,8 +178,8 @@ isInterval('P5') // true
 isInterval('P6') // false
 ```
 
-Source: [interval/isInterval.js](https://github.com/danigb/tonal/tree/master//lib/interval/isInterval.js)
-Test: [interval/isIntervalTest.js](https://github.com/danigb/tonal/tree/master//test/interval/isIntervalTest.js)
+Source: [interval/isInterval.js](https://github.com/danigb/tonal/tree/master/lib/interval/isInterval.js)
+Test: [interval/isIntervalTest.js](https://github.com/danigb/tonal/tree/master/test/interval/isIntervalTest.js)
 
 ----
 ###### [interval/opposite](#interval-module)
@@ -213,8 +213,8 @@ opposite('M2') // => 'M-2'
 opposite('P-8') // => 'P8'
 ```
 
-Source: [interval/opposite.js](https://github.com/danigb/tonal/tree/master//lib/interval/opposite.js)
-Test: [interval/oppositeTest.js](https://github.com/danigb/tonal/tree/master//test/interval/oppositeTest.js)
+Source: [interval/opposite.js](https://github.com/danigb/tonal/tree/master/lib/interval/opposite.js)
+Test: [interval/oppositeTest.js](https://github.com/danigb/tonal/tree/master/test/interval/oppositeTest.js)
 
 ----
 ###### [interval/props](#interval-module)
@@ -261,8 +261,8 @@ props('-5P') // => { name: '-5P', quality: 'P', dir: -1, num: 5, generic: 4, alt
 props('9m') // => { name: '9m', quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfectable: false }
 ```
 
-Source: [interval/props.js](https://github.com/danigb/tonal/tree/master//lib/interval/props.js)
-Test: [interval/propsTest.js](https://github.com/danigb/tonal/tree/master//test/interval/propsTest.js)
+Source: [interval/props.js](https://github.com/danigb/tonal/tree/master/lib/interval/props.js)
+Test: [interval/propsTest.js](https://github.com/danigb/tonal/tree/master/test/interval/propsTest.js)
 
 ----
 ###### [interval/semitones](#interval-module)
@@ -295,8 +295,8 @@ __Example:__
 semitones('5P') // => 7
 ```
 
-Source: [interval/semitones.js](https://github.com/danigb/tonal/tree/master//lib/interval/semitones.js)
-Test: [interval/semitonesTest.js](https://github.com/danigb/tonal/tree/master//test/interval/semitonesTest.js)
+Source: [interval/semitones.js](https://github.com/danigb/tonal/tree/master/lib/interval/semitones.js)
+Test: [interval/semitonesTest.js](https://github.com/danigb/tonal/tree/master/test/interval/semitonesTest.js)
 
 ----
 ###### [interval/simplify](#interval-module)
@@ -331,6 +331,6 @@ simplify('-9M') // => '-2M'
 simplify('-2M', true) // => '2M'
 ```
 
-Source: [interval/simplify.js](https://github.com/danigb/tonal/tree/master//lib/interval/simplify.js)
-Test: [interval/simplifyTest.js](https://github.com/danigb/tonal/tree/master//test/interval/simplifyTest.js)
+Source: [interval/simplify.js](https://github.com/danigb/tonal/tree/master/lib/interval/simplify.js)
+Test: [interval/simplifyTest.js](https://github.com/danigb/tonal/tree/master/test/interval/simplifyTest.js)
 

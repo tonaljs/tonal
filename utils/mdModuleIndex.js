@@ -1,7 +1,6 @@
 var MD = require('./markdown')
 var _ = require('lodash')
 
-
 module.exports = function (sources) {
   function linkToModule (module) {
     return sources.repo('docs', module + '.md')
@@ -16,7 +15,8 @@ module.exports = function (sources) {
   }
 
   function mdFunctionLink (src) {
-    return MD.link(src.name, ('#' + src.module + src.name).toLowerCase())
+    return MD.link(src.name, sources.repo('docs', src.module + '.md' +
+      ('#' + src.module + src.name).toLowerCase()))
   }
 
   return MD.lines(

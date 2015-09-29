@@ -11,7 +11,7 @@ distance('F', 'C') // => -1
 
 - The line of fifths by David Temperley: http://www.theory.esm.rochester.edu/temperley/papers/temperley-ma00.pdf
 
-## Function list
+## Fifths function list
 
 - [byFifths](#fifthsbyfifths) -  Get a comparator function to sort a collection of pitch classes by fifths
 - [fifths](#fifthsfifths) -  Return the number of fifths between two pitch classes.
@@ -53,8 +53,8 @@ __Example:__
 ['C#', 'G#', 'F#'].sort(byFifths()) // => ['F#', 'C#', 'D#']
 ```
 
-Source: [fifths/byFifths.js](https://github.com/danigb/tonal/tree/master//lib/fifths/byFifths.js)
-Test: [fifths/byFifthsTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/byFifthsTest.js)
+Source: [fifths/byFifths.js](https://github.com/danigb/tonal/tree/master/lib/fifths/byFifths.js)
+Test: [fifths/byFifthsTest.js](https://github.com/danigb/tonal/tree/master/test/fifths/byFifthsTest.js)
 
 ----
 ###### [fifths/fifths](#fifths-module)
@@ -94,8 +94,8 @@ fifths('A', 'D') // => 1
 fifths('C4', 'C2') // => 0
 ```
 
-Source: [fifths/fifths.js](https://github.com/danigb/tonal/tree/master//lib/fifths/fifths.js)
-Test: [fifths/fifthsTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/fifthsTest.js)
+Source: [fifths/fifths.js](https://github.com/danigb/tonal/tree/master/lib/fifths/fifths.js)
+Test: [fifths/fifthsTest.js](https://github.com/danigb/tonal/tree/master/test/fifths/fifthsTest.js)
 
 ----
 ###### [fifths/fifthsFrom](#fifths-module)
@@ -128,8 +128,8 @@ __Example:__
 ['A', 'B', 'C'].map(fifthsFrom('G'))
 ```
 
-Source: [fifths/fifthsFrom.js](https://github.com/danigb/tonal/tree/master//lib/fifths/fifthsFrom.js)
-Test: [fifths/fifthsFromTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/fifthsFromTest.js)
+Source: [fifths/fifthsFrom.js](https://github.com/danigb/tonal/tree/master/lib/fifths/fifthsFrom.js)
+Test: [fifths/fifthsFromTest.js](https://github.com/danigb/tonal/tree/master/test/fifths/fifthsFromTest.js)
 
 ----
 ###### [fifths/transpose](#fifths-module)
@@ -164,6 +164,6 @@ transpose('C', 2) // => 'D'
 transpose('C5', -2) // => 'Bb'
 ```
 
-Source: [fifths/transpose.js](https://github.com/danigb/tonal/tree/master//lib/fifths/transpose.js)
-Test: [fifths/transposeTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/transposeTest.js)
+Source: [fifths/transpose.js](https://github.com/danigb/tonal/tree/master/lib/fifths/transpose.js)
+Test: [fifths/transposeTest.js](https://github.com/danigb/tonal/tree/master/test/fifths/transposeTest.js)
 

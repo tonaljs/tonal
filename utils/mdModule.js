@@ -10,7 +10,7 @@ module.exports = function (sources, module) {
     var files = sources.byModule[module]
     return MD.lines(
       sources.readmes[module],
-      MD.h2('Function list'),
+      MD.h2(_.capitalize(module) + ' function list'),
       files.map(mdFunctionSummary).join(''),
       MD.line(),
       MD.h2('API'),

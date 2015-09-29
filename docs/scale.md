@@ -10,7 +10,7 @@ scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
 ```
 
-## Function list
+## Scale function list
 
 - [find](#scalefind) -  Given collection of pitches return the scale name (if any)
 - [intervals](#scaleintervals) -  Get the intervals of a scale name (without tonic). Is uses a json dictionary.
@@ -52,8 +52,8 @@ __Example:__
  find('C D E F G A B') // => 'C major'
 ```
 
-Source: [scale/find.js](https://github.com/danigb/tonal/tree/master//lib/scale/find.js)
-Test: [scale/findTest.js](https://github.com/danigb/tonal/tree/master//test/scale/findTest.js)
+Source: [scale/find.js](https://github.com/danigb/tonal/tree/master/lib/scale/find.js)
+Test: [scale/findTest.js](https://github.com/danigb/tonal/tree/master/test/scale/findTest.js)
 
 ----
 ###### [scale/intervals](#scale-module)
@@ -86,8 +86,8 @@ __Example:__
 intervals('major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
 ```
 
-Source: [scale/intervals.js](https://github.com/danigb/tonal/tree/master//lib/scale/intervals.js)
-Test: [scale/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/scale/intervalsTest.js)
+Source: [scale/intervals.js](https://github.com/danigb/tonal/tree/master/lib/scale/intervals.js)
+Test: [scale/intervalsTest.js](https://github.com/danigb/tonal/tree/master/test/scale/intervalsTest.js)
 
 ----
 ###### [scale/names](#scale-module)
@@ -119,8 +119,8 @@ __Example:__
 names() => ['major', 'minor', ....]
 ```
 
-Source: [scale/names.js](https://github.com/danigb/tonal/tree/master//lib/scale/names.js)
-Test: [scale/namesTest.js](https://github.com/danigb/tonal/tree/master//test/scale/namesTest.js)
+Source: [scale/names.js](https://github.com/danigb/tonal/tree/master/lib/scale/names.js)
+Test: [scale/namesTest.js](https://github.com/danigb/tonal/tree/master/test/scale/namesTest.js)
 
 ----
 ###### [scale/scale](#scale-module)
@@ -160,6 +160,6 @@ scale('D', 'diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C
 scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']
 ```
 
-Source: [scale/scale.js](https://github.com/danigb/tonal/tree/master//lib/scale/scale.js)
-Test: [scale/scaleTest.js](https://github.com/danigb/tonal/tree/master//test/scale/scaleTest.js)
+Source: [scale/scale.js](https://github.com/danigb/tonal/tree/master/lib/scale/scale.js)
+Test: [scale/scaleTest.js](https://github.com/danigb/tonal/tree/master/test/scale/scaleTest.js)
 

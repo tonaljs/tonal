@@ -150,8 +150,8 @@ alterToAcc(-1) // => 'b'
 alterToAcc(-2) // => 'bb'
 ```
 
-Source: [pitch/alterToAcc.js](https://github.com/danigb/tonal/tree/master//lib/pitch/alterToAcc.js)
-Test: [pitch/alterToAccTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/alterToAccTest.js)
+Source: [pitch/alterToAcc.js](https://github.com/danigb/tonal/tree/master/lib/pitch/alterToAcc.js)
+Test: [pitch/alterToAccTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/alterToAccTest.js)
 
 ----
 ###### [pitch/byFreq](#pitch-module)
@@ -184,8 +184,8 @@ __Example:__
 ['G', 'E', 'A', 'D'].sort(byFreq()) // => ['D', 'E', 'G', 'A']
 ```
 
-Source: [pitch/byFreq.js](https://github.com/danigb/tonal/tree/master//lib/pitch/byFreq.js)
-Test: [pitch/byFreqTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/byFreqTest.js)
+Source: [pitch/byFreq.js](https://github.com/danigb/tonal/tree/master/lib/pitch/byFreq.js)
+Test: [pitch/byFreqTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/byFreqTest.js)
 
 ----
 ###### [pitch/cents](#pitch-module)
@@ -222,8 +222,8 @@ cents('A4', 444) // => 15.66
 cents('A4', 'A#4') // => 100
 ```
 
-Source: [pitch/cents.js](https://github.com/danigb/tonal/tree/master//lib/pitch/cents.js)
-Test: [pitch/centsTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/centsTest.js)
+Source: [pitch/cents.js](https://github.com/danigb/tonal/tree/master/lib/pitch/cents.js)
+Test: [pitch/centsTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/centsTest.js)
 
 ----
 ###### [pitch/distance](#pitch-module)
@@ -251,8 +251,8 @@ Type|Description
 __Example:__
 
 
-Source: [pitch/distance.js](https://github.com/danigb/tonal/tree/master//lib/pitch/distance.js)
-Test: [pitch/distanceTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/distanceTest.js)
+Source: [pitch/distance.js](https://github.com/danigb/tonal/tree/master/lib/pitch/distance.js)
+Test: [pitch/distanceTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/distanceTest.js)
 
 ----
 ###### [pitch/enharmonic](#pitch-module)
@@ -285,8 +285,8 @@ enharmonic('C#4', 'D') // => 'Db4'
 enharmonic('B#', 'C') // => 'C'
 ```
 
-Source: [pitch/enharmonic.js](https://github.com/danigb/tonal/tree/master//lib/pitch/enharmonic.js)
-Test: [pitch/enharmonicTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/enharmonicTest.js)
+Source: [pitch/enharmonic.js](https://github.com/danigb/tonal/tree/master/lib/pitch/enharmonic.js)
+Test: [pitch/enharmonicTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/enharmonicTest.js)
 
 ----
 ###### [pitch/enharmonics](#pitch-module)
@@ -322,8 +322,8 @@ enharmonics('Ab3') // => ['E####3', 'F###3', 'G#3', 'Bbbb3', 'Cbbbb4']
 enharmonics('C', true) // => [ 'A###3', 'B#3', 'C4', 'Dbb4', 'Ebbbb4' ]
 ```
 
-Source: [pitch/enharmonics.js](https://github.com/danigb/tonal/tree/master//lib/pitch/enharmonics.js)
-Test: [pitch/enharmonicsTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/enharmonicsTest.js)
+Source: [pitch/enharmonics.js](https://github.com/danigb/tonal/tree/master/lib/pitch/enharmonics.js)
+Test: [pitch/enharmonicsTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/enharmonicsTest.js)
 
 ----
 ###### [pitch/fromFreq](#pitch-module)
@@ -358,8 +358,8 @@ fromFreq(440) // => 'A4'
 fromFreq(441) // => 'A4'
 ```
 
-Source: [pitch/fromFreq.js](https://github.com/danigb/tonal/tree/master//lib/pitch/fromFreq.js)
-Test: [pitch/fromFreqTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/fromFreqTest.js)
+Source: [pitch/fromFreq.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromFreq.js)
+Test: [pitch/fromFreqTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/fromFreqTest.js)
 
 ----
 ###### [pitch/fromKey](#pitch-module)
@@ -396,8 +396,8 @@ fromKey(40) // => 'C4'
 fromKey(49) // => 'A4'
 ```
 
-Source: [pitch/fromKey.js](https://github.com/danigb/tonal/tree/master//lib/pitch/fromKey.js)
-Test: [pitch/fromKeyTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/fromKeyTest.js)
+Source: [pitch/fromKey.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromKey.js)
+Test: [pitch/fromKeyTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/fromKeyTest.js)
 
 ----
 ###### [pitch/fromMidi](#pitch-module)
@@ -433,8 +433,8 @@ __Example:__
 fromMidi(69) // => 'A4'
 ```
 
-Source: [pitch/fromMidi.js](https://github.com/danigb/tonal/tree/master//lib/pitch/fromMidi.js)
-Test: [pitch/fromMidiTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/fromMidiTest.js)
+Source: [pitch/fromMidi.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromMidi.js)
+Test: [pitch/fromMidiTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/fromMidiTest.js)
 
 ----
 ###### [pitch/harmonizer](#pitch-module)
@@ -475,8 +475,8 @@ major('C', true) // => ['C', 'E', 'G'] (pitch classes only)
 major() // => ['1P', '3M', '5M']
 ```
 
-Source: [pitch/harmonizer.js](https://github.com/danigb/tonal/tree/master//lib/pitch/harmonizer.js)
-Test: [pitch/harmonizerTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/harmonizerTest.js)
+Source: [pitch/harmonizer.js](https://github.com/danigb/tonal/tree/master/lib/pitch/harmonizer.js)
+Test: [pitch/harmonizerTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/harmonizerTest.js)
 
 ----
 ###### [pitch/interval](#pitch-module)
@@ -514,8 +514,8 @@ interval('C', 'D') // => 'M2'
 ['C', 'D', 'Eb'].map(interval.from('C')) // => ['P1', 'M2', 'm3']
 ```
 
-Source: [pitch/interval.js](https://github.com/danigb/tonal/tree/master//lib/pitch/interval.js)
-Test: [pitch/intervalTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/intervalTest.js)
+Source: [pitch/interval.js](https://github.com/danigb/tonal/tree/master/lib/pitch/interval.js)
+Test: [pitch/intervalTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/intervalTest.js)
 
 ----
 ###### [pitch/intervalFrom](#pitch-module)
@@ -548,8 +548,8 @@ __Example:__
 ['C', 'D', 'E'].map(intervalFrom('C')) // => ['1P', '2M', '3M']
 ```
 
-Source: [pitch/intervalFrom.js](https://github.com/danigb/tonal/tree/master//lib/pitch/intervalFrom.js)
-Test: [pitch/intervalFromTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/intervalFromTest.js)
+Source: [pitch/intervalFrom.js](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalFrom.js)
+Test: [pitch/intervalFromTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/intervalFromTest.js)
 
 ----
 ###### [pitch/intervalTo](#pitch-module)
@@ -582,8 +582,8 @@ __Example:__
 ['C', 'D', 'E'].map(intervalTo('E')) // => ['3M', '2M', '1P']
 ```
 
-Source: [pitch/intervalTo.js](https://github.com/danigb/tonal/tree/master//lib/pitch/intervalTo.js)
-Test: [pitch/intervalToTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/intervalToTest.js)
+Source: [pitch/intervalTo.js](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalTo.js)
+Test: [pitch/intervalToTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/intervalToTest.js)
 
 ----
 ###### [pitch/letter](#pitch-module)
@@ -620,8 +620,8 @@ letter('c', 1) // => 'D'
 letter('c', 2) // => 'E'
 ```
 
-Source: [pitch/letter.js](https://github.com/danigb/tonal/tree/master//lib/pitch/letter.js)
-Test: [pitch/letterTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/letterTest.js)
+Source: [pitch/letter.js](https://github.com/danigb/tonal/tree/master/lib/pitch/letter.js)
+Test: [pitch/letterTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/letterTest.js)
 
 ----
 ###### [pitch/octave](#pitch-module)
@@ -654,8 +654,8 @@ __Example:__
 octave('a4') // => 4
 ```
 
-Source: [pitch/octave.js](https://github.com/danigb/tonal/tree/master//lib/pitch/octave.js)
-Test: [pitch/octaveTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/octaveTest.js)
+Source: [pitch/octave.js](https://github.com/danigb/tonal/tree/master/lib/pitch/octave.js)
+Test: [pitch/octaveTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/octaveTest.js)
 
 ----
 ###### [pitch/pitchClass](#pitch-module)
@@ -690,8 +690,8 @@ pitchClass('ab') // => 'Ab'
 pitchClass('cx2') // => 'C##'
 ```
 
-Source: [pitch/pitchClass.js](https://github.com/danigb/tonal/tree/master//lib/pitch/pitchClass.js)
-Test: [pitch/pitchClassTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/pitchClassTest.js)
+Source: [pitch/pitchClass.js](https://github.com/danigb/tonal/tree/master/lib/pitch/pitchClass.js)
+Test: [pitch/pitchClassTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/pitchClassTest.js)
 
 ----
 ###### [pitch/props](#pitch-module)
@@ -739,8 +739,8 @@ __Example:__
 props('C#2') // => { }
 ```
 
-Source: [pitch/props.js](https://github.com/danigb/tonal/tree/master//lib/pitch/props.js)
-Test: [pitch/propsTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/propsTest.js)
+Source: [pitch/props.js](https://github.com/danigb/tonal/tree/master/lib/pitch/props.js)
+Test: [pitch/propsTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/propsTest.js)
 
 ----
 ###### [pitch/sci](#pitch-module)
@@ -786,8 +786,8 @@ sci('C7', -1) // => 'Cb7'
 sci('bluf') // => null
 ```
 
-Source: [pitch/sci.js](https://github.com/danigb/tonal/tree/master//lib/pitch/sci.js)
-Test: [pitch/sciTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/sciTest.js)
+Source: [pitch/sci.js](https://github.com/danigb/tonal/tree/master/lib/pitch/sci.js)
+Test: [pitch/sciTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/sciTest.js)
 
 ----
 ###### [pitch/toFreq](#pitch-module)
@@ -822,8 +822,8 @@ toFreq('A4') // => 440
 toFreq('A3', 444) // => 222
 ```
 
-Source: [pitch/toFreq.js](https://github.com/danigb/tonal/tree/master//lib/pitch/toFreq.js)
-Test: [pitch/toFreqTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/toFreqTest.js)
+Source: [pitch/toFreq.js](https://github.com/danigb/tonal/tree/master/lib/pitch/toFreq.js)
+Test: [pitch/toFreqTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/toFreqTest.js)
 
 ----
 ###### [pitch/toKey](#pitch-module)
@@ -856,8 +856,8 @@ __Example:__
 toKey(49) // => 'A4'
 ```
 
-Source: [pitch/toKey.js](https://github.com/danigb/tonal/tree/master//lib/pitch/toKey.js)
-Test: [pitch/toKeyTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/toKeyTest.js)
+Source: [pitch/toKey.js](https://github.com/danigb/tonal/tree/master/lib/pitch/toKey.js)
+Test: [pitch/toKeyTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/toKeyTest.js)
 
 ----
 ###### [pitch/toMidi](#pitch-module)
@@ -890,8 +890,8 @@ __Example:__
 toMidi('a4') // => 69
 ```
 
-Source: [pitch/toMidi.js](https://github.com/danigb/tonal/tree/master//lib/pitch/toMidi.js)
-Test: [pitch/toMidiTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/toMidiTest.js)
+Source: [pitch/toMidi.js](https://github.com/danigb/tonal/tree/master/lib/pitch/toMidi.js)
+Test: [pitch/toMidiTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/toMidiTest.js)
 
 ----
 ###### [pitch/transpose](#pitch-module)
@@ -931,8 +931,8 @@ transpose('C', 'M-2') // => 'Bb3'
 ['C', 'D', 'E'].map(transpose('M2')) // => ['D4', 'E4', 'F#4']
 ```
 
-Source: [pitch/transpose.js](https://github.com/danigb/tonal/tree/master//lib/pitch/transpose.js)
-Test: [pitch/transposeTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/transposeTest.js)
+Source: [pitch/transpose.js](https://github.com/danigb/tonal/tree/master/lib/pitch/transpose.js)
+Test: [pitch/transposeTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/transposeTest.js)
 
 
 ## Interval module
@@ -995,8 +995,8 @@ __Example:__
 add('M2', 'M2') // => 'M3'
 ```
 
-Source: [interval/add.js](https://github.com/danigb/tonal/tree/master//lib/interval/add.js)
-Test: [interval/addTest.js](https://github.com/danigb/tonal/tree/master//test/interval/addTest.js)
+Source: [interval/add.js](https://github.com/danigb/tonal/tree/master/lib/interval/add.js)
+Test: [interval/addTest.js](https://github.com/danigb/tonal/tree/master/test/interval/addTest.js)
 
 ----
 ###### [interval/build](#interval-module)
@@ -1046,8 +1046,8 @@ build(2, 'AAA') // => null
 build('2P') // => null
 ```
 
-Source: [interval/build.js](https://github.com/danigb/tonal/tree/master//lib/interval/build.js)
-Test: [interval/buildTest.js](https://github.com/danigb/tonal/tree/master//test/interval/buildTest.js)
+Source: [interval/build.js](https://github.com/danigb/tonal/tree/master/lib/interval/build.js)
+Test: [interval/buildTest.js](https://github.com/danigb/tonal/tree/master/test/interval/buildTest.js)
 
 ----
 ###### [interval/invert](#interval-module)
@@ -1086,8 +1086,8 @@ invert('M-10') // => 'M-3'
 invert('P-11', true) // => 'P4'
 ```
 
-Source: [interval/invert.js](https://github.com/danigb/tonal/tree/master//lib/interval/invert.js)
-Test: [interval/invertTest.js](https://github.com/danigb/tonal/tree/master//test/interval/invertTest.js)
+Source: [interval/invert.js](https://github.com/danigb/tonal/tree/master/lib/interval/invert.js)
+Test: [interval/invertTest.js](https://github.com/danigb/tonal/tree/master/test/interval/invertTest.js)
 
 ----
 ###### [interval/isInterval](#interval-module)
@@ -1122,8 +1122,8 @@ isInterval('P5') // true
 isInterval('P6') // false
 ```
 
-Source: [interval/isInterval.js](https://github.com/danigb/tonal/tree/master//lib/interval/isInterval.js)
-Test: [interval/isIntervalTest.js](https://github.com/danigb/tonal/tree/master//test/interval/isIntervalTest.js)
+Source: [interval/isInterval.js](https://github.com/danigb/tonal/tree/master/lib/interval/isInterval.js)
+Test: [interval/isIntervalTest.js](https://github.com/danigb/tonal/tree/master/test/interval/isIntervalTest.js)
 
 ----
 ###### [interval/opposite](#interval-module)
@@ -1157,8 +1157,8 @@ opposite('M2') // => 'M-2'
 opposite('P-8') // => 'P8'
 ```
 
-Source: [interval/opposite.js](https://github.com/danigb/tonal/tree/master//lib/interval/opposite.js)
-Test: [interval/oppositeTest.js](https://github.com/danigb/tonal/tree/master//test/interval/oppositeTest.js)
+Source: [interval/opposite.js](https://github.com/danigb/tonal/tree/master/lib/interval/opposite.js)
+Test: [interval/oppositeTest.js](https://github.com/danigb/tonal/tree/master/test/interval/oppositeTest.js)
 
 ----
 ###### [interval/props](#interval-module)
@@ -1205,8 +1205,8 @@ props('-5P') // => { name: '-5P', quality: 'P', dir: -1, num: 5, generic: 4, alt
 props('9m') // => { name: '9m', quality: 'm', dir: 1, num: 9, generic: 1, alter: -1, perfectable: false }
 ```
 
-Source: [interval/props.js](https://github.com/danigb/tonal/tree/master//lib/interval/props.js)
-Test: [interval/propsTest.js](https://github.com/danigb/tonal/tree/master//test/interval/propsTest.js)
+Source: [interval/props.js](https://github.com/danigb/tonal/tree/master/lib/interval/props.js)
+Test: [interval/propsTest.js](https://github.com/danigb/tonal/tree/master/test/interval/propsTest.js)
 
 ----
 ###### [interval/semitones](#interval-module)
@@ -1239,8 +1239,8 @@ __Example:__
 semitones('5P') // => 7
 ```
 
-Source: [interval/semitones.js](https://github.com/danigb/tonal/tree/master//lib/interval/semitones.js)
-Test: [interval/semitonesTest.js](https://github.com/danigb/tonal/tree/master//test/interval/semitonesTest.js)
+Source: [interval/semitones.js](https://github.com/danigb/tonal/tree/master/lib/interval/semitones.js)
+Test: [interval/semitonesTest.js](https://github.com/danigb/tonal/tree/master/test/interval/semitonesTest.js)
 
 ----
 ###### [interval/simplify](#interval-module)
@@ -1275,8 +1275,8 @@ simplify('-9M') // => '-2M'
 simplify('-2M', true) // => '2M'
 ```
 
-Source: [interval/simplify.js](https://github.com/danigb/tonal/tree/master//lib/interval/simplify.js)
-Test: [interval/simplifyTest.js](https://github.com/danigb/tonal/tree/master//test/interval/simplifyTest.js)
+Source: [interval/simplify.js](https://github.com/danigb/tonal/tree/master/lib/interval/simplify.js)
+Test: [interval/simplifyTest.js](https://github.com/danigb/tonal/tree/master/test/interval/simplifyTest.js)
 
 
 ## Collection module
@@ -1352,8 +1352,8 @@ chords('M7') // => ['1P', '3M', '5P', '7M']
 chords(function(c) { return c[1] === '3M' }) // => ['Maj7']
 ```
 
-Source: [collection/dictionary.js](https://github.com/danigb/tonal/tree/master//lib/collection/dictionary.js)
-Test: [collection/dictionaryTest.js](https://github.com/danigb/tonal/tree/master//test/collection/dictionaryTest.js)
+Source: [collection/dictionary.js](https://github.com/danigb/tonal/tree/master/lib/collection/dictionary.js)
+Test: [collection/dictionaryTest.js](https://github.com/danigb/tonal/tree/master/test/collection/dictionaryTest.js)
 
 ----
 ###### [collection/harmonize](#collection-module)
@@ -1390,8 +1390,8 @@ __Example:__
 harmonize('C2', ['P1 P5']) // => ['C2', 'G2']
 ```
 
-Source: [collection/harmonize.js](https://github.com/danigb/tonal/tree/master//lib/collection/harmonize.js)
-Test: [collection/harmonizeTest.js](https://github.com/danigb/tonal/tree/master//test/collection/harmonizeTest.js)
+Source: [collection/harmonize.js](https://github.com/danigb/tonal/tree/master/lib/collection/harmonize.js)
+Test: [collection/harmonizeTest.js](https://github.com/danigb/tonal/tree/master/test/collection/harmonizeTest.js)
 
 ----
 ###### [collection/intervals](#collection-module)
@@ -1426,8 +1426,8 @@ intervals(['C', 'D', 'Eb']) // => ['1P', '2M', '3m']
 intervals('Bb', ['C', 'D', 'Eb']) // => ['2M', '3M', '4P']
 ```
 
-Source: [collection/intervals.js](https://github.com/danigb/tonal/tree/master//lib/collection/intervals.js)
-Test: [collection/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/collection/intervalsTest.js)
+Source: [collection/intervals.js](https://github.com/danigb/tonal/tree/master/lib/collection/intervals.js)
+Test: [collection/intervalsTest.js](https://github.com/danigb/tonal/tree/master/test/collection/intervalsTest.js)
 
 ----
 ###### [collection/mode](#collection-module)
@@ -1461,8 +1461,8 @@ __Example:__
 mode('C major', 2) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
 ```
 
-Source: [collection/mode.js](https://github.com/danigb/tonal/tree/master//lib/collection/mode.js)
-Test: [collection/modeTest.js](https://github.com/danigb/tonal/tree/master//test/collection/modeTest.js)
+Source: [collection/mode.js](https://github.com/danigb/tonal/tree/master/lib/collection/mode.js)
+Test: [collection/modeTest.js](https://github.com/danigb/tonal/tree/master/test/collection/modeTest.js)
 
 ----
 ###### [collection/modes](#collection-module)
@@ -1495,8 +1495,8 @@ __Example:__
 modes('C D E') // => [[ 'C', 'D', 'E' ], [ 'D', 'E', 'C' ], [ 'E', 'C', 'D' ]]
 ```
 
-Source: [collection/modes.js](https://github.com/danigb/tonal/tree/master//lib/collection/modes.js)
-Test: [collection/modesTest.js](https://github.com/danigb/tonal/tree/master//test/collection/modesTest.js)
+Source: [collection/modes.js](https://github.com/danigb/tonal/tree/master/lib/collection/modes.js)
+Test: [collection/modesTest.js](https://github.com/danigb/tonal/tree/master/test/collection/modesTest.js)
 
 ----
 ###### [collection/pitchSet](#collection-module)
@@ -1535,8 +1535,8 @@ pitchSet('D3 Db3 C3 D3') // => ['D', 'Db', 'C']
 pitchSet('D3 Db3 C3 D3', 'C') // => ['C', 'Db', 'Db', 'C']
 ```
 
-Source: [collection/pitchSet.js](https://github.com/danigb/tonal/tree/master//lib/collection/pitchSet.js)
-Test: [collection/pitchSetTest.js](https://github.com/danigb/tonal/tree/master//test/collection/pitchSetTest.js)
+Source: [collection/pitchSet.js](https://github.com/danigb/tonal/tree/master/lib/collection/pitchSet.js)
+Test: [collection/pitchSetTest.js](https://github.com/danigb/tonal/tree/master/test/collection/pitchSetTest.js)
 
 ----
 ###### [collection/rotate](#collection-module)
@@ -1570,8 +1570,8 @@ __Example:__
 rotate(1, 'A B C') // => ['B', 'C', 'A']
 ```
 
-Source: [collection/rotate.js](https://github.com/danigb/tonal/tree/master//lib/collection/rotate.js)
-Test: [collection/rotateTest.js](https://github.com/danigb/tonal/tree/master//test/collection/rotateTest.js)
+Source: [collection/rotate.js](https://github.com/danigb/tonal/tree/master/lib/collection/rotate.js)
+Test: [collection/rotateTest.js](https://github.com/danigb/tonal/tree/master/test/collection/rotateTest.js)
 
 ----
 ###### [collection/toArray](#collection-module)
@@ -1610,8 +1610,8 @@ toArray('A , b , C') // => ['A', 'B', 'C']
 toArray(2) // => [ 2 ]
 ```
 
-Source: [collection/toArray.js](https://github.com/danigb/tonal/tree/master//lib/collection/toArray.js)
-Test: [collection/toArrayTest.js](https://github.com/danigb/tonal/tree/master//test/collection/toArrayTest.js)
+Source: [collection/toArray.js](https://github.com/danigb/tonal/tree/master/lib/collection/toArray.js)
+Test: [collection/toArrayTest.js](https://github.com/danigb/tonal/tree/master/test/collection/toArrayTest.js)
 
 ----
 ###### [collection/triad](#collection-module)
@@ -1645,8 +1645,8 @@ triad(scale('C major')) // => ['C', 'E', 'G']
 triad(scale('C major'), 5) // => ['C', 'E', 'G', 'B', 'D']
 ```
 
-Source: [collection/triad.js](https://github.com/danigb/tonal/tree/master//lib/collection/triad.js)
-Test: [collection/triadTest.js](https://github.com/danigb/tonal/tree/master//test/collection/triadTest.js)
+Source: [collection/triad.js](https://github.com/danigb/tonal/tree/master/lib/collection/triad.js)
+Test: [collection/triadTest.js](https://github.com/danigb/tonal/tree/master/test/collection/triadTest.js)
 
 
 ## Scale module
@@ -1710,8 +1710,8 @@ __Example:__
  find('C D E F G A B') // => 'C major'
 ```
 
-Source: [scale/find.js](https://github.com/danigb/tonal/tree/master//lib/scale/find.js)
-Test: [scale/findTest.js](https://github.com/danigb/tonal/tree/master//test/scale/findTest.js)
+Source: [scale/find.js](https://github.com/danigb/tonal/tree/master/lib/scale/find.js)
+Test: [scale/findTest.js](https://github.com/danigb/tonal/tree/master/test/scale/findTest.js)
 
 ----
 ###### [scale/intervals](#scale-module)
@@ -1744,8 +1744,8 @@ __Example:__
 intervals('major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
 ```
 
-Source: [scale/intervals.js](https://github.com/danigb/tonal/tree/master//lib/scale/intervals.js)
-Test: [scale/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/scale/intervalsTest.js)
+Source: [scale/intervals.js](https://github.com/danigb/tonal/tree/master/lib/scale/intervals.js)
+Test: [scale/intervalsTest.js](https://github.com/danigb/tonal/tree/master/test/scale/intervalsTest.js)
 
 ----
 ###### [scale/names](#scale-module)
@@ -1777,8 +1777,8 @@ __Example:__
 names() => ['major', 'minor', ....]
 ```
 
-Source: [scale/names.js](https://github.com/danigb/tonal/tree/master//lib/scale/names.js)
-Test: [scale/namesTest.js](https://github.com/danigb/tonal/tree/master//test/scale/namesTest.js)
+Source: [scale/names.js](https://github.com/danigb/tonal/tree/master/lib/scale/names.js)
+Test: [scale/namesTest.js](https://github.com/danigb/tonal/tree/master/test/scale/namesTest.js)
 
 ----
 ###### [scale/scale](#scale-module)
@@ -1818,8 +1818,8 @@ scale('D', 'diminished whole tone') // => [ 'D', 'Eb', 'F', 'F#', 'Ab', 'Bb', 'C
 scale('bebop') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m', '7M']
 ```
 
-Source: [scale/scale.js](https://github.com/danigb/tonal/tree/master//lib/scale/scale.js)
-Test: [scale/scaleTest.js](https://github.com/danigb/tonal/tree/master//test/scale/scaleTest.js)
+Source: [scale/scale.js](https://github.com/danigb/tonal/tree/master/lib/scale/scale.js)
+Test: [scale/scaleTest.js](https://github.com/danigb/tonal/tree/master/test/scale/scaleTest.js)
 
 
 ## Chord module
@@ -1885,8 +1885,8 @@ chord('7b5') // => ['1P', '3M', '5d', '7m']
 chord(null, '7b5') // => ['1P', '3M', '5d', '7m']
 ```
 
-Source: [chord/chord.js](https://github.com/danigb/tonal/tree/master//lib/chord/chord.js)
-Test: [chord/chordTest.js](https://github.com/danigb/tonal/tree/master//test/chord/chordTest.js)
+Source: [chord/chord.js](https://github.com/danigb/tonal/tree/master/lib/chord/chord.js)
+Test: [chord/chordTest.js](https://github.com/danigb/tonal/tree/master/test/chord/chordTest.js)
 
 ----
 ###### [chord/extensions](#chord-module)
@@ -1919,8 +1919,8 @@ __Example:__
 extensions('Maj7') // => ['M13', 'M13#11', 'M7#11', ...]
 ```
 
-Source: [chord/extensions.js](https://github.com/danigb/tonal/tree/master//lib/chord/extensions.js)
-Test: [chord/extensionsTest.js](https://github.com/danigb/tonal/tree/master//test/chord/extensionsTest.js)
+Source: [chord/extensions.js](https://github.com/danigb/tonal/tree/master/lib/chord/extensions.js)
+Test: [chord/extensionsTest.js](https://github.com/danigb/tonal/tree/master/test/chord/extensionsTest.js)
 
 ----
 ###### [chord/find](#chord-module)
@@ -1953,8 +1953,8 @@ __Example:__
 find('G2 E3 C4') // => ['CM/G', 'Em#5/G']
 ```
 
-Source: [chord/find.js](https://github.com/danigb/tonal/tree/master//lib/chord/find.js)
-Test: [chord/findTest.js](https://github.com/danigb/tonal/tree/master//test/chord/findTest.js)
+Source: [chord/find.js](https://github.com/danigb/tonal/tree/master/lib/chord/find.js)
+Test: [chord/findTest.js](https://github.com/danigb/tonal/tree/master/test/chord/findTest.js)
 
 ----
 ###### [chord/intervals](#chord-module)
@@ -1987,8 +1987,8 @@ __Example:__
 intervals('maj7') // => ['1P', '3M', '5P', '7M']
 ```
 
-Source: [chord/intervals.js](https://github.com/danigb/tonal/tree/master//lib/chord/intervals.js)
-Test: [chord/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/chord/intervalsTest.js)
+Source: [chord/intervals.js](https://github.com/danigb/tonal/tree/master/lib/chord/intervals.js)
+Test: [chord/intervalsTest.js](https://github.com/danigb/tonal/tree/master/test/chord/intervalsTest.js)
 
 ----
 ###### [chord/names](#chord-module)
@@ -2020,8 +2020,8 @@ __Example:__
 names() => ['major', 'minor', ....]
 ```
 
-Source: [chord/names.js](https://github.com/danigb/tonal/tree/master//lib/chord/names.js)
-Test: [chord/namesTest.js](https://github.com/danigb/tonal/tree/master//test/chord/namesTest.js)
+Source: [chord/names.js](https://github.com/danigb/tonal/tree/master/lib/chord/names.js)
+Test: [chord/namesTest.js](https://github.com/danigb/tonal/tree/master/test/chord/namesTest.js)
 
 ----
 ###### [chord/scaleNames](#chord-module)
@@ -2058,8 +2058,8 @@ scaleNames('M7b5') // => ['P1 lydian', '5d locrian pentatonic']
 scaleNames('Bbmaj7') // => ['Bb4 major', 'Bb4 lydian', 'F5 major pentatonic', 'D5 bebop minor', ...]
 ```
 
-Source: [chord/scaleNames.js](https://github.com/danigb/tonal/tree/master//lib/chord/scaleNames.js)
-Test: [chord/scaleNamesTest.js](https://github.com/danigb/tonal/tree/master//test/chord/scaleNamesTest.js)
+Source: [chord/scaleNames.js](https://github.com/danigb/tonal/tree/master/lib/chord/scaleNames.js)
+Test: [chord/scaleNamesTest.js](https://github.com/danigb/tonal/tree/master/test/chord/scaleNamesTest.js)
 
 ----
 ###### [chord/voicings](#chord-module)
@@ -2094,8 +2094,8 @@ voicings('Maj7') // => ['left-hand-A', 'left-hand-B',..]
 voicings('Maj7', 'left-hand-A') // => ['3M', '5P', '7M']
 ```
 
-Source: [chord/voicings.js](https://github.com/danigb/tonal/tree/master//lib/chord/voicings.js)
-Test: [chord/voicingsTest.js](https://github.com/danigb/tonal/tree/master//test/chord/voicingsTest.js)
+Source: [chord/voicings.js](https://github.com/danigb/tonal/tree/master/lib/chord/voicings.js)
+Test: [chord/voicingsTest.js](https://github.com/danigb/tonal/tree/master/test/chord/voicingsTest.js)
 
 
 ## BinaryScale module
@@ -2193,8 +2193,8 @@ __Example:__
 binarySets() // => ['1000000000', '1000000001', ...]
 ```
 
-Source: [binaryScale/filter.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/filter.js)
-Test: [binaryScale/filterTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/filterTest.js)
+Source: [binaryScale/filter.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/filter.js)
+Test: [binaryScale/filterTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/filterTest.js)
 
 ----
 ###### [binaryScale/fromCollection](#binaryscale-module)
@@ -2231,8 +2231,8 @@ toBinary('1P 9M') // => '101000000000'
 toBinary('1P 7M') // => '100000000001'
 ```
 
-Source: [binaryScale/fromCollection.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/fromCollection.js)
-Test: [binaryScale/fromCollectionTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/fromCollectionTest.js)
+Source: [binaryScale/fromCollection.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/fromCollection.js)
+Test: [binaryScale/fromCollectionTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/fromCollectionTest.js)
 
 ----
 ###### [binaryScale/fromNumber](#binaryscale-module)
@@ -2266,8 +2266,8 @@ fromNumber(0) // => '10000000000'
 fromNumber(2773) // => '101011010101' (major scale)
 ```
 
-Source: [binaryScale/fromNumber.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/fromNumber.js)
-Test: [binaryScale/fromNumberTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/fromNumberTest.js)
+Source: [binaryScale/fromNumber.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/fromNumber.js)
+Test: [binaryScale/fromNumberTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/fromNumberTest.js)
 
 ----
 ###### [binaryScale/intervals](#binaryscale-module)
@@ -2301,8 +2301,8 @@ intervals('1P 2M') // => ['1P', '2M']
 intervals(2773) // => ['1P', '2M', '3M']
 ```
 
-Source: [binaryScale/intervals.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/intervals.js)
-Test: [binaryScale/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/intervalsTest.js)
+Source: [binaryScale/intervals.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/intervals.js)
+Test: [binaryScale/intervalsTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/intervalsTest.js)
 
 ----
 ###### [binaryScale/isValid](#binaryscale-module)
@@ -2330,8 +2330,8 @@ Type|Description
 __Example:__
 
 
-Source: [binaryScale/isValid.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/isValid.js)
-Test: [binaryScale/isValidTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/isValidTest.js)
+Source: [binaryScale/isValid.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/isValid.js)
+Test: [binaryScale/isValidTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/isValidTest.js)
 
 ----
 ###### [binaryScale/modes](#binaryscale-module)
@@ -2370,8 +2370,8 @@ modes('101011010101') // => [ '101010110101', '101011010101', '101011010110', ..
 modes('101010110101') // => [ '101010110101', '101011010101', '101011010110', ...]
 ```
 
-Source: [binaryScale/modes.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/modes.js)
-Test: [binaryScale/modesTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/modesTest.js)
+Source: [binaryScale/modes.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/modes.js)
+Test: [binaryScale/modesTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/modesTest.js)
 
 ----
 ###### [binaryScale/props](#binaryscale-module)
@@ -2414,8 +2414,8 @@ props('101011010101').distances // => [ 2, 2, 1, 2, 2, 2, 1 ]
 props('101011010101').leap // => 7
 ```
 
-Source: [binaryScale/props.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/props.js)
-Test: [binaryScale/propsTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/propsTest.js)
+Source: [binaryScale/props.js](https://github.com/danigb/tonal/tree/master/lib/binaryScale/props.js)
+Test: [binaryScale/propsTest.js](https://github.com/danigb/tonal/tree/master/test/binaryScale/propsTest.js)
 
 
 ## Key module
@@ -2475,8 +2475,8 @@ accidentals(3) // => '###'
 accidentals(-2) // => 'bb'
 ```
 
-Source: [key/accidentals.js](https://github.com/danigb/tonal/tree/master//lib/key/accidentals.js)
-Test: [key/accidentalsTest.js](https://github.com/danigb/tonal/tree/master//test/key/accidentalsTest.js)
+Source: [key/accidentals.js](https://github.com/danigb/tonal/tree/master/lib/key/accidentals.js)
+Test: [key/accidentalsTest.js](https://github.com/danigb/tonal/tree/master/test/key/accidentalsTest.js)
 
 ----
 ###### [key/alteredNotes](#key-module)
@@ -2511,8 +2511,8 @@ alteredNotes(3) // => ['F#', 'C#', 'G#']
 alteredNotes('bb') // => ['Bb', 'Eb']
 ```
 
-Source: [key/alteredNotes.js](https://github.com/danigb/tonal/tree/master//lib/key/alteredNotes.js)
-Test: [key/alteredNotesTest.js](https://github.com/danigb/tonal/tree/master//test/key/alteredNotesTest.js)
+Source: [key/alteredNotes.js](https://github.com/danigb/tonal/tree/master/lib/key/alteredNotes.js)
+Test: [key/alteredNotesTest.js](https://github.com/danigb/tonal/tree/master/test/key/alteredNotesTest.js)
 
 ----
 ###### [key/fromPitchSet](#key-module)
@@ -2545,8 +2545,8 @@ __Example:__
 fromPitchSet('C Bb F') // => -1
 ```
 
-Source: [key/fromPitchSet.js](https://github.com/danigb/tonal/tree/master//lib/key/fromPitchSet.js)
-Test: [key/fromPitchSetTest.js](https://github.com/danigb/tonal/tree/master//test/key/fromPitchSetTest.js)
+Source: [key/fromPitchSet.js](https://github.com/danigb/tonal/tree/master/lib/key/fromPitchSet.js)
+Test: [key/fromPitchSetTest.js](https://github.com/danigb/tonal/tree/master/test/key/fromPitchSetTest.js)
 
 ----
 ###### [key/keyNumber](#key-module)
@@ -2587,8 +2587,8 @@ keyNumber('##') // => 2
 keyNumber('bbb') // => -3
 ```
 
-Source: [key/keyNumber.js](https://github.com/danigb/tonal/tree/master//lib/key/keyNumber.js)
-Test: [key/keyNumberTest.js](https://github.com/danigb/tonal/tree/master//test/key/keyNumberTest.js)
+Source: [key/keyNumber.js](https://github.com/danigb/tonal/tree/master/lib/key/keyNumber.js)
+Test: [key/keyNumberTest.js](https://github.com/danigb/tonal/tree/master/test/key/keyNumberTest.js)
 
 ----
 ###### [key/parse](#key-module)
@@ -2620,8 +2620,8 @@ parse('C minor') // => { tonic: 'C', type: 'minor'}
 parse('C#') // => { tonic: 'C#', type: 'major'}
 ```
 
-Source: [key/parse.js](https://github.com/danigb/tonal/tree/master//lib/key/parse.js)
-Test: [key/parseTest.js](https://github.com/danigb/tonal/tree/master//test/key/parseTest.js)
+Source: [key/parse.js](https://github.com/danigb/tonal/tree/master/lib/key/parse.js)
+Test: [key/parseTest.js](https://github.com/danigb/tonal/tree/master/test/key/parseTest.js)
 
 ----
 ###### [key/pitchSet](#key-module)
@@ -2655,8 +2655,8 @@ pitchSet('g major') // => ['G', 'A', 'B', 'C', 'D', 'E', 'F#']
 pitchSet('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']
 ```
 
-Source: [key/pitchSet.js](https://github.com/danigb/tonal/tree/master//lib/key/pitchSet.js)
-Test: [key/pitchSetTest.js](https://github.com/danigb/tonal/tree/master//test/key/pitchSetTest.js)
+Source: [key/pitchSet.js](https://github.com/danigb/tonal/tree/master/lib/key/pitchSet.js)
+Test: [key/pitchSetTest.js](https://github.com/danigb/tonal/tree/master/test/key/pitchSetTest.js)
 
 ----
 ###### [key/triads](#key-module)
@@ -2690,8 +2690,8 @@ triads('g major') // => ['G', 'A', 'B', 'C', 'D', 'E', 'F#']
 triads('Eb minor') // => ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db']
 ```
 
-Source: [key/triads.js](https://github.com/danigb/tonal/tree/master//lib/key/triads.js)
-Test: [key/triadsTest.js](https://github.com/danigb/tonal/tree/master//test/key/triadsTest.js)
+Source: [key/triads.js](https://github.com/danigb/tonal/tree/master/lib/key/triads.js)
+Test: [key/triadsTest.js](https://github.com/danigb/tonal/tree/master/test/key/triadsTest.js)
 
 
 ## Fifths module
@@ -2756,8 +2756,8 @@ __Example:__
 ['C#', 'G#', 'F#'].sort(byFifths()) // => ['F#', 'C#', 'D#']
 ```
 
-Source: [fifths/byFifths.js](https://github.com/danigb/tonal/tree/master//lib/fifths/byFifths.js)
-Test: [fifths/byFifthsTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/byFifthsTest.js)
+Source: [fifths/byFifths.js](https://github.com/danigb/tonal/tree/master/lib/fifths/byFifths.js)
+Test: [fifths/byFifthsTest.js](https://github.com/danigb/tonal/tree/master/test/fifths/byFifthsTest.js)
 
 ----
 ###### [fifths/fifths](#fifths-module)
@@ -2797,8 +2797,8 @@ fifths('A', 'D') // => 1
 fifths('C4', 'C2') // => 0
 ```
 
-Source: [fifths/fifths.js](https://github.com/danigb/tonal/tree/master//lib/fifths/fifths.js)
-Test: [fifths/fifthsTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/fifthsTest.js)
+Source: [fifths/fifths.js](https://github.com/danigb/tonal/tree/master/lib/fifths/fifths.js)
+Test: [fifths/fifthsTest.js](https://github.com/danigb/tonal/tree/master/test/fifths/fifthsTest.js)
 
 ----
 ###### [fifths/fifthsFrom](#fifths-module)
@@ -2831,8 +2831,8 @@ __Example:__
 ['A', 'B', 'C'].map(fifthsFrom('G'))
 ```
 
-Source: [fifths/fifthsFrom.js](https://github.com/danigb/tonal/tree/master//lib/fifths/fifthsFrom.js)
-Test: [fifths/fifthsFromTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/fifthsFromTest.js)
+Source: [fifths/fifthsFrom.js](https://github.com/danigb/tonal/tree/master/lib/fifths/fifthsFrom.js)
+Test: [fifths/fifthsFromTest.js](https://github.com/danigb/tonal/tree/master/test/fifths/fifthsFromTest.js)
 
 ----
 ###### [fifths/transpose](#fifths-module)
@@ -2867,7 +2867,7 @@ transpose('C', 2) // => 'D'
 transpose('C5', -2) // => 'Bb'
 ```
 
-Source: [fifths/transpose.js](https://github.com/danigb/tonal/tree/master//lib/fifths/transpose.js)
-Test: [fifths/transposeTest.js](https://github.com/danigb/tonal/tree/master//test/fifths/transposeTest.js)
+Source: [fifths/transpose.js](https://github.com/danigb/tonal/tree/master/lib/fifths/transpose.js)
+Test: [fifths/transposeTest.js](https://github.com/danigb/tonal/tree/master/test/fifths/transposeTest.js)
 
 

@@ -4,7 +4,7 @@ var dox = require('dox')
 
 var modules = ['pitch', 'interval', 'collection', 'scale', 'chord', 'binaryScale', 'key', 'fifths']
 
-var GITHUB = 'https://github.com/danigb/tonal/tree/master/'
+var GITHUB = 'https://github.com/danigb/tonal/tree/master'
 
 /**
  * - modules: a modules list
