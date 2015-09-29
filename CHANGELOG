@@ -1,4 +1,5 @@
 [MASTER]
+- Rename fifths/fifths to fifths/distance
 - Add binaryScale functions: isValid, fromNumber, props and modes
 - Rename binarySet to binaryScale
 - Create pitch/harmonizer to create harmonizers
