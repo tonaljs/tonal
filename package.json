@@ -46,7 +46,6 @@
   },
   "pre-commit": [
     "code-gen",
-    "test",
-    "docs"
+    "test"
   ]
 }

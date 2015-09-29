@@ -13,15 +13,15 @@ module.exports = function (sources) {
 
     return MD.tbody(
       MD.bold(mdFunctionLink(src)),
-      summary,
       MD.link(src.module, [GITHUB, 'docs', src.module + '.md'].join('/')),
+      summary,
       MD.link(src.name + '.js', [GITHUB, 'lib', src.module, src.name + '.js'].join('/'))
     )
   }
 
   return MD.lines(
     MD.h3('Function index'),
-    MD.thead('name', 'description', 'module', 'source'),
+    MD.thead('name', 'module', 'description', 'source'),
     sources.ordered.map(markdownSourceRow),
     MD.line('Number of functions: ', sources.ordered.length)
   )
