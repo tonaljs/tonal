@@ -43,7 +43,7 @@ binaryScale.filter(function (binary) {
 
 ## BinaryScale function list
 
-- [filter](#binaryscalefilter) -  Return all possible set binary set numbers
+- [filter](#binaryscalefilter) -  Get all binary scale numbers filtered by a function
 - [fromCollection](#binaryscalefromcollection) -  Get the binary set number of a collection of pitches or intervals
 - [fromNumber](#binaryscalefromnumber) -  Get a binary scale (a 12 digit binary number) from a number.
 - [intervals](#binaryscaleintervals) -  Get a intervals collection from a binary scale number
@@ -64,7 +64,7 @@ binaryScale.filter(function (binary) {
 
 
 
-Return all possible set binary set numbers
+Get all binary scale numbers filtered by a function
 
 __Arguments:__
 

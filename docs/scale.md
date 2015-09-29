@@ -12,7 +12,7 @@ scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
 
 ## Scale function list
 
-- [find](#scalefind) -  Given collection of pitches return the scale name (if any)
+- [find](#scalefind) -  Get the scale name(s) of a collection of pitches
 - [intervals](#scaleintervals) -  Get the intervals of a scale name (without tonic). Is uses a json dictionary.
 - [names](#scalenames) -  Get all known scale names
 - [scale](#scalescale) -  Get the scale (a set of intervals or pitch classes) with a given name and optionally a tonic
@@ -30,7 +30,7 @@ scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
 
 
 
-Given collection of pitches return the scale name (if any)
+Get the scale name(s) of a collection of pitches
 
 __Arguments:__
 

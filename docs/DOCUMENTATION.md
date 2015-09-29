@@ -91,10 +91,10 @@ var transpose = require('tonal/pitch/transpose')
 - [alterToAcc](#pitchaltertoacc) -  Get the accidentals from an alteration number
 - [byFreq](#pitchbyfreq) -  Get a comparator function to sort pitches by frequency
 - [cents](#pitchcents) -  Get the distance in cents between pitches or frequencies
-- [distance](#pitchdistance) -  Return the distance in semitones between to pitches
+- [distance](#pitchdistance) -  Get the distance in semitones between to pitches
 - [enharmonic](#pitchenharmonic) -  Get the enharmonic of a pitch with a given step
 - [enharmonics](#pitchenharmonics) -  Get all the enharmonics of a pitch (up to 4 alterations)
-- [fromFreq](#pitchfromfreq) -  Given a frequency, get the pitch. It will round the frequency to the nearest pitch frequency
+- [fromFreq](#pitchfromfreq) -  Get the pitch of a given frequency.
 - [fromKey](#pitchfromkey) -  Get the pitch of the given piano key number
 - [fromMidi](#pitchfrommidi) -  Get the pitch of the given midi number
 - [harmonizer](#pitchharmonizer) -  Get an harmonizer for a list of intervals. An harmonizer is a function that _harmonizes_ a pitch: given a pitch returns a collection of pitches.
@@ -230,26 +230,33 @@ Test: [pitch/centsTest.js](https://github.com/danigb/tonal/tree/master/test/pitc
 
 
 
-#### distance() → {}
+#### distance(from, to) → {Integer}
 
 
 
-Return the distance in semitones between to pitches
+Get the distance in semitones between to pitches
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
+`from`|String|the first pitch
+`to`|String|the destination pitch
 
 
 __Returns:__
 
 Type|Description
 ---|---
+Integer|the number of semitones (can be negative)
 
 
 __Example:__
 
+```js
+distance('C4', 'D5') // => 14
+distance('A', 'G') // => -2
+```
 
 Source: [pitch/distance.js](https://github.com/danigb/tonal/tree/master/lib/pitch/distance.js)
 Test: [pitch/distanceTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/distanceTest.js)
@@ -334,8 +341,10 @@ Test: [pitch/enharmonicsTest.js](https://github.com/danigb/tonal/tree/master/tes
 
 
 
-Given a frequency, get the pitch. It will round the frequency to the nearest
-pitch frequency
+Get the pitch of a given frequency.
+
+It will round the frequency to the nearest pitch frequency. Use `cents` function
+if you need to know the difference between the the frequency and the pitch.
 
 __Arguments:__
 
@@ -355,7 +364,8 @@ __Example:__
 
 ```js
 fromFreq(440) // => 'A4'
-fromFreq(441) // => 'A4'
+fromFreq(443) // => 'A4'
+cents(443, 'A4') // => ... to get the difference
 ```
 
 Source: [pitch/fromFreq.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromFreq.js)
@@ -1299,7 +1309,7 @@ Dive into the world of pitch class sets:
 
 ### Function list
 
-- [dictionary](#collectiondictionary) -  A dictionary is a function that, given a name, returns an array of intervals. And given a fileter function it returns all the names filtered by that function.
+- [dictionary](#collectiondictionary) -  Create a dictionary, a function that given a name, returns an array of intervals.
 - [harmonize](#collectionharmonize) -  Create a collection of pitches by transposing a tonic by a collection of intervals
 - [intervals](#collectionintervals) -  Get the intervals of a collection of pitches starting from a tonic
 - [mode](#collectionmode) -  Get the mode of a collection of pitches.
@@ -1322,10 +1332,12 @@ Dive into the world of pitch class sets:
 
 
 
-A dictionary is a function that, given a name, returns an array of intervals.
-And given a fileter function it returns all the names filtered by that function.
+Create a dictionary, a function that given a name, returns an array of intervals.
 
-The returned function has the following signature:
+Passing a function as a parameter to the dictionary, it returns a list of all
+available names filtered by that function
+
+The dictionary (function) has the following signature:
 `fn({String|Function}) -> {Array<Intervals>}` (see examples)
 
 __Arguments:__
@@ -1349,6 +1361,8 @@ __Example:__
 chords = dictionary({'Maj7': '1P 3M 5P 7M'}, {'M7': 'Maj7'})
 chords('Maj7') // => ['1P', '3M', '5P', '7M']
 chords('M7') // => ['1P', '3M', '5P', '7M']
+
+// get all major chord names (no aliases):
 chords(function(c) { return c[1] === '3M' }) // => ['Maj7']
 ```
 
@@ -1670,7 +1684,7 @@ scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
 
 ### Function list
 
-- [find](#scalefind) -  Given collection of pitches return the scale name (if any)
+- [find](#scalefind) -  Get the scale name(s) of a collection of pitches
 - [intervals](#scaleintervals) -  Get the intervals of a scale name (without tonic). Is uses a json dictionary.
 - [names](#scalenames) -  Get all known scale names
 - [scale](#scalescale) -  Get the scale (a set of intervals or pitch classes) with a given name and optionally a tonic
@@ -1688,7 +1702,7 @@ scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
 
 
 
-Given collection of pitches return the scale name (if any)
+Get the scale name(s) of a collection of pitches
 
 __Arguments:__
 
@@ -1839,7 +1853,7 @@ It uses a big .json dataset to get the chord intervals from the name.
 
 - [chord](#chordchord) -  Get a chord from a chord name. The chord is an array of pitches or intervals depending if a tonic is given or not.
 - [extensions](#chordextensions) -  Given a chord type, get its extensions (same chord with more notes)
-- [find](#chordfind) -  Get the chord name(s) of a given pitches
+- [find](#chordfind) -  Get the chord name(s) of a collection of pitches
 - [intervals](#chordintervals) -  Get the intervals of a chord name (without tonic). It uses a json dictionary
 - [names](#chordnames) -  Get all known chord names
 - [scaleNames](#chordscalenames) -  Given a chord type return its scale names
@@ -1931,7 +1945,7 @@ Test: [chord/extensionsTest.js](https://github.com/danigb/tonal/tree/master/test
 
 
 
-Get the chord name(s) of a given pitches
+Get the chord name(s) of a collection of pitches
 
 __Arguments:__
 
@@ -2150,7 +2164,7 @@ binaryScale.filter(function (binary) {
 
 ### Function list
 
-- [filter](#binaryscalefilter) -  Return all possible set binary set numbers
+- [filter](#binaryscalefilter) -  Get all binary scale numbers filtered by a function
 - [fromCollection](#binaryscalefromcollection) -  Get the binary set number of a collection of pitches or intervals
 - [fromNumber](#binaryscalefromnumber) -  Get a binary scale (a 12 digit binary number) from a number.
 - [intervals](#binaryscaleintervals) -  Get a intervals collection from a binary scale number
@@ -2171,7 +2185,7 @@ binaryScale.filter(function (binary) {
 
 
 
-Return all possible set binary set numbers
+Get all binary scale numbers filtered by a function
 
 __Arguments:__
 
@@ -2717,7 +2731,7 @@ distance('F', 'C') // => -1
 ### Function list
 
 - [byFifths](#fifthsbyfifths) -  Get a comparator function to sort a collection of pitch classes by distance distance in fifths to a base (or C4)
-- [distance](#fifthsdistance) -  Return the number of fifths between two pitch classes.
+- [distance](#fifthsdistance) -  Get the distance in fifths between two pitch classes
 - [distanceFrom](#fifthsdistancefrom) -  Create a function to get distance in fifths from a given note.
 - [transpose](#fifthstranspose) -  Transpose a pitch class by a number of fifths
 
@@ -2769,33 +2783,33 @@ Test: [fifths/byFifthsTest.js](https://github.com/danigb/tonal/tree/master/test/
 
 
 
-Return the number of fifths between two pitch classes.
+Get the distance in fifths between two pitch classes
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`pitch`|String|the pitch to calc the fifths distance to
-`from`|String|(Optional) the pitch to calc the fifths distance from (C if not specified)
+`pitch`|String|the pitch to get the distance distance to
+`from`|String|(Optional) the pitch to get the distance from (C if not specified)
 
 
 __Returns:__
 
 Type|Description
 ---|---
-Integer|the number fifths between the two pitches
+Integer|the number of fifths (can be negative)
 
 
 __Example:__
 
 ```js
-fifths('C') // => 0
-fifths('G') // => 1
-fifths('D') // => 2
-fifths('F') // => -1
-fifths('Bb') // => -2
-fifths('A', 'D') // => 1
-fifths('C4', 'C2') // => 0
+distance('C') // => 0
+distance('G') // => 1
+distance('D') // => 2
+distance('F') // => -1
+distance('Bb') // => -2
+distance('A', 'D') // => 1
+distance('C4', 'C2') // => 0
 ```
 
 Source: [fifths/distance.js](https://github.com/danigb/tonal/tree/master/lib/fifths/distance.js)

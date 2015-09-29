@@ -73,42 +73,6 @@ var transpose = require('tonal/pitch/transpose')
 tranpose('C', '5P')
 ```
 
-## Examples
-
-This are the examples from teoria ported to `tonal`:
-
-```js
-// Create pitches
-pitch('a4') // => { name: 'a4', pitchClass: 'A', midi: 69 ... }
-fromMidi(60) // => 'C4'
-fromKey(28) // =>
-
-// Create notes from intervals
-distance('A4', 'G7') // => '7m'
-transpose('A4', '6M') // => 'F#5'
-invert(distance('a4', 'bb5')) // => '7M'
-
-// Scales
-scale('A aeolian') // => ['A4', 'B4', 'C5', ...]
-scale('g5 ionian') // => ['G5', 'A5', ...]
-scale('mixolydian') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7m']
-
-// Chords
-chord('Asus4') // => [ 'A4', 'B4', 'E5' ]
-chord('Bb69M#11') // => [ 'Bb4', 'D5', 'F5', 'G5', 'C5', 'E5' ]
-
-// Tonal doesn't allow crazy chaining:
-var note = get('thirth', scale('A4 lidian').map(transpose('2M')))
-chord('maj9')(note)
-```
-
-Examples ported from MusikKit:
-
-```js
-var V7ofV = function(pitch) { chord(transpose(pitch, '5P'), '7') }
-V7ofV('D') // => ['A4', 'C#5', 'E5', 'G5']
-```
-
 ## Documentation and tests
 
 The functions are extensively documented inside the code. The documentation can be read [here](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md)

@@ -14,7 +14,7 @@ distance('F', 'C') // => -1
 ## Fifths function list
 
 - [byFifths](#fifthsbyfifths) -  Get a comparator function to sort a collection of pitch classes by distance distance in fifths to a base (or C4)
-- [distance](#fifthsdistance) -  Return the number of fifths between two pitch classes.
+- [distance](#fifthsdistance) -  Get the distance in fifths between two pitch classes
 - [distanceFrom](#fifthsdistancefrom) -  Create a function to get distance in fifths from a given note.
 - [transpose](#fifthstranspose) -  Transpose a pitch class by a number of fifths
 
@@ -66,33 +66,33 @@ Test: [fifths/byFifthsTest.js](https://github.com/danigb/tonal/tree/master/test/
 
 
 
-Return the number of fifths between two pitch classes.
+Get the distance in fifths between two pitch classes
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`pitch`|String|the pitch to calc the fifths distance to
-`from`|String|(Optional) the pitch to calc the fifths distance from (C if not specified)
+`pitch`|String|the pitch to get the distance distance to
+`from`|String|(Optional) the pitch to get the distance from (C if not specified)
 
 
 __Returns:__
 
 Type|Description
 ---|---
-Integer|the number fifths between the two pitches
+Integer|the number of fifths (can be negative)
 
 
 __Example:__
 
 ```js
-fifths('C') // => 0
-fifths('G') // => 1
-fifths('D') // => 2
-fifths('F') // => -1
-fifths('Bb') // => -2
-fifths('A', 'D') // => 1
-fifths('C4', 'C2') // => 0
+distance('C') // => 0
+distance('G') // => 1
+distance('D') // => 2
+distance('F') // => -1
+distance('Bb') // => -2
+distance('A', 'D') // => 1
+distance('C4', 'C2') // => 0
 ```
 
 Source: [fifths/distance.js](https://github.com/danigb/tonal/tree/master/lib/fifths/distance.js)

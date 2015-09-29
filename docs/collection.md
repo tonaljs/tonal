@@ -11,7 +11,7 @@ Dive into the world of pitch class sets:
 
 ## Collection function list
 
-- [dictionary](#collectiondictionary) -  A dictionary is a function that, given a name, returns an array of intervals. And given a fileter function it returns all the names filtered by that function.
+- [dictionary](#collectiondictionary) -  Create a dictionary, a function that given a name, returns an array of intervals.
 - [harmonize](#collectionharmonize) -  Create a collection of pitches by transposing a tonic by a collection of intervals
 - [intervals](#collectionintervals) -  Get the intervals of a collection of pitches starting from a tonic
 - [mode](#collectionmode) -  Get the mode of a collection of pitches.
@@ -34,10 +34,12 @@ Dive into the world of pitch class sets:
 
 
 
-A dictionary is a function that, given a name, returns an array of intervals.
-And given a fileter function it returns all the names filtered by that function.
+Create a dictionary, a function that given a name, returns an array of intervals.
 
-The returned function has the following signature:
+Passing a function as a parameter to the dictionary, it returns a list of all
+available names filtered by that function
+
+The dictionary (function) has the following signature:
 `fn({String|Function}) -> {Array<Intervals>}` (see examples)
 
 __Arguments:__
@@ -61,6 +63,8 @@ __Example:__
 chords = dictionary({'Maj7': '1P 3M 5P 7M'}, {'M7': 'Maj7'})
 chords('Maj7') // => ['1P', '3M', '5P', '7M']
 chords('M7') // => ['1P', '3M', '5P', '7M']
+
+// get all major chord names (no aliases):
 chords(function(c) { return c[1] === '3M' }) // => ['Maj7']
 ```
 

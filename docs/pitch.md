@@ -63,10 +63,10 @@ var transpose = require('tonal/pitch/transpose')
 - [alterToAcc](#pitchaltertoacc) -  Get the accidentals from an alteration number
 - [byFreq](#pitchbyfreq) -  Get a comparator function to sort pitches by frequency
 - [cents](#pitchcents) -  Get the distance in cents between pitches or frequencies
-- [distance](#pitchdistance) -  Return the distance in semitones between to pitches
+- [distance](#pitchdistance) -  Get the distance in semitones between to pitches
 - [enharmonic](#pitchenharmonic) -  Get the enharmonic of a pitch with a given step
 - [enharmonics](#pitchenharmonics) -  Get all the enharmonics of a pitch (up to 4 alterations)
-- [fromFreq](#pitchfromfreq) -  Given a frequency, get the pitch. It will round the frequency to the nearest pitch frequency
+- [fromFreq](#pitchfromfreq) -  Get the pitch of a given frequency.
 - [fromKey](#pitchfromkey) -  Get the pitch of the given piano key number
 - [fromMidi](#pitchfrommidi) -  Get the pitch of the given midi number
 - [harmonizer](#pitchharmonizer) -  Get an harmonizer for a list of intervals. An harmonizer is a function that _harmonizes_ a pitch: given a pitch returns a collection of pitches.
@@ -202,26 +202,33 @@ Test: [pitch/centsTest.js](https://github.com/danigb/tonal/tree/master/test/pitc
 
 
 
-#### distance() → {}
+#### distance(from, to) → {Integer}
 
 
 
-Return the distance in semitones between to pitches
+Get the distance in semitones between to pitches
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
+`from`|String|the first pitch
+`to`|String|the destination pitch
 
 
 __Returns:__
 
 Type|Description
 ---|---
+Integer|the number of semitones (can be negative)
 
 
 __Example:__
 
+```js
+distance('C4', 'D5') // => 14
+distance('A', 'G') // => -2
+```
 
 Source: [pitch/distance.js](https://github.com/danigb/tonal/tree/master/lib/pitch/distance.js)
 Test: [pitch/distanceTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/distanceTest.js)
@@ -306,8 +313,10 @@ Test: [pitch/enharmonicsTest.js](https://github.com/danigb/tonal/tree/master/tes
 
 
 
-Given a frequency, get the pitch. It will round the frequency to the nearest
-pitch frequency
+Get the pitch of a given frequency.
+
+It will round the frequency to the nearest pitch frequency. Use `cents` function
+if you need to know the difference between the the frequency and the pitch.
 
 __Arguments:__
 
@@ -327,7 +336,8 @@ __Example:__
 
 ```js
 fromFreq(440) // => 'A4'
-fromFreq(441) // => 'A4'
+fromFreq(443) // => 'A4'
+cents(443, 'A4') // => ... to get the difference
 ```
 
 Source: [pitch/fromFreq.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromFreq.js)

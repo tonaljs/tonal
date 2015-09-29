@@ -8,7 +8,7 @@ It uses a big .json dataset to get the chord intervals from the name.
 
 - [chord](#chordchord) -  Get a chord from a chord name. The chord is an array of pitches or intervals depending if a tonic is given or not.
 - [extensions](#chordextensions) -  Given a chord type, get its extensions (same chord with more notes)
-- [find](#chordfind) -  Get the chord name(s) of a given pitches
+- [find](#chordfind) -  Get the chord name(s) of a collection of pitches
 - [intervals](#chordintervals) -  Get the intervals of a chord name (without tonic). It uses a json dictionary
 - [names](#chordnames) -  Get all known chord names
 - [scaleNames](#chordscalenames) -  Given a chord type return its scale names
@@ -100,7 +100,7 @@ Test: [chord/extensionsTest.js](https://github.com/danigb/tonal/tree/master/test
 
 
 
-Get the chord name(s) of a given pitches
+Get the chord name(s) of a collection of pitches
 
 __Arguments:__
 
