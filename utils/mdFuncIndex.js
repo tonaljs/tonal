@@ -2,12 +2,12 @@ var MD = require('./markdown')
 
 var GITHUB = 'https://github.com/danigb/tonal/tree/master'
 
-module.exports = function markdownIndex (sources) {
+module.exports = function (sources) {
   return MD.lines(
-    MD.h1('Function index'),
-    MD.line('Number of functions: ', sources.ordered.length),
+    MD.h3('Function index'),
     MD.thead('name', 'description', 'module', 'source'),
-    sources.ordered.map(markdownSourceRow)
+    sources.ordered.map(markdownSourceRow),
+    MD.line('Number of functions: ', sources.ordered.length)
   )
 }
 
