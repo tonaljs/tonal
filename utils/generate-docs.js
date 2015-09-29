@@ -2,7 +2,7 @@ var fs = require('fs')
 var join = require('path').join
 
 var sourceModel = require('./sourceModel')
-var MODULES = ['pitch', 'interval', 'collection', 'scale', 'chord', 'binarySet', 'key', 'fifths']
+var MODULES = ['pitch', 'interval', 'collection', 'scale', 'chord', 'binary-scale', 'key', 'fifths']
 var sources = sourceModel(path('lib'), MODULES)
 
 var mdINDEX = require('./mdINDEX')

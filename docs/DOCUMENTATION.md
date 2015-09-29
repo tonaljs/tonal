@@ -8,12 +8,12 @@ Tonal functions are grouped by modules.
 
 __Modules summary__
 
-- __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [byFreq](#pitchbyfreq), [cents](#pitchcents), [distance](#pitchdistance), [enharmonic](#pitchenharmonic), [enharmonics](#pitchenharmonics), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitchClass](#pitchpitchclass), [props](#pitchprops), [sci](#pitchsci), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
+- __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [byFreq](#pitchbyfreq), [cents](#pitchcents), [distance](#pitchdistance), [enharmonic](#pitchenharmonic), [enharmonics](#pitchenharmonics), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [harmonizer](#pitchharmonizer), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitchClass](#pitchpitchclass), [props](#pitchprops), [sci](#pitchsci), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [build](#intervalbuild), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
 - __[Collection](#collection-module)__ -  [dictionary](#collectiondictionary), [harmonize](#collectionharmonize), [intervals](#collectionintervals), [mode](#collectionmode), [modes](#collectionmodes), [pitchSet](#collectionpitchset), [rotate](#collectionrotate), [toArray](#collectiontoarray), [triad](#collectiontriad)
 - __[Scale](#scale-module)__ -  [find](#scalefind), [names](#scalenames), [scale](#scalescale)
 - __[Chord](#chord-module)__ -  [chord](#chordchord), [extensions](#chordextensions), [find](#chordfind), [names](#chordnames), [scaleNames](#chordscalenames), [voicings](#chordvoicings)
-- __[BinarySet](#binaryset-module)__ -  [binarySet](#binarysetbinaryset), [binarySets](#binarysetbinarysets), [toIntervals](#binarysettointervals)
+- __[Binary-scale](#binary-scale-module)__ -  [filter](#binary-scalefilter), [fromCollection](#binary-scalefromcollection), [fromNumber](#binary-scalefromnumber), [intervals](#binary-scaleintervals), [isBinaryScale](#binary-scaleisbinaryscale), [modes](#binary-scalemodes), [props](#binary-scaleprops)
 - __[Key](#key-module)__ -  [accidentals](#keyaccidentals), [alteredNotes](#keyalterednotes), [fromPitchSet](#keyfrompitchset), [keyNumber](#keykeynumber), [parse](#keyparse), [pitchSet](#keypitchset), [triads](#keytriads)
 - __[Fifths](#fifths-module)__ -  [byFifths](#fifthsbyfifths), [fifths](#fifthsfifths), [fifthsFrom](#fifthsfifthsfrom), [transpose](#fifthstranspose)
 
@@ -93,6 +93,7 @@ var transpose = require('tonal/pitch/transpose')
 - [fromFreq](#pitchfromfreq) -  Given a frequency, get the pitch. It will round the frequency to the nearest pitch frequency
 - [fromKey](#pitchfromkey) -  Get the pitch of the given piano key number
 - [fromMidi](#pitchfrommidi) -  Get the pitch of the given midi number
+- [harmonizer](#pitchharmonizer) -  Get an harmonizer for a list of intervals. An harmonizer is a function that _harmonizes_ a pitch: given a pitch returns a collection of pitches.
 - [interval](#pitchinterval) -  Get the interval between two pitches
 - [intervalFrom](#pitchintervalfrom) -  Get a function that returns an interval from a pitch
 - [intervalTo](#pitchintervalto) -  Get a function that returns a interval to a pitch
@@ -430,6 +431,48 @@ fromMidi(69) // => 'A4'
 
 Source: [pitch/fromMidi.js](https://github.com/danigb/tonal/tree/master//lib/pitch/fromMidi.js)
 Test: [pitch/fromMidiTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/fromMidiTest.js)
+
+----
+###### [pitch/harmonizer](#pitch-module)
+
+
+
+#### harmonizer() → {}
+
+
+
+Get an harmonizer for a list of intervals. An harmonizer is a function that
+_harmonizes_ a pitch: given a pitch returns a collection of pitches.
+
+The returned function receives two parameters:
+- {String} pitch - the pitch to be harmonized
+- {boolean} pitchClassesOnly - set true to get only pitch classes
+
+Harmonizer are the basic construction blocks of scales and chords.
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
+
+__Returns:__
+
+Type|Description
+---|---
+
+
+__Example:__
+
+```js
+var major = harmonizer(['1P', '3M', '5M'])
+major('C') // => ['C4', 'E4', 'G4']
+major('C', true) // => ['C', 'E', 'G'] (pitch classes only)
+major() // => ['1P', '3M', '5M']
+```
+
+Source: [pitch/harmonizer.js](https://github.com/danigb/tonal/tree/master//lib/pitch/harmonizer.js)
+Test: [pitch/harmonizerTest.js](https://github.com/danigb/tonal/tree/master//test/pitch/harmonizerTest.js)
 
 ----
 ###### [pitch/interval](#pitch-module)
@@ -1319,6 +1362,8 @@ Test: [collection/dictionaryTest.js](https://github.com/danigb/tonal/tree/master
 
 Create a collection of pitches by transposing a tonic by a collection of intervals
 
+This is a shortcut to create and invoke an harmonizer
+
 __Arguments:__
 
 Name|Type|Description
@@ -1979,7 +2024,7 @@ Source: [chord/voicings.js](https://github.com/danigb/tonal/tree/master//lib/cho
 Test: [chord/voicingsTest.js](https://github.com/danigb/tonal/tree/master//test/chord/voicingsTest.js)
 
 
-## BinarySet module
+## Binary-scale module
 
 
 
@@ -1988,7 +2033,7 @@ Test: [chord/voicingsTest.js](https://github.com/danigb/tonal/tree/master//test/
 
 
 
-A binary set is a 12 digit binary number that represents a pitch class set.
+A binary scale is a 12 digit binary number where the first number is a `1`, and it's used to represent scales.
 
 The first time I've read about it was in the awesome book [Arpeggio & Scale Resources](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia) by Rich Cochrane, chapter 18.
 
@@ -2006,27 +2051,65 @@ The following explanation is extracted from the book. (The book has a Creative C
 All the scales have root, so the smallest scale is '100000000000' (2048) and
 the biggest is '111111111111' (4095), so the total number is 2048 (4096 - 2048)
 
-The way to get them all is with the function [`binary-set/allBinarySets`](#binarysetallbinarysets).
+The way to get them all is with the function [`binary-scale/filter`](#binaryscalefilter).
 
 Most of they are not interesting enough to be used in music.
 For example, at [allthescales.org site](http://allthescales.org) they limit all the possibilities to those with leap < 5 (1490)
 
 ### Function list
 
-- [binarySet](#binarysetbinaryset) -  Get the binary set number of a collection of pitches or intervals
-- [binarySets](#binarysetbinarysets) -  Return all possible set binary set numbers
-- [toIntervals](#binarysettointervals) -  Convert a binary set number to an intervals collection
+- [filter](#binary-scalefilter) -  Return all possible set binary set numbers
+- [fromCollection](#binary-scalefromcollection) -  Get the binary set number of a collection of pitches or intervals
+- [fromNumber](#binary-scalefromnumber) -  Get a binary scale (a 12 digit binary number) from a number.
+- [intervals](#binary-scaleintervals) -  Get a intervals collection from a binary scale number
+- [isBinaryScale](#binary-scaleisbinaryscale) -  Check if a number is a valid binary scale
+- [modes](#binary-scalemodes) -  Get the all the modes of a binary scale.
+- [props](#binary-scaleprops) -  Get the properties of a binary scale.
 
 
 
 ### API
 
 ----
-###### [binarySet/binarySet](#binaryset-module)
+###### [binary-scale/filter](#binary-scale-module)
 
 
 
-#### binarySet(collection) → {String}
+#### filter(filter) → {Array}
+
+
+
+Return all possible set binary set numbers
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`filter`|Function|(Optional) a filter function
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array of binary numbers. 2048 if no filter
+
+
+__Example:__
+
+```js
+binarySets() // => ['1000000000', '1000000001', ...]
+```
+
+Source: [binary-scale/filter.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/filter.js)
+Test: [binary-scale/filterTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/filterTest.js)
+
+----
+###### [binary-scale/fromCollection](#binary-scale-module)
+
+
+
+#### fromCollection(collection) → {String}
 
 
 
@@ -2056,59 +2139,60 @@ toBinary('1P 9M') // => '101000000000'
 toBinary('1P 7M') // => '100000000001'
 ```
 
-Source: [binarySet/binarySet.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/binarySet.js)
-Test: [binarySet/binarySetTest.js](https://github.com/danigb/tonal/tree/master//test/binarySet/binarySetTest.js)
+Source: [binary-scale/fromCollection.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/fromCollection.js)
+Test: [binary-scale/fromCollectionTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/fromCollectionTest.js)
 
 ----
-###### [binarySet/binarySets](#binaryset-module)
+###### [binary-scale/fromNumber](#binary-scale-module)
 
 
 
-#### binarySets(filter) → {Array}
+#### fromNumber(number) → {String}
 
 
 
-Return all possible set binary set numbers
+Get a binary scale (a 12 digit binary number) from a number.
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`filter`|Function|(Optional) a filter function
+`number`|String,Integer|the binary scale number
 
 
 __Returns:__
 
 Type|Description
 ---|---
-Array|an array of binary numbers. 2048 if no filter
+String|a binary scale (12 digit binary number)
 
 
 __Example:__
 
 ```js
-binarySets() // => ['1000000000', '1000000001', ...]
+fromNumber(0) // => '10000000000'
+fromNumber(2773) // => '101011010101' (major scale)
 ```
 
-Source: [binarySet/binarySets.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/binarySets.js)
-Test: [binarySet/binarySetsTest.js](https://github.com/danigb/tonal/tree/master//test/binarySet/binarySetsTest.js)
+Source: [binary-scale/fromNumber.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/fromNumber.js)
+Test: [binary-scale/fromNumberTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/fromNumberTest.js)
 
 ----
-###### [binarySet/toIntervals](#binaryset-module)
+###### [binary-scale/intervals](#binary-scale-module)
 
 
 
-#### toIntervals(binary) → {Array}
+#### intervals(binary) → {Array}
 
 
 
-Convert a binary set number to an intervals collection
+Get a intervals collection from a binary scale number
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`binary`|String,Integer|an interval list in any of its valid forms
+`binary`|String|a binary scale number
 
 
 __Returns:__
@@ -2125,8 +2209,119 @@ intervals('1P 2M') // => ['1P', '2M']
 intervals(2773) // => ['1P', '2M', '3M']
 ```
 
-Source: [binarySet/toIntervals.js](https://github.com/danigb/tonal/tree/master//lib/binarySet/toIntervals.js)
-Test: [binarySet/toIntervalsTest.js](https://github.com/danigb/tonal/tree/master//test/binarySet/toIntervalsTest.js)
+Source: [binary-scale/intervals.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/intervals.js)
+Test: [binary-scale/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/intervalsTest.js)
+
+----
+###### [binary-scale/isBinaryScale](#binary-scale-module)
+
+
+
+#### isBinaryScale() → {}
+
+
+
+Check if a number is a valid binary scale
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
+
+__Returns:__
+
+Type|Description
+---|---
+
+
+__Example:__
+
+
+Source: [binary-scale/isBinaryScale.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/isBinaryScale.js)
+Test: [binary-scale/isBinaryScaleTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/isBinaryScaleTest.js)
+
+----
+###### [binary-scale/modes](#binary-scale-module)
+
+
+
+#### modes(binary) → {Array}
+
+
+
+Get the all the modes of a binary scale.
+
+The modes are always ordered by number of steps so the first mode will be
+always the cannonical mode (the mode that has the greatest possible number
+of its larger steps at the beginning)
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`binary`|String|the binary number
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array of binary scales ordered by steps length
+
+
+__Example:__
+
+```js
+modes('')
+```
+
+Source: [binary-scale/modes.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/modes.js)
+Test: [binary-scale/modesTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/modesTest.js)
+
+----
+###### [binary-scale/props](#binary-scale-module)
+
+
+
+#### props(binary) → {Array}
+
+
+
+Get the properties of a binary scale.
+
+The returned object has the following attributes:
+- binary: a binary scale number
+- decimal: decimal equivalent to the binary representation
+- length: the number of notes of this scale
+- steps: an array with the distance in semitones between the notes of the scale
+- leap: the maximum distance between notes of the scale
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`binary`|String|the binary scale number
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array with the distances
+
+
+__Example:__
+
+```js
+props('101011010101').decimal // => 2773 (major scale)
+props('101011010101').length // => 7
+props('101011010101').distances // => [ 2, 2, 1, 2, 2, 2, 1 ]
+props('101011010101').leap // => 7
+```
+
+Source: [binary-scale/props.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/props.js)
+Test: [binary-scale/propsTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/propsTest.js)
 
 
 ## Key module

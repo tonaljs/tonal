@@ -1,6 +1,6 @@
-# Binary set module
+# Binary scale module
 
-A binary set is a 12 digit binary number that represents a pitch class set.
+A binary scale is a 12 digit binary number where the first number is a `1`, and it's used to represent scales.
 
 The first time I've read about it was in the awesome book [Arpeggio & Scale Resources](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia) by Rich Cochrane, chapter 18.
 
@@ -18,7 +18,7 @@ The following explanation is extracted from the book. (The book has a Creative C
 All the scales have root, so the smallest scale is '100000000000' (2048) and
 the biggest is '111111111111' (4095), so the total number is 2048 (4096 - 2048)
 
-The way to get them all is with the function [`binary-set/allBinarySets`](#binarysetallbinarysets).
+The way to get them all is with the function [`binary-scale/filter`](#binaryscalefilter).
 
 Most of they are not interesting enough to be used in music.
 For example, at [allthescales.org site](http://allthescales.org) they limit all the possibilities to those with leap < 5 (1490)
