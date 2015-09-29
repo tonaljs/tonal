@@ -1,6 +1,6 @@
 [MASTER]
-- Add binary-scale functions: isBinaryScale, fromNumber, props and modes
-- Rename binarySet to binary-scale
+- Add binaryScale functions: isValid, fromNumber, props and modes
+- Rename binarySet to binaryScale
 - Create pitch/harmonizer to create harmonizers
 
 [0.10.0]

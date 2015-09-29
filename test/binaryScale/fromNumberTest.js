@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var fromNumber = require('../../lib/binary-scale/fromNumber')
+var fromNumber = require('../../lib/binaryScale/fromNumber')
 
-vows.describe('binary-scale/fromNumber').addBatch({
+vows.describe('binaryScale/fromNumber').addBatch({
   'from integers': function () {
     assert.equal(fromNumber(2048), '100000000000')
     assert.equal(fromNumber(0), '100000000000')

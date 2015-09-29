@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var modes = require('../../lib/binary-scale/modes')
+var modes = require('../../lib/binaryScale/modes')
 
-vows.describe('binary-scale/modes').addBatch({
+vows.describe('binaryScale/modes').addBatch({
   'get scale modes': function () {
     assert.deepEqual(modes('101011010101'), [
       '101010110101',

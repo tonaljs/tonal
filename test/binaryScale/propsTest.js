@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var props = require('../../lib/binary-scale/props')
+var props = require('../../lib/binaryScale/props')
 
-vows.describe('binary-scale/props').addBatch({
+vows.describe('binaryScale/props').addBatch({
   'get binary properties': function () {
     assert.deepEqual(props('101011010101'), {
       decimal: 2773,

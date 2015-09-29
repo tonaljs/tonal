@@ -1,8 +1,8 @@
 var vows = require('vows')
 var assert = require('assert')
-var fromCollection = require('../../lib/binary-scale/fromCollection')
+var fromCollection = require('../../lib/binaryScale/fromCollection')
 
-vows.describe('binary-scale/fromCollection').addBatch({
+vows.describe('binaryScale/fromCollection').addBatch({
   'pitches to binary': function () {
     assert.equal(fromCollection('C D E'), '101010000000')
     assert.equal(fromCollection('C4 D5 E4'), '101010000000')

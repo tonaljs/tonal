@@ -13,7 +13,7 @@ __Modules summary__
 - __[Collection](#collection-module)__ -  [dictionary](#collectiondictionary), [harmonize](#collectionharmonize), [intervals](#collectionintervals), [mode](#collectionmode), [modes](#collectionmodes), [pitchSet](#collectionpitchset), [rotate](#collectionrotate), [toArray](#collectiontoarray), [triad](#collectiontriad)
 - __[Scale](#scale-module)__ -  [find](#scalefind), [names](#scalenames), [scale](#scalescale)
 - __[Chord](#chord-module)__ -  [chord](#chordchord), [extensions](#chordextensions), [find](#chordfind), [names](#chordnames), [scaleNames](#chordscalenames), [voicings](#chordvoicings)
-- __[Binary-scale](#binary-scale-module)__ -  [filter](#binary-scalefilter), [fromCollection](#binary-scalefromcollection), [fromNumber](#binary-scalefromnumber), [intervals](#binary-scaleintervals), [isBinaryScale](#binary-scaleisbinaryscale), [modes](#binary-scalemodes), [props](#binary-scaleprops)
+- __[BinaryScale](#binaryscale-module)__ -  [filter](#binaryscalefilter), [fromCollection](#binaryscalefromcollection), [fromNumber](#binaryscalefromnumber), [intervals](#binaryscaleintervals), [isValid](#binaryscaleisvalid), [modes](#binaryscalemodes), [props](#binaryscaleprops)
 - __[Key](#key-module)__ -  [accidentals](#keyaccidentals), [alteredNotes](#keyalterednotes), [fromPitchSet](#keyfrompitchset), [keyNumber](#keykeynumber), [parse](#keyparse), [pitchSet](#keypitchset), [triads](#keytriads)
 - __[Fifths](#fifths-module)__ -  [byFifths](#fifthsbyfifths), [fifths](#fifthsfifths), [fifthsFrom](#fifthsfifthsfrom), [transpose](#fifthstranspose)
 
@@ -2024,7 +2024,7 @@ Source: [chord/voicings.js](https://github.com/danigb/tonal/tree/master//lib/cho
 Test: [chord/voicingsTest.js](https://github.com/danigb/tonal/tree/master//test/chord/voicingsTest.js)
 
 
-## Binary-scale module
+## BinaryScale module
 
 
 
@@ -2033,7 +2033,15 @@ Test: [chord/voicingsTest.js](https://github.com/danigb/tonal/tree/master//test/
 
 
 
-A binary scale is a 12 digit binary number where the first number is a `1`, and it's used to represent scales.
+A binary scale is a 12 digit binary number where the first number is a `1`, and it's used to represent scales (or, in fact, any pitch class set). It's a handy representation to compare scales (and see if they are different spellings of the same scale, for example) or get scale properties like the biggest distance between scale degrees:
+
+```js
+var binaryScale = require('tonal/binaryScale')
+// compare two scales
+binaryScale.fromCollection('C D E G') === binaryScale.fromCollection('C D Fb Abb') // true
+// get the biggest distance between scale degrees
+binaryScale.props(binaryScale.fromCollection('C D E F G A B')).leap // => 2
+```
 
 The first time I've read about it was in the awesome book [Arpeggio & Scale Resources](https://archive.org/details/ScaleAndArpeggioResourcesAGuitarEncyclopedia) by Rich Cochrane, chapter 18.
 
@@ -2046,32 +2054,43 @@ The following explanation is extracted from the book. (The book has a Creative C
 1  b2   2  b3   3   4   b5   5  b6   6  b7   7
 ```
 
-### 2048 scales
+### Filter scales
 
-All the scales have root, so the smallest scale is '100000000000' (2048) and
-the biggest is '111111111111' (4095), so the total number is 2048 (4096 - 2048)
+If we consider all binary numbers to be valid scales, and considering that all the scales have root,
+so the smallest scale is '100000000000' (2048) and the biggest is '111111111111' (4095),
+the total number of scales is 2048 (4096 - 2048)
 
 The way to get them all is with the function [`binary-scale/filter`](#binaryscalefilter).
 
-Most of they are not interesting enough to be used in music.
-For example, at [allthescales.org site](http://allthescales.org) they limit all the possibilities to those with leap < 5 (1490)
+If we define scales like [this](http://2012books.lardbucket.org/books/music-theory/s08-01-scales-and-scale-steps.html):
+
+> five or more pitches arranged in sequential patterns of whole steps and half steps
+
+we can get the all the binary scale numbers like this:
+
+```js
+binaryScale.filter(function (binary) {
+  var props = binaryScale.props(binary)
+  return props.length > 4 && props.leap < 2
+}
+```
 
 ### Function list
 
-- [filter](#binary-scalefilter) -  Return all possible set binary set numbers
-- [fromCollection](#binary-scalefromcollection) -  Get the binary set number of a collection of pitches or intervals
-- [fromNumber](#binary-scalefromnumber) -  Get a binary scale (a 12 digit binary number) from a number.
-- [intervals](#binary-scaleintervals) -  Get a intervals collection from a binary scale number
-- [isBinaryScale](#binary-scaleisbinaryscale) -  Check if a number is a valid binary scale
-- [modes](#binary-scalemodes) -  Get the all the modes of a binary scale.
-- [props](#binary-scaleprops) -  Get the properties of a binary scale.
+- [filter](#binaryscalefilter) -  Return all possible set binary set numbers
+- [fromCollection](#binaryscalefromcollection) -  Get the binary set number of a collection of pitches or intervals
+- [fromNumber](#binaryscalefromnumber) -  Get a binary scale (a 12 digit binary number) from a number.
+- [intervals](#binaryscaleintervals) -  Get a intervals collection from a binary scale number
+- [isValid](#binaryscaleisvalid) -  Check if a number is a valid binary scale
+- [modes](#binaryscalemodes) -  Get the all the modes of a binary scale.
+- [props](#binaryscaleprops) -  Get the properties of a binary scale.
 
 
 
 ### API
 
 ----
-###### [binary-scale/filter](#binary-scale-module)
+###### [binaryScale/filter](#binaryscale-module)
 
 
 
@@ -2101,11 +2120,11 @@ __Example:__
 binarySets() // => ['1000000000', '1000000001', ...]
 ```
 
-Source: [binary-scale/filter.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/filter.js)
-Test: [binary-scale/filterTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/filterTest.js)
+Source: [binaryScale/filter.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/filter.js)
+Test: [binaryScale/filterTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/filterTest.js)
 
 ----
-###### [binary-scale/fromCollection](#binary-scale-module)
+###### [binaryScale/fromCollection](#binaryscale-module)
 
 
 
@@ -2139,11 +2158,11 @@ toBinary('1P 9M') // => '101000000000'
 toBinary('1P 7M') // => '100000000001'
 ```
 
-Source: [binary-scale/fromCollection.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/fromCollection.js)
-Test: [binary-scale/fromCollectionTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/fromCollectionTest.js)
+Source: [binaryScale/fromCollection.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/fromCollection.js)
+Test: [binaryScale/fromCollectionTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/fromCollectionTest.js)
 
 ----
-###### [binary-scale/fromNumber](#binary-scale-module)
+###### [binaryScale/fromNumber](#binaryscale-module)
 
 
 
@@ -2174,11 +2193,11 @@ fromNumber(0) // => '10000000000'
 fromNumber(2773) // => '101011010101' (major scale)
 ```
 
-Source: [binary-scale/fromNumber.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/fromNumber.js)
-Test: [binary-scale/fromNumberTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/fromNumberTest.js)
+Source: [binaryScale/fromNumber.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/fromNumber.js)
+Test: [binaryScale/fromNumberTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/fromNumberTest.js)
 
 ----
-###### [binary-scale/intervals](#binary-scale-module)
+###### [binaryScale/intervals](#binaryscale-module)
 
 
 
@@ -2209,15 +2228,15 @@ intervals('1P 2M') // => ['1P', '2M']
 intervals(2773) // => ['1P', '2M', '3M']
 ```
 
-Source: [binary-scale/intervals.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/intervals.js)
-Test: [binary-scale/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/intervalsTest.js)
+Source: [binaryScale/intervals.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/intervals.js)
+Test: [binaryScale/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/intervalsTest.js)
 
 ----
-###### [binary-scale/isBinaryScale](#binary-scale-module)
+###### [binaryScale/isValid](#binaryscale-module)
 
 
 
-#### isBinaryScale() → {}
+#### isValid() → {}
 
 
 
@@ -2238,11 +2257,11 @@ Type|Description
 __Example:__
 
 
-Source: [binary-scale/isBinaryScale.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/isBinaryScale.js)
-Test: [binary-scale/isBinaryScaleTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/isBinaryScaleTest.js)
+Source: [binaryScale/isValid.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/isValid.js)
+Test: [binaryScale/isValidTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/isValidTest.js)
 
 ----
-###### [binary-scale/modes](#binary-scale-module)
+###### [binaryScale/modes](#binaryscale-module)
 
 
 
@@ -2273,14 +2292,16 @@ Array|an array of binary scales ordered by steps length
 __Example:__
 
 ```js
-modes('')
+// Exactly same result for two modes
+modes('101011010101') // => [ '101010110101', '101011010101', '101011010110', ...]
+modes('101010110101') // => [ '101010110101', '101011010101', '101011010110', ...]
 ```
 
-Source: [binary-scale/modes.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/modes.js)
-Test: [binary-scale/modesTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/modesTest.js)
+Source: [binaryScale/modes.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/modes.js)
+Test: [binaryScale/modesTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/modesTest.js)
 
 ----
-###### [binary-scale/props](#binary-scale-module)
+###### [binaryScale/props](#binaryscale-module)
 
 
 
@@ -2320,8 +2341,8 @@ props('101011010101').distances // => [ 2, 2, 1, 2, 2, 2, 1 ]
 props('101011010101').leap // => 7
 ```
 
-Source: [binary-scale/props.js](https://github.com/danigb/tonal/tree/master//lib/binary-scale/props.js)
-Test: [binary-scale/propsTest.js](https://github.com/danigb/tonal/tree/master//test/binary-scale/propsTest.js)
+Source: [binaryScale/props.js](https://github.com/danigb/tonal/tree/master//lib/binaryScale/props.js)
+Test: [binaryScale/propsTest.js](https://github.com/danigb/tonal/tree/master//test/binaryScale/propsTest.js)
 
 
 ## Key module
