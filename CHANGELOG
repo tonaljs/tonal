@@ -1,4 +1,6 @@
 [MASTER]
+
+[0.11.0]
 - Rename fifths/fifths to fifths/distance (and related functions)
 - Add binaryScale functions: isValid, fromNumber, props and modes
 - Rename binarySet to binaryScale

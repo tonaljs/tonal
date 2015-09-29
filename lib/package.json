@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Functional, modular music theory library",
   "main": "index.js",
   "repository": {
