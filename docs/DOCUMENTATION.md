@@ -11,8 +11,8 @@ __Modules summary__
 - __[Pitch](#pitch-module)__ -  [alterToAcc](#pitchaltertoacc), [byFreq](#pitchbyfreq), [cents](#pitchcents), [distance](#pitchdistance), [enharmonic](#pitchenharmonic), [enharmonics](#pitchenharmonics), [fromFreq](#pitchfromfreq), [fromKey](#pitchfromkey), [fromMidi](#pitchfrommidi), [harmonizer](#pitchharmonizer), [interval](#pitchinterval), [intervalFrom](#pitchintervalfrom), [intervalTo](#pitchintervalto), [letter](#pitchletter), [octave](#pitchoctave), [pitchClass](#pitchpitchclass), [props](#pitchprops), [sci](#pitchsci), [toFreq](#pitchtofreq), [toKey](#pitchtokey), [toMidi](#pitchtomidi), [transpose](#pitchtranspose)
 - __[Interval](#interval-module)__ -  [add](#intervaladd), [build](#intervalbuild), [invert](#intervalinvert), [isInterval](#intervalisinterval), [opposite](#intervalopposite), [props](#intervalprops), [semitones](#intervalsemitones), [simplify](#intervalsimplify)
 - __[Collection](#collection-module)__ -  [dictionary](#collectiondictionary), [harmonize](#collectionharmonize), [intervals](#collectionintervals), [mode](#collectionmode), [modes](#collectionmodes), [pitchSet](#collectionpitchset), [rotate](#collectionrotate), [toArray](#collectiontoarray), [triad](#collectiontriad)
-- __[Scale](#scale-module)__ -  [find](#scalefind), [names](#scalenames), [scale](#scalescale)
-- __[Chord](#chord-module)__ -  [chord](#chordchord), [extensions](#chordextensions), [find](#chordfind), [names](#chordnames), [scaleNames](#chordscalenames), [voicings](#chordvoicings)
+- __[Scale](#scale-module)__ -  [find](#scalefind), [intervals](#scaleintervals), [names](#scalenames), [scale](#scalescale)
+- __[Chord](#chord-module)__ -  [chord](#chordchord), [extensions](#chordextensions), [find](#chordfind), [intervals](#chordintervals), [names](#chordnames), [scaleNames](#chordscalenames), [voicings](#chordvoicings)
 - __[BinaryScale](#binaryscale-module)__ -  [filter](#binaryscalefilter), [fromCollection](#binaryscalefromcollection), [fromNumber](#binaryscalefromnumber), [intervals](#binaryscaleintervals), [isValid](#binaryscaleisvalid), [modes](#binaryscalemodes), [props](#binaryscaleprops)
 - __[Key](#key-module)__ -  [accidentals](#keyaccidentals), [alteredNotes](#keyalterednotes), [fromPitchSet](#keyfrompitchset), [keyNumber](#keykeynumber), [parse](#keyparse), [pitchSet](#keypitchset), [triads](#keytriads)
 - __[Fifths](#fifths-module)__ -  [byFifths](#fifthsbyfifths), [fifths](#fifthsfifths), [fifthsFrom](#fifthsfifthsfrom), [transpose](#fifthstranspose)
@@ -81,6 +81,10 @@ You can use `pitch/transpose` to transpose a pitch and `pitch/interval` to find 
 var transpose = require('tonal/pitch/transpose')
 ['C', 'D', 'E'].map(transpose('3M')) // => ['E', 'F#', 'G#']
 ```
+
+### Resources
+
+- Music Theory Book: http://2012books.lardbucket.org/books/music-theory/s07-the-elements-of-pitch-sound-sy.html
 
 ### Function list
 
@@ -1667,6 +1671,7 @@ scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
 ### Function list
 
 - [find](#scalefind) -  Given collection of pitches return the scale name (if any)
+- [intervals](#scaleintervals) -  Get the intervals of a scale name (without tonic). Is uses a json dictionary.
 - [names](#scalenames) -  Get all known scale names
 - [scale](#scalescale) -  Get the scale (a set of intervals or pitch classes) with a given name and optionally a tonic
 
@@ -1707,6 +1712,40 @@ __Example:__
 
 Source: [scale/find.js](https://github.com/danigb/tonal/tree/master//lib/scale/find.js)
 Test: [scale/findTest.js](https://github.com/danigb/tonal/tree/master//test/scale/findTest.js)
+
+----
+###### [scale/intervals](#scale-module)
+
+
+
+#### intervals(name) → {Array}
+
+
+
+Get the intervals of a scale name (without tonic). Is uses a json dictionary.
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`name`|String|the scale name (without tonic)
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|the intervals or null if not found
+
+
+__Example:__
+
+```js
+intervals('major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
+```
+
+Source: [scale/intervals.js](https://github.com/danigb/tonal/tree/master//lib/scale/intervals.js)
+Test: [scale/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/scale/intervalsTest.js)
 
 ----
 ###### [scale/names](#scale-module)
@@ -1801,6 +1840,7 @@ It uses a big .json dataset to get the chord intervals from the name.
 - [chord](#chordchord) -  Get a chord from a chord name. The chord is an array of pitches or intervals depending if a tonic is given or not.
 - [extensions](#chordextensions) -  Given a chord type, get its extensions (same chord with more notes)
 - [find](#chordfind) -  Get the chord name(s) of a given pitches
+- [intervals](#chordintervals) -  Get the intervals of a chord name (without tonic). It uses a json dictionary
 - [names](#chordnames) -  Get all known chord names
 - [scaleNames](#chordscalenames) -  Given a chord type return its scale names
 - [voicings](#chordvoicings) -  Get a voice (array of intervals) or a list of voicings for a given chord type
@@ -1915,6 +1955,40 @@ find('G2 E3 C4') // => ['CM/G', 'Em#5/G']
 
 Source: [chord/find.js](https://github.com/danigb/tonal/tree/master//lib/chord/find.js)
 Test: [chord/findTest.js](https://github.com/danigb/tonal/tree/master//test/chord/findTest.js)
+
+----
+###### [chord/intervals](#chord-module)
+
+
+
+#### intervals(name) → {Array}
+
+
+
+Get the intervals of a chord name (without tonic). It uses a json dictionary
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`name`|String|the chord name
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|the intervals or null if not found
+
+
+__Example:__
+
+```js
+intervals('maj7') // => ['1P', '3M', '5P', '7M']
+```
+
+Source: [chord/intervals.js](https://github.com/danigb/tonal/tree/master//lib/chord/intervals.js)
+Test: [chord/intervalsTest.js](https://github.com/danigb/tonal/tree/master//test/chord/intervalsTest.js)
 
 ----
 ###### [chord/names](#chord-module)

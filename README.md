@@ -7,7 +7,7 @@
 Tonal is a library to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and can be used to develop midi or audio software:
 
 ```js
-var tonal = require('tonal')
+var tonal = require('tonal/pitch')
 
 // pitches
 tonal.fromMidi(60) // => 'C4'
@@ -15,71 +15,62 @@ tonal.toMidi('A4') // => 69
 tonal.fromFreq(220) // => 'A3'
 tonal.toFreq('C') // => ...
 
-// intervals
+// intervals and tranposition
 tonal.tranpose('D4', '2M') // => 'E#4'
 tonal.interval('C', 'G') // => '5P'
+['c', 'd', 'e'].map(tonal.transpose('3M')) // => ['E4', 'F#4', 'G#4']
 
-// collections
-['A', 'B', 'C'].map(tonal.transpose('5P'))
-tonal('c d e') // => ['C4', 'D4', 'E4']
-tonal('c d e').map(tonal.transpose('3M')) // => ['E4', 'F#4', 'G#4']
-
-// scales
-tonal.scale('A major') // => ['A4', 'B4', 'C#5', ...]
-tonal.scale('A major').map(tonal.transpose('8P')) // => ['A5, 'B5', ...]
-tonal.modes(tonal.scale('Bb dorian')) // => [ an array of arrays with 7 scales notes ]
-tonal.scale.find('C D E F# G A B') // => ['C lydian']
-tonal('A Bb').map(tonal.scale('major')) // => [ ['A', 'B', 'C#', ...], ['Bb', 'C', 'D', ...]
-
-// chords
-tonal.chord('CMaj7') // => ['C4', 'E4', 'G4', 'B4']
-tonal('Dm7 | G7 | CMaj7').map(tonal.chord) // => [ ['D', 'F', ...], ['G', ...], ['C', ...]]
+// harmonizers
+var major = tonal.harmonizer(['1P', '3M', '5M'])
+major('C6') // => ['C6', 'E6', 'G6']
+major('E5', true) /// => ['E', 'G#', 'B'] (only pitch classes)
+var V7 = tonal.harmonizer(['1P', '3M', '5M', '7m'])
+var V7ofV = function(pitch) { V7(tonal.transpose(pitch, '5P')) }
+var V7ofV('D') // => ['A4', 'C#5', 'E5', 'G7']
 ```
 
 Tonal has a number of characteristics that make it unique:
 
 - It is pure __functional__: no classes, no side effects, no mutations, just data-in-and-out and functions
 - Heavy use of __strings to represent entities__: pitches (`'C#2'`, `'Bb'`, `'G##'`), intevals (`'2M'`, `'-9m'`), chords (`'Cmaj7'`, `'Bb79'`), scales (`'C major'`, `'Bb bebop'`), collections (`'C D E F'`, `'1P 2M 3M'`, `'Cmaj7 D9m'`), keys (`'C major'`, `'Bb minor'`, `'###'`)
-- Extremely __modular__: your can require individual functions not (_a-la-lodash_) so the dependencies are reduced to the minimum. Think each function in tonal like a npm micro-module.
-- Advanced features: binary sets, chord and scale detection, chord voicings, chord progressions
+- Extremely __modular__: your can require the whole library, a module or an individual function, so the dependencies are reduced to the minimum. Think each function in tonal like a npm micro-module.
+- Advanced features: binary scales, chord and scale detection, chord voicings, chord progressions
 
 _This is still [beta software](https://github.com/danigb/tonal/blob/master/docs/TODO.md)_ and it's being actively developed. For a stable library see [teoria](https://github.com/saebekassebil/teoria)
-
-## Why
-
-Mostly, because I want to [learn](https://github.com/danigb/tonal/blob/master/docs/RESOURCES.md):
-
-> Reinventing the wheel is bad for business, but it’s great for learning
-[*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
 
 ## What
 
 The library is divided in a number of modules:
 
-- [Pitch module](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md#pitch-module): work with pitches (`C#4` is one), midi and frequencies. Transpose pitches and find distances.
+- [Pitch module](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md#pitch-module): the main module of tonal. Work with pitches (`C#4` is one), midi and frequencies. Transpose pitches and find distances (using semitones or intervals).
 - [Interval module](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md#interval-module): Work with intervals.
-- [Scale](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md#scale-module): get scale intervals or pitches by its name (more than 100)
+- [Scale](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md#scale-module): provides dictionaries to create scales using names
 - [Chord](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md#chord-module): get chord intervals or pitches by its name (more than 100) and detect chords by its pitches
-- [PitchSet](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md#pitchSet-module): work with pitch class sets
-
 And [more ...](https://github.com/danigb/tonal/blob/master/docs/DOCUMENTATION.md)
 
 ## Usage
 
 Install via npm: `npm i --save tonal`
 
-Then you can use the tonal facade (with only a subset of all the functions):
+Then you can load the whole library...
 
 ```js
 var tonal = require('tonal')
-tonal.transpose(tonal.fromMidi(60), '2M')
+tonal.pitch.transpose(tonal.pitch.fromMidi(60), '2M')
 ```
 
-or require the functions individually:
+... one module ...
+
+```js
+var pitch = require('tonal/pitch')
+pitch.transpose(pitch.fromMidi(60), '2M')
+```
+
+or a function:
 
 ```js
 var transpose = require('tonal/pitch/transpose')
-tranpose('5P', 'C')
+tranpose('C', '5P')
 ```
 
 ## Examples

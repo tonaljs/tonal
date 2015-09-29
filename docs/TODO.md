@@ -4,8 +4,7 @@ Tonal is not complete yet. Here are some stuff i'm planning to implement:
 
 ## General
 
-- (perhaps) a smaller facade object only with pitch?
-- a transpose method that works with pitchs, intervals, scales, chords and keys
+- a transpose method that works with pitchs, intervals, scales, chords and keys?
 - a collection function
 
 ## Pitch

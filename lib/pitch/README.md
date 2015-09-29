@@ -53,3 +53,7 @@ You can use `pitch/transpose` to transpose a pitch and `pitch/interval` to find 
 var transpose = require('tonal/pitch/transpose')
 ['C', 'D', 'E'].map(transpose('3M')) // => ['E', 'F#', 'G#']
 ```
+
+### Resources
+
+- Music Theory Book: http://2012books.lardbucket.org/books/music-theory/s07-the-elements-of-pitch-sound-sy.html
