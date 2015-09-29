@@ -1,11 +1,4 @@
-## Fifths module
-
-
-
-[Back to top](#tonal-functions)
-
-
-
+# Fifths module
 
 Fifths plays an important role in western music. This module contains functions to work with line and cycle of fiths, calculate distance in fifths, transpose by fifths and order pitches by fifths distances.
 
@@ -18,7 +11,7 @@ distance('F', 'C') // => -1
 
 - The line of fifths by David Temperley: http://www.theory.esm.rochester.edu/temperley/papers/temperley-ma00.pdf
 
-### Function list
+## Function list
 
 - [byFifths](#fifthsbyfifths) -  Get a comparator function to sort a collection of pitch classes by fifths
 - [fifths](#fifthsfifths) -  Return the number of fifths between two pitch classes.
@@ -27,7 +20,7 @@ distance('F', 'C') // => -1
 
 
 
-### API
+## API
 
 ----
 ###### [fifths/byFifths](#fifths-module)

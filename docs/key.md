@@ -1,15 +1,8 @@
-## Key module
-
-
-
-[Back to top](#tonal-functions)
-
-
-
+# Key module
 
 At this moment, this module is a work in progress. 
 
-### Function list
+## Function list
 
 - [accidentals](#keyaccidentals) -  Given a key (number) returns the accidentals
 - [alteredNotes](#keyalterednotes) -  Given a key, return the altered pitches
@@ -21,7 +14,7 @@ At this moment, this module is a work in progress.
 
 
 
-### API
+## API
 
 ----
 ###### [key/accidentals](#key-module)

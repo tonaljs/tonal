@@ -1,5 +1,8 @@
+var join = require('path').join
 var fs = require('fs')
 var dox = require('dox')
+
+var modules = ['pitch', 'interval', 'collection', 'scale', 'chord', 'binaryScale', 'key', 'fifths']
 
 var GITHUB = 'https://github.com/danigb/tonal/tree/master/'
 
@@ -12,8 +15,10 @@ var GITHUB = 'https://github.com/danigb/tonal/tree/master/'
  * - module: the module name
  * - name: the function name
  */
-module.exports = function (lib, modules) {
-  var sources = { modules: modules, ordered: [], byModule: {}, readmes: {} }
+function generateModel () {
+  var ROOT = join(__dirname, '../')
+  var lib = ROOT + 'lib/'
+  var sources = { root: ROOT, modules: modules, ordered: [], byModule: {}, readmes: {} }
 
   modules.forEach(function (module) {
     sources.byModule[module] = []
@@ -60,3 +65,5 @@ function sorter (key) {
     return ((x < y) ? -1 : ((x > y) ? 1 : 0))
   }
 }
+
+module.exports = generateModel()

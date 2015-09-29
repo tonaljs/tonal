@@ -2130,17 +2130,16 @@ The following explanation is extracted from the book. (The book has a Creative C
 
 ### Filter scales
 
-If we consider all binary numbers to be valid scales, and considering that all the scales have root,
-so the smallest scale is '100000000000' (2048) and the biggest is '111111111111' (4095),
-the total number of scales is 2048 (4096 - 2048)
+The first valid binary scale is `'100000000000'` (2048) and the last one is
+`'111111111111'` (4095) so the total number of binary scales is 2048.
 
 The way to get them all is with the function [`binary-scale/filter`](#binaryscalefilter).
 
-If we define scales like [this](http://2012books.lardbucket.org/books/music-theory/s08-01-scales-and-scale-steps.html):
+If we define valid scales like [this](http://2012books.lardbucket.org/books/music-theory/s08-01-scales-and-scale-steps.html):
 
 > five or more pitches arranged in sequential patterns of whole steps and half steps
 
-we can get the all the binary scale numbers like this:
+we can get the all the valid scales binary numbers like this:
 
 ```js
 binaryScale.filter(function (binary) {

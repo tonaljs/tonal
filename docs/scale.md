@@ -1,11 +1,4 @@
-## Scale module
-
-
-
-[Back to top](#tonal-functions)
-
-
-
+# Scale module
 
 A scale is a set of consecutive pitch classes.
 
@@ -17,7 +10,7 @@ scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
 ```
 
-### Function list
+## Function list
 
 - [find](#scalefind) -  Given collection of pitches return the scale name (if any)
 - [intervals](#scaleintervals) -  Get the intervals of a scale name (without tonic). Is uses a json dictionary.
@@ -26,7 +19,7 @@ scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
 
 
 
-### API
+## API
 
 ----
 ###### [scale/find](#scale-module)

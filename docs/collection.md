@@ -1,11 +1,4 @@
-## Collection module
-
-
-
-[Back to top](#tonal-functions)
-
-
-
+# Collection module
 
 Functions to work with a collection of pitches or intervals.
 
@@ -16,7 +9,7 @@ Dive into the world of pitch class sets:
 - http://www.mta.ca/pc-set/pc-set_new/pages/introduction/toc.html
 - http://composertools.com/Theory/PCSets/
 
-### Function list
+## Function list
 
 - [dictionary](#collectiondictionary) -  A dictionary is a function that, given a name, returns an array of intervals. And given a fileter function it returns all the names filtered by that function.
 - [harmonize](#collectionharmonize) -  Create a collection of pitches by transposing a tonic by a collection of intervals
@@ -30,7 +23,7 @@ Dive into the world of pitch class sets:
 
 
 
-### API
+## API
 
 ----
 ###### [collection/dictionary](#collection-module)

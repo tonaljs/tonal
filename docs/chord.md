@@ -1,17 +1,10 @@
-## Chord module
-
-
-
-[Back to top](#tonal-functions)
-
-
 # Chord module
 
 Create chords by name and detect a chord by its pitches.
 
 It uses a big .json dataset to get the chord intervals from the name.
 
-### Function list
+## Function list
 
 - [chord](#chordchord) -  Get a chord from a chord name. The chord is an array of pitches or intervals depending if a tonic is given or not.
 - [extensions](#chordextensions) -  Given a chord type, get its extensions (same chord with more notes)
@@ -23,7 +16,7 @@ It uses a big .json dataset to get the chord intervals from the name.
 
 
 
-### API
+## API
 
 ----
 ###### [chord/chord](#chord-module)

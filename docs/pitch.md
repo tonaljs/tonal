@@ -1,11 +1,4 @@
-## Pitch module
-
-
-
-[Back to top](#tonal-functions)
-
-
-
+# Pitch module
 
 This is the building block of tonal. Pitches are just strings in scientific notation. You can create it from midi numbers or frequencies (and reverse), query for its properties, transpose them or find interval distances. Almost everything you need from pitches is here.
 
@@ -65,7 +58,7 @@ var transpose = require('tonal/pitch/transpose')
 
 - Music Theory Book: http://2012books.lardbucket.org/books/music-theory/s07-the-elements-of-pitch-sound-sy.html
 
-### Function list
+## Function list
 
 - [alterToAcc](#pitchaltertoacc) -  Get the accidentals from an alteration number
 - [byFreq](#pitchbyfreq) -  Get a comparator function to sort pitches by frequency
@@ -92,7 +85,7 @@ var transpose = require('tonal/pitch/transpose')
 
 
 
-### API
+## API
 
 ----
 ###### [pitch/alterToAcc](#pitch-module)
