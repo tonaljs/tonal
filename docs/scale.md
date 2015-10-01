@@ -13,7 +13,7 @@ scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
 ## Scale function list
 
 - [find](#scalefind) -  Get the scale name of a pitch set. The pitch set must contain all the pitches of the scale
-- [names](#scalenames) -  Get all known scale names
+- [names](#scalenames) -  Get all known scale names (optionally filtered by a function)
 - [scale](#scalescale) -  Get the scale (a set of intervals or pitch classes) with a given name and optionally a tonic
 
 
@@ -60,16 +60,21 @@ Test: [scale/findTest.js](https://github.com/danigb/tonal/tree/master/test/scale
 
 
 
-#### names() → {Array}
+#### names(filter, exclude) → {Array}
 
 
 
-Get all known scale names
+Get all known scale names (optionally filtered by a function)
+
+The filter function receives an array of intervals and must return true
+or false
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
+`filter`|Function|the filter function
+`exclude`|boolean|alias - (Optioal) if true, returned list won't include aliases names
 
 
 __Returns:__

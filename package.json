@@ -6,7 +6,7 @@
   "scripts": {
     "test": "vows test/*.js test/**/*.js",
     "docs": "node ./utils/generateDocs.js",
-    "code-gen": "node ./utils/generateFacades.js",
+    "build": "node ./utils/generateFacades.js",
     "dist": "browserify ./lib/tonal.js > dist/tonal.js && browserify ./lib/tonal.js | uglifyjs -c > dist/tonal.min.js",
     "lint": "jshint .",
     "validate": "npm ls"
@@ -45,7 +45,6 @@
     "vows": "^0.8.1"
   },
   "pre-commit": [
-    "code-gen",
     "test"
   ]
 }

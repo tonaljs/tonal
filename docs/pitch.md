@@ -69,7 +69,7 @@ var transpose = require('tonal/pitch/transpose')
 - [fromFreq](#pitchfromfreq) -  Get the pitch of a given frequency.
 - [fromKey](#pitchfromkey) -  Get the pitch of the given piano key number
 - [fromMidi](#pitchfrommidi) -  Get the pitch of the given midi number
-- [harmonize](#pitchharmonize) -  Create a collection of pitches by transposing a tonic by a collection of intervals
+- [harmonizer](#pitchharmonizer) -  Get an harmonizer for a list of intervals. An harmonizer is a function that _harmonizes_ a pitch: given a pitch returns a collection of pitches.
 - [interval](#pitchinterval) -  Get the interval between two pitches
 - [intervalFrom](#pitchintervalfrom) -  Get a function that returns an interval from a pitch
 - [intervalTo](#pitchintervalto) -  Get a function that returns a interval to a pitch
@@ -419,42 +419,48 @@ Source: [pitch/fromMidi.js](https://github.com/danigb/tonal/tree/master/lib/pitc
 Test: [pitch/fromMidiTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/fromMidiTest.js)
 
 ----
-###### [pitch/harmonize](#pitch-module)
+###### [pitch/harmonizer](#pitch-module)
 
 
 
-#### harmonize(tonic, intervals, pitchClassOnly) → {Array}
+#### harmonizer(intervals, pitchClassOnly) → {}
 
 
 
-Create a collection of pitches by transposing a tonic by a collection of intervals
+Get an harmonizer for a list of intervals. An harmonizer is a function that
+_harmonizes_ a pitch: given a pitch returns a collection of pitches.
 
-This is a shortcut to create and invoke an harmonizer
+The harmonizer is a function with the signature `(<String>) => {Array}`, where
+the parameter is the pitch and the array is an array of pitches. If
+no tonic is provided, it returns an array of intervals
+
+Harmonizer are the basic construction blocks of scales and chords.
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`tonic`|String|the tonic
-`intervals`|String,Array|a collection of intervals
-`pitchClassOnly`|boolean|if true, the returned pitches don't include octave information
+`intervals`|Array|the intervals array
+`pitchClassOnly`|boolean|(Optional) if true, the harmonizer will return pitchClasses (no octaves) instead of full pitches
 
 
 __Returns:__
 
 Type|Description
 ---|---
-Array|a collection of pitches
 
 
 __Example:__
 
 ```js
-harmonize('C2', ['P1 P5']) // => ['C2', 'G2']
+var major = harmonizer(['1P', '3M', '5M'])
+major('C') // => ['C4', 'E4', 'G4']
+major('C', true) // => ['C', 'E', 'G'] (pitch classes only)
+major() // => ['1P', '3M', '5M']
 ```
 
-Source: [pitch/harmonize.js](https://github.com/danigb/tonal/tree/master/lib/pitch/harmonize.js)
-Test: [pitch/harmonizeTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/harmonizeTest.js)
+Source: [pitch/harmonizer.js](https://github.com/danigb/tonal/tree/master/lib/pitch/harmonizer.js)
+Test: [pitch/harmonizerTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/harmonizerTest.js)
 
 ----
 ###### [pitch/interval](#pitch-module)

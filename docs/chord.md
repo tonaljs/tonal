@@ -9,7 +9,7 @@ It uses a big .json dataset to get the chord intervals from the name.
 - [chord](#chordchord) -  Get a chord from a chord name. The chord is an array of pitches or intervals depending if a tonic is given or not.
 - [extensions](#chordextensions) -  Given a chord type, get its extensions (same chord with more notes)
 - [find](#chordfind) -  Get the chord name(s) of a collection of pitches
-- [names](#chordnames) -  Get all known chord names
+- [names](#chordnames) -  Get all known scale names (optionally filtered by a function)
 - [scaleNames](#chordscalenames) -  Given a chord type return its scale names
 - [voicings](#chordvoicings) -  Get a voice (array of intervals) or a list of voicings for a given chord type
 
@@ -129,16 +129,21 @@ Test: [chord/findTest.js](https://github.com/danigb/tonal/tree/master/test/chord
 
 
 
-#### names() → {Array}
+#### names(filter, exclude) → {Array}
 
 
 
-Get all known chord names
+Get all known scale names (optionally filtered by a function)
+
+The filter function receives an array of intervals and must return true
+or false
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
+`filter`|Function|the filter function
+`exclude`|boolean|alias - (Optional) if true, returned list won't include aliases names
 
 
 __Returns:__
@@ -151,7 +156,7 @@ Array|array with all the known names
 __Example:__
 
 ```js
-names() => ['major', 'minor', ....]
+names() => ['maj7', 'm7', ....]
 ```
 
 Source: [chord/names.js](https://github.com/danigb/tonal/tree/master/lib/chord/names.js)

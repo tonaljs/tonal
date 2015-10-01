@@ -8,7 +8,6 @@ You can get the interval properties with `interval/props` and manipulate in the 
 
 - [add](#intervaladd) -  Add two intervals
 - [build](#intervalbuild) -  Build an interval (string) given a number, and optionally a quality and octave.
-- [harmonizer](#intervalharmonizer) -  Get an harmonizer for a list of intervals. An harmonizer is a function that _harmonizes_ a pitch: given a pitch returns a collection of pitches.
 - [invert](#intervalinvert) -  Get the [inversion](https://en.wikipedia.org/wiki/Interval_(music)#Inversion) of an interval.
 - [isInterval](#intervalisinterval) -  Test if a string is a valid interval
 - [opposite](#intervalopposite) -  Get the opposite of an interval
@@ -105,48 +104,6 @@ build('2P') // => null
 
 Source: [interval/build.js](https://github.com/danigb/tonal/tree/master/lib/interval/build.js)
 Test: [interval/buildTest.js](https://github.com/danigb/tonal/tree/master/test/interval/buildTest.js)
-
-----
-###### [interval/harmonizer](#interval-module)
-
-
-
-#### harmonizer() → {}
-
-
-
-Get an harmonizer for a list of intervals. An harmonizer is a function that
-_harmonizes_ a pitch: given a pitch returns a collection of pitches.
-
-The returned function receives two parameters:
-- {String} pitch - the pitch to be harmonized
-- {boolean} pitchClassesOnly - set true to get only pitch classes
-
-Harmonizer are the basic construction blocks of scales and chords.
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-
-
-__Returns:__
-
-Type|Description
----|---
-
-
-__Example:__
-
-```js
-var major = harmonizer(['1P', '3M', '5M'])
-major('C') // => ['C4', 'E4', 'G4']
-major('C', true) // => ['C', 'E', 'G'] (pitch classes only)
-major() // => ['1P', '3M', '5M']
-```
-
-Source: [interval/harmonizer.js](https://github.com/danigb/tonal/tree/master/lib/interval/harmonizer.js)
-Test: [interval/harmonizerTest.js](https://github.com/danigb/tonal/tree/master/test/interval/harmonizerTest.js)
 
 ----
 ###### [interval/invert](#interval-module)

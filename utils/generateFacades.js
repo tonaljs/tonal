@@ -13,7 +13,7 @@ sources.modules.forEach(function (module) {
 var facades = sources.modules.map(function (module) {
   return `${module}: require('./${module}.js')`
 }).join(',\n  ')
-fs.writeFileSync(path + 'tonal.js', facade('tonal', facades))
+fs.writeFileSync(path + 'index.js', facade('tonal', facades))
 
 function facade (name, functions) {
   return `
