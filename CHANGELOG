@@ -1,4 +1,6 @@
 [MASTER]
+- Move collection/harmonize to pitch
+- Move pitch/harmonizer to interval
 
 [0.11.0]
 - Rename fifths/fifths to fifths/distance (and related functions)

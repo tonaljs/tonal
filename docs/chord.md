@@ -9,7 +9,6 @@ It uses a big .json dataset to get the chord intervals from the name.
 - [chord](#chordchord) -  Get a chord from a chord name. The chord is an array of pitches or intervals depending if a tonic is given or not.
 - [extensions](#chordextensions) -  Given a chord type, get its extensions (same chord with more notes)
 - [find](#chordfind) -  Get the chord name(s) of a collection of pitches
-- [intervals](#chordintervals) -  Get the intervals of a chord name (without tonic). It uses a json dictionary
 - [names](#chordnames) -  Get all known chord names
 - [scaleNames](#chordscalenames) -  Given a chord type return its scale names
 - [voicings](#chordvoicings) -  Get a voice (array of intervals) or a list of voicings for a given chord type
@@ -124,40 +123,6 @@ find('G2 E3 C4') // => ['CM/G', 'Em#5/G']
 
 Source: [chord/find.js](https://github.com/danigb/tonal/tree/master/lib/chord/find.js)
 Test: [chord/findTest.js](https://github.com/danigb/tonal/tree/master/test/chord/findTest.js)
-
-----
-###### [chord/intervals](#chord-module)
-
-
-
-#### intervals(name) → {Array}
-
-
-
-Get the intervals of a chord name (without tonic). It uses a json dictionary
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`name`|String|the chord name
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|the intervals or null if not found
-
-
-__Example:__
-
-```js
-intervals('maj7') // => ['1P', '3M', '5P', '7M']
-```
-
-Source: [chord/intervals.js](https://github.com/danigb/tonal/tree/master/lib/chord/intervals.js)
-Test: [chord/intervalsTest.js](https://github.com/danigb/tonal/tree/master/test/chord/intervalsTest.js)
 
 ----
 ###### [chord/names](#chord-module)

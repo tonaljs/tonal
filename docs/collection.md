@@ -12,7 +12,6 @@ Dive into the world of pitch class sets:
 ## Collection function list
 
 - [dictionary](#collectiondictionary) -  Create a dictionary, a function that given a name, returns an array of intervals.
-- [harmonize](#collectionharmonize) -  Create a collection of pitches by transposing a tonic by a collection of intervals
 - [intervals](#collectionintervals) -  Get the intervals of a collection of pitches starting from a tonic
 - [mode](#collectionmode) -  Get the mode of a collection of pitches.
 - [modes](#collectionmodes) -  Return all modes of a collection of notes
@@ -60,8 +59,9 @@ Function|a dictionary
 __Example:__
 
 ```js
-chords = dictionary({'Maj7': '1P 3M 5P 7M'}, {'M7': 'Maj7'})
+chords = dictionary({'Maj7': '1P 3M 5P 7M', 'm7': '1P 3m 5P 7m'}, {'M7': 'Maj7'})
 chords('Maj7') // => ['1P', '3M', '5P', '7M']
+chords('m7') // => ['1P', '3m', '5P', '7m']
 chords('M7') // => ['1P', '3M', '5P', '7M']
 
 // get all major chord names (no aliases):
@@ -70,44 +70,6 @@ chords(function(c) { return c[1] === '3M' }) // => ['Maj7']
 
 Source: [collection/dictionary.js](https://github.com/danigb/tonal/tree/master/lib/collection/dictionary.js)
 Test: [collection/dictionaryTest.js](https://github.com/danigb/tonal/tree/master/test/collection/dictionaryTest.js)
-
-----
-###### [collection/harmonize](#collection-module)
-
-
-
-#### harmonize(tonic, intervals, pitchClassOnly) → {Array}
-
-
-
-Create a collection of pitches by transposing a tonic by a collection of intervals
-
-This is a shortcut to create and invoke an harmonizer
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`tonic`|String|the tonic
-`intervals`|String,Array|a collection of intervals
-`pitchClassOnly`|boolean|if true, the returned pitches don't include octave information
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|a collection of pitches
-
-
-__Example:__
-
-```js
-harmonize('C2', ['P1 P5']) // => ['C2', 'G2']
-```
-
-Source: [collection/harmonize.js](https://github.com/danigb/tonal/tree/master/lib/collection/harmonize.js)
-Test: [collection/harmonizeTest.js](https://github.com/danigb/tonal/tree/master/test/collection/harmonizeTest.js)
 
 ----
 ###### [collection/intervals](#collection-module)

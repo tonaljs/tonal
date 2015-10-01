@@ -12,8 +12,7 @@ scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
 
 ## Scale function list
 
-- [find](#scalefind) -  Get the scale name(s) of a collection of pitches
-- [intervals](#scaleintervals) -  Get the intervals of a scale name (without tonic). Is uses a json dictionary.
+- [find](#scalefind) -  Get the scale name of a pitch set. The pitch set must contain all the pitches of the scale
 - [names](#scalenames) -  Get all known scale names
 - [scale](#scalescale) -  Get the scale (a set of intervals or pitch classes) with a given name and optionally a tonic
 
@@ -30,7 +29,8 @@ scale('dorian') // => ['1P', '2M', '3m', '4P', '5P', '6M', '7M']
 
 
 
-Get the scale name(s) of a collection of pitches
+Get the scale name of a pitch set. The pitch set must contain all the
+pitches of the scale
 
 __Arguments:__
 
@@ -54,40 +54,6 @@ __Example:__
 
 Source: [scale/find.js](https://github.com/danigb/tonal/tree/master/lib/scale/find.js)
 Test: [scale/findTest.js](https://github.com/danigb/tonal/tree/master/test/scale/findTest.js)
-
-----
-###### [scale/intervals](#scale-module)
-
-
-
-#### intervals(name) → {Array}
-
-
-
-Get the intervals of a scale name (without tonic). Is uses a json dictionary.
-
-__Arguments:__
-
-Name|Type|Description
----|---|---
-`name`|String|the scale name (without tonic)
-
-
-__Returns:__
-
-Type|Description
----|---
-Array|the intervals or null if not found
-
-
-__Example:__
-
-```js
-intervals('major') // => ['1P', '2M', '3M', '4P', '5P', '6M', '7M']
-```
-
-Source: [scale/intervals.js](https://github.com/danigb/tonal/tree/master/lib/scale/intervals.js)
-Test: [scale/intervalsTest.js](https://github.com/danigb/tonal/tree/master/test/scale/intervalsTest.js)
 
 ----
 ###### [scale/names](#scale-module)
