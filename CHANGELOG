@@ -1,4 +1,6 @@
 [MASTER]
+- TODO: scale/scale scale/fromName
+- Refactor scale and chord modules to use less code
 - Move collection/harmonize to pitch
 - Move pitch/harmonizer to interval
 
