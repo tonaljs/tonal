@@ -63,25 +63,31 @@ var transpose = require('tonal/pitch/transpose')
 - [alterToAcc](#pitchaltertoacc) -  Get the accidentals from an alteration number
 - [byFreq](#pitchbyfreq) -  Get a comparator function to sort pitches by frequency
 - [cents](#pitchcents) -  Get the distance in cents between pitches or frequencies
+- [chroma](#pitchchroma) -  Get chroma of a pitch. The chroma is the integer notation of a pitch class
 - [distance](#pitchdistance) -  Get the distance in semitones between to pitches
 - [enharmonic](#pitchenharmonic) -  Get the enharmonic of a pitch with a given step
 - [enharmonics](#pitchenharmonics) -  Get all the enharmonics of a pitch (up to 4 alterations)
+- [fromFifths](#pitchfromfifths) -  Get array pitch structure from a fifths coordinate structure
 - [fromFreq](#pitchfromfreq) -  Get the pitch of a given frequency.
 - [fromKey](#pitchfromkey) -  Get the pitch of the given piano key number
 - [fromMidi](#pitchfrommidi) -  Get the pitch of the given midi number
 - [harmonizer](#pitchharmonizer) -  Get an harmonizer for a list of intervals. An harmonizer is a function that _harmonizes_ a pitch: given a pitch returns a collection of pitches.
 - [interval](#pitchinterval) -  Get the interval between two pitches
 - [intervalFrom](#pitchintervalfrom) -  Get a function that returns an interval from a pitch
+- [intervalStr](#pitchintervalstr) -  Get the interval string from a pitch array
 - [intervalTo](#pitchintervalto) -  Get a function that returns a interval to a pitch
 - [letter](#pitchletter) -  Get the letter of a pitch (and optionally move a number of steps)
 - [octave](#pitchoctave) -  Get the octave of a pitch
+- [parse](#pitchparse) -  Get ternary array pitch representation.
 - [pitchClass](#pitchpitchclass) -  Get the [pitchClass](https://en.wikipedia.org/wiki/Pitch_class) of a pitch
+- [pitchStr](#pitchpitchstr) -  Get a pitch (in scientific notation) from a ternary pitch array
 - [props](#pitchprops) -  Get pitch properties
 - [sci](#pitchsci) -  Get the scientific representation of a given pitch (or null if its not a valid pitch).
+- [toFifths](#pitchtofifths) -  Get the fifths vector representation of a pitch
 - [toFreq](#pitchtofreq) -  Get the pitch frequency in hertzs
 - [toKey](#pitchtokey) -  Get the key number from a pitch
-- [toMidi](#pitchtomidi) -  Get the midi of a pitch
-- [transpose](#pitchtranspose) -  Transpose a pitch by an interval
+- [toMidi](#pitchtomidi) -  Get the midi number of a pitch
+- [transpose](#pitchtranspose) -  
 
 
 
@@ -198,6 +204,42 @@ Source: [pitch/cents.js](https://github.com/danigb/tonal/tree/master/lib/pitch/c
 Test: [pitch/centsTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/centsTest.js)
 
 ----
+###### [pitch/chroma](#pitch-module)
+
+
+
+#### chroma(pitch) → {Integer}
+
+
+
+Get chroma of a pitch. The chroma is the integer notation of a pitch class
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`pitch`|String|the pitch to get the chorma from
+
+
+__Returns:__
+
+Type|Description
+---|---
+Integer|the chroma
+
+
+__Example:__
+
+```js
+chroma('C') // => 0
+chroma('B#') // => 0
+chroma('Dbb') // => 0
+```
+
+Source: [pitch/chroma.js](https://github.com/danigb/tonal/tree/master/lib/pitch/chroma.js)
+Test: [pitch/chromaTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/chromaTest.js)
+
+----
 ###### [pitch/distance](#pitch-module)
 
 
@@ -303,6 +345,40 @@ enharmonics('C', true) // => [ 'A###3', 'B#3', 'C4', 'Dbb4', 'Ebbbb4' ]
 
 Source: [pitch/enharmonics.js](https://github.com/danigb/tonal/tree/master/lib/pitch/enharmonics.js)
 Test: [pitch/enharmonicsTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/enharmonicsTest.js)
+
+----
+###### [pitch/fromFifths](#pitch-module)
+
+
+
+#### fromFifths(coord) → {Array}
+
+
+
+Get array pitch structure from a fifths coordinate structure
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`coord`|Array|the fifths coordinate
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|the ternary pitch structure
+
+
+__Example:__
+
+```js
+fromFifths([3, -1]) // => [6, 0, 1]
+```
+
+Source: [pitch/fromFifths.js](https://github.com/danigb/tonal/tree/master/lib/pitch/fromFifths.js)
+Test: [pitch/fromFifthsTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/fromFifthsTest.js)
 
 ----
 ###### [pitch/fromFreq](#pitch-module)
@@ -423,16 +499,16 @@ Test: [pitch/fromMidiTest.js](https://github.com/danigb/tonal/tree/master/test/p
 
 
 
-#### harmonizer(intervals, pitchClassOnly) → {}
+#### harmonizer(intervals, pitchClassOnly) → {Function}
 
 
 
 Get an harmonizer for a list of intervals. An harmonizer is a function that
 _harmonizes_ a pitch: given a pitch returns a collection of pitches.
 
-The harmonizer is a function with the signature `(<String>) => {Array}`, where
-the parameter is the pitch and the array is an array of pitches. If
-no tonic is provided, it returns an array of intervals
+The harmonizer is a function with the signature `<String> => {Array}`, where
+the string parameter is the pitch and the array is an array of pitches. If
+no pitch is provided, it returns an array of intervals (see @example)
 
 Harmonizer are the basic construction blocks of scales and chords.
 
@@ -448,6 +524,7 @@ __Returns:__
 
 Type|Description
 ---|---
+Function|the harmonizer function
 
 
 __Example:__
@@ -534,6 +611,37 @@ __Example:__
 
 Source: [pitch/intervalFrom.js](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalFrom.js)
 Test: [pitch/intervalFromTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/intervalFromTest.js)
+
+----
+###### [pitch/intervalStr](#pitch-module)
+
+
+
+#### intervalStr(ternary) → {String}
+
+
+
+Get the interval string from a pitch array
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`ternary`|Array|the pitch ternary array representation
+
+
+__Returns:__
+
+Type|Description
+---|---
+String|the pitch represented as an interval
+
+
+__Example:__
+
+
+Source: [pitch/intervalStr.js](https://github.com/danigb/tonal/tree/master/lib/pitch/intervalStr.js)
+Test: [pitch/intervalStrTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/intervalStrTest.js)
 
 ----
 ###### [pitch/intervalTo](#pitch-module)
@@ -642,6 +750,36 @@ Source: [pitch/octave.js](https://github.com/danigb/tonal/tree/master/lib/pitch/
 Test: [pitch/octaveTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/octaveTest.js)
 
 ----
+###### [pitch/parse](#pitch-module)
+
+
+
+#### parse() → {Array}
+
+
+
+Get ternary array pitch representation.
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|an array in the form [step, alt, oct]
+
+
+__Example:__
+
+
+Source: [pitch/parse.js](https://github.com/danigb/tonal/tree/master/lib/pitch/parse.js)
+Test: [pitch/parseTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/parseTest.js)
+
+----
 ###### [pitch/pitchClass](#pitch-module)
 
 
@@ -676,6 +814,45 @@ pitchClass('cx2') // => 'C##'
 
 Source: [pitch/pitchClass.js](https://github.com/danigb/tonal/tree/master/lib/pitch/pitchClass.js)
 Test: [pitch/pitchClassTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/pitchClassTest.js)
+
+----
+###### [pitch/pitchStr](#pitch-module)
+
+
+
+#### pitchStr(pitch) → {String}
+
+
+
+Get a pitch (in scientific notation) from a ternary pitch array
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`pitch`|Array|pitch array ([letter, accientals, octave])
+
+
+__Returns:__
+
+Type|Description
+---|---
+String|the pitch in scientific notation
+
+
+__Example:__
+
+```js
+toPitch([1, 0, 0]) // => 'C4'
+toPitch([1, 1, 0]) // => 'C#4'
+toPitch([1, 2, 1]) // => 'C##5'
+toPitch([1, -1, -1]) // => 'Cb3'
+toPitch([1, -1, -2]) // => 'Cb2'
+toPitch([2, 0, -2]) // => 'D2'
+```
+
+Source: [pitch/pitchStr.js](https://github.com/danigb/tonal/tree/master/lib/pitch/pitchStr.js)
+Test: [pitch/pitchStrTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/pitchStrTest.js)
 
 ----
 ###### [pitch/props](#pitch-module)
@@ -774,6 +951,49 @@ Source: [pitch/sci.js](https://github.com/danigb/tonal/tree/master/lib/pitch/sci
 Test: [pitch/sciTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/sciTest.js)
 
 ----
+###### [pitch/toFifths](#pitch-module)
+
+
+
+#### toFifths(pitch) → {Array}
+
+
+
+Get the fifths vector representation of a pitch
+
+The fifths vector representation is an array of two values, the first
+is the number of fifths (from C4) and the second is the number of octaves
+up or down to reach the pitch
+
+This representation is useful for calculating interval distances, transpositions
+or keys
+
+__Arguments:__
+
+Name|Type|Description
+---|---|---
+`pitch`|String,Array|the pitch (can be a string or a pitch array)
+
+
+__Returns:__
+
+Type|Description
+---|---
+Array|a fifths vector representation of a pitch
+
+
+__Example:__
+
+```js
+toFifths('C4') // => [0, 0]
+toFifths('C3') // => [0, -1]
+toFifths('G4') // => [1, 0]
+```
+
+Source: [pitch/toFifths.js](https://github.com/danigb/tonal/tree/master/lib/pitch/toFifths.js)
+Test: [pitch/toFifthsTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/toFifthsTest.js)
+
+----
 ###### [pitch/toFreq](#pitch-module)
 
 
@@ -848,30 +1068,32 @@ Test: [pitch/toKeyTest.js](https://github.com/danigb/tonal/tree/master/test/pitc
 
 
 
-#### toMidi(pitch) → {Interger}
+#### toMidi(pitch, octave) → {Integer}
 
 
 
-Get the midi of a pitch
+Get the midi number of a pitch
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`pitch`|String|the pitch to get the midi number from
+`pitch`|String|the pitch string
+`octave`|Integer|(Optional) the pitch octave (will override the value from the pitch string)
 
 
 __Returns:__
 
 Type|Description
 ---|---
-Interger|the midi number or null if not a valid pitch
+Integer|the midi number
 
 
 __Example:__
 
 ```js
-toMidi('a4') // => 69
+toMidi('A4') // => 69
+toMidi('A4', 3) // => 57
 ```
 
 Source: [pitch/toMidi.js](https://github.com/danigb/tonal/tree/master/lib/pitch/toMidi.js)
@@ -882,38 +1104,26 @@ Test: [pitch/toMidiTest.js](https://github.com/danigb/tonal/tree/master/test/pit
 
 
 
-#### transpose(pitch, interval) → {String}
+#### transpose() → {}
 
 
 
-Transpose a pitch by an interval
 
-This is an _strict_ function: if pitch or interval are not valid, an exception
-is thrown
 
 __Arguments:__
 
 Name|Type|Description
 ---|---|---
-`pitch`|String|the pitch to be transposed
-`interval`|String|(Optional) the interval. If not present, a partially applied function with the pitch is returned
 
 
 __Returns:__
 
 Type|Description
 ---|---
-String|the resulting pitch
 
 
 __Example:__
 
-```js
-transpose('E', 'M2') // => 'F#4'
-transpose('C', 'M-2') // => 'Bb3'
-['M2', 'm3', 'P-8'].map(tranapose('C')) // => ['D4', 'Eb4', 'C3']
-['C', 'D', 'E'].map(transpose('M2')) // => ['D4', 'E4', 'F#4']
-```
 
 Source: [pitch/transpose.js](https://github.com/danigb/tonal/tree/master/lib/pitch/transpose.js)
 Test: [pitch/transposeTest.js](https://github.com/danigb/tonal/tree/master/test/pitch/transposeTest.js)

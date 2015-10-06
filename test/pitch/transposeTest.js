@@ -3,6 +3,16 @@ var assert = require('assert')
 var transpose = require('../../lib/pitch/transpose')
 
 vows.describe('pitch/transpose').addBatch({
+  'basic cases': function () {
+    assert.equal(transpose('C', '8P'), 'C5')
+    assert.equal(transpose('C', '2M'), 'D4')
+    assert.equal(transpose('C', '4P'), 'F4')
+    assert.equal(transpose('C', '5P'), 'G4')
+    assert.equal(transpose('C', '3m'), 'Eb4')
+    assert.equal(transpose('C#', '3m'), 'E4')
+    assert.equal(transpose('D', '3M'), 'F#4')
+    assert.equal(transpose('D', '3M'), 'F#4')
+  },
   'transpose edge cases': function () {
     assert.equal(transpose('Gb', '4P'), 'Cb5')
     assert.equal(transpose('F4', '-5P'), 'Bb3')

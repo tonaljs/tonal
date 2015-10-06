@@ -1,18 +1,17 @@
 var benchmark = require('benchmark')
 var suite = new benchmark.Suite()
-var interval = require('../lib/pitch/interval')
-var invert = require('../lib/interval/invert')
+var tonal = require('../../lib')
 var teoria = require('teoria')
 
-console.log(teoria.note('a4').interval(teoria.note('bb5')).invert().toString())
-console.log(invert(interval('a4', 'bb5')))
+console.log(tonal.pitch.transpose('a4', '3M'))
+console.log(teoria.note('a4').interval('M3').toString())
 
 // add tests
-suite.add('tonal#interval', function () {
-  interval('a4', 'bb5')
+suite.add('tonal#transpose', function () {
+  tonal.pitch.transpose('a4', '3M')
 })
 .add('teoria#interval', function () {
-  teoria.note('a4').interval(teoria.note('bb5')).toString()
+  teoria.note('a4').interval('M3').toString()
 })
 .on('cycle', function (event) {
   console.log(String(event.target))
