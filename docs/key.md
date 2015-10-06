@@ -189,8 +189,8 @@ Type|Description
 __Example:__
 
 ```js
-parse('C minor') // => { tonic: 'C', type: 'minor'}
-parse('C#') // => { tonic: 'C#', type: 'major'}
+pitchClass('C minor') // => { tonic: 'C', type: 'minor'}
+pitchClass('C#') // => { tonic: 'C#', type: 'major'}
 ```
 
 Source: [key/parse.js](https://github.com/danigb/tonal/tree/master/lib/key/parse.js)

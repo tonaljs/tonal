@@ -1,4 +1,5 @@
 [MASTER]
+- Remove pitch/props
 - New pitch fifths vector representation to faster calculus
 - New pitch ternary array representation to represent both pitch and interval:
 this is big, we can treat pitch and intervals with same functions
