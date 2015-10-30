@@ -45,6 +45,5 @@
     "vows": "^0.8.1"
   },
   "pre-commit": [
-    "test"
   ]
 }

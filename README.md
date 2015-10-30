@@ -4,6 +4,13 @@
 [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
+
+## Deprecated. See [music.kit](https://github.com/danigb/music.kit)
+
+All the code of this library (and more) has been refactored into [music.kit](https://github.com/danigb/music.kit)
+
+## Old Documentation
+
 Tonal is a library to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and can be used to develop midi or audio software:
 
 ```js
