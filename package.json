@@ -6,8 +6,8 @@
   "scripts": {
     "build": "npm run disc && npm run dist",
     "test": "vows --spec test/*.js",
-    "docs": "",
-    "dist": "browserify index.js | uglifyjs > dist/tonal.key.min.js&& ls -hall dist/",
+    "docs": "documentation -f html -o docs support/docgen.js && documentation -f md support/docgen.js > API.md",
+    "dist": "browserify index.js | uglifyjs > dist/tonal.min.js&& ls -hall dist/",
     "disc": "browserify --full-paths index.js | uglifyjs | discify > dist/disc.html",
     "lint": "jshint .",
     "update": "rm -rf node_modules/tonal.* && npm i && npm dedupe"

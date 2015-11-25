@@ -1,5 +1,24 @@
 ## `chord`
 
+In music.kit an chord is a list of notes or intervals ordered
+by pitch
+
+The `chord` module has functions to create and manipulate chord
+
+
+
+### Examples
+
+```js
+var kit = require('music.kit')
+kit.chord('1 3 5 6', 'G') // => ['G', 'B', 'D', 'E']
+kit.chord.get('Cmaj7') // => ['C', 'E', 'G', 'B']
+```
+
+
+
+## `chord`
+
 Get a chord by name using a dictionary.
 
 There is two ways to get a chord:
@@ -30,25 +49,6 @@ major('C') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 ```
 
 Returns `Object` a data object with the chord properties
-
-
-## `chord`
-
-In music.kit an chord is a list of notes or intervals ordered
-by pitch
-
-The `chord` module has functions to create and manipulate chord
-
-
-
-### Examples
-
-```js
-var kit = require('music.kit')
-kit.chord('1 3 5 6', 'G') // => ['G', 'B', 'D', 'E']
-kit.chord.get('Cmaj7') // => ['C', 'E', 'G', 'B']
-```
-
 
 
 ## `chord.build`
@@ -535,28 +535,6 @@ key.scale('C major') // => ['C', 'D', 'E', ...]
 
 ## `key.signature`
 
-Get signature of a key
-
-### Parameters
-
-* `name` **`String`** the key name
-
-
-### Examples
-
-```js
-key.signature('F major') // => 'b'
-key.signature('Eb major') // => 'bbb'
-key.signature('A major') // => '###'
-key.signature('C major') // => ''
-key.signature('nonsense') // => null
-```
-
-Returns `String` a string with the alterations
-
-
-## `key.signature`
-
 Get the number of alterations of a key
 
 ### Parameters
@@ -575,6 +553,28 @@ key.signature('nonsense') // => null
 ```
 
 Returns `Integer` the number of alterations or null if not valid key
+
+
+## `key.signature`
+
+Get signature of a key
+
+### Parameters
+
+* `name` **`String`** the key name
+
+
+### Examples
+
+```js
+key.signature('F major') // => 'b'
+key.signature('Eb major') // => 'bbb'
+key.signature('A major') // => '###'
+key.signature('C major') // => ''
+key.signature('nonsense') // => null
+```
+
+Returns `String` a string with the alterations
 
 
 ## `notation.interval`
@@ -1055,7 +1055,7 @@ Returns  a copy of the same note with the octave changed
 
 Transpose a note by an interval.
 
-This is an alias of `tonal.transpose`
+This function is currified. The orider of the parameters is indiferent.
 
 ### Parameters
 
@@ -1066,7 +1066,7 @@ This is an alias of `tonal.transpose`
 ### Examples
 
 ```js
-var transpose = require('tonal.note/transpose')
+var transpose = require('music.kit/note.transpose')
 transpose('3m', 'C4') // => 'Eb4'
 transpose('C4', '3m') // => 'Eb4'
 tranpose([1, 0, 2], [3, -1, 0]) // => [3, 0, 2]
@@ -1080,7 +1080,7 @@ Returns  the note transposed
 
 Transpose a note by an interval.
 
-This function is currified. The orider of the parameters is indiferent.
+This is an alias of `tonal.transpose`
 
 ### Parameters
 
@@ -1091,7 +1091,7 @@ This function is currified. The orider of the parameters is indiferent.
 ### Examples
 
 ```js
-var transpose = require('music.kit/note.transpose')
+var transpose = require('tonal.note/transpose')
 transpose('3m', 'C4') // => 'Eb4'
 transpose('C4', '3m') // => 'Eb4'
 tranpose([1, 0, 2], [3, -1, 0]) // => [3, 0, 2]
