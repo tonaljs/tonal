@@ -1,15 +1,16 @@
 {
-  "name": "tonal-tools",
-  "version": "0.1.0",
-  "private": "true",
-  "description": "Music theory for javascript",
+  "name": "tonal",
+  "version": "0.30.0",
+  "description": "Music tonal kit",
+  "main": "index.js",
   "scripts": {
-    "test": "vows --spec test/*.js test/**/*.js",
-    "docs": "node ./utils/generateDocs.js",
-    "build": "node ./utils/generateFacades.js",
-    "dist": "browserify ./lib/index.js > dist/tonal.js && browserify ./lib/index.js | uglifyjs -c > dist/tonal.min.js",
+    "build": "npm run disc && npm run dist",
+    "test": "vows --spec test/*.js",
+    "docs": "",
+    "dist": "browserify index.js | uglifyjs > dist/tonal.key.min.js&& ls -hall dist/",
+    "disc": "browserify --full-paths index.js | uglifyjs | discify > dist/disc.html",
     "lint": "jshint .",
-    "validate": "npm ls"
+    "update": "rm -rf node_modules/tonal.* && npm i && npm dedupe"
   },
   "repository": {
     "type": "git",
@@ -17,7 +18,7 @@
   },
   "keywords": [
     "music",
-    "music theory",
+    "theory",
     "note",
     "notes",
     "transpose",
@@ -26,7 +27,9 @@
     "chords",
     "chord",
     "scale",
-    "scales"
+    "scales",
+    "key",
+    "tonal"
   ],
   "author": "danigb",
   "license": "MIT",
@@ -35,15 +38,19 @@
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "devDependencies": {
-    "benchmark": "^1.0.0",
-    "docme": "^0.3.0",
-    "dox": "^0.8.0",
-    "lodash": "^3.10.1",
-    "precommit-hook": "^3.0.0",
-    "teoria": "^2.0.1",
-    "uglifyify": "^3.0.1",
-    "vows": "^0.8.1"
+    "vows": "^0.8.x"
   },
-  "pre-commit": [
-  ]
+  "dependencies": {
+    "tonal.chord": "0.0.x",
+    "tonal.dictionary": "0.0.x",
+    "tonal.distance": "0.0.x",
+    "tonal.gamut": "0.0.x",
+    "tonal.key": "0.0.x",
+    "tonal.notation": "0.0.x",
+    "tonal.note": "0.0.1",
+    "tonal.pitch": "0.0.x",
+    "tonal.scale": "0.0.2",
+    "tonal.set": "0.0.x",
+    "tonal.transpose": "0.0.x"
+  }
 }

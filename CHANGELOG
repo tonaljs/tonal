@@ -1,15 +1,18 @@
 CHANGELOG
 
-[0.20.0-pre]
-- SPLIT CODE INTO NPM MODULES
+#################### VERSION 3 ##################
 
+[0.30.0]
+- First multimodule version
 
-DIST
-[0.11.0] 105191 / 62366
+#################### VERSION 2 ##################
+
+Rewrite from scratch as music.kit
 
 
 #################### VERSION 1 ##################
-[0.11.0-pre]
+
+[0.11.0] 105191 / 62366
 - Remove pitch/props
 - New pitch fifths vector representation to faster calculus
 - New pitch ternary array representation to represent both pitch and interval:
