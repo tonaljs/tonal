@@ -7,7 +7,7 @@
 [![license](https://img.shields.io/npm/l/tonal.svg)](https://www.npmjs.com/package/tonal)
 [![tonal](https://img.shields.io/badge/tonal-lib-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-Tonal is a collection of libraries to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and while is designed for algorithmic composition and music generation, can be used to develop any kind of midi or audio software:
+`tonal` is a collection of libraries to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and while is designed for algorithmic composition and music generation, can be used to develop any kind of midi or audio software:
 
 ```js
 var tonal = require('tonal/pitch')
@@ -23,11 +23,15 @@ tonal.tranpose('D4', '2M') // => 'E#4'
 tonal.distance('C', 'G') // => '5P'
 ['c', 'd', 'e'].map(tonal.transpose('3M')) // => ['E4', 'F#4', 'G#4']
 
+// scales and chords
+tonal.scale('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
+tonal.chord('Cmaj7') // => ['C', 'E', 'G', 'B']
+
 // harmonizers
-var major = tonal.harmonizer(['1P', '3M', '5M'])
+var major = tonal.harmonizer('1 3 5')
 major('C6') // => ['C6', 'E6', 'G6']
 major('E5', true) /// => ['E', 'G#', 'B'] (only pitch classes)
-var V7 = tonal.harmonizer(['1P', '3M', '5M', '7m'])
+var V7 = tonal.harmonizer('1 3 5 7m')
 var V7ofV = function(pitch) { V7(tonal(pitch, '5P')) }
 var V7ofV('D') // => ['A4', 'C#5', 'E5', 'G7']
 ```
@@ -45,7 +49,7 @@ var V7ofV('D') // => ['A4', 'C#5', 'E5', 'G7']
 
 - Functional: no classes, no side effects, no mutations. Just functions, data-in data-out. Most of the functions has the data to operate on as last argument and lot of functions are currified.
 - Heavy use of string representations: 'C#2' is a pitch, '3M' is an interval. No objects.
-- Small and fast
+- [Small](https://rawgit.com/danigb/tonal/master/dist/disc.html) and fast
 - Modular: each functionallity has its own module (all integrated in tonal). You can require exactly the functions you need.
 - Different notations: scientific notation by default. Use other easily.
 - Documented: all public functions are documented inside the code. Aside the generated documentation (in API.md file) a 'how to' guides are provided for each module.
@@ -55,10 +59,20 @@ var V7ofV('D') // => ['A4', 'C#5', 'E5', 'G7']
 
 ## What
 
-The library is divided in a number of modules:
+The library is a collection of the following modules:
 
+- [tonal.notation](https://github.com/danigb/tonal.notation)
+- [tonal.pitch](https://github.com/danigb/tonal.pitch)
+- [tonal.note](https://github.com/danigb/tonal.note)
+- [tonal.transpose](https://github.com/danigb/tonal.transpose)
+- [tonal.distance](https://github.com/danigb/tonal.distance)
+- [tonal.gamut](https://github.com/danigb/tonal.gamut)
+- [tonal.set](https://github.com/danigb/tonal.set)
+- [tonal.scale](https://github.com/danigb/tonal.scale)
+- [tonal.chord](https://github.com/danigb/tonal.chord)
+- [tonal.key](https://github.com/danigb/tonal.key)
 
-## Usage
+## Install
 
 Install via npm: `npm i --save tonal`
 
@@ -113,10 +127,11 @@ http://music.stackexchange.com/questions/17780/naming-pitch-and-interval-collect
 Interval analysis stuff are based on the book [Harmonic Materials of Modern Music](https://archive.org/details/harmonicmaterial00hans) of Howard Hanson.
 
 Other things this library can be related to:
-A Corpus Study of Rock Music:  http://theory.esm.rochester.edu/rock_corpus/index.html
-Musical futures: https://www.musicalfutures.org/
-Music JSON proposal: https://github.com/soundio/music-json
-Staff notation: http://opusmodus.com/omn.html
+
+- A Corpus Study of Rock Music:  http://theory.esm.rochester.edu/rock_corpus/index.html
+- Musical futures: https://www.musicalfutures.org/
+- Music JSON proposal: https://github.com/soundio/music-json
+- Staff notation: http://opusmodus.com/omn.html
 
 ## License
 
