@@ -1,13 +1,13 @@
 {
   "name": "note-transpose",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Music note and interval transposition",
   "main": "index.js",
   "scripts": {
     "build": "npm run test && npm run coverage && npm run docs && npm run disc && npm run dist",
     "test": "mocha",
     "docs": "documentation -f md > API.md",
-    "dist": "browserify index.js | uglifyjs > dist/transpose.min.js&& ls -hall dist/",
+    "dist": "browserify index.js | uglifyjs > dist/note-transpose.min.js&& ls -hall dist/",
     "disc": "browserify --full-paths index.js | uglifyjs | discify > dist/disc.html",
     "coverage": "istanbul cover _mocha",
     "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
@@ -33,6 +33,7 @@
   "homepage": "https://github.com/danigb/note-transpose#readme",
   "devDependencies": {},
   "dependencies": {
-    "array-notation": "^1.0.0"
+    "array-notation": "^1.0.0",
+    "tonal-operation": "^1.0.0"
   }
 }

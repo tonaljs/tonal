@@ -13,7 +13,7 @@ This function is currified. The orider of the parameters is indiferent.
 ### Examples
 
 ```js
-var transpose = require('music.kit/note.transpose')
+var transpose = require('note-transpose')
 transpose('3m', 'C4') // => 'Eb4'
 transpose('C4', '3m') // => 'Eb4'
 tranpose([1, 0, 2], [3, -1, 0]) // => [3, 0, 2]
