@@ -1,0 +1,22 @@
+{
+  "name": "note-regex",
+  "version": "1.0.0",
+  "description": "Music note regex matcher",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": "https://github.com/danigb/tonal/tree/next/packages/note-regex",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "note",
+    "array",
+    "notation",
+    "notation",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT"
+}
