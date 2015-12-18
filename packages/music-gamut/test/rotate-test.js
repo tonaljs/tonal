@@ -1,6 +1,6 @@
 /* global describe it */
 var assert = require('assert')
-var rotate = require('../rotate')
+var rotate = require('..').rotate
 
 describe('music-gamut/rotate', function () {
   it('simple rotation', function () {

@@ -1,6 +1,6 @@
 /* global describe it */
 var assert = require('assert')
-var harmonics = require('../harmonics')
+var harmonics = require('..').harmonics
 
 describe('gamut/harmonics', function () {
   it('simple', function () {

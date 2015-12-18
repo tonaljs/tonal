@@ -1,6 +1,6 @@
 /* global describe it */
 var assert = require('assert')
-var split = require('../split')
+var split = require('..').split
 
 describe('music-gamut/split', function () {
   it('gamut split', function () {
