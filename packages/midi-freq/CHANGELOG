@@ -1,0 +1,7 @@
+CHANGELOG
+
+[1.0.1]
+- Test if midi is between 1 and 127
+
+[1.0.0]
+- First version
