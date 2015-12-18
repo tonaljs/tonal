@@ -38,6 +38,7 @@
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "devDependencies": {
+    "lerna": "^1.0.4",
     "vows": "^0.8.x"
   },
   "dependencies": {

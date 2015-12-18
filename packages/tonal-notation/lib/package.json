@@ -1,0 +1,28 @@
+{
+  "name": "tonal-notation",
+  "version": "0.0.14",
+  "description": "The javascript music notation",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danigb/tonal-notation.git"
+  },
+  "keywords": [
+    "music",
+    "notation",
+    "note",
+    "interval",
+    "pitch",
+    "roman",
+    "parser",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal-notation/issues"
+  },
+  "homepage": "https://github.com/danigb/tonal-notation#readme"
+}

@@ -1,0 +1,11 @@
+CHANGELOG
+
+[0.0.14] Rename props.coord to props.array
+[0.0.13] Add operation (6.7K / 5K)
+[0.0.12] Add pitch
+[0.0.11] .coord is now .parse and / to set note durations
+[0.0.10] Rename functions (5.5K)
+[0.0.9] Add roman numeral parse (4.7K)
+[0.0.8] Add note parse
+[0.0.7] Renamed to tonal-notation
+[0.0.6] First version ported from music.kit (4.3K)
