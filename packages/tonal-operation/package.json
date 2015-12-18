@@ -1,0 +1,26 @@
+{
+  "name": "tonal-operation",
+  "version": "1.0.0",
+  "description": "Convert music elements to array notation",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "docs": "documentation -f md > API.md"
+  },
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal-operation",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "music",
+    "notation",
+    "array notation",
+    "note",
+    "interval",
+    "pitch",
+    "roman",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT"
+}
