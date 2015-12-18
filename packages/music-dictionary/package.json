@@ -1,0 +1,23 @@
+{
+  "name": "music-dictionary",
+  "version": "0.0.5",
+  "description": "Create musical dictionaries",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run docs && npm run disc && npm run coverage && npm run dist",
+    "test": "mocha",
+    "docs": "documentation -f md > API.md"
+  },
+  "keywords": [
+    "music",
+    "dictionary",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "array-notation": "^1.0.0",
+    "note-transpose": "^1.0.0"
+  }
+}
