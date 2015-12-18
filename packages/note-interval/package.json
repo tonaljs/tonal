@@ -11,7 +11,11 @@
     "disc": "browserify --full-paths index.js | uglifyjs | discify > dist/disc.html",
     "coverage": "istanbul cover _mocha"
   },
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/note-interval#readme",
   "repository": "https://github.com/danigb/tonal/tree/master/packages/note-interval",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
   "keywords": [
     "music",
     "theory",
@@ -22,7 +26,6 @@
   ],
   "author": "danigb",
   "license": "MIT",
-  "homepage": "https://github.com/danigb/tonal/tree/master/packages/note-interval#readme",
   "devDependencies": {},
   "dependencies": {
     "array-notation": "^1.0.0",

@@ -24,7 +24,7 @@ In [tonal](https://www.npmjs.com/package/tonal) a gamut is a collection of pitch
 
 #### Create gamuts
 
-A gamut is a collection of notes or intervals:
+You can create a gamut from a string with notes or intervals separated by spaces, bars or commas:
 
 ```js
 var gamut = require('music-gamut')
@@ -34,14 +34,14 @@ gamut('c d | e f') // => ['C', 'D', 'E' 'F']
 
 #### Harmonizers and harmonics
 
-A gamut harmonizer is a function that given a note returns a gamut:
+A gamut harmonizer is a function that given a note returns a gamut. You can create an harmonizer from a list of intervals:
 
 ```js
 var octaves = gamut.harmonizer('1 -8 -15')
 octaves('C2') // => ['C2', 'C1', 'C0']
 ```
 
-`harmonics` function extracts the relative distances from the first note of the gamut to the rest:
+The `gamut.harmonics` function gets the relative distances from the first note the rest:
 
 ```js
 gamut.harmonics('C E G') // => ['1P', '3M', '5P']

@@ -2,5 +2,3 @@ languages:
    JavaScript: true
 exclude_paths:
 - "test/**/*"
-- "deprecated/**/*"
-- "incubation/**/*"

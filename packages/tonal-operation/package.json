@@ -1,7 +1,7 @@
 {
   "name": "tonal-operation",
   "version": "1.0.0",
-  "description": "Convert music elements to array notation",
+  "description": "Pitch operations using array notation",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
@@ -15,10 +15,6 @@
     "music",
     "notation",
     "array notation",
-    "note",
-    "interval",
-    "pitch",
-    "roman",
     "tonal"
   ],
   "author": "danigb",

@@ -1,11 +1,16 @@
 {
   "scripts": {
     "build": "npm run disc && npm run dist",
+    "test": "_mocha `scripts/get-test-directories.sh`",
     "docs": "documentation -f html -o docs support/docgen.js && documentation -f md support/docgen.js > API.md",
     "dist": "browserify index.js | uglifyjs > dist/tonal.min.js&& ls -hall dist/",
     "disc": "browserify --full-paths index.js | uglifyjs | discify > dist/disc.html",
     "lint": "jshint .",
-    "update": "rm -rf node_modules/tonal.* && npm i && npm dedupe"
+    "update": "rm -rf node_modules/tonal.* && npm i && npm dedupe",
+    "coverage": "istanbul cover _mocha `scripts/get-test-directories.sh`",
+    "cover": "npm run coverage && open ./coverage/lcov-report/index.html",
+    "climate": "npm run coverage && npm run codeclimate",
+    "codeclimate": "CODECLIMATE_REPO_TOKEN= codeclimate-test-reporter < coverage/lcov.info"
   },
   "repository": {
     "type": "git",
