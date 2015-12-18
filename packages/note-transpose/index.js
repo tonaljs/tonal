@@ -1,6 +1,6 @@
-var parse = require('tonal.notation/pitch.parse')
-var str = require('tonal.notation/pitch.str')
-var operation = require('tonal.notation/operation')
+var parse = require('array-notation/pitch/parse')
+var str = require('array-notation/pitch/str')
+var operation = require('array-notation/operation')
 
 /**
  * Transpose a note by an interval.
@@ -15,7 +15,7 @@ var operation = require('tonal.notation/operation')
  * @return {String|Array} the note transposed
  *
  * @example
- * var transpose = require('music.kit/note.transpose')
+ * var transpose = require('note-transpose')
  * transpose('3m', 'C4') // => 'Eb4'
  * transpose('C4', '3m') // => 'Eb4'
  * tranpose([1, 0, 2], [3, -1, 0]) // => [3, 0, 2]

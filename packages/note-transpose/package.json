@@ -31,9 +31,8 @@
     "url": "https://github.com/danigb/note-transpose/issues"
   },
   "homepage": "https://github.com/danigb/note-transpose#readme",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
-    "tonal.notation": "0.0.x"
+    "array-notation": "^1.0.0"
   }
 }

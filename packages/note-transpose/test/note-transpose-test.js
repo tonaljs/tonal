@@ -2,7 +2,7 @@
 var assert = require('assert')
 var transpose = require('..')
 
-describe('note.transpose', function () {
+describe('note-transpose', function () {
   describe('simple transposition', function () {
     it('transpose pitches', function () {
       assert.equal(transpose('C4', '8P'), 'C5')

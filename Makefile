@@ -1,6 +1,6 @@
 test-ci:
 	make bootstrap
-	npm test
+	./scripts/test.sh
 
 bootstrap:
 	npm install

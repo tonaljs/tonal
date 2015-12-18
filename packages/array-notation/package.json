@@ -7,7 +7,7 @@
     "test": "mocha",
     "docs": "documentation -f md > API.md"
   },
-  "repository": "https://github.com/danigb/tonal/tree/next/packages/array-notation",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/array-notation",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
