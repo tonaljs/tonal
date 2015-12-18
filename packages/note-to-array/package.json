@@ -1,0 +1,25 @@
+{
+  "name": "note-to-array",
+  "version": "1.0.0",
+  "description": "Convert note names to array notation",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": "https://github.com/danigb/tonal/tree/next/packages/note-to-array",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "note",
+    "array",
+    "notation",
+    "notation",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "dependencies": {
+    "note-regex": "file:../note-regex"
+  }
+}
