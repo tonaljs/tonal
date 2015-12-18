@@ -1,0 +1,39 @@
+{
+  "name": "note-transpose",
+  "version": "0.0.2",
+  "description": "Music note and interval transposition",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run test && npm run coverage && npm run docs && npm run disc && npm run dist",
+    "test": "mocha",
+    "docs": "documentation -f md > API.md",
+    "dist": "browserify index.js | uglifyjs > dist/transpose.min.js&& ls -hall dist/",
+    "disc": "browserify --full-paths index.js | uglifyjs | discify > dist/disc.html",
+    "coverage": "istanbul cover _mocha",
+    "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danigb/note-transpose.git"
+  },
+  "keywords": [
+    "music",
+    "theory",
+    "note",
+    "transposition",
+    "transpose",
+    "interval",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danigb/note-transpose/issues"
+  },
+  "homepage": "https://github.com/danigb/note-transpose#readme",
+  "devDependencies": {
+  },
+  "dependencies": {
+    "tonal.notation": "0.0.x"
+  }
+}
