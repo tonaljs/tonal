@@ -1,4 +1,5 @@
 node_modules/
 docs
-npm-debug.log
+npm-debug.log*
 coverage/
+npm-debug.log

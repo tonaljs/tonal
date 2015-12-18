@@ -5,6 +5,8 @@
  *
  * @name freq
  * @function
+ * @module midi-to-freq
+ * @tonal note.freq
  * @param {Float} tuning - the frequency of A4 (null means 440)
  * @param {Integer} midi - the midi number
  * @return {Float} the frequency of the note

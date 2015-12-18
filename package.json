@@ -1,7 +1,6 @@
 {
   "scripts": {
     "build": "npm run disc && npm run dist",
-    "test": "vows --spec test/*.js",
     "docs": "documentation -f html -o docs support/docgen.js && documentation -f md support/docgen.js > API.md",
     "dist": "browserify index.js | uglifyjs > dist/tonal.min.js&& ls -hall dist/",
     "disc": "browserify --full-paths index.js | uglifyjs | discify > dist/disc.html",
@@ -20,7 +19,7 @@
   "homepage": "https://github.com/danigb/tonal#readme",
   "devDependencies": {
     "lerna": "^1.0.4",
+    "mocha": "^2.3.4"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

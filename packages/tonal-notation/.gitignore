@@ -1,8 +1,0 @@
-node_modules/
-build/
-npm-debug.log
-coverage/
-tmp/
-docs/
-.DS_Store
-dist
