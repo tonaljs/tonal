@@ -1,7 +1,11 @@
 {
+  "name": "tonal",
+  "version": "0.30.0",
+  "description": "Functional modular music theory library",
+  "main": "index.js",
   "scripts": {
     "build": "npm run disc && npm run dist",
-    "test": "vows --spec test/*.js",
+    "test": "mocha",
     "docs": "documentation -f html -o docs support/docgen.js && documentation -f md support/docgen.js > API.md",
     "dist": "browserify index.js | uglifyjs > dist/tonal.min.js&& ls -hall dist/",
     "disc": "browserify --full-paths index.js | uglifyjs | discify > dist/disc.html",
@@ -12,6 +16,21 @@
     "type": "git",
     "url": "git+https://github.com/danigb/tonal.git"
   },
+  "keywords": [
+    "music",
+    "theory",
+    "note",
+    "notes",
+    "transpose",
+    "midi",
+    "interval",
+    "chords",
+    "chord",
+    "scale",
+    "scales",
+    "key",
+    "tonal"
+  ],
   "author": "danigb",
   "license": "MIT",
   "bugs": {
@@ -19,8 +38,18 @@
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "devDependencies": {
-    "lerna": "^1.0.4",
   },
   "dependencies": {
+    "tonal.chord": "0.0.x",
+    "tonal.dictionary": "0.0.x",
+    "tonal.distance": "0.0.x",
+    "tonal.gamut": "0.0.x",
+    "tonal.key": "0.0.x",
+    "tonal.notation": "0.0.x",
+    "tonal.note": "0.0.1",
+    "tonal.pitch": "0.0.x",
+    "tonal.scale": "0.0.2",
+    "tonal.set": "0.0.x",
+    "tonal.transpose": "0.0.x"
   }
 }
