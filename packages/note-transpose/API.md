@@ -2,7 +2,7 @@
 
 Transpose a note by an interval.
 
-This function is currified. The orider of the parameters is indiferent.
+This function is currified. The order of the parameters is indifferent.
 
 ### Parameters
 
@@ -21,5 +21,3 @@ tranpose([1, 0, 2], [3, -1, 0]) // => [3, 0, 2]
 ```
 
 Returns  the note transposed
-
-

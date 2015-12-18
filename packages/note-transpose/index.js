@@ -5,7 +5,7 @@ var operation = require('tonal-operation')
 /**
  * Transpose a note by an interval.
  *
- * This function is currified. The orider of the parameters is indiferent.
+ * This function is currified. The order of the parameters is indifferent.
  *
  * @name note.transpose
  * @function

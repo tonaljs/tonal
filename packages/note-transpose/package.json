@@ -1,10 +1,10 @@
 {
   "name": "note-transpose",
-  "version": "0.0.3",
-  "description": "Music note and interval transposition",
+  "version": "1.0.0",
+  "description": "Music transposition made easy",
   "main": "index.js",
   "scripts": {
-    "build": "npm run test && npm run coverage && npm run docs && npm run disc && npm run dist",
+    "build": "npm run test && npm run coverage && npm run docs && npm run dist",
     "test": "mocha",
     "docs": "documentation -f md > API.md",
     "dist": "browserify index.js | uglifyjs > dist/note-transpose.min.js&& ls -hall dist/",
