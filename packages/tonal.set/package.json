@@ -1,0 +1,23 @@
+{
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "cp README.md lib/ && npm test && npm run docs && npm run coverage",
+    "test": "mocha",
+    "docs": "documentation -f md > API.md",
+    "dist": "browserify lib/index.js | uglifyjs > dist/tonal.set.min.js&& ls -hall dist/",
+    "disc": "browserify --full-paths lib/index.js | uglifyjs | discify > dist/disc.html",
+    "coverage": "istanbul cover _mocha",
+    "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danigb/tonal.set.git"
+  },
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "music-gamut": "file:../music-gamut/lib",
+    "note-transpose": "^1.0.0"
+  }
+}
