@@ -1,9 +1,7 @@
 'use strict'
 
 var transpose = require('note-transpose')
-var operation = require('./operation')
-var harmonics = require('./harmonics')
-var split = require('./split')
+var G = require('.')
 var set = require('./set')
 
 /**
@@ -41,16 +39,16 @@ var set = require('./set')
  */
 module.exports = function b (notes, tonic) {
   if (arguments.length === 1) return function (t) { return b(notes, t) }
-  notes = split(notes)
+  notes = G.split(notes)
   var len = notes.length
   if (len === 0) return []
-  var intervals = operation(function (gamut) {
+  var intervals = G.operation(function (gamut) {
     tonic = !tonic && tonic !== false ? gamut[0] : tonic
     var s = set(gamut)
     var i = indexOf(gamut[0][0], s, len)
     var ordered = s.slice(i, len).concat(s.slice(0, i))
-    return harmonics(ordered)
-  }, notes)
+    return G.harmonizer(ordered, false)
+  })(notes)
   tonic = !tonic && tonic !== false ? notes[0] : tonic
   return intervals.map(transpose(tonic))
 }

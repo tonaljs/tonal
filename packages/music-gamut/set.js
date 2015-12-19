@@ -1,6 +1,6 @@
 'use strict'
 
-var operation = require('./operation')
+var G = require('.')
 var sort = require('./sort')
 
 function simplify (p) {
@@ -21,7 +21,7 @@ function simplify (p) {
  * set('E7 C2 e D5 c1') // => ['C', 'D', 'E']
  * set('11 10 9') // => [ '2M', '3M', '4P' ]
  */
-module.exports = operation(function (notes) {
+module.exports = G.operation(function (notes) {
   var sorted = sort(notes.map(simplify))
   return sorted.reduce(function (uniq, value, index) {
     if (index === 0 || !equal(sorted[index - 1], value)) uniq.push(value)

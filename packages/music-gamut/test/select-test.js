@@ -1,6 +1,6 @@
 /* global describe it */
 var assert = require('assert')
-var select = require('..').select
+var select = require('../select')
 
 describe('music-gamut/select', function () {
   it('select', function () {

@@ -1,6 +1,6 @@
 /* global describe it */
 var assert = require('assert')
-var sort = require('..').sort
+var sort = require('../sort')
 
 describe('music-gamut/sort', function () {
   it('notes', function () {
