@@ -1,0 +1,35 @@
+{
+  "name": "tonal.scale",
+  "version": "0.0.2",
+  "description": "Music scales made easy",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danigb/tonal.scale.git"
+  },
+  "keywords": [
+    "music",
+    "theory",
+    "scale",
+    "scales",
+    "dictionary",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal.scale/issues"
+  },
+  "homepage": "https://github.com/danigb/tonal.scale#readme",
+  "devDependencies": {
+    "vows": "^0.8.x"
+  },
+  "dependencies": {
+    "tonal.chord": "0.0.x",
+    "tonal.dictionary": "0.0.x",
+    "tonal.gamut": "0.0.x",
+    "tonal.transpose": "0.0.x"
+  }
+}

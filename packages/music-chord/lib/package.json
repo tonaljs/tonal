@@ -1,0 +1,27 @@
+{
+  "name": "music-chord",
+  "version": "0.1.0",
+  "description": "Music chords made easy",
+  "main": "index.js",
+  "scripts": {
+  },
+  "homepage": "git+https://github.com/danigb/tree/master/packages/music-chord#readme",
+  "repository": "git+https://github.com/danigb/tree/master/packages/music-chord",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "music",
+    "theory",
+    "chord",
+    "chords",
+    "dictionary",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "dependencies": {
+    "music-dictionary": "file:../../music-dictionary",
+    "music-gamut": "file:../../music-gamut/lib"
+  }
+}

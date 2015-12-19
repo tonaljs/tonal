@@ -1,0 +1,26 @@
+{
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "cp README.md lib/ && npm run docs && npm run coverage && npm run disc && npm run dist",
+    "test": "mocha",
+    "docs": "documentation -f md > API.md",
+    "dist": "browserify lib/index.js | uglifyjs > dist/tonal.scale.min.js&& ls -hall dist/",
+    "disc": "browserify --full-paths lib/index.js | uglifyjs | discify > dist/disc.html",
+    "coverage": "istanbul cover _mocha",
+    "cover": "npm run coverage && open ./coverage/lcov-report/index.html",
+    "climate": "npm run coverage && npm run codeclimate",
+    "codeclimate": "CODECLIMATE_REPO_TOKEN= codeclimate-test-reporter < coverage/lcov.info"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "music-chord": "file:../music-chord/lib",
+    "music-dictionary": "file:../music-dictionary",
+    "music-gamut": "file:../music-gamut/lib",
+    "note-transpose": "file:../note-transpose",
+    "tonal-operation": "file:../tonal-operation",
+    "tonal.chord": "file:../music-chord/lib",
+    "tonal.dictionary": "0.0.x",
+    "tonal.gamut": "0.0.x",
+    "tonal.transpose": "0.0.x"
+  }
+}

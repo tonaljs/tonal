@@ -1,0 +1,21 @@
+{
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "cp README.md lib/ && npm run docs && npm run coverage && npm run dist && npm run disc",
+    "test": "mocha",
+    "docs": "documentation -f md > API.md",
+    "dist": "browserify lib/index.js | uglifyjs > dist/tonal.chord.min.js&& ls -hall dist/",
+    "disc": "browserify --full-paths lib/index.js | uglifyjs | discify > dist/disc.html",
+    "coverage": "istanbul cover vows test/*.js",
+    "cover": "npm run coverage && open ./coverage/lcov-report/index.html",
+    "climate": "npm run coverage && npm run codeclimate",
+    "codeclimate": "CODECLIMATE_REPO_TOKEN= codeclimate-test-reporter < coverage/lcov.info"
+  },
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "music-dictionary": "file:../music-dictionary",
+    "music-gamut": "file:../music-gamut/lib"
+  }
+}
