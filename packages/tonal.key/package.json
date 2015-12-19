@@ -1,0 +1,23 @@
+{
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "cp README.md lib/ && npm run docs && npm run coverage && npm run disc && npm run dist",
+    "test": "mocha",
+    "docs": "documentation -f md > API.md",
+    "dist": "browserify lib/index.js | uglifyjs > dist/tonal.key.min.js&& ls -hall dist/",
+    "disc": "browserify --full-paths lib/index.js | uglifyjs | discify > dist/disc.html",
+    "coverage": "istanbul cover _mocha",
+    "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
+  },
+  "author": "danigb",
+  "dependencies": {
+    "array-notation": "^1.0.0",
+    "music-chord": "file:../music-chord/lib",
+    "music-gamut": "file:../music-gamut/lib",
+    "music-scale": "file:../music-scale/lib",
+    "note-interval": "file:../note-interval",
+    "note-transpose": "^1.0.0",
+    "tonal.scale": "file:../music-scale/lib",
+    "tonal.set": "file:../tonal.set/lib"
+  }
+}

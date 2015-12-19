@@ -1,0 +1,36 @@
+{
+  "name": "tonal.key",
+  "version": "0.0.1",
+  "description": "Music keys made easy",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danigb/tonal.key.git"
+  },
+  "keywords": [
+    "music",
+    "theory",
+    "key",
+    "alterations",
+    "tonality",
+    "scales",
+    "chords",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal.key/issues"
+  },
+  "homepage": "https://github.com/danigb/tonal.key#readme",
+  "dependencies": {
+    "tonal.distance": "0.0.x",
+    "tonal.gamut": "0.0.x",
+    "tonal.notation": "0.0.x",
+    "tonal.scale": "0.0.x",
+    "tonal.set": "0.0.x",
+    "note-transpose": "0.0.x"
+  }
+}
