@@ -1,4 +1,6 @@
 {
+  "name": "tonal.key",
+  "private": true,
   "main": "lib/index.js",
   "scripts": {
     "build": "cp README.md lib/ && npm run docs && npm run coverage && npm run disc && npm run dist",

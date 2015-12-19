@@ -1,4 +1,6 @@
 {
+  "name": "tonal.set",
+  "private": true,
   "main": "lib/index.js",
   "scripts": {
     "build": "cp README.md lib/ && npm test && npm run docs && npm run coverage",

@@ -1,4 +1,6 @@
 {
+  "name": "music-gamut",
+  "private": true,
   "main": "lib/index.js",
   "scripts": {
     "build": "cp README.md lib/ && npm test && npm run coverage && npm run docs && npm run dist",
