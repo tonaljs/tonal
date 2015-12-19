@@ -1,5 +1,5 @@
 {
-  "name": "tonal.scale",
+  "name": "music-scale",
   "version": "0.0.2",
   "description": "Music scales made easy",
   "main": "index.js",

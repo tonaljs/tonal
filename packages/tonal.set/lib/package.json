@@ -1,0 +1,29 @@
+{
+  "name": "tonal.set",
+  "version": "0.0.2",
+  "description": "Musical pitch sets",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danigb/tonal.set.git"
+  },
+  "keywords": [
+    "music",
+    "theory",
+    "pitch",
+    "set",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal.set/issues"
+  },
+  "homepage": "https://github.com/danigb/tonal.set#readme",
+  "dependencies": {
+    "music-gamut": "file:../../music-gamut/lib",
+    "note-transpose": "^1.0.0"
+  }
+}
