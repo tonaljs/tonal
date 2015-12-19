@@ -1,13 +1,14 @@
-# tonal
+# tonal [![npm](https://img.shields.io/npm/v/tonal.svg)](https://www.npmjs.com/package/tonal)
 
 [![Build Status](https://travis-ci.org/danigb/tonal.svg?branch=master)](https://travis-ci.org/danigb/tonal)
 [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
-[![npm version](https://img.shields.io/npm/v/tonal.svg)](https://www.npmjs.com/package/tonal)
 [![license](https://img.shields.io/npm/l/tonal.svg)](https://www.npmjs.com/package/tonal)
 [![tonal](https://img.shields.io/badge/tonal-lib-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-`tonal` is a collection of libraries to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and while is designed for algorithmic composition and music generation, can be used to develop any kind of midi or audio software.
+`tonal` is a modular, functional music theory library. It's a collection of libraries to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and while is designed for algorithmic composition and music generation, can be used to develop any kind of midi or audio software.
+
+__This is alpha software__, if you need a stable music theory library in javascript you can use the excellent [teoria](https://github.com/saebekassebil/teoria)
 
 ## Features
 
@@ -22,10 +23,10 @@ Although `tonal` is a work in progress, currently is implemented (but not all re
 
 ## Philosophy
 
-I try to keep this ideas on mind while developing tonal:
+This library is evolving with this ideas in mind:
 
+- Notes and intervals are represented with strings, instead of objects. Easy and concise code.
 - Functional: no classes, no side effects, no mutations. Just functions, data-in data-out. Most of the functions has the data to operate on as last argument and lot of functions are currified.
-- Notes and intervals are represented with strings, instead of objects. Easy to write code with it.
 - [Small](https://rawgit.com/danigb/tonal/master/dist/disc.html) and fast
 - Modular: lot of modules (all integrated in tonal). You can require exactly the functions you need.
 - Different notations: scientific notation by default. Use other easily.
@@ -33,6 +34,17 @@ I try to keep this ideas on mind while developing tonal:
 - Learneable: since all the modules share the same philosophy is easy to work with them.
 - Tested: carefully tested with coverage support. Codeclimate statistics.
 - Advanced features: chord and scale detection, binary sets, chord progressions, key signatures...
+
+## Why
+
+First of all, because I want to learn:
+
+> Reinventing the wheel is bad for business, but it’s great for learning
+[*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
+
+The more I code music entities, the more I understand the relations between them.
+
+Also, I want a complete library, where I can model all what I learn, with some (for me) esoteric features like interval classes, binary scales and other weird stuff.
 
 ## What
 
