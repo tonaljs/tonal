@@ -17,6 +17,7 @@ var parse = require('array-notation/note/parse')
  * @return {Integer} the midi number
  *
  * @example
+ * var midi = require('note-midi')
  * midi('A4') // => 69
  * midi('a3') // => 57
  * midi([0, 2]) // => 36 (C2 in array notation)

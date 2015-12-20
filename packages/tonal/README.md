@@ -51,9 +51,7 @@ Also, I want a complete library, where I can model all what I learn, with some (
 `tonal` is a collection of modules. They all live in this
 multi package repository ([monorepo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md)). Take a look inside [`packages`](https://github.com/danigb/tonal/tree/master/packages):
 
-#### Released
-
-#### Notes
+#### Notes and intervals
 - [note-transpose](https://github.com/danigb/tonal/tree/master/packages/note-transpose):
 Transpose notes
 [![npm](https://img.shields.io/npm/v/note-transpose.svg)](https://www.npmjs.com/package/nnote-transpose)
@@ -61,8 +59,11 @@ Transpose notes
 Find the interval between two notes
 [![npm](https://img.shields.io/npm/v/note-interval.svg)](https://www.npmjs.com/package/note-interval)
 - [note-midi](https://github.com/danigb/tonal/tree/master/packages/note-midi):
-Get the midi number from a note name
+Note name to midi
 [![npm](https://img.shields.io/npm/v/note-midi.svg)](https://www.npmjs.com/package/note-midi)
+- [midi-note](https://github.com/danigb/tonal/tree/master/packages/midi-note):
+Midi to note name
+[![npm](https://img.shields.io/npm/v/midi-note.svg)](https://www.npmjs.com/package/midi-note)
 - [midi-freq](https://github.com/danigb/tonal/tree/master/packages/midi-freq):
 Given a midi note, get it's frequency
 [![npm](https://img.shields.io/npm/v/midi-freq.svg)](https://www.npmjs.com/package/midi-freq)

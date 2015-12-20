@@ -30,6 +30,7 @@
     "array-notation": "^1.2.0",
     "chord-dictionary": "^0.2.0",
     "midi-freq": "^1.0.0",
+    "midi-note": "^1.0.0",
     "music-dictionary": "^0.2.0",
     "music-gamut": "^0.7.2",
     "note-interval": "^1.0.0",

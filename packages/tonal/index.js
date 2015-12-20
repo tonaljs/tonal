@@ -12,6 +12,7 @@ T.note.interval = require('note-interval')
 
 T.midi = T.note.midi = require('note-midi')
 T.midi.freq = require('midi-freq')
+T.midi.note = T.note.fromMidi = require('midi-note')
 T.gamut = require('music-gamut')
 T.harmonizer = T.gamut.harmonizer
 

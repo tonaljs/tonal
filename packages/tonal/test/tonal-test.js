@@ -20,6 +20,9 @@ describe('tonal', function () {
   it('has midi', function () {
     assert(tonal.midi)
     assert(tonal.midi.freq)
+    assert(tonal.midi.note)
+    assert(tonal.note.midi)
+    assert(tonal.note.fromMidi)
   })
 
   it('has transpose and interval', function () {
