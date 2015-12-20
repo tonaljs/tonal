@@ -31,6 +31,11 @@ describe('array-notation/interval/parse', function () {
     assert.deepEqual(parse('-5A'), [-8, 4])
   })
 
+  it('parses strict shorthand notation', function () {
+    assert.deepEqual(parse('M-3'), parse('-3M'))
+    assert.deepEqual(parse('A5'), parse('5A'))
+  })
+
   it('invalid intervals', function () {
     assert.equal(parse('5M'), null)
     assert.equal(parse('3P'), null)

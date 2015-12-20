@@ -1,13 +1,13 @@
 {
   "name": "array-notation",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Convert music elements to array notation",
   "scripts": {
-    "build": "npm test && npm run coverage && npm run docs && npm run disc && npm run dist",
+    "build": "npm test && npm run coverage && npm run docs",
     "test": "mocha",
     "docs": "documentation -f md *.js > API.md",
-    "dist": "browserify index.js | uglifyjs > tmp/music-gamut.min.js&& ls -hall tmp/",
-    "disc": "browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
+    "dist": "browserify tmp/docs.js | uglifyjs > tmp/music-gamut.min.js&& ls -hall tmp/",
+    "disc": "browserify --full-paths tmp/docs.js | uglifyjs | discify > tmp/disc.html",
     "coverage": "istanbul cover _mocha"
   },
   "repository": "https://github.com/danigb/tonal/tree/master/packages/array-notation",
