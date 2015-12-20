@@ -75,6 +75,27 @@ gamut.select('1 3 5', 'C D E F G A B') // => ['C', 'E', 'G']
 Returns `Array` the selected elements
 
 
+## `gamut.set`
+
+Create a set: a set is a list of uniq pitch classes or simplified intervals
+in ascending pitch order
+
+### Parameters
+
+* `notes` **`String or Array`** the note list
+
+
+### Examples
+
+```js
+var set = require('tonal.gamut/set')
+set('E7 C2 e D5 c1') // => ['C', 'D', 'E']
+set('11 10 9') // => [ '2M', '3M', '4P' ]
+```
+
+Returns  the set
+
+
 ## `gamut.sort`
 
 Get a gamut in ascdening pitch order

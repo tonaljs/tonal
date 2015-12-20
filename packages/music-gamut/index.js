@@ -5,7 +5,20 @@ var str = require('array-notation/pitch/str')
 var distanceTo = require('note-interval')
 var transpose = require('note-transpose')
 var SEP = /\s*\|\s*|\s*,\s*|\s+/
+
 var toStr = function (s) { return Array.isArray(s) ? str(s) : s }
+function simplify (p) {
+  return p.length === 2 ? [p[0], -Math.floor(p[0] * 7 / 12)] : [p[0]]
+}
+function equal (a, b) {
+  return a[0] === b[0] && a[1] === b[1]
+}
+function height (p) {
+  if (!p) return -Infinity
+  var f = p[0] * 7
+  var o = p[1] || p[1] === 0 ? p[1] : -Math.floor(f / 12) - 10
+  return f + o * 12
+}
 
 /**
  * A gamut is a collection of intervals, pitch classes or notes.
@@ -88,13 +101,6 @@ gamut.harmonizer = function (source, tonic) {
   })(source)
 }
 
-function height (p) {
-  if (!p) return -Infinity
-  var f = p[0] * 7
-  var o = p[1] || p[1] === 0 ? p[1] : -Math.floor(f / 12) - 10
-  return f + o * 12
-}
-
 /**
  * Rotate the gamut
  *
@@ -153,6 +159,28 @@ gamut.select = function s (nums, src) {
     return g[n - 1]
   })
 }
+
+/**
+ * Create a set: a set is a list of uniq pitch classes or simplified intervals
+ * in ascending pitch order
+ *
+ * @name gamut.set
+ * @function
+ * @param {String|Array} notes - the note list
+ * @return {String|Array} the set
+ *
+ * @example
+ * var set = require('tonal.gamut/set')
+ * set('E7 C2 e D5 c1') // => ['C', 'D', 'E']
+ * set('11 10 9') // => [ '2M', '3M', '4P' ]
+ */
+gamut.set = gamut.operation(function (notes) {
+  var sorted = gamut.sort(notes.map(simplify))
+  return sorted.reduce(function (uniq, value, index) {
+    if (index === 0 || !equal(sorted[index - 1], value)) uniq.push(value)
+    return uniq
+  }, [])
+})
 
 if (typeof module === 'object' && module.exports) module.exports = gamut
 if (typeof window !== 'undefined') window.gamut = gamut
