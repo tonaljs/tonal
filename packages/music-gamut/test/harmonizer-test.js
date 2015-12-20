@@ -3,8 +3,8 @@ var assert = require('assert')
 var harmonizer = require('..').harmonizer
 
 describe('gamut.hamornizer', function () {
-  describe('get an harmonizer', function () {
-
+  it('get an harmonizer', function () {
+    assert.deepEqual(harmonizer('1 3 5')('A4'), ['A4', 'C#5', 'E5'])
   })
 
   describe('hamornizes', function () {

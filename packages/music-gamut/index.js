@@ -78,13 +78,14 @@ gamut.operation = function (fn) {
  * Create an harmonizer
  */
 gamut.harmonizer = function (source, tonic) {
-  return gamut(source, function (g) {
+  if (arguments.length === 1) return function (t) { return gamut.harmonizer(source, t) }
+  return gamut.operation(function (g) {
     var base = g[0]
     var intervals = g.map(distanceTo(base))
     if (tonic === false) return intervals
     tonic = parse(tonic)
     return intervals.map(transpose(tonic))
-  })
+  })(source)
 }
 
 function height (p) {
