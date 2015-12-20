@@ -1,6 +1,6 @@
 'use strict'
 
-var operation = require('./operation')
+var G = require('.')
 
 function height (p) {
   if (!Array.isArray(p)) return -Infinity
@@ -21,7 +21,7 @@ function height (p) {
  * var sort = require('music.kit/gamut.sort')
  * sort('c5 d2 f4 D2') // => ['D2', 'D2', 'F4', 'C5']
  */
-module.exports = operation(function (gamut) {
+module.exports = G.operation(function (gamut) {
   return gamut.sort(function (a, b) {
     return height(a) - height(b)
   })

@@ -1,12 +1,21 @@
 {
   "name": "music-dictionary",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Create musical dictionaries",
   "main": "index.js",
   "scripts": {
     "build": "npm run docs && npm run disc && npm run coverage && npm run dist",
     "test": "mocha",
-    "docs": "documentation -f md > API.md"
+    "docs": "documentation -f md > API.md",
+    "dist": "browserify index.js | uglifyjs > dist-no/music-dictionary.min.js&& ls -hall dist-no/",
+    "disc": "browserify --full-paths index.js | uglifyjs | discify > dist-no/disc.html",
+    "coverage": "istanbul cover _mocha",
+    "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
+  },
+  "readme": "https://github.com/danigb/tonal/tree/master/packages/music-dictionary#README",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/music-dictionary",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
   },
   "keywords": [
     "music",

@@ -1,6 +1,6 @@
 /* global describe it */
 var assert = require('assert')
-var set = require('..').set
+var set = require('../set')
 
 describe('music-gamut/set', function () {
   it('pitch set', function () {

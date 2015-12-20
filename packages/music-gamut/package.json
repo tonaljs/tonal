@@ -1,19 +1,33 @@
 {
   "name": "music-gamut",
-  "private": true,
-  "main": "lib/index.js",
+  "version": "0.6.0",
+  "description": "Manipulate collection of notes",
+  "main": "index.js",
   "scripts": {
-    "build": "cp README.md lib/ && npm test && npm run coverage && npm run docs && npm run dist",
+    "build": "npm test && npm run coverage && npm run docs && npm run dist",
     "test": "mocha",
     "docs": "documentation -f md > API.md",
-    "dist": "browserify lib/index.js | uglifyjs > dist/music-gamut.min.js&& ls -hall dist/",
+    "dist": "browserify index.js | uglifyjs > dist/music-gamut.min.js&& ls -hall dist/",
     "coverage": "istanbul cover _mocha"
   },
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/music-gamut#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/music-gamut",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "music",
+    "gamut",
+    "note",
+    "collection",
+    "interval",
+    "tonal"
+  ],
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
     "array-notation": "^1.0.0",
-    "note-interval": "file:../note-interval",
-    "note-transpose": "file:../note-transpose"
+    "note-interval": "^1.0.0",
+    "note-transpose": "^1.0.0"
   }
 }

@@ -1,6 +1,7 @@
 'use strict'
 
-var split = require('./split')
+var G = require('.')
+
 /**
  * Rotate the gamut
  *
@@ -15,7 +16,7 @@ var split = require('./split')
  * rotate(1, 'C D E') // => ['D', 'E', 'C']
  */
 module.exports = function (count, source) {
-  var g = split(source)
+  var g = G.split(source)
   var len = g.length
   var n = ((count % len) + len) % len
   return g.slice(n, len).concat(g.slice(0, n))

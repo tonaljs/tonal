@@ -1,6 +1,6 @@
 'use strict'
 
-var split = require('./split')
+var G = require('.')
 
 /**
  * Select some elements from a gamut
@@ -17,8 +17,8 @@ var split = require('./split')
  */
 module.exports = function s (nums, gamut) {
   if (arguments.length === 1) return function (g) { return s(nums, g) }
-  var g = split(gamut)
-  return split(nums).map(function (n) {
+  var g = G.split(gamut)
+  return G.split(nums).map(function (n) {
     return g[n - 1]
   })
 }

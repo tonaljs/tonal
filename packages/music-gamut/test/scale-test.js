@@ -1,6 +1,6 @@
 /* global describe it */
 var assert = require('assert')
-var scale = require('..').scale
+var scale = require('../scale')
 
 describe('music-gamut/scale', function () {
   it('null tonic', function () {
