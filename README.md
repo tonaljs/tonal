@@ -36,20 +36,23 @@ I try to keep this ideas on mind while developing tonal:
 
 ## What
 
-The library is a collection of the following modules:
+`tonal` is a collection of modules. They all live in this
+multi package repository ([moorepo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md)). Take a look inside [`packages`](https://github.com/danigb/tonal/tree/master/packages):
 
 #### Released
 
-- [array-notation](https://github.com/danigb/tonal/tree/master/packages/array-notation):
-Parse notes, intervals and other pitched elements
-- [note-midi](https://github.com/danigb/tonal/tree/master/packages/note-midi):
-Get the midi number from a note name
-- [midi-freq](https://github.com/danigb/tonal/tree/master/packages/midi-freq):
-Given a midi note, get it's frequency
 - [note-transpose](https://github.com/danigb/tonal/tree/master/packages/note-transpose):
 Transpose notes
 - [note-interval](https://github.com/danigb/tonal/tree/master/packages/note-interval):
 Find the interval between two notes
+- [music-gamut](https://github.com/danigb/tonal/tree/master/packages/music-gamut):
+Work with collection of notes
+- [note-midi](https://github.com/danigb/tonal/tree/master/packages/note-midi):
+Get the midi number from a note name
+- [midi-freq](https://github.com/danigb/tonal/tree/master/packages/midi-freq):
+Given a midi note, get it's frequency
+- [array-notation](https://github.com/danigb/tonal/tree/master/packages/array-notation):
+Parse notes, intervals and other pitched elements
 - [tonal-operation](https://github.com/danigb/tonal/tree/master/packages/tonal-operation):
 Operate pitches in array-notation
 
