@@ -2,14 +2,14 @@
 
 [![tonal](https://img.shields.io/badge/tonal-music--gamut-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-
 `music-gamut` is a library to work with collections of notes or intervals:
 
 ```js
 var gamut = require('music-gamut')
-gamut.set('c2 e6 g2 b') // => ['C', 'E', 'G', 'B']
-var maj7 = gamut.chord('1 3 5 7')
+gamut('c d e blah g7') // => ['C', 'D', 'E', null, 'G7']
+var maj7 = gamut.harmonizer('1 3 5 7')
 maj7('A2') // => ['A2', 'C#3', 'E3', 'G#3']
+gamut.sort('c2 e6 g2 b4') // => ['C2', 'G2', 'B4', 'E6']
 ```
 
 This is part of [tonal](https://www.npmjs.com/package/tonal)
@@ -47,7 +47,6 @@ The `gamut.harmonics` function gets the relative distances from the first note t
 gamut.harmonics('C E G') // => ['1P', '3M', '5P']
 ```
 
-
 #### Create pitch sets
 
 A pitch set is an ordered collection of unique pitch classes. You can create a pitch set from a collection of notes:
@@ -57,30 +56,6 @@ gamut.set('f# e4 C2 g5 d3') // => ['C', 'D', 'E', 'F#', 'G']
 ```
 
 The set is always ordered by pitch, where 'C' is the lowest and 'B' the highest.
-
-#### Create scales
-
-Scales are a sets with a tonic. The first note of the scale is the tonic. Scales can be created from a list of intervals and a tonic:
-
-```js
-gamut.scale('1 2 3m 4 5 6m 7', 'D') // => ['D', 'E', 'F', 'G', 'A', 'Bb', 'C#']
-```
-
-This function can be partially applied:
-
-```js
-var dorian = gamut.scale('1 2 3b 4 5 6 7b')
-dorian('eb') // => [ 'Eb', 'F', 'Gb', 'Ab', 'Bb', 'C', 'Db' ]
-```
-
-#### Create chords
-
-Chord are similar to scales, but can span more than an octave:
-
-```js
-var major = gamut.chord('1 3 5')
-major('A') // => ['A', 'C#', 'E']
-```
 
 #### Select elements from a gamut
 

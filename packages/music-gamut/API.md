@@ -35,6 +35,65 @@ The function to decorate receives an array of pitches in
 Returns `Function` the decorated function
 
 
+## `gamut.rotate`
+
+Rotate the gamut
+
+### Parameters
+
+* `count` **`Integer`** the number of rotations
+* `gamut` **`String or Array`** a list of notes or intervals
+
+
+### Examples
+
+```js
+var rotate = require('music.kit/gamut/rotate')
+rotate(1, 'C D E') // => ['D', 'E', 'C']
+```
+
+Returns `Array` the gamut rotated count times
+
+
+## `gamut.select`
+
+Select some elements from a gamut
+
+### Parameters
+
+* `numbers` **`String or Array`** a __1-based__ index of the elements
+* `gamut` **`String or Array`** the notes or intervals
+
+
+### Examples
+
+```js
+var gamut = require('tonal.gamut')
+gamut.select('1 3 5', 'C D E F G A B') // => ['C', 'E', 'G']
+```
+
+Returns `Array` the selected elements
+
+
+## `gamut.sort`
+
+Get a gamut in ascdening pitch order
+
+### Parameters
+
+* `gamut` **`String or Array`** the gamut to sort
+
+
+### Examples
+
+```js
+var gamut = require('music-gamut')
+gamut.sort('c5 d2 f4 D2') // => ['D2', 'D2', 'F4', 'C5']
+```
+
+Returns `Array` the gamut in sort pitch order
+
+
 ## `gamut.split`
 
 Convert a source to an array. If the source is an array, return it.
@@ -54,9 +113,9 @@ and __it always return an array, even if its empty__.
 ### Examples
 
 ```js
-split = require('music.kit/gamut.split')
-split('a | B C , Dmaj7') // => ['a', 'B', 'C', 'Dmaj7']
-split() // => []
+var G = require('music-gamut')
+G.split('a | B C , Dmaj7') // => ['a', 'B', 'C', 'Dmaj7']
+G.split() // => []
 ```
 
 Returns `Array` the source as array

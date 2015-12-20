@@ -1,6 +1,6 @@
 {
   "name": "music-gamut",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Manipulate collection of notes",
   "main": "index.js",
   "scripts": {
