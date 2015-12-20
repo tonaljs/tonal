@@ -1,6 +1,6 @@
 {
   "name": "music-key",
-  "version": "0.1.2",
+  "version": "0.1.0",
   "description": "Music keys made easy",
   "main": "index.js",
   "scripts": {

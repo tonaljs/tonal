@@ -68,6 +68,12 @@ Get the midi number from a note name
 - [midi-freq](https://github.com/danigb/tonal/tree/master/packages/midi-freq):
 Given a midi note, get it's frequency
 [![npm](https://img.shields.io/npm/v/midi-freq.svg)](https://www.npmjs.com/package/midi-freq)
+- [chord-dictionary](https://github.com/danigb/tonal/tree/master/packages/chord-dictionary):
+A chords dictionary
+[![npm](https://img.shields.io/npm/v/chord-dictionary.svg)](https://www.npmjs.com/package/cchord-dictionary)
+- [music-key](https://github.com/danigb/tonal/tree/master/packages/music-key):
+Music keys
+[![npm](https://img.shields.io/npm/v/music-key.svg)](https://www.npmjs.com/package/music-key)
 - [music-dictionary](https://github.com/danigb/tonal/tree/master/packages/music-dictionary):
 Create dictionaries of notes
 [![npm](https://img.shields.io/npm/v/music-dictionary.svg)](https://www.npmjs.com/package/mmusic-dictionary)
@@ -79,22 +85,22 @@ Parse notes, intervals and other pitched elements
 
 - [music-chord](https://github.com/danigb/tonal/tree/master/packages/music-chord):
 Music chords
+[![npm](https://img.shields.io/npm/v/music-chord.svg)](https://www.npmjs.com/package/music-chord)
 - [music-scale](https://github.com/danigb/tonal/tree/master/packages/music-scale):
 Music scales
-- [music-gamut](https://github.com/danigb/tonal/tree/master/packages/music-gamut):
-Work with collection of notes
-- [music-key](https://github.com/danigb/tonal/tree/master/packages/music-key):
-Music keys
+[![npm](https://img.shields.io/npm/v/music-scale.svg)](https://www.npmjs.com/package/music-scale)
 - [pitch-set](https://github.com/danigb/tonal/tree/master/packages/pitch-set):
 Pitch sets
+[![npm](https://img.shields.io/npm/v/pitch-set.svg)](https://www.npmjs.com/package/pitch-set)
 - [binary-set](https://github.com/danigb/tonal/tree/master/packages/binary-set):
 Binary sets
-- [chord-dictionary](https://github.com/danigb/tonal/tree/master/packages/chord-dictionary):
-A chords dictionary
+[![npm](https://img.shields.io/npm/v/binary-set.svg)](https://www.npmjs.com/package/binary-set)
 - [chord-type](https://github.com/danigb/tonal/tree/master/packages/chord-type):
 Get the type of a chord
+[![npm](https://img.shields.io/npm/v/chord-type.svg)](https://www.npmjs.com/package/chord-type)
 - [chord-progression](https://github.com/danigb/tonal/tree/master/packages/chord-progression):
 Chord progressions
+[![npm](https://img.shields.io/npm/v/chord-progression.svg)](https://www.npmjs.com/package/chord-progression)
 
 
 ## Examples
