@@ -67,8 +67,6 @@ Given a midi note, get it's frequency
 Create dictionaries of notes
 - [array-notation](https://github.com/danigb/tonal/tree/master/packages/array-notation):
 Parse notes, intervals and other pitched elements
-- [tonal-operation](https://github.com/danigb/tonal/tree/master/packages/tonal-operation):
-Operate pitches in array-notation
 
 #### Not released
 
@@ -78,10 +76,18 @@ Music chords
 Music scales
 - [music-gamut](https://github.com/danigb/tonal/tree/master/packages/music-gamut):
 Work with collection of notes
-- [tonal.key](https://github.com/danigb/tonal/tree/master/packages/tonal.key):
+- [tonal-key](https://github.com/danigb/tonal/tree/master/packages/tonal-key):
 Music keys
-- [tonal.set](https://github.com/danigb/tonal/tree/master/packages/tonal.set):
+- [pitch-set](https://github.com/danigb/tonal/tree/master/packages/pitch-set):
 Pitch sets
+- [binary-set](https://github.com/danigb/tonal/tree/master/packages/binary-set):
+Binary sets
+- [chord-dictionary](https://github.com/danigb/tonal/tree/master/packages/chord-dictionary):
+A chords dictionary
+- [chord-type](https://github.com/danigb/tonal/tree/master/packages/chord-type):
+Get the type of a chord
+- [chord-progression](https://github.com/danigb/tonal/tree/master/packages/chord-progression):
+Chord progressions
 
 
 ## Examples

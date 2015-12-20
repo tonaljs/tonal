@@ -1,6 +1,6 @@
 {
   "name": "music-gamut",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Manipulate collection of notes",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "array-notation": "^1.0.0",
+    "array-notation": "^1.1.0",
     "note-interval": "^1.0.0",
     "note-transpose": "^1.0.0"
   }

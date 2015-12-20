@@ -1470,5 +1470,3 @@ fromBinary(2773, false) // => ['1P', '2M', '3M', '4', '5', '6M', '7M']
 ```
 
 Returns  the set pitch classes (note names without octaves)
-
-
