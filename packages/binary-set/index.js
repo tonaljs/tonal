@@ -43,7 +43,7 @@ function height (p) {
   return f + o * 12
 }
 
-var INTERVALS = ['1P', '2m', '2M', '3m', '3M', '4', '4#', '5', '6m', '6M', '7m', '7M']
+var INTERVALS = ['1P', '2m', '2M', '3m', '3M', '4P', '4#', '5P', '6m', '6M', '7m', '7M']
 
 /**
  * Get a set from a binary set number and (optionally) a tonic. If the tonic is
@@ -74,7 +74,7 @@ bs.fromBinary = function (number, tonic) {
   var set = []
   for (var i = 0; i < 12; i++) {
     if (binary.charAt(i) === '1') {
-      if (i === 6 && binary.charAt(5) === '1') set.push('5b')
+      if (i === 6 && binary.charAt(5) === '1') set.push('5d')
       else set.push(INTERVALS[i])
     }
   }

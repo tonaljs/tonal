@@ -24,7 +24,7 @@ describe('binary-set', function () {
     })
     it('decimal number', function () {
       assert.deepEqual(binarySet.fromBinary(2773, 'C'), [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ])
-      assert.deepEqual(binarySet.fromBinary(2773, false), ['1P', '2M', '3M', '4', '5', '6M', '7M'])
+      assert.deepEqual(binarySet.fromBinary(2773, false), ['1P', '2M', '3M', '4P', '5P', '6M', '7M'])
       assert.deepEqual(binarySet.fromBinary(3434, 'B'), [ 'B', 'C', 'D', 'E', 'F', 'G', 'A' ])
     })
     it('test classical modes', function () {

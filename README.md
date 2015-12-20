@@ -63,6 +63,8 @@ Work with collection of notes
 Get the midi number from a note name
 - [midi-freq](https://github.com/danigb/tonal/tree/master/packages/midi-freq):
 Given a midi note, get it's frequency
+- [music-dictionary](https://github.com/danigb/tonal/tree/master/packages/music-dictionary):
+Create dictionaries of notes
 - [array-notation](https://github.com/danigb/tonal/tree/master/packages/array-notation):
 Parse notes, intervals and other pitched elements
 - [tonal-operation](https://github.com/danigb/tonal/tree/master/packages/tonal-operation):
@@ -80,8 +82,6 @@ Work with collection of notes
 Music keys
 - [tonal.set](https://github.com/danigb/tonal/tree/master/packages/tonal.set):
 Pitch sets
-- [music-dictionary](https://github.com/danigb/tonal/tree/master/packages/music-dictionary):
-Music dictionaries
 
 
 ## Examples
