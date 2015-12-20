@@ -16,5 +16,7 @@ T.gamut = require('music-gamut')
 T.harmonizer = T.gamut.harmonizer
 
 T.dictionary = require('music-dictionary')
+T.scale = require('scale-dictionary')
+T.chord = require('chord-dictionary')
 
 module.exports = T

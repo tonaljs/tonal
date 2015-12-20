@@ -23,6 +23,35 @@ binarySet.toBinary('C2 E4 D3') // => '101010000000'
 Returns `String` the binary number
 
 
+## `chord`
+
+A chord dictionary. Get chord data from a chord name.
+
+### Parameters
+
+* `name` **`String`** the chord name
+
+
+### Examples
+
+```js
+// get chord data
+var chord = require('chord-dictionary')
+chord('Maj7') // => { name: 'Maj7', aliases: ['M7', 'maj7']
+               //      intervals:  [ ...],
+               //      binary: '100010010001', decimal: 2193 }
+```
+```js
+// get it from aliases, binary or decimal numbers
+chord('Maj7') === chord('M7') === chord('100010010001') === chord(2913)
+```
+```js
+// get chord names
+chord.names // => ['Maj7', 'm7', ...]
+```
+
+
+
 ## `chord.type`
 
 Get the type of the chord (can be 'M', 'm', '7' or 'o' to represent major,
@@ -51,47 +80,6 @@ chord.type('C E G B7') // => '7'
 ```
 
 Returns `String` the chord type ('M', 'm', '7', 'dim', 'aug' or null)
-
-
-## `chords`
-
-A chord dictionary. Get chord data from a chord name.
-
-The chord dictionary is a function that returns a chord data object.
-The chord data object has:
-
-- name: the name
-- aliases: an array with the alternative names of the chord
-- intervals: an array with the intervals
-- steps: an array with the intervals in __array notation__
-- binary: a binary representation of the chord set
-- decimal: the decimal representation of the chord set
-
-The dictionary has a `names` property with all chord names.
-
-### Parameters
-
-* `name` **`String`** the chord name
-
-
-### Examples
-
-```js
-// get chord data
-var chord = require('chord-dictionary')
-chord('Maj7') // => { name: 'Maj7', aliases: ['M7', 'maj7']
-               //      intervals:  [ ...],
-               //      binary: '100010010001', decimal: 2193 }
-```
-```js
-// get it from aliases, binary or decimal numbers
-chord('Maj7') === chord('M7') === chord('100010010001') === chord(2913)
-```
-```js
-// get chord names
-chord.names // => ['Maj7', 'm7', ...]
-```
-
 
 
 ## `dictionary`
@@ -663,6 +651,38 @@ dorian('C4') // => ['C4', 'D4', 'Eb4', 'F4', 'G4', 'A4', 'Bb4']
 ```
 
 Returns `Array` the list of notes
+
+
+## `scale`
+
+A scale dictionary. Get scale from a scale name and a tonic.
+
+The dictionary has a `names` property with all scale names.
+
+### Parameters
+
+* `name` **`String`** the scale name
+
+
+### Examples
+
+```js
+// get scale data
+var scale = require('scale-dictionary')
+scale('Ab major') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]
+scale('major', 'Ab') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]
+// get scale intervals
+scale('major', false) // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
+```
+```js
+// get it from aliases, binary or decimal numbers
+scale('major') === scale('ionian') === scale('101011010101') === scale(2773)
+```
+```js
+// get scale names
+scale.names // => ['major', 'dorian', ...]
+```
+
 
 
 ## `set.fromBinary`

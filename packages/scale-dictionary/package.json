@@ -1,6 +1,6 @@
 {
   "name": "scale-dictionary",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A music chord dictionary",
   "main": "index.js",
   "scripts": {

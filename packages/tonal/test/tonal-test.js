@@ -35,5 +35,9 @@ describe('tonal', function () {
 
   it('has dictionary', function () {
     assert(tonal.dictionary)
+    assert(tonal.scale)
+    assert(tonal.scale.name)
+    assert(tonal.chord)
+    assert(tonal.chord.name)
   })
 })
