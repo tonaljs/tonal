@@ -5,7 +5,7 @@ var build = require('..').build
 describe('music-scale/build', function () {
   it('null tonic', function () {
     assert.deepEqual(build('c d e f g a b c2 d2', null), ['C', 'D', 'E', 'F', 'G', 'A', 'B'])
-    assert.deepEqual(build('1 2 3', null), ['C0', 'D0', 'E0'])
+    assert.deepEqual(build('1 2 3', null), ['1P', '2M', '3M'])
   })
   it('build build from intervals', function () {
     assert.deepEqual(build('1 2 3 4', 'C'), ['C', 'D', 'E', 'F'])

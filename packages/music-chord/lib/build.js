@@ -22,4 +22,4 @@
  * var maj79 = chord.build('C E G B D')
  * maj79('A4') // => ['A4', 'C#5', 'E5', 'G#5', 'B5']
  */
-module.exports = require('music-gamut/chord')
+module.exports = require('music-gamut').harmonizer

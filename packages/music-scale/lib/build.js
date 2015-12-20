@@ -1,11 +1,5 @@
 'use strict'
 
-var operation = require('music-gamut/operation')
-var harmonics = require('music-gamut/harmonics')
-var split = require('music-gamut/split')
-var set = require('music-gamut/set')
-var transpose = require('note-transpose')
-
 /**
  * Create a scale from a gamut and a tonic. A scale is a set of notes or
  * intervals ordered by frequency with a tonic.
@@ -39,24 +33,4 @@ var transpose = require('note-transpose')
  * var dorian = scale('D E F G A B C')
  * dorian('C4') // => ['C4', 'D4', 'Eb4', 'F4', 'G4', 'A4', 'Bb4']
  */
-module.exports = function b (notes, tonic) {
-  if (arguments.length === 1) return function (t) { return b(notes, t) }
-  notes = split(notes)
-  var len = notes.length
-  if (len === 0) return []
-  var intervals = operation(function (gamut) {
-    tonic = !tonic && tonic !== false ? gamut[0] : tonic
-    var s = set(gamut)
-    var i = indexOf(gamut[0][0], s, len)
-    var ordered = s.slice(i, len).concat(s.slice(0, i))
-    return harmonics(ordered)
-  }, notes)
-  tonic = !tonic && tonic !== false ? notes[0] : tonic
-  return intervals.map(transpose(tonic))
-}
-
-function indexOf (p, g, l) {
-  for (var i = 0; i < l; i++) {
-    if (g[i][0] === p) return i
-  }
-}
+module.exports = require('pitch-set')

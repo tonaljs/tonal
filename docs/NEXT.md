@@ -1,3 +1,9 @@
+## TODO
+
+- Add strict shorthand interval notation
+
+
+-----------------------
 
 ```js
 

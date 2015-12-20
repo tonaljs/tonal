@@ -1,6 +1,6 @@
 'use strict'
 
-var rotate = require('music-gamut/rotate')
+var G = require('music-gamut')
 var build = require('./build')
 
 /**
@@ -18,6 +18,6 @@ var build = require('./build')
 module.exports = function (notes) {
   var s = build(notes, null)
   return s.map(function (n, i) {
-    return rotate(i, s)
+    return G.rotate(i, s)
   })
 }

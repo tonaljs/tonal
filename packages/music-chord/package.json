@@ -17,7 +17,7 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "music-dictionary": "file:../music-dictionary",
-    "music-gamut": "file:../music-gamut/lib"
+    "music-dictionary": "^0.1.0",
+    "music-gamut": "^0.7.0"
   }
 }

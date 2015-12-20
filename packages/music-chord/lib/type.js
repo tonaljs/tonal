@@ -1,6 +1,6 @@
 'use strict'
 
-var harmonics = require('music-gamut/harmonics')
+var G = require('music-gamut')
 
 /**
  * Get the type of the chord (can be 'M', 'm', '7' or 'o' to represent major,
@@ -26,7 +26,7 @@ var harmonics = require('music-gamut/harmonics')
  * chord.type('C E G B7') // => '7'
  */
 module.exports = function (chord) {
-  var g = harmonics(chord)
+  var g = G.harmonizer(chord, false)
   var steps = g.map(function (i) { return i ? i.charAt(0) : i })
   if (steps[0] !== '1' || steps[2] !== '5') return null
   if (g[1] === '3M') {

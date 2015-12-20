@@ -1,7 +1,6 @@
 'use strict'
 
-var split = require('music-gamut/split')
-var operation = require('music-gamut/operation')
+var G = require('music-gamut')
 var build = require('./build')
 var transpose = require('note-transpose')
 
@@ -40,8 +39,8 @@ var STEPS = [3, 0, 4, 1, 5, 2, 6]
 module.exports = function select (pttn, notes) {
   if (arguments.length === 2) return select(pttn)(notes)
 
-  return operation(function (g) {
-    var nums = split(pttn).map(function (n) { return +n - 1 })
+  return G.operation(function (g) {
+    var nums = G.split(pttn).map(function (n) { return +n - 1 })
     var index = []
     build(g, false).forEach(function (item) {
       var fifths = (item[0] + 1) % 7

@@ -15,14 +15,10 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "music-chord": "file:../music-chord/lib",
-    "music-dictionary": "file:../music-dictionary",
-    "music-gamut": "file:../music-gamut/lib",
-    "note-transpose": "file:../note-transpose",
-    "tonal-operation": "file:../tonal-operation",
-    "tonal.chord": "file:../music-chord/lib",
-    "tonal.dictionary": "0.0.x",
-    "tonal.gamut": "0.0.x",
-    "tonal.transpose": "0.0.x"
+    "chord-type": "file:../chord-type",
+    "music-dictionary": "^0.1.0",
+    "music-gamut": "^0.7.0",
+    "note-transpose": "^1.0.0",
+    "pitch-set": "file:../pitch-set"
   }
 }
