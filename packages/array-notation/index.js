@@ -16,22 +16,21 @@ function curry (fn, arity) {
  * This is the base of the pluggable notation system of
  * [tonal](https://github.com/danigb/tonal)
  *
- * @name operation
+ * @name notation
  * @function
  * @param {Function} parse - the parser
  * @param {Function} str - the string builder
  * @param {Function} op - the operation to decorate
  *
  * @example
- * var operation = require('array-notation/operation')
  * var parse = require('array-notation/interval/parse')
  * var str = require('array-notation/interval/str')
- * var add = operation(parse, str, function(a, b) {
- *   return [a[0] + b[0], a[1] + b[1]]
- * })
+ * var intervalNotation = require('array-notation')(parse, str)
+ * var add = intervalNotation(function(a, b) { return [a[0] + b[0], a[1] + b[1]] })
  * add('3m', '3M') // => '5P'
  */
-module.exports = function (parse, str, fn) {
+module.exports = function op (parse, str, fn) {
+  if (arguments.length === 2) return function (f) { return op(parse, str, f) }
   return curry(function (a, b) {
     var ac = parse(a)
     var bc = parse(b)
