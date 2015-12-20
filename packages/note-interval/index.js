@@ -1,6 +1,6 @@
 var parse = require('array-notation/pitch/parse')
 var str = require('array-notation/pitch/str')
-var operation = require('tonal-operation')
+var notation = require('array-notation')(parse, str)
 
 /**
  * Get the interval between two pitches
@@ -26,7 +26,7 @@ var operation = require('tonal-operation')
  * var fromC = interval('C')
  * fromC('D') // => '2M'
  */
-module.exports = operation(parse, str, function (a, b) {
+module.exports = notation(function (a, b) {
   if (!Array.isArray(a) || !Array.isArray(b)) return null
   if (a.length === 1 || b.length === 1) {
     var base = b[0] - a[0]
