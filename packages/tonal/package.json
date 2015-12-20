@@ -29,6 +29,7 @@
   "dependencies": {
     "array-notation": "^1.2.0",
     "chord-dictionary": "^0.2.0",
+    "enharmonics": "^1.0.0",
     "midi-freq": "^1.0.0",
     "midi-note": "^1.0.0",
     "music-dictionary": "^0.2.0",

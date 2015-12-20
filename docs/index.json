@@ -158,6 +158,117 @@
     ]
   },
   {
+    "description": "A chord dictionary. Get chord data from a chord name.",
+    "tags": [
+      {
+        "title": "name",
+        "description": null,
+        "lineNumber": 3,
+        "name": "chord"
+      },
+      {
+        "title": "function",
+        "description": null,
+        "lineNumber": 4,
+        "name": null
+      },
+      {
+        "title": "param",
+        "description": "the chord name",
+        "lineNumber": 6,
+        "type": {
+          "type": "NameExpression",
+          "name": "String"
+        },
+        "name": "name"
+      },
+      {
+        "title": "see",
+        "description": "music-dictionary",
+        "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "// get chord data\nvar chord = require('chord-dictionary')\nchord('Maj7') // => { name: 'Maj7', aliases: ['M7', 'maj7']\n               //      intervals:  [ ...],\n               //      binary: '100010010001', decimal: 2193 }",
+        "lineNumber": 9
+      },
+      {
+        "title": "example",
+        "description": "// get it from aliases, binary or decimal numbers\nchord('Maj7') === chord('M7') === chord('100010010001') === chord(2913)",
+        "lineNumber": 16
+      },
+      {
+        "title": "example",
+        "description": "// get chord names\nchord.names // => ['Maj7', 'm7', ...]",
+        "lineNumber": 20
+      },
+      {
+        "title": "kind",
+        "kind": "function"
+      },
+      {
+        "title": "memberof",
+        "description": "module"
+      },
+      {
+        "title": "static"
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 6,
+        "column": 0
+      },
+      "end": {
+        "line": 28,
+        "column": 3
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 29,
+          "column": 0
+        },
+        "end": {
+          "line": 30,
+          "column": 0
+        }
+      },
+      "file": "./packages/chord-dictionary/index.js",
+      "code": "'use strict'\n\nvar chords = require('./chords.json')\nvar dictionary = require('music-dictionary')\n\n/**\n * A chord dictionary. Get chord data from a chord name.\n *\n * @name chord\n * @function\n * @param {String} name - the chord name\n * @see music-dictionary\n *\n * @example\n * // get chord data\n * var chord = require('chord-dictionary')\n * chord('Maj7') // => { name: 'Maj7', aliases: ['M7', 'maj7']\n *                //      intervals:  [ ...],\n *                //      binary: '100010010001', decimal: 2193 }\n *\n * @example\n * // get it from aliases, binary or decimal numbers\n * chord('Maj7') === chord('M7') === chord('100010010001') === chord(2913)\n *\n * @example\n * // get chord names\n * chord.names // => ['Maj7', 'm7', ...]\n */\nmodule.exports = dictionary(chords)\n"
+    },
+    "name": "chord",
+    "params": [
+      {
+        "title": "param",
+        "description": "the chord name",
+        "lineNumber": 6,
+        "type": {
+          "type": "NameExpression",
+          "name": "String"
+        },
+        "name": "name"
+      }
+    ],
+    "examples": [
+      "<span class=\"hljs-comment\">// get chord data</span>\n<span class=\"hljs-keyword\">var</span> chord = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">'chord-dictionary'</span>)\nchord(<span class=\"hljs-string\">'Maj7'</span>) <span class=\"hljs-comment\">// =&gt; { name: 'Maj7', aliases: ['M7', 'maj7']</span>\n               <span class=\"hljs-comment\">//      intervals:  [ ...],</span>\n               <span class=\"hljs-comment\">//      binary: '100010010001', decimal: 2193 }</span>",
+      "<span class=\"hljs-comment\">// get it from aliases, binary or decimal numbers</span>\nchord(<span class=\"hljs-string\">'Maj7'</span>) === chord(<span class=\"hljs-string\">'M7'</span>) === chord(<span class=\"hljs-string\">'100010010001'</span>) === chord(<span class=\"hljs-number\">2913</span>)",
+      "<span class=\"hljs-comment\">// get chord names</span>\nchord.names <span class=\"hljs-comment\">// =&gt; ['Maj7', 'm7', ...]</span>"
+    ],
+    "kind": "function",
+    "memberof": "module",
+    "scope": "static",
+    "members": {
+      "instance": [],
+      "static": []
+    },
+    "events": [],
+    "path": [
+      "chord"
+    ]
+  },
+  {
     "description": "Get the type of the chord (can be 'M', 'm', '7' or 'o' to represent major,\nminot, dominant and dimished respectively)\n\nIt assumes that the chord is not inversed (first note is always the tonic)\n\nIt detects major, minor, augmented, diminished and dominant chords. All\nchord notes beyond the 5th (except 7th for dominant chords) are ignored",
     "tags": [
       {
@@ -272,117 +383,6 @@
     ]
   },
   {
-    "description": "A chord dictionary. Get chord data from a chord name.\n\nThe chord dictionary is a function that returns a chord data object.\nThe chord data object has:\n\n- name: the name\n- aliases: an array with the alternative names of the chord\n- intervals: an array with the intervals\n- steps: an array with the intervals in __array notation__\n- binary: a binary representation of the chord set\n- decimal: the decimal representation of the chord set\n\nThe dictionary has a `names` property with all chord names.",
-    "tags": [
-      {
-        "title": "name",
-        "description": null,
-        "lineNumber": 15,
-        "name": "chords"
-      },
-      {
-        "title": "function",
-        "description": null,
-        "lineNumber": 16,
-        "name": null
-      },
-      {
-        "title": "param",
-        "description": "the chord name",
-        "lineNumber": 18,
-        "type": {
-          "type": "NameExpression",
-          "name": "String"
-        },
-        "name": "name"
-      },
-      {
-        "title": "see",
-        "description": "dictionary/dictionary",
-        "lineNumber": 19
-      },
-      {
-        "title": "example",
-        "description": "// get chord data\nvar chord = require('chord-dictionary')\nchord('Maj7') // => { name: 'Maj7', aliases: ['M7', 'maj7']\n               //      intervals:  [ ...],\n               //      binary: '100010010001', decimal: 2193 }",
-        "lineNumber": 21
-      },
-      {
-        "title": "example",
-        "description": "// get it from aliases, binary or decimal numbers\nchord('Maj7') === chord('M7') === chord('100010010001') === chord(2913)",
-        "lineNumber": 28
-      },
-      {
-        "title": "example",
-        "description": "// get chord names\nchord.names // => ['Maj7', 'm7', ...]",
-        "lineNumber": 32
-      },
-      {
-        "title": "kind",
-        "kind": "function"
-      },
-      {
-        "title": "memberof",
-        "description": "module"
-      },
-      {
-        "title": "static"
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 6,
-        "column": 0
-      },
-      "end": {
-        "line": 40,
-        "column": 3
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 41,
-          "column": 0
-        },
-        "end": {
-          "line": 42,
-          "column": 0
-        }
-      },
-      "file": "./packages/chord-dictionary/index.js",
-      "code": "'use strict'\n\nvar chords = require('./chords.json')\nvar dictionary = require('music-dictionary')\n\n/**\n * A chord dictionary. Get chord data from a chord name.\n *\n * The chord dictionary is a function that returns a chord data object.\n * The chord data object has:\n *\n * - name: the name\n * - aliases: an array with the alternative names of the chord\n * - intervals: an array with the intervals\n * - steps: an array with the intervals in __array notation__\n * - binary: a binary representation of the chord set\n * - decimal: the decimal representation of the chord set\n *\n * The dictionary has a `names` property with all chord names.\n *\n * @name chords\n * @function\n * @param {String} name - the chord name\n * @see dictionary/dictionary\n *\n * @example\n * // get chord data\n * var chord = require('chord-dictionary')\n * chord('Maj7') // => { name: 'Maj7', aliases: ['M7', 'maj7']\n *                //      intervals:  [ ...],\n *                //      binary: '100010010001', decimal: 2193 }\n *\n * @example\n * // get it from aliases, binary or decimal numbers\n * chord('Maj7') === chord('M7') === chord('100010010001') === chord(2913)\n *\n * @example\n * // get chord names\n * chord.names // => ['Maj7', 'm7', ...]\n */\nmodule.exports = dictionary(chords)\n"
-    },
-    "name": "chords",
-    "params": [
-      {
-        "title": "param",
-        "description": "the chord name",
-        "lineNumber": 18,
-        "type": {
-          "type": "NameExpression",
-          "name": "String"
-        },
-        "name": "name"
-      }
-    ],
-    "examples": [
-      "<span class=\"hljs-comment\">// get chord data</span>\n<span class=\"hljs-keyword\">var</span> chord = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">'chord-dictionary'</span>)\nchord(<span class=\"hljs-string\">'Maj7'</span>) <span class=\"hljs-comment\">// =&gt; { name: 'Maj7', aliases: ['M7', 'maj7']</span>\n               <span class=\"hljs-comment\">//      intervals:  [ ...],</span>\n               <span class=\"hljs-comment\">//      binary: '100010010001', decimal: 2193 }</span>",
-      "<span class=\"hljs-comment\">// get it from aliases, binary or decimal numbers</span>\nchord(<span class=\"hljs-string\">'Maj7'</span>) === chord(<span class=\"hljs-string\">'M7'</span>) === chord(<span class=\"hljs-string\">'100010010001'</span>) === chord(<span class=\"hljs-number\">2913</span>)",
-      "<span class=\"hljs-comment\">// get chord names</span>\nchord.names <span class=\"hljs-comment\">// =&gt; ['Maj7', 'm7', ...]</span>"
-    ],
-    "kind": "function",
-    "memberof": "module",
-    "scope": "static",
-    "members": {
-      "instance": [],
-      "static": []
-    },
-    "events": [],
-    "path": [
-      "chords"
-    ]
-  },
-  {
     "description": "Create a musical dictionary. A musical dictionary is a function that given\na name (and optionally a tonic) returns an array of notes.\n\nA dictionary is created from a HashMap. It maps a name to a string with\nan interval list and, optionally, an alternative name list (see example)\n\nAdditionally, the dictionary has properties (see examples):\n\n- data: a hash with the dictionary data\n- names: an array with all the names\n- aliases: an array with all the names including aliases\n- source: the source of the dictionary\n\nEach value of the data hash have the following properties:\n\n- name: the name\n- aliases: an array with the alternative names\n- intervals: an array with the intervals\n- steps: an array with the intervals in __array notation__\n- binary: a binary representation of the set\n- decimal: the decimal representation of the set",
     "tags": [
       {
@@ -465,7 +465,7 @@
         }
       },
       "file": "./packages/music-dictionary/index.js",
-      "code": "'use strict'\n\nvar parse = require('array-notation/interval/parse')\nvar R = require('array-notation/note/regex')\nvar transpose = require('note-transpose')\n\n/**\n * Create a musical dictionary. A musical dictionary is a function that given\n * a name (and optionally a tonic) returns an array of notes.\n *\n * A dictionary is created from a HashMap. It maps a name to a string with\n * an interval list and, optionally, an alternative name list (see example)\n *\n * Additionally, the dictionary has properties (see examples):\n *\n * - data: a hash with the dictionary data\n * - names: an array with all the names\n * - aliases: an array with all the names including aliases\n * - source: the source of the dictionary\n *\n * Each value of the data hash have the following properties:\n *\n * - name: the name\n * - aliases: an array with the alternative names\n * - intervals: an array with the intervals\n * - steps: an array with the intervals in __array notation__\n * - binary: a binary representation of the set\n * - decimal: the decimal representation of the set\n *\n * @name dictionary\n * @function\n * @param {Hash} source - the dictionary source\n * @return {Function} the dictionary\n *\n * @example\n * var dictionary = require('music-dictionary')\n * var chords = dictionary({'Maj7': ['1 3 5 7', ['M7']], 'm7': ['1 3b 5 7b'] })\n * chords('CMaj7') // => ['C', 'E', 'G', 'B']\n * chords('DM7') // => ['D', 'F#', 'A', 'C#']\n * chords('Bm7') // => ['B', 'D', 'F#', 'A']\n *\n * @example\n * // dictionary data\n * chords.data['M7'] // => { name: 'Maj7', aliases: ['M7'],\n *                   //      intervals: ['1', '3', '5', '7'], steps: [ ...],\n *                   //      binary: '10010010001', decimal: 2193 }\n *\n * // get chord by binary numbers\n * chords.data['100010010001'] === chords.data['Maj7']\n * chords.data[2193] === chords.data['Maj7']\n *\n * @example\n * // available names\n * chords.names // => ['Maj7', 'm7']\n * chords.aliases // => ['Maj7', 'm7', 'M7']\n */\nmodule.exports = function (src) {\n  function dict (name, tonic) {\n    var v = dict.data[name]\n    if (!v) {\n      var n = R.exec(name)\n      v = n ? dict.data[n[5]] : null\n      if (!v) return []\n      tonic = tonic === false ? tonic : tonic || n[1] + n[2] + n[3]\n    }\n    if (tonic !== false && !tonic) return function (t) { return dict(name, t) }\n    return v.intervals.map(transpose(tonic))\n  }\n  return build(src, dict)\n}\n\nfunction build (src, dict) {\n  dict.source = src\n  dict.names = Object.keys(src)\n  dict.aliases = dict.names.slice()\n  var data = dict.data = {}\n\n  dict.names.forEach(function (k) {\n    var d = src[k]\n    var c = { name: k, aliases: d[1] || [] }\n    c.intervals = d[0].split(' ')\n    c.steps = c.intervals.map(parse)\n    c.binary = binary([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], c.steps)\n    c.decimal = parseInt(c.binary, 2)\n    data[k] = data[c.binary] = data[c.decimal] = c\n    c.aliases.forEach(function (a) { data[a] = c })\n    if (c.aliases.length > 0) dict.aliases = dict.aliases.concat(c.aliases)\n  })\n  return dict\n}\n\nfunction binary (num, intervals) {\n  intervals.forEach(function (i) { num[(i[0] * 7 + i[1] * 12) % 12] = '1' })\n  return num.join('')\n}"
+      "code": "'use strict'\n\nvar parse = require('array-notation/interval/parse')\nvar R = require('array-notation/note/regex')\nvar transpose = require('note-transpose')\n\n/**\n * Create a musical dictionary. A musical dictionary is a function that given\n * a name (and optionally a tonic) returns an array of notes.\n *\n * A dictionary is created from a HashMap. It maps a name to a string with\n * an interval list and, optionally, an alternative name list (see example)\n *\n * Additionally, the dictionary has properties (see examples):\n *\n * - data: a hash with the dictionary data\n * - names: an array with all the names\n * - aliases: an array with all the names including aliases\n * - source: the source of the dictionary\n *\n * Each value of the data hash have the following properties:\n *\n * - name: the name\n * - aliases: an array with the alternative names\n * - intervals: an array with the intervals\n * - steps: an array with the intervals in __array notation__\n * - binary: a binary representation of the set\n * - decimal: the decimal representation of the set\n *\n * @name dictionary\n * @function\n * @param {Hash} source - the dictionary source\n * @return {Function} the dictionary\n *\n * @example\n * var dictionary = require('music-dictionary')\n * var chords = dictionary({'Maj7': ['1 3 5 7', ['M7']], 'm7': ['1 3b 5 7b'] })\n * chords('CMaj7') // => ['C', 'E', 'G', 'B']\n * chords('DM7') // => ['D', 'F#', 'A', 'C#']\n * chords('Bm7') // => ['B', 'D', 'F#', 'A']\n *\n * @example\n * // dictionary data\n * chords.data['M7'] // => { name: 'Maj7', aliases: ['M7'],\n *                   //      intervals: ['1', '3', '5', '7'], steps: [ ...],\n *                   //      binary: '10010010001', decimal: 2193 }\n *\n * // get chord by binary numbers\n * chords.data['100010010001'] === chords.data['Maj7']\n * chords.data[2193] === chords.data['Maj7']\n *\n * @example\n * // available names\n * chords.names // => ['Maj7', 'm7']\n * chords.aliases // => ['Maj7', 'm7', 'M7']\n */\nmodule.exports = function (src) {\n  function dict (name, tonic) {\n    var v = dict.props(name)\n    if (!v) {\n      var n = R.exec(name)\n      v = n ? dict.props(n[5]) : null\n      if (!v) return []\n      tonic = tonic === false ? tonic : tonic || n[1] + n[2] + n[3]\n    }\n    if (tonic !== false && !tonic) return function (t) { return dict(name, t) }\n    return v.intervals.map(transpose(tonic))\n  }\n  return build(src, dict)\n}\n\nfunction build (src, dict) {\n  var data = {}\n  var names = Object.keys(src)\n  var aliases = names.slice()\n\n  dict.props = function (name) { return data[name] }\n  dict.names = function (a) { return (a ? aliases : names).slice() }\n\n  names.forEach(function (k) {\n    var d = src[k]\n    var c = { name: k, aliases: d[1] || [] }\n    c.intervals = d[0].split(' ')\n    c.steps = c.intervals.map(parse)\n    c.binary = binary([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], c.steps)\n    c.decimal = parseInt(c.binary, 2)\n    data[k] = data[c.binary] = data[c.decimal] = c\n    c.aliases.forEach(function (a) { data[a] = c })\n    if (c.aliases.length > 0) aliases = aliases.concat(c.aliases)\n  })\n  return dict\n}\n\nfunction binary (num, intervals) {\n  intervals.forEach(function (i) { num[(i[0] * 7 + i[1] * 12) % 12] = '1' })\n  return num.join('')\n}"
     },
     "name": "dictionary",
     "params": [
@@ -2581,7 +2581,7 @@
       },
       {
         "title": "example",
-        "description": "midi('A4') // => 69\nmidi('a3') // => 57\nmidi([0, 2]) // => 36 (C2 in array notation)\nmidi(60) // => 60",
+        "description": "var midi = require('note-midi')\nmidi('A4') // => 69\nmidi('a3') // => 57\nmidi([0, 2]) // => 36 (C2 in array notation)\nmidi(60) // => 60",
         "lineNumber": 15
       },
       {
@@ -2595,23 +2595,23 @@
         "column": 0
       },
       "end": {
-        "line": 24,
+        "line": 25,
         "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 25,
+          "line": 26,
           "column": 0
         },
         "end": {
-          "line": 31,
+          "line": 32,
           "column": 1
         }
       },
       "file": "./packages/note-midi/index.js",
-      "code": "'use strict'\n\nvar parse = require('array-notation/note/parse')\n\n/**\n * Get the midi number of a note\n *\n * If the argument passed to this function is a valid midi number, it returns it\n *\n * The note can be an string in scientific notation or\n * [array pitch notation](https://github.com/danigb/music.array.notation)\n *\n * @name midi\n * @function\n * @param {String|Array|Integer} note - the note in string or array notation.\n * If the parameter is a valid midi number it return it as it.\n * @return {Integer} the midi number\n *\n * @example\n * midi('A4') // => 69\n * midi('a3') // => 57\n * midi([0, 2]) // => 36 (C2 in array notation)\n * midi(60) // => 60\n */\nfunction midi (note) {\n  if ((typeof note === 'number' || typeof note === 'string') &&\n    note > 0 && note < 128) return +note\n  var p = Array.isArray(note) ? note : parse(note)\n  if (!p || p.length < 2) return null\n  return p[0] * 7 + p[1] * 12 + 12\n}\n\nif (typeof module === 'object' && module.exports) module.exports = midi\nif (typeof window !== 'undefined') window.midi = midi\n"
+      "code": "'use strict'\n\nvar parse = require('array-notation/note/parse')\n\n/**\n * Get the midi number of a note\n *\n * If the argument passed to this function is a valid midi number, it returns it\n *\n * The note can be an string in scientific notation or\n * [array pitch notation](https://github.com/danigb/music.array.notation)\n *\n * @name midi\n * @function\n * @param {String|Array|Integer} note - the note in string or array notation.\n * If the parameter is a valid midi number it return it as it.\n * @return {Integer} the midi number\n *\n * @example\n * var midi = require('note-midi')\n * midi('A4') // => 69\n * midi('a3') // => 57\n * midi([0, 2]) // => 36 (C2 in array notation)\n * midi(60) // => 60\n */\nfunction midi (note) {\n  if ((typeof note === 'number' || typeof note === 'string') &&\n    note > 0 && note < 128) return +note\n  var p = Array.isArray(note) ? note : parse(note)\n  if (!p || p.length < 2) return null\n  return p[0] * 7 + p[1] * 12 + 12\n}\n\nif (typeof module === 'object' && module.exports) module.exports = midi\nif (typeof window !== 'undefined') window.midi = midi\n"
     },
     "name": "midi",
     "params": [
@@ -2651,7 +2651,7 @@
       }
     ],
     "examples": [
-      "midi(<span class=\"hljs-string\">'A4'</span>) <span class=\"hljs-comment\">// =&gt; 69</span>\nmidi(<span class=\"hljs-string\">'a3'</span>) <span class=\"hljs-comment\">// =&gt; 57</span>\nmidi([<span class=\"hljs-number\">0</span>, <span class=\"hljs-number\">2</span>]) <span class=\"hljs-comment\">// =&gt; 36 (C2 in array notation)</span>\nmidi(<span class=\"hljs-number\">60</span>) <span class=\"hljs-comment\">// =&gt; 60</span>"
+      "<span class=\"hljs-keyword\">var</span> midi = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">'note-midi'</span>)\nmidi(<span class=\"hljs-string\">'A4'</span>) <span class=\"hljs-comment\">// =&gt; 69</span>\nmidi(<span class=\"hljs-string\">'a3'</span>) <span class=\"hljs-comment\">// =&gt; 57</span>\nmidi([<span class=\"hljs-number\">0</span>, <span class=\"hljs-number\">2</span>]) <span class=\"hljs-comment\">// =&gt; 36 (C2 in array notation)</span>\nmidi(<span class=\"hljs-number\">60</span>) <span class=\"hljs-comment\">// =&gt; 60</span>"
     ],
     "kind": "function",
     "members": {
@@ -2804,53 +2804,42 @@
     ]
   },
   {
-    "description": "Decorate a function to work with intervals, notes or pitches in\n[array notation](https://github.com/danigb/tonal/tree/next/packages/array-notation)\nwith independence of string representations.\n\nThis is the base of the pluggable notation system of\n[tonal](https://github.com/danigb/tonal)",
+    "description": "Get the note name (in scientific notation) of the given midi number\n\nIt uses MIDI's [Tuning Standard](https://en.wikipedia.org/wiki/MIDI_Tuning_Standard)\nwhere A4 is 69\n\nThis method doesn't take into account diatonic spelling. Always the same\npitch class is given for the same midi number.",
     "tags": [
       {
         "title": "name",
         "description": null,
-        "lineNumber": 8,
-        "name": "notation"
+        "lineNumber": 9,
+        "name": "midi.note"
       },
       {
         "title": "function",
         "description": null,
-        "lineNumber": 9,
+        "lineNumber": 10,
         "name": null
       },
       {
         "title": "param",
-        "description": "the parser",
-        "lineNumber": 11,
-        "type": {
-          "type": "NameExpression",
-          "name": "Function"
-        },
-        "name": "parse"
-      },
-      {
-        "title": "param",
-        "description": "the string builder",
+        "description": "the midi number",
         "lineNumber": 12,
         "type": {
           "type": "NameExpression",
-          "name": "Function"
+          "name": "Integer"
         },
-        "name": "str"
+        "name": "midi"
       },
       {
-        "title": "param",
-        "description": "the operation to decorate",
+        "title": "returns",
+        "description": "the pitch",
         "lineNumber": 13,
         "type": {
           "type": "NameExpression",
-          "name": "Function"
-        },
-        "name": "op"
+          "name": "String"
+        }
       },
       {
         "title": "example",
-        "description": "var parse = require('array-notation/interval/parse')\nvar str = require('array-notation/interval/str')\nvar intervalNotation = require('array-notation')(parse, str)\nvar add = intervalNotation(function(a, b) { return [a[0] + b[0], a[1] + b[1]] })\nadd('3m', '3M') // => '5P'",
+        "description": "var note = require('midi-note')\nnote(69) // => 'A4'",
         "lineNumber": 15
       },
       {
@@ -2867,63 +2856,54 @@
     ],
     "loc": {
       "start": {
-        "line": 11,
+        "line": 5,
         "column": 0
       },
       "end": {
-        "line": 31,
+        "line": 22,
         "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 32,
+          "line": 23,
           "column": 0
         },
         "end": {
-          "line": 42,
+          "line": 29,
           "column": 0
         }
       },
-      "file": "./packages/array-notation/index.js",
-      "code": "'use strict'\n\nfunction curry (fn, arity) {\n  if (arity === 1) return fn\n  return function (a, b) {\n    if (arguments.length === 1) return function (c) { return fn(a, c) }\n    return fn(a, b)\n  }\n}\n\n/**\n * Decorate a function to work with intervals, notes or pitches in\n * [array notation](https://github.com/danigb/tonal/tree/next/packages/array-notation)\n * with independence of string representations.\n *\n * This is the base of the pluggable notation system of\n * [tonal](https://github.com/danigb/tonal)\n *\n * @name notation\n * @function\n * @param {Function} parse - the parser\n * @param {Function} str - the string builder\n * @param {Function} op - the operation to decorate\n *\n * @example\n * var parse = require('array-notation/interval/parse')\n * var str = require('array-notation/interval/str')\n * var intervalNotation = require('array-notation')(parse, str)\n * var add = intervalNotation(function(a, b) { return [a[0] + b[0], a[1] + b[1]] })\n * add('3m', '3M') // => '5P'\n */\nmodule.exports = function op (parse, str, fn) {\n  if (arguments.length === 2) return function (f) { return op(parse, str, f) }\n  return curry(function (a, b) {\n    var ac = parse(a)\n    var bc = parse(b)\n    if (!ac && !bc) return fn(a, b)\n    var v = fn(ac || a, bc || b)\n    return str(v) || v\n  }, fn.length)\n}\n"
+      "file": "./packages/midi-note/index.js",
+      "code": "'use strict'\n\nvar CHROMATIC = [ 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B' ]\n\n/**\n * Get the note name (in scientific notation) of the given midi number\n *\n * It uses MIDI's [Tuning Standard](https://en.wikipedia.org/wiki/MIDI_Tuning_Standard)\n * where A4 is 69\n *\n * This method doesn't take into account diatonic spelling. Always the same\n * pitch class is given for the same midi number.\n *\n * @name midi.note\n * @function\n * @param {Integer} midi - the midi number\n * @return {String} the pitch\n *\n * @example\n * var note = require('midi-note')\n * note(69) // => 'A4'\n */\nmodule.exports = function (midi) {\n  if (isNaN(midi) || midi < 0 || midi > 127) return null\n  var name = CHROMATIC[midi % 12]\n  var oct = Math.floor(midi / 12) - 1\n  return name + oct\n}\n"
     },
-    "name": "notation",
+    "name": "midi.note",
     "params": [
       {
         "title": "param",
-        "description": "the parser",
-        "lineNumber": 11,
-        "type": {
-          "type": "NameExpression",
-          "name": "Function"
-        },
-        "name": "parse"
-      },
-      {
-        "title": "param",
-        "description": "the string builder",
+        "description": "the midi number",
         "lineNumber": 12,
         "type": {
           "type": "NameExpression",
-          "name": "Function"
+          "name": "Integer"
         },
-        "name": "str"
-      },
+        "name": "midi"
+      }
+    ],
+    "returns": [
       {
-        "title": "param",
-        "description": "the operation to decorate",
+        "title": "returns",
+        "description": "the pitch",
         "lineNumber": 13,
         "type": {
           "type": "NameExpression",
-          "name": "Function"
-        },
-        "name": "op"
+          "name": "String"
+        }
       }
     ],
     "examples": [
-      "<span class=\"hljs-keyword\">var</span> parse = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">'array-notation/interval/parse'</span>)\n<span class=\"hljs-keyword\">var</span> str = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">'array-notation/interval/str'</span>)\n<span class=\"hljs-keyword\">var</span> intervalNotation = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">'array-notation'</span>)(parse, str)\n<span class=\"hljs-keyword\">var</span> add = intervalNotation(<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span>(<span class=\"hljs-params\">a, b</span>) </span>{ <span class=\"hljs-keyword\">return</span> [a[<span class=\"hljs-number\">0</span>] + b[<span class=\"hljs-number\">0</span>], a[<span class=\"hljs-number\">1</span>] + b[<span class=\"hljs-number\">1</span>]] })\nadd(<span class=\"hljs-string\">'3m'</span>, <span class=\"hljs-string\">'3M'</span>) <span class=\"hljs-comment\">// =&gt; '5P'</span>"
+      "<span class=\"hljs-keyword\">var</span> note = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">'midi-note'</span>)\nnote(<span class=\"hljs-number\">69</span>) <span class=\"hljs-comment\">// =&gt; 'A4'</span>"
     ],
     "kind": "function",
     "memberof": "module",
@@ -2934,7 +2914,7 @@
     },
     "events": [],
     "path": [
-      "notation"
+      "midi.note"
     ]
   },
   {
@@ -3025,7 +3005,7 @@
         }
       },
       "file": "./packages/note-interval/index.js",
-      "code": "var parse = require('array-notation/pitch/parse')\nvar str = require('array-notation/pitch/str')\nvar notation = require('array-notation')(parse, str)\n\n/**\n * Get the interval between two pitches\n *\n * If one or both are pitch classes, a simple ascending interval is returned\n *\n * This function can be partially applied (see examples)\n *\n * @name note.interval\n * @function\n * @param {String} from - the first note\n * @param {String} to - the second note\n * @return {String} the interval between them\n *\n * @example\n * var interval = require('note-interval')\n * interval('C2', 'D3') // => '9M'\n * interval('D2', 'C2') // => '-2M'\n * interval('D', 'C') // => '7m'\n *\n * @example\n * // partially applied\n * var fromC = interval('C')\n * fromC('D') // => '2M'\n */\nmodule.exports = notation(function (a, b) {\n  if (!Array.isArray(a) || !Array.isArray(b)) return null\n  if (a.length === 1 || b.length === 1) {\n    var base = b[0] - a[0]\n    return [base, -Math.floor(base * 7 / 12)]\n  }\n  return [b[0] - a[0], b[1] - a[1]]\n})\n"
+      "code": "var parse = require('array-notation/pitch/parse')\nvar str = require('array-notation/pitch/str')\nvar notation = require('array-notation/operation')(parse, str)\n\n/**\n * Get the interval between two pitches\n *\n * If one or both are pitch classes, a simple ascending interval is returned\n *\n * This function can be partially applied (see examples)\n *\n * @name note.interval\n * @function\n * @param {String} from - the first note\n * @param {String} to - the second note\n * @return {String} the interval between them\n *\n * @example\n * var interval = require('note-interval')\n * interval('C2', 'D3') // => '9M'\n * interval('D2', 'C2') // => '-2M'\n * interval('D', 'C') // => '7m'\n *\n * @example\n * // partially applied\n * var fromC = interval('C')\n * fromC('D') // => '2M'\n */\nmodule.exports = notation(function (a, b) {\n  if (!Array.isArray(a) || !Array.isArray(b)) return null\n  if (a.length === 1 || b.length === 1) {\n    var base = b[0] - a[0]\n    return [base, -Math.floor(base * 7 / 12)]\n  }\n  return [b[0] - a[0], b[1] - a[1]]\n})\n"
     },
     "name": "note.interval",
     "params": [
@@ -3180,7 +3160,7 @@
         }
       },
       "file": "./packages/note-transpose/index.js",
-      "code": "var parse = require('array-notation/pitch/parse')\nvar str = require('array-notation/pitch/str')\nvar operation = require('array-notation')(parse, str)\n\n/**\n * Transpose a note by an interval.\n *\n * This function is currified. The order of the parameters is indifferent.\n *\n * @name note.transpose\n * @function\n * @param {String|Array} interval - the interval. If its false, the note is not\n * transposed.\n * @param {String|Array} note - the note to transpose\n * @return {String|Array} the note transposed\n *\n * @example\n * var transpose = require('note-transpose')\n * transpose('3m', 'C4') // => 'Eb4'\n * transpose('C4', '3m') // => 'Eb4'\n * tranpose([1, 0, 2], [3, -1, 0]) // => [3, 0, 2]\n * ['C', 'D', 'E'].map(transpose('3M')) // => ['E', 'F#', 'G#']\n */\nvar transpose = operation(function (i, n) {\n  if (i === false) return n\n  else if (!Array.isArray(i) || !Array.isArray(n)) return null\n  else if (i.length === 1 || n.length === 1) return [n[0] + i[0]]\n  var d = i.length === 2 && n.length === 2 ? null : n[2] || i[2]\n  return [n[0] + i[0], n[1] + i[1], d]\n})\n\nif (typeof module === 'object' && module.exports) module.exports = transpose\nif (typeof window !== 'undefined') window.transpose = transpose\n"
+      "code": "var parse = require('array-notation/pitch/parse')\nvar str = require('array-notation/pitch/str')\nvar operation = require('array-notation/operation')(parse, str)\n\n/**\n * Transpose a note by an interval.\n *\n * This function is currified. The order of the parameters is indifferent.\n *\n * @name note.transpose\n * @function\n * @param {String|Array} interval - the interval. If its false, the note is not\n * transposed.\n * @param {String|Array} note - the note to transpose\n * @return {String|Array} the note transposed\n *\n * @example\n * var transpose = require('note-transpose')\n * transpose('3m', 'C4') // => 'Eb4'\n * transpose('C4', '3m') // => 'Eb4'\n * tranpose([1, 0, 2], [3, -1, 0]) // => [3, 0, 2]\n * ['C', 'D', 'E'].map(transpose('3M')) // => ['E', 'F#', 'G#']\n */\nvar transpose = operation(function (i, n) {\n  if (i === false) return n\n  else if (!Array.isArray(i) || !Array.isArray(n)) return null\n  else if (i.length === 1 || n.length === 1) return [n[0] + i[0]]\n  var d = i.length === 2 && n.length === 2 ? null : n[2] || i[2]\n  return [n[0] + i[0], n[1] + i[1], d]\n})\n\nif (typeof module === 'object' && module.exports) module.exports = transpose\nif (typeof window !== 'undefined') window.transpose = transpose\n"
     },
     "name": "note.transpose",
     "params": [
@@ -3254,6 +3234,140 @@
     "events": [],
     "path": [
       "note.transpose"
+    ]
+  },
+  {
+    "description": "Decorate a function to work with intervals, notes or pitches in\n[array notation](https://github.com/danigb/tonal/tree/next/packages/array-notation)\nwith independence of string representations.\n\nThis is the base of the pluggable notation system of\n[tonal](https://github.com/danigb/tonal)",
+    "tags": [
+      {
+        "title": "name",
+        "description": null,
+        "lineNumber": 8,
+        "name": "operation"
+      },
+      {
+        "title": "function",
+        "description": null,
+        "lineNumber": 9,
+        "name": null
+      },
+      {
+        "title": "param",
+        "description": "the parser",
+        "lineNumber": 11,
+        "type": {
+          "type": "NameExpression",
+          "name": "Function"
+        },
+        "name": "parse"
+      },
+      {
+        "title": "param",
+        "description": "the string builder",
+        "lineNumber": 12,
+        "type": {
+          "type": "NameExpression",
+          "name": "Function"
+        },
+        "name": "str"
+      },
+      {
+        "title": "param",
+        "description": "the operation to decorate",
+        "lineNumber": 13,
+        "type": {
+          "type": "NameExpression",
+          "name": "Function"
+        },
+        "name": "fn"
+      },
+      {
+        "title": "example",
+        "description": "var parse = require('array-notation/interval/parse')\nvar str = require('array-notation/interval/str')\nvar operation = require('array-notation/operation')(parse, str)\nvar add = operation(function(a, b) { return [a[0] + b[0], a[1] + b[1]] })\nadd('3m', '3M') // => '5P'",
+        "lineNumber": 15
+      },
+      {
+        "title": "kind",
+        "kind": "function"
+      },
+      {
+        "title": "memberof",
+        "description": "module"
+      },
+      {
+        "title": "static"
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 11,
+        "column": 0
+      },
+      "end": {
+        "line": 31,
+        "column": 3
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 32,
+          "column": 0
+        },
+        "end": {
+          "line": 42,
+          "column": 0
+        }
+      },
+      "file": "./packages/array-notation/operation.js",
+      "code": "'use strict'\n\nfunction curry (fn, arity) {\n  if (arity === 1) return fn\n  return function (a, b) {\n    if (arguments.length === 1) return function (c) { return fn(a, c) }\n    return fn(a, b)\n  }\n}\n\n/**\n * Decorate a function to work with intervals, notes or pitches in\n * [array notation](https://github.com/danigb/tonal/tree/next/packages/array-notation)\n * with independence of string representations.\n *\n * This is the base of the pluggable notation system of\n * [tonal](https://github.com/danigb/tonal)\n *\n * @name operation\n * @function\n * @param {Function} parse - the parser\n * @param {Function} str - the string builder\n * @param {Function} fn - the operation to decorate\n *\n * @example\n * var parse = require('array-notation/interval/parse')\n * var str = require('array-notation/interval/str')\n * var operation = require('array-notation/operation')(parse, str)\n * var add = operation(function(a, b) { return [a[0] + b[0], a[1] + b[1]] })\n * add('3m', '3M') // => '5P'\n */\nmodule.exports = function op (parse, str, fn) {\n  if (arguments.length === 2) return function (f) { return op(parse, str, f) }\n  return curry(function (a, b) {\n    var ac = parse(a)\n    var bc = parse(b)\n    if (!ac && !bc) return fn(a, b)\n    var v = fn(ac || a, bc || b)\n    return str(v) || v\n  }, fn.length)\n}\n"
+    },
+    "name": "operation",
+    "params": [
+      {
+        "title": "param",
+        "description": "the parser",
+        "lineNumber": 11,
+        "type": {
+          "type": "NameExpression",
+          "name": "Function"
+        },
+        "name": "parse"
+      },
+      {
+        "title": "param",
+        "description": "the string builder",
+        "lineNumber": 12,
+        "type": {
+          "type": "NameExpression",
+          "name": "Function"
+        },
+        "name": "str"
+      },
+      {
+        "title": "param",
+        "description": "the operation to decorate",
+        "lineNumber": 13,
+        "type": {
+          "type": "NameExpression",
+          "name": "Function"
+        },
+        "name": "fn"
+      }
+    ],
+    "examples": [
+      "<span class=\"hljs-keyword\">var</span> parse = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">'array-notation/interval/parse'</span>)\n<span class=\"hljs-keyword\">var</span> str = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">'array-notation/interval/str'</span>)\n<span class=\"hljs-keyword\">var</span> operation = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">'array-notation/operation'</span>)(parse, str)\n<span class=\"hljs-keyword\">var</span> add = operation(<span class=\"hljs-function\"><span class=\"hljs-keyword\">function</span>(<span class=\"hljs-params\">a, b</span>) </span>{ <span class=\"hljs-keyword\">return</span> [a[<span class=\"hljs-number\">0</span>] + b[<span class=\"hljs-number\">0</span>], a[<span class=\"hljs-number\">1</span>] + b[<span class=\"hljs-number\">1</span>]] })\nadd(<span class=\"hljs-string\">'3m'</span>, <span class=\"hljs-string\">'3M'</span>) <span class=\"hljs-comment\">// =&gt; '5P'</span>"
+    ],
+    "kind": "function",
+    "memberof": "module",
+    "scope": "static",
+    "members": {
+      "instance": [],
+      "static": []
+    },
+    "events": [],
+    "path": [
+      "operation"
     ]
   },
   {
@@ -3388,6 +3502,117 @@
     "events": [],
     "path": [
       "pitchSet"
+    ]
+  },
+  {
+    "description": "A scale dictionary. Get scale from a scale name and a tonic.\n\nThe dictionary has a `names` property with all scale names.",
+    "tags": [
+      {
+        "title": "name",
+        "description": null,
+        "lineNumber": 5,
+        "name": "scale"
+      },
+      {
+        "title": "function",
+        "description": null,
+        "lineNumber": 6,
+        "name": null
+      },
+      {
+        "title": "param",
+        "description": "the scale name",
+        "lineNumber": 8,
+        "type": {
+          "type": "NameExpression",
+          "name": "String"
+        },
+        "name": "name"
+      },
+      {
+        "title": "see",
+        "description": "music-dictionary",
+        "lineNumber": 9
+      },
+      {
+        "title": "example",
+        "description": "// get scale data\nvar scale = require('scale-dictionary')\nscale('Ab major') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]\nscale('major', 'Ab') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]\n// get scale intervals\nscale('major', false) // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]",
+        "lineNumber": 11
+      },
+      {
+        "title": "example",
+        "description": "// get it from aliases, binary or decimal numbers\nscale('major') === scale('ionian') === scale('101011010101') === scale(2773)",
+        "lineNumber": 19
+      },
+      {
+        "title": "example",
+        "description": "// get scale names\nscale.names // => ['major', 'dorian', ...]",
+        "lineNumber": 23
+      },
+      {
+        "title": "kind",
+        "kind": "function"
+      },
+      {
+        "title": "memberof",
+        "description": "module"
+      },
+      {
+        "title": "static"
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 6,
+        "column": 0
+      },
+      "end": {
+        "line": 31,
+        "column": 3
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 32,
+          "column": 0
+        },
+        "end": {
+          "line": 33,
+          "column": 0
+        }
+      },
+      "file": "./packages/scale-dictionary/index.js",
+      "code": "'use strict'\n\nvar scales = require('./scales.json')\nvar dictionary = require('music-dictionary')\n\n/**\n * A scale dictionary. Get scale from a scale name and a tonic.\n *\n * The dictionary has a `names` property with all scale names.\n *\n * @name scale\n * @function\n * @param {String} name - the scale name\n * @see music-dictionary\n *\n * @example\n * // get scale data\n * var scale = require('scale-dictionary')\n * scale('Ab major') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]\n * scale('major', 'Ab') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]\n * // get scale intervals\n * scale('major', false) // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]\n *\n * @example\n * // get it from aliases, binary or decimal numbers\n * scale('major') === scale('ionian') === scale('101011010101') === scale(2773)\n *\n * @example\n * // get scale names\n * scale.names // => ['major', 'dorian', ...]\n */\nmodule.exports = dictionary(scales)\n"
+    },
+    "name": "scale",
+    "params": [
+      {
+        "title": "param",
+        "description": "the scale name",
+        "lineNumber": 8,
+        "type": {
+          "type": "NameExpression",
+          "name": "String"
+        },
+        "name": "name"
+      }
+    ],
+    "examples": [
+      "<span class=\"hljs-comment\">// get scale data</span>\n<span class=\"hljs-keyword\">var</span> scale = <span class=\"hljs-built_in\">require</span>(<span class=\"hljs-string\">'scale-dictionary'</span>)\nscale(<span class=\"hljs-string\">'Ab major'</span>) <span class=\"hljs-comment\">// =&gt; [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]</span>\nscale(<span class=\"hljs-string\">'major'</span>, <span class=\"hljs-string\">'Ab'</span>) <span class=\"hljs-comment\">// =&gt; [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]</span>\n<span class=\"hljs-comment\">// get scale intervals</span>\nscale(<span class=\"hljs-string\">'major'</span>, <span class=\"hljs-literal\">false</span>) <span class=\"hljs-comment\">// =&gt; [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]</span>",
+      "<span class=\"hljs-comment\">// get it from aliases, binary or decimal numbers</span>\nscale(<span class=\"hljs-string\">'major'</span>) === scale(<span class=\"hljs-string\">'ionian'</span>) === scale(<span class=\"hljs-string\">'101011010101'</span>) === scale(<span class=\"hljs-number\">2773</span>)",
+      "<span class=\"hljs-comment\">// get scale names</span>\nscale.names <span class=\"hljs-comment\">// =&gt; ['major', 'dorian', ...]</span>"
+    ],
+    "kind": "function",
+    "memberof": "module",
+    "scope": "static",
+    "members": {
+      "instance": [],
+      "static": []
+    },
+    "events": [],
+    "path": [
+      "scale"
     ]
   },
   {

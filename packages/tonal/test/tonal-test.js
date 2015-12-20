@@ -25,6 +25,10 @@ describe('tonal', function () {
     assert(tonal.note.fromMidi)
   })
 
+  it('has note and interval functions', function () {
+    assert(tonal.note.enharmonics)
+  })
+
   it('has transpose and interval', function () {
     assert(tonal.transpose)
     assert(tonal.note.transpose)

@@ -19,14 +19,14 @@
                 <code>binarySet.toBinary</code>
               </a>
               <a
+                href='#chord'
+                class='regular block'>
+                <code>chord</code>
+              </a>
+              <a
                 href='#chord-type'
                 class='regular block'>
                 <code>chord.type</code>
-              </a>
-              <a
-                href='#chords'
-                class='regular block'>
-                <code>chords</code>
               </a>
               <a
                 href='#dictionary'
@@ -129,9 +129,9 @@
                 <code>midi.freq</code>
               </a>
               <a
-                href='#notation'
+                href='#midi-note'
                 class='regular block'>
-                <code>notation</code>
+                <code>midi.note</code>
               </a>
               <a
                 href='#note-interval'
@@ -144,9 +144,19 @@
                 <code>note.transpose</code>
               </a>
               <a
+                href='#operation'
+                class='regular block'>
+                <code>operation</code>
+              </a>
+              <a
                 href='#pitchset'
                 class='regular block'>
                 <code>pitchSet</code>
+              </a>
+              <a
+                href='#scale'
+                class='regular block'>
+                <code>scale</code>
               </a>
               <a
                 href='#set-frombinary'
@@ -210,6 +220,51 @@ binarySet.toBinary(<span class="hljs-string">'C2 E4 D3'</span>) <span class="hlj
 
 
 </section>
+<section id='chord'class='mt2 mb2 py1 px2 keyline-top'>
+  <h3 class='regular'>
+    <a class='black' href='#chord'>
+      <code>
+        chord<span class='gray'>(name)</span>
+      </code>
+    </a>
+  </h3>
+  <p>A chord dictionary. Get chord data from a chord name.</p>
+
+
+    <p>
+      <table class='table-light overflow-hidden bg-cloudy-light'>
+        <thead>
+          <th class='col-3'>parameter</th>
+          <th class='col-3'>type</th>
+          <th class='col-6'>description</th>
+        </thead>
+          <tr>
+            <td>name</td>
+            <td>
+              <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+            </td>
+            <td><p>the chord name</p>
+</td>
+          </tr>
+      </table>
+    </p>
+
+
+
+
+    <h4>Examples</h4>
+<pre><span class="hljs-comment">// get chord data</span>
+<span class="hljs-keyword">var</span> chord = <span class="hljs-built_in">require</span>(<span class="hljs-string">'chord-dictionary'</span>)
+chord(<span class="hljs-string">'Maj7'</span>) <span class="hljs-comment">// =&gt; { name: 'Maj7', aliases: ['M7', 'maj7']</span>
+               <span class="hljs-comment">//      intervals:  [ ...],</span>
+               <span class="hljs-comment">//      binary: '100010010001', decimal: 2193 }</span></pre><pre><span class="hljs-comment">// get it from aliases, binary or decimal numbers</span>
+chord(<span class="hljs-string">'Maj7'</span>) === chord(<span class="hljs-string">'M7'</span>) === chord(<span class="hljs-string">'100010010001'</span>) === chord(<span class="hljs-number">2913</span>)</pre><pre><span class="hljs-comment">// get chord names</span>
+chord.names <span class="hljs-comment">// =&gt; ['Maj7', 'm7', ...]</span></pre>
+
+
+
+
+</section>
 <section id='chord-type'class='mt2 mb2 py1 px2 keyline-top'>
   <h3 class='regular'>
     <a class='black' href='#chord-type'>
@@ -261,62 +316,6 @@ chord.type(<span class="hljs-string">'C Eb Gb'</span>) <span class="hljs-comment
 chord.type(<span class="hljs-string">'C E G#'</span>) <span class="hljs-comment">// =&gt; 'aug'</span>
 chord.type(<span class="hljs-string">'C E G B'</span>) <span class="hljs-comment">// =&gt; 'M'</span>
 chord.type(<span class="hljs-string">'C E G B7'</span>) <span class="hljs-comment">// =&gt; '7'</span></pre>
-
-
-
-
-</section>
-<section id='chords'class='mt2 mb2 py1 px2 keyline-top'>
-  <h3 class='regular'>
-    <a class='black' href='#chords'>
-      <code>
-        chords<span class='gray'>(name)</span>
-      </code>
-    </a>
-  </h3>
-  <p>A chord dictionary. Get chord data from a chord name.</p>
-<p>The chord dictionary is a function that returns a chord data object.
-The chord data object has:</p>
-<ul>
-<li>name: the name</li>
-<li>aliases: an array with the alternative names of the chord</li>
-<li>intervals: an array with the intervals</li>
-<li>steps: an array with the intervals in <strong>array notation</strong></li>
-<li>binary: a binary representation of the chord set</li>
-<li>decimal: the decimal representation of the chord set</li>
-</ul>
-<p>The dictionary has a <code>names</code> property with all chord names.</p>
-
-
-    <p>
-      <table class='table-light overflow-hidden bg-cloudy-light'>
-        <thead>
-          <th class='col-3'>parameter</th>
-          <th class='col-3'>type</th>
-          <th class='col-6'>description</th>
-        </thead>
-          <tr>
-            <td>name</td>
-            <td>
-              <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
-            </td>
-            <td><p>the chord name</p>
-</td>
-          </tr>
-      </table>
-    </p>
-
-
-
-
-    <h4>Examples</h4>
-<pre><span class="hljs-comment">// get chord data</span>
-<span class="hljs-keyword">var</span> chord = <span class="hljs-built_in">require</span>(<span class="hljs-string">'chord-dictionary'</span>)
-chord(<span class="hljs-string">'Maj7'</span>) <span class="hljs-comment">// =&gt; { name: 'Maj7', aliases: ['M7', 'maj7']</span>
-               <span class="hljs-comment">//      intervals:  [ ...],</span>
-               <span class="hljs-comment">//      binary: '100010010001', decimal: 2193 }</span></pre><pre><span class="hljs-comment">// get it from aliases, binary or decimal numbers</span>
-chord(<span class="hljs-string">'Maj7'</span>) === chord(<span class="hljs-string">'M7'</span>) === chord(<span class="hljs-string">'100010010001'</span>) === chord(<span class="hljs-number">2913</span>)</pre><pre><span class="hljs-comment">// get chord names</span>
-chord.names <span class="hljs-comment">// =&gt; ['Maj7', 'm7', ...]</span></pre>
 
 
 
@@ -1244,7 +1243,8 @@ If the parameter is a valid midi number it return it as it.</p>
 
 
     <h4>Examples</h4>
-<pre>midi(<span class="hljs-string">'A4'</span>) <span class="hljs-comment">// =&gt; 69</span>
+<pre><span class="hljs-keyword">var</span> midi = <span class="hljs-built_in">require</span>(<span class="hljs-string">'note-midi'</span>)
+midi(<span class="hljs-string">'A4'</span>) <span class="hljs-comment">// =&gt; 69</span>
 midi(<span class="hljs-string">'a3'</span>) <span class="hljs-comment">// =&gt; 57</span>
 midi([<span class="hljs-number">0</span>, <span class="hljs-number">2</span>]) <span class="hljs-comment">// =&gt; 36 (C2 in array notation)</span>
 midi(<span class="hljs-number">60</span>) <span class="hljs-comment">// =&gt; 60</span></pre>
@@ -1313,19 +1313,19 @@ freq(<span class="hljs-number">69</span>) <span class="hljs-comment">// =&gt; 44
 
 
 </section>
-<section id='notation'class='mt2 mb2 py1 px2 keyline-top'>
+<section id='midi-note'class='mt2 mb2 py1 px2 keyline-top'>
   <h3 class='regular'>
-    <a class='black' href='#notation'>
+    <a class='black' href='#midi-note'>
       <code>
-        notation<span class='gray'>(parse, str, op)</span>
+        midi.note<span class='gray'>(midi)</span>
       </code>
     </a>
   </h3>
-  <p>Decorate a function to work with intervals, notes or pitches in
-<a href="https://github.com/danigb/tonal/tree/next/packages/array-notation">array notation</a>
-with independence of string representations.</p>
-<p>This is the base of the pluggable notation system of
-<a href="https://github.com/danigb/tonal">tonal</a></p>
+  <p>Get the note name (in scientific notation) of the given midi number</p>
+<p>It uses MIDI's <a href="https://en.wikipedia.org/wiki/MIDI_Tuning_Standard">Tuning Standard</a>
+where A4 is 69</p>
+<p>This method doesn't take into account diatonic spelling. Always the same
+pitch class is given for the same midi number.</p>
 
 
     <p>
@@ -1336,41 +1336,29 @@ with independence of string representations.</p>
           <th class='col-6'>description</th>
         </thead>
           <tr>
-            <td>parse</td>
+            <td>midi</td>
             <td>
-              <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a></code>
+              <code>Integer</code>
             </td>
-            <td><p>the parser</p>
-</td>
-          </tr>
-          <tr>
-            <td>str</td>
-            <td>
-              <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a></code>
-            </td>
-            <td><p>the string builder</p>
-</td>
-          </tr>
-          <tr>
-            <td>op</td>
-            <td>
-              <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a></code>
-            </td>
-            <td><p>the operation to decorate</p>
+            <td><p>the midi number</p>
 </td>
           </tr>
       </table>
     </p>
 
 
+      <h4>Returns</h4>
+      <code><code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code></code>
+      :
+      <span class='force-inline'>
+        <p>the pitch</p>
+
+      </span>
 
 
     <h4>Examples</h4>
-<pre><span class="hljs-keyword">var</span> parse = <span class="hljs-built_in">require</span>(<span class="hljs-string">'array-notation/interval/parse'</span>)
-<span class="hljs-keyword">var</span> str = <span class="hljs-built_in">require</span>(<span class="hljs-string">'array-notation/interval/str'</span>)
-<span class="hljs-keyword">var</span> intervalNotation = <span class="hljs-built_in">require</span>(<span class="hljs-string">'array-notation'</span>)(parse, str)
-<span class="hljs-keyword">var</span> add = intervalNotation(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a, b</span>) </span>{ <span class="hljs-keyword">return</span> [a[<span class="hljs-number">0</span>] + b[<span class="hljs-number">0</span>], a[<span class="hljs-number">1</span>] + b[<span class="hljs-number">1</span>]] })
-add(<span class="hljs-string">'3m'</span>, <span class="hljs-string">'3M'</span>) <span class="hljs-comment">// =&gt; '5P'</span></pre>
+<pre><span class="hljs-keyword">var</span> note = <span class="hljs-built_in">require</span>(<span class="hljs-string">'midi-note'</span>)
+note(<span class="hljs-number">69</span>) <span class="hljs-comment">// =&gt; 'A4'</span></pre>
 
 
 
@@ -1497,6 +1485,69 @@ tranpose([<span class="hljs-number">1</span>, <span class="hljs-number">0</span>
 
 
 </section>
+<section id='operation'class='mt2 mb2 py1 px2 keyline-top'>
+  <h3 class='regular'>
+    <a class='black' href='#operation'>
+      <code>
+        operation<span class='gray'>(parse, str, fn)</span>
+      </code>
+    </a>
+  </h3>
+  <p>Decorate a function to work with intervals, notes or pitches in
+<a href="https://github.com/danigb/tonal/tree/next/packages/array-notation">array notation</a>
+with independence of string representations.</p>
+<p>This is the base of the pluggable notation system of
+<a href="https://github.com/danigb/tonal">tonal</a></p>
+
+
+    <p>
+      <table class='table-light overflow-hidden bg-cloudy-light'>
+        <thead>
+          <th class='col-3'>parameter</th>
+          <th class='col-3'>type</th>
+          <th class='col-6'>description</th>
+        </thead>
+          <tr>
+            <td>parse</td>
+            <td>
+              <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a></code>
+            </td>
+            <td><p>the parser</p>
+</td>
+          </tr>
+          <tr>
+            <td>str</td>
+            <td>
+              <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a></code>
+            </td>
+            <td><p>the string builder</p>
+</td>
+          </tr>
+          <tr>
+            <td>fn</td>
+            <td>
+              <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function">Function</a></code>
+            </td>
+            <td><p>the operation to decorate</p>
+</td>
+          </tr>
+      </table>
+    </p>
+
+
+
+
+    <h4>Examples</h4>
+<pre><span class="hljs-keyword">var</span> parse = <span class="hljs-built_in">require</span>(<span class="hljs-string">'array-notation/interval/parse'</span>)
+<span class="hljs-keyword">var</span> str = <span class="hljs-built_in">require</span>(<span class="hljs-string">'array-notation/interval/str'</span>)
+<span class="hljs-keyword">var</span> operation = <span class="hljs-built_in">require</span>(<span class="hljs-string">'array-notation/operation'</span>)(parse, str)
+<span class="hljs-keyword">var</span> add = operation(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a, b</span>) </span>{ <span class="hljs-keyword">return</span> [a[<span class="hljs-number">0</span>] + b[<span class="hljs-number">0</span>], a[<span class="hljs-number">1</span>] + b[<span class="hljs-number">1</span>]] })
+add(<span class="hljs-string">'3m'</span>, <span class="hljs-string">'3M'</span>) <span class="hljs-comment">// =&gt; '5P'</span></pre>
+
+
+
+
+</section>
 <section id='pitchset'class='mt2 mb2 py1 px2 keyline-top'>
   <h3 class='regular'>
     <a class='black' href='#pitchset'>
@@ -1563,6 +1614,53 @@ set(<span class="hljs-string">'1 2 3 5 6'</span>, <span class="hljs-literal">fal
 <span class="hljs-comment">// partially applied</span>
 <span class="hljs-keyword">var</span> dorian = set(<span class="hljs-string">'D E F G A B C'</span>)
 dorian(<span class="hljs-string">'C4'</span>) <span class="hljs-comment">// =&gt; ['C4', 'D4', 'Eb4', 'F4', 'G4', 'A4', 'Bb4']</span></pre>
+
+
+
+
+</section>
+<section id='scale'class='mt2 mb2 py1 px2 keyline-top'>
+  <h3 class='regular'>
+    <a class='black' href='#scale'>
+      <code>
+        scale<span class='gray'>(name)</span>
+      </code>
+    </a>
+  </h3>
+  <p>A scale dictionary. Get scale from a scale name and a tonic.</p>
+<p>The dictionary has a <code>names</code> property with all scale names.</p>
+
+
+    <p>
+      <table class='table-light overflow-hidden bg-cloudy-light'>
+        <thead>
+          <th class='col-3'>parameter</th>
+          <th class='col-3'>type</th>
+          <th class='col-6'>description</th>
+        </thead>
+          <tr>
+            <td>name</td>
+            <td>
+              <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+            </td>
+            <td><p>the scale name</p>
+</td>
+          </tr>
+      </table>
+    </p>
+
+
+
+
+    <h4>Examples</h4>
+<pre><span class="hljs-comment">// get scale data</span>
+<span class="hljs-keyword">var</span> scale = <span class="hljs-built_in">require</span>(<span class="hljs-string">'scale-dictionary'</span>)
+scale(<span class="hljs-string">'Ab major'</span>) <span class="hljs-comment">// =&gt; [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]</span>
+scale(<span class="hljs-string">'major'</span>, <span class="hljs-string">'Ab'</span>) <span class="hljs-comment">// =&gt; [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]</span>
+<span class="hljs-comment">// get scale intervals</span>
+scale(<span class="hljs-string">'major'</span>, <span class="hljs-literal">false</span>) <span class="hljs-comment">// =&gt; [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]</span></pre><pre><span class="hljs-comment">// get it from aliases, binary or decimal numbers</span>
+scale(<span class="hljs-string">'major'</span>) === scale(<span class="hljs-string">'ionian'</span>) === scale(<span class="hljs-string">'101011010101'</span>) === scale(<span class="hljs-number">2773</span>)</pre><pre><span class="hljs-comment">// get scale names</span>
+scale.names <span class="hljs-comment">// =&gt; ['major', 'dorian', ...]</span></pre>
 
 
 

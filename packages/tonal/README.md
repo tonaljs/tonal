@@ -58,6 +58,9 @@ Transpose notes
 - [note-interval](https://github.com/danigb/tonal/tree/master/packages/note-interval):
 Find the interval between two notes
 [![npm](https://img.shields.io/npm/v/note-interval.svg)](https://www.npmjs.com/package/note-interval)
+- [enharmonics](https://github.com/danigb/tonal/tree/master/packages/enharmonics):
+Get note enharmonics
+[![npm](https://img.shields.io/npm/v/enharmonics.svg)](https://www.npmjs.com/package/enharmonics)
 - [note-midi](https://github.com/danigb/tonal/tree/master/packages/note-midi):
 Note name to midi
 [![npm](https://img.shields.io/npm/v/note-midi.svg)](https://www.npmjs.com/package/note-midi)
