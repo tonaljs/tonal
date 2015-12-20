@@ -1,5 +1,5 @@
 
-var A = {}
+var A = require('./operation')
 A.note = function (n) { A.note.str(A.note.parse(n)) }
 A.note.regex = require('./note/regex')
 A.note.parse = require('./note/parse')

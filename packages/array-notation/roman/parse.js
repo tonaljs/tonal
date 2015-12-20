@@ -8,15 +8,15 @@ var NUM = {i: 0, ii: 1, iii: 2, iv: 3, v: 4, vi: 5, vii: 6}
 
 /**
  * Roman to coordinate: convert from [roman numerals](https://en.wikipedia.org/wiki/Roman_numeral_analysis)
- * to [pitch coordinates]()
+ * to [array-notation]()
  *
- * @name roman.memoize
+ * @name roman.parse
  * @function
  * @param {String} str - the roman numeral string
  * @return {Array} a coord or null if not valid roman numeral literal
  *
  * @example
- * var parse = require('array-notation/roman.memoize')
+ * var parse = require('array-notation/roman.parse')
  * parse('V') // => [1]
  * parse('bII') // => [-5]
  */

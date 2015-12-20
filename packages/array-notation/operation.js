@@ -23,7 +23,7 @@ function curry (fn, arity) {
  * @param {Function} op - the operation to decorate
  *
  * @example
- * var operation = require('tonal-operation')
+ * var operation = require('array-notation/operation')
  * var parse = require('array-notation/interval/parse')
  * var str = require('array-notation/interval/str')
  * var add = operation(parse, str, function(a, b) {
