@@ -1,6 +1,6 @@
 var parse = require('array-notation/pitch/parse')
 var str = require('array-notation/pitch/str')
-var operation = require('tonal-operation')
+var operation = require('array-notation')(parse, str)
 
 /**
  * Transpose a note by an interval.
@@ -21,7 +21,7 @@ var operation = require('tonal-operation')
  * tranpose([1, 0, 2], [3, -1, 0]) // => [3, 0, 2]
  * ['C', 'D', 'E'].map(transpose('3M')) // => ['E', 'F#', 'G#']
  */
-var m = operation(parse, str, function (i, n) {
+var transpose = operation(function (i, n) {
   if (i === false) return n
   else if (!Array.isArray(i) || !Array.isArray(n)) return null
   else if (i.length === 1 || n.length === 1) return [n[0] + i[0]]
@@ -29,5 +29,5 @@ var m = operation(parse, str, function (i, n) {
   return [n[0] + i[0], n[1] + i[1], d]
 })
 
-if (typeof module === 'object' && module.exports) module.exports = m
-if (typeof window !== 'undefined') window.transpose = m
+if (typeof module === 'object' && module.exports) module.exports = transpose
+if (typeof window !== 'undefined') window.transpose = transpose
