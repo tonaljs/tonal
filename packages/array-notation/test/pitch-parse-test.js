@@ -2,7 +2,7 @@
 var assert = require('assert')
 var parse = require('../pitch/parse')
 
-describe('pitch-parse', function () {
+describe('array-notation/pitch-parse', function () {
   it('notes and intervals', function () {
     assert.deepEqual(parse('D'), [2])
     assert.deepEqual(parse('D2'), [2, 1, null])

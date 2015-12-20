@@ -9,7 +9,7 @@ function test (notes) {
   assert.deepEqual(actual, expected)
 }
 
-describe('note-str', function () {
+describe('array-notation/note/str', function () {
   it('pitch classes', function () {
     test('C D E F G A B')
     test('C# D# E# F# G# A# B#')

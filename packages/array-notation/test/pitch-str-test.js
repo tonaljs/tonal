@@ -2,7 +2,7 @@
 var assert = require('assert')
 var str = require('../pitch/str')
 
-describe('pitch.str', function () {
+describe('array-notation/pitch/str', function () {
   it('pitch to string', function () {
     assert.equal(str([0]), 'C')
     assert.equal(str([0, 0]), '1P')

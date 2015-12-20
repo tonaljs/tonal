@@ -2,7 +2,7 @@
 var assert = require('assert')
 var parse = require('../note/parse')
 
-describe('note to coord', function () {
+describe('array-notation/note/parse', function () {
   it('parse pitch class', function () {
     assert.deepEqual('F C G D A E B'.split(' ').map(parse),
       [ [ -1 ], [ 0 ], [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ] ])

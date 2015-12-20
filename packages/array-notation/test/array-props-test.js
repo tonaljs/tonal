@@ -8,7 +8,7 @@ function prop (i, str, parser) {
   return str.split(' ').map(parser).map(props).map(function (e) { return e[i] })
 }
 
-describe('notation.props', function () {
+describe('array-notation/array-props', function () {
   it('note letters', function () {
     assert.deepEqual(prop(0, 'C D E F G A B', note), [0, 1, 2, 3, 4, 5, 6])
     assert.deepEqual(prop(0, 'C2 D2 E2 F2 G2 A2 B2', note), [0, 1, 2, 3, 4, 5, 6])

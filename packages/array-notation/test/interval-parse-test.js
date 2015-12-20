@@ -2,7 +2,7 @@
 var assert = require('assert')
 var parse = require('../interval/parse')
 
-describe('interval-parse', function () {
+describe('array-notation/interval/parse', function () {
   it('ascending intervals', function () {
     assert.deepEqual('1 2 3 4 5 6 7'.split(' ').map(parse),
       [ [ 0, 0 ], [ 2, -1 ], [ 4, -2 ], [ -1, 1 ], [ 1, 0 ], [ 3, -1 ], [ 5, -2 ] ])

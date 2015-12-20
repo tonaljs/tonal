@@ -5,7 +5,7 @@ var regex = require('../roman/regex')
 function exec (str) { return regex.exec(str).slice(0, 4) }
 
 var nums = 'I II III IV V VI VII'.split(' ')
-describe('roman numeral split', function () {
+describe('array-notation/roman/regex', function () {
   it('case independent', function () {
     nums.forEach(function (n) {
       assert.deepEqual(exec(n), [n, '', n, ''])

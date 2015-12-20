@@ -1,6 +1,6 @@
 {
   "name": "array-notation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert music elements to array notation",
   "main": "index.js",
   "scripts": {

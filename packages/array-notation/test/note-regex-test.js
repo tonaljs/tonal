@@ -3,7 +3,7 @@ var assert = require('assert')
 var R = require('../note/regex')
 function exec (n) { return R.exec(n).slice(0, 6) }
 
-describe('note-regex', function () {
+describe('array-notation/note-regex', function () {
   it('parses pitch classes', function () {
     assert.deepEqual(exec('C'), ['C', 'C', '', '', '', ''])
     assert.deepEqual(exec('a'), ['a', 'a', '', '', '', ''])
