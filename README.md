@@ -49,7 +49,7 @@ Also, I want a complete library, where I can model all what I learn, with some (
 ## What
 
 `tonal` is a collection of modules. They all live in this
-multi package repository ([moorepo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md)). Take a look inside [`packages`](https://github.com/danigb/tonal/tree/master/packages):
+multi package repository ([monorepo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md)). Take a look inside [`packages`](https://github.com/danigb/tonal/tree/master/packages):
 
 #### Released
 
@@ -157,8 +157,7 @@ The functions are extensively documented inside the code. The generated document
 To run the tests, clone this repository and run:
 
 ```bash
-npm install
-npm test
+make
 ```
 
 ## Resources and inspiration

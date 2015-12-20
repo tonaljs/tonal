@@ -1,8 +1,9 @@
 {
   "scripts": {
-    "build": "npm run disc && npm run dist",
+    "build": "npm run test && npm run api && npm run disc && npm run dist",
     "test": "_mocha `scripts/get-test-directories.sh`",
-    "docs": "documentation -f html -o docs support/docgen.js && documentation -f md support/docgen.js > API.md",
+    "api": "documentation -f md --shallow ./packages/**/*.js > API.md",
+    "docs": "documentation -f html -o docs --shallow ./packages/**/*.js",
     "dist": "browserify index.js | uglifyjs > dist/tonal.min.js&& ls -hall dist/",
     "disc": "browserify --full-paths index.js | uglifyjs | discify > dist/disc.html",
     "lint": "jshint .",

@@ -18,7 +18,7 @@ var dictionary = require('music-dictionary')
  *
  * The dictionary has a `names` property with all chord names.
  *
- * @name chord-dictionary
+ * @name chords
  * @function
  * @param {String} name - the chord name
  * @see dictionary/dictionary
