@@ -1,6 +1,6 @@
 var parse = require('array-notation/pitch/parse')
 var str = require('array-notation/pitch/str')
-var operation = require('array-notation')(parse, str)
+var operation = require('array-notation/operation')(parse, str)
 
 /**
  * Transpose a note by an interval.
