@@ -1,18 +1,18 @@
 {
-  "name": "music-gamut",
-  "version": "0.7.4",
-  "description": "Manipulate collection of notes",
+  "name": "tonal",
+  "version": "0.31.0",
+  "description": "A modular and functional music theory library",
   "main": "index.js",
   "scripts": {
     "build": "npm test && npm run coverage && npm run docs && npm run disc && npm run dist",
     "test": "mocha",
     "docs": "documentation -f md > API.md",
-    "dist": "browserify index.js | uglifyjs > dist/music-gamut.min.js&& ls -hall dist/",
+    "dist": "browserify index.js | uglifyjs > dist/tonal.min.js&& ls -hall dist/",
     "disc": "browserify --full-paths index.js | uglifyjs | discify > dist/disc.html",
     "coverage": "istanbul cover _mocha"
   },
-  "homepage": "https://github.com/danigb/tonal/tree/master/packages/music-gamut#readme",
-  "repository": "https://github.com/danigb/tonal/tree/master/packages/music-gamut",
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/tonal#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
@@ -29,6 +29,7 @@
   "dependencies": {
     "array-notation": "^1.2.0",
     "note-interval": "^1.0.0",
+    "note-midi": "^1.0.0",
     "note-transpose": "^1.0.0"
   }
 }

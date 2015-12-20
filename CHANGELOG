@@ -6,6 +6,7 @@ CHANGELOG
 note-transpose 1.0.0
 note-interval 1.0.0
 midi-freq 1.0.1
+note-midi 1.0.0
 array-notation 1.0.0
 music-gamut 0.6.0
 chord-dictionary 0.1.0

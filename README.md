@@ -76,7 +76,7 @@ Music chords
 Music scales
 - [music-gamut](https://github.com/danigb/tonal/tree/master/packages/music-gamut):
 Work with collection of notes
-- [tonal-key](https://github.com/danigb/tonal/tree/master/packages/tonal-key):
+- [music-key](https://github.com/danigb/tonal/tree/master/packages/music-key):
 Music keys
 - [pitch-set](https://github.com/danigb/tonal/tree/master/packages/pitch-set):
 Pitch sets
