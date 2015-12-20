@@ -1,3 +1,26 @@
+## `interval`
+
+Get a interval from a string (or null if not valid interval)
+
+### Parameters
+
+* `src` **`String`** the source
+
+
+### Examples
+
+```js
+interval = require('array-notation/interval/interval')
+interval('2M') // => '2M'
+interval('2') // => '2M'
+interval('2m') // => '2m'
+interval('2b') // => '2m'
+interval('C') // => null
+```
+
+Returns `String` the interval in short notation
+
+
 ## `interval.parse`
 
 Parse a [interval shorthand notation](https://en.wikipedia.org/wiki/Interval_(music)#Shorthand_notation)
@@ -62,32 +85,25 @@ str([1, 0, 1]) // => '9M'
 Returns `String` the interval string in shorthand notation or null if not valid interval
 
 
-## `notation`
+## `note`
 
-Decorate a function to work with intervals, notes or pitches in
-[array notation](https://github.com/danigb/tonal/tree/next/packages/array-notation)
-with independence of string representations.
-
-This is the base of the pluggable notation system of
-[tonal](https://github.com/danigb/tonal)
+Get a note from a string (or null if not valid note)
 
 ### Parameters
 
-* `parse` **`Function`** the parser
-* `str` **`Function`** the string builder
-* `op` **`Function`** the operation to decorate
+* `src` **`String`** the source
 
 
 ### Examples
 
 ```js
-var parse = require('array-notation/interval/parse')
-var str = require('array-notation/interval/str')
-var intervalNotation = require('array-notation')(parse, str)
-var add = intervalNotation(function(a, b) { return [a[0] + b[0], a[1] + b[1]] })
-add('3m', '3M') // => '5P'
+note = require('array-notation/note/note')
+note('fx2') // => 'F##2'
+note('bbb') // => 'Bbb'
+note('blah') // => null
 ```
 
+Returns `String` the note in scientific notation
 
 
 ## `note.parse`
@@ -176,6 +192,56 @@ str([0, 4, 2]) // => 'F4/2'
 ```
 
 Returns `String` the note in scientific notation or null if not valid note array
+
+
+## `operation`
+
+Decorate a function to work with intervals, notes or pitches in
+[array notation](https://github.com/danigb/tonal/tree/next/packages/array-notation)
+with independence of string representations.
+
+This is the base of the pluggable notation system of
+[tonal](https://github.com/danigb/tonal)
+
+### Parameters
+
+* `parse` **`Function`** the parser
+* `str` **`Function`** the string builder
+* `fn` **`Function`** the operation to decorate
+
+
+### Examples
+
+```js
+var parse = require('array-notation/interval/parse')
+var str = require('array-notation/interval/str')
+var operation = require('array-notation/operation')(parse, str)
+var add = operation(function(a, b) { return [a[0] + b[0], a[1] + b[1]] })
+add('3m', '3M') // => '5P'
+```
+
+
+
+## `pitch`
+
+Get a pitch from a string. In tonal a pitch it's a note, an interval or a
+pitch class. It allows us to work with this elements in an uniform way.
+
+### Parameters
+
+* `source` **`String`** the string
+
+
+### Examples
+
+```js
+var pitch = require('array-notation/pitch/pitch')
+pitch('c2') // => 'C2'
+pitch('2') // => '2M'
+pitch('blah') // => null
+```
+
+Returns `String` the pitch or null if not a valid pitch
 
 
 ## `pitch.parse`

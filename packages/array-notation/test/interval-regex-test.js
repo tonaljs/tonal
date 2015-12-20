@@ -6,6 +6,7 @@ function exec (n) { return R.exec(n).slice(0, 9) }
 describe('array-notation/interval-regex', function () {
   it('parses tonal style', function () {
     assert.deepEqual(exec('-3M'), ['-3M', '-3M', '-', '3', 'M', null, null, null, null])
+    assert.deepEqual(exec('-3m'), ['-3m', '-3m', '-', '3', 'm', null, null, null, null])
   })
 
   it('parses strict style', function () {
