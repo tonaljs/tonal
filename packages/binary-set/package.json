@@ -26,7 +26,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "music-gamut": "file:../music-gamut",
+    "music-gamut": "^0.7.2",
     "note-transpose": "^1.0.0"
   }
 }
