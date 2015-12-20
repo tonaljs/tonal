@@ -7,8 +7,8 @@
     "build": "npm run docs && npm run disc && npm run coverage && npm run dist",
     "test": "mocha",
     "docs": "documentation -f md > API.md",
-    "dist": "browserify index.js | uglifyjs > dist-no/music-dictionary.min.js&& ls -hall dist-no/",
-    "disc": "browserify --full-paths index.js | uglifyjs | discify > dist-no/disc.html",
+    "dist": "browserify index.js | uglifyjs > tmp/music-dictionary.min.js&& ls -hall tmp/",
+    "disc": "browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
     "coverage": "istanbul cover _mocha",
     "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
   },

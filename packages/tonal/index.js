@@ -11,5 +11,10 @@ T.note.transpose = T.transpose
 T.note.interval = require('note-interval')
 
 T.midi = T.note.midi = require('note-midi')
+T.midi.freq = require('midi-freq')
+T.gamut = require('music-gamut')
+T.harmonizer = T.gamut.harmonizer
+
+T.dictionary = require('music-dictionary')
 
 module.exports = T

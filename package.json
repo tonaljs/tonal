@@ -1,11 +1,11 @@
 {
   "scripts": {
-    "build": "npm run test && npm run api && npm run disc && npm run dist",
+    "build": "cp README.md ./packages/tonal && npm run test && npm run api && npm run disc && npm run dist",
     "test": "_mocha `scripts/get-test-directories.sh`",
     "api": "documentation -f md --shallow ./packages/**/*.js > API.md",
     "docs": "documentation -f html -o docs --shallow ./packages/**/*.js",
-    "dist": "browserify index.js | uglifyjs > dist/tonal.min.js&& ls -hall dist/",
-    "disc": "browserify --full-paths index.js | uglifyjs | discify > dist/disc.html",
+    "dist": "browserify ./packages/tonal/index.js | uglifyjs > dist/tonal.min.js&& ls -hall dist/",
+    "disc": "browserify --full-paths ./packages/tonal/index.js | uglifyjs | discify > dist/disc.html",
     "lint": "jshint .",
     "update": "rm -rf node_modules/tonal.* && npm i && npm dedupe",
     "coverage": "istanbul cover _mocha `scripts/get-test-directories.sh`",

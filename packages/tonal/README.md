@@ -55,25 +55,18 @@ multi package repository ([monorepo](https://github.com/babel/babel/blob/master/
 
 - [note-transpose](https://github.com/danigb/tonal/tree/master/packages/note-transpose):
 Transpose notes
-[![npm](https://img.shields.io/npm/v/note-transpose.svg)](https://www.npmjs.com/package/nnote-transpose)
 - [note-interval](https://github.com/danigb/tonal/tree/master/packages/note-interval):
 Find the interval between two notes
-[![npm](https://img.shields.io/npm/v/note-interval.svg)](https://www.npmjs.com/package/note-interval)
 - [music-gamut](https://github.com/danigb/tonal/tree/master/packages/music-gamut):
 Work with collection of notes
-[![npm](https://img.shields.io/npm/v/music-gamut.svg)](https://www.npmjs.com/package/music-gamut)
 - [note-midi](https://github.com/danigb/tonal/tree/master/packages/note-midi):
 Get the midi number from a note name
-[![npm](https://img.shields.io/npm/v/note-midi.svg)](https://www.npmjs.com/package/note-midi)
 - [midi-freq](https://github.com/danigb/tonal/tree/master/packages/midi-freq):
 Given a midi note, get it's frequency
-[![npm](https://img.shields.io/npm/v/midi-freq.svg)](https://www.npmjs.com/package/midi-freq)
 - [music-dictionary](https://github.com/danigb/tonal/tree/master/packages/music-dictionary):
 Create dictionaries of notes
-[![npm](https://img.shields.io/npm/v/music-dictionary.svg)](https://www.npmjs.com/package/mmusic-dictionary)
 - [array-notation](https://github.com/danigb/tonal/tree/master/packages/array-notation):
 Parse notes, intervals and other pitched elements
-[![npm](https://img.shields.io/npm/v/array-notation.svg)](https://www.npmjs.com/package/array-notation)
 
 #### Not released
 
