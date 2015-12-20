@@ -1,14 +1,15 @@
 {
   "name": "midi-freq",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Get frequency of a midi note",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/danigb/midi-freq.git"
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/midi-freq#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/midi-freq",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
   },
   "keywords": [
     "midi",
@@ -20,10 +21,6 @@
   ],
   "author": "danigb",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/danigb/midi-freq/issues"
-  },
-  "homepage": "https://github.com/danigb/midi-freq#readme",
   "devDependencies": {
   },
   "dependencies": {}
