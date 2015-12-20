@@ -56,10 +56,10 @@ var transpose = require('note-transpose')
  */
 module.exports = function (src) {
   function dict (name, tonic) {
-    var v = dict.data[name]
+    var v = dict.props(name)
     if (!v) {
       var n = R.exec(name)
-      v = n ? dict.data[n[5]] : null
+      v = n ? dict.props(n[5]) : null
       if (!v) return []
       tonic = tonic === false ? tonic : tonic || n[1] + n[2] + n[3]
     }
@@ -70,12 +70,14 @@ module.exports = function (src) {
 }
 
 function build (src, dict) {
-  dict.source = src
-  dict.names = Object.keys(src)
-  dict.aliases = dict.names.slice()
-  var data = dict.data = {}
+  var data = {}
+  var names = Object.keys(src)
+  var aliases = names.slice()
 
-  dict.names.forEach(function (k) {
+  dict.props = function (name) { return data[name] }
+  dict.names = function (a) { return (a ? aliases : names).slice() }
+
+  names.forEach(function (k) {
     var d = src[k]
     var c = { name: k, aliases: d[1] || [] }
     c.intervals = d[0].split(' ')
@@ -84,7 +86,7 @@ function build (src, dict) {
     c.decimal = parseInt(c.binary, 2)
     data[k] = data[c.binary] = data[c.decimal] = c
     c.aliases.forEach(function (a) { data[a] = c })
-    if (c.aliases.length > 0) dict.aliases = dict.aliases.concat(c.aliases)
+    if (c.aliases.length > 0) aliases = aliases.concat(c.aliases)
   })
   return dict
 }
