@@ -1,6 +1,6 @@
 {
   "name": "chord-dictionary",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A music chord dictionary",
   "main": "index.js",
   "scripts": {
@@ -27,6 +27,6 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "music-dictionary": "^0.1.0"
+    "music-dictionary": "^0.2.0"
   }
 }

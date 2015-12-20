@@ -1,18 +1,6 @@
-## `exports`
+## `chord`
 
 A chord dictionary. Get chord data from a chord name.
-
-The chord dictionary is a function that returns a chord data object.
-The chord data object has:
-
-- name: the name
-- aliases: an array with the alternative names of the chord
-- intervals: an array with the intervals
-- steps: an array with the intervals in __array notation__
-- binary: a binary representation of the chord set
-- decimal: the decimal representation of the chord set
-
-The dictionary has a `names` property with all chord names.
 
 ### Parameters
 
