@@ -28,7 +28,7 @@ This library is evolving with this ideas in mind:
 - Notes and intervals are represented with strings, instead of objects. Easy and concise code.
 - Functional: no classes, no side effects, no mutations. Just functions, data-in data-out. Most of the functions has the data to operate on as last argument and lot of functions are currified.
 - [Small](https://rawgit.com/danigb/tonal/master/dist/disc.html) and fast
-- Modular: lot of modules (all integrated in tonal). You can require exactly the functions you need.
+- [Modular](https://www.npmjs.com/browse/keyword/tonal): lot of modules (all integrated in tonal). You can require exactly the functions you need. Or get the [whole thing](https://www.npmjs.com/package/tonal).
 - Different notations: scientific notation by default. Use other easily.
 - Documented: all public functions are documented inside the code. Aside the generated documentation (in API.md file) a 'usage' guides are provided for each module.
 - Learneable: since all the modules share the same philosophy is easy to work with them.

@@ -11,7 +11,7 @@
     "disc": "browserify --full-paths index.js | uglifyjs | discify > dist/disc.html",
     "coverage": "istanbul cover _mocha"
   },
-  "homepage": "https://github.com/danigb/tonal/tree/master/packages/tonal#readme",
+  "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
