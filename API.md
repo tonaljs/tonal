@@ -55,9 +55,9 @@ chord.names // => ['Maj7', 'm7', ...]
 ## `chord.type`
 
 Get the type of the chord (can be 'M', 'm', '7' or 'o' to represent major,
-minot, dominant and dimished respectively)
+minot, dominant and diminished respectively)
 
-It assumes that the chord is not inversed (first note is always the tonic)
+It assumes that the chord is not inverted (first note is always the tonic)
 
 It detects major, minor, augmented, diminished and dominant chords. All
 chord notes beyond the 5th (except 7th for dominant chords) are ignored
