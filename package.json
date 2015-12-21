@@ -28,6 +28,5 @@
     "mocha": "^2.3.4"
   },
   "dependencies": {
-    "note-transpose": "packages/note-transpose"
   }
 }

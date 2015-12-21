@@ -2,82 +2,38 @@
 
 [![tonal](https://img.shields.io/badge/tonal-music--gamut-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-`chord-type` is a library to work with collections of notes or intervals:
+## `chord.type`
+
+Get the type of the chord (can be 'M', 'm', '7' or 'o' to represent major,
+minot, dominant and diminished respectively)
+
+It assumes that the chord is not inverted (first note is always the tonic)
+
+It detects major, minor, augmented, diminished and dominant chords. All
+chord notes beyond the 5th (except 7th for dominant chords) are ignored
+
+#### Parameters
+
+* `chord` **`Array`** the chord notes
+
+
+#### Examples
 
 ```js
-var gamut = require('chord-type')
-gamut('c d e blah g7') // => ['C', 'D', 'E', null, 'G7']
-var maj7 = gamut.harmonizer('1 3 5 7')
-maj7('A2') // => ['A2', 'C#3', 'E3', 'G#3']
-gamut.sort('c2 e6 g2 b4') // => ['C2', 'G2', 'B4', 'E6']
+var chord = require('music.chord')
+chord.type('C E G') // => 'M'
+chord.type('C Eb G') // => 'm'
+chord.type('C Eb Gb') // => 'dim'
+chord.type('C E G#') // => 'aug'
+chord.type('C E G B') // => 'M'
+chord.type('C E G B7') // => '7'
 ```
 
-This is part of [tonal](https://www.npmjs.com/package/tonal)
+Returns `String` the chord type ('M', 'm', '7', 'dim', 'aug' or null)
 
 ## Install
 
 Via npm: `npm i --save chord-type`
-
-## Usage
-
-In [tonal](https://www.npmjs.com/package/tonal) a gamut is a collection of pitches (notes, intervals or pitch classes). Pitch sets, chord and scales are different gamut types.
-
-#### Create gamuts
-
-You can create a gamut from a string with notes or intervals separated by spaces, bars or commas:
-
-```js
-var gamut = require('chord-type')
-gamut('a b c 1 2 3 blah') // => ['A', 'B', 'C', '1P', '2M', '3M', null]
-gamut('c d | e f') // => ['C', 'D', 'E' 'F']
-```
-
-#### Harmonizers and harmonics
-
-A gamut harmonizer is a function that given a note returns a gamut. You can create an harmonizer from a list of intervals:
-
-```js
-var octaves = gamut.harmonizer('1 -8 -15')
-octaves('C2') // => ['C2', 'C1', 'C0']
-```
-
-The `gamut.harmonics` function gets the relative distances from the first note the rest:
-
-```js
-gamut.harmonics('C E G') // => ['1P', '3M', '5P']
-```
-
-#### Create pitch sets
-
-A pitch set is an ordered collection of unique pitch classes. You can create a pitch set from a collection of notes:
-
-```js
-gamut.set('f# e4 C2 g5 d3') // => ['C', 'D', 'E', 'F#', 'G']
-```
-
-The set is always ordered by pitch, where 'C' is the lowest and 'B' the highest.
-
-#### Select elements from a gamut
-
-You can select elements with a list of 1-based index numbers and a gamut:
-
-```js
-gamut.select('1 3 5', 'C D E F G A B') // => ['C', 'E', 'G']
-```
-
-#### Rotate gamuts
-
-```js
-gamut.rotate(2, 'c d e') // => ['e', 'c', 'd']
-```
-
-#### Sort
-
-The `gamut.sort` function sorts a gamut using an ascending pitch order:
-
-```js
-kit.gamut.sort('F G D A C') // => ['C', 'D', 'F', 'G', 'A']
-```
 
 ## License
 
