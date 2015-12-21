@@ -1,6 +1,6 @@
 {
   "name": "enharmonics",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Get music note enharmonics",
   "main": "index.js",
   "scripts": {
@@ -27,5 +27,6 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
+    "note-transpose": "^1.0.2"
   }
 }
