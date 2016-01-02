@@ -3,8 +3,8 @@
 var G = require('music-gamut')
 
 /**
- * Get the type of the chord (can be 'M', 'm', '7' or 'o' to represent major,
- * minot, dominant and diminished respectively)
+ * Given a triad notes, get it's type (can be 'M', 'm', '7' or 'o' to represent major,
+ * minor, dominant and diminished respectively)
  *
  * It assumes that the chord is not inverted (first note is always the tonic)
  *
@@ -17,13 +17,13 @@ var G = require('music-gamut')
  * @return {String} the chord type ('M', 'm', '7', 'dim', 'aug' or null)
  *
  * @example
- * var chord = require('music.chord')
- * chord.type('C E G') // => 'M'
- * chord.type('C Eb G') // => 'm'
- * chord.type('C Eb Gb') // => 'dim'
- * chord.type('C E G#') // => 'aug'
- * chord.type('C E G B') // => 'M'
- * chord.type('C E G B7') // => '7'
+ * var type = require('chord-type')
+ * type('C E G') // => 'M'
+ * type('C Eb G') // => 'm'
+ * type('C Eb Gb') // => 'dim'
+ * type('C E G#') // => 'aug'
+ * type('C E G B') // => 'M'
+ * type('C E G B7') // => '7'
  */
 module.exports = function (chord) {
   var g = G.harmonizer(chord, false)

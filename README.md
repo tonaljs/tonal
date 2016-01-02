@@ -4,7 +4,7 @@
 [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 [![license](https://img.shields.io/npm/l/tonal.svg)](https://www.npmjs.com/package/tonal)
-[![tonal](https://img.shields.io/badge/tonal-lib-yellow.svg)](https://www.npmjs.com/package/tonal)
+[![tonal](https://img.shields.io/badge/tonal-modules-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
 
 `tonal` is a modular, functional music theory library. It's a collection of libraries to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and while is designed for algorithmic composition and music generation, can be used to develop any kind of midi or audio software.
 
@@ -139,10 +139,10 @@ tonal.chord('Cmaj7') // => ['C', 'E', 'G', 'B']
 
 // harmonizers
 var major = tonal.harmonizer('1 3 5')
-major('C6') // => ['C6', 'E6', 'G6']
-major('E5', true) /// => ['E', 'G#', 'B'] (only pitch classes)
+major('C#') // => ['C#', 'E#', 'G#']
+major('E5') /// => ['E5', 'G#5', 'B5']
 var V7 = tonal.harmonizer('1 3 5 7m')
-var V7ofV = function(pitch) { V7(tonal(pitch, '5P')) }
+var V7ofV = function(tonic) { V7(tonal.transpose(tonic, '5P')) }
 var V7ofV('D') // => ['A4', 'C#5', 'E5', 'G7']
 
 // keys
@@ -160,21 +160,15 @@ Then you can load the whole library:
 
 ```js
 var tonal = require('tonal')
-tonal.pitch.transpose(tonal.note.fromMidi(60), '2M')
+tonal.transpose(tonal.note.fromMidi(60), '2M')
 ```
 
-... one module (you have to install it first):
+... or install and require individual modules:
 
 ```js
-var pitch = require('tonal.note')
-note.transpose(pitch.fromMidi(60), '2M')
-```
-
-or a function:
-
-```js
-var signature = require('tonal.key/signature')
-signature('A major') // => '###'
+var transpose = require('note-transpose')
+var fromMidi = require('midi-note')
+transpose(fromMidi(60), '2M')
 ```
 
 ## Documentation and tests
