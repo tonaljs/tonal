@@ -1,24 +1,30 @@
 {
   "name": "music-scale",
-  "private": true,
-  "main": "lib/index.js",
+  "version": "0.20.0",
+  "description": "Create music scales",
+  "main": "index.js",
   "scripts": {
-    "build": "cp README.md lib/ && npm run docs && npm run coverage && npm run disc && npm run dist",
+    "build": "npm test && npm run coverage && npm run docs && npm run dist",
     "test": "mocha",
     "docs": "documentation -f md > API.md",
-    "dist": "browserify lib/index.js | uglifyjs > dist/tonal.scale.min.js&& ls -hall dist/",
-    "disc": "browserify --full-paths lib/index.js | uglifyjs | discify > dist/disc.html",
-    "coverage": "istanbul cover _mocha",
-    "cover": "npm run coverage && open ./coverage/lcov-report/index.html",
-    "climate": "npm run coverage && npm run codeclimate",
-    "codeclimate": "CODECLIMATE_REPO_TOKEN= codeclimate-test-reporter < coverage/lcov.info"
+    "dist": "browserify index.js | uglifyjs > tmp/music-scale.min.js&& ls -hall tmp/",
+    "coverage": "istanbul cover _mocha"
   },
-  "devDependencies": {},
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/music-scale#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/music-scale",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "music",
+    "scale",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
   "dependencies": {
-    "chord-type": "file:../chord-type",
-    "music-dictionary": "^0.1.0",
-    "music-gamut": "^0.7.0",
-    "note-transpose": "^1.0.0",
-    "pitch-set": "file:../pitch-set"
+    "music-gamut": "^0.7.1",
+    "note-interval": "^1.0.0",
+    "note-transpose": "^1.0.0"
   }
 }
