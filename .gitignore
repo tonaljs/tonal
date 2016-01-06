@@ -3,3 +3,4 @@ npm-debug.log*
 coverage/
 wip
 tmp/
+.DS_Store

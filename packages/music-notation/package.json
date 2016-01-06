@@ -1,0 +1,32 @@
+{
+  "name": "music-notation",
+  "version": "0.9.0",
+  "description": "Parse and build music elements",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm test && npm run coverage && npm run docs",
+    "test": "mocha",
+    "docs": "documentation -f md > API.md",
+    "dist": "browserify tmp/dist.js | uglifyjs > tmp/music-notation.min.js&& ls -hall tmp/",
+    "disc": "browserify --full-paths tmp/dist.js | uglifyjs | discify > tmp/disc.html",
+    "coverage": "istanbul cover _mocha"
+  },
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/music-notation",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "music",
+    "notation",
+    "array notation",
+    "note",
+    "scientific",
+    "helmholtz",
+    "interval",
+    "pitch",
+    "roman",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT"
+}
