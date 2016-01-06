@@ -1,3 +1,82 @@
+## `accidentals.str`
+
+Build an accidentals string from alteration number
+
+### Parameters
+
+* `alteration` **`Integer`** the alteration number
+
+
+### Examples
+
+```js
+var accidentals = require('music-notation/accidentals/str')
+accidentals(0) // => ''
+accidentals(1) // => '#'
+accidentals(2) // => '##'
+accidentals(-1) // => 'b'
+accidentals(-2) // => 'bb'
+```
+
+Returns `String` the accidentals string
+
+
+## `array.fromProps`
+
+Get a pitch in array format from properties
+
+### Parameters
+
+* `step` **`Integer`** the step index
+* `alterations` **`Integer`** (Optional) the alterations number
+* `octave` **`Integer`** (Optional) the octave
+* `duration` **`Integer`** (Optional) duration
+
+
+### Examples
+
+```js
+var fromProps = require('music-notation/array/from-props')
+fromProps([0, 1, 4, 0])
+```
+
+Returns `Array` the pitch in array format
+
+
+## `array.toProps`
+
+Get properties from a pitch in array format
+
+The properties is an array with the form [number, alteration, octave, duration]
+
+### Parameters
+
+* `array` **`Array`** the pitch in coord format
+
+
+### Examples
+
+```js
+var toProps = require('music-notation/array/to-props')
+toProps([2, 1, 4]) // => [1, 2, 4]
+```
+
+Returns `Array` the pitch in property format
+
+
+## `exports`
+
+Given an accidentals string returns its alteration number
+
+### Parameters
+
+* `accidentals` **`String`** the accidentals string
+* `skipValidation` **`boolean`** true to skip validation
+
+
+
+
+
 ## `interval`
 
 Get a interval from a string (or null if not valid interval)
@@ -307,7 +386,7 @@ parse('V') // => [1]
 parse('bII') // => [-5]
 ```
 
-Returns `Array` a coord or null if not valid roman numeral literal
+Returns `Array` the roman number in array-notation or null if not valid numeral
 
 
 ## `roman.regex`
