@@ -1,0 +1,15 @@
+{
+  "name": "note-range",
+  "version": "1.0.0",
+  "description": "Note ranges",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "midi-note": "^1.0.0",
+    "note-midi": "^1.0.0"
+  }
+}
