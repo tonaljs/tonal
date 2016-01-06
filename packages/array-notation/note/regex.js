@@ -1,7 +1,7 @@
 'use strict'
 
 /**
- * A regex for matching note strings.
+ * A regex for matching note strings in scientific notation.
  *
  * The note string should have the form `letter[accidentals][octave][/duration]`
  * where:
@@ -16,7 +16,7 @@
  *
  * @name note.regex
  * @example
- * var R = require('note-regex')
+ * var R = require('music-notation/note/regex')
  * R.exec('c#4') // => ['c#4', 'c', '#', '4', '', '']
  */
 module.exports = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d*)(\/\d+|)\s*(.*)\s*$/

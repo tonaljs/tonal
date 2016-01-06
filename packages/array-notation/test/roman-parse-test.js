@@ -6,7 +6,7 @@ function fifths (str) {
   return str.split(' ').map(parse).map(function (e) { return e[0] })
 }
 
-describe('array-notation/roman-parse', function () {
+describe('array-notation/roman/parse', function () {
   it('plain roman numerals', function () {
     assert.deepEqual(fifths('I II III IV V VI VII'), [0, 2, 4, -1, 1, 3, 5])
     assert.deepEqual(fifths('I II III IV V VI VII'), fifths('i ii iii iv v vi vii'))

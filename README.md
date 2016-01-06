@@ -52,15 +52,6 @@ Also, I want a complete library, where I can model all what I learn, with some (
 multi package repository ([monorepo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md)). Take a look inside [`packages`](https://github.com/danigb/tonal/tree/master/packages):
 
 #### Notes and intervals
-- [note-transpose](https://github.com/danigb/tonal/tree/master/packages/note-transpose):
-Transpose notes
-[![npm](https://img.shields.io/npm/v/note-transpose.svg)](https://www.npmjs.com/package/nnote-transpose)
-- [note-interval](https://github.com/danigb/tonal/tree/master/packages/note-interval):
-Find the interval between two notes
-[![npm](https://img.shields.io/npm/v/note-interval.svg)](https://www.npmjs.com/package/note-interval)
-- [enharmonics](https://github.com/danigb/tonal/tree/master/packages/enharmonics):
-Get note enharmonics
-[![npm](https://img.shields.io/npm/v/enharmonics.svg)](https://www.npmjs.com/package/enharmonics)
 - [note-midi](https://github.com/danigb/tonal/tree/master/packages/note-midi):
 Note name to midi
 [![npm](https://img.shields.io/npm/v/note-midi.svg)](https://www.npmjs.com/package/note-midi)
@@ -70,17 +61,31 @@ Midi to note name
 - [midi-freq](https://github.com/danigb/tonal/tree/master/packages/midi-freq):
 Given a midi note, get it's frequency
 [![npm](https://img.shields.io/npm/v/midi-freq.svg)](https://www.npmjs.com/package/midi-freq)
+- [enharmonics](https://github.com/danigb/tonal/tree/master/packages/enharmonics):
+Get note enharmonics
+[![npm](https://img.shields.io/npm/v/enharmonics.svg)](https://www.npmjs.com/package/enharmonics)
+
+#### Transposition and distances
+- [note-transpose](https://github.com/danigb/tonal/tree/master/packages/note-transpose):
+Transpose notes
+[![npm](https://img.shields.io/npm/v/note-transpose.svg)](https://www.npmjs.com/package/nnote-transpose)
+- [note-interval](https://github.com/danigb/tonal/tree/master/packages/note-interval):
+Find the interval between two notes
+[![npm](https://img.shields.io/npm/v/note-interval.svg)](https://www.npmjs.com/package/note-interval)
 
 #### Collection of notes
 - [note-range](https://github.com/danigb/tonal/tree/master/packages/note-range):
-Note ranges
-[![npm](https://img.shields.io/npm/v/scale-dictionary.svg)](https://www.npmjs.com/package/note-range)
-- [pitch-set](https://github.com/danigb/tonal/tree/master/packages/pitch-set):
-Pitch sets
-[![npm](https://img.shields.io/npm/v/scale-dictionary.svg)](https://www.npmjs.com/package/pitch-set)
+Create ranges of notes
+[![npm](https://img.shields.io/npm/v/note-range.svg)](https://www.npmjs.com/package/note-range)
+- [music-scale](https://github.com/danigb/tonal/tree/master/packages/music-scale):
+Create music scales
+[![npm](https://img.shields.io/npm/v/music-scale.svg)](https://www.npmjs.com/package/music-scale)
 - [scale-dictionary](https://github.com/danigb/tonal/tree/master/packages/scale-dictionary):
 A scale dictionary
 [![npm](https://img.shields.io/npm/v/scale-dictionary.svg)](https://www.npmjs.com/package/scale-dictionary)
+- [music-chord](https://github.com/danigb/tonal/tree/master/packages/music-chord):
+Create music scales
+[![npm](https://img.shields.io/npm/v/music-chord.svg)](https://www.npmjs.com/package/music-chord)
 - [chord-dictionary](https://github.com/danigb/tonal/tree/master/packages/chord-dictionary):
 A chords dictionary
 [![npm](https://img.shields.io/npm/v/chord-dictionary.svg)](https://www.npmjs.com/package/chord-dictionary)
@@ -103,15 +108,6 @@ Parse notes, intervals and other pitched elements
 
 #### Not released
 
-- [music-chord](https://github.com/danigb/tonal/tree/master/packages/music-chord):
-Music chords
-[![npm](https://img.shields.io/npm/v/music-chord.svg)](https://www.npmjs.com/package/music-chord)
-- [music-scale](https://github.com/danigb/tonal/tree/master/packages/music-scale):
-Music scales
-[![npm](https://img.shields.io/npm/v/music-scale.svg)](https://www.npmjs.com/package/music-scale)
-- [pitch-set](https://github.com/danigb/tonal/tree/master/packages/pitch-set):
-Pitch sets
-[![npm](https://img.shields.io/npm/v/pitch-set.svg)](https://www.npmjs.com/package/pitch-set)
 - [binary-set](https://github.com/danigb/tonal/tree/master/packages/binary-set):
 Binary sets
 [![npm](https://img.shields.io/npm/v/binary-set.svg)](https://www.npmjs.com/package/binary-set)
