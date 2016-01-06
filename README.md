@@ -72,6 +72,12 @@ Given a midi note, get it's frequency
 [![npm](https://img.shields.io/npm/v/midi-freq.svg)](https://www.npmjs.com/package/midi-freq)
 
 #### Collection of notes
+- [note-range](https://github.com/danigb/tonal/tree/master/packages/note-range):
+Note ranges
+[![npm](https://img.shields.io/npm/v/scale-dictionary.svg)](https://www.npmjs.com/package/note-range)
+- [pitch-set](https://github.com/danigb/tonal/tree/master/packages/pitch-set):
+Pitch sets
+[![npm](https://img.shields.io/npm/v/scale-dictionary.svg)](https://www.npmjs.com/package/pitch-set)
 - [scale-dictionary](https://github.com/danigb/tonal/tree/master/packages/scale-dictionary):
 A scale dictionary
 [![npm](https://img.shields.io/npm/v/scale-dictionary.svg)](https://www.npmjs.com/package/scale-dictionary)
