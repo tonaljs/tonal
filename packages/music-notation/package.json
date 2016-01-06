@@ -1,6 +1,6 @@
 {
   "name": "music-notation",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "Parse and build music elements",
   "main": "index.js",
   "scripts": {

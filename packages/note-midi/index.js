@@ -22,6 +22,7 @@ var parse = require('array-notation/note/parse')
  * midi('a3') // => 57
  * midi([0, 2]) // => 36 (C2 in array notation)
  * midi(60) // => 60
+ * midi('C') // => null (pitch classes don't have midi number)
  */
 function midi (note) {
   if ((typeof note === 'number' || typeof note === 'string') &&
