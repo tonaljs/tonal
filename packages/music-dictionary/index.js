@@ -1,7 +1,7 @@
 'use strict'
 
-var parse = require('array-notation/interval/parse')
-var R = require('array-notation/note/regex')
+var parse = require('music-notation/interval/parse')
+var R = require('music-notation/note/regex')
 var transpose = require('note-transpose')
 
 /**

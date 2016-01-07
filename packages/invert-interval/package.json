@@ -24,6 +24,6 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "array-notation": "^1.2.0"
+    "music-notation": "^1.0.0"
   }
 }

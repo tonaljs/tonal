@@ -1,7 +1,7 @@
 'use strict'
 
 var gamut = require('music-gamut')
-var parse = require('array-notation/pitch/parse')
+var parse = require('music-notation/pitch/parse')
 var enharmonics = require('enharmonics')
 
 /**

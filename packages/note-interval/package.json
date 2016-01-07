@@ -1,6 +1,6 @@
 {
   "name": "note-interval",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Get the interval between two notes",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,6 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "array-notation": "^1.2.0"
+    "music-notation": "^1.0.0"
   }
 }

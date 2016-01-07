@@ -1,7 +1,7 @@
 
 function T () {}
 
-T.notation = require('array-notation')
+T.notation = require('music-notation')
 T.note = T.notation.note
 T.interval = T.notation.interval
 T.roman = T.notation.roman

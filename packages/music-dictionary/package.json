@@ -1,6 +1,6 @@
 {
   "name": "music-dictionary",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Create musical dictionaries",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,7 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "array-notation": "^1.2.0",
+    "music-notation": "^1.0.0",
     "note-transpose": "^1.0.0"
   }
 }

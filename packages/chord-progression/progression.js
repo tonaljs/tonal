@@ -1,8 +1,8 @@
 'use strict'
 
 var split = require('music-gamut/split')
-var roman = require('array-notation/roman/parse')
-var interval = require('array-notation/interval/parse')
+var roman = require('music-notation/roman/parse')
+var interval = require('music-notation/interval/parse')
 var parse = require('./parse')
 var chords = require('./chords')
 var scale = require('./scale')

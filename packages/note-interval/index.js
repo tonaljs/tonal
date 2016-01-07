@@ -1,6 +1,6 @@
-var parse = require('array-notation/pitch/parse')
-var str = require('array-notation/pitch/str')
-var notation = require('array-notation/operation')(parse, str)
+var parse = require('music-notation/pitch/parse')
+var str = require('music-notation/pitch/str')
+var notation = require('music-notation/operation')(parse, str)
 
 /**
  * Get the interval between two pitches

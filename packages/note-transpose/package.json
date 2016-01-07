@@ -1,6 +1,6 @@
 {
   "name": "note-transpose",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Music transposition made easy",
   "main": "index.js",
   "scripts": {
@@ -33,6 +33,6 @@
   "homepage": "https://github.com/danigb/note-transpose#readme",
   "devDependencies": {},
   "dependencies": {
-    "array-notation": "^1.2.0"
+    "music-notation": "^1.0.0"
   }
 }

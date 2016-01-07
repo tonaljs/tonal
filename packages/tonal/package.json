@@ -27,7 +27,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "array-notation": "^1.2.0",
+    "music-notation": "^1.0.0",
     "chord-dictionary": "^0.2.0",
     "enharmonics": "^1.0.1",
     "midi-freq": "^1.0.0",

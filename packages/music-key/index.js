@@ -2,9 +2,9 @@
 
 var transpose = require('note-transpose')
 var interval = require('note-interval')
-var parse = require('array-notation/note/parse')
-var parseI = require('array-notation/interval/parse')
-var str = require('array-notation/note/str')
+var parse = require('music-notation/note/parse')
+var parseI = require('music-notation/interval/parse')
+var str = require('music-notation/note/str')
 
 var REGEX = /^#{1,7}|b{1,7}$/
 var KEYS = { major: 1, minor: 6, ionian: 1, dorian: 2, phrygian: 3, lydian: 4,

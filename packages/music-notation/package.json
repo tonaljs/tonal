@@ -11,7 +11,7 @@
     "disc": "browserify --full-paths tmp/dist.js | uglifyjs | discify > tmp/disc.html",
     "coverage": "istanbul cover _mocha"
   },
-  "repository": "https://github.com/danigb/tonal/tree/master/packages/music-notation",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/music-notation/",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },

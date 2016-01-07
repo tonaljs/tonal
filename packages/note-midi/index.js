@@ -1,6 +1,6 @@
 'use strict'
 
-var parse = require('array-notation/note/parse')
+var parse = require('music-notation/note/parse')
 
 /**
  * Get the midi number of a note

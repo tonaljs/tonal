@@ -1,6 +1,6 @@
 {
   "name": "note-midi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Note name to midi conversion",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,6 @@
   "homepage": "https://github.com/danigb/tonal#readme",
   "devDependencies": {},
   "dependencies": {
-    "array-notation": "^1.2.0"
+    "music-notation": "^1.0.0"
   }
 }

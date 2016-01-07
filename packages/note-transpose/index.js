@@ -1,6 +1,6 @@
-var parse = require('array-notation/pitch/parse')
-var str = require('array-notation/pitch/str')
-var operation = require('array-notation/operation')(parse, str)
+var parse = require('music-notation/pitch/parse')
+var str = require('music-notation/pitch/str')
+var operation = require('music-notation/operation')(parse, str)
 
 /**
  * Transposes a note by an interval.

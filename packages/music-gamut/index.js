@@ -1,7 +1,7 @@
 'use strict'
 
-var parse = require('array-notation/pitch/parse')
-var str = require('array-notation/pitch/str')
+var parse = require('music-notation/pitch/parse')
+var str = require('music-notation/pitch/str')
 var distanceTo = require('note-interval')
 var transpose = require('note-transpose')
 var SEP = /\s*\|\s*|\s*,\s*|\s+/

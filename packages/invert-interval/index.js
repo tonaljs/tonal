@@ -1,8 +1,8 @@
 'use strict'
 
-var parse = require('array-notation/interval/parse')
-var str = require('array-notation/interval/str')
-var op = require('array-notation/operation')
+var parse = require('music-notation/interval/parse')
+var str = require('music-notation/interval/str')
+var op = require('music-notation/operation')
 
 /**
  * Get the inversion of an interval

@@ -23,7 +23,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "array-notation": "^1.2.0",
+    "music-notation": "^1.0.0",
     "music-gamut": "^0.7.2",
     "note-interval": "^1.0.2",
     "note-transpose": "^1.0.2"

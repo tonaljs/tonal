@@ -23,7 +23,7 @@ Returns `String` the accidentals string
 
 ## `array.fromProps`
 
-Get a pitch in array format from properties
+Get a pitch in [array notation]() from pitch properties
 
 ### Parameters
 
