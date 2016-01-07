@@ -1,12 +1,6 @@
-# tonal [![npm](https://img.shields.io/npm/v/tonal.svg)](https://www.npmjs.com/package/tonal)
+# tonal [![npm](https://img.shields.io/npm/v/tonal.svg)](https://www.npmjs.com/package/tonal) [![Build Status](https://travis-ci.org/danigb/tonal.svg?branch=master)](https://travis-ci.org/danigb/tonal) [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard) [![license](https://img.shields.io/npm/l/tonal.svg)](https://www.npmjs.com/package/tonal)
 
-[![Build Status](https://travis-ci.org/danigb/tonal.svg?branch=master)](https://travis-ci.org/danigb/tonal)
-[![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal)
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
-[![license](https://img.shields.io/npm/l/tonal.svg)](https://www.npmjs.com/package/tonal)
-[![tonal](https://img.shields.io/badge/tonal-lib-yellow.svg)](https://www.npmjs.com/package/tonal)
-
-`tonal` is a modular, functional music theory library. It's a collection of libraries to create and manipulate tonal elements of music (pitches, chords, scales and keys). It deals with abstractions (not actual music) and while is designed for algorithmic composition and music generation, can be used to develop any kind of midi or audio software.
+`tonal` is a modular, functional music theory library. Built from a collection of modules, it's able to create and manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music) and while is designed for algorithmic composition and music generation, can be used to develop any kind of midi or audio software.
 
 __This is alpha software__, if you need a stable music theory library in javascript you can use the excellent [teoria](https://github.com/saebekassebil/teoria)
 
@@ -28,11 +22,11 @@ This library is evolving with this ideas in mind:
 - Notes and intervals are represented with strings, instead of objects. Easy and concise code.
 - Functional: no classes, no side effects, no mutations. Just functions, data-in data-out. Most of the functions has the data to operate on as last argument and lot of functions are currified.
 - [Small](https://rawgit.com/danigb/tonal/master/dist/disc.html) and fast
-- Modular: lot of modules (all integrated in tonal). You can require exactly the functions you need.
-- Different notations: scientific notation by default. Use other easily.
+- Modular: [lot of modules](https://www.npmjs.com/browse/keyword/tonal) (all integrated in tonal). You can require exactly the functions you need, or get the [whole thing](https://www.npmjs.com/package/tonal).
+- Different notations: scientific notation by default. Helmholtz coming. Change it easily.
 - Documented: all public functions are documented inside the code. Aside the generated documentation (in API.md file) a 'usage' guides are provided for each module.
 - Learneable: since all the modules share the same philosophy is easy to work with them.
-- Tested: carefully tested with coverage support. Codeclimate statistics.
+- Tested: carefully tested with coverage support.
 - Advanced features: chord and scale detection, binary sets, chord progressions, key signatures...
 
 ## Why
@@ -42,8 +36,6 @@ First of all, because I want to learn:
 > Reinventing the wheel is bad for business, but it’s great for learning
 [*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
 
-The more I code music entities, the more I understand the relations between them.
-
 Also, I want a complete library, where I can model all what I learn, with some (for me) esoteric features like interval classes, binary scales and other weird stuff.
 
 ## What
@@ -52,15 +44,6 @@ Also, I want a complete library, where I can model all what I learn, with some (
 multi package repository ([monorepo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md)). Take a look inside [`packages`](https://github.com/danigb/tonal/tree/master/packages):
 
 #### Notes and intervals
-- [note-transpose](https://github.com/danigb/tonal/tree/master/packages/note-transpose):
-Transpose notes
-[![npm](https://img.shields.io/npm/v/note-transpose.svg)](https://www.npmjs.com/package/nnote-transpose)
-- [note-interval](https://github.com/danigb/tonal/tree/master/packages/note-interval):
-Find the interval between two notes
-[![npm](https://img.shields.io/npm/v/note-interval.svg)](https://www.npmjs.com/package/note-interval)
-- [enharmonics](https://github.com/danigb/tonal/tree/master/packages/enharmonics):
-Get note enharmonics
-[![npm](https://img.shields.io/npm/v/enharmonics.svg)](https://www.npmjs.com/package/enharmonics)
 - [note-midi](https://github.com/danigb/tonal/tree/master/packages/note-midi):
 Note name to midi
 [![npm](https://img.shields.io/npm/v/note-midi.svg)](https://www.npmjs.com/package/note-midi)
@@ -70,14 +53,34 @@ Midi to note name
 - [midi-freq](https://github.com/danigb/tonal/tree/master/packages/midi-freq):
 Given a midi note, get it's frequency
 [![npm](https://img.shields.io/npm/v/midi-freq.svg)](https://www.npmjs.com/package/midi-freq)
+- [enharmonics](https://github.com/danigb/tonal/tree/master/packages/enharmonics):
+Get note enharmonics
+[![npm](https://img.shields.io/npm/v/enharmonics.svg)](https://www.npmjs.com/package/enharmonics)
+
+#### Transposition and distances
+- [note-transpose](https://github.com/danigb/tonal/tree/master/packages/note-transpose):
+Transpose notes
+[![npm](https://img.shields.io/npm/v/note-transpose.svg)](https://www.npmjs.com/package/nnote-transpose)
+- [note-interval](https://github.com/danigb/tonal/tree/master/packages/note-interval):
+Find the interval between two notes
+[![npm](https://img.shields.io/npm/v/note-interval.svg)](https://www.npmjs.com/package/note-interval)
 
 #### Collection of notes
+- [music-scale](https://github.com/danigb/tonal/tree/master/packages/music-scale):
+Create music scales
+[![npm](https://img.shields.io/npm/v/music-scale.svg)](https://www.npmjs.com/package/music-scale)
 - [scale-dictionary](https://github.com/danigb/tonal/tree/master/packages/scale-dictionary):
 A scale dictionary
 [![npm](https://img.shields.io/npm/v/scale-dictionary.svg)](https://www.npmjs.com/package/scale-dictionary)
+- [music-chord](https://github.com/danigb/tonal/tree/master/packages/music-chord):
+Create music scales
+[![npm](https://img.shields.io/npm/v/music-chord.svg)](https://www.npmjs.com/package/music-chord)
 - [chord-dictionary](https://github.com/danigb/tonal/tree/master/packages/chord-dictionary):
 A chords dictionary
 [![npm](https://img.shields.io/npm/v/chord-dictionary.svg)](https://www.npmjs.com/package/chord-dictionary)
+- [note-range](https://github.com/danigb/tonal/tree/master/packages/note-range):
+Create ranges of notes
+[![npm](https://img.shields.io/npm/v/note-range.svg)](https://www.npmjs.com/package/note-range)
 - [music-gamut](https://github.com/danigb/tonal/tree/master/packages/music-gamut):
 Work with collection of notes
 [![npm](https://img.shields.io/npm/v/music-gamut.svg)](https://www.npmjs.com/package/music-gamut)
@@ -97,15 +100,6 @@ Parse notes, intervals and other pitched elements
 
 #### Not released
 
-- [music-chord](https://github.com/danigb/tonal/tree/master/packages/music-chord):
-Music chords
-[![npm](https://img.shields.io/npm/v/music-chord.svg)](https://www.npmjs.com/package/music-chord)
-- [music-scale](https://github.com/danigb/tonal/tree/master/packages/music-scale):
-Music scales
-[![npm](https://img.shields.io/npm/v/music-scale.svg)](https://www.npmjs.com/package/music-scale)
-- [pitch-set](https://github.com/danigb/tonal/tree/master/packages/pitch-set):
-Pitch sets
-[![npm](https://img.shields.io/npm/v/pitch-set.svg)](https://www.npmjs.com/package/pitch-set)
 - [binary-set](https://github.com/danigb/tonal/tree/master/packages/binary-set):
 Binary sets
 [![npm](https://img.shields.io/npm/v/binary-set.svg)](https://www.npmjs.com/package/binary-set)
@@ -139,10 +133,10 @@ tonal.chord('Cmaj7') // => ['C', 'E', 'G', 'B']
 
 // harmonizers
 var major = tonal.harmonizer('1 3 5')
-major('C6') // => ['C6', 'E6', 'G6']
-major('E5', true) /// => ['E', 'G#', 'B'] (only pitch classes)
+major('C#') // => ['C#', 'E#', 'G#']
+major('E5') /// => ['E5', 'G#5', 'B5']
 var V7 = tonal.harmonizer('1 3 5 7m')
-var V7ofV = function(pitch) { V7(tonal(pitch, '5P')) }
+var V7ofV = function(tonic) { V7(tonal.transpose(tonic, '5P')) }
 var V7ofV('D') // => ['A4', 'C#5', 'E5', 'G7']
 
 // keys
@@ -160,21 +154,15 @@ Then you can load the whole library:
 
 ```js
 var tonal = require('tonal')
-tonal.pitch.transpose(tonal.note.fromMidi(60), '2M')
+tonal.transpose(tonal.note.fromMidi(60), '2M')
 ```
 
-... one module (you have to install it first):
+... or install and require individual modules:
 
 ```js
-var pitch = require('tonal.note')
-note.transpose(pitch.fromMidi(60), '2M')
-```
-
-or a function:
-
-```js
-var signature = require('tonal.key/signature')
-signature('A major') // => '###'
+var transpose = require('note-transpose')
+var fromMidi = require('midi-note')
+transpose(fromMidi(60), '2M')
 ```
 
 ## Documentation and tests

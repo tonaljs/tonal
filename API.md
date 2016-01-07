@@ -25,6 +25,38 @@ Returns `String` the binary number
 
 ## `chord`
 
+Create a chord (or an harmonizer-like structure) from a list or notes or
+intervals and (optionally) a tonic. A chord is a list of notes or
+intervals in asceding pitch order
+
+The tonic must be
+a pitch (with or without octave) or false to get the intervals
+
+This function is currified, so you can partially apply the function passing
+one parameter instead of two (see example)
+
+### Parameters
+
+* `source` **`Array`** the list of intervals or notes
+* `tonic` **`String`** the tonic of the chord or null to get the intervals
+
+
+### Examples
+
+```js
+var chord = require('music-chord')
+chord('1 3 5 6', 'G') // => ['G', 'B', 'D', 'E']
+chord('G B D E', false) // => ['1P', '3M', '5P', '6M']
+// partially applied:
+var maj79 = chord.build('C E G B D')
+maj79('A4') // => ['A4', 'C#5', 'E5', 'G#5', 'B5']
+```
+
+Returns `Array` the chord notes or intervals
+
+
+## `chord`
+
 A chord dictionary. Get chord data from a chord name.
 
 ### Parameters
@@ -54,8 +86,8 @@ chord.names // => ['Maj7', 'm7', ...]
 
 ## `chord.type`
 
-Get the type of the chord (can be 'M', 'm', '7' or 'o' to represent major,
-minot, dominant and diminished respectively)
+Given a triad notes, get it's type (can be 'M', 'm', '7' or 'o' to represent major,
+minor, dominant and diminished respectively)
 
 It assumes that the chord is not inverted (first note is always the tonic)
 
@@ -70,13 +102,13 @@ chord notes beyond the 5th (except 7th for dominant chords) are ignored
 ### Examples
 
 ```js
-var chord = require('music.chord')
-chord.type('C E G') // => 'M'
-chord.type('C Eb G') // => 'm'
-chord.type('C Eb Gb') // => 'dim'
-chord.type('C E G#') // => 'aug'
-chord.type('C E G B') // => 'M'
-chord.type('C E G B7') // => '7'
+var type = require('chord-type')
+type('C E G') // => 'M'
+type('C Eb G') // => 'm'
+type('C Eb Gb') // => 'dim'
+type('C E G#') // => 'aug'
+type('C E G B') // => 'M'
+type('C E G B7') // => '7'
 ```
 
 Returns `String` the chord type ('M', 'm', '7', 'dim', 'aug' or null)
@@ -156,6 +188,43 @@ enharmonics.simplify('B#3') // => 'C4'
 ```
 
 Returns `String` the simplfiied note (can be the same)
+
+
+## `exports`
+
+Filter notes
+
+### Parameters
+
+* `filter` **`Function or String or Array`** the note filter
+* `notes` **`Array`** the notes to be filtered
+
+
+### Examples
+
+```js
+
+```
+
+Returns `Array` the notes filtered
+
+
+## `exports`
+
+Get the inversion of an interval
+
+### Parameters
+
+* `interval` **`String or Array`** the interval to invert in interval shorthand notation or interval array notation
+
+
+### Examples
+
+```js
+
+```
+
+Returns  the inverted interval
 
 
 ## `gamut`
@@ -516,6 +585,7 @@ midi('A4') // => 69
 midi('a3') // => 57
 midi([0, 2]) // => 36 (C2 in array notation)
 midi(60) // => 60
+midi('C') // => null (pitch classes don't have midi number)
 ```
 
 Returns `Integer` the midi number
@@ -651,33 +721,18 @@ An alias for `midi`
 
 ## `note.transpose`
 
-Transpose a note by an interval.
-
-This function is currified. The order of the parameters is indifferent.
-
-### Parameters
-
-* `interval` **`String or Array`** the interval. If its false, the note is not transposed.
-* `note` **`String or Array`** the note to transpose
+Transpose a note by an interval
+An alias for `transpose`
 
 
-### Examples
 
-```js
-var transpose = require('note-transpose')
-transpose('3m', 'C4') // => 'Eb4'
-transpose('C4', '3m') // => 'Eb4'
-tranpose([1, 0, 2], [3, -1, 0]) // => [3, 0, 2]
-['C', 'D', 'E'].map(transpose('3M')) // => ['E', 'F#', 'G#']
-```
 
-Returns  the note transposed
 
 
 ## `operation`
 
 Decorate a function to work with intervals, notes or pitches in
-[array notation](https://github.com/danigb/tonal/tree/next/packages/array-notation)
+[array notation](https://github.com/danigb/tonal/tree/next/packages/music-notation)
 with independence of string representations.
 
 This is the base of the pluggable notation system of
@@ -693,21 +748,19 @@ This is the base of the pluggable notation system of
 ### Examples
 
 ```js
-var parse = require('array-notation/interval/parse')
-var str = require('array-notation/interval/str')
-var operation = require('array-notation/operation')(parse, str)
+var parse = require('music-notation/interval/parse')
+var str = require('music-notation/interval/str')
+var operation = require('music-notation/operation')(parse, str)
 var add = operation(function(a, b) { return [a[0] + b[0], a[1] + b[1]] })
 add('3m', '3M') // => '5P'
 ```
 
 
 
-## `pitchSet`
+## `scale`
 
-Create a pitch set from a gamut and (optional) a tonic. A pitch set is a
-collection of uniq notes or intervals sorted by frequency
-
-A source can be a list of intervals or notes.
+Create a scale from a list of notes (or intervals) and (optionally) a tonic.
+An scale is a collection of uniq notes or intervals sorted by frequency
 
 The tonic can be a note (with or without octave), false to get the scale
 intervals or null to set the first note of the source as tonic
@@ -724,17 +777,17 @@ one parameter instead of two (see example)
 ### Examples
 
 ```js
-var set = require('pitch-set')
+var scale = require('music-scale')
 
 // uses first note of the source as tonic
-set('d2 c4 e3 f g6 a B c d5 e', null) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
+scale('d2 c4 e3 f g6 a B c d5 e', null) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
 
 // create scales
-set('1 2 3 5 6', 'G') // => ['G', 'A', 'B', 'D', 'E']
-set('1 2 3 5 6', false) // => ['1P', '2M', '3M', '5P', '6M']
+scale('1 2 3 5 6', 'G') // => ['G', 'A', 'B', 'D', 'E']
+scale('1 2 3 5 6', false) // => ['1P', '2M', '3M', '5P', '6M']
 
 // partially applied
-var dorian = set('D E F G A B C')
+var dorian = scale('D E F G A B C')
 dorian('C4') // => ['C4', 'D4', 'Eb4', 'F4', 'G4', 'A4', 'Bb4']
 ```
 
@@ -801,11 +854,31 @@ Returns  the set pitch classes (note names without octaves)
 
 ## `transpose`
 
-Transpose notes
-An alias for `note.transpose`
+Transposes a note by an interval.
+
+Given a note and an interval it returns the transposed note. It can be used
+to add intervals if both parameters are intervals.
+
+The order of the parameters is indifferent.
+
+This function is currified so it can be used to map arrays of notes.
+
+### Parameters
+
+* `interval` **`String or Array`** the interval. If its false, the note is not transposed.
+* `note` **`String or Array`** the note to transpose
 
 
+### Examples
 
+```js
+var transpose = require('note-transpose')
+transpose('3m', 'C4') // => 'Eb4'
+transpose('C4', '3m') // => 'Eb4'
+tranpose([1, 0, 2], [3, -1, 0]) // => [3, 0, 2]
+['C', 'D', 'E'].map(transpose('3M')) // => ['E', 'F#', 'G#']
+```
 
+Returns  the note transposed
 
 

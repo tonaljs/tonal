@@ -2,7 +2,7 @@
 
 [![tonal](https://img.shields.io/badge/tonal-music--gamut-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-`music-chord` is a versatile function to create chords and harmonizer-like structures:
+`music-chord` is a function to create music chords and harmonizers-like structures:
 
 ```js
 var chord = require('music-chord')
@@ -11,6 +11,8 @@ var maj7('A4') // => ['A4', 'C#5', 'E5', 'G#5']
 ```
 
 This is part of [tonal](https://www.npmjs.com/package/tonal)
+
+If you need chords by name, see [chord-dictionary](https://www.npmjs.com/package/chord-dictionary)
 
 ## Install
 
