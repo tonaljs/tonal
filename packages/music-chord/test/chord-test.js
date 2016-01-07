@@ -3,17 +3,22 @@ var assert = require('assert')
 var chord = require('..')
 
 describe('music-chord', function () {
-  it('creates an chord', function () {
+  it('creates an chord from intervals', function () {
     assert.deepEqual(chord('1 3 5')('A4'), ['A4', 'C#5', 'E5'])
   })
 
-  describe('return notes if tonic', function () {
-    it('from intervals and tonic', function () {
-      assert.deepEqual(chord('1 3 5', 'A4'), ['A4', 'C#5', 'E5'])
-    })
-    it('from notes and tonic', function () {
-      assert.deepEqual(chord('C2 E2 G2', 'A4'), ['A4', 'C#5', 'E5'])
-    })
+  it('creates an chord from pitch classes', function () {
+    assert.deepEqual(chord('C E G')('A4'), ['A4', 'C#5', 'E5'])
+  })
+
+  it('return notes if tonic is a note', function () {
+    assert.deepEqual(chord('1 3 5', 'A4'), ['A4', 'C#5', 'E5'])
+    assert.deepEqual(chord('C2 E2 G2', 'A4'), ['A4', 'C#5', 'E5'])
+  })
+
+  it('returns pitch classes if tonic is a pitch class', function () {
+    assert.deepEqual(chord('1 3 5', 'A'), [ 'A', 'C#', 'E' ])
+    assert.deepEqual(chord('1 3 5 7 9', 'A'), [ 'A', 'C#', 'E', 'G#', 'B' ])
   })
 
   describe('returns intervals if tonic is false', function () {

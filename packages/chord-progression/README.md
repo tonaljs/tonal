@@ -1,7 +1,7 @@
 # chord-progression [![npm](https://img.shields.io/npm/v/chord-progression.svg)](https://www.npmjs.com/package/chord-progression)
 
 [![license](https://img.shields.io/npm/l/chord-progression.svg)](https://www.npmjs.com/package/chord-progression)
-[![tonal](https://img.shields.io/badge/tonal-music--key-yellow.svg)](https://www.npmjs.com/package/tonal)
+[![tonal](https://img.shields.io/badge/tonal-chord--progression-yellow.svg)](https://www.npmjs.com/package/tonal)
 
 
 ```js

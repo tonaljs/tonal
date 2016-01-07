@@ -4,7 +4,7 @@
 var BASES = [ [0, 0], [2, -1], [4, -2], [-1, 1], [1, 0], [3, -1], [5, -2] ]
 
 /**
- * Get a pitch in array format from properties
+ * Get a pitch in [array notation]() from pitch properties
  *
  * @name array.fromProps
  * @function

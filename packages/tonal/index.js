@@ -8,9 +8,10 @@ T.roman = T.notation.roman
 T.pitch = T.notation.pitch
 
 /**
- * Transpose notes
- * An alias for `note.transpose`
- * @name transpose
+ * Transpose a note by an interval
+ * An alias for `transpose`
+ *
+ * @name note.transpose
  * @function
  */
 T.note.transpose = T.transpose = require('note-transpose')
@@ -21,6 +22,7 @@ T.note.enharmonics = require('enharmonics')
 /**
  * Convert from note name to midi number
  * An alias for `midi`
+ *
  * @name note.midi
  * @function
  */

@@ -18,10 +18,15 @@ Via npm: `npm i --save music-chord`
 
 ## Usage
 
-You can create chords by a list of intervals and a tonic:
+Chords are arrays of notes ordered by pitch. Not always the first not is the tonic of the chord.
+
+#### Create chords
+
+You can create chords by a list of intervals and a tonic. If the tonic is a pitch class (a note with octave) the chord notes are pitch classes:
 
 ```js
-chord('1 b3 5 b7', 'C') // => ['C', 'Eb', 'G', 'Bb']
+chord('1 b3 5 b7 9', 'C2') // => ['C2', 'Eb2', 'G2', 'Bb2', 'D3']
+chord('1 b3 5 b7 9', 'C') // => ['C', 'Eb', 'G', 'Bb', 'D']
 ```
 
 Like most tonal functions, it can be partially applied:
@@ -31,11 +36,19 @@ var m7 = chord('1 b3 5 b7')
 m7('C') // => ['C', 'Eb', 'G', 'Bb']
 ```
 
-You can create a chord from a list of notes (the first is considered to be the tonic):
+You can also create a chord from a list of notes (the first is considered to be the tonic):
 
 ```js
 var dom = chord('A C# E G')
 dom('D') // => ['D', 'F#', 'G', 'C']
+```
+
+#### Get chord intervals
+
+If `false` is passed as tonic, you can extract chord intervals:
+
+```js
+chord('D F A C', false) // => ['1P', '3m', '5P', '7m']
 ```
 
 ## License

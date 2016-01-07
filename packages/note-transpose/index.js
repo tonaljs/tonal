@@ -3,11 +3,16 @@ var str = require('array-notation/pitch/str')
 var operation = require('array-notation/operation')(parse, str)
 
 /**
- * Transpose a note by an interval.
+ * Transposes a note by an interval.
  *
- * This function is currified. The order of the parameters is indifferent.
+ * Given a note and an interval it returns the transposed note. It can be used
+ * to add intervals if both parameters are intervals.
  *
- * @name note.transpose
+ * The order of the parameters is indifferent.
+ *
+ * This function is currified so it can be used to map arrays of notes.
+ *
+ * @name transpose
  * @function
  * @param {String|Array} interval - the interval. If its false, the note is not
  * transposed.
