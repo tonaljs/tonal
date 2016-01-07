@@ -1,12 +1,13 @@
 # music-scale [![npm version](https://img.shields.io/npm/v/music-scale.svg)](https://www.npmjs.com/package/music-scale)
 
-[![tonal](https://img.shields.io/badge/tonal-music--gamut-yellow.svg)](https://www.npmjs.com/package/tonal)
+[![tonal](https://img.shields.io/badge/tonal-music--scale-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-`music-scale` is a function to create pitch sets:
+`music-scale` is a function to create music scales with ease:
 
 ```js
-var set = require('music-scale')
-var set('C2 D3 C4 D5') // => ['C', 'D']
+var scale = require('music-scale')
+var major = scale('1 2 3 4 5 6 7')
+major('A') // => ['A', 'B', 'C#' 'D', 'E', 'F#', 'G#']
 ```
 
 This is part of [tonal](https://www.npmjs.com/package/tonal)
@@ -17,20 +18,12 @@ Via npm: `npm i --save music-scale`
 
 ## Usage
 
-A pitch set is an ordered collection of unique pitch classes. You can create a pitch set from a collection of notes:
-
-```js
-set('f# e4 C2 g5 d3', null) // => ['F#', 'G', 'C', 'D', 'E']
-```
-
-The null as second parameter indicates that the first note of the gamut will be the first note of the set. The set is always ordered by pitch.
-
 #### Create scales
 
-Scales are a sets with a tonic. Scales can be created from a list of intervals and a tonic:
+Scales are a pitch sets with a tonic. Scales can be created from a list of intervals and a tonic:
 
 ```js
-set('1 2 3m 4 5 6m 7', 'D') // => ['D', 'E', 'F', 'G', 'A', 'Bb', 'C#']
+scale('1 2 3m 4 5 6m 7', 'D') // => ['D', 'E', 'F', 'G', 'A', 'Bb', 'C#']
 ```
 
 This function can be partially applied:
@@ -38,6 +31,46 @@ This function can be partially applied:
 ```js
 var dorian = set('1 2 3b 4 5 6 7b')
 dorian('eb') // => [ 'Eb', 'F', 'Gb', 'Ab', 'Bb', 'C', 'Db' ]
+```
+
+The source can be also another scale:
+
+```js
+scale('C D E F G A B C', 'A') // => ['A', 'B', 'C#' 'D', 'E', 'F#', 'G#']
+```
+
+Or even a collection of notes:
+
+```js
+scale('C2 d4 g7 a2', 'C') // => ['C', 'D', 'G', 'A']
+```
+
+#### Scale tonics
+
+If the tonic of a scale is a pitch class (a note without octave) the notes of the scale are pitch classes:
+
+```js
+var major = scale('C D E F G A B C')
+major('A') // => ['A', 'B', 'C#' 'D', 'E', 'F#', 'G#']
+```
+
+If the tonic of the scale is a note with octave, the notes of the scale will have octave numbers:
+
+```js
+major('A4') // => ['A4', 'B4', 'C#5' ,'D5', 'E5', 'F#5', 'G#5']
+```
+
+If the tonic of a scale is false, the intervals are returned:
+
+```js
+major(false) // => ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7']
+```
+
+Finally, if the tonic is null and the source are notes, the first pitch class of the scale source will be the tonic:
+
+```js
+major(null) // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+scale('d4 f5 g2 c6 a1', null) // => [ 'D', 'F', 'G', 'A', 'C' ]
 ```
 
 ## License

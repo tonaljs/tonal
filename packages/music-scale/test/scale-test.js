@@ -18,6 +18,8 @@ describe('music-scale', function () {
     it('null tonic', function () {
       assert.deepEqual(scale('c d e f g a b c2 d2', null), ['C', 'D', 'E', 'F', 'G', 'A', 'B'])
       assert.deepEqual(scale('1 2 3', null), ['1P', '2M', '3M'])
+      assert.deepEqual(scale('3 2 1', null), ['1P', '2M', '3M'])
+      assert.deepEqual(scale('d4 f5 g2 c6 a1', null), [ 'D', 'F', 'G', 'A', 'C' ])
     })
     it('scale scale from intervals', function () {
       assert.deepEqual(scale('1 2 3 4', 'C'), ['C', 'D', 'E', 'F'])
