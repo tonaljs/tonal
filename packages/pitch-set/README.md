@@ -2,7 +2,7 @@
 
 [![tonal](https://img.shields.io/badge/tonal-music--scale-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-`pitch-set` is a function to create pitch sets. It can be used to create music scales:
+`pitch-set` is a module with a function to create pitch sets. It can be used to create music scales:
 
 ```js
 var pitchSet = require('pitch-set')

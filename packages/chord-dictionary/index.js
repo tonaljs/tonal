@@ -12,9 +12,16 @@ var dictionary = require('music-dictionary')
  * @see music-dictionary
  *
  * @example
- * // get chord data
  * var chord = require('chord-dictionary')
- * chord('Maj7') // => { name: 'Maj7', aliases: ['M7', 'maj7']
+ *
+ * // get chord notes and intervals
+ * chord('CMaj7') // => ['C', 'E', 'G', 'B']
+ * chord('Maj7', 'C') // => ['C', 'E', 'G', 'B']
+ * chord('Maj7') // => ['P1', 'M3', 'P5', 'M7']
+ *
+ * @example
+ * // get chord properties
+ * chord.props('Maj7') // => { name: 'Maj7', aliases: ['M7', 'maj7']
  *                //      intervals:  [ ...],
  *                //      binary: '100010010001', decimal: 2193 }
  *

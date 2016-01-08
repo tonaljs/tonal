@@ -1,18 +1,27 @@
 # music-chord [![npm version](https://img.shields.io/npm/v/music-chord.svg)](https://www.npmjs.com/package/music-chord)
 
-[![tonal](https://img.shields.io/badge/tonal-music--gamut-yellow.svg)](https://www.npmjs.com/package/tonal)
+[![tonal](https://img.shields.io/badge/tonal-music--chord-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-`music-chord` is a function to create music chords and harmonizers-like structures:
+`music-chord` is a function to create music chords. They can be created from a chord name (it includes a chord dictionary) or from chord intervals:
 
 ```js
 var chord = require('music-chord')
-var maj7 = chord('1 3 5 7')
+
+// create from chord name
+chord('Cmaj7') // => ['C', 'E', 'G', 'B']
+
+// create from name and tonic
+chord('maj7', 'A') // => ['A', 'C#', 'E', 'G#']
+
+// create from intervals and tonic
+var chord('1 3 5 7', 'A4') // => ['A4', 'C#5', 'E5', 'G#5']
+
+// partially applied
+var maj7 = chord('maj7')
 var maj7('A4') // => ['A4', 'C#5', 'E5', 'G#5']
 ```
 
 This is part of [tonal](https://www.npmjs.com/package/tonal)
-
-If you need chords by name, see [chord-dictionary](https://www.npmjs.com/package/chord-dictionary)
 
 ## Install
 
@@ -22,7 +31,7 @@ Via npm: `npm i --save music-chord`
 
 Chords are arrays of notes ordered by pitch. Not always the first not is the tonic of the chord.
 
-#### Create chords
+#### Create chords from a collection of notes or intervals
 
 You can create chords by a list of intervals and a tonic. If the tonic is a pitch class (a note with octave) the chord notes are pitch classes:
 
@@ -47,10 +56,10 @@ dom('D') // => ['D', 'F#', 'G', 'C']
 
 #### Get chord intervals
 
-If `false` is passed as tonic, you can extract chord intervals:
+If `false` is passed as tonic, you can get chord intervals:
 
 ```js
-chord('D F A C', false) // => ['1P', '3m', '5P', '7m']
+chord('maj7', false) // => ['1P', '3m', '5P', '7M']
 ```
 
 ## License

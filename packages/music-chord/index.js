@@ -1,43 +1,42 @@
 'use strict'
 
-var parse = require('music-notation/pitch/parse')
-var gamut = require('music-gamut')
-var distanceTo = require('note-interval')
-var transpose = require('note-transpose')
+var harmonizer = require('note-harmonizer')
+var dictionary = require('chord-dictionary')
 
 /**
- * Create a chord (or an harmonizer-like structure) from a list or notes or
- * intervals and (optionally) a tonic. A chord is a list of notes or
- * intervals in asceding pitch order
+ * Create chords either by name or by intervals
  *
- * The tonic must be
- * a pitch (with or without octave) or false to get the intervals
- *
- * This function is currified, so you can partially apply the function passing
- * one parameter instead of two (see example)
+ * This function is currified
  *
  * @name chord
- * @param {Array} source - the list of intervals or notes
- * @param {String} tonic - the tonic of the chord or null to get the intervals
- * @return {Array} the chord notes or intervals
+ * @function
+ * @param {String} source - the chord name, intervals or notes
+ * @param {String} tonic - the chord tonic
+ * @return {Array} the chord notes
  *
  * @example
  * var chord = require('music-chord')
- * chord('1 3 5 6', 'G') // => ['G', 'B', 'D', 'E']
- * chord('G B D E', false) // => ['1P', '3M', '5P', '6M']
- * // partially applied:
- * var maj79 = chord.build('C E G B D')
- * maj79('A4') // => ['A4', 'C#5', 'E5', 'G#5', 'B5']
+ * // create chord from name
+ * chord('Cmaj7') // => ['C', 'E', 'G', 'B']
+ * chord('maj7', 'C') // => ['C', 'E', 'G', 'B']
+ *
+ * @example
+ * // partially applied
+ * var maj7 = chord('maj7')
+ * maj7('C') // => ['C', 'E', 'G', 'B']
+ *
+ * @example
+ * // create chord from intervals
+ * chord('1 3 5 7', 'C') // => ['C', 'E', 'G', 'B']
  */
 function chord (source, tonic) {
-  if (arguments.length === 1) return function (t) { return chord(source, t) }
-  return gamut.operation(function (g) {
-    var base = g[0]
-    var intervals = g.map(distanceTo(base))
-    if (tonic === false) return intervals
-    tonic = parse(tonic)
-    return intervals.map(transpose(tonic))
-  })(source)
+  var c
+  if (arguments.length === 1) {
+    c = dictionary(source)
+    return typeof c === 'function' ? function (t) { return chord(source, t) } : c
+  }
+  c = dictionary(source, tonic)
+  return c.length ? c : harmonizer(source, tonic)
 }
 
 if (typeof module === 'object' && module.exports) module.exports = chord

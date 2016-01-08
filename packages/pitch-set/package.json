@@ -1,7 +1,7 @@
 {
   "name": "pitch-set",
   "version": "1.0.0",
-  "description": "Create pitch sets",
+  "description": "Create music pitch sets",
   "main": "index.js",
   "scripts": {
     "build": "npm test && npm run coverage && npm run docs && npm run dist",
@@ -17,8 +17,9 @@
   },
   "keywords": [
     "music",
-    "scale",
+    "theory",
     "pitch set",
+    "scale",
     "tonal"
   ],
   "author": "danigb",
