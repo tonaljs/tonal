@@ -36,7 +36,7 @@
     "music-gamut": "^0.7.2",
     "note-interval": "^1.0.0",
     "note-midi": "^1.0.0",
-    "note-transpose": "^1.0.0",
+    "note-transposer": "^1.0.0",
     "scale-dictionary": "^0.2.0"
   }
 }

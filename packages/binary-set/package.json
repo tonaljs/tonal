@@ -27,6 +27,6 @@
   "license": "MIT",
   "dependencies": {
     "music-gamut": "^0.7.2",
-    "note-transpose": "^1.0.0"
+    "note-transposer": "^1.0.0"
   }
 }

@@ -28,6 +28,6 @@
     "music-gamut": "^0.7.5",
     "music-notation": "^1.0.0",
     "music-scale": "^1.0.0",
-    "note-transpose": "^1.0.3"
+    "note-transposer": "^1.0.3"
   }
 }

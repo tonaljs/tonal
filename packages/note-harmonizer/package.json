@@ -1,5 +1,5 @@
 {
-  "name": "harmonize-note",
+  "name": "note-harmonizer",
   "version": "1.0.0",
   "description": "Harmonize notes or create harmonizers functions",
   "main": "index.js",
@@ -7,11 +7,11 @@
     "build": "npm test && npm run coverage && npm run docs && npm run dist",
     "test": "mocha",
     "docs": "documentation -f md > API.md",
-    "dist": "mkdir -p tmp/ && browserify index.js | uglifyjs > tmp/harmonize-note.min.js&& ls -hall tmp/",
+    "dist": "mkdir -p tmp/ && browserify index.js | uglifyjs > tmp/note-harmonizer.min.js&& ls -hall tmp/",
     "coverage": "istanbul cover _mocha"
   },
-  "homepage": "https://github.com/danigb/tonal/tree/master/packages/harmonize-note#readme",
-  "repository": "https://github.com/danigb/tonal/tree/master/packages/harmonize-note",
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/note-harmonizer#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/note-harmonizer",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
@@ -28,6 +28,6 @@
     "music-notation": "^1.0.0",
     "music-gamut": "^0.7.2",
     "note-interval": "^1.0.2",
-    "note-transpose": "^1.0.2"
+    "note-transposer": "^1.0.2"
   }
 }

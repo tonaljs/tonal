@@ -1,11 +1,11 @@
-# harmonize-note [![npm version](https://img.shields.io/npm/v/harmonize-note.svg)](https://www.npmjs.com/package/harmonize-note)
+# note-harmonizer [![npm version](https://img.shields.io/npm/v/note-harmonizer.svg)](https://www.npmjs.com/package/note-harmonizer)
 
 [![tonal](https://img.shields.io/badge/tonal-music--gamut-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-`harmonize-note` is a versatile function to harmonize notes, create harmonizers (like chords, for example) or get relative intervals from a collection of notes:
+`note-harmonizer` is a module with a function to harmonize notes, create harmonizers (like chords, for example) or get relative intervals from a collection of notes:
 
 ```js
-var harmonize = require('harmonize-note')
+var harmonize = require('note-harmonizer')
 
 // harmonize a note
 harmonize('1 3 5', 'G2') // => ['G2', 'B2', 'D3']
@@ -22,7 +22,7 @@ This is part of [tonal](https://www.npmjs.com/package/tonal)
 
 ## Install
 
-Via npm: `npm i --save harmonize-note`
+Via npm: `npm i --save note-harmonizer`
 
 ## Usage
 

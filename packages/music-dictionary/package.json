@@ -27,6 +27,6 @@
   "devDependencies": {},
   "dependencies": {
     "music-notation": "^1.0.0",
-    "note-transpose": "^1.0.0"
+    "note-transposer": "^1.0.0"
   }
 }

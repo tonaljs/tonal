@@ -26,6 +26,6 @@
   "dependencies": {
     "music-gamut": "^0.7.1",
     "note-interval": "^1.0.0",
-    "note-transpose": "^1.0.0"
+    "note-transposer": "^1.0.0"
   }
 }
