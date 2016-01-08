@@ -3,7 +3,7 @@
 var parse = require('music-notation/pitch/parse')
 var str = require('music-notation/pitch/str')
 var distanceTo = require('note-interval')
-var transpose = require('note-transpose')
+var transpose = require('note-transposer')
 var SEP = /\s*\|\s*|\s*,\s*|\s+/
 
 var toStr = function (s) { return Array.isArray(s) ? str(s) : s }

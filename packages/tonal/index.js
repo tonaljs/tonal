@@ -7,6 +7,8 @@ T.interval = T.notation.interval
 T.roman = T.notation.roman
 T.pitch = T.notation.pitch
 
+T.pitchSet = require('pitch-set')
+
 /**
  * Transpose a note by an interval
  * An alias for `transpose`
@@ -14,7 +16,16 @@ T.pitch = T.notation.pitch
  * @name note.transpose
  * @function
  */
-T.note.transpose = T.transpose = require('note-transpose')
+T.note.transpose = T.transpose = require('note-transposer')
+
+/**
+ * Harmonizes a note by an interval list
+ * An alias for `harmonize`
+ *
+ * @name note.harmonize
+ * @function
+ */
+T.note.harmonize = T.harmonize = require('note-harmonizer')
 
 T.note.interval = require('note-interval')
 T.note.enharmonics = require('enharmonics')
@@ -42,7 +53,7 @@ T.gamut = require('music-gamut')
 T.harmonizer = T.gamut.harmonizer
 
 T.dictionary = require('music-dictionary')
-T.scale = require('scale-dictionary')
-T.chord = require('chord-dictionary')
+T.scale = require('music-scale')
+T.chord = require('music-chord')
 
 module.exports = T

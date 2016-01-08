@@ -3,7 +3,7 @@
 var parse = require('music-notation/pitch/parse')
 var gamut = require('music-gamut')
 var distanceTo = require('note-interval')
-var transpose = require('note-transpose')
+var transpose = require('note-transposer')
 
 /**
  * Harmonize a note using a collection of intervals or notes.

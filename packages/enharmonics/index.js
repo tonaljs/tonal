@@ -1,6 +1,6 @@
 'use strict'
 
-var transpose = require('note-transpose')
+var transpose = require('note-transposer')
 
 var ASC = [-12, 7] // dimished second
 var DESC = [12, -7] // descending dimished second

@@ -1,7 +1,7 @@
 'use strict'
 
 var G = require('music-gamut')
-var transpose = require('note-transpose')
+var transpose = require('note-transposer')
 var distanceTo = require('note-interval')
 
 /**

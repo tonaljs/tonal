@@ -1,6 +1,6 @@
 {
   "name": "note-harmonizer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Harmonize notes or create harmonizers functions",
   "main": "index.js",
   "scripts": {

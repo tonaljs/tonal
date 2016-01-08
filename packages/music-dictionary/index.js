@@ -2,7 +2,7 @@
 
 var parse = require('music-notation/interval/parse')
 var R = require('music-notation/note/regex')
-var transpose = require('note-transpose')
+var transpose = require('note-transposer')
 
 /**
  * Create a musical dictionary. A musical dictionary is a function that given

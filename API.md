@@ -872,7 +872,7 @@ This function is currified so it can be used to map arrays of notes.
 ### Examples
 
 ```js
-var transpose = require('note-transpose')
+var transpose = require('note-transposer')
 transpose('3m', 'C4') // => 'Eb4'
 transpose('C4', '3m') // => 'Eb4'
 tranpose([1, 0, 2], [3, -1, 0]) // => [3, 0, 2]

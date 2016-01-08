@@ -160,7 +160,7 @@ tonal.transpose(tonal.note.fromMidi(60), '2M')
 ... or install and require individual modules:
 
 ```js
-var transpose = require('note-transpose')
+var transpose = require('note-transposer')
 var fromMidi = require('midi-note')
 transpose(fromMidi(60), '2M')
 ```

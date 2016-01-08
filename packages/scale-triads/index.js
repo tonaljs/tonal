@@ -1,7 +1,7 @@
 var pitchSet = require('music-scale')
 var interval = require('music-notation/interval/parse')
 var roman = require('music-notation/roman/parse')
-var transpose = require('note-transpose')
+var transpose = require('note-transposer')
 var gamut = require('music-gamut')
 var props = require('music-notation/array/to-props')
 

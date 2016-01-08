@@ -1,6 +1,6 @@
 {
   "name": "music-dictionary",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Create musical dictionaries",
   "main": "index.js",
   "scripts": {

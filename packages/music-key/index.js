@@ -1,6 +1,6 @@
 'use strict'
 
-var transpose = require('note-transpose')
+var transpose = require('note-transposer')
 var interval = require('note-interval')
 var parse = require('music-notation/note/parse')
 var parseI = require('music-notation/interval/parse')

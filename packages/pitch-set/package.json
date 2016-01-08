@@ -1,6 +1,6 @@
 {
   "name": "pitch-set",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create music pitch sets",
   "main": "index.js",
   "scripts": {
