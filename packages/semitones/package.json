@@ -1,0 +1,26 @@
+{
+  "name": "semitones",
+  "version": "1.0.0",
+  "description": "Get the size in semitones of a music interval",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/semitones#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/semitones",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "music",
+    "theory",
+    "semitones",
+    "interval",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "dependencies": {
+    "music-notation": "file:../music-notation"
+  }
+}

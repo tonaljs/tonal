@@ -1,0 +1,26 @@
+{
+  "name": "interval-class",
+  "version": "1.0.0",
+  "description": "Get the interval class of an interval",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/interval-class#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/interval-class",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "music",
+    "theory",
+    "interval-class",
+    "interval",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "dependencies": {
+    "semitones": "file:../semitones"
+  }
+}

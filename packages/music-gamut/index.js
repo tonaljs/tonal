@@ -13,6 +13,9 @@ function simplify (p) {
 function equal (a, b) {
   return a[0] === b[0] && a[1] === b[1]
 }
+
+// Uses a custom height function (instead of semitones) because 1) the Infinty,
+// for null values and 2) the pitch class octave number
 function height (p) {
   if (!p) return -Infinity
   var f = p[0] * 7

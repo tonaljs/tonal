@@ -43,6 +43,11 @@ Also, I want a complete library, where I can model all what I learn, with some (
 `tonal` is a collection of modules. They all live in this
 multi package repository ([monorepo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md)). Take a look inside [`packages`](https://github.com/danigb/tonal/tree/master/packages):
 
+#### Notation
+- [music-notation](https://github.com/danigb/tonal/tree/master/packages/music-notation):
+Parse notes, intervals, scale names, alterations...
+[![npm](https://img.shields.io/npm/v/music-notation.svg)](https://www.npmjs.com/package/music-notation)
+
 #### Notes and intervals
 - [note-midi](https://github.com/danigb/tonal/tree/master/packages/note-midi):
 Note name to midi
@@ -75,12 +80,12 @@ Create pitch sets
 - [music-scale](https://github.com/danigb/tonal/tree/master/packages/music-scale):
 Create music scales
 [![npm](https://img.shields.io/npm/v/music-scale.svg)](https://www.npmjs.com/package/music-scale)
+- [music-chord](https://github.com/danigb/tonal/tree/master/packages/music-chord):
+Create music chords
+[![npm](https://img.shields.io/npm/v/music-chord.svg)](https://www.npmjs.com/package/music-chord)
 - [scale-dictionary](https://github.com/danigb/tonal/tree/master/packages/scale-dictionary):
 A music scales dictionary
 [![npm](https://img.shields.io/npm/v/scale-dictionary.svg)](https://www.npmjs.com/package/scale-dictionary)
-- [music-chord](https://github.com/danigb/tonal/tree/master/packages/music-chord):
-Create music scales
-[![npm](https://img.shields.io/npm/v/music-chord.svg)](https://www.npmjs.com/package/music-chord)
 - [chord-dictionary](https://github.com/danigb/tonal/tree/master/packages/chord-dictionary):
 A music chords dictionary
 [![npm](https://img.shields.io/npm/v/chord-dictionary.svg)](https://www.npmjs.com/package/chord-dictionary)
@@ -99,12 +104,7 @@ Create dictionaries of notes
 Get key accidentals, relative major and minor, key notes and key alterations
 [![npm](https://img.shields.io/npm/v/music-key.svg)](https://www.npmjs.com/package/music-key)
 
-#### Notation
-- [music-notation](https://github.com/danigb/tonal/tree/master/packages/music-notation):
-Parse notes, intervals, scale names, alterations...
-[![npm](https://img.shields.io/npm/v/music-notation.svg)](https://www.npmjs.com/package/music-notation)
-
-#### Not released
+#### Work in progress...
 
 - [scale-triads](https://github.com/danigb/tonal/tree/master/packages/scale-triads):
 Create triads from scales
@@ -121,7 +121,9 @@ Get the type of a chord
 - [chord-progression](https://github.com/danigb/tonal/tree/master/packages/chord-progression):
 Create chord progressions
 [![npm](https://img.shields.io/npm/v/chord-progression.svg)](https://www.npmjs.com/package/chord-progression)
-
+- [interval-analyzer](https://github.com/danigb/tonal/tree/master/packages/interval-analyzer):
+Analyze the intervals of a collection of notes
+[![npm](https://img.shields.io/npm/v/interval-analyzer.svg)](https://www.npmjs.com/package/interval-analyzer)
 
 ## Examples
 

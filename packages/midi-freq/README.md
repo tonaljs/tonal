@@ -1,6 +1,6 @@
 # midi-freq [![npm version](https://img.shields.io/npm/v/midi-freq.svg)](https://www.npmjs.com/package/midi-freq)
 
-[![tonal](https://img.shields.io/badge/tonal-midi-freq-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+[![tonal](https://img.shields.io/badge/tonal-midi--freq-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
 
 Get frequency of a midi note:
 
