@@ -2,11 +2,22 @@
 
 [![tonal](https://img.shields.io/badge/tonal-music--scale-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-`music-scale` is a function to create music scales with ease:
+`music-scale` is a function to create music scales, either by name or by intervals. It includes a scale dictionary:
 
 ```js
 var scale = require('music-scale')
-var major = scale('1 2 3 4 5 6 7')
+
+// get scale from name
+scale('A major') // => ['A', 'B', 'C#' 'D', 'E', 'F#', 'G#']
+
+// get scale from type and tonic
+scale('major', 'A') // => ['A', 'B', 'C#' 'D', 'E', 'F#', 'G#']
+
+// get scale from intervals and tonic
+scale('1 2 3 4 5 6 7', 'A') // => ['A', 'B', 'C#' 'D', 'E', 'F#', 'G#']
+
+// partially applied
+var major = scale('major')
 major('A') // => ['A', 'B', 'C#' 'D', 'E', 'F#', 'G#']
 ```
 
@@ -18,9 +29,30 @@ Via npm: `npm i --save music-scale`
 
 ## Usage
 
-#### Create scales
+Scales are a pitch sets with a tonic. Scales can be created from a list of intervals and a tonic, from a scale type and tonic, or from scale name.
 
-Scales are a pitch sets with a tonic. Scales can be created from a list of intervals and a tonic:
+#### Create scales from name
+
+If you provide the scale and tonic in one string, it retunrs its notes:
+
+```js
+scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+```
+
+You pass the scale type and tonic as two parameters:
+
+```js
+scale('major', 'C') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+```
+
+And then partially apply it:
+
+```js
+var major = scale('major')
+major('A') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
+```
+
+#### Create scale from intervals
 
 ```js
 scale('1 2 3m 4 5 6m 7', 'D') // => ['D', 'E', 'F', 'G', 'A', 'Bb', 'C#']
@@ -60,17 +92,19 @@ If the tonic of the scale is a note with octave, the notes of the scale will hav
 major('A4') // => ['A4', 'B4', 'C#5' ,'D5', 'E5', 'F#5', 'G#5']
 ```
 
-If the tonic of a scale is false, the intervals are returned:
-
-```js
-major(false) // => ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7']
-```
-
-Finally, if the tonic is null and the source are notes, the first pitch class of the scale source will be the tonic:
+If the tonic is null and the source are notes, the first pitch class of the scale source will be the tonic:
 
 ```js
 major(null) // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 scale('d4 f5 g2 c6 a1', null) // => [ 'D', 'F', 'G', 'A', 'C' ]
+```
+
+#### Get scale intervals
+
+If the tonic of a scale is false, the intervals are returned:
+
+```js
+scale('major', false) // => ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7']
 ```
 
 ## License

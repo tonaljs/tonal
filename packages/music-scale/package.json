@@ -1,6 +1,6 @@
 {
   "name": "music-scale",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create music scales",
   "main": "index.js",
   "scripts": {
@@ -24,8 +24,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "music-gamut": "^0.7.1",
-    "note-interval": "^1.0.0",
-    "note-transposer": "^1.0.0"
+    "pitch-set": "^1.0.0",
+    "scale-dictionary": "^0.2.0"
   }
 }
