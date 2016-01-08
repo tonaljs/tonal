@@ -2,7 +2,7 @@
 
 `tonal` is a modular, functional music theory library. Built from a collection of modules, it's able to create and manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music) and while is designed for algorithmic composition and music generation, can be used to develop any kind of midi or audio software.
 
-__This is alpha software__, if you need a stable music theory library in javascript you can use the excellent [teoria](https://github.com/saebekassebil/teoria)
+Although this library is under active development, the modules more than 1.0.0 are considered __more or less__ stable.
 
 ## Features
 
@@ -66,6 +66,9 @@ Find the interval between two notes
 [![npm](https://img.shields.io/npm/v/note-interval.svg)](https://www.npmjs.com/package/note-interval)
 
 #### Collection of notes
+- [pitch-set](https://github.com/danigb/tonal/tree/master/packages/pitch-set):
+Create pitch sets
+[![npm](https://img.shields.io/npm/v/pitch-set.svg)](https://www.npmjs.com/package/pitch-set)
 - [music-scale](https://github.com/danigb/tonal/tree/master/packages/music-scale):
 Create music scales
 [![npm](https://img.shields.io/npm/v/music-scale.svg)](https://www.npmjs.com/package/music-scale)
@@ -90,24 +93,30 @@ Create dictionaries of notes
 
 #### Keys
 - [music-key](https://github.com/danigb/tonal/tree/master/packages/music-key):
-Music keys
+Get key accidentals, relative major and minor, key notes and key alterations
 [![npm](https://img.shields.io/npm/v/music-key.svg)](https://www.npmjs.com/package/music-key)
 
 #### Notation
-- [array-notation](https://github.com/danigb/tonal/tree/master/packages/array-notation):
-Parse notes, intervals and other pitched elements
-[![npm](https://img.shields.io/npm/v/array-notation.svg)](https://www.npmjs.com/package/array-notation)
+- [music-notation](https://github.com/danigb/tonal/tree/master/packages/music-notation):
+Parse notes, intervals, scale names, alterations...
+[![npm](https://img.shields.io/npm/v/music-notation.svg)](https://www.npmjs.com/package/music-notation)
 
 #### Not released
 
+- [scale-triads](https://github.com/danigb/tonal/tree/master/packages/scale-triads):
+Create triads from scales
+[![npm](https://img.shields.io/npm/v/scale-triads.svg)](https://www.npmjs.com/package/scale-triads)
+- [filter-notes](https://github.com/danigb/tonal/tree/master/packages/filter-notes):
+Filter notes
+[![npm](https://img.shields.io/npm/v/filter-notes.svg)](https://www.npmjs.com/package/filter-notes)
 - [binary-set](https://github.com/danigb/tonal/tree/master/packages/binary-set):
-Binary sets
+Binary pitch set manipulation
 [![npm](https://img.shields.io/npm/v/binary-set.svg)](https://www.npmjs.com/package/binary-set)
 - [chord-type](https://github.com/danigb/tonal/tree/master/packages/chord-type):
 Get the type of a chord
 [![npm](https://img.shields.io/npm/v/chord-type.svg)](https://www.npmjs.com/package/chord-type)
 - [chord-progression](https://github.com/danigb/tonal/tree/master/packages/chord-progression):
-Chord progressions
+Create chord progressions
 [![npm](https://img.shields.io/npm/v/chord-progression.svg)](https://www.npmjs.com/package/chord-progression)
 
 

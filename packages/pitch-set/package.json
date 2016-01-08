@@ -1,0 +1,31 @@
+{
+  "name": "pitch-set",
+  "version": "1.0.0",
+  "description": "Create pitch sets",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm test && npm run coverage && npm run docs && npm run dist",
+    "test": "mocha",
+    "docs": "documentation -f md > API.md",
+    "dist": "mkdir -p tmp/ && browserify index.js | uglifyjs > tmp/pitch-set.min.js&& ls -hall tmp/",
+    "coverage": "istanbul cover _mocha"
+  },
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/pitch-set#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/pitch-set",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "music",
+    "scale",
+    "pitch set",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "dependencies": {
+    "music-gamut": "^0.7.1",
+    "note-interval": "^1.0.0",
+    "note-transpose": "^1.0.0"
+  }
+}

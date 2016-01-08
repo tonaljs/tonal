@@ -13,7 +13,7 @@ var NUM = {i: 0, ii: 1, iii: 2, iv: 3, v: 4, vi: 5, vii: 6}
  * @name roman.parse
  * @function
  * @param {String} str - the roman numeral string
- * @return {Array} the roman number in array-notation or null if not valid numeral
+ * @return {Array} the roman number in array notation or null if not valid numeral
  *
  * @example
  * var parse = require('music-notation/roman.parse')
