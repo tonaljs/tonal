@@ -1,27 +1,28 @@
-# note-transpose [![npm version](https://img.shields.io/npm/v/note-transpose.svg)](https://www.npmjs.com/package/note-transpose)
+# note-transposer [![npm version](https://img.shields.io/npm/v/note-transposer.svg)](https://www.npmjs.com/package/note-transposer)
 
-[![Build Status](https://travis-ci.org/danigb/tonal.svg?branch=master)](https://travis-ci.org/danigb/tonal)
-[![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal)
-[![license](https://img.shields.io/npm/l/note-transpose.svg)](https://www.npmjs.com/package/note-transpose)
 [![tonal](https://img.shields.io/badge/tonal-note--transpose-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-`note-transpose` is a function to transpose notes:
+`note-transposer` is a module with a function to (surprise!) transpose notes, or create transposer functions:
 
 ```js
-var transpose = require('note-transpose')
+var transpose = require('note-transposer')
 transpose('C3', '3m') // => 'Eb3'
+
+// create a transposer
+var major3th = transpose('3M')
+['C', 'D', 'E'].map(major3th) // => ['E', 'F#', 'G#']
 ```
 
-It's capable of add intervals, and is part of [tonal](https://www.npmjs.com/package/tonal)
+It's also capable of add intervals, and is part of [tonal](https://www.npmjs.com/package/tonal)
 
 ## Install
 
-Via npm: `npm i --save note-transpose` and require the function.
+Via npm: `npm i --save note-transposer` and require the function.
 
-Or use the [distribution file](https://raw.githubusercontent.com/danigb/tonal/master/packages/note-transpose/dist/note-transpose.min.js) (exports `transpose` function to window globals):
+Or use the [distribution file](https://raw.githubusercontent.com/danigb/tonal/master/packages/note-transposer/dist/note-transposer.min.js) (exports `transpose` function to window globals):
 
 ```html
-<script src="note-transpose.min.js"></script>
+<script src="note-transposer.min.js"></script>
 <script>console.log(transpose('C3', '3m'))</script>
 ```
 

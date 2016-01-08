@@ -58,9 +58,12 @@ Get note enharmonics
 [![npm](https://img.shields.io/npm/v/enharmonics.svg)](https://www.npmjs.com/package/enharmonics)
 
 #### Transposition and distances
-- [note-transpose](https://github.com/danigb/tonal/tree/master/packages/note-transpose):
+- [note-transposer](https://github.com/danigb/tonal/tree/master/packages/note-transposer):
 Transpose notes
-[![npm](https://img.shields.io/npm/v/note-transpose.svg)](https://www.npmjs.com/package/nnote-transpose)
+[![npm](https://img.shields.io/npm/v/note-transposer.svg)](https://www.npmjs.com/package/note-transposer)
+- [note-harmonizer](https://github.com/danigb/tonal/tree/master/packages/note-harmonizer):
+Harmonize notes or create harmonizer functions
+[![npm](https://img.shields.io/npm/v/note-harmonizer.svg)](https://www.npmjs.com/package/note-harmonizer)
 - [note-interval](https://github.com/danigb/tonal/tree/master/packages/note-interval):
 Find the interval between two notes
 [![npm](https://img.shields.io/npm/v/note-interval.svg)](https://www.npmjs.com/package/note-interval)
@@ -69,9 +72,6 @@ Find the interval between two notes
 - [pitch-set](https://github.com/danigb/tonal/tree/master/packages/pitch-set):
 Create pitch sets
 [![npm](https://img.shields.io/npm/v/pitch-set.svg)](https://www.npmjs.com/package/pitch-set)
-- [harmonize-note](https://github.com/danigb/tonal/tree/master/packages/harmonize-note):
-Harmonize notes or create harmonizer functions
-[![npm](https://img.shields.io/npm/v/harmonize-note.svg)](https://www.npmjs.com/package/harmonize-note)
 - [music-scale](https://github.com/danigb/tonal/tree/master/packages/music-scale):
 Create music scales
 [![npm](https://img.shields.io/npm/v/music-scale.svg)](https://www.npmjs.com/package/music-scale)
@@ -166,15 +166,15 @@ Then you can load the whole library:
 
 ```js
 var tonal = require('tonal')
-tonal.transpose(tonal.note.fromMidi(60), '2M')
+tonal.transpose(tonal.note.fromMidi(60), '2M') // => 'D4'
 ```
 
 ... or install and require individual modules:
 
 ```js
-var transpose = require('note-transpose')
-var fromMidi = require('midi-note')
-transpose(fromMidi(60), '2M')
+var midiNote = require('midi-note')
+var transpose = require('note-transposer')
+transpose(midiNote(60), '2M') // => 'D4'
 ```
 
 ## Documentation and tests

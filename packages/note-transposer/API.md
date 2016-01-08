@@ -1,8 +1,13 @@
-## `note.transpose`
+## `transpose`
 
-Transpose a note by an interval.
+Transposes a note by an interval.
 
-This function is currified. The order of the parameters is indifferent.
+Given a note and an interval it returns the transposed note. It can be used
+to add intervals if both parameters are intervals.
+
+The order of the parameters is indifferent.
+
+This function is currified so it can be used to map arrays of notes.
 
 ### Parameters
 
@@ -13,7 +18,7 @@ This function is currified. The order of the parameters is indifferent.
 ### Examples
 
 ```js
-var transpose = require('note-transpose')
+var transpose = require('note-transposer')
 transpose('3m', 'C4') // => 'Eb4'
 transpose('C4', '3m') // => 'Eb4'
 tranpose([1, 0, 2], [3, -1, 0]) // => [3, 0, 2]
