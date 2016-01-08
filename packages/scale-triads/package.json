@@ -1,0 +1,33 @@
+{
+  "name": "scale-triads",
+  "version": "0.1.0",
+  "description": "Get triads chords from scales",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm test && npm run coverage && npm run docs && npm run dist",
+    "test": "mocha",
+    "docs": "documentation -f md > API.md",
+    "dist": "browserify index.js | uglifyjs > tmp/scale-triads.min.js&& ls -hall tmp/",
+    "coverage": "istanbul cover _mocha"
+  },
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/scale-triads#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/scale-triads",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "music",
+    "triad",
+    "chords",
+    "scales",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "dependencies": {
+    "music-gamut": "^0.7.5",
+    "music-notation": "^1.0.0",
+    "music-scale": "^1.0.0",
+    "note-transpose": "^1.0.3"
+  }
+}

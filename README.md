@@ -69,17 +69,20 @@ Find the interval between two notes
 - [pitch-set](https://github.com/danigb/tonal/tree/master/packages/pitch-set):
 Create pitch sets
 [![npm](https://img.shields.io/npm/v/pitch-set.svg)](https://www.npmjs.com/package/pitch-set)
+- [harmonize-note](https://github.com/danigb/tonal/tree/master/packages/harmonize-note):
+Harmonize notes or create harmonizer functions
+[![npm](https://img.shields.io/npm/v/harmonize-note.svg)](https://www.npmjs.com/package/harmonize-note)
 - [music-scale](https://github.com/danigb/tonal/tree/master/packages/music-scale):
 Create music scales
 [![npm](https://img.shields.io/npm/v/music-scale.svg)](https://www.npmjs.com/package/music-scale)
 - [scale-dictionary](https://github.com/danigb/tonal/tree/master/packages/scale-dictionary):
-A scale dictionary
+A music scales dictionary
 [![npm](https://img.shields.io/npm/v/scale-dictionary.svg)](https://www.npmjs.com/package/scale-dictionary)
 - [music-chord](https://github.com/danigb/tonal/tree/master/packages/music-chord):
 Create music scales
 [![npm](https://img.shields.io/npm/v/music-chord.svg)](https://www.npmjs.com/package/music-chord)
 - [chord-dictionary](https://github.com/danigb/tonal/tree/master/packages/chord-dictionary):
-A chords dictionary
+A music chords dictionary
 [![npm](https://img.shields.io/npm/v/chord-dictionary.svg)](https://www.npmjs.com/package/chord-dictionary)
 - [note-range](https://github.com/danigb/tonal/tree/master/packages/note-range):
 Create ranges of notes
