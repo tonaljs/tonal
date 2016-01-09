@@ -1,0 +1,29 @@
+{
+  "name": "interval-density",
+  "version": "1.0.0",
+  "description": "Perform interval analysis of a collection of notes",
+  "main": "index.js",
+  "scripts": {
+    "docs": "documentation -f md index.js > API.md",
+    "test": "mocha"
+  },
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/interval-density#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/interval-density",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "music",
+    "theory",
+    "interval",
+    "sonority",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "dependencies": {
+    "interval-class": "^1.0.1",
+    "music-gamut": "^0.7.7",
+    "semitones": "^1.0.0"
+  }
+}
