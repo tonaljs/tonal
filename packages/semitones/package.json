@@ -21,6 +21,6 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "music-notation": "file:../music-notation"
+    "music-notation": "^1.0.1"
   }
 }

@@ -61,6 +61,9 @@ Given a midi note, get it's frequency
 - [enharmonics](https://github.com/danigb/tonal/tree/master/packages/enharmonics):
 Get note enharmonics
 [![npm](https://img.shields.io/npm/v/enharmonics.svg)](https://www.npmjs.com/package/enharmonics)
+- [semitones](https://github.com/danigb/tonal/tree/master/packages/semitones):
+Get the size in semitones of an interval
+[![npm](https://img.shields.io/npm/v/semitones.svg)](https://www.npmjs.com/package/semitones)
 
 #### Transposition and distances
 - [note-transposer](https://github.com/danigb/tonal/tree/master/packages/note-transposer):

@@ -1,7 +1,7 @@
 {
   "name": "music-notation",
-  "version": "1.0.0",
-  "description": "Parse and build music elements",
+  "version": "1.0.1",
+  "description": "Parse alterations, notes, intervals and other musical elements with differents notations",
   "main": "index.js",
   "scripts": {
     "build": "npm test && npm run coverage && npm run docs",
