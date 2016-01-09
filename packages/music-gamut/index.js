@@ -1,12 +1,15 @@
 'use strict'
 
+var noteArr = require('music-notation/note/parse')
+var noteStr = require('music-notation/note/str')
 var parse = require('music-notation/pitch/parse')
 var str = require('music-notation/pitch/str')
 var distanceTo = require('note-interval')
 var transpose = require('note-transposer')
 var SEP = /\s*\|\s*|\s*,\s*|\s+/
 
-var toStr = function (s) { return Array.isArray(s) ? str(s) : s }
+var isArray = Array.isArray
+var toStr = function (s) { return isArray(s) ? str(s) : s }
 function simplify (p) {
   return p.length === 2 ? [p[0], -Math.floor(p[0] * 7 / 12)] : [p[0]]
 }
@@ -44,6 +47,27 @@ function gamut (source, op) {
 }
 
 /**
+ * Convert notes from array notation or to string notation
+ *
+ * @name gamut.notes
+ * @function
+ * @param {Array|String} source - the notes
+ * @return {Array} the notes in array notation (if the source was notes in
+ * scientific notation) or the notes in scientific notation (if the source was
+ * notes in array notation)
+ *
+ * @example
+ * var gamut = require('music-gamut')
+ * gamut.notes('C D E F G') // => [ [ 0 ], [ 2 ], [ 4 ], [ -1 ], [ 1 ] ]
+ * gamut.notes([ [ 0 ], [ 2 ], [ 4 ], [ -1 ], [ 1 ] ]) // => ['C', 'D', 'E', 'F', 'G']
+ */
+gamut.notes = function (s) {
+  if (typeof s === 'string') s = gamut.split(s)
+  return isArray(s) ? s.map(noteToggle) : null
+}
+function noteToggle (n) { return isArray(n) ? noteStr(n) : noteArr(n) }
+
+/**
  * Convert a source to an array. If the source is an array, return it.
  *
  * Aside from an array itself, the source can be a
@@ -64,7 +88,7 @@ function gamut (source, op) {
  * G.split() // => []
  */
 gamut.split = function (source) {
-  if (Array.isArray(source)) return source
+  if (isArray(source)) return source
   else if (typeof source === 'string') return source.trim().split(SEP)
   else if (source === null || typeof source === 'undefined') return []
   else return [ source ]
@@ -84,9 +108,9 @@ gamut.split = function (source) {
 gamut.operation = function (fn) {
   return function (source) {
     var g = gamut.split(source)
-    if (Array.isArray(g[0])) return fn(g)
+    if (isArray(g[0])) return fn(g)
     var v = fn(g.map(parse))
-    return Array.isArray(v) ? v.map(toStr) : v
+    return isArray(v) ? v.map(toStr) : v
   }
 }
 
