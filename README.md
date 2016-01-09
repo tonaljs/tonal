@@ -64,6 +64,10 @@ Get note enharmonics
 - [semitones](https://github.com/danigb/tonal/tree/master/packages/semitones):
 Get the size in semitones of an interval
 [![npm](https://img.shields.io/npm/v/semitones.svg)](https://www.npmjs.com/package/semitones)
+- [interval-class](https://github.com/danigb/tonal/tree/master/packages/interval-class):
+Get the interval-class of an interval
+[![npm](https://img.shields.io/npm/v/interval-class.svg)](https://www.npmjs.com/package/interval-class)
+
 
 #### Transposition and distances
 - [note-transposer](https://github.com/danigb/tonal/tree/master/packages/note-transposer):
@@ -101,6 +105,9 @@ Work with collection of notes
 - [music-dictionary](https://github.com/danigb/tonal/tree/master/packages/music-dictionary):
 Create dictionaries of notes
 [![npm](https://img.shields.io/npm/v/music-dictionary.svg)](https://www.npmjs.com/package/mmusic-dictionary)
+- [interval-density](https://github.com/danigb/tonal/tree/master/packages/interval-density):
+Analyze the intervals of a collection of notes
+[![npm](https://img.shields.io/npm/v/interval-density.svg)](https://www.npmjs.com/package/interval-density)
 
 #### Keys
 - [music-key](https://github.com/danigb/tonal/tree/master/packages/music-key):
@@ -124,9 +131,6 @@ Get the type of a chord
 - [chord-progression](https://github.com/danigb/tonal/tree/master/packages/chord-progression):
 Create chord progressions
 [![npm](https://img.shields.io/npm/v/chord-progression.svg)](https://www.npmjs.com/package/chord-progression)
-- [interval-analyzer](https://github.com/danigb/tonal/tree/master/packages/interval-analyzer):
-Analyze the intervals of a collection of notes
-[![npm](https://img.shields.io/npm/v/interval-analyzer.svg)](https://www.npmjs.com/package/interval-analyzer)
 
 ## Examples
 
