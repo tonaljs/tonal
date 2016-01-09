@@ -1,0 +1,4 @@
+CHANGELOG
+
+[1.0.2] If tonic is null, it returns the gamut
+[1.0.0] First version

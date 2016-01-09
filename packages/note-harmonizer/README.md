@@ -60,6 +60,14 @@ If `false` is passed as tonic, you can extract intervals:
 harmonize('D F A C', false) // => ['1P', '3m', '5P', '7m']
 ```
 
+#### Filter pitches
+
+Finally, it tonic is `null` you get the notes or intervals without transformation:
+
+```js
+harmonize('c2 D4 blah P4', null) // => ['C2', 'D4', null, '4P']
+```
+
 ## License
 
 MIT License
