@@ -13,6 +13,10 @@ describe('semitones', function () {
       [ 0, 12, 24, 36, 48, 60, 72, 84 ])
   })
 
+  it('get distances between notes', function () {
+    assert.equal(semitones('d5') - semitones('c4'), 14)
+  })
+
   it('get size of pitch classes', function () {
     assert.deepEqual('C D E F G A B C'.split(' ').map(semitones),
       [ 0, 2, 4, 5, 7, 9, 11, 0 ])

@@ -2,7 +2,6 @@
 
 var str = require('./str')
 var parse = require('./parse')
-var op = require('../operation')
 
 /**
  * Get a pitch from a string. In tonal a pitch it's a note, an interval or a
@@ -18,8 +17,9 @@ var op = require('../operation')
  * pitch('c2') // => 'C2'
  * pitch('2') // => '2M'
  * pitch('blah') // => null
+ *
+ * @deprecated use pitch/index
  */
 module.exports = function (s) {
-  if (typeof (s) === 'function') return op(str, parse)
   return str(parse(s))
 }
