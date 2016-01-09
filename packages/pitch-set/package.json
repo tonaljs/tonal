@@ -1,14 +1,16 @@
 {
   "name": "pitch-set",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Create music pitch sets",
   "main": "index.js",
   "scripts": {
-    "build": "npm test && npm run coverage && npm run docs && npm run dist",
+    "build": "npm test && npm run docs && npm run coverage && npm run disc && npm run dist",
     "test": "mocha",
     "docs": "documentation -f md > API.md",
     "dist": "mkdir -p tmp/ && browserify index.js | uglifyjs > tmp/pitch-set.min.js&& ls -hall tmp/",
-    "coverage": "istanbul cover _mocha"
+    "disc": "browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
+    "coverage": "istanbul cover _mocha",
+    "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
   },
   "homepage": "https://github.com/danigb/tonal/tree/master/packages/pitch-set#readme",
   "repository": "https://github.com/danigb/tonal/tree/master/packages/pitch-set",
@@ -26,6 +28,7 @@
   "license": "MIT",
   "dependencies": {
     "music-gamut": "^0.7.1",
+    "note-harmonizer": "^1.0.1",
     "note-interval": "^1.0.0",
     "note-transposer": "^1.0.0"
   }
