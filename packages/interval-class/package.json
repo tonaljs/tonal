@@ -4,6 +4,7 @@
   "description": "Get the interval class of an interval",
   "main": "index.js",
   "scripts": {
+    "docs": "documentation -f md index.js > API.md",
     "test": "mocha"
   },
   "homepage": "https://github.com/danigb/tonal/tree/master/packages/interval-class#readme",
@@ -21,6 +22,6 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "semitones": "file:../semitones"
+    "semitones": "^1.0.0"
   }
 }

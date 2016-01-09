@@ -1,7 +1,7 @@
 'use strict'
 
 var semitones = require('semitones')
-var CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0]
+var CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]
 
 /**
  * Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
@@ -10,6 +10,8 @@ var CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0]
  * In musical set theory, an interval class is the shortest distance in
  * pitch class space between two unordered pitch classes
  *
+ * @name intervalClass
+ * @function
  * @param {String|Interval} interval - the Interval
  * @return {Integer} A value between 0 and 6
  *
@@ -21,5 +23,5 @@ var CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0]
  */
 module.exports = function (ivl) {
   var s = semitones(ivl)
-  return s < 0 || s > 12 ? null : CLASSES[s]
+  return s !== null ? CLASSES[Math.abs(s) % 12] : null
 }
