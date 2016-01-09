@@ -20,6 +20,11 @@ describe('interval-class', function () {
       [ 0, 2, 4, 5, 5, 3, 1, 0 ])
   })
 
+  it('get interval class from a distance in semitones', function () {
+    assert.deepEqual([0, 2, 4, 5, 7, 9, 11, 12].map(ic),
+      [ 0, 2, 4, 5, 5, 3, 1, 0 ])
+  })
+
   it('returns null if not valid interval', function () {
     assert.equal(ic('blah'), null)
   })

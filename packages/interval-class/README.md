@@ -12,12 +12,32 @@ In practice, an interval class is an integer between 0 and 6:
 var ic = require('interval-class')
 ic('P4') // => 5
 ic('P5') // => 5
-ic('P8') // => 0
-ic('M7') // => 1
-ic('m7') // => 2
 ```
 
+Install it via npm: `npm i --save interval-class`
+
 This tiny function is part of [tonal](https://github.com/danigb/tonal)
+
+## Usage
+
+Work with intervals in shorthand notation:
+
+```js
+['1P', '2M', '3M', '4P', '5P', '6M', '7M'].map(ic)
+// => [ 0, 2, 4, 5, 5, 3, 1, 0 ]
+```
+
+You can pass the interval in semitones:
+
+```js
+ic(7) // => 5 (a perfect fifth)
+```
+
+Or using [array notation]():
+
+```js
+ic([ 2, -1 ]) // => 2 (a major second)
+```
 
 ## License
 
