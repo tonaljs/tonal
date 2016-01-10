@@ -20,4 +20,17 @@ describe('music-scale', function () {
     assert.deepEqual(scale('major', false), [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
     assert.deepEqual(scale('C D E F G A B', false), [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
   })
+
+  it('has names function', function () {
+    assert(scale.names().length > 0)
+    assert(scale.names(true).length > scale.names().length)
+  })
+
+  it('has props function', function () {
+    assert.deepEqual(scale.props('major'), { name: 'major',
+      aliases: [ 'ionian' ],
+      intervals: [ '1', '2', '3', '4', '5', '6', '7' ],
+      steps: [ [ 0, 0 ], [ 2, -1 ], [ 4, -2 ], [ -1, 1 ], [ 1, 0 ], [ 3, -1 ], [ 5, -2 ] ],
+      binary: '101011010101', decimal: 2773 })
+  })
 })

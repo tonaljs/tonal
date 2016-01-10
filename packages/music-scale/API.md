@@ -1,17 +1,10 @@
 ## `scale`
 
-Create a scale from a list of notes (or intervals) and (optionally) a tonic.
-An scale is a collection of uniq notes or intervals sorted by frequency
-
-The tonic can be a note (with or without octave), false to get the scale
-intervals or null to set the first note of the source as tonic
-
-This function is currified, so you can partially apply the function passing
-one parameter instead of two (see example)
+Create a scale from a name or intervals and tonic
 
 ### Parameters
 
-* `source` **`Array`** the list of intervals or notes
+* `source` **`Array`** the scale name, scale intervals or scale notes
 * `tonic` **`String`** the tonic of the scale
 
 
@@ -19,19 +12,34 @@ one parameter instead of two (see example)
 
 ```js
 var scale = require('music-scale')
-
-// uses first note of the source as tonic
-scale('d2 c4 e3 f g6 a B c d5 e', null) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
-
-// create scales
-scale('1 2 3 5 6', 'G') // => ['G', 'A', 'B', 'D', 'E']
-scale('1 2 3 5 6', false) // => ['1P', '2M', '3M', '5P', '6M']
-
-// partially applied
-var dorian = scale('D E F G A B C')
-dorian('C4') // => ['C4', 'D4', 'Eb4', 'F4', 'G4', 'A4', 'Bb4']
 ```
 
 Returns `Array` the list of notes
+
+
+## `scale.names`
+
+Get available scale names
+
+### Parameters
+
+* `aliases` **`Boolean`** if true, it returns the name aliases
+
+
+
+Returns `Array` the available scale names
+
+
+## `scale.props`
+
+Get scale properties
+
+### Parameters
+
+* `name` **`String`** the scale name
+
+
+
+Returns `Object` the scale properties
 
 
