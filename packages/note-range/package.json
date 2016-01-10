@@ -1,15 +1,31 @@
 {
   "name": "note-range",
   "version": "1.0.0",
-  "description": "Note ranges",
+  "description": "Create ranges of music notes",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "build": "npm test && npm run docs && npm run coverage && npm run disc && npm run dist",
+    "test": "mocha",
+    "docs": "documentation -f md > API.md",
+    "dist": "mkdir -p tmp/ && browserify index.js | uglifyjs > tmp/note-range.min.js&& ls -hall tmp/",
+    "disc": "mkdir -p tmp/ && browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
+    "coverage": "istanbul cover _mocha",
+    "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
   },
-  "author": "",
-  "license": "ISC",
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/note-range#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/note-range",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "music",
+    "theory",
+    "range",
+    "scale",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
   "dependencies": {
-    "midi-note": "^1.0.0",
-    "note-midi": "^1.0.0"
   }
 }

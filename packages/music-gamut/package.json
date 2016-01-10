@@ -1,6 +1,6 @@
 {
   "name": "music-gamut",
-  "version": "0.7.7",
+  "version": "0.8.1",
   "description": "Manipulate collection of notes",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "test": "mocha",
     "docs": "documentation -f md > API.md",
     "dist": "browserify index.js | uglifyjs > dist/music-gamut.min.js&& ls -hall dist/",
-    "disc": "browserify --full-paths index.js | uglifyjs | discify > dist/disc.html",
+    "disc": "mkdir -p tmp/ && browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
     "coverage": "istanbul cover _mocha"
   },
   "homepage": "https://github.com/danigb/tonal/tree/master/packages/music-gamut#readme",
@@ -27,8 +27,6 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "music-notation": "^1.0.0",
-    "note-interval": "^1.0.0",
-    "note-transposer": "^1.0.0"
+    "music-notation": "^1.0.1"
   }
 }

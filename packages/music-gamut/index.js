@@ -1,71 +1,70 @@
 'use strict'
 
-var noteArr = require('music-notation/note/parse')
-var noteStr = require('music-notation/note/str')
 var parse = require('music-notation/pitch/parse')
 var str = require('music-notation/pitch/str')
-var distanceTo = require('note-interval')
-var transpose = require('note-transposer')
 var SEP = /\s*\|\s*|\s*,\s*|\s+/
 
 var isArray = Array.isArray
-var toStr = function (s) { return isArray(s) ? str(s) : s }
-function simplify (p) {
-  return p.length === 2 ? [p[0], -Math.floor(p[0] * 7 / 12)] : [p[0]]
-}
-function equal (a, b) {
-  return a[0] === b[0] && a[1] === b[1]
-}
+function toStr (s) { return isArray(s) ? str(s) : s }
+function toArr (s) { return isArray(s) ? s : parse(s) }
 
-// Uses a custom height function (instead of semitones) because 1) the Infinty,
-// for null values and 2) the pitch class octave number
-function height (p) {
-  if (!p) return -Infinity
-  var f = p[0] * 7
-  var o = p[1] || p[1] === 0 ? p[1] : -Math.floor(f / 12) - 10
-  return f + o * 12
-}
+function id (e) { return e }
 
 /**
  * A gamut is a collection of intervals, pitch classes or notes.
  * Scales, chords, pitch sets are examples of gamuts.
  *
+ * With this function you can manipulate music gamuts in array notation.
+ *
  * @name gamut
- * @param {String|Array} source - a list of elements
  * @param {String|Function} operation - the operation to perfom
+ * @param {String|Array} source - a list of elements
  * @return {Array} a list of pitches
  *
  * @example
  * var gamut = require('music-gamut')
  * gamut('c2 bb fx blah') // => ['C2', 'Bb', 'F##', null]
  */
-function gamut (source, op) {
-  if (op === false) return gamut.harmonizer(source, false)
-  if (typeof op === 'function') return gamut.operation(op)(source)
-  var g = gamut.split(source)
-  return g.map(function (e) { return str(parse(e)) })
+function gamut (op, source) {
+  if (arguments.length === 1 && typeof op !== 'function') return gamut(id, op)
+  return gamut.operation(op)(source)
 }
 
 /**
- * Convert notes from array notation or to string notation
+ * Given a gamut get its notes or intervals in [array notation]()
  *
- * @name gamut.notes
+ * @name gamut.parse
  * @function
- * @param {Array|String} source - the notes
- * @return {Array} the notes in array notation (if the source was notes in
- * scientific notation) or the notes in scientific notation (if the source was
- * notes in array notation)
+ * @param {Array|String} source - the notes or intervals
+ * @return {Array} the notes or intervals in array notation
  *
  * @example
  * var gamut = require('music-gamut')
- * gamut.notes('C D E F G') // => [ [ 0 ], [ 2 ], [ 4 ], [ -1 ], [ 1 ] ]
- * gamut.notes([ [ 0 ], [ 2 ], [ 4 ], [ -1 ], [ 1 ] ]) // => ['C', 'D', 'E', 'F', 'G']
+ * gamut.parse('C D E') // => [ [0], [2], [4] ]
  */
-gamut.notes = function (s) {
-  if (typeof s === 'string') s = gamut.split(s)
-  return isArray(s) ? s.map(noteToggle) : null
+gamut.parse = function (source) {
+  return gamut.split(source).map(toArr)
 }
-function noteToggle (n) { return isArray(n) ? noteStr(n) : noteArr(n) }
+
+/**
+ * Decorate a function to work with gamuts.
+ *
+ * The function to decorate receives an array of pitches in
+ * [array notation]()  and should return the desired transformed array.
+ *
+ * @name gamut.operation
+ * @function
+ * @param {Function} fn - the function to decorate
+ * @return {Function} the decorated function
+ */
+gamut.operation = function (fn) {
+  return function (source) {
+    var g = gamut.split(source)
+    if (isArray(g[0])) return fn(g)
+    var v = fn(g.map(parse))
+    return isArray(v) ? v.map(toStr) : v
+  }
+}
 
 /**
  * Convert a source to an array. If the source is an array, return it.
@@ -95,40 +94,6 @@ gamut.split = function (source) {
 }
 
 /**
- * Decorate a function to work with gamuts.
- *
- * The function to decorate receives an array of pitches in
- * [array notation]()  and should return the desired transformed array.
- *
- * @name gamut.operation
- * @function
- * @param {Function} fn - the function to decorate
- * @return {Function} the decorated function
- */
-gamut.operation = function (fn) {
-  return function (source) {
-    var g = gamut.split(source)
-    if (isArray(g[0])) return fn(g)
-    var v = fn(g.map(parse))
-    return isArray(v) ? v.map(toStr) : v
-  }
-}
-
-/**
- * Create an harmonizer
- */
-gamut.harmonizer = function (source, tonic) {
-  if (arguments.length === 1) return function (t) { return gamut.harmonizer(source, t) }
-  return gamut.operation(function (g) {
-    var base = g[0]
-    var intervals = g.map(distanceTo(base))
-    if (tonic === false) return intervals
-    tonic = parse(tonic)
-    return intervals.map(transpose(tonic))
-  })(source)
-}
-
-/**
  * Rotate the gamut
  *
  * @name gamut.rotate
@@ -147,24 +112,6 @@ gamut.rotate = function (count, source) {
   var n = ((count % len) + len) % len
   return g.slice(n, len).concat(g.slice(0, n))
 }
-
-/**
- * Get a gamut in ascdening pitch order
- *
- * @name gamut.sort
- * @function
- * @param {String|Array} gamut - the gamut to sort
- * @return {Array} the gamut in sort pitch order
- *
- * @example
- * var gamut = require('music-gamut')
- * gamut.sort('c5 d2 f4 D2') // => ['D2', 'D2', 'F4', 'C5']
- */
-gamut.sort = gamut.operation(function (g) {
-  return g.sort(function (a, b) {
-    return height(a) - height(b)
-  })
-})
 
 /**
  * Select some elements from a gamut
@@ -186,28 +133,6 @@ gamut.select = function s (nums, src) {
     return g[n - 1]
   })
 }
-
-/**
- * Create a set: a set is a list of uniq pitch classes or simplified intervals
- * in ascending pitch order
- *
- * @name gamut.set
- * @function
- * @param {String|Array} notes - the note list
- * @return {String|Array} the set
- *
- * @example
- * var set = require('tonal.gamut/set')
- * set('E7 C2 e D5 c1') // => ['C', 'D', 'E']
- * set('11 10 9') // => [ '2M', '3M', '4P' ]
- */
-gamut.set = gamut.operation(function (notes) {
-  var sorted = gamut.sort(notes.map(simplify))
-  return sorted.reduce(function (uniq, value, index) {
-    if (index === 0 || !equal(sorted[index - 1], value)) uniq.push(value)
-    return uniq
-  }, [])
-})
 
 if (typeof module === 'object' && module.exports) module.exports = gamut
 if (typeof window !== 'undefined') window.gamut = gamut

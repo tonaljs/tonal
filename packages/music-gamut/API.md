@@ -3,10 +3,12 @@
 A gamut is a collection of intervals, pitch classes or notes.
 Scales, chords, pitch sets are examples of gamuts.
 
+With this function you can manipulate music gamuts in array notation.
+
 ### Parameters
 
-* `source` **`String or Array`** a list of elements
 * `operation` **`String or Function`** the operation to perfom
+* `source` **`String or Array`** a list of elements
 
 
 ### Examples
@@ -33,6 +35,25 @@ The function to decorate receives an array of pitches in
 
 
 Returns `Function` the decorated function
+
+
+## `gamut.parse`
+
+Given a gamut get its notes or intervals in [array notation]()
+
+### Parameters
+
+* `source` **`Array or String`** the notes or intervals
+
+
+### Examples
+
+```js
+var gamut = require('music-gamut')
+gamut.parse('C D E') // => [ [0], [2], [4] ]
+```
+
+Returns `Array` the notes or intervals in array notation
 
 
 ## `gamut.rotate`
@@ -75,46 +96,6 @@ gamut.select('1 3 5', 'C D E F G A B') // => ['C', 'E', 'G']
 Returns `Array` the selected elements
 
 
-## `gamut.set`
-
-Create a set: a set is a list of uniq pitch classes or simplified intervals
-in ascending pitch order
-
-### Parameters
-
-* `notes` **`String or Array`** the note list
-
-
-### Examples
-
-```js
-var set = require('tonal.gamut/set')
-set('E7 C2 e D5 c1') // => ['C', 'D', 'E']
-set('11 10 9') // => [ '2M', '3M', '4P' ]
-```
-
-Returns  the set
-
-
-## `gamut.sort`
-
-Get a gamut in ascdening pitch order
-
-### Parameters
-
-* `gamut` **`String or Array`** the gamut to sort
-
-
-### Examples
-
-```js
-var gamut = require('music-gamut')
-gamut.sort('c5 d2 f4 D2') // => ['D2', 'D2', 'F4', 'C5']
-```
-
-Returns `Array` the gamut in sort pitch order
-
-
 ## `gamut.split`
 
 Convert a source to an array. If the source is an array, return it.
@@ -140,14 +121,5 @@ G.split() // => []
 ```
 
 Returns `Array` the source as array
-
-
-## `harmonizer`
-
-Create an harmonizer
-
-
-
-
 
 

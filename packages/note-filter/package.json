@@ -1,27 +1,27 @@
 {
-  "name": "semitones",
+  "name": "note-filter",
   "version": "1.0.0",
-  "description": "Get the size in semitones of a music interval",
+  "description": "Get the size in note-filter of a music interval",
   "main": "index.js",
   "scripts": {
     "build": "npm test && npm run docs && npm run coverage && npm run disc && npm run dist",
     "test": "mocha",
     "docs": "documentation -f md > API.md",
-    "dist": "mkdir -p tmp/ && browserify index.js | uglifyjs > tmp/semitones.min.js&& ls -hall tmp/",
+    "dist": "mkdir -p tmp/ && browserify index.js | uglifyjs > tmp/note-filter.min.js&& ls -hall tmp/",
     "disc": "mkdir -p tmp/ && browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
     "coverage": "istanbul cover _mocha",
     "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
   },
-  "homepage": "https://github.com/danigb/tonal/tree/master/packages/semitones#readme",
-  "repository": "https://github.com/danigb/tonal/tree/master/packages/semitones",
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/note-filter#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/note-filter",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
   "keywords": [
     "music",
     "theory",
-    "semitones",
-    "interval",
+    "filter",
+    "notes",
     "tonal"
   ],
   "author": "danigb",

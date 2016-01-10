@@ -29,6 +29,11 @@
     "mocha": "^2.3.4"
   },
   "dependencies": {
-    "eslint-config-standard": "^4.4.0"
+    "eslint-config-standard": "^4.4.0",
+    "music-notation": "packages/music-notation",
+    "note-interval": "packages/note-interval",
+    "note-transposer": "packages/note-transposer",
+    "pitch-set": "packages/pitch-set",
+    "semitones": "packages/semitones"
   }
 }

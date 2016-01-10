@@ -1,3 +1,5 @@
 CHANGELOG
 
+[0.8.1] gamut.notes are now gamut.parse // 6,1K // 4.8kB
+[0.8.0] Move gamut.sort, gamut.set, gamut.harmonizer to its own packages // 5kB
 [0.7.7] Add gamut.notes

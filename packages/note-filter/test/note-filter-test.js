@@ -2,7 +2,7 @@
 var assert = require('assert')
 var filter = require('..')
 
-describe('filter-notes', function () {
+describe('note-filter', function () {
   it('filter notes by one pitch class', function () {
     assert.deepEqual(filter('c', 'c3 c#2 c2 c4 cb2'), ['C3', 'C2', 'C4'])
   })

@@ -23,4 +23,11 @@ describe('pitch-sort', function () {
         [ 'D5', 'B3', 'G#2', 'Ab2', 'C2', 'F1', 'Db1', null ])
     })
   })
+  describe('its currified', function () {
+    it('returns a function if only on parameter', function () {
+      var desc = sort(false)
+      assert(typeof desc === 'function')
+      assert.deepEqual(desc('C D E F G'), [ 'G', 'F', 'E', 'D', 'C' ])
+    })
+  })
 })

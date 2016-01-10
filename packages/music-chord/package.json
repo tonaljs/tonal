@@ -4,10 +4,11 @@
   "description": "Create music chords",
   "main": "index.js",
   "scripts": {
-    "build": "npm test && npm run coverage && npm run docs && npm run dist",
+    "build": "npm test && npm run coverage && npm run docs && npm run disc && npm run dist",
     "test": "mocha",
     "docs": "documentation -f md > API.md",
     "dist": "browserify index.js | uglifyjs > tmp/music-chord.min.js&& ls -hall tmp/",
+    "disc": "mkdir -p tmp/ && browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
     "coverage": "istanbul cover _mocha"
   },
   "homepage": "https://github.com/danigb/tonal/tree/master/packages/music-chord#readme",

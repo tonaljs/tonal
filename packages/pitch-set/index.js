@@ -26,7 +26,7 @@ var harmonize = require('note-harmonizer')
  * pitchSet('d2 c4 e3 f g6 a B c d5 e', null) // => ['D', 'E', 'F', 'gamut', 'A', 'B', 'C']
  *
  * // pitch sets from intervals
- * pitchSet('1 2 3 5 6', 'gamut') // => ['gamut', 'A', 'B', 'D', 'E']
+ * pitchSet('1 2 3 5 6', 'G') // => ['G', 'A', 'B', 'D', 'E']
  * pitchSet('1 2 3 5 6', false) // => ['1P', '2M', '3M', '5P', '6M']
  *
  * // partially applied

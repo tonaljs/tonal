@@ -119,9 +119,9 @@ Get key accidentals, relative major and minor, key notes and key alterations
 - [scale-triads](https://github.com/danigb/tonal/tree/master/packages/scale-triads):
 Create triads from scales
 [![npm](https://img.shields.io/npm/v/scale-triads.svg)](https://www.npmjs.com/package/scale-triads)
-- [filter-notes](https://github.com/danigb/tonal/tree/master/packages/filter-notes):
+- [note-filter](https://github.com/danigb/tonal/tree/master/packages/note-filter):
 Filter notes
-[![npm](https://img.shields.io/npm/v/filter-notes.svg)](https://www.npmjs.com/package/filter-notes)
+[![npm](https://img.shields.io/npm/v/note-filter.svg)](https://www.npmjs.com/package/note-filter)
 - [binary-set](https://github.com/danigb/tonal/tree/master/packages/binary-set):
 Binary pitch set manipulation
 [![npm](https://img.shields.io/npm/v/binary-set.svg)](https://www.npmjs.com/package/binary-set)
