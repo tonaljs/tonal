@@ -27,6 +27,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "music-notation": "^1.0.1"
+    "enharmonics": "^1.0.3",
+    "music-gamut": "^0.8.1"
   }
 }

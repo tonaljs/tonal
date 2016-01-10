@@ -1,7 +1,6 @@
 'use strict'
 
 var gamut = require('music-gamut')
-var parse = require('music-notation/pitch/parse')
 var enharmonics = require('enharmonics')
 
 /**
@@ -14,7 +13,7 @@ var enharmonics = require('enharmonics')
  * @example
  */
 module.exports = function (filter, notes) {
-  filter = gamut.split(filter).map(parse)
+  filter = gamut.parse(filter)
   return gamut.operation(function (notes) {
     // hand made filter (to allow enharmonic change)
     var r = []
