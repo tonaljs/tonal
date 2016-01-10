@@ -1,11 +1,16 @@
 {
   "name": "interval-density",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Perform interval analysis of a collection of notes",
   "main": "index.js",
   "scripts": {
-    "docs": "documentation -f md index.js > API.md",
-    "test": "mocha"
+    "build": "npm test && npm run docs && npm run coverage && npm run disc && npm run dist",
+    "test": "mocha",
+    "docs": "documentation -f md > API.md",
+    "dist": "mkdir -p tmp/ && browserify index.js | uglifyjs > tmp/interval-density.min.js&& ls -hall tmp/",
+    "disc": "mkdir -p tmp/ && browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
+    "coverage": "istanbul cover _mocha",
+    "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
   },
   "homepage": "https://github.com/danigb/tonal/tree/master/packages/interval-density#readme",
   "repository": "https://github.com/danigb/tonal/tree/master/packages/interval-density",
@@ -23,7 +28,7 @@
   "license": "MIT",
   "dependencies": {
     "interval-class": "^1.0.1",
-    "music-gamut": "^0.7.7",
-    "semitones": "^1.0.0"
+    "music-gamut": "^0.8.1",
+    "interval-density": "^1.0.0"
   }
 }

@@ -3,6 +3,7 @@
 var gamut = require('music-gamut')
 var semitones = require('semitones')
 var ic = require('interval-class')
+function isNote (a) { return a.length !== 2 }
 
 /**
  * Get the intervals analysis of a collection of notes
@@ -34,7 +35,7 @@ var ic = require('interval-class')
  */
 module.exports = function (notes) {
   var a, b, i
-  notes = gamut.notes(notes)
+  notes = gamut.parse(notes).filter(isNote)
   var len = notes.length
   var result = [0, 0, 0, 0, 0, 0]
   for (a = 0; a < len; a++) {
