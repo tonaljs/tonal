@@ -28,7 +28,8 @@
   "license": "MIT",
   "dependencies": {
     "interval-class": "^1.0.1",
+    "interval-density": "^1.0.0",
     "music-gamut": "^0.8.1",
-    "interval-density": "^1.0.0"
+    "semitones": "^1.0.0"
   }
 }
