@@ -1,6 +1,6 @@
 {
   "name": "note-transposer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Music transposition made easy",
   "main": "index.js",
   "scripts": {
@@ -12,10 +12,7 @@
     "coverage": "istanbul cover _mocha",
     "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/danigb/note-transposer.git"
-  },
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/note-transposer",
   "keywords": [
     "music",
     "theory",

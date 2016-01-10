@@ -27,5 +27,10 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
+    "music-notation": "^1.0.1",
+    "note-interval": "^1.0.3",
+    "note-transposer": "^1.0.4",
+    "pitch-set": "^1.0.2",
+    "semitones": "^1.0.0"
   }
 }

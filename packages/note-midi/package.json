@@ -1,6 +1,6 @@
 {
   "name": "note-midi",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Note name to midi conversion",
   "main": "index.js",
   "scripts": {
@@ -12,10 +12,7 @@
     "coverage": "istanbul cover _mocha",
     "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/danigb/note-midi.git"
-  },
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/note-midi",
   "keywords": [
     "music",
     "note",

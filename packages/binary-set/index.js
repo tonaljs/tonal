@@ -1,7 +1,8 @@
 'use strict'
 
-var G = require('music-gamut')
+var set = require('pitch-set')
 var transpose = require('note-transposer')
+var semitones = require('semitones')
 
 /*
  */
@@ -27,20 +28,13 @@ function bs () {
  * var binarySet = require('binary-set')
  * binarySet.toBinary('C2 E4 D3') // => '101010000000'
  */
-bs.toBinary = G.operation(function (gamut) {
+bs.toBinary = function (gamut) {
   var number = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  var intervals = G.set(G.harmonizer(gamut, false))
-  var semitones = intervals.map(height)
-  semitones.forEach(function (s) {
+  var sizes = set(gamut, false).map(semitones)
+  sizes.forEach(function (s) {
     number[s] = 1
   })
   return number.join('')
-})
-
-function height (p) {
-  var f = p[0] * 7
-  var o = p[1] || p[1] === 0 ? p[1] : -Math.floor(f / 12) - 10
-  return f + o * 12
 }
 
 var INTERVALS = ['1P', '2m', '2M', '3m', '3M', '4P', '4#', '5P', '6m', '6M', '7m', '7M']

@@ -26,7 +26,8 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "music-gamut": "^0.8.0",
-    "note-transposer": "^1.0.0"
+    "note-transposer": "^1.0.0",
+    "pitch-set": "^1.0.2",
+    "semitones": "^1.0.0"
   }
 }

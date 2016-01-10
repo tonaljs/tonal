@@ -1,5 +1,7 @@
 CHANGELOG
 
+[1.0.2] Fix git repository in package.json
+[1.0.0]
 [0.0.4] If parameter is a midi number, return it (1.8 / 1.1kb)
 [0.0.3] Use tonal.notation (1.7kb / 1kb)
 [0.0.2] Use an array notation parser. Add dist file. (708 bytes)
