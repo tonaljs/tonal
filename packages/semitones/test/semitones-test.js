@@ -21,4 +21,10 @@ describe('semitones', function () {
     assert.deepEqual('C D E F G A B C'.split(' ').map(semitones),
       [ 0, 2, 4, 5, 7, 9, 11, 0 ])
   })
+
+  it('accepts pitches in array notation', function () {
+    assert.equal(semitones([ 2 ]), 2)
+    assert.equal(semitones([ 2, 0 ]), 14)
+    assert.equal(semitones([ 2, 0, 4 ]), 14)
+  })
 })
