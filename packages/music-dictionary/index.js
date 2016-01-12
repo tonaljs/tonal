@@ -56,15 +56,15 @@ var transpose = require('note-transposer')
  */
 module.exports = function (src) {
   function dict (name, tonic) {
-    var v = dict.props(name)
-    if (!v) {
+    var data = dict.props(name)
+    if (!data) {
       var n = R.exec(name)
-      v = n ? dict.props(n[5]) : null
-      if (!v) return []
+      data = n ? dict.props(n[5]) : null
+      if (!data) return []
       tonic = tonic === false ? tonic : tonic || n[1] + n[2] + n[3]
     }
-    if (tonic !== false && !tonic) return function (t) { return dict(name, t) }
-    return v.intervals.map(transpose(tonic))
+    if (typeof tonic === 'undefined') return function (t) { return dict(name, t) }
+    return data.intervals.map(transpose(tonic))
   }
   return build(src, dict)
 }

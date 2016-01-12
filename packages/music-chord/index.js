@@ -39,5 +39,24 @@ function chord (source, tonic) {
   return c.length ? c : harmonizer(source, tonic)
 }
 
+/**
+ * Get available chord names
+ * @name chord.names
+ * @function
+ * @param {Boolean} aliases - if true, it returns the name aliases
+ * @return {Array} the available chord names
+ */
+chord.names = dictionary.names
+
+/**
+ * Get chord properties
+ *
+ * @name chord.props
+ * @function
+ * @param {String} name - the chord name
+ * @return {Object} the chord properties
+ */
+chord.props = dictionary.props
+
 if (typeof module === 'object' && module.exports) module.exports = chord
 if (typeof window !== 'undefined') window.chord = chord

@@ -15,7 +15,7 @@ var dictionary = require('scale-dictionary')
  * @example
  * var scale = require('music-scale')
  */
-module.exports = function scale (source, tonic) {
+function scale (source, tonic) {
   var s
   if (arguments.length === 1) {
     s = dictionary(source)
@@ -24,3 +24,24 @@ module.exports = function scale (source, tonic) {
   s = dictionary(source, tonic)
   return s.length ? s : set(source, tonic)
 }
+
+/**
+ * Get available scale names
+ * @name scale.names
+ * @function
+ * @param {Boolean} aliases - if true, it returns the name aliases
+ * @return {Array} the available scale names
+ */
+scale.names = dictionary.names
+
+/**
+ * Get scale properties
+ *
+ * @name scale.props
+ * @function
+ * @param {String} name - the scale name
+ * @return {Object} the scale properties
+ */
+scale.props = dictionary.props
+
+module.exports = scale

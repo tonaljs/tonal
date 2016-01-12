@@ -6,20 +6,12 @@
 
 ```js
 var progression = require('chord-progression')
-progression('I IIm7 V7', 'C') // => ['C', 'Cm7', 'G7']
+progression('I IIm7 V7', 'C') // => ['C', 'Dm7', 'G7']
 ```
 
-With `key-chord`
-
-```js
-progression('I II V', keyChord('C major')) // => ['C', 'Dm7', 'G7']
-```
+Install via npm: `npm i --save chord-progression`
 
 This is part of [tonal](https://www.npmjs.com/package/tonal)
-
-## Installation
-
-Via npm: `npm i --save chord-progression`
 
 ## Usage
 

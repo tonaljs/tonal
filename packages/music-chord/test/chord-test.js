@@ -21,4 +21,17 @@ describe('music-chord', function () {
   it('is currified', function () {
     assert.deepEqual(chord('maj7', 'C'), chord('maj7')('C'))
   })
+
+  it('has names function', function () {
+    assert(chord.names().length > 0)
+    assert(chord.names(true).length > chord.names().length)
+  })
+
+  it('has props function', function () {
+    assert.deepEqual(chord.props('m7b5'), { name: 'm7b5',
+      aliases: [ 'half-diminished', 'h7', '_7b5' ],
+      intervals: [ '1', '3b', '5d', '7b' ],
+      steps: [ [ 0, 0 ], [ -3, 2 ], [ -6, 4 ], [ -2, 2 ] ],
+      binary: '100100100010', decimal: 2338 })
+  })
 })

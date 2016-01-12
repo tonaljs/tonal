@@ -52,6 +52,20 @@ var major = scale('major')
 major('A') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
 ```
 
+#### Get available names and scale properties
+
+The `names` and `props` functions from [scale-dictionary]() are exposed:
+
+```js
+scale.names() // => ['Maj7', 'm7', ...]
+scale.names(true) // => ['Maj7', 'm7', ...] <= with aliases
+scale.props('major') // => { name: 'major',
+  //  aliases: [ 'ionian' ],
+  //  intervals: [ '1', '2', '3', '4', '5', '6', '7' ],
+  //  steps: [ [ 0, 0 ], [ 2, -1 ], [ 4, -2 ], [ -1, 1 ], [ 1, 0 ], [ 3, -1 ], [ 5, -2 ] ],
+  //  binary: '101011010101', decimal: 2773 })
+```
+
 #### Create scale from intervals
 
 ```js

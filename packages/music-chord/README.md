@@ -62,6 +62,20 @@ If `false` is passed as tonic, you can get chord intervals:
 chord('maj7', false) // => ['1P', '3m', '5P', '7M']
 ```
 
+#### Get chord names and properties
+
+The `names` and `props` functions from [chord-dictionary]() are exposed:
+
+```js
+chord.names() // => ['Maj7', 'm7', ...]
+chord.names(true) // => ['Maj7', 'm7', ...] <= with aliases
+chord.props('m7b5') // => { name: 'm7b5',
+  // aliases: [ 'half-diminished', 'h7', '_7b5' ],
+  // intervals: [ '1', '3b', '5d', '7b' ],
+  // steps: [ [ 0, 0 ], [ -3, 2 ], [ -6, 4 ], [ -2, 2 ] ],
+  // binary: '100100100010', decimal: 2338 }
+```
+
 ## License
 
 MIT License
