@@ -1,6 +1,6 @@
 {
   "name": "note-range",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Create ranges of music notes",
   "main": "index.js",
   "scripts": {
