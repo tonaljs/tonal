@@ -1,0 +1,31 @@
+/*
+#6c7c80 32.9 % Storm Grey (Blue)
+#647175 33.5 %Pale Sky(Blue)
+#222120 27.1 %Nero(Black)
+#aba8a0 26.5 %Cloudy(Grey)
+#8b9193 5.9 %Manatee(Blue)
+#e5e5e5 3.3 %White Lilac(Blue)
+#574b3b 1.1 %Metallic Bronze(Brown)
+#957a60 1.0 %Sorrell Brown(Brown)
+#fbb25e 0.8 %Rajah(Orange)
+#a38040 0.7 %Alpine(Yellow)
+
+#6c7c80 32.9 % Storm Grey (Blue)
+#262422 31.4 % Nero (Black)
+#aca9a4 27.4 % Dark Gray (Grey)
+#efefee 4.3 % Hint Of Red (Grey)
+#947c54 1.4 % Pale Brown (Brown)
+#f8ba59 1.2 % Koromiko (Orange)
+#544027 0.7 % Deep Bronze (Brown)
+#b78345 0.6 % Marigold (Brown
+*/
+
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #222120;
+  color: #947c54;
+}
+
+a {
+  color: #fbb25e;
+}
