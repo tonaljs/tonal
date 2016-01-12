@@ -11,7 +11,8 @@
     "coverage": "istanbul cover _mocha `scripts/get-test-directories.sh`",
     "cover": "npm run coverage && open ./coverage/lcov-report/index.html",
     "climate": "npm run coverage && npm run codeclimate",
-    "codeclimate": "CODECLIMATE_REPO_TOKEN= codeclimate-test-reporter < coverage/lcov.info"
+    "codeclimate": "CODECLIMATE_REPO_TOKEN= codeclimate-test-reporter < coverage/lcov.info",
+    "examples": "beefy --cwd examples/ examples/*.js"
   },
   "repository": {
     "type": "git",
