@@ -25,7 +25,8 @@ T.note.transpose = T.transpose = require('note-transposer')
  * @name note.harmonize
  * @function
  */
-T.note.harmonize = T.harmonize = require('note-harmonizer')
+T.harmonizer = require('note-harmonizer')
+T.note.harmonize = T.harmonize = T.harmonizer
 
 T.note.interval = require('note-interval')
 T.note.enharmonics = require('enharmonics')
@@ -50,7 +51,6 @@ T.midi.freq = require('midi-freq')
 T.midi.note = T.note.fromMidi = require('midi-note')
 
 T.gamut = require('music-gamut')
-T.harmonizer = T.gamut.harmonizer
 
 T.dictionary = require('music-dictionary')
 T.scale = require('music-scale')
