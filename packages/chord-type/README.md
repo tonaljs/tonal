@@ -5,7 +5,7 @@
 ## `chord.type`
 
 Get the type of the chord (can be 'M', 'm', '7' or 'o' to represent major,
-minot, dominant and diminished respectively)
+minor, dominant and diminished respectively)
 
 It assumes that the chord is not inverted (first note is always the tonic)
 
