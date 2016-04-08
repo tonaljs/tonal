@@ -1,7 +1,13 @@
 'use strict'
 
+/**
+ * @module music-gamut
+ */
+
 var gamut = require('music-gamut')
 
+
+module.exports = 
 /**
  * Sort a collection of notes or intervals. It can sort in ascending or descending
  * pitch order or using a custom comparator.
@@ -24,7 +30,7 @@ var gamut = require('music-gamut')
  * var descending = sort(false)
  * descending('C D E F G') // => [ 'G', 'F', 'E', 'D', 'C' ]
  */
-module.exports = function sort (comp, source) {
+function sort (comp, source) {
   if (arguments.length > 1) return sort(comp)(source)
   if (comp === null || comp === true) comp = asc
   else if (comp === false) comp = desc

@@ -6,6 +6,7 @@ var enharmonics = require('enharmonics')
 /**
  * Filter notes
  *
+ * @name filter
  * @param {Function|String|Array} filter - the note filter
  * @param {Array} notes - the notes to be filtered
  * @return {Array} the notes filtered

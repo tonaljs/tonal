@@ -17,16 +17,14 @@ describe('tonal', function () {
     assert(tonal.roman.regex)
     assert(tonal.roman.parse)
   })
-  it('has midi', function () {
+  it('note and midi support', function () {
     assert(tonal.midi)
     assert(tonal.midi.freq)
     assert(tonal.midi.note)
     assert(tonal.note.midi)
     assert(tonal.note.fromMidi)
-  })
-
-  it('has note and interval functions', function () {
     assert(tonal.note.enharmonics)
+    assert(tonal.note.freq)
   })
 
   it('has transpose and interval', function () {
@@ -40,7 +38,7 @@ describe('tonal', function () {
     assert(tonal.harmonizer)
   })
 
-  it('has dictionary', function () {
+  it('has chords and scales support', function () {
     assert(tonal.dictionary)
     assert(tonal.scale)
     assert(tonal.scale.name)

@@ -4,11 +4,7 @@ var set = require('pitch-set')
 var transpose = require('note-transposer')
 var semitones = require('semitones')
 
-/*
- */
-function bs () {
-
-}
+var bs = {}
 
 /**
  * Get a set binary number from a collection of notes or intervals

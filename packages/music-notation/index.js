@@ -1,5 +1,9 @@
 'use strict'
 
+/**
+ * @name notation
+ * @module notation
+ */
 var N = {}
 N.operation = require('./operation')
 

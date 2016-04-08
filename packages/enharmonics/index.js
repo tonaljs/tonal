@@ -32,7 +32,7 @@ function enharmonics (pitch) {
 /**
  * Try to get a simpler enharmonic note name
  *
- * @name enharmonics.simplify
+ * @name note.enharmonics.simplify
  * @function
  * @param {String} note - the note to simplify
  * @return {String} the simplfiied note (can be the same)

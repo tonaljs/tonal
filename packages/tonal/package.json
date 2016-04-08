@@ -36,6 +36,7 @@
     "music-key": "^0.1.1",
     "music-notation": "^1.0.1",
     "music-scale": "^1.0.1",
+    "note-freq": "^1.0.1",
     "note-harmonizer": "^1.0.0",
     "note-interval": "^1.0.0",
     "note-midi": "^1.0.0",

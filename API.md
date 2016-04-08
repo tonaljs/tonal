@@ -25,38 +25,6 @@ Returns `String` the binary number
 
 ## `chord`
 
-Create a chord (or an harmonizer-like structure) from a list or notes or
-intervals and (optionally) a tonic. A chord is a list of notes or
-intervals in asceding pitch order
-
-The tonic must be
-a pitch (with or without octave) or false to get the intervals
-
-This function is currified, so you can partially apply the function passing
-one parameter instead of two (see example)
-
-### Parameters
-
-* `source` **`Array`** the list of intervals or notes
-* `tonic` **`String`** the tonic of the chord or null to get the intervals
-
-
-### Examples
-
-```js
-var chord = require('music-chord')
-chord('1 3 5 6', 'G') // => ['G', 'B', 'D', 'E']
-chord('G B D E', false) // => ['1P', '3M', '5P', '6M']
-// partially applied:
-var maj79 = chord.build('C E G B D')
-maj79('A4') // => ['A4', 'C#5', 'E5', 'G#5', 'B5']
-```
-
-Returns `Array` the chord notes or intervals
-
-
-## `chord`
-
 A chord dictionary. Get chord data from a chord name.
 
 ### Parameters
@@ -67,9 +35,16 @@ A chord dictionary. Get chord data from a chord name.
 ### Examples
 
 ```js
-// get chord data
 var chord = require('chord-dictionary')
-chord('Maj7') // => { name: 'Maj7', aliases: ['M7', 'maj7']
+
+// get chord notes and intervals
+chord('CMaj7') // => ['C', 'E', 'G', 'B']
+chord('Maj7', 'C') // => ['C', 'E', 'G', 'B']
+chord('Maj7') // => ['P1', 'M3', 'P5', 'M7']
+```
+```js
+// get chord properties
+chord.props('Maj7') // => { name: 'Maj7', aliases: ['M7', 'maj7']
                //      intervals:  [ ...],
                //      binary: '100010010001', decimal: 2193 }
 ```
@@ -82,6 +57,65 @@ chord('Maj7') === chord('M7') === chord('100010010001') === chord(2913)
 chord.names // => ['Maj7', 'm7', ...]
 ```
 
+
+
+## `chord`
+
+Create chords either by name or by intervals
+
+This function is currified
+
+### Parameters
+
+* `source` **`String`** the chord name, intervals or notes
+* `tonic` **`String`** the chord tonic
+
+
+### Examples
+
+```js
+var chord = require('music-chord')
+// create chord from name
+chord('Cmaj7') // => ['C', 'E', 'G', 'B']
+chord('maj7', 'C') // => ['C', 'E', 'G', 'B']
+```
+```js
+// partially applied
+var maj7 = chord('maj7')
+maj7('C') // => ['C', 'E', 'G', 'B']
+```
+```js
+// create chord from intervals
+chord('1 3 5 7', 'C') // => ['C', 'E', 'G', 'B']
+```
+
+Returns `Array` the chord notes
+
+
+## `chord.names`
+
+Get available chord names
+
+### Parameters
+
+* `aliases` **`Boolean`** if true, it returns the name aliases
+
+
+
+Returns `Array` the available chord names
+
+
+## `chord.props`
+
+Get chord properties
+
+### Parameters
+
+* `name` **`String`** the chord name
+
+
+
+Returns `Object` the chord properties
 
 
 ## `chord.type`
@@ -171,26 +205,7 @@ chords.aliases // => ['Maj7', 'm7', 'M7']
 Returns `Function` the dictionary
 
 
-## `enharmonics.simplify`
-
-Try to get a simpler enharmonic note name
-
-### Parameters
-
-* `note` **`String`** the note to simplify
-
-
-### Examples
-
-```js
-var enharmonics = require('enharmonics')
-enharmonics.simplify('B#3') // => 'C4'
-```
-
-Returns `String` the simplfiied note (can be the same)
-
-
-## `exports`
+## `filter`
 
 Filter notes
 
@@ -209,22 +224,13 @@ Filter notes
 Returns `Array` the notes filtered
 
 
-## `exports`
-
-Get the inversion of an interval
-
-### Parameters
-
-* `interval` **`String or Array`** the interval to invert in interval shorthand notation or interval array notation
+## `gamut`
 
 
-### Examples
 
-```js
 
-```
 
-Returns  the inverted interval
+
 
 
 ## `gamut`
@@ -232,10 +238,12 @@ Returns  the inverted interval
 A gamut is a collection of intervals, pitch classes or notes.
 Scales, chords, pitch sets are examples of gamuts.
 
+With this function you can manipulate music gamuts in array notation.
+
 ### Parameters
 
-* `source` **`String or Array`** a list of elements
 * `operation` **`String or Function`** the operation to perfom
+* `source` **`String or Array`** a list of elements
 
 
 ### Examples
@@ -264,6 +272,25 @@ The function to decorate receives an array of pitches in
 Returns `Function` the decorated function
 
 
+## `gamut.parse`
+
+Given a gamut get its notes or intervals in [array notation]()
+
+### Parameters
+
+* `source` **`Array or String`** the notes or intervals
+
+
+### Examples
+
+```js
+var gamut = require('music-gamut')
+gamut.parse('C D E') // => [ [0], [2], [4] ]
+```
+
+Returns `Array` the notes or intervals in array notation
+
+
 ## `gamut.rotate`
 
 Rotate the gamut
@@ -277,8 +304,8 @@ Rotate the gamut
 ### Examples
 
 ```js
-var rotate = require('music.kit/gamut/rotate')
-rotate(1, 'C D E') // => ['D', 'E', 'C']
+var G = require('music-gamut')
+G.rotate(1, 'C D E') // => ['D', 'E', 'C']
 ```
 
 Returns `Array` the gamut rotated count times
@@ -297,51 +324,11 @@ Select some elements from a gamut
 ### Examples
 
 ```js
-var gamut = require('tonal.gamut')
+var gamut = require('music-gamut')
 gamut.select('1 3 5', 'C D E F G A B') // => ['C', 'E', 'G']
 ```
 
 Returns `Array` the selected elements
-
-
-## `gamut.set`
-
-Create a set: a set is a list of uniq pitch classes or simplified intervals
-in ascending pitch order
-
-### Parameters
-
-* `notes` **`String or Array`** the note list
-
-
-### Examples
-
-```js
-var set = require('tonal.gamut/set')
-set('E7 C2 e D5 c1') // => ['C', 'D', 'E']
-set('11 10 9') // => [ '2M', '3M', '4P' ]
-```
-
-Returns  the set
-
-
-## `gamut.sort`
-
-Get a gamut in ascdening pitch order
-
-### Parameters
-
-* `gamut` **`String or Array`** the gamut to sort
-
-
-### Examples
-
-```js
-var gamut = require('music-gamut')
-gamut.sort('c5 d2 f4 D2') // => ['D2', 'D2', 'F4', 'C5']
-```
-
-Returns `Array` the gamut in sort pitch order
 
 
 ## `gamut.split`
@@ -371,13 +358,123 @@ G.split() // => []
 Returns `Array` the source as array
 
 
-## `harmonizer`
+## `harmonize`
 
-Create an harmonizer
+Harmonize a note using a collection of intervals or notes.
+
+The tonic must be
+a pitch (with or without octave) or false to get the intervals
+
+This function is currified, so you can partially apply the function passing
+one parameter instead of two (see example)
+
+### Parameters
+
+* `source` **`Array`** the list of intervals or notes
+* `tonic` **`String`** the tonic of the chord or null to get the intervals
+
+
+### Examples
+
+```js
+var harmonize = require('note-harmonize')
+harmonize('1 3 5 6', 'G') // => ['G', 'B', 'D', 'E']
+harmonize('G B D E', false) // => ['1P', '3M', '5P', '6M']
+
+// create harmonizers:
+var maj79 = harmonize('1 3 5 7 9')
+maj79('A4') // => ['A4', 'C#5', 'E5', 'G#5', 'B5']
+```
+
+Returns `Array` the chord notes or intervals
+
+
+## `interval`
 
 
 
 
+
+
+
+
+## `interval.density`
+
+Get the intervals analysis of a collection of notes
+
+Returns an array with the format `[p, m, n, s, d, t]` where:
+
+- p: the number of perfect fourths or fifths
+- m: the number of major thirds or minor sixths
+- n: the number of major sixths or minor thirds
+- s: the number of major seconds or minor sevenths
+- d: the number of major sevents or minor seconds
+- t: the number of tritones
+
+This is, mostly, an academic puzzle to show the expresiveness of tonal.
+Implements the ideas found in "The Analysis of Intervals" chapter from
+[Harmonic Materials of Modern Music]():
+
+> The letters _pmn_, therefore, represent intervals commonly considered
+consonant, whereas the letters _sdt_ represent the intervals commonly
+considered dissonant. (...) A sonority represented, for example, by the
+symbol `sd^2`, indicating a triad composed of one major second and two minor
+seconds, would be recognized as a highly dissonant sound, while the symbol
+`pmn` would indicate a consonant sound.
+
+### Parameters
+
+* `notes` **`Array or String`** the notes to analyze
+
+
+
+Returns `Array` the _pmnsdt_ array
+
+
+## `intervalClass`
+
+Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
+number of a given interval.
+
+In musical set theory, an interval class is the shortest distance in
+pitch class space between two unordered pitch classes
+
+As paramter you can pass an interval in shorthand notation, an interval in
+array notation or the number of semitones of the interval
+
+### Parameters
+
+* `interval` **`String or Integer`** the interval or the number of semitones
+
+
+### Examples
+
+```js
+var ic = require('interal-class')
+ic('P8') // => 0
+ic('m6') // => 4
+['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
+```
+
+Returns `Integer` A value between 0 and 6
+
+
+## `invert`
+
+Get the inversion of an interval
+
+### Parameters
+
+* `interval` **`String or Array`** the interval to invert in interval shorthand notation or interval array notation
+
+
+### Examples
+
+```js
+
+```
+
+Returns  the inverted interval
 
 
 ## `key`
@@ -481,19 +578,6 @@ key.parse('f bebop') // => 'null'
 ```
 
 Returns `Array` an array with the tonic and mode or null if not valid key
-
-
-## `key.progression`
-
-Get a chord progression from within a key
-
-### Parameters
-
-* `numerals` **`String or Array`** the roman numerals
-* `key` **`String`** the key name
-
-
-
 
 
 ## `key.relative`
@@ -645,6 +729,15 @@ note(69) // => 'A4'
 Returns `String` the pitch
 
 
+## `notation`
+
+
+
+
+
+
+
+
 ## `note.enharmonics`
 
 Get the enharmonics of a note. It returns an array of three elements: the
@@ -668,10 +761,70 @@ enharmonics('Db') // => ['C#', 'Db', 'Ebbb'])
 Returns `Array` an array of pitches ordered by distance to the given one
 
 
+## `note.enharmonics.simplify`
+
+Try to get a simpler enharmonic note name
+
+### Parameters
+
+* `note` **`String`** the note to simplify
+
+
+### Examples
+
+```js
+var enharmonics = require('enharmonics')
+enharmonics.simplify('B#3') // => 'C4'
+```
+
+Returns `String` the simplfiied note (can be the same)
+
+
+## `note.freq`
+
+Get the pitch frequency in herzs (with custom concert tuning) from a note
+name or a midi number
+
+This function is currified so it can be partially applied (see examples)
+
+### Parameters
+
+* `tuning` **`Float`** the frequency of A4 (null means 440)
+* `note` **`String or Integer`** the note name or the midi number
+
+
+### Examples
+
+```js
+var freq = require('note-freq')
+freq(440, 'A3') // => 220
+freq(444, 'A2') // => 111
+// it works with midi too:
+freq(null, 57) // => 220
+```
+```js
+// partially applied
+var freq = require('note-freq')(440)
+freq('a4') // => 440
+```
+
+Returns `Float` the frequency of the note
+
+
 ## `note.fromMidi`
 
 Convert from midi to note number
 An alias for `midi.note`
+
+
+
+
+
+
+## `note.harmonize`
+
+Harmonizes a note by an interval list
+An alias for `harmonize`
 
 
 
@@ -757,10 +910,10 @@ add('3m', '3M') // => '5P'
 
 
 
-## `scale`
+## `pitchSet`
 
-Create a scale from a list of notes (or intervals) and (optionally) a tonic.
-An scale is a collection of uniq notes or intervals sorted by frequency
+Create a pitch set from a list of notes (or intervals) and (optionally) a tonic.
+An pitch set is a collection of uniq notes or intervals sorted by frequency
 
 The tonic can be a note (with or without octave), false to get the scale
 intervals or null to set the first note of the source as tonic
@@ -777,18 +930,57 @@ one parameter instead of two (see example)
 ### Examples
 
 ```js
-var scale = require('music-scale')
+var pitchSet = require('pitch-set')
 
-// uses first note of the source as tonic
-scale('d2 c4 e3 f g6 a B c d5 e', null) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
+// pitch sets from notes (uses first note as tonic)
+pitchSet('d2 c4 e3 f g6 a B c d5 e', null) // => ['D', 'E', 'F', 'gamut', 'A', 'B', 'C']
 
-// create scales
-scale('1 2 3 5 6', 'G') // => ['G', 'A', 'B', 'D', 'E']
-scale('1 2 3 5 6', false) // => ['1P', '2M', '3M', '5P', '6M']
+// pitch sets from intervals
+pitchSet('1 2 3 5 6', 'G') // => ['G', 'A', 'B', 'D', 'E']
+pitchSet('1 2 3 5 6', false) // => ['1P', '2M', '3M', '5P', '6M']
 
 // partially applied
-var dorian = scale('D E F G A B C')
-dorian('C4') // => ['C4', 'D4', 'Eb4', 'F4', 'G4', 'A4', 'Bb4']
+var dorian = pitchSet('D E F gamut A B C')
+dorian('C4') // => ['C4', 'D4', 'Eb4', 'F4', 'gamut4', 'A4', 'Bb4']
+```
+
+Returns `Array` the list of notes
+
+
+## `progression`
+
+Get chord progression from a tonic and roman numerals chords
+
+### Parameters
+
+* `tonic` **`String`** the tonic
+* `progression` **`Array or String`** the progression in roman numerals
+
+
+### Examples
+
+```js
+var progression = require('chord-progression')
+progression('C', 'I IIm7 V7') // => ['C', 'Dm7', 'G7']
+```
+
+Returns `Array` the chord progression
+
+
+## `scale`
+
+Create a scale from a name or intervals and tonic
+
+### Parameters
+
+* `source` **`Array`** the scale name, scale intervals or scale notes
+* `tonic` **`String`** the tonic of the scale
+
+
+### Examples
+
+```js
+var scale = require('music-scale')
 ```
 
 Returns `Array` the list of notes
@@ -826,6 +1018,52 @@ scale.names // => ['major', 'dorian', ...]
 
 
 
+## `scale.names`
+
+Get available scale names
+
+### Parameters
+
+* `aliases` **`Boolean`** if true, it returns the name aliases
+
+
+
+Returns `Array` the available scale names
+
+
+## `scale.props`
+
+Get scale properties
+
+### Parameters
+
+* `name` **`String`** the scale name
+
+
+
+Returns `Object` the scale properties
+
+
+## `semitones`
+
+Get the size in semitones of an interval or a note. If applied to a note, it
+get the size in semitones from 'C0' to that note.
+
+### Parameters
+
+* `pitch` **`String or Array`** the pitch to get the semitones size from (in string or array notetion)
+
+
+### Examples
+
+```js
+var semitones = require('semitones')
+semitones('P4') // => 5
+```
+
+Returns `Integer` the size in semitones, null if not valid pitch
+
+
 ## `set.fromBinary`
 
 Get a set from a binary set number and (optionally) a tonic. If the tonic is
@@ -850,6 +1088,34 @@ fromBinary(2773, false) // => ['1P', '2M', '3M', '4', '5', '6M', '7M']
 ```
 
 Returns  the set pitch classes (note names without octaves)
+
+
+## `sort`
+
+Sort a collection of notes or intervals. It can sort in ascending or descending
+pitch order or using a custom comparator.
+
+This function is currified
+
+### Parameters
+
+* `comparator` **`Function or Boolean`** the comparator function, or true to sort in ascending pitch order or false to sort in descending pitch order
+* `source` **`String or Array`** the notes or intervals list
+
+
+### Examples
+
+```js
+var sort = require('note-sorter')
+sort(true, 'c5 d2 f4 D2') // => ['D2', 'D2', 'F4', 'C5']
+sort(false, 'c5 d2 f4 D2') // => ['C5', 'F4', 'D2', 'D2']
+
+// partially applied
+var descending = sort(false)
+descending('C D E F G') // => [ 'G', 'F', 'E', 'D', 'C' ]
+```
+
+Returns `Array` the notes or intervals sorted
 
 
 ## `transpose`

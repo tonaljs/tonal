@@ -1,7 +1,7 @@
 # enharmonics [![npm](https://img.shields.io/npm/v/enharmonics.svg)](https://www.npmjs.com/package/enharmonics)
 
 [![license](https://img.shields.io/npm/l/enharmonics.svg)](https://www.npmjs.com/package/enharmonics)
-[![tonal](https://img.shields.io/badge/tonal-midi--note-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+[![tonal](https://img.shields.io/badge/tonal-enharmonics-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
 
 Get note lower and upper enhamonics for a given note:
 

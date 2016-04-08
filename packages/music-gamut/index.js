@@ -103,8 +103,8 @@ gamut.split = function (source) {
  * @return {Array} the gamut rotated count times
  *
  * @example
- * var rotate = require('music.kit/gamut/rotate')
- * rotate(1, 'C D E') // => ['D', 'E', 'C']
+ * var G = require('music-gamut')
+ * G.rotate(1, 'C D E') // => ['D', 'E', 'C']
  */
 gamut.rotate = function (count, source) {
   var g = gamut.split(source)
@@ -123,7 +123,7 @@ gamut.rotate = function (count, source) {
  * @return {Array} the selected elements
  *
  * @example
- * var gamut = require('tonal.gamut')
+ * var gamut = require('music-gamut')
  * gamut.select('1 3 5', 'C D E F G A B') // => ['C', 'E', 'G']
  */
 gamut.select = function s (nums, src) {

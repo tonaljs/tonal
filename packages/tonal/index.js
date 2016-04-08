@@ -3,6 +3,11 @@ function T () {}
 
 T.notation = require('music-notation')
 T.note = T.notation.note
+
+/**
+ * @name interval
+ * @function
+ */
 T.interval = T.notation.interval
 T.roman = T.notation.roman
 T.pitch = T.notation.pitch
@@ -40,6 +45,7 @@ T.note.enharmonics = require('enharmonics')
  */
 T.midi = T.note.midi = require('note-midi')
 
+T.note.freq = require('note-freq')
 T.midi.freq = require('midi-freq')
 
 /**
