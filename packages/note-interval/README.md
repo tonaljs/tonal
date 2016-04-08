@@ -7,7 +7,7 @@
 
 ```js
 var interval = require('note-interval')
-interval('C3', 'E4') // => '3M'
+interval('C4', 'E4') // => '3M'
 ```
 
 ## Install

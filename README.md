@@ -4,6 +4,41 @@
 
 Although this library is under active development, the modules more than 1.0.0 are considered __more or less__ stable.
 
+## Example
+
+```js
+var tonal = require('tonal')
+
+// notes and intervals
+tonal.note.fromMidi(60) // => 'C4'
+tonal.note.midi('A4') // => 69
+tonal.note.fromFreq(220) // => 'A3'
+tonal.note.freq('C2') // => 65.40639132514966
+
+// transposition and distances
+tonal.tranpose('D4', '2M') // => 'E#4'
+tonal.distance('C', 'G') // => '5P'
+['c', 'd', 'e'].map(tonal.transpose('3M')) // => ['E4', 'F#4', 'G#4']
+
+// scales and chords
+tonal.scale('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
+tonal.chord('Cmaj7') // => ['C', 'E', 'G', 'B']
+
+// harmonizers
+var major = tonal.harmonizer('1 3 5')
+major('C#') // => ['C#', 'E#', 'G#']
+major('E5') /// => ['E5', 'G#5', 'B5']
+var V7 = tonal.harmonizer('1 3 5 7m')
+var V7ofV = function(tonic) { V7(tonal.transpose(tonic, '5P')) }
+var V7ofV('D') // => ['A4', 'C#5', 'E5', 'G7']
+
+// keys
+key('###') // => 'A major'
+key.signature('A major') // => '###'
+key.altNotes('A major') // => ['F#', 'C#']
+key.relative('minor', 'A major') // => 'F minor'
+```
+
 ## Features
 
 Although `tonal` is a work in progress, currently is implemented (but not all released):
@@ -38,10 +73,254 @@ First of all, because I want to learn:
 
 Also, I want a complete library, where I can model all what I learn, with some (for me) esoteric features like interval classes, binary scales and other weird stuff.
 
-## What
+## How to...
+
+This is a detailed how to of what can be done with tonal.
 
 `tonal` is a collection of modules. They all live in this
-multi package repository ([monorepo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md)). Take a look inside [`packages`](https://github.com/danigb/tonal/tree/master/packages):
+multi package repository ([monorepo](https://github.com/babel/babel/blob/master/doc/design/monorepo.md)). Take a look inside [`packages`](https://github.com/danigb/tonal/tree/master/packages). The object from `tonal` package is a facade with access to all the modules, perfect if you are not concern with javascript size (currently about 30kb minified)
+
+The code examples shows both requiring each package or using the tonal facade. To use the tonal facade you must require `tonal` library:
+
+```js
+var tonal = require('tonal')
+```
+
+### Work with notes and midi
+
+Notes in `tonal` are just strings with notes in scientific notation. Midi numbers are integers from 0 to 127.
+
+#### ... convert between midi and note names?
+
+[![note-midi](https://img.shields.io/badge/tonal-note--midi-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/note-midi)
+[![npm](https://img.shields.io/npm/v/note-midi.svg)](https://www.npmjs.com/package/note-midi)
+
+Get midi from note:
+
+```js
+var midi = require('note-midi')
+midi('A4') // => 69
+// or
+tonal.note.midi('c2') // => 36
+```
+
+Get note from midi:
+
+```js
+var note = require('midi-note')
+note(69) // => 'A4'
+// or
+tonal.midi.note(36) // => 'C2'
+```
+
+#### ... get frequency of a note?
+
+[![note-freq](https://img.shields.io/badge/tonal-note--freq-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/note-freq)
+[![npm](https://img.shields.io/npm/v/note-freq.svg)](https://www.npmjs.com/package/note-freq)
+
+```js
+var freq = require('note-freq')
+freq(440, 'A3') // => 220
+// partially applied
+var tempered = freq(440)
+tempered('A2') // => 110
+// or
+tonal.note.freq(440, 'C2')
+```
+
+It works for midi too:
+
+```js
+tempered(69) // => 440
+// or
+tonal.note.freq(440, 69) // => 440
+```
+
+#### ... get note enharmonics?
+
+[![enharmonics](https://img.shields.io/badge/tonal-enharmonics-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/enharmonics)
+[![npm](https://img.shields.io/npm/v/enharmonics.svg)](https://www.npmjs.com/package/enharmonics)
+
+```js
+var enharmonics = require('enharmonics')
+enharmonics('B#') // => [ 'A###', 'B#', 'C' ]
+// or
+tonal.enharmonics('B#')
+```
+
+#### ... simplify note name?
+
+Select the less altered note from each enharmonics:
+
+```js
+enharmonics.simplify('B#3') // => 'C4'
+// or
+tonal.enharmonics.simplify('B#3') // => 'C4'
+```
+
+### Transpose notes
+
+#### ... transpose a note by an interval?
+
+[![note-transposer](https://img.shields.io/badge/tonal-note--transposer-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/note-transposer)
+[![npm](https://img.shields.io/npm/v/note-transposer.svg)](https://www.npmjs.com/package/note-transposer)
+
+```js
+var transpose = require('note-transposer')
+transpose('C3', '3m') // => 'Eb3'
+// create a transposer
+var major3th = transpose('3M')
+['C', 'D', 'E'].map(major3th) // => ['E', 'F#', 'G#']
+// using tonal
+tonal.transpose('C3', '3m') // => 'Eb3'
+```
+
+#### ... harmonize a note using an interval list?
+
+[![note-harmonizer](https://img.shields.io/badge/tonal-note--harmonizer-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/note-harmonizer)
+[![npm](https://img.shields.io/npm/v/note-harmonizer.svg)](https://www.npmjs.com/package/note-harmonizer)
+
+```js
+var harmonize = require('note-harmonizer')
+
+// harmonize a note
+harmonize('P1 M3 P5', 'G2') // => ['G2', 'B2', 'D3']
+// create an harmonizer
+var maj7Chord = harmonize('1 3 5 7')
+var maj7Chord('A4') // => ['A4', 'C#5', 'E5', 'G#5']
+// or
+tonal.harmonize('1 3 5', 'G2') // => ['G2', 'B2', 'D3']
+```
+
+### Work with intervals
+
+#### ... find the interval between two notes?
+
+[![note-interval](https://img.shields.io/badge/tonal-note--interval-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/note-interval)
+[![npm](https://img.shields.io/npm/v/note-interval.svg)](https://www.npmjs.com/package/note-interval)
+
+```js
+var interval = require('note-interval')
+interval('C4', 'E4') // => '3M'
+interval('D2', 'C2') // => '-2M'
+// partially applied
+var fromC = interval('C')
+fromC('D') // => '2M'
+// or
+tonal.note.interval('C3', 'G#3') // => 'A5'
+```
+
+#### ... get relative intervals from a collection of notes?
+
+```js
+var harmonize = require('note-harmonizer')
+harmonize('C Eb G Bb', false) // => ['P1', 'm3', 'P5', 'm7']
+```
+
+#### ... get the size in semitones of an interval?
+
+[![semitones](https://img.shields.io/badge/tonal-semitones-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/semitones)
+[![npm](https://img.shields.io/npm/v/semitones.svg)](https://www.npmjs.com/package/semitones)
+
+
+```js
+var semitones = require('semitones')
+semitones('P4') // => 5
+['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'].map(semitones)
+// => [ 0, 2, 4, 5, 7, 9, 11, 12 ]
+// or
+tonal.semitones('P4') // => 5
+```
+
+#### ... get the interval class of an interval?
+
+[![interval-class](https://img.shields.io/badge/tonal-interval--class-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/interval-class)
+[![npm](https://img.shields.io/npm/v/interval-class.svg)](https://www.npmjs.com/package/interval-class)
+
+```js
+var ic = require('interval-class')
+ic('P4') // => 5
+['1P', '2M', '3M', '4P', '5P', '6M', '7M'].map(ic)
+// => [ 0, 2, 4, 5, 5, 3, 1, 0 ]
+// using semitones
+ic(7) // => 5 (a perfect fifth)
+// or
+tonal.ic(7) // => 5 (a perfect fifth)
+```
+
+### Work with scales and chords
+
+#### ... create a scale from a scale name?
+
+[![music-scale](https://img.shields.io/badge/tonal-music--scale-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/music-scale)
+[![npm](https://img.shields.io/npm/v/music-scale.svg)](https://www.npmjs.com/package/music-scale)
+
+```js
+var scale = require('music-scale')
+// get scale from name
+scale('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
+// or
+tonal.scale('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
+```
+
+#### .... create a scale from name and tonic?
+
+```js
+tonal.scale('major', 'A4') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
+// partially applied
+var major = tonal.scale('major')
+major('A4') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
+```
+
+#### .... create a scale from intervals and tonic?
+
+```js
+tonal.scale('1 2 3 4 5 6 7', 'A') // => ['A', 'B', 'C#' 'D', 'E', 'F#', 'G#']
+tonal.scale('1 2 3 4 5 6 7', 'A4') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
+```
+
+#### ... create a chord from a chord name?
+
+[![music-chord](https://img.shields.io/badge/tonal-music--chord-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/music-chord)
+[![npm](https://img.shields.io/npm/v/music-chord.svg)](https://www.npmjs.com/package/music-chord)
+
+```js
+var chord = require('music-chord')
+chord('Cmaj7') // => ['C', 'E', 'G', 'B']
+// or
+tonal.chord('Cmaj7') // => ['C', 'E', 'G', 'B']
+```
+
+#### .... create a chord from name and tonic?
+
+```js
+tonal.chord('maj7', 'A') // => ['A', 'C#', 'E', 'G#']
+// partially applied
+var maj7 = tonal.chord('maj7')
+var maj7('A4') // => ['A4', 'C#5', 'E5', 'G#5']
+```
+
+#### .... create a chord from intervals and tonic?
+
+```js
+tonal.chord('1 3 5 7', 'A4') // => ['A4', 'C#5', 'E5', 'G#5']
+```
+
+### Work with collection of notes
+
+#### ... get the pitch set of a collection of notes?
+
+[![pitch-set](https://img.shields.io/badge/tonal-pitch--set-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/pitch-set)
+[![npm](https://img.shields.io/npm/v/pitch-set.svg)](https://www.npmjs.com/package/pitch-set)
+
+```js
+var pitchSet = require('pitch-set')
+pitchSet('C2 d4 g6 g3 f5') // => ['C', 'D', 'F', 'G']
+```
+
+__This list is a work in progress. Issues and PR are welcomed.__
+
+## List of packages
 
 #### Notation
 - [music-notation](https://github.com/danigb/tonal/tree/master/packages/music-notation):
@@ -132,40 +411,6 @@ Get the type of a chord
 Create chord progressions
 [![npm](https://img.shields.io/npm/v/chord-progression.svg)](https://www.npmjs.com/package/chord-progression)
 
-## Examples
-
-```js
-var tonal = require('tonal')
-
-// notes and intervals
-tonal.note.fromMidi(60) // => 'C4'
-tonal.note.midi('A4') // => 69
-tonal.note.fromFreq(220) // => 'A3'
-tonal.note.freq('C') // => ...
-
-// transposition and distances
-tonal.tranpose('D4', '2M') // => 'E#4'
-tonal.distance('C', 'G') // => '5P'
-['c', 'd', 'e'].map(tonal.transpose('3M')) // => ['E4', 'F#4', 'G#4']
-
-// scales and chords
-tonal.scale('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
-tonal.chord('Cmaj7') // => ['C', 'E', 'G', 'B']
-
-// harmonizers
-var major = tonal.harmonizer('1 3 5')
-major('C#') // => ['C#', 'E#', 'G#']
-major('E5') /// => ['E5', 'G#5', 'B5']
-var V7 = tonal.harmonizer('1 3 5 7m')
-var V7ofV = function(tonic) { V7(tonal.transpose(tonic, '5P')) }
-var V7ofV('D') // => ['A4', 'C#5', 'E5', 'G7']
-
-// keys
-key('###') // => 'A major'
-key.signature('A major') // => '###'
-key.altNotes('A major') // => ['F#', 'C#']
-key.relative('minor', 'A major') // => 'F minor'
-```
 
 ## Install
 

@@ -23,7 +23,7 @@ var harmonize = require('note-harmonizer')
  * var pitchSet = require('pitch-set')
 
  * // pitch sets from notes (uses first note as tonic)
- * pitchSet('d2 c4 e3 f g6 a B c d5 e', null) // => ['D', 'E', 'F', 'gamut', 'A', 'B', 'C']
+ * pitchSet('d2 c4 e3 f g6 a B c d5 e', null) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
  *
  * // pitch sets from intervals
  * pitchSet('1 2 3 5 6', 'G') // => ['G', 'A', 'B', 'D', 'E']
@@ -31,7 +31,7 @@ var harmonize = require('note-harmonizer')
  *
  * // partially applied
  * var dorian = pitchSet('D E F gamut A B C')
- * dorian('C4') // => ['C4', 'D4', 'Eb4', 'F4', 'gamut4', 'A4', 'Bb4']
+ * dorian('C4') // => ['C4', 'D4', 'Eb4', 'F4', 'G4', 'A4', 'Bb4']
  */
 module.exports = function set (source, tonic) {
   if (arguments.length === 1) return function (t) { return set(source, t) }

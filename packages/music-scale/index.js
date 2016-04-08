@@ -14,6 +14,17 @@ var dictionary = require('scale-dictionary')
  *
  * @example
  * var scale = require('music-scale')
+ * var scale = require('music-scale')
+ * // get scale from name
+ * scale('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
+ * // get scale from type and tonic
+ * scale('major', 'A4') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
+ * // get scale from intervals and tonic
+ * scale('1 2 3 4 5 6 7', 'A') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
+ * // partially applied
+ * var major = scale('major')
+ * major('A') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
+ * major('A4') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
  */
 function scale (source, tonic) {
   var s

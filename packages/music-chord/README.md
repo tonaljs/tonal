@@ -14,7 +14,7 @@ chord('Cmaj7') // => ['C', 'E', 'G', 'B']
 chord('maj7', 'A') // => ['A', 'C#', 'E', 'G#']
 
 // create from intervals and tonic
-var chord('1 3 5 7', 'A4') // => ['A4', 'C#5', 'E5', 'G#5']
+chord('1 3 5 7', 'A4') // => ['A4', 'C#5', 'E5', 'G#5']
 
 // partially applied
 var maj7 = chord('maj7')

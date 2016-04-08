@@ -2,11 +2,14 @@
 var assert = require('assert')
 var set = require('..')
 
-describe('music-scale', function () {
-  describe('create a pitch set', function () {
-    it('from notes', function () {
+describe('music-scale-build', function () {
+  describe('build a scale', function () {
+    it('from notes and no tonic', function () {
       assert.deepEqual(set('C2 C4 C C6', null), ['C'])
       assert.deepEqual(set('f c g c6 e5', null), ['F', 'G', 'C', 'E'])
+    })
+    it('from notes and tonic', function () {
+      assert.deepEqual(set('c d e', 'd'), ['D', 'E', 'F#'])
     })
     it('from intervals', function () {
       assert.deepEqual(set('1 2 3 8 9 10 11', null), [ '1P', '2M', '3M', '4P' ])
