@@ -1,0 +1,32 @@
+{
+  "name": "pitch-class",
+  "version": "1.0.1",
+  "description": "Get pitch class of a note or midi number",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm test && npm run docs && npm run coverage && npm run disc && npm run dist",
+    "test": "mocha",
+    "api": "documentation -f md > API.md",
+    "dist": "mkdir -p tmp/ && browserify index.js | uglifyjs > tmp/pitch-class.min.js&& ls -hall tmp/",
+    "disc": "mkdir -p tmp/ && browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
+    "coverage": "istanbul cover _mocha",
+    "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
+  },
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/pitch-class#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/pitch-class",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "music",
+    "theory",
+    "note",
+    "pitch-class",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "dependencies": {
+    "music-notation": "^1.0.1"
+  }
+}
