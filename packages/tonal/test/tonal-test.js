@@ -35,9 +35,12 @@ describe('tonal', function () {
     assert(tonal.note.interval)
   })
 
-  it('has gamut', function () {
+  it('collection of notes', function () {
     assert(tonal.gamut)
     assert(tonal.harmonizer)
+    assert(tonal.sort)
+    assert(tonal.sortAsc)
+    assert(tonal.sortDesc)
   })
 
   it('has chords and scales support', function () {

@@ -25,6 +25,39 @@ Returns `String` the binary number
 
 ## `chord`
 
+Create chords either by name or by intervals
+
+This function is currified
+
+### Parameters
+
+* `source` **`String`** the chord name, intervals or notes
+* `tonic` **`String`** the chord tonic
+
+
+### Examples
+
+```js
+var chord = require('music-chord')
+// create chord from name
+chord('Cmaj7') // => ['C', 'E', 'G', 'B']
+chord('maj7', 'C') // => ['C', 'E', 'G', 'B']
+```
+```js
+// partially applied
+var maj7 = chord('maj7')
+maj7('C') // => ['C', 'E', 'G', 'B']
+```
+```js
+// create chord from intervals
+chord('1 3 5 7', 'C') // => ['C', 'E', 'G', 'B']
+```
+
+Returns `Array` the chord notes
+
+
+## `chord`
+
 A chord dictionary. Get chord data from a chord name.
 
 ### Parameters
@@ -57,39 +90,6 @@ chord('Maj7') === chord('M7') === chord('100010010001') === chord(2913)
 chord.names // => ['Maj7', 'm7', ...]
 ```
 
-
-
-## `chord`
-
-Create chords either by name or by intervals
-
-This function is currified
-
-### Parameters
-
-* `source` **`String`** the chord name, intervals or notes
-* `tonic` **`String`** the chord tonic
-
-
-### Examples
-
-```js
-var chord = require('music-chord')
-// create chord from name
-chord('Cmaj7') // => ['C', 'E', 'G', 'B']
-chord('maj7', 'C') // => ['C', 'E', 'G', 'B']
-```
-```js
-// partially applied
-var maj7 = chord('maj7')
-maj7('C') // => ['C', 'E', 'G', 'B']
-```
-```js
-// create chord from intervals
-chord('1 3 5 7', 'C') // => ['C', 'E', 'G', 'B']
-```
-
-Returns `Array` the chord notes
 
 
 ## `chord.names`
@@ -205,6 +205,16 @@ chords.aliases // => ['Maj7', 'm7', 'M7']
 Returns `Function` the dictionary
 
 
+## `distance`
+
+Get the interval between two notes
+An alias for `note.interval`
+
+
+
+
+
+
 ## `filter`
 
 Filter notes
@@ -222,15 +232,6 @@ Filter notes
 ```
 
 Returns `Array` the notes filtered
-
-
-## `gamut`
-
-
-
-
-
-
 
 
 ## `gamut`
@@ -431,6 +432,52 @@ seconds, would be recognized as a highly dissonant sound, while the symbol
 Returns `Array` the _pmnsdt_ array
 
 
+## `interval.invert`
+
+Get the [inversion](https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
+of an interval.
+
+The inversion of any compound interval is always the same as the
+inversion of the simple interval from which it is compounded
+
+### Parameters
+
+* `interval` **`String or Array`** the interval to invert in interval shorthand notation or interval array notation
+
+
+### Examples
+
+```js
+var invert = require('interval-invert')
+invert('3m') // => '6M'
+```
+
+Returns  the inverted interval
+
+
+## `interval.simplify`
+
+Get the simplified version of an interval.
+
+### Parameters
+
+* `interval` **`String or Array`** the interval to simplify
+
+
+### Examples
+
+```js
+var simplify = require('interval-simplify')
+simplify('9M') // => '2M'
+['8P', '9M', '10M', '11P', '12P', '13M', '14M', '15P'].map(simplify)
+// => [ '8P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
+simplify('2M') // => '2M'
+simplify('-2M') // => '7m'
+```
+
+Returns  the simplified interval
+
+
 ## `intervalClass`
 
 Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
@@ -457,24 +504,6 @@ ic('m6') // => 4
 ```
 
 Returns `Integer` A value between 0 and 6
-
-
-## `invert`
-
-Get the inversion of an interval
-
-### Parameters
-
-* `interval` **`String or Array`** the interval to invert in interval shorthand notation or interval array notation
-
-
-### Examples
-
-```js
-
-```
-
-Returns  the inverted interval
 
 
 ## `key`
@@ -872,6 +901,26 @@ An alias for `midi`
 
 
 
+## `note.pitchClass`
+
+Get pitch class of a note or a midi number
+
+### Parameters
+
+* `note` **`String or Array or Integer`** the note or midi number
+
+
+### Examples
+
+```js
+var pc = require('pitch-class')
+pc('fx3') // => 'F##'
+pc(70) // => 'Bb'
+```
+
+Returns `String` the pitch class
+
+
 ## `note.transpose`
 
 Transpose a note by an interval
@@ -933,7 +982,7 @@ one parameter instead of two (see example)
 var pitchSet = require('pitch-set')
 
 // pitch sets from notes (uses first note as tonic)
-pitchSet('d2 c4 e3 f g6 a B c d5 e', null) // => ['D', 'E', 'F', 'gamut', 'A', 'B', 'C']
+pitchSet('d2 c4 e3 f g6 a B c d5 e', null) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
 
 // pitch sets from intervals
 pitchSet('1 2 3 5 6', 'G') // => ['G', 'A', 'B', 'D', 'E']
@@ -941,7 +990,7 @@ pitchSet('1 2 3 5 6', false) // => ['1P', '2M', '3M', '5P', '6M']
 
 // partially applied
 var dorian = pitchSet('D E F gamut A B C')
-dorian('C4') // => ['C4', 'D4', 'Eb4', 'F4', 'gamut4', 'A4', 'Bb4']
+dorian('C4') // => ['C4', 'D4', 'Eb4', 'F4', 'G4', 'A4', 'Bb4']
 ```
 
 Returns `Array` the list of notes
@@ -965,25 +1014,6 @@ progression('C', 'I IIm7 V7') // => ['C', 'Dm7', 'G7']
 ```
 
 Returns `Array` the chord progression
-
-
-## `scale`
-
-Create a scale from a name or intervals and tonic
-
-### Parameters
-
-* `source` **`Array`** the scale name, scale intervals or scale notes
-* `tonic` **`String`** the tonic of the scale
-
-
-### Examples
-
-```js
-var scale = require('music-scale')
-```
-
-Returns `Array` the list of notes
 
 
 ## `scale`
@@ -1016,6 +1046,36 @@ scale('major') === scale('ionian') === scale('101011010101') === scale(2773)
 scale.names // => ['major', 'dorian', ...]
 ```
 
+
+
+## `scale`
+
+Create a scale from a name or intervals and tonic
+
+### Parameters
+
+* `source` **`Array`** the scale name, scale intervals or scale notes
+* `tonic` **`String`** the tonic of the scale
+
+
+### Examples
+
+```js
+var scale = require('music-scale')
+var scale = require('music-scale')
+// get scale from name
+scale('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
+// get scale from type and tonic
+scale('major', 'A4') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
+// get scale from intervals and tonic
+scale('1 2 3 4 5 6 7', 'A') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
+// partially applied
+var major = scale('major')
+major('A') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
+major('A4') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
+```
+
+Returns `Array` the list of notes
 
 
 ## `scale.names`
@@ -1099,7 +1159,7 @@ This function is currified
 
 ### Parameters
 
-* `comparator` **`Function or Boolean`** the comparator function, or true to sort in ascending pitch order or false to sort in descending pitch order
+* `comparator` **`Function or Boolean`** the comparator function, or true to sort in ascending pitch order and false to sort in descending pitch order
 * `source` **`String or Array`** the notes or intervals list
 
 
@@ -1116,6 +1176,24 @@ descending('C D E F G') // => [ 'G', 'F', 'E', 'D', 'C' ]
 ```
 
 Returns `Array` the notes or intervals sorted
+
+
+## `sortAsc`
+
+Sort a collection of notes or intervals in ascending order
+
+
+
+
+
+
+## `sortDesc`
+
+Sort a collection of notes or intervals in descending order
+
+
+
+
 
 
 ## `transpose`

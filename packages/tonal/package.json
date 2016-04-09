@@ -43,6 +43,7 @@
     "note-midi": "^1.0.0",
     "note-transposer": "^1.0.0",
     "pitch-class": "^1.0.0",
-    "pitch-set": "^1.0.1"
+    "pitch-set": "^1.0.1",
+    "pitch-sort": "^1.0.0"
   }
 }

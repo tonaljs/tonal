@@ -342,6 +342,19 @@ tonal.chord('1 3 5 7', 'A4') // => ['A4', 'C#5', 'E5', 'G#5']
 
 ### Work with collection of notes
 
+[![pitch-sort](https://img.shields.io/badge/tonal-pitch--sort-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/pitch-sort)
+[![npm](https://img.shields.io/npm/v/pitch-sort.svg)](https://www.npmjs.com/package/pitch-sort)
+
+__How to sort a collection of notes?__
+
+```js
+var sort = require('pitch-sort')
+sort(true, 'c2 d5 f0 gb g#2 db-1 c# ab2 h6 b3') // true means ascending
+// => [null, 'C#', 'Gb', 'Db-1', 'F0', 'C2', 'G#2', 'Ab2', 'B3', 'D5']
+// or use tonal.sort, tonal.sortAsc and tonal.sortDesc:
+tonal.sortAsc('A G F C E') // => ['C', 'E', 'F', 'G', 'A']
+```
+
 
 ## List of packages
 

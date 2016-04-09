@@ -3,6 +3,10 @@ var assert = require('assert')
 var sort = require('..')
 
 describe('pitch-sort', function () {
+  it('sort pitch classes', function () {
+    assert.deepEqual(sort(true, 'A G F C E'), [ 'C', 'E', 'F', 'G', 'A' ])
+    assert.deepEqual(sort(false, 'A G F C E'), [ 'A', 'G', 'F', 'E', 'C' ])
+  })
   describe('if comparator is true or null, it sorts by ascending pitch', function () {
     it('sort notes', function () {
       assert.deepEqual(sort(true, 'c2 d5 f0 gb g#2 db-1 c# ab2 h6 b3'),

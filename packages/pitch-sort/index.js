@@ -1,13 +1,8 @@
 'use strict'
 
-/**
- * @module music-gamut
- */
-
 var gamut = require('music-gamut')
 
-
-module.exports = 
+module.exports =
 /**
  * Sort a collection of notes or intervals. It can sort in ascending or descending
  * pitch order or using a custom comparator.
@@ -17,7 +12,7 @@ module.exports =
  * @name sort
  * @function
  * @param {Function|Boolean} comparator - the comparator function, or true to
- * sort in ascending pitch order or false to sort in descending pitch order
+ * sort in ascending pitch order and false to sort in descending pitch order
  * @param {String|Array} source - the notes or intervals list
  * @return {Array} the notes or intervals sorted
  *
