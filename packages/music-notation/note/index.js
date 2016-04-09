@@ -1,9 +1,7 @@
 'use strict'
 
-/**
- * @name note
- * @function
- */
-module.exports = function () {
-
-}
+var note = require('./note')
+note.regex = require('./regex')
+note.parse = require('./parse')
+note.str = require('./str')
+module.exports = note

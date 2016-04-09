@@ -33,8 +33,8 @@ var ALTER = {
 }
 var TYPES = 'PMMPPMM'
 
-function build (coord) {
-  var p = props(coord)
+function build (arr) {
+  var p = props(arr)
   var t = TYPES[p[0]]
 
   var dir, num, alt

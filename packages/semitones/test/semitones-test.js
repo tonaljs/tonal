@@ -7,6 +7,10 @@ describe('semitones', function () {
     assert.deepEqual('1 2 3 4 5 6 7 8'.split(' ').map(semitones),
       [ 0, 2, 4, 5, 7, 9, 11, 12 ])
   })
+  it('descending intervals has negative semitones', function () {
+    assert.deepEqual('-1 -2 -3 -4 -5 -6 -7 -8'.split(' ').map(semitones),
+      [ -0, -2, -4, -5, -7, -9, -11, -12 ])
+  })
 
   it('get size of notes', function () {
     assert.deepEqual('C0 C1 C2 C3 C4 C5 C6 C7'.split(' ').map(semitones),

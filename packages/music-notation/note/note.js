@@ -7,7 +7,7 @@ var str = require('./str')
  * Get a note from a string (or null if not valid note)
  *
  * @deprecated
- * @name note.note
+ * @name note
  * @function
  * @param {String} src - the source
  * @return {String} the note in scientific notation

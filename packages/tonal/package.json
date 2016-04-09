@@ -28,6 +28,7 @@
   "license": "MIT",
   "dependencies": {
     "enharmonics": "^1.0.1",
+    "interval-simplify": "^1.0.0",
     "midi-freq": "^1.0.0",
     "midi-note": "^1.0.0",
     "music-chord": "^1.0.1",
@@ -41,6 +42,7 @@
     "note-interval": "^1.0.0",
     "note-midi": "^1.0.0",
     "note-transposer": "^1.0.0",
+    "pitch-class": "^1.0.0",
     "pitch-set": "^1.0.1"
   }
 }

@@ -1,6 +1,6 @@
 /* global describe it */
 var assert = require('assert')
-var pitch = require('../pitch')
+var pitch = require('../pitch/op')
 
 describe('music-notation/pitch/pitch', function () {
   it('return normalized notes', function () {

@@ -3,16 +3,17 @@ function T () {}
 
 T.notation = require('music-notation')
 T.note = T.notation.note
+T.pitchClass = require('pitch-class')
 
 /**
  * @name interval
  * @function
  */
 T.interval = T.notation.interval
+T.interval.simplify = require('interval-simplify')
+
 T.roman = T.notation.roman
 T.pitch = T.notation.pitch
-
-T.pitchSet = require('pitch-set')
 
 /**
  * Transpose a note by an interval
@@ -33,7 +34,14 @@ T.note.transpose = T.transpose = require('note-transposer')
 T.harmonizer = require('note-harmonizer')
 T.note.harmonize = T.harmonize = T.harmonizer
 
-T.note.interval = require('note-interval')
+/**
+ * Get the interval between two notes
+ * An alias for `note.interval`
+ *
+ * @name distance
+ * @function
+ */
+T.distance = T.note.interval = require('note-interval')
 T.note.enharmonics = require('enharmonics')
 
 /**
@@ -57,6 +65,7 @@ T.midi.freq = require('midi-freq')
 T.midi.note = T.note.fromMidi = require('midi-note')
 
 T.gamut = require('music-gamut')
+T.pitchSet = require('pitch-set')
 
 T.dictionary = require('music-dictionary')
 T.scale = require('music-scale')

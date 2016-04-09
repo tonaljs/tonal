@@ -41,6 +41,10 @@ describe('music-notation/interval/parse', function () {
     assert.equal(parse('3P'), null)
   })
 
+  it('can not parse notes', function () {
+    assert.equal(parse('C3'), null)
+  })
+
   it('invalid values', function () {
     assert.equal(parse(null), null)
     assert.equal(parse('blah'), null)
