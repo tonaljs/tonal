@@ -36,11 +36,16 @@ describe('tonal', function () {
   })
 
   it('collection of notes', function () {
-    assert(tonal.gamut)
+    assert(tonal.transform)
+    assert(tonal.map)
+    assert(tonal.filter)
+    assert(tonal.reduce)
     assert(tonal.harmonizer)
     assert(tonal.sort)
     assert(tonal.sortAsc)
     assert(tonal.sortDesc)
+    assert(tonal.noteFilter)
+    assert(tonal.noteFilter.midi)
   })
 
   it('has chords and scales support', function () {

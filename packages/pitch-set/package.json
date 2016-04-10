@@ -1,12 +1,12 @@
 {
   "name": "pitch-set",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Create music pitch sets",
   "main": "index.js",
   "scripts": {
     "build": "npm test && npm run docs && npm run coverage && npm run disc && npm run dist",
     "test": "mocha",
-    "docs": "documentation -f md > API.md",
+    "api": "documentation build -f md > API.md",
     "dist": "mkdir -p tmp/ && browserify index.js | uglifyjs > tmp/pitch-set.min.js&& ls -hall tmp/",
     "disc": "browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
     "coverage": "istanbul cover _mocha",
@@ -27,9 +27,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "music-gamut": "^0.7.1",
-    "note-harmonizer": "^1.0.1",
-    "note-interval": "^1.0.0",
-    "note-transposer": "^1.0.0"
+    "music-gamut": "^0.9.2",
+    "pitch-sort": "^1.0.1"
   }
 }

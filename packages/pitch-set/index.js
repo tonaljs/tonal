@@ -1,45 +1,38 @@
 'use strict'
 
 var gamut = require('music-gamut')
-var harmonize = require('note-harmonizer')
+var sort = require('pitch-sort')
 
 /**
- * Create a pitch set from a list of notes (or intervals) and (optionally) a tonic.
+ * Create a pitch set from a list of notes or intervals.
  * An pitch set is a collection of uniq notes or intervals sorted by frequency
  *
- * The tonic can be a note (with or without octave), false to get the scale
- * intervals or null to set the first note of the source as tonic
+ * If it's pitch set of pitch classes, the first note will be the first pitch
+ * class of the set.
  *
- * This function is currified, so you can partially apply the function passing
- * one parameter instead of two (see example)
+ * If it's a pitch set of intervals, the intervals are simplified and returned
+ * in ascending size order
  *
  * @name pitchSet
  * @function
  * @param {Array} source - the list of intervals or notes
- * @param {String} tonic - the tonic of the scale
  * @return {Array} the list of notes
  *
  * @example
  * var pitchSet = require('pitch-set')
 
  * // pitch sets from notes (uses first note as tonic)
- * pitchSet('d2 c4 e3 f g6 a B c d5 e', null) // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
- *
- * // pitch sets from intervals
- * pitchSet('1 2 3 5 6', 'G') // => ['G', 'A', 'B', 'D', 'E']
- * pitchSet('1 2 3 5 6', false) // => ['1P', '2M', '3M', '5P', '6M']
- *
- * // partially applied
- * var dorian = pitchSet('D E F gamut A B C')
- * dorian('C4') // => ['C4', 'D4', 'Eb4', 'F4', 'G4', 'A4', 'Bb4']
+ * pitchSet('d2 c4 e3 f g6 a B c d5 e') // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
+ * // simplified intervals ordered by size
+ * pitchSet('1 2 3 8 9 10 11') // => [ '1P', '2M', '3M', '4P' ]
+ * pitchSet('11 10 9') //=> [ '2M', '3M', '4P' ]
  */
-module.exports = function set (source, tonic) {
-  if (arguments.length === 1) return function (t) { return set(source, t) }
-  return gamut.operation(function (src) {
+module.exports = function set (source) {
+  return gamut.transform(function (src) {
     if (src.length === 0) return []
     var set = uniq(src.map(simplify))
     if (areNotes(set)) set = rotate(src[0], set)
-    return harmonize(set, tonic)
+    return set
   })(source)
 }
 
@@ -62,7 +55,7 @@ function rotate (first, uniq) {
 }
 
 function uniq (src) {
-  var sorted = gamut.sort(src)
+  var sorted = sort(true, src)
   return sorted.reduce(function (uniq, value, index) {
     if (index === 0 || !eq(sorted[index - 1], value)) uniq.push(value)
     return uniq

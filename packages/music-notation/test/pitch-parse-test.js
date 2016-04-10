@@ -6,6 +6,7 @@ describe('music-notation/pitch-parse', function () {
   it('notes and intervals', function () {
     assert.deepEqual(parse('D'), [2])
     assert.deepEqual(parse('D2'), [2, 1, null])
+    assert.deepEqual(parse('c2'), [0, 2, null])
     assert.deepEqual(parse('2M'), [2, -1])
   })
   it('invalid values', function () {

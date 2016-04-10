@@ -2,64 +2,58 @@
 
 var parse = require('music-notation/pitch/parse')
 var str = require('music-notation/pitch/str')
-var SEP = /\s*\|\s*|\s*,\s*|\s+/
 
+var SEP = /\s*\|\s*|\s*,\s*|\s+/
+function split (source) {
+  if (isArray(source)) return source
+  else if (typeof source === 'string') return source.trim().split(SEP)
+  else if (source === null || typeof source === 'undefined') return []
+  else return [ source ]
+}
 var isArray = Array.isArray
 function toStr (s) { return isArray(s) ? str(s) : s }
 function toArr (s) { return isArray(s) ? s : parse(s) }
-
 function id (e) { return e }
 
 /**
- * A gamut is a collection of intervals, pitch classes or notes.
- * Scales, chords, pitch sets are examples of gamuts.
+ * Transform a collection of pitches with a function.
  *
- * With this function you can manipulate music gamuts in array notation.
+ * It will convert the collection of pitches to array notation, perform the
+ * transformation and convert the pitches back to strings.
  *
- * @name gamut
- * @param {String|Function} operation - the operation to perfom
+ * The collection of pitches (notes, pitch classes or intervals) that can be
+ * expressed as an array or as string.
+ *
+ * The function will receive the gamut in [array notation]() and must return
+ * the result. If the result is an array of pitches in array notation they will
+ * be converted back to note strings.
+ *
+ * If the given function is `false` the gamut is returned (as an array) but
+ * with no transformation applied.
+ *
+ * If the given function is `null` the gamut is returned (as an array) with
+ * the non-pitched elements filtered.
+ *
+ * This is the base function to derive `map`, `reduce` and `filter`
+ *
+ * @name transform
+ * @param {Function|Boolean} fn - the function to transform the gamut. If false
  * @param {String|Array} source - a list of elements
  * @return {Array} a list of pitches
  *
  * @example
  * var gamut = require('music-gamut')
- * gamut('c2 bb fx blah') // => ['C2', 'Bb', 'F##', null]
+ * // filter notes elements
+ * gamut(null, 'c2 bb fx blah') // => ['C2', 'Bb', 'F##', null]
  */
-function gamut (op, source) {
-  if (arguments.length === 1 && typeof op !== 'function') return gamut(id, op)
-  return gamut.operation(op)(source)
-}
+function transform (fn, source) {
+  if (arguments.length > 1) return transform(fn)(source)
 
-/**
- * Given a gamut get its notes or intervals in [array notation]()
- *
- * @name gamut.parse
- * @function
- * @param {Array|String} source - the notes or intervals
- * @return {Array} the notes or intervals in array notation
- *
- * @example
- * var gamut = require('music-gamut')
- * gamut.parse('C D E') // => [ [0], [2], [4] ]
- */
-gamut.parse = function (source) {
-  return gamut.split(source).map(toArr)
-}
-
-/**
- * Decorate a function to work with gamuts.
- *
- * The function to decorate receives an array of pitches in
- * [array notation]()  and should return the desired transformed array.
- *
- * @name gamut.operation
- * @function
- * @param {Function} fn - the function to decorate
- * @return {Function} the decorated function
- */
-gamut.operation = function (fn) {
   return function (source) {
-    var g = gamut.split(source)
+    var g = split(source)
+    if (fn === false) return g
+    if (fn === null) fn = id
+    else if (typeof fn !== 'function') throw Error('Invalid function')
     if (isArray(g[0])) return fn(g)
     var v = fn(g.map(parse))
     return isArray(v) ? v.map(toStr) : v
@@ -67,30 +61,52 @@ gamut.operation = function (fn) {
 }
 
 /**
- * Convert a source to an array. If the source is an array, return it.
+ * Map a gamut with a function. The function operates pitches in array notation
  *
- * Aside from an array itself, the source can be a
- * string with elements separated by spaces, commas or bars (`|`) or a single
- * element that will be wrapped inside an array
- *
- * This function __does not perform any transformation__ of the array elements.
- * and __it always return an array, even if its empty__.
- *
- * @name gamut.split
- * @function
- * @param {String|Array} source - the source
- * @return {Array} the source as array
+ * @param {Function} fn - the function used to map gamut elements
+ * @param {Array|String} pitches - the pithes
+ * @return {Array} the mapped gamut
  *
  * @example
- * var G = require('music-gamut')
- * G.split('a | B C , Dmaj7') // => ['a', 'B', 'C', 'Dmaj7']
- * G.split() // => []
+ * var gamut = require('music-gamut')
+ * var octUp = gamut.map(function (n) { return [n[0], n[1] + 1, n[2]] })
+ * octUp('c2 d3 e4') // => [ 'C3', 'D4', 'E5' ]
  */
-gamut.split = function (source) {
-  if (isArray(source)) return source
-  else if (typeof source === 'string') return source.trim().split(SEP)
-  else if (source === null || typeof source === 'undefined') return []
-  else return [ source ]
+function map (fn, source) {
+  if (arguments.length > 1) return map(fn)(source)
+  return transform(function (g) { return g.map(fn) })
+}
+
+/**
+ * Filter a gamut with a function. The function operates pitches in array notation.
+ *
+ * This function is currified.
+ *
+ * @param {Function} fn - the function used to filter the gamut. It must return
+ * true or false to include or exclude the note from the gamut. It receives one
+ * parameter of a pitch in array notation (can be null)
+ * @param {Array|String} pitches - the pitches to filter
+ * @return {Array<String>} the filtered notes
+ *
+ * @example
+ * var onlyC = gamut.filter(function(p) { return p[0] === 0 })
+ * onlyC('c2 d3 c4 f6 c7') // => ['C2', 'C4', 'C7']
+ */
+function filter (fn, source) {
+  if (arguments.length > 1) return filter(fn)(source)
+  return transform(function (g) { return g.filter(fn) })
+}
+
+/**
+ * Applies a function against an accumulator and each value of a pitch
+ * collection.
+ *
+ * This function is currified so can be partially applied
+ */
+function reduce (fn, acc, source) {
+  if (arguments.length === 1) return function (a, s) { return reduce(fn, a, s) }
+  if (arguments.length > 2) return reduce(fn, acc)(source)
+  return transform(function (g) { return g.reduce(fn, acc) })
 }
 
 /**
@@ -106,8 +122,8 @@ gamut.split = function (source) {
  * var G = require('music-gamut')
  * G.rotate(1, 'C D E') // => ['D', 'E', 'C']
  */
-gamut.rotate = function (count, source) {
-  var g = gamut.split(source)
+function rotate (count, source) {
+  var g = split(source)
   var len = g.length
   var n = ((count % len) + len) % len
   return g.slice(n, len).concat(g.slice(0, n))
@@ -126,13 +142,28 @@ gamut.rotate = function (count, source) {
  * var gamut = require('music-gamut')
  * gamut.select('1 3 5', 'C D E F G A B') // => ['C', 'E', 'G']
  */
-gamut.select = function s (nums, src) {
-  if (arguments.length === 1) return function (g) { return s(nums, g) }
-  var g = gamut.split(src)
-  return gamut.split(nums).map(function (n) {
+function select (nums, src) {
+  if (arguments.length === 1) return function (g) { return select(nums, g) }
+  var g = split(src)
+  return split(nums).map(function (n) {
     return g[n - 1]
   })
 }
 
-if (typeof module === 'object' && module.exports) module.exports = gamut
-if (typeof window !== 'undefined') window.gamut = gamut
+var G = { transform: transform,
+  /**
+   * Split a collection of notes into an array.
+   * No transformation to notes is performed.
+   *
+   * An alias for `gamut.transform(false)`
+   * @name split
+   * @function
+   * @param {String|Array} notes - the notes to split
+   * @return {Array} the notes as an array
+   */
+  split: transform(false),
+  map: map, reduce: reduce, filter: filter,
+  rotate: rotate, select: select }
+
+if (typeof module === 'object' && module.exports) module.exports = G
+if (typeof window !== 'undefined') window.gamut = G

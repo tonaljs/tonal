@@ -14,7 +14,7 @@ var transpose = require('note-transposer')
  * This function is currified, so you can partially apply the function passing
  * one parameter instead of two (see example)
  *
- * @name harmonize
+ * @function harmonize
  * @param {Array} source - the list of intervals or notes
  * @param {String} tonic - the tonic of the chord or null to get the intervals
  * @return {Array} the chord notes or intervals
@@ -30,7 +30,7 @@ var transpose = require('note-transposer')
  */
 function harmonize (source, tonic) {
   if (arguments.length === 1) return function (t) { return harmonize(source, t) }
-  return gamut(function (g) {
+  return gamut.transform(function (g) {
     if (tonic === null) return g
     var base = g[0]
     var intervals = g.map(distanceTo(base))

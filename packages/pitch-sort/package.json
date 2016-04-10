@@ -1,6 +1,6 @@
 {
   "name": "pitch-sort",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sort a collection of music notes or intervals",
   "main": "index.js",
   "scripts": {
@@ -27,6 +27,6 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "music-gamut": "^0.7.7"
+    "music-gamut": "^0.9.2"
   }
 }

@@ -4,9 +4,10 @@ var chords = require('./chords.json')
 var dictionary = require('music-dictionary')
 
 /**
- * A chord dictionary. Get chord data from a chord name.
+ * Get chord data from a chord name.
  *
- * @name chord
+ * @function props
+ * @memberof chord
  * @function
  * @param {String} name - the chord name
  * @see music-dictionary

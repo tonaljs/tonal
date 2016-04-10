@@ -1,30 +1,27 @@
-## `chord.type`
+# chordType
 
-Get the type of the chord (can be 'M', 'm', '7' or 'o' to represent major,
-minot, dominant and dimished respectively)
+Given a triad notes, get it's type (can be 'M', 'm', '7' or 'o' to represent major,
+minor, dominant and diminished respectively)
 
-It assumes that the chord is not inversed (first note is always the tonic)
+It assumes that the chord is not inverted (first note is always the tonic)
 
 It detects major, minor, augmented, diminished and dominant chords. All
 chord notes beyond the 5th (except 7th for dominant chords) are ignored
 
-### Parameters
+**Parameters**
 
-* `chord` **`Array`** the chord notes
+-   `chord` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** the chord notes
 
+**Examples**
 
-### Examples
-
-```js
-var chord = require('music.chord')
-chord.type('C E G') // => 'M'
-chord.type('C Eb G') // => 'm'
-chord.type('C Eb Gb') // => 'dim'
-chord.type('C E G#') // => 'aug'
-chord.type('C E G B') // => 'M'
-chord.type('C E G B7') // => '7'
+```javascript
+var type = require('chord-type')
+type('C E G') // => 'M'
+type('C Eb G') // => 'm'
+type('C Eb Gb') // => 'dim'
+type('C E G#') // => 'aug'
+type('C E G B') // => 'M'
+type('C E G B7') // => '7'
 ```
 
-Returns `String` the chord type ('M', 'm', '7', 'dim', 'aug' or null)
-
-
+Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** the chord type ('M', 'm', '7', 'dim', 'aug' or null)

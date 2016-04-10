@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm test && npm run coverage && npm run docs && npm run disc && npm run dist",
     "test": "mocha",
-    "docs": "documentation -f md > API.md",
+    "api": "documentation build -f md > API.md",
     "dist": "browserify index.js | uglifyjs > tmp/chord-type.min.js&& ls -hall tmp/",
     "disc": "browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
     "coverage": "istanbul cover _mocha"
@@ -26,6 +26,6 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "music-gamut": "^0.7.1"
+    "note-harmonizer": "^1.0.4"
   }
 }

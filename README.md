@@ -355,6 +355,18 @@ sort(true, 'c2 d5 f0 gb g#2 db-1 c# ab2 h6 b3') // true means ascending
 tonal.sortAsc('A G F C E') // => ['C', 'E', 'F', 'G', 'A']
 ```
 
+[![note-filter](https://img.shields.io/badge/tonal-note--filter-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/note-filter)
+[![npm](https://img.shields.io/npm/v/note-filter.svg)](https://www.npmjs.com/package/note-filter)
+
+__How to filter a collection of notes?__
+
+```js
+var filter = require('note-filter')
+filter('G A B C', 'c2 eb3 g5 gb6 a4 a#4 b5') // => ['D2', 'G5', 'A4', 'B5']
+// or
+tonal.filter('C', 'c d e f g') // => ['C']
+```
+
 
 ## List of packages
 
@@ -399,6 +411,10 @@ Find the interval between two notes
 - [pitch-set](https://github.com/danigb/tonal/tree/master/packages/pitch-set):
 Create pitch sets
 [![npm](https://img.shields.io/npm/v/pitch-set.svg)](https://www.npmjs.com/package/pitch-set)
+- [pitch-sort](https://github.com/danigb/tonal/tree/master/packages/pitch-sort):
+Sort collection of notes or intervals [![npm](https://img.shields.io/npm/v/pitch-sort.svg)](https://www.npmjs.com/package/pitch-sort)
+- [note-filter](https://github.com/danigb/tonal/tree/master/packages/note-filter):
+Sort collection of notes or intervals [![npm](https://img.shields.io/npm/v/note-filter.svg)](https://www.npmjs.com/package/note-filter)
 - [music-scale](https://github.com/danigb/tonal/tree/master/packages/music-scale):
 Create music scales
 [![npm](https://img.shields.io/npm/v/music-scale.svg)](https://www.npmjs.com/package/music-scale)

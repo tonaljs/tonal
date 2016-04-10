@@ -1,12 +1,12 @@
 {
   "name": "note-filter",
-  "version": "1.0.0",
-  "description": "Get the size in note-filter of a music interval",
+  "version": "0.1.2",
+  "description": "Filter notes",
   "main": "index.js",
   "scripts": {
     "build": "npm test && npm run docs && npm run coverage && npm run disc && npm run dist",
     "test": "mocha",
-    "docs": "documentation -f md > API.md",
+    "api": "documentation build -f md > API.md",
     "dist": "mkdir -p tmp/ && browserify index.js | uglifyjs > tmp/note-filter.min.js&& ls -hall tmp/",
     "disc": "mkdir -p tmp/ && browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
     "coverage": "istanbul cover _mocha",
@@ -28,6 +28,8 @@
   "license": "MIT",
   "dependencies": {
     "enharmonics": "^1.0.3",
-    "music-gamut": "^0.8.1"
+    "midi-note": "^1.0.0",
+    "music-gamut": "^0.9.0",
+    "music-notation": "^1.0.1"
   }
 }

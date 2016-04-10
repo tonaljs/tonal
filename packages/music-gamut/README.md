@@ -2,17 +2,22 @@
 
 [![tonal](https://img.shields.io/badge/tonal-music--gamut-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-`music-gamut` is a library to work with collections of notes or intervals:
+`music-gamut` is a library to work with collections of notes or intervals using a functional programming paradigm. Standard `map`, `filter` and `reduce` functions are implemented:
 
 ```js
 var gamut = require('music-gamut')
-gamut('c d e blah g7') // => ['C', 'D', 'E', null, 'G7']
-var maj7 = gamut.harmonizer('1 3 5 7')
-maj7('A2') // => ['A2', 'C#3', 'E3', 'G#3']
-gamut.sort('c2 e6 g2 b4') // => ['C2', 'G2', 'B4', 'E6']
+var octUp = gamut.map(function (p) { return [p[0], p[1] + 1, p[2]]})
+octUp('c2 d3 fx4') // => ['C3', 'D4', 'F##5']
 ```
 
-This is part of [tonal](https://www.npmjs.com/package/tonal)
+This is part of [tonal](https://www.npmjs.com/package/tonal):
+
+```js
+var tonal = require('tonal')
+tonal.map(...)
+tonal.filter(...)
+tonal.reduce(...)
+```
 
 ## Install
 
@@ -20,7 +25,11 @@ Via npm: `npm i --save music-gamut`
 
 ## Usage
 
-In [tonal](https://www.npmjs.com/package/tonal) a gamut is a collection of pitches (notes, intervals or pitch classes). Pitch sets, chord and scales are different gamut types.
+In [tonal](https://www.npmjs.com/package/tonal) a gamut is a collection of pitches (notes, intervals or pitch classes). This collection can be expressed as:
+
+- array of notes: `['C2', 'D2', 'E3']`
+- a string with notes (separated with spaces, commas or bars): `C2 D2 E3`
+- an array of notes in array notation: `[[0, 2, null], [1, 2, null]]`
 
 #### Create gamuts
 
@@ -28,34 +37,34 @@ You can create a gamut from a string with notes or intervals separated by spaces
 
 ```js
 var gamut = require('music-gamut')
-gamut('a b c 1 2 3 blah') // => ['A', 'B', 'C', '1P', '2M', '3M', null]
-gamut('c d | e f') // => ['C', 'D', 'E' 'F']
+gamut(null, 'a b c 1 2 3 blah') // => ['A', 'B', 'C', '1P', '2M', '3M', null]
+gamut(null, 'c d | e f') // => ['C', 'D', 'E' 'F']
 ```
 
-#### Harmonizers and harmonics
+#### Map collection of notes
 
-A gamut harmonizer is a function that given a note returns a gamut. You can create an harmonizer from a list of intervals:
+The `gamut.map` function can be used to map a collection of notes:
 
 ```js
-var octaves = gamut.harmonizer('1 -8 -15')
-octaves('C2') // => ['C2', 'C1', 'C0']
+var transpose = require('note-transposer')
+gamut.map(transpose('M3'), 'a b c d e') // => ['C#', 'D', 'E', 'F#', 'G#']
 ```
 
-The `gamut.harmonics` function gets the relative distances from the first note the rest:
+Or partially apply to more functional style:
 
 ```js
-gamut.harmonics('C E G') // => ['1P', '3M', '5P']
+var thirdUp = gamut.map(transpose('M3'))
+thirdUp('a b c d e') // => ['C#', 'D', 'E', 'F#', 'G#']
 ```
 
-#### Create pitch sets
+#### Filter collection of notes
 
-A pitch set is an ordered collection of unique pitch classes. You can create a pitch set from a collection of notes:
+Filter works the same way:
 
 ```js
-gamut.set('f# e4 C2 g5 d3') // => ['C', 'D', 'E', 'F#', 'G']
+var onlyC = gamut.map(function (p) { return p[0] === 0 })
+onlyC('a b c d') // => ['C']
 ```
-
-The set is always ordered by pitch, where 'C' is the lowest and 'B' the highest.
 
 #### Select elements from a gamut
 
@@ -69,14 +78,6 @@ gamut.select('1 3 5', 'C D E F G A B') // => ['C', 'E', 'G']
 
 ```js
 gamut.rotate(2, 'c d e') // => ['e', 'c', 'd']
-```
-
-#### Sort
-
-The `gamut.sort` function sorts a gamut using an ascending pitch order:
-
-```js
-kit.gamut.sort('F G D A C') // => ['C', 'D', 'F', 'G', 'A']
 ```
 
 ## License

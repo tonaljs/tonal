@@ -2,8 +2,6 @@
 
 [![tonal](https://img.shields.io/badge/tonal-music--gamut-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-## `chord.type`
-
 Get the type of the chord (can be 'M', 'm', '7' or 'o' to represent major,
 minor, dominant and diminished respectively)
 

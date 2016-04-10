@@ -1,0 +1,28 @@
+{
+  "source": {
+    "include": ["README.md", "packages/"],
+    "includePattern": "index.js$",
+    "excludePattern": "node_modules"
+  },
+  "templates": {
+    "default": {
+      "outputSourceFiles": false
+    },
+    "cleverLinks": false,
+    "monospaceLinks": true,
+    "systemName": "remoteFileExplorer",
+    "footer": "tonal",
+    "copyright": "2016",
+    "navType": "vertical",
+    "theme": "spacelab",
+    "linenums": true,
+    "collapseSymbols": true,
+    "inverseNav": false
+  },
+  "opts": {
+    "destination": "./jsdocs/",
+    "recurse": true,
+    "verbose": true
+  },
+  "plugins": ["plugins/markdown"]
+}

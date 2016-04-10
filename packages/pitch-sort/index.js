@@ -1,6 +1,6 @@
 'use strict'
 
-var gamut = require('music-gamut')
+var transform = require('music-gamut').transform
 
 module.exports =
 /**
@@ -29,7 +29,7 @@ function sort (comp, source) {
   if (arguments.length > 1) return sort(comp)(source)
   if (comp === null || comp === true) comp = asc
   else if (comp === false) comp = desc
-  return gamut.operation(function (g) { return g.sort(comp) })
+  return transform(function (g) { return g.sort(comp) })
 }
 
 function asc (a, b) { return height(a) - height(b) }

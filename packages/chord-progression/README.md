@@ -14,8 +14,6 @@ Install via npm: `npm i --save chord-progression`
 
 This is part of [tonal](https://www.npmjs.com/package/tonal)
 
-## Usage
-
 ## License
 
 MIT License

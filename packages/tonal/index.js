@@ -65,6 +65,8 @@ T.midi.freq = require('midi-freq')
 T.midi.note = T.note.fromMidi = require('midi-note')
 
 T.sort = require('pitch-sort')
+T.noteFilter = require('note-filter')
+
 /**
  * Sort a collection of notes or intervals in ascending order
  *
@@ -80,7 +82,7 @@ T.sortAsc = T.sort(true)
  */
 T.sortDesc = T.sort(false)
 
-T.gamut = require('music-gamut')
+Object.assign(T, require('music-gamut'))
 T.pitchSet = require('pitch-set')
 
 T.dictionary = require('music-dictionary')

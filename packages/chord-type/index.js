@@ -1,6 +1,6 @@
 'use strict'
 
-var G = require('music-gamut')
+var harmonizer = require('note-harmonizer')
 
 /**
  * Given a triad notes, get it's type (can be 'M', 'm', '7' or 'o' to represent major,
@@ -11,7 +11,7 @@ var G = require('music-gamut')
  * It detects major, minor, augmented, diminished and dominant chords. All
  * chord notes beyond the 5th (except 7th for dominant chords) are ignored
  *
- * @name chord.type
+ * @name chordType
  * @function
  * @param {Array} chord - the chord notes
  * @return {String} the chord type ('M', 'm', '7', 'dim', 'aug' or null)
@@ -26,7 +26,7 @@ var G = require('music-gamut')
  * type('C E G B7') // => '7'
  */
 module.exports = function (chord) {
-  var g = G.harmonizer(chord, false)
+  var g = harmonizer(chord, false)
   var steps = g.map(function (i) { return i ? i.charAt(0) : i })
   if (steps[0] !== '1' || steps[2] !== '5') return null
   if (g[1] === '3M') {

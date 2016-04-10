@@ -1,12 +1,12 @@
 {
   "name": "music-gamut",
-  "version": "0.8.1",
+  "version": "0.9.2",
   "description": "Manipulate collection of notes",
   "main": "index.js",
   "scripts": {
     "build": "npm test && npm run coverage && npm run docs && npm run disc && npm run dist",
     "test": "mocha",
-    "docs": "documentation -f md > API.md",
+    "api": "documentation build -f md > API.md",
     "dist": "browserify index.js | uglifyjs > dist/music-gamut.min.js&& ls -hall dist/",
     "disc": "mkdir -p tmp/ && browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
     "coverage": "istanbul cover _mocha"

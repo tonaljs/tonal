@@ -35,7 +35,7 @@ function isNote (a) { return a.length !== 2 }
  */
 module.exports = function (notes) {
   var a, b, i
-  notes = gamut.parse(notes).filter(isNote)
+  notes = gamut.filter(isNote, notes)
   var len = notes.length
   var result = [0, 0, 0, 0, 0, 0]
   for (a = 0; a < len; a++) {

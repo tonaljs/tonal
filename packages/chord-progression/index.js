@@ -19,7 +19,7 @@ var transpose = require('note-transposer')
  * progression('C', 'I IIm7 V7') // => ['C', 'Dm7', 'G7']
  */
 module.exports = function (tonic, progression) {
-  return gamut.split(progression)
+  return gamut.transform(false, progression)
     .map(function (e) { return roman.exec(e) })
     .map(function (roman) {
       if (!roman) return null
