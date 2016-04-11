@@ -41,8 +41,8 @@ function chord (name, tonic) {
 /**
  * Get chord notes from chord name
  *
- * @name get
- * @memberof chord
+ * @name chord.get
+ * @function
  * @param {String} name - the chord name
  * @return {Array} the chord notes
  *
@@ -63,8 +63,7 @@ chord.get = function (name) {
 /**
  * Return the available chord names
  *
- * @name names
- * @memberof chord
+ * @name chord.names
  * @function
  * @param {boolean} aliases - true to include aliases
  *

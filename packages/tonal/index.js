@@ -29,9 +29,11 @@ T.pitch = T.notation.pitch
 T.note.transpose = T.transpose = require('note-transposer')
 
 /**
- * Harmonizes a note by an interval list
- * An alias for `harmonize`
+ * Harmonizes a note using an interval list.
  *
+ * An alias for `harmonizer`
+ *
+ * @see harmonizer
  * @name note.harmonize
  * @function
  */

@@ -5,11 +5,6 @@ var transpose = require('note-transposer')
 var harmonize = require('note-harmonizer')
 var semitones = require('semitones')
 
-/**
- * Binary set is a module to work with pitch sets in binary representation.
- *
- * @module binarySet
- */
 var bs = {}
 
 /**
@@ -21,8 +16,7 @@ var bs = {}
  * The set binary number is very useful to check if two sets are equal or
  * contains same intervals (regarding of note names)
  *
- * @name toBinary
- * @memberof binarySet
+ * @name binarySet.toBinary
  * @function
  * @param {String|Array|Array<Array>} source - a gamut
  * @return {String} the binary number
@@ -46,9 +40,8 @@ var INTERVALS = ['1P', '2m', '2M', '3m', '3M', '4P', '4#', '5P', '6m', '6M', '7m
  * Get a set from a binary set number and (optionally) a tonic. If the tonic is
  * a note, you get a pitch set. If its false you get a interval set.
  *
- * @name fromBinary
+ * @name binarySet.fromBinary
  * @function
- * @memberof binarySet
  * @param {String|Array|Array<Array>} source - the gamut
  * @param {String} tonic - the first note of the set or false to get the intervals
  * @return {Array<String>} the set pitch classes (note names without octaves)

@@ -20,7 +20,7 @@ var transpose = require('note-transposer')
  * @return {Array} the chord notes or intervals
  *
  * @example
- * var harmonize = require('note-harmonize')
+ * var harmonize = require('note-harmonizer')
  * harmonize('1 3 5 6', 'G') // => ['G', 'B', 'D', 'E']
  * harmonize('G B D E', false) // => ['1P', '3M', '5P', '6M']
  *

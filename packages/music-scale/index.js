@@ -8,7 +8,6 @@ var regex = require('music-notation/note/regex')
 /**
  * Create a scale from a name or intervals and tonic
  *
- * @namespace scale
  * @name scale
  * @function
  * @param {Array} source - the scale name, scale intervals or scale notes
@@ -39,8 +38,8 @@ function scale (source, tonic) {
 /**
  * Get scale notes by scale name
  *
- * @name get
- * @memberof scale
+ * @name scale.get
+ * @function
  * @param {String} name - the complete scale name (with tonic)
  * @return {Array} scale notes
  *
@@ -58,8 +57,7 @@ scale.get = function (name) {
 /**
  * Return the available scale names
  *
- * @name names
- * @memberof scale
+ * @name scale.names
  * @function
  * @param {boolean} aliases - true to include aliases
  *

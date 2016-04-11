@@ -4,7 +4,7 @@
     "test": "_mocha `scripts/get-test-directories.sh`",
     "api": "documentation -f md --shallow ./packages/**/*.js > API.md",
     "jsdoc": "jsdoc -c .jsdoc3.json && open jsdocs/index.html",
-    "docs": "mkdir -p docs && documentation -f html -o docs --shallow ./packages/**/*.js",
+    "docs": "mkdir -p docs && documentation build --name tonal -f html -o docs --github --shallow ./packages/**/*.js && open docs/index.html",
     "dist": "browserify ./packages/tonal/index.js | uglifyjs > dist/tonal.min.js&& ls -hall dist/",
     "disc": "browserify --full-paths ./packages/tonal/index.js | uglifyjs | discify > dist/disc.html",
     "lint": "eslint packages/**/.js",

@@ -9,7 +9,7 @@ var DESC = [12, -7] // descending dimished second
  * Get the enharmonics of a note. It returns an array of three elements: the
  * below enharmonic, the note, and the upper enharmonic
  *
- * @name note.enharmonics
+ * @name enharmonics
  * @function
  * @param {String} note - the note to get the enharmonics from
  * @return {Array} an array of pitches ordered by distance to the given one
@@ -32,7 +32,7 @@ function enharmonics (pitch) {
 /**
  * Try to get a simpler enharmonic note name
  *
- * @name note.enharmonics.simplify
+ * @name enharmonics.simplify
  * @function
  * @param {String} note - the note to simplify
  * @return {String} the simplfiied note (can be the same)

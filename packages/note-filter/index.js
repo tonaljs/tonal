@@ -13,7 +13,8 @@ function nextEnh (n) { return [n[0] - 12, n[1] + 7, n[2]] }
  *
  * This function is currified and can be partially applied.
  *
- * @function filter
+ * @name noteFilter
+ * @function
  * @param {Function|String|Array} filter - the function to filter notes or the
  * collection of notes allowed. The collection of notes can be pitch classes or
  * individual notes. The function will receive one parameter with a note in
@@ -47,9 +48,8 @@ function filter (fn, notes) {
  *
  * The difference from normal filter is that it check note enhramonics (see example)
  *
- * @name filter.midi
+ * @name noteFilter.midi
  * @function
- * @memberof filter
  * @param {Function|Array|String} filter - the filter function or the collection
  * of valid notes
  * @param {Integer|Array|String} midi - the midi notes

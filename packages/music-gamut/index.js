@@ -12,7 +12,7 @@ function split (source) {
 }
 var isArray = Array.isArray
 function toStr (s) { return isArray(s) ? str(s) : s }
-function toArr (s) { return isArray(s) ? s : parse(s) }
+// function toArr (s) { return isArray(s) ? s : parse(s) }
 function id (e) { return e }
 
 /**
@@ -64,7 +64,7 @@ function transform (fn, source) {
  * Map a gamut with a function. The function operates pitches in array notation
  *
  * @param {Function} fn - the function used to map gamut elements
- * @param {Array|String} pitches - the pithes
+ * @param {Array|String} source - the pitches to map
  * @return {Array} the mapped gamut
  *
  * @example
@@ -89,6 +89,7 @@ function map (fn, source) {
  * @return {Array<String>} the filtered notes
  *
  * @example
+ * var gamut = require('gamut')
  * var onlyC = gamut.filter(function(p) { return p[0] === 0 })
  * onlyC('c2 d3 c4 f6 c7') // => ['C2', 'C4', 'C7']
  */
@@ -112,15 +113,15 @@ function reduce (fn, acc, source) {
 /**
  * Rotate the gamut
  *
- * @name gamut.rotate
+ * @name rotate
  * @function
  * @param {Integer} count - the number of rotations
  * @param {String|Array} gamut - a list of notes or intervals
  * @return {Array} the gamut rotated count times
  *
  * @example
- * var G = require('music-gamut')
- * G.rotate(1, 'C D E') // => ['D', 'E', 'C']
+ * var gamut = require('music-gamut')
+ * gamut.rotate(1, 'C D E') // => ['D', 'E', 'C']
  */
 function rotate (count, source) {
   var g = split(source)
@@ -132,7 +133,7 @@ function rotate (count, source) {
 /**
  * Select some elements from a gamut
  *
- * @name gamut.select
+ * @name select
  * @function
  * @param {String|Array} numbers - a __1-based__ index of the elements
  * @param {String|Array} gamut - the notes or intervals
@@ -141,6 +142,8 @@ function rotate (count, source) {
  * @example
  * var gamut = require('music-gamut')
  * gamut.select('1 3 5', 'C D E F G A B') // => ['C', 'E', 'G']
+ * // part of tonal
+ * tonal.select(...)
  */
 function select (nums, src) {
   if (arguments.length === 1) return function (g) { return select(nums, g) }

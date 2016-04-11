@@ -10,6 +10,7 @@ function size (i) { return i[0] * 7 + i[1] * 12 }
  * Get the simplified version of an interval.
  *
  * @name interval.simplify
+ * @function
  * @param {String|Array} interval - the interval to simplify
  * @return {String|Array} the simplified interval
  *
@@ -20,6 +21,8 @@ function size (i) { return i[0] * 7 + i[1] * 12 }
  * // => [ '8P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
  * simplify('2M') // => '2M'
  * simplify('-2M') // => '7m'
+ * // part of tonal
+ * tonal.interval.simplify('9m') // => '2m'
  */
 module.exports = op(parse, str, function (i) {
   if (!Array.isArray(i)) return null

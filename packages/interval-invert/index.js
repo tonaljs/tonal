@@ -12,6 +12,7 @@ var op = require('music-notation/operation')
  * inversion of the simple interval from which it is compounded
  *
  * @name interval.invert
+ * @function
  * @param {String|Array} interval - the interval to invert in interval shorthand
  * notation or interval array notation
  * @return {String|Array} the inverted interval
