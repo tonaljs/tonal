@@ -1,16 +1,14 @@
 {
   "name": "scale-dictionary",
-  "version": "0.2.0",
-  "description": "A music chord dictionary",
+  "version": "1.0.0",
+  "description": "A musical scale dictionary",
   "main": "index.js",
   "scripts": {
     "build": "npm test && npm run docs && npm run coverage && npm run disc && npm run dist",
     "test": "mocha",
-    "docs": "documentation -f md > API.md",
+    "api": "documentation build -f md > API.md",
     "dist": "browserify index.js | uglifyjs > tmp/scale-dictionary.min.js&& ls -hall tmp/",
-    "disc": "browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
-    "coverage": "istanbul cover _mocha",
-    "cover": "npm run coverage && open ./coverage/lcov-report/index.html"
+    "disc": "browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html"
   },
   "repository": "https://github.com/danigb/tonal/tree/master/packages/scale-dictionary",
   "bugs": {
@@ -18,15 +16,13 @@
   },
   "keywords": [
     "music",
-    "chord",
-    "chords",
+    "scale",
+    "scales",
     "dictionary",
     "tonal"
   ],
   "author": "danigb",
   "license": "MIT",
   "devDependencies": {},
-  "dependencies": {
-    "music-dictionary": "^0.2.0"
-  }
+  "dependencies": {}
 }

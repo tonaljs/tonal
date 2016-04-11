@@ -1,32 +1,14 @@
-## `scale`
+# scales
 
-A scale dictionary. Get scale from a scale name and a tonic.
+A scale dictionary. It's a hashmap of scale names mapped to an array of
+intervals in shorthand notation or a string with other name (if it's an
+alias)
 
-The dictionary has a `names` property with all scale names.
+**Examples**
 
-### Parameters
-
-* `name` **`String`** the scale name
-
-
-### Examples
-
-```js
-// get scale data
-var scale = require('scale-dictionary')
-scale('Ab major') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]
-scale('major', 'Ab') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]
-// get scale intervals
-scale('major', false) // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
+```javascript
+var scales = require('scale-dictionary')
+scales['Maj7'] // => ['1', '3', '5', '7']
+scale['maj7'] // => 'Maj7' (an alias)
+Object.keys(scales) // all scale names
 ```
-```js
-// get it from aliases, binary or decimal numbers
-scale('major') === scale('ionian') === scale('101011010101') === scale(2773)
-```
-```js
-// get scale names
-scale.names // => ['major', 'dorian', ...]
-```
-
-
-

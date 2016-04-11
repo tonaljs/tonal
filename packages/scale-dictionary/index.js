@@ -1,32 +1,25 @@
 'use strict'
 
-var scales = require('./scales.json')
-var dictionary = require('music-dictionary')
+var data = require('./scales.json')
 
 /**
- * A scale dictionary. Get scale from a scale name and a tonic.
+ * A scale dictionary. It's a hashmap of scale names mapped to an array of
+ * intervals in shorthand notation or a string with other name (if it's an
+ * alias)
  *
- * The dictionary has a `names` property with all scale names.
- *
- * @name scale
- * @function
- * @param {String} name - the scale name
- * @see music-dictionary
+ * @name scales
+ * @type {HashMap}
  *
  * @example
- * // get scale data
- * var scale = require('scale-dictionary')
- * scale('Ab major') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]
- * scale('major', 'Ab') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'G' ]
- * // get scale intervals
- * scale('major', false) // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
- *
- * @example
- * // get it from aliases, binary or decimal numbers
- * scale('major') === scale('ionian') === scale('101011010101') === scale(2773)
- *
- * @example
- * // get scale names
- * scale.names // => ['major', 'dorian', ...]
+ * var scales = require('scale-dictionary')
+ * scales['Maj7'] // => ['1', '3', '5', '7']
+ * scale['maj7'] // => 'Maj7' (an alias)
+ * Object.keys(scales) // all scale names
  */
-module.exports = dictionary(scales)
+module.exports = Object.keys(data).reduce(function (scales, key) {
+  scales[key] = data[key][0].split(' ')
+  if (data[key][1]) {
+    data[key][1].forEach(function (name) { scales[name] = key })
+  }
+  return scales
+}, {})

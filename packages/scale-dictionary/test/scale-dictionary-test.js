@@ -1,24 +1,23 @@
 /* global describe it */
 var assert = require('assert')
-var scale = require('..')
+var scales = require('..')
 
 describe('scale-dictionary', function () {
-  describe('dictionary data', function () {
+  it('get scale intervals', function () {
+    assert.deepEqual(scales['major'], [ '1', '2', '3', '4', '5', '6', '7' ])
+    assert.deepEqual(scales['dorian'], [ '1', '2', '3b', '4', '5', '6', '7b' ])
+    assert.deepEqual(scales['bebop'], [ '1', '2', '3', '4', '5', '6', '7b', '7' ])
   })
-  describe('access function', function () {
-    it('get by type and tonic', function () {
-      assert.deepEqual(scale('major', 'Db'), [ 'Db', 'Eb', 'F', 'Gb', 'Ab', 'Bb', 'C' ])
-      assert.deepEqual(scale('dorian', 'C'), ['C', 'D', 'Eb', 'F', 'G', 'A', 'Bb'])
-    })
-    it('get by complete name', function () {
-      assert.deepEqual(scale('Db major'), [ 'Db', 'Eb', 'F', 'Gb', 'Ab', 'Bb', 'C' ])
-    })
-    it('partial', function () {
-      assert.deepEqual(scale('major')('Db'), [ 'Db', 'Eb', 'F', 'Gb', 'Ab', 'Bb', 'C' ])
-    })
-    it('intervals', function () {
-      assert.deepEqual(scale('major', false), ['1P', '2M', '3M', '4P', '5P', '6M', '7M'])
-      assert.deepEqual(scale('major')(false), ['1P', '2M', '3M', '4P', '5P', '6M', '7M'])
+  it('get name of alias', function () {
+    assert.equal(scales['ionian'], 'major')
+    assert.equal(scales['arabian'], 'locrian major')
+  })
+  it('has scales', function () {
+    assert(Object.keys(scales).length > 100)
+  })
+  it('every name has value', function () {
+    Object.keys(scales).forEach(function (name) {
+      assert(scales[name])
     })
   })
 })
