@@ -7,15 +7,13 @@ This function is currified
 
 **Parameters**
 
--   `source` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** the chord name, intervals or notes
+-   `source` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** the chord type, intervals or notes
 -   `tonic` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** the chord tonic (or false to get intervals)
 
 **Examples**
 
 ```javascript
 var chord = require('music-chord')
-// get chord notes using name
-chord('Cmaj7') // => ['C', 'E', 'G', 'B']
 // get chord notes using type and tonic
 chord('maj7', 'C2') // => ['C2', 'E2', 'G2', 'B2']
 // get chord intervals (tonic false)
@@ -26,7 +24,25 @@ maj7('C') // => ['C', 'E', 'G', 'B']
 // create chord from intervals
 chord('1 3 5 m7 m9', 'C') // => ['C', 'E', 'G', 'Bb', 'Db']
 // part of tonal
-tonal.chord('C7') // => ['C', 'E', 'G', 'Bb']
+tonal.chord('m7', 'C') // => ['C', 'Eb', 'G', 'Bb']
+```
+
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** the chord notes
+
+## get
+
+Get chord notes from chord name
+
+**Parameters**
+
+-   `name` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** the chord name
+
+**Examples**
+
+```javascript
+chord.get('C7') // => ['C', 'E', 'G', 'Bb']
+// part of tonal
+tonal.chord.get('C7')
 ```
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** the chord notes

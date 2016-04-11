@@ -49,10 +49,11 @@ describe('tonal', function () {
   })
 
   it('has chords and scales support', function () {
-    assert(tonal.dictionary)
     assert(tonal.scale)
+    assert(tonal.scale.get)
     assert(tonal.scale.name)
     assert(tonal.chord)
+    assert(tonal.chord.get)
     assert(tonal.chord.name)
   })
 })

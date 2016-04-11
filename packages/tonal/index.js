@@ -1,4 +1,8 @@
 
+function assign (dest, src) {
+  Object.keys(src).forEach(function (key) { dest[key] = src[key] })
+}
+
 function T () {}
 
 T.notation = require('music-notation')
@@ -82,10 +86,9 @@ T.sortAsc = T.sort(true)
  */
 T.sortDesc = T.sort(false)
 
-Object.assign(T, require('music-gamut'))
+assign(T, require('music-gamut'))
 T.pitchSet = require('pitch-set')
 
-T.dictionary = require('music-dictionary')
 T.scale = require('music-scale')
 T.chord = require('music-chord')
 

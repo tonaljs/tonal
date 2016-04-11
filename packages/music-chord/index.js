@@ -12,14 +12,12 @@ var regex = require('music-notation/note/regex')
  *
  * @name chord
  * @function
- * @param {String} source - the chord name, intervals or notes
+ * @param {String} source - the chord type, intervals or notes
  * @param {String} tonic - the chord tonic (or false to get intervals)
  * @return {Array} the chord notes
  *
  * @example
  * var chord = require('music-chord')
- * // get chord notes using name
- * chord('Cmaj7') // => ['C', 'E', 'G', 'B']
  * // get chord notes using type and tonic
  * chord('maj7', 'C2') // => ['C2', 'E2', 'G2', 'B2']
  * // get chord intervals (tonic false)
@@ -30,25 +28,37 @@ var regex = require('music-notation/note/regex')
  * // create chord from intervals
  * chord('1 3 5 m7 m9', 'C') // => ['C', 'E', 'G', 'Bb', 'Db']
  * // part of tonal
- * tonal.chord('C7') // => ['C', 'E', 'G', 'Bb']
+ * tonal.chord('m7', 'C') // => ['C', 'Eb', 'G', 'Bb']
  */
 function chord (name, tonic) {
-  if (arguments.length === 1) {
-    var p = regex.exec(name)
-    // it's not a complete name: return partially applied
-    if (!p) return function (t) { return chord(name, t) }
-    // it has note and chord name
-    if (p[5]) return chord(p[5], p[1] + p[2] + p[3])
-    // doesn't have chord name: the name is the octave (example: 'C7' is dominant)
-    else return chord(p[3], p[1] + p[2])
-  }
+  if (arguments.length === 1) { return function (t) { return chord(name, t) } }
   var intervals = data[name]
   if (typeof intervals === 'string') intervals = data[intervals]
   else if (!intervals) intervals = name
   return intervals ? harmonizer(intervals, tonic) : []
 }
 
-var names = null
+/**
+ * Get chord notes from chord name
+ *
+ * @name get
+ * @memberof chord
+ * @param {String} name - the chord name
+ * @return {Array} the chord notes
+ *
+ * @example
+ * chord.get('C7') // => ['C', 'E', 'G', 'Bb']
+ * // part of tonal
+ * tonal.chord.get('C7')
+ */
+chord.get = function (name) {
+  var p = regex.exec(name)
+  if (!p) return []
+  // it has note and chord name
+  else if (p[5]) return chord(p[5], p[1] + p[2] + p[3])
+  // doesn't have chord name: the name is the octave (example: 'C7' is dominant)
+  else return chord(p[3], p[1] + p[2])
+}
 
 /**
  * Return the available chord names
@@ -63,11 +73,6 @@ var names = null
  */
 chord.names = function (aliases) {
   if (aliases) return Object.keys(data)
-  if (!names) names = buildNames()
-  return names.slice()
-}
-
-function buildNames () {
   return Object.keys(data).reduce(function (names, name) {
     if (Array.isArray(data[name])) names.push(name)
     return names

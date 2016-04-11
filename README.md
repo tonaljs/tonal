@@ -2,7 +2,7 @@
 
 `tonal` is a modular, functional music theory library. Built from a collection of modules, it's able to create and manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music) and while is designed for algorithmic composition and music generation, can be used to develop any kind of midi or audio software.
 
-Although this library is under active development, the modules more than 1.0.0 are considered __more or less__ stable.
+Although __this library is under active development__, the modules more than 1.0.0 are considered _more or less_ stable.
 
 ## Example
 
@@ -413,8 +413,8 @@ Create pitch sets
 [![npm](https://img.shields.io/npm/v/pitch-set.svg)](https://www.npmjs.com/package/pitch-set)
 - [pitch-sort](https://github.com/danigb/tonal/tree/master/packages/pitch-sort):
 Sort collection of notes or intervals [![npm](https://img.shields.io/npm/v/pitch-sort.svg)](https://www.npmjs.com/package/pitch-sort)
-- [note-filter](https://github.com/danigb/tonal/tree/master/packages/note-filter):
-Sort collection of notes or intervals [![npm](https://img.shields.io/npm/v/note-filter.svg)](https://www.npmjs.com/package/note-filter)
+- [note-filter](https://github.com/danigb/tonal/tree/master/packages/note-filter): Filter notes
+[![npm](https://img.shields.io/npm/v/note-filter.svg)](https://www.npmjs.com/package/note-filter)
 - [music-scale](https://github.com/danigb/tonal/tree/master/packages/music-scale):
 Create music scales
 [![npm](https://img.shields.io/npm/v/music-scale.svg)](https://www.npmjs.com/package/music-scale)
@@ -450,9 +450,6 @@ Get key accidentals, relative major and minor, key notes and key alterations
 - [scale-triads](https://github.com/danigb/tonal/tree/master/packages/scale-triads):
 Create triads from scales
 [![npm](https://img.shields.io/npm/v/scale-triads.svg)](https://www.npmjs.com/package/scale-triads)
-- [note-filter](https://github.com/danigb/tonal/tree/master/packages/note-filter):
-Filter notes
-[![npm](https://img.shields.io/npm/v/note-filter.svg)](https://www.npmjs.com/package/note-filter)
 - [binary-set](https://github.com/danigb/tonal/tree/master/packages/binary-set):
 Binary pitch set manipulation
 [![npm](https://img.shields.io/npm/v/binary-set.svg)](https://www.npmjs.com/package/binary-set)

@@ -42,4 +42,11 @@ describe('note-harmonizer', function () {
       assert.deepEqual(harmonize('c2 b1 a1', false), ['1P', '-2m', '-3m'])
     })
   })
+  it('returns empty array if not valid params', function () {
+    assert.deepEqual(harmonize(null, 'C2'), [])
+    assert.deepEqual(harmonize('blah', 'C2'), [null])
+    // TODO: 64 it's an interval!! Limit the size
+    assert.deepEqual(harmonize('64', 'C2'), ['C2'])
+    assert.deepEqual(harmonize(10, 'C2'), [null])
+  })
 })
