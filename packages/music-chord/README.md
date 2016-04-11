@@ -2,30 +2,31 @@
 
 [![tonal](https://img.shields.io/badge/tonal-music--chord-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-`music-chord` is a function to create music chords. They can be created from a chord name (it includes a chord dictionary) or from chord intervals:
+`music-chord` is a function to create music chords. They can be created from a chord name (it includes a chord dictionary) or from a list of intervals:
 
 ```js
 var chord = require('music-chord')
-
-// create from chord name
+// get chord notes using name
 chord('Cmaj7') // => ['C', 'E', 'G', 'B']
-
-// create from name and tonic
-chord('maj7', 'A') // => ['A', 'C#', 'E', 'G#']
-
-// create from intervals and tonic
-chord('1 3 5 7', 'A4') // => ['A4', 'C#5', 'E5', 'G#5']
-
+// get chord notes using type and tonic
+chord('maj7', 'C2') // => ['C2', 'E2', 'G2', 'B2']
+// get chord intervals (tonic false)
+chord('maj7', false) // => ['1P', '3M', '5P', '7M']
 // partially applied
 var maj7 = chord('maj7')
-var maj7('A4') // => ['A4', 'C#5', 'E5', 'G#5']
+maj7('C') // => ['C', 'E', 'G', 'B']
+// create chord from intervals
+chord('1 3 5 m7 m9', 'C') // => ['C', 'E', 'G', 'Bb', 'Db']
 ```
 
-This is part of [tonal](https://www.npmjs.com/package/tonal)
+This is part of [tonal](https://www.npmjs.com/package/tonal):
 
-## Install
+```js
+var tonal = require('tonal')
+tonal.chord('C7') // => ['C', 'E', 'G', 'Bb']
+```
 
-Via npm: `npm i --save music-chord`
+Install via npm: `npm i --save music-chord`
 
 ## Usage
 
@@ -62,18 +63,13 @@ If `false` is passed as tonic, you can get chord intervals:
 chord('maj7', false) // => ['1P', '3m', '5P', '7M']
 ```
 
-#### Get chord names and properties
+#### Get chord names
 
-The `names` and `props` functions from [chord-dictionary]() are exposed:
+The `names` function return the available chord names:
 
 ```js
 chord.names() // => ['Maj7', 'm7', ...]
 chord.names(true) // => ['Maj7', 'm7', ...] <= with aliases
-chord.props('m7b5') // => { name: 'm7b5',
-  // aliases: [ 'half-diminished', 'h7', '_7b5' ],
-  // intervals: [ '1', '3b', '5d', '7b' ],
-  // steps: [ [ 0, 0 ], [ -3, 2 ], [ -6, 4 ], [ -2, 2 ] ],
-  // binary: '100100100010', decimal: 2338 }
 ```
 
 ## License

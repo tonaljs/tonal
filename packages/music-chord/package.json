@@ -1,12 +1,12 @@
 {
   "name": "music-chord",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Create music chords",
   "main": "index.js",
   "scripts": {
     "build": "npm test && npm run coverage && npm run docs && npm run disc && npm run dist",
     "test": "mocha",
-    "docs": "documentation -f md > API.md",
+    "api": "documentation build -f md > API.md",
     "dist": "browserify index.js | uglifyjs > tmp/music-chord.min.js&& ls -hall tmp/",
     "disc": "mkdir -p tmp/ && browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
     "coverage": "istanbul cover _mocha"
@@ -24,7 +24,8 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "chord-dictionary": "^0.2.0",
+    "chord-dictionary": "^1.0.0",
+    "music-notation": "^1.0.1",
     "note-harmonizer": "^1.0.0"
   }
 }
