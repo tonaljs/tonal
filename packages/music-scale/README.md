@@ -2,13 +2,13 @@
 
 [![tonal](https://img.shields.io/badge/tonal-music--scale-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-`music-scale` is a function to create music scales, either by name or by intervals. It includes a scale dictionary:
+`music-scale` is a module to create music scales. To create scales you can use intervals and tonic, type and tonic or scale name:
 
 ```js
 var scale = require('music-scale')
 
 // get scale from name
-scale('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
+scale.get('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
 
 // get scale from type and tonic
 scale('major', 'A4') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
@@ -22,7 +22,12 @@ major('A') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
 major('A4') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
 ```
 
-This is part of [tonal](https://www.npmjs.com/package/tonal)
+This is part of [tonal](https://www.npmjs.com/package/tonal):
+
+```js
+var tonal = require('tonal')
+tonal.scale.get('D3 bebop') // => ...
+```
 
 ## Install
 
@@ -34,37 +39,32 @@ Scales are a pitch sets with a tonic. Scales can be created from a list of inter
 
 #### Create scales from name
 
-If you provide the scale and tonic in one string, it retunrs its notes:
+You can use `scale.get` function to obtain scale notes from scale name:
 
 ```js
-scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+scale.get('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 ```
 
-You pass the scale type and tonic as two parameters:
+With `scale` function, you should pass the scale type and tonic as two parameters:
 
 ```js
 scale('major', 'C') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 ```
 
-And then partially apply it:
+Or partially apply it:
 
 ```js
 var major = scale('major')
 major('A') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
 ```
 
-#### Get available names and scale properties
+#### Get available names
 
-The `names` and `props` functions from [scale-dictionary]() are exposed:
+The `scale.names` function returns available names:
 
 ```js
 scale.names() // => ['Maj7', 'm7', ...]
 scale.names(true) // => ['Maj7', 'm7', ...] <= with aliases
-scale.props('major') // => { name: 'major',
-  //  aliases: [ 'ionian' ],
-  //  intervals: [ '1', '2', '3', '4', '5', '6', '7' ],
-  //  steps: [ [ 0, 0 ], [ 2, -1 ], [ 4, -2 ], [ -1, 1 ], [ 1, 0 ], [ 3, -1 ], [ 5, -2 ] ],
-  //  binary: '101011010101', decimal: 2773 })
 ```
 
 #### Create scale from intervals
