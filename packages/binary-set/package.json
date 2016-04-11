@@ -1,13 +1,13 @@
 {
   "name": "binary-set",
-  "version": "0.1.0",
-  "description": "Manipulate collection of notes",
+  "version": "0.1.1",
+  "description": "Work with binary representations of pitch sets",
   "main": "index.js",
   "scripts": {
     "build": "npm test && npm run coverage && npm run docs && npm run dist",
     "test": "mocha",
-    "docs": "documentation -f md > API.md",
-    "dist": "browserify index.js | uglifyjs > dist/binary-set.min.js&& ls -hall dist/",
+    "api": "documentation build -f md > API.md",
+    "dist": "mkdir -p tmp/ && browserify index.js | uglifyjs > tmp/binary-set.min.js&& ls -hall tmp/",
     "coverage": "istanbul cover _mocha"
   },
   "homepage": "https://github.com/danigb/tonal/tree/master/packages/binary-set#readme",
@@ -20,14 +20,15 @@
     "gamut",
     "note",
     "collection",
-    "interval",
+    "pitchSet",
     "tonal"
   ],
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "note-transposer": "^1.0.0",
-    "pitch-set": "^1.0.2",
-    "semitones": "^1.0.0"
+    "note-harmonizer": "^1.0.4",
+    "note-transposer": "^1.0.4",
+    "pitch-set": "^1.1.0",
+    "semitones": "^1.0.1"
   }
 }

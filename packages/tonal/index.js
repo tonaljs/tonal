@@ -88,6 +88,7 @@ T.sortDesc = T.sort(false)
 
 assign(T, require('music-gamut'))
 T.pitchSet = require('pitch-set')
+T.binarySet = require('binary-set')
 
 T.scale = require('music-scale')
 T.chord = require('music-chord')

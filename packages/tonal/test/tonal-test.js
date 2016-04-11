@@ -46,6 +46,8 @@ describe('tonal', function () {
     assert(tonal.sortDesc)
     assert(tonal.noteFilter)
     assert(tonal.noteFilter.midi)
+    assert(tonal.pitchSet)
+    assert(tonal.binarySet)
   })
 
   it('has chords and scales support', function () {

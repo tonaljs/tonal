@@ -433,9 +433,6 @@ Create ranges of notes
 - [music-gamut](https://github.com/danigb/tonal/tree/master/packages/music-gamut):
 Work with collection of notes
 [![npm](https://img.shields.io/npm/v/music-gamut.svg)](https://www.npmjs.com/package/music-gamut)
-- [music-dictionary](https://github.com/danigb/tonal/tree/master/packages/music-dictionary):
-Create dictionaries of notes
-[![npm](https://img.shields.io/npm/v/music-dictionary.svg)](https://www.npmjs.com/package/mmusic-dictionary)
 - [interval-density](https://github.com/danigb/tonal/tree/master/packages/interval-density):
 Analyze the intervals of a collection of notes
 [![npm](https://img.shields.io/npm/v/interval-density.svg)](https://www.npmjs.com/package/interval-density)

@@ -27,6 +27,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
+    "binary-set": "^0.1.1",
     "enharmonics": "^1.0.1",
     "interval-simplify": "^1.0.0",
     "midi-freq": "^1.0.0",
