@@ -1,37 +1,25 @@
 'use strict'
 
-var chords = require('./chords.json')
-var dictionary = require('music-dictionary')
+var data = require('./chords.json')
 
 /**
- * Get chord data from a chord name.
+ * A chord dictionary. It's a hashmap of names mapped to an array of
+ * intervals in shorthand notation or a string with other name (if it's an
+ * alias)
  *
- * @function props
- * @memberof chord
- * @function
- * @param {String} name - the chord name
- * @see music-dictionary
- *
- * @example
- * var chord = require('chord-dictionary')
- *
- * // get chord notes and intervals
- * chord('CMaj7') // => ['C', 'E', 'G', 'B']
- * chord('Maj7', 'C') // => ['C', 'E', 'G', 'B']
- * chord('Maj7') // => ['P1', 'M3', 'P5', 'M7']
+ * @name chords
+ * @type {HashMap}
  *
  * @example
- * // get chord properties
- * chord.props('Maj7') // => { name: 'Maj7', aliases: ['M7', 'maj7']
- *                //      intervals:  [ ...],
- *                //      binary: '100010010001', decimal: 2193 }
- *
- * @example
- * // get it from aliases, binary or decimal numbers
- * chord('Maj7') === chord('M7') === chord('100010010001') === chord(2913)
- *
- * @example
- * // get chord names
- * chord.names // => ['Maj7', 'm7', ...]
+ * var chords = require('chord-dictionary')
+ * chords['Maj7'] // => ['1', '3', '5', '7']
+ * chord['maj7'] // => 'Maj7' (an alias)
+ * Object.keys(chords) // all chord names
  */
-module.exports = dictionary(chords)
+module.exports = Object.keys(data).reduce(function (chords, key) {
+  chords[key] = data[key][0].split(' ')
+  if (data[key][1]) {
+    data[key][1].forEach(function (name) { chords[name] = key })
+  }
+  return chords
+}, {})
