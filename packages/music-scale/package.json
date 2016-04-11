@@ -24,6 +24,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
+    "music-notation": "^1.0.1",
     "note-harmonizer": "^1.0.4",
     "pitch-set": "^1.1.0",
     "scale-dictionary": "^1.0.0"
