@@ -22,6 +22,7 @@ describe('music-notation/note-regex', function () {
   it('parses elements', function () {
     assert.deepEqual(exec('C#2 dorian'), [ 'C#2 dorian', 'C', '#', '2', '', 'dorian' ])
     assert.deepEqual(exec('BbMaj7'), [ 'BbMaj7', 'B', 'b', '', '', 'Maj7' ])
+    assert.deepEqual(exec('c#4major'), [ 'c#4major', 'c', '#', '4', '', 'major' ])
   })
 
   it('chords', function () {
