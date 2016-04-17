@@ -5,13 +5,17 @@
   "main": "dist/tonal.js",
   "jsnext:main": "dist/jsnext/tonal.js",
   "scripts": {
-    "publish": "npm test && npm run coverage && npm run docs && npm run dist",
+    "publish": "npm test && npm run coverage && npm run docs && npm run api && npm run dist",
     "test": "npm run build && standard dist/jsnext/tonal.js && mocha",
-    "docs": "docco lib/tonal.md -l linear && open docs/tonal.html",
+    "docco": "docco -l linear lib/tonal.md",
+    "docs": "npm run docco && open docs/tonal.html",
+    "api": "npm run build && jsdoc2md dist/tonal.js > docs/API.md",
     "rollup": "rollup dist/jsnext/tonal.js -o dist/tonal.js -f cjs",
-    "build": "markdown-code-blocks -t js lib/tonal.md > dist/jsnext/tonal.js && npm run rollup",
+    "source": "cat lib/tonal.md | markdown-code-blocks -t js > dist/jsnext/tonal.js",
+    "build": "npm run source && npm run rollup",
     "dist": "npm run build && uglifyjs dist/tonal.js > dist/tonal.min.js",
-    "coverage": "istanbul cover _mocha"
+    "coverage": "istanbul cover _mocha",
+    "cover": "npm run coverage && open coverage/lcov-report/index.html"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal",

@@ -22,7 +22,7 @@ var isArr = Array.isArray
 function isStr (s) { return typeof s === 'string' }
 ```
 
-## Pitches
+## 1. Pitches
 
 Pitches are encoding using fifths and octaves. I've learn about it in the excellent javascript theory library [teoria] which takes the idea from
 
@@ -42,6 +42,9 @@ If we add 7 fifths to a pitch class we add a sharp. If we subtract 7 fifths we a
  *
  * @param {Integer} lnum - the letter num (0 is C, 1 is D...)
  * @param {Integer} alt - the alteration number
+ * @return {Array} the pitch class in array notation
+ * @example
+ * pitchClass('Cb') // => [-7]
  */
 export function pitchClass (lnum, alt) {
   return [FIFTHS[lnum || 0] + 7 * (alt || 0)]
@@ -81,6 +84,11 @@ Our definition of pitch:
 ```js
 /**
  * Test if a given object is a pitch
+ *
+ * @param {Object} p - the object to test
+ * @return {Boolean} true if is a pitch array
+ * @example
+ * isPitch([3]) // => true
  */
 export function isPitch (p) {
   return isArr(p) && (p.length === 2 || p.length === 1)
@@ -94,6 +102,7 @@ First we need to convert accidentals string to alteration number:
 ```js
 /**
  * Convert accidental string to alteration number
+ * @function
  * @param {String} acc - the accidental string
  * @return {Integer} the alteration number
  * @example
@@ -111,6 +120,16 @@ export function accToAlt (acc) {
 And the opposite:
 
 ```js
+/**
+ * Convert alteration number to accidentals
+ *
+ * @function
+ * @param {Integer} alt - the alteration number
+ * @return {String} the accidentals string
+ * @example
+ * altToAcc(2) // => '##'
+ * altToAcc(-2) // => 'bb'
+ */
 export const altToAcc = (alt) => Array(Math.abs(alt) + 1).join(alt < 0 ? 'b' : '#')
 ```
 
@@ -142,7 +161,15 @@ export function pitchRegex () { return PITCH_REGEX }
 We get the complete picture:
 
 ```js
-export function parse (str) {
+/**
+ * Given a pitch string in scientific notation, get the pitch in array notation
+ * @param {String} str - the string to parse
+ * @return {Array} the pitch in array notation or null if not valid string
+ * @example
+ * pitchParse('C2') // => [2, 1]
+ * pitchParse('bla') // => null
+ */
+export function pitchParse (str) {
   var m = PITCH_REGEX.exec(str)
   if (!m) return null
   var li = letterIndex(m[1])
@@ -154,28 +181,58 @@ export function parse (str) {
 
 ### Pitch properties
 
+Now we are going to write a collection of functions to get properties from pitches. Since `tonal` embraces the idea of string representing pitches, it's normal that those functions accepts strings as pitches. But also, accepting arrays as sources we open the possibility to use a different pitch notation (helmozt, for example) with the same function.
+
+For this purpose we write the `tryPitch` function that parses notes in scientific notation, or returns the unaltered object if parse fails.
+
 ```js
 function tryParser (parser) {
   return (obj) => isStr(obj) ? parser(obj) || obj : obj
 }
-export const tryPitch = tryParser(parse)
+
+/**
+ * Given an object, try to parse as if it were a pitch in scientific notation. If success, return the parsed pitch, otherwise return the unmodified object.
+ * @param {Object} obj - the object to parse
+ * @return {Array|Object} the parsed pitch or the object if not valid pitch string
+ * @example
+ * tryPitch('G3') // => [1, 3]
+ * tryPitch([1, 3]) // => [1, 3]
+ * tryPitch(3) // => 2
+ */
+export const tryPitch = tryParser(pitchParse)
 ```
 
-Decorator:
+We write a function decorator that tries to parse first argument with `pitchParse` and return the parsed pitch or the unaltered argument. Functions decorated with `prop` accepts pitch is scientific notation or in array notation:
+
 ```js
 /**
  * Decorate a function with one parameter to accepts
  * pitch in scientific notation
+ * @param {Function} fn - the function to decorate
+ * @return {Function} a function with one parameter that can be a pitch in scientific notation or anything else.
  */
 export function prop (fn) {
   return (obj) => fn(tryPitch(obj))
 }
 ```
 
+With this decorator, we write our first property function:
 
 ```js
+/**
+ * Get alteration of a pitch.
+ *
+ * The alteration is an integer indicating the number of sharps or flats
+ *
+ * @param {Array|String} pitch - the pitch (either in scientific notation or array notation)
+ * @return {Integer} the alteration
+ * @example
+ * alt('C#2') // => 2
+ */
 export const alt = prop((p) => Math.floor((p[0] + 1) / 7))
 ```
+
+Our second property function will return the pitch letter:
 
 ```js
 // get fifths simplified
@@ -185,16 +242,30 @@ function fifthsBase (num) {
 }
 
 const LETTERS = 'FCGDAEB'
-export const letter = prop(function (p) {
-  return LETTERS[fifthsBase(p[0])]
-})
+/**
+ * Get the pitch letter
+ *
+ * @param {Array|String} pitch - the pitch (either in scientific notation or array notation)
+ * @return {String} the letter
+ * @example
+ * letter('C#2') // => 'C'
+ * letter([-7, 2]) // => 'C'
+ */
+export const letter = prop((p) => LETTERS[fifthsBase(p[0])])
 ```
 
 ```js
-export function accidentals (p) {
-  var a = typeof p === 'number' ? p : alt(p)
-  return a ? Array(Math.abs(a) + 1).join(a < 0 ? 'b' : '#') : ''
-}
+/**
+ * Get accidental string from a pitch
+ *
+ * @function
+ * @param {Array|String} pitch - the pitch to get the accidentals from
+ * @return {String} the accidentals string
+ * @example
+ * accidentals('C##2') // => '##'
+ * accidentals([-7]) // => 'b'
+ */
+export const accidentals = (p) => altToAcc(alt(p))
 ```
 
 ```js
@@ -212,17 +283,23 @@ export var oct = prop(octOr(null))
 ```
 
 ```js
-// get note octave or empty string
-// get string from pitch
-export function str (p) {
+/**
+ * Convert a pitch in array notation to string
+ *
+ * @param {Array} pitch - the pitch to convert
+ * @return {String} the pitch in scientific notation
+ * @example
+ * pitchStr([2, 1]) // => 'D2'
+ */
+export function pitchStr (p) {
   return letter(p) + accidentals(p) + octStr(p)
 }
 ```
 ```js
 
-export var sci = map([str, parse])
-sci.str = str
-sci.parse = parse
+export var sci = map([pitchStr, pitchParse])
+sci.str = pitchStr
+sci.parse = pitchParse
 sci.regex = pitchRegex
 ```
 

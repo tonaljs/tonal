@@ -30,7 +30,7 @@
 <pre><code class="lang-js"><span class="hljs-keyword">var</span> isArr = <span class="hljs-built_in">Array</span>.isArray
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isStr</span> (<span class="hljs-params">s</span>) </span>{ <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> s === <span class="hljs-string">'string'</span> }
 </code></pre>
-<h2 id="pitches">Pitches</h2>
+<h2 id="1-pitches">1. Pitches</h2>
 <p>Pitches are encoding using fifths and octaves. I’ve learn about it in the excellent javascript theory library [teoria] which takes the idea from</p>
 <p>The pitch class will be encoded as an array with one integer: the number of fifths from <code>C</code> to the given pitch class:</p>
 <pre><code class="lang-js"><span class="hljs-comment">// the number of fifths to 'C D E F G A B'</span>
@@ -43,6 +43,9 @@
 *
 * @param {Integer} lnum - the letter num (0 is C, 1 is D...)
 * @param {Integer} alt - the alteration number
+* @return {Array} the pitch class in array notation
+* @example
+* pitchClass('Cb') // =&gt; [-7]
 */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pitchClass</span> (<span class="hljs-params">lnum, alt</span>) </span>{
 <span class="hljs-keyword">return</span> [FIFTHS[lnum || <span class="hljs-number">0</span>] + <span class="hljs-number">7</span> * (alt || <span class="hljs-number">0</span>)]
@@ -72,6 +75,11 @@
 <p>Our definition of pitch:</p>
 <pre><code class="lang-js"><span class="hljs-comment">/**
 * Test if a given object is a pitch
+*
+* @param {Object} p - the object to test
+* @return {Boolean} true if is a pitch array
+* @example
+* isPitch([3]) // =&gt; true
 */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isPitch</span> (<span class="hljs-params">p</span>) </span>{
 <span class="hljs-keyword">return</span> isArr(p) &amp;&amp; (p.length === <span class="hljs-number">2</span> || p.length === <span class="hljs-number">1</span>)
@@ -81,6 +89,7 @@
 <p>First we need to convert accidentals string to alteration number:</p>
 <pre><code class="lang-js"><span class="hljs-comment">/**
 * Convert accidental string to alteration number
+* @function
 * @param {String} acc - the accidental string
 * @return {Integer} the alteration number
 * @example
@@ -95,7 +104,17 @@
 }
 </code></pre>
 <p>And the opposite:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> altToAcc = (alt) =&gt; <span class="hljs-built_in">Array</span>(<span class="hljs-built_in">Math</span>.abs(alt) + <span class="hljs-number">1</span>).join(alt &lt; <span class="hljs-number">0</span> ? <span class="hljs-string">'b'</span> : <span class="hljs-string">'#'</span>)
+<pre><code class="lang-js"><span class="hljs-comment">/**
+* Convert alteration number to accidentals
+*
+* @function
+* @param {Integer} alt - the alteration number
+* @return {String} the accidentals string
+* @example
+* altToAcc(2) // =&gt; '##'
+* altToAcc(-2) // =&gt; 'bb'
+*/</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> altToAcc = (alt) =&gt; <span class="hljs-built_in">Array</span>(<span class="hljs-built_in">Math</span>.abs(alt) + <span class="hljs-number">1</span>).join(alt &lt; <span class="hljs-number">0</span> ? <span class="hljs-string">'b'</span> : <span class="hljs-string">'#'</span>)
 </code></pre>
 <p>We need to convert from letter to letter index:</p>
 <pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">letterIndex</span> (<span class="hljs-params">letter</span>) </span>{
@@ -127,10 +146,10 @@
 }
 </code></pre>
 <h3 id="pitch-properties">Pitch properties</h3>
-<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">conditionalParser</span> (<span class="hljs-params">parser</span>) </span>{
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tryParser</span> (<span class="hljs-params">parser</span>) </span>{
 <span class="hljs-keyword">return</span> (obj) =&gt; isStr(obj) ? parser(obj) || obj : obj
 }
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> tryPitch = conditionalParser(parse)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> tryPitch = tryParser(parse)
 </code></pre>
 <p>Decorator:</p>
 <pre><code class="lang-js"><span class="hljs-comment">/**

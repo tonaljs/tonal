@@ -8,6 +8,9 @@ var FIFTHS = [0, 2, 4, -1, 1, 3, 5]
  *
  * @param {Integer} lnum - the letter num (0 is C, 1 is D...)
  * @param {Integer} alt - the alteration number
+ * @return {Array} the pitch class in array notation
+ * @example
+ * pitchClass('Cb') // => [-7]
  */
 export function pitchClass (lnum, alt) {
   return [FIFTHS[lnum || 0] + 7 * (alt || 0)]
@@ -30,12 +33,18 @@ export function pitch (lnum, alt, oct) {
 }
 /**
  * Test if a given object is a pitch
+ *
+ * @param {Object} p - the object to test
+ * @return {Boolean} true if is a pitch array
+ * @example
+ * isPitch([3]) // => true
  */
 export function isPitch (p) {
   return isArr(p) && (p.length === 2 || p.length === 1)
 }
 /**
  * Convert accidental string to alteration number
+ * @function
  * @param {String} acc - the accidental string
  * @return {Integer} the alteration number
  * @example
@@ -48,6 +57,16 @@ export function accToAlt (acc) {
   var alt = acc.replace(/x/g, '##').length
   return acc[0] === 'b' ? -alt : alt
 }
+/**
+ * Convert alteration number to accidentals
+ *
+ * @function
+ * @param {Integer} alt - the alteration number
+ * @return {String} the accidentals string
+ * @example
+ * altToAcc(2) // => '##'
+ * altToAcc(-2) // => 'bb'
+ */
 export const altToAcc = (alt) => Array(Math.abs(alt) + 1).join(alt < 0 ? 'b' : '#')
 export function letterIndex (letter) {
   var cc = letter.charCodeAt(0)
@@ -64,7 +83,15 @@ var PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
  * - 3: an optional octave number
  */
 export function pitchRegex () { return PITCH_REGEX }
-export function parse (str) {
+/**
+ * Given a pitch string in scientific notation, get the pitch in array notation
+ * @param {String} str - the string to parse
+ * @return {Array} the pitch in array notation or null if not valid string
+ * @example
+ * pitchParse('C2') // => [2, 1]
+ * pitchParse('bla') // => null
+ */
+export function pitchParse (str) {
   var m = PITCH_REGEX.exec(str)
   if (!m) return null
   var li = letterIndex(m[1])
@@ -75,14 +102,36 @@ export function parse (str) {
 function tryParser (parser) {
   return (obj) => isStr(obj) ? parser(obj) || obj : obj
 }
-export const tryPitch = tryParser(parse)
+
+/**
+ * Given an object, try to parse as if it were a pitch in scientific notation. If success, return the parsed pitch, otherwise return the unmodified object.
+ * @param {Object} obj - the object to parse
+ * @return {Array|Object} the parsed pitch or the object if not valid pitch string
+ * @example
+ * tryPitch('G3') // => [1, 3]
+ * tryPitch([1, 3]) // => [1, 3]
+ * tryPitch(3) // => 2
+ */
+export const tryPitch = tryParser(pitchParse)
 /**
  * Decorate a function with one parameter to accepts
  * pitch in scientific notation
+ * @param {Function} fn - the function to decorate
+ * @return {Function} a function with one parameter that can be a pitch in scientific notation or anything else.
  */
 export function prop (fn) {
   return (obj) => fn(tryPitch(obj))
 }
+/**
+ * Get alteration of a pitch.
+ *
+ * The alteration is an integer indicating the number of sharps or flats
+ *
+ * @param {Array|String} pitch - the pitch (either in scientific notation or array notation)
+ * @return {Integer} the alteration
+ * @example
+ * alt('C#2') // => 2
+ */
 export const alt = prop((p) => Math.floor((p[0] + 1) / 7))
 // get fifths simplified
 function fifthsBase (num) {
@@ -91,13 +140,27 @@ function fifthsBase (num) {
 }
 
 const LETTERS = 'FCGDAEB'
-export const letter = prop(function (p) {
-  return LETTERS[fifthsBase(p[0])]
-})
-export function accidentals (p) {
-  var a = typeof p === 'number' ? p : alt(p)
-  return a ? Array(Math.abs(a) + 1).join(a < 0 ? 'b' : '#') : ''
-}
+/**
+ * Get the pitch letter
+ *
+ * @param {Array|String} pitch - the pitch (either in scientific notation or array notation)
+ * @return {String} the letter
+ * @example
+ * letter('C#2') // => 'C'
+ * letter([-7, 2]) // => 'C'
+ */
+export const letter = prop((p) => LETTERS[fifthsBase(p[0])])
+/**
+ * Get accidental string from a pitch
+ *
+ * @function
+ * @param {Array|String} pitch - the pitch to get the accidentals from
+ * @return {String} the accidentals string
+ * @example
+ * accidentals('C##2') // => '##'
+ * accidentals([-7]) // => 'b'
+ */
+export const accidentals = (p) => altToAcc(alt(p))
 // return if pitch has octave or not (is a pitch class)
 export function hasOct (p) {
   return p && typeof p[1] !== 'undefined'
@@ -106,15 +169,21 @@ const octOr = (v) => (p) => hasOct(p) ? p[1] + fifthsOcts(p[0]) : v
 const octStr = octOr('')
 const octNum = octOr(0)
 export var oct = prop(octOr(null))
-// get note octave or empty string
-// get string from pitch
-export function str (p) {
+/**
+ * Convert a pitch in array notation to string
+ *
+ * @param {Array} pitch - the pitch to convert
+ * @return {String} the pitch in scientific notation
+ * @example
+ * pitchStr([2, 1]) // => 'D2'
+ */
+export function pitchStr (p) {
   return letter(p) + accidentals(p) + octStr(p)
 }
 
-export var sci = map([str, parse])
-sci.str = str
-sci.parse = parse
+export var sci = map([pitchStr, pitchParse])
+sci.str = pitchStr
+sci.parse = pitchParse
 sci.regex = pitchRegex
 // build an interval
 export function interval (num, alt, oct, dir) {

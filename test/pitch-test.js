@@ -64,13 +64,7 @@ describe('pitch module', function () {
     })
   })
   describe('accidentals', function () {
-    var acc = tonal.accidentals
-    var accs = map(acc)
-    it('it works with numbers', function () {
-      assert.equal(acc(2), '##')
-      assert.equal(acc(-2), 'bb')
-      assert.equal(acc(0), '')
-    })
+    var accs = map(tonal.accidentals)
     it('works with pitches', function () {
       assert.deepEqual(accs('cbb cb c# cx'),
         [ 'bb', 'b', '#', '##' ])
