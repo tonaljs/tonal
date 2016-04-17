@@ -1,7 +1,0 @@
-
-[1.0.1] - pitch/index can decorate functions
-[1.0.0] - Rename operation to map
-[0.9.0] - Add Helmholtz notation initial support
-[0.8.0] - Add accidentals notation
-[0.7.0] - Parse intervals in standard shorthand notation
-[0.6.0] - First version ported from music.kit and tonal
