@@ -15,7 +15,10 @@
         
           
           <h1 id="tonal">Tonal</h1>
-<p><code>tonal</code> is a functional music theory library. It deals with abstract music concepts like picthes and intervals, not actual music.</p>
+<p><strong>tonal</strong> is a functional music theory library. It deals with abstract music concepts like picthes and intervals, not actual music.</p>
+<p>You are currently reading the source code of the library. It’s written in literate programming as a tribute to the <a href="http://haskell.cs.yale.edu/?post_type=publication&amp;p=112">The Haskell School of Music</a> paper <a href="http://haskell.cs.yale.edu/wp-content/uploads/2015/03/HSoM.pdf">“From Signals to Symphonies”</a> that has a big influence over tonal development.
+This page is generated using the documentation tool <a href="http://jashkenas.github.io/docco/">docco</a></p>
+<h4 id="some-background-">Some background…</h4>
 <p>Tonal is also the result of my journey of learning how to implement a music theory library in javascript in a functional way. I’ve learn a lot:</p>
 <ul>
 <li>I’ve learn the beauty of represent pitches using fifths and octave</li>
@@ -156,7 +159,7 @@
 }
 </code></pre>
 <h4 id="pitch-properties">Pitch properties</h4>
-<p>Now we are going to write a collection of functions to get properties from pitches. Since <code>tonal</code> embraces the idea of string representing pitches, it’s normal that those functions accepts strings as pitches. But also, accepting arrays as sources we open the possibility to use a different pitch notation (helmozt, for example) with the same function.</p>
+<p>Now we are going to write a collection of functions to get properties from pitches. Since <strong>tonal</strong> embraces the idea of string representing pitches, it’s normal that those functions accepts strings as pitches. But also, accepting arrays as sources we open the possibility to use a different pitch notation (helmozt, for example) with the same function.</p>
 <p>For this purpose we write the <code>tryPitch</code> function that parses notes in scientific notation, or returns the unaltered object if parse fails.</p>
 <pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tryParser</span> (<span class="hljs-params">parser</span>) </span>{
 <span class="hljs-keyword">return</span> (obj) =&gt; isStr(obj) ? parser(obj) || obj : obj
@@ -250,7 +253,9 @@
 <span class="hljs-keyword">const</span> octOr = (v) =&gt; (p) =&gt; hasOct(p) ? p[<span class="hljs-number">1</span>] + fifthsOcts(p[<span class="hljs-number">0</span>]) : v
 </code></pre>
 <p>This allows to write some utility functions:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> octStr = octOr(<span class="hljs-string">''</span>)
+<pre><code class="lang-js"><span class="hljs-comment">// return the octave or ''</span>
+<span class="hljs-keyword">const</span> octStr = octOr(<span class="hljs-string">''</span>)
+<span class="hljs-comment">// return the octave or 0</span>
 <span class="hljs-keyword">const</span> octNum = octOr(<span class="hljs-number">0</span>)
 </code></pre>
 <p>And then our <code>oct</code> property function:</p>
@@ -269,7 +274,7 @@
 <h4 id="convert-to-pitch-array-notation-to-scientific-notation">Convert to pitch array notation to scientific notation</h4>
 <p>With all this tools, now we can write our <code>array -&gt; scientific</code> conversion function:</p>
 <pre><code class="lang-js"><span class="hljs-comment">/**
-* Convert a pitch in array notation to string
+* Convert a pitch in array notation to pitch in scientific notation (string)
 *
 * @param {Array} pitch - the pitch to convert
 * @return {String} the pitch in scientific notation
@@ -288,7 +293,7 @@
 <p>To match the standard midi specification where <code>C4</code> is 60 we must add 12 to that height:</p>
 <pre><code class="lang-js"><span class="hljs-comment">/**
 * Get midi number for a pitch
-*
+* @function
 * @param {Array|String} pitch - the pitch
 * @return {Integer} the midi number or null if not valid pitch
 * @example
@@ -308,6 +313,7 @@
 <p>The most popular way (in western music) to calculate the frequency of a pitch is using the <a href="https://en.wikipedia.org/wiki/Well_temperament">well temperament</a> tempered tuning. It assumes the octave to be divided in 12 equally sized semitones and tune all the notes against a reference:</p>
 <pre><code class="lang-js"><span class="hljs-comment">/**
 * Get a frequency calculator function that uses well temperament and a tuning reference.
+* @function
 * @param {Float} ref - the tuning reference
 * @return {Function} the frequency calculator. It accepts a pitch in array or scientific notation and returns the frequency in herzs.
 */</span>
@@ -319,6 +325,7 @@
 <p>The most popular tuning reference is <code>A4 = 440Hz</code>:</p>
 <pre><code class="lang-js"><span class="hljs-comment">/**
 * Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz
+* @function
 * @param {Array|String} pitch - the pitch to get the frequency from
 * @return {Float} the frequency in herzs
 * @example
@@ -457,13 +464,13 @@
 <p>The interval number is the simple number in 1-based index with the octave:</p>
 <pre><code class="lang-js"><span class="hljs-comment">/**
 * Get the interval number
-*
+* @function
 * @param {Array|String} ivl - the interval to get the number from
 * @return {Integer} a integer greater than 0 or null if not valid interval
 * @example
 * number('P8') // =&gt; 8
 */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> number = (i) =&gt; simpleNum(i) + <span class="hljs-number">1</span> + <span class="hljs-number">7</span> * octNum(i)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> number = ivlProp((i) =&gt; simpleNum(i) + <span class="hljs-number">1</span> + <span class="hljs-number">7</span> * octNum(i))
 </code></pre>
 <p><strong>interval quality and type</strong></p>
 <p>Intervals can be <em>perfectables</em> (unison, octaves, fourths, and fifths) or <em>majorables</em> (seconds, thirds, sixths and sevenths):</p>
@@ -488,7 +495,7 @@ M: [<span class="hljs-string">'ddd'</span>, <span class="hljs-string">'dd'</span
 * @example
 * quality('3M') // =&gt; 'M'
 */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> quality = (i) =&gt; ALTER[ivlType(i)][<span class="hljs-number">4</span> + alt(i)]
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> quality = ivlProp((i) =&gt; ALTER[ivlType(i)][<span class="hljs-number">4</span> + alt(i)])
 </code></pre>
 <p><strong>interval direction</strong></p>
 <pre><code class="lang-js"><span class="hljs-comment">/*
@@ -533,8 +540,8 @@ M: [<span class="hljs-string">'ddd'</span>, <span class="hljs-string">'dd'</span
 <p>Second, it should be currified to allow partial application. Partial application allow write code like: <code>[&#39;C&#39;, &#39;D&#39;, &#39;E&#39;].map(transpose(&#39;3M&#39;))</code> and that’s the core of this library:</p>
 <pre><code class="lang-js"><span class="hljs-comment">/**
 * Transpose a pitch by an interval
-* @function
 * This function is currified, and aliased as `tr`
+* @function
 * @param {Array|String} a - the pitch or interval
 * @param {Array|String} b - the pitch or interval
 * @return {String} the pitch transposed by the interval
@@ -558,13 +565,22 @@ M: [<span class="hljs-string">'ddd'</span>, <span class="hljs-string">'dd'</span
 }
 </code></pre>
 <p>I think this is tonal more important function, so it’s aliased:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> tr = transpose
+<pre><code class="lang-js"><span class="hljs-comment">/**
+* An alias for `transpose`
+* @function
+*/</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> tr = transpose
 </code></pre>
 <h4 id="find-intervals-between-pitches">Find intervals between pitches</h4>
 <h2 id="work-with-collections">Work with collections</h2>
-<p>Split strings:</p>
-<pre><code class="lang-js">
+<p>Since <strong>tonal</strong> is string oriented, it would be nice to represent list as strings:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// items can be separated by spaces, bars and commas</span>
 <span class="hljs-keyword">var</span> SEP = <span class="hljs-regexp">/\s*\|\s*|\s*,\s*|\s+/</span>
+<span class="hljs-comment">/**
+* Split a string by spaces (or commas or bars). Always returns an array, even if its empty
+* @param {String|Array|Object} source - the thing to get an array from
+* @return {Array} the object as an array
+*/</span>
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">split</span> (<span class="hljs-params">source</span>) </span>{
 <span class="hljs-keyword">return</span> isArr(source) ? source
 : <span class="hljs-keyword">typeof</span> source === <span class="hljs-string">'string'</span> ? source.trim().split(SEP)
@@ -572,21 +588,15 @@ M: [<span class="hljs-string">'ddd'</span>, <span class="hljs-string">'dd'</span
 : [ source ]
 }
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">combine</span> (<span class="hljs-params">arr</span>) </span>{
-<span class="hljs-keyword">var</span> fns = arr.slice().reverse()
-<span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) </span>{
-<span class="hljs-keyword">return</span> fns.reduce(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e, fn</span>) </span>{
-<span class="hljs-keyword">return</span> fn(e)
-}, e)
-}
-}
-</code></pre>
+<h4 id="map-collections">Map collections</h4>
 <pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">map</span> (<span class="hljs-params">fn, list</span>) </span>{
 <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">l</span>) </span>{ <span class="hljs-keyword">return</span> map(fn, l) }
-<span class="hljs-keyword">if</span> (isArr(fn)) fn = combine(fn)
 <span class="hljs-keyword">return</span> split(list).map(fn)
 }
 </code></pre>
+<h4 id="filter-collections">Filter collections</h4>
+<h4 id="reduce">Reduce</h4>
+<h4 id="some-helpers">Some helpers</h4>
 <pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">harmonize</span> (<span class="hljs-params">list, tonic</span>) </span>{
 <span class="hljs-keyword">return</span> split(list).map(tr(tonic))
 }

@@ -1,6 +1,11 @@
 # Tonal
 
-`tonal` is a functional music theory library. It deals with abstract music concepts like picthes and intervals, not actual music.
+__tonal__ is a functional music theory library. It deals with abstract music concepts like picthes and intervals, not actual music.
+
+You are currently reading the source code of the library. It's written in literate programming as a tribute to the [The Haskell School of Music](http://haskell.cs.yale.edu/?post_type=publication&p=112) paper ["From Signals to Symphonies"](http://haskell.cs.yale.edu/wp-content/uploads/2015/03/HSoM.pdf) that has a big influence over tonal development.
+ This page is generated using the documentation tool [docco](http://jashkenas.github.io/docco/)
+
+#### Some background...
 
 Tonal is also the result of my journey of learning how to implement a music theory library in javascript in a functional way. I've learn a lot:
 
@@ -182,7 +187,7 @@ export function pitchParse (str) {
 
 #### Pitch properties
 
-Now we are going to write a collection of functions to get properties from pitches. Since `tonal` embraces the idea of string representing pitches, it's normal that those functions accepts strings as pitches. But also, accepting arrays as sources we open the possibility to use a different pitch notation (helmozt, for example) with the same function.
+Now we are going to write a collection of functions to get properties from pitches. Since __tonal__ embraces the idea of string representing pitches, it's normal that those functions accepts strings as pitches. But also, accepting arrays as sources we open the possibility to use a different pitch notation (helmozt, for example) with the same function.
 
 For this purpose we write the `tryPitch` function that parses notes in scientific notation, or returns the unaltered object if parse fails.
 
@@ -307,7 +312,9 @@ const octOr = (v) => (p) => hasOct(p) ? p[1] + fifthsOcts(p[0]) : v
 This allows to write some utility functions:
 
 ```js
+// return the octave or ''
 const octStr = octOr('')
+// return the octave or 0
 const octNum = octOr(0)
 ```
 
@@ -333,7 +340,7 @@ With all this tools, now we can write our `array -> scientific` conversion funct
 
 ```js
 /**
- * Convert a pitch in array notation to string
+ * Convert a pitch in array notation to pitch in scientific notation (string)
  *
  * @param {Array} pitch - the pitch to convert
  * @return {String} the pitch in scientific notation
@@ -359,7 +366,7 @@ To match the standard midi specification where `C4` is 60 we must add 12 to that
 ```js
 /**
  * Get midi number for a pitch
- *
+ * @function
  * @param {Array|String} pitch - the pitch
  * @return {Integer} the midi number or null if not valid pitch
  * @example
@@ -386,6 +393,7 @@ The most popular way (in western music) to calculate the frequency of a pitch is
 ```js
 /**
  * Get a frequency calculator function that uses well temperament and a tuning reference.
+ * @function
  * @param {Float} ref - the tuning reference
  * @return {Function} the frequency calculator. It accepts a pitch in array or scientific notation and returns the frequency in herzs.
  */
@@ -400,6 +408,7 @@ The most popular tuning reference is `A4 = 440Hz`:
 ```js
 /**
  * Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz
+ * @function
  * @param {Array|String} pitch - the pitch to get the frequency from
  * @return {Float} the frequency in herzs
  * @example
@@ -573,13 +582,13 @@ The interval number is the simple number in 1-based index with the octave:
 ```js
 /**
  * Get the interval number
- *
+ * @function
  * @param {Array|String} ivl - the interval to get the number from
  * @return {Integer} a integer greater than 0 or null if not valid interval
  * @example
  * number('P8') // => 8
  */
-export const number = (i) => simpleNum(i) + 1 + 7 * octNum(i)
+export const number = ivlProp((i) => simpleNum(i) + 1 + 7 * octNum(i))
 ```
 
 __interval quality and type__
@@ -611,7 +620,7 @@ var ALTER = {
  * @example
  * quality('3M') // => 'M'
  */
-export const quality = (i) => ALTER[ivlType(i)][4 + alt(i)]
+export const quality = ivlProp((i) => ALTER[ivlType(i)][4 + alt(i)])
 ```
 
 __interval direction__
@@ -675,8 +684,8 @@ Second, it should be currified to allow partial application. Partial application
 ```js
 /**
  * Transpose a pitch by an interval
- * @function
  * This function is currified, and aliased as `tr`
+ * @function
  * @param {Array|String} a - the pitch or interval
  * @param {Array|String} b - the pitch or interval
  * @return {String} the pitch transposed by the interval
@@ -703,6 +712,10 @@ export function transpose (a, b) {
 I think this is tonal more important function, so it's aliased:
 
 ```js
+/**
+ * An alias for `transpose`
+ * @function
+ */
 export const tr = transpose
 ```
 
@@ -712,10 +725,16 @@ export const tr = transpose
 
 ## Work with collections
 
-Split strings:
-```js
+Since __tonal__ is string oriented, it would be nice to represent list as strings:
 
+```js
+// items can be separated by spaces, bars and commas
 var SEP = /\s*\|\s*|\s*,\s*|\s+/
+/**
+ * Split a string by spaces (or commas or bars). Always returns an array, even if its empty
+ * @param {String|Array|Object} source - the thing to get an array from
+ * @return {Array} the object as an array
+ */
 export function split (source) {
   return isArr(source) ? source
     : typeof source === 'string' ? source.trim().split(SEP)
@@ -723,23 +742,21 @@ export function split (source) {
     : [ source ]
 }
 ```
-```js
-function combine (arr) {
-  var fns = arr.slice().reverse()
-  return function (e) {
-    return fns.reduce(function (e, fn) {
-      return fn(e)
-    }, e)
-  }
-}
-```
+
+#### Map collections
+
 ```js
 export function map (fn, list) {
   if (arguments.length === 1) return function (l) { return map(fn, l) }
-  if (isArr(fn)) fn = combine(fn)
   return split(list).map(fn)
 }
 ```
+
+#### Filter collections
+
+#### Reduce
+
+#### Some helpers
 
 ```js
 export function harmonize (list, tonic) {

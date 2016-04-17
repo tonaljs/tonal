@@ -1,11 +1,9 @@
 'use strict';
 
-var isArr = Array.isArray;
-function isStr(s) {
-  return typeof s === 'string';
-}
+var isArr = Array.isArray
+function isStr (s) { return typeof s === 'string' }
 // the number of fifths to 'C D E F G A B'
-var FIFTHS = [0, 2, 4, -1, 1, 3, 5];
+var FIFTHS = [0, 2, 4, -1, 1, 3, 5]
 /**
  * Create a pitch class from its letter number
  * and it's alteration number
@@ -16,13 +14,11 @@ var FIFTHS = [0, 2, 4, -1, 1, 3, 5];
  * @example
  * pitchClass('Cb') // => [-7]
  */
-function pitchClass(lnum, alt) {
-  return [FIFTHS[lnum || 0] + 7 * (alt || 0)];
+function pitchClass (lnum, alt) {
+  return [FIFTHS[lnum || 0] + 7 * (alt || 0)]
 }
 // given a number of fifths, return the octaves it spans
-function fifthsOcts(f) {
-  return Math.floor(f * 7 / 12);
-}
+function fifthsOcts (f) { return Math.floor(f * 7 / 12) }
 /**
  * Build a pitch from letter number, alteration and octave. If
  * octave is not present, it builds a pitch class.
@@ -32,9 +28,10 @@ function fifthsOcts(f) {
  * @param {Integer} oct - the pitch octave
  * @return {Array} the pitch in coord notation
  */
-function pitch(lnum, alt, oct) {
-  var pc = pitchClass(lnum, alt);
-  return !oct && oct !== 0 ? pc : [pc[0], oct - fifthsOcts(pc[0])];
+function pitch (lnum, alt, oct) {
+  var pc = pitchClass(lnum, alt)
+  return !oct && oct !== 0
+    ? pc : [pc[0], oct - fifthsOcts(pc[0])]
 }
 /**
  * Test if a given object is a pitch
@@ -44,8 +41,8 @@ function pitch(lnum, alt, oct) {
  * @example
  * isPitch([3]) // => true
  */
-function isPitch(p) {
-  return isArr(p) && (p.length === 2 || p.length === 1);
+function isPitch (p) {
+  return isArr(p) && (p.length === 2 || p.length === 1)
 }
 /**
  * Convert accidental string to alteration number
@@ -58,9 +55,9 @@ function isPitch(p) {
  * accToAlt('') // => 0
  * accToAlt('x') // => 2
  */
-function accToAlt(acc) {
-  var alt = acc.replace(/x/g, '##').length;
-  return acc[0] === 'b' ? -alt : alt;
+function accToAlt (acc) {
+  var alt = acc.replace(/x/g, '##').length
+  return acc[0] === 'b' ? -alt : alt
 }
 /**
  * Convert alteration number to accidentals
@@ -72,14 +69,12 @@ function accToAlt(acc) {
  * altToAcc(2) // => '##'
  * altToAcc(-2) // => 'bb'
  */
-var altToAcc = function altToAcc(alt) {
-  return Array(Math.abs(alt) + 1).join(alt < 0 ? 'b' : '#');
-};
-function letterIndex(letter) {
-  var cc = letter.charCodeAt(0);
-  return (cc > 96 ? cc - 92 : cc - 60) % 7;
+const altToAcc = (alt) => Array(Math.abs(alt) + 1).join(alt < 0 ? 'b' : '#')
+function letterIndex (letter) {
+  var cc = letter.charCodeAt(0)
+  return (cc > 96 ? cc - 92 : cc - 60) % 7
 }
-var PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/;
+var PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
 /**
  * Get the a regex to parse pitch in scientific notation
  *
@@ -91,9 +86,7 @@ var PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/;
  * - 2: the alterations (a list of #, b or x)
  * - 3: an optional octave number
  */
-function pitchRegex() {
-  return PITCH_REGEX;
-}
+function pitchRegex () { return PITCH_REGEX }
 /**
  * Given a pitch string in scientific notation, get the pitch in array notation
  * @param {String} str - the string to parse
@@ -102,18 +95,16 @@ function pitchRegex() {
  * pitchParse('C2') // => [2, 1]
  * pitchParse('bla') // => null
  */
-function pitchParse(str) {
-  var m = PITCH_REGEX.exec(str);
-  if (!m) return null;
-  var li = letterIndex(m[1]);
-  var alt = accToAlt(m[2]);
-  var oct = m[3] ? +m[3] : null;
-  return pitch(li, alt, oct);
+function pitchParse (str) {
+  var m = PITCH_REGEX.exec(str)
+  if (!m) return null
+  var li = letterIndex(m[1])
+  var alt = accToAlt(m[2])
+  var oct = m[3] ? +m[3] : null
+  return pitch(li, alt, oct)
 }
-function tryParser(parser) {
-  return function (obj) {
-    return isStr(obj) ? parser(obj) || obj : obj;
-  };
+function tryParser (parser) {
+  return (obj) => isStr(obj) ? parser(obj) || obj : obj
 }
 
 /**
@@ -127,18 +118,14 @@ function tryParser(parser) {
  * tryPitch([1, 3]) // => [1, 3]
  * tryPitch(3) // => 2
  */
-var tryPitch = tryParser(pitchParse);
+const tryPitch = tryParser(pitchParse)
 /**
  * Decorate a function with one parameter to accepts
  * pitch in scientific notation
  * @param {Function} fn - the function to decorate
  * @return {Function} a function with one parameter that can be a pitch in scientific notation or anything else.
  */
-var prop = function prop(fn) {
-  return function (obj) {
-    return fn(tryPitch(obj));
-  };
-};
+const prop = (fn) => (obj) => fn(tryPitch(obj))
 /**
  * Get alteration of a pitch.
  *
@@ -151,16 +138,14 @@ var prop = function prop(fn) {
  * @example
  * alt('C#2') // => 2
  */
-var alt = prop(function (p) {
-  return Math.floor((p[0] + 1) / 7);
-});
+const alt = prop((p) => Math.floor((p[0] + 1) / 7))
 // remove accidentals to a pitch class
 // it gets an array and return a number of fifths
-function unaltered(p) {
-  var i = (p[0] + 1) % 7;
-  return i < 0 ? 7 + i : i;
+function unaltered (p) {
+  var i = (p[0] + 1) % 7
+  return i < 0 ? 7 + i : i
 }
-var LETTERS = 'FCGDAEB';
+const LETTERS = 'FCGDAEB'
 /**
  * Get the pitch letter. It accepts scientific or array notation.
  *
@@ -172,9 +157,7 @@ var LETTERS = 'FCGDAEB';
  * letter('C#2') // => 'C'
  * letter([-7, 2]) // => 'C'
  */
-var letter = prop(function (p) {
-  return LETTERS[unaltered(p)];
-});
+const letter = prop((p) => LETTERS[unaltered(p)])
 /**
  * Get accidentals string from a pitch. It accepts pitches in scientific and array notation.
  *
@@ -185,21 +168,17 @@ var letter = prop(function (p) {
  * accidentals('C##2') // => '##'
  * accidentals([-7]) // => 'b'
  */
-var accidentals = function accidentals(p) {
-  return altToAcc(alt(p));
-};
+const accidentals = (p) => altToAcc(alt(p))
 // return if pitch has octave or not (is a pitch class)
-function hasOct(p) {
-  return p && typeof p[1] !== 'undefined';
+function hasOct (p) {
+  return p && typeof p[1] !== 'undefined'
 }
 // returns the pitch octave or `v` if not octave present
-var octOr = function octOr(v) {
-  return function (p) {
-    return hasOct(p) ? p[1] + fifthsOcts(p[0]) : v;
-  };
-};
-var octStr = octOr('');
-var octNum = octOr(0);
+const octOr = (v) => (p) => hasOct(p) ? p[1] + fifthsOcts(p[0]) : v
+// return the octave or ''
+const octStr = octOr('')
+// return the octave or 0
+const octNum = octOr(0)
 /**
  * Get the octave from pitch. The pitch can be in array or scientific notation
  * @name oct
@@ -210,57 +189,54 @@ var octNum = octOr(0);
  * oct('C#2') // => 2
  * oct('C') // => null
  */
-var oct = prop(octOr(null));
+var oct = prop(octOr(null))
 /**
- * Convert a pitch in array notation to string
+ * Convert a pitch in array notation to pitch in scientific notation (string)
  *
  * @param {Array} pitch - the pitch to convert
  * @return {String} the pitch in scientific notation
  * @example
  * pitchStr([2, 1]) // => 'D2'
  */
-function pitchStr(p) {
-  return letter(p) + accidentals(p) + octStr(p);
+function pitchStr (p) {
+  return letter(p) + accidentals(p) + octStr(p)
 }
 // get pitch height
-var height = function height(p) {
-  return p[0] * 7 + 12 * p[1];
-};
+const height = (p) => p[0] * 7 + 12 * p[1]
 /**
  * Get midi number for a pitch
- *
+ * @function
  * @param {Array|String} pitch - the pitch
  * @return {Integer} the midi number or null if not valid pitch
  * @example
  * midi('C4') // => 60
  */
-var midi = prop(function (p) {
-  return height(p) + 12;
-});
-var CHROMATIC = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
-function fromMidi(num) {
-  var midi = +num;
-  return isNaN(midi) || midi < 0 || midi > 127 ? null : CHROMATIC[midi % 12] + (Math.floor(midi / 12) - 1);
+const midi = prop((p) => height(p) + 12)
+var CHROMATIC = [ 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B' ]
+function fromMidi (num) {
+  var midi = +num
+  return (isNaN(midi) || midi < 0 || midi > 127) ? null
+    : CHROMATIC[midi % 12] + (Math.floor(midi / 12) - 1)
 }
 /**
  * Get a frequency calculator function that uses well temperament and a tuning reference.
+ * @function
  * @param {Float} ref - the tuning reference
  * @return {Function} the frequency calculator. It accepts a pitch in array or scientific notation and returns the frequency in herzs.
  */
-var wellTempered = function wellTempered(ref) {
-  return function (pitch) {
-    var m = midi(pitch);
-    return m ? Math.pow(2, (m - 69) / 12) * ref : null;
-  };
-};
+const wellTempered = (ref) => (pitch) => {
+  var m = midi(pitch)
+  return m ? Math.pow(2, (m - 69) / 12) * ref : null
+}
 /**
  * Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz
+ * @function
  * @param {Array|String} pitch - the pitch to get the frequency from
  * @return {Float} the frequency in herzs
  * @example
  * toFreq('C4') // => 261.6255653005986
  */
-var toFreq = wellTempered(440);
+const toFreq = wellTempered(440)
 /**
  * Create an interval from interval simplified number, interval alteration, interval octave and direction
  *
@@ -270,8 +246,8 @@ var toFreq = wellTempered(440);
  * @param {Integer} dir - the direction (1 ascending, -1 descending)
  * @return {Array} an interval in array notation
  */
-function interval(sim, alt, oct, dir) {
-  return pitch(sim, alt, oct).concat(dir);
+function interval (sim, alt, oct, dir) {
+  return pitch(sim, alt, oct).concat(dir)
 }
 /**
  * Return if the given object is an interval
@@ -281,16 +257,12 @@ function interval(sim, alt, oct, dir) {
  * @example
  * isInterval([0,3,1]) // => true
  */
-var isInterval = function isInterval(i) {
-  return isArr(i) && i.length === 3;
-};
+const isInterval = (i) => isArr(i) && i.length === 3
 // get a simplified index from an interval number. Basically:
 // unison is 0, second is 1, thirth is 2, ...
-var simplifiedIndex = function simplifiedIndex(n) {
-  return (n - 1) % 7;
-};
+const simplifiedIndex = (n) => (n - 1) % 7
 // To get the type: TYPES[simplifiedIndex]
-var TYPES = 'PMMPPMM';
+var TYPES = 'PMMPPMM'
 /**
  * Get an alteration number from an interval quality string.
  * It accepts the standard `dmMPA` but also sharps and flats.
@@ -303,20 +275,25 @@ var TYPES = 'PMMPPMM';
  * qualityToAlt('P', 'A') // => 1 (for perfectables, 'A' means 1)
  * qualityToAlt('M', 'P') // => null (majorables can't be perfect)
  */
-function qualityToAlt(type, q) {
+function qualityToAlt (type, q) {
   if (type === 'P') {
-    if (q === 'P') return 0;else if (q[0] === 'A') return q.length;else if (q[0] === 'd') return -q.length;
+    if (q === 'P') return 0
+    else if (q[0] === 'A') return q.length
+    else if (q[0] === 'd') return -q.length
   } else if (type === 'M') {
-    if (q === 'M') return 0;else if (q === 'm') return -1;else if (q[0] === 'A') return q.length;else if (q[0] === 'd') return -(q.length + 1);
+    if (q === 'M') return 0
+    else if (q === 'm') return -1
+    else if (q[0] === 'A') return q.length
+    else if (q[0] === 'd') return -(q.length + 1)
   }
-  return null;
+  return null
 }
 // shorthand tonal notation (with quality after number)
-var IVL_TNL = '([-+]?)(\\d+)(d{1,4}|m|M|P|A{1,4})';
+var IVL_TNL = '([-+]?)(\\d+)(d{1,4}|m|M|P|A{1,4})'
 // standard shorthand notation (with quality before number)
-var IVL_STR = '(AA|A|P|M|m|d|dd)([-+]?)(\\d+)';
-var COMPOSE = '(?:(' + IVL_TNL + ')|(' + IVL_STR + '))';
-var IVL_REGEX = new RegExp('^' + COMPOSE + '$');
+var IVL_STR = '(AA|A|P|M|m|d|dd)([-+]?)(\\d+)'
+var COMPOSE = '(?:(' + IVL_TNL + ')|(' + IVL_STR + '))'
+var IVL_REGEX = new RegExp('^' + COMPOSE + '$')
 
 /**
  * Get regex to parse intervals in shorthand notation
@@ -325,9 +302,7 @@ var IVL_REGEX = new RegExp('^' + COMPOSE + '$');
  * After executing the regex, we will have an array-like object with:
  * - 0: the complete string
  */
-function ivlRegex() {
-  return IVL_REGEX;
-}
+function ivlRegex () { return IVL_REGEX }
 /**
  * Parse a string with an interval in shorthand notation. It support two types: standard shorthand interval notation `quality+[direction]+number` or the tonal shorthand notation `[direction]+number+quality`
  *
@@ -339,30 +314,26 @@ function ivlRegex() {
  * ivlParse('M3') // => [ 4, -2, 1 ]
  * ivlParse('M-3') // => [ 4, -2, -1 ]
  */
-function ivlParse(str) {
-  var m = IVL_REGEX.exec(str);
-  if (!m) return null;
-  var num = +(m[3] || m[8]);
-  var sim = simplifiedIndex(num);
-  var alt = qualityToAlt(TYPES[sim], m[4] || m[6]);
-  var oct = Math.floor((num - 1) / 7);
-  var dir = (m[2] || m[7]) === '-' ? -1 : 1;
-  return interval(sim, alt, oct, dir);
+function ivlParse (str) {
+  var m = IVL_REGEX.exec(str)
+  if (!m) return null
+  var num = +(m[3] || m[8])
+  var sim = simplifiedIndex(num)
+  var alt = qualityToAlt(TYPES[sim], m[4] || m[6])
+  var oct = Math.floor((num - 1) / 7)
+  var dir = (m[2] || m[7]) === '-' ? -1 : 1
+  return interval(sim, alt, oct, dir)
 }
-var tryIvl = tryParser(ivlParse);
+const tryIvl = tryParser(ivlParse)
 /**
  * Decorate a function to accept intervals in array of shorthand notation. It only works with 1-parameter functions.
  *
  * @param {Function} fn - the function to be decorated
  * @return {Function} the decorated function
  */
-var ivlProp = function ivlProp(fn) {
-  return function (obj) {
-    return fn(tryIvl(obj));
-  };
-};
+const ivlProp = (fn) => (obj) => fn(tryIvl(obj))
 // the simplified number against the number of fifths
-var SIMPLES = [3, 0, 4, 1, 5, 2, 6];
+var SIMPLES = [3, 0, 4, 1, 5, 2, 6]
 /**
  * Get the simplified interval number (in 1-based index)
  *
@@ -370,33 +341,27 @@ var SIMPLES = [3, 0, 4, 1, 5, 2, 6];
  * @param {Array|String} ivl - the interval to get the number from
  * @return {Integer} the simplified interval number
  */
-var simpleNum = ivlProp(function (i) {
-  return SIMPLES[unaltered(i)];
-});
+const simpleNum = ivlProp((i) => SIMPLES[unaltered(i)])
 /**
  * Get the interval number
- *
+ * @function
  * @param {Array|String} ivl - the interval to get the number from
  * @return {Integer} a integer greater than 0 or null if not valid interval
  * @example
  * number('P8') // => 8
  */
-var number = function number(i) {
-  return simpleNum(i) + 1 + 7 * octNum(i);
-};
+const number = ivlProp((i) => simpleNum(i) + 1 + 7 * octNum(i))
 /**
  * Get the interval type
  * @function
  * @param {Array|String} ivl - the interval
  * @param {String} 'P' if it's perfectable, 'M' if it's majorable
  */
-var ivlType = function ivlType(i) {
-  return TYPES[simpleNum(i)];
-};
+const ivlType = (i) => TYPES[simpleNum(i)]
 var ALTER = {
   P: ['dddd', 'ddd', 'dd', 'd', 'P', 'A', 'AA', 'AAA', 'AAAA'],
   M: ['ddd', 'dd', 'd', 'm', 'M', 'A', 'AA', 'AAA', 'AAAA']
-};
+}
 /**
  * Get interval quality
  * @function
@@ -405,47 +370,39 @@ var ALTER = {
  * @example
  * quality('3M') // => 'M'
  */
-var quality = function quality(i) {
-  return ALTER[ivlType(i)][4 + alt(i)];
-};
+const quality = ivlProp((i) => ALTER[ivlType(i)][4 + alt(i)])
 /*
  * get interval direction
  * @function
  * @param {Array|String} ivl - the interval
  * @return {Integer}
  */
-var direction = function direction(i) {
-  return i[4];
-};
-var dirStr = function dirStr(p) {
-  return direction(p) === -1 ? '-' : '';
-};
+const direction = (i) => { return i[4] }
+const dirStr = (p) => direction(p) === -1 ? '-' : ''
 /**
  * Convert an interval in array notation to shorthand notation
  * @function
  * @param {Array} ivl - the interval in array notation
  * @return {String} the interval in shorthand notation
  */
-function ivlStr(p) {
-  return dirStr(p) + number(p) + quality(p);
+function ivlStr (p) {
+  return dirStr(p) + number(p) + quality(p)
 }
 // transpose a note by an interval
-function trBy(ivl, p) {
+function trBy (ivl, p) {
   // is a pitch class
   return p.length === 1
-  // build a pitch class
-  ? [ivl[2] * ivl[0] + p[0]]
-  // build a pitch
-  : [ivl[2] * ivl[0] + p[0], ivl[2] * ivl[1] + p[1]];
+    // build a pitch class
+    ? [ivl[2] * ivl[0] + p[0]]
+    // build a pitch
+    : [ivl[2] * ivl[0] + p[0], ivl[2] * ivl[1] + p[1]]
 }
 // parse a pitch or an interval or return the object itself
-var pitchOrIvl = function pitchOrIvl(o) {
-  return pitchParse(o) || ivlParse(o) || o;
-};
+const pitchOrIvl = (o) => pitchParse(o) || ivlParse(o) || o
 /**
  * Transpose a pitch by an interval
- * @function
  * This function is currified, and aliased as `tr`
+ * @function
  * @param {Array|String} a - the pitch or interval
  * @param {Array|String} b - the pitch or interval
  * @return {String} the pitch transposed by the interval
@@ -453,45 +410,44 @@ var pitchOrIvl = function pitchOrIvl(o) {
  * transpose('C2', 'm3') // => 'Eb2'
  * transpose('C', '6m') // => 'Ab'
  */
-function transpose(a, b) {
+function transpose (a, b) {
   // if only one argument, partial application
-  if (arguments.length === 1) return function (b) {
-    return transpose(a, b);
-  };
-  var ac = pitchOrIvl(a);
-  var bc = pitchOrIvl(b);
+  if (arguments.length === 1) return (b) => transpose(a, b)
+  var ac = pitchOrIvl(a)
+  var bc = pitchOrIvl(b)
   // if its an interval and a pitch
-  var n = isInterval(ac) && isPitch(bc) ? trBy(ac, bc)
-  // it its a pitch and an interval
-  : isPitch(ac) && isInterval(bc) ? trBy(bc, ac)
-  // anything else is not valid
-  : null;
+  var n = (isInterval(ac) && isPitch(bc)) ? trBy(ac, bc)
+    // it its a pitch and an interval
+    : (isPitch(ac) && isInterval(bc)) ? trBy(bc, ac)
+    // anything else is not valid
+    : null
   // convert back to a pitch string
-  return n ? pitchStr(n) : null;
+  return n ? pitchStr(n) : null
 }
-var tr = transpose;
-
-var SEP = /\s*\|\s*|\s*,\s*|\s+/;
-function split(source) {
-  return isArr(source) ? source : typeof source === 'string' ? source.trim().split(SEP) : source === null || typeof source === 'undefined' ? [] : [source];
+/**
+ * An alias for `transpose`
+ * @function
+ */
+const tr = transpose
+// items can be separated by spaces, bars and commas
+var SEP = /\s*\|\s*|\s*,\s*|\s+/
+/**
+ * Split a string by spaces (or commas or bars). Always returns an array, even if its empty
+ * @param {String|Array|Object} source - the thing to get an array from
+ * @return {Array} the object as an array
+ */
+function split (source) {
+  return isArr(source) ? source
+    : typeof source === 'string' ? source.trim().split(SEP)
+    : (source === null || typeof source === 'undefined') ? []
+    : [ source ]
 }
-function combine(arr) {
-  var fns = arr.slice().reverse();
-  return function (e) {
-    return fns.reduce(function (e, fn) {
-      return fn(e);
-    }, e);
-  };
+function map (fn, list) {
+  if (arguments.length === 1) return function (l) { return map(fn, l) }
+  return split(list).map(fn)
 }
-function map(fn, list) {
-  if (arguments.length === 1) return function (l) {
-    return map(fn, l);
-  };
-  if (isArr(fn)) fn = combine(fn);
-  return split(list).map(fn);
-}
-function harmonize(list, tonic) {
-  return split(list).map(tr(tonic));
+function harmonize (list, tonic) {
+  return split(list).map(tr(tonic))
 }
 
 exports.pitchClass = pitchClass;

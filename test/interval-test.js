@@ -30,7 +30,7 @@ describe('intervals', function () {
 
   describe('simple', function () {
     it('get simple from interval', function () {
-      var simples = map([tonal.simpleNum, tonal.ivlParse])
+      var simples = map(tonal.simpleNum)
       assert.deepEqual(simples('1P 2M 3M 4P 5P 6M 7M'),
       [ 0, 1, 2, 3, 4, 5, 6 ])
       assert.deepEqual(simples('8A 9A 10A 11A 12A 13A 14A'),
@@ -41,7 +41,7 @@ describe('intervals', function () {
   })
 
   describe('number', function () {
-    var numbers = map([tonal.number, tonal.ivlParse])
+    var numbers = map(tonal.number)
     it('get number from intervals', function () {
       assert.deepEqual(numbers('1P 3M 6m 9M 11P'),
       [1, 3, 6, 9, 11])
@@ -49,7 +49,7 @@ describe('intervals', function () {
   })
 
   describe('quality', function () {
-    var qualities = map([tonal.quality, tonal.ivlParse])
+    var qualities = map(tonal.quality)
     it('get quality of intervals', function () {
       assert.deepEqual(qualities('2dd 2d 2m 2M 2A 2AA'),
       [ 'dd', 'd', 'm', 'M', 'A', 'AA' ])

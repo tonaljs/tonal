@@ -1,14 +1,3 @@
-## Constants
-
-<dl>
-<dt><a href="#midi">midi</a> ⇒ <code>Integer</code></dt>
-<dd><p>Get midi number for a pitch</p>
-</dd>
-<dt><a href="#toFreq">toFreq</a> ⇒ <code>Float</code></dt>
-<dd><p>Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz</p>
-</dd>
-</dl>
-
 ## Functions
 
 <dl>
@@ -56,10 +45,16 @@ pitch in scientific notation</p>
 <dd><p>Get the octave from pitch. The pitch can be in array or scientific notation</p>
 </dd>
 <dt><a href="#pitchStr">pitchStr(pitch)</a> ⇒ <code>String</code></dt>
-<dd><p>Convert a pitch in array notation to string</p>
+<dd><p>Convert a pitch in array notation to pitch in scientific notation (string)</p>
+</dd>
+<dt><a href="#midi">midi(pitch)</a> ⇒ <code>Integer</code></dt>
+<dd><p>Get midi number for a pitch</p>
 </dd>
 <dt><a href="#wellTempered">wellTempered(ref)</a> ⇒ <code>function</code></dt>
 <dd><p>Get a frequency calculator function that uses well temperament and a tuning reference.</p>
+</dd>
+<dt><a href="#toFreq">toFreq(pitch)</a> ⇒ <code>Float</code></dt>
+<dd><p>Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz</p>
 </dd>
 <dt><a href="#interval">interval(sim, alteration, oct, dir)</a> ⇒ <code>Array</code></dt>
 <dd><p>Create an interval from interval simplified number, interval alteration, interval octave and direction</p>
@@ -95,43 +90,18 @@ It accepts the standard <code>dmMPA</code> but also sharps and flats.</p>
 <dt><a href="#ivlStr">ivlStr(ivl)</a> ⇒ <code>String</code></dt>
 <dd><p>Convert an interval in array notation to shorthand notation</p>
 </dd>
-<dt><a href="#This function is currified, and aliased as `tr`"> and aliased as `tr`(a, b)</a> ⇒ <code>String</code></dt>
-<dd><p>Transpose a pitch by an interval</p>
+<dt><a href="#transpose">transpose(a, b)</a> ⇒ <code>String</code></dt>
+<dd><p>Transpose a pitch by an interval
+This function is currified, and aliased as <code>tr</code></p>
+</dd>
+<dt><a href="#tr">tr()</a></dt>
+<dd><p>An alias for <code>transpose</code></p>
+</dd>
+<dt><a href="#split">split(source)</a> ⇒ <code>Array</code></dt>
+<dd><p>Split a string by spaces (or commas or bars). Always returns an array, even if its empty</p>
 </dd>
 </dl>
 
-<a name="midi"></a>
-
-## midi ⇒ <code>Integer</code>
-Get midi number for a pitch
-
-**Kind**: global constant  
-**Returns**: <code>Integer</code> - the midi number or null if not valid pitch  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| pitch | <code>Array</code> &#124; <code>String</code> | the pitch |
-
-**Example**  
-```js
-midi('C4') // => 60
-```
-<a name="toFreq"></a>
-
-## toFreq ⇒ <code>Float</code>
-Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz
-
-**Kind**: global constant  
-**Returns**: <code>Float</code> - the frequency in herzs  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| pitch | <code>Array</code> &#124; <code>String</code> | the pitch to get the frequency from |
-
-**Example**  
-```js
-toFreq('C4') // => 261.6255653005986
-```
 <a name="pitchClass"></a>
 
 ## pitchClass(lnum, alt) ⇒ <code>Array</code>
@@ -350,7 +320,7 @@ oct('C') // => null
 <a name="pitchStr"></a>
 
 ## pitchStr(pitch) ⇒ <code>String</code>
-Convert a pitch in array notation to string
+Convert a pitch in array notation to pitch in scientific notation (string)
 
 **Kind**: global function  
 **Returns**: <code>String</code> - the pitch in scientific notation  
@@ -362,6 +332,22 @@ Convert a pitch in array notation to string
 **Example**  
 ```js
 pitchStr([2, 1]) // => 'D2'
+```
+<a name="midi"></a>
+
+## midi(pitch) ⇒ <code>Integer</code>
+Get midi number for a pitch
+
+**Kind**: global function  
+**Returns**: <code>Integer</code> - the midi number or null if not valid pitch  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| pitch | <code>Array</code> &#124; <code>String</code> | the pitch |
+
+**Example**  
+```js
+midi('C4') // => 60
 ```
 <a name="wellTempered"></a>
 
@@ -375,6 +361,22 @@ Get a frequency calculator function that uses well temperament and a tuning refe
 | --- | --- | --- |
 | ref | <code>Float</code> | the tuning reference |
 
+<a name="toFreq"></a>
+
+## toFreq(pitch) ⇒ <code>Float</code>
+Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz
+
+**Kind**: global function  
+**Returns**: <code>Float</code> - the frequency in herzs  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| pitch | <code>Array</code> &#124; <code>String</code> | the pitch to get the frequency from |
+
+**Example**  
+```js
+toFreq('C4') // => 261.6255653005986
+```
 <a name="interval"></a>
 
 ## interval(sim, alteration, oct, dir) ⇒ <code>Array</code>
@@ -534,4 +536,41 @@ Convert an interval in array notation to shorthand notation
 | Param | Type | Description |
 | --- | --- | --- |
 | ivl | <code>Array</code> | the interval in array notation |
+
+<a name="transpose"></a>
+
+## transpose(a, b) ⇒ <code>String</code>
+Transpose a pitch by an interval
+This function is currified, and aliased as `tr`
+
+**Kind**: global function  
+**Returns**: <code>String</code> - the pitch transposed by the interval  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| a | <code>Array</code> &#124; <code>String</code> | the pitch or interval |
+| b | <code>Array</code> &#124; <code>String</code> | the pitch or interval |
+
+**Example**  
+```js
+transpose('C2', 'm3') // => 'Eb2'
+transpose('C', '6m') // => 'Ab'
+```
+<a name="tr"></a>
+
+## tr()
+An alias for `transpose`
+
+**Kind**: global function  
+<a name="split"></a>
+
+## split(source) ⇒ <code>Array</code>
+Split a string by spaces (or commas or bars). Always returns an array, even if its empty
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - the object as an array  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| source | <code>String</code> &#124; <code>Array</code> &#124; <code>Object</code> | the thing to get an array from |
 

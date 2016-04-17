@@ -20,11 +20,13 @@ describe('collections', function () {
   })
   describe('map', function () {
     var map = tonal.map
-    it('combines function', function () {
-      var a = (a) => a + 'a'
-      var b = (b) => b + 'b'
-      assert.deepEqual(map([b, a], 'X Y Z'),
-        [ 'Xab', 'Yab', 'Zab' ])
+    var upper = (s) => s.toUpperCase()
+    it('splits strings', function () {
+      assert.deepEqual(map(upper, 'a b c'), [ 'A', 'B', 'C' ])
+    })
+    it('can be partially applied', function () {
+      var uppers = map(upper)
+      assert.deepEqual(uppers('a b c'), [ 'A', 'B', 'C' ])
     })
   })
 })

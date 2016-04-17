@@ -173,7 +173,9 @@ function hasOct (p) {
 }
 // returns the pitch octave or `v` if not octave present
 const octOr = (v) => (p) => hasOct(p) ? p[1] + fifthsOcts(p[0]) : v
+// return the octave or ''
 const octStr = octOr('')
+// return the octave or 0
 const octNum = octOr(0)
 /**
  * Get the octave from pitch. The pitch can be in array or scientific notation
@@ -187,7 +189,7 @@ const octNum = octOr(0)
  */
 export var oct = prop(octOr(null))
 /**
- * Convert a pitch in array notation to string
+ * Convert a pitch in array notation to pitch in scientific notation (string)
  *
  * @param {Array} pitch - the pitch to convert
  * @return {String} the pitch in scientific notation
@@ -201,7 +203,7 @@ export function pitchStr (p) {
 const height = (p) => p[0] * 7 + 12 * p[1]
 /**
  * Get midi number for a pitch
- *
+ * @function
  * @param {Array|String} pitch - the pitch
  * @return {Integer} the midi number or null if not valid pitch
  * @example
@@ -216,6 +218,7 @@ export function fromMidi (num) {
 }
 /**
  * Get a frequency calculator function that uses well temperament and a tuning reference.
+ * @function
  * @param {Float} ref - the tuning reference
  * @return {Function} the frequency calculator. It accepts a pitch in array or scientific notation and returns the frequency in herzs.
  */
@@ -225,6 +228,7 @@ export const wellTempered = (ref) => (pitch) => {
 }
 /**
  * Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz
+ * @function
  * @param {Array|String} pitch - the pitch to get the frequency from
  * @return {Float} the frequency in herzs
  * @example
@@ -338,13 +342,13 @@ var SIMPLES = [3, 0, 4, 1, 5, 2, 6]
 export const simpleNum = ivlProp((i) => SIMPLES[unaltered(i)])
 /**
  * Get the interval number
- *
+ * @function
  * @param {Array|String} ivl - the interval to get the number from
  * @return {Integer} a integer greater than 0 or null if not valid interval
  * @example
  * number('P8') // => 8
  */
-export const number = (i) => simpleNum(i) + 1 + 7 * octNum(i)
+export const number = ivlProp((i) => simpleNum(i) + 1 + 7 * octNum(i))
 /**
  * Get the interval type
  * @function
@@ -364,7 +368,7 @@ var ALTER = {
  * @example
  * quality('3M') // => 'M'
  */
-export const quality = (i) => ALTER[ivlType(i)][4 + alt(i)]
+export const quality = ivlProp((i) => ALTER[ivlType(i)][4 + alt(i)])
 /*
  * get interval direction
  * @function
@@ -395,8 +399,8 @@ function trBy (ivl, p) {
 const pitchOrIvl = (o) => pitchParse(o) || ivlParse(o) || o
 /**
  * Transpose a pitch by an interval
- * @function
  * This function is currified, and aliased as `tr`
+ * @function
  * @param {Array|String} a - the pitch or interval
  * @param {Array|String} b - the pitch or interval
  * @return {String} the pitch transposed by the interval
@@ -418,26 +422,26 @@ export function transpose (a, b) {
   // convert back to a pitch string
   return n ? pitchStr(n) : null
 }
+/**
+ * An alias for `transpose`
+ * @function
+ */
 export const tr = transpose
-
+// items can be separated by spaces, bars and commas
 var SEP = /\s*\|\s*|\s*,\s*|\s+/
+/**
+ * Split a string by spaces (or commas or bars). Always returns an array, even if its empty
+ * @param {String|Array|Object} source - the thing to get an array from
+ * @return {Array} the object as an array
+ */
 export function split (source) {
   return isArr(source) ? source
     : typeof source === 'string' ? source.trim().split(SEP)
     : (source === null || typeof source === 'undefined') ? []
     : [ source ]
 }
-function combine (arr) {
-  var fns = arr.slice().reverse()
-  return function (e) {
-    return fns.reduce(function (e, fn) {
-      return fn(e)
-    }, e)
-  }
-}
 export function map (fn, list) {
   if (arguments.length === 1) return function (l) { return map(fn, l) }
-  if (isArr(fn)) fn = combine(fn)
   return split(list).map(fn)
 }
 export function harmonize (list, tonic) {
