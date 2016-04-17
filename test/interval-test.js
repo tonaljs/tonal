@@ -4,24 +4,33 @@
 var assert = require('assert')
 var tonal = require('../')
 var map = tonal.map
-var parse = tonal.sci.parse
 
 var log = (e) => { console.log(e); return e }
 
 describe('intervals', function () {
-  var interval = tonal.interval
-  it('creates intervals', function () {
-    assert.deepEqual(interval(0, 0, 0, 1), [ 0, 0, 1 ])
+  describe('interval', function () {
+    var interval = tonal.interval
+    it('creates intervals', function () {
+      assert.deepEqual(interval(0, 0, 0, 1), [ 0, 0, 1 ])
+    })
+  })
+  describe('qualityToAlt', function () {
+    it('gets majorable alteration', function () {
+      var majAlt = map((q) => tonal.qualityToAlt('M', q))
+      assert.deepEqual(majAlt('dddd ddd dd d m P M A AA AAA AAAA'),
+        [ -5, -4, -3, -2, -1, null, 0, 1, 2, 3, 4 ])
+    })
+    it('get perfectable alteration', function () {
+      var perfAlt = map((q) => tonal.qualityToAlt('P', q))
+      assert.deepEqual(perfAlt('dddd ddd dd d m P M A AA AAA AAAA'),
+        [ -4, -3, -2, -1, null, 0, null, 1, 2, 3, 4 ])
+    })
   })
 
+
   describe('simple', function () {
-    it('get simple from a number', function () {
-      var simples = map([tonal.simple])
-      assert.deepEqual(simples('1 2 3 4 5 6 7 8 9 10 11 12 13 14 15'),
-      [ 0, 1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 6, 0 ])
-    })
     it('get simple from interval', function () {
-      var simples = map([tonal.simple, tonal.ivl.parse])
+      var simples = map([tonal.simpleNum, tonal.ivlParse])
       assert.deepEqual(simples('1P 2M 3M 4P 5P 6M 7M'),
       [ 0, 1, 2, 3, 4, 5, 6 ])
       assert.deepEqual(simples('8A 9A 10A 11A 12A 13A 14A'),
@@ -32,7 +41,7 @@ describe('intervals', function () {
   })
 
   describe('number', function () {
-    var numbers = map([tonal.number, tonal.ivl.parse])
+    var numbers = map([tonal.number, tonal.ivlParse])
     it('get number from intervals', function () {
       assert.deepEqual(numbers('1P 3M 6m 9M 11P'),
       [1, 3, 6, 9, 11])
@@ -40,7 +49,7 @@ describe('intervals', function () {
   })
 
   describe('quality', function () {
-    var qualities = map([tonal.quality, tonal.ivl.parse])
+    var qualities = map([tonal.quality, tonal.ivlParse])
     it('get quality of intervals', function () {
       assert.deepEqual(qualities('2dd 2d 2m 2M 2A 2AA'),
       [ 'dd', 'd', 'm', 'M', 'A', 'AA' ])
@@ -53,16 +62,16 @@ describe('intervals', function () {
     })
   })
 
-  describe('ivl.parse', function () {
-    var parse = tonal.ivl.parse
+  describe('ivlParse', function () {
+    var parse = tonal.ivlParse
     it('parses interval strings', function () {
       assert.deepEqual(parse('8A'), [ 7, -3, 1 ])
       assert.deepEqual(parse('-9m'), [ -5, 4, -1 ])
     })
   })
 
-  describe('ivl.str', function () {
-    var str = tonal.ivl.str
+  describe('ivlStr', function () {
+    var str = tonal.ivlStr
     it('get string from interval', function () {
       assert.equal(str([0, 1, 1]), '8P')
       assert.equal(str([7, -3, 1]), '8A')

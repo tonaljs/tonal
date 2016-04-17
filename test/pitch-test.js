@@ -4,11 +4,10 @@
 var assert = require('assert')
 var tonal = require('../')
 var map = tonal.map
-var parse = tonal.sci.parse
 
 var log = (e) => { console.log(e); return e }
 
-describe('pitch module', function () {
+describe('pitches', function () {
   describe('pitchClass', function () {
     var pc = tonal.pitchClass
     it('create pitch classes', function () {
@@ -31,8 +30,8 @@ describe('pitch module', function () {
       assert.deepEqual(pitch(0, 1, 2), [7, -2])
     })
   })
-  describe('sci.parse', function () {
-    var parse = tonal.sci.parse
+  describe('pitchParse', function () {
+    var parse = tonal.pitchParse
     it('parses notes', function () {
       assert.deepEqual(parse('C2'), [0, 2])
       assert.deepEqual(parse('C#2'), [7, -2])
@@ -80,12 +79,27 @@ describe('pitch module', function () {
     })
   })
   describe('sci', function () {
-    var sci = tonal.sci
+    var sci = map((p) => tonal.pitchStr(tonal.pitchParse(p)))
     it('convert back to strings', function () {
       assert.deepEqual(sci('C D E F G A B'),
         [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ])
       assert.deepEqual(sci('c#1 D##2 Ebb3 Fb4 Gx5 a bbb'),
         [ 'C#1', 'D##2', 'Ebb3', 'Fb4', 'G##5', 'A', 'Bbb' ])
+    })
+  })
+
+  describe('midi', function () {
+    var midi = map(tonal.midi)
+    it('get midi from notes', function () {
+      assert.deepEqual(midi('C4 D4 E4 F4 G4 A4 B4 C5'),
+        [ 60, 62, 64, 65, 67, 69, 71, 72 ])
+    })
+  })
+  describe('fromMidi', function () {
+    var names = map(tonal.fromMidi)
+    it('get pitch names from midi numbers', function () {
+      assert.deepEqual(names([60, 61, 62, 62, 64, 65, 66, 67, 68, 69, 70, 71, 72]),
+        [ 'C4', 'Db4', 'D4', 'D4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4', 'Bb4', 'B4', 'C5' ])
     })
   })
 })

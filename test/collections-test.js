@@ -3,8 +3,6 @@
 
 var assert = require('assert')
 var tonal = require('../')
-var map = tonal.map
-var parse = tonal.sci.parse
 
 var log = (e) => { console.log(e); return e }
 
@@ -21,6 +19,7 @@ describe('collections', function () {
     })
   })
   describe('map', function () {
+    var map = tonal.map
     it('combines function', function () {
       var a = (a) => a + 'a'
       var b = (b) => b + 'b'
