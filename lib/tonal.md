@@ -388,7 +388,7 @@ export function pitchStr (p) {
 }
 ```
 
-#### Midi conversion
+#### Midi pitch numbers
 
 We define _height_ as the distance in semitones from `C0` to the given pitch:
 

@@ -19,8 +19,8 @@ describe('note-midi', function () {
   })
 
   it('array notation', function () {
-    assert.equal(midi([0, 4]), 60)
-    assert.equal(midi([0]), null)
+    assert.equal(midi([0, 0, 4]), 60)
+    assert.equal(midi([0, 0]), null)
   })
 
   it('note class does not have midi', function () {

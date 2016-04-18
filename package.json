@@ -12,7 +12,7 @@
     "docs": "npm run docco && open docs/tonal.html",
     "api": "npm run build && jsdoc2md dist/tonal.js > docs/API.md",
     "rollup": "rollup dist/jsnext/tonal.js -o dist/tonal.js -f cjs",
-    "source": "cat lib/tonal.md | markdown-code-blocks -t js > dist/jsnext/tonal.js",
+    "source": "cat lib/tonal.js.md | markdown-code-blocks -t js > dist/jsnext/tonal.js",
     "build": "npm run source && npm run rollup",
     "dist": "rollup -c && uglifyjs dist/tonal.js > dist/tonal.min.js",
     "coverage": "istanbul cover _mocha",

@@ -1,8 +1,26 @@
-'use strict';
+# tonal
 
+### Prelude
+
+```js
 const isArr = Array.isArray
-const pitch = (s, a, o) => o || o === 0 ? [s, a, o] : [s, a]
+```
+
+## 1. Pitches
+
+### Array notation
+
+```js
+export const pitch = (s, a, o) => o || o === 0 ? [s, a, o] : [s, a]
+```
+
+```js
 const hasOct = (p) => isArr(p) && typeof p[2] !== 'undefined'
+```
+
+### Scientific
+
+```js
 const PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
 /**
  * Get the a regex to parse pitch in scientific notation
@@ -17,14 +35,24 @@ const PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
  * @example
  * pitchRegex().exec('C#2') // => ['C#2', 'C', '#', '2']
  */
-const pitchRegex = () => PITCH_REGEX
+export const pitchRegex = () => PITCH_REGEX
+```
+
+Then we'll need a numeric representation of a letter. The __step__ is a number from 0 to 6 representing letters `C D E F G A B`:
+
+```js
 const STEPS = 'CDEFGAB'
 /**
  * Given a pitch letter string, return it's letter index.
  * @param {String} letter - the pitch letter
  * @return {Integer} the letter index
  */
-const step = (l) => STEPS.indexOf(l.toUpperCase())
+export const step = (l) => STEPS.indexOf(l.toUpperCase())
+```
+
+Within `tonal` _alteration_ is a numeric representation of accidentals. `0` means no accidentals, positive numbers are for sharps and negative numbers for flats (`x` means double sharp):
+
+```js
 /**
  * Convert accidental string to alteration number
  * @function
@@ -36,10 +64,15 @@ const step = (l) => STEPS.indexOf(l.toUpperCase())
  * accToAlt('') // => 0
  * accToAlt('x') // => 2
  */
-function accToAlt (acc) {
+export function accToAlt (acc) {
   var alt = acc.replace(/x/g, '##').length
   return acc[0] === 'b' ? -alt : alt
 }
+```
+
+With those tools we can write our __pitchParse__ function:
+
+```js
 // parse a string with a pitch in scientific notation
 function parseSci (str) {
   var m = PITCH_REGEX.exec(str)
@@ -49,6 +82,16 @@ function parseSci (str) {
   var o = m[3] ? +m[3] : null
   return pitch(l, a, o)
 }
+```
+
+
+#### Just one optimization
+
+With previous versions of tonal I was too much worried about performance, and I've ended doing lot of micro optimizations that made the code difficult to follow. Now I prefer code clarity and brevity over performance. With one exception.
+
+Since `tonal` is always converting between string notation to array notation, if we cache this process we'll get a big performance gain:
+
+```js
 // decorate a parser to cache results
 function cache (parser) {
   var cache = {}
@@ -57,6 +100,11 @@ function cache (parser) {
     return cache[str] || (cache[str] = parser(str))
   }
 }
+```
+
+Now we can have our optimized __pitchParse__ function:
+
+```js
 /**
  * Given a pitch string in scientific notation, get the pitch in array notation
  * @function
@@ -66,10 +114,28 @@ function cache (parser) {
  * pitchParse('C2') // => [2, 1]
  * pitchParse('bla') // => null
  */
-const pitchParse = cache(parseSci)
+export const pitchParse = cache(parseSci)
+```
+
+#### Two notations
+
+```js
 const pitchArr = (p) => isArr(p) ? p : pitchParse(p)
 const prop = (fn) => (p) => fn(pitchArr(p))
-const letter = prop((p) => STEPS[p[0]])
+```
+
+#### Pitch properties
+
+__pitch letter__
+
+```js
+export const letter = prop((p) => STEPS[p[0]])
+```
+
+
+__pitch alteration and accidentals__
+
+```js
 /**
  * Get alteration of a pitch.
  *
@@ -82,7 +148,12 @@ const letter = prop((p) => STEPS[p[0]])
  * @example
  * alt('C#2') // => 2
  */
-const alt = prop((p) => p[1])
+export const alt = prop((p) => p[1])
+```
+
+Before we wrote a function to convert from accidentals to alteration. Now we need the oposite function:
+
+```js
 /**
  * Convert alteration number to accidentals
  * @function
@@ -92,23 +163,51 @@ const alt = prop((p) => p[1])
  * altToAcc(2) // => '##'
  * altToAcc(-2) // => 'bb'
  */
-const altToAcc = (alt) => Array(Math.abs(alt) + 1).join(alt < 0 ? 'b' : '#')
-const accidentals = (p) => altToAcc(alt(p))
+export const altToAcc = (alt) => Array(Math.abs(alt) + 1).join(alt < 0 ? 'b' : '#')
+```
+
+```js
+export const accidentals = (p) => altToAcc(alt(p))
+```
+
+__pitch octave__
+
+```js
 const octOr = (d) => (p) => hasOct(p) ? p[2] : d
 const octStr = octOr('')
 const octNum = octOr(0)
-const oct = prop(octOr(null))
-const pitchStr = (p) => letter(p) + accidentals(p) + octStr(p)
+export const oct = prop(octOr(null))
+```
+
+### Pitch to scientific
+
+```js
+export const pitchStr = (p) => letter(p) + accidentals(p) + octStr(p)
+```
+
+#### Midi pitch numbers
+
+The midi number can have a value between 1-128:
+
+```js
 /**
  * Test if the given number is a valid midi note number
  * @function
  * @param {Object} num - the number to test
  * @return {Boolean} true if it's a valid midi note number
  */
-const isMidi = (m) => !isArr(m) && m > 0 && m < 129
+export const isMidi = (m) => !isArr(m) && m > 0 && m < 129
+```
+
+```js
 const HEIGHTS = [0, 2, 4, 5, 7, 9, 11]
-const chroma = prop((p) => HEIGHTS[p[0]] + p[1])
-const height = prop((p) => chroma(p) + 12 * octNum(p))
+export const chroma = prop((p) => HEIGHTS[p[0]] + p[1])
+export const height = prop((p) => chroma(p) + 12 * octNum(p))
+```
+
+To match the general midi specification where `C4` is 60 we must add 12 to that height:
+
+```js
 /**
  * Get midi number for a pitch
  * @function
@@ -117,28 +216,45 @@ const height = prop((p) => chroma(p) + 12 * octNum(p))
  * @example
  * midi('C4') // => 60
  */
-const midi = function (p) {
+export const midi = function (p) {
   var a = pitchArr(p)
   return hasOct(a) ? height(a) + 12
     : isMidi(p) ? +p
     : null
 }
+```
+
+Since any midi number can be mapped to different pitch names, we should select one arbitrarily:
+
+```js
 var CHROMATIC = [ 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B' ]
-function fromMidi (num) {
+export function fromMidi (num) {
   var midi = +num
   return (isNaN(midi) || midi < 0 || midi > 127) ? null
     : CHROMATIC[midi % 12] + (Math.floor(midi / 12) - 1)
 }
+```
+
+#### Frequency conversions
+
+The most popular way (in western music) to calculate the frequency of a pitch is using the [well temperament](https://en.wikipedia.org/wiki/Well_temperament) tempered tuning. It assumes the octave to be divided in 12 equally sized semitones and tune all the notes against a reference:
+
+```js
 /**
  * Get a frequency calculator function that uses well temperament and a tuning reference.
  * @function
  * @param {Float} ref - the tuning reference
  * @return {Function} the frequency calculator. It accepts a pitch in array or scientific notation and returns the frequency in herzs.
  */
-const wellTempered = (ref) => (pitch) => {
+export const wellTempered = (ref) => (pitch) => {
   var m = midi(pitch)
   return m ? Math.pow(2, (m - 69) / 12) * ref : null
 }
+```
+
+The most popular tuning reference is `A4 = 440Hz`:
+
+```js
 /**
  * Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz
  * @function
@@ -147,13 +263,35 @@ const wellTempered = (ref) => (pitch) => {
  * @example
  * toFreq('C4') // => 261.6255653005986
  */
-const toFreq = wellTempered(440)
+export const toFreq = wellTempered(440)
+```
+
+# 2. Intervals
+
+```js
 const ivl = (s, a, o, d) => [s, a, o, d]
+```
+
+#### Parse intervals
+
+Parsing intervals is more complicated. First we need to get the simplified index from the interval number. This concept is equivalent to the letter class where each interval number (with independence of the quality) has a simplified index:
+
+```js
 // get a simplified index from an interval number. Basically:
 // unison is 0, second is 1, thirth is 2, ...
-const ivlStep = (n) => (n - 1) % 7
+export const ivlStep = (n) => (n - 1) % 7
+```
+
+Intervals can be `perfectables` (can have perfect quality: unisons, fourths and fifths) or `majorable` (can have major quality: seconds, thirds, sixths and sevenths):
+
+```js
 // Interval steps is the index of the letter types
 var TYPES = 'PMMPPMM'
+```
+
+The we need to get the alteration number from the quality string. Since some qualities are only valid for some kind of intervals, to parse we need to know the type:
+
+```js
 /**
  * Get an alteration number from an interval quality string.
  * It accepts the standard `dmMPA` but also sharps and flats.
@@ -166,7 +304,7 @@ var TYPES = 'PMMPPMM'
  * qToAlt('P', 'A') // => 1 (for perfectables, 'A' means 1)
  * qToAlt('M', 'P') // => null (majorables can't be perfect)
  */
-function qToAlt (type, q) {
+export function qToAlt (type, q) {
   if (type === 'P') {
     if (q === 'P') return 0
     else if (q[0] === 'A') return q.length
@@ -179,6 +317,11 @@ function qToAlt (type, q) {
   }
   return null
 }
+```
+
+Then we build our regex. We want to accept tonal shorthand notation (where number is before the quality: `3M`) and standard shorthand notation (quality before number: `M3`). We prefer the first notation because it's unambiguous (the string `A4` can be interpreted as a pitch or as a interval in shorthand notation):
+
+```js
 // shorthand tonal notation (with quality after number)
 var IVL_TNL = '([-+]?)(\\d+)(d{1,4}|m|M|P|A{1,4})'
 // standard shorthand notation (with quality before number)
@@ -193,7 +336,12 @@ var IVL_REGEX = new RegExp('^' + COMPOSE + '$')
  * After executing the regex, we will have an array-like object with:
  * - 0: the complete string
  */
-function ivlRegex () { return IVL_REGEX }
+export function ivlRegex () { return IVL_REGEX }
+```
+
+And our interval parse function:
+
+```js
 /**
  * Parse a string with an interval in shorthand notation. It support two types: standard shorthand interval notation `quality+[direction]+number` or the tonal shorthand notation `[direction]+number+quality`
  * @function
@@ -205,7 +353,7 @@ function ivlRegex () { return IVL_REGEX }
  * ivlParse('M3') // => [ 4, -2, 1 ]
  * ivlParse('M-3') // => [ 4, -2, -1 ]
  */
-const ivlParse = cache(function (str) {
+export const ivlParse = cache(function (str) {
   var m = IVL_REGEX.exec(str)
   if (!m) return null
   var num = +(m[3] || m[8])
@@ -215,14 +363,36 @@ const ivlParse = cache(function (str) {
   var dir = (m[2] || m[7]) === '-' ? -1 : 1
   return ivl(step, alt, oct, dir)
 })
-const number = (i) => i[0] + 1 + 7 * octNum(i[2])
+```
+
+### Interval properties
+
+__interval number__
+
+```js
+export const number = (i) => i[0] + 1 + 7 * octNum(i[2])
+```
+
+__interval type__
+
+Intervals can be _perfectables_ (unison, octaves, fourths, and fifths) or _majorables_ (seconds, thirds, sixths and sevenths):
+
+```js
 /**
  * Get the interval type
  * @function
  * @param {Array|String} ivl - the interval
  * @param {String} 'P' if it's perfectable, 'M' if it's majorable
  */
-const ivlType = (i) => TYPES[i[0]]
+export const ivlType = (i) => TYPES[i[0]]
+```
+
+__interval quality__
+
+
+Using that information we can get the interval quality:
+
+```js
 var ALTER = {
   P: ['dddd', 'ddd', 'dd', 'd', 'P', 'A', 'AA', 'AAA', 'AAAA'],
   M: ['ddd', 'dd', 'd', 'm', 'M', 'A', 'AA', 'AAA', 'AAAA']
@@ -235,22 +405,43 @@ var ALTER = {
  * @example
  * quality('3M') // => 'M'
  */
-const quality = (i) => ALTER[ivlType(i)][4 + alt(i)]
+export const quality = (i) => ALTER[ivlType(i)][4 + alt(i)]
+```
+
+__interval direction__
+
+```js
 /*
  * get interval direction
  * @function
  * @param {Array|String} ivl - the interval
  * @return {Integer}
  */
-const direction = (i) => { return i[4] }
+export const direction = (i) => { return i[4] }
 const dirStr = (p) => direction(p) === -1 ? '-' : ''
+```
+
+#### Convert intervals to strings
+
+Finally, we have the puzzle:
+
+```js
 /**
  * Convert an interval in array notation to shorthand notation
  * @function
  * @param {Array} ivl - the interval in array notation
  * @return {String} the interval in shorthand notation
  */
-const ivlStr = (p) => dirStr(p) + number(p) + quality(p)
+export const ivlStr = (p) => dirStr(p) + number(p) + quality(p)
+```
+
+## 3. Distances
+
+#### Pitch coordinates
+
+Pitch coordinates hines when performing pitch transformations related to distances. Transpose or find interval between pitches are implemented simply by adding or subtracting the arrays as if they were vector values.
+
+```js
 // map from pitch number to number of fifths and octaves
 var BASES = [ [0, 0], [2, -1], [4, -2], [-1, 1], [1, 0], [3, -1], [5, -2] ]
 
@@ -262,7 +453,10 @@ function toCoord (step, alt, oct, dir) {
   if (!dir) return [f, o]
   else return [f, o, dir]
 }
-const coord = (p) => p ? toCoord.apply(null, p) : null
+export const coord = (p) => p ? toCoord.apply(null, p) : null
+```
+
+```js
 // fifths mapped to pitch classes
 var PCS = [[3, 1], [0, 0], [4, 0], [1, -1], [5, -1], [2, -2], [6, -2], [3, -3]]
 
@@ -275,7 +469,12 @@ function toArray (f, o, d) {
   var oct = o - pc[1] + alt * 4
   return !d ? [step, alt, oct] : [step, alt, oct, d]
 }
-const coordArr = (c) => c ? toArray.apply(null, c) : null
+export const coordArr = (c) => c ? toArray.apply(null, c) : null
+```
+
+#### Transposition
+
+```js
 const add = (a, b) => {
   switch (Math.min(a.length, b.length)) {
     case 1: return [a[0] + b[0]]
@@ -285,17 +484,27 @@ const add = (a, b) => {
     default: []
   }
 }
+```
+
+```js
 function trBy (i, p) {
   if (!isArr(i) || !isArr(p)) return null
   return pitchStr(coordArr(add(coord(i), coord(p))))
 }
 
-function transpose (a, b) {
+export function transpose (a, b) {
   if (arguments.length === 1) return (c) => transpose(a, c)
   return trBy(ivlParse(a) || a, pitchParse(b) || b) ||
     trBy(ivlParse(b) || b, pitchParse(a) || a)
 }
-const tr = transpose
+export const tr = transpose
+```
+
+## 4. Collections
+
+Since `tonal` is string oriented, it would be nice to __represent list as strings__:
+
+```js
 // items can be separated by spaces, bars and commas
 var SEP = /\s*\|\s*|\s*,\s*|\s+/
 /**
@@ -303,51 +512,46 @@ var SEP = /\s*\|\s*|\s*,\s*|\s+/
  * @param {String|Array|Object} source - the thing to get an array from
  * @return {Array} the object as an array
  */
-function split (source) {
+export function split (source) {
   return isArr(source) ? source
     : typeof source === 'string' ? source.trim().split(SEP)
     : (source === null || typeof source === 'undefined') ? []
     : [ source ]
 }
-function map (fn, list) {
+```
+
+#### Map collections
+
+With the above function we can map collection easily: `split('C D E F G').map(transpose('3M'))`.
+
+We will write a __map__ helper function that do more or less the same:
+
+```js
+export function map (fn, list) {
   if (arguments.length === 1) return function (l) { return map(fn, l) }
   return split(list).map(fn)
 }
-function harmonize (list, tonic) {
+```
+
+But it have two gems inside:
+
+- The function is currified. In fact, most of the functions in tonal are [currified](https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html)
+- The parameters are arranged to make it convenient for currying. The data to be operated on is supplied last (so instead of `map(list, fn)` we will write `map(fn, list)`)
+
+Both things are related and they are in the heart of tonal library. Javascript programmers will find awkward, at the beginning, to have the array as last argument of `map` function, but now you can write:
+
+```
+// notice this is only an example, not part of the library
+var letters = map(letter);
+letters('c2 eb4 g7') // => ['C', 'Eb', 'G']
+```
+
+#### Some helpers
+
+```js
+export function harmonize (list, tonic) {
   return split(list).map(tr(tonic))
 }
+```
 
-exports.pitch = pitch;
-exports.pitchRegex = pitchRegex;
-exports.step = step;
-exports.accToAlt = accToAlt;
-exports.pitchParse = pitchParse;
-exports.letter = letter;
-exports.alt = alt;
-exports.altToAcc = altToAcc;
-exports.accidentals = accidentals;
-exports.oct = oct;
-exports.pitchStr = pitchStr;
-exports.isMidi = isMidi;
-exports.chroma = chroma;
-exports.height = height;
-exports.midi = midi;
-exports.fromMidi = fromMidi;
-exports.wellTempered = wellTempered;
-exports.toFreq = toFreq;
-exports.ivlStep = ivlStep;
-exports.qToAlt = qToAlt;
-exports.ivlRegex = ivlRegex;
-exports.ivlParse = ivlParse;
-exports.number = number;
-exports.ivlType = ivlType;
-exports.quality = quality;
-exports.direction = direction;
-exports.ivlStr = ivlStr;
-exports.coord = coord;
-exports.coordArr = coordArr;
-exports.transpose = transpose;
-exports.tr = tr;
-exports.split = split;
-exports.map = map;
-exports.harmonize = harmonize;
+Fin.
