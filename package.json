@@ -5,8 +5,8 @@
   "main": "dist/tonal.js",
   "jsnext:main": "dist/jsnext/tonal.js",
   "scripts": {
-    "publish": "npm run jshint && npm test && npm run coverage && npm run docs && npm run api && npm run dist",
-    "jshint": "standard dist/jsnext/tonal.js",
+    "publish": "npm run standard && npm test && npm run coverage && npm run docs && npm run api && npm run dist",
+    "standard": "npm run build && standard dist/jsnext/tonal.js",
     "test": "npm run build && mocha",
     "docco": "docco -l linear lib/tonal.md",
     "docs": "npm run docco && open docs/tonal.html",
@@ -36,6 +36,8 @@
   "dependencies": {},
   "devDependencies": {
     "babel-preset-es2015-rollup": "^1.1.1",
+    "markdown-code-blocks": "0.0.1",
+    "rollup": "^0.25.8",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-json": "^2.0.0",
     "standard": "^6.0.8"

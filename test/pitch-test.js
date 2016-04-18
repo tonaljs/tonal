@@ -8,15 +8,6 @@ var map = tonal.map
 var log = (e) => { console.log(e); return e }
 
 describe('pitches', function () {
-  describe('pitchClass', function () {
-    var pc = tonal.pitchClass
-    it('create pitch classes', function () {
-      assert.deepEqual(pc(0, 0), [0])
-      assert.deepEqual(pc(1, 0), [2])
-      assert.deepEqual(pc(0, 1), [7])
-      assert.deepEqual(pc(0, -1), [-7])
-    })
-  })
   describe('pitch', function () {
     var pitch = tonal.pitch
     it('create pitch classes', function () {
@@ -28,6 +19,7 @@ describe('pitches', function () {
     it('create pitches', function () {
       assert.deepEqual(pitch(0, 0, 2), [0, 2])
       assert.deepEqual(pitch(0, 1, 2), [7, -2])
+      assert.deepEqual(pitch(6, 1, 2), [12, -4])
     })
   })
   describe('pitchParse', function () {
@@ -35,6 +27,7 @@ describe('pitches', function () {
     it('parses notes', function () {
       assert.deepEqual(parse('C2'), [0, 2])
       assert.deepEqual(parse('C#2'), [7, -2])
+      assert.deepEqual(parse('B#2'), [12, -4])
     })
     it('parse pitch classes', function () {
       assert.deepEqual(map(parse, 'C D E F G A B'),
@@ -88,11 +81,33 @@ describe('pitches', function () {
     })
   })
 
+  describe('isMidi', function () {
+    var isMidi = tonal.isMidi
+    it('accept valid numbers', function () {
+      assert.deepEqual(map(isMidi, [4, 60, 300, -1]),
+        [ true, true, false, false ])
+    })
+    it('arrays are not midi', function () {
+      assert.equal(isMidi([4]), false)
+    })
+  })
+
   describe('midi', function () {
-    var midi = map(tonal.midi)
+    var midi = tonal.midi
     it('get midi from notes', function () {
-      assert.deepEqual(midi('C4 D4 E4 F4 G4 A4 B4 C5'),
+      assert.deepEqual(map(midi, 'C4 D4 E4 F4 G4 A4 B4 C5'),
         [ 60, 62, 64, 65, 67, 69, 71, 72 ])
+      assert.deepEqual(map(midi, 'C4 B#3 Dbb4'), [60, 60, 60])
+    })
+    it('pitch classes do not have midi', function () {
+      assert.deepEqual(map(midi, 'C D E F G A B'),
+        [ null, null, null, null, null, null, null ])
+    })
+    it('midi values are bypassed', function () {
+      assert.equal(midi(60), 60)
+      assert.equal(midi(-1), null)
+      assert.equal(midi(129), null)
+      assert(midi('60') === 60)
     })
   })
   describe('fromMidi', function () {

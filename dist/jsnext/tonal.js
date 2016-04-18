@@ -1,47 +1,55 @@
-var isArr = Array.isArray
-function isStr (s) { return typeof s === 'string' }
-// the number of fifths to 'C D E F G A B'
-var FIFTHS = [0, 2, 4, -1, 1, 3, 5]
-/**
- * Create a pitch class from its letter number
- * and it's alteration number
- *
- * @param {Integer} lnum - the letter num (0 is C, 1 is D...)
- * @param {Integer} alt - the alteration number
- * @return {Array} the pitch class in array notation
- * @example
- * pitchClass('Cb') // => [-7]
- */
-export function pitchClass (lnum, alt) {
-  return [FIFTHS[lnum || 0] + 7 * (alt || 0)]
+const isArr = Array.isArray
+const isStr = (s) => typeof s === 'string'
+// The number of fifths required to get C, D, E, F, G, A and B from C
+const FIFTHS = [0, 2, 4, -1, 1, 3, 5]
+// get the number of fifths for a letter index and alteration
+// letter is 0 for C, 1 for D, 2 for E ... and 6 for B
+// alt is 0 for unaltered, positive for sharps and negative for flats
+const fifths = (letter, alt) => FIFTHS[letter] + 7 * alt
+// given a number of fiths, return the octaves they span
+const fifthsOcts = (f) => Math.floor(f * 7 / 12)
+// encode the octaves required for a pitch
+function octaves (letter, alt, oct) {
+  return oct - fifthsOcts(FIFTHS[letter]) - 4 * alt
 }
-// given a number of fifths, return the octaves it spans
-function fifthsOcts (f) { return Math.floor(f * 7 / 12) }
 /**
- * Build a pitch from letter number, alteration and octave. If
+ * Build a pitch from letter index, alteration and octave. If
  * octave is not present, it builds a pitch class.
  *
- * @param {Integer} lnum - the letter number (0-based index)
+ * @param {Integer} letter - the letter number (0-based index)
  * @param {Integer} alt - the pitch accidentals integer
  * @param {Integer} oct - the pitch octave
  * @return {Array} the pitch in coord notation
  */
-export function pitch (lnum, alt, oct) {
-  var pc = pitchClass(lnum, alt)
-  return !oct && oct !== 0
-    ? pc : [pc[0], oct - fifthsOcts(pc[0])]
+export function pitch (letter, alt, oct) {
+  return !oct && oct !== 0 ? [ fifths(letter, alt) ]
+    : [ fifths(letter, alt), octaves(letter, alt, oct) ]
 }
+// test if the given object is a pitch in array notation
+const isPitchArr = (p) => isArr(p) && (p.length === 2 || p.length === 1)
+// test if the given object is a pitch class in array notation
+const isPitchClassArr = (p) => isArr(p) && p.length === 1
+var PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
 /**
- * Test if a given object is a pitch
+ * Get the a regex to parse pitch in scientific notation
  *
- * @param {Object} p - the object to test
- * @return {Boolean} true if is a pitch array
+ * @return {Regex} the regex
+ *
+ * After exec against a valid string we get:
+ * - 0: the complete string
+ * - 1: the letter (in upper or lower case)
+ * - 2: the alterations (a list of #, b or x)
+ * - 3: an optional octave number
  * @example
- * isPitch([3]) // => true
+ * pitchRegex().exec('C#2') // => ['C#2', 'C', '#', '2']
  */
-export function isPitch (p) {
-  return isArr(p) && (p.length === 2 || p.length === 1)
-}
+export const pitchRegex = () => PITCH_REGEX
+/**
+ * Given a pitch letter string, return it's letter index.
+ * @param {String} letter - the pitch letter
+ * @return {Integer} the letter index
+ */
+export const letterIndex = (l) => 'CDEFGAB'.indexOf(l.toUpperCase())
 /**
  * Convert accidental string to alteration number
  * @function
@@ -57,43 +65,8 @@ export function accToAlt (acc) {
   var alt = acc.replace(/x/g, '##').length
   return acc[0] === 'b' ? -alt : alt
 }
-/**
- * Convert alteration number to accidentals
- *
- * @function
- * @param {Integer} alt - the alteration number
- * @return {String} the accidentals string
- * @example
- * altToAcc(2) // => '##'
- * altToAcc(-2) // => 'bb'
- */
-export const altToAcc = (alt) => Array(Math.abs(alt) + 1).join(alt < 0 ? 'b' : '#')
-export function letterIndex (letter) {
-  var cc = letter.charCodeAt(0)
-  return (cc > 96 ? cc - 92 : cc - 60) % 7
-}
-var PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
-/**
- * Get the a regex to parse pitch in scientific notation
- *
- * @return {Regex} the regex
- *
- * After exec against a valid string we get:
- * - 0: the complete string
- * - 1: the letter (in upper or lower case)
- * - 2: the alterations (a list of #, b or x)
- * - 3: an optional octave number
- */
-export function pitchRegex () { return PITCH_REGEX }
-/**
- * Given a pitch string in scientific notation, get the pitch in array notation
- * @param {String} str - the string to parse
- * @return {Array} the pitch in array notation or null if not valid string
- * @example
- * pitchParse('C2') // => [2, 1]
- * pitchParse('bla') // => null
- */
-export function pitchParse (str) {
+// parse a string with a pitch in scientific notation
+function parseSci (str) {
   var m = PITCH_REGEX.exec(str)
   if (!m) return null
   var li = letterIndex(m[1])
@@ -101,6 +74,25 @@ export function pitchParse (str) {
   var oct = m[3] ? +m[3] : null
   return pitch(li, alt, oct)
 }
+// decorate a parser to cache results
+function cache(parser) {
+  var cache = {}
+  return function (str) {
+    if (typeof str !== 'string') return null
+    return cache[str] || (cache[str] = parser(str))
+  }
+}
+/**
+ * Given a pitch string in scientific notation, get the pitch in array notation
+ * @function
+ * @param {String} str - the string to parse
+ * @return {Array} the pitch in array notation or null if not valid string
+ * @example
+ * pitchParse('C2') // => [2, 1]
+ * pitchParse('bla') // => null
+ */
+export const pitchParse = cache(parseSci)
+// try to parse using a parser or do nothing if parser fails
 function tryParser (parser) {
   return (obj) => isStr(obj) ? parser(obj) || obj : obj
 }
@@ -157,6 +149,16 @@ const LETTERS = 'FCGDAEB'
  */
 export const letter = prop((p) => LETTERS[unaltered(p)])
 /**
+ * Convert alteration number to accidentals
+ * @function
+ * @param {Integer} alt - the alteration number
+ * @return {String} the accidentals string
+ * @example
+ * altToAcc(2) // => '##'
+ * altToAcc(-2) // => 'bb'
+ */
+export const altToAcc = (alt) => Array(Math.abs(alt) + 1).join(alt < 0 ? 'b' : '#')
+/**
  * Get accidentals string from a pitch. It accepts pitches in scientific and array notation.
  *
  * @function
@@ -169,7 +171,7 @@ export const letter = prop((p) => LETTERS[unaltered(p)])
 export const accidentals = (p) => altToAcc(alt(p))
 // return if pitch has octave or not (is a pitch class)
 function hasOct (p) {
-  return p && typeof p[1] !== 'undefined'
+  return isArr(p) && typeof p[1] !== 'undefined'
 }
 // returns the pitch octave or `v` if not octave present
 const octOr = (v) => (p) => hasOct(p) ? p[1] + fifthsOcts(p[0]) : v
@@ -202,6 +204,13 @@ export function pitchStr (p) {
 // get pitch height
 const height = (p) => p[0] * 7 + 12 * p[1]
 /**
+ * Test if the given number is a valid midi note number
+ * @function
+ * @param {Object} num - the number to test
+ * @return {Boolean} true if it's a valid midi note number
+ */
+export const isMidi = (m) => !isArr(m) && m > 0 && m < 129
+/**
  * Get midi number for a pitch
  * @function
  * @param {Array|String} pitch - the pitch
@@ -209,7 +218,11 @@ const height = (p) => p[0] * 7 + 12 * p[1]
  * @example
  * midi('C4') // => 60
  */
-export const midi = prop((p) => height(p) + 12)
+export const midi = prop(function (p) {
+  return hasOct(p) ? height(p) + 12
+    : isMidi(p) ? +p
+    : null
+})
 var CHROMATIC = [ 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B' ]
 export function fromMidi (num) {
   var midi = +num
@@ -303,7 +316,7 @@ var IVL_REGEX = new RegExp('^' + COMPOSE + '$')
 export function ivlRegex () { return IVL_REGEX }
 /**
  * Parse a string with an interval in shorthand notation. It support two types: standard shorthand interval notation `quality+[direction]+number` or the tonal shorthand notation `[direction]+number+quality`
- *
+ * @function
  * @param {String} str - the string to parse
  * @return {Array} the interval in array notation or null if not valid interval string
  * @example
@@ -312,7 +325,7 @@ export function ivlRegex () { return IVL_REGEX }
  * ivlParse('M3') // => [ 4, -2, 1 ]
  * ivlParse('M-3') // => [ 4, -2, -1 ]
  */
-export function ivlParse (str) {
+export const ivlParse = cache(function (str) {
   var m = IVL_REGEX.exec(str)
   if (!m) return null
   var num = +(m[3] || m[8])
@@ -321,7 +334,7 @@ export function ivlParse (str) {
   var oct = Math.floor((num - 1) / 7)
   var dir = (m[2] || m[7]) === '-' ? -1 : 1
   return interval(sim, alt, oct, dir)
-}
+})
 const tryIvl = tryParser(ivlParse)
 /**
  * Decorate a function to accept intervals in array of shorthand notation. It only works with 1-parameter functions.
@@ -414,9 +427,9 @@ export function transpose (a, b) {
   var ac = pitchOrIvl(a)
   var bc = pitchOrIvl(b)
   // if its an interval and a pitch
-  var n = (isInterval(ac) && isPitch(bc)) ? trBy(ac, bc)
+  var n = (isInterval(ac) && isPitchArr(bc)) ? trBy(ac, bc)
     // it its a pitch and an interval
-    : (isPitch(ac) && isInterval(bc)) ? trBy(bc, ac)
+    : (isPitchArr(ac) && isInterval(bc)) ? trBy(bc, ac)
     // anything else is not valid
     : null
   // convert back to a pitch string

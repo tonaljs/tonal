@@ -1,0 +1,30 @@
+{
+  "name": "note-midi",
+  "version": "2.0.0",
+  "description": "Get midi number from note name",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "mocha",
+    "rollup": "rollup -c",
+    "dist": "uglifyjs dist/index.js > dist/note-midi.min.js",
+    "build": "npm run rollup && npm run dist"
+  },
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/note-midi",
+  "keywords": [
+    "music",
+    "note",
+    "midi",
+    "number",
+    "pitch",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "homepage": "https://github.com/danigb/tonal#readme",
+  "devDependencies": {},
+  "dependencies": {
+  }
+}

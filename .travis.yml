@@ -11,5 +11,3 @@ node_js:
  - stable
  - "4.0"
  - "0.12"
-
-script: make test-ci

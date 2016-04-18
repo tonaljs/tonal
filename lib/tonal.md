@@ -2,106 +2,144 @@
 
 __tonal__ is a functional music theory library. It deals with abstract music concepts like picthes and intervals, not actual music.
 
-You are currently reading the source code of the library. It's written in literate programming as a tribute to the [The Haskell School of Music](http://haskell.cs.yale.edu/?post_type=publication&p=112) paper ["From Signals to Symphonies"](http://haskell.cs.yale.edu/wp-content/uploads/2015/03/HSoM.pdf) that has a big influence over tonal development.
- This page is generated using the documentation tool [docco](http://jashkenas.github.io/docco/)
+`tonal` have no dependencies (it weights 6kb minified), but there are other modules that depends on it and extends it's functionality.
 
-#### Some background...
+Tonal is also the result of my journey of learning how to implement a music theory library in javascript in a functional way. And I've learn a lot.
 
-Tonal is also the result of my journey of learning how to implement a music theory library in javascript in a functional way. I've learn a lot:
+You are currently reading the source code of the library. It's written in literate programming as a tribute to the [The Haskell School of Music](http://haskell.cs.yale.edu/?post_type=publication&p=112) and it's impressive paper ["From Signals to Symphonies"](http://haskell.cs.yale.edu/wp-content/uploads/2015/03/HSoM.pdf) that has a big influence over tonal development.
 
-- I've learn the beauty of represent pitches using fifths and octave
-- Stick with an idea can have troubles, part 1: tonal grow as a micro packages collection, to be modular. I've ended creating lot of packages and a maintenance hell. In this version I use tools like rollup to create micro packages from the main one.
-- Stick with an idea can have troubles, part 2: I've always want a library where i can write `transpose('M2', 'Bb3')`, that is: notes and intervals are strings (instead of objects)... That came some problems like performance or code complexity to allow different string representations... but what the hell! I still like it the idea, but I simplify a lot.
-- It's easy to lost in the details
-- It's easy to mess a source code by early optimizations
+This page is generated using the documentation tool [docco](http://jashkenas.github.io/docco/)
 
-This is a tribute to the impressive paper [The Haskell School of Music -- From Signals to Symphonies](http://haskell.cs.yale.edu/wp-content/uploads/2015/03/HSoM.pdf)
+## Music Theory for Javascript Programmers
+
+This library is about tonal music. In tonal music we make some assumptions about how music works. That assumptions are only applicable to part of the music (mostly western music) and they are useful in some contexts.
+
+The most important assumption is that music is made up of units sound called __notes__, and each note has some properties: pitch, duration, timbre, loudness.
+
+The __pitch__ is how high the note is, and the difference between the pitch of two notes is called an __interval__. Sometimes people use the word note as synonym for pitch ("i'm playin C# note") but here we'll differentiate between both.
+
+To quantify the pitch relationship between notes we use a pre-stablished reference system. In tonal music our reference is the __semitone__: the minimum interval (distance) between two pitches.
+
+The interval of 12 semitones has a very important function in music, and it's called __octave__.
+
 
 #### Prelude
 
 Some utility functions:
 
 ```js
-var isArr = Array.isArray
-function isStr (s) { return typeof s === 'string' }
+const isArr = Array.isArray
+const isStr = (s) => typeof s === 'string'
 ```
+
 
 ## 1. Pitches
 
-Pitches are encoding using fifths and octaves. I've learn about it in the excellent javascript theory library [teoria] which takes the idea from
+Tonal uses strings to represent pitches, but that representation is not very practical when comparing or transforming pitches, so we need an _internal numeric representation_ of the pitch.
 
-The pitch class will be encoded as an array with one integer: the number of fifths from `C` to the given pitch class:
+For the string representation we will use [scienticic pitch notation](https://en.wikipedia.org/wiki/Scientific_pitch_notation) by default. For numeric representation we will use an array with the form `[fifths, octaves]`, what I'll be call here the [array pitch notation](http://www.gregjopa.com/2011/05/calculate-note-frequencies-in-javascript-with-music-js/).
+
+#### Array pitch notation
+
+My first encounter with array notation was in in the excellent javascript theory library [teoria](https://github.com/saebekassebil/teoria) which takes the idea from the discontinued [MusicJS](https://github.com/gregjopa/music.js) theory framework.
+
+A pitch is encoding with an array of the fifths and octaves required to reach the pitch from `C0`. For example, `C0` itself is `[0,0]`. `D0` is `[2, -1]` since two fifths would move to `D1` so we need to down 1 octave.
+To reach `E` we need four fifths that spans two octaves, so `E2` its `[4, 0]` and `E0` its `[4, -2]`, and so on.
 
 ```js
-// the number of fifths to 'C D E F G A B'
-var FIFTHS = [0, 2, 4, -1, 1, 3, 5]
+// The number of fifths required to get C, D, E, F, G, A and B from C
+const FIFTHS = [0, 2, 4, -1, 1, 3, 5]
 ```
 
-If we add 7 fifths to a pitch class we add a sharp. If we subtract 7 fifths we add a flat:
+There is a nice property of the cycle of fifths that we're going to use to implement accidentals: when moving up 7 fifths to a pitch, we get the same letter with a sharp. Moving down 7 fifths add a flat:
 
 ```js
-/**
- * Create a pitch class from its letter number
- * and it's alteration number
- *
- * @param {Integer} lnum - the letter num (0 is C, 1 is D...)
- * @param {Integer} alt - the alteration number
- * @return {Array} the pitch class in array notation
- * @example
- * pitchClass('Cb') // => [-7]
- */
-export function pitchClass (lnum, alt) {
-  return [FIFTHS[lnum || 0] + 7 * (alt || 0)]
+// get the number of fifths for a letter index and alteration
+// letter is 0 for C, 1 for D, 2 for E ... and 6 for B
+// alt is 0 for unaltered, positive for sharps and negative for flats
+const fifths = (letter, alt) => FIFTHS[letter] + 7 * alt
+```
+
+To get this notes in different octaves, first we need to know how many octaves spans a number of fifths:
+
+```js
+// given a number of fiths, return the octaves they span
+const fifthsOcts = (f) => Math.floor(f * 7 / 12)
+```
+
+Now we can encode the octaves. Just remember that, for each sharp we need to down 4 octaves and the opposite for flats:
+
+```js
+// encode the octaves required for a pitch
+function octaves (letter, alt, oct) {
+  return oct - fifthsOcts(FIFTHS[letter]) - 4 * alt
 }
 ```
 
-A _pitch_ is a pitch class with an octave, so we are going to encode with a __two element array__ in the form `[fifths, octaves]`.
-
-Since the fifths themselves may span one or more octaves we need to take account of it when building pitches:
-
-```js
-// given a number of fifths, return the octaves it spans
-function fifthsOcts (f) { return Math.floor(f * 7 / 12) }
-```
-
-For example, although pitch class `D` is `[2]`, pitch `D0` is __not__ `[2, 0]` but `[2, -1]` since the 2 fifths spans 1 octave and we need to subtract it to stay in octave 0.
-
 ```js
 /**
- * Build a pitch from letter number, alteration and octave. If
+ * Build a pitch from letter index, alteration and octave. If
  * octave is not present, it builds a pitch class.
  *
- * @param {Integer} lnum - the letter number (0-based index)
+ * @param {Integer} letter - the letter number (0-based index)
  * @param {Integer} alt - the pitch accidentals integer
  * @param {Integer} oct - the pitch octave
  * @return {Array} the pitch in coord notation
  */
-export function pitch (lnum, alt, oct) {
-  var pc = pitchClass(lnum, alt)
-  return !oct && oct !== 0
-    ? pc : [pc[0], oct - fifthsOcts(pc[0])]
+export function pitch (letter, alt, oct) {
+  return !oct && oct !== 0 ? [ fifths(letter, alt) ]
+    : [ fifths(letter, alt), octaves(letter, alt, oct) ]
 }
 ```
 
-Our definition of pitch:
+The tonal definition of pitch:
+
+```js
+// test if the given object is a pitch in array notation
+const isPitchArr = (p) => isArr(p) && (p.length === 2 || p.length === 1)
+```
+
+Notice that [teoria]() uses `[octave, fifths]` but we use `[fifths, octave]`. That's because tonal allow pitch classes (pitches without octaves) in the form `[fifths]`:
+
+```js
+// test if the given object is a pitch class in array notation
+const isPitchClassArr = (p) => isArr(p) && p.length === 1
+```
+
+#### Scientific notation
+
+Pitches in scientific notation have three parts: letter, accidentals and an optional octave. Let's use regexp to split components:
+
+```js
+var PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
+/**
+ * Get the a regex to parse pitch in scientific notation
+ *
+ * @return {Regex} the regex
+ *
+ * After exec against a valid string we get:
+ * - 0: the complete string
+ * - 1: the letter (in upper or lower case)
+ * - 2: the alterations (a list of #, b or x)
+ * - 3: an optional octave number
+ * @example
+ * pitchRegex().exec('C#2') // => ['C#2', 'C', '#', '2']
+ */
+export const pitchRegex = () => PITCH_REGEX
+```
+
+Then we'll need a numeric representation of a letter. The __letterIndex__ is a number from 0 to 6 representing letters `C D E F G A B`:
 
 ```js
 /**
- * Test if a given object is a pitch
- *
- * @param {Object} p - the object to test
- * @return {Boolean} true if is a pitch array
- * @example
- * isPitch([3]) // => true
+ * Given a pitch letter string, return it's letter index.
+ * @param {String} letter - the pitch letter
+ * @return {Integer} the letter index
  */
-export function isPitch (p) {
-  return isArr(p) && (p.length === 2 || p.length === 1)
-}
+export const letterIndex = (l) => 'CDEFGAB'.indexOf(l.toUpperCase())
 ```
 
-#### Convert strings to pitches
-
-First we need to convert accidentals string to alteration number:
+Within `tonal` _alteration_ is a numeric representation of accidentals. `0` means no accidentals, positive numbers are for sharps and negative numbers for flats (`x` means double sharp):
 
 ```js
 /**
@@ -121,61 +159,11 @@ export function accToAlt (acc) {
 }
 ```
 
-And the opposite:
+With those tools we can write our __pitchParse__ function:
 
 ```js
-/**
- * Convert alteration number to accidentals
- *
- * @function
- * @param {Integer} alt - the alteration number
- * @return {String} the accidentals string
- * @example
- * altToAcc(2) // => '##'
- * altToAcc(-2) // => 'bb'
- */
-export const altToAcc = (alt) => Array(Math.abs(alt) + 1).join(alt < 0 ? 'b' : '#')
-```
-
-We need to convert from letter to letter index:
-
-```js
-export function letterIndex (letter) {
-  var cc = letter.charCodeAt(0)
-  return (cc > 96 ? cc - 92 : cc - 60) % 7
-}
-```
-
-And with the power of regex:
-
-```js
-var PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
-/**
- * Get the a regex to parse pitch in scientific notation
- *
- * @return {Regex} the regex
- *
- * After exec against a valid string we get:
- * - 0: the complete string
- * - 1: the letter (in upper or lower case)
- * - 2: the alterations (a list of #, b or x)
- * - 3: an optional octave number
- */
-export function pitchRegex () { return PITCH_REGEX }
-```
-
-We get the complete picture:
-
-```js
-/**
- * Given a pitch string in scientific notation, get the pitch in array notation
- * @param {String} str - the string to parse
- * @return {Array} the pitch in array notation or null if not valid string
- * @example
- * pitchParse('C2') // => [2, 1]
- * pitchParse('bla') // => null
- */
-export function pitchParse (str) {
+// parse a string with a pitch in scientific notation
+function parseSci (str) {
   var m = PITCH_REGEX.exec(str)
   if (!m) return null
   var li = letterIndex(m[1])
@@ -185,13 +173,46 @@ export function pitchParse (str) {
 }
 ```
 
+#### Just one optimization
+
+With previous versions of tonal I was too much worried about performance, and I've ended doing lot of micro optimizations that made the code difficult to follow. Now I prefer code clarity and brevity over performance. With one exception.
+
+Since `tonal` is always converting between string notation to array notation, if we cache this process we'll get a big performance gain:
+
+```js
+// decorate a parser to cache results
+function cache(parser) {
+  var cache = {}
+  return function (str) {
+    if (typeof str !== 'string') return null
+    return cache[str] || (cache[str] = parser(str))
+  }
+}
+```
+
+Now we can have our optimized __pitchParse__ function:
+
+```js
+/**
+ * Given a pitch string in scientific notation, get the pitch in array notation
+ * @function
+ * @param {String} str - the string to parse
+ * @return {Array} the pitch in array notation or null if not valid string
+ * @example
+ * pitchParse('C2') // => [2, 1]
+ * pitchParse('bla') // => null
+ */
+export const pitchParse = cache(parseSci)
+```
+
 #### Pitch properties
 
-Now we are going to write a collection of functions to get properties from pitches. Since __tonal__ embraces the idea of string representing pitches, it's normal that those functions accepts strings as pitches. But also, accepting arrays as sources we open the possibility to use a different pitch notation (helmozt, for example) with the same function.
+Now we are going to write a collection of functions to get properties from pitches. Since `tonal` embraces the idea of string representing pitches, it's normal that those functions accepts strings as pitches. But if at the same time they also accepts pitches in array notation, we open the possibility to use a different pitch notation (helmozt, for example) with the same function.
 
 For this purpose we write the `tryPitch` function that parses notes in scientific notation, or returns the unaltered object if parse fails.
 
 ```js
+// try to parse using a parser or do nothing if parser fails
 function tryParser (parser) {
   return (obj) => isStr(obj) ? parser(obj) || obj : obj
 }
@@ -275,7 +296,22 @@ export const letter = prop((p) => LETTERS[unaltered(p)])
 
 __pitch accidentals__
 
-Our next property function, `accidentals` is not wrapped because it uses other (wrapped) functions to do its job:
+Before we wrote a function to convert from accidentals to alteration. Now we need the oposite function:
+
+```js
+/**
+ * Convert alteration number to accidentals
+ * @function
+ * @param {Integer} alt - the alteration number
+ * @return {String} the accidentals string
+ * @example
+ * altToAcc(2) // => '##'
+ * altToAcc(-2) // => 'bb'
+ */
+export const altToAcc = (alt) => Array(Math.abs(alt) + 1).join(alt < 0 ? 'b' : '#')
+```
+
+Write __accidentals__ is now straightforward. Notice that we don't need to wrap this function with `prop` since `alt` is already wrapped:
 
 ```js
 /**
@@ -298,7 +334,7 @@ To extract the octave property from a pitch, first we need a way to know if it h
 ```js
 // return if pitch has octave or not (is a pitch class)
 function hasOct (p) {
-  return p && typeof p[1] !== 'undefined'
+  return isArr(p) && typeof p[1] !== 'undefined'
 }
 ```
 
@@ -361,7 +397,19 @@ We define _height_ as the distance in semitones from `C0` to the given pitch:
 const height = (p) => p[0] * 7 + 12 * p[1]
 ```
 
-To match the standard midi specification where `C4` is 60 we must add 12 to that height:
+The midi number can have a value between 1-128:
+
+```js
+/**
+ * Test if the given number is a valid midi note number
+ * @function
+ * @param {Object} num - the number to test
+ * @return {Boolean} true if it's a valid midi note number
+ */
+export const isMidi = (m) => !isArr(m) && m > 0 && m < 129
+```
+
+To match the general midi specification where `C4` is 60 we must add 12 to that height:
 
 ```js
 /**
@@ -372,7 +420,11 @@ To match the standard midi specification where `C4` is 60 we must add 12 to that
  * @example
  * midi('C4') // => 60
  */
-export const midi = prop((p) => height(p) + 12)
+export const midi = prop(function (p) {
+  return hasOct(p) ? height(p) + 12
+    : isMidi(p) ? +p
+    : null
+})
 ```
 
 Since any midi number can be mapped to different pitch names, we should select one arbitrarily:
@@ -524,7 +576,7 @@ And our interval parse function:
 ```js
 /**
  * Parse a string with an interval in shorthand notation. It support two types: standard shorthand interval notation `quality+[direction]+number` or the tonal shorthand notation `[direction]+number+quality`
- *
+ * @function
  * @param {String} str - the string to parse
  * @return {Array} the interval in array notation or null if not valid interval string
  * @example
@@ -533,7 +585,7 @@ And our interval parse function:
  * ivlParse('M3') // => [ 4, -2, 1 ]
  * ivlParse('M-3') // => [ 4, -2, -1 ]
  */
-export function ivlParse (str) {
+export const ivlParse = cache(function (str) {
   var m = IVL_REGEX.exec(str)
   if (!m) return null
   var num = +(m[3] || m[8])
@@ -542,7 +594,7 @@ export function ivlParse (str) {
   var oct = Math.floor((num - 1) / 7)
   var dir = (m[2] || m[7]) === '-' ? -1 : 1
   return interval(sim, alt, oct, dir)
-}
+})
 ```
 
 #### Interval properties
@@ -699,9 +751,9 @@ export function transpose (a, b) {
   var ac = pitchOrIvl(a)
   var bc = pitchOrIvl(b)
   // if its an interval and a pitch
-  var n = (isInterval(ac) && isPitch(bc)) ? trBy(ac, bc)
+  var n = (isInterval(ac) && isPitchArr(bc)) ? trBy(ac, bc)
     // it its a pitch and an interval
-    : (isPitch(ac) && isInterval(bc)) ? trBy(bc, ac)
+    : (isPitchArr(ac) && isInterval(bc)) ? trBy(bc, ac)
     // anything else is not valid
     : null
   // convert back to a pitch string
@@ -725,7 +777,7 @@ export const tr = transpose
 
 ## Work with collections
 
-Since __tonal__ is string oriented, it would be nice to represent list as strings:
+Since `tonal` is string oriented, it would be nice to __represent list as strings__:
 
 ```js
 // items can be separated by spaces, bars and commas
@@ -745,6 +797,10 @@ export function split (source) {
 
 #### Map collections
 
+With the above function we can map collection easily: `split('C D E F G').map(transpose('3M'))`.
+
+We will write a __map__ helper function that do more or less the same:
+
 ```js
 export function map (fn, list) {
   if (arguments.length === 1) return function (l) { return map(fn, l) }
@@ -752,7 +808,34 @@ export function map (fn, list) {
 }
 ```
 
+But it have two gems inside:
+
+- The function is currified. In fact, most of the functions in tonal are [currified](https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html)
+- The parameters are arranged to make it convenient for currying. The data to be operated on is supplied last (so instead of `map(list, fn)` we will write `map(fn, list)`)
+
+Both things are related and they are in the heart of tonal library. Javascript programmers will find awkward, at the beginning, to have the array as last argument of `map` function, but now you can write:
+
+```
+// notice this is only an example, not part of the library
+var letters = map(letter);
+letters('c2 eb4 g7') // => ['C', 'Eb', 'G']
+```
+
 #### Filter collections
+
+We could do the same with `filter` function, but let's start writing some helpers.
+
+First a function to know if two pitches are equal:
+
+```js
+export function isEq(a, b) {
+  var pa = tryPitch(a)
+  var pb = tryPitch(b)
+  return !isArr(pa) || !isArr(pb) ? false
+    : pa.length !== pb.length ? false
+}
+```
+
 
 #### Reduce
 
