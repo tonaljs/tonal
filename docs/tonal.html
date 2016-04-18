@@ -137,7 +137,7 @@ To reach <code>E</code> we need four fifths that spans two octaves, so <code>E2<
 <p>With previous versions of tonal I was too much worried about performance, and I’ve ended doing lot of micro optimizations that made the code difficult to follow. Now I prefer code clarity and brevity over performance. With one exception.</p>
 <p>Since <code>tonal</code> is always converting between string notation to array notation, if we cache this process we’ll get a big performance gain:</p>
 <pre><code class="lang-js"><span class="hljs-comment">// decorate a parser to cache results</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cache</span>(<span class="hljs-params">parser</span>) </span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cache</span> (<span class="hljs-params">parser</span>) </span>{
 <span class="hljs-keyword">var</span> cache = {}
 <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">str</span>) </span>{
 <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> str !== <span class="hljs-string">'string'</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
@@ -630,10 +630,7 @@ M: [<span class="hljs-string">'ddd'</span>, <span class="hljs-string">'dd'</span
 <pre><code>// notice this is only an example, not part of the library
 var letters = map(letter);
 letters('c2 eb4 g7') // =&gt; ['C', 'Eb', 'G']
-</code></pre><h4 id="filter-collections">Filter collections</h4>
-<p>We could do the same with <code>filter</code> function, but let’s start writing some helpers.</p>
-<h4 id="reduce">Reduce</h4>
-<h4 id="some-helpers">Some helpers</h4>
+</code></pre><h4 id="some-helpers">Some helpers</h4>
 <pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">harmonize</span> (<span class="hljs-params">list, tonic</span>) </span>{
 <span class="hljs-keyword">return</span> split(list).map(tr(tonic))
 }

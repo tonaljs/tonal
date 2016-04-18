@@ -5,7 +5,7 @@
   "main": "dist/tonal.js",
   "jsnext:main": "dist/jsnext/tonal.js",
   "scripts": {
-    "publish": "npm run standard && npm test && npm run coverage && npm run docs && npm run api && npm run dist",
+    "publish": "npm test && npm run coverage && npm run docs && npm run api && npm run dist && npm run standard",
     "standard": "npm run build && standard dist/jsnext/tonal.js",
     "test": "npm run build && mocha",
     "docco": "docco -l linear lib/tonal.md",

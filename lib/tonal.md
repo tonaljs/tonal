@@ -181,7 +181,7 @@ Since `tonal` is always converting between string notation to array notation, if
 
 ```js
 // decorate a parser to cache results
-function cache(parser) {
+function cache (parser) {
   var cache = {}
   return function (str) {
     if (typeof str !== 'string') return null
@@ -820,24 +820,6 @@ Both things are related and they are in the heart of tonal library. Javascript p
 var letters = map(letter);
 letters('c2 eb4 g7') // => ['C', 'Eb', 'G']
 ```
-
-#### Filter collections
-
-We could do the same with `filter` function, but let's start writing some helpers.
-
-First a function to know if two pitches are equal:
-
-```js
-export function isEq(a, b) {
-  var pa = tryPitch(a)
-  var pb = tryPitch(b)
-  return !isArr(pa) || !isArr(pb) ? false
-    : pa.length !== pb.length ? false
-}
-```
-
-
-#### Reduce
 
 #### Some helpers
 

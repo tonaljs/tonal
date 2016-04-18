@@ -1,25 +1,18 @@
 ## Functions
 
 <dl>
-<dt><a href="#pitchClass">pitchClass(lnum, alt)</a> ⇒ <code>Array</code></dt>
-<dd><p>Create a pitch class from its letter number
-and it&#39;s alteration number</p>
-</dd>
-<dt><a href="#pitch">pitch(lnum, alt, oct)</a> ⇒ <code>Array</code></dt>
-<dd><p>Build a pitch from letter number, alteration and octave. If
+<dt><a href="#pitch">pitch(letter, alt, oct)</a> ⇒ <code>Array</code></dt>
+<dd><p>Build a pitch from letter index, alteration and octave. If
 octave is not present, it builds a pitch class.</p>
-</dd>
-<dt><a href="#isPitch">isPitch(p)</a> ⇒ <code>Boolean</code></dt>
-<dd><p>Test if a given object is a pitch</p>
-</dd>
-<dt><a href="#accToAlt">accToAlt(acc)</a> ⇒ <code>Integer</code></dt>
-<dd><p>Convert accidental string to alteration number</p>
-</dd>
-<dt><a href="#altToAcc">altToAcc(alt)</a> ⇒ <code>String</code></dt>
-<dd><p>Convert alteration number to accidentals</p>
 </dd>
 <dt><a href="#pitchRegex">pitchRegex()</a> ⇒ <code>Regex</code></dt>
 <dd><p>Get the a regex to parse pitch in scientific notation</p>
+</dd>
+<dt><a href="#letterIndex">letterIndex(letter)</a> ⇒ <code>Integer</code></dt>
+<dd><p>Given a pitch letter string, return it&#39;s letter index.</p>
+</dd>
+<dt><a href="#accToAlt">accToAlt(acc)</a> ⇒ <code>Integer</code></dt>
+<dd><p>Convert accidental string to alteration number</p>
 </dd>
 <dt><a href="#pitchParse">pitchParse(str)</a> ⇒ <code>Array</code></dt>
 <dd><p>Given a pitch string in scientific notation, get the pitch in array notation</p>
@@ -38,6 +31,9 @@ pitch in scientific notation</p>
 <dt><a href="#letter">letter(pitch)</a> ⇒ <code>String</code></dt>
 <dd><p>Get the pitch letter. It accepts scientific or array notation.</p>
 </dd>
+<dt><a href="#altToAcc">altToAcc(alt)</a> ⇒ <code>String</code></dt>
+<dd><p>Convert alteration number to accidentals</p>
+</dd>
 <dt><a href="#accidentals">accidentals(pitch)</a> ⇒ <code>String</code></dt>
 <dd><p>Get accidentals string from a pitch. It accepts pitches in scientific and array notation.</p>
 </dd>
@@ -46,6 +42,9 @@ pitch in scientific notation</p>
 </dd>
 <dt><a href="#pitchStr">pitchStr(pitch)</a> ⇒ <code>String</code></dt>
 <dd><p>Convert a pitch in array notation to pitch in scientific notation (string)</p>
+</dd>
+<dt><a href="#isMidi">isMidi(num)</a> ⇒ <code>Boolean</code></dt>
+<dd><p>Test if the given number is a valid midi note number</p>
 </dd>
 <dt><a href="#midi">midi(pitch)</a> ⇒ <code>Integer</code></dt>
 <dd><p>Get midi number for a pitch</p>
@@ -102,28 +101,10 @@ This function is currified, and aliased as <code>tr</code></p>
 </dd>
 </dl>
 
-<a name="pitchClass"></a>
-
-## pitchClass(lnum, alt) ⇒ <code>Array</code>
-Create a pitch class from its letter number
-and it's alteration number
-
-**Kind**: global function  
-**Returns**: <code>Array</code> - the pitch class in array notation  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| lnum | <code>Integer</code> | the letter num (0 is C, 1 is D...) |
-| alt | <code>Integer</code> | the alteration number |
-
-**Example**  
-```js
-pitchClass('Cb') // => [-7]
-```
 <a name="pitch"></a>
 
-## pitch(lnum, alt, oct) ⇒ <code>Array</code>
-Build a pitch from letter number, alteration and octave. If
+## pitch(letter, alt, oct) ⇒ <code>Array</code>
+Build a pitch from letter index, alteration and octave. If
 octave is not present, it builds a pitch class.
 
 **Kind**: global function  
@@ -131,26 +112,39 @@ octave is not present, it builds a pitch class.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| lnum | <code>Integer</code> | the letter number (0-based index) |
+| letter | <code>Integer</code> | the letter number (0-based index) |
 | alt | <code>Integer</code> | the pitch accidentals integer |
 | oct | <code>Integer</code> | the pitch octave |
 
-<a name="isPitch"></a>
+<a name="pitchRegex"></a>
 
-## isPitch(p) ⇒ <code>Boolean</code>
-Test if a given object is a pitch
+## pitchRegex() ⇒ <code>Regex</code>
+Get the a regex to parse pitch in scientific notation
 
 **Kind**: global function  
-**Returns**: <code>Boolean</code> - true if is a pitch array  
+**Returns**: <code>Regex</code> - the regex
+
+After exec against a valid string we get:
+- 0: the complete string
+- 1: the letter (in upper or lower case)
+- 2: the alterations (a list of #, b or x)
+- 3: an optional octave number  
+**Example**  
+```js
+pitchRegex().exec('C#2') // => ['C#2', 'C', '#', '2']
+```
+<a name="letterIndex"></a>
+
+## letterIndex(letter) ⇒ <code>Integer</code>
+Given a pitch letter string, return it's letter index.
+
+**Kind**: global function  
+**Returns**: <code>Integer</code> - the letter index  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| p | <code>Object</code> | the object to test |
+| letter | <code>String</code> | the pitch letter |
 
-**Example**  
-```js
-isPitch([3]) // => true
-```
 <a name="accToAlt"></a>
 
 ## accToAlt(acc) ⇒ <code>Integer</code>
@@ -170,36 +164,6 @@ accToAlt('bbb') // => -2
 accToAlt('') // => 0
 accToAlt('x') // => 2
 ```
-<a name="altToAcc"></a>
-
-## altToAcc(alt) ⇒ <code>String</code>
-Convert alteration number to accidentals
-
-**Kind**: global function  
-**Returns**: <code>String</code> - the accidentals string  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| alt | <code>Integer</code> | the alteration number |
-
-**Example**  
-```js
-altToAcc(2) // => '##'
-altToAcc(-2) // => 'bb'
-```
-<a name="pitchRegex"></a>
-
-## pitchRegex() ⇒ <code>Regex</code>
-Get the a regex to parse pitch in scientific notation
-
-**Kind**: global function  
-**Returns**: <code>Regex</code> - the regex
-
-After exec against a valid string we get:
-- 0: the complete string
-- 1: the letter (in upper or lower case)
-- 2: the alterations (a list of #, b or x)
-- 3: an optional octave number  
 <a name="pitchParse"></a>
 
 ## pitchParse(str) ⇒ <code>Array</code>
@@ -283,6 +247,23 @@ Get the pitch letter. It accepts scientific or array notation.
 letter('C#2') // => 'C'
 letter([-7, 2]) // => 'C'
 ```
+<a name="altToAcc"></a>
+
+## altToAcc(alt) ⇒ <code>String</code>
+Convert alteration number to accidentals
+
+**Kind**: global function  
+**Returns**: <code>String</code> - the accidentals string  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| alt | <code>Integer</code> | the alteration number |
+
+**Example**  
+```js
+altToAcc(2) // => '##'
+altToAcc(-2) // => 'bb'
+```
 <a name="accidentals"></a>
 
 ## accidentals(pitch) ⇒ <code>String</code>
@@ -333,6 +314,18 @@ Convert a pitch in array notation to pitch in scientific notation (string)
 ```js
 pitchStr([2, 1]) // => 'D2'
 ```
+<a name="isMidi"></a>
+
+## isMidi(num) ⇒ <code>Boolean</code>
+Test if the given number is a valid midi note number
+
+**Kind**: global function  
+**Returns**: <code>Boolean</code> - true if it's a valid midi note number  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| num | <code>Object</code> | the number to test |
+
 <a name="midi"></a>
 
 ## midi(pitch) ⇒ <code>Integer</code>

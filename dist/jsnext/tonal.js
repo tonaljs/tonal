@@ -75,7 +75,7 @@ function parseSci (str) {
   return pitch(li, alt, oct)
 }
 // decorate a parser to cache results
-function cache(parser) {
+function cache (parser) {
   var cache = {}
   return function (str) {
     if (typeof str !== 'string') return null
