@@ -1,0 +1,6 @@
+CHANGELOG
+
+[1.2.1] Add chord.get function (13K)
+[1.2.0] Use simplified chord-dictionary (13K)
+[1.1.0] Expose names and props functions from dictionary
+[1.0.0] First version

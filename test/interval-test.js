@@ -73,7 +73,11 @@ describe('intervals', function () {
     var str = tnl.ivlStr
     it('get string from interval', function () {
       assert.equal(str({ ffs: 0, oct: 1, dir: 1 }), '8P')
+      assert.equal(str({ ffs: 0, oct: 1, dir: -1 }), '-8P')
       assert.equal(str({ ffs: 7, oct: -3, dir: 1 }), '8A')
+    })
+    it('NOT create string from pitches', function () {
+      assert.equal(str({ ffs: 0, oct: 4 }), null)
     })
   })
 })

@@ -14,7 +14,7 @@ export function pitch (step, alt, o) {
 }
 export const isPitch  = (p) => p && isNum(p.ffs)
 export const hasOct = (p) => isPitch(p) && isNum(p.oct)
-const PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
+const SN_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
 /**
  * Get the a regex to parse pitch in scientific notation
  *
@@ -28,7 +28,7 @@ const PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
  * @example
  * pitchRegex().exec('C#2') // => ['C#2', 'C', '#', '2']
  */
-export const pitchRegex = () => PITCH_REGEX
+export const pitchRegex = () => SN_REGEX
 const LETTERS = 'CDEFGAB'
 /**
  * Given a pitch letter string, return it's letter index.
@@ -54,7 +54,7 @@ export function accToAlt (acc) {
 }
 // parse a string with a pitch in scientific notation (SN)
 function parseName (str) {
-  const m = PITCH_REGEX.exec(str)
+  const m = SN_REGEX.exec(str)
   if (!m) return null
   const s = letterStep(m[1])
   const a = accToAlt(m[2])
@@ -80,7 +80,7 @@ function cache (parser) {
  */
 export const pitchParse = cache(parseName)
 const notePitch = (p) => isPitch(p) ? p : pitchParse(p)
-const prop = (fn) => (p) => fn(notePitch(p))
+export const prop = (fn) => (p) => fn(notePitch(p))
 // remove accidentals to a pitch class
 // it gets an array and return a number of fifths
 function unaltered (p) {
@@ -356,7 +356,7 @@ export const quality = ivlProp((i) => ALTER[ivlType(i)][4 + alt(i)])
  * @param {Array|String} ivl - the interval
  * @return {Integer}
  */
-export const direction = (i) => { return i[4] }
+export const direction = (i) => { return i.dir }
 const dirStr = (p) => direction(p) === -1 ? '-' : ''
 /**
  * Convert an interval in Fifths/octave notation to shorthand notation
@@ -365,7 +365,7 @@ const dirStr = (p) => direction(p) === -1 ? '-' : ''
  * @return {String} the interval in shorthand notation
  */
 export function ivlStr (p) {
-  return dirStr(p) + number(p) + quality(p)
+  return isInterval(p) ? dirStr(p) + number(p) + quality(p) : null
 }
 // transpose a note by an interval
 function trBy (ivl, p) {

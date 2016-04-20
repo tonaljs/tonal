@@ -16,7 +16,7 @@ function pitch (step, alt, o) {
 }
 const isPitch  = (p) => p && isNum(p.ffs)
 const hasOct = (p) => isPitch(p) && isNum(p.oct)
-const PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
+const SN_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
 /**
  * Get the a regex to parse pitch in scientific notation
  *
@@ -30,7 +30,7 @@ const PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
  * @example
  * pitchRegex().exec('C#2') // => ['C#2', 'C', '#', '2']
  */
-const pitchRegex = () => PITCH_REGEX
+const pitchRegex = () => SN_REGEX
 const LETTERS = 'CDEFGAB'
 /**
  * Given a pitch letter string, return it's letter index.
@@ -56,7 +56,7 @@ function accToAlt (acc) {
 }
 // parse a string with a pitch in scientific notation (SN)
 function parseName (str) {
-  const m = PITCH_REGEX.exec(str)
+  const m = SN_REGEX.exec(str)
   if (!m) return null
   const s = letterStep(m[1])
   const a = accToAlt(m[2])
@@ -358,7 +358,7 @@ const quality = ivlProp((i) => ALTER[ivlType(i)][4 + alt(i)])
  * @param {Array|String} ivl - the interval
  * @return {Integer}
  */
-const direction = (i) => { return i[4] }
+const direction = (i) => { return i.dir }
 const dirStr = (p) => direction(p) === -1 ? '-' : ''
 /**
  * Convert an interval in Fifths/octave notation to shorthand notation
@@ -367,7 +367,7 @@ const dirStr = (p) => direction(p) === -1 ? '-' : ''
  * @return {String} the interval in shorthand notation
  */
 function ivlStr (p) {
-  return dirStr(p) + number(p) + quality(p)
+  return isInterval(p) ? dirStr(p) + number(p) + quality(p) : null
 }
 // transpose a note by an interval
 function trBy (ivl, p) {
@@ -438,6 +438,7 @@ exports.pitchRegex = pitchRegex;
 exports.letterStep = letterStep;
 exports.accToAlt = accToAlt;
 exports.pitchParse = pitchParse;
+exports.prop = prop;
 exports.step = step;
 exports.letter = letter;
 exports.alt = alt;

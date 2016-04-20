@@ -81,7 +81,7 @@ export const hasOct = (p) => isPitch(p) && isNum(p.oct)
 #### Scientific notation
 
 ```js
-const PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
+const SN_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
 /**
  * Get the a regex to parse pitch in scientific notation
  *
@@ -95,7 +95,7 @@ const PITCH_REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/
  * @example
  * pitchRegex().exec('C#2') // => ['C#2', 'C', '#', '2']
  */
-export const pitchRegex = () => PITCH_REGEX
+export const pitchRegex = () => SN_REGEX
 ```
 
 Then we'll need a numeric representation of a letter. The __step__ is a number from 0 to 6 representing letters `C D E F G A B`:
@@ -136,7 +136,7 @@ With those tools we can write our __pitchParse__ function:
 ```js
 // parse a string with a pitch in scientific notation (SN)
 function parseName (str) {
-  const m = PITCH_REGEX.exec(str)
+  const m = SN_REGEX.exec(str)
   if (!m) return null
   const s = letterStep(m[1])
   const a = accToAlt(m[2])
@@ -181,7 +181,7 @@ export const pitchParse = cache(parseName)
 
 ```js
 const notePitch = (p) => isPitch(p) ? p : pitchParse(p)
-const prop = (fn) => (p) => fn(notePitch(p))
+export const prop = (fn) => (p) => fn(notePitch(p))
 ```
 
 #### Pitch properties
@@ -634,7 +634,7 @@ __interval direction__
  * @param {Array|String} ivl - the interval
  * @return {Integer}
  */
-export const direction = (i) => { return i[4] }
+export const direction = (i) => { return i.dir }
 const dirStr = (p) => direction(p) === -1 ? '-' : ''
 ```
 
@@ -650,7 +650,7 @@ Finally, we have the puzzle:
  * @return {String} the interval in shorthand notation
  */
 export function ivlStr (p) {
-  return dirStr(p) + number(p) + quality(p)
+  return isInterval(p) ? dirStr(p) + number(p) + quality(p) : null
 }
 ```
 
