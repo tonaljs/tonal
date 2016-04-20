@@ -502,6 +502,7 @@ export const coord = (p) => p ? toCoord.apply(null, p) : null
 ```js
 // fifths mapped to pitch classes
 var PCS = [[3, 1], [0, 0], [4, 0], [1, -1], [5, -1], [2, -2], [6, -2], [3, -3]]
+PCS_OCT = [1, 0, 0, -1, -1, -2, -2, -3]
 
 function toArray (f, o, d) {
   var index = (f + 1) % 7

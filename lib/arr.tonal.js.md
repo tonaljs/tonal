@@ -716,11 +716,11 @@ For example, transpose a pitch by an interval is just adding the pitch arrays to
 // transpose a note by an interval
 function trBy (ivl, p) {
   // is a pitch class
-  return p.length === 1
-    // build a pitch class
-    ? [ivl[2] * ivl[0] + p[0]]
+  return hasOct(p)
     // build a pitch
-    : [ivl[2] * ivl[0] + p[0], ivl[2] * ivl[1] + p[1]]
+    ? [ivl[2] * ivl[0] + p[0], ivl[2] * ivl[1] + p[1]]
+    // build a pitch class
+    : [ivl[2] * ivl[0] + p[0]]
 }
 ```
 

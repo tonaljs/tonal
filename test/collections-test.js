@@ -4,8 +4,6 @@
 var assert = require('assert')
 var tonal = require('../')
 
-var log = (e) => { console.log(e); return e }
-
 describe('collections', function () {
   describe('harmonize', function () {
     var harmonize = tonal.harmonize
