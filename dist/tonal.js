@@ -22,7 +22,7 @@ function pitch (step, alt, oct, dir) {
   const o = encOct(step, alt, oct)
   if (!isNum(dir)) return [ pc, o ]
   const d = dir < 0 ? -1 : 1
-  return [ d * pc , d * o, d ]
+  return [ d * pc, d * o, d ]
 }
 const isPitch = (p) => isArr(p) && isNum(p[0])
 const isPitchClass = (p) => isArr(p) && p.length === 1
@@ -99,7 +99,7 @@ const simplify = ivlFn(function (i) {
   var d = i[2]
   var s = decodeStep(d * i[0])
   var a = decodeAlt(d * i[0])
-  return [ i[0], -d * (FIFTH_OCTS[s] + 4 * a), d]
+  return [ i[0], -d * (FIFTH_OCTS[s] + 4 * a), d ]
 })
 const simpleNum = ivlFn(function (i) {
   var p = decode(i)
@@ -143,7 +143,7 @@ const chromatic = function (useSharps, midi) {
     const o = Math.floor(midi / 12) - 1
     const n = c !== null ? pitch(c, 0, o)
       : useSharps ? pitch(midiStep(midi - 1), 1, o)
-      : pitch(midiStep(midi + 1), -1 , o)
+      : pitch(midiStep(midi + 1), -1, o)
     return strNote(n)
   }
 }
@@ -181,7 +181,6 @@ function transpose (a, b) {
   const pb = expectPitch(b)
   const r = isInterval(pa) ? trBy(pa, pb)
     : isInterval(pb) ? trBy(pb, pa) : null
-  console.log('tr res', r)
   return toPitchStr(r)
 }
 // items can be separated by spaces, bars and commas
@@ -199,9 +198,9 @@ function listArr (src) {
 }
 const listToStr = (v) => isArr(v) ? v.map(toPitchStr) : toPitchStr(v)
 const listFn = (fn) => (src) => {
-  var param = listArr(src)
+  var param = listArr(src).map(expectPitch)
   var result = fn(param)
-  return isPitch(param[0]) ? result : listToStr(result)
+  return listToStr(result)
 }
 function map (fn, list) {
   if (arguments.length > 1) return map(fn)(list)
@@ -215,6 +214,20 @@ const reduce = (fn, o, list) => {
   if (arguments.length === 1) return (o, list) => reduce(fn, o)(list)
   if (arguments.length > 2) return reduce(fn, o)(list)
   return listFn((arr) => arr.reduce(fn, o))(list)
+}
+const objHeight = function (p) {
+  if (!p) return -Infinity
+  var f = p[0] * 7
+  var o = isNum(p[1]) ? p[1] : -Math.floor(f / 12) - 10
+  return f + o * 12
+}
+const ascComp = (a, b) => objHeight(a) - objHeight(b)
+const descComp = (a, b) => -ascComp(a, b)
+function sort (comp, list) {
+  if (arguments.length > 1) return sort(comp)(list)
+  const fn = comp === true || comp === null ? ascComp
+    : comp === false ? descComp : comp
+  return listFn((arr) => arr.sort(fn))
 }
 const harmonize = (list, pitch) => {
   return listFn((list) => list.map(transpose(pitch)))(list)
@@ -248,4 +261,5 @@ exports.toFreq = toFreq;
 exports.transpose = transpose;
 exports.listArr = listArr;
 exports.map = map;
+exports.sort = sort;
 exports.harmonize = harmonize;

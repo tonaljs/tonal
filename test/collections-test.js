@@ -18,13 +18,13 @@ describe('collections', function () {
   })
   describe('map', function () {
     var map = tonal.map
-    var upper = (s) => s.toUpperCase()
+    var sharp = (p) => [p[0] + 7]
     it('splits strings', function () {
-      assert.deepEqual(map(upper, 'a b c'), [ 'A', 'B', 'C' ])
+      assert.deepEqual(map(sharp, 'a b c'), [ 'A#', 'B#', 'C#' ])
     })
     it('can be partially applied', function () {
-      var uppers = map(upper)
-      assert.deepEqual(uppers('a b c'), [ 'A', 'B', 'C' ])
+      var sharps = map(sharp)
+      assert.deepEqual(sharps('a b c'), [ 'A#', 'B#', 'C#' ])
     })
   })
 })
