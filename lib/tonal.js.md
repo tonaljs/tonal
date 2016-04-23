@@ -135,7 +135,7 @@ export function strIvl (pitch) {
 ```
 
 ```js
-const strPitch = (p) => p.dir ? strIvl(p) : strNote(p)
+const strPitch = (p) => p[2] ? strIvl(p) : strNote(p)
 ```
 
 #### Decorate pitch transform functions
@@ -184,9 +184,10 @@ export const octave = pitchFn((p) => decode(p).oct)
 
 ```js
 export const simplify = ivlFn(function (i) {
-  return i[2] === 1
-    ? [ i[0], -FIFTH_OCTS[decodeStep(i[0])] - 4 * decodeAlt(i[0]), 1 ]
-    : [ i[0], FIFTH_OCTS[decodeStep(-i[0])] + 4 * decodeAlt(-i[0]), -1 ]
+  var d = i[2]
+  var s = decodeStep(d * i[0])
+  var a = decodeAlt(d * i[0])
+  return [ i[0], -d * (FIFTH_OCTS[s] + 4 * a), d]
 })
 ```
 
@@ -208,14 +209,108 @@ export const quality = ivlFn((i) => {
 })
 ```
 
+__semitones__
+
+```js
+// get pitch height
+const height = (p) => p[0] * 7 + 12 * p[1]
+export const semitones = ivlFn(height)
+```
+
+#### Midi pitch numbers
+
+
+The midi note number can have a value between 1-128:
+
+```js
+/**
+ * Test if the given number is a valid midi note number
+ * @function
+ * @param {Object} num - the number to test
+ * @return {Boolean} true if it's a valid midi note number
+ */
+export const isMidi = (m) => !isArr(m) && m > 0 && m < 129
+```
+
+To match the general midi specification where `C4` is 60 we must add 12 to `height` function:
+
+```js
+/**
+ * Get midi number for a pitch
+ * @function
+ * @param {Array|String} pitch - the pitch
+ * @return {Integer} the midi number or null if not valid pitch
+ * @example
+ * midi('C4') // => 60
+ */
+export const midi = function (val) {
+  var p = expectNote(val)
+  return hasOct(p) ? height(p) + 12
+    : isMidi(val) ? +val
+    : null
+}
+```
+
+Since any midi number can be mapped to different pitch names, we should select one arbitrarily:
+
+```js
+var CHROMATIC = [0, null, 1, null, 2, 3, null, 4, null, 5, null, 6]
+const midiStep = (m) => CHROMATIC[m % 12]
+export const chromatic = function (useSharps, midi) {
+  if (arguments.length > 1) return chromatic(useSharps)(midi)
+  return function (midi) {
+    const c = midiStep(midi)
+    const o = Math.floor(midi / 12) - 1
+    const n = c !== null ? pitch(c, 0, o)
+      : useSharps ? pitch(midiStep(midi - 1), 1, o)
+      : pitch(midiStep(midi + 1), -1 , o)
+    return strNote(n)
+  }
+}
+export const fromMidi = chromatic(false)
+```
+
+#### Frequency conversions
+
+The most popular way (in western music) to calculate the frequency of a pitch is using the [well temperament](https://en.wikipedia.org/wiki/Well_temperament) tempered tuning. It assumes the octave to be divided in 12 equally sized semitones and tune all the notes against a reference:
+
+```js
+/**
+ * Get a frequency calculator function that uses well temperament and a tuning reference.
+ * @function
+ * @param {Float} ref - the tuning reference
+ * @return {Function} the frequency calculator. It accepts a pitch in array or scientific notation and returns the frequency in herzs.
+ */
+export const wellTempered = (ref) => (pitch) => {
+  var m = midi(pitch)
+  return m ? Math.pow(2, (m - 69) / 12) * ref : null
+}
+```
+
+The most popular tuning reference is `A4 = 440Hz`:
+
+```js
+/**
+ * Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz
+ * @function
+ * @param {Array|String} pitch - the pitch to get the frequency from
+ * @return {Float} the frequency in herzs
+ * @example
+ * toFreq('C4') // => 261.6255653005986
+ */
+export const toFreq = wellTempered(440)
+```
+
 ## 2. Pitch distances
 
 ```js
-function trBy (ivl, p) {
-  return isPitchClass(p) ? [ivl[0] + p[0]]
-    : isPitchNote(p) ? [ivl[0] + p[0], ivl[1] + p[1]]
-    : isInterval(p) ? [ivl[0] + p[0], ivl[1] + p[1], 1]
-    : null
+function trBy (i, p) {
+  const f = i[0] + p[0]
+  if (p.length === 1) return [ f ]
+  const o = i[1] + p[1]
+  if (p.length === 2) return [ f, o ]
+  const d = 7 * f + 12 * o < 0 ? -1 : 1
+  return [ f, o, d ]
 }
 ```
 
@@ -226,6 +321,7 @@ export function transpose (a, b) {
   const pb = expectPitch(b)
   const r = isInterval(pa) ? trBy(pa, pb)
     : isInterval(pb) ? trBy(pb, pa) : null
+  console.log('tr res', r)
   return toPitchStr(r)
 }
 ```
@@ -290,7 +386,7 @@ const reduce = (fn, o, list) => {
 #### Transpose lists
 
 ```js
-var harmonize = (list, pitch) => {
+export const harmonize = (list, pitch) => {
   return listFn((list) => list.map(transpose(pitch)))(list)
 }
 ```

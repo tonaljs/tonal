@@ -50,4 +50,15 @@ describe('intervals', function () {
       [ 'A', 'A', 'A', 'A', 'A', 'A', 'A' ])
     })
   })
+  describe('semitones', function () {
+    var semitones = map(tnl.semitones)
+    it('get semitones of ascending intervals', function () {
+      assert.deepEqual(semitones('1P 2M 3M 4P 5P 6M 7M'),
+        [ 0, 2, 4, 5, 7, 9, 11 ])
+    })
+    it('get semitones of descending intervals', function () {
+      assert.deepEqual(semitones('-1P -2M -3M -4P -5P -6M -7M'),
+        [ -0, -2, -4, -5, -7, -9, -11 ])
+    })
+  })
 })

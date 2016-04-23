@@ -46,36 +46,52 @@ describe('pitch properties', function () {
   })
   describe('isMidi', function () {
     var isMidi = tnl.isMidi
-    it.skip('accept valid numbers', function () {
+    it('accept valid numbers', function () {
       assert.deepEqual(map(isMidi, [4, 60, 300, -1]),
         [ true, true, false, false ])
     })
-    it.skip('arrays are not midi', function () {
+    it('arrays are not midi', function () {
       assert.equal(isMidi([4]), false)
     })
   })
 
   describe('midi', function () {
     var midi = tnl.midi
-    it.skip('get midi from notes', function () {
+    it('get midi from notes', function () {
       assert.deepEqual(map(midi, 'C4 D4 E4 F4 G4 A4 B4 C5'),
         [ 60, 62, 64, 65, 67, 69, 71, 72 ])
       assert.deepEqual(map(midi, 'C4 B#3 Dbb4'), [60, 60, 60])
     })
-    it.skip('pitch classes do not have midi', function () {
+    it('pitch classes do not have midi', function () {
       assert.deepEqual(map(midi, 'C D E F G A B'),
         [ null, null, null, null, null, null, null ])
     })
-    it.skip('midi values are bypassed', function () {
+    it('midi values are bypassed', function () {
       assert.equal(midi(72), 72)
       assert.equal(midi(-1), null)
       assert.equal(midi(129), null)
       assert(midi('60') === 60)
     })
   })
+  describe('cromatic', function () {
+    it('with sharps', function () {
+      var chr = tnl.map(tnl.chromatic(true))
+      assert.deepEqual(chr([60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]),
+        ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4', 'C5'])
+    })
+    it('with flats', function () {
+      var chr = tnl.map(tnl.chromatic(false))
+      assert.deepEqual(chr([60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]),
+        ['C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4', 'Bb4', 'B4', 'C5'])
+    })
+    it('can be fully applied', function () {
+      assert.deepEqual(tnl.chromatic(false, 61), 'Db4')
+      assert.deepEqual(tnl.chromatic(true, 61), 'C#4')
+    })
+  })
   describe('fromMidi', function () {
     var names = map(tnl.fromMidi)
-    it.skip('get pitch names from midi numbers', function () {
+    it('get pitch names from midi numbers', function () {
       assert.deepEqual(names([60, 61, 62, 62, 64, 65, 66, 67, 68, 69, 70, 71, 72]),
         [ 'C4', 'Db4', 'D4', 'D4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4', 'Bb4', 'B4', 'C5' ])
     })
