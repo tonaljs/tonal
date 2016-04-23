@@ -5,6 +5,12 @@ var assert = require('assert')
 var tonal = require('../')
 
 describe('collections', function () {
+  describe('harmonizer', function () {
+    it('creates an harmonizer function', function () {
+      var maj7 = tonal.harmonizer('1P 3M 5P 7M')
+      assert.deepEqual(maj7('Bb'), [ 'Bb', 'D', 'F', 'A' ])
+    })
+  })
   describe('harmonize', function () {
     var harmonize = tonal.harmonize
     it('harmonizes intervals by tonic', function () {
@@ -18,7 +24,7 @@ describe('collections', function () {
   })
   describe('map', function () {
     var map = tonal.map
-    var sharp = (p) => [p[0] + 7]
+    var sharp = function (p) { return [p[0] + 7] }
     it('splits strings', function () {
       assert.deepEqual(map(sharp, 'a b c'), [ 'A#', 'B#', 'C#' ])
     })

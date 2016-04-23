@@ -451,9 +451,12 @@ const reduce = (fn, o, list) => {
 
 // #### Transpose lists
 
-
-const harmonize = (list, pitch) => {
+const harmonizer = (list) => (pitch) => {
   return listFn((list) => list.map(transpose(pitch)))(list)
+}
+
+const harmonize = function (list, pitch) {
+  return arguments.length > 1 ? harmonizer(list)(pitch) : harmonizer(list)
 }
 
 
@@ -508,5 +511,6 @@ exports.toFreq = toFreq;
 exports.transpose = transpose;
 exports.listArr = listArr;
 exports.map = map;
+exports.harmonizer = harmonizer;
 exports.harmonize = harmonize;
 exports.sort = sort;
