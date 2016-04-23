@@ -84,10 +84,6 @@ describe('pitch properties', function () {
       assert.deepEqual([60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72].map(chr),
         ['C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4', 'Bb4', 'B4', 'C5'])
     })
-    it('can be fully applied', function () {
-      assert.deepEqual(tnl.chromatic(false, 61), 'Db4')
-      assert.deepEqual(tnl.chromatic(true, 61), 'C#4')
-    })
   })
   describe('fromMidi', function () {
     it('get pitch names from midi numbers', function () {

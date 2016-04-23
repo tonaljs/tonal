@@ -380,6 +380,14 @@ const reduce = (fn, o, list) => {
 }
 ```
 
+#### Transpose lists
+
+```js
+export const harmonize = (list, pitch) => {
+  return listFn((list) => list.map(transpose(pitch)))(list)
+}
+```
+
 #### Sort lists
 
 ```js
@@ -402,12 +410,5 @@ export function sort (comp, list) {
 }
 ```
 
-#### Transpose lists
-
-```js
-export const harmonize = (list, pitch) => {
-  return listFn((list) => list.map(transpose(pitch)))(list)
-}
-```
 
 Fin.
