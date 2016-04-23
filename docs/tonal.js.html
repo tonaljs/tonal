@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>tonal</title>
+  <title>Tonal</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" media="all" href="public/stylesheets/normalize.css" />
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -14,552 +14,137 @@
       <div class="header">
         
           
-          <h1 id="tonal">tonal</h1>
-<p><strong>tonal</strong> is a functional music theory library. It deals with abstract music concepts like picthes and intervals, not actual music.</p>
-<p><code>tonal</code> have no dependencies (it weights 6kb minified), but there are other modules that depends on it and extends it’s functionality.</p>
-<p><code>tonal</code> is also the result of my journey of learning how to implement a music theory library in javascript in a functional way. And it’s been a long journey.</p>
-<p>You are currently reading the source code of the library. It’s written in <a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a> as a tribute to the The Haskell School of Music and it’s impressive book/source code <a href="http://haskell.cs.yale.edu/wp-content/uploads/2015/03/HSoM.pdf">“From Signals to Symphonies”</a> that has a big influence over tonal development.</p>
-<p>This page is generated using the documentation tool <a href="http://jashkenas.github.io/docco/">docco</a></p>
-<h2 id="music-theory-for-javascript-programmers">Music Theory for Javascript Programmers</h2>
-<p><em>This is a music theory crash-course. The minimum to understand what this source code is about. It’s main purpose it’s to be short, so probably contain lot of inexactitudes. Of course, pull request are welcomed.</em></p>
-<p>This library is about tonal music (when talking about the library, <code>tonal</code> will appear with monospace font). In tonal music we make some assumptions about how music works. That assumptions are only applicable to part of the music (mostly western music) and they are useful in some contexts. Yes, sufji music doesn’t fit in this theory and probably doesn’t need to.</p>
-<p>The most important assumption is that music is made up of units sound called <strong>notes</strong>, and each note has some properties: pitch, duration, timbre, loudness.</p>
-<p>Sometimes we can use the words <em>note</em> and <em>pitch</em> interchangeably. For example “i’m playin C# note”, because you can’t play a pitch if it’s not as a property of a note, but here we’ll <a href="http://music.stackexchange.com/questions/3262/what-are-the-differences-between-tone-note-and-pitch">differentiate between both</a> most of the time.</p>
-<p>The <strong>pitch</strong> is how high the note is, and the difference between the pitch of two notes is called an <strong>interval</strong>.</p>
-<p><code>tonal</code> library focuses mostly on pitches and intervals: create, compare and transform pitches is it’s main purpose.</p>
-<p>In tonal music there’s a special interval called <strong>octave</strong> that has a very important function in music. Two pitches are separated by one octave when the frequency of the higher is the double of the lower. To the ears, they sound very similar, even if played together they are hard to distinguish. When we name them, they have very similar names, like <code>C1</code> and <code>C2</code>.</p>
-<p>In tonal music we divide the <strong>octave</strong> in 12 equal parts (this is not always true, but it work for now). The distance of octave divided by 12 is called a <strong>semitone</strong> and it’s the minimum distance between pitches. All the notes inside an octave is called <strong>chromatic scale</strong>. Here’s one example: C3, Db3, D3, Eb3, E3, F3, F#3, G3, Ab3, A3, Bb3, B3.</p>
-<p><em>(Talk about note names, octaves and pitch classes)</em></p>
-<p>The hardest part to understand is that in tonal music we <strong>name</strong> pitches in terms of a subset of the chromatic scale. Instead of givin a name to all the pitches of a chromatic scale, we only give a name to a few (‘C D E F G A B’) and name the rest in relation to one of it. For example, the hole between ‘C3’ and ‘D3’ (as you see in previous chromatic scale, there’s a pitch between them) can be called ‘C#3’ (C-sharp 3, ‘C3’ plus 1 semitone) or ‘Db3’ (D-flat 3, ‘D3’ less 1 semitone). Yes, you read right: the same pitch can have different names. When this happen, they are called <strong>enharmonics</strong>.</p>
-<p>The names with sharps <code>#</code> or flats <code>b</code> within them are called <strong>altered</strong>.
-If you look at a piano keyboard, the white keys corresponds with unaltered pitches while black keys are the altered ones.</p>
-<h3 id="prelude">Prelude</h3>
+          <h1 id="tonal">Tonal</h1>
+<h4 id="prelude">Prelude</h4>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> note = <span class="hljs-built_in">require</span>(<span class="hljs-string">'note-parser'</span>)
+<span class="hljs-keyword">const</span> ivl = <span class="hljs-built_in">require</span>(<span class="hljs-string">'interval-notation'</span>)
+</code></pre>
 <pre><code class="lang-js"><span class="hljs-keyword">const</span> isArr = <span class="hljs-built_in">Array</span>.isArray
 <span class="hljs-keyword">const</span> isNum = (n) =&gt; <span class="hljs-keyword">typeof</span> n === <span class="hljs-string">'number'</span>
-<span class="hljs-keyword">const</span> isDef = (o) =&gt; <span class="hljs-keyword">typeof</span> o !== <span class="hljs-string">'undefined'</span>
 </code></pre>
 <h2 id="1-pitches">1. Pitches</h2>
-<p>One of the goal of tonal is to represent pitches as strings, so you can write code like: <code>transpose(&#39;c#2 e3 g4&#39;, &#39;3P&#39;)</code>. While this is convenient to the user of the library has two big problems.</p>
-<p>First, strings are very unpractical format when comparing or transforming pitches. Second, there are several pitch names system and implement is not viable, and support only one is too poor.</p>
-<p>To solve this problems, tonal uses a internal numeric format to represent pitches that makes easier the task of compare or transform them. Second, all functions parameters that accepts pitches as strings also accepts them as numerical format, so you can create your own parser.</p>
-<h4 id="fifts-octaves-encoding">Fifts/octaves encoding</h4>
+<h4 id="pitch-encoding">Pitch encoding</h4>
 <pre><code class="lang-js"><span class="hljs-comment">// map from letter step to number of fifths and octaves</span>
 <span class="hljs-keyword">const</span> FIFTHS = [<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>]
+<span class="hljs-comment">// encode a pitch class using the step number and alteration</span>
+<span class="hljs-keyword">const</span> encPC = (step, alt) =&gt; FIFTHS[step] + <span class="hljs-number">7</span> * alt
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-comment">// given a number of fiths, return the octaves they span</span>
-<span class="hljs-keyword">const</span> fifthsOcts = (f) =&gt; <span class="hljs-built_in">Math</span>.floor(f * <span class="hljs-number">7</span> / <span class="hljs-number">12</span>)
-<span class="hljs-keyword">const</span> OCTS = FIFTHS.map(fifthsOcts)
+<pre><code class="lang-js"><span class="hljs-comment">// given a number of fifths, return the octaves they span</span>
+<span class="hljs-keyword">const</span> fifthsSpan = (f) =&gt; <span class="hljs-built_in">Math</span>.floor(f * <span class="hljs-number">7</span> / <span class="hljs-number">12</span>)
+<span class="hljs-comment">// get the number of octaves it span each step</span>
+<span class="hljs-keyword">const</span> OCTS = FIFTHS.map(fifthsSpan)
+<span class="hljs-keyword">const</span> encOct = (step, alt, oct) =&gt; oct - OCTS[step] - <span class="hljs-number">4</span> * alt
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pitch</span> (<span class="hljs-params">step, alt, o</span>) </span>{
-  <span class="hljs-keyword">const</span> ffs = FIFTHS[step] + <span class="hljs-number">7</span> * alt
-  <span class="hljs-keyword">if</span> (!isNum(o)) <span class="hljs-keyword">return</span> { ffs }
-  oct = o - OCTS[step] - <span class="hljs-number">4</span> * alt
-  <span class="hljs-keyword">return</span> { ffs, oct }
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pitch</span> (<span class="hljs-params">step, alt, oct, dir</span>) </span>{
+  <span class="hljs-comment">// is valid step?</span>
+  <span class="hljs-keyword">if</span> (step &lt; <span class="hljs-number">0</span> || step &gt; <span class="hljs-number">6</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+  <span class="hljs-keyword">const</span> pc = encPC(step, alt || <span class="hljs-number">0</span>)
+  <span class="hljs-comment">// if not octave, return the pitch class</span>
+  <span class="hljs-keyword">if</span> (!isNum(oct)) <span class="hljs-keyword">return</span> [ pc ]
+  <span class="hljs-keyword">const</span> o = encOct(step, alt, oct)
+  <span class="hljs-comment">// return dir ? interval : note pitch</span>
+  <span class="hljs-keyword">return</span> dir ? [ pc, o, dir &lt; <span class="hljs-number">0</span> ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>] : [ pc, o ]
 }
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPitch  = (p) =&gt; p &amp;&amp; isNum(p.ffs)
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPitch = (p) =&gt; isArr(p) &amp;&amp; isNum(p[<span class="hljs-number">0</span>])
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPitchClass = (p) =&gt; isArr(p) &amp;&amp; p.length === <span class="hljs-number">1</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> hasOct = (p) =&gt; isPitch(p) &amp;&amp; isNum(p.oct)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPitchNote = (p) =&gt; hasOct(p) &amp;&amp; p.length === <span class="hljs-number">2</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isInterval = (i) =&gt; hasOct(i) &amp;&amp; isNum(i.dir)
 </code></pre>
-<h4 id="scientific-notation">Scientific notation</h4>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> PITCH_REGEX = <span class="hljs-regexp">/^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d{0,1})$/</span>
-<span class="hljs-comment">/**
- * Get the a regex to parse pitch in scientific notation
- *
- * @return {Regex} the regex
- *
- * After exec against a valid string we get:
- * - 0: the complete string
- * - 1: the letter (in upper or lower case)
- * - 2: the alterations (a list of #, b or x)
- * - 3: an optional octave number
- * @example
- * pitchRegex().exec('C#2') // =&gt; ['C#2', 'C', '#', '2']
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pitchRegex = () =&gt; PITCH_REGEX
-</code></pre>
-<p>Then we’ll need a numeric representation of a letter. The <strong>step</strong> is a number from 0 to 6 representing letters <code>C D E F G A B</code>:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> LETTERS = <span class="hljs-string">'CDEFGAB'</span>
-<span class="hljs-comment">/**
- * Given a pitch letter string, return it's letter index.
- * @function
- * @param {String} letter - the pitch letter
- * @return {Integer} the letter index
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> letterStep = (l) =&gt; LETTERS.indexOf(l.toUpperCase())
-</code></pre>
-<p>Within <code>tonal</code> <em>alteration</em> is a numeric representation of accidentals. <code>0</code> means no accidentals, positive numbers are for sharps and negative numbers for flats (<code>x</code> means double sharp):</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Convert accidental string to alteration number
- * @function
- * @param {String} acc - the accidental string
- * @return {Integer} the alteration number
- * @example
- * accToAlt('#') // =&gt; 1
- * accToAlt('bbb') // =&gt; -2
- * accToAlt('') // =&gt; 0
- * accToAlt('x') // =&gt; 2
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">accToAlt</span> (<span class="hljs-params">acc</span>) </span>{
-  <span class="hljs-keyword">const</span> alt = acc.replace(<span class="hljs-regexp">/x/g</span>, <span class="hljs-string">'##'</span>).length
-  <span class="hljs-keyword">return</span> acc[<span class="hljs-number">0</span>] === <span class="hljs-string">'b'</span> ? -alt : alt
-}
-</code></pre>
-<p>With those tools we can write our <strong>pitchParse</strong> function:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// parse a string with a pitch in scientific notation (SN)</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseName</span> (<span class="hljs-params">str</span>) </span>{
-  <span class="hljs-keyword">const</span> m = PITCH_REGEX.exec(str)
-  <span class="hljs-keyword">if</span> (!m) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
-  <span class="hljs-keyword">const</span> s = letterStep(m[<span class="hljs-number">1</span>])
-  <span class="hljs-keyword">const</span> a = accToAlt(m[<span class="hljs-number">2</span>])
-  <span class="hljs-keyword">const</span> o = m[<span class="hljs-number">3</span>] ? +m[<span class="hljs-number">3</span>] : <span class="hljs-literal">null</span>
-  <span class="hljs-keyword">return</span> pitch(s, a, o)
-}
-</code></pre>
-<h4 id="just-one-optimization">Just one optimization</h4>
-<p>With previous versions of tonal I was too much worried about performance, and I’ve ended doing lot of micro optimizations that made the code difficult to follow. Now I prefer code clarity and brevity over performance. With one exception.</p>
-<p>Since <code>tonal</code> is always converting between string notation to Fifths/octave notation, if we cache this process we’ll get a big performance gain:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// decorate a parser to cache results</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cache</span> (<span class="hljs-params">parser</span>) </span>{
-  <span class="hljs-keyword">const</span> cache = {}
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">str</span>) </span>{
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> str !== <span class="hljs-string">'string'</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
-    <span class="hljs-keyword">return</span> cache[str] || (cache[str] = parser(str))
-  }
-}
-</code></pre>
-<p>Now we can have our optimized <strong>pitchParse</strong> function:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Given a pitch string in scientific notation, get the pitch in Fifths/octave notation
- * @function
- * @param {String} str - the string to parse
- * @return {Array} the pitch in Fifths/octave notation or null if not valid string
- * @example
- * pitchParse('C2') // =&gt; [2, 1]
- * pitchParse('bla') // =&gt; null
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pitchParse = cache(parseName)
-</code></pre>
-<h4 id="two-notations">Two notations</h4>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> notePitch = (p) =&gt; isPitch(p) ? p : pitchParse(p)
-<span class="hljs-keyword">const</span> prop = (fn) =&gt; (p) =&gt; fn(notePitch(p))
-</code></pre>
-<h4 id="pitch-properties">Pitch properties</h4>
-<p><strong>pitch step</strong></p>
+<h3 id="pitch-decoding">Pitch decoding</h3>
 <pre><code class="lang-js"><span class="hljs-comment">// remove accidentals to a pitch class</span>
 <span class="hljs-comment">// it gets an array and return a number of fifths</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">unaltered</span> (<span class="hljs-params">p</span>) </span>{
-  <span class="hljs-keyword">const</span> i = (p.ffs + <span class="hljs-number">1</span>) % <span class="hljs-number">7</span>
+  <span class="hljs-keyword">const</span> i = (p[<span class="hljs-number">0</span>] + <span class="hljs-number">1</span>) % <span class="hljs-number">7</span>
   <span class="hljs-keyword">return</span> i &lt; <span class="hljs-number">0</span> ? <span class="hljs-number">7</span> + i : i
 }
-<span class="hljs-comment">// 'FCGDAEB' steps numbers</span>
-<span class="hljs-keyword">var</span> STEPS = [<span class="hljs-number">3</span>, <span class="hljs-number">0</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2</span>, <span class="hljs-number">6</span>]
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> step = prop((p) =&gt; isPitch(p) ? STEPS[unaltered(p)] : <span class="hljs-literal">null</span>)
 </code></pre>
-<p><strong>pitch letter</strong></p>
-<p>The pitch letter is the pitch class without accidentals. Since adding accidentals means adding 7 to fifth number, we perform the opposite using the mod operator:</p>
-<pre><code class="lang-js">
-</code></pre>
-<p>The <code>letter</code> function body assumes a pitch in Fifths/octave notation and it’s wrapped by the <code>prop</code> decorator to convert from scientific to array if necessary:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Get the pitch letter. It accepts scientific or Fifths/octave notation.
- *
- * @name letter
- * @function
- * @param {Pitch|String} pitch - the pitch to get the letter from
- * @return {String} the letter
- * @example
- * letter('C#2') // =&gt; 'C'
- * letter([-7, 2]) // =&gt; 'C'
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> letter = prop((p) =&gt; LETTERS[step(p)])
-</code></pre>
-<p><strong>pitch alteration</strong></p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Get alteration of a pitch.
- *
- * The alteration is an integer indicating the number of sharps or flats
- *
- * @name alt
- * @function
- * @param {Array|String} pitch - the pitch (either in scientific notation or array notation)
- * @return {Integer} the alteration
- * @example
- * alt('C#2') // =&gt; 2
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> alt = prop((p) =&gt; <span class="hljs-built_in">Math</span>.floor((p.ffs + <span class="hljs-number">1</span>) / <span class="hljs-number">7</span>))
-</code></pre>
-<p><strong>pitch accidentals</strong></p>
-<p>Before we wrote a function to convert from accidentals to alteration. Now we need the oposite function:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> fillStr = (n, l) =&gt; <span class="hljs-built_in">Array</span>(<span class="hljs-built_in">Math</span>.abs(n) + <span class="hljs-number">1</span>).join(l)
-
-<span class="hljs-comment">/**
- * Convert alteration number to accidentals
- * @function
- * @param {Integer} alt - the alteration number
- * @return {String} the accidentals string
- * @example
- * altToAcc(2) // =&gt; '##'
- * altToAcc(-2) // =&gt; 'bb'
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> altToAcc = (alt) =&gt; fillStr(alt, alt &lt; <span class="hljs-number">0</span> ? <span class="hljs-string">'b'</span> : <span class="hljs-string">'#'</span>)
-</code></pre>
-<p>Write <strong>accidentals</strong> is now straightforward. Notice that we don’t need to wrap this function with <code>prop</code> since <code>alt</code> is already wrapped:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Get accidentals string from a pitch. It accepts pitches in scientific and Fifths/octave notation.
- *
- * @function
- * @param {Pitch|String} pitch - the pitch to get the accidentals from
- * @return {String} the accidentals string
- * @example
- * accidentals('C##2') // =&gt; '##'
- * accidentals([-7]) // =&gt; 'b'
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> accidentals = (p) =&gt; altToAcc(alt(p))
-</code></pre>
-<p><strong>pitch octave</strong></p>
-<p>To calc the real octave from encoded octave, just inverse the formula:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> calcOct = (p) =&gt; p.oct + <span class="hljs-number">4</span> * alt(p) + OCTS[step(p)]
-<span class="hljs-comment">// returns the pitch octave or `v` if not octave present</span>
-<span class="hljs-keyword">const</span> octOr = (v) =&gt; (p) =&gt; hasOct(p) ? calcOct(p) : v
-</code></pre>
-<p>This allows to write some utility functions:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// return the octave or ''</span>
-<span class="hljs-keyword">const</span> octStr = octOr(<span class="hljs-string">''</span>)
-<span class="hljs-comment">// return the octave or 0</span>
-<span class="hljs-keyword">const</span> octNum = octOr(<span class="hljs-number">0</span>)
-</code></pre>
-<p>And then our <code>oct</code> property function:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Get the octave from pitch. The pitch can be in array or scientific notation
- * @name oct
- * @function
- * @param {Pitch|String} pitch - the pitch to get the octave from
- * @return {Integer} the octave or null if it's a pitch class or not a valid pitch
- * @example
- * oct('C#2') // =&gt; 2
- * oct('C') // =&gt; null
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> oct = prop(octOr(<span class="hljs-literal">null</span>))
-</code></pre>
-<h4 id="convert-to-pitch-fifths-octave-notation-to-scientific-notation">Convert to pitch Fifths/octave notation to scientific notation</h4>
-<p>With all this tools, now we can write our <code>array -&gt; scientific</code> conversion function:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Convert a pitch in Fifths/octave notation to pitch in scientific notation (string)
- *
- * @param {Array} pitch - the pitch to convert
- * @return {String} the pitch in scientific notation
- * @example
- * pitchStr([2, 1]) // =&gt; 'D2'
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pitchStr</span> (<span class="hljs-params">p</span>) </span>{
-  <span class="hljs-keyword">return</span> letter(p) + accidentals(p) + octStr(p)
+<pre><code class="lang-js"><span class="hljs-comment">// 'FCGDAEB' steps numbers</span>
+<span class="hljs-keyword">const</span> STEPS = [<span class="hljs-number">3</span>, <span class="hljs-number">0</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2</span>, <span class="hljs-number">6</span>]
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decode</span> (<span class="hljs-params">p</span>) </span>{
+  <span class="hljs-keyword">const</span> step = STEPS[unaltered(p)]
+  <span class="hljs-keyword">const</span> alt = <span class="hljs-built_in">Math</span>.floor((p[<span class="hljs-number">0</span>] + <span class="hljs-number">1</span>) / <span class="hljs-number">7</span>)
+  <span class="hljs-keyword">const</span> oct = isNum(p[<span class="hljs-number">1</span>]) ? p[<span class="hljs-number">1</span>] + <span class="hljs-number">4</span> * alt + OCTS[step] : <span class="hljs-literal">null</span>
+  <span class="hljs-keyword">return</span> { step: step, alt: alt, oct: oct, dir: p[<span class="hljs-number">2</span>] }
 }
 </code></pre>
-<h4 id="midi-pitch-numbers">Midi pitch numbers</h4>
-<p>We define <em>height</em> as the distance in semitones from <code>C0</code> to the given pitch:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// get pitch height</span>
-<span class="hljs-keyword">const</span> height = (p) =&gt; p.ffs * <span class="hljs-number">7</span> + <span class="hljs-number">12</span> * p.oct
-</code></pre>
-<p>The midi number can have a value between 1-128:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Test if the given number is a valid midi note number
- * @function
- * @param {Object} num - the number to test
- * @return {Boolean} true if it's a valid midi note number
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isMidi = (m) =&gt; !isArr(m) &amp;&amp; m &gt; <span class="hljs-number">0</span> &amp;&amp; m &lt; <span class="hljs-number">129</span>
-</code></pre>
-<p>To match the general midi specification where <code>C4</code> is 60 we must add 12 to that height:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Get midi number for a pitch
- * @function
- * @param {Array|String} pitch - the pitch
- * @return {Integer} the midi number or null if not valid pitch
- * @example
- * midi('C4') // =&gt; 60
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> midi = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">val</span>) </span>{
-  <span class="hljs-keyword">var</span> p = notePitch(val)
-  <span class="hljs-keyword">return</span> hasOct(p) ? height(p) + <span class="hljs-number">12</span>
-    : isMidi(val) ? +val
-    : <span class="hljs-literal">null</span>
+<h4 id="pitch-parsers">Pitch parsers</h4>
+<p>Convert from string to pitches is a quite expensive operation that it’s executed a lot of times. Some caching will help:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> cache = {}
+<span class="hljs-keyword">const</span> cached = (parser) =&gt; (str) =&gt; {
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> str !== <span class="hljs-string">'string'</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+  <span class="hljs-keyword">return</span> cache[str] || (cache[str] = parser(str))
 }
 </code></pre>
-<p>Since any midi number can be mapped to different pitch names, we should select one arbitrarily:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">var</span> CHROMATIC = [ <span class="hljs-string">'C'</span>, <span class="hljs-string">'Db'</span>, <span class="hljs-string">'D'</span>, <span class="hljs-string">'Eb'</span>, <span class="hljs-string">'E'</span>, <span class="hljs-string">'F'</span>, <span class="hljs-string">'Gb'</span>, <span class="hljs-string">'G'</span>, <span class="hljs-string">'Ab'</span>, <span class="hljs-string">'A'</span>, <span class="hljs-string">'Bb'</span>, <span class="hljs-string">'B'</span> ]
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fromMidi</span> (<span class="hljs-params">num</span>) </span>{
-  <span class="hljs-keyword">var</span> midi = +num
-  <span class="hljs-keyword">return</span> (<span class="hljs-built_in">isNaN</span>(midi) || midi &lt; <span class="hljs-number">0</span> || midi &gt; <span class="hljs-number">127</span>) ? <span class="hljs-literal">null</span>
-    : CHROMATIC[midi % <span class="hljs-number">12</span>] + (<span class="hljs-built_in">Math</span>.floor(midi / <span class="hljs-number">12</span>) - <span class="hljs-number">1</span>)
-}
-</code></pre>
-<h4 id="frequency-conversions">Frequency conversions</h4>
-<p>The most popular way (in western music) to calculate the frequency of a pitch is using the <a href="https://en.wikipedia.org/wiki/Well_temperament">well temperament</a> tempered tuning. It assumes the octave to be divided in 12 equally sized semitones and tune all the notes against a reference:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Get a frequency calculator function that uses well temperament and a tuning reference.
- * @function
- * @param {Float} ref - the tuning reference
- * @return {Function} the frequency calculator. It accepts a pitch in array or scientific notation and returns the frequency in herzs.
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> wellTempered = (ref) =&gt; (pitch) =&gt; {
-  <span class="hljs-keyword">var</span> m = midi(pitch)
-  <span class="hljs-keyword">return</span> m ? <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">2</span>, (m - <span class="hljs-number">69</span>) / <span class="hljs-number">12</span>) * ref : <span class="hljs-literal">null</span>
-}
-</code></pre>
-<p>The most popular tuning reference is <code>A4 = 440Hz</code>:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz
- * @function
- * @param {Array|String} pitch - the pitch to get the frequency from
- * @return {Float} the frequency in herzs
- * @example
- * toFreq('C4') // =&gt; 261.6255653005986
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> toFreq = wellTempered(<span class="hljs-number">440</span>)
-</code></pre>
-<p>###</p>
-<h2 id="2-intervals">2. Intervals</h2>
-<p>Imagining each pitch as an interval from <code>C0</code> to the given note, then the pitch <code>D0</code> means a major second (<code>2M</code>), the pitch <code>E0</code> means a major thirth (<code>3M</code>) and the pitch <code>Eb0</code> can represent a minor thirth (<code>3m</code>). In fact, we are encoding pitches as intervals. This is another nice property of fifths/oct notation: can be used to represent pitches and intervals with same API.</p>
-<p>The only difference to pitches is that intervals has a direction: can be ascending or descending. We going to encode an interval as a pitch with direction where <code>1</code> represent ascending and <code>-1</code> descending intervals.</p>
-<p>Notice that the first parameter of <code>interval</code> is not the interval number but the simplified interval number in 0 based index (the equivalent of pitch step, called here <strong>interval step</strong>)</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Create an interval from interval step, interval alteration, interval octave and direction
- *
- * @param {Integer} step - the interval step (0 = unison, 1 = second ... 6 = seventh)
- * @param {Integer} alteration - the interval alteration
- * @param {Integer} oct - how many octaves the interval spans
- * @param {Integer} dir - the direction (1 ascending, -1 descending)
- * @return {Array} an interval in Fifths/octave notation
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">interval</span> (<span class="hljs-params">step, alt, oct, dir</span>) </span>{
-  <span class="hljs-keyword">const</span> p = pitch(step, alt, oct)
-  <span class="hljs-keyword">return</span> { ffs: p.ffs, oct: p.oct, dir: dir}
-}
-</code></pre>
-<p>And our definition of interval:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Return if the given object is an interval
- * @function
- * @param {Object} obj - the object to check
- * @return {Boolean} true if the object is an interval object
- * @example
- * isInterval([0,3,1]) // =&gt; true
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isInterval = (i) =&gt; hasOct(i) &amp;&amp; isDef(i.dir)
-</code></pre>
-<h4 id="parse-intervals">Parse intervals</h4>
-<p>Parsing intervals is more complicated. First we need to get the simplified index from the interval number. This concept is equivalent to the letter class where each interval number (with independence of the quality) has a simplified index:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// get a simplified index from an interval number. Basically:</span>
-<span class="hljs-comment">// unison is 0, second is 1, thirth is 2, ...</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> simplifiedIndex = (n) =&gt; (n - <span class="hljs-number">1</span>) % <span class="hljs-number">7</span>
-</code></pre>
-<p>Intervals can be <code>perfectables</code> (can have perfect quality: unisons, fourths and fifths) or <code>majorable</code> (can have major quality: seconds, thirds, sixths and sevenths):</p>
-<pre><code class="lang-js"><span class="hljs-comment">// To get the type: TYPES[simplifiedIndex]</span>
-<span class="hljs-keyword">const</span> TYPES = <span class="hljs-string">'PMMPPMM'</span>
-</code></pre>
-<p>The we need to get the alteration number from the quality string. Since some qualities are only valid for some kind of intervals, to parse we need to know the type:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Get an alteration number from an interval quality string.
- * It accepts the standard `dmMPA` but also sharps and flats.
- *
- * @param {String} type - the interval type ('P' or 'M')
- * @param {String} quality - the quality string
- * @return {Integer} the interval alteration
- * @example
- * qualityToAlt('M', 'm') // =&gt; -1 (for majorables, 'm' is -1)
- * qualityToAlt('P', 'A') // =&gt; 1 (for perfectables, 'A' means 1)
- * qualityToAlt('M', 'P') // =&gt; null (majorables can't be perfect)
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">qualityToAlt</span> (<span class="hljs-params">type, q</span>) </span>{
-  <span class="hljs-keyword">if</span> (type === <span class="hljs-string">'P'</span>) {
-    <span class="hljs-keyword">if</span> (q === <span class="hljs-string">'P'</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (q[<span class="hljs-number">0</span>] === <span class="hljs-string">'A'</span>) <span class="hljs-keyword">return</span> q.length
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (q[<span class="hljs-number">0</span>] === <span class="hljs-string">'d'</span>) <span class="hljs-keyword">return</span> -q.length
-  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (type === <span class="hljs-string">'M'</span>) {
-    <span class="hljs-keyword">if</span> (q === <span class="hljs-string">'M'</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (q === <span class="hljs-string">'m'</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (q[<span class="hljs-number">0</span>] === <span class="hljs-string">'A'</span>) <span class="hljs-keyword">return</span> q.length
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (q[<span class="hljs-number">0</span>] === <span class="hljs-string">'d'</span>) <span class="hljs-keyword">return</span> -(q.length + <span class="hljs-number">1</span>)
-  }
-  <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
-}
-</code></pre>
-<p>Then we build our regex. We want to accept tonal shorthand notation (where number is before the quality: <code>3M</code>) and standard shorthand notation (quality before number: <code>M3</code>). We prefer the first notation because it’s unambiguous (the string <code>A4</code> can be interpreted as a pitch or as a interval in shorthand notation):</p>
-<pre><code class="lang-js"><span class="hljs-comment">// shorthand tonal notation (with quality after number)</span>
-<span class="hljs-keyword">const</span> IVL_TNL = <span class="hljs-string">'([-+]?)(\\d+)(d{1,4}|m|M|P|A{1,4})'</span>
-<span class="hljs-comment">// standard shorthand notation (with quality before number)</span>
-<span class="hljs-keyword">const</span> IVL_STR = <span class="hljs-string">'(AA|A|P|M|m|d|dd)([-+]?)(\\d+)'</span>
-<span class="hljs-keyword">const</span> COMPOSE = <span class="hljs-string">'(?:('</span> + IVL_TNL + <span class="hljs-string">')|('</span> + IVL_STR + <span class="hljs-string">'))'</span>
-<span class="hljs-keyword">const</span> IVL_REGEX = <span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">'^'</span> + COMPOSE + <span class="hljs-string">'$'</span>)
-
-<span class="hljs-comment">/**
- * Get regex to parse intervals in shorthand notation
- * @return {Regex} the regex
- *
- * After executing the regex, we will have an array-like object with:
- * - 0: the complete string
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ivlRegex</span> (<span class="hljs-params"></span>) </span>{ <span class="hljs-keyword">return</span> IVL_REGEX }
-</code></pre>
-<p>And our interval parse function:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Parse a string with an interval in shorthand notation. It support two types: standard shorthand interval notation `quality+[direction]+number` or the tonal shorthand notation `[direction]+number+quality`
- * @function
- * @param {String} str - the string to parse
- * @return {Array} the interval in Fifths/octave notation or null if not valid interval string
- * @example
- * ivlParse('3M') // =&gt; [ 4, -2, 1 ]
- * ivlParse('-3M') // =&gt; [ 4, -2, -1 ]
- * ivlParse('M3') // =&gt; [ 4, -2, 1 ]
- * ivlParse('M-3') // =&gt; [ 4, -2, -1 ]
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ivlParse = cache(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">str</span>) </span>{
-  <span class="hljs-keyword">const</span> m = IVL_REGEX.exec(str)
-  <span class="hljs-keyword">if</span> (!m) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
-  <span class="hljs-keyword">const</span> num = +(m[<span class="hljs-number">3</span>] || m[<span class="hljs-number">8</span>])
-  <span class="hljs-keyword">const</span> sim = simplifiedIndex(num)
-  <span class="hljs-keyword">const</span> alt = qualityToAlt(TYPES[sim], m[<span class="hljs-number">4</span>] || m[<span class="hljs-number">6</span>])
-  <span class="hljs-keyword">const</span> oct = <span class="hljs-built_in">Math</span>.floor((num - <span class="hljs-number">1</span>) / <span class="hljs-number">7</span>)
-  <span class="hljs-keyword">const</span> dir = (m[<span class="hljs-number">2</span>] || m[<span class="hljs-number">7</span>]) === <span class="hljs-string">'-'</span> ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>
-  <span class="hljs-keyword">return</span> interval(sim, alt, oct, dir)
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parseNote = cached((str) =&gt; {
+  <span class="hljs-keyword">const</span> n = note.parse(str)
+  <span class="hljs-keyword">return</span> n ? pitch(n.step, n.alt, n.oct) : <span class="hljs-literal">null</span>
 })
 </code></pre>
-<h4 id="interval-properties">Interval properties</h4>
-<p>We do the same trick as before, define an <code>ivlProp</code> function:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> ivlPitch = (i) =&gt; isInterval(i) ? i : ivlParse(i)
-<span class="hljs-comment">/**
- * Decorate a function to accept intervals in array of shorthand notation. It only works with 1-parameter functions.
- *
- * @param {Function} fn - the function to be decorated
- * @return {Function} the decorated function
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ivlProp = (fn) =&gt; (obj) =&gt; fn(ivlPitch(obj))
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parseIvl = cached((str) =&gt; {
+  <span class="hljs-keyword">const</span> i = ivl.parse(str)
+  <span class="hljs-keyword">return</span> i ? pitch(i.simple - <span class="hljs-number">1</span>, i.alt, i.oct, i.dir) : <span class="hljs-literal">null</span>
+})
 </code></pre>
-<p><strong>interval number</strong></p>
-<p>The <em>interval simple number</em> is the interval number (0-index based) as if the interval spawn less than one octave. It’s the equivalent of a pitch letter:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// the simplified number against the number of fifths</span>
-<span class="hljs-keyword">const</span> SIMPLES = [<span class="hljs-number">3</span>, <span class="hljs-number">0</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2</span>, <span class="hljs-number">6</span>]
-<span class="hljs-comment">/**
- * Get the simplified interval number (in 1-based index)
- *
- * @function
- * @param {Array|String} ivl - the interval to get the number from
- * @return {Integer} the simplified interval number
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> simpleNum = ivlProp((i) =&gt; SIMPLES[unaltered(i)])
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> parsePitch = (str) =&gt; parseNote(str) || parseIvl(str)
 </code></pre>
-<p>The interval number is the simple number in 1-based index with the octave:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Get the interval number
- * @function
- * @param {Array|String} ivl - the interval to get the number from
- * @return {Integer} a integer greater than 0 or null if not valid interval
- * @example
- * number('P8') // =&gt; 8
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> number = ivlProp((i) =&gt; simpleNum(i) + <span class="hljs-number">1</span> + <span class="hljs-number">7</span> * octNum(i))
-</code></pre>
-<p><strong>interval quality and type</strong></p>
-<p>Intervals can be <em>perfectables</em> (unison, octaves, fourths, and fifths) or <em>majorables</em> (seconds, thirds, sixths and sevenths):</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Get the interval type
- * @function
- * @param {Array|String} ivl - the interval
- * @param {String} 'P' if it's perfectable, 'M' if it's majorable
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ivlType = (i) =&gt; TYPES[simpleNum(i)]
-</code></pre>
-<p>Using that information we can get the interval quality:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> ALTER = {
-  P: [<span class="hljs-string">'dddd'</span>, <span class="hljs-string">'ddd'</span>, <span class="hljs-string">'dd'</span>, <span class="hljs-string">'d'</span>, <span class="hljs-string">'P'</span>, <span class="hljs-string">'A'</span>, <span class="hljs-string">'AA'</span>, <span class="hljs-string">'AAA'</span>, <span class="hljs-string">'AAAA'</span>],
-  M: [<span class="hljs-string">'ddd'</span>, <span class="hljs-string">'dd'</span>, <span class="hljs-string">'d'</span>, <span class="hljs-string">'m'</span>, <span class="hljs-string">'M'</span>, <span class="hljs-string">'A'</span>, <span class="hljs-string">'AA'</span>, <span class="hljs-string">'AAA'</span>, <span class="hljs-string">'AAAA'</span>]
-}
-<span class="hljs-comment">/**
- * Get interval quality
- * @function
- * @param {Array|String} ivl - the interval
- * @return {String} the quality string
- * @example
- * quality('3M') // =&gt; 'M'
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> quality = ivlProp((i) =&gt; ALTER[ivlType(i)][<span class="hljs-number">4</span> + alt(i)])
-</code></pre>
-<p><strong>interval direction</strong></p>
-<pre><code class="lang-js"><span class="hljs-comment">/*
- * get interval direction
- * @function
- * @param {Array|String} ivl - the interval
- * @return {Integer}
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> direction = (i) =&gt; { <span class="hljs-keyword">return</span> i[<span class="hljs-number">4</span>] }
-<span class="hljs-keyword">const</span> dirStr = (p) =&gt; direction(p) === <span class="hljs-number">-1</span> ? <span class="hljs-string">'-'</span> : <span class="hljs-string">''</span>
-</code></pre>
-<h4 id="convert-intervals-to-strings">Convert intervals to strings</h4>
-<p>Finally, we have the puzzle:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Convert an interval in Fifths/octave notation to shorthand notation
- * @function
- * @param {Array} ivl - the interval in Fifths/octave notation
- * @return {String} the interval in shorthand notation
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ivlStr</span> (<span class="hljs-params">p</span>) </span>{
-  <span class="hljs-keyword">return</span> dirStr(p) + number(p) + quality(p)
+<h3 id="pitch-to-string">Pitch to string</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> stepLetter = (s) =&gt; <span class="hljs-string">'CDEFGAB'</span>[s]
+<span class="hljs-keyword">const</span> fillStr = (s, num) =&gt; <span class="hljs-built_in">Array</span>(<span class="hljs-built_in">Math</span>.abs(num) + <span class="hljs-number">1</span>).join(s)
+<span class="hljs-keyword">const</span> altAcc = (n) =&gt; fillStr(n &lt; <span class="hljs-number">0</span> ? <span class="hljs-string">'b'</span> : <span class="hljs-string">'#'</span>, n)
+<span class="hljs-keyword">const</span> strNum = (n) =&gt; n !== <span class="hljs-literal">null</span> ? n : <span class="hljs-string">''</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">strNote</span> (<span class="hljs-params">pitch</span>) </span>{
+  <span class="hljs-keyword">const</span> p = decode(pitch)
+  <span class="hljs-keyword">return</span> p ? stepLetter(p.step) + altAcc(p.alt) + strNum(p.oct) : <span class="hljs-literal">null</span>
 }
 </code></pre>
-<h2 id="3-distances">3. Distances</h2>
-<p>Fifths/octave notation shines when performing pitch transformations related to distances. Transpose or find interval between pitches are implemented simply by adding or subtracting the arrays as if they were vector values.</p>
-<h4 id="transposition">Transposition</h4>
-<p>For example, transpose a pitch by an interval is just adding the pitch arrays to the interval array. Notice that if the pitch its a pitch class it returns a pitch class:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// transpose a note by an interval</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">trBy</span> (<span class="hljs-params">ivl, p</span>) </span>{
-  <span class="hljs-comment">// is a pitch class</span>
-  <span class="hljs-keyword">return</span> hasOct(p)
-    <span class="hljs-comment">// build a pitch</span>
-    ? { ffs: ivl.dir * ivl.ffs + p.ffs, oct: ivl.dir * ivl.oct + p.oct }
-    <span class="hljs-comment">// build a pitch class</span>
-    : { ffs: ivl.dir * ivl.ffs + p.ffs }
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> calcNum = (props) =&gt; props.step + <span class="hljs-number">1</span> + <span class="hljs-number">7</span> * props.oct
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">strIvl</span> (<span class="hljs-params">pitch</span>) </span>{
+  <span class="hljs-keyword">const</span> p = decode(pitch)
+  <span class="hljs-keyword">const</span> num = calcNum(props)
+  <span class="hljs-keyword">return</span> p ? strDir(p.dir) + num + ivl.altToQ(num, p.alt) : <span class="hljs-literal">null</span>
 }
 </code></pre>
-<p>But we want our transpose function more flexible. First of all, it should receive an interval and a pitch, but the order should not matter:</p>
-<pre><code class="lang-js"><span class="hljs-comment">// parse a pitch or an interval or return the object itself</span>
-<span class="hljs-keyword">const</span> pitchOrIvl = (o) =&gt; pitchParse(o) || ivlParse(o) || o
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> strPitch = (p) =&gt; p.dir ? strIvl(p) : strNote(p)
 </code></pre>
-<p>Second, it should be currified to allow partial application. Partial application allow write code like: <code>[&#39;C&#39;, &#39;D&#39;, &#39;E&#39;].map(transpose(&#39;3M&#39;))</code> and that’s the core of this library:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * Transpose a pitch by an interval
- * This function is currified, and aliased as `tr`
- * @function
- * @param {Array|String} a - the pitch or interval
- * @param {Array|String} b - the pitch or interval
- * @return {String} the pitch transposed by the interval
- * @example
- * transpose('C2', 'm3') // =&gt; 'Eb2'
- * transpose('C', '6m') // =&gt; 'Ab'
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transpose</span> (<span class="hljs-params">a, b</span>) </span>{
-  <span class="hljs-comment">// if only one argument, partial application</span>
-  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> (b) =&gt; transpose(a, b)
-  <span class="hljs-keyword">const</span> ac = pitchOrIvl(a)
-  <span class="hljs-keyword">const</span> bc = pitchOrIvl(b)
-  <span class="hljs-comment">// if its an interval and a pitch</span>
-  <span class="hljs-keyword">const</span> n = (isInterval(ac) &amp;&amp; isPitch(bc)) ? trBy(ac, bc)
-    <span class="hljs-comment">// it its a pitch and an interval</span>
-    : (isPitch(ac) &amp;&amp; isInterval(bc)) ? trBy(bc, ac)
-    <span class="hljs-comment">// anything else is not valid</span>
-    : <span class="hljs-literal">null</span>
-  <span class="hljs-comment">// convert back to a pitch string</span>
-  <span class="hljs-keyword">return</span> n ? pitchStr(n) : <span class="hljs-literal">null</span>
-}
+<h4 id="decorate-pitch-transform-functions">Decorate pitch transform functions</h4>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> notation = (parse, str) =&gt; (v) =&gt; !isPitch(v) ? parse(v) : str(v)
 </code></pre>
-<p>I think this is tonal more important function, so it’s aliased:</p>
-<pre><code class="lang-js"><span class="hljs-comment">/**
- * An alias for `transpose`
- * @function
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> tr = transpose
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> id = (x) =&gt; x
+<span class="hljs-keyword">const</span> expectNote = notation(parseNote, id)
+<span class="hljs-keyword">const</span> expectIvl = notation(parseIvl, id)
+<span class="hljs-keyword">const</span> expectPitch = notation(parsePitch, id)
 </code></pre>
-<h2 id="4-collections">4. Collections</h2>
-<p>Since <code>tonal</code> is string oriented, it would be nice to <strong>represent list as strings</strong>:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> toNoteStr = notation(id, strNote)
+<span class="hljs-keyword">const</span> toIvlStr = notation(id, strIvl)
+<span class="hljs-keyword">const</span> toPitchStr = notation(id, strPitch)
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> buildFnDec = (expect, to) =&gt; (fn) =&gt; (v) =&gt; to(fn(expect(v)))
+<span class="hljs-keyword">const</span> noteFn = buildFnDec(expectNote, toNoteStr)
+<span class="hljs-keyword">const</span> ivlFn = buildFnDec(expectIvl, toIvlStr)
+<span class="hljs-keyword">const</span> pitchFn = buildFnDec(expectPitch, toPitchStr)
+</code></pre>
+<h4 id="pitch-properties">Pitch properties</h4>
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pc = noteFn((p) =&gt; [ p[<span class="hljs-number">0</span>] ])
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> letter = noteFn((n) =&gt; stepLetter(decode(n).step))
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> accidentals = noteFn((n) =&gt; altAcc(decode(n).alt))
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> octave = pitchFn((p) =&gt; decode(p).oct)
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> simpleNum = ivlFn((i) =&gt; decode(i).step + <span class="hljs-number">1</span>)
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> number = ivlFn((i) =&gt; calcNum(decode(i)))
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> quality = ivlFn((i) =&gt; {
+  <span class="hljs-keyword">var</span> p = decode(i)
+  <span class="hljs-keyword">return</span> ivl.altToQ(p.step + <span class="hljs-number">1</span>, p.alt)
+})
+</code></pre>
+<h2 id="2-pitch-distances">2. Pitch distances</h2>
+<h2 id="3-lists">3. Lists</h2>
 <pre><code class="lang-js"><span class="hljs-comment">// items can be separated by spaces, bars and commas</span>
 <span class="hljs-keyword">const</span> SEP = <span class="hljs-regexp">/\s*\|\s*|\s*,\s*|\s+/</span>
 <span class="hljs-comment">/**
@@ -567,33 +152,42 @@ If you look at a piano keyboard, the white keys corresponds with unaltered pitch
  * @param {String|Array|Object} source - the thing to get an array from
  * @return {Array} the object as an array
  */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">split</span> (<span class="hljs-params">src</span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">listArr</span> (<span class="hljs-params">src</span>) </span>{
   <span class="hljs-keyword">return</span> isArr(src) ? src
     : <span class="hljs-keyword">typeof</span> src === <span class="hljs-string">'string'</span> ? src.trim().split(SEP)
     : (src === <span class="hljs-literal">null</span> || <span class="hljs-keyword">typeof</span> src === <span class="hljs-string">'undefined'</span>) ? []
     : [ src ]
 }
 </code></pre>
-<h4 id="map-collections">Map collections</h4>
-<p>With the above function we can map collection easily: <code>split(&#39;C D E F G&#39;).map(transpose(&#39;3M&#39;))</code>.</p>
-<p>We will write a <strong>map</strong> helper function that do more or less the same:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">map</span> (<span class="hljs-params">fn, list</span>) </span>{
-  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">l</span>) </span>{ <span class="hljs-keyword">return</span> map(fn, l) }
-  <span class="hljs-keyword">return</span> split(list).map(fn)
+<h4 id="transform-lists">Transform lists</h4>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> listToStr = (v) =&gt; isArr(v) ? v.map(toPitchStr) : toPitchStr(v)
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> listFn = (fn) =&gt; (src) =&gt; {
+  <span class="hljs-keyword">var</span> param = listArr(src)
+  <span class="hljs-keyword">var</span> result = fn(param)
+  <span class="hljs-keyword">return</span> isPitch(param[<span class="hljs-number">0</span>]) ? result : listToStr(result)
 }
 </code></pre>
-<p>But it have two gems inside:</p>
-<ul>
-<li>The function is currified. In fact, most of the functions in tonal are <a href="https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html">currified</a></li>
-<li>The parameters are arranged to make it convenient for currying. The data to be operated on is supplied last (so instead of <code>map(list, fn)</code> we will write <code>map(fn, list)</code>)</li>
-</ul>
-<p>Both things are related and they are in the heart of tonal library. Javascript programmers will find awkward, at the beginning, to have the array as last argument of <code>map</code> function, but now you can write:</p>
-<pre><code><span class="hljs-comment">// notice this is only an example, not part of the library</span>
-<span class="hljs-keyword">const</span> letters = map(letter);
-letters(<span class="hljs-string">'c2 eb4 g7'</span>) <span class="hljs-comment">// =&gt; ['C', 'Eb', 'G']</span>
-</code></pre><h4 id="some-helpers">Some helpers</h4>
-<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">harmonize</span> (<span class="hljs-params">list, tonic</span>) </span>{
-  <span class="hljs-keyword">return</span> split(list).map(tr(tonic))
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">map</span> (<span class="hljs-params">fn, list</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> map(fn)(list)
+  <span class="hljs-keyword">return</span> listFn((arr) =&gt; arr.map(fn))
+}
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> filter = (fn, list) =&gt; {
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> filter(fn)(list)
+  <span class="hljs-keyword">return</span> listFn((arr) =&gt; arr.filter(fn))
+}
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> reduce = (fn, o, list) =&gt; {
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> (o, list) =&gt; reduce(fn, o)(list)
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> reduce(fn, o)(list)
+  <span class="hljs-keyword">return</span> listFn((arr) =&gt; arr.reduce(fn, o))(list)
+}
+</code></pre>
+<h4 id="sort-lists">Sort lists</h4>
+<h4 id="transpose-lists">Transpose lists</h4>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> harmonize = (list, pitch) =&gt; {
+  <span class="hljs-keyword">return</span> listFn((list) =&gt; list.map(transpose(pitch)))(list)
 }
 </code></pre>
 <p>Fin.</p>

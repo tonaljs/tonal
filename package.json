@@ -33,7 +33,10 @@
   ],
   "author": "danigb",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "interval-notation": "file:../interval-notation",
+    "note-parser": "file:../note-parser"
+  },
   "devDependencies": {
     "babel-preset-es2015-rollup": "^1.1.1",
     "markdown-code-blocks": "0.0.1",

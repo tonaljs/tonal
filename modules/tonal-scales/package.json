@@ -1,17 +1,18 @@
 {
-  "name": "tonal-scale",
+  "name": "tonal-scales",
   "version": "1.2.0",
   "description": "Create music scales",
   "main": "index.js",
   "scripts": {
+    "tonal": "rm -rf node_modules && npm i",
     "build": "npm test && npm run coverage && npm run docs && npm run dist",
     "test": "mocha",
     "api": "documentation build -f md > API.md",
-    "dist": "browserify index.js | uglifyjs > tmp/tonal-scale.min.js&& ls -hall tmp/",
+    "dist": "browserify index.js | uglifyjs > tmp/tonal-scales.min.js&& ls -hall tmp/",
     "coverage": "istanbul cover _mocha"
   },
-  "homepage": "https://github.com/danigb/tonal/tree/master/packages/tonal-scale#readme",
-  "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal-scale",
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/tonal-scales#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal-scales",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
@@ -24,5 +25,6 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
+    "tonal": "file:../.."
   }
 }

@@ -10,7 +10,7 @@ Create a scale from a name or intervals and tonic
 **Examples**
 
 ```javascript
-var scale = require('tonal-scale')
+var scale = require('tonal-scales')
 // get scale from type and tonic
 scale('major', 'A4') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
 // get scale from intervals and tonic

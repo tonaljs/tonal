@@ -1,11 +1,11 @@
-# tonal-scale [![npm version](https://img.shields.io/npm/v/tonal-scale.svg)](https://www.npmjs.com/package/tonal-scale)
+# tonal-scales [![npm version](https://img.shields.io/npm/v/tonal-scales.svg)](https://www.npmjs.com/package/tonal-scales)
 
 [![tonal](https://img.shields.io/badge/tonal-music--scale-yellow.svg)](https://www.npmjs.com/package/tonal)
 
-`tonal-scale` is a module to create music scales. To create scales you can use intervals and tonic, type and tonic or scale name:
+`tonal-scales` is a module to create music scales. To create scales you can use intervals and tonic, type and tonic or scale name:
 
 ```js
-var scale = require('tonal-scale')
+var scale = require('tonal-scales')
 
 // get scale from name
 scale.get('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
@@ -31,7 +31,7 @@ tonal.scale.get('D3 bebop') // => ...
 
 ## Install
 
-Via npm: `npm i --save tonal-scale`
+Via npm: `npm i --save tonal-scales`
 
 ## Usage
 

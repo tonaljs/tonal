@@ -1,9 +1,18 @@
 'use strict'
 
-var set = require('pitch-set')
-var harmonizer = require('note-harmonizer')
-var data = require('scale-dictionary')
-var regex = require('music-notation/note/regex')
+var tnl = require('tonal')
+var raw = require('./scales.json')
+
+var data = Object.keys(raw).reduce(function (d, k) {
+  d[k] = raw[k][0].split(' ').map(tnl.ivlParse)
+  return d
+}, {})
+
+function byIntervals(ivls) {
+  return function (tonic) {
+    return tnl.harmonize(ivls, tonic || 'P1')
+  }
+}
 
 /**
  * Create a scale from a name or intervals and tonic
@@ -15,7 +24,7 @@ var regex = require('music-notation/note/regex')
  * @return {Array} the list of notes
  *
  * @example
- * var scale = require('tonal-scale')
+ * var scale = require('tonal-scales')
  * // get scale from type and tonic
  * scale('major', 'A4') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
  * // get scale from intervals and tonic
@@ -28,11 +37,11 @@ var regex = require('music-notation/note/regex')
  * tonal.scale('major', 'A')
  */
 function scale (source, tonic) {
-  if (arguments.lenght === 1) return function (t) { return scale(source, t) }
+  if (arguments.length > 1) return scale(source)(tonic)
   var intervals = data[source]
+  // is an alias?
   if (typeof intervals === 'string') intervals = data[intervals]
-  if (!intervals) intervals = set(source)
-  return harmonizer(intervals, tonic)
+  return byIntervals(intervals || source)
 }
 
 /**
@@ -49,22 +58,21 @@ function scale (source, tonic) {
  * // part of tonal
  * tonal.scale.get('C2 bebop')
  */
-scale.get = function (name) {
-  var p = regex.exec(name)
-  return (p && p[5]) ? scale(p[5], p[1] + p[2] + p[3]) : []
+function fromName(name) {
+  var i = name.indexOf(' ')
+  if (i === -1) return scale(name, false)
+  else return scale(name.slice(i + 1), name.slice(0, i))
 }
 
 /**
  * Return the available scale names
  *
- * @name scale.names
- * @function
  * @param {boolean} aliases - true to include aliases
  *
  * @example
  * tonal.scale.names() // => ['maj7', ...]
  */
-scale.names = function (aliases) {
+function names (aliases) {
   if (aliases) return Object.keys(data)
   return Object.keys(data).reduce(function (names, name) {
     if (typeof data[name] !== 'string') names.push(name)
@@ -72,4 +80,4 @@ scale.names = function (aliases) {
   }, [])
 }
 
-module.exports = scale
+module.exports = { scale: scale, names: names, fromName: fromName }

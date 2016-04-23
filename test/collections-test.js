@@ -4,7 +4,7 @@
 var assert = require('assert')
 var tonal = require('../')
 
-describe('collections', function () {
+describe.skip('collections', function () {
   describe('harmonize', function () {
     var harmonize = tonal.harmonize
     it('harmonizes intervals by tonic', function () {

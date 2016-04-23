@@ -4,7 +4,7 @@
   "description": "Sort a collection of music notes or intervals",
   "main": "index.js",
   "scripts": {
-    "update": "rm -rf node_modules && npm i",
+    "tonal": "rm -rf node_modules && npm i",
     "build": "npm test && npm run docs && npm run coverage && npm run disc && npm run dist",
     "test": "mocha",
     "docs": "documentation -f md > API.md",
