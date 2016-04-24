@@ -1,0 +1,16 @@
+{
+  "name": "tonal-ranges",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "npm run rollup && mocha",
+    "rollup": "rollup lib/index.js -o dist/index.js -f cjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tonal": "file:../.."
+  }
+}

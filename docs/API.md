@@ -1,6 +1,28 @@
+## Constants
+
+<dl>
+<dt><a href="#chromatic">chromatic</a> ⇒ <code>function</code></dt>
+<dd><p>Create a chromatic scale</p>
+</dd>
+<dt><a href="#fromMidi">fromMidi</a> ⇒ <code>String</code></dt>
+<dd><p>Given a midi number, returns a note name. The altered notes will have
+flats.</p>
+</dd>
+</dl>
+
 ## Functions
 
 <dl>
+<dt><a href="#pitch">pitch(step, alt, oct, dir)</a> ⇒ <code>Pitch</code></dt>
+<dd><p>Create a pitch. A pitch in tonal may refer to a pitch class, the pitch
+of a note or an interval.</p>
+</dd>
+<dt><a href="#isPitch">isPitch(obj)</a> ⇒ <code>Boolean</code></dt>
+<dd><p>Test if a given object is a pitch</p>
+</dd>
+<dt><a href="#isPitchClass">isPitchClass(obj)</a> ⇒ <code>Boolean</code></dt>
+<dd><p>Test if a given object is a pitch class</p>
+</dd>
 <dt><a href="#isMidi">isMidi(num)</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Test if the given number is a valid midi note number</p>
 </dd>
@@ -17,6 +39,81 @@
 <dd><p>Split a string by spaces (or commas or bars). Always returns an array, even if its empty</p>
 </dd>
 </dl>
+
+<a name="chromatic"></a>
+
+## chromatic ⇒ <code>function</code>
+Create a chromatic scale
+
+**Kind**: global constant  
+**Returns**: <code>function</code> - returns a function that converts from midi number to
+note name  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| useSharps | <code>Boolean</code> | use sharps or flats when notes is altered |
+
+**Example**  
+```js
+var chromaticScale = chromatic(false)
+[60, 61, 62].map(chromaticScale) // => ['C4', 'Db4', 'D4']
+```
+<a name="fromMidi"></a>
+
+## fromMidi ⇒ <code>String</code>
+Given a midi number, returns a note name. The altered notes will have
+flats.
+
+**Kind**: global constant  
+**Returns**: <code>String</code> - the note name  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| midi | <code>Integer</code> | the midi note number |
+
+**Example**  
+```js
+tonal.fromMidi(61) // => 'Db4'
+```
+<a name="pitch"></a>
+
+## pitch(step, alt, oct, dir) ⇒ <code>Pitch</code>
+Create a pitch. A pitch in tonal may refer to a pitch class, the pitch
+of a note or an interval.
+
+**Kind**: global function  
+**Returns**: <code>Pitch</code> - the pitch encoded as array notation  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| step | <code>Integer</code> | an integer from 0 to 6 representing letters from C to B or simple interval numbers from unison to seventh |
+| alt | <code>Integer</code> | the alteration |
+| oct | <code>Integer</code> | the pitch octave |
+| dir | <code>Integer</code> | (Optional, intervals only) The interval direction |
+
+<a name="isPitch"></a>
+
+## isPitch(obj) ⇒ <code>Boolean</code>
+Test if a given object is a pitch
+
+**Kind**: global function  
+**Returns**: <code>Boolean</code> - true if is a pitch, false otherwise  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| obj | <code>Object</code> | the object to test |
+
+<a name="isPitchClass"></a>
+
+## isPitchClass(obj) ⇒ <code>Boolean</code>
+Test if a given object is a pitch class
+
+**Kind**: global function  
+**Returns**: <code>Boolean</code> - true if is a pitch class, false otherwise  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| obj | <code>Object</code> | the object to test |
 
 <a name="isMidi"></a>
 
