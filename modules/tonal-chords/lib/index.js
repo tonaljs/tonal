@@ -1,7 +1,18 @@
 'use strict'
 
 var tonal = require('tonal')
-var data = require('chords')
+var note = require('note-parser')
+var raw = require('./chords.json')
+
+const harmonizer = (ivls) => (tonic) => tonal.harmonize(ivls, tonic || 'P1')
+
+export const DATA = Object.keys(raw).reduce(function (d, k) {
+  // add intervals
+  d[k] = raw[k][0].split(' ').map(tonal.parseIvl)
+  // add alias
+  if (raw[k][1]) raw[k][1].forEach(function (a) { d[a] = k })
+  return d
+}, {})
 
 /**
  * Create chords by chord name or chord intervals. The returned chord is an
@@ -29,12 +40,11 @@ var data = require('chords')
  * // part of tonal
  * tonal.chord('m7', 'C') // => ['C', 'Eb', 'G', 'Bb']
  */
-function chord (name, tonic) {
-  if (arguments.length === 1) { return function (t) { return chord(name, t) } }
-  var intervals = data[name]
-  if (typeof intervals === 'string') intervals = data[intervals]
-  else if (!intervals) intervals = name
-  return intervals ? harmonizer(intervals, tonic) : []
+export function chord (source, tonic) {
+  if (arguments.length > 1) return chord(source)(tonic)
+  var intervals = DATA[source]
+  if (typeof intervals === 'string') intervals = DATA[intervals]
+  return harmonizer(intervals || source)
 }
 
 /**
@@ -50,13 +60,13 @@ function chord (name, tonic) {
  * // part of tonal
  * tonal.chord.get('C7')
  */
-chord.get = function (name) {
-  var p = regex.exec(name)
+export function fromName (name) {
+  var p = note.regex().exec(name)
   if (!p) return []
   // it has note and chord name
-  else if (p[5]) return chord(p[5], p[1] + p[2] + p[3])
+  if (p[4]) return chord(p[4], p[1] + p[2] + p[3])
   // doesn't have chord name: the name is the octave (example: 'C7' is dominant)
-  else return chord(p[3], p[1] + p[2])
+  return chord(p[3], p[1] + p[2])
 }
 
 /**
@@ -69,13 +79,10 @@ chord.get = function (name) {
  * @example
  * tonal.chord.names() // => ['maj7', ...]
  */
-chord.names = function (aliases) {
-  if (aliases) return Object.keys(data)
-  return Object.keys(data).reduce(function (names, name) {
-    if (Array.isArray(data[name])) names.push(name)
+export function names (aliases) {
+  if (aliases) return Object.keys(DATA)
+  return Object.keys(DATA).reduce(function (names, name) {
+    if (Array.isArray(DATA[name])) names.push(name)
     return names
   }, [])
 }
-
-if (typeof module === 'object' && module.exports) module.exports = chord
-if (typeof window !== 'undefined') window.chord = chord

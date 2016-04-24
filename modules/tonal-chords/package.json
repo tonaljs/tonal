@@ -2,14 +2,11 @@
   "name": "tonal-chords",
   "version": "1.0.0",
   "description": "Create music chords",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "npm test && npm run coverage && npm run docs && npm run disc && npm run dist",
-    "test": "mocha",
-    "api": "documentation build -f md > API.md",
-    "dist": "browserify index.js | uglifyjs > tmp/tonal-chords.min.js&& ls -hall tmp/",
-    "disc": "mkdir -p tmp/ && browserify --full-paths index.js | uglifyjs | discify > tmp/disc.html",
-    "coverage": "istanbul cover _mocha"
+    "test": "npm run rollup && mocha",
+    "rollup": "cp lib/*.json dist/ && rollup lib/index.js -o dist/index.js -f cjs",
+    "bundle": "rollup -c && browserify dist/index.js | uglifyjs > dist/tonal-chords.min.js"
   },
   "homepage": "https://github.com/danigb/tonal/tree/master/packages/tonal-chords#readme",
   "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal-chords",
@@ -24,6 +21,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
+    "note-parser": "^1.0.0",
     "tonal": "file:../.."
   }
 }

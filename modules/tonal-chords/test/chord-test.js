@@ -1,40 +1,51 @@
 /* global describe it */
 var assert = require('assert')
-var chord = require('..')
+var chords = require('..')
 
 describe('tonal-chords', function () {
+  describe('data', function () {
+    it('each name has intervals', function () {
+      var id = function (e) { return e }
+      chords.names(true).forEach(function (name) {
+        if (!Array.isArray(chords.DATA[name])) return
+        var ivls = chords.chord(name, false)
+        var data = chords.DATA[name]
+        assert.equal(data.length, ivls.length, 'Chord data: ' + name)
+      })
+    })
+  })
   describe('chord', function () {
+    var chord = chords.chord
     it('create chord from type and tonic', function () {
       assert.deepEqual(chord('7', 'C'), [ 'C', 'E', 'G', 'Bb' ])
       assert.deepEqual(chord('maj7', 'A4'), ['A4', 'C#5', 'E5', 'G#5'])
     })
     it('creates an chord from intervals', function () {
-      assert.deepEqual(chord('1 3 5', 'A4'), ['A4', 'C#5', 'E5'])
+      assert.deepEqual(chord('1P 3M 5P', 'A4'), ['A4', 'C#5', 'E5'])
     })
     it('get chord intervals', function () {
       assert.deepEqual(chord('maj7', false), [ '1P', '3M', '5P', '7M' ])
-      assert.deepEqual(chord('1 3 5 7', false), [ '1P', '3M', '5P', '7M' ])
-      assert.deepEqual(chord('C E G B', false), [ '1P', '3M', '5P', '7M' ])
+      assert.deepEqual(chord('P1 M3 P5 M7', false), [ '1P', '3M', '5P', '7M' ])
     })
-
     it('is currified', function () {
       assert.deepEqual(chord('maj7', 'C'), chord('maj7')('C'))
     })
   })
-  describe('chord.get', function () {
+  describe('fromName', function () {
+    var fromName = chords.fromName
     it('creates an chord from names', function () {
-      assert.deepEqual(chord.get('Cmaj7'), [ 'C', 'E', 'G', 'B' ])
-      assert.deepEqual(chord.get('C7'), [ 'C', 'E', 'G', 'Bb' ])
-      // TODO: 64 it's an interval. Limit interval size
-      assert.deepEqual(chord.get('C64'), ['C'])
+      assert.deepEqual(fromName('Cmaj7'), [ 'C', 'E', 'G', 'B' ])
+      assert.deepEqual(fromName('C7'), [ 'C', 'E', 'G', 'Bb' ])
+      assert.deepEqual(fromName('C64'), ['G', 'C', 'E'])
     })
   })
-  describe('chord.names', function () {
+  describe('names', function () {
+    var names = chords.names
     it('has names', function () {
-      assert(chord.names().length > 0)
+      assert(names().length > 0)
     })
     it('can return aliases', function () {
-      assert(chord.names(true).length > chord.names().length)
+      assert(names(true).length > names().length)
     })
   })
 })
