@@ -174,7 +174,8 @@ var parsePitch = function parsePitch(str) {
   return parseNote(str) || parseIvl(str);
 };
 
-// ### Pitch to string
+// ### Pitch to string
+
 var stepLetter = function stepLetter(s) {
   return 'CDEFGAB'[s];
 };
@@ -403,6 +404,7 @@ var toFreq = wellTempered(440);
 // ## 2. Pitch distances
 
 function trBy(i, p) {
+  if (p === null) return null;
   var f = i[0] + p[0];
   if (p.length === 1) return [f];
   var o = i[1] + p[1];
@@ -460,7 +462,7 @@ function map(fn, list) {
 var harmonizer = function harmonizer(list) {
   return function (pitch) {
     return listFn(function (list) {
-      return list.map(transpose(pitch));
+      return list.map(transpose(pitch)).filter(id);
     })(list);
   };
 };

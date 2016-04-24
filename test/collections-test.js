@@ -13,6 +13,11 @@ describe('collections', function () {
   })
   describe('harmonize', function () {
     var harmonize = tonal.harmonize
+    it('filter nulls', function () {
+      assert.deepEqual(harmonize('C blah D', '7m'), [ 'Bb', 'C' ])
+      assert.deepEqual(harmonize('C D E', null), [])
+      assert.deepEqual(harmonize(null, null), [])
+    })
     it('harmonizes intervals by tonic', function () {
       assert.deepEqual(harmonize('1P 3M 5P', 'A4'),
         [ 'A4', 'C#5', 'E5' ])

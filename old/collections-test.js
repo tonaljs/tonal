@@ -17,6 +17,9 @@ describe('collections', function () {
       assert.deepEqual(harmonize('C E G', 'M3'),
         [ 'E', 'G#', 'B' ])
     })
+    it('filter nulls', function () {
+      assert.deepEqual(harmonize('C blah D'), '7m')
+    })
   })
   describe('map', function () {
     var map = tonal.map

@@ -1,11 +1,11 @@
 {
   "name": "tonal",
-  "version": "2.0.0",
+  "version": "0.40.1",
   "description": "A functional music theory library",
   "main": "dist/tonal.js",
   "jsnext:main": "lib/tonal.js",
   "scripts": {
-    "build": "npm test && npm run coverage && npm run docco && npm run api && npm run dist && npm run standard",
+    "bundle": "npm test && npm run docco && npm run api && npm run dist",
     "standard": "standard lib/tonal.js",
     "test": "npm run rollup && mocha",
     "test-ci": "rollup -c && mocha",

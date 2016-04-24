@@ -1,18 +1,23 @@
-'use strict'
+'use strict';
 
-var tnl = require('tonal')
-var raw = require('./scales.json')
+var tnl = require('tonal');
+var raw = require('./scales.json');
 
 var data = Object.keys(raw).reduce(function (d, k) {
-  d[k] = raw[k][0].split(' ').map(tnl.ivlParse)
-  return d
-}, {})
+  // add intervals
+  d[k] = raw[k][0].split(' ').map(tnl.parseIvl);
+  // add alias
+  if (raw[k][1]) raw[k][1].forEach(function (a) {
+    d[a] = k;
+  });
+  return d;
+}, {});
 
-function byIntervals(ivls) {
+var harmonizer = function harmonizer(ivls) {
   return function (tonic) {
-    return tnl.harmonize(ivls, tonic || 'P1')
-  }
-}
+    return tnl.harmonize(ivls, tonic || 'P1');
+  };
+};
 
 /**
  * Create a scale from a name or intervals and tonic
@@ -36,12 +41,12 @@ function byIntervals(ivls) {
  * // part of tonal
  * tonal.scale('major', 'A')
  */
-function scale (source, tonic) {
-  if (arguments.length > 1) return scale(source)(tonic)
-  var intervals = data[source]
+function scale(source, tonic) {
+  if (arguments.length > 1) return scale(source)(tonic);
+  var intervals = data[source];
   // is an alias?
-  if (typeof intervals === 'string') intervals = data[intervals]
-  return byIntervals(intervals || source)
+  if (typeof intervals === 'string') intervals = data[intervals];
+  return harmonizer(intervals || source);
 }
 
 /**
@@ -59,9 +64,8 @@ function scale (source, tonic) {
  * tonal.scale.get('C2 bebop')
  */
 function fromName(name) {
-  var i = name.indexOf(' ')
-  if (i === -1) return scale(name, false)
-  else return scale(name.slice(i + 1), name.slice(0, i))
+  var i = name.indexOf(' ');
+  if (i === -1) return scale(name, false);else return scale(name.slice(i + 1), name.slice(0, i));
 }
 
 /**
@@ -72,12 +76,14 @@ function fromName(name) {
  * @example
  * tonal.scale.names() // => ['maj7', ...]
  */
-function names (aliases) {
-  if (aliases) return Object.keys(data)
+function names(aliases) {
+  if (aliases) return Object.keys(data);
   return Object.keys(data).reduce(function (names, name) {
-    if (typeof data[name] !== 'string') names.push(name)
-    return names
-  }, [])
+    if (typeof data[name] !== 'string') names.push(name);
+    return names;
+  }, []);
 }
 
-module.exports = { scale: scale, names: names, fromName: fromName }
+exports.scale = scale;
+exports.fromName = fromName;
+exports.names = names;
