@@ -17,10 +17,10 @@ function _range (a, b) {
   return ma !== null && mb !== null ? midiR(ma, mb) : []
 }
 
-function range (gen, start, end) {
-  if (arguments.length === 1) return (s, e) => range(gen, s, e)
-  if (arguments.length === 2) return (e) => range(gen, start, e)
-  return _range(start, end).map(nameGen(gen)).filter(id)
+function range (nameGen, start, end) {
+  if (arguments.length === 1) return (s, e) => range(nameGen, s, e)
+  if (arguments.length === 2) return (e) => range(nameGen, start, e)
+  return _range(start, end).map(genFn(nameGen)).filter(id)
 }
 
 const _take = (fn, a, acc, m, l, e) => {
@@ -34,19 +34,19 @@ const _take = (fn, a, acc, m, l, e) => {
 
 const dir = (n) => n < 0 ? -1 : 1
 const abs = Math.abs
-function take (gen, start, len) {
-  if (arguments.length === 1) return (s, l) => take(gen, s, l)
-  if (arguments.length === 2) return (l) => take(gen, start, l)
+function take (nameGen, start, len) {
+  if (arguments.length === 1) return (s, l) => take(nameGen, s, l)
+  if (arguments.length === 2) return (l) => take(nameGen, start, l)
   var midi = _.midi(start)
   return (midi === null) ? []
-   : _take(nameGen(gen), [], dir(len), midi, abs(len))
+   : _take(genFn(nameGen), [], dir(len), midi, abs(len))
 }
 
-function nameGen (gen) {
-  return typeof gen === 'string' ? pitchSetGen(gen)
-    : typeof gen === 'function' ? gen
-    : gen === true || gen === false ? _.chromatic(gen)
-    : gen === null ? id
+function genFn (nameGen) {
+  return typeof nameGen === 'function' ? nameGen
+    : typeof nameGen === 'string' ? pitchSetGen(nameGen)
+    : nameGen === true || nameGen === false ? _.chromatic(nameGen)
+    : nameGen === null ? id
     : nilFn
 }
 

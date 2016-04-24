@@ -60,18 +60,18 @@ that has a big influence over tonal development.</p>
         <p>Parse note names with <code>note-parser</code></p>
 
         
-          <div class='highlight'><pre><span class="hljs-keyword">const</span> note = <span class="hljs-built_in">require</span>(<span class="hljs-string">'note-parser'</span>)</pre></div>
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> noteParse = <span class="hljs-built_in">require</span>(<span class="hljs-string">'note-parser'</span>).parse</pre></div>
         
       
         
         <p>Parse interval names with <code>interval-notation</code></p>
 
         
-          <div class='highlight'><pre><span class="hljs-keyword">const</span> ivl = <span class="hljs-built_in">require</span>(<span class="hljs-string">'interval-notation'</span>)</pre></div>
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> ivlNttn = <span class="hljs-built_in">require</span>(<span class="hljs-string">'interval-notation'</span>)</pre></div>
         
       
         
-        <p><strong>Detect things</strong></p>
+        <p>Utilities</p>
 
         
       
@@ -79,21 +79,35 @@ that has a big influence over tonal development.</p>
         <p>Is an array?</p>
 
         
-          <div class='highlight'><pre><span class="hljs-keyword">const</span> isArr = <span class="hljs-built_in">Array</span>.isArray</pre></div>
+          <div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isArr = <span class="hljs-built_in">Array</span>.isArray</pre></div>
         
       
         
         <p>Is a number?</p>
 
         
-          <div class='highlight'><pre><span class="hljs-keyword">const</span> isNum = (n) =&gt; <span class="hljs-keyword">typeof</span> n === <span class="hljs-string">'number'</span></pre></div>
+          <div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isNum = (n) =&gt; <span class="hljs-keyword">typeof</span> n === <span class="hljs-string">'number'</span></pre></div>
+        
+      
+        
+        <p>Is string?</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isStr = (o) =&gt; <span class="hljs-keyword">typeof</span> o === <span class="hljs-string">'string'</span></pre></div>
+        
+      
+        
+        <p>Is defined? (can be null)</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isDef = (o) =&gt; <span class="hljs-keyword">typeof</span> o !== <span class="hljs-string">'undefined'</span></pre></div>
         
       
         
         <p>Is a value?</p>
 
         
-          <div class='highlight'><pre><span class="hljs-keyword">const</span> isValue = (v) =&gt; v !== <span class="hljs-literal">null</span> &amp;&amp; <span class="hljs-keyword">typeof</span> v !== <span class="hljs-string">'undefined'</span></pre></div>
+          <div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isValue = (v) =&gt; v !== <span class="hljs-literal">null</span> &amp;&amp; <span class="hljs-keyword">typeof</span> v !== <span class="hljs-string">'undefined'</span></pre></div>
         
       
         
@@ -105,12 +119,36 @@ that has a big influence over tonal development.</p>
         <p>Identity function</p>
 
         
-          <div class='highlight'><pre><span class="hljs-keyword">const</span> id = (x) =&gt; x</pre></div>
+          <div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> id = (x) =&gt; x</pre></div>
         
       
         
         <h2 id="1-pitches">1. Pitches</h2>
 
+        
+      
+        
+        <p>An array with the signature: <code>[&#39;tnl&#39;, fifths, octaves, direction]</code>:</p>
+
+        
+          <div class='highlight'><pre>
+<span class="hljs-comment">/**
+ * Test if a given object is a pitch
+ * @function
+ * @param {Object} obj - the object to test
+ * @return {Boolean} true if is a pitch, false otherwise
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPitch = (p) =&gt; p &amp;&amp; p[<span class="hljs-number">0</span>] === <span class="hljs-string">'tnl'</span>
+<span class="hljs-comment">/**
+ * Test if a given object is a pitch class
+ * @function
+ * @param {Object} obj - the object to test
+ * @return {Boolean} true if is a pitch class, false otherwise
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPitchClass = (p) =&gt; isPitch(p) &amp;&amp; p.length === <span class="hljs-number">2</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> hasOct = (p) =&gt; isPitch(p) &amp;&amp; isNum(p[<span class="hljs-number">2</span>])
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPitchNote = (p) =&gt; hasOct(p) &amp;&amp; p.length === <span class="hljs-number">3</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isInterval = (i) =&gt; hasOct(i) &amp;&amp; isNum(i[<span class="hljs-number">3</span>])</pre></div>
         
       
         
@@ -164,7 +202,7 @@ that has a big influence over tonal development.</p>
  * @return {Pitch} the pitch encoded as array notation
  *
  */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pitch</span> (<span class="hljs-params">step, alt, oct, dir</span>) </span>{</pre></div>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">encode</span> (<span class="hljs-params">step, alt, oct, dir</span>) </span>{</pre></div>
         
       
         
@@ -179,36 +217,16 @@ that has a big influence over tonal development.</p>
         <p>if not octave, return the pitch class</p>
 
         
-          <div class='highlight'><pre>  <span class="hljs-keyword">if</span> (!isNum(oct)) <span class="hljs-keyword">return</span> [ pc ]
+          <div class='highlight'><pre>  <span class="hljs-keyword">if</span> (!isNum(oct)) <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, pc ]
   <span class="hljs-keyword">const</span> o = encOct(step, alt, oct)
-  <span class="hljs-keyword">if</span> (!isNum(dir)) <span class="hljs-keyword">return</span> [ pc, o ]
+  <span class="hljs-keyword">if</span> (!isNum(dir)) <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, pc, o ]
   <span class="hljs-keyword">const</span> d = dir &lt; <span class="hljs-number">0</span> ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>
-  <span class="hljs-keyword">return</span> [ d * pc, d * o, d ]
-}</pre></div>
-        
-      
-        
-        <p>Some definitions:</p>
+  <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, d * pc, d * o, d ]
+}
 
-        
-          <div class='highlight'><pre>
-<span class="hljs-comment">/**
- * Test if a given object is a pitch
- * @function
- * @param {Object} obj - the object to test
- * @return {Boolean} true if is a pitch, false otherwise
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPitch = (p) =&gt; isArr(p) &amp;&amp; isNum(p[<span class="hljs-number">0</span>])
-<span class="hljs-comment">/**
- * Test if a given object is a pitch class
- * @function
- * @param {Object} obj - the object to test
- * @return {Boolean} true if is a pitch class, false otherwise
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPitchClass = (p) =&gt; isArr(p) &amp;&amp; p.length === <span class="hljs-number">1</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> hasOct = (p) =&gt; isPitch(p) &amp;&amp; isNum(p[<span class="hljs-number">1</span>])
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPitchNote = (p) =&gt; hasOct(p) &amp;&amp; p.length === <span class="hljs-number">2</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isInterval = (i) =&gt; hasOct(i) &amp;&amp; isNum(i[<span class="hljs-number">2</span>])</pre></div>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pitchClass = (s, a) =&gt; encode(s, a)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> notePitch = (s, a, o) =&gt; encode(s, a, o)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> interval = (s, a, o, d) =&gt; encode(s, a, o, d)</pre></div>
         
       
         
@@ -236,10 +254,10 @@ it gets an array and return a number of fifths</p>
         
           <div class='highlight'><pre><span class="hljs-keyword">const</span> STEPS = [<span class="hljs-number">3</span>, <span class="hljs-number">0</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2</span>, <span class="hljs-number">6</span>]
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">decode</span> (<span class="hljs-params">p</span>) </span>{
-  <span class="hljs-keyword">const</span> s = decodeStep(p[<span class="hljs-number">0</span>])
-  <span class="hljs-keyword">const</span> a = decodeAlt(p[<span class="hljs-number">0</span>])
-  <span class="hljs-keyword">const</span> o = isNum(p[<span class="hljs-number">1</span>]) ? p[<span class="hljs-number">1</span>] + <span class="hljs-number">4</span> * a + FIFTH_OCTS[s] : <span class="hljs-literal">null</span>
-  <span class="hljs-keyword">return</span> { step: s, alt: a, oct: o, dir: p[<span class="hljs-number">2</span>] || <span class="hljs-literal">null</span> }
+  <span class="hljs-keyword">const</span> s = decodeStep(p[<span class="hljs-number">1</span>])
+  <span class="hljs-keyword">const</span> a = decodeAlt(p[<span class="hljs-number">1</span>])
+  <span class="hljs-keyword">const</span> o = isNum(p[<span class="hljs-number">2</span>]) ? p[<span class="hljs-number">2</span>] + <span class="hljs-number">4</span> * a + FIFTH_OCTS[s] : <span class="hljs-literal">null</span>
+  <span class="hljs-keyword">return</span> { step: s, alt: a, oct: o, dir: p[<span class="hljs-number">3</span>] || <span class="hljs-literal">null</span> }
 }</pre></div>
         
       
@@ -261,13 +279,15 @@ executed a lot of times. Some caching will help:</p>
 }
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parseNote = cached((str) =&gt; {
-  <span class="hljs-keyword">const</span> n = note.parse(str)
-  <span class="hljs-keyword">return</span> n ? pitch(n.step, n.alt, n.oct) : <span class="hljs-literal">null</span>
+  <span class="hljs-keyword">const</span> n = noteParse(str)
+  <span class="hljs-keyword">return</span> n ? notePitch(n.step, n.alt, n.oct) : <span class="hljs-literal">null</span>
 })
 
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isNoteStr = (s) =&gt; parseNote(s) !== <span class="hljs-literal">null</span>
+
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parseIvl = cached((str) =&gt; {
-  <span class="hljs-keyword">const</span> i = ivl.parse(str)
-  <span class="hljs-keyword">return</span> i ? pitch(i.simple - <span class="hljs-number">1</span>, i.alt, i.oct, i.dir) : <span class="hljs-literal">null</span>
+  <span class="hljs-keyword">const</span> i = ivlNttn.parse(str)
+  <span class="hljs-keyword">return</span> i ? interval(i.simple - <span class="hljs-number">1</span>, i.alt, i.oct, i.dir) : <span class="hljs-literal">null</span>
 })
 
 <span class="hljs-keyword">const</span> parsePitch = (str) =&gt; parseNote(str) || parseIvl(str)</pre></div>
@@ -278,17 +298,18 @@ executed a lot of times. Some caching will help:</p>
 
         
           <div class='highlight'><pre>
-<span class="hljs-keyword">const</span> stepLetter = (s) =&gt; <span class="hljs-string">'CDEFGAB'</span>[s]
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> toLetter = (s) =&gt; <span class="hljs-string">'CDEFGAB'</span>[s % <span class="hljs-number">7</span>]
 <span class="hljs-keyword">const</span> fillStr = (s, num) =&gt; <span class="hljs-built_in">Array</span>(<span class="hljs-built_in">Math</span>.abs(num) + <span class="hljs-number">1</span>).join(s)
-<span class="hljs-keyword">const</span> altAcc = (n) =&gt; fillStr(n &lt; <span class="hljs-number">0</span> ? <span class="hljs-string">'b'</span> : <span class="hljs-string">'#'</span>, n)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> toAcc = (n) =&gt; fillStr(n &lt; <span class="hljs-number">0</span> ? <span class="hljs-string">'b'</span> : <span class="hljs-string">'#'</span>, n)
 <span class="hljs-keyword">const</span> strNum = (n) =&gt; n !== <span class="hljs-literal">null</span> ? n : <span class="hljs-string">''</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">strNote</span> (<span class="hljs-params">pitch</span>) </span>{
-  <span class="hljs-keyword">const</span> p = !isInterval(pitch) ? decode(pitch) : <span class="hljs-literal">null</span>
-  <span class="hljs-keyword">return</span> p ? stepLetter(p.step) + altAcc(p.alt) + strNum(p.oct) : <span class="hljs-literal">null</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">strNote</span> (<span class="hljs-params">n</span>) </span>{
+  <span class="hljs-keyword">const</span> p = isPitch(n) &amp;&amp; !n[<span class="hljs-number">3</span>] ? decode(n) : <span class="hljs-literal">null</span>
+  <span class="hljs-keyword">return</span> p ? toLetter(p.step) + toAcc(p.alt) + strNum(p.oct) : <span class="hljs-literal">null</span>
 }
 
 <span class="hljs-keyword">const</span> isAsc = (p) =&gt; p.dir === <span class="hljs-number">1</span>
-<span class="hljs-keyword">const</span> isPerf = (p) =&gt; ivl.type(p.step + <span class="hljs-number">1</span>) === <span class="hljs-string">'P'</span>
+<span class="hljs-keyword">const</span> isPerf = (p) =&gt; ivlNttn.type(p.step + <span class="hljs-number">1</span>) === <span class="hljs-string">'P'</span>
 <span class="hljs-keyword">const</span> calcNum = (p) =&gt; isAsc(p) ? p.step + <span class="hljs-number">1</span> + <span class="hljs-number">7</span> * p.oct : (<span class="hljs-number">8</span> - p.step) - <span class="hljs-number">7</span> * (p.oct + <span class="hljs-number">1</span>)
 <span class="hljs-keyword">const</span> calcAlt = (p) =&gt; isAsc(p) ? p.alt : isPerf(p) ? -p.alt : -(p.alt + <span class="hljs-number">1</span>)
 
@@ -296,10 +317,10 @@ executed a lot of times. Some caching will help:</p>
   <span class="hljs-keyword">const</span> p = isInterval(pitch) ? decode(pitch) : <span class="hljs-literal">null</span>
   <span class="hljs-keyword">if</span> (!p) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
   <span class="hljs-keyword">const</span> num = calcNum(p)
-  <span class="hljs-keyword">return</span> p.dir * num + ivl.altToQ(num, calcAlt(p))
+  <span class="hljs-keyword">return</span> p.dir * num + ivlNttn.altToQ(num, calcAlt(p))
 }
 
-<span class="hljs-keyword">const</span> strPitch = (p) =&gt; p[<span class="hljs-number">2</span>] ? strIvl(p) : strNote(p)</pre></div>
+<span class="hljs-keyword">const</span> strPitch = (p) =&gt; p[<span class="hljs-number">3</span>] ? strIvl(p) : strNote(p)</pre></div>
         
       
         
@@ -309,18 +330,21 @@ executed a lot of times. Some caching will help:</p>
           <div class='highlight'><pre>
 <span class="hljs-keyword">const</span> notation = (parse, str) =&gt; (v) =&gt; !isPitch(v) ? parse(v) : str(v)
 
-<span class="hljs-keyword">const</span> expectNote = notation(parseNote, id)
-<span class="hljs-keyword">const</span> expectIvl = notation(parseIvl, id)
-<span class="hljs-keyword">const</span> expectPitch = notation(parsePitch, id)
+<span class="hljs-keyword">const</span> asNote = notation(parseNote, id)
+<span class="hljs-keyword">const</span> asIvl = notation(parseIvl, id)
+<span class="hljs-keyword">const</span> asPitch = notation(parsePitch, id)
 
 <span class="hljs-keyword">const</span> toNoteStr = notation(id, strNote)
 <span class="hljs-keyword">const</span> toIvlStr = notation(id, strIvl)
 <span class="hljs-keyword">const</span> toPitchStr = notation(id, strPitch)
 
-<span class="hljs-keyword">const</span> buildFnDec = (expect, to) =&gt; (fn) =&gt; (v) =&gt; to(fn(expect(v)))
-<span class="hljs-keyword">const</span> noteFn = buildFnDec(expectNote, toNoteStr)
-<span class="hljs-keyword">const</span> ivlFn = buildFnDec(expectIvl, toIvlStr)
-<span class="hljs-keyword">const</span> pitchFn = buildFnDec(expectPitch, toPitchStr)
+<span class="hljs-keyword">const</span> buildFnDec = (expect, to) =&gt; (fn) =&gt; (v) =&gt; {
+  <span class="hljs-keyword">const</span> p = expect(v)
+  <span class="hljs-keyword">return</span> p ? to(fn(p)) : <span class="hljs-literal">null</span>
+}
+<span class="hljs-keyword">const</span> noteFn = buildFnDec(asNote, toNoteStr)
+<span class="hljs-keyword">const</span> ivlFn = buildFnDec(asIvl, toIvlStr)
+<span class="hljs-keyword">const</span> pitchFn = buildFnDec(asPitch, toPitchStr)
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> sci = noteFn(id)</pre></div>
         
@@ -330,23 +354,23 @@ executed a lot of times. Some caching will help:</p>
 
         
           <div class='highlight'><pre>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pc = noteFn((p) =&gt; [ p[<span class="hljs-number">0</span>] ])
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pc = noteFn((p) =&gt; [ <span class="hljs-string">'tnl'</span>, p[<span class="hljs-number">1</span>] ])
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> chroma = noteFn((n) =&gt; {
-  <span class="hljs-keyword">return</span> n[<span class="hljs-number">0</span>] * <span class="hljs-number">7</span> - <span class="hljs-built_in">Math</span>.floor(n[<span class="hljs-number">0</span>] * <span class="hljs-number">7</span> / <span class="hljs-number">12</span>) * <span class="hljs-number">12</span>
+  <span class="hljs-keyword">return</span> n[<span class="hljs-number">1</span>] * <span class="hljs-number">7</span> - <span class="hljs-built_in">Math</span>.floor(n[<span class="hljs-number">1</span>] * <span class="hljs-number">7</span> / <span class="hljs-number">12</span>) * <span class="hljs-number">12</span>
 })
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> letter = noteFn((n) =&gt; stepLetter(decode(n).step))
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> letter = noteFn((n) =&gt; toLetter(decode(n).step))
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> accidentals = noteFn((n) =&gt; altAcc(decode(n).alt))
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> accidentals = noteFn((n) =&gt; toAcc(decode(n).alt))
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> octave = pitchFn((p) =&gt; decode(p).oct)
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> simplify = ivlFn(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">i</span>) </span>{
-  <span class="hljs-keyword">const</span> d = i[<span class="hljs-number">2</span>]
-  <span class="hljs-keyword">const</span> s = decodeStep(d * i[<span class="hljs-number">0</span>])
-  <span class="hljs-keyword">const</span> a = decodeAlt(d * i[<span class="hljs-number">0</span>])
-  <span class="hljs-keyword">return</span> [ i[<span class="hljs-number">0</span>], -d * (FIFTH_OCTS[s] + <span class="hljs-number">4</span> * a), d ]
+  <span class="hljs-keyword">const</span> d = i[<span class="hljs-number">3</span>]
+  <span class="hljs-keyword">const</span> s = decodeStep(d * i[<span class="hljs-number">1</span>])
+  <span class="hljs-keyword">const</span> a = decodeAlt(d * i[<span class="hljs-number">1</span>])
+  <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, i[<span class="hljs-number">1</span>], -d * (FIFTH_OCTS[s] + <span class="hljs-number">4</span> * a), d ]
 })
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> simpleNum = ivlFn(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">i</span>) </span>{
@@ -358,7 +382,7 @@ executed a lot of times. Some caching will help:</p>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> quality = ivlFn((i) =&gt; {
   <span class="hljs-keyword">const</span> p = decode(i)
-  <span class="hljs-keyword">return</span> ivl.altToQ(p.step + <span class="hljs-number">1</span>, p.alt)
+  <span class="hljs-keyword">return</span> ivlNttn.altToQ(p.step + <span class="hljs-number">1</span>, p.alt)
 })</pre></div>
         
       
@@ -371,7 +395,7 @@ executed a lot of times. Some caching will help:</p>
         <p>get pitch height</p>
 
         
-          <div class='highlight'><pre><span class="hljs-keyword">const</span> height = (p) =&gt; p[<span class="hljs-number">0</span>] * <span class="hljs-number">7</span> + <span class="hljs-number">12</span> * p[<span class="hljs-number">1</span>]
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> height = (p) =&gt; p[<span class="hljs-number">1</span>] * <span class="hljs-number">7</span> + <span class="hljs-number">12</span> * p[<span class="hljs-number">2</span>]
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> semitones = ivlFn(height)</pre></div>
         
       
@@ -410,7 +434,7 @@ executed a lot of times. Some caching will help:</p>
  * midi('C4') // =&gt; 60
  */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> midi = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">val</span>) </span>{
-  <span class="hljs-keyword">const</span> p = expectNote(val)
+  <span class="hljs-keyword">const</span> p = asNote(val)
   <span class="hljs-keyword">return</span> hasOct(p) ? height(p) + <span class="hljs-number">12</span>
     : isMidi(val) ? +val
     : <span class="hljs-literal">null</span>
@@ -434,20 +458,23 @@ sharp altered notes depending of the first parameter:</p>
         
           <div class='highlight'><pre>
 <span class="hljs-comment">/**
- * Create a chromatic scale
+ * Create a chromatic scale note names generator. A name generator is a function
+ * that given a midi number returns a note name.
+ *
  * @param {Boolean} useSharps - use sharps or flats when notes is altered
  * @return {Function} returns a function that converts from midi number to
  * note name
  * @example
- * var chromaticScale = chromatic(false)
- * [60, 61, 62].map(chromaticScale) // =&gt; ['C4', 'Db4', 'D4']
+ * var tonal = require('tonal')
+ * var flats = tonal.chromatic(false)
+ * [60, 61, 62, 63].map(flats) // =&gt; ['C4', 'Db4', 'D4', 'Eb']
  */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> chromatic = (useSharps) =&gt; (midi) =&gt; {
-  <span class="hljs-keyword">const</span> c = midiStep(midi)
+  <span class="hljs-keyword">const</span> step = midiStep(midi)
   <span class="hljs-keyword">const</span> o = <span class="hljs-built_in">Math</span>.floor(midi / <span class="hljs-number">12</span>) - <span class="hljs-number">1</span>
-  <span class="hljs-keyword">const</span> n = c !== <span class="hljs-literal">null</span> ? pitch(c, <span class="hljs-number">0</span>, o)
-  : useSharps ? pitch(midiStep(midi - <span class="hljs-number">1</span>), <span class="hljs-number">1</span>, o)
-  : pitch(midiStep(midi + <span class="hljs-number">1</span>), <span class="hljs-number">-1</span>, o)
+  <span class="hljs-keyword">const</span> n = step !== <span class="hljs-literal">null</span> ? notePitch(step, <span class="hljs-number">0</span>, o)
+    : useSharps ? notePitch(midiStep(midi - <span class="hljs-number">1</span>), <span class="hljs-number">1</span>, o)
+    : notePitch(midiStep(midi + <span class="hljs-number">1</span>), <span class="hljs-number">-1</span>, o)
   <span class="hljs-keyword">return</span> strNote(n)
 }</pre></div>
         
@@ -518,18 +545,18 @@ all the notes against a reference:</p>
           <div class='highlight'><pre>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">trBy</span> (<span class="hljs-params">i, p</span>) </span>{
   <span class="hljs-keyword">if</span> (p === <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
-  <span class="hljs-keyword">const</span> f = i[<span class="hljs-number">0</span>] + p[<span class="hljs-number">0</span>]
-  <span class="hljs-keyword">if</span> (p.length === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> [ f ]
-  <span class="hljs-keyword">const</span> o = i[<span class="hljs-number">1</span>] + p[<span class="hljs-number">1</span>]
-  <span class="hljs-keyword">if</span> (p.length === <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> [ f, o ]
+  <span class="hljs-keyword">const</span> f = i[<span class="hljs-number">1</span>] + p[<span class="hljs-number">1</span>]
+  <span class="hljs-keyword">if</span> (p.length === <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, f ]
+  <span class="hljs-keyword">const</span> o = i[<span class="hljs-number">2</span>] + p[<span class="hljs-number">2</span>]
+  <span class="hljs-keyword">if</span> (p.length === <span class="hljs-number">3</span>) <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, f, o ]
   <span class="hljs-keyword">const</span> d = <span class="hljs-number">7</span> * f + <span class="hljs-number">12</span> * o &lt; <span class="hljs-number">0</span> ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>
-  <span class="hljs-keyword">return</span> [ f, o, d ]
+  <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, f, o, d ]
 }
 
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transpose</span> (<span class="hljs-params">a, b</span>) </span>{
   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> (b) =&gt; transpose(a, b)
-  <span class="hljs-keyword">const</span> pa = expectPitch(a)
-  <span class="hljs-keyword">const</span> pb = expectPitch(b)
+  <span class="hljs-keyword">const</span> pa = asPitch(a)
+  <span class="hljs-keyword">const</span> pb = asPitch(b)
   <span class="hljs-keyword">const</span> r = isInterval(pa) ? trBy(pa, pb)
     : isInterval(pb) ? trBy(pb, pa) : <span class="hljs-literal">null</span>
   <span class="hljs-keyword">return</span> toPitchStr(r)
@@ -564,28 +591,30 @@ all the notes against a reference:</p>
 
         
           <div class='highlight'><pre>
-<span class="hljs-keyword">const</span> listToStr = (v) =&gt; isArr(v) ? v.map(toPitchStr) : toPitchStr(v)
+<span class="hljs-keyword">const</span> listToStr = (v) =&gt; isPitch(v) ? toPitchStr(v) : isArr(v) ? v.map(toPitchStr) : v
 
-<span class="hljs-keyword">const</span> listFn = (fn) =&gt; (src) =&gt; {
-  <span class="hljs-keyword">const</span> param = listArr(src).map(expectPitch)
+<span class="hljs-keyword">const</span> transform = (fn) =&gt; (src) =&gt; {
+  <span class="hljs-keyword">const</span> param = listArr(src).map(asPitch)
   <span class="hljs-keyword">const</span> result = fn(param)
   <span class="hljs-keyword">return</span> listToStr(result)
 }
 
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">map</span> (<span class="hljs-params">fn, list</span>) </span>{
   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> map(fn)(list)
-  <span class="hljs-keyword">return</span> listFn((arr) =&gt; arr.map(fn))
+  <span class="hljs-keyword">return</span> (l) =&gt; listArr(l).map(fn)
 }
 
 <span class="hljs-keyword">const</span> filter = (fn, list) =&gt; {
   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> filter(fn)(list)
-  <span class="hljs-keyword">return</span> listFn((arr) =&gt; arr.filter(fn))
+  <span class="hljs-keyword">return</span> (l) =&gt; listArr(l).filter(fn)
 }
 
-<span class="hljs-keyword">const</span> reduce = (fn, o, list) =&gt; {
-  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> (o, list) =&gt; reduce(fn, o)(list)
-  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> reduce(fn, o)(list)
-  <span class="hljs-keyword">return</span> listFn((arr) =&gt; arr.reduce(fn, o))(list)
+<span class="hljs-keyword">const</span> reduce = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">fn, o, list</span>) </span>{
+  <span class="hljs-keyword">switch</span> (<span class="hljs-built_in">arguments</span>.length) {
+    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span class="hljs-keyword">return</span> (o, list) =&gt; reduce(fn, o, list)
+    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: <span class="hljs-keyword">return</span> (list) =&gt; reduce(fn, o, list)
+    <span class="hljs-keyword">default</span>: <span class="hljs-keyword">return</span> listArr(list).reduce(fn, o)
+  }
 }</pre></div>
         
       
@@ -595,7 +624,7 @@ all the notes against a reference:</p>
         
           <div class='highlight'><pre>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> harmonizer = (list) =&gt; (pitch) =&gt; {
-  <span class="hljs-keyword">return</span> listFn((list) =&gt; list.map(transpose(pitch)).filter(id))(list)
+  <span class="hljs-keyword">return</span> transform((list) =&gt; list.map(transpose(pitch)).filter(id))(list)
 }
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> harmonize = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">list, pitch</span>) </span>{
@@ -610,19 +639,24 @@ all the notes against a reference:</p>
           <div class='highlight'><pre>
 <span class="hljs-keyword">const</span> objHeight = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">p</span>) </span>{
   <span class="hljs-keyword">if</span> (!p) <span class="hljs-keyword">return</span> -<span class="hljs-literal">Infinity</span>
-  <span class="hljs-keyword">const</span> f = p[<span class="hljs-number">0</span>] * <span class="hljs-number">7</span>
-  <span class="hljs-keyword">const</span> o = isNum(p[<span class="hljs-number">1</span>]) ? p[<span class="hljs-number">1</span>] : -<span class="hljs-built_in">Math</span>.floor(f / <span class="hljs-number">12</span>) - <span class="hljs-number">10</span>
+  <span class="hljs-keyword">const</span> f = p[<span class="hljs-number">1</span>] * <span class="hljs-number">7</span>
+  <span class="hljs-keyword">const</span> o = isNum(p[<span class="hljs-number">2</span>]) ? p[<span class="hljs-number">2</span>] : -<span class="hljs-built_in">Math</span>.floor(f / <span class="hljs-number">12</span>) - <span class="hljs-number">10</span>
   <span class="hljs-keyword">return</span> f + o * <span class="hljs-number">12</span>
 }
 
 <span class="hljs-keyword">const</span> ascComp = (a, b) =&gt; objHeight(a) - objHeight(b)
 <span class="hljs-keyword">const</span> descComp = (a, b) =&gt; -ascComp(a, b)
 
+<span class="hljs-keyword">const</span> maxP = (a, b) =&gt; ascComp(a, b) &lt; <span class="hljs-number">0</span> ? b : a
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> max = transform((list) =&gt; {
+  <span class="hljs-keyword">return</span> list.reduce(maxP, <span class="hljs-literal">null</span>)
+})
+
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sort</span> (<span class="hljs-params">comp, list</span>) </span>{
   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> sort(comp)(list)
   <span class="hljs-keyword">const</span> fn = comp === <span class="hljs-literal">true</span> || comp === <span class="hljs-literal">null</span> ? ascComp
     : comp === <span class="hljs-literal">false</span> ? descComp : comp
-  <span class="hljs-keyword">return</span> listFn((arr) =&gt; arr.sort(fn))
+  <span class="hljs-keyword">return</span> transform((arr) =&gt; arr.sort(fn))
 }</pre></div>
         
       

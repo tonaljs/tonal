@@ -2,7 +2,8 @@
 
 <dl>
 <dt><a href="#chromatic">chromatic</a> ⇒ <code>function</code></dt>
-<dd><p>Create a chromatic scale</p>
+<dd><p>Create a chromatic scale note names generator. A name generator is a function
+that given a midi number returns a note name.</p>
 </dd>
 <dt><a href="#fromMidi">fromMidi</a> ⇒ <code>String</code></dt>
 <dd><p>Given a midi number, returns a note name. The altered notes will have
@@ -13,15 +14,15 @@ flats.</p>
 ## Functions
 
 <dl>
-<dt><a href="#pitch">pitch(step, alt, oct, dir)</a> ⇒ <code>Pitch</code></dt>
-<dd><p>Create a pitch. A pitch in tonal may refer to a pitch class, the pitch
-of a note or an interval.</p>
-</dd>
 <dt><a href="#isPitch">isPitch(obj)</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Test if a given object is a pitch</p>
 </dd>
 <dt><a href="#isPitchClass">isPitchClass(obj)</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Test if a given object is a pitch class</p>
+</dd>
+<dt><a href="#encode">encode(step, alt, oct, dir)</a> ⇒ <code>Pitch</code></dt>
+<dd><p>Create a pitch. A pitch in tonal may refer to a pitch class, the pitch
+of a note or an interval.</p>
 </dd>
 <dt><a href="#isMidi">isMidi(num)</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Test if the given number is a valid midi note number</p>
@@ -43,7 +44,8 @@ of a note or an interval.</p>
 <a name="chromatic"></a>
 
 ## chromatic ⇒ <code>function</code>
-Create a chromatic scale
+Create a chromatic scale note names generator. A name generator is a function
+that given a midi number returns a note name.
 
 **Kind**: global constant  
 **Returns**: <code>function</code> - returns a function that converts from midi number to
@@ -55,8 +57,9 @@ note name
 
 **Example**  
 ```js
-var chromaticScale = chromatic(false)
-[60, 61, 62].map(chromaticScale) // => ['C4', 'Db4', 'D4']
+var tonal = require('tonal')
+var flats = tonal.chromatic(false)
+[60, 61, 62, 63].map(flats) // => ['C4', 'Db4', 'D4', 'Eb']
 ```
 <a name="fromMidi"></a>
 
@@ -75,22 +78,6 @@ flats.
 ```js
 tonal.fromMidi(61) // => 'Db4'
 ```
-<a name="pitch"></a>
-
-## pitch(step, alt, oct, dir) ⇒ <code>Pitch</code>
-Create a pitch. A pitch in tonal may refer to a pitch class, the pitch
-of a note or an interval.
-
-**Kind**: global function  
-**Returns**: <code>Pitch</code> - the pitch encoded as array notation  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| step | <code>Integer</code> | an integer from 0 to 6 representing letters from C to B or simple interval numbers from unison to seventh |
-| alt | <code>Integer</code> | the alteration |
-| oct | <code>Integer</code> | the pitch octave |
-| dir | <code>Integer</code> | (Optional, intervals only) The interval direction |
-
 <a name="isPitch"></a>
 
 ## isPitch(obj) ⇒ <code>Boolean</code>
@@ -114,6 +101,22 @@ Test if a given object is a pitch class
 | Param | Type | Description |
 | --- | --- | --- |
 | obj | <code>Object</code> | the object to test |
+
+<a name="encode"></a>
+
+## encode(step, alt, oct, dir) ⇒ <code>Pitch</code>
+Create a pitch. A pitch in tonal may refer to a pitch class, the pitch
+of a note or an interval.
+
+**Kind**: global function  
+**Returns**: <code>Pitch</code> - the pitch encoded as array notation  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| step | <code>Integer</code> | an integer from 0 to 6 representing letters from C to B or simple interval numbers from unison to seventh |
+| alt | <code>Integer</code> | the alteration |
+| oct | <code>Integer</code> | the pitch octave |
+| dir | <code>Integer</code> | (Optional, intervals only) The interval direction |
 
 <a name="isMidi"></a>
 
