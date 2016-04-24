@@ -26,13 +26,21 @@ var note = require('note-parser');
 // Parse interval names with `interval-notation`
 var ivl = require('interval-notation');
 
-// __Detect things__
+// Utilities
 
 // Is an array?
 var isArr = Array.isArray;
 // Is a number?
 var isNum = function isNum(n) {
   return typeof n === 'number';
+};
+// Is string?
+var isStr = function isStr(o) {
+  return typeof o === 'string';
+};
+// Is defined? (can be null)
+var isDef = function isDef(o) {
+  return typeof o !== 'undefined';
 };
 // Is a value?
 var isValue = function isValue(v) {
@@ -165,6 +173,10 @@ var parseNote = cached(function (str) {
   return n ? pitch(n.step, n.alt, n.oct) : null;
 });
 
+var isNoteStr = function isNoteStr(s) {
+  return parseNote(s) !== null;
+};
+
 var parseIvl = cached(function (str) {
   var i = ivl.parse(str);
   return i ? pitch(i.simple - 1, i.alt, i.oct, i.dir) : null;
@@ -176,13 +188,13 @@ var parsePitch = function parsePitch(str) {
 
 // ### Pitch to string
 
-var stepLetter = function stepLetter(s) {
-  return 'CDEFGAB'[s];
+var toLetter = function toLetter(s) {
+  return 'CDEFGAB'[s % 7];
 };
 var fillStr = function fillStr(s, num) {
   return Array(Math.abs(num) + 1).join(s);
 };
-var altAcc = function altAcc(n) {
+var toAcc = function toAcc(n) {
   return fillStr(n < 0 ? 'b' : '#', n);
 };
 var strNum = function strNum(n) {
@@ -190,7 +202,7 @@ var strNum = function strNum(n) {
 };
 function strNote(pitch) {
   var p = !isInterval(pitch) ? decode(pitch) : null;
-  return p ? stepLetter(p.step) + altAcc(p.alt) + strNum(p.oct) : null;
+  return p ? toLetter(p.step) + toAcc(p.alt) + strNum(p.oct) : null;
 }
 
 var isAsc = function isAsc(p) {
@@ -236,13 +248,16 @@ var toPitchStr = notation(id, strPitch);
 var buildFnDec = function buildFnDec(expect, to) {
   return function (fn) {
     return function (v) {
-      return to(fn(expect(v)));
+      var p = expect(v);
+      return p ? to(fn(p)) : null;
     };
   };
 };
 var noteFn = buildFnDec(expectNote, toNoteStr);
 var ivlFn = buildFnDec(expectIvl, toIvlStr);
 var pitchFn = buildFnDec(expectPitch, toPitchStr);
+
+var sci = noteFn(id);
 
 // #### Pitch properties
 
@@ -255,11 +270,11 @@ var chroma = noteFn(function (n) {
 });
 
 var letter = noteFn(function (n) {
-  return stepLetter(decode(n).step);
+  return toLetter(decode(n).step);
 });
 
 var accidentals = noteFn(function (n) {
-  return altAcc(decode(n).alt);
+  return toAcc(decode(n).alt);
 });
 
 var octave = pitchFn(function (p) {
@@ -497,6 +512,11 @@ function sort(comp, list) {
 
 // Fin.
 
+exports.isArr = isArr;
+exports.isNum = isNum;
+exports.isStr = isStr;
+exports.isDef = isDef;
+exports.isValue = isValue;
 exports.pitch = pitch;
 exports.isPitch = isPitch;
 exports.isPitchClass = isPitchClass;
@@ -504,9 +524,13 @@ exports.hasOct = hasOct;
 exports.isPitchNote = isPitchNote;
 exports.isInterval = isInterval;
 exports.parseNote = parseNote;
+exports.isNoteStr = isNoteStr;
 exports.parseIvl = parseIvl;
+exports.toLetter = toLetter;
+exports.toAcc = toAcc;
 exports.strNote = strNote;
 exports.strIvl = strIvl;
+exports.sci = sci;
 exports.pc = pc;
 exports.chroma = chroma;
 exports.letter = letter;

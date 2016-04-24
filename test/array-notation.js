@@ -2,12 +2,12 @@
 'use strict'
 
 var assert = require('assert')
-var tnl = require('../')
-var map = tnl.map
+var tonal = require('../')
+var map = tonal.map
 
 describe('array notation pitches - ', function () {
   describe('pitch', function () {
-    var pitch = tnl.pitch
+    var pitch = tonal.pitch
     it('create pitch classes', function () {
       assert.deepEqual(pitch(0, 0), [0])
       assert.deepEqual(pitch(1, 0), [2])
@@ -24,19 +24,26 @@ describe('array notation pitches - ', function () {
     })
   })
   describe('parseNote', function () {
-    var parse = tnl.parseNote
+    var parse = tonal.parseNote
     it('parses notes', function () {
       assert.deepEqual(parse('C2'), [0, 2])
       assert.deepEqual(parse('C#2'), [7, -2])
       assert.deepEqual(parse('B#2'), [12, -4])
     })
     it('parse pitch classes', function () {
-      assert.deepEqual(tnl.listArr('C D E F G A B').map(parse),
+      assert.deepEqual(tonal.listArr('C D E F G A B').map(parse),
          [ [ 0 ], [ 2 ], [ 4 ], [ -1 ], [ 1 ], [ 3 ], [ 5 ] ])
     })
   })
+  describe('isNoteStr', function () {
+    function areNotes(l) { return tonal.listArr(l).map(tonal.isNoteStr) }
+    it('checks if valid note', function () {
+      assert.deepEqual(areNotes('c c#2 blah 3M m-3 12'),
+        [ true, true, false, false, false, false ])
+    })
+  })
   describe('parseIvl', function () {
-    var parse = tnl.parseIvl
+    var parse = tonal.parseIvl
     it('parses ascending intervals', function () {
       assert.deepEqual(parse('8A'), [7, -3, 1])
       assert.deepEqual(parse('9m'), [-5, 4, 1])
@@ -47,7 +54,7 @@ describe('array notation pitches - ', function () {
     })
   })
   describe('strNote', function () {
-    var str = tnl.strNote
+    var str = tonal.strNote
     it('build pitch classes', function () {
       assert.equal(str([-7]), 'Cb')
     })
@@ -56,7 +63,7 @@ describe('array notation pitches - ', function () {
     })
   })
   describe('strIvl', function () {
-    var str = tnl.strIvl
+    var str = tonal.strIvl
     it('build intervals', function () {
       assert.deepEqual(str([7, -3, 1]), '8A')
       assert.deepEqual(str([-7, 3, -1]), '-8A')

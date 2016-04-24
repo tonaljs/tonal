@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "0.40.1",
+  "version": "0.40.5",
   "description": "A functional music theory library",
   "main": "dist/tonal.js",
   "jsnext:main": "lib/tonal.js",

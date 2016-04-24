@@ -1,0 +1,20 @@
+{
+  "name": "tonal-keys",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npm run rollup && mocha",
+    "rollup": "rollup lib/index.js -o dist/index.js -f cjs",
+    "bundle": "rollup -c && browserify dist/index.js | uglifyjs > dist/tonal-keys.min.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "tonal": "file:../.."
+  }
+}

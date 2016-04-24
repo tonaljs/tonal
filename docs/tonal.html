@@ -320,7 +320,9 @@ executed a lot of times. Some caching will help:</p>
 <span class="hljs-keyword">const</span> buildFnDec = (expect, to) =&gt; (fn) =&gt; (v) =&gt; to(fn(expect(v)))
 <span class="hljs-keyword">const</span> noteFn = buildFnDec(expectNote, toNoteStr)
 <span class="hljs-keyword">const</span> ivlFn = buildFnDec(expectIvl, toIvlStr)
-<span class="hljs-keyword">const</span> pitchFn = buildFnDec(expectPitch, toPitchStr)</pre></div>
+<span class="hljs-keyword">const</span> pitchFn = buildFnDec(expectPitch, toPitchStr)
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> sci = noteFn(id)</pre></div>
         
       
         
