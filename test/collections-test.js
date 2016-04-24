@@ -5,6 +5,11 @@ var assert = require('assert')
 var tonal = require('../')
 
 describe('collections', function () {
+  describe('max', function () {
+    it('get max note from a list', function () {
+      assert.equal(tonal.max('c3 b2 a5 d#4'), 'A5')
+    })
+  })
   describe('harmonizer', function () {
     it('creates an harmonizer function', function () {
       var maj7 = tonal.harmonizer('1P 3M 5P 7M')
@@ -29,13 +34,12 @@ describe('collections', function () {
   })
   describe('map', function () {
     var map = tonal.map
-    var sharp = function (p) { return [p[0] + 7] }
-    it('splits strings', function () {
-      assert.deepEqual(map(sharp, 'a b c'), [ 'A#', 'B#', 'C#' ])
+    it('splits list source', function () {
+      assert.deepEqual(map(tonal.sci, 'a bb cx'), [ 'A', 'Bb', 'C##' ])
     })
     it('can be partially applied', function () {
-      var sharps = map(sharp)
-      assert.deepEqual(sharps('a b c'), [ 'A#', 'B#', 'C#' ])
+      var notes = map(tonal.sci)
+      assert.deepEqual(notes('a bb cx'), [ 'A', 'Bb', 'C##' ])
     })
   })
 })
