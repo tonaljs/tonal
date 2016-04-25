@@ -375,41 +375,7 @@ var midi = function midi(val) {
   return hasOct(p) ? height(p) + 12 : isMidi(val) ? +val : null;
 };
 
-// We are going to create a chromatic scale. Since altered notes can be
-// represented either with flats or sharps, the CHROMATIC constant maps
-// only the unaltered steps:
-var CHROMATIC = [0, null, 1, null, 2, 3, null, 4, null, 5, null, 6];
-var midiStep = function midiStep(m) {
-  return CHROMATIC[m % 12];
-};
-
-// And the `chromatic()` function will fill the _holes_ with flat or
-// sharp altered notes depending of the first parameter:
-
-/**
- * Create a chromatic scale note names generator. A name generator is a function
- * that given a midi number returns a note name.
- *
- * @param {Boolean} useSharps - use sharps or flats when notes is altered
- * @return {Function} returns a function that converts from midi number to
- * note name
- * @example
- * var tonal = require('tonal')
- * var flats = tonal.chromatic(false)
- * [60, 61, 62, 63].map(flats) // => ['C4', 'Db4', 'D4', 'Eb']
- */
-var chromatic = function chromatic(useSharps) {
-  return function (midi) {
-    var step = midiStep(midi);
-    var o = Math.floor(midi / 12) - 1;
-    var n = step !== null ? notePitch(step, 0, o) : useSharps ? notePitch(midiStep(midi - 1), 1, o) : notePitch(midiStep(midi + 1), -1, o);
-    return strNote(n);
-  };
-};
-
-// Without a context, it's impossible to know the _right_ note name for a given
-// midi number, so we arbitrarily select chromatic with flats:
-
+var PCS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ');
 /**
  * Given a midi number, returns a note name. The altered notes will have
  * flats.
@@ -418,7 +384,11 @@ var chromatic = function chromatic(useSharps) {
  * @example
  * tonal.fromMidi(61) // => 'Db4'
  */
-var fromMidi = chromatic(false);
+var fromMidi = function fromMidi(m) {
+  var pc = PCS[m % 12];
+  var o = Math.floor(m / 12) - 1;
+  return pc + o;
+};
 
 // #### Frequency conversions
 
@@ -449,9 +419,9 @@ var wellTempered = function wellTempered(ref) {
  * @param {Array|String} pitch - the pitch to get the frequency from
  * @return {Float} the frequency in herzs
  * @example
- * toFreq('C4') // => 261.6255653005986
+ * tonal.freq('C4') // => 261.6255653005986
  */
-var toFreq = wellTempered(440);
+var freq = wellTempered(440);
 
 // ## 2. Pitch distances
 
@@ -603,25 +573,49 @@ var descR = function descR(b, n) {
   for (var a = []; n--; a[n] = b - n) {}return a;
 };
 
-function range(fn, a, b) {
-  if (arguments.length === 1) return function (a, b) {
-    return range(fn, a, b);
-  };
+/**
+ * Create a range. It works with numbers or note names
+ * @function
+ */
+function range(a, b) {
   var ma = isNum(a) ? a : midi(a);
   var mb = isNum(b) ? b : midi(b);
-  var f = fn === true ? fromMidi : fn || id;
-  var r = ma === null || mb === null ? [] : ma < mb ? ascR(ma, mb - ma + 1) : descR(ma, ma - mb + 1);
-  return r.map(f).filter(function (x) {
+  return ma === null || mb === null ? [] : ma < mb ? ascR(ma, mb - ma + 1) : descR(ma, ma - mb + 1);
+}
+
+/**
+ * Create a note range
+ * @function
+ */
+function noteRange(fn, a, b) {
+  if (arguments.length === 1) return function (a, b) {
+    return noteRange(fn, a, b);
+  };
+  return range(a, b).map(fn).filter(function (x) {
     return x !== null;
   });
 }
 
+/**
+ * Create a range of chromatic notes
+ * @function
+ * @example
+ * tonal.chromatic('C2', 'E2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2']
+ */
+var chromatic = noteRange(fromMidi);
+
 // #### Cycle of fifths
-var fifthsFrom = function fifthsFrom(t) {
+
+/**
+ * Transpose a tonic a number of perfect fifths.
+ * @function
+ */
+function fifthsFrom(t, n) {
+  if (arguments.length > 1) return fifthsFrom(t)(n);
   return function (n) {
     return tr(t, ['tnl', n, 0, encDir(n)]);
   };
-};
+}
 
 // #### Sort lists
 
@@ -687,10 +681,9 @@ exports.quality = quality;
 exports.semitones = semitones;
 exports.isMidi = isMidi;
 exports.midi = midi;
-exports.chromatic = chromatic;
 exports.fromMidi = fromMidi;
 exports.wellTempered = wellTempered;
-exports.toFreq = toFreq;
+exports.freq = freq;
 exports.transpose = transpose;
 exports.tr = tr;
 exports.distance = distance;
@@ -702,5 +695,7 @@ exports.filter = filter;
 exports.harmonizer = harmonizer;
 exports.harmonize = harmonize;
 exports.range = range;
+exports.noteRange = noteRange;
+exports.chromatic = chromatic;
 exports.fifthsFrom = fifthsFrom;
 exports.sort = sort;

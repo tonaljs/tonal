@@ -7,33 +7,45 @@ __This library is under active development.__
 ## Example
 
 ```js
-var tonal = require('tonal')
+var T = require('tonal')
 
-// basic notes and interval manipulations
-tonal.transpose('D4', '2M') // => 'E#4'
-tonal.interval('C', 'G') // => '5P'
+// midi and frequency
+T.midi('A4') // => 64
+T.fromMidi(60) // => 'C4'
+T.freq('A4') // => 440
+// note transposition
+T.tr('D4', '2M') // => 'E#4'
+// interval distance between notes
+T.dist('C', 'G') // => '5P'
+// distance in semitones
+T.semitones(T.dist('C', 'G')) // => 7
 
 // partial function application
-var upFifth = tonal.transpose('P5')
+var upFifth = T.tr('P5')
 upFifth('c3') // => 'G3'
 upFifth('g3') // => 'D4'
 
-// map notes using functions
-tonal.map(tonal.transpose('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
+// work with lists
+T.list('c db eb f gb') // => ['C', 'Db', 'Eb', 'F', 'Gb']
+
+// map list of notes using functions
+T.map(T.tr('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
+// get pitch classes using pc function
+T.map(T.pc, 'C2 Eb5 gx4') // => ['C', 'Eb', 'G##']
 
 // map functions (partial map application)
-var pitchClasses = tonal.map(tonal.pc)
-pitchClasses('C2 d3 e5') // => ['C', 'D', 'E']
-var fifths = tonal.map(upFifth)
-fifths('c d e') // => ['G', 'A', 'B']
+var pcs = T.map(T.pc)
+pcs('C2 db3 e5') // => ['C', 'Db', 'E']
+var up5 = T.map(T.tr('5P'))
+up5('c d e') // => ['G', 'A', 'B']
 
-// create note ranges
-tonal.range(true, 'C2', 'F4') // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4' ]
-// cycle of fifths
-tonal.range(tonal.fifthsFrom('C'), 0, 6) // => [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ]
+// Create note ranges
+T.chromatic('C2', 'F4') // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4' ]
+// build the cycle of fifths
+T.range(0, 6).map(T.fifthsFrom('C')) // => [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ]
 
 // create harmonizers
-var maj7 = tonal.harmonizer('P1 M3 P5 M7')
+var maj7 = T.harmonizer('P1 M3 P5 M7')
 maj7('C2') // => ['C2', 'E2', 'G2', 'B2']
 ```
 
@@ -75,28 +87,28 @@ Also, I want a complete library, where I can model all what I learn, with some (
 
 Tonal is a small library to manipulate notes and intervals, perform transpositions, calculate distances and work with collections of notes.
 
-You can read the [generated API documentation here](https://github.com/danigb/tonal/blob/tonal2/docs/API.md). You can read the [documented source code here](https://cdn.rawgit.com/danigb/tonal/tonal2/docs/tonal.html).
+You can read the [generated API documentation here](https://github.com/danigb/tonal/blob/tonal2/docs/API.md). You can read the [documented source code here](https://cdn.rawgit.com/danigb/tonal/tonal2/docs/T.html).
 
 ```js
 var tonal = require('tonal')
 
 // notes and intervals
-tonal.midi('A4') // => 69
-tonal.fromMidi(60) // => 'C4'
-tonal.freq('C2') // => 65.40639132514966
-tonal.fromFreq(220) // => 'A3'
-tonal.semitones('P8') // => 12
+T.midi('A4') // => 69
+T.fromMidi(60) // => 'C4'
+T.freq('C2') // => 65.40639132514966
+T.fromFreq(220) // => 'A3'
+T.semitones('P8') // => 12
 
 // transposition and distances
-tonal.tranpose('D4', '2M') // => 'E#4'
-tonal.interval('C', 'G') // => '5P'
+T.tranpose('D4', '2M') // => 'E#4'
+T.interval('C', 'G') // => '5P'
 
 // work with collections
-tonal.map(tonal.transpose('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
-var maj7 = tonal.harmonizer('P1 M3 P5 M7')
+T.map(T.transpose('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
+var maj7 = T.harmonizer('P1 M3 P5 M7')
 maj7('C2') // => ['C2', 'E2', 'G2', 'B2']
-tonal.sort('F G a D C') // => ['C', 'D', 'F', 'G', 'A']
-tonal.max('C4 C#3 A4') // => 'A4'
+T.sort('F G a D C') // => ['C', 'D', 'F', 'G', 'A']
+T.max('C4 C#3 A4') // => 'A4'
 ```
 
 #### `tonal-scales` and `tonal-chords`

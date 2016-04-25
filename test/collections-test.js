@@ -7,38 +7,44 @@ var _ = require('../')
 describe('collections', function () {
   describe('cycle of fifths', function () {
     it('ascending', function () {
-      assert.deepEqual(_.range(_.fifthsFrom('C'), 0, 6),
+      assert.deepEqual(_.range(0, 6).map(_.fifthsFrom('C')),
         [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ])
     })
     it('descending', function () {
-      assert.deepEqual(_.range(_.fifthsFrom('C'), 0, -6),
+      assert.deepEqual(_.range(0, -6).map(_.fifthsFrom('C')),
         [ 'C', 'F', 'Bb', 'Eb', 'Ab', 'Db', 'Gb' ])
     })
   })
   describe('range', function () {
-    it('numeric range: mix to max both included', function () {
-      assert.deepEqual(_.range(null, 0, 10),
+    it('ascending range', function () {
+      assert.deepEqual(_.range(0, 10),
         [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ])
     })
-    it('negative numbers', function () {
-      assert.deepEqual(_.range(null, 0, -5), [ 0, -1, -2, -3, -4, -5 ])
-      assert.deepEqual(_.range(null, -5, -10), [ -5, -6, -7, -8, -9, -10 ])
-    })
-    it('numeric range: max to min both included', function () {
-      assert.deepEqual(_.range(null, 10, 0),
+    it('descending range', function () {
+      assert.deepEqual(_.range(10, 0),
         [ 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 ])
     })
-    it('note range ascending', function () {
-      assert.deepEqual(_.range(null, 'C4', 'C5'),
-        [ 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72 ])
-      assert.deepEqual(_.range(true, 'C4', 'C5'),
-        [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4', 'Bb4', 'B4', 'C5' ])
+    it('negative numbers', function () {
+      assert.deepEqual(_.range(0, -5), [ 0, -1, -2, -3, -4, -5 ])
+      assert.deepEqual(_.range(-5, -10), [ -5, -6, -7, -8, -9, -10 ])
     })
-    it('note range descending', function () {
-      assert.deepEqual(_.range(false, 'C5', 'C4'),
+    it('notes ascending', function () {
+      assert.deepEqual(_.range('C4', 'C5'),
+        [ 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72 ])
+    })
+    it('notes descending', function () {
+      assert.deepEqual(_.range('C5', 'C4'),
         [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ])
-      assert.deepEqual(_.range(true, 'C5', 'C4'),
-        [ 'C5', 'B4', 'Bb4', 'A4', 'Ab4', 'G4', 'Gb4', 'F4', 'E4', 'Eb4', 'D4', 'Db4', 'C4' ])
+    })
+  })
+  describe('chromatic', function () {
+    it('ascending ranges', function () {
+      assert.deepEqual(_.chromatic('A3', 'A4'),
+        [ 'A3', 'Bb3', 'B3', 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4' ])
+    })
+    it('descending ranges', function () {
+      assert.deepEqual(_.chromatic('A4', 'A3'),
+        [ 'A4', 'Ab4', 'G4', 'Gb4', 'F4', 'E4', 'Eb4', 'D4', 'Db4', 'C4', 'B3', 'Bb3', 'A3' ])
     })
   })
   describe('harmonizer', function () {

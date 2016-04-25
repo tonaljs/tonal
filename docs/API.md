@@ -1,10 +1,6 @@
 ## Constants
 
 <dl>
-<dt><a href="#chromatic">chromatic</a> ⇒ <code>function</code></dt>
-<dd><p>Create a chromatic scale note names generator. A name generator is a function
-that given a midi number returns a note name.</p>
-</dd>
 <dt><a href="#fromMidi">fromMidi</a> ⇒ <code>String</code></dt>
 <dd><p>Given a midi number, returns a note name. The altered notes will have
 flats.</p>
@@ -33,7 +29,7 @@ of a note or an interval.</p>
 <dt><a href="#wellTempered">wellTempered(ref)</a> ⇒ <code>function</code></dt>
 <dd><p>Get a frequency calculator function that uses well temperament and a tuning reference.</p>
 </dd>
-<dt><a href="#toFreq">toFreq(pitch)</a> ⇒ <code>Float</code></dt>
+<dt><a href="#freq">freq(pitch)</a> ⇒ <code>Float</code></dt>
 <dd><p>Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz</p>
 </dd>
 <dt><a href="#transpose">transpose()</a></dt>
@@ -56,28 +52,20 @@ Distances between intervals substract one from the other.</p>
 <dt><a href="#asList">asList(source)</a> ⇒ <code>Array</code></dt>
 <dd><p>Split a string by spaces (or commas or bars). Always returns an array, even if its empty</p>
 </dd>
+<dt><a href="#range">range()</a></dt>
+<dd><p>Create a range. It works with numbers or note names</p>
+</dd>
+<dt><a href="#noteRange">noteRange()</a></dt>
+<dd><p>Create a note range</p>
+</dd>
+<dt><a href="#chromatic">chromatic()</a></dt>
+<dd><p>Create a range of chromatic notes</p>
+</dd>
+<dt><a href="#fifthsFrom">fifthsFrom()</a></dt>
+<dd><p>Transpose a tonic a number of perfect fifths.</p>
+</dd>
 </dl>
 
-<a name="chromatic"></a>
-
-## chromatic ⇒ <code>function</code>
-Create a chromatic scale note names generator. A name generator is a function
-that given a midi number returns a note name.
-
-**Kind**: global constant  
-**Returns**: <code>function</code> - returns a function that converts from midi number to
-note name  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| useSharps | <code>Boolean</code> | use sharps or flats when notes is altered |
-
-**Example**  
-```js
-var tonal = require('tonal')
-var flats = tonal.chromatic(false)
-[60, 61, 62, 63].map(flats) // => ['C4', 'Db4', 'D4', 'Eb']
-```
 <a name="fromMidi"></a>
 
 ## fromMidi ⇒ <code>String</code>
@@ -175,9 +163,9 @@ Get a frequency calculator function that uses well temperament and a tuning refe
 | --- | --- | --- |
 | ref | <code>Float</code> | the tuning reference |
 
-<a name="toFreq"></a>
+<a name="freq"></a>
 
-## toFreq(pitch) ⇒ <code>Float</code>
+## freq(pitch) ⇒ <code>Float</code>
 Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz
 
 **Kind**: global function  
@@ -189,7 +177,7 @@ Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz
 
 **Example**  
 ```js
-toFreq('C4') // => 261.6255653005986
+tonal.freq('C4') // => 261.6255653005986
 ```
 <a name="transpose"></a>
 
@@ -249,3 +237,31 @@ Split a string by spaces (or commas or bars). Always returns an array, even if i
 | --- | --- | --- |
 | source | <code>String</code> &#124; <code>Array</code> &#124; <code>Object</code> | the thing to get an array from |
 
+<a name="range"></a>
+
+## range()
+Create a range. It works with numbers or note names
+
+**Kind**: global function  
+<a name="noteRange"></a>
+
+## noteRange()
+Create a note range
+
+**Kind**: global function  
+<a name="chromatic"></a>
+
+## chromatic()
+Create a range of chromatic notes
+
+**Kind**: global function  
+**Example**  
+```js
+tonal.chromatic('C2', 'E2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2']
+```
+<a name="fifthsFrom"></a>
+
+## fifthsFrom()
+Transpose a tonic a number of perfect fifths.
+
+**Kind**: global function  
