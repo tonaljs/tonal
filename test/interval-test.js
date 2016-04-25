@@ -2,13 +2,19 @@
 'use strict'
 
 var assert = require('assert')
-var tnl = require('../')
-var map = tnl.map
+var _ = require('../')
 
 describe('intervals', function () {
+  describe('isIntervalStr', function () {
+    it('test if its interval string', function () {
+      assert.equal(_.isIntervalStr('M3'), true, 'interval')
+      assert.equal(_.isIntervalStr('C'), false, 'pitch class')
+      assert.equal(_.isIntervalStr('F#2'), false, 'note name')
+    })
+  })
   describe('simplify', function () {
     it('simplifies intervals', function () {
-      var simples = map(tnl.simplify)
+      var simples = _.map(_.simplify)
       assert.deepEqual(simples('1P 2M 3M 4P 5P 6M 7M'),
         [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
       assert.deepEqual(simples('8A 9A 10A 11A 12A 13A 14A'),
@@ -21,7 +27,7 @@ describe('intervals', function () {
   })
   describe('simple', function () {
     it('get simple from interval', function () {
-      var simples = map(tnl.simpleNum)
+      var simples = _.map(_.simpleNum)
       assert.deepEqual(simples('1P 2M 3M 4P 5P 6M 7M'),
       [ 1, 2, 3, 4, 5, 6, 7 ])
       assert.deepEqual(simples('8A 9A 10A 11A 12A 13A 14A'),
@@ -31,14 +37,14 @@ describe('intervals', function () {
     })
   })
   describe('number', function () {
-    var numbers = map(tnl.number)
+    var numbers = _.map(_.number)
     it('get number from intervals', function () {
       assert.deepEqual(numbers('1P 3M 6m 9M 11P'),
       [1, 3, 6, 9, 11])
     })
   })
   describe('quality', function () {
-    var qualities = map(tnl.quality)
+    var qualities = _.map(_.quality)
     it('get quality of intervals', function () {
       assert.deepEqual(qualities('2dd 2d 2m 2M 2A 2AA'),
       [ 'dd', 'd', 'm', 'M', 'A', 'AA' ])
@@ -51,7 +57,7 @@ describe('intervals', function () {
     })
   })
   describe('semitones', function () {
-    var semitones = map(tnl.semitones)
+    var semitones = _.map(_.semitones)
     it('get semitones of ascending intervals', function () {
       assert.deepEqual(semitones('1P 2M 3M 4P 5P 6M 7M'),
         [ 0, 2, 4, 5, 7, 9, 11 ])

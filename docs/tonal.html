@@ -272,10 +272,12 @@ executed a lot of times. Some caching will help:</p>
 
         
           <div class='highlight'><pre>
-<span class="hljs-keyword">const</span> cache = {}
-<span class="hljs-keyword">const</span> cached = (parser) =&gt; (str) =&gt; {
-  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> str !== <span class="hljs-string">'string'</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
-  <span class="hljs-keyword">return</span> cache[str] || (cache[str] = parser(str))
+<span class="hljs-keyword">const</span> cached = (parser) =&gt; {
+  <span class="hljs-keyword">const</span> cache = {}
+  <span class="hljs-keyword">return</span> (str) =&gt; {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> str !== <span class="hljs-string">'string'</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
+    <span class="hljs-keyword">return</span> cache[str] || (cache[str] = parser(str))
+  }
 }
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parseNote = cached((str) =&gt; {
@@ -284,6 +286,7 @@ executed a lot of times. Some caching will help:</p>
 })
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isNoteStr = (s) =&gt; parseNote(s) !== <span class="hljs-literal">null</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isIntervalStr = (s) =&gt; parseIvl(s) !== <span class="hljs-literal">null</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parseIvl = cached((str) =&gt; {
   <span class="hljs-keyword">const</span> i = ivlNttn.parse(str)
@@ -681,7 +684,14 @@ all the notes against a reference:</p>
   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> (b) =&gt; distance(a, b)
   <span class="hljs-keyword">const</span> pa = asPitch(a)
   <span class="hljs-keyword">const</span> pb = asPitch(b)
-  <span class="hljs-keyword">return</span> toIvlStr(substr(pa, pb))
+  <span class="hljs-keyword">const</span> i = substr(pa, pb)</pre></div>
+        
+      
+        
+        <p>if a and b are in array notation, no conversion back</p>
+
+        
+          <div class='highlight'><pre>  <span class="hljs-keyword">return</span> a === pa &amp;&amp; b === pb ? i : toIvlStr(i)
 }
 
 <span class="hljs-comment">/**
@@ -711,43 +721,33 @@ all the notes against a reference:</p>
  * @param {String|Array|Object} source - the thing to get an array from
  * @return {Array} the object as an array
  */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">listArr</span> (<span class="hljs-params">src</span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">asList</span> (<span class="hljs-params">src</span>) </span>{
   <span class="hljs-keyword">return</span> isArr(src) ? src
     : <span class="hljs-keyword">typeof</span> src === <span class="hljs-string">'string'</span> ? src.trim().split(SEP)
     : (src === <span class="hljs-literal">null</span> || <span class="hljs-keyword">typeof</span> src === <span class="hljs-string">'undefined'</span>) ? []
     : [ src ]
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">map</span> (<span class="hljs-params">fn, list</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span> ? map(fn)(list) : (l) =&gt; asList(l).map(fn)
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">filter</span> (<span class="hljs-params">fn, list</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span> ? filter(fn)(list) : (l) =&gt; asList(l).filter(fn)
 }</pre></div>
         
       
         
-        <h4 id="transform-lists">Transform lists</h4>
+        <h4 id="transform-lists-in-array-notation">Transform lists in array notation</h4>
 
         
           <div class='highlight'><pre>
 <span class="hljs-keyword">const</span> listToStr = (v) =&gt; isPitch(v) ? toPitchStr(v) : isArr(v) ? v.map(toPitchStr) : v
 
 <span class="hljs-keyword">const</span> transform = (fn) =&gt; (src) =&gt; {
-  <span class="hljs-keyword">const</span> param = listArr(src).map(asPitch)
+  <span class="hljs-keyword">const</span> param = asList(src).map(asPitch)
   <span class="hljs-keyword">const</span> result = fn(param)
   <span class="hljs-keyword">return</span> listToStr(result)
-}
-
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">map</span> (<span class="hljs-params">fn, list</span>) </span>{
-  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> map(fn)(list)
-  <span class="hljs-keyword">return</span> (l) =&gt; listArr(l).map(fn)
-}
-
-<span class="hljs-keyword">const</span> filter = (fn, list) =&gt; {
-  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> filter(fn)(list)
-  <span class="hljs-keyword">return</span> (l) =&gt; listArr(l).filter(fn)
-}
-
-<span class="hljs-keyword">const</span> reduce = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">fn, o, list</span>) </span>{
-  <span class="hljs-keyword">switch</span> (<span class="hljs-built_in">arguments</span>.length) {
-    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span class="hljs-keyword">return</span> (o, list) =&gt; reduce(fn, o, list)
-    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: <span class="hljs-keyword">return</span> (list) =&gt; reduce(fn, o, list)
-    <span class="hljs-keyword">default</span>: <span class="hljs-keyword">return</span> listArr(list).reduce(fn, o)
-  }
 }</pre></div>
         
       
@@ -766,6 +766,35 @@ all the notes against a reference:</p>
         
       
         
+        <h4 id="ranges">Ranges</h4>
+
+        
+      
+        
+        <p>ascending range</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> ascR = (b, n) =&gt; { <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> a = []; n-- ; a[n] = n + b ); <span class="hljs-keyword">return</span> a; }</pre></div>
+        
+      
+        
+        <p>descending range</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> descR = (b, n) =&gt; { <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> a = []; n-- ; a[n] = b - n ) ; <span class="hljs-keyword">return</span> a; }
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">range</span> (<span class="hljs-params">fn, a, b</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> (a, b) =&gt; range(fn, a, b)
+  <span class="hljs-keyword">const</span> ma = midi(a)
+  <span class="hljs-keyword">const</span> mb = midi(b)
+  <span class="hljs-keyword">const</span> f = fn === <span class="hljs-literal">true</span> ? fromMidi : fn || id
+  <span class="hljs-keyword">const</span> r = ma === <span class="hljs-literal">null</span> || mb === <span class="hljs-literal">null</span> ? []
+    : ma &lt; mb ? ascR(ma, mb - ma + <span class="hljs-number">1</span>) : descR(ma, ma - mb + <span class="hljs-number">1</span>)
+  <span class="hljs-keyword">return</span> r.map(f).filter((x) =&gt; x !== <span class="hljs-literal">null</span>)
+}</pre></div>
+        
+      
+        
         <h4 id="sort-lists">Sort lists</h4>
 
         
@@ -779,11 +808,6 @@ all the notes against a reference:</p>
 
 <span class="hljs-keyword">const</span> ascComp = (a, b) =&gt; objHeight(a) - objHeight(b)
 <span class="hljs-keyword">const</span> descComp = (a, b) =&gt; -ascComp(a, b)
-
-<span class="hljs-keyword">const</span> maxP = (a, b) =&gt; ascComp(a, b) &lt; <span class="hljs-number">0</span> ? b : a
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> max = transform((list) =&gt; {
-  <span class="hljs-keyword">return</span> list.reduce(maxP, <span class="hljs-literal">null</span>)
-})
 
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sort</span> (<span class="hljs-params">comp, list</span>) </span>{
   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> sort(comp)(list)

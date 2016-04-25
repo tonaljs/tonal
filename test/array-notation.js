@@ -27,20 +27,20 @@ describe('array notation pitches - ', function () {
     })
   })
   describe('parseNote', function () {
-    var parse = _.parseNote
     it('parses notes', function () {
-      assert.deepEqual(parse('C2'), ['tnl', 0, 2])
-      assert.deepEqual(parse('C#2'), ['tnl', 7, -2])
-      assert.deepEqual(parse('B#2'), ['tnl', 12, -4])
+      assert.deepEqual(_.parseNote('C2'), ['tnl', 0, 2])
+      assert.deepEqual(_.parseNote('C#2'), ['tnl', 7, -2])
+      assert.deepEqual(_.parseNote('B#2'), ['tnl', 12, -4])
     })
     it('parse pitch classes', function () {
-      assert.deepEqual(_.listArr('C D E F G A B').map(parse),
+      var parseList = _.map(_.parseNote)
+      assert.deepEqual(parseList('C D E F G A B'),
          [ ['tnl', 0 ], ['tnl', 2 ], ['tnl', 4 ], ['tnl', -1 ],
            ['tnl', 1 ], ['tnl', 3 ], ['tnl', 5 ] ])
     })
   })
   describe('isNoteStr', function () {
-    function areNotes(l) { return _.listArr(l).map(_.isNoteStr) }
+    var areNotes = _.map(_.isNoteStr)
     it('checks if valid note', function () {
       assert.deepEqual(areNotes('c c#2 blah 3M m-3 12'),
         [ true, true, false, false, false, false ])

@@ -53,7 +53,7 @@ Distances between intervals substract one from the other.</p>
 <dt><a href="#interval">interval()</a></dt>
 <dd><p>An alias for <code>distance</code></p>
 </dd>
-<dt><a href="#listArr">listArr(source)</a> ⇒ <code>Array</code></dt>
+<dt><a href="#asList">asList(source)</a> ⇒ <code>Array</code></dt>
 <dd><p>Split a string by spaces (or commas or bars). Always returns an array, even if its empty</p>
 </dd>
 </dl>
@@ -237,9 +237,9 @@ An alias for `distance`
 An alias for `distance`
 
 **Kind**: global function  
-<a name="listArr"></a>
+<a name="asList"></a>
 
-## listArr(source) ⇒ <code>Array</code>
+## asList(source) ⇒ <code>Array</code>
 Split a string by spaces (or commas or bars). Always returns an array, even if its empty
 
 **Kind**: global function  

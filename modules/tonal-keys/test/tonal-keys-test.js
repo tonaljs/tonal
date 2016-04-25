@@ -4,9 +4,12 @@ var key = require('..')
 
 function map (fn, str) { return str.split(' ').map(fn) }
 
-describe('music-key', function () {
+describe('tonal-keys', function () {
+  describe('alteredNotes', function () {
+    assert.deepEqual(key.alteredNotes('Bb major'), ['Bb', 'Eb'])
+  })
   describe('relative', function () {
-    it('get relatives', function () {
+    it('get relative key', function () {
       assert.deepEqual(key.relative('major', 'D minor'),
         { name: 'F major', tonic: 'F', mode: 'major' })
       assert.deepEqual(key.relative('lydian', 'Eb dorian'),
@@ -16,7 +19,9 @@ describe('music-key', function () {
   describe('accidentals', function () {
     it('get sharps', function () {
       assert.equal(key.accidentals('C major'), '')
-      assert.equal(key.accidentals('A major'), '')
+      assert.equal(key.accidentals('A major'), '###')
+      assert.equal(key.accidentals('Bb major'), 'bb')
+      assert.equal(key.accidentals('Bb dorian'), 'b')
     })
   })
   describe('key', function () {

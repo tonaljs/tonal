@@ -26,7 +26,9 @@ function build (tonic, mode) {
 const isKey = (o) => o && _.isDef(o.tonic) && _.isStr(o.mode)
 const hasTonic = (o) => isKey(o) && o.tonic
 
-const major = (n) => build(_.transpose('C', [n, 0, 1]), 'major')
+// create a interval of n ascending fifths
+const fifths = (n) => ['tnl', n, 0, 1]
+const major = (n) => build(_.transpose('C', fifths(n)), 'major')
 
 /**
  * Create a key from alterations
@@ -70,17 +72,27 @@ const relative = (rel, key) => {
   if (hasTonic(r)) return null
   const k = asKey(key)
   if (!hasTonic(k)) return null
-  const toMajor = _.pitch(modeNum(k), 0, 0, -1)
-  const toRel = _.pitch(modeNum(r), 0, 0, 1)
+  const toMajor = _.ivl(modeNum(k), 0, 0, -1)
+  const toRel = _.ivl(modeNum(r), 0, 0, 1)
   const tonic = _.transpose(k.tonic, _.transpose(toMajor, toRel))
   return build(tonic, rel)
 }
 
-const accidentals = (key) => {
+const alteration = (key) => {
   const k = asKey(key)
-  const toMajor = _.pitch(modeNum(k), 0, 0, -1)
-  console.log('acc', toMajor)
-  return _.toAcc(toMajor[0])
+  const toMajor = modeNum(k)
+  const toC = _.parseNote(k.tonic)[1]
+  return toMajor + toC
+}
+
+const accidentals = (key) => {
+  return _.toAcc(alteration(key))
+}
+const signature = accidentals
+
+const alteredNotes = (key) => {
+  var alt = alteration(key)
+  return alt ? _.range((n) => _.tr('C', _.ivl(n, 0, 0, n)), 0, alt) : null
 }
 
 exports.areFlats = areFlats;
@@ -96,4 +108,7 @@ exports.fromName = fromName;
 exports.asKey = asKey;
 exports.keyFn = keyFn;
 exports.relative = relative;
+exports.alteration = alteration;
 exports.accidentals = accidentals;
+exports.signature = signature;
+exports.alteredNotes = alteredNotes;

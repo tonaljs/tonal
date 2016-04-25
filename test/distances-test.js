@@ -29,6 +29,11 @@ describe('distances', function () {
       assert.equal(_.dist('C', 'C2'), null)
       assert.equal(_.dist('C2', 'C'), null)
     })
+    it('when both pitches are in arra format, return array format', function () {
+      assert.deepEqual(_.dist(['tnl', 0, 0], ['tnl', 1, 0]),
+        [ 'tnl', 1, 0, 1 ])
+      assert.deepEqual(_.dist(['tnl', 0], 'D'), '2M')
+    })
   })
   describe('transpose', function () {
     it('order of params is not relevant', function () {

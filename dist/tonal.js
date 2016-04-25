@@ -1,6 +1,5 @@
 'use strict';
 
-var _arguments = arguments;
 // # Tonal
 
 // __tonal__ is a functional music theory library. It deals with abstract music
@@ -170,8 +169,8 @@ function decode(p) {
 // Convert from string to pitches is a quite expensive operation that it's
 // executed a lot of times. Some caching will help:
 
-var cache = {};
 var cached = function cached(parser) {
+  var cache = {};
   return function (str) {
     if (typeof str !== 'string') return null;
     return cache[str] || (cache[str] = parser(str));
@@ -185,6 +184,9 @@ var parseNote = cached(function (str) {
 
 var isNoteStr = function isNoteStr(s) {
   return parseNote(s) !== null;
+};
+var isIntervalStr = function isIntervalStr(s) {
+  return parseIvl(s) !== null;
 };
 
 var parseIvl = cached(function (str) {
@@ -517,7 +519,9 @@ function distance(a, b) {
   };
   var pa = asPitch(a);
   var pb = asPitch(b);
-  return toIvlStr(substr(pa, pb));
+  var i = substr(pa, pb);
+  // if a and b are in array notation, no conversion back
+  return a === pa && b === pb ? i : toIvlStr(i);
 }
 
 /**
@@ -540,11 +544,23 @@ var SEP = /\s*\|\s*|\s*,\s*|\s+/;
  * @param {String|Array|Object} source - the thing to get an array from
  * @return {Array} the object as an array
  */
-function listArr(src) {
+function asList(src) {
   return isArr(src) ? src : typeof src === 'string' ? src.trim().split(SEP) : src === null || typeof src === 'undefined' ? [] : [src];
 }
 
-// #### Transform lists
+function map(fn, list) {
+  return arguments.length > 1 ? map(fn)(list) : function (l) {
+    return asList(l).map(fn);
+  };
+}
+
+function filter(fn, list) {
+  return arguments.length > 1 ? filter(fn)(list) : function (l) {
+    return asList(l).filter(fn);
+  };
+}
+
+// #### Transform lists in array notation
 
 var listToStr = function listToStr(v) {
   return isPitch(v) ? toPitchStr(v) : isArr(v) ? v.map(toPitchStr) : v;
@@ -552,18 +568,11 @@ var listToStr = function listToStr(v) {
 
 var transform = function transform(fn) {
   return function (src) {
-    var param = listArr(src).map(asPitch);
+    var param = asList(src).map(asPitch);
     var result = fn(param);
     return listToStr(result);
   };
 };
-
-function map(fn, list) {
-  if (arguments.length > 1) return map(fn)(list);
-  return function (l) {
-    return listArr(l).map(fn);
-  };
-}
 
 // #### Transpose lists
 
@@ -578,6 +587,30 @@ var harmonizer = function harmonizer(list) {
 var harmonize = function harmonize(list, pitch) {
   return arguments.length > 1 ? harmonizer(list)(pitch) : harmonizer(list);
 };
+
+// #### Ranges
+
+// ascending range
+var ascR = function ascR(b, n) {
+  for (var a = []; n--; a[n] = n + b) {}return a;
+};
+// descending range
+var descR = function descR(b, n) {
+  for (var a = []; n--; a[n] = b - n) {}return a;
+};
+
+function range(fn, a, b) {
+  if (arguments.length === 1) return function (a, b) {
+    return range(fn, a, b);
+  };
+  var ma = midi(a);
+  var mb = midi(b);
+  var f = fn === true ? fromMidi : fn || id;
+  var r = ma === null || mb === null ? [] : ma < mb ? ascR(ma, mb - ma + 1) : descR(ma, ma - mb + 1);
+  return r.map(f).filter(function (x) {
+    return x !== null;
+  });
+}
 
 // #### Sort lists
 
@@ -594,13 +627,6 @@ var ascComp = function ascComp(a, b) {
 var descComp = function descComp(a, b) {
   return -ascComp(a, b);
 };
-
-var maxP = function maxP(a, b) {
-  return ascComp(a, b) < 0 ? b : a;
-};
-var max = transform(function (list) {
-  return list.reduce(maxP, null);
-});
 
 function sort(comp, list) {
   if (arguments.length > 1) return sort(comp)(list);
@@ -629,6 +655,7 @@ exports.notePitch = notePitch;
 exports.ivl = ivl;
 exports.parseNote = parseNote;
 exports.isNoteStr = isNoteStr;
+exports.isIntervalStr = isIntervalStr;
 exports.parseIvl = parseIvl;
 exports.toLetter = toLetter;
 exports.toAcc = toAcc;
@@ -657,9 +684,10 @@ exports.tr = tr;
 exports.distance = distance;
 exports.dist = dist;
 exports.interval = interval;
-exports.listArr = listArr;
+exports.asList = asList;
 exports.map = map;
+exports.filter = filter;
 exports.harmonizer = harmonizer;
 exports.harmonize = harmonize;
-exports.max = max;
+exports.range = range;
 exports.sort = sort;
