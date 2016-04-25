@@ -7,42 +7,29 @@ __This library is under active development.__
 ## Example
 
 ```js
-var tnl = require('tonal')
+var tonal = require('tonal')
 
-// notes and intervals
-tnl.midi('A4') // => 69
-tnl.fromMidi(60) // => 'C4'
-tnl.freq('C2') // => 65.40639132514966
-tnl.fromFreq(220) // => 'A3'
-tnl.semitones('P8') // => 12
+// basic notes and interval manipulations
+tonal.transpose('D4', '2M') // => 'E#4'
+tonal.interval('C', 'G') // => '5P'
 
-// transposition and distances
-tnl.tranpose('D4', '2M') // => 'E#4'
-tnl.interval('C', 'G') // => '5P'
+// partial function application
+var upFifth = tonal.transpose('P5')
+upFifth('c3') // => 'G3'
+upFifth('g3') // => 'D4'
 
-// work with collections
-tnl.map(tnl.transpose('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
-var maj7 = tnl.harmonizer('P1 M3 P5 M7')
+// map notes using functions
+tonal.map(tonal.transpose('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
+
+// map functions (partial map application)
+var pitchClasses = tonal.map(tonal.pc)
+pitchClasses('C2 d3 e5') // => ['C', 'D', 'E']
+var fifths = tonal.map(upFifth)
+fifths('c d e') // => ['G', 'A', 'B']
+
+// create harmonizers
+var maj7 = tonal.harmonizer('P1 M3 P5 M7')
 maj7('C2') // => ['C2', 'E2', 'G2', 'B2']
-tnl.sort('F G a D C') // => ['C', 'D', 'F', 'G', 'A']
-tnl.max('C4 C#3 A4') // => 'A4'
-
-// scales and chords
-tnl.scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-
-// ranges
-tnl.range(tnl.chromatic(), 'C3', 'G5')
-// => ['C3', 'Db3', 'D3', 'Eb3', ... 'G5']
-tnl.take(tnl.chromatic(), 'A4', 24)
-// => ['A4', 'Bb4', 'B4', 'C5', ... 'A6']
-tnl.range('C E G', 'C3', 'C5')
-// => ['C3', 'E3', 'G3', 'C4', 'E4', 'G5', 'C5']
-
-// keys
-key('###') // => 'A major'
-key.signature('A major') // => '###'
-key.altNotes('A major') // => ['F#', 'C#']
-key.relative('minor', 'A major') // => 'F minor'
 ```
 
 ## Features
@@ -60,10 +47,10 @@ Although `tonal` is a work in progress, currently is implemented (but not all re
 
 This library is evolving with this ideas in mind:
 
-- Notes and intervals are represented with strings, instead of objects. Easy and concise code.
 - Functional: no classes, no side effects, no mutations. Just functions, data-in data-out. Most of the functions has the data to operate on as last argument and lot of functions are currified.
-- [Small](https://rawgit.com/danigb/tonal/master/dist/disc.html) and fast
-- Modular: [lot of modules](https://www.npmjs.com/browse/keyword/tonal) (all integrated in tonal). You can require exactly the functions you need, or get the [whole thing](https://www.npmjs.com/package/tonal).
+- Notes and intervals are represented with strings, instead of objects. Easy and concise code.
+- Small (8,6kb minified) and fast
+- Modular
 - Different notations: scientific notation by default. Helmholtz coming. Change it easily.
 - Documented: all public functions are documented inside the code. Aside the generated documentation (in API.md file) a 'usage' guides are provided for each module.
 - Learneable: since all the modules share the same philosophy is easy to work with them.
@@ -83,13 +70,75 @@ Also, I want a complete library, where I can model all what I learn, with some (
 
 Tonal is a small library to manipulate notes and intervals, perform transpositions, calculate distances and work with collections of notes.
 
-You can read the [generated API documentation here](). You can read the [documented source code here]().
+You can read the [generated API documentation here](https://github.com/danigb/tonal/blob/tonal2/docs/API.md). You can read the [documented source code here](https://cdn.rawgit.com/danigb/tonal/tonal2/docs/tonal.html).
+
+```js
+var tonal = require('tonal')
+
+// notes and intervals
+tonal.midi('A4') // => 69
+tonal.fromMidi(60) // => 'C4'
+tonal.freq('C2') // => 65.40639132514966
+tonal.fromFreq(220) // => 'A3'
+tonal.semitones('P8') // => 12
+
+// transposition and distances
+tonal.tranpose('D4', '2M') // => 'E#4'
+tonal.interval('C', 'G') // => '5P'
+
+// work with collections
+tonal.map(tonal.transpose('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
+var maj7 = tonal.harmonizer('P1 M3 P5 M7')
+maj7('C2') // => ['C2', 'E2', 'G2', 'B2']
+tonal.sort('F G a D C') // => ['C', 'D', 'F', 'G', 'A']
+tonal.max('C4 C#3 A4') // => 'A4'
+```
+
+#### `tonal-scales` and `tonal-chords`
+
+```js
+var scales = require('tonal-scales')
+
+scales.get('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+
+var chords = require('tonal-chords')
+chords.get('D7') // => ['D', 'F#', 'A', 'C']
+```
+
 
 #### `tonal-range`
 
-#### `tonal-scales`
+```js
+import { range, take } from 'tonal-range'
 
-#### `tonal-chords`
+// create a chromatic range
+range(null, 'C3', 'G5')
+// => ['C3', 'Db3', 'D3', 'Eb3', ... 'G5']
+
+// create a range from 'C3' to 'C5' using scale 'C E G'
+range('C E G', 'C3', 'C5')
+// => ['C3', 'E3', 'G3', 'C4', 'E4', 'G5', 'C5']
+
+// create a descending range from 'C4' to 'C3' using scale 'C phrygian'
+range(scales.get('C phrygian'), 'C4', 'C3')
+
+// take 24 notes from a chromatic scale starting from 'A4'
+take(null, 'A4', 24)
+// => ['A4', 'Bb4', 'B4', 'C5', ... 'A6']
+
+// take 15 first notes of C major starting from C2
+take(scales.get('C major'), 'C2', 15)
+```
+
+#### `tonal-keys`
+
+```js
+// keys
+key('###') // => 'A major'
+key.signature('A major') // => '###'
+key.altNotes('A major') // => ['F#', 'C#']
+key.relative('minor', 'A major') // => 'F minor'
+```
 
 
 ## License

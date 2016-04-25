@@ -1,5 +1,6 @@
 'use strict';
 
+var _arguments = arguments;
 // # Tonal
 
 // __tonal__ is a functional music theory library. It deals with abstract music
@@ -21,27 +22,37 @@
 // #### Prelude
 
 // Parse note names with `note-parser`
-const noteParse = require('note-parser').parse
+var noteParse = require('note-parser').parse;
 // Parse interval names with `interval-notation`
-const ivlNttn = require('interval-notation')
+var ivlNttn = require('interval-notation');
 
 // Utilities
 
 // Is an array?
-const isArr = Array.isArray
+var isArr = Array.isArray;
 // Is a number?
-const isNum = (n) => typeof n === 'number'
+var isNum = function isNum(n) {
+  return typeof n === 'number';
+};
 // Is string?
-const isStr = (o) => typeof o === 'string'
+var isStr = function isStr(o) {
+  return typeof o === 'string';
+};
 // Is defined? (can be null)
-const isDef = (o) => typeof o !== 'undefined'
+var isDef = function isDef(o) {
+  return typeof o !== 'undefined';
+};
 // Is a value?
-const isValue = (v) => v !== null && typeof v !== 'undefined'
+var isValue = function isValue(v) {
+  return v !== null && typeof v !== 'undefined';
+};
 
 // __Functional helpers__
 
 // Identity function
-const id = (x) => x
+var id = function id(x) {
+  return x;
+};
 
 // ## 1. Pitches
 
@@ -53,33 +64,48 @@ const id = (x) => x
  * @param {Object} obj - the object to test
  * @return {Boolean} true if is a pitch, false otherwise
  */
-const isPitch = (p) => p && p[0] === 'tnl'
+var isPitch = function isPitch(p) {
+  return p && p[0] === 'tnl';
+};
 /**
  * Test if a given object is a pitch class
  * @function
  * @param {Object} obj - the object to test
  * @return {Boolean} true if is a pitch class, false otherwise
  */
-const isPitchClass = (p) => isPitch(p) && p.length === 2
-const hasOct = (p) => isPitch(p) && isNum(p[2])
-const isPitchNote = (p) => hasOct(p) && p.length === 3
-const isInterval = (i) => hasOct(i) && isNum(i[3])
-
+var isPitchClass = function isPitchClass(p) {
+  return isPitch(p) && p.length === 2;
+};
+var hasOct = function hasOct(p) {
+  return isPitch(p) && isNum(p[2]);
+};
+var isPitchNote = function isPitchNote(p) {
+  return hasOct(p) && p.length === 3;
+};
+var isInterval = function isInterval(i) {
+  return hasOct(i) && isNum(i[3]);
+};
 
 // #### Pitch encoding
 
 // Map from letter step to number of fifths and octaves
-const FIFTHS = [0, 2, 4, -1, 1, 3, 5]
+var FIFTHS = [0, 2, 4, -1, 1, 3, 5];
 // Encode a pitch class using the step number and alteration
-const encPC = (step, alt) => FIFTHS[step] + 7 * alt
+var encPC = function encPC(step, alt) {
+  return FIFTHS[step] + 7 * alt;
+};
 
 // Given a number of fifths, return the octaves they span
-const fifthsSpan = (f) => Math.floor(f * 7 / 12)
+var fifthsSpan = function fifthsSpan(f) {
+  return Math.floor(f * 7 / 12);
+};
 // Get the number of octaves it span each step
-const FIFTH_OCTS = FIFTHS.map(fifthsSpan)
+var FIFTH_OCTS = FIFTHS.map(fifthsSpan);
 
 // Encode octaves
-const encOct = (step, alt, oct) => oct - FIFTH_OCTS[step] - 4 * alt
+var encOct = function encOct(step, alt, oct) {
+  return oct - FIFTH_OCTS[step] - 4 * alt;
+};
 
 /**
  * Create a pitch. A pitch in tonal may refer to a pitch class, the pitch
@@ -93,41 +119,50 @@ const encOct = (step, alt, oct) => oct - FIFTH_OCTS[step] - 4 * alt
  * @return {Pitch} the pitch encoded as array notation
  *
  */
-function encode (step, alt, oct, dir) {
+function encode(step, alt, oct, dir) {
   // is valid step?
-  if (step < 0 || step > 6) return null
-  const pc = encPC(step, alt || 0)
+  if (step < 0 || step > 6) return null;
+  var pc = encPC(step, alt || 0);
   // if not octave, return the pitch class
-  if (!isNum(oct)) return [ 'tnl', pc ]
-  const o = encOct(step, alt, oct)
-  if (!isNum(dir)) return [ 'tnl', pc, o ]
-  const d = dir < 0 ? -1 : 1
-  return [ 'tnl', d * pc, d * o, d ]
+  if (!isNum(oct)) return ['tnl', pc];
+  var o = encOct(step, alt, oct);
+  if (!isNum(dir)) return ['tnl', pc, o];
+  var d = dir < 0 ? -1 : 1;
+  return ['tnl', d * pc, d * o, d];
 }
 
-const pitchClass = (s, a) => encode(s, a)
-const notePitch = (s, a, o) => encode(s, a, o)
-const ivl = (s, a, o, d) => encode(s, a, o, d)
-
+var pitchClass = function pitchClass(s, a) {
+  return encode(s, a);
+};
+var notePitch = function notePitch(s, a, o) {
+  return encode(s, a, o);
+};
+var ivl = function ivl(s, a, o, d) {
+  return encode(s, a, o, d);
+};
 
 // ### Pitch decoding
 
 // remove accidentals to a pitch class
 // it gets an array and return a number of fifths
-function unaltered (f) {
-  const i = (f + 1) % 7
-  return i < 0 ? 7 + i : i
+function unaltered(f) {
+  var i = (f + 1) % 7;
+  return i < 0 ? 7 + i : i;
 }
 
-const decodeStep = (f) => STEPS[unaltered(f)]
-const decodeAlt = (f) => Math.floor((f + 1) / 7)
+var decodeStep = function decodeStep(f) {
+  return STEPS[unaltered(f)];
+};
+var decodeAlt = function decodeAlt(f) {
+  return Math.floor((f + 1) / 7);
+};
 // 'FCGDAEB' steps numbers
-const STEPS = [3, 0, 4, 1, 5, 2, 6]
-function decode (p) {
-  const s = decodeStep(p[1])
-  const a = decodeAlt(p[1])
-  const o = isNum(p[2]) ? p[2] + 4 * a + FIFTH_OCTS[s] : null
-  return { step: s, alt: a, oct: o, dir: p[3] || null }
+var STEPS = [3, 0, 4, 1, 5, 2, 6];
+function decode(p) {
+  var s = decodeStep(p[1]);
+  var a = decodeAlt(p[1]);
+  var o = isNum(p[2]) ? p[2] + 4 * a + FIFTH_OCTS[s] : null;
+  return { step: s, alt: a, oct: o, dir: p[3] || null };
 }
 
 // #### Pitch parsers
@@ -135,128 +170,172 @@ function decode (p) {
 // Convert from string to pitches is a quite expensive operation that it's
 // executed a lot of times. Some caching will help:
 
-const cache = {}
-const cached = (parser) => (str) => {
-  if (typeof str !== 'string') return null
-  return cache[str] || (cache[str] = parser(str))
-}
+var cache = {};
+var cached = function cached(parser) {
+  return function (str) {
+    if (typeof str !== 'string') return null;
+    return cache[str] || (cache[str] = parser(str));
+  };
+};
 
-const parseNote = cached((str) => {
-  const n = noteParse(str)
-  return n ? notePitch(n.step, n.alt, n.oct) : null
-})
+var parseNote = cached(function (str) {
+  var n = noteParse(str);
+  return n ? notePitch(n.step, n.alt, n.oct) : null;
+});
 
-const isNoteStr = (s) => parseNote(s) !== null
+var isNoteStr = function isNoteStr(s) {
+  return parseNote(s) !== null;
+};
 
-const parseIvl = cached((str) => {
-  const i = ivlNttn.parse(str)
-  return i ? ivl(i.simple - 1, i.alt, i.oct, i.dir) : null
-})
+var parseIvl = cached(function (str) {
+  var i = ivlNttn.parse(str);
+  return i ? ivl(i.simple - 1, i.alt, i.oct, i.dir) : null;
+});
 
-const parsePitch = (str) => parseNote(str) || parseIvl(str)
+var parsePitch = function parsePitch(str) {
+  return parseNote(str) || parseIvl(str);
+};
 
 // ### Pitch to string
 
-const toLetter = (s) => 'CDEFGAB'[s % 7]
-const fillStr = (s, num) => Array(Math.abs(num) + 1).join(s)
-const toAcc = (n) => fillStr(n < 0 ? 'b' : '#', n)
-const strNum = (n) => n !== null ? n : ''
+var toLetter = function toLetter(s) {
+  return 'CDEFGAB'[s % 7];
+};
+var fillStr = function fillStr(s, num) {
+  return Array(Math.abs(num) + 1).join(s);
+};
+var toAcc = function toAcc(n) {
+  return fillStr(n < 0 ? 'b' : '#', n);
+};
+var strNum = function strNum(n) {
+  return n !== null ? n : '';
+};
 
-function strNote (n) {
-  const p = isPitch(n) && !n[3] ? decode(n) : null
-  return p ? toLetter(p.step) + toAcc(p.alt) + strNum(p.oct) : null
+function strNote(n) {
+  var p = isPitch(n) && !n[3] ? decode(n) : null;
+  return p ? toLetter(p.step) + toAcc(p.alt) + strNum(p.oct) : null;
 }
 
 // is an interval ascending?
-const isAsc = (p) => p.dir === 1
+var isAsc = function isAsc(p) {
+  return p.dir === 1;
+};
 // is an interval perfectable?
-const isPerf = (p) => ivlNttn.type(p.step + 1) === 'P'
+var isPerf = function isPerf(p) {
+  return ivlNttn.type(p.step + 1) === 'P';
+};
 // calculate interval number
-const calcNum = (p) => isAsc(p) ? p.step + 1 + 7 * p.oct : (8 - p.step) - 7 * (p.oct + 1)
+var calcNum = function calcNum(p) {
+  return isAsc(p) ? p.step + 1 + 7 * p.oct : 8 - p.step - 7 * (p.oct + 1);
+};
 // calculate interval alteration
-const calcAlt = (p) => isAsc(p) ? p.alt : isPerf(p) ? -p.alt : -(p.alt + 1)
+var calcAlt = function calcAlt(p) {
+  return isAsc(p) ? p.alt : isPerf(p) ? -p.alt : -(p.alt + 1);
+};
 
-function strIvl (pitch) {
-  const p = isInterval(pitch) ? decode(pitch) : null
-  if (!p) return null
-  const num = calcNum(p)
-  return p.dir * num + ivlNttn.altToQ(num, calcAlt(p))
+function strIvl(pitch) {
+  var p = isInterval(pitch) ? decode(pitch) : null;
+  if (!p) return null;
+  var num = calcNum(p);
+  return p.dir * num + ivlNttn.altToQ(num, calcAlt(p));
 }
 
-const strPitch = (p) => p[3] ? strIvl(p) : strNote(p)
+var strPitch = function strPitch(p) {
+  return p[3] ? strIvl(p) : strNote(p);
+};
 
 // #### Decorate pitch transform functions
 
-const notation = (parse, str) => (v) => !isPitch(v) ? parse(v) : str(v)
+var notation = function notation(parse, str) {
+  return function (v) {
+    return !isPitch(v) ? parse(v) : str(v);
+  };
+};
 
-const asNote = notation(parseNote, id)
-const asIvl = notation(parseIvl, id)
-const asPitch = notation(parsePitch, id)
+var asNote = notation(parseNote, id);
+var asIvl = notation(parseIvl, id);
+var asPitch = notation(parsePitch, id);
 
-const toNoteStr = notation(id, strNote)
-const toIvlStr = notation(id, strIvl)
-const toPitchStr = notation(id, strPitch)
+var toNoteStr = notation(id, strNote);
+var toIvlStr = notation(id, strIvl);
+var toPitchStr = notation(id, strPitch);
 
 // create a function decorator to work with pitches
-const pitchOp = (parse, to) => (fn) => (v) => {
-  // is value in array notation?...
-  const isP = isPitch(v)
-  // then no transformation is required
-  if (isP) return fn(v)
-  // else parse the pitch
-  const p = parse(v)
-  // if parsed, apply function and back to string
-  return p ? to(fn(p)) : null
-}
-const noteFn = pitchOp(parseNote, toNoteStr)
-const ivlFn = pitchOp(parseIvl, toIvlStr)
-const pitchFn = pitchOp(parsePitch, toPitchStr)
+var pitchOp = function pitchOp(parse, to) {
+  return function (fn) {
+    return function (v) {
+      // is value in array notation?...
+      var isP = isPitch(v);
+      // then no transformation is required
+      if (isP) return fn(v);
+      // else parse the pitch
+      var p = parse(v);
+      // if parsed, apply function and back to string
+      return p ? to(fn(p)) : null;
+    };
+  };
+};
+var noteFn = pitchOp(parseNote, toNoteStr);
+var ivlFn = pitchOp(parseIvl, toIvlStr);
+var pitchFn = pitchOp(parsePitch, toPitchStr);
 
-const sci = noteFn(id)
+var sci = noteFn(id);
 
 // #### Pitch properties
 
-const pc = noteFn((p) => [ 'tnl', p[1] ])
+var pc = noteFn(function (p) {
+  return ['tnl', p[1]];
+});
 
-const chroma = noteFn((n) => {
-  return n[1] * 7 - Math.floor(n[1] * 7 / 12) * 12
-})
+var chroma = noteFn(function (n) {
+  return n[1] * 7 - Math.floor(n[1] * 7 / 12) * 12;
+});
 
-const letter = noteFn((n) => toLetter(decode(n).step))
+var letter = noteFn(function (n) {
+  return toLetter(decode(n).step);
+});
 
-const accidentals = noteFn((n) => toAcc(decode(n).alt))
+var accidentals = noteFn(function (n) {
+  return toAcc(decode(n).alt);
+});
 
-const octave = pitchFn((p) => decode(p).oct)
+var octave = pitchFn(function (p) {
+  return decode(p).oct;
+});
 
-const simplify = ivlFn(function (i) {
-  const d = i[3]
-  const s = decodeStep(d * i[1])
-  const a = decodeAlt(d * i[1])
-  return [ 'tnl', i[1], -d * (FIFTH_OCTS[s] + 4 * a), d ]
-})
+var simplify = ivlFn(function (i) {
+  var d = i[3];
+  var s = decodeStep(d * i[1]);
+  var a = decodeAlt(d * i[1]);
+  return ['tnl', i[1], -d * (FIFTH_OCTS[s] + 4 * a), d];
+});
 
-const simplifyAsc = ivlFn((i) => {
-  var s = simplify(i)
-  return (s[3] === 1) ? s : ['tnl', s[1], s[2] + 1, 1]
-})
+var simplifyAsc = ivlFn(function (i) {
+  var s = simplify(i);
+  return s[3] === 1 ? s : ['tnl', s[1], s[2] + 1, 1];
+});
 
-const simpleNum = ivlFn(function (i) {
-  const p = decode(i)
-  return p.step + 1
-})
+var simpleNum = ivlFn(function (i) {
+  var p = decode(i);
+  return p.step + 1;
+});
 
-const number = ivlFn((i) => calcNum(decode(i)))
+var number = ivlFn(function (i) {
+  return calcNum(decode(i));
+});
 
-const quality = ivlFn((i) => {
-  const p = decode(i)
-  return ivlNttn.altToQ(p.step + 1, p.alt)
-})
+var quality = ivlFn(function (i) {
+  var p = decode(i);
+  return ivlNttn.altToQ(p.step + 1, p.alt);
+});
 
 // __semitones__
 
 // get pitch height
-const height = (p) => p[1] * 7 + 12 * p[2]
-const semitones = ivlFn(height)
+var height = function height(p) {
+  return p[1] * 7 + 12 * p[2];
+};
+var semitones = ivlFn(height);
 
 // #### Midi pitch numbers
 
@@ -269,7 +348,9 @@ const semitones = ivlFn(height)
  * @param {Object} num - the number to test
  * @return {Boolean} true if it's a valid midi note number
  */
-const isMidi = (m) => isValue(m) && !isArr(m) && m >= 0 && m < 128
+var isMidi = function isMidi(m) {
+  return isValue(m) && !isArr(m) && m >= 0 && m < 128;
+};
 
 // To match the general midi specification where `C4` is 60 we must add 12 to
 // `height` function:
@@ -282,18 +363,18 @@ const isMidi = (m) => isValue(m) && !isArr(m) && m >= 0 && m < 128
  * @example
  * midi('C4') // => 60
  */
-const midi = function (val) {
-  const p = asNote(val)
-  return hasOct(p) ? height(p) + 12
-    : isMidi(val) ? +val
-    : null
-}
+var midi = function midi(val) {
+  var p = asNote(val);
+  return hasOct(p) ? height(p) + 12 : isMidi(val) ? +val : null;
+};
 
 // We are going to create a chromatic scale. Since altered notes can be
 // represented either with flats or sharps, the CHROMATIC constant maps
 // only the unaltered steps:
-const CHROMATIC = [0, null, 1, null, 2, 3, null, 4, null, 5, null, 6]
-const midiStep = (m) => CHROMATIC[m % 12]
+var CHROMATIC = [0, null, 1, null, 2, 3, null, 4, null, 5, null, 6];
+var midiStep = function midiStep(m) {
+  return CHROMATIC[m % 12];
+};
 
 // And the `chromatic()` function will fill the _holes_ with flat or
 // sharp altered notes depending of the first parameter:
@@ -310,14 +391,14 @@ const midiStep = (m) => CHROMATIC[m % 12]
  * var flats = tonal.chromatic(false)
  * [60, 61, 62, 63].map(flats) // => ['C4', 'Db4', 'D4', 'Eb']
  */
-const chromatic = (useSharps) => (midi) => {
-  const step = midiStep(midi)
-  const o = Math.floor(midi / 12) - 1
-  const n = step !== null ? notePitch(step, 0, o)
-    : useSharps ? notePitch(midiStep(midi - 1), 1, o)
-    : notePitch(midiStep(midi + 1), -1, o)
-  return strNote(n)
-}
+var chromatic = function chromatic(useSharps) {
+  return function (midi) {
+    var step = midiStep(midi);
+    var o = Math.floor(midi / 12) - 1;
+    var n = step !== null ? notePitch(step, 0, o) : useSharps ? notePitch(midiStep(midi - 1), 1, o) : notePitch(midiStep(midi + 1), -1, o);
+    return strNote(n);
+  };
+};
 
 // Without a context, it's impossible to know the _right_ note name for a given
 // midi number, so we arbitrarily select chromatic with flats:
@@ -330,7 +411,7 @@ const chromatic = (useSharps) => (midi) => {
  * @example
  * tonal.fromMidi(61) // => 'Db4'
  */
-const fromMidi = chromatic(false)
+var fromMidi = chromatic(false);
 
 // #### Frequency conversions
 
@@ -346,10 +427,12 @@ const fromMidi = chromatic(false)
  * @param {Float} ref - the tuning reference
  * @return {Function} the frequency calculator. It accepts a pitch in array or scientific notation and returns the frequency in herzs.
  */
-const wellTempered = (ref) => (pitch) => {
-  const m = midi(pitch)
-  return m ? Math.pow(2, (m - 69) / 12) * ref : null
-}
+var wellTempered = function wellTempered(ref) {
+  return function (pitch) {
+    var m = midi(pitch);
+    return m ? Math.pow(2, (m - 69) / 12) * ref : null;
+  };
+};
 
 // The common tuning reference is `A4 = 440Hz`:
 
@@ -361,53 +444,57 @@ const wellTempered = (ref) => (pitch) => {
  * @example
  * toFreq('C4') // => 261.6255653005986
  */
-const toFreq = wellTempered(440)
+var toFreq = wellTempered(440);
 
 // ## 2. Pitch distances
 
 // calculate interval direction
-const calcDir = (f, o) => 7 * f + 12 * o < 0 ? -1 : 1
+var calcDir = function calcDir(f, o) {
+  return 7 * f + 12 * o < 0 ? -1 : 1;
+};
 
-function trBy (i, p) {
-  if (p === null) return null
-  const f = i[1] + p[1]
-  if (p.length === 2) return [ 'tnl', f ]
-  const o = i[2] + p[2]
-  if (p.length === 3) return [ 'tnl', f, o ]
-  const d = 7 * f + 12 * o < 0 ? -1 : 1
-  return [ 'tnl', f, o, calcDir(f, o) ]
+function trBy(i, p) {
+  if (p === null) return null;
+  var f = i[1] + p[1];
+  if (p.length === 2) return ['tnl', f];
+  var o = i[2] + p[2];
+  if (p.length === 3) return ['tnl', f, o];
+  var d = 7 * f + 12 * o < 0 ? -1 : 1;
+  return ['tnl', f, o, calcDir(f, o)];
 }
 
 /**
  * Transpose notes. Can be used to add intervals
  * @function
  */
-function transpose (a, b) {
-  if (arguments.length === 1) return (b) => transpose(a, b)
-  const pa = asPitch(a)
-  const pb = asPitch(b)
-  const r = isInterval(pa) ? trBy(pa, pb)
-    : isInterval(pb) ? trBy(pb, pa) : null
-  return toPitchStr(r)
+function transpose(a, b) {
+  if (arguments.length === 1) return function (b) {
+    return transpose(a, b);
+  };
+  var pa = asPitch(a);
+  var pb = asPitch(b);
+  var r = isInterval(pa) ? trBy(pa, pb) : isInterval(pb) ? trBy(pb, pa) : null;
+  return toPitchStr(r);
 }
 
 /**
  * Transpose notes. An alias for `transpose`
  * @function
  */
-const tr = transpose
+var tr = transpose;
 
 // create an interval pitch
-const ivlp = (f, o) => ['tnl', f, o, calcDir(f, o)]
+var ivlp = function ivlp(f, o) {
+  return ['tnl', f, o, calcDir(f, o)];
+};
 // test two pitches against same type detector
-const are = (type, a, b) => type(a) && type(b)
+var are = function are(type, a, b) {
+  return type(a) && type(b);
+};
 
 // substract two pitches
-function substr (a, b) {
-  return are(isPitchClass, a, b) ? simplifyAsc(ivlp(b[1] - a[1], 0))
-    : are(isPitchNote, a, b) ? ivlp(b[1] - a[1], b[2] - a[2])
-    : are(isInterval, a, b) ? ivlp(b[1] - a[1], b[2] - a[2])
-    : null
+function substr(a, b) {
+  return are(isPitchClass, a, b) ? simplifyAsc(ivlp(b[1] - a[1], 0)) : are(isPitchNote, a, b) ? ivlp(b[1] - a[1], b[2] - a[2]) : are(isInterval, a, b) ? ivlp(b[1] - a[1], b[2] - a[2]) : null;
 }
 
 /**
@@ -424,92 +511,103 @@ function substr (a, b) {
  * tonal.distance('G', 'B') // => 'M3'
  * tonal.distance('M2', 'P5') // => 'P4'
  */
-function distance (a, b) {
-  if (arguments.length === 1) return (b) => distance(a, b)
-  const pa = asPitch(a)
-  const pb = asPitch(b)
-  return toIvlStr(substr(pa, pb))
+function distance(a, b) {
+  if (arguments.length === 1) return function (b) {
+    return distance(a, b);
+  };
+  var pa = asPitch(a);
+  var pb = asPitch(b);
+  return toIvlStr(substr(pa, pb));
 }
 
 /**
  * An alias for `distance`
  * @function
  */
-const dist = distance
+var dist = distance;
 /**
  * An alias for `distance`
  * @function
  */
-const interval = distance
+var interval = distance;
 
 // ## 3. Lists
 
 // items can be separated by spaces, bars and commas
-const SEP = /\s*\|\s*|\s*,\s*|\s+/
+var SEP = /\s*\|\s*|\s*,\s*|\s+/;
 /**
  * Split a string by spaces (or commas or bars). Always returns an array, even if its empty
  * @param {String|Array|Object} source - the thing to get an array from
  * @return {Array} the object as an array
  */
-function listArr (src) {
-  return isArr(src) ? src
-    : typeof src === 'string' ? src.trim().split(SEP)
-    : (src === null || typeof src === 'undefined') ? []
-    : [ src ]
+function listArr(src) {
+  return isArr(src) ? src : typeof src === 'string' ? src.trim().split(SEP) : src === null || typeof src === 'undefined' ? [] : [src];
 }
 
 // #### Transform lists
 
-const listToStr = (v) => isPitch(v) ? toPitchStr(v) : isArr(v) ? v.map(toPitchStr) : v
+var listToStr = function listToStr(v) {
+  return isPitch(v) ? toPitchStr(v) : isArr(v) ? v.map(toPitchStr) : v;
+};
 
-const transform = (fn) => (src) => {
-  const param = listArr(src).map(asPitch)
-  const result = fn(param)
-  return listToStr(result)
-}
+var transform = function transform(fn) {
+  return function (src) {
+    var param = listArr(src).map(asPitch);
+    var result = fn(param);
+    return listToStr(result);
+  };
+};
 
-function map (fn, list) {
-  if (arguments.length > 1) return map(fn)(list)
-  return (l) => listArr(l).map(fn)
-}
-
-const filter = (fn, list) => {
-  if (arguments.length > 1) return filter(fn)(list)
-  return (l) => listArr(l).filter(fn)
+function map(fn, list) {
+  if (arguments.length > 1) return map(fn)(list);
+  return function (l) {
+    return listArr(l).map(fn);
+  };
 }
 
 // #### Transpose lists
 
-const harmonizer = (list) => (pitch) => {
-  return transform((list) => list.map(transpose(pitch)).filter(id))(list)
-}
+var harmonizer = function harmonizer(list) {
+  return function (pitch) {
+    return transform(function (list) {
+      return list.map(transpose(pitch)).filter(id);
+    })(list);
+  };
+};
 
-const harmonize = function (list, pitch) {
-  return arguments.length > 1 ? harmonizer(list)(pitch) : harmonizer(list)
-}
+var harmonize = function harmonize(list, pitch) {
+  return arguments.length > 1 ? harmonizer(list)(pitch) : harmonizer(list);
+};
 
 // #### Sort lists
 
-const objHeight = function (p) {
-  if (!p) return -Infinity
-  const f = p[1] * 7
-  const o = isNum(p[2]) ? p[2] : -Math.floor(f / 12) - 10
-  return f + o * 12
-}
+var objHeight = function objHeight(p) {
+  if (!p) return -Infinity;
+  var f = p[1] * 7;
+  var o = isNum(p[2]) ? p[2] : -Math.floor(f / 12) - 10;
+  return f + o * 12;
+};
 
-const ascComp = (a, b) => objHeight(a) - objHeight(b)
-const descComp = (a, b) => -ascComp(a, b)
+var ascComp = function ascComp(a, b) {
+  return objHeight(a) - objHeight(b);
+};
+var descComp = function descComp(a, b) {
+  return -ascComp(a, b);
+};
 
-const maxP = (a, b) => ascComp(a, b) < 0 ? b : a
-const max = transform((list) => {
-  return list.reduce(maxP, null)
-})
+var maxP = function maxP(a, b) {
+  return ascComp(a, b) < 0 ? b : a;
+};
+var max = transform(function (list) {
+  return list.reduce(maxP, null);
+});
 
-function sort (comp, list) {
-  if (arguments.length > 1) return sort(comp)(list)
-  const fn = comp === true || comp === null ? ascComp
-    : comp === false ? descComp : comp
-  return transform((arr) => arr.sort(fn))
+function sort(comp, list) {
+  if (arguments.length > 1) return sort(comp)(list);
+  var fn = comp === true || comp === null ? ascComp : comp === false ? descComp : comp;
+  return transform(function (arr) {
+    return arr.sort(fn);
+  });
 }
 
 // Fin.

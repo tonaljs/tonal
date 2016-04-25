@@ -5,7 +5,7 @@
   "main": "dist/tonal.js",
   "jsnext:main": "lib/tonal.js",
   "scripts": {
-    "bundle": "npm test && npm run docco && npm run api && npm run dist",
+    "bundle": "npm test && npm run dist && npm run docco && npm run api && ls -hall dist/",
     "standard": "standard lib/tonal.js",
     "test": "npm run rollup && mocha",
     "test-ci": "rollup -c && mocha",
@@ -14,6 +14,7 @@
     "api": "jsdoc2md lib/tonal.js > docs/API.md",
     "rollup": "rollup lib/tonal.js -o dist/tonal.js -f cjs",
     "dist": "rollup -c && uglifyjs dist/tonal.js > dist/tonal.min.js",
+    "disc": "cat dist/tonal.min.js | discify > dist/disc.html",
     "coverage": "istanbul cover _mocha",
     "cover": "npm run coverage && open coverage/lcov-report/index.html"
   },
