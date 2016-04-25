@@ -27,6 +27,11 @@ pitchClasses('C2 d3 e5') // => ['C', 'D', 'E']
 var fifths = tonal.map(upFifth)
 fifths('c d e') // => ['G', 'A', 'B']
 
+// create note ranges
+tonal.range(true, 'C2', 'F4') // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4' ]
+// cycle of fifths
+tonal.range(tonal.fifthsFrom('C'), 0, 6) // => [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ]
+
 // create harmonizers
 var maj7 = tonal.harmonizer('P1 M3 P5 M7')
 maj7('C2') // => ['C2', 'E2', 'G2', 'B2']

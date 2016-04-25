@@ -26,9 +26,9 @@ function build (tonic, mode) {
 const isKey = (o) => o && _.isDef(o.tonic) && _.isStr(o.mode)
 const hasTonic = (o) => isKey(o) && o.tonic
 
-// create a interval of n ascending fifths
-const fifths = (n) => ['tnl', n, 0, 1]
-const major = (n) => build(_.transpose('C', fifths(n)), 'major')
+// create a interval of n * P5
+const nP5 = (n) => ['tnl', n, 0, 1]
+const major = (n) => build(_.transpose('C', nP5(n)), 'major')
 
 /**
  * Create a key from alterations
@@ -92,7 +92,9 @@ const signature = accidentals
 
 const alteredNotes = (key) => {
   var alt = alteration(key)
-  return alt ? _.range((n) => _.tr('C', _.ivl(n, 0, 0, n)), 0, alt) : null
+  return alt === null ? null
+    : alt < 0 ? _.range(_.fifthsFrom('F'), -1, alt)
+    : _.range(_.fifthsFrom('B'), 1, alt)
 }
 
 exports.areFlats = areFlats;

@@ -6,7 +6,13 @@ function map (fn, str) { return str.split(' ').map(fn) }
 
 describe('tonal-keys', function () {
   describe('alteredNotes', function () {
-    assert.deepEqual(key.alteredNotes('Bb major'), ['Bb', 'Eb'])
+    it('get sharps in correct order', function () {
+      assert.deepEqual(key.alteredNotes('A major'),
+        [ 'F#', 'C#', 'G#' ])
+    })
+    it('get flats in correct order', function () {
+      assert.deepEqual(key.alteredNotes('Eb major'), ['Bb', 'Eb', 'Ab'])
+    })
   })
   describe('relative', function () {
     it('get relative key', function () {

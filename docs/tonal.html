@@ -188,7 +188,14 @@ that has a big influence over tonal development.</p>
         <p>Encode octaves</p>
 
         
-          <div class='highlight'><pre><span class="hljs-keyword">const</span> encOct = (step, alt, oct) =&gt; oct - FIFTH_OCTS[step] - <span class="hljs-number">4</span> * alt
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> encOct = (step, alt, oct) =&gt; oct - FIFTH_OCTS[step] - <span class="hljs-number">4</span> * alt</pre></div>
+        
+      
+        
+        <p>Encode direction</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> encDir = (n) =&gt; n &lt; <span class="hljs-number">0</span> ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>
 
 <span class="hljs-comment">/**
  * Create a pitch. A pitch in tonal may refer to a pitch class, the pitch
@@ -220,7 +227,7 @@ that has a big influence over tonal development.</p>
           <div class='highlight'><pre>  <span class="hljs-keyword">if</span> (!isNum(oct)) <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, pc ]
   <span class="hljs-keyword">const</span> o = encOct(step, alt, oct)
   <span class="hljs-keyword">if</span> (!isNum(dir)) <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, pc, o ]
-  <span class="hljs-keyword">const</span> d = dir &lt; <span class="hljs-number">0</span> ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>
+  <span class="hljs-keyword">const</span> d = encDir(dir)
   <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, d * pc, d * o, d ]
 }
 
@@ -609,7 +616,7 @@ all the notes against a reference:</p>
         <p>calculate interval direction</p>
 
         
-          <div class='highlight'><pre><span class="hljs-keyword">const</span> calcDir = (f, o) =&gt; <span class="hljs-number">7</span> * f + <span class="hljs-number">12</span> * o &lt; <span class="hljs-number">0</span> ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> calcDir = (f, o) =&gt; encDir(<span class="hljs-number">7</span> * f + <span class="hljs-number">12</span> * o)
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">trBy</span> (<span class="hljs-params">i, p</span>) </span>{
   <span class="hljs-keyword">if</span> (p === <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
@@ -617,7 +624,6 @@ all the notes against a reference:</p>
   <span class="hljs-keyword">if</span> (p.length === <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, f ]
   <span class="hljs-keyword">const</span> o = i[<span class="hljs-number">2</span>] + p[<span class="hljs-number">2</span>]
   <span class="hljs-keyword">if</span> (p.length === <span class="hljs-number">3</span>) <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, f, o ]
-  <span class="hljs-keyword">const</span> d = <span class="hljs-number">7</span> * f + <span class="hljs-number">12</span> * o &lt; <span class="hljs-number">0</span> ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>
   <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, f, o, calcDir(f, o) ]
 }
 
@@ -785,13 +791,20 @@ all the notes against a reference:</p>
 
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">range</span> (<span class="hljs-params">fn, a, b</span>) </span>{
   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> (a, b) =&gt; range(fn, a, b)
-  <span class="hljs-keyword">const</span> ma = midi(a)
-  <span class="hljs-keyword">const</span> mb = midi(b)
+  <span class="hljs-keyword">const</span> ma = isNum(a) ? a : midi(a)
+  <span class="hljs-keyword">const</span> mb = isNum(b) ? b : midi(b)
   <span class="hljs-keyword">const</span> f = fn === <span class="hljs-literal">true</span> ? fromMidi : fn || id
   <span class="hljs-keyword">const</span> r = ma === <span class="hljs-literal">null</span> || mb === <span class="hljs-literal">null</span> ? []
     : ma &lt; mb ? ascR(ma, mb - ma + <span class="hljs-number">1</span>) : descR(ma, ma - mb + <span class="hljs-number">1</span>)
   <span class="hljs-keyword">return</span> r.map(f).filter((x) =&gt; x !== <span class="hljs-literal">null</span>)
 }</pre></div>
+        
+      
+        
+        <h4 id="cycle-of-fifths">Cycle of fifths</h4>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> fifthsFrom = (t) =&gt; (n) =&gt; tr(t, [<span class="hljs-string">'tnl'</span>, n, <span class="hljs-number">0</span>, encDir(n)])</pre></div>
         
       
         

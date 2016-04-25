@@ -5,10 +5,24 @@ var assert = require('assert')
 var _ = require('../')
 
 describe('collections', function () {
+  describe('cycle of fifths', function () {
+    it('ascending', function () {
+      assert.deepEqual(_.range(_.fifthsFrom('C'), 0, 6),
+        [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ])
+    })
+    it('descending', function () {
+      assert.deepEqual(_.range(_.fifthsFrom('C'), 0, -6),
+        [ 'C', 'F', 'Bb', 'Eb', 'Ab', 'Db', 'Gb' ])
+    })
+  })
   describe('range', function () {
     it('numeric range: mix to max both included', function () {
       assert.deepEqual(_.range(null, 0, 10),
         [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ])
+    })
+    it('negative numbers', function () {
+      assert.deepEqual(_.range(null, 0, -5), [ 0, -1, -2, -3, -4, -5 ])
+      assert.deepEqual(_.range(null, -5, -10), [ -5, -6, -7, -8, -9, -10 ])
     })
     it('numeric range: max to min both included', function () {
       assert.deepEqual(_.range(null, 10, 0),

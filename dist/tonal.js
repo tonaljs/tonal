@@ -106,6 +106,11 @@ var encOct = function encOct(step, alt, oct) {
   return oct - FIFTH_OCTS[step] - 4 * alt;
 };
 
+// Encode direction
+var encDir = function encDir(n) {
+  return n < 0 ? -1 : 1;
+};
+
 /**
  * Create a pitch. A pitch in tonal may refer to a pitch class, the pitch
  * of a note or an interval.
@@ -126,7 +131,7 @@ function encode(step, alt, oct, dir) {
   if (!isNum(oct)) return ['tnl', pc];
   var o = encOct(step, alt, oct);
   if (!isNum(dir)) return ['tnl', pc, o];
-  var d = dir < 0 ? -1 : 1;
+  var d = encDir(dir);
   return ['tnl', d * pc, d * o, d];
 }
 
@@ -452,7 +457,7 @@ var toFreq = wellTempered(440);
 
 // calculate interval direction
 var calcDir = function calcDir(f, o) {
-  return 7 * f + 12 * o < 0 ? -1 : 1;
+  return encDir(7 * f + 12 * o);
 };
 
 function trBy(i, p) {
@@ -461,7 +466,6 @@ function trBy(i, p) {
   if (p.length === 2) return ['tnl', f];
   var o = i[2] + p[2];
   if (p.length === 3) return ['tnl', f, o];
-  var d = 7 * f + 12 * o < 0 ? -1 : 1;
   return ['tnl', f, o, calcDir(f, o)];
 }
 
@@ -603,14 +607,21 @@ function range(fn, a, b) {
   if (arguments.length === 1) return function (a, b) {
     return range(fn, a, b);
   };
-  var ma = midi(a);
-  var mb = midi(b);
+  var ma = isNum(a) ? a : midi(a);
+  var mb = isNum(b) ? b : midi(b);
   var f = fn === true ? fromMidi : fn || id;
   var r = ma === null || mb === null ? [] : ma < mb ? ascR(ma, mb - ma + 1) : descR(ma, ma - mb + 1);
   return r.map(f).filter(function (x) {
     return x !== null;
   });
 }
+
+// #### Cycle of fifths
+var fifthsFrom = function fifthsFrom(t) {
+  return function (n) {
+    return tr(t, ['tnl', n, 0, encDir(n)]);
+  };
+};
 
 // #### Sort lists
 
@@ -649,6 +660,7 @@ exports.isPitchClass = isPitchClass;
 exports.hasOct = hasOct;
 exports.isPitchNote = isPitchNote;
 exports.isInterval = isInterval;
+exports.encDir = encDir;
 exports.encode = encode;
 exports.pitchClass = pitchClass;
 exports.notePitch = notePitch;
@@ -690,4 +702,5 @@ exports.filter = filter;
 exports.harmonizer = harmonizer;
 exports.harmonize = harmonize;
 exports.range = range;
+exports.fifthsFrom = fifthsFrom;
 exports.sort = sort;
