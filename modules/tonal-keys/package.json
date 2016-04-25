@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "npm run rollup && mocha",
+    "api": "jsdoc2md lib/index.js > API.md",
     "rollup": "rollup lib/index.js -o dist/index.js -f cjs",
     "bundle": "rollup -c && browserify dist/index.js | uglifyjs > dist/tonal-keys.min.js"
   },

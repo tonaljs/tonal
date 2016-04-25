@@ -1,101 +1,127 @@
 'use strict';
 
-const _ = require('tonal')
-const areFlats = (s) => /^b+$/.test(s)
-const areSharps = (s) => /^#+$/.test(s)
+var _ = require('tonal');
+var areFlats = function areFlats(s) {
+  return (/^b+$/.test(s)
+  );
+};
+var areSharps = function areSharps(s) {
+  return (/^#+$/.test(s)
+  );
+};
 
 // Modes
 // =====
 
 var MODES = { major: 0, minor: 5, ionian: 0, dorian: 1, phrygian: 2,
-  lydian: 3, mixolydian: 4, aeolian: 5, locrian: 6 }
-const isModeStr = (m) => MODES[m] != null
-const modes = () => Object.keys(MODES)
+  lydian: 3, mixolydian: 4, aeolian: 5, locrian: 6 };
+var isModeStr = function isModeStr(m) {
+  return MODES[m] != null;
+};
+var modes = function modes() {
+  return Object.keys(MODES);
+};
 
 /**
  * Create a key
  */
-function build (tonic, mode) {
-  if (!_.isStr(mode)) return null
-  var m = mode.trim().toLowerCase()
-  if (!isModeStr(m)) return null
-  var t = _.pc(tonic) || false
-  var n = t ? t + ' ' + m : null
-  return { name: n, tonic: t , mode: m }
+function build(tonic, mode) {
+  if (!_.isStr(mode)) return null;
+  var m = mode.trim().toLowerCase();
+  if (!isModeStr(m)) return null;
+  var t = _.pc(tonic) || false;
+  var n = t ? t + ' ' + m : null;
+  return { name: n, tonic: t, mode: m };
 }
-const isKey = (o) => o && _.isDef(o.tonic) && _.isStr(o.mode)
-const hasTonic = (o) => isKey(o) && o.tonic
+var isKey = function isKey(o) {
+  return o && _.isDef(o.tonic) && _.isStr(o.mode);
+};
+var hasTonic = function hasTonic(o) {
+  return isKey(o) && o.tonic;
+};
 
 // create a interval of n * P5
-const nP5 = (n) => ['tnl', n, 0, 1]
-const major = (n) => build(_.transpose('C', nP5(n)), 'major')
+var nP5 = function nP5(n) {
+  return ['tnl', n, 0, 1];
+};
+var major = function major(n) {
+  return build(_.transpose('C', nP5(n)), 'major');
+};
 
 /**
  * Create a key from alterations
  */
-const fromAlter = (n) => major(+n)
+var fromAlter = function fromAlter(n) {
+  return major(+n);
+};
 
 /**
  * Create a key from accidentals
  */
-const fromAcc = (s) => areSharps(s) ? major(s.length) : areFlats(s) ? major(-s.length) : null
+var fromAcc = function fromAcc(s) {
+  return areSharps(s) ? major(s.length) : areFlats(s) ? major(-s.length) : null;
+};
 
 /**
  * Create a key from key name
  *
  */
-const fromName = (str) => {
-  if (!_.isStr(str)) return null
-  var p = str.split(/\s+/)
+var fromName = function fromName(str) {
+  if (!_.isStr(str)) return null;
+  var p = str.split(/\s+/);
   switch (p.length) {
-    case 1: return _.isNoteStr(p[0]) ? build(p[0], 'major')
-      : isModeStr(p[0]) ? build(false, p[0]) : null
-    case 2: return build(p[0], p[1])
-    default: return null
+    case 1:
+      return _.isNoteStr(p[0]) ? build(p[0], 'major') : isModeStr(p[0]) ? build(false, p[0]) : null;
+    case 2:
+      return build(p[0], p[1]);
+    default:
+      return null;
   }
-}
+};
 
 /**
  * Try to interpret the given object as a key
  */
-const asKey = (obj) => {
-  return isKey(obj) ? obj : fromName(obj) || fromAcc(obj) || fromAlter(obj)
-}
-const keyFn = (fn) => (key) => {
-  const k = asKey(key)
-  return k ? fn(k) : null
-}
+var asKey = function asKey(obj) {
+  return isKey(obj) ? obj : fromName(obj) || fromAcc(obj) || fromAlter(obj);
+};
+var keyFn = function keyFn(fn) {
+  return function (key) {
+    var k = asKey(key);
+    return k ? fn(k) : null;
+  };
+};
 
-const modeNum = (k) => MODES[k.mode]
-const relative = (rel, key) => {
-  const r = asKey(rel)
-  if (hasTonic(r)) return null
-  const k = asKey(key)
-  if (!hasTonic(k)) return null
-  const toMajor = _.ivl(modeNum(k), 0, 0, -1)
-  const toRel = _.ivl(modeNum(r), 0, 0, 1)
-  const tonic = _.transpose(k.tonic, _.transpose(toMajor, toRel))
-  return build(tonic, rel)
-}
+var modeNum = function modeNum(k) {
+  return MODES[k.mode];
+};
+var relative = function relative(rel, key) {
+  var r = asKey(rel);
+  if (hasTonic(r)) return null;
+  var k = asKey(key);
+  if (!hasTonic(k)) return null;
+  var toMajor = _.ivl(modeNum(k), 0, 0, -1);
+  var toRel = _.ivl(modeNum(r), 0, 0, 1);
+  var tonic = _.transpose(k.tonic, _.transpose(toMajor, toRel));
+  return build(tonic, rel);
+};
 
-const alteration = (key) => {
-  const k = asKey(key)
-  const toMajor = modeNum(k)
-  const toC = _.parseNote(k.tonic)[1]
-  return toMajor + toC
-}
+var alteration = function alteration(key) {
+  var k = asKey(key);
+  var toMajor = modeNum(k);
+  var toC = _.parseNote(k.tonic)[1];
+  return toMajor + toC;
+};
 
-const accidentals = (key) => {
-  return _.toAcc(alteration(key))
-}
-const signature = accidentals
+var accidentals = function accidentals(key) {
+  return _.toAcc(alteration(key));
+};
+var signature = accidentals;
 
-const alteredNotes = (key) => {
-  var alt = alteration(key)
-  return alt === null ? null
-    : alt < 0 ? _.range(_.fifthsFrom('F'), -1, alt)
-    : _.range(_.fifthsFrom('B'), 1, alt)
-}
+var alteredNotes = function alteredNotes(key) {
+  var alt = alteration(key);
+  return alt === null ? null : alt < 0 ? _.range(-1, alt).map(_.fifthsFrom('F')) : _.range(1, alt).map(_.fifthsFrom('B'));
+};
 
 exports.areFlats = areFlats;
 exports.areSharps = areSharps;

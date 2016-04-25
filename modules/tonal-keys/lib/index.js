@@ -12,7 +12,16 @@ export const isModeStr = (m) => MODES[m] != null
 export const modes = () => Object.keys(MODES)
 
 /**
- * Create a key
+ * Build a key object from tonic a mode. A key object has the following properties:
+ * - `name` (String): the key name (i.e. 'Ab dorian'). Can be null.
+ * - `mode` (String): the key mode (i.e. 'dorian')
+ * - `tonic` (String): the tonic of the key (can be false)
+ *
+ * @param {String} tonic - the key tonic
+ * @param {String} mode - the keymode
+ * @return {Key} a key data object
+ * @example
+ * key.build('g', 'minor') // => { name: 'G minor', mode: 'minor', tonic: 'G'}
  */
 export function build (tonic, mode) {
   if (!_.isStr(mode)) return null
@@ -22,7 +31,20 @@ export function build (tonic, mode) {
   var n = t ? t + ' ' + m : null
   return { name: n, tonic: t , mode: m }
 }
+
+/**
+ * Test if a given object is a key data object
+ * @function
+ * @param {Object} obj - the object to test
+ * @return {Boolean} true if it's a key object
+ */
 export const isKey = (o) => o && _.isDef(o.tonic) && _.isStr(o.mode)
+/**
+ * Test if the given object is a key with tonic
+ * @function
+ * @param {Object} obj - the object to test
+ * @return {Boolean} true if it a key with tonic
+ */
 export const hasTonic = (o) => isKey(o) && o.tonic
 
 // create a interval of n * P5
@@ -31,17 +53,25 @@ const major = (n) => build(_.transpose('C', nP5(n)), 'major')
 
 /**
  * Create a key from alterations
+ * @function
+ * @param {Integer} alt - the alteration number (positive sharps, negative flats)
+ * @return {Key} the key object
  */
 export const fromAlter = (n) => major(+n)
 
 /**
  * Create a key from accidentals
+ * @function
+ * @param {String} acc - the accidentals string
+ * @return {Key} the key object
  */
 export const fromAcc = (s) => areSharps(s) ? major(s.length) : areFlats(s) ? major(-s.length) : null
 
 /**
  * Create a key from key name
- *
+ * @function
+ * @param {String} name - the key name
+ * @return {Key} the key object or null if not valid key
  */
 export const fromName = (str) => {
   if (!_.isStr(str)) return null
@@ -56,6 +86,9 @@ export const fromName = (str) => {
 
 /**
  * Try to interpret the given object as a key
+ * @function
+ * @param {Object} obj
+ * @return {Key} the key object or null
  */
 export const asKey = (obj) => {
   return isKey(obj) ? obj : fromName(obj) || fromAcc(obj) || fromAlter(obj)
@@ -66,6 +99,11 @@ export const keyFn = (fn) => (key) => {
 }
 
 const modeNum = (k) => MODES[k.mode]
+
+/**
+ * Get relative of a key
+ * @function
+ */
 export const relative = (rel, key) => {
   const r = asKey(rel)
   if (hasTonic(r)) return null
@@ -77,6 +115,10 @@ export const relative = (rel, key) => {
   return build(tonic, rel)
 }
 
+/**
+ * Get key alteration
+ * @function
+ */
 export const alteration = (key) => {
   const k = asKey(key)
   const toMajor = modeNum(k)
@@ -84,14 +126,30 @@ export const alteration = (key) => {
   return toMajor + toC
 }
 
-export const accidentals = (key) => {
+/**
+ * Get the signature of a key. The signature is a string with sharps or flats.
+ * @function
+ * @example
+ * var key = require('tonal-keys')
+ * key.signature('A major') // => '###'
+ */
+export const signature = (key) => {
   return _.toAcc(alteration(key))
 }
-export const signature = accidentals
 
+/**
+ * An alias for `signature()`
+ * @function
+ */
+export const accidentals = signature
+
+/**
+ * Get a list of the altered notes of a given key. The notes will be in
+ * @function
+ */
 export const alteredNotes = (key) => {
   var alt = alteration(key)
   return alt === null ? null
-    : alt < 0 ? _.range(_.fifthsFrom('F'), -1, alt)
-    : _.range(_.fifthsFrom('B'), 1, alt)
+    : alt < 0 ? _.range(-1, alt).map(_.fifthsFrom('F'))
+    : _.range(1, alt).map(_.fifthsFrom('B'))
 }
