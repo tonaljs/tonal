@@ -36,6 +36,23 @@ of a note or an interval.</p>
 <dt><a href="#toFreq">toFreq(pitch)</a> ⇒ <code>Float</code></dt>
 <dd><p>Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz</p>
 </dd>
+<dt><a href="#transpose">transpose()</a></dt>
+<dd><p>Transpose notes. Can be used to add intervals</p>
+</dd>
+<dt><a href="#tr">tr()</a></dt>
+<dd><p>Transpose notes. An alias for <code>transpose</code></p>
+</dd>
+<dt><a href="#distance">distance(from, to)</a> ⇒ <code>Interval</code></dt>
+<dd><p>Find distance between two pitches. Both pitches MUST be of the same type.
+Distances between pitch classes always returns ascending intervals.
+Distances between intervals substract one from the other.</p>
+</dd>
+<dt><a href="#dist">dist()</a></dt>
+<dd><p>An alias for <code>distance</code></p>
+</dd>
+<dt><a href="#interval">interval()</a></dt>
+<dd><p>An alias for <code>distance</code></p>
+</dd>
 <dt><a href="#listArr">listArr(source)</a> ⇒ <code>Array</code></dt>
 <dd><p>Split a string by spaces (or commas or bars). Always returns an array, even if its empty</p>
 </dd>
@@ -174,6 +191,52 @@ Get the frequency of a pitch using well temperament scale and A4 equal to 440Hz
 ```js
 toFreq('C4') // => 261.6255653005986
 ```
+<a name="transpose"></a>
+
+## transpose()
+Transpose notes. Can be used to add intervals
+
+**Kind**: global function  
+<a name="tr"></a>
+
+## tr()
+Transpose notes. An alias for `transpose`
+
+**Kind**: global function  
+<a name="distance"></a>
+
+## distance(from, to) ⇒ <code>Interval</code>
+Find distance between two pitches. Both pitches MUST be of the same type.
+Distances between pitch classes always returns ascending intervals.
+Distances between intervals substract one from the other.
+
+**Kind**: global function  
+**Returns**: <code>Interval</code> - the distance between pitches  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| from | <code>Pitch</code> &#124; <code>String</code> | distance from |
+| to | <code>Pitch</code> &#124; <code>String</code> | distance to |
+
+**Example**  
+```js
+var tonal = require('tonal')
+tonal.distance('C2', 'C3') // => 'P8'
+tonal.distance('G', 'B') // => 'M3'
+tonal.distance('M2', 'P5') // => 'P4'
+```
+<a name="dist"></a>
+
+## dist()
+An alias for `distance`
+
+**Kind**: global function  
+<a name="interval"></a>
+
+## interval()
+An alias for `distance`
+
+**Kind**: global function  
 <a name="listArr"></a>
 
 ## listArr(source) ⇒ <code>Array</code>

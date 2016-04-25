@@ -23,7 +23,7 @@ describe('array notation pitches - ', function () {
   })
   describe('interval', function () {
     it('creates intervals', function () {
-      assert.deepEqual(_.interval(0, 0, 0, 1), ['tnl',  0, 0, 1 ])
+      assert.deepEqual(_.ivl(0, 0, 0, 1), ['tnl',  0, 0, 1 ])
     })
   })
   describe('parseNote', function () {

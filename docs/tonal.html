@@ -226,7 +226,7 @@ that has a big influence over tonal development.</p>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pitchClass = (s, a) =&gt; encode(s, a)
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> notePitch = (s, a, o) =&gt; encode(s, a, o)
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> interval = (s, a, o, d) =&gt; encode(s, a, o, d)</pre></div>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ivl = (s, a, o, d) =&gt; encode(s, a, o, d)</pre></div>
         
       
         
@@ -287,7 +287,7 @@ executed a lot of times. Some caching will help:</p>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> parseIvl = cached((str) =&gt; {
   <span class="hljs-keyword">const</span> i = ivlNttn.parse(str)
-  <span class="hljs-keyword">return</span> i ? interval(i.simple - <span class="hljs-number">1</span>, i.alt, i.oct, i.dir) : <span class="hljs-literal">null</span>
+  <span class="hljs-keyword">return</span> i ? ivl(i.simple - <span class="hljs-number">1</span>, i.alt, i.oct, i.dir) : <span class="hljs-literal">null</span>
 })
 
 <span class="hljs-keyword">const</span> parsePitch = (str) =&gt; parseNote(str) || parseIvl(str)</pre></div>
@@ -306,12 +306,35 @@ executed a lot of times. Some caching will help:</p>
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">strNote</span> (<span class="hljs-params">n</span>) </span>{
   <span class="hljs-keyword">const</span> p = isPitch(n) &amp;&amp; !n[<span class="hljs-number">3</span>] ? decode(n) : <span class="hljs-literal">null</span>
   <span class="hljs-keyword">return</span> p ? toLetter(p.step) + toAcc(p.alt) + strNum(p.oct) : <span class="hljs-literal">null</span>
-}
+}</pre></div>
+        
+      
+        
+        <p>is an interval ascending?</p>
 
-<span class="hljs-keyword">const</span> isAsc = (p) =&gt; p.dir === <span class="hljs-number">1</span>
-<span class="hljs-keyword">const</span> isPerf = (p) =&gt; ivlNttn.type(p.step + <span class="hljs-number">1</span>) === <span class="hljs-string">'P'</span>
-<span class="hljs-keyword">const</span> calcNum = (p) =&gt; isAsc(p) ? p.step + <span class="hljs-number">1</span> + <span class="hljs-number">7</span> * p.oct : (<span class="hljs-number">8</span> - p.step) - <span class="hljs-number">7</span> * (p.oct + <span class="hljs-number">1</span>)
-<span class="hljs-keyword">const</span> calcAlt = (p) =&gt; isAsc(p) ? p.alt : isPerf(p) ? -p.alt : -(p.alt + <span class="hljs-number">1</span>)
+        
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> isAsc = (p) =&gt; p.dir === <span class="hljs-number">1</span></pre></div>
+        
+      
+        
+        <p>is an interval perfectable?</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> isPerf = (p) =&gt; ivlNttn.type(p.step + <span class="hljs-number">1</span>) === <span class="hljs-string">'P'</span></pre></div>
+        
+      
+        
+        <p>calculate interval number</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> calcNum = (p) =&gt; isAsc(p) ? p.step + <span class="hljs-number">1</span> + <span class="hljs-number">7</span> * p.oct : (<span class="hljs-number">8</span> - p.step) - <span class="hljs-number">7</span> * (p.oct + <span class="hljs-number">1</span>)</pre></div>
+        
+      
+        
+        <p>calculate interval alteration</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> calcAlt = (p) =&gt; isAsc(p) ? p.alt : isPerf(p) ? -p.alt : -(p.alt + <span class="hljs-number">1</span>)
 
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">strIvl</span> (<span class="hljs-params">pitch</span>) </span>{
   <span class="hljs-keyword">const</span> p = isInterval(pitch) ? decode(pitch) : <span class="hljs-literal">null</span>
@@ -336,15 +359,46 @@ executed a lot of times. Some caching will help:</p>
 
 <span class="hljs-keyword">const</span> toNoteStr = notation(id, strNote)
 <span class="hljs-keyword">const</span> toIvlStr = notation(id, strIvl)
-<span class="hljs-keyword">const</span> toPitchStr = notation(id, strPitch)
+<span class="hljs-keyword">const</span> toPitchStr = notation(id, strPitch)</pre></div>
+        
+      
+        
+        <p>create a function decorator to work with pitches</p>
 
-<span class="hljs-keyword">const</span> buildFnDec = (expect, to) =&gt; (fn) =&gt; (v) =&gt; {
-  <span class="hljs-keyword">const</span> p = expect(v)
-  <span class="hljs-keyword">return</span> p ? to(fn(p)) : <span class="hljs-literal">null</span>
+        
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> pitchOp = (parse, to) =&gt; (fn) =&gt; (v) =&gt; {</pre></div>
+        
+      
+        
+        <p>is value in array notation?…</p>
+
+        
+          <div class='highlight'><pre>  <span class="hljs-keyword">const</span> isP = isPitch(v)</pre></div>
+        
+      
+        
+        <p>then no transformation is required</p>
+
+        
+          <div class='highlight'><pre>  <span class="hljs-keyword">if</span> (isP) <span class="hljs-keyword">return</span> fn(v)</pre></div>
+        
+      
+        
+        <p>else parse the pitch</p>
+
+        
+          <div class='highlight'><pre>  <span class="hljs-keyword">const</span> p = parse(v)</pre></div>
+        
+      
+        
+        <p>if parsed, apply function and back to string</p>
+
+        
+          <div class='highlight'><pre>  <span class="hljs-keyword">return</span> p ? to(fn(p)) : <span class="hljs-literal">null</span>
 }
-<span class="hljs-keyword">const</span> noteFn = buildFnDec(asNote, toNoteStr)
-<span class="hljs-keyword">const</span> ivlFn = buildFnDec(asIvl, toIvlStr)
-<span class="hljs-keyword">const</span> pitchFn = buildFnDec(asPitch, toPitchStr)
+<span class="hljs-keyword">const</span> noteFn = pitchOp(parseNote, toNoteStr)
+<span class="hljs-keyword">const</span> ivlFn = pitchOp(parseIvl, toIvlStr)
+<span class="hljs-keyword">const</span> pitchFn = pitchOp(parsePitch, toPitchStr)
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> sci = noteFn(id)</pre></div>
         
@@ -371,6 +425,11 @@ executed a lot of times. Some caching will help:</p>
   <span class="hljs-keyword">const</span> s = decodeStep(d * i[<span class="hljs-number">1</span>])
   <span class="hljs-keyword">const</span> a = decodeAlt(d * i[<span class="hljs-number">1</span>])
   <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, i[<span class="hljs-number">1</span>], -d * (FIFTH_OCTS[s] + <span class="hljs-number">4</span> * a), d ]
+})
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> simplifyAsc = ivlFn((i) =&gt; {
+  <span class="hljs-keyword">var</span> s = simplify(i)
+  <span class="hljs-keyword">return</span> (s[<span class="hljs-number">3</span>] === <span class="hljs-number">1</span>) ? s : [<span class="hljs-string">'tnl'</span>, s[<span class="hljs-number">1</span>], s[<span class="hljs-number">2</span>] + <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]
 })
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> simpleNum = ivlFn(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">i</span>) </span>{
@@ -542,7 +601,13 @@ all the notes against a reference:</p>
         <h2 id="2-pitch-distances">2. Pitch distances</h2>
 
         
-          <div class='highlight'><pre>
+      
+        
+        <p>calculate interval direction</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> calcDir = (f, o) =&gt; <span class="hljs-number">7</span> * f + <span class="hljs-number">12</span> * o &lt; <span class="hljs-number">0</span> ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>
+
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">trBy</span> (<span class="hljs-params">i, p</span>) </span>{
   <span class="hljs-keyword">if</span> (p === <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>
   <span class="hljs-keyword">const</span> f = i[<span class="hljs-number">1</span>] + p[<span class="hljs-number">1</span>]
@@ -550,9 +615,13 @@ all the notes against a reference:</p>
   <span class="hljs-keyword">const</span> o = i[<span class="hljs-number">2</span>] + p[<span class="hljs-number">2</span>]
   <span class="hljs-keyword">if</span> (p.length === <span class="hljs-number">3</span>) <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, f, o ]
   <span class="hljs-keyword">const</span> d = <span class="hljs-number">7</span> * f + <span class="hljs-number">12</span> * o &lt; <span class="hljs-number">0</span> ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>
-  <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, f, o, d ]
+  <span class="hljs-keyword">return</span> [ <span class="hljs-string">'tnl'</span>, f, o, calcDir(f, o) ]
 }
 
+<span class="hljs-comment">/**
+ * Transpose notes. Can be used to add intervals
+ * @function
+ */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transpose</span> (<span class="hljs-params">a, b</span>) </span>{
   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> (b) =&gt; transpose(a, b)
   <span class="hljs-keyword">const</span> pa = asPitch(a)
@@ -560,7 +629,71 @@ all the notes against a reference:</p>
   <span class="hljs-keyword">const</span> r = isInterval(pa) ? trBy(pa, pb)
     : isInterval(pb) ? trBy(pb, pa) : <span class="hljs-literal">null</span>
   <span class="hljs-keyword">return</span> toPitchStr(r)
-}</pre></div>
+}
+
+<span class="hljs-comment">/**
+ * Transpose notes. An alias for `transpose`
+ * @function
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> tr = transpose</pre></div>
+        
+      
+        
+        <p>create an interval pitch</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> ivlp = (f, o) =&gt; [<span class="hljs-string">'tnl'</span>, f, o, calcDir(f, o)]</pre></div>
+        
+      
+        
+        <p>test two pitches against same type detector</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-keyword">const</span> are = (type, a, b) =&gt; type(a) &amp;&amp; type(b)</pre></div>
+        
+      
+        
+        <p>substract two pitches</p>
+
+        
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">substr</span> (<span class="hljs-params">a, b</span>) </span>{
+  <span class="hljs-keyword">return</span> are(isPitchClass, a, b) ? simplifyAsc(ivlp(b[<span class="hljs-number">1</span>] - a[<span class="hljs-number">1</span>], <span class="hljs-number">0</span>))
+    : are(isPitchNote, a, b) ? ivlp(b[<span class="hljs-number">1</span>] - a[<span class="hljs-number">1</span>], b[<span class="hljs-number">2</span>] - a[<span class="hljs-number">2</span>])
+    : are(isInterval, a, b) ? ivlp(b[<span class="hljs-number">1</span>] - a[<span class="hljs-number">1</span>], b[<span class="hljs-number">2</span>] - a[<span class="hljs-number">2</span>])
+    : <span class="hljs-literal">null</span>
+}
+
+<span class="hljs-comment">/**
+ * Find distance between two pitches. Both pitches MUST be of the same type.
+ * Distances between pitch classes always returns ascending intervals.
+ * Distances between intervals substract one from the other.
+ *
+ * @param {Pitch|String} from - distance from
+ * @param {Pitch|String} to - distance to
+ * @return {Interval} the distance between pitches
+ * @example
+ * var tonal = require('tonal')
+ * tonal.distance('C2', 'C3') // =&gt; 'P8'
+ * tonal.distance('G', 'B') // =&gt; 'M3'
+ * tonal.distance('M2', 'P5') // =&gt; 'P4'
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">distance</span> (<span class="hljs-params">a, b</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> (b) =&gt; distance(a, b)
+  <span class="hljs-keyword">const</span> pa = asPitch(a)
+  <span class="hljs-keyword">const</span> pb = asPitch(b)
+  <span class="hljs-keyword">return</span> toIvlStr(substr(pa, pb))
+}
+
+<span class="hljs-comment">/**
+ * An alias for `distance`
+ * @function
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> dist = distance
+<span class="hljs-comment">/**
+ * An alias for `distance`
+ * @function
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> interval = distance</pre></div>
         
       
         

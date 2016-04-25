@@ -1,47 +1,42 @@
-# tonal [![npm](https://img.shields.io/npm/v/_.svg)](https://www.npmjs.com/package/tonal) [![Build Status](https://travis-ci.org/danigb/_.svg?branch=master)](https://travis-ci.org/danigb/tonal) [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard) [![license](https://img.shields.io/npm/l/_.svg)](https://www.npmjs.com/package/tonal)
+# tonal [![npm](https://img.shields.io/npm/v/tonal.svg)](https://www.npmjs.com/package/tonal) [![Build Status](https://travis-ci.org/danigb/tonal.svg?branch=master)](https://travis-ci.org/danigb/tonal) [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg)](https://codeclimate.com/github/danigb/tonal) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard) [![license](https://img.shields.io/npm/l/tonal.svg)](https://www.npmjs.com/package/tonal)
 
 `tonal` is a functional music theory library. It provides functions to manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music).
 
-__This library is under active development__.
+__This library is under active development.__
 
 ## Example
 
 ```js
-var _ = require('tonal')
+var tnl = require('tonal')
 
 // notes and intervals
-_.midi('A4') // => 69
-_.fromMidi(60) // => 'C4'
-_.freq('C2') // => 65.40639132514966
-_.fromFreq(220) // => 'A3'
-_.semitones('P8') // => 12
+tnl.midi('A4') // => 69
+tnl.fromMidi(60) // => 'C4'
+tnl.freq('C2') // => 65.40639132514966
+tnl.fromFreq(220) // => 'A3'
+tnl.semitones('P8') // => 12
 
 // transposition and distances
-_.tranpose('D4', '2M') // => 'E#4'
-_.interval('C', 'G') // => '5P'
+tnl.tranpose('D4', '2M') // => 'E#4'
+tnl.interval('C', 'G') // => '5P'
 
 // work with collections
-_.map(_.transpose('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
-var maj7 = _.harmonizer('P1 M3 P5 M7')
+tnl.map(tnl.transpose('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
+var maj7 = tnl.harmonizer('P1 M3 P5 M7')
 maj7('C2') // => ['C2', 'E2', 'G2', 'B2']
-_.sort('F G a D C') // => ['C', 'D', 'F', 'G', 'A']
-_.max('C4 C#3 A4') // => 'A4'
+tnl.sort('F G a D C') // => ['C', 'D', 'F', 'G', 'A']
+tnl.max('C4 C#3 A4') // => 'A4'
 
 // scales and chords
-_.scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+tnl.scale('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 
 // ranges
-_.range(_.chromatic(), 'C3', 'G5')
+tnl.range(tnl.chromatic(), 'C3', 'G5')
 // => ['C3', 'Db3', 'D3', 'Eb3', ... 'G5']
-_.take(_.chromatic(), 'A4', 24)
+tnl.take(tnl.chromatic(), 'A4', 24)
 // => ['A4', 'Bb4', 'B4', 'C5', ... 'A6']
-_.range('C E G', 'C3', 'C5')
+tnl.range('C E G', 'C3', 'C5')
 // => ['C3', 'E3', 'G3', 'C4', 'E4', 'G5', 'C5']
-
-// scales and chords
-var major = _.harmonizer('P1 M2 M3 P4 P5 M6 M7')
-major('A') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
-var maj7 = _.harmonizer('P1 M3 P5 M7')
 
 // keys
 key('###') // => 'A major'
@@ -83,6 +78,19 @@ First of all, because I want to learn:
 [*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
 
 Also, I want a complete library, where I can model all what I learn, with some (for me) esoteric features like interval classes, binary scales and other weird stuff.
+
+## What
+
+Tonal is a small library to manipulate notes and intervals, perform transpositions, calculate distances and work with collections of notes.
+
+You can read the [generated API documentation here](). You can read the [documented source code here]().
+
+#### `tonal-range`
+
+#### `tonal-scales`
+
+#### `tonal-chords`
+
 
 ## License
 
