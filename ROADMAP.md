@@ -3,7 +3,7 @@ binary-set
 chord-progression
 chord-type
 enharmonics
-interval-class
+[x] interval-class
 interval-density
 interval-invert
 interval-simplify
