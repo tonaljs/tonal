@@ -6,24 +6,20 @@ var _ = require('../')
 var map = _.map
 
 describe('array notation pitches - ', function () {
-  describe('pitchClass', function () {
+  describe('encode', function () {
     it('create pitch classes', function () {
-      assert.deepEqual(_.pitchClass(0, 0), ['tnl', 0])
-      assert.deepEqual(_.pitchClass(1, 0), ['tnl', 2])
-      assert.deepEqual(_.pitchClass(0, 1), ['tnl', 7])
-      assert.deepEqual(_.pitchClass(0, -1), ['tnl', -7])
+      assert.deepEqual(_.encode(0, 0), ['tnl', 0])
+      assert.deepEqual(_.encode(1, 0), ['tnl', 2])
+      assert.deepEqual(_.encode(0, 1), ['tnl', 7])
+      assert.deepEqual(_.encode(0, -1), ['tnl', -7])
     })
-  })
-  describe('notePitch', function () {
     it('create note pitches', function () {
-      assert.deepEqual(_.notePitch(0, 0, 2), ['tnl', 0, 2])
-      assert.deepEqual(_.notePitch(0, 1, 2), ['tnl', 7, -2])
-      assert.deepEqual(_.notePitch(6, 1, 2), ['tnl', 12, -4])
+      assert.deepEqual(_.encode(0, 0, 2), ['tnl', 0, 2])
+      assert.deepEqual(_.encode(0, 1, 2), ['tnl', 7, -2])
+      assert.deepEqual(_.encode(6, 1, 2), ['tnl', 12, -4])
     })
-  })
-  describe('interval', function () {
     it('creates intervals', function () {
-      assert.deepEqual(_.ivl(0, 0, 0, 1), ['tnl',  0, 0, 1 ])
+      assert.deepEqual(_.encode(0, 0, 0, 1), ['tnl',  0, 0, 1 ])
     })
   })
   describe('parseNote', function () {

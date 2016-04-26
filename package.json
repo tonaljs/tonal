@@ -1,12 +1,15 @@
 {
   "name": "tonal",
-  "version": "0.40.17",
+  "version": "0.40.20",
   "description": "A functional music theory library",
   "main": "dist/tonal.js",
   "jsnext:main": "lib/tonal.js",
   "scripts": {
     "bundle": "npm test && npm run dist && npm run docco && npm run api && ls -hall dist/",
     "standard": "standard lib/tonal.js",
+    "modules-install": "rollup -c && for d in ./modules/*/ ; do (cd \"$d\" && npm i ../..); done",
+    "modules-build": "for d in ./modules/*/ ; do (cd \"$d\" && rollup -c); done",
+    "modules-test": "_mocha `scripts/get-test-directories.sh`",
     "test": "npm run rollup && mocha",
     "test-ci": "rollup -c && mocha",
     "docco": "docco -l linear lib/tonal.js",

@@ -72,10 +72,10 @@ describe('collections', function () {
   describe('map', function () {
     var map = _.map
     it('splits list source', function () {
-      assert.deepEqual(map(_.sci, 'a bb cx'), [ 'A', 'Bb', 'C##' ])
+      assert.deepEqual(map(_.note, 'a bb cx'), [ 'A', 'Bb', 'C##' ])
     })
     it('can be partially applied', function () {
-      var notes = map(_.sci)
+      var notes = map(_.note)
       assert.deepEqual(notes('a bb cx'), [ 'A', 'Bb', 'C##' ])
     })
   })

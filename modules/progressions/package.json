@@ -1,7 +1,7 @@
 {
-  "name": "tonal-scales",
+  "name": "tonal-progressions",
   "version": "1.0.0",
-  "description": "Create music scales",
+  "description": "Chord progressions",
   "main": "dist/index.js",
   "scripts": {
     "bundle": "npm test && npm run dist && npm run docco && npm run api",
@@ -12,19 +12,20 @@
     "docs": "npm run docco && open docs/index.html",
     "api": "jsdoc2md lib/index.js > API.md",
     "rollup": "rollup lib/index.js -o dist/index.js -f cjs",
-    "dist": "rollup -c && browserify dist/index.js | uglifyjs > dist/tonal-scales.min.js && ls -hall dist/",
+    "dist": "rollup -c && browserify dist/index.js | uglifyjs > dist/tonal-progressions.min.js && ls -hall dist/",
     "coverage": "istanbul cover _mocha",
     "cover": "npm run coverage && open coverage/lcov-report/index.html"
   },
-  "homepage": "https://github.com/danigb/tonal/tree/master/packages/tonal-scales#readme",
-  "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal-scales",
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/tonal-progressions#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal-progressions",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
   "keywords": [
     "music",
-    "scale",
-    "scales",
+    "theory",
+    "chord",
+    "progressions",
     "tonal"
   ],
   "author": "danigb",

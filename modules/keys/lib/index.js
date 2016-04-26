@@ -6,8 +6,9 @@ export const areSharps = (s) => /^#+$/.test(s)
 // Modes
 // =====
 
-var MODES = { major: 0, minor: 5, ionian: 0, dorian: 1, phrygian: 2,
-  lydian: 3, mixolydian: 4, aeolian: 5, locrian: 6 }
+// { C: 0, D: 2, E: 4, F: -1, G: 1, A: 3, B: 5 }
+var MODES = { major: 0, minor: 3, ionian: 0, dorian: 2, phrygian: 4,
+  lydian: -1, mixolydian: 1, aeolian: 3, locrian: 5 }
 export const isModeStr = (m) => MODES[m] != null
 export const modes = () => Object.keys(MODES)
 
@@ -57,7 +58,7 @@ const major = (n) => build(_.transpose('C', nP5(n)), 'major')
  * @param {Integer} alt - the alteration number (positive sharps, negative flats)
  * @return {Key} the key object
  */
-export const fromAlter = (n) => major(+n)
+export const fromAlter = (n) => _.isNum(n) ? major(n) : null
 
 /**
  * Create a key from accidentals
@@ -109,9 +110,8 @@ export const relative = (rel, key) => {
   if (hasTonic(r)) return null
   const k = asKey(key)
   if (!hasTonic(k)) return null
-  const toMajor = _.ivl(modeNum(k), 0, 0, -1)
-  const toRel = _.ivl(modeNum(r), 0, 0, 1)
-  const tonic = _.transpose(k.tonic, _.transpose(toMajor, toRel))
+  const i = _.ivlArr(modeNum(r) - modeNum(k), 0)
+  const tonic = _.transpose(k.tonic, i)
   return build(tonic, rel)
 }
 
@@ -121,9 +121,10 @@ export const relative = (rel, key) => {
  */
 export const alteration = (key) => {
   const k = asKey(key)
+  if (!hasTonic(k)) return null
   const toMajor = modeNum(k)
   const toC = _.parseNote(k.tonic)[1]
-  return toMajor + toC
+  return toC + toMajor
 }
 
 /**

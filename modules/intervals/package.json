@@ -30,7 +30,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
+    "tonal": "file:../.."
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

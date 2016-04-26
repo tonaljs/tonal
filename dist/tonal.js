@@ -58,10 +58,48 @@ var id = function id(x) {
 // An array with the signature: `['tnl', fifths, octaves, direction]`:
 
 /**
+ * Create a pitch class in array notation
+ *
+ * @param {Integer} fifhts - the number of fifths from C
+ * @return {Pitch} the pitch in array notation
+ */
+var pcArr = function pcArr(f) {
+  return ['tnl', f];
+};
+
+/**
+ * Create a note pitch in array notation
+ *
+ * @param {Integer} fifhts - the number of fifths from C
+ * @param {Integer} octaves - the number of encoded octaves
+ * @return {Pitch} the pitch in array notation
+ */
+var noteArr = function noteArr(f, o) {
+  return ['tnl', f, o];
+};
+
+// calculate interval direction
+var calcDir = function calcDir(f, o) {
+  return encDir(7 * f + 12 * o);
+};
+
+/**
+ * Create an interval in array notation
+ *
+ * @param {Integer} fifhts - the number of fifths from C
+ * @param {Integer} octaves - the number of encoded octaves
+ * @param {Integer} dir - (Optional) the direction
+ * @return {Pitch} the pitch in array notation
+ */
+var ivlArr = function ivlArr(f, o, d) {
+  return ['tnl', f, o, d || calcDir(f, o)];
+};
+
+/**
  * Test if a given object is a pitch
  * @function
  * @param {Object} obj - the object to test
- * @return {Boolean} true if is a pitch, false otherwise
+ * @return {Boolean}
  */
 var isPitch = function isPitch(p) {
   return p && p[0] === 'tnl';
@@ -70,20 +108,44 @@ var isPitch = function isPitch(p) {
  * Test if a given object is a pitch class
  * @function
  * @param {Object} obj - the object to test
- * @return {Boolean} true if is a pitch class, false otherwise
+ * @return {Boolean}
  */
 var isPitchClass = function isPitchClass(p) {
   return isPitch(p) && p.length === 2;
 };
+/**
+ * Test if a given object is a pitch with octave (note pitch or interval)
+ * @function
+ * @param {Object} obj - the object to test
+ * @return {Boolean}
+ */
 var hasOct = function hasOct(p) {
   return isPitch(p) && isNum(p[2]);
 };
+/**
+ * Test if a given object is a note pitch
+ * @function
+ * @param {Object} obj - the object to test
+ * @return {Boolean}
+ */
 var isNotePitch = function isNotePitch(p) {
   return hasOct(p) && p.length === 3;
 };
+/**
+ * Test if a given object is a pitch interval
+ * @function
+ * @param {Object} obj - the object to test
+ * @return {Boolean}
+ */
 var isInterval = function isInterval(i) {
   return hasOct(i) && isNum(i[3]);
 };
+/**
+ * Test if a given object is a pitch, but not an interval
+ * @function
+ * @param {Object} obj - the object to test
+ * @return {Boolean}
+ */
 var isPitchNotIvl = function isPitchNotIvl(i) {
   return isPitch(i) && !isDef(i[3]);
 };
@@ -130,23 +192,17 @@ function encode(step, alt, oct, dir) {
   // is valid step?
   if (step < 0 || step > 6) return null;
   var pc = encPC(step, alt || 0);
-  // if not octave, return the pitch class
-  if (!isNum(oct)) return ['tnl', pc];
-  var o = encOct(step, alt, oct);
-  if (!isNum(dir)) return ['tnl', pc, o];
-  var d = encDir(dir);
-  return ['tnl', d * pc, d * o, d];
-}
 
-var pitchClass = function pitchClass(s, a) {
-  return encode(s, a);
-};
-var notePitch = function notePitch(s, a, o) {
-  return encode(s, a, o);
-};
-var ivl = function ivl(s, a, o, d) {
-  return encode(s, a, o, d);
-};
+  // if not octave, return the pitch class
+  if (!isNum(oct)) return pcArr(pc);
+  var o = encOct(step, alt, oct);
+
+  // if not direction, return a note pitch
+  if (!isNum(dir)) return noteArr(pc, o);
+  var d = encDir(dir);
+  // return the interval
+  return ivlArr(d * pc, d * o, d);
+}
 
 // ### Pitch decoding
 
@@ -165,6 +221,11 @@ var decodeAlt = function decodeAlt(f) {
 };
 // 'FCGDAEB' steps numbers
 var STEPS = [3, 0, 4, 1, 5, 2, 6];
+/**
+ * Decode a pitch to its numeric properties
+ * @param {Pitch}
+ * @return {Object}
+ */
 function decode(p) {
   var s = decodeStep(p[1]);
   var a = decodeAlt(p[1]);
@@ -185,22 +246,43 @@ var cached = function cached(parser) {
   };
 };
 
+/**
+ * Parse a note name
+ * @param {String}
+ * @return {Pitch}
+ */
 var parseNote = cached(function (str) {
   var n = noteParse(str);
-  return n ? notePitch(n.step, n.alt, n.oct) : null;
+  return n ? encode(n.step, n.alt, n.oct) : null;
 });
 
+/**
+ * Test if the given string is a note name
+ * @param {String}
+ * @return {Boolean}
+ */
 var isNoteStr = function isNoteStr(s) {
   return parseNote(s) !== null;
 };
+
+/**
+ * Parses an interval name in shorthand notation
+ * @param {String}
+ * @return {Pitch}
+ */
+var parseIvl = cached(function (str) {
+  var i = ivlNttn.parse(str);
+  return i ? encode(i.simple - 1, i.alt, i.oct, i.dir) : null;
+});
+
+/**
+ * Test if the given string is an interval name
+ * @param {String}
+ * @return {Boolean}
+ */
 var isIntervalStr = function isIntervalStr(s) {
   return parseIvl(s) !== null;
 };
-
-var parseIvl = cached(function (str) {
-  var i = ivlNttn.parse(str);
-  return i ? ivl(i.simple - 1, i.alt, i.oct, i.dir) : null;
-});
 
 var parsePitch = function parsePitch(str) {
   return parseNote(str) || parseIvl(str);
@@ -208,12 +290,26 @@ var parsePitch = function parsePitch(str) {
 
 // ### Pitch to string
 
+/**
+ * Given a step number return the letter
+ * @param {Integer}
+ * @return {String}
+ */
 var toLetter = function toLetter(s) {
   return 'CDEFGAB'[s % 7];
 };
+
+// Repeat a string num times
 var fillStr = function fillStr(s, num) {
   return Array(Math.abs(num) + 1).join(s);
 };
+
+/**
+ * Given an alteration number, return the accidentals
+ *
+ * @param {Integer}
+ * @return {String}
+ */
 var toAcc = function toAcc(n) {
   return fillStr(n < 0 ? 'b' : '#', n);
 };
@@ -221,6 +317,13 @@ var strNum = function strNum(n) {
   return n !== null ? n : '';
 };
 
+/**
+ * Given a pitch class or a pitch note, get the string in scientific
+ * notation
+ *
+ * @param {Pitch}
+ * @return {String}
+ */
 function strNote(n) {
   var p = isPitch(n) && !n[3] ? decode(n) : null;
   return p ? toLetter(p.step) + toAcc(p.alt) + strNum(p.oct) : null;
@@ -243,6 +346,13 @@ var calcAlt = function calcAlt(p) {
   return isAsc(p) ? p.alt : isPerf(p) ? -p.alt : -(p.alt + 1);
 };
 
+/**
+ * Given an interval, get the string in scientific
+ * notation
+ *
+ * @param {Pitch}
+ * @return {String}
+ */
 function strIvl(pitch) {
   var p = isInterval(pitch) ? decode(pitch) : null;
   if (!p) return null;
@@ -289,18 +399,48 @@ var noteFn = pitchOp(parseNote, toNoteStr);
 var ivlFn = pitchOp(parseIvl, toIvlStr);
 var pitchFn = pitchOp(parsePitch, toPitchStr);
 
-var sci = noteFn(id);
+/**
+ * Given a string return a note string in scientific notation or null
+ * if not valid string
+ *
+ * @param {String}
+ * @return {String}
+ * @example
+ * ['c', 'db3', '2', 'g+', 'gx4'].map(tonal.note)
+ * // => ['C', 'Db3', null, null, 'G##4']
+ */
+var note = noteFn(id);
 
 // #### Pitch properties
 
+/**
+ * Get pitch class of a note. The note can be a string or a pitch array.
+ *
+ * @param {String|Pitch}
+ * @return {String} the pitch class
+ * @example
+ * tonal.pc('Db3') // => 'Db'
+ */
 var pc = noteFn(function (p) {
   return ['tnl', p[1]];
 });
 
+/**
+ * Return the chroma of a pitch.
+ *
+ * @param {String|Pitch}
+ * @return {Integer}
+ */
 var chroma = pitchFn(function (n) {
   return n[1] * 7 - Math.floor(n[1] * 7 / 12) * 12;
 });
 
+/**
+ * Return the letter of a pitch
+ *
+ * @param {String|Pitch}
+ * @return {String}
+ */
 var letter = noteFn(function (n) {
   return toLetter(decode(n).step);
 });
@@ -317,12 +457,12 @@ var simplify = ivlFn(function (i) {
   var d = i[3];
   var s = decodeStep(d * i[1]);
   var a = decodeAlt(d * i[1]);
-  return ['tnl', i[1], -d * (FIFTH_OCTS[s] + 4 * a), d];
+  return ivlArr(i[1], -d * (FIFTH_OCTS[s] + 4 * a), d);
 });
 
 var simplifyAsc = ivlFn(function (i) {
   var s = simplify(i);
-  return s[3] === 1 ? s : ['tnl', s[1], s[2] + 1, 1];
+  return s[3] === 1 ? s : ivlArr(s[1], s[2] + 1, 1);
 });
 
 var simpleNum = ivlFn(function (i) {
@@ -428,11 +568,6 @@ var freq = wellTempered(440);
 
 // ## 2. Pitch distances
 
-// calculate interval direction
-var calcDir = function calcDir(f, o) {
-  return encDir(7 * f + 12 * o);
-};
-
 function trBy(i, p) {
   if (p === null) return null;
   var f = i[1] + p[1];
@@ -462,10 +597,6 @@ function transpose(a, b) {
  */
 var tr = transpose;
 
-// create an interval pitch
-var ivlp = function ivlp(f, o) {
-  return ['tnl', f, o, calcDir(f, o)];
-};
 // test two pitches against same type detector
 var are = function are(type, a, b) {
   return type(a) && type(b);
@@ -473,7 +604,7 @@ var are = function are(type, a, b) {
 
 // substract two pitches
 function substr(a, b) {
-  return are(isPitchClass, a, b) ? simplifyAsc(ivlp(b[1] - a[1], 0)) : are(isNotePitch, a, b) ? ivlp(b[1] - a[1], b[2] - a[2]) : are(isInterval, a, b) ? ivlp(b[1] - a[1], b[2] - a[2]) : null;
+  return are(isPitchClass, a, b) ? simplifyAsc(ivlArr(b[1] - a[1], 0)) : are(isNotePitch, a, b) ? ivlArr(b[1] - a[1], b[2] - a[2]) : are(isInterval, a, b) ? ivlArr(b[1] - a[1], b[2] - a[2]) : null;
 }
 
 /**
@@ -624,7 +755,7 @@ var chromatic = noteRange(fromMidi);
 function fifthsFrom(t, n) {
   if (arguments.length > 1) return fifthsFrom(t)(n);
   return function (n) {
-    return tr(t, ['tnl', n, 0, encDir(n)]);
+    return tr(t, ivlArr(n, 0));
   };
 }
 
@@ -660,26 +791,26 @@ exports.isStr = isStr;
 exports.isDef = isDef;
 exports.isValue = isValue;
 exports.id = id;
+exports.pcArr = pcArr;
+exports.noteArr = noteArr;
+exports.ivlArr = ivlArr;
 exports.isPitch = isPitch;
 exports.isPitchClass = isPitchClass;
 exports.hasOct = hasOct;
 exports.isNotePitch = isNotePitch;
 exports.isInterval = isInterval;
 exports.isPitchNotIvl = isPitchNotIvl;
-exports.encDir = encDir;
 exports.encode = encode;
-exports.pitchClass = pitchClass;
-exports.notePitch = notePitch;
-exports.ivl = ivl;
+exports.decode = decode;
 exports.parseNote = parseNote;
 exports.isNoteStr = isNoteStr;
-exports.isIntervalStr = isIntervalStr;
 exports.parseIvl = parseIvl;
+exports.isIntervalStr = isIntervalStr;
 exports.toLetter = toLetter;
 exports.toAcc = toAcc;
 exports.strNote = strNote;
 exports.strIvl = strIvl;
-exports.sci = sci;
+exports.note = note;
 exports.pc = pc;
 exports.chroma = chroma;
 exports.letter = letter;
