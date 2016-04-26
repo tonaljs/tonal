@@ -52,6 +52,12 @@ Distances between intervals substract one from the other.</p>
 <dt><a href="#asList">asList(source)</a> ⇒ <code>Array</code></dt>
 <dd><p>Split a string by spaces (or commas or bars). Always returns an array, even if its empty</p>
 </dd>
+<dt><a href="#listFn">listFn()</a></dt>
+<dd><p>Decorates a function to work with lists in pitch array notation</p>
+</dd>
+<dt><a href="#harmonizer">harmonizer()</a></dt>
+<dd><p>Create an harmonizer: a function that given a note returns a list of notes.</p>
+</dd>
 <dt><a href="#range">range()</a></dt>
 <dd><p>Create a range. It works with numbers or note names</p>
 </dd>
@@ -237,6 +243,18 @@ Split a string by spaces (or commas or bars). Always returns an array, even if i
 | --- | --- | --- |
 | source | <code>String</code> &#124; <code>Array</code> &#124; <code>Object</code> | the thing to get an array from |
 
+<a name="listFn"></a>
+
+## listFn()
+Decorates a function to work with lists in pitch array notation
+
+**Kind**: global function  
+<a name="harmonizer"></a>
+
+## harmonizer()
+Create an harmonizer: a function that given a note returns a list of notes.
+
+**Kind**: global function  
 <a name="range"></a>
 
 ## range()

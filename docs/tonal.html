@@ -147,8 +147,9 @@ that has a big influence over tonal development.</p>
  */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPitchClass = (p) =&gt; isPitch(p) &amp;&amp; p.length === <span class="hljs-number">2</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> hasOct = (p) =&gt; isPitch(p) &amp;&amp; isNum(p[<span class="hljs-number">2</span>])
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPitchNote = (p) =&gt; hasOct(p) &amp;&amp; p.length === <span class="hljs-number">3</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isInterval = (i) =&gt; hasOct(i) &amp;&amp; isNum(i[<span class="hljs-number">3</span>])</pre></div>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isNotePitch = (p) =&gt; hasOct(p) &amp;&amp; p.length === <span class="hljs-number">3</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isInterval = (i) =&gt; hasOct(i) &amp;&amp; isNum(i[<span class="hljs-number">3</span>])
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> isPitchNotIvl = (i) =&gt; isPitch(i) &amp;&amp; !isDef(i[<span class="hljs-number">3</span>])</pre></div>
         
       
         
@@ -420,7 +421,7 @@ executed a lot of times. Some caching will help:</p>
           <div class='highlight'><pre>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> pc = noteFn((p) =&gt; [ <span class="hljs-string">'tnl'</span>, p[<span class="hljs-number">1</span>] ])
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> chroma = noteFn((n) =&gt; {
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> chroma = pitchFn((n) =&gt; {
   <span class="hljs-keyword">return</span> n[<span class="hljs-number">1</span>] * <span class="hljs-number">7</span> - <span class="hljs-built_in">Math</span>.floor(n[<span class="hljs-number">1</span>] * <span class="hljs-number">7</span> / <span class="hljs-number">12</span>) * <span class="hljs-number">12</span>
 })
 
@@ -627,7 +628,7 @@ all the notes against a reference:</p>
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">substr</span> (<span class="hljs-params">a, b</span>) </span>{
   <span class="hljs-keyword">return</span> are(isPitchClass, a, b) ? simplifyAsc(ivlp(b[<span class="hljs-number">1</span>] - a[<span class="hljs-number">1</span>], <span class="hljs-number">0</span>))
-    : are(isPitchNote, a, b) ? ivlp(b[<span class="hljs-number">1</span>] - a[<span class="hljs-number">1</span>], b[<span class="hljs-number">2</span>] - a[<span class="hljs-number">2</span>])
+    : are(isNotePitch, a, b) ? ivlp(b[<span class="hljs-number">1</span>] - a[<span class="hljs-number">1</span>], b[<span class="hljs-number">2</span>] - a[<span class="hljs-number">2</span>])
     : are(isInterval, a, b) ? ivlp(b[<span class="hljs-number">1</span>] - a[<span class="hljs-number">1</span>], b[<span class="hljs-number">2</span>] - a[<span class="hljs-number">2</span>])
     : <span class="hljs-literal">null</span>
 }
@@ -710,7 +711,11 @@ all the notes against a reference:</p>
           <div class='highlight'><pre>
 <span class="hljs-keyword">const</span> listToStr = (v) =&gt; isPitch(v) ? toPitchStr(v) : isArr(v) ? v.map(toPitchStr) : v
 
-<span class="hljs-keyword">const</span> transform = (fn) =&gt; (src) =&gt; {
+<span class="hljs-comment">/**
+ * Decorates a function to work with lists in pitch array notation
+ * @function
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> listFn = (fn) =&gt; (src) =&gt; {
   <span class="hljs-keyword">const</span> param = asList(src).map(asPitch)
   <span class="hljs-keyword">const</span> result = fn(param)
   <span class="hljs-keyword">return</span> listToStr(result)
@@ -722,8 +727,12 @@ all the notes against a reference:</p>
 
         
           <div class='highlight'><pre>
+<span class="hljs-comment">/**
+ * Create an harmonizer: a function that given a note returns a list of notes.
+ * @function
+ */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> harmonizer = (list) =&gt; (pitch) =&gt; {
-  <span class="hljs-keyword">return</span> transform((list) =&gt; list.map(transpose(pitch)).filter(id))(list)
+  <span class="hljs-keyword">return</span> listFn((list) =&gt; list.map(transpose(pitch)).filter(id))(list)
 }
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> harmonize = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">list, pitch</span>) </span>{
@@ -812,7 +821,7 @@ all the notes against a reference:</p>
   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> sort(comp)(list)
   <span class="hljs-keyword">const</span> fn = comp === <span class="hljs-literal">true</span> || comp === <span class="hljs-literal">null</span> ? ascComp
     : comp === <span class="hljs-literal">false</span> ? descComp : comp
-  <span class="hljs-keyword">return</span> transform((arr) =&gt; arr.sort(fn))
+  <span class="hljs-keyword">return</span> listFn((arr) =&gt; arr.sort(fn))
 }</pre></div>
         
       

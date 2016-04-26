@@ -78,11 +78,14 @@ var isPitchClass = function isPitchClass(p) {
 var hasOct = function hasOct(p) {
   return isPitch(p) && isNum(p[2]);
 };
-var isPitchNote = function isPitchNote(p) {
+var isNotePitch = function isNotePitch(p) {
   return hasOct(p) && p.length === 3;
 };
 var isInterval = function isInterval(i) {
   return hasOct(i) && isNum(i[3]);
+};
+var isPitchNotIvl = function isPitchNotIvl(i) {
+  return isPitch(i) && !isDef(i[3]);
 };
 
 // #### Pitch encoding
@@ -294,7 +297,7 @@ var pc = noteFn(function (p) {
   return ['tnl', p[1]];
 });
 
-var chroma = noteFn(function (n) {
+var chroma = pitchFn(function (n) {
   return n[1] * 7 - Math.floor(n[1] * 7 / 12) * 12;
 });
 
@@ -470,7 +473,7 @@ var are = function are(type, a, b) {
 
 // substract two pitches
 function substr(a, b) {
-  return are(isPitchClass, a, b) ? simplifyAsc(ivlp(b[1] - a[1], 0)) : are(isPitchNote, a, b) ? ivlp(b[1] - a[1], b[2] - a[2]) : are(isInterval, a, b) ? ivlp(b[1] - a[1], b[2] - a[2]) : null;
+  return are(isPitchClass, a, b) ? simplifyAsc(ivlp(b[1] - a[1], 0)) : are(isNotePitch, a, b) ? ivlp(b[1] - a[1], b[2] - a[2]) : are(isInterval, a, b) ? ivlp(b[1] - a[1], b[2] - a[2]) : null;
 }
 
 /**
@@ -540,7 +543,11 @@ var listToStr = function listToStr(v) {
   return isPitch(v) ? toPitchStr(v) : isArr(v) ? v.map(toPitchStr) : v;
 };
 
-var transform = function transform(fn) {
+/**
+ * Decorates a function to work with lists in pitch array notation
+ * @function
+ */
+var listFn = function listFn(fn) {
   return function (src) {
     var param = asList(src).map(asPitch);
     var result = fn(param);
@@ -550,9 +557,13 @@ var transform = function transform(fn) {
 
 // #### Transpose lists
 
+/**
+ * Create an harmonizer: a function that given a note returns a list of notes.
+ * @function
+ */
 var harmonizer = function harmonizer(list) {
   return function (pitch) {
-    return transform(function (list) {
+    return listFn(function (list) {
       return list.map(transpose(pitch)).filter(id);
     })(list);
   };
@@ -636,7 +647,7 @@ var descComp = function descComp(a, b) {
 function sort(comp, list) {
   if (arguments.length > 1) return sort(comp)(list);
   var fn = comp === true || comp === null ? ascComp : comp === false ? descComp : comp;
-  return transform(function (arr) {
+  return listFn(function (arr) {
     return arr.sort(fn);
   });
 }
@@ -652,8 +663,9 @@ exports.id = id;
 exports.isPitch = isPitch;
 exports.isPitchClass = isPitchClass;
 exports.hasOct = hasOct;
-exports.isPitchNote = isPitchNote;
+exports.isNotePitch = isNotePitch;
 exports.isInterval = isInterval;
+exports.isPitchNotIvl = isPitchNotIvl;
 exports.encDir = encDir;
 exports.encode = encode;
 exports.pitchClass = pitchClass;
@@ -692,6 +704,7 @@ exports.interval = interval;
 exports.asList = asList;
 exports.map = map;
 exports.filter = filter;
+exports.listFn = listFn;
 exports.harmonizer = harmonizer;
 exports.harmonize = harmonize;
 exports.range = range;

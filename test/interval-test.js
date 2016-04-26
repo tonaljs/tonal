@@ -5,11 +5,18 @@ var assert = require('assert')
 var _ = require('../')
 
 describe('intervals', function () {
+  describe('parseIvl', function () {
+  })
   describe('isIntervalStr', function () {
     it('test if its interval string', function () {
       assert.equal(_.isIntervalStr('M3'), true, 'interval')
       assert.equal(_.isIntervalStr('C'), false, 'pitch class')
       assert.equal(_.isIntervalStr('F#2'), false, 'note name')
+    })
+    it('interval strings are recognized', function () {
+      var areIvls = _.map(_.isIntervalStr)
+      assert.deepEqual(areIvls('1P 2M 3M 4P 5P 6M 7M'),
+        [ true, true, true, true, true, true, true ])
     })
   })
   describe('simplify', function () {
