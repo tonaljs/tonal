@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "0.40.20",
+  "version": "0.40.22",
   "description": "A functional music theory library",
   "main": "dist/tonal.js",
   "jsnext:main": "lib/tonal.js",
@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "babel-preset-es2015-rollup": "^1.1.1",
+    "lerna": "^1.1.2",
     "markdown-code-blocks": "0.0.1",
     "rollup": "^0.25.8",
     "rollup-plugin-babel": "^2.4.0",

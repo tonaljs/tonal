@@ -3,26 +3,29 @@
 
 var assert = require('assert')
 var _ = require('../')
-var map = _.map
+function map (fn, s) {
+  if (arguments.length === 1) return function (s) { return map(fn, s) }
+  return (Array.isArray(s) ? s : s.split(' ')).map(fn)
+}
 
 describe('distances', function () {
-  describe('distance', function () {
+  describe('interval', function () {
     it('get distance between notes', function () {
-      var fromC3 = _.map(_.dist('C3'))
+      var fromC3 = map(_.dist('C3'))
       assert.deepEqual(fromC3('C3 e3 e4 c2 e2'),
         [ '1P', '3M', '10M', '-8P', '-6m' ])
     })
     it('distances between pitch classes are always ascending', function () {
       assert.deepEqual(_.dist('C', 'D'), '2M')
-      var fromC = _.map(_.dist('C'))
+      var fromC = map(_.dist('C'))
       assert.deepEqual(fromC('c d e f g a b'),
         [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
-      var fromG = _.map(_.dist('G'))
+      var fromG = map(_.dist('G'))
       assert.deepEqual(fromG('c d e f g a b'),
         [ '4P', '5P', '6M', '7m', '1P', '2M', '3M' ])
     })
     it('get difference between intervals', function () {
-      var subsM2 = _.map(_.dist('M2'))
+      var subsM2 = map(_.dist('M2'))
       assert.deepEqual(subsM2('P1 M2 M3 P4 P5 M6 M7'),
         [ '-2M', '1P', '2M', '3m', '4P', '5P', '6M' ])
     })

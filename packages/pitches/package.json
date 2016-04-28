@@ -1,0 +1,37 @@
+{
+  "name": "tonal-pitches",
+  "version": "0.50.2",
+  "description": "Work with pitches",
+  "main": "dist/index.js",
+  "scripts": {
+    "bundle": "npm test && npm run dist && npm run docco && npm run api",
+    "standard": "standard lib/index.js",
+    "test": "npm run rollup && mocha",
+    "test-ci": "rollup -c && mocha",
+    "docco": "docco lib/index.js",
+    "docs": "npm run docco && open docs/index.html",
+    "api": "jsdoc2md lib/index.js > API.md",
+    "rollup": "rollup lib/index.js -o dist/index.js -f cjs",
+    "dist": "rollup -c && browserify dist/index.js | uglifyjs > dist/tonal-pitches.min.js && ls -hall dist/",
+    "coverage": "istanbul cover _mocha",
+    "cover": "npm run coverage && open coverage/lcov-report/index.html"
+  },
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/tonal-pitches#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal-pitches",
+  "bugs": {
+    "url": "https://github.com/danigb/tonal/issues"
+  },
+  "keywords": [
+    "music",
+    "theory",
+    "chord",
+    "pitches",
+    "tonal"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "dependencies": {
+    "interval-notation": "^0.1.0",
+    "note-parser": "^1.0.0"
+  }
+}

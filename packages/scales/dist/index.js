@@ -1,16 +1,16 @@
+'use strict';
 
-import { parseIvl, harmonize, map, pc, chroma, noteRange } from 'tonal'
+var tonal = require('tonal');
+
 const raw = require('./scales.json')
 
-export const DATA = Object.keys(raw).reduce(function (d, k) {
+const DATA = Object.keys(raw).reduce(function (d, k) {
   // add intervals
-  d[k] = raw[k][0].split(' ').map(parseIvl)
+  d[k] = raw[k][0].split(' ').map(tonal.parseIvl)
   // add alias
   if (raw[k][1]) raw[k][1].forEach(function (a) { d[a] = k })
   return d
 }, {})
-
-const harmonizer = (ivls) => (tonic) => harmonize(ivls, tonic || 'P1')
 
 /**
  * Create a scale from a name or intervals and tonic
@@ -32,12 +32,12 @@ const harmonizer = (ivls) => (tonic) => harmonize(ivls, tonic || 'P1')
  * // part of tonal
  * tonal.scale('major', 'A')
  */
-export function scale (source, tonic) {
+function scale (source, tonic) {
   if (arguments.length > 1) return scale(source)(tonic)
   var intervals = DATA[source]
   // is an alias?
   if (typeof intervals === 'string') intervals = DATA[intervals]
-  return harmonizer(intervals || source)
+  return tonal.harmonizer(intervals || source)
 }
 
 /**
@@ -50,7 +50,7 @@ export function scale (source, tonic) {
  * const scales = require('tonal-scales')
  * scales.fromName('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
  */
-export function fromName(name) {
+function fromName(name) {
   const i = name.indexOf(' ')
   if (i === -1) return scale(name, false)
   else return scale(name.slice(i + 1), name.slice(0, i))
@@ -66,7 +66,7 @@ export function fromName(name) {
  * const scales = require('tonal-scales')
  * scales.names() // => ['maj7', ...]
  */
-export function names (aliases) {
+function names (aliases) {
   if (aliases) return Object.keys(DATA)
   return Object.keys(DATA).reduce(function (names, name) {
     if (typeof DATA[name] !== 'string') names.push(name)
@@ -76,8 +76,8 @@ export function names (aliases) {
 
 const buildNote = (pc, midi) => pc + (Math.floor(midi / 12) - 1)
 const pitchSetGen = (notes) => {
-  const scale = map(pc, notes)
-  const chromas = map(chroma, scale)
+  const scale = tonal.map(tonal.pc, notes)
+  const chromas = tonal.map(tonal.chroma, scale)
   return (midi) => {
     const pcIndex = chromas.indexOf(midi % 12)
     return pcIndex > -1 ? buildNote(scale[pcIndex], midi) : null
@@ -97,7 +97,13 @@ const pitchSetGen = (notes) => {
  * scalesRange('C bebbop', 'C3', 'C2')
  * // => [ 'C3', 'B2', 'Bb2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
  */
-export function scaleRange(src, start, end) {
+function scaleRange(src, start, end) {
   const scale = fromName(src)
-  return noteRange(pitchSetGen(scale.length ? scale : src), start, end)
+  return tonal.noteRange(pitchSetGen(scale.length ? scale : src), start, end)
 }
+
+exports.DATA = DATA;
+exports.scale = scale;
+exports.fromName = fromName;
+exports.names = names;
+exports.scaleRange = scaleRange;

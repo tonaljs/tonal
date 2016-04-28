@@ -1,10 +1,8 @@
 'use strict'
 
-import { parseIvl, harmonize } from 'tonal'
+import { parseIvl, harmonizer } from 'tonal'
 import { regex } from 'note-parser'
 const raw = require('./chords.json')
-
-const harmonizer = (ivls) => (tonic) => harmonize(ivls, tonic || 'P1')
 
 export const DATA = Object.keys(raw).reduce(function (d, k) {
   // add intervals
