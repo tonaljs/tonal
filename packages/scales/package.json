@@ -1,6 +1,6 @@
 {
   "name": "tonal-scales",
-  "version": "1.0.0",
+  "version": "0.50.0",
   "description": "Create music scales",
   "main": "dist/index.js",
   "scripts": {

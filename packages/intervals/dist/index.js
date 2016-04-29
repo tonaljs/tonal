@@ -1,6 +1,7 @@
 'use strict';
 
-var tonal = require('tonal');
+var tonalPitches = require('tonal-pitches');
+var tonalCollections = require('tonal-collections');
 
 const CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]
 /**
@@ -25,7 +26,7 @@ const CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]
  * ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
  */
 function ic (ivl) {
-  const s = typeof ivl === 'string' ? tonal.chroma(ivl) : Math.round(ivl)
+  const s = typeof ivl === 'string' ? tonalPitches.chroma(ivl) : Math.round(ivl)
   return s !== null ? CLASSES[Math.abs(s) % 12] : null
 }
 
@@ -57,14 +58,14 @@ function ic (ivl) {
  * @param {Array|String} notes - the notes to analyze
  * @return {Array} the _pmnsdt_ array
  */
-const density = tonal.listFn((list) => {
+const density = tonalCollections.listFn((list) => {
   var a, b, i
-  const notes = list.filter(tonal.isPitchNotIvl)
+  const notes = list.filter(tonalPitches.isPitchNotIvl)
   const len = notes.length
   const result = [0, 0, 0, 0, 0, 0]
   for (a = 0; a < len; a++) {
     for (b = a; b < len; b++) {
-      i = ic(tonal.chroma(notes[b]) - tonal.chroma(notes[a]))
+      i = ic(tonalPitches.chroma(notes[b]) - tonalPitches.chroma(notes[a]))
       if (i === 6) result[5] = result[5] + 1
       else if (i > 0) result[5 - i] = result[5 - i] + 1
     }

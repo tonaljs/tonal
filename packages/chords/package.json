@@ -1,6 +1,6 @@
 {
   "name": "tonal-chords",
-  "version": "1.0.0",
+  "version": "0.50.0",
   "description": "Create music chords",
   "main": "dist/index.js",
   "scripts": {
@@ -30,6 +30,7 @@
   "license": "MIT",
   "dependencies": {
     "note-parser": "^1.0.0",
-    "tonal": "file:../.."
+    "tonal-pitches": "^0.50.0",
+    "tonal-collections": "^0.50.0"
   }
 }
