@@ -72,19 +72,22 @@ describe('collections', function () {
     })
   })
   describe('map', function () {
-    var map = _.map
+    function up (s) { return s.toUpperCase() }
     it('splits list source', function () {
-      assert.deepEqual(map(_.note, 'a bb cx'), [ 'A', 'Bb', 'C##' ])
+      assert.deepEqual(_.map(up, 'a bb cx'),
+        [ 'A', 'BB', 'CX' ])
     })
     it('can be partially applied', function () {
-      var notes = map(_.note)
-      assert.deepEqual(notes('a bb cx'), [ 'A', 'Bb', 'C##' ])
+      var ups = _.map(up)
+      assert.deepEqual(ups('a bb cx'),
+        [ 'A', 'BB', 'CX' ])
     })
   })
   describe('filter', function () {
     it ('filter lists', function () {
-      assert.deepEqual(_.filter(_.isIntervalStr, 'C d f4 A4 M3'),
-        ['A4', 'M3'])
+      function isUpLetter (s) { return 'CDEFGAB'.indexOf(s[0]) != -1 }
+      assert.deepEqual(_.filter(isUpLetter, 'C d f4 A4 M3'),
+        [ 'C', 'A4' ])
     })
   })
 })

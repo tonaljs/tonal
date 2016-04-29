@@ -1,6 +1,6 @@
-import { fromMidi, isNum, isArr, asPitch } from 'tonal-pitches'
+import { isNum, isArr, asPitch, id, isPitch, toPitchStr } from 'tonal-pitches'
 import { tr, fifthsFrom } from 'tonal-distances'
-import { toMidi } from 'tonal-midi'
+import { toMidi, fromMidi } from 'tonal-midi'
 
 // items can be separated by spaces, bars and commas
 const SEP = /\s*\|\s*|\s*,\s*|\s+/
