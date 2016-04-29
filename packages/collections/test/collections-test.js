@@ -7,11 +7,11 @@ var _ = require('../')
 describe('collections', function () {
   describe('cycle of fifths', function () {
     it('ascending', function () {
-      assert.deepEqual(_.range(0, 6).map(_.fifthsFrom('C')),
+      assert.deepEqual(_.cycleOfFifths(0, 6, 'C'),
         [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ])
     })
     it('descending', function () {
-      assert.deepEqual(_.range(0, -6).map(_.fifthsFrom('C')),
+      assert.deepEqual(_.cycleOfFifths(0, -6, 'C'),
         [ 'C', 'F', 'Bb', 'Eb', 'Ab', 'Db', 'Gb' ])
     })
   })

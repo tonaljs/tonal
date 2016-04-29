@@ -35,7 +35,7 @@ export const id = (x) => x
  * @param {Integer} fifhts - the number of fifths from C
  * @return {Pitch} the pitch in array notation
  */
-export const pitchClass = (f) => ['tnl', f]
+export const pcPitch = (f) => ['tnl', f]
 
 /**
  * Create a note pitch in array notation
@@ -147,7 +147,7 @@ export function encode (step, alt, oct, dir) {
 
   const pc = encPC(step, alt || 0)
   // if not octave, return the pitch class
-  if (!isNum(oct)) return pitchClass(pc)
+  if (!isNum(oct)) return pcPitch(pc)
 
   const o = encOct(step, alt, oct)
   // if not direction, return a note pitch
@@ -232,10 +232,15 @@ export const parseIvl = cached((str) => {
  * @param {String}
  * @return {Boolean}
  */
-export const isIvlPitchStr = (s) => parseIvl(s) !== null
+export const isIvlStr = (s) => parseIvl(s) !== null
 
-
-const parsePitch = (str) => parseNote(str) || parseIvl(str)
+/**
+ * Parse a pitch (a pitch class, a note pitch or an interval)
+ * @function
+ * @param {String}
+ * @return {Pitch}
+ */
+export const parsePitch = (str) => parseNote(str) || parseIvl(str)
 
 // ### Pitch to string
 
@@ -320,35 +325,13 @@ const pitchOp = (parse, to) => (fn) => (v) => {
   // if parsed, apply function and back to string
   return p ? to(fn(p)) : null
 }
-const noteFn = pitchOp(parseNote, toNoteStr)
+export const noteFn = pitchOp(parseNote, toNoteStr)
 const ivlFn = pitchOp(parseIvl, toIvlStr)
 const pitchFn = pitchOp(parsePitch, toPitchStr)
 
-/**
- * Given a string return a note string in scientific notation or null
- * if not valid string
- *
- * @function
- * @param {String}
- * @return {String}
- * @example
- * ['c', 'db3', '2', 'g+', 'gx4'].map(tonal.note)
- * // => ['C', 'Db3', null, null, 'G##4']
- */
-export const note = noteFn(id)
 
 // #### Pitch properties
 
-/**
- * Get pitch class of a note. The note can be a string or a pitch array.
- *
- * @function
- * @param {String|Pitch}
- * @return {String} the pitch class
- * @example
- * tonal.pc('Db3') // => 'Db'
- */
-export const pc = noteFn((p) => [ 'tnl', p[1] ])
 
 /**
  * Return the chroma of a pitch.

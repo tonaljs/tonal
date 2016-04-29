@@ -1,11 +1,11 @@
-import { pitchClass, notePitch, ivlPitch, asPitch,
+import { pcPitch, notePitch, ivlPitch, asPitch,
   isIvlPitch, isPitchClass,
   toPitchStr, toIvlStr } from 'tonal-pitches'
 
 function trBy (i, p) {
   if (p === null) return null
   const f = i[1] + p[1]
-  if (p.length === 2) return pitchClass(f)
+  if (p.length === 2) return pcPitch(f)
   const o = i[2] + p[2]
   if (p.length === 3) return notePitch(f, o)
   return ivlPitch(f, o)
@@ -73,3 +73,16 @@ export const distance = interval
  * @function
  */
 export const dist = interval
+
+
+/**
+ * Transpose a tonic a number of perfect fifths.
+ * @function
+ * @param {Pitch|String} tonic
+ * @param {Integer} number - the number of times
+ * @return {String|Pitch} the transposed note
+ */
+export function fifthsFrom (t, n) {
+  if (arguments.length > 1) return fifthsFrom(t)(n)
+  return (n) => tr(t, ivlPitch(n, 0))
+}

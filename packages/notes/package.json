@@ -1,7 +1,7 @@
 {
-  "name": "tonal-distances",
+  "name": "tonal-notes",
   "version": "0.50.0",
-  "description": "Transpose and find distance between notes",
+  "description": "Work with notes",
   "main": "dist/index.js",
   "jsnext:main": "lib/index.js",
   "scripts": {
@@ -13,19 +13,20 @@
     "docs": "npm run docco && open docs/index.html",
     "api": "jsdoc2md lib/index.js > API.md",
     "rollup": "rollup lib/index.js -o dist/index.js -f cjs",
-    "dist": "rollup -c && browserify dist/index.js | uglifyjs > dist/tonal-distances.min.js && ls -hall dist/",
+    "dist": "rollup -c && browserify dist/index.js | uglifyjs > dist/tonal-notes.min.js && ls -hall dist/",
     "coverage": "istanbul cover _mocha",
     "cover": "npm run coverage && open coverage/lcov-report/index.html"
   },
-  "homepage": "https://github.com/danigb/tonal/tree/master/packages/tonal-distances#readme",
-  "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal-distances",
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/tonal-notes#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal-notes",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
   "keywords": [
     "music",
     "theory",
-    "distances",
+    "chord",
+    "notes",
     "tonal"
   ],
   "author": "danigb",

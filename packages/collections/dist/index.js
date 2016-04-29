@@ -1,6 +1,7 @@
 'use strict';
 
 var tonalPitches = require('tonal-pitches');
+var tonalDistances = require('tonal-distances');
 var tonalMidi = require('tonal-midi');
 
 // items can be separated by spaces, bars and commas
@@ -52,7 +53,7 @@ const listToStr = (v) => isPitch(v) ? toPitchStr(v) : tonalPitches.isArr(v) ? v.
  * @function
  */
 const listFn = (fn) => (src) => {
-  const param = asList(src).map(asPitch)
+  const param = asList(src).map(tonalPitches.asPitch)
   const result = fn(param)
   return listToStr(result)
 }
@@ -67,7 +68,7 @@ const listFn = (fn) => (src) => {
  * @return {Function}
  */
 const harmonizer = (list) => (pitch) => {
-  return listFn((list) => list.map(transpose(pitch || 'P1')).filter(id))(list)
+  return listFn((list) => list.map(tonalDistances.tr(pitch || 'P1')).filter(id))(list)
 }
 
 /**
@@ -117,17 +118,17 @@ function noteRange (fn, a, b) {
  */
 const chromatic = noteRange(tonalPitches.fromMidi)
 
-// #### Cycle of fifths
+// #### Cycle of fifths
 
 /**
- * Transpose a tonic a number of perfect fifths.
+ * Create a range with a cycle of fifths
  * @function
+ * @param {Integer} the first step from tonic
+ * @param {Integer} the last step from tonic (can be negative)
+ * @param {String|Pitch} the tonic
+ * @return {Array} a range of cycle of fifths
  */
-function fifthsFrom (t, n) {
-  if (arguments.length > 1) return fifthsFrom(t)(n)
-  return (n) => tr(t, ivlPitch(n, 0))
-}
-
+const cycleOfFifths = (s, e, t) => range(s, e).map(tonalDistances.fifthsFrom(t))
 
 // #### Sort lists
 
@@ -157,5 +158,5 @@ exports.harmonize = harmonize;
 exports.range = range;
 exports.noteRange = noteRange;
 exports.chromatic = chromatic;
-exports.fifthsFrom = fifthsFrom;
+exports.cycleOfFifths = cycleOfFifths;
 exports.sort = sort;

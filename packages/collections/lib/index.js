@@ -1,4 +1,5 @@
-import { fromMidi, isNum, isArr } from 'tonal-pitches'
+import { fromMidi, isNum, isArr, asPitch } from 'tonal-pitches'
+import { tr, fifthsFrom } from 'tonal-distances'
 import { toMidi } from 'tonal-midi'
 
 // items can be separated by spaces, bars and commas
@@ -65,7 +66,7 @@ export const listFn = (fn) => (src) => {
  * @return {Function}
  */
 export const harmonizer = (list) => (pitch) => {
-  return listFn((list) => list.map(transpose(pitch || 'P1')).filter(id))(list)
+  return listFn((list) => list.map(tr(pitch || 'P1')).filter(id))(list)
 }
 
 /**
@@ -115,17 +116,17 @@ export function noteRange (fn, a, b) {
  */
 export const chromatic = noteRange(fromMidi)
 
-// #### Cycle of fifths
+// #### Cycle of fifths
 
 /**
- * Transpose a tonic a number of perfect fifths.
+ * Create a range with a cycle of fifths
  * @function
+ * @param {Integer} the first step from tonic
+ * @param {Integer} the last step from tonic (can be negative)
+ * @param {String|Pitch} the tonic
+ * @return {Array} a range of cycle of fifths
  */
-export function fifthsFrom (t, n) {
-  if (arguments.length > 1) return fifthsFrom(t)(n)
-  return (n) => tr(t, ivlPitch(n, 0))
-}
-
+export const cycleOfFifths = (s, e, t) => range(s, e).map(fifthsFrom(t))
 
 // #### Sort lists
 
