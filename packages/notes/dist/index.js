@@ -15,7 +15,7 @@ var tonalPitches = require('tonal-pitches');
  * ['c', 'db3', '2', 'g+', 'gx4'].map(name)
  * // => ['C', 'Db3', null, null, 'G##4']
  */
-const name = tonalPitches.noteFn(tonalPitches.id)
+var name = tonalPitches.noteFn(tonalPitches.id);
 
 /**
  * Get pitch class of a note. The note can be a string or a pitch array.
@@ -26,7 +26,9 @@ const name = tonalPitches.noteFn(tonalPitches.id)
  * @example
  * tonal.pc('Db3') // => 'Db'
  */
-const pc = tonalPitches.noteFn((p) => [ 'tnl', p[1] ])
+var pc = tonalPitches.noteFn(function (p) {
+  return ['tnl', p[1]];
+});
 
 exports.name = name;
 exports.pc = pc;

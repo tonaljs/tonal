@@ -8,7 +8,9 @@ var tonalPitches = require('tonal-pitches');
  * @param {Object} num - the number to test
  * @return {Boolean} true if it's a valid midi note number
  */
-const isMidi = (m) => tonalPitches.isValue(m) && !tonalPitches.isArr(m) && m >= 0 && m < 128
+var isMidi = function isMidi(m) {
+  return tonalPitches.isValue(m) && !tonalPitches.isArr(m) && m >= 0 && m < 128;
+};
 
 // To match the general midi specification where `C4` is 60 we must add 12 to
 // `height` function:
@@ -21,14 +23,12 @@ const isMidi = (m) => tonalPitches.isValue(m) && !tonalPitches.isArr(m) && m >= 
  * @example
  * midi('C4') // => 60
  */
-function toMidi (val) {
-  const p = tonalPitches.asNote(val)
-  return tonalPitches.hasOct(p) ? tonalPitches.height(p) + 12
-    : isMidi(val) ? +val
-    : null
+function toMidi(val) {
+  var p = tonalPitches.asNote(val);
+  return tonalPitches.hasOct(p) ? tonalPitches.height(p) + 12 : isMidi(val) ? +val : null;
 }
 
-const PCS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')
+var PCS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ');
 /**
  * Given a midi number, returns a note name. The altered notes will have
  * flats.
@@ -38,10 +38,10 @@ const PCS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')
  * @example
  * tonal.fromMidi(61) // => 'Db4'
  */
-function fromMidi (m) {
-  const pc = PCS[m % 12]
-  const o = Math.floor(m / 12) - 1
-  return pc + o
+function fromMidi(m) {
+  var pc = PCS[m % 12];
+  var o = Math.floor(m / 12) - 1;
+  return pc + o;
 }
 
 exports.isMidi = isMidi;

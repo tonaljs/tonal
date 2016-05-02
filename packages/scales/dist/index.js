@@ -2,15 +2,17 @@
 
 var tonal = require('tonal');
 
-const raw = require('./scales.json')
+var raw = require('./scales.json');
 
-const DATA = Object.keys(raw).reduce(function (d, k) {
+var DATA = Object.keys(raw).reduce(function (d, k) {
   // add intervals
-  d[k] = raw[k][0].split(' ').map(tonal.parseIvl)
+  d[k] = raw[k][0].split(' ').map(tonal.parseIvl);
   // add alias
-  if (raw[k][1]) raw[k][1].forEach(function (a) { d[a] = k })
-  return d
-}, {})
+  if (raw[k][1]) raw[k][1].forEach(function (a) {
+    d[a] = k;
+  });
+  return d;
+}, {});
 
 /**
  * Create a scale from a name or intervals and tonic
@@ -32,12 +34,12 @@ const DATA = Object.keys(raw).reduce(function (d, k) {
  * // part of tonal
  * tonal.scale('major', 'A')
  */
-function scale (source, tonic) {
-  if (arguments.length > 1) return scale(source)(tonic)
-  var intervals = DATA[source]
+function scale(source, tonic) {
+  if (arguments.length > 1) return scale(source)(tonic);
+  var intervals = DATA[source];
   // is an alias?
-  if (typeof intervals === 'string') intervals = DATA[intervals]
-  return tonal.harmonizer(intervals || source)
+  if (typeof intervals === 'string') intervals = DATA[intervals];
+  return tonal.harmonizer(intervals || source);
 }
 
 /**
@@ -51,9 +53,8 @@ function scale (source, tonic) {
  * scales.fromName('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
  */
 function fromName(name) {
-  const i = name.indexOf(' ')
-  if (i === -1) return scale(name, false)
-  else return scale(name.slice(i + 1), name.slice(0, i))
+  var i = name.indexOf(' ');
+  if (i === -1) return scale(name, false);else return scale(name.slice(i + 1), name.slice(0, i));
 }
 
 /**
@@ -66,23 +67,25 @@ function fromName(name) {
  * const scales = require('tonal-scales')
  * scales.names() // => ['maj7', ...]
  */
-function names (aliases) {
-  if (aliases) return Object.keys(DATA)
+function names(aliases) {
+  if (aliases) return Object.keys(DATA);
   return Object.keys(DATA).reduce(function (names, name) {
-    if (typeof DATA[name] !== 'string') names.push(name)
-    return names
-  }, [])
+    if (typeof DATA[name] !== 'string') names.push(name);
+    return names;
+  }, []);
 }
 
-const buildNote = (pc, midi) => pc + (Math.floor(midi / 12) - 1)
-const pitchSetGen = (notes) => {
-  const scale = tonal.map(tonal.pc, notes)
-  const chromas = tonal.map(tonal.chroma, scale)
-  return (midi) => {
-    const pcIndex = chromas.indexOf(midi % 12)
-    return pcIndex > -1 ? buildNote(scale[pcIndex], midi) : null
-  }
-}
+var buildNote = function buildNote(pc, midi) {
+  return pc + (Math.floor(midi / 12) - 1);
+};
+var pitchSetGen = function pitchSetGen(notes) {
+  var scale = tonal.map(tonal.pc, notes);
+  var chromas = tonal.map(tonal.chroma, scale);
+  return function (midi) {
+    var pcIndex = chromas.indexOf(midi % 12);
+    return pcIndex > -1 ? buildNote(scale[pcIndex], midi) : null;
+  };
+};
 
 /**
  * Create a scale range. It accepts a scale name or scale notes.
@@ -98,8 +101,8 @@ const pitchSetGen = (notes) => {
  * // => [ 'C3', 'B2', 'Bb2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
  */
 function scaleRange(src, start, end) {
-  const scale = fromName(src)
-  return tonal.noteRange(pitchSetGen(scale.length ? scale : src), start, end)
+  var scale = fromName(src);
+  return tonal.noteRange(pitchSetGen(scale.length ? scale : src), start, end);
 }
 
 exports.DATA = DATA;
