@@ -1,7 +1,7 @@
 {
   "name": "tonal-scales",
-  "version": "0.50.0",
-  "description": "Create music scales",
+  "version": "0.50.1",
+  "description": "Create and manipulate music scales",
   "main": "dist/index.js",
   "scripts": {
     "bundle": "npm test && npm run dist && npm run docco && npm run api",

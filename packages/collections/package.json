@@ -1,7 +1,7 @@
 {
   "name": "tonal-collections",
-  "version": "0.50.0",
-  "description": "Work with music note and interval collections",
+  "version": "0.50.1",
+  "description": "Work with music notes and intervals collections",
   "main": "dist/index.js",
   "jsnext:main": "lib/index.js",
   "scripts": {

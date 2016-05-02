@@ -1,6 +1,6 @@
 {
   "name": "tonal-progressions",
-  "version": "1.0.0",
+  "version": "0.50.1",
   "description": "Chord progressions",
   "main": "dist/index.js",
   "scripts": {

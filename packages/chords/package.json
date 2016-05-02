@@ -1,7 +1,7 @@
 {
   "name": "tonal-chords",
-  "version": "0.50.0",
-  "description": "Create music chords",
+  "version": "0.50.1",
+  "description": "Create and manipulate music chords",
   "main": "dist/index.js",
   "scripts": {
     "bundle": "npm test && npm run dist && npm run docco && npm run api",
