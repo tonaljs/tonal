@@ -1,5 +1,7 @@
 
-import { parseIvl, harmonizer, map, pc, chroma, noteRange } from 'tonal'
+import { parseIvl } from 'tonal-pitches'
+import { harmonizer } from 'tonal-collections'
+
 const raw = require('./scales.json')
 
 export const DATA = Object.keys(raw).reduce(function (d, k) {
@@ -48,7 +50,7 @@ export function scale (source, tonic) {
  * const scales = require('tonal-scales')
  * scales.fromName('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
  */
-export function fromName(name) {
+export function fromName (name) {
   const i = name.indexOf(' ')
   if (i === -1) return scale(name, false)
   else return scale(name.slice(i + 1), name.slice(0, i))
@@ -70,32 +72,4 @@ export function names (aliases) {
     if (typeof DATA[name] !== 'string') names.push(name)
     return names
   }, [])
-}
-
-const buildNote = (pc, midi) => pc + (Math.floor(midi / 12) - 1)
-const pitchSetGen = (notes) => {
-  const scale = map(pc, notes)
-  const chromas = map(chroma, scale)
-  return (midi) => {
-    const pcIndex = chromas.indexOf(midi % 12)
-    return pcIndex > -1 ? buildNote(scale[pcIndex], midi) : null
-  }
-}
-
-/**
- * Create a scale range. It accepts a scale name or scale notes.
- *
- * @param {String|Array} src - the scale name or scale notes
- * @param {String} start - the first note of the range
- * @param {String} end - the last note of the range
- * @return {Array} the scale range, an empty array if not valid source or
- * null if not valid start or end
- * @example
- * import { scaleRange } from 'tonal-scales'
- * scalesRange('C bebbop', 'C3', 'C2')
- * // => [ 'C3', 'B2', 'Bb2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
- */
-export function scaleRange(src, start, end) {
-  const scale = fromName(src)
-  return noteRange(pitchSetGen(scale.length ? scale : src), start, end)
 }

@@ -1,6 +1,5 @@
 import { isNum, isArr, asPitch, id, isPitch, toPitchStr } from 'tonal-pitches'
-import { tr, fifthsFrom } from 'tonal-distances'
-import { toMidi, fromMidi } from 'tonal-midi'
+import { tr } from 'tonal-distances'
 
 // items can be separated by spaces, bars and commas
 const SEP = /\s*\|\s*|\s*,\s*|\s+/
@@ -56,7 +55,7 @@ export const listFn = (fn) => (src) => {
   return listToStr(result)
 }
 
-// #### Transpose lists
+// #### Transpose lists
 
 /**
  * Create an harmonizer: a function that given a note returns a list of notes.
@@ -80,53 +79,6 @@ export const harmonizer = (list) => (pitch) => {
 export const harmonize = function (list, pitch) {
   return arguments.length > 1 ? harmonizer(list)(pitch) : harmonizer(list)
 }
-
-// #### Ranges
-
-// ascending range
-const ascR = (b, n) => { for (var a = []; n-- ; a[n] = n + b ); return a; }
-// descending range
-const descR = (b, n) => { for (var a = []; n-- ; a[n] = b - n ) ; return a; }
-
-/**
- * Create a range. It works with numbers or note names
- * @function
- */
-export function range (a, b) {
-  const ma = isNum(a) ? a : toMidi(a)
-  const mb = isNum(b) ? b : toMidi(b)
-  return ma === null || mb === null ? []
-    : ma < mb ? ascR(ma, mb - ma + 1) : descR(ma, ma - mb + 1)
-}
-
-/**
- * Create a note range
- * @function
- */
-export function noteRange (fn, a, b) {
-  if (arguments.length === 1) return (a, b) => noteRange(fn, a, b)
-  return range(a, b).map(fn).filter((x) => x !== null )
-}
-
-/**
- * Create a range of chromatic notes
- * @function
- * @example
- * tonal.chromatic('C2', 'E2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2']
- */
-export const chromatic = noteRange(fromMidi)
-
-// #### Cycle of fifths
-
-/**
- * Create a range with a cycle of fifths
- * @function
- * @param {Integer} the first step from tonic
- * @param {Integer} the last step from tonic (can be negative)
- * @param {String|Pitch} the tonic
- * @return {Array} a range of cycle of fifths
- */
-export const cycleOfFifths = (s, e, t) => range(s, e).map(fifthsFrom(t))
 
 // #### Sort lists
 

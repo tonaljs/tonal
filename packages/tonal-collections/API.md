@@ -21,18 +21,6 @@
 <dt><a href="#harmonize">harmonize(list, pitch)</a> ⇒ <code>Array</code></dt>
 <dd><p>Harmonizes a list with a pitch</p>
 </dd>
-<dt><a href="#range">range()</a></dt>
-<dd><p>Create a range. It works with numbers or note names</p>
-</dd>
-<dt><a href="#noteRange">noteRange()</a></dt>
-<dd><p>Create a note range</p>
-</dd>
-<dt><a href="#chromatic">chromatic()</a></dt>
-<dd><p>Create a range of chromatic notes</p>
-</dd>
-<dt><a href="#cycleOfFifths">cycleOfFifths(the, the, the)</a> ⇒ <code>Array</code></dt>
-<dd><p>Create a range with a cycle of fifths</p>
-</dd>
 </dl>
 
 <a name="asList"></a>
@@ -103,40 +91,4 @@ Harmonizes a list with a pitch
 | --- | --- |
 | list | <code>String</code> &#124; <code>Array</code> | 
 | pitch | <code>String</code> &#124; <code>Pitch</code> | 
-
-<a name="range"></a>
-
-## range()
-Create a range. It works with numbers or note names
-
-**Kind**: global function  
-<a name="noteRange"></a>
-
-## noteRange()
-Create a note range
-
-**Kind**: global function  
-<a name="chromatic"></a>
-
-## chromatic()
-Create a range of chromatic notes
-
-**Kind**: global function  
-**Example**  
-```js
-tonal.chromatic('C2', 'E2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2']
-```
-<a name="cycleOfFifths"></a>
-
-## cycleOfFifths(the, the, the) ⇒ <code>Array</code>
-Create a range with a cycle of fifths
-
-**Kind**: global function  
-**Returns**: <code>Array</code> - a range of cycle of fifths  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| the | <code>Integer</code> | first step from tonic |
-| the | <code>Integer</code> | last step from tonic (can be negative) |
-| the | <code>String</code> &#124; <code>Pitch</code> | tonic |
 

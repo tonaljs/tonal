@@ -10,9 +10,6 @@
 <dt><a href="#names">names(aliases)</a> ⇒ <code>Array</code></dt>
 <dd><p>Return the available scale names</p>
 </dd>
-<dt><a href="#scaleRange">scaleRange(src, start, end)</a> ⇒ <code>Array</code></dt>
-<dd><p>Create a scale range. It accepts a scale name or scale notes.</p>
-</dd>
 </dl>
 
 <a name="scale"></a>
@@ -75,25 +72,4 @@ Return the available scale names
 ```js
 const scales = require('tonal-scales')
 scales.names() // => ['maj7', ...]
-```
-<a name="scaleRange"></a>
-
-## scaleRange(src, start, end) ⇒ <code>Array</code>
-Create a scale range. It accepts a scale name or scale notes.
-
-**Kind**: global function  
-**Returns**: <code>Array</code> - the scale range, an empty array if not valid source or
-null if not valid start or end  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| src | <code>String</code> &#124; <code>Array</code> | the scale name or scale notes |
-| start | <code>String</code> | the first note of the range |
-| end | <code>String</code> | the last note of the range |
-
-**Example**  
-```js
-import { scaleRange } from 'tonal-scales'
-scalesRange('C bebbop', 'C3', 'C2')
-// => [ 'C3', 'B2', 'Bb2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
 ```

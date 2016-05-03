@@ -32,7 +32,6 @@
   "license": "MIT",
   "dependencies": {
     "tonal-pitches": "^0.50.4",
-    "tonal-distances": "^0.50.4",
-    "tonal-midi": "^0.50.4"
+    "tonal-distances": "^0.50.4"
   }
 }

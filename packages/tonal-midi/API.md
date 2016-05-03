@@ -11,6 +11,10 @@
 <dd><p>Given a midi number, returns a note name. The altered notes will have
 flats.</p>
 </dd>
+<dt><a href="#fromMidiSharps">fromMidiSharps(midi)</a> ⇒ <code>String</code></dt>
+<dd><p>Given a midi number, returns a note name. The altered notes will have
+sharps.</p>
+</dd>
 </dl>
 
 <a name="isMidi"></a>
@@ -57,4 +61,21 @@ flats.
 **Example**  
 ```js
 tonal.fromMidi(61) // => 'Db4'
+```
+<a name="fromMidiSharps"></a>
+
+## fromMidiSharps(midi) ⇒ <code>String</code>
+Given a midi number, returns a note name. The altered notes will have
+sharps.
+
+**Kind**: global function  
+**Returns**: <code>String</code> - the note name  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| midi | <code>Integer</code> | the midi note number |
+
+**Example**  
+```js
+tonal.fromMidi(61) // => 'C#4'
 ```
