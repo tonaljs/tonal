@@ -10,7 +10,7 @@ You can install via npm: `npm i --save tonal-ranges`
 
 ## Documentation
 
-You can read the generated API documentation [here](https://github.com/danigb/tonal/blob/tonal-0.50.x/packages/ranges/API.md)
+You can read the generated API documentation [here](https://github.com/danigb/tonal/blob/tonal-0.50.x/packages/tonal-ranges/API.md)
 
 ## License
 

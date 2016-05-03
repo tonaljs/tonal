@@ -5,7 +5,6 @@ var chords = require('..')
 describe('tonal-chords', function () {
   describe('data', function () {
     it('each name has intervals', function () {
-      var id = function (e) { return e }
       chords.names(true).forEach(function (name) {
         if (!Array.isArray(chords.DATA[name])) return
         var ivls = chords.chord(name, false)

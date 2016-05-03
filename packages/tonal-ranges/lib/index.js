@@ -104,9 +104,10 @@ export const chromatic = noteRange(fromMidi)
 export const cycleOfFifths = (s, e, t) => midi(s, e).map(fifthsFrom(t))
 
 /**
- * Create a scale range. It accepts a scale name or scale notes.
+ * Create a scale range. Given a pitch set (a collection of pitch classes),
+ * and a start and end it returns a note range.
  *
- * @param {String|Array} src - the scale name or scale notes
+ * @param {String|Array} notes - the collection of pitch sets
  * @param {String} start - the first note of the range
  * @param {String} end - the last note of the range
  * @return {Array} the scale range, an empty array if not valid source or
