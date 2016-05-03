@@ -1,126 +1,16 @@
 # tonal-scales [![npm version](https://img.shields.io/npm/v/tonal-scales.svg)](https://www.npmjs.com/package/tonal-scales)
 
-[![tonal](https://img.shields.io/badge/tonal-music--scale-yellow.svg)](https://www.npmjs.com/package/tonal)
+[![tonal](https://img.shields.io/badge/tonal-scales-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
 
-`tonal-scales` is a module to create music scales. To create scales you can use intervals and tonic, type and tonic or scale name:
-
-```js
-var scale = require('tonal-scales')
-
-// get scale from name
-scale.get('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
-
-// get scale from type and tonic
-scale('major', 'A4') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
-
-// get scale from intervals and tonic
-scale('1 2 3 4 5 6 7', 'A') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
-
-// partially applied
-var major = scale('major')
-major('A') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
-major('A4') // => ['A4', 'B4', 'C#4', 'D4', 'E4', 'F#4', 'G#4']
-```
+`tonal-scales` is a module to manipulate musical scales.
 
 This is part of [tonal](https://www.npmjs.com/package/tonal):
 
-```js
-var tonal = require('tonal')
-tonal.scale.get('D3 bebop') // => ...
-```
+You can install via npm: `npm i --save tonal-scales`
 
-## Install
+## Documentation
 
-Via npm: `npm i --save tonal-scales`
-
-## Usage
-
-Scales are a pitch sets with a tonic. Scales can be created from a list of intervals and a tonic, from a scale type and tonic, or from scale name.
-
-#### Create scales from name
-
-You can use `scale.get` function to obtain scale notes from scale name:
-
-```js
-scale.get('C major') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-```
-
-With `scale` function, you should pass the scale type and tonic as two parameters:
-
-```js
-scale('major', 'C') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-```
-
-Or partially apply it:
-
-```js
-var major = scale('major')
-major('A') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
-```
-
-#### Get available names
-
-The `scale.names` function returns available names:
-
-```js
-scale.names() // => ['Maj7', 'm7', ...]
-scale.names(true) // => ['Maj7', 'm7', ...] <= with aliases
-```
-
-#### Create scale from intervals
-
-```js
-scale('1 2 3m 4 5 6m 7', 'D') // => ['D', 'E', 'F', 'G', 'A', 'Bb', 'C#']
-```
-
-This function can be partially applied:
-
-```js
-var dorian = set('1 2 3b 4 5 6 7b')
-dorian('eb') // => [ 'Eb', 'F', 'Gb', 'Ab', 'Bb', 'C', 'Db' ]
-```
-
-The source can be also another scale:
-
-```js
-scale('C D E F G A B C', 'A') // => ['A', 'B', 'C#' 'D', 'E', 'F#', 'G#']
-```
-
-Or even a collection of notes:
-
-```js
-scale('C2 d4 g7 a2', 'C') // => ['C', 'D', 'G', 'A']
-```
-
-#### Scale tonics
-
-If the tonic of a scale is a pitch class (a note without octave) the notes of the scale are pitch classes:
-
-```js
-var major = scale('C D E F G A B C')
-major('A') // => ['A', 'B', 'C#' 'D', 'E', 'F#', 'G#']
-```
-
-If the tonic of the scale is a note with octave, the notes of the scale will have octave numbers:
-
-```js
-major('A4') // => ['A4', 'B4', 'C#5' ,'D5', 'E5', 'F#5', 'G#5']
-```
-
-If the tonic is null and the source are notes, the first pitch class of the scale source will be the tonic:
-
-```js
-major(null) // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-scale('d4 f5 g2 c6 a1', null) // => [ 'D', 'F', 'G', 'A', 'C' ]
-```
-
-#### Get scale intervals
-
-If the tonic of a scale is false, the intervals are returned:
-
-```js
-scale('major', false) // => ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7']
-```
+You can read the generated API documentation [here](https://github.com/danigb/tonal/blob/tonal-0.50.x/packages/scales/API.md)
 
 ## License
 

@@ -1,9 +1,16 @@
-# tonal-pitches [![npm](https://img.shields.io/npm/v/tonal-pitches.svg)](https://www.npmjs.com/package/tonal-pitches)
+# tonal-pitches [![npm version](https://img.shields.io/npm/v/tonal-pitches.svg)](https://www.npmjs.com/package/tonal-pitches)
 
-[![license](https://img.shields.io/npm/l/tonal-pitches.svg)](https://www.npmjs.com/package/tonal-pitches)
-[![tonal](https://img.shields.io/badge/tonal-tonal--pitches-yellow.svg)](https://www.npmjs.com/package/tonal)
+[![tonal](https://img.shields.io/badge/tonal-pitches-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
 
-This is part of [tonal](https://www.npmjs.com/package/tonal)
+`tonal-pitches` is a low level module to encode and manipulate music pitches and intervals.
+
+This is part of [tonal](https://www.npmjs.com/package/tonal):
+
+You can install via npm: `npm i --save tonal-pitches`
+
+## Documentation
+
+You can read the generated API documentation [here](https://github.com/danigb/tonal/blob/tonal-0.50.x/packages/pitches/API.md)
 
 ## License
 

@@ -1,10 +1,10 @@
 ## Functions
 
 <dl>
-<dt><a href="#pcArr">pcArr(fifhts)</a> ⇒ <code>Pitch</code></dt>
+<dt><a href="#pcPitch">pcPitch(fifhts)</a> ⇒ <code>Pitch</code></dt>
 <dd><p>Create a pitch class in array notation</p>
 </dd>
-<dt><a href="#noteArr">noteArr(fifhts, octaves)</a> ⇒ <code>Pitch</code></dt>
+<dt><a href="#notePitch">notePitch(fifhts, octaves)</a> ⇒ <code>Pitch</code></dt>
 <dd><p>Create a note pitch in array notation</p>
 </dd>
 <dt><a href="#ivlPitch">ivlPitch(fifhts, octaves, dir)</a> ⇒ <code>Pitch</code></dt>
@@ -44,8 +44,11 @@ of a note or an interval.</p>
 <dt><a href="#parseIvl">parseIvl()</a> ⇒ <code>Pitch</code></dt>
 <dd><p>Parses an interval name in shorthand notation</p>
 </dd>
-<dt><a href="#isIvlPitchStr">isIvlPitchStr()</a> ⇒ <code>Boolean</code></dt>
+<dt><a href="#isIvlStr">isIvlStr()</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Test if the given string is an interval name</p>
+</dd>
+<dt><a href="#parsePitch">parsePitch()</a> ⇒ <code>Pitch</code></dt>
+<dd><p>Parse a pitch (a pitch class, a note pitch or an interval)</p>
 </dd>
 <dt><a href="#toLetter">toLetter()</a> ⇒ <code>String</code></dt>
 <dd><p>Given a step number return the letter</p>
@@ -61,21 +64,14 @@ notation</p>
 <dd><p>Given an interval, get the string in scientific
 notation</p>
 </dd>
-<dt><a href="#note">note()</a> ⇒ <code>String</code></dt>
-<dd><p>Given a string return a note string in scientific notation or null
-if not valid string</p>
-</dd>
-<dt><a href="#pc">pc()</a> ⇒ <code>String</code></dt>
-<dd><p>Get pitch class of a note. The note can be a string or a pitch array.</p>
-</dd>
 <dt><a href="#chroma">chroma()</a> ⇒ <code>Integer</code></dt>
 <dd><p>Return the chroma of a pitch.</p>
 </dd>
 </dl>
 
-<a name="pcArr"></a>
+<a name="pcPitch"></a>
 
-## pcArr(fifhts) ⇒ <code>Pitch</code>
+## pcPitch(fifhts) ⇒ <code>Pitch</code>
 Create a pitch class in array notation
 
 **Kind**: global function  
@@ -85,9 +81,9 @@ Create a pitch class in array notation
 | --- | --- | --- |
 | fifhts | <code>Integer</code> | the number of fifths from C |
 
-<a name="noteArr"></a>
+<a name="notePitch"></a>
 
-## noteArr(fifhts, octaves) ⇒ <code>Pitch</code>
+## notePitch(fifhts, octaves) ⇒ <code>Pitch</code>
 Create a note pitch in array notation
 
 **Kind**: global function  
@@ -238,10 +234,21 @@ Parses an interval name in shorthand notation
 | --- |
 | <code>String</code> | 
 
-<a name="isIvlPitchStr"></a>
+<a name="isIvlStr"></a>
 
-## isIvlPitchStr() ⇒ <code>Boolean</code>
+## isIvlStr() ⇒ <code>Boolean</code>
 Test if the given string is an interval name
+
+**Kind**: global function  
+
+| Type |
+| --- |
+| <code>String</code> | 
+
+<a name="parsePitch"></a>
+
+## parsePitch() ⇒ <code>Pitch</code>
+Parse a pitch (a pitch class, a note pitch or an interval)
 
 **Kind**: global function  
 
@@ -295,39 +302,6 @@ notation
 | --- | --- |
 | pitch | <code>Pitch</code> | 
 
-<a name="note"></a>
-
-## note() ⇒ <code>String</code>
-Given a string return a note string in scientific notation or null
-if not valid string
-
-**Kind**: global function  
-
-| Type |
-| --- |
-| <code>String</code> | 
-
-**Example**  
-```js
-['c', 'db3', '2', 'g+', 'gx4'].map(tonal.note)
-// => ['C', 'Db3', null, null, 'G##4']
-```
-<a name="pc"></a>
-
-## pc() ⇒ <code>String</code>
-Get pitch class of a note. The note can be a string or a pitch array.
-
-**Kind**: global function  
-**Returns**: <code>String</code> - the pitch class  
-
-| Type |
-| --- |
-| <code>String</code> &#124; <code>Pitch</code> | 
-
-**Example**  
-```js
-tonal.pc('Db3') // => 'Db'
-```
 <a name="chroma"></a>
 
 ## chroma() ⇒ <code>Integer</code>

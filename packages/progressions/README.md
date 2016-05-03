@@ -1,18 +1,16 @@
-# tonal-progressions [![npm](https://img.shields.io/npm/v/tonal-progressions.svg)](https://www.npmjs.com/package/tonal-progressions)
+# tonal-progressions [![npm version](https://img.shields.io/npm/v/tonal-progressions.svg)](https://www.npmjs.com/package/tonal-progressions)
 
-[![license](https://img.shields.io/npm/l/tonal-progressions.svg)](https://www.npmjs.com/package/tonal-progressions)
-[![tonal](https://img.shields.io/badge/tonal-chord--progression-yellow.svg)](https://www.npmjs.com/package/tonal)
+[![tonal](https://img.shields.io/badge/tonal-progressions-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
 
-Create chord progressions using roman numerals:
+`tonal-progressions` is a module to manipulate chord progressions.
 
-```js
-var progression = require('tonal-progressions')
-progression('C', 'I IIm7 V7') // => ['C', 'Dm7', 'G7']
-```
+This is part of [tonal](https://www.npmjs.com/package/tonal):
 
-Install via npm: `npm i --save tonal-progressions`
+You can install via npm: `npm i --save tonal-progressions`
 
-This is part of [tonal](https://www.npmjs.com/package/tonal)
+## Documentation
+
+You can read the generated API documentation [here](https://github.com/danigb/tonal/blob/tonal-0.50.x/packages/progressions/API.md)
 
 ## License
 

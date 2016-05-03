@@ -14,8 +14,8 @@ export const DATA = Object.keys(raw).reduce(function (d, k) {
 }, {})
 
 /**
- * Create chords by chord name or chord intervals. The returned chord is an
- * array of notes or intervals (depending if you specified root or not).
+ * Create chords by chord type or intervals and tonic. The returned chord is an
+ * array of notes (or intervals if you specify `false` as tonic)
  *
  * This function is currified
  *
@@ -45,14 +45,13 @@ export function chord (source, tonic) {
 /**
  * Get chord notes from chord name
  *
- * @name chord.get
- * @function
  * @param {String} name - the chord name
  * @return {Array} the chord notes
  *
  * @example
  * import { fromName } from 'tonal-chords'
  * fromName('C7') // => ['C', 'E', 'G', 'Bb']
+ * fromName('CMaj7') // => ['C', 'E', 'G', 'B']
  */
 export function fromName (name) {
   const p = regex().exec(name)
