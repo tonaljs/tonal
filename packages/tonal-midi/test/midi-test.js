@@ -41,8 +41,14 @@ describe('tonal-midi', function () {
   })
   describe('fromMidi', function () {
     it('get pitch names from midi numbers', function () {
-      assert.deepEqual(map(midi.fromMidi, [60, 61, 62, 62, 64, 65, 66, 67, 68, 69, 70, 71, 72]),
-        [ 'C4', 'Db4', 'D4', 'D4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4', 'Bb4', 'B4', 'C5' ])
+      assert.deepEqual(map(midi.fromMidi, [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]),
+        [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4', 'Bb4', 'B4', 'C5' ])
+    })
+  })
+  describe('fromMidiSharps', function () {
+    it('get pitch names from midi numbers with shaprs altered notes', function () {
+      assert.deepEqual(map(midi.fromMidiSharps, [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]),
+        [ 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4', 'C5' ])
     })
   })
 })

@@ -26,7 +26,15 @@ export function toMidi (val) {
     : null
 }
 
-const PCS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')
+const FLATS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')
+const SHARPS = 'C C# D D# E F F# G G# A A# B'.split(' ')
+
+const fromMidiFn = (pcs) => (m) => {
+  const pc = pcs[m % 12]
+  const o = Math.floor(m / 12) - 1
+  return pc + o
+}
+
 /**
  * Given a midi number, returns a note name. The altered notes will have
  * flats.
@@ -36,8 +44,15 @@ const PCS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')
  * @example
  * tonal.fromMidi(61) // => 'Db4'
  */
-export function fromMidi (m) {
-  const pc = PCS[m % 12]
-  const o = Math.floor(m / 12) - 1
-  return pc + o
-}
+export const fromMidi = fromMidiFn(FLATS)
+
+/**
+ * Given a midi number, returns a note name. The altered notes will have
+ * sharps.
+ * @function
+ * @param {Integer} midi - the midi note number
+ * @return {String} the note name
+ * @example
+ * tonal.fromMidi(61) // => 'C#4'
+ */
+export const fromMidiSharps = fromMidiFn(SHARPS)
