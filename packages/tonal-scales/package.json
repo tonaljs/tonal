@@ -1,6 +1,6 @@
 {
   "name": "tonal-scales",
-  "version": "0.50.4",
+  "version": "0.50.5",
   "description": "Create and manipulate music scales",
   "main": "dist/index.js",
   "scripts": {
@@ -31,6 +31,6 @@
   "license": "MIT",
   "dependencies": {
     "tonal-pitches": "^0.50.4",
-    "tonal-collections": "^0.50.4"
+    "tonal-collections": "^0.50.5"
   }
 }

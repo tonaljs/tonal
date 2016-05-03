@@ -1,6 +1,6 @@
 {
   "name": "tonal-ranges",
-  "version": "0.50.4",
+  "version": "0.50.5",
   "description": "Create ranges of notes",
   "main": "dist/index.js",
   "jsnext:main": "lib/index.js",
@@ -31,8 +31,8 @@
   "dependencies": {
     "tonal-pitches": "^0.50.4",
     "tonal-notes": "^0.50.4",
-    "tonal-collections": "^0.50.4",
+    "tonal-collections": "^0.50.5",
     "tonal-distances": "^0.50.4",
-    "tonal-midi": "^0.50.4"
+    "tonal-midi": "^0.50.5"
   }
 }
