@@ -1,6 +1,6 @@
 {
   "name": "tonal-collections",
-  "version": "0.50.2",
+  "version": "0.50.4",
   "description": "Work with music notes and intervals collections",
   "main": "dist/index.js",
   "jsnext:main": "lib/index.js",
@@ -31,8 +31,8 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-pitches": "^0.50.0",
-    "tonal-distances": "^0.50.0",
-    "tonal-midi": "^0.50.0"
+    "tonal-pitches": "^0.50.4",
+    "tonal-distances": "^0.50.4",
+    "tonal-midi": "^0.50.4"
   }
 }

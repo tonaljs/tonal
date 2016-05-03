@@ -1,6 +1,6 @@
 {
   "name": "tonal-pitches",
-  "version": "0.50.2",
+  "version": "0.50.4",
   "description": "Work with pitches",
   "main": "dist/index.js",
   "scripts": {

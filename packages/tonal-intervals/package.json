@@ -1,6 +1,6 @@
 {
   "name": "tonal-intervals",
-  "version": "0.50.2",
+  "version": "0.50.4",
   "description": "Music intervals manipulation",
   "main": "dist/index.js",
   "jsnext:main": "lib/index.js",
@@ -30,8 +30,8 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-pitches": "^0.50.0",
-    "tonal-collections": "^0.50.0"
+    "tonal-pitches": "^0.50.4",
+    "tonal-collections": "^0.50.4"
   },
   "devDependencies": {}
 }
