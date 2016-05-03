@@ -21,7 +21,7 @@ export function transpose (a, b) {
   const pb = asPitch(b)
   const r = isIvlPitch(pa) ? trBy(pa, pb)
     : isIvlPitch(pb) ? trBy(pb, pa) : null
-  return toPitchStr(r)
+  return a === pa && b === pb ? r : toPitchStr(r)
 }
 
 /**
@@ -30,7 +30,7 @@ export function transpose (a, b) {
  */
 export const tr = transpose
 
-// ### 2.2 Distances (in intervals)
+// 2.2 Distances (in intervals)
 
 // substract two pitches
 function substr (a, b) {

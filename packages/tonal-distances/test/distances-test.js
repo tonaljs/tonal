@@ -65,5 +65,9 @@ describe('distances', function () {
       assert.deepEqual(map(_.tr('-2M'), '-5P -4P -3M -2M 1P'),
         ['-6M', '-5P', '-4A', '-3M', '-2M'])
     })
+    it('returns array notation if both params are in array notation', function () {
+      assert.deepEqual(_.tr(['tnl', 1, 0, 1], ['tnl', 1, 0]),
+        [ 'tnl', 2, 0 ])
+    })
   })
 })

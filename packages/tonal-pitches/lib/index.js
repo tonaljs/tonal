@@ -61,7 +61,7 @@ const calcDir = (f, o) => encDir(7 * f + 12 * o)
  */
 export const ivlPitch = (f, o, d) => {
   const oct = isNum(o) ? o : -fOcts(f)
-  return ['tnl', f, oct, d || calcDir(f, oct) ]
+  return [ 'tnl', f, oct, d || calcDir(f, oct) ]
 }
 
 /**
@@ -158,10 +158,11 @@ export function encode (step, alt, oct, dir) {
   return ivlPitch(d * pc, d * o, d)
 }
 
-// ### Pitch decoding
+// Pitch decoding
+// ==============
 
-// remove accidentals to a pitch class
-// it gets an array and return a number of fifths
+// Remove accidentals to a pitch class.
+// Given the number of fifths return the unaltered fifths
 function unaltered (f) {
   const i = (f + 1) % 7
   return i < 0 ? 7 + i : i
@@ -325,13 +326,10 @@ const pitchOp = (parse, to) => (fn) => (v) => {
   // if parsed, apply function and back to string
   return p ? to(fn(p)) : null
 }
+
 export const noteFn = pitchOp(parseNote, toNoteStr)
-const ivlFn = pitchOp(parseIvl, toIvlStr)
-const pitchFn = pitchOp(parsePitch, toPitchStr)
-
-
-// #### Pitch properties
-
+export const ivlFn = pitchOp(parseIvl, toIvlStr)
+export const pitchFn = pitchOp(parsePitch, toPitchStr)
 
 /**
  * Return the chroma of a pitch.

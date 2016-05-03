@@ -1,5 +1,9 @@
+import { isStr, isDef, isNum, isNoteStr, parseNote, ivlPitch,
+  toAcc } from 'tonal-pitches'
+import { transpose, fifthsFrom } from 'tonal-distances'
+import { midi as range } from 'tonal-ranges'
+import { pc } from 'tonal-notes'
 
-const _ = require('tonal')
 export const areFlats = (s) => /^b+$/.test(s)
 export const areSharps = (s) => /^#+$/.test(s)
 
@@ -25,12 +29,12 @@ export const modes = () => Object.keys(MODES)
  * key.build('g', 'minor') // => { name: 'G minor', mode: 'minor', tonic: 'G'}
  */
 export function build (tonic, mode) {
-  if (!_.isStr(mode)) return null
+  if (!isStr(mode)) return null
   var m = mode.trim().toLowerCase()
   if (!isModeStr(m)) return null
-  var t = _.pc(tonic) || false
+  var t = pc(tonic) || false
   var n = t ? t + ' ' + m : null
-  return { name: n, tonic: t , mode: m }
+  return { name: n, tonic: t, mode: m }
 }
 
 /**
@@ -39,7 +43,7 @@ export function build (tonic, mode) {
  * @param {Object} obj - the object to test
  * @return {Boolean} true if it's a key object
  */
-export const isKey = (o) => o && _.isDef(o.tonic) && _.isStr(o.mode)
+export const isKey = (o) => o && isDef(o.tonic) && isStr(o.mode)
 /**
  * Test if the given object is a key with tonic
  * @function
@@ -50,7 +54,7 @@ export const hasTonic = (o) => isKey(o) && o.tonic
 
 // create a interval of n * P5
 const nP5 = (n) => ['tnl', n, 0, 1]
-const major = (n) => build(_.transpose('C', nP5(n)), 'major')
+const major = (n) => build(transpose('C', nP5(n)), 'major')
 
 /**
  * Create a key from alterations
@@ -58,7 +62,7 @@ const major = (n) => build(_.transpose('C', nP5(n)), 'major')
  * @param {Integer} alt - the alteration number (positive sharps, negative flats)
  * @return {Key} the key object
  */
-export const fromAlter = (n) => _.isNum(n) ? major(n) : null
+export const fromAlter = (n) => isNum(n) ? major(n) : null
 
 /**
  * Create a key from accidentals
@@ -75,10 +79,10 @@ export const fromAcc = (s) => areSharps(s) ? major(s.length) : areFlats(s) ? maj
  * @return {Key} the key object or null if not valid key
  */
 export const fromName = (str) => {
-  if (!_.isStr(str)) return null
+  if (!isStr(str)) return null
   var p = str.split(/\s+/)
   switch (p.length) {
-    case 1: return _.isNoteStr(p[0]) ? build(p[0], 'major')
+    case 1: return isNoteStr(p[0]) ? build(p[0], 'major')
       : isModeStr(p[0]) ? build(false, p[0]) : null
     case 2: return build(p[0], p[1])
     default: return null
@@ -110,8 +114,8 @@ export const relative = (rel, key) => {
   if (hasTonic(r)) return null
   const k = asKey(key)
   if (!hasTonic(k)) return null
-  const i = _.ivlArr(modeNum(r) - modeNum(k), 0)
-  const tonic = _.transpose(k.tonic, i)
+  const i = ivlPitch(modeNum(r) - modeNum(k), 0)
+  const tonic = transpose(k.tonic, i)
   return build(tonic, rel)
 }
 
@@ -123,7 +127,7 @@ export const alteration = (key) => {
   const k = asKey(key)
   if (!hasTonic(k)) return null
   const toMajor = modeNum(k)
-  const toC = _.parseNote(k.tonic)[1]
+  const toC = parseNote(k.tonic)[1]
   return toC + toMajor
 }
 
@@ -135,7 +139,7 @@ export const alteration = (key) => {
  * key.signature('A major') // => '###'
  */
 export const signature = (key) => {
-  return _.toAcc(alteration(key))
+  return toAcc(alteration(key))
 }
 
 /**
@@ -151,6 +155,6 @@ export const accidentals = signature
 export const alteredNotes = (key) => {
   var alt = alteration(key)
   return alt === null ? null
-    : alt < 0 ? _.range(-1, alt).map(_.fifthsFrom('F'))
-    : _.range(1, alt).map(_.fifthsFrom('B'))
+    : alt < 0 ? range(-1, alt).map(fifthsFrom('F'))
+    : range(1, alt).map(fifthsFrom('B'))
 }

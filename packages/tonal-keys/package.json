@@ -31,6 +31,9 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal": "file:../.."
+    "tonal-pitches": "^0.50.4",
+    "tonal-ranges": "^0.50.4",
+    "tonal-notes": "^0.50.4",
+    "tonal-distances": "^0.50.4"
   }
 }

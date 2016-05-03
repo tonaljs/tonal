@@ -1,22 +1,24 @@
-import { encode, asList, transpose } from 'tonal'
+import { encode } from 'tonal-pitches'
+import { asList } from 'tonal-collections'
+import { transpose } from 'tonal-distances'
 
+const ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\s*$/
 /**
- * A regex to match roman numbers literals with the from:
+ * Returns a regex to match roman numbers literals with the from:
  * `[accidentals]roman[element]` where:
  *
  * accidentals: (Optional) one or two flats (b) or shaprs (#)
  * roman: (Required) a roman numeral from I to VII either in upper or lower case
  * element: (Optional) a name of an element
  *
- * @name roman.regex
+ * @return {RegExp} the regexp
  *
  * @example
  * r.exec('bVII')
  * r.exec('IVMaj7')
  * r.exec('ii minor')
  */
-const ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\s*$/
-export const romanRegex = () => ROMAN
+export function romanRegex () { return ROMAN }
 
 var NUM = {i: 0, ii: 1, iii: 2, iv: 3, v: 4, vi: 5, vii: 6}
 

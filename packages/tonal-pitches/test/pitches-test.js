@@ -3,7 +3,7 @@
 
 var assert = require('assert')
 var _ = require('../')
-var map = function (fn) { return function (s) { return s.split(' ').map(fn) } }
+var map = function (fn) { return function (s) { return s.split(' ').map(fn) } }
 
 describe('tonal pitches', function () {
   describe('encode', function () {
@@ -19,7 +19,7 @@ describe('tonal pitches', function () {
       assert.deepEqual(_.encode(6, 1, 2), ['tnl', 12, -4])
     })
     it('creates intervals', function () {
-      assert.deepEqual(_.encode(0, 0, 0, 1), ['tnl',  0, 0, 1 ])
+      assert.deepEqual(_.encode(0, 0, 0, 1), ['tnl', 0, 0, 1])
     })
   })
   describe('parseNote', function () {
@@ -31,8 +31,8 @@ describe('tonal pitches', function () {
     it('parse pitch classes', function () {
       var parseList = map(_.parseNote)
       assert.deepEqual(parseList('C D E F G A B'),
-         [ ['tnl', 0 ], ['tnl', 2 ], ['tnl', 4 ], ['tnl', -1 ],
-           ['tnl', 1 ], ['tnl', 3 ], ['tnl', 5 ] ])
+         [ ['tnl', 0], ['tnl', 2], ['tnl', 4], ['tnl', -1],
+           ['tnl', 1], ['tnl', 3], ['tnl', 5] ])
     })
   })
   describe('isNoteStr', function () {
