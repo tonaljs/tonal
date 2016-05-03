@@ -4,7 +4,7 @@ var tonalPitches = require('tonal-pitches');
 var tonalCollections = require('tonal-collections');
 var tonalDistances = require('tonal-distances');
 
-const ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\s*$/
+var ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\s*$/;
 /**
  * Returns a regex to match roman numbers literals with the from:
  * `[accidentals]roman[element]` where:
@@ -20,9 +20,11 @@ const ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*
  * r.exec('IVMaj7')
  * r.exec('ii minor')
  */
-function romanRegex () { return ROMAN }
+function romanRegex() {
+  return ROMAN;
+}
 
-var NUM = {i: 0, ii: 1, iii: 2, iv: 3, v: 4, vi: 5, vii: 6}
+var NUM = { i: 0, ii: 1, iii: 2, iv: 3, v: 4, vi: 5, vii: 6 };
 
 /**
  * Parse a chord expressed with roman numerals. It returns an interval representing
@@ -36,13 +38,13 @@ var NUM = {i: 0, ii: 1, iii: 2, iv: 3, v: 4, vi: 5, vii: 6}
  * parse('V7') // => { root: ['tnl', 1, 0, 0, 1], name: '7'}
  * parse('bIIalt') // => [ root: ['tnl', -5, 0, 2, 1], name: 'alt']
  */
-function parseRomanChord (str) {
-  var m = ROMAN.exec(str)
-  if (!m) return null
-  var num = NUM[m[2].toLowerCase()]
-  var alt = m[1].length
-  if (m[1][0] === 'b') alt = -alt
-  return { root: tonalPitches.encode(num, alt, 0, 1), name: m[3] }
+function parseRomanChord(str) {
+  var m = ROMAN.exec(str);
+  if (!m) return null;
+  var num = NUM[m[2].toLowerCase()];
+  var alt = m[1].length;
+  if (m[1][0] === 'b') alt = -alt;
+  return { root: tonalPitches.encode(num, alt, 0, 1), name: m[3] };
 }
 
 /**
@@ -56,11 +58,11 @@ function parseRomanChord (str) {
  * var progression = require('chord-progression')
  * progression('I IIm7 V7', 'C') // => ['C', 'Dm7', 'G7']
  */
-function progression (chords, tonic) {
-  return tonalCollections.asList(chords).map((e) => {
-    const r = parseRomanChord(e)
-    return r ? tonalDistances.transpose(r.root, tonic) + r.name : null
-  })
+function progression(chords, tonic) {
+  return tonalCollections.asList(chords).map(function (e) {
+    var r = parseRomanChord(e);
+    return r ? tonalDistances.transpose(r.root, tonic) + r.name : null;
+  });
 }
 
 exports.romanRegex = romanRegex;

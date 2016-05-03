@@ -1,7 +1,7 @@
 import { isStr, isDef, isNum, isNoteStr, parseNote, ivlPitch,
   toAcc } from 'tonal-pitches'
 import { transpose, fifthsFrom } from 'tonal-distances'
-import { midi as range } from 'tonal-ranges'
+import { midiRange } from 'tonal-ranges'
 import { pc } from 'tonal-notes'
 
 export const areFlats = (s) => /^b+$/.test(s)
@@ -155,6 +155,6 @@ export const accidentals = signature
 export const alteredNotes = (key) => {
   var alt = alteration(key)
   return alt === null ? null
-    : alt < 0 ? range(-1, alt).map(fifthsFrom('F'))
-    : range(1, alt).map(fifthsFrom('B'))
+    : alt < 0 ? midiRange(-1, alt).map(fifthsFrom('F'))
+    : midiRange(1, alt).map(fifthsFrom('B'))
 }

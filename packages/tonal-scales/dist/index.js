@@ -3,15 +3,17 @@
 var tonalPitches = require('tonal-pitches');
 var tonalCollections = require('tonal-collections');
 
-const raw = require('./scales.json')
+var raw = require('./scales.json');
 
-const DATA = Object.keys(raw).reduce(function (d, k) {
+var DATA = Object.keys(raw).reduce(function (d, k) {
   // add intervals
-  d[k] = raw[k][0].split(' ').map(tonalPitches.parseIvl)
+  d[k] = raw[k][0].split(' ').map(tonalPitches.parseIvl);
   // add alias
-  if (raw[k][1]) raw[k][1].forEach(function (a) { d[a] = k })
-  return d
-}, {})
+  if (raw[k][1]) raw[k][1].forEach(function (a) {
+    d[a] = k;
+  });
+  return d;
+}, {});
 
 /**
  * Create a scale from a name or intervals and tonic
@@ -33,12 +35,12 @@ const DATA = Object.keys(raw).reduce(function (d, k) {
  * // part of tonal
  * tonal.scale('major', 'A')
  */
-function scale (source, tonic) {
-  if (arguments.length > 1) return scale(source)(tonic)
-  var intervals = DATA[source]
+function scale(source, tonic) {
+  if (arguments.length > 1) return scale(source)(tonic);
+  var intervals = DATA[source];
   // is an alias?
-  if (typeof intervals === 'string') intervals = DATA[intervals]
-  return tonalCollections.harmonizer(intervals || source)
+  if (typeof intervals === 'string') intervals = DATA[intervals];
+  return tonalCollections.harmonizer(intervals || source);
 }
 
 /**
@@ -51,10 +53,9 @@ function scale (source, tonic) {
  * const scales = require('tonal-scales')
  * scales.fromName('A major') // => ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#']
  */
-function fromName (name) {
-  const i = name.indexOf(' ')
-  if (i === -1) return scale(name, false)
-  else return scale(name.slice(i + 1), name.slice(0, i))
+function fromName(name) {
+  var i = name.indexOf(' ');
+  if (i === -1) return scale(name, false);else return scale(name.slice(i + 1), name.slice(0, i));
 }
 
 /**
@@ -67,12 +68,12 @@ function fromName (name) {
  * const scales = require('tonal-scales')
  * scales.names() // => ['maj7', ...]
  */
-function names (aliases) {
-  if (aliases) return Object.keys(DATA)
+function names(aliases) {
+  if (aliases) return Object.keys(DATA);
   return Object.keys(DATA).reduce(function (names, name) {
-    if (typeof DATA[name] !== 'string') names.push(name)
-    return names
-  }, [])
+    if (typeof DATA[name] !== 'string') names.push(name);
+    return names;
+  }, []);
 }
 
 exports.DATA = DATA;

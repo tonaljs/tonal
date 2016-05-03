@@ -22,10 +22,10 @@ const descR = (b, n) => { for (var a = []; n--; a[n] = b - n); return a }
  *
  * @example
  * var range = require('tonal-ranges')
- * range.midi('C5', 'C4') // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
- * range.midi(10, 5) // => [ 10, 9, 8, 7, 6, 5 ]
+ * range.midiRange('C5', 'C4') // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
+ * range.midiRange(10, 5) // => [ 10, 9, 8, 7, 6, 5 ]
  */
-export function midi (a, b) {
+export function midiRange (a, b) {
   const ma = isNum(a) ? a : toMidi(a)
   const mb = isNum(b) ? b : toMidi(b)
   return ma === null || mb === null ? []
@@ -74,7 +74,7 @@ export function fromPitchSet (notes, m) {
  */
 export function noteRange (fn, a, b) {
   if (arguments.length === 1) return (a, b) => noteRange(fn, a, b)
-  return midi(a, b).map(fn).filter((x) => x !== null)
+  return midiRange(a, b).map(fn).filter((x) => x !== null)
 }
 
 /**
@@ -101,7 +101,7 @@ export const chromatic = noteRange(fromMidi)
  * var range = require('tonal-ranges')
  * range.cycleOfFifths(0, 6, 'C') // => [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ])
  */
-export const cycleOfFifths = (s, e, t) => midi(s, e).map(fifthsFrom(t))
+export const cycleOfFifths = (s, e, t) => midiRange(s, e).map(fifthsFrom(t))
 
 /**
  * Create a scale range. Given a pitch set (a collection of pitch classes),
@@ -117,6 +117,6 @@ export const cycleOfFifths = (s, e, t) => midi(s, e).map(fifthsFrom(t))
  * range.scale('C D E F G A B', 'C3', 'C2')
  * // => [ 'C3', 'B2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
  */
-export function scale (src, start, end) {
+export function scaleRange (src, start, end) {
   return noteRange(fromPitchSet(src), start, end)
 }

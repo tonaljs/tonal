@@ -16,7 +16,7 @@ var tonalDistances = require('tonal-distances');
  * ['c', 'db3', '2', 'g+', 'gx4'].map(name)
  * // => ['C', 'Db3', null, null, 'G##4']
  */
-const name = tonalPitches.noteFn(tonalPitches.id)
+var name = tonalPitches.noteFn(tonalPitches.id);
 
 /**
  * Get pitch class of a note. The note can be a string or a pitch array.
@@ -27,10 +27,12 @@ const name = tonalPitches.noteFn(tonalPitches.id)
  * @example
  * tonal.pc('Db3') // => 'Db'
  */
-const pc = tonalPitches.noteFn((p) => [ 'tnl', p[1] ])
+var pc = tonalPitches.noteFn(function (p) {
+  return ['tnl', p[1]];
+});
 
-var ASC = ['tnl', -12, 7, 1] // dimished second
-var DESC = ['tnl', 12, -7, -1] // descending dimished second
+var ASC = ['tnl', -12, 7, 1]; // dimished second
+var DESC = ['tnl', 12, -7, -1]; // descending dimished second
 
 /**
  * Get the enharmonics of a note. It returns an array of three elements: the
@@ -46,13 +48,13 @@ var DESC = ['tnl', 12, -7, -1] // descending dimished second
  * enharmonics('C#4') // => ['B##3', 'C#4' 'Db4']
  * enharmonics('Db') // => ['C#', 'Db', 'Ebbb'])
  */
-function enharmonics (pitch) {
-  var enharmonics = []
-  enharmonics.push(tonalDistances.transpose(DESC, pitch))
-  if (enharmonics[0] === null) return null
-  enharmonics.push(pitch)
-  enharmonics.push(tonalDistances.transpose(ASC, pitch))
-  return enharmonics
+function enharmonics(pitch) {
+  var enharmonics = [];
+  enharmonics.push(tonalDistances.transpose(DESC, pitch));
+  if (enharmonics[0] === null) return null;
+  enharmonics.push(pitch);
+  enharmonics.push(tonalDistances.transpose(ASC, pitch));
+  return enharmonics;
 }
 
 /**
@@ -65,11 +67,11 @@ function enharmonics (pitch) {
  * var enharmonics = require('enharmonics')
  * enharmonics.simplify('B#3') // => 'C4'
  */
-function simplify (pitch) {
+function simplify(pitch) {
   return enharmonics(pitch).reduce(function (simple, next) {
-    if (!simple) return next
-    return simple.length > next.length ? next : simple
-  }, null)
+    if (!simple) return next;
+    return simple.length > next.length ? next : simple;
+  }, null);
 }
 
 exports.name = name;

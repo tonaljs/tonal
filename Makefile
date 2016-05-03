@@ -1,5 +1,6 @@
 test-ci:
 	make bootstrap
+	npm run packages-build
 	./scripts/test.sh
 
 bootstrap:

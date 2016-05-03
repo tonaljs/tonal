@@ -27,23 +27,23 @@ describe('collections', function () {
   })
   describe('midi', function () {
     it('ascending range', function () {
-      assert.deepEqual(range.midi(0, 10),
+      assert.deepEqual(range.midiRange(0, 10),
         [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ])
     })
     it('descending range', function () {
-      assert.deepEqual(range.midi(10, 0),
+      assert.deepEqual(range.midiRange(10, 0),
         [ 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 ])
     })
     it('negative numbers', function () {
-      assert.deepEqual(range.midi(0, -5), [ 0, -1, -2, -3, -4, -5 ])
-      assert.deepEqual(range.midi(-5, -10), [ -5, -6, -7, -8, -9, -10 ])
+      assert.deepEqual(range.midiRange(0, -5), [ 0, -1, -2, -3, -4, -5 ])
+      assert.deepEqual(range.midiRange(-5, -10), [ -5, -6, -7, -8, -9, -10 ])
     })
     it('notes ascending', function () {
-      assert.deepEqual(range.midi('C4', 'C5'),
+      assert.deepEqual(range.midiRange('C4', 'C5'),
         [ 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72 ])
     })
     it('notes descending', function () {
-      assert.deepEqual(range.midi('C5', 'C4'),
+      assert.deepEqual(range.midiRange('C5', 'C4'),
         [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ])
     })
   })
@@ -64,11 +64,11 @@ describe('collections', function () {
   })
   describe('scale', function () {
     it('ascending range', function () {
-      assert.deepEqual(range.scale('C D E', 'C2', 'C4'),
+      assert.deepEqual(range.scaleRange('C D E', 'C2', 'C4'),
         [ 'C2', 'D2', 'E2', 'C3', 'D3', 'E3', 'C4' ])
     })
     it('descending range', function () {
-      assert.deepEqual(range.scale('C D E F G A B', 'C3', 'C2'),
+      assert.deepEqual(range.scaleRange('C D E F G A B', 'C3', 'C2'),
         [ 'C3', 'B2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ])
     })
   })

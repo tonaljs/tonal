@@ -6,11 +6,17 @@ var tonalCollections = require('tonal-collections');
 var tonalDistances = require('tonal-distances');
 var tonalMidi = require('tonal-midi');
 
-const isNum = (n) => typeof n === 'number'
+var isNum = function isNum(n) {
+  return typeof n === 'number';
+};
 // ascending range
-const ascR = (b, n) => { for (var a = []; n--; a[n] = n + b); return a }
+var ascR = function ascR(b, n) {
+  for (var a = []; n--; a[n] = n + b) {}return a;
+};
 // descending range
-const descR = (b, n) => { for (var a = []; n--; a[n] = b - n); return a }
+var descR = function descR(b, n) {
+  for (var a = []; n--; a[n] = b - n) {}return a;
+};
 
 /**
  * Create a midi range. As parameters, it accepts numbers or note names.
@@ -24,17 +30,18 @@ const descR = (b, n) => { for (var a = []; n--; a[n] = b - n); return a }
  *
  * @example
  * var range = require('tonal-ranges')
- * range.midi('C5', 'C4') // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
- * range.midi(10, 5) // => [ 10, 9, 8, 7, 6, 5 ]
+ * range.midiRange('C5', 'C4') // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
+ * range.midiRange(10, 5) // => [ 10, 9, 8, 7, 6, 5 ]
  */
-function midi (a, b) {
-  const ma = isNum(a) ? a : tonalMidi.toMidi(a)
-  const mb = isNum(b) ? b : tonalMidi.toMidi(b)
-  return ma === null || mb === null ? []
-    : ma < mb ? ascR(ma, mb - ma + 1) : descR(ma, ma - mb + 1)
+function midiRange(a, b) {
+  var ma = isNum(a) ? a : tonalMidi.toMidi(a);
+  var mb = isNum(b) ? b : tonalMidi.toMidi(b);
+  return ma === null || mb === null ? [] : ma < mb ? ascR(ma, mb - ma + 1) : descR(ma, ma - mb + 1);
 }
 
-const buildNote = (pc, midi) => pc + (Math.floor(midi / 12) - 1)
+var buildNote = function buildNote(pc, midi) {
+  return pc + (Math.floor(midi / 12) - 1);
+};
 
 /**
  * Given a collection of pitch classes and a midi number, return the note name
@@ -52,14 +59,14 @@ const buildNote = (pc, midi) => pc + (Math.floor(midi / 12) - 1)
  * aMajor = fromPitchSet('A C# E')
  * [69, 70, 71, 72, 73].map(aMajor) // => [ 'A4', null, null, null, 'C#5' ]
  */
-function fromPitchSet (notes, m) {
-  if (arguments.length > 1) return fromPitchSet(notes)(m)
-  const scale = tonalCollections.map(tonalNotes.pc, notes)
-  const chromas = tonalCollections.map(tonalPitches.chroma, scale)
-  return (midi) => {
-    const pcIndex = chromas.indexOf(midi % 12)
-    return pcIndex > -1 ? buildNote(scale[pcIndex], midi) : null
-  }
+function fromPitchSet(notes, m) {
+  if (arguments.length > 1) return fromPitchSet(notes)(m);
+  var scale = tonalCollections.map(tonalNotes.pc, notes);
+  var chromas = tonalCollections.map(tonalPitches.chroma, scale);
+  return function (midi) {
+    var pcIndex = chromas.indexOf(midi % 12);
+    return pcIndex > -1 ? buildNote(scale[pcIndex], midi) : null;
+  };
 }
 
 /**
@@ -74,9 +81,13 @@ function fromPitchSet (notes, m) {
  * @param {String|Pitch|Integer} end - the last note (or midi number) of the range
  * @return {Array} an array of note names
  */
-function noteRange (fn, a, b) {
-  if (arguments.length === 1) return (a, b) => noteRange(fn, a, b)
-  return midi(a, b).map(fn).filter((x) => x !== null)
+function noteRange(fn, a, b) {
+  if (arguments.length === 1) return function (a, b) {
+    return noteRange(fn, a, b);
+  };
+  return midiRange(a, b).map(fn).filter(function (x) {
+    return x !== null;
+  });
 }
 
 /**
@@ -88,7 +99,7 @@ function noteRange (fn, a, b) {
  * @example
  * tonal.chromatic('C2', 'E2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2']
  */
-const chromatic = noteRange(tonalMidi.fromMidi)
+var chromatic = noteRange(tonalMidi.fromMidi);
 
 // #### Cycle of fifths
 
@@ -103,12 +114,15 @@ const chromatic = noteRange(tonalMidi.fromMidi)
  * var range = require('tonal-ranges')
  * range.cycleOfFifths(0, 6, 'C') // => [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ])
  */
-const cycleOfFifths = (s, e, t) => midi(s, e).map(tonalDistances.fifthsFrom(t))
+var cycleOfFifths = function cycleOfFifths(s, e, t) {
+  return midiRange(s, e).map(tonalDistances.fifthsFrom(t));
+};
 
 /**
- * Create a scale range. It accepts a scale name or scale notes.
+ * Create a scale range. Given a pitch set (a collection of pitch classes),
+ * and a start and end it returns a note range.
  *
- * @param {String|Array} src - the scale name or scale notes
+ * @param {String|Array} notes - the collection of pitch sets
  * @param {String} start - the first note of the range
  * @param {String} end - the last note of the range
  * @return {Array} the scale range, an empty array if not valid source or
@@ -118,13 +132,13 @@ const cycleOfFifths = (s, e, t) => midi(s, e).map(tonalDistances.fifthsFrom(t))
  * range.scale('C D E F G A B', 'C3', 'C2')
  * // => [ 'C3', 'B2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
  */
-function scale (src, start, end) {
-  return noteRange(fromPitchSet(src), start, end)
+function scaleRange(src, start, end) {
+  return noteRange(fromPitchSet(src), start, end);
 }
 
-exports.midi = midi;
+exports.midiRange = midiRange;
 exports.fromPitchSet = fromPitchSet;
 exports.noteRange = noteRange;
 exports.chromatic = chromatic;
 exports.cycleOfFifths = cycleOfFifths;
-exports.scale = scale;
+exports.scaleRange = scaleRange;

@@ -8,7 +8,9 @@ var tonalPitches = require('tonal-pitches');
  * @param {Object} num - the number to test
  * @return {Boolean} true if it's a valid midi note number
  */
-const isMidi = (m) => tonalPitches.isValue(m) && !tonalPitches.isArr(m) && m >= 0 && m < 128
+var isMidi = function isMidi(m) {
+  return tonalPitches.isValue(m) && !tonalPitches.isArr(m) && m >= 0 && m < 128;
+};
 
 // To match the general midi specification where `C4` is 60 we must add 12 to
 // `height` function:
@@ -21,21 +23,21 @@ const isMidi = (m) => tonalPitches.isValue(m) && !tonalPitches.isArr(m) && m >= 
  * @example
  * midi('C4') // => 60
  */
-function toMidi (val) {
-  const p = tonalPitches.asNote(val)
-  return tonalPitches.hasOct(p) ? tonalPitches.height(p) + 12
-    : isMidi(val) ? +val
-    : null
+function toMidi(val) {
+  var p = tonalPitches.asNote(val);
+  return tonalPitches.hasOct(p) ? tonalPitches.height(p) + 12 : isMidi(val) ? +val : null;
 }
 
-const FLATS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')
-const SHARPS = 'C C# D D# E F F# G G# A A# B'.split(' ')
+var FLATS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ');
+var SHARPS = 'C C# D D# E F F# G G# A A# B'.split(' ');
 
-const fromMidiFn = (pcs) => (m) => {
-  const pc = pcs[m % 12]
-  const o = Math.floor(m / 12) - 1
-  return pc + o
-}
+var fromMidiFn = function fromMidiFn(pcs) {
+  return function (m) {
+    var pc = pcs[m % 12];
+    var o = Math.floor(m / 12) - 1;
+    return pc + o;
+  };
+};
 
 /**
  * Given a midi number, returns a note name. The altered notes will have
@@ -46,7 +48,7 @@ const fromMidiFn = (pcs) => (m) => {
  * @example
  * tonal.fromMidi(61) // => 'Db4'
  */
-const fromMidi = fromMidiFn(FLATS)
+var fromMidi = fromMidiFn(FLATS);
 
 /**
  * Given a midi number, returns a note name. The altered notes will have
@@ -57,7 +59,7 @@ const fromMidi = fromMidiFn(FLATS)
  * @example
  * tonal.fromMidi(61) // => 'C#4'
  */
-const fromMidiSharps = fromMidiFn(SHARPS)
+var fromMidiSharps = fromMidiFn(SHARPS);
 
 exports.isMidi = isMidi;
 exports.toMidi = toMidi;
