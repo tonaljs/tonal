@@ -1,6 +1,6 @@
 {
   "name": "tonal-notes",
-  "version": "0.50.1",
+  "version": "0.50.2",
   "description": "Work with notes",
   "main": "dist/index.js",
   "jsnext:main": "lib/index.js",

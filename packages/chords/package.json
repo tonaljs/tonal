@@ -1,6 +1,6 @@
 {
   "name": "tonal-chords",
-  "version": "0.50.1",
+  "version": "0.50.2",
   "description": "Create and manipulate music chords",
   "main": "dist/index.js",
   "scripts": {

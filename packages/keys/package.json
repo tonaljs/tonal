@@ -1,6 +1,6 @@
 {
   "name": "tonal-keys",
-  "version": "0.50.1",
+  "version": "0.50.2",
   "description": "Music keys",
   "main": "dist/index.js",
   "scripts": {

@@ -1,6 +1,6 @@
 {
   "name": "tonal-midi",
-  "version": "0.50.1",
+  "version": "0.50.2",
   "description": "Tonal midi tools",
   "main": "dist/index.js",
   "jsnext:main": "lib/index.js",
