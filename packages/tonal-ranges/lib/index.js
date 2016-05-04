@@ -1,6 +1,6 @@
 import { chroma } from 'tonal-pitches'
 import { pc } from 'tonal-notes'
-import { map } from 'tonal-collections'
+import { map } from 'tonal-array'
 import { fifthsFrom } from 'tonal-distances'
 import { toMidi, fromMidi } from 'tonal-midi'
 

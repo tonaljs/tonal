@@ -583,7 +583,7 @@ const SEP = /\s*\|\s*|\s*,\s*|\s+/
  * @param {String|Array|Object} source - the thing to get an array from
  * @return {Array} the object as an array
  */
-function asList (src) {
+function asArr (src) {
   return isArr(src) ? src
     : typeof src === 'string' ? src.trim().split(SEP)
     : (src === null || typeof src === 'undefined') ? []
@@ -600,7 +600,7 @@ function asList (src) {
  * @return {Array}
  */
 function map (fn, list) {
-  return arguments.length > 1 ? map(fn)(list) : (l) => asList(l).map(fn)
+  return arguments.length > 1 ? map(fn)(list) : (l) => asArr(l).map(fn)
 }
 
 /**
@@ -613,7 +613,7 @@ function map (fn, list) {
  * @return {Array}
  */
 function filter (fn, list) {
-  return arguments.length > 1 ? filter(fn)(list) : (l) => asList(l).filter(fn)
+  return arguments.length > 1 ? filter(fn)(list) : (l) => asArr(l).filter(fn)
 }
 
 // #### Transform lists in array notation
@@ -625,7 +625,7 @@ const listToStr = (v) => isPitch(v) ? toPitchStr(v) : isArr(v) ? v.map(toPitchSt
  * @function
  */
 const listFn = (fn) => (src) => {
-  const param = asList(src).map(asPitch)
+  const param = asArr(src).map(asPitch)
   const result = fn(param)
   return listToStr(result)
 }
@@ -770,7 +770,7 @@ exports.tr = tr;
 exports.distance = distance;
 exports.dist = dist;
 exports.interval = interval;
-exports.asList = asList;
+exports.asArr = asArr;
 exports.map = map;
 exports.filter = filter;
 exports.listFn = listFn;

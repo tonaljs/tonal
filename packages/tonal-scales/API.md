@@ -1,17 +1,3 @@
-## Functions
-
-<dl>
-<dt><a href="#scale">scale(source, tonic)</a> ⇒ <code>Array</code></dt>
-<dd><p>Create a scale from a name or intervals and tonic</p>
-</dd>
-<dt><a href="#fromName">fromName(name)</a> ⇒ <code>Array</code></dt>
-<dd><p>Get scale notes by scale name</p>
-</dd>
-<dt><a href="#names">names(aliases)</a> ⇒ <code>Array</code></dt>
-<dd><p>Return the available scale names</p>
-</dd>
-</dl>
-
 <a name="scale"></a>
 
 ## scale(source, tonic) ⇒ <code>Array</code>

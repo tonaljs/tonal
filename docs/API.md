@@ -107,7 +107,7 @@ Distances between intervals substract one from the other.</p>
 <dt><a href="#interval">interval()</a></dt>
 <dd><p>An alias for <code>distance</code></p>
 </dd>
-<dt><a href="#asList">asList(source)</a> ⇒ <code>Array</code></dt>
+<dt><a href="#asArr">asArr(source)</a> ⇒ <code>Array</code></dt>
 <dd><p>Split a string by spaces (or commas or bars). Always returns an array, even if its empty</p>
 </dd>
 <dt><a href="#map">map(fn, list)</a> ⇒ <code>Array</code></dt>
@@ -537,9 +537,9 @@ An alias for `distance`
 An alias for `distance`
 
 **Kind**: global function  
-<a name="asList"></a>
+<a name="asArr"></a>
 
-## asList(source) ⇒ <code>Array</code>
+## asArr(source) ⇒ <code>Array</code>
 Split a string by spaces (or commas or bars). Always returns an array, even if its empty
 
 **Kind**: global function  

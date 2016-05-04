@@ -4,7 +4,7 @@
 var assert = require('assert')
 var _ = require('../')
 
-describe('collections', function () {
+describe('tonal-array', function () {
   describe('harmonizer', function () {
     it('creates an harmonizer function', function () {
       var maj7 = _.harmonizer('1P 3M 5P 7M')
@@ -42,10 +42,20 @@ describe('collections', function () {
     })
   })
   describe('filter', function () {
-    it ('filter lists', function () {
-      function isUpLetter (s) { return 'CDEFGAB'.indexOf(s[0]) != -1 }
+    it('filter lists', function () {
+      function isUpLetter (s) { return 'CDEFGAB'.indexOf(s[0]) !== -1 }
       assert.deepEqual(_.filter(isUpLetter, 'C d f4 A4 M3'),
         [ 'C', 'A4' ])
+    })
+  })
+  describe('shuffle', function () {
+    it('shuffles an array', function () {
+      var s = _.shuffle('A B C D')
+      assert.equal(s.length, 4)
+      assert.notEqual(s.indexOf('A'), -1)
+      assert.notEqual(s.indexOf('B'), -1)
+      assert.notEqual(s.indexOf('C'), -1)
+      assert.notEqual(s.indexOf('D'), -1)
     })
   })
 })

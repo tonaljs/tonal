@@ -1,15 +1,21 @@
-## Functions
+<a name="romanRegex"></a>
 
-<dl>
-<dt><a href="#parseRomanChord">parseRomanChord(str)</a> ⇒ <code>Object</code></dt>
-<dd><p>Parse a chord expressed with roman numerals. It returns an interval representing
-the root of the chord relative to the key tonic and the chord name.</p>
-</dd>
-<dt><a href="#progression">progression(tonic, progression)</a> ⇒ <code>Array</code></dt>
-<dd><p>Get chord progression from a tonic and chord in roman numerals</p>
-</dd>
-</dl>
+## romanRegex() ⇒ <code>RegExp</code>
+Returns a regex to match roman numbers literals with the from:
+`[accidentals]roman[element]` where:
 
+accidentals: (Optional) one or two flats (b) or shaprs (#)
+roman: (Required) a roman numeral from I to VII either in upper or lower case
+element: (Optional) a name of an element
+
+**Kind**: global function  
+**Returns**: <code>RegExp</code> - the regexp  
+**Example**  
+```js
+r.exec('bVII')
+r.exec('IVMaj7')
+r.exec('ii minor')
+```
 <a name="parseRomanChord"></a>
 
 ## parseRomanChord(str) ⇒ <code>Object</code>

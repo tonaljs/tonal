@@ -1,7 +1,7 @@
 'use strict';
 
 var tonalPitches = require('tonal-pitches');
-var tonalCollections = require('tonal-collections');
+var tonalCollections = require('tonal-array');
 
 var CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1];
 /**

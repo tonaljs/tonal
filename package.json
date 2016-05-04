@@ -9,7 +9,7 @@
     "standard": "standard lib/tonal.js",
     "packages-install": "rollup -c && for d in ./packages/*/ ; do (cd \"$d\" && npm i ../..); done",
     "packages-build": "for d in ./packages/*/ ; do (echo \"$d\" && cd \"$d\" && rollup -c); done",
-    "packages-api": "for d in ./packages/*/ ; do (echo \"$d\" && cd \"$d\" && jsdoc2md lib/index.js > API.md); done",
+    "packages-api": "for d in ./packages/*/ ; do (echo \"$d\" && cd \"$d\" && jsdoc2md --global-index-format none lib/index.js > API.md); done",
     "packages-test": "_mocha `scripts/get-test-directories.sh`",
     "test": "npm run rollup && mocha",
     "test-ci": "npm run packages-build && npm run packages-test",

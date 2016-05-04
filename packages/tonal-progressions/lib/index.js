@@ -1,5 +1,5 @@
 import { encode } from 'tonal-pitches'
-import { asList } from 'tonal-collections'
+import { asArr } from 'tonal-array'
 import { transpose } from 'tonal-distances'
 
 const ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\s*$/
@@ -55,7 +55,7 @@ function parseRomanChord (str) {
  * progression('I IIm7 V7', 'C') // => ['C', 'Dm7', 'G7']
  */
 export function progression (chords, tonic) {
-  return asList(chords).map((e) => {
+  return asArr(chords).map((e) => {
     const r = parseRomanChord(e)
     return r ? transpose(r.root, tonic) + r.name : null
   })

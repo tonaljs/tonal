@@ -842,7 +842,7 @@ all the notes against a reference:</p>
  * @param {String|Array|Object} source - the thing to get an array from
  * @return {Array} the object as an array
  */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">asList</span> (<span class="hljs-params">src</span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">asArr</span> (<span class="hljs-params">src</span>) </span>{
   <span class="hljs-keyword">return</span> isArr(src) ? src
     : <span class="hljs-keyword">typeof</span> src === <span class="hljs-string">'string'</span> ? src.trim().split(SEP)
     : (src === <span class="hljs-literal">null</span> || <span class="hljs-keyword">typeof</span> src === <span class="hljs-string">'undefined'</span>) ? []
@@ -859,7 +859,7 @@ all the notes against a reference:</p>
  * @return {Array}
  */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">map</span> (<span class="hljs-params">fn, list</span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span> ? map(fn)(list) : (l) =&gt; asList(l).map(fn)
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span> ? map(fn)(list) : (l) =&gt; asArr(l).map(fn)
 }
 
 <span class="hljs-comment">/**
@@ -872,7 +872,7 @@ all the notes against a reference:</p>
  * @return {Array}
  */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">filter</span> (<span class="hljs-params">fn, list</span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span> ? filter(fn)(list) : (l) =&gt; asList(l).filter(fn)
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">arguments</span>.length &gt; <span class="hljs-number">1</span> ? filter(fn)(list) : (l) =&gt; asArr(l).filter(fn)
 }</pre></div>
         
       
@@ -888,7 +888,7 @@ all the notes against a reference:</p>
  * @function
  */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> listFn = (fn) =&gt; (src) =&gt; {
-  <span class="hljs-keyword">const</span> param = asList(src).map(asPitch)
+  <span class="hljs-keyword">const</span> param = asArr(src).map(asPitch)
   <span class="hljs-keyword">const</span> result = fn(param)
   <span class="hljs-keyword">return</span> listToStr(result)
 }</pre></div>

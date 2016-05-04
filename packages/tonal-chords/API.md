@@ -1,19 +1,3 @@
-## Functions
-
-<dl>
-<dt><a href="#chord">chord(source, tonic)</a> ⇒ <code>Array</code></dt>
-<dd><p>Create chords by chord type or intervals and tonic. The returned chord is an
-array of notes (or intervals if you specify <code>false</code> as tonic)</p>
-<p>This function is currified</p>
-</dd>
-<dt><a href="#fromName">fromName(name)</a> ⇒ <code>Array</code></dt>
-<dd><p>Get chord notes from chord name</p>
-</dd>
-<dt><a href="#names">names(aliases)</a> ⇒ <code>Array</code></dt>
-<dd><p>Return the available chord names</p>
-</dd>
-</dl>
-
 <a name="chord"></a>
 
 ## chord(source, tonic) ⇒ <code>Array</code>

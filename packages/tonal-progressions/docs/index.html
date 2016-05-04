@@ -30,7 +30,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { encode, asList, transpose } <span class="hljs-keyword">from</span> <span class="hljs-string">'tonal'</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { encode, asArr, transpose } <span class="hljs-keyword">from</span> <span class="hljs-string">'tonal'</span>
 
 <span class="hljs-comment">/**
  * A regex to match roman numbers literals with the from:
@@ -85,7 +85,7 @@
  * progression('I IIm7 V7', 'C') // =&gt; ['C', 'Dm7', 'G7']
  */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">progression</span> (<span class="hljs-params">chords, tonic</span>) </span>{
-  <span class="hljs-keyword">return</span> asList(chords).map((e) =&gt; {
+  <span class="hljs-keyword">return</span> asArr(chords).map((e) =&gt; {
     <span class="hljs-keyword">const</span> r = parseRomanChord(e)
     <span class="hljs-keyword">return</span> r ? transpose(r.root, tonic) + r.name : <span class="hljs-literal">null</span>
   })

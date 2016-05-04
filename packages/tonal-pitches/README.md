@@ -8,6 +8,21 @@ This is part of [tonal](https://www.npmjs.com/package/tonal):
 
 You can install via npm: `npm i --save tonal-pitches`
 
+## API Reference
+
+<a name="request" href="#request">#</a>
+
+### Utility
+
+### Accidentals
+
+### String to pitch
+
+### Pitch to string
+
+
+⇒
+
 ## Documentation
 
 You can read the generated API documentation [here](https://github.com/danigb/tonal/blob/tonal-0.50.x/packages/pitches/API.md)
