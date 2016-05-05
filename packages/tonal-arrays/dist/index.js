@@ -21,7 +21,7 @@ const SEP = /\s*\|\s*|\s*,\s*|\s+/
  * @return {Array} the object as an array
  *
  * @example
- * import { asArr } from 'tonal-array'
+ * import { asArr } from 'tonal-arrays'
  * asArr('C D E F G') // => ['C', 'D', 'E', 'F', 'G']
  */
 function asArr (src) {
@@ -82,7 +82,7 @@ const listToStr = (v) => tonalPitches.isPitch(v) ? tonalPitches.toPitchStr(v) : 
  * @param {Function} fn - the function to decorate
  * @return {Function} the decorated function
  * @example
- * import { listFn } from 'tonal-array'
+ * import { listFn } from 'tonal-arrays'
  * const octUp = listFn((p) => { p[2] = p[2] + 1; return p[2] })
  * octUp('C2 D2 E2') // => ['C3', 'D3', 'E3']
  */
@@ -100,7 +100,7 @@ const listFn = (fn) => (src) => {
  * @param {Array|String} ivls - the array of intervals
  * @return {Function} The harmonizer
  * @example
- * import { harmonizer } from 'tonal-array'
+ * import { harmonizer } from 'tonal-arrays'
  * var maj7 = harmonizer('P1 M3 P5 M7')
  * maj7('C') // => ['C', 'E', 'G', 'B']
  */
@@ -146,7 +146,7 @@ const descComp = (a, b) => -ascComp(a, b)
  * custom comparator (that receives pitches in array notation)
  * @param {Array|String} arr - the array of notes or intervals
  * @example
- * import { sort } from 'tonal-array'
+ * import { sort } from 'tonal-arrays'
  * sort(true, 'D E C') // => ['C', 'D', 'E']
  * @example
  * var tonal = require('tonal')
@@ -165,7 +165,7 @@ function sort (comp, list) {
  * @function
  * @param {Array|String} arr - the array
  * @example
- * import { shuffle } from 'tonal-array'
+ * import { shuffle } from 'tonal-arrays'
  * @example
  * var tonal = require('tonal')
  * tonal.shuffle('C D E F')

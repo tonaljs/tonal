@@ -1,5 +1,5 @@
 import { encode } from 'tonal-pitches'
-import { asArr } from 'tonal-array'
+import { asArr } from 'tonal-arrays'
 import { transpose } from 'tonal-distances'
 
 const ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\s*$/

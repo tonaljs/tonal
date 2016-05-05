@@ -1,7 +1,7 @@
 'use strict';
 
 var tonalPitches = require('tonal-pitches');
-var tonalCollections = require('tonal-array');
+var tonalCollections = require('tonal-arrays');
 
 var raw = require('./scales.json');
 

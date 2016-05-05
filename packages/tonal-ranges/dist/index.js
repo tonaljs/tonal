@@ -2,7 +2,7 @@
 
 var tonalPitches = require('tonal-pitches');
 var tonalNotes = require('tonal-notes');
-var tonalCollections = require('tonal-array');
+var tonalCollections = require('tonal-arrays');
 var tonalDistances = require('tonal-distances');
 var tonalMidi = require('tonal-midi');
 

@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "0.40.22",
+  "version": "0.50.4",
   "description": "A functional music theory library",
   "main": "dist/tonal.js",
   "jsnext:main": "lib/tonal.js",
@@ -10,6 +10,7 @@
     "packages-install": "rollup -c && for d in ./packages/*/ ; do (cd \"$d\" && npm i ../..); done",
     "packages-build": "for d in ./packages/*/ ; do (echo \"$d\" && cd \"$d\" && rollup -c); done",
     "packages-api": "for d in ./packages/*/ ; do (echo \"$d\" && cd \"$d\" && jsdoc2md --global-index-format none lib/index.js > API.md); done",
+    "remove-api": "for d in ./packages/*/ ; do (echo \"$d\" && cd \"$d\" && rm API.md); done",
     "packages-test": "_mocha `scripts/get-test-directories.sh`",
     "test": "npm run rollup && mocha",
     "test-ci": "npm run packages-build && npm run packages-test",

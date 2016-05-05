@@ -1,5 +1,5 @@
 import { isPitchNotIvl, chroma } from 'tonal-pitches'
-import { listFn } from 'tonal-array'
+import { listFn } from 'tonal-arrays'
 
 const CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]
 /**

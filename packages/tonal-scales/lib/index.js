@@ -1,6 +1,6 @@
 
 import { parseIvl } from 'tonal-pitches'
-import { harmonizer } from 'tonal-array'
+import { harmonizer } from 'tonal-arrays'
 
 const raw = require('./scales.json')
 

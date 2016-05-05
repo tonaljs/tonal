@@ -1,7 +1,7 @@
 {
-  "name": "tonal-array",
+  "name": "tonal-freq",
   "version": "0.50.5",
-  "description": "Work with music notes and intervals collections",
+  "description": "Convert from note names or midi numbers to frequencies",
   "main": "dist/index.js",
   "jsnext:main": "lib/index.js",
   "scripts": {
@@ -11,27 +11,27 @@
     "test-ci": "rollup -c && mocha",
     "docco": "docco lib/index.js",
     "docs": "npm run docco && open docs/index.html",
-    "api": "jsdoc2md --global-index-format none lib/index.js > API.md",
+    "api": "jsdoc2md lib/index.js > API.md",
     "rollup": "rollup lib/index.js -o dist/index.js -f cjs",
-    "dist": "rollup -c && browserify dist/index.js | uglifyjs > dist/tonal-array.min.js && ls -hall dist/",
+    "dist": "rollup -c && browserify dist/index.js | uglifyjs > dist/tonal-freq.min.js && ls -hall dist/",
     "coverage": "istanbul cover _mocha",
     "cover": "npm run coverage && open coverage/lcov-report/index.html"
   },
-  "homepage": "https://github.com/danigb/tonal/tree/master/packages/tonal-array#readme",
-  "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal-array",
+  "homepage": "https://github.com/danigb/tonal/tree/master/packages/tonal-freq#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal-freq",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
   "keywords": [
     "music",
     "theory",
-    "collections",
+    "chord",
+    "freq",
     "tonal"
   ],
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-pitches": "^0.50.4",
-    "tonal-distances": "^0.50.4"
+    "tonal-midi": "^0.50.4"
   }
 }

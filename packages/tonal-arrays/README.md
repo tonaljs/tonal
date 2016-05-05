@@ -1,12 +1,12 @@
-# tonal-array [![npm version](https://img.shields.io/npm/v/tonal-array.svg)](https://www.npmjs.com/package/tonal-array)
+# tonal-arrays [![npm version](https://img.shields.io/npm/v/tonal-arrays.svg)](https://www.npmjs.com/package/tonal-arrays)
 
-[![tonal](https://img.shields.io/badge/tonal-array-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+[![tonal](https://img.shields.io/badge/tonal-arrays-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
 
-`tonal-array` is a module to create and manipulate collection of musical notes or intervals.
+`tonal-arrays` is a module to create and manipulate collection of musical notes or intervals.
 
 This is part of [tonal](https://www.npmjs.com/package/tonal):
 
-You can install via npm: `npm i --save tonal-array`
+You can install via npm: `npm i --save tonal-arrays`
 
 ## API Reference
 
@@ -32,7 +32,7 @@ any object (or more useful: strings) as an array parameter.
 
 **Example**  
 ```js
-import { asArr } from 'tonal-array'
+import { asArr } from 'tonal-arrays'
 asArr('C D E F G') // => ['C', 'D', 'E', 'F', 'G']
 ```
 <a name="map"></a>
@@ -94,7 +94,7 @@ in array notation, it convert backs to strings.
 
 **Example**  
 ```js
-import { listFn } from 'tonal-array'
+import { listFn } from 'tonal-arrays'
 const octUp = listFn((p) => { p[2] = p[2] + 1; return p[2] })
 octUp('C2 D2 E2') // => ['C3', 'D3', 'E3']
 ```
@@ -113,7 +113,7 @@ note with this intervals.
 
 **Example**  
 ```js
-import { harmonizer } from 'tonal-array'
+import { harmonizer } from 'tonal-arrays'
 var maj7 = harmonizer('P1 M3 P5 M7')
 maj7('C') // => ['C', 'E', 'G', 'B']
 ```
@@ -151,7 +151,7 @@ function.
 
 **Example**  
 ```js
-import { sort } from 'tonal-array'
+import { sort } from 'tonal-arrays'
 sort(true, 'D E C') // => ['C', 'D', 'E']
 ```
 **Example**  
@@ -173,7 +173,7 @@ Randomizes the order of the specified array using the Fisher–Yates shuffle.
 
 **Example**  
 ```js
-import { shuffle } from 'tonal-array'
+import { shuffle } from 'tonal-arrays'
 ```
 **Example**  
 ```js

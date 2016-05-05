@@ -1,7 +1,7 @@
 'use strict'
 
 import { parseIvl } from 'tonal-pitches'
-import { harmonizer } from 'tonal-array'
+import { harmonizer } from 'tonal-arrays'
 import { regex } from 'note-parser'
 const raw = require('./chords.json')
 

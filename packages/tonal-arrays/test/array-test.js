@@ -4,7 +4,7 @@
 var assert = require('assert')
 var _ = require('../')
 
-describe('tonal-array', function () {
+describe('tonal-arrays', function () {
   describe('harmonizer', function () {
     it('creates an harmonizer function', function () {
       var maj7 = _.harmonizer('1P 3M 5P 7M')
