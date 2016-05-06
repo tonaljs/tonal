@@ -1,13 +1,13 @@
 {
-  "name": "tonal-midi",
+  "name": "tonal-transpose",
   "version": "0.50.0",
-  "description": "Conversion between midi numbers and note names",
-  "keywords": ["note", "midi", "numbers", "tonal"],
+  "description": "Music note transposition",
+  "keywords": ["note", "transpose", "numbers", "tonal"],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -n midi -o build/tonal-midi.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && rollup -f umd -n transpose -o build/tonal-transpose.js -- index.js",
     "test": "tape 'test/*.js'"
   },
-  "main": "build/tonal-midi.js",
+  "main": "build/tonal-transpose.js",
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",

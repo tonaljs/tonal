@@ -1,10 +1,7 @@
 
-export function id (x) { return x }
-
 export var isArr = Array.isArray
 export function isNum (x) { return typeof x === 'number' }
 export function isStr (x) { return typeof x === 'string' }
-export function isDef (x) { return typeof x !== 'undefined' }
 
 // NOTE LETTERS
 // ============
