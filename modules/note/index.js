@@ -1,4 +1,4 @@
-import { asNotePitch, strNote, hasOct, height } from 'tonal-pitch'
+import { fifths, asNotePitch, strNote, hasOct, height } from 'tonal-pitch'
 
 /**
  * Return the chroma of a note. The chroma is the numeric equivalent to the
@@ -11,7 +11,7 @@ import { asNotePitch, strNote, hasOct, height } from 'tonal-pitch'
 export function chroma (n) {
   var p = asNotePitch(n)
   if (!p) return null
-  var f = p[1][0]
+  var f = fifths(p)
   return 7 * f - 12 * Math.floor(f * 7 / 12)
 }
 
@@ -49,7 +49,7 @@ export function noteName (n) {
  */
 export function pc (n) {
   var p = asNotePitch(n)
-  return p ? strNote([ p[0], [ p[1][0] ] ]) : null
+  return p ? strNote([ p[0], [ fifths(p) ] ]) : null
 }
 
 // MIDI

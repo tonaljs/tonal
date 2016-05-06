@@ -15,6 +15,17 @@ tape('notes by intervals', function (test) {
     [ 'E2', 'F#3', 'A4', 'B5' ])
   test.end()
 })
+tape('pitch classes by intervals', function (test) {
+  test.deepEqual(map(tr('Bb'), 'P1 M3 P5 M7'),
+    [ 'Bb', 'D', 'F', 'A' ])
+  test.end()
+})
+tape('transpose nulls', function (test) {
+  test.equal(tr('M3', 'blah'), null)
+  test.equal(tr('C2', 'blah'), null)
+  test.equal(tr(null, null), null)
+  test.end()
+})
 tape('notes by descending intervals', function (test) {
   test.deepEqual(map(tr('-2M'), 'c2 d3 f4 g5'),
     [ 'Bb1', 'C3', 'Eb4', 'F5' ])
@@ -36,7 +47,18 @@ tape('all desending intervals', function (test) {
   test.end()
 })
 tape('returns array notation if both params are in array notation', function (test) {
-  test.deepEqual(tr(['tnl-ivl', [1, 0], 1], ['tnl-note', [1, 0]]),
-    [ 'tnl-note', [2, 0] ])
+  test.deepEqual(tr(['tnlp', [1, 0], 1], ['tnlp', [1, 0]]),
+    [ 'tnlp', [2, 0] ])
+  test.end()
+})
+tape('edge cases', function (test) {
+  var trC = function (i) { return i.split(' ').map(tr('C2')) }
+  test.deepEqual(trC('1d 1P 1A'), ['Cb2', 'C2', 'C#2'])
+  test.deepEqual(trC('-1d -1P -1A'), ['C#2', 'C2', 'Cb2'])
+  test.deepEqual(trC('2d 2m 2M 2A'), [ 'Dbb2', 'Db2', 'D2', 'D#2' ])
+  test.deepEqual(trC('-2d -2m -2M -2A'), [ 'B#1', 'B1', 'Bb1', 'Bbb1' ])
+  test.deepEqual(trC('4dd 4d 4P 4A 4AA'), [ 'Fbb2', 'Fb2', 'F2', 'F#2', 'F##2' ])
+  test.deepEqual(trC('5P -5P 5A -5A'), ['G2', 'F1', 'G#2', 'Fb1'])
+  test.deepEqual(trC('6M -6M 6m -6m'), ['A2', 'Eb1', 'Ab2', 'E1'])
   test.end()
 })

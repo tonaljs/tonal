@@ -1,6 +1,6 @@
 {
   "name": "tonal-transpose",
-  "version": "0.50.0",
+  "version": "0.50.2",
   "description": "Music note transposition",
   "keywords": ["note", "transpose", "numbers", "tonal"],
   "scripts": {

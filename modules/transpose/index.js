@@ -1,20 +1,15 @@
-import { isPitch, asPitch, height, isIvlPitch, strPitch } from 'tonal-pitch'
+import { pType, fifths, focts, height, isPC,
+  asPitch, isIvlPitch, strPitch } from 'tonal-pitch'
 
 function trBy (i, p) {
-  if (!isPitch(p)) return null
-  var ie = i[1]
-  var pe = p[1]
-  var id = i[2]
-  var pd = p[2] || 1
-  var f = id * ie[0] + pd * pe[0]
-  // is p a pitch class?
-  if (pe.length === 1) return [ 'tnl-note', [f] ]
-  var o = id * ie[1] + pd * pe[1]
-  // is p a pitch note?
-  if (p.length === 2) return [ 'tnl-note', [f, o] ]
-  // else p is an interval
-  var d = id * height(i) + pd * height(p) < 0 ? -1 : 1
-  return [ 'tnl-ivl', [d * f, d * o], d ]
+  var t = pType(p)
+  if (!t) return null
+  var f = fifths(i) + fifths(p)
+  if (isPC(p)) return ['tnlp', [f]]
+  var o = focts(i) + focts(p)
+  if (t === 'note') return ['tnlp', [f, o]]
+  var d = height(i) + height(p) < 0 ? -1 : 1
+  return ['tnlp', [d * f, d * o], d]
 }
 
 /**

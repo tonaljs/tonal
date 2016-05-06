@@ -1,16 +1,28 @@
 var tape = require('tape')
 var p = require('..')
 
+tape('fifths', function (test) {
+  test.equal(p.fifths(p.parseIvl('2M')), 2)
+  test.equal(p.fifths(p.parseIvl('-2M')), -2)
+  test.end()
+})
+
+tape('focts', function (test) {
+  test.equal(p.focts(p.parseIvl('2M')), -1)
+  test.equal(p.focts(p.parseIvl('-2M')), 1)
+  test.end()
+})
+
 tape('parse note', function (test) {
-  test.deepEqual(p.parseNote('Cb4'), [ 'tnl-note', [ -7, 8 ] ])
+  test.deepEqual(p.parseNote('Cb4'), [ 'tnlp', [ -7, 8 ] ])
   test.end()
 })
 
 tape('parse interval', function (test) {
-  test.deepEqual(p.parseIvl('10m'), [ 'tnl-ivl', [ -3, 3 ], 1 ])
-  test.deepEqual(p.parseIvl('m10'), [ 'tnl-ivl', [ -3, 3 ], 1 ])
-  test.deepEqual(p.parseIvl('3M'), [ 'tnl-ivl', [ 4, -2 ], 1 ])
-  test.deepEqual(p.parseIvl('-3M'), [ 'tnl-ivl', [ 4, -2 ], -1 ])
+  test.deepEqual(p.parseIvl('10m'), [ 'tnlp', [ -3, 3 ], 1 ])
+  test.deepEqual(p.parseIvl('m10'), [ 'tnlp', [ -3, 3 ], 1 ])
+  test.deepEqual(p.parseIvl('3M'), [ 'tnlp', [ 4, -2 ], 1 ])
+  test.deepEqual(p.parseIvl('-3M'), [ 'tnlp', [ 4, -2 ], -1 ])
   test.end()
 })
 

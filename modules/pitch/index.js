@@ -4,6 +4,7 @@ import { parse as ivlParse, altToQ } from 'interval-notation'
 import { encode, decode } from 'tonal-encoding'
 import { isNum, isStr, isArr, toLetter, toAcc } from 'tonal-notation'
 
+// internal: memoize parser
 function memoize (fn) {
   var cache = {}
   return function (str) {
@@ -12,25 +13,33 @@ function memoize (fn) {
   }
 }
 
-export function isNotePitch (p) { return isArr(p) && p[0] === 'tnl-note' }
-export function isIvlPitch (p) { return isArr(p) && p[0] === 'tnl-ivl' }
-export function isPitch (p) { return isNotePitch(p) || isIvlPitch(p) }
+export function build (step, alt, oct, dir) {
+  var enc = encode(step, alt, oct)
+  return dir ? ['tnlp', enc, dir] : ['tnlp', enc]
+}
+export function isPitch (p) { return isArr(p) && p[0] === 'tnlp' }
+export function pType (p) {
+  return !isPitch(p) ? null
+    : p[2] ? 'ivl' : 'note'
+}
+export function isNotePitch (p) { return pType(p) === 'note' }
+export function isIvlPitch (p) { return pType(p) === 'ivl' }
+export function isPC (p) { return isPitch(p) && p[1].length === 1 }
 
 // low level functions. Warning! No checks!
-export function fifths (p) { return p[1][0] }
-export function octs (p) { return p[1][1] }
-export function hasOct (p) { return p[1].length === 2 }
-export function height (p) { return p[1][0] * 7 + p[1][1] * 12 }
+export function fifths (p) { return p[2] === -1 ? -p[1][0] : p[1][0] }
+export function focts (p) { return p[2] === -1 ? -p[1][1] : p[1][1] }
+export function height (p) { return fifths(p) * 7 + focts(p) * 12 }
 
 export var parseNote = memoize(function (s) {
   var p = noteParse(s)
-  return p ? ['tnl-note', encode(p.step, p.alt, p.oct)] : null
+  return p ? build(p.step, p.alt, p.oct) : null
 })
 
 export var parseIvl = memoize(function (s) {
   var p = ivlParse(s)
   if (!p) return null
-  return p ? ['tnl-ivl', encode(p.simple - 1, p.alt, p.oct), p.dir] : null
+  return p ? build(p.simple - 1, p.alt, p.oct, p.dir) : null
 })
 
 export function parsePitch (s) { return parseNote(s) || parseIvl(s) }
