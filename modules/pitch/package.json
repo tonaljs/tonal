@@ -1,20 +1,19 @@
 {
-  "name": "tonal-notation",
-  "version": "0.50.0",
-  "description": "Music notation utilities",
+  "name": "tonal-pitch",
+  "version": "0.50.1",
+  "description": "Music pitch utilities",
   "keywords": [],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -n notation -o build/tonal-notation.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && rollup -f umd -n pitch -o build/tonal-pitch.js -- index.js",
     "test": "tape 'test/*.js'"
   },
-  "main": "build/tonal-notation.js",
+  "main": "build/tonal-pitch.js",
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
   "devDependencies": {
     "rollup": "0.25",
-    "tape": "4",
-    "uglify-js": "2"
+    "tape": "4"
   },
   "dependencies": {
     "interval-notation": "^0.1.0",

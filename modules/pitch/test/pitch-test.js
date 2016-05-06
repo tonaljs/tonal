@@ -7,10 +7,10 @@ tape('parse note', function (test) {
 })
 
 tape('parse interval', function (test) {
-  test.deepEqual(p.parseIvl('10m'), [ 'tnl-ivl', 1, [ -3, 3 ] ])
-  test.deepEqual(p.parseIvl('m10'), [ 'tnl-ivl', 1, [ -3, 3 ] ])
-  test.deepEqual(p.parseIvl('3M'), [ 'tnl-ivl', 1, [ 4, -2 ] ])
-  test.deepEqual(p.parseIvl('-3M'), [ 'tnl-ivl', -1, [ 4, -2 ] ])
+  test.deepEqual(p.parseIvl('10m'), [ 'tnl-ivl', [ -3, 3 ], 1 ])
+  test.deepEqual(p.parseIvl('m10'), [ 'tnl-ivl', [ -3, 3 ], 1 ])
+  test.deepEqual(p.parseIvl('3M'), [ 'tnl-ivl', [ 4, -2 ], 1 ])
+  test.deepEqual(p.parseIvl('-3M'), [ 'tnl-ivl', [ 4, -2 ], -1 ])
   test.end()
 })
 
@@ -23,8 +23,8 @@ tape('parse pitch', function (test) {
 
 tape('note to string', function (test) {
   function id (n) { return p.strNote(p.parseNote(n)) }
-  test.deepEqual('c db2 e#4 fx6 gbbb ab#9'.split(' ').map(id),
-    [ 'C', 'Db2', 'E#4', 'F##6', 'Gbbb', null ])
+  test.deepEqual('a c db2 e#4 fx6 gbbb ab#9'.split(' ').map(id),
+    [ 'A', 'C', 'Db2', 'E#4', 'F##6', 'Gbbb', null ])
   test.end()
 })
 

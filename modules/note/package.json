@@ -1,18 +1,21 @@
 {
-  "name": "tonal-accidentals",
+  "name": "tonal-note",
   "version": "0.50.0",
   "description": "Encode pitches using fifths/octaves",
   "keywords": [],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -n accidentals -o build/tonal-accidentals.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && rollup -f umd -n note -o build/tonal-note.js -- index.js",
     "test": "tape 'test/*.js'"
   },
-  "main": "build/tonal-accidentals.js",
+  "main": "build/tonal-note.js",
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
   "devDependencies": {
     "rollup": "0.25",
     "tape": "4"
+  },
+  "dependencies": {
+    "tonal-pitch": "file:../pitch"
   }
 }
