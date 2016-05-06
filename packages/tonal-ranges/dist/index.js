@@ -2,7 +2,7 @@
 
 var tonalPitches = require('tonal-pitches');
 var tonalNotes = require('tonal-notes');
-var tonalCollections = require('tonal-arrays');
+var tonalArrays = require('tonal-arrays');
 var tonalDistances = require('tonal-distances');
 var tonalMidi = require('tonal-midi');
 
@@ -61,8 +61,8 @@ var buildNote = function buildNote(pc, midi) {
  */
 function fromPitchSet(notes, m) {
   if (arguments.length > 1) return fromPitchSet(notes)(m);
-  var scale = tonalCollections.map(tonalNotes.pc, notes);
-  var chromas = tonalCollections.map(tonalPitches.chroma, scale);
+  var scale = tonalArrays.map(tonalNotes.pc, notes);
+  var chromas = tonalArrays.map(tonalPitches.chroma, scale);
   return function (midi) {
     var pcIndex = chromas.indexOf(midi % 12);
     return pcIndex > -1 ? buildNote(scale[pcIndex], midi) : null;

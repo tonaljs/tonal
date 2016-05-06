@@ -1,7 +1,7 @@
 'use strict';
 
 var tonalPitches = require('tonal-pitches');
-var tonalCollections = require('tonal-arrays');
+var tonalArrays = require('tonal-arrays');
 
 var raw = require('./scales.json');
 
@@ -40,7 +40,7 @@ function scale(source, tonic) {
   var intervals = DATA[source];
   // is an alias?
   if (typeof intervals === 'string') intervals = DATA[intervals];
-  return tonalCollections.harmonizer(intervals || source);
+  return tonalArrays.harmonizer(intervals || source);
 }
 
 /**

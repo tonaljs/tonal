@@ -16,10 +16,12 @@ var tonalMidi = require('tonal-midi');
  * @param {Float} ref - the tuning reference
  * @return {Function} the frequency calculator. It accepts a pitch in array or scientific notation and returns the frequency in herzs.
  */
-const wellTempered = (ref) => (pitch) => {
-  const m = tonalMidi.toMidi(pitch)
-  return m ? Math.pow(2, (m - 69) / 12) * ref : null
-}
+var wellTempered = function wellTempered(ref) {
+  return function (pitch) {
+    var m = tonalMidi.toMidi(pitch);
+    return m ? Math.pow(2, (m - 69) / 12) * ref : null;
+  };
+};
 
 // The common tuning reference is `A4 = 440Hz`:
 
@@ -31,7 +33,7 @@ const wellTempered = (ref) => (pitch) => {
  * @example
  * tonal.freq('C4') // => 261.6255653005986
  */
-const toFreq = wellTempered(440)
+var toFreq = wellTempered(440);
 
 exports.wellTempered = wellTempered;
 exports.toFreq = toFreq;

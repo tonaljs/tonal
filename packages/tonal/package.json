@@ -7,7 +7,7 @@
   "scripts": {
     "rollup": "rollup lib/index.js -o dist/index.js -f cjs",
     "test": "npm run rollup && mocha",
-    "dist": "npm test && rollup -c && browserify dist/index.js | uglifyjs > dist/tonal-freq.min.js && ls -hall dist/"
+    "dist": "npm test && rollup -c && browserify dist/index.js | uglifyjs > dist/tonal.min.js && ls -hall dist/"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal",

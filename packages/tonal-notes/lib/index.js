@@ -1,6 +1,8 @@
 import { noteFn, id } from 'tonal-pitches'
 import { transpose } from 'tonal-distances'
 
+export { chroma } from 'tonal-pitches'
+
 /**
  * Given a note (as string or as array notation) returns a string
  * with the note name in scientific notation or null
@@ -10,11 +12,16 @@ import { transpose } from 'tonal-distances'
  * @param {Pitch|String}
  * @return {String}
  * @example
- * import { name } from 'tonal-notes'
- * ['c', 'db3', '2', 'g+', 'gx4'].map(name)
+ * import { noteName } from 'tonal-notes'
+ * ['c', 'db3', '2', 'g+', 'gx4'].map(noteName)
  * // => ['C', 'Db3', null, null, 'G##4']
+ *
+ * @example
+ * var tonal = require('tonal')
+ * tonal.noteName('cb2') // => 'Cb2'
+ * tonal.map(tonal.noteName, 'c db3 2 g+ gx4')
  */
-export const name = noteFn(id)
+export const noteName = noteFn(id)
 
 /**
  * Get pitch class of a note. The note can be a string or a pitch array.

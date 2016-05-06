@@ -1,7 +1,7 @@
 'use strict';
 
 var tonalPitches = require('tonal-pitches');
-var tonalCollections = require('tonal-arrays');
+var tonalArrays = require('tonal-arrays');
 var tonalDistances = require('tonal-distances');
 
 var ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\s*$/;
@@ -59,7 +59,7 @@ function parseRomanChord(str) {
  * progression('I IIm7 V7', 'C') // => ['C', 'Dm7', 'G7']
  */
 function progression(chords, tonic) {
-  return tonalCollections.asArr(chords).map(function (e) {
+  return tonalArrays.asArr(chords).map(function (e) {
     var r = parseRomanChord(e);
     return r ? tonalDistances.transpose(r.root, tonic) + r.name : null;
   });

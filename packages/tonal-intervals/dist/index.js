@@ -1,7 +1,7 @@
 'use strict';
 
 var tonalPitches = require('tonal-pitches');
-var tonalCollections = require('tonal-arrays');
+var tonalArrays = require('tonal-arrays');
 
 var CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1];
 /**
@@ -58,7 +58,7 @@ function ic(ivl) {
  * @param {Array|String} notes - the notes to analyze
  * @return {Array} the _pmnsdt_ array
  */
-var density = tonalCollections.listFn(function (list) {
+var density = tonalArrays.listFn(function (list) {
   var a, b, i;
   var notes = list.filter(tonalPitches.isPitchNotIvl);
   var len = notes.length;

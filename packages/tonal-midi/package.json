@@ -5,8 +5,7 @@
   "main": "dist/index.js",
   "jsnext:main": "lib/index.js",
   "scripts": {
-    "bundle": "npm test && npm run dist && npm run docco && npm run api",
-    "standard": "standard lib/index.js",
+    "pretest": "rm -rf build && mkdir build",
     "test": "npm run rollup && mocha",
     "test-ci": "rollup -c && mocha",
     "docco": "docco lib/index.js",

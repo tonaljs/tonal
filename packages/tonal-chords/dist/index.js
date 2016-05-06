@@ -1,7 +1,7 @@
 'use strict';
 
 var tonalPitches = require('tonal-pitches');
-var tonalCollections = require('tonal-arrays');
+var tonalArrays = require('tonal-arrays');
 var noteParser = require('note-parser');
 
 var raw = require('./chords.json');
@@ -42,7 +42,7 @@ function chord(source, tonic) {
   if (arguments.length > 1) return chord(source)(tonic);
   var intervals = DATA[source];
   if (typeof intervals === 'string') intervals = DATA[intervals];
-  return tonalCollections.harmonizer(intervals || source);
+  return tonalArrays.harmonizer(intervals || source);
 }
 
 /**

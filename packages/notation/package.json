@@ -1,0 +1,19 @@
+{
+  "name": "tonal-notation",
+  "version": "0.50.0",
+  "description": "Music notation utilities",
+  "keywords": [],
+  "scripts": {
+    "pretest": "rm -rf build && mkdir build && rollup -f umd -n notation -o build/tonal-notation.js -- index.js",
+    "test": "tape 'test/*.js'"
+  },
+  "main": "build/tonal-notation.js",
+  "jsnext:main": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {
+    "rollup": "0.25",
+    "tape": "4",
+    "uglify-js": "2"
+  }
+}

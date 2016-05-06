@@ -9,7 +9,8 @@ var tonalRanges = require('tonal-ranges');
 
 
 
-exports.name = tonalNotes.name;
+exports.noteName = tonalNotes.noteName;
+exports.chroma = tonalNotes.chroma;
 exports.pc = tonalNotes.pc;
 exports.enharmonics = tonalNotes.enharmonics;
 exports.simplify = tonalNotes.simplify;

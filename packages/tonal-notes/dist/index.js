@@ -12,11 +12,16 @@ var tonalDistances = require('tonal-distances');
  * @param {Pitch|String}
  * @return {String}
  * @example
- * import { name } from 'tonal-notes'
- * ['c', 'db3', '2', 'g+', 'gx4'].map(name)
+ * import { noteName } from 'tonal-notes'
+ * ['c', 'db3', '2', 'g+', 'gx4'].map(noteName)
  * // => ['C', 'Db3', null, null, 'G##4']
+ *
+ * @example
+ * var tonal = require('tonal')
+ * tonal.noteName('cb2') // => 'Cb2'
+ * tonal.map(tonal.noteName, 'c db3 2 g+ gx4')
  */
-var name = tonalPitches.noteFn(tonalPitches.id);
+var noteName = tonalPitches.noteFn(tonalPitches.id);
 
 /**
  * Get pitch class of a note. The note can be a string or a pitch array.
@@ -74,7 +79,8 @@ function simplify(pitch) {
   }, null);
 }
 
-exports.name = name;
+exports.noteName = noteName;
 exports.pc = pc;
 exports.enharmonics = enharmonics;
 exports.simplify = simplify;
+exports.chroma = tonalPitches.chroma;

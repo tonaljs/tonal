@@ -1,5 +1,5 @@
 export {
-  name, pc, enharmonics, simplify
+  noteName, chroma, pc, enharmonics, simplify
 } from 'tonal-notes'
 
 export {
