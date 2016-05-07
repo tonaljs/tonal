@@ -1,0 +1,26 @@
+{
+  "name": "tonal-distance",
+  "version": "0.50.0",
+  "description": "Find distances between musical notes",
+  "keywords": [
+    "interval",
+    "note",
+    "distance",
+    "tonal"
+  ],
+  "scripts": {
+    "pretest": "rm -rf build && mkdir build && rollup -f umd -n distance -o build/tonal-distance.js -- index.js",
+    "test": "tape 'test/*.js'"
+  },
+  "main": "build/tonal-distance.js",
+  "jsnext:main": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {
+    "rollup": "0.25",
+    "tape": "4"
+  },
+  "dependencies": {
+    "tonal-pitch": "file:../pitch"
+  }
+}
