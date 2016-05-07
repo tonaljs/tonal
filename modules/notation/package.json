@@ -1,6 +1,6 @@
 {
   "name": "tonal-notation",
-  "version": "0.50.1",
+  "version": "0.50.0",
   "description": "Music notation utilities",
   "keywords": ["music", "notation", "tonal"],
   "scripts": {

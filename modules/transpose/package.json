@@ -2,7 +2,12 @@
   "name": "tonal-transpose",
   "version": "0.50.2",
   "description": "Music note transposition",
-  "keywords": ["note", "transpose", "numbers", "tonal"],
+  "keywords": [
+    "note",
+    "transpose",
+    "numbers",
+    "tonal"
+  ],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f umd -n transpose -o build/tonal-transpose.js -- index.js",
     "test": "tape 'test/*.js'"
@@ -16,6 +21,6 @@
     "tape": "4"
   },
   "dependencies": {
-    "tonal-pitch": "file:../pitch"
+    "tonal-pitch": "^0.50.0"
   }
 }

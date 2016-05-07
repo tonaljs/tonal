@@ -90,12 +90,12 @@ Tonal is a small library to manipulate notes and intervals, perform transpositio
 You can read the [generated API documentation here](https://github.com/danigb/tonal/blob/tonal2/docs/API.md). You can read the [documented source code here](https://cdn.rawgit.com/danigb/tonal/tonal2/docs/T.html).
 
 ```js
-var tonal = require('tonal')
+var T = require('tonal')
 
 // notes and intervals
-T.midi('A4') // => 69
+T.toMidi('A4') // => 69
 T.fromMidi(60) // => 'C4'
-T.freq('C2') // => 65.40639132514966
+T.toFreq('C2') // => 65.40639132514966
 T.fromFreq(220) // => 'A3'
 T.semitones('P8') // => 12
 

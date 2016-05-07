@@ -3,7 +3,7 @@
   "version": "0.50.4",
   "description": "A functional music theory library",
   "main": "dist/tonal.js",
-  "jsnext:main": "lib/tonal.js",
+  "jsnext:main": "lib/index.js",
   "scripts": {
     "bundle": "npm test && npm run dist && npm run docco && npm run api && ls -hall dist/",
     "standard": "standard lib/tonal.js",
@@ -30,25 +30,12 @@
   "keywords": [
     "music",
     "tonal",
-    "theory",
-    "pitch",
-    "interval",
-    "tonal"
+    "theory"
   ],
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "interval-notation": "^0.1.0",
-    "note-parser": "^1.0.0"
   },
   "devDependencies": {
-    "babel-preset-es2015-rollup": "^1.1.1",
-    "lerna": "^1.1.2",
-    "markdown-code-blocks": "0.0.1",
-    "mocha": "^2.4.5",
-    "rollup": "^0.25.8",
-    "rollup-plugin-babel": "^2.4.0",
-    "rollup-plugin-json": "^2.0.0",
-    "standard": "^6.0.8"
   }
 }

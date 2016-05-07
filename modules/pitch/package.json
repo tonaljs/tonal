@@ -2,7 +2,10 @@
   "name": "tonal-pitch",
   "version": "0.50.0",
   "description": "Music pitch utilities",
-  "keywords": ["pitch", "tonal"],
+  "keywords": [
+    "pitch",
+    "tonal"
+  ],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f umd -n pitch -o build/tonal-pitch.js -- index.js",
     "test": "tape 'test/*.js'"
@@ -18,7 +21,7 @@
   "dependencies": {
     "interval-notation": "^0.1.0",
     "note-parser": "^1.0.0",
-    "tonal-notation": "../notation",
-    "tonal-encoding": "../encoding"
+    "tonal-encoding": "^0.50.0",
+    "tonal-notation": "^0.50.0"
   }
 }

@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f umd -n distance -o build/tonal-distance.js -- index.js",
-    "test": "tape 'test/*.js'"
+    "test": "tape 'test/*.js'",
+    "prepublish": "npm test"
   },
   "main": "build/tonal-distance.js",
   "jsnext:main": "index",
@@ -21,6 +22,6 @@
     "tape": "4"
   },
   "dependencies": {
-    "tonal-pitch": "file:../pitch"
+    "tonal-pitch": "^0.50.0"
   }
 }

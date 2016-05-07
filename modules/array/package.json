@@ -21,8 +21,8 @@
     "tape": "4"
   },
   "dependencies": {
-    "tonal-notation": "file:../notation",
-    "tonal-pitch": "file:../pitch",
-    "tonal-transpose": "file:../transpose"
+    "tonal-notation": "^0.50.0",
+    "tonal-pitch": "^0.50.0",
+    "tonal-transpose": "^0.50.2"
   }
 }
