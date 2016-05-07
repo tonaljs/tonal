@@ -1,4 +1,4 @@
-import { asNotePitch, hasOct, height } from 'tonal-pitch'
+import { asNotePitch, isPC, height } from 'tonal-pitch'
 
 /**
  * Test if the given number is a valid midi note number
@@ -24,7 +24,7 @@ export function isMidiNum (m) {
  */
 export function toMidi (val) {
   var p = asNotePitch(val)
-  return p && hasOct(p) ? height(p) + 12
+  return p && !isPC(p) ? height(p) + 12
     : isMidiNum(val) ? +val
     : null
 }

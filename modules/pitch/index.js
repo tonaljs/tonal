@@ -1,10 +1,84 @@
 
 import { parse as noteParse } from 'note-parser'
 import { parse as ivlParse, altToQ } from 'interval-notation'
-import { encode, decode } from 'tonal-encoding'
+import { encode as enc, decode } from 'tonal-encoding'
 import { isNum, isStr, isArr, toLetter, toAcc } from 'tonal-notation'
 
-// internal: memoize parser
+/**
+ * Create a pitch
+ * @param {Integer} fifths - the number of fifths from C or from P1
+ * @param {Integer} focts - the number of encoded octaves
+ * @param {Integer} dir - (Optional) Only required for intervals. Can be 1 or -1
+ * @return {Pitch}
+ */
+export function pitch (fifths, focts, dir) {
+  return dir ? ['tnlp', [fifths, focts], dir] : ['tnlp', [fifths, focts]]
+}
+/**
+ * Test if an object is a pitch
+ * @param {Pitch}
+ * @return {Boolean}
+ */
+export function isPitch (p) { return isArr(p) && p[0] === 'tnlp' }
+/**
+ * Encode a pitch
+ * @param {Integer} step
+ * @param {Integer} alt
+ * @param {Integer} oct
+ * @param {Integer} dir - (Optional)
+ */
+export function encode (s, a, o, dir) {
+  return dir ? ['tnlp', enc(s, a, o), dir] : ['tnlp', enc(s, a, o)]
+}
+
+/**
+ * Get pitch type
+ * @param {Pitch}
+ * @return {String} 'ivl' or 'note' or null if not a pitch
+ */
+export function pType (p) {
+  return !isPitch(p) ? null
+    : p[2] ? 'ivl' : 'note'
+}
+/**
+ * Test if is a pitch note (with or without octave)
+ * @param {Pitch}
+ * @return {Boolean}
+ */
+export function isNotePitch (p) { return pType(p) === 'note' }
+/**
+ * Test if is an interval
+ * @param {Pitch}
+ * @return {Boolean}
+ */
+export function isIvlPitch (p) { return pType(p) === 'ivl' }
+/**
+ * Test if is a pitch class (a pitch note without octave)
+ * @param {Pitch}
+ * @return {Boolean}
+ */
+export function isPC (p) { return isPitch(p) && p[1].length === 1 }
+
+/**
+ * Get encoded fifths from pitch.
+ * @param {Pitch}
+ * @return {Integer}
+ */
+export function fifths (p) { return p[2] === -1 ? -p[1][0] : p[1][0] }
+/**
+ * Get encoded octaves from pitch.
+ * @param {Pitch}
+ * @return {Integer}
+ */
+export function focts (p) { return p[2] === -1 ? -p[1][1] : p[1][1] }
+/**
+ * Get height of the pitch.
+ * @param {Pitch}
+ * @return {Integer}
+ */
+export function height (p) { return fifths(p) * 7 + focts(p) * 12 }
+
+// memoize parsers
 function memoize (fn) {
   var cache = {}
   return function (str) {
@@ -13,49 +87,76 @@ function memoize (fn) {
   }
 }
 
-export function build (step, alt, oct, dir) {
-  var enc = encode(step, alt, oct)
-  return dir ? ['tnlp', enc, dir] : ['tnlp', enc]
-}
-export function isPitch (p) { return isArr(p) && p[0] === 'tnlp' }
-export function pType (p) {
-  return !isPitch(p) ? null
-    : p[2] ? 'ivl' : 'note'
-}
-export function isNotePitch (p) { return pType(p) === 'note' }
-export function isIvlPitch (p) { return pType(p) === 'ivl' }
-export function isPC (p) { return isPitch(p) && p[1].length === 1 }
-
-// low level functions. Warning! No checks!
-export function fifths (p) { return p[2] === -1 ? -p[1][0] : p[1][0] }
-export function focts (p) { return p[2] === -1 ? -p[1][1] : p[1][1] }
-export function height (p) { return fifths(p) * 7 + focts(p) * 12 }
-
+/**
+ * Parse a note
+ * @function
+ * @param {String} str
+ * @return {Pitch} the pitch or null if not valid note string
+ */
 export var parseNote = memoize(function (s) {
   var p = noteParse(s)
-  return p ? build(p.step, p.alt, p.oct) : null
+  return p ? encode(p.step, p.alt, p.oct) : null
 })
 
+/**
+ * Parse an interval
+ * @function
+ * @param {String} str
+ * @return {Pitch} the pitch or null if not valid interval string
+ */
 export var parseIvl = memoize(function (s) {
   var p = ivlParse(s)
   if (!p) return null
-  return p ? build(p.simple - 1, p.alt, p.oct, p.dir) : null
+  return p ? encode(p.simple - 1, p.alt, p.oct, p.dir) : null
 })
 
+/**
+ * Parse a note or an interval
+ * @param {String} str
+ * @return {Pitch} the pitch or null if not valid pitch string
+ */
 export function parsePitch (s) { return parseNote(s) || parseIvl(s) }
 
+/**
+ * Ensure the given object is a note pitch. If is a string, it will be
+ * parsed. If not a note pitch or valid note string, it returns null.
+ * @param {Pitch|String}
+ * @return {Pitch}
+ */
 export function asNotePitch (p) { return isNotePitch(p) ? p : parseNote(p) }
+/**
+ * Ensure the given object is a interval pitch. If is a string, it will be
+ * parsed. If not a interval pitch or valid interval string, it returns null.
+ * @param {Pitch|String}
+ * @return {Pitch}
+ */
 export function asIvlPitch (p) { return isIvlPitch(p) ? p : parseIvl(p) }
+/**
+ * Ensure the given object is a pitch. If is a string, it will be
+ * parsed. If not a pitch or valid pitch string, it returns null.
+ * @param {Pitch|String}
+ * @return {Pitch}
+ */
 export function asPitch (p) { return isPitch(p) ? p : parsePitch(p) }
 
 function octStr (n) { return isNum(n) ? n : '' }
 
+/**
+ * Convert a note pitch to string representation
+ * @param {Pitch}
+ * @return {String}
+ */
 export function strNote (p) {
   if (!isNotePitch(p)) return null
   var d = decode.apply(null, p[1])
   return toLetter(d[0]) + toAcc(d[1]) + octStr(d[2])
 }
 
+/**
+ * Convert a interval pitch to string representation
+ * @param {Pitch}
+ * @return {String}
+ */
 export function strIvl (p) {
   if (!isIvlPitch(p)) return null
   var d = decode.apply(null, p[1])
@@ -64,6 +165,11 @@ export function strIvl (p) {
   return p[2] * num + altToQ(num, alt)
 }
 
+/**
+ * Convert a pitch to string representation (either notes or intervals)
+ * @param {Pitch}
+ * @return {String}
+ */
 export function strPitch (p) { return strNote(p) || strIvl(p) }
 
 function decorator (is, parse, str) {
@@ -80,6 +186,30 @@ function decorator (is, parse, str) {
   }
 }
 
+/**
+ * Decorate a function to work internally with note pitches, even if the
+ * parameters are provided as strings. Also it converts back the result
+ * to string if a note pitch is returned.
+ * @function
+ * @param {Function} fn
+ * @return {Function} the decorated function
+ */
 export var noteFn = decorator(isNotePitch, parseNote, strNote)
+/**
+ * Decorate a function to work internally with interval pitches, even if the
+ * parameters are provided as strings. Also it converts back the result
+ * to string if a interval pitch is returned.
+ * @function
+ * @param {Function} fn
+ * @return {Function} the decorated function
+ */
 export var ivlFn = decorator(isIvlPitch, parseIvl, strIvl)
+/**
+ * Decorate a function to work internally with pitches, even if the
+ * parameters are provided as strings. Also it converts back the result
+ * to string if a pitch is returned.
+ * @function
+ * @param {Function} fn
+ * @return {Function} the decorated function
+ */
 export var pitchFn = decorator(isPitch, parsePitch, strPitch)

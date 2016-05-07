@@ -3,7 +3,7 @@ import { parseIvl } from 'tonal-pitch'
 import { regex } from 'note-parser'
 import { harmonize } from 'tonal-array'
 
-export var DATA = require('../chords.json')
+var DATA = require('./chords.json')
 
 var get = fromName(parseIvl, DATA)
 
@@ -37,6 +37,7 @@ export function chord (src, tonic) {
 /**
  * Return the available chord names
  *
+ * @function
  * @param {boolean} aliases - true to include aliases
  * @return {Array} the chord names
  *

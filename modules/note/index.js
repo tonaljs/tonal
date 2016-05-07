@@ -1,4 +1,5 @@
-import { fifths, asNotePitch, strNote, hasOct, height } from 'tonal-pitch'
+import { fifths, asNotePitch, strNote, parseIvl } from 'tonal-pitch'
+import { tr } from 'tonal-transpose'
 
 /**
  * Return the chroma of a note. The chroma is the numeric equivalent to the
@@ -52,67 +53,51 @@ export function pc (n) {
   return p ? strNote([ p[0], [ fifths(p) ] ]) : null
 }
 
-// MIDI
-// ====
+var ASC = parseIvl('2d')
+var DESC = parseIvl('-2d')
 
 /**
- * Test if the given number is a valid midi note number
- * @function
- * @param {Object} num - the thing to be tested
- * @return {Boolean} true if it's a valid midi note number
- */
-export function isMidiNum (m) {
-  return (typeof m === 'number' || /^\d+$/.test(m)) && m >= 0 && m < 128
-}
-
-// To match the general midi specification where `C4` is 60 we must add 12 to
-// `height` function:
-
-/**
- * Get midi number for a pitch
- * @function
- * @param {Array|String} pitch - the pitch
- * @return {Integer} the midi number or null if not valid pitch
+ * Get the enharmonics of a note. It returns an array of three elements: the
+ * below enharmonic, the note, and the upper enharmonic
+ *
+ * @param {String} note - the note to get the enharmonics from
+ * @return {Array} an array of pitches ordered by distance to the given one
+ *
  * @example
- * midi('C4') // => 60
+ * enharmonics = require('enharmonics')
+ * enharmonics('C') // => ['B#', 'C', 'Dbb']
+ * enharmonics('A') // => ['G##', 'A', 'Bbb']
+ * enharmonics('C#4') // => ['B##3', 'C#4' 'Db4']
+ * enharmonics('Db') // => ['C#', 'Db', 'Ebbb'])
  */
-export function toMidi (val) {
-  var p = asNotePitch(val)
-  return !p ? null
-    : hasOct(p) ? height(p) + 12
-    : isMidiNum(val) ? +val
-    : null
-}
-
-var FLATS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')
-var SHARPS = 'C C# D D# E F F# G G# A A# B'.split(' ')
-
-function fromMidiFn (pcs) {
-  return function (m) {
-    var pc = pcs[m % 12]
-    var o = Math.floor(m / 12) - 1
-    return pc + o
-  }
+export function enharmonics (pitch) {
+  var notes = []
+  notes.push(tr(DESC, pitch))
+  if (notes[0] === null) return null
+  notes.push(pitch)
+  notes.push(tr(ASC, pitch))
+  return notes
 }
 
 /**
- * Given a midi number, returns a note name. The altered notes will have
- * flats.
+ * An alias for `enharmonics`
  * @function
- * @param {Integer} midi - the midi note number
- * @return {String} the note name
- * @example
- * tonal.fromMidi(61) // => 'Db4'
  */
-export var fromMidi = fromMidiFn(FLATS)
+export var enh = enharmonics
 
 /**
- * Given a midi number, returns a note name. The altered notes will have
- * sharps.
- * @function
- * @param {Integer} midi - the midi note number
- * @return {String} the note name
+ * Try to get a simpler enharmonic note name
+ *
+ * @param {String} note - the note to simplify
+ * @return {String} the simplfiied note (can be the same)
+ *
  * @example
- * tonal.fromMidiS(61) // => 'C#4'
+ * var enharmonics = require('enharmonics')
+ * enharmonics.simplify('B#3') // => 'C4'
  */
-export var fromMidiS = fromMidiFn(SHARPS)
+export function simplify (pitch) {
+  return enharmonics(pitch).reduce(function (simple, next) {
+    if (!simple) return next
+    return simple.length > next.length ? next : simple
+  }, null)
+}

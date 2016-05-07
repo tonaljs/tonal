@@ -74,7 +74,6 @@ export const distance = interval
  */
 export const dist = interval
 
-
 /**
  * Transpose a tonic a number of perfect fifths.
  * @function

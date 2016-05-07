@@ -2,7 +2,12 @@
   "name": "tonal-midi",
   "version": "0.50.0",
   "description": "Conversion between midi numbers and note names",
-  "keywords": ["note", "midi", "tonal"],
+  "keywords": [
+    "note",
+    "midi",
+    "numbers",
+    "tonal"
+  ],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f umd -n midi -o build/tonal-midi.js -- index.js",
     "test": "tape 'test/*.js'"
@@ -16,6 +21,9 @@
     "tape": "4"
   },
   "dependencies": {
-    "tonal-pitch": "file:../pitch"
+    "tonal-array": "file:../array",
+    "tonal-midi": "file:../midi",
+    "tonal-note": "file:../note",
+    "tonal-transpose": "file:../transpose"
   }
 }

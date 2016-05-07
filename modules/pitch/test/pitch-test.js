@@ -1,13 +1,13 @@
 var tape = require('tape')
 var p = require('..')
 
-tape('fifths', function (test) {
+tape('get fifths from pitch object', function (test) {
   test.equal(p.fifths(p.parseIvl('2M')), 2)
   test.equal(p.fifths(p.parseIvl('-2M')), -2)
   test.end()
 })
 
-tape('focts', function (test) {
+tape('get focts from pitch object', function (test) {
   test.equal(p.focts(p.parseIvl('2M')), -1)
   test.equal(p.focts(p.parseIvl('-2M')), 1)
   test.end()

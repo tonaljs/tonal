@@ -2,7 +2,7 @@
   "name": "tonal-encoding",
   "version": "0.50.0",
   "description": "Encode pitches using fifths/octaves",
-  "keywords": [],
+  "keywords": ["pitch", "fifths", "encode", "tonal"],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f umd -n encoding -o build/tonal-encoding.js -- index.js",
     "test": "tape 'test/*.js'"

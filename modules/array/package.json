@@ -1,7 +1,7 @@
 {
   "name": "tonal-array",
   "version": "0.50.0",
-  "description": "Conversion between array numbers and note names",
+  "description": "Create and manipulate arrays of notes and intervals",
   "keywords": [
     "note",
     "array",

@@ -1,8 +1,8 @@
 {
   "name": "tonal-pitch",
-  "version": "0.50.8",
+  "version": "0.50.0",
   "description": "Music pitch utilities",
-  "keywords": [],
+  "keywords": ["pitch", "tonal"],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f umd -n pitch -o build/tonal-pitch.js -- index.js",
     "test": "tape 'test/*.js'"

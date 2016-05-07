@@ -16,6 +16,7 @@
     "tape": "4"
   },
   "dependencies": {
-    "tonal-pitch": "file:../pitch"
+    "tonal-pitch": "file:../pitch",
+    "tonal-transpose": "file:../transpose"
   }
 }

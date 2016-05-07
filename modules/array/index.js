@@ -1,6 +1,6 @@
 import { asPitch, isPitch, strPitch } from 'tonal-pitch'
 import { isArr, isNum } from 'tonal-notation'
-import tr from 'tonal-transpose'
+import { tr } from 'tonal-transpose'
 function id (x) { return x }
 
 // items can be separated by spaces, bars and commas

@@ -1,9 +1,10 @@
 var tape = require('tape')
 var chord = require('..')
+var DATA = require('../chords.json')
 
 tape('each name has intervals', function (test) {
   chord.chordNames(true).forEach(function (name) {
-    if (!Array.isArray(chord.DATA[name])) return
+    if (!Array.isArray(DATA[name])) return
     var data = chord.chord(name, false)
     var filtered = data.filter(function (x) { return x })
     test.equal(data.length, filtered.length, 'Chord data: ' + name)

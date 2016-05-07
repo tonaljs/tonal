@@ -2,7 +2,7 @@
   "name": "tonal-notation",
   "version": "0.50.1",
   "description": "Music notation utilities",
-  "keywords": [],
+  "keywords": ["music", "notation", "tonal"],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f umd -n notation -o build/tonal-notation.js -- index.js",
     "test": "tape 'test/*.js'"
