@@ -87,9 +87,9 @@ Also, I want a complete library, where I can model all what I learn, with some (
 
 ## What
 
-Tonal itself is built from a collection of [modules](). Some of they are exposed in the `tonal` facade that can be installed via npm: `npm i tonal`. Some others must be required explicitly, like scales: `npm i tonal-scales`
+Tonal itself is built from a collection of [modules](). Some of they are exposed in the `tonal` package that can be installed via npm: `npm i tonal`. Some others must be required explicitly, like scales: `npm i tonal-scales`
 
-### Modules included in `tonal` facade
+### Modules included in `tonal` package
 
 #### [tonal-note]()
   - [noteName](): get the note name
@@ -144,6 +144,15 @@ Tonal itself is built from a collection of [modules](). Some of they are exposed
 - [cycleOfFifths](): create a cycle of fifths range
 - [fromPitchSet]: given a scale and a midi number, return a note name if the note correspond to the scale
 - [noteRange]: create note ranges using a note name generator
+
+### Modules not included in `tonal` package
+
+#### [tonal-scale]()
+
+#### [tonal-chord]()
+
+#### [tonal-key]()
+
 
 ## License
 

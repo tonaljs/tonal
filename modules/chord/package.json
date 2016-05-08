@@ -21,8 +21,9 @@
     "tape": "4"
   },
   "dependencies": {
-    "tonal-array": "file:../array",
-    "tonal-dictionary": "file:../dictionary",
-    "tonal-pitch": "file:../pitch"
+    "note-parser": "^1.0.0",
+    "tonal-array": "^0.50.3",
+    "tonal-dictionary": "^0.50.0",
+    "tonal-pitch": "^0.50.3"
   }
 }
