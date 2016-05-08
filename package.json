@@ -1,36 +1,46 @@
 {
+  "name": "tonal",
+  "version": "0.50.4",
+  "description": "A functional music theory library",
+  "main": "build/index.js",
+  "jsnext:main": "lib/index.js",
   "scripts": {
-    "build": "cp README.md ./packages/tonal && npm run test && npm run api && npm run disc && npm run dist",
-    "test": "_mocha `scripts/get-test-directories.sh`",
-    "api": "documentation -f md --shallow ./packages/**/*.js > API.md",
-    "jsdoc": "jsdoc -c .jsdoc3.json && open jsdocs/index.html",
-    "docs": "mkdir -p docs && documentation build --name tonal -f html -o docs --github --shallow ./packages/**/*.js && open docs/index.html",
-    "dist": "browserify ./packages/tonal/index.js | uglifyjs > dist/tonal.min.js&& ls -hall dist/",
-    "disc": "browserify --full-paths ./packages/tonal/index.js | uglifyjs | discify > dist/disc.html",
-    "lint": "eslint packages/**/.js",
-    "update": "rm -rf node_modules/tonal.* && npm i && npm dedupe",
-    "coverage": "istanbul cover _mocha `scripts/get-test-directories.sh`",
-    "cover": "npm run coverage && open ./coverage/lcov-report/index.html",
-    "climate": "npm run coverage && npm run codeclimate",
-    "codeclimate": "CODECLIMATE_REPO_TOKEN= codeclimate-test-reporter < coverage/lcov.info",
-    "examples": "beefy --cwd examples/ examples/*.js"
+    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n tonal -o build/index.js -- lib/index.js",
+    "test": "tape 'test/*.js'",
+    "dist": "npm test && browserify build/index.js > dist/tonal.js && uglifyjs dist/tonal.js -c -m -o dist/tonal.min.js && ls -hall dist/",
+    "test-ci": "npm run test && npm run modules-update && npm run modules-test",
+    "prepublish": "npm run dist",
+    "modules-update": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && rm -rf node_modules/tonal-* && npm i); done",
+    "modules-build": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && rollup -c); done",
+    "modules-api": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && jsdoc2md index.js > API.md); done",
+    "modules-test": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && npm test); done"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/danigb/tonal.git"
-  },
-  "author": "danigb",
-  "license": "MIT",
+  "homepage": "https://github.com/danigb/tonal#readme",
+  "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
-  "homepage": "https://github.com/danigb/tonal#readme",
-  "devDependencies": {
-    "eslint-config-standard": "^5.1.0",
-    "eslint-plugin-promise": "^1.1.0",
-    "eslint-plugin-standard": "^1.3.2",
-    "lerna": "^1.0.4",
-    "mocha": "^2.3.4"
+  "keywords": [
+    "music",
+    "tonal",
+    "theory"
+  ],
+  "author": "danigb",
+  "license": "MIT",
+  "dependencies": {
+    "browserify": "^13.0.1",
+    "tonal-array": "^0.50.3",
+    "tonal-distance": "^0.50.1",
+    "tonal-freq": "^0.51.0",
+    "tonal-interval": "^0.50.0",
+    "tonal-midi": "^0.50.0",
+    "tonal-note": "^0.50.2",
+    "tonal-range": "^0.50.1",
+    "tonal-transpose": "^0.50.3"
   },
-  "dependencies": {}
+  "devDependencies": {
+    "rollup": "0.26",
+    "tape": "4",
+    "uglify-js": "2"
+  }
 }

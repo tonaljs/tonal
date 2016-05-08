@@ -1,9 +1,10 @@
 node_modules/
 npm-debug.log*
 coverage/
+build/
 wip
 tmp/
 .DS_Store
 disc.html
-docs/
 jsdocs/
+API.md

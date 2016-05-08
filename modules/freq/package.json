@@ -1,0 +1,26 @@
+{
+  "name": "tonal-freq",
+  "version": "0.51.1",
+  "description": "Conversion between frequencies and note names",
+  "keywords": [
+    "note",
+    "freq",
+    "tonal"
+  ],
+  "scripts": {
+    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n freq -o build/tonal-freq.js -- index.js",
+    "test": "tape 'test/*.js'",
+    "prepublish": "npm test"
+  },
+  "main": "build/tonal-freq.js",
+  "jsnext:main": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {
+    "rollup": "0.25",
+    "tape": "4"
+  },
+  "dependencies": {
+    "tonal-pitch": "^0.50.0"
+  }
+}

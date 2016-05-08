@@ -1,0 +1,27 @@
+{
+  "name": "tonal-transpose",
+  "version": "0.50.3",
+  "description": "Music note transposition",
+  "keywords": [
+    "note",
+    "transpose",
+    "numbers",
+    "tonal"
+  ],
+  "scripts": {
+    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n transpose -o build/tonal-transpose.js -- index.js",
+    "test": "tape 'test/*.js'",
+    "prepublish": "npm test"
+  },
+  "main": "build/tonal-transpose.js",
+  "jsnext:main": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {
+    "rollup": "0.25",
+    "tape": "4"
+  },
+  "dependencies": {
+    "tonal-pitch": "^0.50.0"
+  }
+}
