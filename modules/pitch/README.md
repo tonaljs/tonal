@@ -20,6 +20,9 @@ You can install via npm: `npm i --save tonal-pitch`
 <dt><a href="#encode">encode(step, alt, oct, dir)</a></dt>
 <dd><p>Encode a pitch</p>
 </dd>
+<dt><a href="#decode">decode(the)</a> ⇒ <code>Array</code></dt>
+<dd><p>Decode a pitch</p>
+</dd>
 <dt><a href="#pType">pType(p)</a> ⇒ <code>String</code></dt>
 <dd><p>Get pitch type</p>
 </dd>
@@ -32,6 +35,9 @@ You can install via npm: `npm i --save tonal-pitch`
 <dt><a href="#isPC">isPC(p)</a> ⇒ <code>Boolean</code></dt>
 <dd><p>Test if is a pitch class (a pitch note without octave)</p>
 </dd>
+<dt><a href="#dir">dir(p)</a> ⇒ <code>Integer</code></dt>
+<dd><p>Get direction of a pitch (even for notes)</p>
+</dd>
 <dt><a href="#fifths">fifths(p)</a> ⇒ <code>Integer</code></dt>
 <dd><p>Get encoded fifths from pitch.</p>
 </dd>
@@ -39,7 +45,12 @@ You can install via npm: `npm i --save tonal-pitch`
 <dd><p>Get encoded octaves from pitch.</p>
 </dd>
 <dt><a href="#height">height(p)</a> ⇒ <code>Integer</code></dt>
-<dd><p>Get height of the pitch.</p>
+<dd><p>Get height of a pitch.</p>
+</dd>
+<dt><a href="#chr">chr(p)</a> ⇒ <code>Integer</code></dt>
+<dd><p>Get chroma of a pitch. The chroma is a number between 0 and 11 to represent
+the position of a pitch inside an octave. Is the numeric equivlent of a
+pitch class.</p>
 </dd>
 <dt><a href="#parseNote">parseNote(str)</a> ⇒ <code>Pitch</code></dt>
 <dd><p>Parse a note</p>
@@ -126,6 +137,18 @@ Encode a pitch
 | oct | <code>Integer</code> |  |
 | dir | <code>Integer</code> | (Optional) |
 
+<a name="decode"></a>
+
+## decode(the) ⇒ <code>Array</code>
+Decode a pitch
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - An array with [step, alt, oct]  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| the | <code>Pitch</code> | pitch |
+
 <a name="pType"></a>
 
 ## pType(p) ⇒ <code>String</code>
@@ -171,6 +194,18 @@ Test if is a pitch class (a pitch note without octave)
 | --- | --- |
 | p | <code>Pitch</code> |
 
+<a name="dir"></a>
+
+## dir(p) ⇒ <code>Integer</code>
+Get direction of a pitch (even for notes)
+
+**Kind**: global function  
+**Returns**: <code>Integer</code> - 1 or -1  
+
+| Param | Type |
+| --- | --- |
+| p | <code>Pitch</code> |
+
 <a name="fifths"></a>
 
 ## fifths(p) ⇒ <code>Integer</code>
@@ -196,7 +231,20 @@ Get encoded octaves from pitch.
 <a name="height"></a>
 
 ## height(p) ⇒ <code>Integer</code>
-Get height of the pitch.
+Get height of a pitch.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| p | <code>Pitch</code> |
+
+<a name="chr"></a>
+
+## chr(p) ⇒ <code>Integer</code>
+Get chroma of a pitch. The chroma is a number between 0 and 11 to represent
+the position of a pitch inside an octave. Is the numeric equivlent of a
+pitch class.
 
 **Kind**: global function  
 

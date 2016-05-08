@@ -8,6 +8,7 @@
     "pretest": "rm -rf build && mkdir build && rollup -f cjs -n tonal -o build/index.js -- lib/index.js",
     "test": "tape 'test/*.js'",
     "dist": "npm test && browserify build/index.js > dist/tonal.js && uglifyjs dist/tonal.js -c -m -o dist/tonal.min.js && ls -hall dist/",
+    "test-ci": "npm run test && npm run modules-update && npm run modules-test",
     "prepublish": "npm run dist",
     "modules-update": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && rm -rf node_modules/tonal-* && npm i); done",
     "modules-build": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && rollup -c); done",
@@ -30,8 +31,10 @@
     "tonal-array": "^0.50.3",
     "tonal-distance": "^0.50.1",
     "tonal-freq": "^0.51.0",
+    "tonal-interval": "^0.50.0",
     "tonal-midi": "^0.50.0",
-    "tonal-note": "^0.50.1",
+    "tonal-note": "^0.50.2",
+    "tonal-range": "^0.50.1",
     "tonal-transpose": "^0.50.3"
   },
   "devDependencies": {

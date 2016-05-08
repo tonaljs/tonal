@@ -1,19 +1,16 @@
-import { fifths, asNotePitch, strNote, parseIvl } from 'tonal-pitch'
+import { fifths, asNotePitch, strNote, parseIvl, chr } from 'tonal-pitch'
 import { tr } from 'tonal-transpose'
 
 /**
  * Return the chroma of a note. The chroma is the numeric equivalent to the
  * pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
  *
- * @function
  * @param {String|Pitch} note
  * @return {Integer} the chroma
  */
 export function chroma (n) {
   var p = asNotePitch(n)
-  if (!p) return null
-  var f = fifths(p)
-  return 7 * f - 12 * Math.floor(f * 7 / 12)
+  return p ? chr(p) : null
 }
 
 /**

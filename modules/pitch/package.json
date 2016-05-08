@@ -1,14 +1,17 @@
 {
   "name": "tonal-pitch",
-  "version": "0.50.0",
+  "version": "0.50.3",
   "description": "Music pitch utilities",
   "keywords": [
+    "music",
+    "theory",
     "pitch",
     "tonal"
   ],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f cjs -n pitch -o build/tonal-pitch.js -- index.js",
-    "test": "tape 'test/*.js'"
+    "test": "tape 'test/*.js'",
+    "prepublish": "npm test"
   },
   "main": "build/tonal-pitch.js",
   "jsnext:main": "index",

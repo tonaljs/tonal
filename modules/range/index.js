@@ -3,7 +3,7 @@ import { map } from 'tonal-array'
 import { trFifths } from 'tonal-transpose'
 import { toMidi, fromMidi } from 'tonal-midi'
 
-const isNum = (n) => typeof n === 'number'
+function isNum (n) { return typeof n === 'number' }
 // ascending range
 function ascR (b, n) { for (var a = []; n--; a[n] = n + b); return a }
 // descending range
@@ -53,7 +53,7 @@ export function fromPitchSet (notes, m) {
   if (arguments.length > 1) return fromPitchSet(notes)(m)
   const scale = map(pc, notes)
   const chromas = map(chroma, scale)
-  return (midi) => {
+  return function (midi) {
     const pcIndex = chromas.indexOf(midi % 12)
     return pcIndex > -1 ? buildNote(scale[pcIndex], midi) : null
   }
@@ -72,8 +72,8 @@ export function fromPitchSet (notes, m) {
  * @return {Array} an array of note names
  */
 export function noteRange (fn, a, b) {
-  if (arguments.length === 1) return (a, b) => noteRange(fn, a, b)
-  return range(a, b).map(fn).filter((x) => x !== null)
+  if (arguments.length === 1) return function (a, b) { return noteRange(fn, a, b) }
+  return range(a, b).map(fn).filter(function (x) { return x !== null })
 }
 
 /**

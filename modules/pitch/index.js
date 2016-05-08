@@ -1,7 +1,7 @@
 
 import { parse as noteParse } from 'note-parser'
 import { parse as ivlParse, altToQ } from 'interval-notation'
-import { encode as enc, decode } from 'tonal-encoding'
+import { encode as enc, decode as dec } from 'tonal-encoding'
 import { isNum, isStr, isArr, toLetter, toAcc } from 'tonal-notation'
 
 /**
@@ -29,6 +29,15 @@ export function isPitch (p) { return isArr(p) && p[0] === 'tnlp' }
  */
 export function encode (s, a, o, dir) {
   return dir ? ['tnlp', enc(s, a, o), dir] : ['tnlp', enc(s, a, o)]
+}
+
+/**
+ * Decode a pitch
+ * @param {Pitch} the pitch
+ * @return {Array} An array with [step, alt, oct]
+ */
+export function decode (p) {
+  return dec.apply(null, p[1])
 }
 
 /**
@@ -60,6 +69,13 @@ export function isIvlPitch (p) { return pType(p) === 'ivl' }
 export function isPC (p) { return isPitch(p) && p[1].length === 1 }
 
 /**
+ * Get direction of a pitch (even for notes)
+ * @param {Pitch}
+ * @return {Integer} 1 or -1
+ */
+export function dir (p) { return p[2] === -1 ? -1 : 1 }
+
+/**
  * Get encoded fifths from pitch.
  * @param {Pitch}
  * @return {Integer}
@@ -72,11 +88,24 @@ export function fifths (p) { return p[2] === -1 ? -p[1][0] : p[1][0] }
  */
 export function focts (p) { return p[2] === -1 ? -p[1][1] : p[1][1] }
 /**
- * Get height of the pitch.
+ * Get height of a pitch.
  * @param {Pitch}
  * @return {Integer}
  */
 export function height (p) { return fifths(p) * 7 + focts(p) * 12 }
+
+/**
+ * Get chroma of a pitch. The chroma is a number between 0 and 11 to represent
+ * the position of a pitch inside an octave. Is the numeric equivlent of a
+ * pitch class.
+ *
+ * @param {Pitch}
+ * @return {Integer}
+ */
+export function chr (p) {
+  var f = fifths(p)
+  return 7 * f - 12 * Math.floor(f * 7 / 12)
+}
 
 // memoize parsers
 function memoize (fn) {
@@ -148,7 +177,8 @@ function octStr (n) { return isNum(n) ? n : '' }
  */
 export function strNote (p) {
   if (!isNotePitch(p)) return null
-  var d = decode.apply(null, p[1])
+  var d = decode(p)
+  // d = [step, alt, oct]
   return toLetter(d[0]) + toAcc(d[1]) + octStr(d[2])
 }
 
@@ -159,10 +189,11 @@ export function strNote (p) {
  */
 export function strIvl (p) {
   if (!isIvlPitch(p)) return null
-  var d = decode.apply(null, p[1])
+  // decode to [step, alt, oct]
+  var d = decode(p)
+  // d = [step, alt, oct]
   var num = d[0] + 1 + 7 * d[2]
-  var alt = d[1]
-  return p[2] * num + altToQ(num, alt)
+  return p[2] * num + altToQ(num, d[1])
 }
 
 /**

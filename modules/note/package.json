@@ -1,6 +1,6 @@
 {
   "name": "tonal-note",
-  "version": "0.50.1",
+  "version": "0.50.2",
   "description": "Encode pitches using fifths/octaves",
   "keywords": [],
   "scripts": {
@@ -17,7 +17,7 @@
     "tape": "4"
   },
   "dependencies": {
-    "tonal-pitch": "^0.50.0",
+    "tonal-pitch": "^0.50.1",
     "tonal-transpose": "^0.50.3"
   }
 }

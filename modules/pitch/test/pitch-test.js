@@ -13,6 +13,24 @@ tape('get focts from pitch object', function (test) {
   test.end()
 })
 
+tape('get dir from pitch object', function (test) {
+  test.equal(p.dir(p.parseIvl('2M')), 1)
+  test.equal(p.dir(p.parseIvl('-2M')), -1)
+  test.equal(p.dir(p.parseNote('C4')), 1)
+  test.equal(p.dir(p.parseNote('C-1')), 1)
+  test.end()
+})
+
+tape('get chroma from a pitch object', function (test) {
+  test.deepEqual('Cb C Db D Eb E Fb F Gb G Ab A Bb B'.split(' ').map(p.parseNote).map(p.chr),
+    [ 11, 0, 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11 ])
+  test.deepEqual('P1 M2 M3 P4 P5 M6 M7'.split(' ').map(p.parseIvl).map(p.chr),
+    [ 0, 2, 4, 5, 7, 9, 11 ])
+  test.deepEqual('-1P -2M -3M -4P -5P -6M -7M'.split(' ').map(p.parseIvl).map(p.chr),
+    [ 0, 10, 8, 7, 5, 3, 1 ])
+  test.end()
+})
+
 tape('parse note', function (test) {
   test.deepEqual(p.parseNote('Cb4'), [ 'tnlp', [ -7, 8 ] ])
   test.end()
