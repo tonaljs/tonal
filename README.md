@@ -92,58 +92,58 @@ Tonal itself is built from a collection of [modules](). Some of they are exposed
 ### Modules included in `tonal` package
 
 #### [tonal-note](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/note) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-note.svg)](https://www.npmjs.com/package/tonal-note)
-  - [noteName](): get the note name
-  - [chroma]: get chroma of a note
-  - [pc](): get pitch class of a note
-  - [enharmonics](): get a list of note enharmonics
-  - [simpleEnh](): get the simplest enharmonic of a note
+  - [noteName](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/note#noteName): get the note name
+  - [chroma](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/note#chroma): get chroma of a note
+  - [pc](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/note#pc): get pitch class of a note
+  - [enharmonics](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/note#enenharmonics): get a list of note enharmonics
+  - [simpleEnh](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/note#simpleEnh): get the simplest enharmonic of a note
 
 #### [tonal-interval](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/interval) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-interval.svg)](https://www.npmjs.com/package/tonal-interval)
-  - [ivlName](): get the interval name
-  - [semitones](): get the size of an interval in semitones
-  - [fromSemitones](): create an interval from a semitones number
-  - [ic](): get interval class
-  - [itype](): get interval type
-  - [invert](): invert interval
-  - [simplify](): simplify interval
+  - [ivlName](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/interval#vilName): get the interval name
+  - [semitones](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/interval#semitones): get the size of an interval in semitones
+  - [fromSemitones](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/interval#fromSemitones): create an interval from a semitones number
+  - [ic](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/interval#ic): get interval class
+  - [itype](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/interval#itype): get interval type
+  - [invert](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/interval#invert): invert interval
+  - [simplify](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/interval#ssimplify): simplify interval
 
 #### [tonal-midi](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/midi) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-midi.svg)](https://www.npmjs.com/package/tonal-midi)
-  - [isMidiNum](): test if the given number is a valid midi note number
-  - [toMidi](): get midi note number from a note
-  - [fromMidi](): get note name from midi number
-  - [fromMidiS](): get note name from midi number using sharps when altered
+  - [isMidiNum](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/midi#isMidiNum): test if the given number is a valid midi note number
+  - [toMidi](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/midi#toMidi): get midi note number from a note
+  - [fromMidi](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/midi#fromMidi): get note name from midi number
+  - [fromMidiS](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/midi#fromMidiS): get note name from midi number using sharps when altered
 
 #### [tonal-freq](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/freq) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-freq.svg)](https://www.npmjs.com/package/tonal-freq)
-  - [toFreq](): get frequency of a note name
-  - [fromFreq](): get note name from frequency
-  - [cents](): get distance in cents between two notes or frequencies
-  - [toEqualTemp](): create a function to convert notes to frequencies using equal temperament
-  - [fromEqualTemp](): create a function to convert frequencies to notes using equal temperament
+  - [toFreq](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/freq#toFreq): get frequency of a note name
+  - [fromFreq](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/freq#fromFreq): get note name from frequency
+  - [cents](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/freq#cents): get distance in cents between two notes or frequencies
+  - [toEqualTemp](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/freq#totoEqualTemp): create a function to convert notes to frequencies using equal temperament
+  - [fromEqualTemp](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/freq#fromEqualTemp): create a function to convert frequencies to notes using equal temperament
 
 #### [tonal-transpose](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/transpose) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-transpose.svg)](https://www.npmjs.com/package/tonal-transpose)
- - [transpose](): transpose notes by intervals. Can be used to add intervals.
- - [trFifths](): transpose a note by a number of perfect fifths
+ - [transpose](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/transpose#transpose): transpose notes by intervals. Can be used to add intervals.
+ - [trFifths](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/transpose#trFifths): transpose a note by a number of perfect fifths
 
 #### [tonal-distance](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/distance) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-distance.svg)](https://www.npmjs.com/package/tonal-distance)
-  - [distance](): find the interval distance between two notes
+  - [distance](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/distance#distance): find the interval distance between two notes
 
 #### [tonal-array](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/array) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-array.svg)](https://www.npmjs.com/package/tonal-array)
-  - [asArr](): split a strings into arrays
-  - [map](): map a function to a list
-  - [filter](): filter a list using a function
-  - [harmonizer](): return a function that harmonizes notes using a list of intervals
-  - [harmonize](): given a note and a list of intervals, harmonize the note with the intervals
-  - [sort](): sort a list of notes or intervals
-  - [shuffle](): shuffle an array
+  - [asArr](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/array#asArr): split a strings into arrays
+  - [map](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/array#map): map a function to a list
+  - [filter](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/array#filter): filter a list using a function
+  - [harmonizer](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/array#harmonizer): return a function that harmonizes notes using a list of intervals
+  - [harmonize](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/array#harmonize): given a note and a list of intervals, harmonize the note with the intervals
+  - [sort](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/array#sort): sort a list of notes or intervals
+  - [shuffle](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/array#shuffle): shuffle an array
 
 #### [tonal-range](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/range) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-range.svg)](https://www.npmjs.com/package/tonal-range)
 
-- [range](): create a range of notes
-- [scaleRange](): create a range using a scale
-- [chromatic](): create a chromatic range
-- [cycleOfFifths](): create a cycle of fifths range
-- [fromPitchSet]: given a scale and a midi number, return a note name if the note correspond to the scale
-- [noteRange]: create note ranges using a note name generator
+- [range](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/range#range): create a range of notes
+- [scaleRange](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/range#sscaleRange): create a range using a scale
+- [chromatic](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/range#chromatic): create a chromatic range
+- [cycleOfFifths](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/range#cycleOfFifths): create a cycle of fifths range
+- [fromPitchSet](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/range#fromPitchSet): given a scale and a midi number, return a note name if the note correspond to the scale
+- [noteRange](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/range#noteRange): create note ranges using a note name generator
 
 ### Modules not included in `tonal` package
 
