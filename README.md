@@ -91,14 +91,14 @@ Tonal itself is built from a collection of [modules](). Some of they are exposed
 
 ### Modules included in `tonal` package
 
-#### [tonal-note]()
+#### [tonal-note](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/note) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-note.svg)](https://www.npmjs.com/package/tonal-note)
   - [noteName](): get the note name
   - [chroma]: get chroma of a note
   - [pc](): get pitch class of a note
   - [enharmonics](): get a list of note enharmonics
   - [simpleEnh](): get the simplest enharmonic of a note
 
-#### [tonal-interval]()
+#### [tonal-interval](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/interval) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-interval.svg)](https://www.npmjs.com/package/tonal-interval)
   - [ivlName](): get the interval name
   - [semitones](): get the size of an interval in semitones
   - [fromSemitones](): create an interval from a semitones number
@@ -107,27 +107,27 @@ Tonal itself is built from a collection of [modules](). Some of they are exposed
   - [invert](): invert interval
   - [simplify](): simplify interval
 
-#### [tonal-midi]()
+#### [tonal-midi](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/midi) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-midi.svg)](https://www.npmjs.com/package/tonal-midi)
   - [isMidiNum](): test if the given number is a valid midi note number
   - [toMidi](): get midi note number from a note
   - [fromMidi](): get note name from midi number
   - [fromMidiS](): get note name from midi number using sharps when altered
 
-#### [tonal-freq]()
+#### [tonal-freq](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/freq) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-freq.svg)](https://www.npmjs.com/package/tonal-freq)
   - [toFreq](): get frequency of a note name
   - [fromFreq](): get note name from frequency
   - [cents](): get distance in cents between two notes or frequencies
   - [toEqualTemp](): create a function to convert notes to frequencies using equal temperament
   - [fromEqualTemp](): create a function to convert frequencies to notes using equal temperament
 
-#### [tonal-transpose]()
+#### [tonal-transpose](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/transpose) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-transpose.svg)](https://www.npmjs.com/package/tonal-transpose)
  - [transpose](): transpose notes by intervals. Can be used to add intervals.
  - [trFifths](): transpose a note by a number of perfect fifths
 
-#### [tonal-distance]()
+#### [tonal-distance](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/distance) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-distance.svg)](https://www.npmjs.com/package/tonal-distance)
   - [distance](): find the interval distance between two notes
 
-#### [tonal-array]()
+#### [tonal-array](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/array) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-array.svg)](https://www.npmjs.com/package/tonal-array)
   - [asArr](): split a strings into arrays
   - [map](): map a function to a list
   - [filter](): filter a list using a function
@@ -136,7 +136,7 @@ Tonal itself is built from a collection of [modules](). Some of they are exposed
   - [sort](): sort a list of notes or intervals
   - [shuffle](): shuffle an array
 
-#### [tonal-range]()
+#### [tonal-range](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/range) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-range.svg)](https://www.npmjs.com/package/tonal-range)
 
 - [range](): create a range of notes
 - [scaleRange](): create a range using a scale
@@ -147,11 +147,14 @@ Tonal itself is built from a collection of [modules](). Some of they are exposed
 
 ### Modules not included in `tonal` package
 
-#### [tonal-scale]()
+#### [tonal-scale](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/scale) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-scale.svg)](https://www.npmjs.com/package/tonal-scale)
 
-#### [tonal-chord]()
+#### [tonal-chord](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/chord) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-chord.svg)](https://www.npmjs.com/package/tonal-chord)
 
-#### [tonal-key]()
+#### [tonal-key](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/key) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-key.svg)](https://www.npmjs.com/package/tonal-key)
+
+#### [tonal-progression](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/progression) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-progression.svg)](https://www.npmjs.com/package/tonal-progression)
+
 
 
 ## License

@@ -25,8 +25,8 @@ function descR (b, n) { for (var a = []; n--; a[n] = b - n); return a }
  * tonal.range('C2', 'C3')
  */
 export function range (a, b) {
-  const ma = isNum(a) ? a : toMidi(a)
-  const mb = isNum(b) ? b : toMidi(b)
+  var ma = isNum(a) ? a : toMidi(a)
+  var mb = isNum(b) ? b : toMidi(b)
   return ma === null || mb === null ? []
     : ma < mb ? ascR(ma, mb - ma + 1) : descR(ma, ma - mb + 1)
 }
@@ -51,10 +51,10 @@ function buildNote (pc, midi) { return pc + (Math.floor(midi / 12) - 1) }
  */
 export function fromPitchSet (notes, m) {
   if (arguments.length > 1) return fromPitchSet(notes)(m)
-  const scale = map(pc, notes)
-  const chromas = map(chroma, scale)
+  var scale = map(pc, notes)
+  var chromas = map(chroma, scale)
   return function (midi) {
-    const pcIndex = chromas.indexOf(midi % 12)
+    var pcIndex = chromas.indexOf(midi % 12)
     return pcIndex > -1 ? buildNote(scale[pcIndex], midi) : null
   }
 }
@@ -85,7 +85,7 @@ export function noteRange (fn, a, b) {
  * @example
  * tonal.chromatic('C2', 'E2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2']
  */
-export const chromatic = noteRange(fromMidi)
+export var chromatic = noteRange(fromMidi)
 
 // #### Cycle of fifths
 

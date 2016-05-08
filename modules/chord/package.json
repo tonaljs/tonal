@@ -1,6 +1,6 @@
 {
   "name": "tonal-chord",
-  "version": "0.50.0",
+  "version": "0.50.1",
   "description": "Music chords creation and manipulation",
   "keywords": [
     "music",
@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && cp chords.json build/ && rollup -f cjs -n chord -o build/tonal-chord.js -- index.js",
-    "test": "tape 'test/*.js'"
+    "test": "tape 'test/*.js'",
+    "prepublish": "npm test"
   },
   "main": "build/tonal-chord.js",
   "jsnext:main": "index",

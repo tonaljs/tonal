@@ -19,7 +19,7 @@ export function encode (step, alt, oct) {
 
 // Return the number of fifths as if it were unaltered
 function unaltered (f) {
-  const i = (f + 1) % 7
+  var i = (f + 1) % 7
   return i < 0 ? 7 + i : i
 }
 
@@ -27,7 +27,7 @@ function unaltered (f) {
 // Fifths for CDEFGAB are [ 0, 2, 4, -1, 1, 3, 5 ]
 // We add 1 to fifths to avoid negative numbers, so:
 // { 0: F, 1: C, 2: G, 3: D, 4: A, 5: E, 6: B}
-const STEPS = [3, 0, 4, 1, 5, 2, 6]
+var STEPS = [3, 0, 4, 1, 5, 2, 6]
 
 export function decode (f, o) {
   var step = STEPS[unaltered(f)]

@@ -59,7 +59,7 @@ export var names = dictN(DATA)
  * fromName('CMaj7') // => ['C', 'E', 'G', 'B']
  */
 export function get (name) {
-  const p = regex().exec(name)
+  var p = regex().exec(name)
   if (!p) return []
   // it has note and chord name
   if (p[4]) return build(p[4], p[1] + p[2] + p[3])

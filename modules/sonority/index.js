@@ -1,3 +1,4 @@
+import { ic } from 'tonal-interval'
 import { parseNote, isNotePitch, chr } from 'tonal-pitch'
 import { listFn } from 'tonal-array'
 
@@ -29,11 +30,11 @@ import { listFn } from 'tonal-array'
  * @param {Array|String} notes - the notes to analyze
  * @return {Array} the _pmnsdt_ array
  */
-export const density = listFn(function (list) {
+export var density = listFn(function (list) {
   var a, b, i
-  const notes = list.filter(isNotePitch).map(parseNote)
-  const len = notes.length
-  const result = [0, 0, 0, 0, 0, 0]
+  var notes = list.filter(isNotePitch).map(parseNote)
+  var len = notes.length
+  var result = [0, 0, 0, 0, 0, 0]
   for (a = 0; a < len; a++) {
     for (b = a; b < len; b++) {
       i = ic(chr(notes[b]) - chr(notes[a]))

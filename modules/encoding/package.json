@@ -1,11 +1,12 @@
 {
   "name": "tonal-encoding",
-  "version": "0.50.0",
+  "version": "0.50.1",
   "description": "Encode pitches using fifths/octaves",
   "keywords": ["pitch", "fifths", "encode", "tonal"],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f cjs -n encoding -o build/tonal-encoding.js -- index.js",
-    "test": "tape 'test/*.js'"
+    "test": "tape 'test/*.js'",
+    "prepublish": "npm test"
   },
   "main": "build/tonal-encoding.js",
   "jsnext:main": "index",

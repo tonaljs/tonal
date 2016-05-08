@@ -59,7 +59,7 @@ export function fromSemitones (num) {
   return d * (IN[c] + 7 * o) + IQ[c]
 }
 
-const CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]
+var CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]
 /**
  * Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
  * number of a given interval.

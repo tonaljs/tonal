@@ -14,7 +14,7 @@ import { toMidi, fromMidi } from 'tonal-midi'
  */
 export function toEqualTemp (ref) {
   return function (p) {
-    const m = toMidi(p)
+    var m = toMidi(p)
     return m ? Math.pow(2, (m - 69) / 12) * ref : null
   }
 }
