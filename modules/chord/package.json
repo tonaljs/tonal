@@ -9,7 +9,7 @@
     "tonal"
   ],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && cp chords.json build/ && rollup -f umd -n chord -o build/tonal-chord.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && cp chords.json build/ && rollup -f cjs -n chord -o build/tonal-chord.js -- index.js",
     "test": "tape 'test/*.js'"
   },
   "main": "build/tonal-chord.js",

@@ -21,7 +21,7 @@ function trBy (i, p) {
  * @return {String|Pitch} the transposed pitch or null if not valid parameters
  */
 export function transpose (a, b) {
-  if (arguments.length === 1) return (b) => transpose(a, b)
+  if (arguments.length === 1) return function (b) { return transpose(a, b) }
   var pa = asPitch(a)
   var pb = asPitch(b)
   var r = isIvlPitch(pa) ? trBy(pa, pb)

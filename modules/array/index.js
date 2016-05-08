@@ -92,17 +92,18 @@ function listToStr (v) {
  * var octUp = listFn((p) => { p[2] = p[2] + 1; return p[2] })
  * octUp('C2 D2 E2') // => ['C3', 'D3', 'E3']
  */
-export var listFn = (fn) => (src) => {
-  var param = asArr(src).map(asPitch)
-  var result = fn(param)
-  return listToStr(result)
+export function listFn (fn) {
+  return function (list) {
+    var arr = asArr(list).map(asPitch)
+    var res = fn(arr)
+    return listToStr(res)
+  }
 }
 
 /**
  * Given an array of intervals, create a function that harmonizes a
  * note with this intervals.
  *
- * @function
  * @param {Array|String} ivls - the array of intervals
  * @return {Function} The harmonizer
  * @example
@@ -110,8 +111,12 @@ export var listFn = (fn) => (src) => {
  * var maj7 = harmonizer('P1 M3 P5 M7')
  * maj7('C') // => ['C', 'E', 'G', 'B']
  */
-export var harmonizer = (list) => (pitch) => {
-  return listFn((list) => list.map(tr(pitch || 'P1')).filter(id))(list)
+export function harmonizer (list) {
+  return function (tonic) {
+    return listFn(function (arr) {
+      return arr.map(tr(tonic || 'P1')).filter(id)
+    })(list)
+  }
 }
 
 /**
@@ -140,8 +145,10 @@ var objHeight = function (p) {
   return f + o * 12
 }
 
-var ascComp = (a, b) => objHeight(a) - objHeight(b)
-var descComp = (a, b) => -ascComp(a, b)
+// ascending comparator
+function ascComp (a, b) { return objHeight(a) - objHeight(b) }
+// descending comparator
+function descComp (a, b) { return -ascComp(a, b) }
 
 /**
  * Sort an array or notes or intervals. It uses the JavaScript standard sort
@@ -162,7 +169,9 @@ export function sort (comp, list) {
   if (arguments.length > 1) return sort(comp)(list)
   var fn = comp === true || comp === null ? ascComp
     : comp === false ? descComp : comp
-  return listFn((arr) => arr.sort(fn))
+  return listFn(function (arr) {
+    return arr.sort(fn)
+  })
 }
 
 /**

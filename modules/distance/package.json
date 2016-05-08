@@ -1,6 +1,6 @@
 {
   "name": "tonal-distance",
-  "version": "0.50.0",
+  "version": "0.50.1",
   "description": "Find distances between musical notes",
   "keywords": [
     "interval",
@@ -9,7 +9,7 @@
     "tonal"
   ],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -n distance -o build/tonal-distance.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n distance -o build/tonal-distance.js -- index.js",
     "test": "tape 'test/*.js'",
     "prepublish": "npm test"
   },

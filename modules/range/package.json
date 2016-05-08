@@ -9,7 +9,7 @@
     "tonal"
   ],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -n midi -o build/tonal-midi.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n midi -o build/tonal-midi.js -- index.js",
     "test": "tape 'test/*.js'"
   },
   "main": "build/tonal-midi.js",

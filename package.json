@@ -2,25 +2,17 @@
   "name": "tonal",
   "version": "0.50.4",
   "description": "A functional music theory library",
-  "main": "dist/tonal.js",
+  "main": "build/index.js",
   "jsnext:main": "lib/index.js",
   "scripts": {
-    "bundle": "npm test && npm run dist && npm run docco && npm run api && ls -hall dist/",
-    "standard": "standard lib/tonal.js",
+    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n tonal -o build/index.js -- lib/index.js",
+    "test": "tape 'test/*.js'",
+    "dist": "npm test && browserify build/index.js > dist/tonal.js && uglifyjs dist/tonal.js -c -m -o dist/tonal.min.js && ls -hall dist/",
+    "prepublish": "npm run dist",
     "modules-update": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && rm -rf node_modules/tonal-* && npm i); done",
     "modules-build": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && rollup -c); done",
     "modules-api": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && jsdoc2md index.js > API.md); done",
-    "modules-test": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && npm test); done",
-    "test": "npm run rollup && mocha",
-    "test-ci": "npm run packages-build && npm run packages-test",
-    "docco": "docco -l linear lib/tonal.js",
-    "docs": "npm run docco && open docs/tonal.html",
-    "api": "jsdoc2md lib/tonal.js > docs/API.md",
-    "rollup": "rollup lib/tonal.js -o dist/tonal.js -f cjs",
-    "dist": "rollup -c && uglifyjs dist/tonal.js > dist/tonal.min.js",
-    "disc": "cat dist/tonal.min.js | discify > dist/disc.html",
-    "coverage": "istanbul cover _mocha",
-    "cover": "npm run coverage && open coverage/lcov-report/index.html"
+    "modules-test": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && npm test); done"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal",
@@ -35,7 +27,16 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
+    "tonal-array": "^0.50.3",
+    "tonal-distance": "^0.50.1",
+    "tonal-freq": "^0.51.0",
+    "tonal-midi": "^0.50.0",
+    "tonal-note": "^0.50.1",
+    "tonal-transpose": "^0.50.3"
   },
   "devDependencies": {
+    "rollup": "0.26",
+    "tape": "4",
+    "uglify-js": "2"
   }
 }

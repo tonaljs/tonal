@@ -25,10 +25,10 @@ function substr (a, b) {
  * tonal.distance('M2', 'P5') // => 'P4'
  */
 export function interval (a, b) {
-  if (arguments.length === 1) return (b) => distance(a, b)
-  const pa = asPitch(a)
-  const pb = asPitch(b)
-  const i = substr(pa, pb)
+  if (arguments.length === 1) return function (b) { return distance(a, b) }
+  var pa = asPitch(a)
+  var pb = asPitch(b)
+  var i = substr(pa, pb)
   // if a and b are in array notation, no conversion back
   return a === pa && b === pb ? i : strIvl(i)
 }
@@ -37,4 +37,4 @@ export function interval (a, b) {
  * An alias for `distance`
  * @function
  */
-export const distance = interval
+export var distance = interval

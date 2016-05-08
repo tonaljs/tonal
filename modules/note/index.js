@@ -86,16 +86,16 @@ export function enharmonics (pitch) {
 export var enh = enharmonics
 
 /**
- * Try to get a simpler enharmonic note name
+ * Get a simpler enharmonic note name from a note if exists
  *
  * @param {String} note - the note to simplify
- * @return {String} the simplfiied note (can be the same)
+ * @return {String} the simplfiied note (if not found, return same note)
  *
  * @example
  * var enharmonics = require('enharmonics')
- * enharmonics.simplify('B#3') // => 'C4'
+ * enharmonics.simpleEnh('B#3') // => 'C4'
  */
-export function simplify (pitch) {
+export function simpleEnh (pitch) {
   return enharmonics(pitch).reduce(function (simple, next) {
     if (!simple) return next
     return simple.length > next.length ? next : simple

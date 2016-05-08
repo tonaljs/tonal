@@ -30,8 +30,8 @@ below enharmonic, the note, and the upper enharmonic</p>
 <dt><a href="#enh">enh()</a></dt>
 <dd><p>An alias for <code>enharmonics</code></p>
 </dd>
-<dt><a href="#simplify">simplify(note)</a> ⇒ <code>String</code></dt>
-<dd><p>Try to get a simpler enharmonic note name</p>
+<dt><a href="#simpleEnh">simpleEnh(note)</a> ⇒ <code>String</code></dt>
+<dd><p>Get a simpler enharmonic note name from a note if exists</p>
 </dd>
 </dl>
 
@@ -116,13 +116,13 @@ enharmonics('Db') // => ['C#', 'Db', 'Ebbb'])
 An alias for `enharmonics`
 
 **Kind**: global function  
-<a name="simplify"></a>
+<a name="simpleEnh"></a>
 
-## simplify(note) ⇒ <code>String</code>
-Try to get a simpler enharmonic note name
+## simpleEnh(note) ⇒ <code>String</code>
+Get a simpler enharmonic note name from a note if exists
 
 **Kind**: global function  
-**Returns**: <code>String</code> - the simplfiied note (can be the same)  
+**Returns**: <code>String</code> - the simplfiied note (if not found, return same note)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -131,5 +131,5 @@ Try to get a simpler enharmonic note name
 **Example**  
 ```js
 var enharmonics = require('enharmonics')
-enharmonics.simplify('B#3') // => 'C4'
+enharmonics.simpleEnh('B#3') // => 'C4'
 ```

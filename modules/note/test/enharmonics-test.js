@@ -23,11 +23,11 @@ tape('with arrays', function (test) {
     [ [ 'tnlp', [ 12 ] ], [ 'tnlp', [ 0 ] ], [ 'tnlp', [ -12 ] ] ])
   test.end()
 })
-tape('simplify note', function (test) {
-  test.equal(note.simplify('E#2'), 'F2')
-  test.equal(note.simplify('B#2'), 'C3')
-  test.equal(note.simplify('Cb2'), 'B1')
+tape('simpleEnh note', function (test) {
+  test.equal(note.simpleEnh('E#2'), 'F2')
+  test.equal(note.simpleEnh('B#2'), 'C3')
+  test.equal(note.simpleEnh('Cb2'), 'B1')
   // strage case: not a COMPLETE simplification, but I think is enough
-  test.equal(note.simplify('A###6'), 'B#6')
+  test.equal(note.simpleEnh('A###6'), 'B#6')
   test.end()
 })

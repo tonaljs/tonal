@@ -4,7 +4,7 @@
   "description": "Encode pitches using fifths/octaves",
   "keywords": ["pitch", "fifths", "encode", "tonal"],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -n encoding -o build/tonal-encoding.js -- index.js",
+    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n encoding -o build/tonal-encoding.js -- index.js",
     "test": "tape 'test/*.js'"
   },
   "main": "build/tonal-encoding.js",

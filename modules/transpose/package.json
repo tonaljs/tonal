@@ -1,6 +1,6 @@
 {
   "name": "tonal-transpose",
-  "version": "0.50.2",
+  "version": "0.50.3",
   "description": "Music note transposition",
   "keywords": [
     "note",
@@ -9,8 +9,9 @@
     "tonal"
   ],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -n transpose -o build/tonal-transpose.js -- index.js",
-    "test": "tape 'test/*.js'"
+    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n transpose -o build/tonal-transpose.js -- index.js",
+    "test": "tape 'test/*.js'",
+    "prepublish": "npm test"
   },
   "main": "build/tonal-transpose.js",
   "jsnext:main": "index",

@@ -66,4 +66,5 @@ tape('transpose edge cases', function (test) {
 tape('transpose fifths', function (test) {
   test.deepEqual([0, 1, 2, 3, 4, 5, 6, 7].map(t.trFifths('C')),
     [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#' ])
+  test.end()
 })
