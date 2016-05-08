@@ -149,7 +149,15 @@ Tonal itself is built from a collection of [modules](). Some of they are exposed
 
 #### [tonal-scale](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/scale) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-scale.svg)](https://www.npmjs.com/package/tonal-scale)
 
+- [get](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/scale#get): get a scale from name
+- [build](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/scale#build): build a scale from type or intervals and tonic
+- [names](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/scale#names): get a list of all scale names
+
 #### [tonal-chord](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/chord) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-chord.svg)](https://www.npmjs.com/package/tonal-chord)
+- [get](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/chord#get): get a chord from name
+- [build](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/chord#build): build a chord from type or intervals and tonic
+- [names](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/chord#names): get a list of all chord names
+
 
 #### [tonal-key](https://github.com/danigb/tonal/tree/tonal-0.50.x/modules/key) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-key.svg)](https://www.npmjs.com/package/tonal-key)
 
