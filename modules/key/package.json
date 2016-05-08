@@ -1,0 +1,29 @@
+{
+  "name": "tonal-key",
+  "version": "0.50.1",
+  "description": "Conversion between key numbers and note names",
+  "keywords": [
+    "note",
+    "key",
+    "tonal"
+  ],
+  "scripts": {
+    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n key -o build/tonal-key.js -- index.js",
+    "test": "tape 'test/*.js'",
+    "prepublish": "npm test"
+  },
+  "main": "build/tonal-key.js",
+  "jsnext:main": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {
+    "rollup": "0.25",
+    "tape": "4"
+  },
+  "dependencies": {
+    "tonal-notation": "^0.50.0",
+    "tonal-note": "^0.50.2",
+    "tonal-range": "^0.50.2",
+    "tonal-transpose": "^0.50.3"
+  }
+}

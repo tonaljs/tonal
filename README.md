@@ -87,7 +87,7 @@ Also, I want a complete library, where I can model all what I learn, with some (
 
 ## What
 
-Tonal itself is built from a collection of [modules](). Some of they are exposed in the `tonal` package that can be installed via npm: `npm i tonal`. Some others must be required explicitly, like scales: `npm i tonal-scales`
+Tonal itself is built from a collection of [modules](https://github.com/danigb/tonal/tree/master/modules). Some of they are exposed in the `tonal` package that can be installed via npm: `npm i tonal`. Some others must be required explicitly, like scales: `npm i tonal-scales`
 
 ### Modules included in `tonal` package
 
@@ -161,13 +161,22 @@ Tonal itself is built from a collection of [modules](). Some of they are exposed
 
 #### [tonal-key](https://github.com/danigb/tonal/tree/master/modules/key) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-key.svg)](https://www.npmjs.com/package/tonal-key)
 
+- [names](https://github.com/danigb/tonal/tree/master/modules/key#names): Get a list of mode names.
+- [isKeyMode](https://github.com/danigb/tonal/tree/master/modules/key#isKeyMode): test if a string is a valid key mode
+- [build](https://github.com/danigb/tonal/tree/master/modules/key#build): build a key from mode and tonic
+- [fromAlter](https://github.com/danigb/tonal/tree/master/modules/key#fromAlter): create a key from alteration
+- [fromAcc](https://github.com/danigb/tonal/tree/master/modules/key#fromAcc): create a key from accidentals
+- [fromName](https://github.com/danigb/tonal/tree/master/modules/key#fromName): create a key from name
+- [asKey](https://github.com/danigb/tonal/tree/master/modules/key#asKey): try to interpret the object as a key
+- [alteration](https://github.com/danigb/tonal/tree/master/modules/key#alteration): get key alteration
+- [accidentals](https://github.com/danigb/tonal/tree/master/modules/key#accidentals): get key accidentals
+- [alteredNotes](https://github.com/danigb/tonal/tree/master/modules/key#alteredNotes): get the altered notes of a key
+
 #### [tonal-progression](https://github.com/danigb/tonal/tree/master/modules/progression) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-progression.svg)](https://www.npmjs.com/package/tonal-progression)
 
 - [build](https://github.com/danigb/tonal/tree/master/modules/progression#build): build a progression from a list of chords (in roman numerals) and a tonic
 - [romanRegex](https://github.com/danigb/tonal/tree/master/modules/progression#romanRegex): get a regex to match roman numerals.
 - [parseRomanChord](https://github.com/danigb/tonal/tree/master/modules/progression#parseRomanChord): parse chord expressed with roman numerals.
-
-
 
 ## License
 
