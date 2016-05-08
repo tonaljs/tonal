@@ -2,10 +2,11 @@
   "name": "tonal-dictionary",
   "version": "0.50.0",
   "description": "Tonal key/value utilities",
-  "keywords": ["dictionary", "hash", "tonal"],
+  "keywords": ["music", "theory", "dictionary", "tonal"],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f cjs -n dictionary -o build/tonal-dict.js -- index.js",
-    "test": "tape 'test/*.js'"
+    "test": "tape 'test/*.js'",
+    "prepublish": "npm test"
   },
   "main": "build/tonal-dict.js",
   "jsnext:main": "index",
