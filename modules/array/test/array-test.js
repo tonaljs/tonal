@@ -1,54 +1,58 @@
-var tape = require('tape')
+var test = require('tape')
 var _ = require('../')
 function up (s) { return s.toUpperCase() }
 
-tape('harmonizer creates a function', function (test) {
-  var maj7 = _.harmonizer('1P 3M 5P 7M')
-  test.deepEqual(maj7('Bb'), [ 'Bb', 'D', 'F', 'A' ])
-  test.end()
-})
-tape('filter nulls', function (test) {
-  test.deepEqual(_.harmonize('C blah D', '7m'), [ 'Bb', 'C' ])
-  test.deepEqual(_.harmonize(null, '7m'), [])
-  test.end()
-})
-tape('null or false returns the pitches', function (test) {
-  test.deepEqual(_.harmonize('c d e', null), [ 'C', 'D', 'E' ])
-  test.end()
-})
-tape('harmonizes intervals by tonic', function (test) {
-  test.deepEqual(_.harmonize('1P 3M 5P', 'A4'),
-  [ 'A4', 'C#5', 'E5' ])
-  test.end()
-})
-tape('harmonizes notes by interval', function (test) {
-  test.deepEqual(_.harmonize('C E G', 'M3'),
-  [ 'E', 'G#', 'B' ])
-  test.end()
-})
-tape('splits list source', function (test) {
-  test.deepEqual(_.map(up, 'a bb cx'),
-  [ 'A', 'BB', 'CX' ])
-  test.end()
-})
-tape('can be partially applied', function (test) {
+test('map', function (t) {
+  t.deepEqual(_.map(up, 'a bb cx'), [ 'A', 'BB', 'CX' ])
   var ups = _.map(up)
-  test.deepEqual(ups('a bb cx'),
-  [ 'A', 'BB', 'CX' ])
-  test.end()
+  t.deepEqual(ups('a bb cx'), [ 'A', 'BB', 'CX' ])
+  t.end()
 })
-tape('filter lists', function (test) {
+
+test('cMap', function (t) {
+  function even (x) { return x % 2 ? null : x }
+  t.deepEqual(_.cMap(even, [1, 2, 3, 4]), [ 2, 4 ])
+  t.end()
+})
+
+test('compact', function (t) {
+  t.deepEqual(_.compact(['a', null, 'b']), ['a', 'b'])
+  t.end()
+})
+
+test('filter', function (t) {
   function isUpLetter (s) { return 'CDEFGAB'.indexOf(s[0]) !== -1 }
-  test.deepEqual(_.filter(isUpLetter, 'C d f4 A4 M3'),
+  t.deepEqual(_.filter(isUpLetter, 'C d f4 A4 M3'),
   [ 'C', 'A4' ])
-  test.end()
+  t.end()
 })
-tape('shuffles an array', function (test) {
+
+test('shuffle', function (t) {
   var s = _.shuffle('A B C D')
-  test.equal(s.length, 4)
-  test.notEqual(s.indexOf('A'), -1)
-  test.notEqual(s.indexOf('B'), -1)
-  test.notEqual(s.indexOf('C'), -1)
-  test.notEqual(s.indexOf('D'), -1)
-  test.end()
+  t.equal(s.length, 4)
+  t.notEqual(s.indexOf('A'), -1)
+  t.notEqual(s.indexOf('B'), -1)
+  t.notEqual(s.indexOf('C'), -1)
+  t.notEqual(s.indexOf('D'), -1)
+  t.end()
+})
+
+test('harmonics', function (t) {
+  t.deepEqual(_.harmonics('C E G'), [ '1P', '3M', '5P' ])
+  t.deepEqual(_.harmonics('C2 E3 G4'), [ '1P', '10M', '19P' ])
+  t.deepEqual(_.harmonics('x y z'), [])
+  t.end()
+})
+
+test('harmonizer', function (t) {
+  t.deepEqual(_.harmonize('1P 3M 5P', 'A4'), [ 'A4', 'C#5', 'E5' ])
+  t.deepEqual(_.harmonize('C E G', 'M3'), [ 'E', 'G#', 'B' ])
+
+  t.deepEqual(_.harmonize('C blah D', '7m'), [ 'Bb', 'C' ])
+  t.deepEqual(_.harmonize(null, '7m'), [])
+  t.deepEqual(_.harmonize('c d e', null), [ 'C', 'D', 'E' ])
+
+  var maj7 = _.harmonizer('1P 3M 5P 7M')
+  t.deepEqual(maj7('Bb'), [ 'Bb', 'D', 'F', 'A' ])
+  t.end()
 })

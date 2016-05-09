@@ -1,6 +1,7 @@
 import { asPitch, isPitch, strPitch } from 'tonal-pitch'
 import { isArr, isNum } from 'tonal-notation'
 import { tr } from 'tonal-transpose'
+import { distance } from 'tonal-distance'
 function id (x) { return x }
 
 // items can be separated by spaces, bars and commas
@@ -32,8 +33,10 @@ export function asArr (src) {
 }
 
 /**
- * Map an array with a function. Basically the same as the JavaScript standard
- * `array.map` but with two enhacements:
+ * Return a new array with the elements mapped by a function.
+ * Basically the same as the JavaScript standard `array.map` but with
+ * two enhacements:
+ *
  * - Arrays can be expressed as strings (see [asArr])
  * - This function can be partially applied. This is useful to create _mapped_
  * versions of single element functions. For an excellent introduction of
@@ -57,6 +60,26 @@ export function map (fn, list) {
 }
 
 /**
+ * Compact map: map an array with a function and remove nulls.
+ * Can be partially applied.
+ * @param {Function} fn
+ * @param {Array|String} list
+ * @return {Array}
+ * @see map
+ */
+export function cMap (fn, list) {
+  if (arguments.length === 1) return function (l) { return cMap(fn, list) }
+  return map(fn, list).filter(id)
+}
+
+/**
+ * Return a copy of the array with the null values removed
+ * @param {String|Array} list
+ * @return {Array}
+ */
+export function compact (arr) { return asArr(arr).filter(id) }
+
+/**
  * Filter an array with a function. Again, almost the same as JavaScript standard
  * filter function but:
  * - It accepts strings as arrays
@@ -71,51 +94,35 @@ export function filter (fn, list) {
     : function (l) { return asArr(l).filter(fn) }
 }
 
-// #### Transform lists in array notation
-function asPitchStr (p) { return strPitch(p) || p }
-function listToStr (v) {
-  return isPitch(v) ? strPitch(v)
-    : isArr(v) ? v.map(asPitchStr)
-    : v
-}
-
 /**
- * Decorates a function to so it's first parameter is an array of pitches in
- * array notation. Also, if the return value is a pitch or an array of pitches
- * in array notation, it convert backs to strings.
- *
- * @function
- * @param {Function} fn - the function to decorate
- * @return {Function} the decorated function
+ * Given a list of notes, return the distance from the first note to the rest.
+ * @param {Array|String} notes - the list of notes
+ * @return {Array} the intervals
  * @example
- * import { listFn } from 'tonal-arrays'
- * var octUp = listFn((p) => { p[2] = p[2] + 1; return p[2] })
- * octUp('C2 D2 E2') // => ['C3', 'D3', 'E3']
+ * tonal.harmonics('C E g') // => ['1P', '3M', '5P']
  */
-export function listFn (fn) {
-  return function (list) {
-    var arr = asArr(list).map(asPitch)
-    var res = fn(arr)
-    return listToStr(res)
-  }
+export function harmonics (list) {
+  var a = asArr(list)
+  return a.length ? a.map(distance(a[0])).filter(id) : a
 }
 
 /**
  * Given an array of intervals, create a function that harmonizes a
- * note with this intervals.
+ * note with this intervals. Given a list of notes, return a function that
+ * transpose the notes by an interval.
  *
- * @param {Array|String} ivls - the array of intervals
+ * @param {Array|String} ivls - the list of pitches
  * @return {Function} The harmonizer
  * @example
  * import { harmonizer } from 'tonal-arrays'
  * var maj7 = harmonizer('P1 M3 P5 M7')
  * maj7('C') // => ['C', 'E', 'G', 'B']
+ * var C = harmonizer('C D E')
+ * C('M3') // => ['E', 'G#', 'B']
  */
 export function harmonizer (list) {
   return function (tonic) {
-    return listFn(function (arr) {
-      return arr.map(tr(tonic || 'P1')).filter(id)
-    })(list)
+    return cMap(tr(tonic || 'P1'), list)
   }
 }
 
@@ -198,3 +205,32 @@ export var shuffle = listFn(function (arr) {
   }
   return arr
 })
+
+// #### Transform lists in array notation
+function asPitchStr (p) { return strPitch(p) || p }
+function listToStr (v) {
+  return isPitch(v) ? strPitch(v)
+    : isArr(v) ? v.map(asPitchStr)
+    : v
+}
+
+/**
+ * Decorates a function to so it's first parameter is an array of pitches in
+ * array notation. Also, if the return value is a pitch or an array of pitches
+ * in array notation, it convert backs to strings.
+ *
+ * @function
+ * @param {Function} fn - the function to decorate
+ * @return {Function} the decorated function
+ * @example
+ * import { listFn } from 'tonal-arrays'
+ * var octUp = listFn((p) => { p[2] = p[2] + 1; return p[2] })
+ * octUp('C2 D2 E2') // => ['C3', 'D3', 'E3']
+ */
+export function listFn (fn) {
+  return function (list) {
+    var arr = asArr(list).map(asPitch)
+    var res = fn(arr)
+    return listToStr(res)
+  }
+}

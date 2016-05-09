@@ -1,93 +1,62 @@
-import { pc, chroma } from 'tonal-note'
-import { map } from 'tonal-array'
+import { asArr, cMap } from 'tonal-array'
 import { trFifths } from 'tonal-transpose'
 import { toMidi, fromMidi } from 'tonal-midi'
+import { scaleFilter } from 'tonal-filter'
 
+var slice = Array.prototype.slice
 function isNum (n) { return typeof n === 'number' }
+// convert notes to midi if needed
+function asNum (n) { return isNum(n) ? n : toMidi(n) }
 // ascending range
 function ascR (b, n) { for (var a = []; n--; a[n] = n + b); return a }
 // descending range
 function descR (b, n) { for (var a = []; n--; a[n] = b - n); return a }
+// create a range between a and b
+function ran (a, b) {
+  return a === null || b === null ? []
+    : a < b ? ascR(a, b - a + 1) : descR(a, a - b + 1)
+}
 
 /**
- * Create a numeric range. As parameters, it accepts numbers or note names.
- * It can create ascending or descending ranges.
+ * Create a numeric range. You supply a list of notes or numbers and it will
+ * be conected to create complex ranges.
  *
- * @param {Pitch|String|Number} begin - the beginning note or number
- * @param {Pitch|String|Number} end - the end note or number
- * @return {Array} an array of numbers or empty array if not valid parameters
+ * @param {String|Array} list - the list of notes or numbers used
+ * @return {Array} an array of numbers or empty array if not vald parameters
  *
  * @example
  * import { range } from 'tonal-range'
- * range('C5', 'C4') // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
- * range(10, 5) // => [ 10, 9, 8, 7, 6, 5 ]
- * // or use tonal
- * tonal.range('C2', 'C3')
+ * range('C5 C4') // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
+ * // it works with numbers
+ * range([10, 5]) // => [ 10, 9, 8, 7, 6, 5 ]
+ * // complex range
+ * range('C4 E4 Bb3') // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
+ * // can be expressed with a string or array
+ * range('C2 C4 C2') === range(['C2', 'C4', 'C2'])
+ * // included in tonal package
+ * tonal.range('C2 C3')
  */
-export function range (a, b) {
-  var ma = isNum(a) ? a : toMidi(a)
-  var mb = isNum(b) ? b : toMidi(b)
-  return ma === null || mb === null ? []
-    : ma < mb ? ascR(ma, mb - ma + 1) : descR(ma, ma - mb + 1)
-}
-
-function buildNote (pc, midi) { return pc + (Math.floor(midi / 12) - 1) }
-
-/**
- * Given a collection of pitch classes and a midi number, return the note name
- * from the collection or null if not in the collection.
- *
- * This function can be partially applied.
- *
- * @param {Array} coll - the pitch classes collection
- * @param {Number} midi - the midi number
- * @return {String} the note name or null if note in the pitch classes
- *
- * @example
- * var fromPitchSet = require('note-ranges').fromPitchSet
- * fromPitchSet('C D E', 60) // => 'C4'
- * aMajor = fromPitchSet('A C# E')
- * [69, 70, 71, 72, 73].map(aMajor) // => [ 'A4', null, null, null, 'C#5' ]
- */
-export function fromPitchSet (notes, m) {
-  if (arguments.length > 1) return fromPitchSet(notes)(m)
-  var scale = map(pc, notes)
-  var chromas = map(chroma, scale)
-  return function (midi) {
-    var pcIndex = chromas.indexOf(midi % 12)
-    return pcIndex > -1 ? buildNote(scale[pcIndex], midi) : null
-  }
-}
-
-/**
- * Create a note range using a function that convert from midi number to
- * note names
- *
- * Can be partially applied
- *
- * @param {Function} gen - the note name generator. Its a function with signature
- * (Number) => (String) that receives a note midi number and returns a note name
- * @param {String|Pitch|Integer} start - the first note (or midi number) of the range
- * @param {String|Pitch|Integer} end - the last note (or midi number) of the range
- * @return {Array} an array of note names
- */
-export function noteRange (fn, a, b) {
-  if (arguments.length === 1) return function (a, b) { return noteRange(fn, a, b) }
-  return range(a, b).map(fn).filter(function (x) { return x !== null })
+export function range (list) {
+  return asArr(list).map(asNum).reduce(function (r, n, i) {
+    if (i === 1) return ran(r, n)
+    var last = r[r.length - 1]
+    return r.concat(ran(last, n).slice(1))
+  })
 }
 
 /**
  * Create a range of chromatic notes. The altered notes will use flats.
+ *
  * @function
- * @param {String|Pitch|Integer} start - the first note (or midi number) of the range
- * @param {String|Pitch|Integer} end - the last note (or midi number) of the range
+ * @param {String|Array} list - the list of notes or midi note numbers
  * @return {Array} an array of note names
  * @example
- * tonal.chromatic('C2', 'E2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2']
+ * tonal.chromatic('C2 E2 D2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2', 'Eb2', 'D2']
  */
-export var chromatic = noteRange(fromMidi)
-
-// #### Cycle of fifths
+export function chromatic (list) {
+  var args = arguments.length === 1 ? list : slice.call(arguments)
+  return cMap(fromMidi, range(args))
+}
 
 /**
  * Create a range with a cycle of fifths
@@ -101,23 +70,25 @@ export var chromatic = noteRange(fromMidi)
  * range.cycleOfFifths(0, 6, 'C') // => [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ])
  */
 export function cycleOfFifths (s, e, t) {
-  return range(s, e).map(trFifths(t))
+  return range([s, e]).map(trFifths(t))
 }
 
 /**
  * Create a scale range. Given a pitch set (a collection of pitch classes),
  * and a start and end it returns a note range.
  *
- * @param {String|Array} notes - the collection of pitch sets
- * @param {String} start - the first note of the range
- * @param {String} end - the last note of the range
+ * @param {String|Array|Function} scale - the scale to use or a function to
+ * convert from midi numbers to note names
+ * @param {String|Array} range - a list of notes or midi numbers
  * @return {Array} the scale range, an empty array if not valid source or
  * null if not valid start or end
  * @example
  * var range = require('tonal-ranges')
- * range.scale('C D E F G A B', 'C3', 'C2')
+ * range.scale('C D E F G A B', 'C3 C2')
  * // => [ 'C3', 'B2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
  */
-export function scaleRange (src, start, end) {
-  return noteRange(fromPitchSet(src), start, end)
+export function scaleRange (src, list) {
+  if (arguments.length === 1) return function (l) { return scaleRange(src, l) }
+  var fn = typeof src === 'function' ? src : scaleFilter(src)
+  return cMap(fn, range(list))
 }

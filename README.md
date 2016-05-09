@@ -133,17 +133,19 @@ Tonal itself is built from a collection of [modules](https://github.com/danigb/t
   - [filter](https://github.com/danigb/tonal/tree/master/modules/array#filter): filter a list using a function
   - [harmonizer](https://github.com/danigb/tonal/tree/master/modules/array#harmonizer): return a function that harmonizes notes using a list of intervals
   - [harmonize](https://github.com/danigb/tonal/tree/master/modules/array#harmonize): given a note and a list of intervals, harmonize the note with the intervals
+  - [harmonics](https://github.com/danigb/tonal/tree/master/modules/array#harmonics): Given a list of notes, return the intervals from the first note to the rest.
   - [sort](https://github.com/danigb/tonal/tree/master/modules/array#sort): sort a list of notes or intervals
   - [shuffle](https://github.com/danigb/tonal/tree/master/modules/array#shuffle): shuffle an array
 
-#### [tonal-range](https://github.com/danigb/tonal/tree/master/modules/range) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-range.svg)](https://www.npmjs.com/package/tonal-range)
 
+#### [tonal-filter](https://github.com/danigb/tonal/tree/master/modules/filter) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-filter.svg)](https://www.npmjs.com/package/tonal-filter)
+- [scaleFilter](https://github.com/danigb/tonal/tree/master/modules/filter#scaleFilter): filter notes by a scale
+
+#### [tonal-range](https://github.com/danigb/tonal/tree/master/modules/range) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-range.svg)](https://www.npmjs.com/package/tonal-range)
 - [range](https://github.com/danigb/tonal/tree/master/modules/range#range): create a range of notes
 - [scaleRange](https://github.com/danigb/tonal/tree/master/modules/range#sscaleRange): create a range using a scale
 - [chromatic](https://github.com/danigb/tonal/tree/master/modules/range#chromatic): create a chromatic range
 - [cycleOfFifths](https://github.com/danigb/tonal/tree/master/modules/range#cycleOfFifths): create a cycle of fifths range
-- [fromPitchSet](https://github.com/danigb/tonal/tree/master/modules/range#fromPitchSet): given a scale and a midi number, return a note name if the note correspond to the scale
-- [noteRange](https://github.com/danigb/tonal/tree/master/modules/range#noteRange): create note ranges using a note name generator
 
 ### Modules not included in `tonal` package
 
@@ -161,6 +163,7 @@ Tonal itself is built from a collection of [modules](https://github.com/danigb/t
 
 #### [tonal-key](https://github.com/danigb/tonal/tree/master/modules/key) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-key.svg)](https://www.npmjs.com/package/tonal-key)
 
+- [relative](https://github.com/danigb/tonal/tree/master/modules/key#relative): Given a key in one mode, find it's relative in other.
 - [names](https://github.com/danigb/tonal/tree/master/modules/key#names): Get a list of mode names.
 - [isKeyMode](https://github.com/danigb/tonal/tree/master/modules/key#isKeyMode): test if a string is a valid key mode
 - [build](https://github.com/danigb/tonal/tree/master/modules/key#build): build a key from mode and tonic

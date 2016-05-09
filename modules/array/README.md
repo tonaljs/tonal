@@ -21,14 +21,22 @@ to empty arrays)</p>
 any object (or more useful: strings) as an array parameter.</p>
 </dd>
 <dt><a href="#map">map(fn, arr)</a> ⇒ <code>Array</code></dt>
-<dd><p>Map an array with a function. Basically the same as the JavaScript standard
-<code>array.map</code> but with two enhacements:</p>
+<dd><p>Return a new array with the elements mapped by a function.
+Basically the same as the JavaScript standard <code>array.map</code> but with
+two enhacements:</p>
 <ul>
 <li>Arrays can be expressed as strings (see [asArr])</li>
 <li>This function can be partially applied. This is useful to create <em>mapped</em>
 versions of single element functions. For an excellent introduction of
 the adventages <a href="https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html">read this</a></li>
 </ul>
+</dd>
+<dt><a href="#cMap">cMap(fn, list)</a> ⇒ <code>Array</code></dt>
+<dd><p>Compact map: map an array with a function and remove nulls.
+Can be partially applied.</p>
+</dd>
+<dt><a href="#compact">compact(list)</a> ⇒ <code>Array</code></dt>
+<dd><p>Return a copy of the array with the null values removed</p>
 </dd>
 <dt><a href="#filter">filter(fn, arr)</a> ⇒ <code>Array</code></dt>
 <dd><p>Filter an array with a function. Again, almost the same as JavaScript standard
@@ -38,14 +46,13 @@ filter function but:</p>
 <li>Can be partially applied</li>
 </ul>
 </dd>
-<dt><a href="#listFn">listFn(fn)</a> ⇒ <code>function</code></dt>
-<dd><p>Decorates a function to so it&#39;s first parameter is an array of pitches in
-array notation. Also, if the return value is a pitch or an array of pitches
-in array notation, it convert backs to strings.</p>
+<dt><a href="#harmonics">harmonics(notes)</a> ⇒ <code>Array</code></dt>
+<dd><p>Given a list of notes, return the distance from the first note to the rest.</p>
 </dd>
 <dt><a href="#harmonizer">harmonizer(ivls)</a> ⇒ <code>function</code></dt>
 <dd><p>Given an array of intervals, create a function that harmonizes a
-note with this intervals.</p>
+note with this intervals. Given a list of notes, return a function that
+transpose the notes by an interval.</p>
 </dd>
 <dt><a href="#harmonize">harmonize(ivl, note)</a> ⇒ <code>Array</code></dt>
 <dd><p>Harmonizes a note with an array of intervals. It&#39;s a layer of sintatic
@@ -57,6 +64,11 @@ function.</p>
 </dd>
 <dt><a href="#shuffle">shuffle(arr)</a> ⇒ <code>Array</code></dt>
 <dd><p>Randomizes the order of the specified array using the Fisher–Yates shuffle.</p>
+</dd>
+<dt><a href="#listFn">listFn(fn)</a> ⇒ <code>function</code></dt>
+<dd><p>Decorates a function to so it&#39;s first parameter is an array of pitches in
+array notation. Also, if the return value is a pitch or an array of pitches
+in array notation, it convert backs to strings.</p>
 </dd>
 </dl>
 
@@ -88,8 +100,10 @@ asArr('C D E F G') // => ['C', 'D', 'E', 'F', 'G']
 <a name="map"></a>
 
 ## map(fn, arr) ⇒ <code>Array</code>
-Map an array with a function. Basically the same as the JavaScript standard
-`array.map` but with two enhacements:
+Return a new array with the elements mapped by a function.
+Basically the same as the JavaScript standard `array.map` but with
+two enhacements:
+
 - Arrays can be expressed as strings (see [asArr])
 - This function can be partially applied. This is useful to create _mapped_
 versions of single element functions. For an excellent introduction of
@@ -113,6 +127,31 @@ toUp('a b c') // => ['A', 'B', 'C']
 var tonal = require('tonal')
 tonal.map(tonal.transpose('M3'), 'C D E') // => ['E', 'F#', 'G#']
 ```
+<a name="cMap"></a>
+
+## cMap(fn, list) ⇒ <code>Array</code>
+Compact map: map an array with a function and remove nulls.
+Can be partially applied.
+
+**Kind**: global function  
+**See**: map  
+
+| Param | Type |
+| --- | --- |
+| fn | <code>function</code> |
+| list | <code>Array</code> &#124; <code>String</code> |
+
+<a name="compact"></a>
+
+## compact(list) ⇒ <code>Array</code>
+Return a copy of the array with the null values removed
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| list | <code>String</code> &#124; <code>Array</code> |
+
 <a name="filter"></a>
 
 ## filter(fn, arr) ⇒ <code>Array</code>
@@ -128,44 +167,43 @@ filter function but:
 | fn | <code>function</code> |
 | arr | <code>String</code> &#124; <code>Array</code> |
 
-<a name="listFn"></a>
+<a name="harmonics"></a>
 
-## listFn(fn) ⇒ <code>function</code>
-Decorates a function to so it's first parameter is an array of pitches in
-array notation. Also, if the return value is a pitch or an array of pitches
-in array notation, it convert backs to strings.
+## harmonics(notes) ⇒ <code>Array</code>
+Given a list of notes, return the distance from the first note to the rest.
 
 **Kind**: global function  
-**Returns**: <code>function</code> - the decorated function  
+**Returns**: <code>Array</code> - the intervals  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| fn | <code>function</code> | the function to decorate |
+| notes | <code>Array</code> &#124; <code>String</code> | the list of notes |
 
 **Example**  
 ```js
-import { listFn } from 'tonal-arrays'
-var octUp = listFn((p) => { p[2] = p[2] + 1; return p[2] })
-octUp('C2 D2 E2') // => ['C3', 'D3', 'E3']
+tonal.harmonics('C E g') // => ['1P', '3M', '5P']
 ```
 <a name="harmonizer"></a>
 
 ## harmonizer(ivls) ⇒ <code>function</code>
 Given an array of intervals, create a function that harmonizes a
-note with this intervals.
+note with this intervals. Given a list of notes, return a function that
+transpose the notes by an interval.
 
 **Kind**: global function  
 **Returns**: <code>function</code> - The harmonizer  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ivls | <code>Array</code> &#124; <code>String</code> | the array of intervals |
+| ivls | <code>Array</code> &#124; <code>String</code> | the list of pitches |
 
 **Example**  
 ```js
 import { harmonizer } from 'tonal-arrays'
 var maj7 = harmonizer('P1 M3 P5 M7')
 maj7('C') // => ['C', 'E', 'G', 'B']
+var C = harmonizer('C D E')
+C('M3') // => ['E', 'G#', 'B']
 ```
 <a name="harmonize"></a>
 
@@ -229,4 +267,24 @@ import { shuffle } from 'tonal-arrays'
 ```js
 var tonal = require('tonal')
 tonal.shuffle('C D E F')
+```
+<a name="listFn"></a>
+
+## listFn(fn) ⇒ <code>function</code>
+Decorates a function to so it's first parameter is an array of pitches in
+array notation. Also, if the return value is a pitch or an array of pitches
+in array notation, it convert backs to strings.
+
+**Kind**: global function  
+**Returns**: <code>function</code> - the decorated function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>function</code> | the function to decorate |
+
+**Example**  
+```js
+import { listFn } from 'tonal-arrays'
+var octUp = listFn((p) => { p[2] = p[2] + 1; return p[2] })
+octUp('C2 D2 E2') // => ['C3', 'D3', 'E3']
 ```
