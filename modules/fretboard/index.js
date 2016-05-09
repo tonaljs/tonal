@@ -5,13 +5,15 @@ var DATA = require('./tunings.json')
 
 /**
  * Given a tuning name, returns the notes of the strings in the open position
+ * @function
  * @param {String} name - the tuning name
- * @param {Array} the string notes or null if not valid tuning name
+ * @return {Array} the string notes or null if not valid tuning name
  */
 export var tuning = fromName(null, DATA)
 
 /**
  * Get all available tuning names
+ * @function
  * @param {Boolean} aliases - get aliases or not
  * @return {Array} an array of tuning names
  */

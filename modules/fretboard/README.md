@@ -9,3 +9,72 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 You can install via npm: `npm i --save tonal-fretboard`
 
 ## API Reference
+<dl>
+<dt><a href="#tuning">tuning(name)</a> ⇒ <code>Array</code></dt>
+<dd><p>Given a tuning name, returns the notes of the strings in the open position</p>
+</dd>
+<dt><a href="#names">names(aliases)</a> ⇒ <code>Array</code></dt>
+<dd><p>Get all available tuning names</p>
+</dd>
+<dt><a href="#build">build(tuning, first, last)</a> ⇒ <code>Array</code></dt>
+<dd><p>Build a fretboard using a given tuning (or tuning name) and first and last
+fret numbers</p>
+</dd>
+<dt><a href="#scale">scale(tuning, scale, first, last)</a> ⇒ <code>Array</code></dt>
+<dd><p>Build a fretboard only showing the notes for the given scale.</p>
+</dd>
+</dl>
+
+<a name="tuning"></a>
+
+## tuning(name) ⇒ <code>Array</code>
+Given a tuning name, returns the notes of the strings in the open position
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - the string notes or null if not valid tuning name  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the tuning name |
+
+<a name="names"></a>
+
+## names(aliases) ⇒ <code>Array</code>
+Get all available tuning names
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - an array of tuning names  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| aliases | <code>Boolean</code> | get aliases or not |
+
+<a name="build"></a>
+
+## build(tuning, first, last) ⇒ <code>Array</code>
+Build a fretboard using a given tuning (or tuning name) and first and last
+fret numbers
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - An array of arrays, one for each string  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| tuning | <code>String</code> &#124; <code>Array</code> | the tuning name or notes |
+| first | <code>Integer</code> | the first fret number |
+| last | <code>Integer</code> | the last fret number |
+
+<a name="scale"></a>
+
+## scale(tuning, scale, first, last) ⇒ <code>Array</code>
+Build a fretboard only showing the notes for the given scale.
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - An array of arrays, one for each string  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| tuning | <code>String</code> &#124; <code>Array</code> | the tuning name or notes |
+| scale | <code>String</code> &#124; <code>Array</code> | the scale notes |
+| first | <code>Integer</code> | the first fret number |
+| last | <code>Integer</code> | the last fret number |
