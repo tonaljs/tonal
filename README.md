@@ -16,9 +16,9 @@ tonal.toFreq('A4') // => 440
 tonal.fromFreq(220) // => 'A3'
 
 // note transposition
-tonal.tr('D4', '2M') // => 'E#4'
+tonal.transpose('D4', '2M') // => 'E#4'
 // interval distance between notes
-tonal.dist('C', 'G') // => '5P'
+tonal.distance('C', 'G') // => '5P'
 // distance in semitones
 tonal.semitones(tonal.dist('C', 'G')) // => 7
 
@@ -42,13 +42,16 @@ var up5 = tonal.map(tonal.tr('5P'))
 up5('c d e') // => ['G', 'A', 'B']
 
 // Create note ranges
-tonal.chromatic('C2', 'F4') // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4' ]
-// build the cycle of fifths
-tonal.scaleRange('C D Eb F G Ab Bb', 'C3', 'C4') // => ['C3', 'D3', 'Eb3', ... 'C4']
+tonal.chromatic('C4, F4, D4') // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'E4', 'Eb4', 'D4' ]
+// Filter ranges to certain notes
+tonal.scaleRange('C Eb G Bb', 'C3, C4, C3') // => ['C3', 'Eb3', 'G3', 'Bb3', 'C4', 'Bb3', 'G3', 'Eb3', 'C3']
 
 // create harmonizers
 var maj7 = tonal.harmonizer('P1 M3 P5 M7')
 maj7('C2') // => ['C2', 'E2', 'G2', 'B2']
+
+// extract intervals
+tonal.harmonics('C Eb G Bb') // => ['1P', '3m', '5P', '7m']
 ```
 
 ## Features
