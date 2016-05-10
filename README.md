@@ -184,6 +184,16 @@ Tonal itself is built from a collection of [modules](https://github.com/danigb/t
 - [romanRegex](https://github.com/danigb/tonal/tree/master/modules/progression#romanRegex): get a regex to match roman numerals.
 - [parseRomanChord](https://github.com/danigb/tonal/tree/master/modules/progression#parseRomanChord): parse chord expressed with roman numerals.
 
+## Build, test and documentation
+
+To build or test this library you first you need is to clone this repository. Then, since it's a multimodule package if you run `npm test` you only run test for the `tonal` package (the facade). To run the test of all the modules you can run: `npm run modules-update && npm run modules-test`.
+
+Or if you prefer `npm run test-ci` to run all in one command.
+
+The API Reference documentation is generated with `jsdoc2md` package (not included in dependencies) and then the output copied to the README of each package.
+
+The distributable `tonal-min.js` file is generated with `npm run dist`
+
 ## License
 
 MIT License
