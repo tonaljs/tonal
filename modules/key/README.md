@@ -9,7 +9,18 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 You can install via npm: `npm i --save tonal-key`
 
 ## API Reference
+
 <dl>
+<dt><a href="#scale">scale(key)</a> ⇒ <code>Array</code></dt>
+<dd><p>Get scale of a key</p>
+</dd>
+<dt><a href="#relative">relative(mode, key)</a></dt>
+<dd><p>Get relative of a key. It can be partially applied.</p>
+</dd>
+<dt><a href="#alteredNotes">alteredNotes(key)</a> ⇒ <code>Array</code></dt>
+<dd><p>Get a list of the altered notes of a given key. The notes will be in
+the same order than in the key signature.</p>
+</dd>
 <dt><a href="#names">names(alias)</a> ⇒ <code>Array</code></dt>
 <dd><p>Get a list of valid mode names. The list of modes will be always in
 increasing order (ionian to locrian)</p>
@@ -35,9 +46,6 @@ no tonic specified)</p>
 <dd><p>Try to interpret the given object as a key. Given an object it will try to
 parse as if it were a name, accidentals or alterations.</p>
 </dd>
-<dt><a href="#relative">relative(mode, key)</a></dt>
-<dd><p>Get relative of a key. It can be partially applied.</p>
-</dd>
 <dt><a href="#alteration">alteration(key)</a> ⇒ <code>Integer</code></dt>
 <dd><p>Get key alteration. The alteration is a number indicating the number of
 sharpen notes (positive) or flaten notes (negative)</p>
@@ -48,12 +56,65 @@ sharpen notes (positive) or flaten notes (negative)</p>
 <dt><a href="#accidentals">accidentals()</a></dt>
 <dd><p>An alias for <code>signature()</code></p>
 </dd>
-<dt><a href="#alteredNotes">alteredNotes(key)</a> ⇒ <code>Array</code></dt>
-<dd><p>Get a list of the altered notes of a given key. The notes will be in
-the same order than in the key signature.</p>
-</dd>
 </dl>
 
+<a name="scale"></a>
+
+## scale(key) ⇒ <code>Array</code>
+Get scale of a key
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - the key scale  
+
+| Param | Type |
+| --- | --- |
+| key | <code>String</code> &#124; <code>Object</code> |
+
+**Example**  
+```js
+var key = require('tonal-key')
+key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
+key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
+key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
+key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+```
+<a name="relative"></a>
+
+## relative(mode, key)
+Get relative of a key. It can be partially applied.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| mode | <code>String</code> | the relative destination |
+| key | <code>String</code> | the key source |
+
+**Example**  
+```js
+var key = require('tonal-keys')
+key.relative('dorian', 'C major') // => ['dorian', 'D']
+// partially application
+var minor = key.relative('minor')
+minor('C major') // => ['minor', 'A']
+```
+<a name="alteredNotes"></a>
+
+## alteredNotes(key) ⇒ <code>Array</code>
+Get a list of the altered notes of a given key. The notes will be in
+the same order than in the key signature.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| key | <code>String</code> &#124; <code>Nunber</code> |
+
+**Example**  
+```js
+var key = require('tonal-keys')
+key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
+```
 <a name="names"></a>
 
 ## names(alias) ⇒ <code>Array</code>
@@ -165,26 +226,6 @@ parse as if it were a name, accidentals or alterations.
 | --- | --- |
 | obj | <code>Object</code> |
 
-<a name="relative"></a>
-
-## relative(mode, key)
-Get relative of a key. It can be partially applied.
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| mode | <code>String</code> | the relative destination |
-| key | <code>String</code> | the key source |
-
-**Example**  
-```js
-var key = require('tonal-keys')
-key.relative('dorian', 'C major') // => ['dorian', 'D']
-// partially application
-var minor = key.relative('minor')
-minor('C major') // => ['minor', 'A']
-```
 <a name="alteration"></a>
 
 ## alteration(key) ⇒ <code>Integer</code>
@@ -219,20 +260,3 @@ key.signature('A major') // => '###'
 An alias for `signature()`
 
 **Kind**: global function  
-<a name="alteredNotes"></a>
-
-## alteredNotes(key) ⇒ <code>Array</code>
-Get a list of the altered notes of a given key. The notes will be in
-the same order than in the key signature.
-
-**Kind**: global function  
-
-| Param | Type |
-| --- | --- |
-| key | <code>String</code> &#124; <code>Nunber</code> |
-
-**Example**  
-```js
-var key = require('tonal-keys')
-key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
-```

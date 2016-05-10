@@ -2,6 +2,8 @@
 
 `tonal` is a functional music theory library. It provides functions to manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music).
 
+Think like an [underscorejs](http://underscorejs.org/) (or better: [ramdajs](http://ramdajs.com/)) library for music theory.
+
 __This library is under active development.__
 
 ## Example
@@ -174,6 +176,7 @@ To use them, this modules need to be installed and required explicitly. For exam
 
 #### [tonal-key](https://github.com/danigb/tonal/tree/master/modules/key) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-key.svg)](https://www.npmjs.com/package/tonal-key)
 
+- [scale](https://github.com/danigb/tonal/tree/master/modules/key#scale): Get the scale of a given key
 - [relative](https://github.com/danigb/tonal/tree/master/modules/key#relative): Given a key in one mode, find it's relative in other.
 - [names](https://github.com/danigb/tonal/tree/master/modules/key#names): Get a list of mode names.
 - [isKeyMode](https://github.com/danigb/tonal/tree/master/modules/key#isKeyMode): test if a string is a valid key mode
@@ -201,6 +204,15 @@ Or if you prefer `npm run test-ci` to run all in one command.
 The API Reference documentation is generated with `jsdoc2md` package (not included in dependencies) and then the output copied to the README of each package.
 
 The distributable `tonal-min.js` file is generated with `npm run dist`
+
+## Inspiration
+
+This library takes inspiration from other music theory libraries:
+
+- Teoria: https://github.com/saebekassebil/teoria
+- Impro-Visor: https://www.cs.hmc.edu/~keller/jazz/improvisor/
+- MusicKit: https://github.com/benzguo/MusicKit
+- Music21: http://web.mit.edu/music21/doc/index.html
 
 ## License
 

@@ -2,6 +2,13 @@
 var test = require('tape')
 var key = require('..')
 
+test('scale', function (t) {
+  t.deepEqual(key.scale('C major'), [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ])
+  t.deepEqual(key.scale('C dorian'), [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ])
+  t.deepEqual(key.scale('E mixolydian'), [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ])
+  t.end()
+})
+
 test('isKeyMode', function (t) {
   key.names(true).forEach(function (m) {
     t.ok(key.isKeyMode(m), m)
