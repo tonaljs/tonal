@@ -1,5 +1,5 @@
 import { fromName, names as nms } from 'tonal-dictionary'
-import { map, fromSemitones, asArr, range, transpose, scaleFilter } from 'tonal'
+import { map, fromSemitones, asArr, range, transpose, scaleFilter, pc } from 'tonal'
 
 var DATA = require('./tunings.json')
 
@@ -8,8 +8,32 @@ var DATA = require('./tunings.json')
  * @function
  * @param {String} name - the tuning name
  * @return {Array} the string notes or null if not valid tuning name
+ * @example
+ * var fret = require('tonal-fretboard')
+ * fret.tuning('guitar') // => [ 'E2', 'A2', 'D3', 'G3', 'B3', 'E4' ]
+ * fret.tuning('charango') // => [ 'G4', 'G4', 'C5', 'C5', 'E5', 'E4', 'A4', 'A4', 'E5', 'E5' ]
  */
 export var tuning = fromName(null, DATA)
+
+/**
+ * Given a tuning name returns the notes of the strings in open position
+ * as pitch classes removing doubled strings.
+ * @param {String} name - the tuning name or notes of the strings in open position
+ * @return {Array} the string notes as pitch classes
+ * @example
+ * fret.simpleTuning('guitar') => [ 'E', 'A', 'D', 'G', 'B', 'E' ]
+ * fret.simpleTuning('charango') => [ 'G', 'C', 'E', 'A', 'E' ]
+ */
+export function simpleTuning (src) {
+  var pcs = map(pc, tuning(src) || src)
+  var simple = pcs.reduce(function (s, pc, i) {
+    if (s === false) return s
+    else if (i % 2 === 0) s.push(pc)
+    else if (s[s.length - 1] !== pc) return false
+    return s
+  }, [])
+  return simple || pcs
+}
 
 /**
  * Get all available tuning names

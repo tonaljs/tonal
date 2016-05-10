@@ -9,9 +9,14 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 You can install via npm: `npm i --save tonal-fretboard`
 
 ## API Reference
+
 <dl>
 <dt><a href="#tuning">tuning(name)</a> ⇒ <code>Array</code></dt>
 <dd><p>Given a tuning name, returns the notes of the strings in the open position</p>
+</dd>
+<dt><a href="#simpleTuning">simpleTuning(name)</a> ⇒ <code>Array</code></dt>
+<dd><p>Given a tuning name returns the notes of the strings in open position
+as pitch classes removing doubled strings.</p>
 </dd>
 <dt><a href="#names">names(aliases)</a> ⇒ <code>Array</code></dt>
 <dd><p>Get all available tuning names</p>
@@ -37,6 +42,30 @@ Given a tuning name, returns the notes of the strings in the open position
 | --- | --- | --- |
 | name | <code>String</code> | the tuning name |
 
+**Example**  
+```js
+var fret = require('tonal-fretboard')
+fret.tuning('guitar') // => [ 'E2', 'A2', 'D3', 'G3', 'B3', 'E4' ]
+fret.tuning('charango') // => [ 'G4', 'G4', 'C5', 'C5', 'E5', 'E4', 'A4', 'A4', 'E5', 'E5' ]
+```
+<a name="simpleTuning"></a>
+
+## simpleTuning(name) ⇒ <code>Array</code>
+Given a tuning name returns the notes of the strings in open position
+as pitch classes removing doubled strings.
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - the string notes as pitch classes  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the tuning name or notes of the strings in open position |
+
+**Example**  
+```js
+fret.simpleTuning('guitar') => [ 'E', 'A', 'D', 'G', 'B', 'E' ]
+fret.simpleTuning('charango') => [ 'G', 'C', 'E', 'A', 'E' ]
+```
 <a name="names"></a>
 
 ## names(aliases) ⇒ <code>Array</code>

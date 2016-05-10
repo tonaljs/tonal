@@ -10,6 +10,13 @@ test('names', function (t) {
 test('tuning', function (t) {
   t.deepEqual(fr.tuning('guitar'),
     [ 'E2', 'A2', 'D3', 'G3', 'B3', 'E4' ])
+  t.deepEqual(fr.tuning('charango'), [ 'G4', 'G4', 'C5', 'C5', 'E5', 'E4', 'A4', 'A4', 'E5', 'E5' ])
+  t.end()
+})
+
+test('simple tuning', function (t) {
+  t.deepEqual(fr.simpleTuning('guitar'), [ 'E', 'A', 'D', 'G', 'B', 'E' ])
+  t.deepEqual(fr.simpleTuning('charango'), [ 'G', 'C', 'E', 'A', 'E' ])
   t.end()
 })
 
