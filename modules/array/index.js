@@ -1,7 +1,7 @@
-import { asPitch, isPitch, strPitch } from 'tonal-pitch'
+import { asPitch, isPitch, strPitch, pitch } from 'tonal-pitch'
 import { isArr, isNum } from 'tonal-notation'
 import { tr } from 'tonal-transpose'
-import { distance } from 'tonal-distance'
+import { distance, distInSemitones } from 'tonal-distance'
 function id (x) { return x }
 
 // items can be separated by spaces, bars and commas
@@ -205,6 +205,69 @@ export var shuffle = listFn(function (arr) {
   }
   return arr
 })
+
+function trOct (n) { return tr(pitch(0, n, 1)) }
+
+/**
+ * Rotates a list a number of times. It's completly agnostic about the
+ * contents of the list.
+ * @param {Integer} times - the number of rotations
+ * @param {Array|String} list - the list to be rotated
+ * @return {Array} the rotated array
+ */
+export function rotate (times, list) {
+  var arr = asArr(list)
+  var len = arr.length
+  var n = ((times % len) + len) % len
+  return arr.slice(n, len).concat(arr.slice(0, n))
+}
+
+/**
+ * Rotates an ascending list of pitches n times keeping the ascending property.
+ * This functions assumes the list is an ascending list of pitches, and
+ * transposes the them to ensure they are ascending after rotation.
+ * It can be used, for example, to invert chords.
+ *
+ * @param {Integer} times - the number of rotations
+ * @param {Array|String} list - the list to be rotated
+ * @return {Array} the rotated array
+ */
+export function rotateAsc (times, list) {
+  return listFn(function (arr) {
+    var len = arr.length
+    var n = ((times % len) + len) % len
+    var head = arr.slice(n, len)
+    var tail = arr.slice(0, n)
+    // See if the first note of tail is lower than the last of head
+    var s = distInSemitones(head[len - n - 1], tail[0])
+    if (s < 0) {
+      var octs = Math.floor(s / 12)
+      if (times < 0) head = head.map(trOct(octs))
+      else tail = tail.map(trOct(-octs))
+    }
+    return head.concat(tail)
+  })(list)
+}
+
+/**
+ * Select elements from a list.
+ *
+ * @param {String|Array} numbers - a __1-based__ index of the elements
+ * @param {String|Array} list - the list of pitches
+ * @return {Array} the selected elements (with nulls if not valid index)
+ *
+ * @example
+ * import { select } from 'tonal-array'
+ * select('1 3 5', 'C D E F G A B') // => ['C', 'E', 'G']
+ * select('-1 0 1 2 3', 'C D') // => [ null, null, 'C', 'D', null ]
+ */
+export function select (nums, list) {
+  if (arguments.length === 1) return function (l) { return select(nums, l) }
+  var arr = asArr(list)
+  return asArr(nums).map(function (n) {
+    return arr[n - 1] || null
+  })
+}
 
 // #### Transform lists in array notation
 function asPitchStr (p) { return strPitch(p) || p }

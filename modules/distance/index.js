@@ -19,12 +19,14 @@ function substr (a, b) {
  * @param {Pitch|String} to - distance to
  * @return {Interval} the distance between pitches
  * @example
+ * import { distance } from 'tonal-distance'
+ * distance('C2', 'C3') // => 'P8'
+ * distance('G', 'B') // => 'M3'
+ * // or use tonal
  * var tonal = require('tonal')
- * tonal.distance('C2', 'C3') // => 'P8'
- * tonal.distance('G', 'B') // => 'M3'
  * tonal.distance('M2', 'P5') // => 'P4'
  */
-export function interval (a, b) {
+export function distance (a, b) {
   if (arguments.length === 1) return function (b) { return distance(a, b) }
   var pa = asPitch(a)
   var pb = asPitch(b)
@@ -34,7 +36,23 @@ export function interval (a, b) {
 }
 
 /**
+ * Get the distance between two notes in semitones
+ * @param {String|Pitch} from - first note
+ * @param {String|Pitch} to - last note
+ * @return {Integer} the distance in semitones or null if not valid notes
+ * @example
+ * import { distInSemitones } from 'tonal-distance'
+ * distInSemitones('C3', 'A2') // => -3
+ * // or use tonal
+ * tonal.distInSemitones('C3', 'G3') // => 7
+ */
+export function distInSemitones (a, b) {
+  var i = substr(asPitch(a), asPitch(b))
+  return i ? height(i) : null
+}
+
+/**
  * An alias for `distance`
  * @function
  */
-export var distance = interval
+export var interval = distance

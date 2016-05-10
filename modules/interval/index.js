@@ -1,5 +1,5 @@
-import { asIvlPitch, ivlFn, chr, fifths, focts, dir,
-  strIvl, encode, decode } from 'tonal-pitch'
+import { asIvlPitch, ivlFn, chr, dir,
+  strIvl, encode, decode, height } from 'tonal-pitch'
 
 /**
  * Get interval name. Can be used to test if it's an interval. It accepts intervals
@@ -32,7 +32,7 @@ export function ivlName (ivl) {
  */
 export function semitones (ivl) {
   var i = asIvlPitch(ivl)
-  return i ? 7 * fifths(i) + 12 * focts(i) : null
+  return i ? height(i) : null
 }
 
 // interval numbers

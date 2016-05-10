@@ -94,6 +94,8 @@ Tonal itself is built from a collection of [modules](https://github.com/danigb/t
 
 ### Modules included in `tonal` package
 
+Although you can install any of this modules individually, they are all included in the `tonal` package by default:
+
 #### [tonal-note](https://github.com/danigb/tonal/tree/master/modules/note) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-note.svg)](https://www.npmjs.com/package/tonal-note)
   - [noteName](https://github.com/danigb/tonal/tree/master/modules/note#noteName): get the note name
   - [chroma](https://github.com/danigb/tonal/tree/master/modules/note#chroma): get chroma of a note
@@ -129,6 +131,7 @@ Tonal itself is built from a collection of [modules](https://github.com/danigb/t
 
 #### [tonal-distance](https://github.com/danigb/tonal/tree/master/modules/distance) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-distance.svg)](https://www.npmjs.com/package/tonal-distance)
   - [distance](https://github.com/danigb/tonal/tree/master/modules/distance#distance): find the interval distance between two notes
+  - [distInSemitones](https://github.com/danigb/tonal/tree/master/modules/distance#distInSemitones): get the distance between notes measured in semitones
 
 #### [tonal-array](https://github.com/danigb/tonal/tree/master/modules/array) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-array.svg)](https://www.npmjs.com/package/tonal-array)
   - [asArr](https://github.com/danigb/tonal/tree/master/modules/array#asArr): split a strings into arrays
@@ -137,6 +140,9 @@ Tonal itself is built from a collection of [modules](https://github.com/danigb/t
   - [harmonizer](https://github.com/danigb/tonal/tree/master/modules/array#harmonizer): return a function that harmonizes notes using a list of intervals
   - [harmonize](https://github.com/danigb/tonal/tree/master/modules/array#harmonize): given a note and a list of intervals, harmonize the note with the intervals
   - [harmonics](https://github.com/danigb/tonal/tree/master/modules/array#harmonics): Given a list of notes, return the intervals from the first note to the rest.
+  - [rotate](https://github.com/danigb/tonal/tree/master/modules/array#rotate): rotate a list
+  - [rotateAsc](https://github.com/danigb/tonal/tree/master/modules/array#rotateAsc): rotate an list of ascending pitches keeping the asceding property after rotation
+  - [select](https://github.com/danigb/tonal/tree/master/modules/array#select): select some elements from a list
   - [sort](https://github.com/danigb/tonal/tree/master/modules/array#sort): sort a list of notes or intervals
   - [shuffle](https://github.com/danigb/tonal/tree/master/modules/array#shuffle): shuffle an array
 
@@ -151,6 +157,8 @@ Tonal itself is built from a collection of [modules](https://github.com/danigb/t
 - [cycleOfFifths](https://github.com/danigb/tonal/tree/master/modules/range#cycleOfFifths): create a cycle of fifths range
 
 ### Modules not included in `tonal` package
+
+To use them, this modules need to be installed and required explicitly. For example: `npm i --save tonal-scale` and `var scale = require('tonal-scale')`
 
 #### [tonal-scale](https://github.com/danigb/tonal/tree/master/modules/scale) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-scale.svg)](https://www.npmjs.com/package/tonal-scale)
 

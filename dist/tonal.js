@@ -41,6 +41,7 @@ exports.tr = tonalTranspose.tr;
 exports.trFifths = tonalTranspose.trFifths;
 exports.distance = tonalDistance.distance;
 exports.interval = tonalDistance.interval;
+exports.distInSemitones = tonalDistance.distInSemitones;
 exports.scaleFilter = tonalFilter.scaleFilter;
 exports.asArr = tonalArray.asArr;
 exports.map = tonalArray.map;
@@ -48,6 +49,10 @@ exports.filter = tonalArray.filter;
 exports.listFn = tonalArray.listFn;
 exports.harmonizer = tonalArray.harmonizer;
 exports.harmonize = tonalArray.harmonize;
+exports.harmonics = tonalArray.harmonics;
+exports.rotate = tonalArray.rotate;
+exports.rotateAsc = tonalArray.rotateAsc;
+exports.select = tonalArray.select;
 exports.sort = tonalArray.sort;
 exports.shuffle = tonalArray.shuffle;
 exports.range = tonalRange.range;
@@ -266,6 +271,69 @@ var shuffle = listFn(function (arr) {
   return arr
 })
 
+function trOct (n) { return tonalTranspose.tr(tonalPitch.pitch(0, n, 1)) }
+
+/**
+ * Rotates a list a number of times. It's completly agnostic about the
+ * contents of the list.
+ * @param {Integer} times - the number of rotations
+ * @param {Array|String} list - the list to be rotated
+ * @return {Array} the rotated array
+ */
+function rotate (times, list) {
+  var arr = asArr(list)
+  var len = arr.length
+  var n = ((times % len) + len) % len
+  return arr.slice(n, len).concat(arr.slice(0, n))
+}
+
+/**
+ * Rotates an ascending list of pitches n times keeping the ascending property.
+ * This functions assumes the list is an ascending list of pitches, and
+ * transposes the them to ensure they are ascending after rotation.
+ * It can be used, for example, to invert chords.
+ *
+ * @param {Integer} times - the number of rotations
+ * @param {Array|String} list - the list to be rotated
+ * @return {Array} the rotated array
+ */
+function rotateAsc (times, list) {
+  return listFn(function (arr) {
+    var len = arr.length
+    var n = ((times % len) + len) % len
+    var head = arr.slice(n, len)
+    var tail = arr.slice(0, n)
+    // See if the first note of tail is lower than the last of head
+    var s = tonalDistance.distInSemitones(head[len - n - 1], tail[0])
+    if (s < 0) {
+      var octs = Math.floor(s / 12)
+      if (times < 0) head = head.map(trOct(octs))
+      else tail = tail.map(trOct(-octs))
+    }
+    return head.concat(tail)
+  })(list)
+}
+
+/**
+ * Select elements from a list.
+ *
+ * @param {String|Array} numbers - a __1-based__ index of the elements
+ * @param {String|Array} list - the list of pitches
+ * @return {Array} the selected elements (with nulls if not valid index)
+ *
+ * @example
+ * import { select } from 'tonal-array'
+ * select('1 3 5', 'C D E F G A B') // => ['C', 'E', 'G']
+ * select('-1 0 1 2 3', 'C D') // => [ null, null, 'C', 'D', null ]
+ */
+function select (nums, list) {
+  if (arguments.length === 1) return function (l) { return select(nums, l) }
+  var arr = asArr(list)
+  return asArr(nums).map(function (n) {
+    return arr[n - 1] || null
+  })
+}
+
 // #### Transform lists in array notation
 function asPitchStr (p) { return tonalPitch.strPitch(p) || p }
 function listToStr (v) {
@@ -305,6 +373,9 @@ exports.harmonizer = harmonizer;
 exports.harmonize = harmonize;
 exports.sort = sort;
 exports.shuffle = shuffle;
+exports.rotate = rotate;
+exports.rotateAsc = rotateAsc;
+exports.select = select;
 exports.listFn = listFn;
 },{"tonal-distance":8,"tonal-notation":3,"tonal-pitch":4,"tonal-transpose":36}],3:[function(require,module,exports){
 (function (global, factory) {
@@ -1010,12 +1081,14 @@ function substr (a, b) {
  * @param {Pitch|String} to - distance to
  * @return {Interval} the distance between pitches
  * @example
+ * import { distance } from 'tonal-distance'
+ * distance('C2', 'C3') // => 'P8'
+ * distance('G', 'B') // => 'M3'
+ * // or use tonal
  * var tonal = require('tonal')
- * tonal.distance('C2', 'C3') // => 'P8'
- * tonal.distance('G', 'B') // => 'M3'
  * tonal.distance('M2', 'P5') // => 'P4'
  */
-function interval (a, b) {
+function distance (a, b) {
   if (arguments.length === 1) return function (b) { return distance(a, b) }
   var pa = tonalPitch.asPitch(a)
   var pb = tonalPitch.asPitch(b)
@@ -1025,13 +1098,30 @@ function interval (a, b) {
 }
 
 /**
+ * Get the distance between two notes in semitones
+ * @param {String|Pitch} from - first note
+ * @param {String|Pitch} to - last note
+ * @return {Integer} the distance in semitones or null if not valid notes
+ * @example
+ * import { distInSemitones } from 'tonal-distance'
+ * distInSemitones('C3', 'A2') // => -3
+ * // or use tonal
+ * tonal.distInSemitones('C3', 'G3') // => 7
+ */
+function distInSemitones (a, b) {
+  var i = substr(tonalPitch.asPitch(a), tonalPitch.asPitch(b))
+  return i ? tonalPitch.height(i) : null
+}
+
+/**
  * An alias for `distance`
  * @function
  */
-var distance = interval
+var interval = distance
 
-exports.interval = interval;
 exports.distance = distance;
+exports.distInSemitones = distInSemitones;
+exports.interval = interval;
 },{"tonal-pitch":9}],9:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4,"interval-notation":10,"note-parser":11,"tonal-encoding":12,"tonal-notation":13}],10:[function(require,module,exports){

@@ -56,3 +56,32 @@ test('harmonizer', function (t) {
   t.deepEqual(maj7('Bb'), [ 'Bb', 'D', 'F', 'A' ])
   t.end()
 })
+
+test('rotate', function (t) {
+  t.deepEqual(_.rotate(1, 'c d e'), ['d', 'e', 'c'])
+  t.deepEqual(_.rotate(-1, 'c d e'), [ 'e', 'c', 'd' ])
+  t.deepEqual(_.rotate(0, 'c d e'), [ 'c', 'd', 'e' ])
+  t.end()
+})
+
+test('rotateAsc', function (t) {
+  t.deepEqual(_.rotateAsc(1, 'c d e'), ['D', 'E', 'C'])
+  t.deepEqual(_.rotateAsc(-1, 'c d e'), [ 'E', 'C', 'D' ])
+  t.deepEqual(_.rotateAsc(0, 'c d e'), [ 'C', 'D', 'E' ])
+  t.deepEqual(_.rotateAsc(1, 'c4 d4 e4'), [ 'D4', 'E4', 'C5' ])
+  t.deepEqual(_.rotateAsc(2, 'c4 d4 e4'), [ 'E4', 'C5', 'D5' ])
+  t.deepEqual(_.rotateAsc(-1, 'c4 d4 e4'), [ 'E3', 'C4', 'D4' ])
+  t.deepEqual(_.rotateAsc(-2, 'c4 d4 e4'), [ 'D3', 'E3', 'C4' ])
+  t.deepEqual(_.rotateAsc(1, 'C1 D3 E5'), [ 'D3', 'E5', 'C6' ])
+  t.deepEqual(_.rotateAsc(2, 'C1 D3 E5'), [ 'E5', 'C6', 'D8' ])
+  t.deepEqual(_.rotateAsc(-1, 'C1 D3 E5'), [ 'E0', 'C1', 'D3' ])
+  t.deepEqual(_.rotateAsc(-2, 'C1 D3 E5'), [ 'D-2', 'E0', 'C1' ])
+  t.end()
+})
+
+test('select', function (t) {
+  t.deepEqual(_.select('1 3 5', 'C D E F G A B'), ['C', 'E', 'G'])
+  t.deepEqual(_.select('1 -3 12 4', 'C D E F G A B'), [ 'C', null, null, 'F' ])
+  t.deepEqual(_.select('-1 0 1 2 3', 'C D'), [ null, null, 'C', 'D', null ])
+  t.end()
+})

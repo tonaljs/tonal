@@ -1,10 +1,11 @@
 {
   "name": "tonal-distance",
-  "version": "0.50.1",
+  "version": "0.50.2",
   "description": "Find distances between musical notes",
   "keywords": [
+    "music",
+    "theory",
     "interval",
-    "note",
     "distance",
     "tonal"
   ],

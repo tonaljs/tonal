@@ -11,19 +11,22 @@ You can install via npm: `npm i --save tonal-distance`
 ## API Reference
 
 <dl>
-<dt><a href="#interval">interval(from, to)</a> ⇒ <code>Interval</code></dt>
+<dt><a href="#distance">distance(from, to)</a> ⇒ <code>Interval</code></dt>
 <dd><p>Find distance between two pitches. Both pitches MUST be of the same type.
 Distances between pitch classes always returns ascending intervals.
 Distances between intervals substract one from the other.</p>
 </dd>
-<dt><a href="#distance">distance()</a></dt>
+<dt><a href="#distInSemitones">distInSemitones(from, to)</a> ⇒ <code>Integer</code></dt>
+<dd><p>Get the distance between two notes in semitones</p>
+</dd>
+<dt><a href="#interval">interval()</a></dt>
 <dd><p>An alias for <code>distance</code></p>
 </dd>
 </dl>
 
-<a name="interval"></a>
+<a name="distance"></a>
 
-## interval(from, to) ⇒ <code>Interval</code>
+## distance(from, to) ⇒ <code>Interval</code>
 Find distance between two pitches. Both pitches MUST be of the same type.
 Distances between pitch classes always returns ascending intervals.
 Distances between intervals substract one from the other.
@@ -38,14 +41,36 @@ Distances between intervals substract one from the other.
 
 **Example**  
 ```js
+import { distance } from 'tonal-distance'
+distance('C2', 'C3') // => 'P8'
+distance('G', 'B') // => 'M3'
+// or use tonal
 var tonal = require('tonal')
-tonal.distance('C2', 'C3') // => 'P8'
-tonal.distance('G', 'B') // => 'M3'
 tonal.distance('M2', 'P5') // => 'P4'
 ```
-<a name="distance"></a>
+<a name="distInSemitones"></a>
 
-## distance()
+## distInSemitones(from, to) ⇒ <code>Integer</code>
+Get the distance between two notes in semitones
+
+**Kind**: global function  
+**Returns**: <code>Integer</code> - the distance in semitones or null if not valid notes  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| from | <code>String</code> &#124; <code>Pitch</code> | first note |
+| to | <code>String</code> &#124; <code>Pitch</code> | last note |
+
+**Example**  
+```js
+import { distInSemitones } from 'tonal-distance'
+distInSemitones('C3', 'A2') // => -3
+// or use tonal
+tonal.distInSemitones('C3', 'G3') // => 7
+```
+<a name="interval"></a>
+
+## interval()
 An alias for `distance`
 
 **Kind**: global function  

@@ -65,6 +65,19 @@ function.</p>
 <dt><a href="#shuffle">shuffle(arr)</a> ⇒ <code>Array</code></dt>
 <dd><p>Randomizes the order of the specified array using the Fisher–Yates shuffle.</p>
 </dd>
+<dt><a href="#rotate">rotate(times, list)</a> ⇒ <code>Array</code></dt>
+<dd><p>Rotates a list a number of times. It&#39;s completly agnostic about the
+contents of the list.</p>
+</dd>
+<dt><a href="#rotateAsc">rotateAsc(times, list)</a> ⇒ <code>Array</code></dt>
+<dd><p>Rotates an ascending list of pitches n times keeping the ascending property.
+This functions assumes the list is an ascending list of pitches, and
+transposes the them to ensure they are ascending after rotation.
+It can be used, for example, to invert chords.</p>
+</dd>
+<dt><a href="#select">select(numbers, list)</a> ⇒ <code>Array</code></dt>
+<dd><p>Select elements from a list.</p>
+</dd>
 <dt><a href="#listFn">listFn(fn)</a> ⇒ <code>function</code></dt>
 <dd><p>Decorates a function to so it&#39;s first parameter is an array of pitches in
 array notation. Also, if the return value is a pitch or an array of pitches
@@ -267,6 +280,55 @@ import { shuffle } from 'tonal-arrays'
 ```js
 var tonal = require('tonal')
 tonal.shuffle('C D E F')
+```
+<a name="rotate"></a>
+
+## rotate(times, list) ⇒ <code>Array</code>
+Rotates a list a number of times. It's completly agnostic about the
+contents of the list.
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - the rotated array  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| times | <code>Integer</code> | the number of rotations |
+| list | <code>Array</code> &#124; <code>String</code> | the list to be rotated |
+
+<a name="rotateAsc"></a>
+
+## rotateAsc(times, list) ⇒ <code>Array</code>
+Rotates an ascending list of pitches n times keeping the ascending property.
+This functions assumes the list is an ascending list of pitches, and
+transposes the them to ensure they are ascending after rotation.
+It can be used, for example, to invert chords.
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - the rotated array  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| times | <code>Integer</code> | the number of rotations |
+| list | <code>Array</code> &#124; <code>String</code> | the list to be rotated |
+
+<a name="select"></a>
+
+## select(numbers, list) ⇒ <code>Array</code>
+Select elements from a list.
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - the selected elements (with nulls if not valid index)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| numbers | <code>String</code> &#124; <code>Array</code> | a __1-based__ index of the elements |
+| list | <code>String</code> &#124; <code>Array</code> | the list of pitches |
+
+**Example**  
+```js
+import { select } from 'tonal-array'
+select('1 3 5', 'C D E F G A B') // => ['C', 'E', 'G']
+select('-1 0 1 2 3', 'C D') // => [ null, null, 'C', 'D', null ]
 ```
 <a name="listFn"></a>
 
