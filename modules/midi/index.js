@@ -1,4 +1,4 @@
-import { asNotePitch, isPC, height } from 'tonal-pitch'
+import parser from 'note-parser'
 
 /**
  * Test if the given number is a valid midi note number
@@ -23,10 +23,8 @@ export function isMidiNum (m) {
  * midi('C4') // => 60
  */
 export function toMidi (val) {
-  var p = asNotePitch(val)
-  return p && !isPC(p) ? height(p) + 12
-    : isMidiNum(val) ? +val
-    : null
+  var p = parser.parse(val)
+  return p && typeof p.midi !== 'undefined' ? p.midi : isMidiNum(val) ? +val : null
 }
 
 var FLATS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')
