@@ -1,5 +1,6 @@
 import { fromName, names as nms } from 'tonal-dictionary'
 import { map, fromSemitones, asArr, range, transpose, scaleFilter, pc } from 'tonal'
+import { compact } from 'tonal-array'
 
 var DATA = require('./tunings.json')
 
@@ -70,4 +71,39 @@ export function build (tun, first, last) {
 export function scale (tuning, scale, first, last) {
   var filter = map(scaleFilter(scale))
   return build(tuning, first, last).map(filter)
+}
+
+/**
+ * Build an array of reachable chord shapes based on given notes and tuning.
+ * @param {String|Array} tuning - the tuning name or notes
+ * @param {Array} notes - an array of chord notes
+ * @param {Integer} first - the first fret number
+ * @param {Integer} last - the last fret number
+ * @return {Array} An array of arrays, one for each possible shape.  Index is string index [ 'E2', 'B2', 'E3', 'G#3', 'B3', 'E4' ]
+ */
+export function chordShapes (tuning, notes, first, last, span) {
+  span = span || 3;
+  var chordNotes = scale(tuning, notes, 0, 8);
+  var chordGroups = [];
+
+  // Break each string array into {fretSpan} frets overlapping sections
+  var strings = chordNotes.map(function(v, i) {
+    return v.map(function(v2, i2) {
+      return v.slice(i2, i2 + span);
+    });
+  });
+
+  // Build chordGroups
+  strings.forEach(function(v, i) {
+    v.forEach(function(v2, i2) {
+      if (!Array.isArray(chordGroups[i2])) chordGroups[i2] = [];
+      var frets = compact(v2);
+      if (frets.length <= 1) {
+        chordGroups[i2].push(frets.toString() ? frets.toString() : null);
+      } else {
+        chordGroups[i2].push(frets);
+      }
+    });
+  });
+  return chordGroups;
 }
