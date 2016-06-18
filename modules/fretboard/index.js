@@ -83,7 +83,7 @@ export function scale (tuning, scale, first, last) {
  */
 export function chordShapes (tuning, notes, first, last, span) {
   span = span || 3;
-  var chordNotes = scale(tuning, notes, 0, 8);
+  var chordNotes = scale(tuning, notes, first, last);
   var chordGroups = [];
 
   // Break each string array into {fretSpan} frets overlapping sections
