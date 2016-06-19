@@ -12,11 +12,13 @@ test('map', function (t) {
 test('cMap', function (t) {
   function even (x) { return x % 2 ? null : x }
   t.deepEqual(_.cMap(even, [1, 2, 3, 4]), [ 2, 4 ])
+  t.deepEqual(_.cMap(even, [-2, -1, 0, 1, 2, 3, 4]), [ -2, 0, 2, 4 ])
   t.end()
 })
 
 test('compact', function (t) {
   t.deepEqual(_.compact(['a', null, 'b']), ['a', 'b'])
+  t.deepEqual(_.compact([0, 1, 2, 3, null, 4]), [ 0, 1, 2, 3, 4 ])
   t.end()
 })
 

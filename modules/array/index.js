@@ -2,7 +2,7 @@ import { asPitch, isPitch, strPitch, pitch } from 'tonal-pitch'
 import { isArr, isNum } from 'tonal-notation'
 import { tr } from 'tonal-transpose'
 import { distance, distInSemitones } from 'tonal-distance'
-function id (x) { return x }
+function hasVal (e) { return e || e === 0 }
 
 // items can be separated by spaces, bars and commas
 var SEP = /\s*\|\s*|\s*,\s*|\s+/
@@ -69,7 +69,7 @@ export function map (fn, list) {
  */
 export function cMap (fn, list) {
   if (arguments.length === 1) return function (l) { return cMap(fn, list) }
-  return map(fn, list).filter(id)
+  return map(fn, list).filter(hasVal)
 }
 
 /**
@@ -77,7 +77,9 @@ export function cMap (fn, list) {
  * @param {String|Array} list
  * @return {Array}
  */
-export function compact (arr) { return asArr(arr).filter(id) }
+export function compact (arr) {
+  return asArr(arr).filter(hasVal)
+}
 
 /**
  * Filter an array with a function. Again, almost the same as JavaScript standard
@@ -103,7 +105,7 @@ export function filter (fn, list) {
  */
 export function harmonics (list) {
   var a = asArr(list)
-  return a.length ? a.map(distance(a[0])).filter(id) : a
+  return a.length ? a.map(distance(a[0])).filter(hasVal) : a
 }
 
 /**

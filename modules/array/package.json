@@ -1,6 +1,6 @@
 {
   "name": "tonal-array",
-  "version": "0.50.5",
+  "version": "0.50.6",
   "description": "Create and manipulate arrays of notes and intervals",
   "keywords": [
     "music",
@@ -18,7 +18,7 @@
   "author": "danigb",
   "license": "MIT",
   "devDependencies": {
-    "rollup": "0.25",
+    "rollup": "^0.31.2",
     "tape": "4"
   },
   "dependencies": {
