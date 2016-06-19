@@ -13,7 +13,7 @@
   "author": "danigb",
   "license": "MIT",
   "devDependencies": {
-    "rollup": "0.25",
+    "rollup": "^0.31.2",
     "tape": "4"
   },
   "dependencies": {

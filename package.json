@@ -6,17 +6,19 @@
   "jsnext:main": "lib/index.js",
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f cjs -n tonal -o build/index.js -- lib/index.js",
-    "test": "tape 'test/*.js'",
+    "test-facade": "tape 'test/*.js'",
+    "test": "npm run modules-test && npm run test-facade",
     "dist": "npm test && browserify build/index.js > dist/tonal.js && uglifyjs dist/tonal.js -c -m -o dist/tonal.min.js && ls -hall dist/",
-    "test-ci": "npm run test && npm run modules-update && npm run modules-test",
+    "test-ci": "npm run modules-update && npm run test",
     "prepublish": "npm run dist",
     "modules-update": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && rm -rf node_modules/tonal-* && npm i); done",
     "modules-build": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && rollup -c); done",
     "modules-api": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && jsdoc2md index.js > API.md); done",
-    "modules-test": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && npm test); done"
+    "modules-test": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && npm test); done",
+    "modules-outdated": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && npm outdated); done"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
-  "repository": "https://github.com/danigb/tonal/tree/master/packages/tonal",
+  "repository": "https://github.com/danigb/tonal",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
@@ -40,7 +42,7 @@
   },
   "devDependencies": {
     "browserify": "^13.0.1",
-    "rollup": "0.26",
+    "rollup": "^0.31.2",
     "tape": "4",
     "uglify-js": "2"
   }
