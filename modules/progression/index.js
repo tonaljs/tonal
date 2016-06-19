@@ -15,12 +15,12 @@ import { transpose } from 'tonal-transpose'
  */
 export function build (chords, tonic) {
   return asArr(chords).map(function (e) {
-    const r = parseRomanChord(e)
+    var r = parseRomanChord(e)
     return r ? transpose(r.root, tonic) + r.name : null
   })
 }
 
-const ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\s*$/
+var ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\s*$/
 /**
  * Returns a regex to match roman numbers literals with the from:
  * `[accidentals]roman[element]`.

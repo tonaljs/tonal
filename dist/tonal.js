@@ -1,6 +1,8 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 var tonalNote = require('tonal-note');
 var tonalInterval = require('tonal-interval');
 var tonalMidi = require('tonal-midi');
@@ -59,7 +61,7 @@ exports.range = tonalRange.range;
 exports.chromatic = tonalRange.chromatic;
 exports.cycleOfFifths = tonalRange.cycleOfFifths;
 exports.scaleRange = tonalRange.scaleRange;
-},{"tonal-array":2,"tonal-distance":8,"tonal-filter":14,"tonal-freq":15,"tonal-interval":16,"tonal-midi":22,"tonal-note":28,"tonal-range":34,"tonal-transpose":36}],2:[function(require,module,exports){
+},{"tonal-array":2,"tonal-distance":8,"tonal-filter":14,"tonal-freq":15,"tonal-interval":16,"tonal-midi":22,"tonal-note":24,"tonal-range":30,"tonal-transpose":31}],2:[function(require,module,exports){
 'use strict';
 
 var tonalPitch = require('tonal-pitch');
@@ -377,7 +379,7 @@ exports.rotate = rotate;
 exports.rotateAsc = rotateAsc;
 exports.select = select;
 exports.listFn = listFn;
-},{"tonal-distance":8,"tonal-notation":3,"tonal-pitch":4,"tonal-transpose":36}],3:[function(require,module,exports){
+},{"tonal-distance":8,"tonal-notation":3,"tonal-pitch":4,"tonal-transpose":31}],3:[function(require,module,exports){
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -1174,7 +1176,7 @@ function scaleFilter (notes, m) {
 }
 
 exports.scaleFilter = scaleFilter;
-},{"tonal-array":2,"tonal-midi":22,"tonal-note":28}],15:[function(require,module,exports){
+},{"tonal-array":2,"tonal-midi":22,"tonal-note":24}],15:[function(require,module,exports){
 'use strict';
 
 var tonalMidi = require('tonal-midi');
@@ -1436,91 +1438,228 @@ arguments[4][6][0].apply(exports,arguments)
 },{"dup":6}],21:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
 },{"dup":3}],22:[function(require,module,exports){
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('tonal-pitch')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'tonal-pitch'], factory) :
-  (factory((global.midi = global.midi || {}),global.tonalPitch));
-}(this, function (exports,tonalPitch) { 'use strict';
+'use strict';
 
-  /**
-   * Test if the given number is a valid midi note number
-   * @function
-   * @param {Object} num - the thing to be tested
-   * @return {Boolean} true if it's a valid midi note number
-   */
-  function isMidiNum (m) {
-    if (m === null || Array.isArray(m)) return false
-    return m >= 0 && m < 128
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var parser = _interopDefault(require('note-parser'));
+
+/**
+ * Test if the given number is a valid midi note number
+ * @function
+ * @param {Object} num - the thing to be tested
+ * @return {Boolean} true if it's a valid midi note number
+ */
+function isMidiNum (m) {
+  if (m === null || Array.isArray(m)) return false
+  return m >= 0 && m < 128
+}
+
+// To match the general midi specification where `C4` is 60 we must add 12 to
+// `height` function:
+
+/**
+ * Get midi number for a pitch
+ * @function
+ * @param {Array|String} pitch - the pitch
+ * @return {Integer} the midi number or null if not valid pitch
+ * @example
+ * midi('C4') // => 60
+ */
+function toMidi (val) {
+  var p = parser.parse(val)
+  return p && typeof p.midi !== 'undefined' ? p.midi : isMidiNum(val) ? +val : null
+}
+
+var FLATS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')
+var SHARPS = 'C C# D D# E F F# G G# A A# B'.split(' ')
+
+function fromMidiFn (pcs) {
+  return function (m) {
+    var pc = pcs[m % 12]
+    var o = Math.floor(m / 12) - 1
+    return pc + o
   }
+}
 
-  // To match the general midi specification where `C4` is 60 we must add 12 to
-  // `height` function:
+/**
+ * Given a midi number, returns a note name. The altered notes will have
+ * flats.
+ * @function
+ * @param {Integer} midi - the midi note number
+ * @return {String} the note name
+ * @example
+ * tonal.fromMidi(61) // => 'Db4'
+ */
+var fromMidi = fromMidiFn(FLATS)
 
-  /**
-   * Get midi number for a pitch
-   * @function
-   * @param {Array|String} pitch - the pitch
-   * @return {Integer} the midi number or null if not valid pitch
-   * @example
-   * midi('C4') // => 60
-   */
-  function toMidi (val) {
-    var p = tonalPitch.asNotePitch(val)
-    return p && !tonalPitch.isPC(p) ? tonalPitch.height(p) + 12
-      : isMidiNum(val) ? +val
-      : null
+/**
+ * Given a midi number, returns a note name. The altered notes will have
+ * sharps.
+ * @function
+ * @param {Integer} midi - the midi note number
+ * @return {String} the note name
+ * @example
+ * tonal.fromMidiS(61) // => 'C#4'
+ */
+var fromMidiS = fromMidiFn(SHARPS)
+
+exports.isMidiNum = isMidiNum;
+exports.toMidi = toMidi;
+exports.fromMidi = fromMidi;
+exports.fromMidiS = fromMidiS;
+},{"note-parser":23}],23:[function(require,module,exports){
+'use strict'
+
+var REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)\s*$/
+/**
+ * A regex for matching note strings in scientific notation.
+ *
+ * @name regex
+ * @function
+ * @return {RegExp} the regexp used to parse the note name
+ *
+ * The note string should have the form `letter[accidentals][octave][element]`
+ * where:
+ *
+ * - letter: (Required) is a letter from A to G either upper or lower case
+ * - accidentals: (Optional) can be one or more `b` (flats), `#` (sharps) or `x` (double sharps).
+ * They can NOT be mixed.
+ * - octave: (Optional) a positive or negative integer
+ * - element: (Optional) additionally anything after the duration is considered to
+ * be the element name (for example: 'C2 dorian')
+ *
+ * The executed regex contains (by array index):
+ *
+ * - 0: the complete string
+ * - 1: the note letter
+ * - 2: the optional accidentals
+ * - 3: the optional octave
+ * - 4: the rest of the string (trimmed)
+ *
+ * @example
+ * var parser = require('note-parser')
+ * parser.regex.exec('c#4')
+ * // => ['c#4', 'c', '#', '4', '']
+ * parser.regex.exec('c#4 major')
+ * // => ['c#4major', 'c', '#', '4', 'major']
+ * parser.regex().exec('CMaj7')
+ * // => ['CMaj7', 'C', '', '', 'Maj7']
+ */
+function regex () { return REGEX }
+
+var SEMITONES = [0, 2, 4, 5, 7, 9, 11]
+/**
+ * Parse a note name in scientific notation an return it's components,
+ * and some numeric properties including midi number and frequency.
+ *
+ * @name parse
+ * @function
+ * @param {String} note - the note string to be parsed
+ * @param {Boolean} isTonic - true if the note is the tonic of something.
+ * If true, en extra tonicOf property is returned. It's false by default.
+ * @param {Float} tunning - The frequency of A4 note to calculate frequencies.
+ * By default it 440.
+ * @return {Object} the parsed note name or null if not a valid note
+ *
+ * The parsed note name object will ALWAYS contains:
+ * - letter: the uppercase letter of the note
+ * - acc: the accidentals of the note (only sharps or flats)
+ * - pc: the pitch class (letter + acc)
+ * - step: s a numeric representation of the letter. It's an integer from 0 to 6
+ * where 0 = C, 1 = D ... 6 = B
+ * - alt: a numeric representation of the accidentals. 0 means no alteration,
+ * positive numbers are for sharps and negative for flats
+ * - chroma: a numeric representation of the pitch class. It's like midi for
+ * pitch classes. 0 = C, 1 = C#, 2 = D ... It can have negative values: -1 = Cb.
+ * Can detect pitch class enhramonics.
+ *
+ * If the note has octave, the parser object will contain:
+ * - oct: the octave number (as integer)
+ * - midi: the midi number
+ * - freq: the frequency (using tuning parameter as base)
+ *
+ * If the parameter `isTonic` is set to true, the parsed object will contain:
+ * - tonicOf: the rest of the string that follows note name (left and right trimmed)
+ *
+ * @example
+ * var parse = require('note-parser').parse
+ * parse('Cb4')
+ * // => { letter: 'C', acc: 'b', pc: 'Cb', step: 0, alt: -1, chroma: -1,
+ *         oct: 4, midi: 59, freq: 246.94165062806206 }
+ * // if no octave, no midi, no freq
+ * parse('fx')
+ * // => { letter: 'F', acc: '##', pc: 'F##', step: 3, alt: 2, chroma: 7 })
+ */
+function parse (str, isTonic, tuning) {
+  if (typeof str !== 'string') return null
+  var m = REGEX.exec(str)
+  if (!m || !isTonic && m[4]) return null
+
+  var p = { letter: m[1].toUpperCase(), acc: m[2].replace(/x/g, '##') }
+  p.pc = p.letter + p.acc
+  p.step = (p.letter.charCodeAt(0) + 3) % 7
+  p.alt = p.acc[0] === 'b' ? -p.acc.length : p.acc.length
+  p.chroma = SEMITONES[p.step] + p.alt
+  if (m[3]) {
+    p.oct = +m[3]
+    p.midi = p.chroma + 12 * (p.oct + 1)
+    p.freq = midiToFreq(p.midi, tuning)
   }
+  if (isTonic) p.tonicOf = m[4]
+  return p
+}
 
-  var FLATS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')
-  var SHARPS = 'C C# D D# E F F# G G# A A# B'.split(' ')
+/**
+ * Given a midi number, return its frequency
+ * @param {Integer} midi - midi note number
+ * @param {Float} tuning - (Optional) the A4 tuning (440Hz by default)
+ * @return {Float} frequency in hertzs
+ */
+function midiToFreq (midi, tuning) {
+  return Math.pow(2, (midi - 69) / 12) * (tuning || 440)
+}
 
-  function fromMidiFn (pcs) {
-    return function (m) {
-      var pc = pcs[m % 12]
-      var o = Math.floor(m / 12) - 1
-      return pc + o
-    }
+var parser = { parse: parse, regex: regex, midiToFreq: midiToFreq }
+var FNS = ['letter', 'acc', 'pc', 'step', 'alt', 'chroma', 'oct', 'midi', 'freq']
+FNS.forEach(function (name) {
+  parser[name] = function (src) {
+    var p = parse(src)
+    return p && (typeof p[name] !== 'undefined') ? p[name] : null
   }
+})
 
-  /**
-   * Given a midi number, returns a note name. The altered notes will have
-   * flats.
-   * @function
-   * @param {Integer} midi - the midi note number
-   * @return {String} the note name
-   * @example
-   * tonal.fromMidi(61) // => 'Db4'
-   */
-  var fromMidi = fromMidiFn(FLATS)
+module.exports = parser
 
-  /**
-   * Given a midi number, returns a note name. The altered notes will have
-   * sharps.
-   * @function
-   * @param {Integer} midi - the midi note number
-   * @return {String} the note name
-   * @example
-   * tonal.fromMidiS(61) // => 'C#4'
-   */
-  var fromMidiS = fromMidiFn(SHARPS)
+// extra API docs
+/**
+ * Get midi of a note
+ *
+ * @name midi
+ * @function
+ * @param {String} note - the note name
+ * @return {Integer} the midi number of the note or null if not a valid note
+ * or the note does NOT contains octave
+ * @example
+ * var parser = require('note-parser')
+ * parser.midi('A4') // => 69
+ * parser.midi('A') // => null
+ */
+/**
+ * Get freq of a note in hertzs (in a well tempered 440Hz A4)
+ *
+ * @name freq
+ * @function
+ * @param {String} note - the note name
+ * @return {Float} the freq of the number if hertzs or null if not valid note
+ * or the note does NOT contains octave
+ * @example
+ * var parser = require('note-parser')
+ * parser.freq('A4') // => 440
+ * parser.freq('A') // => null
+ */
 
-  exports.isMidiNum = isMidiNum;
-  exports.toMidi = toMidi;
-  exports.fromMidi = fromMidi;
-  exports.fromMidiS = fromMidiS;
-
-}));
-},{"tonal-pitch":23}],23:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4,"interval-notation":24,"note-parser":25,"tonal-encoding":26,"tonal-notation":27}],24:[function(require,module,exports){
-arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}],25:[function(require,module,exports){
-arguments[4][6][0].apply(exports,arguments)
-},{"dup":6}],26:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],27:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],28:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 var tonalPitch = require('tonal-pitch');
@@ -1630,17 +1769,17 @@ exports.pc = pc;
 exports.enharmonics = enharmonics;
 exports.enh = enh;
 exports.simpleEnh = simpleEnh;
-},{"tonal-pitch":29,"tonal-transpose":36}],29:[function(require,module,exports){
+},{"tonal-pitch":25,"tonal-transpose":31}],25:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4,"interval-notation":30,"note-parser":31,"tonal-encoding":32,"tonal-notation":33}],30:[function(require,module,exports){
+},{"dup":4,"interval-notation":26,"note-parser":27,"tonal-encoding":28,"tonal-notation":29}],26:[function(require,module,exports){
 arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}],31:[function(require,module,exports){
+},{"dup":5}],27:[function(require,module,exports){
 arguments[4][6][0].apply(exports,arguments)
-},{"dup":6}],32:[function(require,module,exports){
+},{"dup":6}],28:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],33:[function(require,module,exports){
+},{"dup":7}],29:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],34:[function(require,module,exports){
+},{"dup":3}],30:[function(require,module,exports){
 'use strict';
 
 var tonalArray = require('tonal-array');
@@ -1742,9 +1881,7 @@ exports.range = range;
 exports.chromatic = chromatic;
 exports.cycleOfFifths = cycleOfFifths;
 exports.scaleRange = scaleRange;
-},{"tonal-array":2,"tonal-filter":35,"tonal-midi":22,"tonal-transpose":36}],35:[function(require,module,exports){
-arguments[4][14][0].apply(exports,arguments)
-},{"dup":14,"tonal-array":2,"tonal-midi":22,"tonal-note":28}],36:[function(require,module,exports){
+},{"tonal-array":2,"tonal-filter":14,"tonal-midi":22,"tonal-transpose":31}],31:[function(require,module,exports){
 'use strict';
 
 var tonalPitch = require('tonal-pitch');
@@ -1806,14 +1943,14 @@ function trFifths (t, n) {
 exports.transpose = transpose;
 exports.tr = tr;
 exports.trFifths = trFifths;
-},{"tonal-pitch":37}],37:[function(require,module,exports){
+},{"tonal-pitch":32}],32:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4,"interval-notation":38,"note-parser":39,"tonal-encoding":40,"tonal-notation":41}],38:[function(require,module,exports){
+},{"dup":4,"interval-notation":33,"note-parser":34,"tonal-encoding":35,"tonal-notation":36}],33:[function(require,module,exports){
 arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}],39:[function(require,module,exports){
+},{"dup":5}],34:[function(require,module,exports){
 arguments[4][6][0].apply(exports,arguments)
-},{"dup":6}],40:[function(require,module,exports){
+},{"dup":6}],35:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],41:[function(require,module,exports){
+},{"dup":7}],36:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
 },{"dup":3}]},{},[1]);

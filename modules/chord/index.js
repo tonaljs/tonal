@@ -24,7 +24,7 @@ var dict = fromName(parseIvl, DATA)
  * // get chord intervals (tonic false)
  * chord.build('maj7', false) // => ['1P', '3M', '5P', '7M']
  * // partially applied
- * const maj7 = chord.build('maj7')
+ * var maj7 = chord.build('maj7')
  * maj7('C') // => ['C', 'E', 'G', 'B']
  * // create chord from intervals
  * chord.build('1 3 5 m7 m9', 'C') // => ['C', 'E', 'G', 'Bb', 'Db']
