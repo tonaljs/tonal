@@ -1,6 +1,5 @@
 import { fromName, names as nms } from 'tonal-dictionary'
 import { map, fromSemitones, asArr, range, transpose, scaleFilter, pc } from 'tonal'
-import { compact } from 'tonal-array'
 
 var DATA = require('./tunings.json')
 
@@ -82,28 +81,40 @@ export function scale (tuning, scale, first, last) {
  * @return {Array} An array of arrays, one for each possible shape.  Index is string index [ 'E2', 'B2', 'E3', 'G#3', 'B3', 'E4' ]
  */
 export function chordShapes (tuning, notes, first, last, span) {
-  span = span || 3;
-  var chordNotes = scale(tuning, notes, first, last);
-  var chordGroups = [];
+  var chordNotes = scale(tuning, notes, first, last)
+  var chordGroups = []
 
   // Break each string array into {fretSpan} frets overlapping sections
   var strings = chordNotes.map(function(v, i) {
     return v.map(function(v2, i2) {
-      return v.slice(i2, i2 + span);
-    });
-  });
+      return v.slice(i2, i2 + span).map(function(v3, i3) {
+        // Convert note names to fret numbers
+        return v3 !== null ? i2 + i3  : null
+      })
+    })
+  })
 
   // Build chordGroups
   strings.forEach(function(v, i) {
     v.forEach(function(v2, i2) {
-      if (!Array.isArray(chordGroups[i2])) chordGroups[i2] = [];
-      var frets = compact(v2);
+      if (!Array.isArray(chordGroups[i2])) chordGroups[i2] = []
+
+      // Strip null values
+      var frets = v2.filter(function(v3) {
+        return v3 !== null
+      })
+
       if (frets.length <= 1) {
-        chordGroups[i2].push(frets.toString() ? frets.toString() : null);
+        chordGroups[i2].push(frets.toString() ? frets.toString() : null)
       } else {
-        chordGroups[i2].push(frets);
+        chordGroups[i2].push(frets)
       }
-    });
-  });
-  return chordGroups;
+    })
+  })
+
+  // Remove null and neighboring duplicate arrays
+  return chordGroups.filter(function(v, i) {
+    if (!v.join('').toString()) return false;
+    return i - 1 < 0 ? v : chordGroups[i].toString() !== chordGroups[i - 1].toString();
+  })
 }

@@ -38,15 +38,18 @@ test('scale', function (t) {
 })
 
 test('chordShapes', function (t) {
+  t.deepEqual(fr.chordShapes('guitar', [], 0, 5, 3),
+    [])
+  t.deepEqual(fr.chordShapes('guitar', ['G'], 0, 5, 3),
+    [ [ null, null, null, '0', null, null ],
+      [ '3', null, null, null, null, '3' ],
+      [ '3', null, '5', null, null, '3' ],
+      [ null, null, '5', null, null, null ] ])
   t.deepEqual(fr.chordShapes('guitar', ['E','G#','B'], 0, 5, 3),
-    [ [ 'E2', 'B2', 'E3', 'G#3', 'B3', 'E4' ],
-      [ null, 'B2', 'E3', 'G#3', null, null ],
-      [ 'G#2', 'B2', 'E3', 'B3', null, 'G#4' ],
-      [ 'G#2', null, null, 'B3', 'E4', 'G#4' ],
-      [ 'G#2', null, 'G#3', 'B3', 'E4', 'G#4' ],
-      [ 'B2', 'E3', 'G#3', null, 'E4', 'B4' ],
-      [ 'B2', 'E3', 'G#3', null, null, 'B4' ],
-      [ 'B2', 'E3', null, null, null, 'B4' ],
-      [ null, null, null, null, null, null ] ])
+    [ [ '0', '2', '2', '1', '0', '0' ],
+      [ null, '2', '2', '1', null, null ],
+      [ '4', '2', '2', '4', null, '4' ],
+      [ '4', null, null, '4', '5', '4' ],
+      [ null, null, null, null, '5', null ] ])
   t.end()
 })
