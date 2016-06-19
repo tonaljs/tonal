@@ -23,7 +23,7 @@ var dict = fn(parseIvl, DATA)
  * // get scale intervals (tonic false)
  * scale.create('maj7', false) // => ['1P', '3M', '5P', '7M']
  * // partially applied
- * const maj7 = scale.create('maj7')
+ * var maj7 = scale.create('maj7')
  * maj7('C') // => ['C', 'E', 'G', 'B']
  * // create scale from intervals
  * scale.create('1 3 5 m7 m9', 'C') // => ['C', 'E', 'G', 'Bb', 'Db']
