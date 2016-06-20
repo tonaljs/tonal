@@ -956,7 +956,7 @@ function parse (str, isTonic, tuning) {
   if (typeof str !== 'string') return null
   var m = REGEX.exec(str)
   if (!m || !isTonic && m[4]) return null
-  tuning = tuning || 440
+  tuning = tuning || 440
 
   var p = { letter: m[1].toUpperCase(), acc: m[2].replace(/x/g, '##') }
   p.pc = p.letter + p.acc

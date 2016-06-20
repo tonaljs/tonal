@@ -1,5 +1,6 @@
 import { fromName, names as nms } from 'tonal-dictionary'
 import { map, fromSemitones, asArr, range, transpose, scaleFilter, pc } from 'tonal'
+import { compact } from 'tonal-array'
 
 var DATA = require('./tunings.json')
 
@@ -70,4 +71,52 @@ export function build (tun, first, last) {
 export function scale (tuning, scale, first, last) {
   var filter = map(scaleFilter(scale))
   return build(tuning, first, last).map(filter)
+}
+
+/**
+ * Build an array of reachable chord shapes based on given notes and tuning.
+ * @param {String|Array} tuning - the tuning name or notes
+ * @param {Array} notes - an array of chord notes
+ * @param {Integer} first - the first fret number
+ * @param {Integer} last - the last fret number
+ * @param {Integer} span - how many frets to include per position
+ * @return {Array} An array of arrays, one for each possible shape.  Element index is string number [ '0', '2', '2', '1', '0', '0' ]
+ */
+export function chordShapes (tuning, notes, first, last, span) {
+  var fretboard = scale(tuning, notes, first, last)
+  var positions = []
+
+  // Break each string array into {fretSpan} frets overlapping sections
+  var strings = fretboard.map(function(string, stringIndex) {
+    return string.map(function(fret, fretIndex) {
+      return string.slice(fretIndex, fretIndex + span).map(function(slicedFret, slicedFretIndex) {
+        // Convert note names to fret numbers
+        return slicedFret !== null ? fretIndex + slicedFretIndex : null
+      })
+    })
+  })
+
+  // Build positions
+  strings.forEach(function(string) {
+    string.forEach(function(fretGroup, fretGroupIndex) {
+      if (!Array.isArray(positions[fretGroupIndex])) positions[fretGroupIndex] = []
+
+      // Strip null values
+      fretGroup = fretGroup.filter(function(v3) {
+        return v3 !== null
+      })
+
+      if (fretGroup.length <= 1) {
+        positions[fretGroupIndex].push(fretGroup.toString() ? fretGroup.toString() : null)
+      } else {
+        positions[fretGroupIndex].push(fretGroup)
+      }
+    })
+  })
+
+  // Remove null and neighboring duplicate arrays
+  return positions.filter(function(position, i) {
+    if (!position.join('').toString()) return false;
+    return i === 0 ? position : positions[i].toString() !== positions[i - 1].toString();
+  })
 }
