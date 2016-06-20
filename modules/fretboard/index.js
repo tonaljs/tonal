@@ -1,6 +1,6 @@
 import { fromName, names as nms } from 'tonal-dictionary'
-import { map, fromSemitones, asArr, range, transpose, scaleFilter, pc } from 'tonal'
-import { compact } from 'tonal-array'
+import { fromSemitones, range, transpose, scaleFilter, pc } from 'tonal'
+import { map, asArr, compact } from 'tonal-array'
 
 var DATA = require('./tunings.json')
 
@@ -45,20 +45,29 @@ export function simpleTuning (src) {
 export var names = nms(DATA)
 
 /**
- * Build a fretboard using a given tuning (or tuning name) and first and last
- * fret numbers
+ * Build a fretboard using a given tuning (or tuning name), first and last
+ * fret numbers and optionally a chord or scale
+ *
+ * It returns an array of arrays, where each sub-array is the notes of
+ * a string.
+ *
  * @param {String|Array} tuning - the tuning name or notes
  * @param {Integer} first - the first fret number
  * @param {Integer} last - the last fret number
+ * @param {Array|String} filter - a scale or chord to filter the fretboard
  * @return {Array} An array of arrays, one for each string
  */
-export function build (tun, first, last) {
+export function notes (tun, first, last, filter) {
+  first = first || 0
+  last = last || first
   var ivls = range([first, last]).map(fromSemitones)
   var notes = tuning(tun) || asArr(tun)
+  var filterFn = filter ? map(scaleFilter(filter)) : id
   return notes.map(function (b) {
     return ivls.map(transpose(b))
-  })
+  }).map(filterFn)
 }
+function id (o) { return o }
 
 /**
  * Build a fretboard only showing the notes for the given scale.
@@ -69,8 +78,7 @@ export function build (tun, first, last) {
  * @return {Array} An array of arrays, one for each string
  */
 export function scale (tuning, scale, first, last) {
-  var filter = map(scaleFilter(scale))
-  return build(tuning, first, last).map(filter)
+  return notes(tuning, first, last, scale)
 }
 
 /**
@@ -87,9 +95,9 @@ export function chordShapes (tuning, notes, first, last, span) {
   var positions = []
 
   // Break each string array into {fretSpan} frets overlapping sections
-  var strings = fretboard.map(function(string, stringIndex) {
-    return string.map(function(fret, fretIndex) {
-      return string.slice(fretIndex, fretIndex + span).map(function(slicedFret, slicedFretIndex) {
+  var strings = fretboard.map(function (string, stringIndex) {
+    return string.map(function (fret, fretIndex) {
+      return string.slice(fretIndex, fretIndex + span).map(function (slicedFret, slicedFretIndex) {
         // Convert note names to fret numbers
         return slicedFret !== null ? fretIndex + slicedFretIndex : null
       })
@@ -97,14 +105,12 @@ export function chordShapes (tuning, notes, first, last, span) {
   })
 
   // Build positions
-  strings.forEach(function(string) {
-    string.forEach(function(fretGroup, fretGroupIndex) {
+  strings.forEach(function (string) {
+    string.forEach(function (fretGroup, fretGroupIndex) {
       if (!Array.isArray(positions[fretGroupIndex])) positions[fretGroupIndex] = []
 
       // Strip null values
-      fretGroup = fretGroup.filter(function(v3) {
-        return v3 !== null
-      })
+      fretGroup = compact(fretGroup)
 
       if (fretGroup.length <= 1) {
         positions[fretGroupIndex].push(fretGroup.toString() ? fretGroup.toString() : null)
@@ -115,8 +121,8 @@ export function chordShapes (tuning, notes, first, last, span) {
   })
 
   // Remove null and neighboring duplicate arrays
-  return positions.filter(function(position, i) {
-    if (!position.join('').toString()) return false;
-    return i === 0 ? position : positions[i].toString() !== positions[i - 1].toString();
+  return positions.filter(function (position, i) {
+    if (!position.join('').toString()) return false
+    return i === 0 ? position : positions[i].toString() !== positions[i - 1].toString()
   })
 }

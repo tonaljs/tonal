@@ -197,7 +197,7 @@ To use them, this modules need to be installed and required explicitly. For exam
 
 ## Build, test and documentation
 
-To build or test this library you first you need is to clone this repository. Then, since it's a multimodule package if you run `npm test` you only run test for the `tonal` package (the facade). To run the test of all the modules you can run: `npm run modules-update && npm run modules-test`.
+To build or test this library you first you need is to clone this repository. Then, since it's a multimodule package if you run `npm test` you only run test for the `tonal` package (the facade). To run the test of all the modules you can run: `npm run modules-install && npm run modules-test`.
 
 Or if you prefer `npm run test-ci` to run all in one command.
 
@@ -213,6 +213,7 @@ This library takes inspiration from other music theory libraries:
 - Impro-Visor: https://www.cs.hmc.edu/~keller/jazz/improvisor/
 - MusicKit: https://github.com/benzguo/MusicKit
 - Music21: http://web.mit.edu/music21/doc/index.html
+- Sharp11: https://github.com/jsrmath/sharp11
 
 ## License
 

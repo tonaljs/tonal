@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "tonal": "^0.50.1",
+    "tonal-array": "^0.50.6",
     "tonal-dictionary": "^0.50.0"
   }
 }

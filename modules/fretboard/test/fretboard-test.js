@@ -20,10 +20,10 @@ test('simple tuning', function (t) {
   t.end()
 })
 
-test('build', function (t) {
-  t.deepEqual(fr.build('E2 A2 D3', 0, 2),
+test('notes', function (t) {
+  t.deepEqual(fr.notes('E2 A2 D3', 0, 2),
     [ [ 'E2', 'F2', 'F#2' ], [ 'A2', 'Bb2', 'B2' ], [ 'D3', 'Eb3', 'E3' ] ])
-  t.deepEqual(fr.build('guitar', 5, 7),
+  t.deepEqual(fr.notes('guitar', 5, 7),
     [ [ 'A2', 'Bb2', 'B2' ], [ 'D3', 'Eb3', 'E3' ], [ 'G3', 'Ab3', 'A3' ],
       [ 'C4', 'Db4', 'D4' ], [ 'E4', 'F4', 'F#4' ], [ 'A4', 'Bb4', 'B4' ] ])
   t.end()
@@ -45,7 +45,7 @@ test('chordShapes', function (t) {
       [ '3', null, null, null, null, '3' ],
       [ '3', null, '5', null, null, '3' ],
       [ null, null, '5', null, null, null ] ])
-  t.deepEqual(fr.chordShapes('guitar', ['E','G#','B'], 0, 5, 3),
+  t.deepEqual(fr.chordShapes('guitar', ['E', 'G#', 'B'], 0, 5, 3),
     [ [ '0', '2', '2', '1', '0', '0' ],
       [ null, '2', '2', '1', null, null ],
       [ '4', '2', '2', '4', null, '4' ],
