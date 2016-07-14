@@ -1,8 +1,7 @@
 
-import { parse as noteParse } from 'note-parser'
+import { parse as noteParse, build as noteStr } from 'note-parser'
 import { parse as ivlParse, altToQ } from 'interval-notation'
 import { encode as enc, decode as dec } from 'tonal-encoding'
-import { isNum, isStr, isArr, toLetter, toAcc } from 'tonal-notation'
 
 /**
  * Create a pitch
@@ -19,7 +18,7 @@ export function pitch (fifths, focts, dir) {
  * @param {Pitch}
  * @return {Boolean}
  */
-export function isPitch (p) { return isArr(p) && p[0] === 'tnlp' }
+export function isPitch (p) { return Array.isArray(p) && p[0] === 'tnlp' }
 /**
  * Encode a pitch
  * @param {Integer} step
@@ -111,7 +110,7 @@ export function chr (p) {
 function memoize (fn) {
   var cache = {}
   return function (str) {
-    if (!isStr(str)) return null
+    if (typeof str !== 'string') return null
     return cache[str] || (cache[str] = fn(str))
   }
 }
@@ -168,8 +167,6 @@ export function asIvlPitch (p) { return isIvlPitch(p) ? p : parseIvl(p) }
  */
 export function asPitch (p) { return isPitch(p) ? p : parsePitch(p) }
 
-function octStr (n) { return isNum(n) ? n : '' }
-
 /**
  * Convert a note pitch to string representation
  * @param {Pitch}
@@ -177,9 +174,7 @@ function octStr (n) { return isNum(n) ? n : '' }
  */
 export function strNote (p) {
   if (!isNotePitch(p)) return null
-  var d = decode(p)
-  // d = [step, alt, oct]
-  return toLetter(d[0]) + toAcc(d[1]) + octStr(d[2])
+  return noteStr.apply(null, decode(p))
 }
 
 /**
@@ -203,6 +198,9 @@ export function strIvl (p) {
  */
 export function strPitch (p) { return strNote(p) || strIvl(p) }
 
+// A function that creates a decorator
+// The returned function can _decorate_ other functions to parse and build
+// string representations
 function decorator (is, parse, str) {
   return function (fn) {
     return function (v) {

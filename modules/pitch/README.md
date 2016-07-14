@@ -104,7 +104,7 @@ to string if a pitch is returned.</p>
 ## pitch(fifths, focts, dir) ⇒ <code>Pitch</code>
 Create a pitch
 
-**Kind**: global function  
+
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -117,7 +117,7 @@ Create a pitch
 ## isPitch(p) ⇒ <code>Boolean</code>
 Test if an object is a pitch
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -128,7 +128,7 @@ Test if an object is a pitch
 ## encode(step, alt, oct, dir)
 Encode a pitch
 
-**Kind**: global function  
+
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -142,7 +142,7 @@ Encode a pitch
 ## decode(the) ⇒ <code>Array</code>
 Decode a pitch
 
-**Kind**: global function  
+
 **Returns**: <code>Array</code> - An array with [step, alt, oct]  
 
 | Param | Type | Description |
@@ -154,7 +154,7 @@ Decode a pitch
 ## pType(p) ⇒ <code>String</code>
 Get pitch type
 
-**Kind**: global function  
+
 **Returns**: <code>String</code> - 'ivl' or 'note' or null if not a pitch  
 
 | Param | Type |
@@ -166,7 +166,7 @@ Get pitch type
 ## isNotePitch(p) ⇒ <code>Boolean</code>
 Test if is a pitch note (with or without octave)
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -177,7 +177,7 @@ Test if is a pitch note (with or without octave)
 ## isIvlPitch(p) ⇒ <code>Boolean</code>
 Test if is an interval
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -188,7 +188,7 @@ Test if is an interval
 ## isPC(p) ⇒ <code>Boolean</code>
 Test if is a pitch class (a pitch note without octave)
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -199,7 +199,7 @@ Test if is a pitch class (a pitch note without octave)
 ## dir(p) ⇒ <code>Integer</code>
 Get direction of a pitch (even for notes)
 
-**Kind**: global function  
+
 **Returns**: <code>Integer</code> - 1 or -1  
 
 | Param | Type |
@@ -211,7 +211,7 @@ Get direction of a pitch (even for notes)
 ## fifths(p) ⇒ <code>Integer</code>
 Get encoded fifths from pitch.
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -222,7 +222,7 @@ Get encoded fifths from pitch.
 ## focts(p) ⇒ <code>Integer</code>
 Get encoded octaves from pitch.
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -233,7 +233,7 @@ Get encoded octaves from pitch.
 ## height(p) ⇒ <code>Integer</code>
 Get height of a pitch.
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -246,7 +246,7 @@ Get chroma of a pitch. The chroma is a number between 0 and 11 to represent
 the position of a pitch inside an octave. Is the numeric equivlent of a
 pitch class.
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -257,7 +257,7 @@ pitch class.
 ## parseNote(str) ⇒ <code>Pitch</code>
 Parse a note
 
-**Kind**: global function  
+
 **Returns**: <code>Pitch</code> - the pitch or null if not valid note string  
 
 | Param | Type |
@@ -269,7 +269,7 @@ Parse a note
 ## parseIvl(str) ⇒ <code>Pitch</code>
 Parse an interval
 
-**Kind**: global function  
+
 **Returns**: <code>Pitch</code> - the pitch or null if not valid interval string  
 
 | Param | Type |
@@ -281,7 +281,7 @@ Parse an interval
 ## parsePitch(str) ⇒ <code>Pitch</code>
 Parse a note or an interval
 
-**Kind**: global function  
+
 **Returns**: <code>Pitch</code> - the pitch or null if not valid pitch string  
 
 | Param | Type |
@@ -294,7 +294,7 @@ Parse a note or an interval
 Ensure the given object is a note pitch. If is a string, it will be
 parsed. If not a note pitch or valid note string, it returns null.
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -306,7 +306,7 @@ parsed. If not a note pitch or valid note string, it returns null.
 Ensure the given object is a interval pitch. If is a string, it will be
 parsed. If not a interval pitch or valid interval string, it returns null.
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -318,7 +318,7 @@ parsed. If not a interval pitch or valid interval string, it returns null.
 Ensure the given object is a pitch. If is a string, it will be
 parsed. If not a pitch or valid pitch string, it returns null.
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -329,7 +329,7 @@ parsed. If not a pitch or valid pitch string, it returns null.
 ## strNote(p) ⇒ <code>String</code>
 Convert a note pitch to string representation
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -340,7 +340,7 @@ Convert a note pitch to string representation
 ## strIvl(p) ⇒ <code>String</code>
 Convert a interval pitch to string representation
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -351,7 +351,7 @@ Convert a interval pitch to string representation
 ## strPitch(p) ⇒ <code>String</code>
 Convert a pitch to string representation (either notes or intervals)
 
-**Kind**: global function  
+
 
 | Param | Type |
 | --- | --- |
@@ -364,7 +364,7 @@ Decorate a function to work internally with note pitches, even if the
 parameters are provided as strings. Also it converts back the result
 to string if a note pitch is returned.
 
-**Kind**: global function  
+
 **Returns**: <code>function</code> - the decorated function  
 
 | Param | Type |
@@ -378,7 +378,7 @@ Decorate a function to work internally with interval pitches, even if the
 parameters are provided as strings. Also it converts back the result
 to string if a interval pitch is returned.
 
-**Kind**: global function  
+
 **Returns**: <code>function</code> - the decorated function  
 
 | Param | Type |
@@ -392,7 +392,7 @@ Decorate a function to work internally with pitches, even if the
 parameters are provided as strings. Also it converts back the result
 to string if a pitch is returned.
 
-**Kind**: global function  
+
 **Returns**: <code>function</code> - the decorated function  
 
 | Param | Type |
