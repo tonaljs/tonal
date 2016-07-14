@@ -1,6 +1,6 @@
 {
   "name": "tonal-freq",
-  "version": "0.51.1",
+  "version": "0.51.2",
   "description": "Conversion between frequencies and note names",
   "keywords": [
     "note",
@@ -21,6 +21,6 @@
     "tape": "4"
   },
   "dependencies": {
-    "tonal-pitch": "^0.50.0"
+    "tonal-midi": "^0.50.7"
   }
 }
