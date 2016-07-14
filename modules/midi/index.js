@@ -7,8 +7,7 @@ import parser from 'note-parser'
  * @return {Boolean} true if it's a valid midi note number
  */
 export function isMidiNum (m) {
-  if (m === null || Array.isArray(m)) return false
-  return m >= 0 && m < 128
+  return parser.midi(m) !== null
 }
 
 // To match the general midi specification where `C4` is 60 we must add 12 to
@@ -23,8 +22,8 @@ export function isMidiNum (m) {
  * midi('C4') // => 60
  */
 export function toMidi (val) {
-  var p = parser.parse(val)
-  return p && typeof p.midi !== 'undefined' ? p.midi : isMidiNum(val) ? +val : null
+  if (Array.isArray(val) && val.length === 2) return val[0] * 7 + val[1] * 12 + 12
+  return parser.midi(val)
 }
 
 var FLATS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')

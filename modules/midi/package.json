@@ -1,6 +1,6 @@
 {
   "name": "tonal-midi",
-  "version": "0.50.6",
+  "version": "0.50.7",
   "description": "Conversion between midi numbers and note names",
   "keywords": [
     "note",
@@ -21,6 +21,6 @@
     "tape": "4"
   },
   "dependencies": {
-    "note-parser": "^1.1.0"
+    "note-parser": "^2"
   }
 }
