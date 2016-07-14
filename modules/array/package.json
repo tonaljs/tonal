@@ -1,6 +1,6 @@
 {
   "name": "tonal-array",
-  "version": "0.50.6",
+  "version": "0.50.7",
   "description": "Create and manipulate arrays of notes and intervals",
   "keywords": [
     "music",
@@ -22,9 +22,9 @@
     "tape": "4"
   },
   "dependencies": {
+    "as-arr": "^1.0.0",
     "tonal-distance": "^0.50.2",
-    "tonal-notation": "^0.50.0",
-    "tonal-pitch": "^0.50.0",
-    "tonal-transpose": "^0.50.2"
+    "tonal-pitch": "^0.51.1",
+    "tonal-transpose": "^0.50.4"
   }
 }

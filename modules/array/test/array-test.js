@@ -2,6 +2,13 @@ var test = require('tape')
 var _ = require('../')
 function up (s) { return s.toUpperCase() }
 
+test('asArr', function (t) {
+  t.deepEqual(_.asArr('a b c'), [ 'a', 'b', 'c' ])
+  t.deepEqual(_.asArr('a |  b    |  c   '), ['a', 'b', 'c'])
+  t.deepEqual(_.asArr('a , b  | c    d'), ['a', 'b', 'c', 'd'])
+  t.end()
+})
+
 test('map', function (t) {
   t.deepEqual(_.map(up, 'a bb cx'), [ 'A', 'BB', 'CX' ])
   var ups = _.map(up)

@@ -1,11 +1,11 @@
 import { asPitch, isPitch, strPitch, pitch } from 'tonal-pitch'
-import { isArr, isNum } from 'tonal-notation'
 import { tr } from 'tonal-transpose'
 import { distance, distInSemitones } from 'tonal-distance'
-function hasVal (e) { return e || e === 0 }
+import toArr from 'as-arr'
 
-// items can be separated by spaces, bars and commas
-var SEP = /\s*\|\s*|\s*,\s*|\s+/
+// utility
+var isArr = Array.isArray
+function hasVal (e) { return e || e === 0 }
 
 /**
  * Convert anything to array. Speifically, split string separated by spaces,
@@ -24,13 +24,10 @@ var SEP = /\s*\|\s*|\s*,\s*|\s+/
  * @example
  * import { asArr } from 'tonal-arrays'
  * asArr('C D E F G') // => ['C', 'D', 'E', 'F', 'G']
+ * asArr('A, B, C')
+ * asArr('A | B | C')
  */
-export function asArr (src) {
-  return isArr(src) ? src
-    : typeof src === 'string' ? src.trim().split(SEP)
-    : (src === null || typeof src === 'undefined') ? []
-    : [ src ]
-}
+export var asArr = toArr.use(/\s*\|\s*|\s*,\s*|\s+/)
 
 /**
  * Return a new array with the elements mapped by a function.
@@ -150,7 +147,7 @@ export var harmonize = function (list, pitch) {
 var objHeight = function (p) {
   if (!p) return -Infinity
   var f = p[1] * 7
-  var o = isNum(p[2]) ? p[2] : -Math.floor(f / 12) - 10
+  var o = typeof p[2] === 'number' ? p[2] : -Math.floor(f / 12) - 10
   return f + o * 12
 }
 
