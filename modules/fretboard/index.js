@@ -97,10 +97,10 @@ export function chordShapes (tuning, notes, first, last, span) {
   // Break each string array into {fretSpan} frets overlapping sections
   var strings = fretboard.map(function (string, stringIndex) {
     return string.map(function (fret, fretIndex) {
-      return string.slice(fretIndex, fretIndex + span).map(function (slicedFret, slicedFretIndex) {
+      return compact(string.slice(fretIndex, fretIndex + span).map(function (slicedFret, slicedFretIndex) {
         // Convert note names to fret numbers
         return slicedFret !== null ? fretIndex + slicedFretIndex : null
-      })
+      }))
     })
   })
 
@@ -109,20 +109,14 @@ export function chordShapes (tuning, notes, first, last, span) {
     string.forEach(function (fretGroup, fretGroupIndex) {
       if (!Array.isArray(positions[fretGroupIndex])) positions[fretGroupIndex] = []
 
-      // Strip null values
-      fretGroup = compact(fretGroup)
-
-      if (fretGroup.length <= 1) {
-        positions[fretGroupIndex].push(fretGroup.toString() ? fretGroup.toString() : null)
-      } else {
-        positions[fretGroupIndex].push(fretGroup)
-      }
+      if (fretGroup.length > 1) positions[fretGroupIndex].push(fretGroup)
+      else positions[fretGroupIndex].push(fretGroup.toString() ? fretGroup.toString() : null)
     })
   })
 
   // Remove null and neighboring duplicate arrays
   return positions.filter(function (position, i) {
-    if (!position.join('').toString()) return false
+    if (!compact(position).length) return false
     return i === 0 ? position : positions[i].toString() !== positions[i - 1].toString()
   })
 }
