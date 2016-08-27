@@ -16,10 +16,10 @@ You can install via npm: `npm i --save tonal-chord`
 array of notes (or intervals if you specify <code>false</code> as tonic)</p>
 <p>This function is currified</p>
 </dd>
-<dt><a href="#chordNames">chordNames(aliases)</a> ⇒ <code>Array</code></dt>
+<dt><a href="#chordNames">names(aliases)</a> ⇒ <code>Array</code></dt>
 <dd><p>Return the available chord names</p>
 </dd>
-<dt><a href="#fromChordName">fromChordName(name)</a> ⇒ <code>Array</code></dt>
+<dt><a href="#fromChordName">get(name)</a> ⇒ <code>Array</code></dt>
 <dd><p>Get chord notes from chord name</p>
 </dd>
 </dl>
@@ -55,7 +55,7 @@ chord('1 3 5 m7 m9', 'C') // => ['C', 'E', 'G', 'Bb', 'Db']
 ```
 <a name="chordNames"></a>
 
-## chordNames(aliases) ⇒ <code>Array</code>
+## names(aliases) ⇒ <code>Array</code>
 Return the available chord names
 
 **Kind**: global function  
@@ -67,12 +67,12 @@ Return the available chord names
 
 **Example**  
 ```js
-import { chordNames } from 'tonal-chords'
-chordNames() // => ['maj7', ...]
+import { names } from 'tonal-chords'
+names() // => ['maj7', ...]
 ```
 <a name="fromChordName"></a>
 
-## fromChordName(name) ⇒ <code>Array</code>
+## get(name) ⇒ <code>Array</code>
 Get chord notes from chord name
 
 **Kind**: global function  
@@ -84,7 +84,7 @@ Get chord notes from chord name
 
 **Example**  
 ```js
-import { fromName } from 'tonal-chords'
-fromName('C7') // => ['C', 'E', 'G', 'Bb']
-fromName('CMaj7') // => ['C', 'E', 'G', 'B']
+import { get } from 'tonal-chords'
+get('C7') // => ['C', 'E', 'G', 'Bb']
+get('CMaj7') // => ['C', 'E', 'G', 'B']
 ```
