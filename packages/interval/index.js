@@ -11,11 +11,19 @@
  * or an augmented four. To remove ambiguity, the prefered notation in tonal is the
  * inverse shortand notation.
  *
+ * NOTE: this module is exported in tonal as ivl
+ *
  * @example
+ * var interval = require('tonal-interval')
+ * interval.semitones('4P') // => 5
+ * interval.invert('3m') // => '6M'
+ * interval.simplify('9m') // => '2m'
+ *
+ * @example
+ * // from tonal
  * var tonal = require('tonal')
- * tonal.ivlName('m-3') // => '-3m'
- * tonal.semitones('4P') // => 5
- * tonal.simplify('9m') // => '2m'
+ * tonal.ivl.invert('4P') // => '5P'
+ *
  * @module interval
  */
 import { asIvlPitch, ivlFn, chr, dir,
@@ -26,16 +34,13 @@ import { asIvlPitch, ivlFn, chr, dir,
  * as pitch or string in shorthand notation or tonal notation. It returns always
  * intervals in tonal notation.
  *
- * @param {String|Pitch} ivl
- * @param {String} the interval name or null if not valid interval
+ * @param {String|Pitch} interval - the interval string or array
+ * @return {String} the interval name or null if not valid interval
  * @example
- * import { ivlName } from 'tonal-interval'
- * ivlName('m-3') // => '-3m'
- * ivlName('3') // => null
- * // part of tonal
- * tonal.ivlName('blah') // => null
+ * interval.toInterval('m-3') // => '-3m'
+ * interval.toInterval('3') // => null
  */
-export function ivlName (ivl) {
+export function toInterval (ivl) {
   var i = asIvlPitch(ivl)
   return i ? strIvl(i) : null
 }
@@ -94,12 +99,9 @@ var CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]
  * @return {Integer} A value between 0 and 6
  *
  * @example
- * import { invert } from 'tonal-interval'
- * ic('P8') // => 0
- * ic('m6') // => 4
+ * interval.ic('P8') // => 0
+ * interval.ic('m6') // => 4
  * ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
- * // or use tonal
- * tonal.ic('m6') // => 4
  */
 export function ic (ivl) {
   var i = asIvlPitch(ivl)
@@ -110,13 +112,15 @@ export function ic (ivl) {
 var TYPES = 'PMMPPMM'
 /**
  * Get interval type. Can be perfectable (1, 4, 5) or majorable (2, 3, 6, 7)
+ * It does NOT return the actual quality.
+ *
  * @param {String|Pitch} interval
  * @return {String} 'P' for perfectables, 'M' for majorables or null if not
  * valid interval
  * @example
- * tonal.itype('5A') // => 'P'
+ * interval.type('5A') // => 'P'
  */
-export function itype (ivl) {
+export function type (ivl) {
   var i = asIvlPitch(ivl)
   return i ? TYPES[decode(i)[0]] : null
 }
@@ -131,10 +135,8 @@ export function itype (ivl) {
  * @return {String|Pitch} the inverted interval
  *
  * @example
- * import { invert } from 'tonal-interval'
- * invert('3m') // => '6M'
- * // or using tonal
- * tonal.invert('2M') // => '7m'
+ * interval.invert('3m') // => '6M'
+ * interval.invert('2M') // => '7m'
  */
 export var invert = ivlFn(function (i) {
   var d = decode(i)
@@ -152,14 +154,11 @@ export var invert = ivlFn(function (i) {
  * @return {String|Array} the simplified interval
  *
  * @example
- * import { simplify } from 'tonal-interval'
- * simplify('9M') // => '2M'
- * ['8P', '9M', '10M', '11P', '12P', '13M', '14M', '15P'].map(simplify)
+ * interval.simplify('9M') // => '2M'
+ * ['8P', '9M', '10M', '11P', '12P', '13M', '14M', '15P'].map(interval.simplify)
  * // => [ '8P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
- * simplify('2M') // => '2M'
- * simplify('-2M') // => '7m'
- * // part of tonal
- * tonal.simplify('9m') // => '2m'
+ * interval.simplify('2M') // => '2M'
+ * interval.simplify('-2M') // => '7m'
  */
 export var simplify = ivlFn(function (i) {
   // decode to [step, alt, octave]

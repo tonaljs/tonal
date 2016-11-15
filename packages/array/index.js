@@ -16,9 +16,9 @@
  * @module array
  */
 import { asPitch, isPitch, strPitch, pitch } from 'tonal-pitch'
-import { tr } from 'tonal-transpose'
-import { distance, distInSemitones } from 'tonal-distance'
-import toArr from 'as-arr'
+import { transpose as tr } from 'tonal-transpose'
+import { interval, semitones } from 'tonal-distance'
+import * as toArr from 'as-arr'
 
 // utility
 var isArr = Array.isArray
@@ -131,7 +131,7 @@ export function filter (fn, list) {
  */
 export function harmonics (list) {
   var a = asArr(list)
-  return a.length ? a.map(distance(a[0])).filter(hasVal) : a
+  return a.length ? a.map(interval(a[0])).filter(hasVal) : a
 }
 
 /**
@@ -267,7 +267,7 @@ export function rotateAsc (times, list) {
     var head = arr.slice(n, len)
     var tail = arr.slice(0, n)
     // See if the first note of tail is lower than the last of head
-    var s = distInSemitones(head[len - n - 1], tail[0])
+    var s = semitones(head[len - n - 1], tail[0])
     if (s < 0) {
       var octs = Math.floor(s / 12)
       if (times < 0) head = head.map(trOct(octs))

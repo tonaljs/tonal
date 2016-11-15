@@ -8,7 +8,7 @@
  */
 import { pc, chroma } from 'tonal-note'
 import { map } from 'tonal-array'
-import { toMidi } from 'tonal-midi'
+import { fromNote } from 'tonal-midi'
 
 /**
  * This function filter notes using a scale. Given a scale and a note, it
@@ -25,19 +25,21 @@ import { toMidi } from 'tonal-midi'
  * @return {String} the note name or null if note in the pitch classes
  *
  * @example
- * import { scaleFilter } from 'tonal-filter'
- * scaleFilter('C D E', 'C4') // => 'C4'
- * scaleFilter('C D E', 'B#3') // => 'C4'
- * scaleFilter('C D E', 60) // => 'C4'
- * aMajor = scaleFilter('A C# E')
- * [69, 70, 71, 72, 73].map(aMajor) // => [ 'A4', null, null, null, 'C#5' ]
+ * var filter = require('tonal-filter')
+ * var inC = filter.byScale('c d e f g a b')
+ * inC('c4') // => true
+ * filter.all(inC, 'c2 c#2 d3 eb3 e4 f5') // => ['']
+ * isAMajor = scaleFilter('A C# E')
+ * isAMajor('c#2') // => true
+ * // work with midi numbers
+ * isAMajor(69) // => true
  */
 export function scaleFilter (notes, m) {
   if (arguments.length > 1) return scaleFilter(notes)(m)
   var scale = map(pc, notes)
   var chromas = map(chroma, scale)
   return function (note) {
-    var midi = toMidi(note)
+    var midi = fromNote(note)
     var m = midi !== null ? midi - 12 : chroma(note)
     var pcIndex = chromas.indexOf(m % 12)
     return pcIndex > -1 ? scale[pcIndex] + Math.floor(m / 12) : null

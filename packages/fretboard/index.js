@@ -1,12 +1,15 @@
 /**
  * @module fretboard
  */
-import { fromName, names as nms } from 'tonal-dictionary'
-import {
-  fromSemitones, range, transpose, scaleFilter, pc, map, asArr, compact
-} from 'tonal'
+import { get, keys } from 'tonal-dictionary'
+import { fromSemitones } from 'tonal-interval'
+import { transpose } from 'tonal-transpose'
+import { pc } from 'tonal-note'
+import { asArr, compact, map } from 'tonal-array'
+import { numeric } from 'tonal-range'
+import { scaleFilter } from 'tonal-filter'
 
-var DATA = require('./tunings.json')
+var DICT = require('./tunings.json')
 
 /**
  * Given a tuning name, returns the notes of the strings in the open position
@@ -18,7 +21,7 @@ var DATA = require('./tunings.json')
  * fret.tuning('guitar') // => [ 'E2', 'A2', 'D3', 'G3', 'B3', 'E4' ]
  * fret.tuning('charango') // => [ 'G4', 'G4', 'C5', 'C5', 'E5', 'E4', 'A4', 'A4', 'E5', 'E5' ]
  */
-export var tuning = fromName(null, DATA)
+export var tuning = get(null, DICT)
 
 /**
  * Given a tuning name returns the notes of the strings in open position
@@ -46,7 +49,7 @@ export function simpleTuning (src) {
  * @param {Boolean} aliases - get aliases or not
  * @return {Array} an array of tuning names
  */
-export var names = nms(DATA)
+export var names = keys(DICT)
 
 /**
  * Build a fretboard using a given tuning (or tuning name), first and last
@@ -64,7 +67,7 @@ export var names = nms(DATA)
 export function notes (tun, first, last, filter) {
   first = first || 0
   last = last || first
-  var ivls = range([first, last]).map(fromSemitones)
+  var ivls = numeric([first, last]).map(fromSemitones)
   var notes = tuning(tun) || asArr(tun)
   var filterFn = filter ? map(scaleFilter(filter)) : id
   return notes.map(function (b) {

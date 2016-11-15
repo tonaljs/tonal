@@ -9,8 +9,8 @@
     "tonal"
   ],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && cp scales.json build/ && rollup -f cjs -n scale -o build/tonal-scale.js -- index.js",
-    "prepublish": "npm test"
+    "pretest": "rollup -f cjs -o build/index.js -- index.js",
+    "test": "tape test/*.js"
   },
   "main": "build/index.js",
   "jsnext:main": "index",

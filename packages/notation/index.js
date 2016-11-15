@@ -1,4 +1,19 @@
 /**
+ * Functions related to music notation in strings. Things like parse accidentals,
+ * or convert from step to note letter.
+ *
+ * Glossary:
+ *
+ * - step: the number from 0 to 6 representing the letters from C to B
+ * - letter: a valid note letter (from A to G)
+ * - alteration: a number indicating the sharps (positive) or flats (negative)
+ * - accidentals: a string with sharps (#) or flats (b)
+ *
+ * @example
+ * var notation = require('tonal-notation')
+ * notation.toAcc('3') // => '###'
+ * notation.toAcc('-3') // => 'bbb'
+ * notation.toAlt('###') // => 3
  * @module notation
  */
 

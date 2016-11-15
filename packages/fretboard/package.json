@@ -9,8 +9,8 @@
     "tonal"
   ],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && cp tunings.json build/ && rollup -f cjs -n fretboard -o build/tonal-fretboard.js -- index.js",
-    "prepublish": "npm test"
+    "pretest": "cp tunings.json build/ && rollup -f cjs -o build/index.js -- index.js",
+    "test": "tape test/*.js"
   },
   "main": "build/index.js",
   "jsnext:main": "index",
@@ -18,7 +18,13 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "tonal": "^0.60.0",
+    "tonal-dictionary": "^0.60.0",
+    "tonal-array": "^0.60.0",
+    "tonal-transpose": "^0.60.0",
+    "tonal-interval": "^0.60.0",
+    "tonal-note": "^0.60.0",
+    "tonal-range": "^0.60.0",
+    "tonal-filter": "^0.60.0",
     "tonal-dictionary": "^0.60.0"
   }
 }

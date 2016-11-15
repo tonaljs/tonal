@@ -3,14 +3,14 @@
  *
  * @module chord
  */
-import { fromName, names as dictN } from 'tonal-dictionary'
+import { get as getter, keys } from 'tonal-dictionary'
 import { parseIvl } from 'tonal-pitch'
 import { regex } from 'note-parser'
 import { harmonize } from 'tonal-array'
 
 var DATA = require('./chords.json')
 
-var dict = fromName(parseIvl, DATA)
+var dict = getter(parseIvl, DATA)
 
 /**
  * Create chords by chord type or intervals and tonic. The returned chord is an
@@ -50,7 +50,7 @@ export function build (src, tonic) {
  * var chord = require('tonal-chord')
  * chord.names() // => ['maj7', ...]
  */
-export var names = dictN(DATA)
+export var names = keys(DATA)
 
 /**
  * Get chord notes from chord name

@@ -15,7 +15,7 @@
  * ['c', 'db3', '2', 'g+', 'gx4'].map(name) // => ['C', 'Db3', null, null, 'G##4']
  */
 import { fifths, asNotePitch, strNote, parseIvl, chr } from 'tonal-pitch'
-import { tr } from 'tonal-transpose'
+import { transpose as tr } from 'tonal-transpose'
 
 /**
  * Return the chroma of a note. The chroma is the numeric equivalent to the
@@ -44,10 +44,10 @@ export function chroma (n) {
  *
  * @example
  * var note = require('tonal-note')
- * note.name('cb2') // => 'Cb2'
+ * note.toNote('cb2') // => 'Cb2'
  * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
  */
-export function name (n) {
+export function toNote (n) {
   var p = asNotePitch(n)
   return p ? strNote(p) : null
 }

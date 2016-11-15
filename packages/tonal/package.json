@@ -4,7 +4,10 @@
   "description": "A functional music theory library",
   "main": "build/index.js",
   "jsnext:main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "pretest": "rollup -f cjs -o build/index.js -- index.js",
+    "test": "tape test/*.js"
+  },
   "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal",
   "bugs": {
@@ -27,6 +30,10 @@
     "tonal-note": "^0.60.0",
     "tonal-range": "^0.60.0",
     "tonal-scale": "^0.60.0",
-    "tonal-transpose": "^0.60.0"
+    "tonal-chord": "^0.60.0",
+    "tonal-notation": "^0.60.0",
+    "tonal-transpose": "^0.60.0",
+    "tonal-progression": "^0.60.0",
+    "tonal-sonority": "^0.60.0"
   }
 }

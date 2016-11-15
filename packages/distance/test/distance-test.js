@@ -44,10 +44,10 @@ test('when one pitch in array format, return string', function (t) {
   t.end()
 })
 
-test('distInSemitones', function (t) {
-  t.equal(dist.distInSemitones('C3', 'G#3'), 8)
-  t.equal(dist.distInSemitones('C4', 'A3'), -3)
-  t.equal(dist.distInSemitones('blah', 'C3'), null)
-  t.equal(dist.distInSemitones('C', 'D'), 2)
+test('semitones', function (t) {
+  t.equal(dist.semitones('C3', 'G#3'), 8)
+  t.equal(dist.semitones('C4', 'A3'), -3)
+  t.equal(dist.semitones('blah', 'C3'), null)
+  t.equal(dist.semitones('C', 'D'), 2)
   t.end()
 })

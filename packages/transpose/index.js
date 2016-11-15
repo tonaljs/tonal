@@ -55,13 +55,6 @@ export function transpose (a, b) {
 }
 
 /**
- * An alias for `transpose`
- * @function
- * @see transpose
- */
-export var tr = transpose
-
-/**
  * Transpose a tonic a number of perfect fifths. It can be partially applied.
  *
  * @function
@@ -77,6 +70,6 @@ export var tr = transpose
 export function trFifths (t, n) {
   if (arguments.length > 1) return trFifths(t)(n)
   return function (n) {
-    return tr(t, pitch(n, 0, 1))
+    return transpose(t, pitch(n, 0, 1))
   }
 }

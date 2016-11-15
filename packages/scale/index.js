@@ -3,13 +3,13 @@
  *
  * @module scale
  */
-import { fromName as fn, names as nms } from 'tonal-dictionary'
+import { get as getter, keys } from 'tonal-dictionary'
 import { parseIvl, parseNote } from 'tonal-pitch'
 import { harmonize } from 'tonal-array'
 
 var DATA = require('./scales.json')
 
-var dict = fn(parseIvl, DATA)
+var dict = getter(parseIvl, DATA)
 
 /**
  * Create scales by scale type or intervals and tonic. The returned scale is an
@@ -49,7 +49,7 @@ export function build (src, tonic) {
  * var scale = require('tonal-scale')
  * scale.names() // => ['maj7', ...]
  */
-export var names = nms(DATA)
+export var names = keys(DATA)
 
 /**
  * Get scale notes from scale name

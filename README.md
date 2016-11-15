@@ -11,42 +11,50 @@ Think like an [underscorejs](http://underscorejs.org/) (or better: [ramdajs](htt
 ```js
 var tonal = require('tonal')
 
-// midi and frequency
-tonal.toMidi('A4') // => 64
-tonal.fromMidi(60) // => 'C4'
-tonal.toFreq('A4') // => 440
-tonal.fromFreq(220) // => 'A3'
-
 // note transposition
 tonal.transpose('D4', '2M') // => 'E#4'
 // interval distance between notes
-tonal.distance('C', 'G') // => '5P'
+tonal.interval('C', 'G') // => '5P'
 // distance in semitones
-tonal.semitones(tonal.dist('C', 'G')) // => 7
+tonal.semitones('C', 'G') // => 7
+
+// note properties
+tonal.note.pc('Db5') // => 'Db'
+tonal.note.oct('C4') // => 4
+tonal.note.chroma('Cb') // => 11
+tonal.note.simplify('B#3') // => 'C4'
+
+// interval properties
+tonal.ivl.semitones('5P') // => 7
+tonal.ivl.invert('3m') // => '6M'
+tonal.ivl.fromSemitones(7) // => '5P'
+
+// midi and frequency
+tonal.midi.fromNote('A4') // => 64
+tonal.midi.toNote(60) // => 'C4'
+tonal.freq.fromNote('A4') // => 440
+tonal.freq.toNote(220) // => 'A3'
 
 // partial function application
-var upFifth = tonal.tr('P5')
+var upFifth = tonal.transpose('P5')
 upFifth('c3') // => 'G3'
 upFifth('g3') // => 'D4'
 
-// work with arrays
-tonal.asArr('c db eb f gb') // => ['C', 'Db', 'Eb', 'F', 'Gb']
+// map string as lists
+tonal.map(tonal.note.pc, 'C2 Eb5 gx4') // => ['C', 'Eb', 'G##']
+tonal.map(tonal.transpose('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
 
-// map list of notes using functions
-tonal.map(tonal.tr('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
-// get pitch classes using pc function
-tonal.map(tonal.pc, 'C2 Eb5 gx4') // => ['C', 'Eb', 'G##']
-
-// map functions (partial map application)
+// map functions
 var pcs = tonal.map(tonal.pc)
 pcs('C2 db3 e5') // => ['C', 'Db', 'E']
-var up5 = tonal.map(tonal.tr('5P'))
+var up5 = tonal.map(tonal.transpose('5P'))
 up5('c d e') // => ['G', 'A', 'B']
 
 // Create note ranges
-tonal.chromatic('C4, F4, D4') // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'E4', 'Eb4', 'D4' ]
+tonal.range.chromatic(['C4, F4, D4']) // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'E4', 'Eb4', 'D4' ]
+
 // Filter ranges to certain notes
-tonal.scaleRange('C Eb G Bb', 'C3, C4, C3') // => ['C3', 'Eb3', 'G3', 'Bb3', 'C4', 'Bb3', 'G3', 'Eb3', 'C3']
+tonal.range.pitchSet('C Eb G Bb', ['C3', 'C4', 'C3']) // => ['C3', 'Eb3', 'G3', 'Bb3', 'C4', 'Bb3', 'G3', 'Eb3', 'C3']
 
 // create harmonizers
 var maj7 = tonal.harmonizer('P1 M3 P5 M7')
@@ -92,7 +100,7 @@ Also, I want a complete library, where I can model all what I learn, with some (
 
 ## What
 
-Tonal itself is built from a collection of [modules](https://github.com/danigb/tonal/tree/master/modules). Some of they are exposed in the `tonal` package that can be installed via npm: `npm i tonal`. Some others must be required explicitly, like scales: `npm i tonal-scales`
+Tonal itself is built from a collection of [packages](https://github.com/danigb/tonal/tree/master/packages). Some of they are exposed in the `tonal` package that can be installed via npm: `npm i tonal`. Some others must be required explicitly, like scales: `npm i tonal-scales`
 
 You can [read the generated API documentation here](http://danigb.github.io/tonal/api/).
 

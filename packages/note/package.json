@@ -13,7 +13,7 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "tonal-pitch": "^0.50.1",
+    "tonal-pitch": "^0.60.0",
     "tonal-transpose": "^0.60.0"
   }
 }

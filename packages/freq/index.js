@@ -1,7 +1,14 @@
 /**
+ * A collection of modules to work with note frequencies
+ *
+ * @example
+ * var freq = require('tonal-freq')
+ * freq.fromNote('A4') // => 440
+ * freq.toNote(440) // => 'A4'
+ * freq.toNoteAndDetune(320) // => ['C4', 200]
  * @module freq
  */
-import { toMidi, fromMidi } from 'tonal-midi'
+import { fromNote, toNote } from 'tonal-midi'
 
 /**
  * Return a function that converts midi or notes names to frequency using
@@ -17,7 +24,7 @@ import { toMidi, fromMidi } from 'tonal-midi'
  */
 export function toEqualTemp (ref) {
   return function (p) {
-    var m = toMidi(p)
+    var m = fromNote(p)
     return m ? Math.pow(2, (m - 69) / 12) * ref : null
   }
 }
@@ -44,8 +51,8 @@ export var toFreq = toEqualTemp(440)
  */
 export function fromEqualTemp (ref) {
   return function (freq) {
-    var midi = 12 * (Math.log(freq) - Math.log(ref)) / Math.log(2) + 69
-    return Math.round(midi)
+    var midiNum = 12 * (Math.log(freq) - Math.log(ref)) / Math.log(2) + 69
+    return Math.round(midiNum)
   }
 }
 
@@ -65,7 +72,7 @@ export var midiFromFreq = fromEqualTemp(440)
  * @return {String} note name
  */
 export function fromFreq (freq) {
-  return fromMidi(midiFromFreq(freq))
+  return toNote(midiFromFreq(freq))
 }
 
 /**

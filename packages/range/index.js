@@ -2,27 +2,30 @@
  * A collection of functions to create note ranges.
  *
  * @example
- * var tonal = require('tonal')
- * // create numeric (midi note numbers) range
- * tonal.range('C4 E4 Bb3') // => [60, 61, 62, 63, 64]
- * // create a range with three points
- * tonal.range('C4 E4 Bb3') // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
- * // create a chromatic range with three points
- * tonal.chromatic('C2 E2 D2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2', 'Eb2', 'D2']
+ * var range = require('tonal-range')
+ * // ascending chromatic range
+ * range.chromatic(['C4', 'E4']) // => ['C4', 'Db4', 'D4', 'Eb4', 'E4']
+ * // descending chromatic range
+ * range.chromatic(['E4', 'C4']) // => ['E4', 'Eb4', 'D4', 'Db4', 'C4']
+ * // combining ascending and descending in complex ranges
+ * range.chromatic(['C2', 'E2', 'D2']) // => ['C2', 'Db2', 'D2', 'Eb2', 'E2', 'Eb2', 'D2']
+ * // numeric (midi note numbers) range
+ * range.numeric('C4 E4 Bb3') // => [60, 61, 62, 63, 64]
+ * // complex numeric range
+ * range.numeric('C4 E4 Bb3') // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
  * // create a scale range
- * tonal.scaleRange('C E G A', 'c2 c3 c2') // => [ 'C2', 'E2', 'G2', 'A2', 'C3', 'A2', 'G2', 'E2', 'C2' ] *
- *
+ * range.pitchSet('c e g a', 'c2 c3 c2') // => [ 'C2', 'E2', 'G2', 'A2', 'C3', 'A2', 'G2', 'E2', 'C2' ] *
+ g
  * @module range
  */
 import { asArr, cMap } from 'tonal-array'
 import { trFifths } from 'tonal-transpose'
-import { toMidi, fromMidi } from 'tonal-midi'
+import { fromNote, toNote } from 'tonal-midi'
 import { scaleFilter } from 'tonal-filter'
 
-var slice = Array.prototype.slice
 function isNum (n) { return typeof n === 'number' }
 // convert notes to midi if needed
-function asNum (n) { return isNum(n) ? n : toMidi(n) }
+function asNum (n) { return isNum(n) ? n : fromNote(n) }
 // ascending range
 function ascR (b, n) { for (var a = []; n--; a[n] = n + b); return a }
 // descending range
@@ -41,18 +44,15 @@ function ran (a, b) {
  * @return {Array} an array of numbers or empty array if not vald parameters
  *
  * @example
- * import { range } from 'tonal-range'
- * range('C5 C4') // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
+ * range.numeric('C5 C4') // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
  * // it works with numbers
- * range([10, 5]) // => [ 10, 9, 8, 7, 6, 5 ]
+ * range.numeric([10, 5]) // => [ 10, 9, 8, 7, 6, 5 ]
  * // complex range
- * range('C4 E4 Bb3') // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
+ * range.numeric('C4 E4 Bb3') // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
  * // can be expressed with a string or array
- * range('C2 C4 C2') === range(['C2', 'C4', 'C2'])
- * // included in tonal package
- * tonal.range('C2 C3')
+ * range.numeric('C2 C4 C2') === range.numeric(['C2', 'C4', 'C2'])
  */
-export function range (list) {
+export function numeric (list) {
   return asArr(list).map(asNum).reduce(function (r, n, i) {
     if (i === 1) return ran(r, n)
     var last = r[r.length - 1]
@@ -68,30 +68,29 @@ export function range (list) {
  * @return {Array} an array of note names
  * @example
  * tonal.chromatic('C2 E2 D2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2', 'Eb2', 'D2']
+ * // with sharps
+ * tonal.chromatic('C2 C3', true) // => [ 'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2', 'C3' ]
  */
-export function chromatic (list) {
-  var args = arguments.length === 1 ? list : slice.call(arguments)
-  return cMap(fromMidi, range(args))
+export function chromatic (list, sharps) {
+  return cMap(toNote(sharps === true), numeric(list))
 }
 
 /**
  * Create a range with a cycle of fifths
  * @function
- * @param {Integer} the first step from tonic
- * @param {Integer} the last step from tonic (can be negative)
- * @param {String|Pitch} the tonic
- * @return {Array} a range of cycle of fifths
+ * @param {String|Pitch} tonic - the tonic note or pitch class
+ * @param {Array|String} range - the range array
+ * @return {Array} a range of cycle of fifths starting with the tonic
  * @example
- * var range = require('tonal-ranges')
- * range.cycleOfFifths(0, 6, 'C') // => [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ])
+ * range.fifths('C', [0, 6]) // => [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ])
  */
-export function cycleOfFifths (s, e, t) {
-  return range([s, e]).map(trFifths(t))
+export function fifths (tonic, range) {
+  return numeric(range).map(trFifths(tonic))
 }
 
 /**
- * Create a scale range. Given a pitch set (a collection of pitch classes),
- * and a start and end it returns a note range.
+ * Create a pitch set (scale or chord) range. Given a pitch set (a collection
+ * of pitch classes), and a range array, it returns a range in notes.
  *
  * @param {String|Array|Function} scale - the scale to use or a function to
  * convert from midi numbers to note names
@@ -99,12 +98,13 @@ export function cycleOfFifths (s, e, t) {
  * @return {Array} the scale range, an empty array if not valid source or
  * null if not valid start or end
  * @example
- * var tonal = require('tonal')
- * tonal.scaleRange('C D E F G A B', 'C3 C2')
+ * range.pitchSet('C D E F G A B', ['C3', 'C2'])
  * // => [ 'C3', 'B2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
  */
-export function scaleRange (src, list) {
-  if (arguments.length === 1) return function (l) { return scaleRange(src, l) }
+export function pitchSet (src, range) {
+  if (arguments.length === 1) return function (l) { return pitchSet(src, l) }
+
+  // TODO: chromatic(range).filter(isPitchSet(pitchSet))
   var fn = typeof src === 'function' ? src : scaleFilter(src)
-  return cMap(fn, range(list))
+  return cMap(fn, numeric(range))
 }

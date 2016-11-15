@@ -8,8 +8,8 @@
     "tonal"
   ],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n key -o build/tonal-key.js -- index.js",
-    "prepublish": "npm test"
+    "pretest": "rollup -f cjs -o build/index.js -- index.js",
+    "test": "tape test/*.js"
   },
   "main": "build/index.js",
   "jsnext:main": "index",
@@ -17,8 +17,11 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "tonal": "^0.60.0",
-    "tonal-notation": "^0.50.0",
+    "tonal-notation": "^0.60.0",
+    "tonal-transpose": "^0.60.0",
+    "tonal-note": "^0.60.0",
+    "tonal-array": "^0.60.0",
+    "tonal-range": "^0.60.0",
     "tonal-pitch": "^0.60.0"
   }
 }

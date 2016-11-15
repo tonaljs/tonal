@@ -6,7 +6,7 @@ function map (fn, arr) {
 }
 
 tape('get interval names', function (test) {
-  test.deepEqual(map(ivl.ivlName, '1P 2M m3 P-4 5 blah'),
+  test.deepEqual(map(ivl.toInterval, '1P 2M m3 P-4 5 blah'),
     [ '1P', '2M', '3m', '-4P', null, null ])
   test.end()
 })
@@ -52,11 +52,11 @@ tape('get interval class', function (test) {
 })
 
 tape('interval types', function (test) {
-  test.deepEqual(map(ivl.itype, '1P 2M 3M 4P 5P 6M 7M'),
+  test.deepEqual(map(ivl.type, '1P 2M 3M 4P 5P 6M 7M'),
     [ 'P', 'M', 'M', 'P', 'P', 'M', 'M' ])
-  test.deepEqual(map(ivl.itype, '8d 9m 10m 11d 12d 13m 14m'),
+  test.deepEqual(map(ivl.type, '8d 9m 10m 11d 12d 13m 14m'),
     [ 'P', 'M', 'M', 'P', 'P', 'M', 'M' ])
-  test.deepEqual(map(ivl.itype, '-15A -16A -17A -18A -19A -20A -21A'),
+  test.deepEqual(map(ivl.type, '-15A -16A -17A -18A -19A -20A -21A'),
     [ 'P', 'M', 'M', 'P', 'P', 'M', 'M' ])
   test.end()
 })

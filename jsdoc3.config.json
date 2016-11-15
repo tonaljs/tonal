@@ -2,7 +2,7 @@
   "source": {
     "include": ["README.md", "packages/"],
     "includePattern": "index.js$",
-    "excludePattern": "node_modules"
+    "excludePattern": "node_modules|build"
   },
   "templates": {
     "default": {

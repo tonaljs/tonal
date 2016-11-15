@@ -1,12 +1,13 @@
 var test = require('tape')
 var scale = require('..')
 
-test('creates a scale from name', function (t) {
+test('scale: get', function (t) {
   t.deepEqual(scale.get('C major'), [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ])
   t.deepEqual(scale.get('C2 major'), [ 'C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2' ])
   t.end()
 })
-test('create scale', function (t) {
+
+test('scale: build', function (t) {
   t.deepEqual(scale.build('major', 'C'), [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ])
   t.deepEqual(scale.build('major', 'C2'), [ 'C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2' ])
   // alias
@@ -19,7 +20,8 @@ test('create scale', function (t) {
   t.deepEqual(scale.build('no-scale', 'D'), [])
   t.end()
 })
-test('has names function', function (t) {
+
+test('scale: names', function (t) {
   t.ok(scale.names().length > 0)
   t.ok(scale.names(true).length > scale.names().length)
   t.end()

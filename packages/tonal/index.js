@@ -1,30 +1,32 @@
 
-export {
-  /* note, */noteName, chroma, pc, enharmonics, enh, simpleEnh
-} from 'tonal-note'
-
 import * as Note from 'tonal-note'
-export function note (str) { return Note.noteName(str) }
-Object.assign(note, Note)
+export var note = Note
 
-export {
-  ivlName, semitones, fromSemitones, ic, itype, invert, simplify
-} from 'tonal-interval'
+import * as Ivl from 'tonal-interval'
+export var ivl = Ivl
 
-export {
-  isMidiNum, toMidi, fromMidi, fromMidiS
-} from 'tonal-midi'
+import * as Midi from 'tonal-midi'
+export var midi = Midi
+
+import * as Not from 'tonal-notation'
+export var notation = Not
+
+import * as Prog from 'tonal-progression'
+export var progression = Prog
+
+import * as Son from 'tonal-sonority'
+export var sonority = Son
 
 export {
   toEqualTemp, toFreq, midiFromFreq, fromFreq, cents, fromEqualTemp
 } from 'tonal-freq'
 
 export {
-  transpose, tr, trFifths
+  transpose, trFifths
 } from 'tonal-transpose'
 
 export {
-  distance, interval, distInSemitones
+  interval, semitones
 } from 'tonal-distance'
 
 export {
@@ -36,9 +38,11 @@ export {
   rotate, rotateAsc, select, sort, shuffle, compact, cMap
 } from 'tonal-array'
 
-export {
-  range, chromatic, cycleOfFifths, scaleRange
-} from 'tonal-range'
+import * as Range from 'tonal-range'
+export var range = Range
 
 import * as Scale from 'tonal-scale'
 export var scale = Scale
+
+import * as Chord from 'tonal-chord'
+export var chord = Chord

@@ -2,9 +2,10 @@
   "name": "tonal-build",
   "private": true,
   "scripts": {
+    "init": "lerna bootstrap && npm run build",
     "build": "lerna exec -- rollup -f cjs -o build/index.js -- index.js",
     "pretest": "npm run build",
-    "test": "lerna exec -- tape test/*.js | tap-spec",
+    "test": "lerna exec -- tape test/*.js",
     "docs": "jsdoc -c jsdoc3.config.json && open docs/api/index.html",
     "test-ci": "lerna bootstrap && npm test"
   },

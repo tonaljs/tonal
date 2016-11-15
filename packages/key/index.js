@@ -1,11 +1,22 @@
 /**
+ * A collection of functions related to music keys. Things like keys signatures,
+ * scales, modes, etc.
+ *
+ * @example
+ * var key = require('tonal-key')
+ * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+ * key.relative('minor', 'C major') // => ['minor', 'A']
  * @module key
  */
 
 import { parseNote, pitch, fifths } from 'tonal-pitch'
-import { isArr, isStr, isNum, areFlats, areSharps, toAcc } from 'tonal-notation'
-import { transpose, trFifths, range, pc, rotate, harmonics, harmonize } from 'tonal'
+import { areFlats, areSharps, toAcc } from 'tonal-notation'
+import { transpose, trFifths } from 'tonal-transpose'
+import { pc } from 'tonal-note'
+import { numeric } from 'tonal-range'
+import { rotate, harmonics, harmonize } from 'tonal-array'
 
+var isArr = Array.isArray
 // Order matters: use an array
 var MODES = ['ionian', 'dorian', 'phrygian', 'lydian', 'mixolydian',
   'aeolian', 'locrian', 'major', 'minor']
@@ -66,8 +77,8 @@ export function relative (rel, key) {
 export function alteredNotes (key) {
   var alt = alteration(key)
   return alt === null ? null
-    : alt < 0 ? range([-1, alt]).map(trFifths('F'))
-    : range([1, alt]).map(trFifths('B'))
+    : alt < 0 ? numeric([-1, alt]).map(trFifths('F'))
+    : numeric([1, alt]).map(trFifths('B'))
 }
 
 /**
@@ -103,7 +114,7 @@ export function isKeyMode (m) { return MODES.indexOf(m) !== -1 }
  * key.build(false, 'locrian') // => ['locrian', false]
  */
 export function build (tonic, mode) {
-  if (!isStr(mode)) return null
+  if (typeof mode !== 'string') return null
   var m = mode.trim().toLowerCase()
   if (!isKeyMode(m)) return null
   if (tonic === false || tonic === null) return [m, false]
@@ -126,7 +137,7 @@ function majorKey (n) { return build(trFifths('C', n), 'major') }
  * key.fromAlter(2) // => ['major', 'D']
  */
 export function fromAlter (n) {
-  return isNum(n) ? majorKey(n) : null
+  return typeof n === 'number' ? majorKey(n) : null
 }
 
 /**
@@ -153,7 +164,7 @@ export function fromAcc (s) {
  * key.fromName('blah') // => null
  */
 export function fromName (str) {
-  if (!isStr(str)) return null
+  if (typeof str !== 'string') return null
   var p = str.split(/\s+/)
   switch (p.length) {
     case 1: return parseNote(p[0]) ? build(p[0], 'major')
