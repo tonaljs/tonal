@@ -10,7 +10,7 @@
   },
   "main": "build/tonal-dict.js",
   "jsnext:main": "index",
-  "author": "danigb",
+  "author": "danigb@gmail.com",
   "license": "MIT",
   "devDependencies": {
     "rollup": "^0.31.2",

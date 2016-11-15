@@ -21,7 +21,7 @@
     "tape": "4"
   },
   "dependencies": {
-    "tonal": "^0.50.2",
+    "tonal": "^0.50.4",
     "tonal-notation": "^0.50.0",
     "tonal-pitch": "^0.50.3"
   }

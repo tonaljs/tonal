@@ -4,7 +4,7 @@
 
 Think like an [underscorejs](http://underscorejs.org/) (or better: [ramdajs](http://ramdajs.com/)) library for music theory.
 
-__This library is under active development.__
+[Read the API documentation](http://danigb.github.io/tonal/api/)
 
 ## Example
 
@@ -93,6 +93,9 @@ Also, I want a complete library, where I can model all what I learn, with some (
 ## What
 
 Tonal itself is built from a collection of [modules](https://github.com/danigb/tonal/tree/master/modules). Some of they are exposed in the `tonal` package that can be installed via npm: `npm i tonal`. Some others must be required explicitly, like scales: `npm i tonal-scales`
+
+You can [read the generated API documentation here](http://danigb.github.io/tonal/api/).
+
 
 ### Modules included in `tonal` package
 
@@ -204,6 +207,8 @@ Or if you prefer `npm run test-ci` to run all in one command.
 The API Reference documentation is generated with `jsdoc2md` package (not included in dependencies) and then the output copied to the README of each package.
 
 The distributable `tonal-min.js` file is generated with `npm run dist`
+
+The documentation can be generated with: `npm run docs`
 
 ## Inspiration
 

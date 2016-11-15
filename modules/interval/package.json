@@ -22,7 +22,6 @@
     "tape": "4"
   },
   "dependencies": {
-    "tonal-encoding": "^0.50.0",
     "tonal-pitch": "^0.50.3"
   }
 }

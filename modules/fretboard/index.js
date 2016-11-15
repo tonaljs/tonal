@@ -2,8 +2,9 @@
  * @module fretboard
  */
 import { fromName, names as nms } from 'tonal-dictionary'
-import { fromSemitones, range, transpose, scaleFilter, pc } from 'tonal'
-import { map, asArr, compact } from 'tonal-array'
+import {
+  fromSemitones, range, transpose, scaleFilter, pc, map, asArr, compact
+} from 'tonal'
 
 var DATA = require('./tunings.json')
 

@@ -3,7 +3,7 @@ var tonal = require('..')
 
 tape('tonal', function (test) {
   test.ok(tonal, 'Tonal object')
-  test.equal(Object.keys(tonal).length, 46, 'Number of functions')
+  test.equal(Object.keys(tonal).length, 48, 'Number of functions')
   Object.keys(tonal).forEach(function (name) {
     test.ok(tonal[name], 'Function ' + name)
   })

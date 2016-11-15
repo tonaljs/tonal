@@ -6,7 +6,7 @@ import { parseNote, pitch, fifths } from 'tonal-pitch'
 import { isArr, isStr, isNum, areFlats, areSharps, toAcc } from 'tonal-notation'
 import { transpose, trFifths, range, pc, rotate, harmonics, harmonize } from 'tonal'
 
-// Order matter: use an array
+// Order matters: use an array
 var MODES = ['ionian', 'dorian', 'phrygian', 'lydian', 'mixolydian',
   'aeolian', 'locrian', 'major', 'minor']
 // { C: 0, D: 2, E: 4, F: -1, G: 1, A: 3, B: 5 }

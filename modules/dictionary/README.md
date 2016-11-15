@@ -7,3 +7,12 @@
 This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
 
 You can install via npm: `npm i --save tonal-dictionary`
+
+## Documentation
+
+[Read generated API documentation here](https://danigb.github.io/tonal/api/module-dictionary.html).
+
+
+## License
+
+MIT License
