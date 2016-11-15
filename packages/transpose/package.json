@@ -1,6 +1,6 @@
 {
   "name": "tonal-transpose",
-  "version": "0.50.5",
+  "version": "0.60.0",
   "description": "Music note transposition",
   "keywords": [
     "note",
@@ -16,11 +16,8 @@
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  "devDependencies": {
-
-
-  },
+  "devDependencies": {},
   "dependencies": {
-    "tonal-pitch": "^0.51.1"
+    "tonal-pitch": "^0.60.0"
   }
 }

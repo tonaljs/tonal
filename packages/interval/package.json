@@ -1,6 +1,6 @@
 {
   "name": "tonal-interval",
-  "version": "0.50.1",
+  "version": "0.60.0",
   "description": "Music interval creation and manipulation",
   "keywords": [
     "music",
@@ -10,18 +10,14 @@
   ],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f cjs -n interval -o build/tonal-interval.js -- index.js",
-    
     "prepublish": "npm test"
   },
   "main": "build/index.js",
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  "devDependencies": {
-    
-    
-  },
+  "devDependencies": {},
   "dependencies": {
-    "tonal-pitch": "^0.51.1"
+    "tonal-pitch": "^0.60.0"
   }
 }

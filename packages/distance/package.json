@@ -1,6 +1,6 @@
 {
   "name": "tonal-distance",
-  "version": "0.50.2",
+  "version": "0.60.0",
   "description": "Find distances between musical notes",
   "keywords": [
     "music",
@@ -17,11 +17,8 @@
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  "devDependencies": {
-
-
-  },
+  "devDependencies": {},
   "dependencies": {
-    "tonal-pitch": "^0.51.1"
+    "tonal-pitch": "^0.60.0"
   }
 }

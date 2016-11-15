@@ -1,22 +1,18 @@
 {
   "name": "tonal-midi",
-  "version": "0.50.7",
+  "version": "0.60.0",
   "description": "Conversion between midi numbers and note names",
   "keywords": [
     "note",
     "midi",
     "tonal"
   ],
-  "scripts": {
-  },
+  "scripts": {},
   "main": "build/index.js",
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  "devDependencies": {
-
-
-  },
+  "devDependencies": {},
   "dependencies": {
     "note-parser": "^2"
   }

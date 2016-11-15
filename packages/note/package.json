@@ -1,23 +1,19 @@
 {
   "name": "tonal-note",
-  "version": "0.50.2",
+  "version": "0.60.0",
   "description": "Encode pitches using fifths/octaves",
   "keywords": [],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f cjs -n note -o build/tonal-note.js -- index.js",
-
     "prepublish": "npm test"
   },
   "main": "build/index.js",
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  "devDependencies": {
-
-
-  },
+  "devDependencies": {},
   "dependencies": {
     "tonal-pitch": "^0.50.1",
-    "tonal-transpose": "^0.50.3"
+    "tonal-transpose": "^0.60.0"
   }
 }
