@@ -1,0 +1,22 @@
+{
+  "name": "tonal-pitch",
+  "version": "0.60.0",
+  "description": "Music pitch utilities",
+  "keywords": [
+    "music",
+    "theory",
+    "pitch",
+    "tonal"
+  ],
+  "scripts": {},
+  "main": "build/index.js",
+  "jsnext:main": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "interval-notation": "^0.1.0",
+    "note-parser": "^2",
+    "tonal-encoding": "^0.60.0"
+  }
+}

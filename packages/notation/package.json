@@ -1,0 +1,16 @@
+{
+  "name": "tonal-notation",
+  "version": "0.60.0",
+  "description": "Music notation utilities",
+  "keywords": [
+    "music",
+    "notation",
+    "tonal"
+  ],
+  "scripts": {},
+  "main": "build/index.js",
+  "jsnext:main": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {}
+}

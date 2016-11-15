@@ -1,0 +1,17 @@
+{
+  "name": "tonal-dictionary",
+  "version": "0.60.0",
+  "description": "Tonal key/value utilities",
+  "keywords": [
+    "music",
+    "theory",
+    "dictionary",
+    "tonal"
+  ],
+  "scripts": {},
+  "main": "build/index.js",
+  "jsnext:main": "index",
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "devDependencies": {}
+}

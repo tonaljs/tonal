@@ -1,52 +1,32 @@
 {
-  "name": "tonal",
-  "version": "0.50.4",
-  "description": "A functional music theory library",
-  "main": "build/index.js",
-  "jsnext:main": "lib/index.js",
+  "name": "tonal-build",
+  "private": true,
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n tonal -o build/index.js -- lib/index.js",
-    "build": "npm run pretest",
-    "test-facade": "tape 'test/*.js'",
-    "docs": "jsdoc -c .jsdoc3.json && open docs/api/index.html",
-    "test": "npm run modules-test && npm run test-facade",
-    "dist": "npm test && browserify build/index.js > dist/tonal.js && uglifyjs dist/tonal.js -c -m -o dist/tonal.min.js && ls -hall dist/",
-    "test-ci": "npm run modules-install && npm run test",
-    "disable-prepublish": "npm run dist",
-    "modules-install": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && rm -rf node_modules/tonal-* && npm i); done",
-    "modules-build": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && rollup -c); done",
-    "modules-api": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && jsdoc2md index.js > API.md); done",
-    "modules-test": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && npm test); done",
-    "modules-outdated": "for d in ./modules/*/ ; do (echo \"$d\" && cd \"$d\" && npm outdated); done"
+    "build": "lerna exec -- rollup -f cjs -o build/index.js -- index.js",
+    "pretest": "npm run build",
+    "test": "lerna exec -- tape test/*.js | tap-spec",
+    "docs": "jsdoc -c jsdoc3.config.json && open docs/api/index.html",
+    "test-ci": "lerna bootstrap && npm test"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal",
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
-  "keywords": [
-    "music",
-    "tonal",
-    "theory"
-  ],
-  "author": "danigb",
+  "author": "danigb@gmail.com",
   "license": "MIT",
-  "dependencies": {
-    "tonal-array": "^0.50.7",
-    "tonal-distance": "^0.50.2",
-    "tonal-filter": "^0.50.0",
-    "tonal-freq": "^0.51.2",
-    "tonal-interval": "^0.50.0",
-    "tonal-midi": "^0.50.7",
-    "tonal-note": "^0.50.2",
-    "tonal-range": "^0.51.0",
-    "tonal-transpose": "^0.50.5"
-  },
   "devDependencies": {
     "browserify": "^13.0.1",
+    "lerna": "2.0.0-beta.30",
     "postman-jsdoc-theme": "0.0.2",
     "rollup": "^0.34.1",
+    "tap-spec": "^4.1.1",
     "tape": "4",
     "uglify-js": "2"
+  },
+  "standard": {
+    "ignore": [
+      "dist/**"
+    ]
   }
 }

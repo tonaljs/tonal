@@ -1,0 +1,23 @@
+{
+  "name": "tonal-array",
+  "version": "0.60.0",
+  "description": "Create and manipulate arrays of notes and intervals",
+  "keywords": [
+    "music",
+    "theory",
+    "array",
+    "tonal"
+  ],
+  "scripts": {},
+  "main": "build/index.js",
+  "jsnext:main": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "as-arr": "^1.0.0",
+    "tonal-distance": "^0.60.0",
+    "tonal-pitch": "^0.60.0",
+    "tonal-transpose": "^0.60.0"
+  }
+}

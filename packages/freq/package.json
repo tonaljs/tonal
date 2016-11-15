@@ -1,0 +1,19 @@
+{
+  "name": "tonal-freq",
+  "version": "0.60.0",
+  "description": "Conversion between frequencies and note names",
+  "keywords": [
+    "note",
+    "freq",
+    "tonal"
+  ],
+  "scripts": {},
+  "main": "build/index.js",
+  "jsnext:main": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "tonal-midi": "^0.60.0"
+  }
+}

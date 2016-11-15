@@ -1,0 +1,24 @@
+{
+  "name": "tonal-sonority",
+  "version": "0.60.0",
+  "description": "Music sonority related function",
+  "keywords": [
+    "music",
+    "theory",
+    "sonority",
+    "tonal"
+  ],
+  "scripts": {
+    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n sonority -o build/tonal-sonority.js -- index.js",
+    "prepublish": "npm test"
+  },
+  "main": "build/index.js",
+  "jsnext:main": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "tonal-array": "^0.60.0",
+    "tonal-pitch": "^0.50.1"
+  }
+}

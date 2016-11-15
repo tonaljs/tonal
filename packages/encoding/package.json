@@ -1,0 +1,17 @@
+{
+  "name": "tonal-encoding",
+  "version": "0.60.0",
+  "description": "Encode pitches using fifths/octaves",
+  "keywords": [
+    "pitch",
+    "fifths",
+    "encode",
+    "tonal"
+  ],
+  "scripts": {},
+  "main": "build/index.js",
+  "jsnext:main": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {}
+}

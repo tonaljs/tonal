@@ -1,0 +1,26 @@
+{
+  "name": "tonal-chord",
+  "version": "0.60.0",
+  "description": "Music chords creation and manipulation",
+  "keywords": [
+    "music",
+    "theory",
+    "chord",
+    "tonal"
+  ],
+  "scripts": {
+    "pretest": "cp chords.json build/ && rollup -f cjs -o build/index.js -- index.js",
+    "test": "tape test/*.js"
+  },
+  "main": "build/index.js",
+  "jsnext:main": "index.js",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "note-parser": "^2",
+    "tonal-array": "^0.60.0",
+    "tonal-dictionary": "^0.60.0",
+    "tonal-pitch": "^0.60.0"
+  }
+}

@@ -1,0 +1,5 @@
+
+[0.60.0]
+- Rename noteName to name
+- Rename simpleEnh to simplify
+- Remove enh alias

@@ -1,0 +1,10 @@
+{
+  "lerna": "2.0.0-beta.30",
+  "version": "0.60.0",
+  "scripts": {
+    "tape": "tape"
+  },
+  "devDependencies": {
+    "tape": "^4.6.2"
+  }
+}

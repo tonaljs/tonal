@@ -1,0 +1,24 @@
+{
+  "name": "tonal-fretboard",
+  "version": "0.60.0",
+  "description": "Filter notes",
+  "keywords": [
+    "music",
+    "theory",
+    "fretboard",
+    "tonal"
+  ],
+  "scripts": {
+    "pretest": "rm -rf build && mkdir build && cp tunings.json build/ && rollup -f cjs -n fretboard -o build/tonal-fretboard.js -- index.js",
+    "prepublish": "npm test"
+  },
+  "main": "build/index.js",
+  "jsnext:main": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "tonal": "^0.60.0",
+    "tonal-dictionary": "^0.60.0"
+  }
+}

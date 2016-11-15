@@ -1,0 +1,25 @@
+{
+  "name": "tonal-scale",
+  "version": "0.60.0",
+  "description": "Music scales creation and manipulation",
+  "keywords": [
+    "music",
+    "theory",
+    "scale",
+    "tonal"
+  ],
+  "scripts": {
+    "pretest": "rm -rf build && mkdir build && cp scales.json build/ && rollup -f cjs -n scale -o build/tonal-scale.js -- index.js",
+    "prepublish": "npm test"
+  },
+  "main": "build/index.js",
+  "jsnext:main": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "tonal-array": "^0.60.0",
+    "tonal-dictionary": "^0.60.0",
+    "tonal-pitch": "^0.60.0"
+  }
+}
