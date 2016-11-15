@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f cjs -n key -o build/tonal-key.js -- index.js",
-    "test": "tape 'test/*.js'",
+    
     "prepublish": "npm test"
   },
   "main": "build/index.js",
@@ -17,8 +17,8 @@
   "author": "danigb",
   "license": "MIT",
   "devDependencies": {
-    "rollup": "^0.36.3",
-    "tape": "^4.6.2"
+    
+    
   },
   "dependencies": {
     "tonal": "^0.50.4",

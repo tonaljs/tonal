@@ -9,17 +9,14 @@
     "tonal"
   ],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && cp chords.json build/ && rollup -f cjs -n chord -o build/tonal-chord.js -- index.js",
-    "test": "tape 'test/*.js'",
-    "prepublish": "npm test"
+    "pretest": "cp chords.json build/ && rollup -f cjs -o build/index.js -- index.js",
+    "test": "tape test/*.js"
   },
   "main": "build/index.js",
-  "jsnext:main": "index",
+  "jsnext:main": "index.js",
   "author": "danigb",
   "license": "MIT",
   "devDependencies": {
-    "rollup": "^0.36.3",
-    "tape": "^4.6.2"
   },
   "dependencies": {
     "note-parser": "^2",

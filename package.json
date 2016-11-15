@@ -2,9 +2,11 @@
   "name": "tonal-build",
   "private": true,
   "scripts": {
-    "build": "lerna exec -- rollup -c ../../rollup.config.js",
+    "build": "lerna exec -- rollup -f cjs -o build/index.js -- index.js",
+    "pretest": "npm run build",
+    "test": "lerna exec -- tape test/*.js | tap-spec",
     "docs": "jsdoc -c jsdoc3.config.json && open docs/api/index.html",
-    "test-ci": "npm run modules-install && npm run test"
+    "test-ci": "lerna bootstrap && npm test"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal",
@@ -15,11 +17,12 @@
   "license": "MIT",
   "devDependencies": {
     "browserify": "^13.0.1",
+    "lerna": "2.0.0-beta.30",
     "postman-jsdoc-theme": "0.0.2",
     "rollup": "^0.34.1",
+    "tap-spec": "^4.1.1",
     "tape": "4",
-    "uglify-js": "2",
-    "lerna": "2.0.0-beta.30"
+    "uglify-js": "2"
   },
   "standard": {
     "ignore": [

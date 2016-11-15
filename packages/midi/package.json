@@ -8,17 +8,14 @@
     "tonal"
   ],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n midi -o build/tonal-midi.js -- index.js",
-    "test": "tape 'test/*.js'",
-    "prepublish": "npm test"
   },
   "main": "build/index.js",
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
   "devDependencies": {
-    "rollup": "^0.36.3",
-    "tape": "^4.6.2"
+
+
   },
   "dependencies": {
     "note-parser": "^2"
