@@ -17,8 +17,8 @@
   "author": "danigb",
   "license": "MIT",
   "devDependencies": {
-    "rollup": "^0.31.2",
-    "tape": "4"
+    "rollup": "^0.36.3",
+    "tape": "^4.6.2"
   },
   "dependencies": {
     "note-parser": "^2"
