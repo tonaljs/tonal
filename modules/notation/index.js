@@ -1,3 +1,6 @@
+/**
+ * @module notation
+ */
 
 // NOTE LETTERS
 // ============

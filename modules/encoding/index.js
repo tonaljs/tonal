@@ -1,4 +1,12 @@
-// Encoding pitches into fifhts/octave notation
+/**
+ * Functions to encoding and decoding pitches into fifths/octaves notation.
+ *
+ * This functions are very low level and it's probably you wont need them. That's
+ * why __this module is NOT exported in the tonal package__.
+ *
+ * @private
+ * @module encoding
+ */
 
 function isNum (n) { return typeof n === 'number' }
 

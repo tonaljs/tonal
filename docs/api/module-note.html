@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>note - Postman Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-array.html">array</a><ul class='methods'><li data-type='method'><a href="module-array.html#.asArr">asArr</a></li><li data-type='method'><a href="module-array.html#.cMap">cMap</a></li><li data-type='method'><a href="module-array.html#.compact">compact</a></li><li data-type='method'><a href="module-array.html#.filter">filter</a></li><li data-type='method'><a href="module-array.html#.harmonics">harmonics</a></li><li data-type='method'><a href="module-array.html#.harmonize">harmonize</a></li><li data-type='method'><a href="module-array.html#.harmonizer">harmonizer</a></li><li data-type='method'><a href="module-array.html#.listFn">listFn</a></li><li data-type='method'><a href="module-array.html#.map">map</a></li><li data-type='method'><a href="module-array.html#.rotate">rotate</a></li><li data-type='method'><a href="module-array.html#.rotateAsc">rotateAsc</a></li><li data-type='method'><a href="module-array.html#.select">select</a></li><li data-type='method'><a href="module-array.html#.shuffle">shuffle</a></li><li data-type='method'><a href="module-array.html#.sort">sort</a></li></ul></li><li><a href="module-chord.html">chord</a><ul class='methods'><li data-type='method'><a href="module-chord.html#.build">build</a></li><li data-type='method'><a href="module-chord.html#.get">get</a></li><li data-type='method'><a href="module-chord.html#.names">names</a></li></ul></li><li><a href="module-dictionary.html">dictionary</a></li><li><a href="module-distance.html">distance</a><ul class='methods'><li data-type='method'><a href="module-distance.html#.distance">distance</a></li><li data-type='method'><a href="module-distance.html#.distInSemitones">distInSemitones</a></li><li data-type='method'><a href="module-distance.html#.interval">interval</a></li></ul></li><li><a href="module-filter.html">filter</a><ul class='methods'><li data-type='method'><a href="module-filter.html#.scaleFilter">scaleFilter</a></li></ul></li><li><a href="module-freq.html">freq</a><ul class='methods'><li data-type='method'><a href="module-freq.html#.cents">cents</a></li><li data-type='method'><a href="module-freq.html#.fromEqualTemp">fromEqualTemp</a></li><li data-type='method'><a href="module-freq.html#.fromFreq">fromFreq</a></li><li data-type='method'><a href="module-freq.html#.midiFromFreq">midiFromFreq</a></li><li data-type='method'><a href="module-freq.html#.toEqualTemp">toEqualTemp</a></li><li data-type='method'><a href="module-freq.html#.toFreq">toFreq</a></li></ul></li><li><a href="module-fretboard.html">fretboard</a><ul class='methods'><li data-type='method'><a href="module-fretboard.html#.chordShapes">chordShapes</a></li><li data-type='method'><a href="module-fretboard.html#.names">names</a></li><li data-type='method'><a href="module-fretboard.html#.notes">notes</a></li><li data-type='method'><a href="module-fretboard.html#.scale">scale</a></li><li data-type='method'><a href="module-fretboard.html#.simpleTuning">simpleTuning</a></li><li data-type='method'><a href="module-fretboard.html#.tuning">tuning</a></li></ul></li><li><a href="module-interval.html">interval</a><ul class='methods'><li data-type='method'><a href="module-interval.html#.fromSemitones">fromSemitones</a></li><li data-type='method'><a href="module-interval.html#.ic">ic</a></li><li data-type='method'><a href="module-interval.html#.invert">invert</a></li><li data-type='method'><a href="module-interval.html#.itype">itype</a></li><li data-type='method'><a href="module-interval.html#.ivlName">ivlName</a></li><li data-type='method'><a href="module-interval.html#.semitones">semitones</a></li><li data-type='method'><a href="module-interval.html#.simplify">simplify</a></li></ul></li><li><a href="module-key.html">key</a><ul class='methods'><li data-type='method'><a href="module-key.html#.accidentals">accidentals</a></li><li data-type='method'><a href="module-key.html#.alteration">alteration</a></li><li data-type='method'><a href="module-key.html#.alteredNotes">alteredNotes</a></li><li data-type='method'><a href="module-key.html#.asKey">asKey</a></li><li data-type='method'><a href="module-key.html#.build">build</a></li><li data-type='method'><a href="module-key.html#.fromAcc">fromAcc</a></li><li data-type='method'><a href="module-key.html#.fromAlter">fromAlter</a></li><li data-type='method'><a href="module-key.html#.fromName">fromName</a></li><li data-type='method'><a href="module-key.html#.isKeyMode">isKeyMode</a></li><li data-type='method'><a href="module-key.html#.names">names</a></li><li data-type='method'><a href="module-key.html#.relative">relative</a></li><li data-type='method'><a href="module-key.html#.scale">scale</a></li><li data-type='method'><a href="module-key.html#.signature">signature</a></li></ul></li><li><a href="module-midi.html">midi</a><ul class='methods'><li data-type='method'><a href="module-midi.html#.fromMidi">fromMidi</a></li><li data-type='method'><a href="module-midi.html#.fromMidiS">fromMidiS</a></li><li data-type='method'><a href="module-midi.html#.isMidiNum">isMidiNum</a></li><li data-type='method'><a href="module-midi.html#.toMidi">toMidi</a></li></ul></li><li><a href="module-notation.html">notation</a><ul class='methods'><li data-type='method'><a href="module-notation.html#.areFlats">areFlats</a></li><li data-type='method'><a href="module-notation.html#.areSharps">areSharps</a></li><li data-type='method'><a href="module-notation.html#.isStep">isStep</a></li><li data-type='method'><a href="module-notation.html#.toAcc">toAcc</a></li><li data-type='method'><a href="module-notation.html#.toAlt">toAlt</a></li><li data-type='method'><a href="module-notation.html#.toLetter">toLetter</a></li><li data-type='method'><a href="module-notation.html#.toStep">toStep</a></li></ul></li><li><a href="module-note.html">note</a><ul class='methods'><li data-type='method'><a href="module-note.html#.chroma">chroma</a></li><li data-type='method'><a href="module-note.html#.enh">enh</a></li><li data-type='method'><a href="module-note.html#.enharmonics">enharmonics</a></li><li data-type='method'><a href="module-note.html#.noteName">noteName</a></li><li data-type='method'><a href="module-note.html#.pc">pc</a></li><li data-type='method'><a href="module-note.html#.simpleEnh">simpleEnh</a></li></ul></li><li><a href="module-progression.html">progression</a><ul class='methods'><li data-type='method'><a href="module-progression.html#.build">build</a></li><li data-type='method'><a href="module-progression.html#.parseRomanChord">parseRomanChord</a></li><li data-type='method'><a href="module-progression.html#.romanRegex">romanRegex</a></li></ul></li><li><a href="module-range.html">range</a><ul class='methods'><li data-type='method'><a href="module-range.html#.chromatic">chromatic</a></li><li data-type='method'><a href="module-range.html#.cycleOfFifths">cycleOfFifths</a></li><li data-type='method'><a href="module-range.html#.range">range</a></li><li data-type='method'><a href="module-range.html#.scaleRange">scaleRange</a></li></ul></li><li><a href="module-scale.html">scale</a><ul class='methods'><li data-type='method'><a href="module-scale.html#.build">build</a></li><li data-type='method'><a href="module-scale.html#.get">get</a></li><li data-type='method'><a href="module-scale.html#.names">names</a></li></ul></li><li><a href="module-sonority.html">sonority</a></li><li><a href="module-transpose.html">transpose</a><ul class='methods'><li data-type='method'><a href="module-transpose.html#.tr">tr</a></li><li data-type='method'><a href="module-transpose.html#.transpose">transpose</a></li><li data-type='method'><a href="module-transpose.html#.trFifths">trFifths</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">note</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>A collection of functions to get properties from musical notes.</p></div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var _ = require('tonal')
+tonal.note('bb2') // => 'Bb2'
+tonal.chroma('bb2') // => 10
+tonal.enharmonics('C#6') // => [ 'B##5', 'C#6', 'Db6' ]
+tonal.simpleEnh('B#3') // => 'C4'</code></pre>
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id=".note"><span class="type-signature">(static) </span>note<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>An alias for <code>noteName</code></p>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>noteName</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>tonal.note('fx4') // => 'F##4'
+tonal.note('blah') // => null</code></pre>
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".chroma"><span class="type-signature">(static) </span>chroma<span class="signature">(note)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Return the chroma of a note. The chroma is the numeric equivalent to the
+pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>note</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Pitch</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the chroma</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Integer</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>['C', 'D', 'E', 'F'].map(_.chroma) // => [0, 2, 4, 5]
+_.map(_.chroma, 'cb db eb fb') // => [11, 1, 3, 4]</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".enh"><span class="type-signature">(static) </span>enh<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>An alias for <code>enharmonics</code></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".enharmonics"><span class="type-signature">(static) </span>enharmonics<span class="signature">(note)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Get the enharmonics of a note. It returns an array of three elements: the
+below enharmonic, the note, and the upper enharmonic</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>note</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the note to get the enharmonics from</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>an array of pitches ordered by distance to the given one</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>enharmonics = require('enharmonics')
+enharmonics('C') // => ['B#', 'C', 'Dbb']
+enharmonics('A') // => ['G##', 'A', 'Bbb']
+enharmonics('C#4') // => ['B##3', 'C#4' 'Db4']
+enharmonics('Db') // => ['C#', 'Db', 'Ebbb'])</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".noteName"><span class="type-signature">(static) </span>noteName<span class="signature">(n)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Given a note (as string or as array notation) returns a string
+with the note name in scientific notation or null
+if not valid note</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Pitch</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>import { noteName } from 'tonal-notes'
+['c', 'db3', '2', 'g+', 'gx4'].map(noteName)
+// => ['C', 'Db3', null, null, 'G##4']</code></pre>
+
+    <pre class="prettyprint"><code>var tonal = require('tonal')
+tonal.noteName('cb2') // => 'Cb2'
+tonal.map(tonal.noteName, 'c db3 2 g+ gx4') // => [ 'C', 'Db3', null, null, 'G##4' ]</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".pc"><span class="type-signature">(static) </span>pc<span class="signature">(n)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Get pitch class of a note. The note can be a string or a pitch array.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Pitch</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the pitch class</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>tonal.pc('Db3') // => 'Db'
+tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".simpleEnh"><span class="type-signature">(static) </span>simpleEnh<span class="signature">(note)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Get a simpler enharmonic note name from a note if exists</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>note</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the note to simplify</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the simplfiied note (if not found, return same note)</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>tonal.simpleEnh('B#3') // => 'C4'</code></pre>
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Tue Nov 15 2016 10:56:34 GMT+0100 (CET)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": ["README.md", "packages/"],
+    "include": ["README.md", "modules/"],
     "includePattern": "index.js$",
     "excludePattern": "node_modules"
   },
@@ -20,9 +20,10 @@
     "inverseNav": false
   },
   "opts": {
-    "destination": "./jsdocs/",
+    "destination": "./docs/api/",
     "recurse": true,
-    "verbose": true
+    "verbose": true,
+    "template": "./node_modules/postman-jsdoc-theme"
   },
   "plugins": ["plugins/markdown"]
 }

@@ -1,3 +1,19 @@
+/**
+ * A collection of functions to create note ranges.
+ *
+ * @example
+ * var tonal = require('tonal')
+ * // create numeric (midi note numbers) range
+ * tonal.range('C4 E4 Bb3') // => [60, 61, 62, 63, 64]
+ * // create a range with three points
+ * tonal.range('C4 E4 Bb3') // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
+ * // create a chromatic range with three points
+ * tonal.chromatic('C2 E2 D2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2', 'Eb2', 'D2']
+ * // create a scale range
+ * tonal.scaleRange('C E G A', 'c2 c3 c2') // => [ 'C2', 'E2', 'G2', 'A2', 'C3', 'A2', 'G2', 'E2', 'C2' ] *
+ *
+ * @module range
+ */
 import { asArr, cMap } from 'tonal-array'
 import { trFifths } from 'tonal-transpose'
 import { toMidi, fromMidi } from 'tonal-midi'
@@ -83,8 +99,8 @@ export function cycleOfFifths (s, e, t) {
  * @return {Array} the scale range, an empty array if not valid source or
  * null if not valid start or end
  * @example
- * var range = require('tonal-ranges')
- * range.scale('C D E F G A B', 'C3 C2')
+ * var tonal = require('tonal')
+ * tonal.scaleRange('C D E F G A B', 'C3 C2')
  * // => [ 'C3', 'B2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
  */
 export function scaleRange (src, list) {

@@ -1,4 +1,12 @@
-
+/**
+ * Functions to deal with pitches (either notes or intervals).
+ *
+ * This functions are very low level and it's probably you wont need them. That's
+ * why __this module is NOT exported in the tonal package__.
+ *
+ * @private
+ * @module pitch
+ */
 import { parse as noteParse, build as noteStr } from 'note-parser'
 import { parse as ivlParse, altToQ } from 'interval-notation'
 import { encode as enc, decode as dec } from 'tonal-encoding'

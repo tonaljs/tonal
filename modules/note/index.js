@@ -1,3 +1,14 @@
+/**
+ * A collection of functions to get properties from musical notes.
+ *
+ * @module note
+ * @example
+ * var _ = require('tonal')
+ * tonal.note('bb2') // => 'Bb2'
+ * tonal.chroma('bb2') // => 10
+ * tonal.enharmonics('C#6') // => [ 'B##5', 'C#6', 'Db6' ]
+ * tonal.simpleEnh('B#3') // => 'C4'
+ */
 import { fifths, asNotePitch, strNote, parseIvl, chr } from 'tonal-pitch'
 import { tr } from 'tonal-transpose'
 
@@ -7,6 +18,9 @@ import { tr } from 'tonal-transpose'
  *
  * @param {String|Pitch} note
  * @return {Integer} the chroma
+ * @example
+ * ['C', 'D', 'E', 'F'].map(_.chroma) // => [0, 2, 4, 5]
+ * _.map(_.chroma, 'cb db eb fb') // => [11, 1, 3, 4]
  */
 export function chroma (n) {
   var p = asNotePitch(n)
@@ -29,12 +43,21 @@ export function chroma (n) {
  * @example
  * var tonal = require('tonal')
  * tonal.noteName('cb2') // => 'Cb2'
- * tonal.map(tonal.noteName, 'c db3 2 g+ gx4')
+ * tonal.map(tonal.noteName, 'c db3 2 g+ gx4') // => [ 'C', 'Db3', null, null, 'G##4' ]
  */
 export function noteName (n) {
   var p = asNotePitch(n)
   return p ? strNote(p) : null
 }
+
+/**
+ * An alias for `noteName`
+ * @see noteName
+ * @example
+ * tonal.note('fx4') // => 'F##4'
+ * tonal.note('blah') // => null
+ */
+export var note = noteName
 
 /**
  * Get pitch class of a note. The note can be a string or a pitch array.
@@ -44,6 +67,7 @@ export function noteName (n) {
  * @return {String} the pitch class
  * @example
  * tonal.pc('Db3') // => 'Db'
+ * tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
  */
 export function pc (n) {
   var p = asNotePitch(n)
@@ -89,8 +113,7 @@ export var enh = enharmonics
  * @return {String} the simplfiied note (if not found, return same note)
  *
  * @example
- * var enharmonics = require('enharmonics')
- * enharmonics.simpleEnh('B#3') // => 'C4'
+ * tonal.simpleEnh('B#3') // => 'C4'
  */
 export function simpleEnh (pitch) {
   return enharmonics(pitch).reduce(function (simple, next) {

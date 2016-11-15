@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Work with keys | tonal</title>
+  <link rel="stylesheet" href="tufte.css"/>
+  <link rel="stylesheet" href="prism.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    div.app { margin-top: 2em; }
+    div.selector { width: 100%; overflow: hidden; }
+    div.selector .item { float: left; margin: 0.5em 1em 0 0; }
+    div.selector .item.active { font-weight: bold; }
+    pre[class*="language-"] { margin-top: -1.5em; padding: 0 0 0 0em;
+    background: #fffff8; }
+    a.icon { background: none; }
+  </style>
+  </head>
+  <body>
+    <h4><a href="http://danigb.github.io/tonal/">&larr; Back</a></h4>
+    <article>
+      <h1>Work with keys</h1>
+      <p class="subtitle">A <span class="code">tonal</span> tutorial</p>
+      <p>In <span class="code">tonal</span>, a key is a string with a pitch
+        class tonic and a mode name. For example <span class="code">'C major'</span>
+        or <span class="code">'Db aeolian'</span> are valid keys.
+      <section>
+        <h2>Creating keys</h2>
+        <p>The <span class="code">key</span> function is used to create keys.
+        With this function you can test if a given string it's a valid key.
+        Valid key modes are: major, minor, ionian, dorian, phrygian, lydian,
+        mixolydian, aeolian and locrian.</p>
+        <pre><code class="language-js">
+          tonal.key('A major') // => 'A major'
+          tonal.key('A') // => null
+          tonal.key('A dimished') // => null
+        </code></pre>
+        <p>Keys can be created from key signature (read the next section). Major
+        keys are always returned:</p>
+        <pre><code class="language-js">
+          tonal.key('###') // => 'A major'
+          tonal.key(3) // => 'A major'
+          tonal.key('bbb') // => 'Eb major'
+          tonal.key(-3) // => 'Eb major'
+        </code></pre>
+      </section>
+      <section>
+        <h3>Creating relative keys</h3>
+        <p>You can get the relative keys from another one. Just specify the mode
+          of the key and the source:</p>
+        <pre><code class="language-js">
+          tonal.key.relative('minor', 'A major') // => 'F# minor'
+          tonal.key('dorian', tonal.key('#')) // => 'A dorian'
+        </code></pre>
+        <p>As always, the function it's currified:</p>
+        <pre><code class="language-js">
+          var relMinor = tonal.key.relative('minor')
+          relMinor('Eb major') // => 'C minor'
+        </code></pre>
+      </section>
+      <section>
+        <h2>Key properties</h2>
+        <div id="key-properties-app" />
+      </section>
+      <section>
+        <h3>Key scale</h3>
+        <p>The <span class="code">key.scale</span> function returns the scale
+          of a given key:</p>
+        <pre><code class="language-js">
+          tonal.key.scale('D dorian')
+          // => ['D', 'E', 'F', 'G', 'A', 'B', 'C']
+          tonal.key.scale('C minor')
+          // => ['C', 'D', 'Eb', 'F', 'G', 'Ab', 'Bb']
+        </code></pre>
+      </section>
+      <section>
+        <h3>Key signature</h3>
+        <p>A key signature is a string with sharps or flats. For example, <span
+        class="code">'###'</span> is the key signature of A major. You can use
+        the <span class="code">signature</span> function to get the
+        signature:</p>
+        <pre><code class="language-js">
+          tonal.key.signature('A major') // => '###'
+        </code></pre>
+        <p>Or use the <span class="code">key</span> function to create a key
+        from the signature:</p>
+        <pre><code class="language-js">
+          tonal.key('###') // => 'A major'
+        </code></pre>
+      </section>
+      <section>
+        <h3>Altered notes</h3>
+        <p>Sometimes it's useful to get the altered notes of a key:</p>
+        <pre><code class="language-js">
+          tonal.key.altNotes('Eb major') // => ['Bb', 'Eb', 'Ab']
+        </code></pre>
+        <p>The notes are returned in the same order as the normal
+          key signature</p>
+      </section>
+    </article>
+  <script type="text/javascript" src="js/prism.js"></script>
+  <script type="text/javascript" src="js/tonal.min.js"></script>
+  <script type="text/javascript" src="js/vexflow-min.js"></script>
+  <script type="text/javascript" src="js/keys.js"></script>
+</body>

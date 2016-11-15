@@ -1,3 +1,7 @@
+/**
+ * Work with scales
+ * @module scale
+ */
 import { fromName as fn, names as nms } from 'tonal-dictionary'
 import { parseIvl, parseNote } from 'tonal-pitch'
 import { harmonize } from 'tonal-array'

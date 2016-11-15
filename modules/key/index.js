@@ -1,3 +1,7 @@
+/**
+ * @module key
+ */
+
 import { parseNote, pitch, fifths } from 'tonal-pitch'
 import { isArr, isStr, isNum, areFlats, areSharps, toAcc } from 'tonal-notation'
 import { transpose, trFifths, range, pc, rotate, harmonics, harmonize } from 'tonal'

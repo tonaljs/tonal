@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Notes and intervals | tonal</title>
+  <link rel="stylesheet" href="tufte.css"/>
+  <link rel="stylesheet" href="prism.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    pre[class*="language-"] { margin-top: -1.5em; padding: 0 0 0 0em;
+    background: #fffff8; }
+    a.icon { background: none; }
+  </style>
+  </head>
+  <body>
+    <h4><a href="http://danigb.github.io/tonal/">&larr; Back</a></h4>
+    <article>
+      <h1>Notes and intervals</h1>
+      <p class="subtitle">A <span class="code">tonal</span> tutorial</p>
+      <p>This is an introduction to <span class="code">tonal</span>.
+      It's organized as a how to list that covers essentials of the library.</p>
+      <section>
+        <h2>Work with notes</h2>
+        <p>Notes in tonal are just strings. Tonal provides functions to parse
+        them (in scientific and helmholtz notation), transpose, convert from and
+        to midi and frequencies.</p>
+      </section>
+      <section>
+        <h3>Convert from and to midi</h3>
+        <p>
+          <label for="mn-note-midi" class="margin-toggle">&#8853;</label>
+          <input type="checkbox" id="mn-note-midi" class="margin-toggle"/>
+          <span class="marginnote">
+            <a class="icon" href="https://github.com/danigb/tonal/tree/master/packages/note-midi">
+              <img alt="github" src="https://img.shields.io/badge/tonal-note--midi-yellow.svg"></a>
+            <a class="icon" href="https://www.npmjs.com/package/note-midi">
+              <img alt="npm" src="https://img.shields.io/npm/v/note-midi.svg"></a>
+            <br>
+            At the side notes you will find links to the individual packages that
+            implements the function.
+          </span>
+          The <span class="code">midi</span> function converts from notes in
+          scientific notation to midi numbers:</p>
+        <pre><code class="language-js">
+          tonal.midi('c2') // => 36
+        </code></pre>
+        <p>It's aliased as <span class="code">note.midi</span>:</p>
+        <pre><code class="language-js">
+          tonal.note.midi('c2') // => 36
+        </code></pre>
+        <p>
+          Like most functions in tonal, they are just a facade to a module that
+          can be used if code size<label for="sn-demo" class="margin-toggle sidenote-number"></label>
+          <input type="checkbox" id="sn-demo" class="margin-toggle"/>
+          <span class="marginnote">
+            For example, <span class="code">note-midi</span> weights 1kb.
+          </span>
+          it's a concern:</p>
+        <pre><code class="language-js">
+          var midi = require('note-midi')
+          midi('A4') // => 69
+        </code></pre>
+        <p>
+          <label for="mn-midi-note" class="margin-toggle">&#8853;</label>
+          <input type="checkbox" id="mn-midi-note" class="margin-toggle"/>
+          <span class="marginnote">
+            <a class="icon" href="https://github.com/danigb/tonal/tree/master/packages/midi-note">
+              <img alt="github" src="https://img.shields.io/badge/tonal-midi--note-yellow.svg"></a>
+            <a class="icon" href="https://www.npmjs.com/package/midi-note">
+              <img alt="npm" src="https://img.shields.io/npm/v/midi-note.svg"></a>
+          </span>
+          The oposite function is called <span class="code">midi.note</span>
+          and it's aliased as <span class="code">fromMidi</span>:</p>
+        <pre><code class="language-js">
+          tonal.midi.note(36) // => 'C2'
+          tonal.fromMidi(36) // => 'C2'
+          // or
+          var note = require('midi-note')
+          note(69) // => 'A4'
+        </code></pre>
+      </section>
+      <section>
+        <h3>Convert to frequency</h3>
+        <p>
+          <label for="mn-note-freq" class="margin-toggle">&#8853;</label>
+          <input type="checkbox" id="mn-note-freq" class="margin-toggle"/>
+          <span class="marginnote">
+            <a class="icon" href="https://github.com/danigb/tonal/tree/master/packages/note-freq">
+              <img alt="github" src="https://img.shields.io/badge/tonal-note--freq-yellow.svg"></a>
+            <a class="icon" href="https://www.npmjs.com/package/note-freq">
+              <img alt="npm" src="https://img.shields.io/npm/v/note-freq.svg"></a>
+          </span>
+          There's a function to convert from notes or midi to
+        frequency. It uses well tempered scale and expects a first parameter
+        indicating the A4 tuning:</p>
+        <pre><code class="language-js">
+          tonal.freq(440, 'A3') // => 220
+          tonal.freq(440, 69) // => 440
+          // or require the module
+          var freq = require('note-freq')
+        </code></pre>
+        <p>
+          <label for="mn-currified" class="margin-toggle">&#8853;</label>
+          <input type="checkbox" id="mn-currified" class="margin-toggle"/>
+          <span class="marginnote">
+            Currified functions are central in functional programming, and
+            tonal makes extensive use of it.
+            <a
+            href="https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html">
+            Here is a great explicaton.</a>
+          </span>
+        Like most of the functions in tonal, it's currified. It means it can
+        be partially applied, or in other words, if you pass only one parameter,
+        it returns a function that expects the rest of the parameters:</p>
+        <pre><code class="language-js">
+          var standard = tonal.freq(440)
+          standard('A2') // => 220
+        </code></pre>
+      </section>
+      <section>
+        <h3>Note enhramonics</h3>
+        <p>
+          <label for="mn-enharmonics" class="margin-toggle">&#8853;</label>
+          <input type="checkbox" id="mn-enharmonics" class="margin-toggle"/>
+          <span class="marginnote">
+            <a class="icon" href="https://github.com/danigb/tonal/tree/master/packages/enharmonics">
+              <img alt="github" src="https://img.shields.io/badge/tonal-enharmonics-yellow.svg"></a>
+            <a class="icon" href="https://www.npmjs.com/package/enharmonics">
+              <img alt="npm" src="https://img.shields.io/npm/v/enharmonics.svg"></a>
+          </span>
+        Enhramonics are differents notes with same midi number. You can
+        get enhramonics from any note:</p>
+        <pre><code class="language-js">
+          enharmonics('B#') // => [ 'A###', 'B#', 'C' ]
+        </code></pre>
+        <p>Or select the less altered note from it's enharmonics:</p>
+        <pre><code class="language-js">
+          tonal.enharmonics.simplify('B#3') // => 'C4'
+        </code></pre>
+      </section>
+      <section>
+        <h3>Parse note, note properties</h3>
+        <p>
+          <label for="mn-pitch-class" class="margin-toggle">&#8853;</label>
+          <input type="checkbox" id="mn-pitch-class" class="margin-toggle"/>
+          <span class="marginnote">
+            <a class="icon" href="https://github.com/danigb/tonal/tree/master/packages/pitch-class">
+              <img alt="github" src="https://img.shields.io/badge/tonal-pitch--class-yellow.svg"></a>
+            <a class="icon" href="https://www.npmjs.com/package/pitch-class">
+              <img alt="npm" src="https://img.shields.io/npm/v/pitch-class.svg"></a>
+          </span>
+        </p>
+        <pre><code class="language-js">
+          tonal.pitchClass('c#2')
+          // => 'C#'
+          tonal.pitchClass(57) // yes, it works with midi too
+          // => 'A'
+          ['C#', 'Db', 'fx'].map(tonal.pitchClass)
+          // => ['C', 'D', 'F']
+        </code></pre>
+      </section>
+      <section>
+        <h3>Note transposition</h3>
+        <p>
+          <label for="mn-note-transposer" class="margin-toggle">&#8853;</label>
+          <input type="checkbox" id="mn-note-transposer" class="margin-toggle"/>
+          <span class="marginnote">
+            <a class="icon" href="https://github.com/danigb/tonal/tree/master/packages/note-transposer">
+              <img alt="github" src="https://img.shields.io/badge/tonal-note--transposer-yellow.svg"></a>
+            <a class="icon" href="https://www.npmjs.com/package/note-transposer">
+              <img alt="npm" src="https://img.shields.io/npm/v/note-transposer.svg"></a>
+          </span>
+          Transpose notes it's just straightforward:
+        </p>
+        <pre><code class="language-js">
+          tonal.transpose('C3', '3m') // => 'Eb3'
+          // partial application, again
+          var major3th = tonal.transpose('3M')
+          ['C', 'D', 'E'].map(major3th) // => ['E', 'F#', 'G#']
+          var tonic = tonal.transpose('A4')
+          ['P1', 'M3', 'P5'].map(tonic) // => ['A4', 'C#5', 'E5']
+        </code></pre>
+        <p>
+          <label for="mn-note-harmonizer" class="margin-toggle">&#8853;</label>
+          <input type="checkbox" id="mn-note-harmonizer" class="margin-toggle"/>
+          <span class="marginnote">
+            <a class="icon" href="https://github.com/danigb/tonal/tree/master/packages/note-harmonizer">
+              <img alt="github" src="https://img.shields.io/badge/tonal-note--harmonizer-yellow.svg"></a>
+            <a class="icon" href="https://www.npmjs.com/package/note-harmonizer">
+              <img alt="npm" src="https://img.shields.io/npm/v/note-harmonizer.svg"></a>
+          </span>
+          The last two lines can be simplified with an harmonizer:
+        </p>
+        <pre><code class="language-js">
+          tonal.harmonize('P1 M3 P5', 'G2') // => ['G2', 'B2', 'D3']
+          // create an harmonizer (partial application)
+          var maj7Chord = tonal.harmonize('1 3 5 7')
+          var maj7Chord('A4') // => ['A4', 'C#5', 'E5', 'G#5']
+        </code></pre>
+        <p>
+          Tonal provides an extensible collection of chords and scales expressed
+          as intervals list ready to use.
+        </p>
+      </section>
+      <section>
+        <h2>Interlude: lists</h2>
+        <p>Lists are fundamental part of tonal. Scales and chords are
+          lists of notes, and they and built from lists of intervals.
+          Progressions are list of chords.</p>
+        <p>In tonal, lists can be expressed as arrays or as string with space
+          (or comma) separated elements. All functions that accepts an array
+          will accept a string too:</p>
+        <pre><code class="language-js">
+          tonal.harmonize(['P1', 'M3', 'P5'], 'G2')
+          // it's equivalent to:
+          tonal.harmonize('P1 M3 P5', 'G2')
+        </code></pre>
+      </section>
+      <section>
+        <h3>Functional fun!</h3>
+        <p>
+          tonal provides the basic map, filter, reduce functions to work with
+          list of notes in a fun-ctional way:
+        <p>
+        <pre><code class="language-js">
+          tonal.map(tonal.pitchClass, 'C# db fx')
+          // => ['C', 'D', 'F']
+
+          // even better
+          var pcs = tonal.map(tonal.pitchClass)
+          pcs('C# db fx')
+          // => ['C', 'D', 'F']
+        </code></pre>
+        <p>You can combine <span class="code">isNote</span> or <span
+        class="code">isOneOf</span> functions with <span
+        class="code">filter</span> to create note filters:</p>
+        <pre><code class="language-js">
+
+          // using tonal.isNote to filter
+          tonal.map(tonal.isNote('C'), 'c c2 C4 D')
+          // => [true, true, true, false]
+          tonal.filter(tonal.isNote('C'), 'c c2 c4 D')
+          // => ['C', 'C2', 'C4']
+          var onlyC = tonal.filter(tonal.isNote('C'))
+          onlyC('c c2 c4 d')
+          // => ['C', 'C2', 'C4']
+
+          // use tonal.isOneOf
+          tonal.isOneOf('c2 d3 e', 'e4')
+          // => true
+          tonal.map(tonal.isOneOf('c2 d3 e'), 'c c2 d e3')
+          // => [false, true, false, true]
+          tonal.filter(tonal.isOneOf('c2 d3 e'), 'c c2 d e3')
+          // => ['C2', 'E3']
+        </code></pre>
+        <p>Which in fact is the <span class="code">filterNotes</span>
+        function:</p>
+        <pre><code class="language-js">
+          tonal.filterNotes('c2 d3 e', 'c c2 d e3')
+          // => ['C2', 'E3']
+        </code></pre>
+      </section>
+      <section>
+        <h2>Work with intervals</h2>
+      </section>
+      <section>
+        <h3>Find the interval between two notes</h3>
+        <p>
+          <label for="mn-note-interval" class="margin-toggle">&#8853;</label>
+          <input type="checkbox" id="mn-note-interval" class="margin-toggle"/>
+          <span class="marginnote">
+            <a class="icon" href="https://github.com/danigb/tonal/tree/master/packages/note-interval">
+              <img alt="github" src="https://img.shields.io/badge/tonal-note--interval-yellow.svg"></a>
+            <a class="icon" href="https://www.npmjs.com/package/note-interval">
+              <img alt="npm" src="https://img.shields.io/npm/v/note-interval.svg"></a>
+          </span>
+          The <span class="code">distance</span> function do the job:
+        </p>
+        <pre><code class="language-js">
+          tonal.distance('C4', 'E4') // => '3M'
+          tonal.distance('D2', 'C2') // => '-2M'
+          // partially applied
+          var fromC = tonal.distance('C')
+          fromC('D') // => '2M'
+        </code></pre>
+      </section>
+      <section>
+        <h3>Interval size and direction</h3>
+        <p>
+          <label for="mn-semitones" class="margin-toggle">&#8853;</label>
+          <input type="checkbox" id="mn-semitones" class="margin-toggle"/>
+          <span class="marginnote">
+            <a class="icon" href="https://github.com/danigb/tonal/tree/master/packages/semitones">
+              <img alt="github" src="https://img.shields.io/badge/tonal-semitones-yellow.svg"></a>
+            <a class="icon" href="https://www.npmjs.com/package/semitones">
+              <img alt="npm" src="https://img.shields.io/npm/v/semitones.svg"></a>
+          </span>
+        </p>
+        <pre><code class="language-js">
+          var semitones = require('semitones')
+          tonal.semitones('P4') // => 5
+          ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'].map(tonal.semitones)
+          // => [ 0, 2, 4, 5, 7, 9, 11, 12 ]
+          // it's ascending or descending?
+          semitones('M3') < 0 ? 'descending' : 'ascending'
+        </code></pre>
+      </section>
+      <section>
+        <h3>Interval inversion and simplification</h3>
+        <p>
+          <label for="mn-interval-invert" class="margin-toggle">&#8853;</label>
+          <input type="checkbox" id="mn-interval-invert" class="margin-toggle"/>
+          <span class="marginnote">
+            <a class="icon" href="https://github.com/danigb/tonal/tree/master/packages/interval-invert">
+              <img alt="github" src="https://img.shields.io/badge/tonal-interval--invert-yellow.svg"></a>
+            <a class="icon" href="https://www.npmjs.com/package/interval-invert">
+              <img alt="npm" src="https://img.shields.io/npm/v/interval-invert.svg"></a>
+          </span>
+        </p>
+        <pre><code class="language-js">
+          tonal.interval.invert('2M') // => '7m'
+          tonal.interval.invert('3m') // => '6M'
+        </code></pre>
+      </section>
+        <p>
+          <label for="mn-interval-simplify" class="margin-toggle">&#8853;</label>
+          <input type="checkbox" id="mn-interval-simplify" class="margin-toggle"/>
+          <span class="marginnote">
+            <a class="icon" href="https://github.com/danigb/tonal/tree/master/packages/interval-simplify">
+              <img alt="github" src="https://img.shields.io/badge/tonal-interval--simplify-yellow.svg"></a>
+            <a class="icon" href="https://www.npmjs.com/package/interval-simplify">
+              <img alt="npm" src="https://img.shields.io/npm/v/interval-simplify.svg"></a>
+          </span>
+        </p>
+        <pre><code class="language-js">
+          var simplify = require('interval-simplify')
+          simplify('9M') // => '2M'
+          // or
+          tonal.interval.simplify('8P') // => '8P'
+          // is simple or compound?
+          simplify(interval) === interval ? 'simple' : 'compound'
+        </code></pre>
+      </section>
+    </article>
+  <script type="text/javascript" src="js/prism.js"></script>
+  <script type="text/javascript" src="js/tonal.min.js"></script>
+  <script type="text/javascript" src="js/vexflow-min.js"></script>
+  <script type="text/javascript" src="js/scales.js"></script>
+</body>

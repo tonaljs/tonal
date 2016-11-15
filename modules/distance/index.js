@@ -1,3 +1,6 @@
+/**
+ * @module distance
+ */
 import { isPC, fifths, focts, pitch, height, asPitch, strIvl } from 'tonal-pitch'
 
 // substract two pitches

@@ -1,3 +1,6 @@
+/**
+ * @module dictionary
+ */
 function id (x) { return x }
 
 export function fromName (parse, raw, name) {

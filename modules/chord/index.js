@@ -1,3 +1,7 @@
+/**
+ *
+ * @module chord
+ */
 import { fromName, names as dictN } from 'tonal-dictionary'
 import { parseIvl } from 'tonal-pitch'
 import { regex } from 'note-parser'

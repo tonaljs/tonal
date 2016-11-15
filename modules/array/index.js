@@ -1,3 +1,20 @@
+/**
+ * This module implements utility functions related to array manipulation, like:
+ * `map`, `filter`, `shuffle`, `sort`, `rotate`, `select`
+ *
+ * All the functions are _functional friendly_ with target object as last
+ * parameter and currified. The sorting functions understand about pitch
+ * heights and interval sizes.
+ *
+ * There are also functions to transpose or calculate distances of a list
+ * of notes or intervals: `harmonize`, `harmonizer` and `harmonics`
+ *
+ * One key feature of tonal is that you can represent lists with arrays or
+ * with space separated string of elements. This module implements that
+ * functionallity.
+ *
+ * @module array
+ */
 import { asPitch, isPitch, strPitch, pitch } from 'tonal-pitch'
 import { tr } from 'tonal-transpose'
 import { distance, distInSemitones } from 'tonal-distance'
@@ -9,23 +26,24 @@ function hasVal (e) { return e || e === 0 }
 
 /**
  * Convert anything to array. Speifically, split string separated by spaces,
- * commas or bars. The arrays are passed without modifications and the rest of
- * the objects are wrapped.
+ * commas or bars. If you give it an actual array, it returns it without
+ * modification.
  *
- * This function always returns an array (null or undefined values are converted
+ * This function __always__ returns an array (null or undefined values are converted
  * to empty arrays)
  *
  * Thanks to this function, the rest of the functions of this module accepts
- * any object (or more useful: strings) as an array parameter.
+ * strings as an array parameter.
  *
+ * @function
  * @param {*} source - the thing to get an array from
  * @return {Array} the object as an array
  *
  * @example
  * import { asArr } from 'tonal-arrays'
  * asArr('C D E F G') // => ['C', 'D', 'E', 'F', 'G']
- * asArr('A, B, C')
- * asArr('A | B | C')
+ * asArr('A, B, c') // => ['A', 'B', 'c']
+ * asArr('1 | 2 | x') // => ['1', '2', 'x']
  */
 export var asArr = toArr.use(/\s*\|\s*|\s*,\s*|\s+/)
 
@@ -63,6 +81,12 @@ export function map (fn, list) {
  * @param {Array|String} list
  * @return {Array}
  * @see map
+ * @example
+ * var _ = require('tonal')
+ * _.cMap(_.noteName, 'c d e x g') // => ['C', 'D', 'E', 'G']
+ * // partially application
+ * var notes = _.cMap(_.noteName)
+ * notes('e f g h i j') // => ['E', 'F', 'G']
  */
 export function cMap (fn, list) {
   if (arguments.length === 1) return function (l) { return cMap(fn, list) }
@@ -73,6 +97,8 @@ export function cMap (fn, list) {
  * Return a copy of the array with the null values removed
  * @param {String|Array} list
  * @return {Array}
+ * @example
+ * tonal.compact(['a', 'b', null, 'c']) // => ['a', 'b', 'c']
  */
 export function compact (arr) {
   return asArr(arr).filter(hasVal)
@@ -81,12 +107,15 @@ export function compact (arr) {
 /**
  * Filter an array with a function. Again, almost the same as JavaScript standard
  * filter function but:
+ *
  * - It accepts strings as arrays
  * - Can be partially applied
  *
  * @param {Function} fn
  * @param {String|Array} arr
  * @return {Array}
+ * @example
+ * t.filter(t.noteName, 'a b c x bb') // => [ 'a', 'b', 'c', 'bb' ]
  */
 export function filter (fn, list) {
   return arguments.length > 1 ? filter(fn)(list)

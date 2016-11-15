@@ -1,3 +1,7 @@
+/**
+ * @module midi
+ */
+
 import parser from 'note-parser'
 
 /**

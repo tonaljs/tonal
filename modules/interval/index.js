@@ -1,3 +1,23 @@
+/**
+ * A collection of functions to obtain music interval properties.
+ *
+ * The intervals are strings in shorthand notation. Two variations are supported:
+ *
+ * - standard shorthand notation: type and number, for example: 'M3', 'd-4'
+ * - inverse shorthand notation: number and then type, for example: '3M', '-4d'
+ *
+ * The problem with the standard shorthand notation is that some strings can be
+ * parsed as notes or intervals, for example: 'A4' can be note A in 4th octave
+ * or an augmented four. To remove ambiguity, the prefered notation in tonal is the
+ * inverse shortand notation.
+ *
+ * @example
+ * var tonal = require('tonal')
+ * tonal.ivlName('m-3') // => '-3m'
+ * tonal.semitones('4P') // => 5
+ * tonal.simplify('9m') // => '2m'
+ * @module interval
+ */
 import { asIvlPitch, ivlFn, chr, dir,
   strIvl, encode, decode, height } from 'tonal-pitch'
 
@@ -102,7 +122,7 @@ export function itype (ivl) {
 }
 
 /**
- * Get the [inversion](https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
+ * Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
  * of an interval.
  *
  * @function

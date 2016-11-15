@@ -1,3 +1,6 @@
+/**
+ * @module progression
+ */
 import { encode } from 'tonal-pitch'
 import { asArr } from 'tonal-array'
 import { transpose } from 'tonal-transpose'

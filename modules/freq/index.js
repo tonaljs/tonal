@@ -1,3 +1,6 @@
+/**
+ * @module freq
+ */
 import { toMidi, fromMidi } from 'tonal-midi'
 
 /**

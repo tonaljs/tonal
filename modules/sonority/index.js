@@ -1,3 +1,7 @@
+/**
+ *
+ * @module sonority
+ */
 import { ic } from 'tonal-interval'
 import { parseNote, isNotePitch, chr } from 'tonal-pitch'
 import { listFn } from 'tonal-array'

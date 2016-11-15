@@ -1,0 +1,7 @@
+@font-face {
+  font-family: 'Emmentaler26';
+  src: url('fonts/emmentaler-26.woff') format('woff');
+  /*src: url('emmentaler-26.eot');
+  src: local('Emmentaler 26'), local('Emmentaler-26'), url('emmentaler-26.woff') format('woff'), url('emmentaler-26.otf') format('opentype'), url('emmentaler-26.svg#Emmentaler-26') format('svg');*/
+}
+

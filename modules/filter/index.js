@@ -1,3 +1,11 @@
+/**
+ * Filter notes by a scale (a pitch set)
+ *
+ * @example
+ * var tonal = require('tonal')
+ * tonal.scaleFilter('c d e f g a b', 'c db d eb e') // => ['C', null, 'D', null, 'E']
+ * @module filter
+ */
 import { pc, chroma } from 'tonal-note'
 import { map } from 'tonal-array'
 import { toMidi } from 'tonal-midi'

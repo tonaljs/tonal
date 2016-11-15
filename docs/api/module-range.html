@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>range - Postman Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-array.html">array</a><ul class='methods'><li data-type='method'><a href="module-array.html#.asArr">asArr</a></li><li data-type='method'><a href="module-array.html#.cMap">cMap</a></li><li data-type='method'><a href="module-array.html#.compact">compact</a></li><li data-type='method'><a href="module-array.html#.filter">filter</a></li><li data-type='method'><a href="module-array.html#.harmonics">harmonics</a></li><li data-type='method'><a href="module-array.html#.harmonize">harmonize</a></li><li data-type='method'><a href="module-array.html#.harmonizer">harmonizer</a></li><li data-type='method'><a href="module-array.html#.listFn">listFn</a></li><li data-type='method'><a href="module-array.html#.map">map</a></li><li data-type='method'><a href="module-array.html#.rotate">rotate</a></li><li data-type='method'><a href="module-array.html#.rotateAsc">rotateAsc</a></li><li data-type='method'><a href="module-array.html#.select">select</a></li><li data-type='method'><a href="module-array.html#.shuffle">shuffle</a></li><li data-type='method'><a href="module-array.html#.sort">sort</a></li></ul></li><li><a href="module-chord.html">chord</a><ul class='methods'><li data-type='method'><a href="module-chord.html#.build">build</a></li><li data-type='method'><a href="module-chord.html#.get">get</a></li><li data-type='method'><a href="module-chord.html#.names">names</a></li></ul></li><li><a href="module-dictionary.html">dictionary</a></li><li><a href="module-distance.html">distance</a><ul class='methods'><li data-type='method'><a href="module-distance.html#.distance">distance</a></li><li data-type='method'><a href="module-distance.html#.distInSemitones">distInSemitones</a></li><li data-type='method'><a href="module-distance.html#.interval">interval</a></li></ul></li><li><a href="module-filter.html">filter</a><ul class='methods'><li data-type='method'><a href="module-filter.html#.scaleFilter">scaleFilter</a></li></ul></li><li><a href="module-freq.html">freq</a><ul class='methods'><li data-type='method'><a href="module-freq.html#.cents">cents</a></li><li data-type='method'><a href="module-freq.html#.fromEqualTemp">fromEqualTemp</a></li><li data-type='method'><a href="module-freq.html#.fromFreq">fromFreq</a></li><li data-type='method'><a href="module-freq.html#.midiFromFreq">midiFromFreq</a></li><li data-type='method'><a href="module-freq.html#.toEqualTemp">toEqualTemp</a></li><li data-type='method'><a href="module-freq.html#.toFreq">toFreq</a></li></ul></li><li><a href="module-fretboard.html">fretboard</a><ul class='methods'><li data-type='method'><a href="module-fretboard.html#.chordShapes">chordShapes</a></li><li data-type='method'><a href="module-fretboard.html#.names">names</a></li><li data-type='method'><a href="module-fretboard.html#.notes">notes</a></li><li data-type='method'><a href="module-fretboard.html#.scale">scale</a></li><li data-type='method'><a href="module-fretboard.html#.simpleTuning">simpleTuning</a></li><li data-type='method'><a href="module-fretboard.html#.tuning">tuning</a></li></ul></li><li><a href="module-interval.html">interval</a><ul class='methods'><li data-type='method'><a href="module-interval.html#.fromSemitones">fromSemitones</a></li><li data-type='method'><a href="module-interval.html#.ic">ic</a></li><li data-type='method'><a href="module-interval.html#.invert">invert</a></li><li data-type='method'><a href="module-interval.html#.itype">itype</a></li><li data-type='method'><a href="module-interval.html#.ivlName">ivlName</a></li><li data-type='method'><a href="module-interval.html#.semitones">semitones</a></li><li data-type='method'><a href="module-interval.html#.simplify">simplify</a></li></ul></li><li><a href="module-key.html">key</a><ul class='methods'><li data-type='method'><a href="module-key.html#.accidentals">accidentals</a></li><li data-type='method'><a href="module-key.html#.alteration">alteration</a></li><li data-type='method'><a href="module-key.html#.alteredNotes">alteredNotes</a></li><li data-type='method'><a href="module-key.html#.asKey">asKey</a></li><li data-type='method'><a href="module-key.html#.build">build</a></li><li data-type='method'><a href="module-key.html#.fromAcc">fromAcc</a></li><li data-type='method'><a href="module-key.html#.fromAlter">fromAlter</a></li><li data-type='method'><a href="module-key.html#.fromName">fromName</a></li><li data-type='method'><a href="module-key.html#.isKeyMode">isKeyMode</a></li><li data-type='method'><a href="module-key.html#.names">names</a></li><li data-type='method'><a href="module-key.html#.relative">relative</a></li><li data-type='method'><a href="module-key.html#.scale">scale</a></li><li data-type='method'><a href="module-key.html#.signature">signature</a></li></ul></li><li><a href="module-midi.html">midi</a><ul class='methods'><li data-type='method'><a href="module-midi.html#.fromMidi">fromMidi</a></li><li data-type='method'><a href="module-midi.html#.fromMidiS">fromMidiS</a></li><li data-type='method'><a href="module-midi.html#.isMidiNum">isMidiNum</a></li><li data-type='method'><a href="module-midi.html#.toMidi">toMidi</a></li></ul></li><li><a href="module-notation.html">notation</a><ul class='methods'><li data-type='method'><a href="module-notation.html#.areFlats">areFlats</a></li><li data-type='method'><a href="module-notation.html#.areSharps">areSharps</a></li><li data-type='method'><a href="module-notation.html#.isStep">isStep</a></li><li data-type='method'><a href="module-notation.html#.toAcc">toAcc</a></li><li data-type='method'><a href="module-notation.html#.toAlt">toAlt</a></li><li data-type='method'><a href="module-notation.html#.toLetter">toLetter</a></li><li data-type='method'><a href="module-notation.html#.toStep">toStep</a></li></ul></li><li><a href="module-note.html">note</a><ul class='methods'><li data-type='method'><a href="module-note.html#.chroma">chroma</a></li><li data-type='method'><a href="module-note.html#.enh">enh</a></li><li data-type='method'><a href="module-note.html#.enharmonics">enharmonics</a></li><li data-type='method'><a href="module-note.html#.noteName">noteName</a></li><li data-type='method'><a href="module-note.html#.pc">pc</a></li><li data-type='method'><a href="module-note.html#.simpleEnh">simpleEnh</a></li></ul></li><li><a href="module-progression.html">progression</a><ul class='methods'><li data-type='method'><a href="module-progression.html#.build">build</a></li><li data-type='method'><a href="module-progression.html#.parseRomanChord">parseRomanChord</a></li><li data-type='method'><a href="module-progression.html#.romanRegex">romanRegex</a></li></ul></li><li><a href="module-range.html">range</a><ul class='methods'><li data-type='method'><a href="module-range.html#.chromatic">chromatic</a></li><li data-type='method'><a href="module-range.html#.cycleOfFifths">cycleOfFifths</a></li><li data-type='method'><a href="module-range.html#.range">range</a></li><li data-type='method'><a href="module-range.html#.scaleRange">scaleRange</a></li></ul></li><li><a href="module-scale.html">scale</a><ul class='methods'><li data-type='method'><a href="module-scale.html#.build">build</a></li><li data-type='method'><a href="module-scale.html#.get">get</a></li><li data-type='method'><a href="module-scale.html#.names">names</a></li></ul></li><li><a href="module-sonority.html">sonority</a></li><li><a href="module-transpose.html">transpose</a><ul class='methods'><li data-type='method'><a href="module-transpose.html#.tr">tr</a></li><li data-type='method'><a href="module-transpose.html#.transpose">transpose</a></li><li data-type='method'><a href="module-transpose.html#.trFifths">trFifths</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">range</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".chromatic"><span class="type-signature">(static) </span>chromatic<span class="signature">(list)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Create a range of chromatic notes. The altered notes will use flats.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>list</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the list of notes or midi note numbers</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>an array of note names</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>tonal.chromatic('C2 E2 D2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2', 'Eb2', 'D2']</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".cycleOfFifths"><span class="type-signature">(static) </span>cycleOfFifths<span class="signature">(the, the, the)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Create a range with a cycle of fifths</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>the</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>first step from tonic</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>the</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>last step from tonic (can be negative)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>the</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Pitch</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>tonic</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>a range of cycle of fifths</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var range = require('tonal-ranges')
+range.cycleOfFifths(0, 6, 'C') // => [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ])</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".range"><span class="type-signature">(static) </span>range<span class="signature">(list)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Create a numeric range. You supply a list of notes or numbers and it will
+be conected to create complex ranges.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>list</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the list of notes or numbers used</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>an array of numbers or empty array if not vald parameters</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>import { range } from 'tonal-range'
+range('C5 C4') // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
+// it works with numbers
+range([10, 5]) // => [ 10, 9, 8, 7, 6, 5 ]
+// complex range
+range('C4 E4 Bb3') // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
+// can be expressed with a string or array
+range('C2 C4 C2') === range(['C2', 'C4', 'C2'])
+// included in tonal package
+tonal.range('C2 C3')</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".scaleRange"><span class="type-signature">(static) </span>scaleRange<span class="signature">(scale, range)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Create a scale range. Given a pitch set (a collection of pitch classes),
+and a start and end it returns a note range.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>scale</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the scale to use or a function to
+convert from midi numbers to note names</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>range</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>a list of notes or midi numbers</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the scale range, an empty array if not valid source or
+null if not valid start or end</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var range = require('tonal-ranges')
+range.scale('C D E F G A B', 'C3 C2')
+// => [ 'C3', 'B2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]</code></pre>
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Tue Nov 15 2016 10:56:34 GMT+0100 (CET)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

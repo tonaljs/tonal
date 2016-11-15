@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Introduction | tonal</title>
+  <link rel="stylesheet" href="tufte.css"/>
+  <link rel="stylesheet" href="prism.css"/>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    div.tonics { width: 100%; overflow: hidden; }
+    div.tonics a { display: block; float: left; width: 2em; padding: 0.5em 0;
+      text-align: center; margin-right: 0.2em; }
+    div.tonics a.active { font-weight: bold; }
+    pre[class*="language-"] { margin-top: -1.5em; padding: 0 0 0 0em;
+    background: white; }
+    section.name-list { width: 100%; overflow: hidden; }
+    section.name-list a { display: block; float: left; width: 23%;
+      margin-right: 2%; background: none; height: 1.4em; }
+    section.name-list a.active { font-weight: bold; }
+  </style>
+  </head>
+  <body>
+    <h4><a href="http://danigb.github.io/tonal/">&larr; Back</a></h4>
+    <article>
+      <h1>Notes, intervals and arrays.</h1>
+      <p class="subtitle">A <span class="code">tonal</span> tutorial</p>
+      <p>This is an introduction of `tonal` music theory library.
+        At the core of the library is the ability to work with collection
+        of notes and intervals.</p>
+      <section>
+        <h2>Strings</h2>
+        <p>Unlike other libraries, tonal represent notes and intervals with
+          plain strings. So there's no need to create note or interval objects,
+          they are just strings:</p>
+
+        <pre><code class="language-js">
+          tonal.pc('c#4') // => 'C#'
+          tonal.enharmonics('Ab4') // => [ 'G#4', 'Ab4', 'Bbbb4' ]
+          tonal.semitones('5P') // => 7
+          tonal.invert('2M') // => '7m'
+        </code></pre>
+      </section>
+      <section>
+        <h2>Lists</h2>
+        <p>In tonal, lists can be represented as arrays or as strings with
+          elements separated by spaces (or commas, or bars). For example,
+          the map function accepts arrays or strings:</p>
+
+        <pre><code class="language-js">
+          tonal.map(tonal.pc, ['c#4', 'db5', 'fx6']) // => ['C#', 'Db', 'F##']
+          tonal.map(tonal.pc, 'c#4 db5 fx6') // => ['C#', 'Db', 'F##']
+        </code></pre>
+        <p>As you can notice, the <code>map</code> function has the params in
+          reverse order from the standard JavaScript map function. <i>Data to
+          be operated on is supplied last.</i> This allows partial application:</p>
+        <pre><code class="language-js">
+          var invList = tonal.map(tonal.invert)
+          invList('1P 2M 3M 4P') // => ['8P', '7m', '6m', '5P']
+        </code></pre>
+        <p>Most of the functions of tonal are currified so can be partially applied.</p>
+      </section>
+      <section>
+        <h2>Ranges</h2>
+        <p>Tonal provides some functions to create note ranges. The range
+          function generates numeric ranges (midi notes) from note names:</p>
+        <pre><code class="language-js">
+          tonal.range('C4 C5') // => [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]
+        </code></pre>
+        <p>The <code>chromatic</code> function does the same, but returns
+          note names:</p>
+        <pre><code class="language-js">
+          tonal.chromatic('C4 C5') // => ['C4', 'Db4', 'D4', ..., 'Bb4', 'B4', 'C5']
+        </code></pre>
+        <p>Notice that ranges are not limited to two notes:</p>
+        <pre><code class="language-js">
+          tonal.chromatic('C4 E4 A3') // => ['C4', 'Db4', 'D4', 'Eb4', 'E4', 'Eb4', 'D4', 'Db4', 'C4', 'B3', 'Bb3', 'A3']
+        </code></pre>
+        <p>The <code>scaleRange</code> function helps to create ranges os scales:</p>
+        <pre><code class="language-js">
+          var Amajor = tonal.scaleRange('A B C# D E F# G#')
+          Amajor('C3 C4') // => ['C#3', 'D3', 'E3', 'F#3', 'G#3', 'A3', 'B3']
+        </code></pre>
+        <p>And it can be used with chords (in fact with any note set):</p>
+        <pre><code class="language-js">
+          var Achord = tonal.scaleRange('A C# E')
+          Achord('A3 A5') // => ['A3', 'C#3', 'E3', 'A4', 'C#4', 'E4', 'A5']
+        </code></pre>
+      </section>
+
+    </article>
+  <script type="text/javascript" src="js/prism.js"></script>
+  <script type="text/javascript" src="js/vexflow-min.js"></script>
+  <script type="text/javascript" src="js/chords-and-scales.js"></script>
+</body>

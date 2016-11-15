@@ -6,7 +6,9 @@
   "jsnext:main": "lib/index.js",
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f cjs -n tonal -o build/index.js -- lib/index.js",
+    "build": "npm run pretest",
     "test-facade": "tape 'test/*.js'",
+    "docs": "jsdoc -c .jsdoc3.json && open docs/api/index.html",
     "test": "npm run modules-test && npm run test-facade",
     "dist": "npm test && browserify build/index.js > dist/tonal.js && uglifyjs dist/tonal.js -c -m -o dist/tonal.min.js && ls -hall dist/",
     "test-ci": "npm run modules-install && npm run test",
@@ -42,6 +44,7 @@
   },
   "devDependencies": {
     "browserify": "^13.0.1",
+    "postman-jsdoc-theme": "0.0.2",
     "rollup": "^0.34.1",
     "tape": "4",
     "uglify-js": "2"
