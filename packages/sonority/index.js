@@ -29,7 +29,6 @@ import { listFn } from 'tonal-array'
  * seconds, would be recognized as a highly dissonant sound, while the symbol
  * `pmn` would indicate a consonant sound.
  *
- * @name interval.density
  * @function
  * @param {Array|String} notes - the notes to analyze
  * @return {Array} the _pmnsdt_ array

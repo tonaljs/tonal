@@ -3,7 +3,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var tonalNote = require('tonal-note');
+var Note = require('tonal-note');
 var tonalInterval = require('tonal-interval');
 var tonalMidi = require('tonal-midi');
 var tonalFreq = require('tonal-freq');
@@ -12,15 +12,21 @@ var tonalDistance = require('tonal-distance');
 var tonalFilter = require('tonal-filter');
 var tonalArray = require('tonal-array');
 var tonalRange = require('tonal-range');
+var Scale = require('tonal-scale');
 
+function note (str) { return Note.noteName(str) }
+Object.assign(note, Note)
 
+var scale = Scale
 
-exports.noteName = tonalNote.noteName;
-exports.chroma = tonalNote.chroma;
-exports.pc = tonalNote.pc;
-exports.enharmonics = tonalNote.enharmonics;
-exports.enh = tonalNote.enh;
-exports.simpleEnh = tonalNote.simpleEnh;
+exports.note = note;
+exports.scale = scale;
+exports.noteName = Note.noteName;
+exports.chroma = Note.chroma;
+exports.pc = Note.pc;
+exports.enharmonics = Note.enharmonics;
+exports.enh = Note.enh;
+exports.simpleEnh = Note.simpleEnh;
 exports.ivlName = tonalInterval.ivlName;
 exports.semitones = tonalInterval.semitones;
 exports.fromSemitones = tonalInterval.fromSemitones;
@@ -63,7 +69,7 @@ exports.range = tonalRange.range;
 exports.chromatic = tonalRange.chromatic;
 exports.cycleOfFifths = tonalRange.cycleOfFifths;
 exports.scaleRange = tonalRange.scaleRange;
-},{"tonal-array":2,"tonal-distance":9,"tonal-filter":15,"tonal-freq":16,"tonal-interval":19,"tonal-midi":25,"tonal-note":27,"tonal-range":33,"tonal-transpose":34}],2:[function(require,module,exports){
+},{"tonal-array":2,"tonal-distance":9,"tonal-filter":15,"tonal-freq":16,"tonal-interval":19,"tonal-midi":25,"tonal-note":27,"tonal-range":33,"tonal-scale":35,"tonal-transpose":41}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -2185,7 +2191,7 @@ exports.pc = pc;
 exports.enharmonics = enharmonics;
 exports.enh = enh;
 exports.simpleEnh = simpleEnh;
-},{"tonal-pitch":28,"tonal-transpose":34}],28:[function(require,module,exports){
+},{"tonal-pitch":28,"tonal-transpose":41}],28:[function(require,module,exports){
 arguments[4][10][0].apply(exports,arguments)
 },{"dup":10,"interval-notation":29,"note-parser":30,"tonal-encoding":31,"tonal-notation":32}],29:[function(require,module,exports){
 arguments[4][5][0].apply(exports,arguments)
@@ -2297,14 +2303,228 @@ exports.range = range;
 exports.chromatic = chromatic;
 exports.cycleOfFifths = cycleOfFifths;
 exports.scaleRange = scaleRange;
-},{"tonal-array":2,"tonal-filter":15,"tonal-midi":25,"tonal-transpose":34}],34:[function(require,module,exports){
-arguments[4][8][0].apply(exports,arguments)
-},{"dup":8,"tonal-pitch":35}],35:[function(require,module,exports){
+},{"tonal-array":2,"tonal-filter":15,"tonal-midi":25,"tonal-transpose":41}],34:[function(require,module,exports){
+module.exports={
+  "lydian": [ "1P 2M 3M 4A 5P 6M 7M" ],
+  "major": [ "1P 2M 3M 4P 5P 6M 7M" , [ "ionian" ] ],
+  "mixolydian": [ "1P 2M 3M 4P 5P 6M 7m" , [ "dominant" ] ],
+  "dorian": [ "1P 2M 3m 4P 5P 6M 7m" ],
+  "aeolian": [ "1P 2M 3m 4P 5P 6m 7m" , [ "minor" ] ],
+  "phrygian": [ "1P 2m 3m 4P 5P 6m 7m" ],
+  "locrian": [ "1P 2m 3m 4P 5d 6m 7m" ],
+  "melodic minor": [ "1P 2M 3m 4P 5P 6M 7M" ],
+  "melodic minor second mode": [ "1P 2m 3m 4P 5P 6M 7m" ],
+  "lydian augmented": [ "1P 2M 3M 4A 5A 6M 7M" ],
+  "lydian dominant": [ "1P 2M 3M 4A 5P 6M 7m" , [ "lydian b7" ] ],
+  "melodic minor fifth mode": [ "1P 2M 3M 4P 5P 6m 7m" , [ "hindu", "mixolydian b6M" ] ],
+  "locrian #2": [ "1P 2M 3m 4P 5d 6m 7m" ],
+  "locrian major": [ "1P 2M 3M 4P 5d 6m 7m" , [ "arabian" ] ],
+  "altered": [ "1P 2m 3m 3M 5d 6m 7m" , [ "super locrian", "diminished whole tone", "pomeroy" ] ],
+  "major pentatonic": [ "1P 2M 3M 5P 6M" , [ "pentatonic" ] ],
+  "lydian pentatonic": [ "1P 3M 4A 5P 7M" , [ "chinese" ] ],
+  "mixolydian pentatonic": [ "1P 3M 4P 5P 7m" , [ "indian" ] ],
+  "locrian pentatonic": [ "1P 3m 4P 5d 7m" , [ "minor seven flat five pentatonic" ] ],
+  "minor pentatonic": [ "1P 3m 4P 5P 7m" ],
+  "minor six pentatonic": [ "1P 3m 4P 5P 6M" ],
+  "minor hexatonic": [ "1P 2M 3m 4P 5P 7M" ],
+  "flat three pentatonic": [ "1P 2M 3m 5P 6M" , [ "kumoi" ] ],
+  "flat six pentatonic": [ "1P 2M 3M 5P 6m" ],
+  "major flat two pentatonic": [ "1P 2m 3M 5P 6M" ],
+  "whole tone pentatonic": [ "1P 3M 5d 6m 7m" ],
+  "ionian pentatonic": [ "1P 3M 4P 5P 7M" ],
+  "lydian #5P pentatonic": [ "1P 3M 4A 5A 7M" ],
+  "lydian dominant pentatonic": [ "1P 3M 4A 5P 7m" ],
+  "minor #7M pentatonic": [ "1P 3m 4P 5P 7M" ],
+  "super locrian pentatonic": [ "1P 3m 4d 5d 7m" ],
+  "in-sen": [ "1P 2m 4P 5P 7m" ],
+  "iwato": [ "1P 2m 4P 5d 7m" ],
+  "hirajoshi": [ "1P 2M 3m 5P 6m" ],
+  "kumoijoshi": [ "1P 2m 4P 5P 6m" ],
+  "pelog": [ "1P 2m 3m 5P 6m" ],
+  "vietnamese 1": [ "1P 3m 4P 5P 6m" ],
+  "vietnamese 2": [ "1P 3m 4P 5P 7m" ],
+  "prometheus": [ "1P 2M 3M 4A 6M 7m" ],
+  "prometheus neopolitan": [ "1P 2m 3M 4A 6M 7m" ],
+  "ritusen": [ "1P 2M 4P 5P 6M" ],
+  "scriabin": [ "1P 2m 3M 5P 6M" ],
+  "piongio": [ "1P 2M 4P 5P 6M 7m" ],
+  "major blues": [ "1P 2M 3m 3M 5P 6M" ],
+  "minor blues": [ "1P 3m 4P 5d 5P 7m" , [ "blues" ] ],
+  "composite blues": [ "1P 2M 3m 3M 4P 5d 5P 6M 7m" ],
+  "augmented": [ "1P 2A 3M 5P 5A 7M" ],
+  "augmented heptatonic": [ "1P 2A 3M 4P 5P 5A 7M" ],
+  "dorian #4": [ "1P 2M 3m 4A 5P 6M 7m" ],
+  "lydian diminished": [ "1P 2M 3m 4A 5P 6M 7M" ],
+  "whole tone": [ "1P 2M 3M 4A 5A 7m" ],
+  "leading whole tone": [ "1P 2M 3M 4A 5A 7m 7M" ],
+  "harmonic minor": [ "1P 2M 3m 4P 5P 6m 7M" ],
+  "lydian minor": [ "1P 2M 3M 4A 5P 6m 7m" ],
+  "neopolitan": [ "1P 2m 3m 4P 5P 6m 7M" ],
+  "neopolitan minor": [ "1P 2m 3m 4P 5P 6m 7m" ],
+  "neopolitan major": [ "1P 2m 3m 4P 5P 6M 7M" , [ "dorian b2" ] ],
+  "neopolitan major pentatonic": [ "1P 3M 4P 5d 7m" ],
+  "romanian minor": [ "1P 2M 3m 5d 5P 6M 7m" ],
+  "double harmonic lydian": [ "1P 2m 3M 4A 5P 6m 7M" ],
+  "diminished": [ "1P 2M 3m 4P 5d 6m 6M 7M" ],
+  "harmonic major": [ "1P 2M 3M 4P 5P 6m 7M" ],
+  "double harmonic major": [ "1P 2m 3M 4P 5P 6m 7M" , [ "gypsy" ] ],
+  "egyptian": [ "1P 2M 4P 5P 7m" ],
+  "hungarian minor": [ "1P 2M 3m 4A 5P 6m 7M" ],
+  "hungarian major": [ "1P 2A 3M 4A 5P 6M 7m" ],
+  "oriental": [ "1P 2m 3M 4P 5d 6M 7m" ],
+  "spanish": [ "1P 2m 3M 4P 5P 6m 7m" , [ "phrygian major" ] ],
+  "spanish heptatonic": [ "1P 2m 3m 3M 4P 5P 6m 7m" ],
+  "flamenco": [ "1P 2m 3m 3M 4A 5P 7m" ],
+  "balinese": [ "1P 2m 3m 4P 5P 6m 7M" ],
+  "todi raga": [ "1P 2m 3m 4A 5P 6m 7M" ],
+  "malkos raga": [ "1P 3m 4P 6m 7m" ],
+  "kafi raga": [ "1P 3m 3M 4P 5P 6M 7m 7M" ],
+  "purvi raga": [ "1P 2m 3M 4P 4A 5P 6m 7M" ],
+  "persian": [ "1P 2m 3M 4P 5d 6m 7M" ],
+  "bebop": [ "1P 2M 3M 4P 5P 6M 7m 7M" ],
+  "bebop dominant": [ "1P 2M 3M 4P 5P 6M 7m 7M" ],
+  "bebop minor": [ "1P 2M 3m 3M 4P 5P 6M 7m" ],
+  "bebop major": [ "1P 2M 3M 4P 5P 5A 6M 7M" ],
+  "bebop locrian": [ "1P 2m 3m 4P 5d 5P 6m 7m" ],
+  "minor bebop": [ "1P 2M 3m 4P 5P 6m 7m 7M" ],
+  "mystery #1": [ "1P 2m 3M 5d 6m 7m" ],
+  "enigmatic": [ "1P 2m 3M 5d 6m 7m 7M" ],
+  "minor six diminished": [ "1P 2M 3m 4P 5P 6m 6M 7M" ],
+  "ionian augmented": [ "1P 2M 3M 4P 5A 6M 7M" ],
+  "lydian #9": [ "1P 2m 3M 4A 5P 6M 7M" ],
+  "ichikosucho": [ "1P 2M 3M 4P 5d 5P 6M 7M" ],
+  "six tone symmetric": [ "1P 2m 3M 4P 5A 6M" ]
+}
+
+},{}],35:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var tonalDictionary = require('tonal-dictionary');
+var tonalPitch = require('tonal-pitch');
+var tonalArray = require('tonal-array');
+
+/**
+ * Work with scales
+ *
+ * @module scale
+ */
+var DATA = require('./scales.json');
+
+var dict = tonalDictionary.fromName(tonalPitch.parseIvl, DATA);
+
+/**
+ * Create scales by scale type or intervals and tonic. The returned scale is an
+ * array of notes (or intervals if you specify `false` as tonic)
+ *
+ * This function is currified
+ *
+ * @param {String} source - the scale type, intervals or notes
+ * @param {String} tonic - the scale tonic (or false to get intervals)
+ * @return {Array} the scale notes
+ *
+ * @example
+ * var scale = require('tonal.scale')
+ * // get scale notes using type and tonic
+ * scale.create('maj7', 'C2') // => ['C2', 'E2', 'G2', 'B2']
+ * // get scale intervals (tonic false)
+ * scale.create('maj7', false) // => ['1P', '3M', '5P', '7M']
+ * // partially applied
+ * var maj7 = scale.create('maj7')
+ * maj7('C') // => ['C', 'E', 'G', 'B']
+ * // create scale from intervals
+ * scale.create('1 3 5 m7 m9', 'C') // => ['C', 'E', 'G', 'Bb', 'Db']
+ */
+function build (src, tonic) {
+  if (arguments.length === 1) return function (t) { return build(src, t) }
+  return tonalArray.harmonize(get(src) || src, tonic)
+}
+
+/**
+ * Return the available scale names
+ *
+ * @function
+ * @param {boolean} aliases - true to include aliases
+ * @return {Array} the scale names
+ *
+ * @example
+ * scaleNames() // => ['maj7', ...]
+ */
+var names$1 = tonalDictionary.names(DATA);
+
+/**
+ * Get scale notes from scale name
+ *
+ * @param {String} name - the scale name
+ * @return {Array} the scale notes
+ *
+ * @example
+ * var scale = require('tonal-scale')
+ * scale.get('C7') // => ['C', 'E', 'G', 'Bb']
+ * scale.get('CMaj7') // => ['C', 'E', 'G', 'B']
+ */
+function get (name) {
+  var i = name.indexOf(' ');
+  var tonic = name.substring(0, i);
+  return tonalPitch.parseNote(tonic) ? tonalArray.harmonize(dict(name.substring(i + 1)), tonic)
+    : tonalArray.harmonize(dict(name), false)
+}
+
+exports.build = build;
+exports.names = names$1;
+exports.get = get;
+exports['default'] = get;
+
+},{"./scales.json":34,"tonal-array":2,"tonal-dictionary":36,"tonal-pitch":37}],36:[function(require,module,exports){
+'use strict';
+
+function id (x) { return x }
+
+function fromName (parse, raw, name) {
+  if (arguments.length > 2) return fromName(parse, raw)(name)
+  var data = Object.keys(raw).reduce(function (d, k) {
+    // add intervals
+    d[k] = raw[k][0].split(' ').map(parse || id)
+    // add alias
+    if (raw[k][1]) raw[k][1].forEach(function (a) { d[a] = d[k] })
+    return d
+  }, {})
+  return function (n) {
+    return data[n]
+  }
+}
+
+function names (raw, alias) {
+  if (arguments.length > 1) return names(raw)(alias)
+  var main = Object.keys(raw)
+  var aliases = main.reduce(function (a, k) {
+    if (raw[k][1]) raw[k][1].forEach(function (n) { a.push(n) })
+    return a
+  }, [])
+  return function (alias) {
+    return alias ? main.concat(aliases) : main.slice()
+  }
+}
+
+exports.fromName = fromName;
+exports.names = names;
+},{}],37:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4,"interval-notation":36,"note-parser":37,"tonal-encoding":38}],36:[function(require,module,exports){
+},{"dup":4,"interval-notation":38,"note-parser":39,"tonal-encoding":40}],38:[function(require,module,exports){
 arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}],37:[function(require,module,exports){
+},{"dup":5}],39:[function(require,module,exports){
 arguments[4][6][0].apply(exports,arguments)
-},{"dup":6}],38:[function(require,module,exports){
+},{"dup":6}],40:[function(require,module,exports){
+arguments[4][7][0].apply(exports,arguments)
+},{"dup":7}],41:[function(require,module,exports){
+arguments[4][8][0].apply(exports,arguments)
+},{"dup":8,"tonal-pitch":42}],42:[function(require,module,exports){
+arguments[4][4][0].apply(exports,arguments)
+},{"dup":4,"interval-notation":43,"note-parser":44,"tonal-encoding":45}],43:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],44:[function(require,module,exports){
+arguments[4][6][0].apply(exports,arguments)
+},{"dup":6}],45:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
 },{"dup":7}]},{},[1]);

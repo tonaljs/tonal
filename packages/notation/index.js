@@ -2,9 +2,6 @@
  * @module notation
  */
 
-// NOTE LETTERS
-// ============
-
 /**
  * Given a letter, return step
  * @param {String} letter - the letter

@@ -1,5 +1,6 @@
 /**
  * Work with scales
+ *
  * @module scale
  */
 import { fromName as fn, names as nms } from 'tonal-dictionary'
@@ -21,16 +22,16 @@ var dict = fn(parseIvl, DATA)
  * @return {Array} the scale notes
  *
  * @example
- * var scale = require('tonal.scale')
+ * var scale = require('tonal-scale')
  * // get scale notes using type and tonic
- * scale.create('maj7', 'C2') // => ['C2', 'E2', 'G2', 'B2']
+ * scale.build('maj7', 'C2') // => ['C2', 'E2', 'G2', 'B2']
  * // get scale intervals (tonic false)
- * scale.create('maj7', false) // => ['1P', '3M', '5P', '7M']
+ * scale.build('maj7', false) // => ['1P', '3M', '5P', '7M']
  * // partially applied
- * var maj7 = scale.create('maj7')
+ * var maj7 = scale.build('maj7')
  * maj7('C') // => ['C', 'E', 'G', 'B']
- * // create scale from intervals
- * scale.create('1 3 5 m7 m9', 'C') // => ['C', 'E', 'G', 'Bb', 'Db']
+ * // build scale from intervals
+ * scale.build('1 3 5 m7 m9', 'C') // => ['C', 'E', 'G', 'Bb', 'Db']
  */
 export function build (src, tonic) {
   if (arguments.length === 1) return function (t) { return build(src, t) }
@@ -45,7 +46,8 @@ export function build (src, tonic) {
  * @return {Array} the scale names
  *
  * @example
- * scaleNames() // => ['maj7', ...]
+ * var scale = require('tonal-scale')
+ * scale.names() // => ['maj7', ...]
  */
 export var names = nms(DATA)
 

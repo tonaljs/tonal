@@ -1,4 +1,5 @@
 /**
+ * A collection of function to build chords. It includes a chord dictionary.
  *
  * @module chord
  */
@@ -46,8 +47,8 @@ export function build (src, tonic) {
  * @return {Array} the chord names
  *
  * @example
- * import { chordNames } from 'tonal-chords'
- * chordNames() // => ['maj7', ...]
+ * var chord = require('tonal-chord')
+ * chord.names() // => ['maj7', ...]
  */
 export var names = dictN(DATA)
 
@@ -58,9 +59,9 @@ export var names = dictN(DATA)
  * @return {Array} the chord notes
  *
  * @example
- * import { fromName } from 'tonal-chords'
- * fromName('C7') // => ['C', 'E', 'G', 'Bb']
- * fromName('CMaj7') // => ['C', 'E', 'G', 'B']
+ * var chords = require('tonal-chords')
+ * chords.get('C7') // => ['C', 'E', 'G', 'Bb']
+ * chords.get('CMaj7') // => ['C', 'E', 'G', 'B']
  */
 export function get (name) {
   var p = regex().exec(name)
@@ -70,3 +71,5 @@ export function get (name) {
   // doesn't have chord name: the name is the octave (example: 'C7' is dominant)
   return build(p[3], p[1] + p[2])
 }
+
+export default get
