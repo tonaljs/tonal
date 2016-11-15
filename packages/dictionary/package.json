@@ -8,7 +8,7 @@
     "test": "tape 'test/*.js'",
     "prepublish": "npm test"
   },
-  "main": "build/tonal-dict.js",
+  "main": "build/index.js",
   "jsnext:main": "index",
   "author": "danigb@gmail.com",
   "license": "MIT",

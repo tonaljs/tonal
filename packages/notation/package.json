@@ -7,7 +7,7 @@
     "pretest": "rm -rf build && mkdir build && rollup -f cjs -n notation -o build/tonal-notation.js -- index.js",
     "test": "tape 'test/*.js'"
   },
-  "main": "build/tonal-notation.js",
+  "main": "build/index.js",
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",

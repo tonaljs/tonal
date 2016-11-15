@@ -14,7 +14,7 @@
     "test": "tape 'test/*.js'",
     "prepublish": "npm test"
   },
-  "main": "build/tonal-distance.js",
+  "main": "build/index.js",
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",

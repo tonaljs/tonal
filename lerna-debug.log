@@ -1,0 +1,7 @@
+lerna(info)    Lerna v2.0.0-beta.30
+lerna(debug)   Attempting running ExecCommand.initialize
+lerna(debug)   Successfully ran ExecCommand.initialize
+lerna(debug)   Attempting running ExecCommand.execute
+lerna(error)   Errored while running command 'rm' with arguments './build/index.js' in 'tonal-array'
+lerna(error)   Errored while running ExecCommand.execute
+    Command failed: rm ./build/index.js
