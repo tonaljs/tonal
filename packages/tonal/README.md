@@ -95,40 +95,6 @@ This library is evolving with this ideas in mind:
 - Tested: carefully tested with coverage support.
 - Advanced features: chord and scale detection, binary sets, chord progressions, key signatures...
 
-## Why
-
-First of all, because I want to learn:
-
-> Reinventing the wheel is bad for business, but it’s great for learning
-[*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
-
-Also, I want a complete library, where I can model all what I learn, with some (for me) esoteric features like interval classes, binary scales and other weird stuff.
-
-## What
-
-Tonal itself is built from a collection of [packages](https://github.com/danigb/tonal/tree/master/packages).
-
-You can [read the generated API documentation here](http://danigb.github.io/tonal/api/).
-
-## Build, test and documentation
-
-It's a multipackage module that uses [lerna](https://github.com/lerna/lerna) to manage.
-
-To build the library from the first time use `npm run init`
-
-The distributable `tonal-min.js` file is generated with `npm run dist`
-
-The documentation can be generated with: `npm run docs`
-
-## Inspiration
-
-This library takes inspiration from other music theory libraries:
-
-- Teoria: https://github.com/saebekassebil/teoria
-- Impro-Visor: https://www.cs.hmc.edu/~keller/jazz/improvisor/
-- MusicKit: https://github.com/benzguo/MusicKit
-- Music21: http://web.mit.edu/music21/doc/index.html
-- Sharp11: https://github.com/jsrmath/sharp11
 
 ## License
 
