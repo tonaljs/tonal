@@ -4,7 +4,8 @@
   "scripts": {
     "init": "lerna bootstrap && npm run build",
     "build": "lerna exec -- rollup -f cjs -o build/index.js -- index.js",
-    "pretest": "npm run build",
+    "bundle": "cp packages/scale/scales.json packages/scale/build/ && cp packages/chord/chords.json packages/chord/build && cp packages/fretboard/tunings.json packages/fretboard/build/",
+    "pretest": "npm run build && npm run bundle",
     "test": "lerna exec -- tape test/*.js",
     "docs": "jsdoc -c jsdoc3.config.json && open docs/api/index.html",
     "test-ci": "lerna bootstrap && npm test",

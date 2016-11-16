@@ -1,7 +1,0 @@
-lerna(info)    Lerna v2.0.0-beta.30
-lerna(debug)   Attempting running ExecCommand.initialize
-lerna(debug)   Successfully ran ExecCommand.initialize
-lerna(debug)   Attempting running ExecCommand.execute
-lerna(error)   Errored while running command 'tape' with arguments 'test/*.js' in 'tonal'
-lerna(error)   Errored while running ExecCommand.execute
-    Command failed: tape test/*.js
