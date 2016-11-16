@@ -19,6 +19,7 @@
   "devDependencies": {},
   "dependencies": {
     "tonal-array": "^0.61.0",
+    "tonal-interval": "^0.61.0",
     "tonal-pitch": "^0.61.0"
   }
 }
