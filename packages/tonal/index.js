@@ -23,4 +23,5 @@ tonal.notation = require('tonal-notation')
 tonal.progression = require('tonal-progression')
 tonal.sonority = require('tonal-sonority')
 
-module.exports = tonal
+if (typeof module === 'object' && module.exports) module.exports = tonal
+if (typeof window !== 'undefined') window.Tonal = tonal

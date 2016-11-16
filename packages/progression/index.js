@@ -1,9 +1,51 @@
 /**
+ * Work with chord progressions.
+ *
+ * @example
+ * var progression = require('tonal-progression')
+ * progression.abstract('Cmaj7 Dm7 G7', 'C')
+ *
  * @module progression
  */
 import { encode } from 'tonal-pitch'
-import { asArr } from 'tonal-array'
+import { pc } from 'tonal-note'
+import { props } from 'tonal-interval'
+import { map, compact } from 'tonal-array'
 import { transpose } from 'tonal-transpose'
+import { interval } from 'tonal-distance'
+import { parse } from 'tonal-chord'
+import { toAcc } from 'tonal-notation'
+
+/**
+ * Given a chord progression and a tonic, return the chord progression
+ * with roman numeral chords.
+ *
+ * @param {Array|String} chords - the chord progression
+ * @param {String} tonic - the tonic
+ * @return {Array} the chord progression in roman numerals
+ * @example
+ * progression.abstract('Cmaj7 Dm7 G7', 'C') // => [ 'Imaj7', 'IIm7', 'V7' ]
+ */
+export function abstract (chords, tonic) {
+  tonic = pc(tonic)
+  chords = map(parse, chords)
+  var tonics = compact(chords.map(function (x) { return x[1] }))
+  // if some tonic missing, can't do the analysis
+  if (tonics.length !== chords.length) return null
+
+  return tonics.map(function (t, i) {
+    var p = props(interval(tonic, t))
+    return buildRoman(p.num - 1, p.alt, chords[i][0])
+  })
+}
+
+var NUMS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
+/**
+ * Build an abstract chord name using roman numerals
+ */
+export function buildRoman (num, alt, element) {
+  return toAcc(alt) + NUMS[num % 7] + (element || '')
+}
 
 /**
  * Get chord progression from a tonic and a list of chord in roman numerals
@@ -14,13 +56,13 @@ import { transpose } from 'tonal-transpose'
  *
  * @example
  * var progression = require('chord-progression')
- * progression.build('I IIm7 V7', 'C') // => ['C', 'Dm7', 'G7']
+ * progression.concrete('I IIm7 V7', 'C') // => ['C', 'Dm7', 'G7']
  */
-export function build (chords, tonic) {
-  return asArr(chords).map(function (e) {
+export function concrete (chords, tonic) {
+  return map(function (e) {
     var r = parseRomanChord(e)
     return r ? transpose(r.root, tonic) + r.name : null
-  })
+  }, chords)
 }
 
 var ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\s*$/
@@ -29,16 +71,18 @@ var ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\
  * `[accidentals]roman[element]`.
  *
  * The executed regex contains:
- * accidentals: (Optional) one or two flats (b) or shaprs (#)
- * roman: (Required) a roman numeral from I to VII either in upper or lower case
- * element: (Optional) a name of an element
+ *
+ * - input: the input string
+ * - accidentals: (Optional) one or two flats (b) or shaprs (#)
+ * - roman: (Required) a roman numeral from I to VII either in upper or lower case
+ * - element: (Optional) a name of an element
  *
  * @return {RegExp} the regexp
  *
  * @example
- * r.exec('bVII')
- * r.exec('IVMaj7')
- * r.exec('ii minor')
+ * var r = progression.romanRegex()
+ * r.exec('bVImaj7') // => ['bVImaj7', 'b', 'VI', 'maj7'])
+ * r.exec('III dom') // => ['III dom', '', 'III', 'dom'])
  */
 export function romanRegex () { return ROMAN }
 

@@ -5,7 +5,7 @@
  */
 import { get as getter, keys } from 'tonal-dictionary'
 import { parseIvl, parseNote } from 'tonal-pitch'
-import { harmonize } from 'tonal-array'
+import { harmonize } from 'tonal-harmonizer'
 
 var DATA = require('./scales.json')
 

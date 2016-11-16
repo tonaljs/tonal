@@ -6,9 +6,6 @@
  * parameter and currified. The sorting functions understand about pitch
  * heights and interval sizes.
  *
- * There are also functions to transpose or calculate distances of a list
- * of notes or intervals: `harmonize`, `harmonizer` and `harmonics`
- *
  * One key feature of tonal is that you can represent lists with arrays or
  * with space separated string of elements. This module implements that
  * functionallity.
@@ -17,7 +14,7 @@
  */
 import { asPitch, isPitch, strPitch, pitch } from 'tonal-pitch'
 import { transpose as tr } from 'tonal-transpose'
-import { interval, semitones } from 'tonal-distance'
+import { semitones } from 'tonal-distance'
 import * as toArr from 'as-arr'
 
 // utility
@@ -101,54 +98,6 @@ export function compact (arr) {
 export function filter (fn, list) {
   return arguments.length > 1 ? filter(fn)(list)
     : function (l) { return asArr(l).filter(fn) }
-}
-
-/**
- * Given a list of notes, return the distance from the first note to the rest.
- * @param {Array|String} notes - the list of notes
- * @return {Array} the intervals
- * @example
- * tonal.harmonics('C E g') // => ['1P', '3M', '5P']
- */
-export function harmonics (list) {
-  var a = asArr(list)
-  return a.length ? a.map(interval(a[0])).filter(hasVal) : a
-}
-
-/**
- * Given an array of intervals, create a function that harmonizes a
- * note with this intervals. Given a list of notes, return a function that
- * transpose the notes by an interval.
- *
- * @param {Array|String} ivls - the list of pitches
- * @return {Function} The harmonizer
- * @example
- * import { harmonizer } from 'tonal-arrays'
- * var maj7 = harmonizer('P1 M3 P5 M7')
- * maj7('C') // => ['C', 'E', 'G', 'B']
- * var C = harmonizer('C D E')
- * C('M3') // => ['E', 'G#', 'B']
- */
-export function harmonizer (list) {
-  return function (tonic) {
-    return compact(map(tr(tonic || 'P1'), list))
-  }
-}
-
-/**
- * Harmonizes a note with an array of intervals. It's a layer of sintatic
- * sugar over `harmonizer`.
- *
- * @function
- * @param {String|Array} ivl - the array of intervals
- * @param {String|Pitch} note - the note to be harmonized
- * @return {Array} the resulting notes
- * @example
- * var tonal = require('tonal')
- * tonal.harmonise('P1 M3 P5 M7', 'C') // => ['C', 'E', 'G', 'B']
- */
-export var harmonize = function (list, pitch) {
-  return arguments.length > 1 ? harmonizer(list)(pitch) : harmonizer(list)
 }
 
 // a custom height function that
@@ -291,7 +240,7 @@ function listToStr (v) {
  * array notation. Also, if the return value is a pitch or an array of pitches
  * in array notation, it convert backs to strings.
  *
- * @function
+ * @private
  * @param {Function} fn - the function to decorate
  * @return {Function} the decorated function
  * @example
@@ -299,7 +248,7 @@ function listToStr (v) {
  * var octUp = listFn((p) => { p[2] = p[2] + 1; return p[2] })
  * octUp('C2 D2 E2') // => ['C3', 'D3', 'E3']
  */
-export function listFn (fn) {
+function listFn (fn) {
   return function (list) {
     var arr = asArr(list).map(asPitch)
     var res = fn(arr)

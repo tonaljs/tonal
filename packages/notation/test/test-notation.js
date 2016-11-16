@@ -24,6 +24,7 @@ tape('toAlt', function (test) {
 })
 
 tape('toAcc', function (test) {
+  test.equal(n.toAcc(), '')
   test.deepEqual([-4, -3, -2, -1, 0, 1, 2, 3, 4].map(n.toAcc),
     [ 'bbbb', 'bbb', 'bb', 'b', '', '#', '##', '###', '####' ])
   test.end()

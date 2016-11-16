@@ -37,6 +37,12 @@ function unaltered (f) {
 // { 0: F, 1: C, 2: G, 3: D, 4: A, 5: E, 6: B}
 var STEPS = [3, 0, 4, 1, 5, 2, 6]
 
+/**
+ * Decode a encoded pitch
+ * @param {Number} fifths - the number of fifths
+ * @param {Number} octs - the number of octaves to compensate the fifhts
+ * @return {Array} in the form [step, alt, oct]
+ */
 export function decode (f, o) {
   var step = STEPS[unaltered(f)]
   var alt = Math.floor((f + 1) / 7)

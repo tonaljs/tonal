@@ -18,7 +18,7 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "tonal-array": "^0.63.0",
+    "tonal-harmonizer": "^0.63.0",
     "tonal-dictionary": "^0.61.0",
     "tonal-pitch": "^0.61.0"
   }

@@ -87,7 +87,5 @@ function fillStr (s, num) { return Array(num + 1).join(s) }
  * toAcc(-3) // => 'bbb'
  */
 export function toAcc (n) {
-  return n === 0 ? ''
-    : n < 0 ? fillStr('b', -n)
-    : fillStr('#', n)
+  return !n ? '' : n < 0 ? fillStr('b', -n) : fillStr('#', n)
 }

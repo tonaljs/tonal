@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>midi - Postman Documentation</title>
+    <title>harmonizer - Postman Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,7 +28,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">midi</h1>
+    <h1 class="page-title">harmonizer</h1>
     
 
     
@@ -50,8 +50,9 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Functions related to midi note numbers exclusively. This is not about midi
-but about midi note numbers.</p></div>
+            <div class="description"><p>Functions to transpose o calculate distances from a collection of notes.</p>
+<p>A useful concept is <em>harmonizer</em>: a function that <em>harmonizes</em> notes. It can
+be created by partially applying the <code>harmonize</code> function (see examples)</p></div>
         
 
         
@@ -120,13 +121,21 @@ but about midi note numbers.</p></div>
 
 
 
-    <h5>Example</h5>
+    <h5>Examples</h5>
     
-    <pre class="prettyprint"><code>var midi = require('tonal-midi')
-midi.toMidi('A4') // => 69
-midi.toNote(69) // => 'A4'
-midi.toNote(61) // => 'Db4'
-midi.toNote(61, true) // => 'C#4'</code></pre>
+    <pre class="prettyprint"><code>var harmonizer = require('tonal-harmonizer')
+harmonizer.harmonize('1P 3M 5P', 'C') // => ['C', 'E', 'G']
+var maj7 = harmonizer.harmonize('1P 3M 5P 7M')
+maj7('D4') // =>  ['D4', 'F#4', 'A4', 'C#5']
+harmonizer.harmonics('C E G') // => ['1P', '3M', '5P']</code></pre>
+
+    <pre class="prettyprint"><code>// in tonal this functions are NOT namespaced
+var tonal = require('tonal')
+tonal.harmonize('1P 3M 5P', 'G')</code></pre>
+
+    <pre class="prettyprint"><code>// using ES6 import syntax
+import { harmonize } from 'tonal-harmonizer'
+harmonize(...)</code></pre>
 
 
 
@@ -154,15 +163,14 @@ midi.toNote(61, true) // => 'C#4'</code></pre>
 
     
 
-    <h4 class="name" id=".toMidi"><span class="type-signature">(static) </span>toMidi<span class="signature">(note)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+    <h4 class="name" id=".harmonics"><span class="type-signature">(static) </span>harmonics<span class="signature">(notes)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Convert the given note to a midi note number. If you pass a midi number it
-will returned as is.</p>
+    <p>Given a list of notes, return the distance from the first note to the rest.</p>
 </div>
 
 
@@ -194,6 +202,194 @@ will returned as is.</p>
     </thead>
 
     <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>notes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the list of notes</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the intervals</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>harmonizer.harmonics('C E G') // => ['1P', '3M', '5P']</code></pre>
+
+    <pre class="prettyprint"><code>// in tonal this functions are NOT namespaced
+tonal.harmonics(tonal.scale('C major')) // => ['1P', ...]</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".harmonize"><span class="type-signature">(static) </span>harmonize<span class="signature">(list, note)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Given a list of intervals and a tonic, return that tonic transposed
+to that intervals.</p>
+<p>It's currified and, calling with only one parameter, returns an harmonizer,
+a function that harmonizes any note (see example)</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>list</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the list of intervals</p></td>
+        </tr>
+
     
 
         <tr>
@@ -204,97 +400,94 @@ will returned as is.</p>
             <td class="type">
             
                 
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Pitch</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the note to be harmonized</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the resulting notes</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
 <span class="param-type">Array</span>
-|
-
-<span class="param-type">String</span>
-|
-
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the note to get the midi number from</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>the midi number or null if not valid pitch</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Integer</span>
 
 
     </dd>
@@ -303,192 +496,17 @@ will returned as is.</p>
     
 
 
-    <h5>Example</h5>
+    <h5>Examples</h5>
     
-    <pre class="prettyprint"><code>midi.toMidi('C4') // => 60
-midi.toMidi(60) // => 60
-midi.toMidi('60') // => 60</code></pre>
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".toNote"><span class="type-signature">(static) </span>toNote<span class="signature">(midi, useSharps)</span><span class="type-signature"> &rarr; {String}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Given a midi number, returns a note name. The altered notes will have
-flats.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>midi</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Integer</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the midi note number</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>useSharps</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>(Optional) set to true to use sharps instead of flats</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>the note name</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">String</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>var midi = require('tonal-midi')
-midi.toNote(61) // => 'Db4'
-midi.toNote(61, true) // => 'C#4'
-// it rounds to nearest note
-midi.toNote(61.7) // => 'D4'</code></pre>
+    <pre class="prettyprint"><code>harmonizer.harmonize('P1 M3 P5 M7', 'C') // => ['C', 'E', 'G', 'B']</code></pre>
+
+    <pre class="prettyprint"><code>// harmonizer with partial application
+var maj7 = harmonize.harmonizer('P1 M3 P5 M7')
+maj7('C') // => ['C', 'E', 'G', 'B']</code></pre>
+
+    <pre class="prettyprint"><code>// in tonal this function is NOT namespaced
+var C = tonal.harmonizer('C D E')
+C('M3') // => ['E', 'G#', 'B']</code></pre>
 
 
 

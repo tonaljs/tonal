@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.64.1
+
+`tonal-note`
+- TODO: add oct
+
+## 0.64.0
+
+`tonal-array`
+- remove listFn (now is private)
+- Move harmonizer, harmonize and harmonics to tonal-harmonizer
+
+`tonal-harmonizer`
+- New module with: harmonizer, harmonize, harmonics
+
+`tonal-progression`
+- rename build to concrete
+- add abstract function to convert from chords to roman numerals
+
+`tonal-interval`
+- add props, num, value and alt functions
+
+`tonal-notation`
+- toAcc returns an empty array when is called without a number
+
 ## 0.63.1
 
 `tonal-note`

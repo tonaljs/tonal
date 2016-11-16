@@ -2,9 +2,22 @@ var test = require('tape')
 var prog = require('..')
 function exec (str) { return prog.romanRegex().exec(str).slice(0, 4) }
 
-test('build progression', function (t) {
-  t.deepEqual(prog.build('I IIm7 V7', 'C'), ['C', 'Dm7', 'G7'])
-  t.deepEqual(prog.build('Imaj7 2 IIIm7', 'C'), [ 'Cmaj7', null, 'Em7' ])
+test('progression: concrete', function (t) {
+  t.deepEqual(prog.concrete('I IIm7 V7', 'C'), ['C', 'Dm7', 'G7'])
+  t.deepEqual(prog.concrete('Imaj7 2 IIIm7', 'C'), [ 'Cmaj7', null, 'Em7' ])
+  t.end()
+})
+
+test('progression: abstract', function (t) {
+  t.deepEqual(prog.abstract('Cmaj7 Dm7 G7', 'C'), [ 'Imaj7', 'IIm7', 'V7' ])
+  t.end()
+})
+
+test('progressions: build roman chord', function (t) {
+  t.deepEqual([0, 1, 2, 3, 4, 5, 6, 7, 8].map(function (n) { return prog.buildRoman(n) }),
+    [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'I', 'II' ])
+  t.equal(prog.buildRoman(2, -1), 'bIII')
+  t.equal(prog.buildRoman(3, 1, 'dim'), '#IVdim')
   t.end()
 })
 

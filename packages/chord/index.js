@@ -6,7 +6,7 @@
 import { get as getter, keys } from 'tonal-dictionary'
 import { parseIvl } from 'tonal-pitch'
 import { regex } from 'note-parser'
-import { harmonize } from 'tonal-array'
+import { harmonize } from 'tonal-harmonizer'
 
 var DATA = require('./chords.json')
 
@@ -68,8 +68,27 @@ export function get (name) {
   if (!p) return []
   // it has note and chord name
   if (p[4]) return build(p[4], p[1] + p[2] + p[3])
-  // doesn't have chord name: the name is the octave (example: 'C7' is dominant)
   return build(p[3], p[1] + p[2])
+}
+
+/**
+ * Try to parse a chord name. It returns an array with the chord name and
+ * the tonic. If not tonic is found, all the name is considered the chord
+ * name
+ * @param {String} name - the chord name
+ * @return {Array} an array with [chordType, tonic]
+ * @example
+ * chord.parse('Cmaj7') // => ['maj7', 'C']
+ * chord.parse('C7') // => ['7', 'C']
+ * chord.parse('mMaj7') // => ['mMaj7', null]
+ */
+export function parse (name) {
+  var p = regex().exec(name)
+  if (!p) return [name, null]
+  // it can have a chord name: Cmaj7 is ['maj7', 'C']
+  // or if not, the octave is treated as chord name: C7 is ['7', 'C']
+  // doesn't have chord name: the name is the octave (example: 'C7' is dominant)
+  return p[4] ? [p[4], p[1] + p[2] + p[3]] : [p[3], p[1] + p[2]]
 }
 
 export default get

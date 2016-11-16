@@ -39,34 +39,14 @@ test('array: shuffle', function (t) {
   t.end()
 })
 
-test('harmonics', function (t) {
-  t.deepEqual(_.harmonics('C E G'), [ '1P', '3M', '5P' ])
-  t.deepEqual(_.harmonics('C2 E3 G4'), [ '1P', '10M', '19P' ])
-  t.deepEqual(_.harmonics('x y z'), [])
-  t.end()
-})
-
-test('harmonizer', function (t) {
-  t.deepEqual(_.harmonize('1P 3M 5P', 'A4'), [ 'A4', 'C#5', 'E5' ])
-  t.deepEqual(_.harmonize('C E G', 'M3'), [ 'E', 'G#', 'B' ])
-
-  t.deepEqual(_.harmonize('C blah D', '7m'), [ 'Bb', 'C' ])
-  t.deepEqual(_.harmonize(null, '7m'), [])
-  t.deepEqual(_.harmonize('c d e', null), [ 'C', 'D', 'E' ])
-
-  var maj7 = _.harmonizer('1P 3M 5P 7M')
-  t.deepEqual(maj7('Bb'), [ 'Bb', 'D', 'F', 'A' ])
-  t.end()
-})
-
-test('rotate', function (t) {
+test('array: rotate', function (t) {
   t.deepEqual(_.rotate(1, 'c d e'), ['d', 'e', 'c'])
   t.deepEqual(_.rotate(-1, 'c d e'), [ 'e', 'c', 'd' ])
   t.deepEqual(_.rotate(0, 'c d e'), [ 'c', 'd', 'e' ])
   t.end()
 })
 
-test('rotateAsc', function (t) {
+test('array: rotateAsc', function (t) {
   t.deepEqual(_.rotateAsc(1, 'c d e'), ['D', 'E', 'C'])
   t.deepEqual(_.rotateAsc(-1, 'c d e'), [ 'E', 'C', 'D' ])
   t.deepEqual(_.rotateAsc(0, 'c d e'), [ 'C', 'D', 'E' ])

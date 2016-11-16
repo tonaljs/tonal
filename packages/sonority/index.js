@@ -3,8 +3,8 @@
  * @module sonority
  */
 import { ic } from 'tonal-interval'
-import { parseNote, isNotePitch, chr } from 'tonal-pitch'
-import { listFn } from 'tonal-array'
+import { asNotePitch, chr } from 'tonal-pitch'
+import { map, compact } from 'tonal-array'
 
 /**
  * Get the intervals analysis of a collection of notes
@@ -29,13 +29,12 @@ import { listFn } from 'tonal-array'
  * seconds, would be recognized as a highly dissonant sound, while the symbol
  * `pmn` would indicate a consonant sound.
  *
- * @function
  * @param {Array|String} notes - the notes to analyze
  * @return {Array} the _pmnsdt_ array
  */
-export var density = listFn(function (list) {
+export function density (list) {
   var a, b, i
-  var notes = list.filter(isNotePitch).map(parseNote)
+  var notes = compact(map(asNotePitch, list))
   var len = notes.length
   var result = [0, 0, 0, 0, 0, 0]
   for (a = 0; a < len; a++) {
@@ -46,4 +45,4 @@ export var density = listFn(function (list) {
     }
   }
   return result
-})
+}

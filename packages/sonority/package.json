@@ -9,14 +9,13 @@
     "tonal"
   ],
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f cjs -n sonority -o build/tonal-sonority.js -- index.js",
-    "prepublish": "npm test"
+    "pretest": "rollup -f cjs -o build/index.js -- index.js",
+    "test": "tape test/*.js"
   },
   "main": "build/index.js",
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  "devDependencies": {},
   "dependencies": {
     "tonal-array": "^0.63.0",
     "tonal-interval": "^0.61.0",

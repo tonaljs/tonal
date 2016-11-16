@@ -14,7 +14,8 @@ import { areFlats, areSharps, toAcc } from 'tonal-notation'
 import { transpose, trFifths } from 'tonal-transpose'
 import { pc } from 'tonal-note'
 import { numeric } from 'tonal-range'
-import { rotate, harmonics, harmonize } from 'tonal-array'
+import { rotate } from 'tonal-array'
+import { harmonics, harmonize } from 'tonal-harmonizer'
 
 var isArr = Array.isArray
 // Order matters: use an array

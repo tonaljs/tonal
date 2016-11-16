@@ -46,6 +46,60 @@ export function toInterval (ivl) {
 }
 
 /**
+ * Get the number of the interval (same as value, but always positive)
+ *
+ * @param {String|Pitch} interval - the interval
+ * @return {Integer} the positive interval number (P1 is 1, m2 is 2, ...)
+ * @example
+ * interval.num('m2') // => 2
+ * interval.num('P9') // => 9
+ * interval.num('P-4') // => 4
+ */
+export function num (ivl) {
+  var p = props(ivl)
+  return p ? p.num : null
+}
+
+/**
+ * Get the interval value (the interval number, but positive or negative
+ * depending the interval direction)
+ *
+ * @param {String|Pitch} interval - the interval
+ * @return {Integer} the positive interval number (P1 is 1, m-2 is -2, ...)
+ * @example
+ * interval.num('m2') // => 2
+ * interval.num('m9') // => 9
+ * interval.num('P-4') // => -4
+ * interval.num('m-9') // => -9
+ */
+export function value (ivl) {
+  var p = props(ivl)
+  return p ? p.num * p.dir : null
+}
+
+/**
+ * Get interval properties. It returns an object with:
+ *
+ * - num: the interval number (always positive)
+ * - alt: the interval alteration (0 for perfect in perfectables, or 0 for major in _majorables_)
+ * - dir: the interval direction (1 ascending, -1 descending)
+ *
+ * @param {String|Pitch} interval - the interval
+ * @return {Array} the interval in the form [number, alt]
+ * @example
+ * interval.parse('m2') // => { num: 2, alt: -1, dir: 1 }
+ * interval.parse('m9') // => { num: 9, alt: -1, dir: 1 }
+ * interval.parse('P-4') // => { num: 4, alt: 0, dir: -1}
+ * interval.parse('m-9') // => { num: 9, alt: -1, dir: -1 }
+ */
+export function props (ivl) {
+  var i = asIvlPitch(ivl)
+  if (!i) return null
+  var d = decode(i)
+  return { num: d[0] + 1 + d[2] * 7, alt: d[1], dir: i[2] }
+}
+
+/**
  * Get size in semitones of an interval
  * @param {String|Pitch} ivl
  * @return {Integer} the number of semitones or null if not an interval
