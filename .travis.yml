@@ -10,4 +10,3 @@ script: npm run test-ci
 
 node_js:
  - stable
- - "0.12"
