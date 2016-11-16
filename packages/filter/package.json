@@ -1,6 +1,6 @@
 {
   "name": "tonal-filter",
-  "version": "0.62.0",
+  "version": "0.63.0",
   "description": "DEPRECATED",
   "keywords": [
     "music",
@@ -17,6 +17,5 @@
   "author": "danigb",
   "license": "MIT",
   "devDependencies": {},
-  "dependencies": {
-  }
+  "dependencies": {}
 }

@@ -1,6 +1,6 @@
 {
   "name": "tonal-fretboard",
-  "version": "0.62.0",
+  "version": "0.63.0",
   "description": "Filter notes",
   "keywords": [
     "music",
@@ -19,11 +19,11 @@
   "devDependencies": {},
   "dependencies": {
     "tonal-dictionary": "^0.61.0",
-    "tonal-array": "^0.61.0",
+    "tonal-array": "^0.63.0",
     "tonal-transpose": "^0.61.0",
     "tonal-interval": "^0.61.0",
     "tonal-note": "^0.62.0",
-    "tonal-range": "^0.62.0",
-    "tonal-pitchset": "^0.62.0"
+    "tonal-range": "^0.63.0",
+    "tonal-pitchset": "^0.63.0"
   }
 }

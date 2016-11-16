@@ -1,6 +1,6 @@
 {
   "name": "tonal-sonority",
-  "version": "0.62.0",
+  "version": "0.63.0",
   "description": "Music sonority related function",
   "keywords": [
     "music",
@@ -18,7 +18,7 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "tonal-array": "^0.61.0",
+    "tonal-array": "^0.63.0",
     "tonal-interval": "^0.61.0",
     "tonal-pitch": "^0.61.0"
   }

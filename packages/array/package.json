@@ -1,6 +1,6 @@
 {
   "name": "tonal-array",
-  "version": "0.61.0",
+  "version": "0.63.0",
   "description": "Create and manipulate arrays of notes and intervals",
   "keywords": [
     "music",
