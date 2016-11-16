@@ -1,6 +1,6 @@
 {
   "name": "tonal-key",
-  "version": "0.60.0",
+  "version": "0.61.0",
   "description": "Conversion between key numbers and note names",
   "keywords": [
     "note",
@@ -17,11 +17,11 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "tonal-notation": "^0.60.0",
-    "tonal-transpose": "^0.60.0",
-    "tonal-note": "^0.60.0",
-    "tonal-array": "^0.60.0",
-    "tonal-range": "^0.60.0",
-    "tonal-pitch": "^0.60.0"
+    "tonal-notation": "^0.61.0",
+    "tonal-transpose": "^0.61.0",
+    "tonal-note": "^0.61.0",
+    "tonal-array": "^0.61.0",
+    "tonal-range": "^0.61.0",
+    "tonal-pitch": "^0.61.0"
   }
 }

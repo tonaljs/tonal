@@ -1,6 +1,6 @@
 {
   "name": "tonal-scale",
-  "version": "0.60.0",
+  "version": "0.61.0",
   "description": "Music scales creation and manipulation",
   "keywords": [
     "music",
@@ -18,8 +18,8 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "tonal-array": "^0.60.0",
-    "tonal-dictionary": "^0.60.0",
-    "tonal-pitch": "^0.60.0"
+    "tonal-array": "^0.61.0",
+    "tonal-dictionary": "^0.61.0",
+    "tonal-pitch": "^0.61.0"
   }
 }

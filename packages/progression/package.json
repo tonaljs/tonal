@@ -1,6 +1,6 @@
 {
   "name": "tonal-progression",
-  "version": "0.60.0",
+  "version": "0.61.0",
   "description": "Create chord progression",
   "keywords": [
     "music",
@@ -18,8 +18,8 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "tonal-array": "^0.60.0",
-    "tonal-pitch": "^0.60.0",
-    "tonal-transpose": "^0.60.0"
+    "tonal-array": "^0.61.0",
+    "tonal-pitch": "^0.61.0",
+    "tonal-transpose": "^0.61.0"
   }
 }
