@@ -24,7 +24,6 @@
     "tonal-interval": "^0.60.0",
     "tonal-note": "^0.60.0",
     "tonal-range": "^0.60.0",
-    "tonal-filter": "^0.60.0",
-    "tonal-dictionary": "^0.60.0"
+    "tonal-filter": "^0.60.0"
   }
 }
