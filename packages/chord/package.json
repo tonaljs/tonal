@@ -1,6 +1,6 @@
 {
   "name": "tonal-chord",
-  "version": "0.63.0",
+  "version": "0.64.0",
   "description": "Music chords creation and manipulation",
   "keywords": [
     "music",
@@ -19,8 +19,8 @@
   "devDependencies": {},
   "dependencies": {
     "note-parser": "^2",
-    "tonal-harmonizer": "^0.63.0",
+    "tonal-harmonizer": "^0.64.0",
     "tonal-dictionary": "^0.61.0",
-    "tonal-pitch": "^0.61.0"
+    "tonal-pitch": "^0.64.0"
   }
 }

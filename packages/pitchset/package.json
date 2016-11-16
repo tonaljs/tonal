@@ -1,6 +1,6 @@
 {
   "name": "tonal-pitchset",
-  "version": "0.63.1",
+  "version": "0.64.0",
   "description": "Pitch set utilities",
   "keywords": [],
   "scripts": {
@@ -13,7 +13,7 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "tonal-note": "^0.63.1",
-    "tonal-array": "^0.63.0"
+    "tonal-note": "^0.64.0",
+    "tonal-array": "^0.64.0"
   }
 }
