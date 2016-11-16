@@ -18,8 +18,7 @@ tonal.note.chroma('Cb') // => 11
 tonal.note.simplify('B#3') // => 'C4'
 tonal.note.freq('C#2')
 tonal.note.midi('A4') // => 69
-tonal.note.fromMidi()
-tonal.note.fromFreq()
+tonal.note.fromMidi(69) // => 'A4'
 
 // interval properties
 tonal.ivl.semitones('5P') // => 7

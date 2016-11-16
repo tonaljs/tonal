@@ -1,6 +1,25 @@
 # Changelog
 
-## 0.60.0
+## 0.62.0 (MASTER)
+
+`tonal-pitchset`
+- Add toBinary, equal, subset and superset functions
+
+`tonal-note`
+- add note.midi and note.fromMidi
+- add note.freq
+
+`tonal-midi`
+- Rename fromNote to toMidi
+- Remove isValidNote
+
+`tonal-freq`
+- Rename fromFreq a toNote
+- Rename midiFromFreq a toMidi (and now it can return float numbers)
+
+## 0.61.0
+
+__Now packages are namespaced inside tonal. Instead of `tonal.invert` now we have to write `tonal.ivl.invert`__
 
 `tonal`
 - Big breaking change: the packages are now namespaced! So instead of `tonal.pc` you need to write `tonal.note.pc`

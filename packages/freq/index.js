@@ -3,12 +3,12 @@
  *
  * @example
  * var freq = require('tonal-freq')
- * freq.fromNote('A4') // => 440
+ * freq.toFreq('A4') // => 440
  * freq.toNote(440) // => 'A4'
  * freq.toNoteAndDetune(320) // => ['C4', 200]
  * @module freq
  */
-import { fromNote, toNote } from 'tonal-midi'
+import { toMidi as noteToMidi, toNote as midiToNote } from 'tonal-midi'
 
 /**
  * Return a function that converts midi or notes names to frequency using
@@ -24,7 +24,7 @@ import { fromNote, toNote } from 'tonal-midi'
  */
 export function toEqualTemp (ref) {
   return function (p) {
-    var m = fromNote(p)
+    var m = noteToMidi(p)
     return m ? Math.pow(2, (m - 69) / 12) * ref : null
   }
 }
@@ -35,10 +35,8 @@ export function toEqualTemp (ref) {
  * @param {Number|String} note - the note name or midi number
  * @return {Float} the frequency in herzs
  * @example
- * import { toFreq } from 'tonal-freq'
- * toFreq('A4') // => 440
- * // using tonal
- * tonal.toFreq('C4') // => 261.6255653005986
+ * freq.toFreq('A4') // => 440
+ * freq.toFreq('C4') // => 261.6255653005986
  */
 export var toFreq = toEqualTemp(440)
 
@@ -51,8 +49,8 @@ export var toFreq = toEqualTemp(440)
  */
 export function fromEqualTemp (ref) {
   return function (freq) {
-    var midiNum = 12 * (Math.log(freq) - Math.log(ref)) / Math.log(2) + 69
-    return Math.round(midiNum)
+    var m = 12 * (Math.log(freq) - Math.log(ref)) / Math.log(2) + 69
+    return Math.round(m * 100) / 100
   }
 }
 
@@ -63,16 +61,20 @@ export function fromEqualTemp (ref) {
  * @return {Integer} midi number
  * @function
  */
-export var midiFromFreq = fromEqualTemp(440)
+export var toMidi = fromEqualTemp(440)
 
 /**
  * Get note name from frequency using an equal temperament scale with 440Hz
  * as reference
+ *
  * @param {Float} freq
  * @return {String} note name
+ * @example
+ * freq.toNote(440) // => 'A4'
  */
-export function fromFreq (freq) {
-  return toNote(midiFromFreq(freq))
+export function toNote (freq) {
+  console.log('joder', toMidi(freq), Math.round(toMidi(freq)))
+  return midiToNote(toMidi(freq))
 }
 
 /**

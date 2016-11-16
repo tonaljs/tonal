@@ -2,10 +2,8 @@
   "name": "tonal",
   "version": "0.61.0",
   "description": "A functional music theory library",
-  "main": "build/index.js",
-  "jsnext:main": "index.js",
+  "main": "index.js",
   "scripts": {
-    "pretest": "rollup -f cjs -o build/index.js -- index.js",
     "test": "tape test/*.js"
   },
   "homepage": "https://github.com/danigb/tonal#readme",

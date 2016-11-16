@@ -16,6 +16,30 @@
  */
 import { fifths, asNotePitch, strNote, parseIvl, chr } from 'tonal-pitch'
 import { transpose as tr } from 'tonal-transpose'
+import { toMidi, toNote as midiToNote } from 'tonal-midi'
+
+/**
+ * Get the note midi number (an alias of midi.toMidi)
+ *
+ * @function
+ * @param {Array|String|Number} note - the note to get the midi number from
+ * @return {Integer} the midi number or null if not valid pitch
+ * @example
+ * note.midi('C4') // => 60
+ */
+export var midi = toMidi
+
+/**
+ * Get the note name of a given midi note number
+ *
+ * @function
+ * @param {Integer} midi - the midi note number
+ * @param {Boolean} useSharps - (Optional) set to true to use sharps instead of flats
+ * @return {String} the note name
+ * @example
+ * note.fromMidi(60) // => 'C4'
+ */
+export var fromMidi = midiToNote
 
 /**
  * Return the chroma of a note. The chroma is the numeric equivalent to the

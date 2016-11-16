@@ -14,13 +14,13 @@ tape('midi number to frequency', function (test) {
 })
 
 tape('midi number from frequency', function (test) {
-  test.equal(freq.midiFromFreq(220), 57)
-  test.equal(freq.midiFromFreq(261.62), 60)
+  test.equal(freq.toMidi(220), 57)
+  test.equal(freq.toMidi(261.62), 60)
   test.end()
 })
 
 tape('note name from frequency', function (test) {
-  test.equal(freq.fromFreq(261), 'C4')
+  test.equal(freq.toNote(261), 'C4')
   test.end()
 })
 

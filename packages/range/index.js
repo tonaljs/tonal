@@ -20,12 +20,12 @@
  */
 import { asArr, cMap } from 'tonal-array'
 import { trFifths } from 'tonal-transpose'
-import { fromNote, toNote } from 'tonal-midi'
+import { toMidi, toNote } from 'tonal-midi'
 import { scaleFilter } from 'tonal-filter'
 
 function isNum (n) { return typeof n === 'number' }
 // convert notes to midi if needed
-function asNum (n) { return isNum(n) ? n : fromNote(n) }
+function asNum (n) { return isNum(n) ? n : toMidi(n) }
 // ascending range
 function ascR (b, n) { for (var a = []; n--; a[n] = n + b); return a }
 // descending range

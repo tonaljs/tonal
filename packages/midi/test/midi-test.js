@@ -4,42 +4,33 @@ var map = function (fn, s) {
   return (Array.isArray(s) ? s : s.split(' ')).map(fn)
 }
 
-test('midi: isValidNote', function (t) {
-  t.deepEqual(map(midi.isValidNote, [-1, 0, 127, 128]),
-  [ false, true, true, false ])
-  t.equal(midi.isValidNote([4]), false)
-  t.equal(midi.isValidNote(null), false)
-  t.equal(midi.isValidNote(), false)
-  t.end()
-})
-
-test('midi: fromNote - map note names to note numbers', function (t) {
-  t.deepEqual(map(midi.fromNote, 'C4 D4 E4 F4 G4 A4 B4 C5'),
+test('midi: toMidi - map note names to note numbers', function (t) {
+  t.deepEqual(map(midi.toMidi, 'C4 D4 E4 F4 G4 A4 B4 C5'),
   [ 60, 62, 64, 65, 67, 69, 71, 72 ])
-  t.deepEqual(map(midi.fromNote, 'C4 B#3 Dbb4'), [60, 60, 60])
+  t.deepEqual(map(midi.toMidi, 'C4 B#3 Dbb4'), [60, 60, 60])
   t.end()
 })
-test('midi: fromNote - pitch classes do not have midi', function (t) {
-  t.deepEqual(map(midi.fromNote, 'C D E F G A B'),
+test('midi: toMidi - pitch classes do not have midi', function (t) {
+  t.deepEqual(map(midi.toMidi, 'C D E F G A B'),
   [ null, null, null, null, null, null, null ])
   t.end()
 })
-test('midi: fromNote - midi numbers are bypassed', function (t) {
-  t.equal(midi.fromNote(72), 72)
-  t.ok(midi.fromNote('60') === 60)
+test('midi: toMidi - midi numbers are bypassed', function (t) {
+  t.equal(midi.toMidi(72), 72)
+  t.ok(midi.toMidi('60') === 60)
   t.end()
 })
-test('midi: fromNote - invalid values', function (t) {
-  t.equal(midi.fromNote(null), null)
-  t.equal(midi.fromNote(-1), null)
-  t.equal(midi.fromNote(128), null)
+test('midi: toMidi - invalid values', function (t) {
+  t.equal(midi.toMidi(null), null)
+  t.equal(midi.toMidi(-1), null)
+  t.equal(midi.toMidi(128), null)
   t.end()
 })
-test('midi: fromNote - accepts pitch in array notation', function (t) {
-  t.equal(midi.fromNote([0, 4]), 60)
-  t.equal(midi.fromNote([3, 3]), 69)
+test('midi: toMidi - accepts pitch in array notation', function (t) {
+  t.equal(midi.toMidi([0, 4]), 60)
+  t.equal(midi.toMidi([3, 3]), 69)
   // pitch classes doesn't have midi
-  t.equal(midi.fromNote([5]), null)
+  t.equal(midi.toMidi([5]), null)
   t.end()
 })
 test('midi: toNote - get names from midi numbers', function (t) {

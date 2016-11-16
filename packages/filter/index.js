@@ -8,7 +8,7 @@
  */
 import { pc, chroma } from 'tonal-note'
 import { map } from 'tonal-array'
-import { fromNote } from 'tonal-midi'
+import { toMidi } from 'tonal-midi'
 
 /**
  * This function filter notes using a scale. Given a scale and a note, it
@@ -39,7 +39,7 @@ export function scaleFilter (notes, m) {
   var scale = map(pc, notes)
   var chromas = map(chroma, scale)
   return function (note) {
-    var midi = fromNote(note)
+    var midi = toMidi(note)
     var m = midi !== null ? midi - 12 : chroma(note)
     var pcIndex = chromas.indexOf(m % 12)
     return pcIndex > -1 ? scale[pcIndex] + Math.floor(m / 12) : null

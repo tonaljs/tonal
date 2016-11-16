@@ -1,53 +1,26 @@
+'use strict'
 
-export {
-  toEqualTemp, toFreq, midiFromFreq, fromFreq, cents, fromEqualTemp
-} from 'tonal-freq'
+var assign = Object.assign
+var tonal = {}
 
-export {
-  transpose, trFifths
-} from 'tonal-transpose'
+assign(tonal, require('tonal-array'))
+assign(tonal, require('tonal-transpose'))
+assign(tonal, require('tonal-distance'))
 
-export {
-  interval, semitones
-} from 'tonal-distance'
+tonal.note = require('tonal-note')
+tonal.ivl = require('tonal-interval')
+tonal.midi = require('tonal-midi')
+tonal.freq = require('tonal-freq')
+tonal.range = require('tonal-range')
 
-export {
-  scaleFilter
-} from 'tonal-filter'
+tonal.scale = function (name) { return tonal.scale.get(name) }
+assign(tonal.scale, require('tonal-scale'))
+tonal.chord = function (name) { return tonal.chord.get(name) }
+assign(tonal.chord, require('tonal-chord'))
 
-export {
-  asArr, map, filter, listFn, harmonizer, harmonize, harmonics,
-  rotate, rotateAsc, select, sort, shuffle, compact, cMap
-} from 'tonal-array'
+tonal.pitch = require('tonal-pitch')
+tonal.notation = require('tonal-notation')
+tonal.progression = require('tonal-progression')
+tonal.sonority = require('tonal-sonority')
 
-import * as Note from 'tonal-note'
-export var note = Note
-
-import * as Ivl from 'tonal-interval'
-export var ivl = Ivl
-
-import * as Midi from 'tonal-midi'
-export var midi = Midi
-
-import * as Range from 'tonal-range'
-export var range = Range
-
-import * as Scale from 'tonal-scale'
-export function scale (name) { return Scale.get(name) }
-Object.assign(scale, Scale)
-
-import * as Chord from 'tonal-chord'
-export function chord (name) { return Chord.get(name) }
-Object.assign(chord, Chord)
-
-import * as Pitch from 'tonal-pitch'
-export var pitch = Pitch
-
-import * as Not from 'tonal-notation'
-export var notation = Not
-
-import * as Prog from 'tonal-progression'
-export var progression = Prog
-
-import * as Son from 'tonal-sonority'
-export var sonority = Son
+module.exports = tonal
