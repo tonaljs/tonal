@@ -32,6 +32,7 @@
     "tonal-scale": "^0.60.0",
     "tonal-chord": "^0.60.0",
     "tonal-notation": "^0.60.0",
+    "tonal-pitch": "^0.60.0",
     "tonal-transpose": "^0.60.0",
     "tonal-progression": "^0.60.0",
     "tonal-sonority": "^0.60.0"

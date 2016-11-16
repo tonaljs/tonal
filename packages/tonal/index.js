@@ -1,22 +1,4 @@
 
-import * as Note from 'tonal-note'
-export var note = Note
-
-import * as Ivl from 'tonal-interval'
-export var ivl = Ivl
-
-import * as Midi from 'tonal-midi'
-export var midi = Midi
-
-import * as Not from 'tonal-notation'
-export var notation = Not
-
-import * as Prog from 'tonal-progression'
-export var progression = Prog
-
-import * as Son from 'tonal-sonority'
-export var sonority = Son
-
 export {
   toEqualTemp, toFreq, midiFromFreq, fromFreq, cents, fromEqualTemp
 } from 'tonal-freq'
@@ -38,11 +20,34 @@ export {
   rotate, rotateAsc, select, sort, shuffle, compact, cMap
 } from 'tonal-array'
 
+import * as Note from 'tonal-note'
+export var note = Note
+
+import * as Ivl from 'tonal-interval'
+export var ivl = Ivl
+
+import * as Midi from 'tonal-midi'
+export var midi = Midi
+
 import * as Range from 'tonal-range'
 export var range = Range
 
 import * as Scale from 'tonal-scale'
-export var scale = Scale
+export function scale (name) { return Scale.get(name) }
+Object.assign(scale, Scale)
 
 import * as Chord from 'tonal-chord'
-export var chord = Chord
+export function chord (name) { return Chord.get(name) }
+Object.assign(chord, Chord)
+
+import * as Pitch from 'tonal-pitch'
+export var pitch = Pitch
+
+import * as Not from 'tonal-notation'
+export var notation = Not
+
+import * as Prog from 'tonal-progression'
+export var progression = Prog
+
+import * as Son from 'tonal-sonority'
+export var sonority = Son
