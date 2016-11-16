@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "0.63.0",
+  "version": "0.63.1",
   "description": "A functional music theory library",
   "main": "index.js",
   "scripts": {
@@ -25,8 +25,8 @@
     "tonal-freq": "^0.62.0",
     "tonal-interval": "^0.61.0",
     "tonal-midi": "^0.62.0",
-    "tonal-note": "^0.62.0",
-    "tonal-range": "^0.63.0",
+    "tonal-note": "^0.63.1",
+    "tonal-range": "^0.63.1",
     "tonal-scale": "^0.63.0",
     "tonal-chord": "^0.63.0",
     "tonal-notation": "^0.61.0",
