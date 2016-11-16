@@ -7,7 +7,7 @@ import { transpose } from 'tonal-transpose'
 import { pc } from 'tonal-note'
 import { asArr, compact, map } from 'tonal-array'
 import { numeric } from 'tonal-range'
-import { scaleFilter } from 'tonal-filter'
+import { includes } from 'tonal-pitchset'
 
 var DICT = require('./tunings.json')
 
@@ -61,20 +61,24 @@ export var names = keys(DICT)
  * @param {String|Array} tuning - the tuning name or notes
  * @param {Integer} first - the first fret number
  * @param {Integer} last - the last fret number
- * @param {Array|String} filter - a scale or chord to filter the fretboard
+ * @param {Array|String} set - a scale or chord to filter the fretboard
  * @return {Array} An array of arrays, one for each string
  */
-export function notes (tun, first, last, filter) {
+export function notes (tun, first, last, set) {
   first = first || 0
   last = last || first
   var ivls = numeric([first, last]).map(fromSemitones)
   var notes = tuning(tun) || asArr(tun)
-  var filterFn = filter ? map(scaleFilter(filter)) : id
+  var filterFn = set ? map(includedIn(set)) : id
   return notes.map(function (b) {
     return ivls.map(transpose(b))
   }).map(filterFn)
 }
 function id (o) { return o }
+function includedIn (set) {
+  var isInSet = includes(set)
+  return function (n) { return isInSet(n) ? n : null }
+}
 
 /**
  * Build a fretboard only showing the notes for the given scale.

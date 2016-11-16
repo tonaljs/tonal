@@ -75,25 +75,6 @@ export function map (fn, list) {
 }
 
 /**
- * Compact map: map an array with a function and remove nulls.
- * Can be partially applied.
- * @param {Function} fn
- * @param {Array|String} list
- * @return {Array}
- * @see map
- * @example
- * var _ = require('tonal')
- * _.cMap(_.noteName, 'c d e x g') // => ['C', 'D', 'E', 'G']
- * // partially application
- * var notes = _.cMap(_.noteName)
- * notes('e f g h i j') // => ['E', 'F', 'G']
- */
-export function cMap (fn, list) {
-  if (arguments.length === 1) return function (l) { return cMap(fn, list) }
-  return map(fn, list).filter(hasVal)
-}
-
-/**
  * Return a copy of the array with the null values removed
  * @param {String|Array} list
  * @return {Array}
@@ -150,7 +131,7 @@ export function harmonics (list) {
  */
 export function harmonizer (list) {
   return function (tonic) {
-    return cMap(tr(tonic || 'P1'), list)
+    return compact(map(tr(tonic || 'P1'), list))
   }
 }
 

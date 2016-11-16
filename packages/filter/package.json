@@ -1,7 +1,7 @@
 {
   "name": "tonal-filter",
   "version": "0.62.0",
-  "description": "Filter notes",
+  "description": "DEPRECATED",
   "keywords": [
     "music",
     "theory",
@@ -18,8 +18,5 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "tonal-array": "^0.61.0",
-    "tonal-midi": "^0.62.0",
-    "tonal-note": "^0.62.0"
   }
 }

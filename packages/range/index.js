@@ -18,10 +18,10 @@
  g
  * @module range
  */
-import { asArr, cMap } from 'tonal-array'
+import { asArr, map } from 'tonal-array'
 import { trFifths } from 'tonal-transpose'
 import { toMidi, toNote } from 'tonal-midi'
-import { scaleFilter } from 'tonal-filter'
+import { filter } from 'tonal-pitchset'
 
 function isNum (n) { return typeof n === 'number' }
 // convert notes to midi if needed
@@ -72,7 +72,7 @@ export function numeric (list) {
  * tonal.chromatic('C2 C3', true) // => [ 'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2', 'C3' ]
  */
 export function chromatic (list, sharps) {
-  return cMap(toNote(sharps === true), numeric(list))
+  return map(toNote(sharps === true), numeric(list))
 }
 
 /**
@@ -101,10 +101,8 @@ export function fifths (tonic, range) {
  * range.pitchSet('C D E F G A B', ['C3', 'C2'])
  * // => [ 'C3', 'B2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
  */
-export function pitchSet (src, range) {
-  if (arguments.length === 1) return function (l) { return pitchSet(src, l) }
+export function pitchSet (set, range) {
+  if (arguments.length === 1) return function (l) { return pitchSet(set, l) }
 
-  // TODO: chromatic(range).filter(isPitchSet(pitchSet))
-  var fn = typeof src === 'function' ? src : scaleFilter(src)
-  return cMap(fn, numeric(range))
+  return filter(set, chromatic(range))
 }

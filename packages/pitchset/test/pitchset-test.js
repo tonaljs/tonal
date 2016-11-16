@@ -26,3 +26,15 @@ test('pitchset: equal', function (t) {
   t.ok(pitchset.equal('c2 d3 e7 f5', 'c4 c d5 e6 f1'))
   t.end()
 })
+
+test('pitchset: includes', function (t) {
+  t.equal(pitchset.includes('c d e', 'C4'), true)
+  t.equal(pitchset.includes('c d e', 'C#4'), false)
+  t.end()
+})
+
+test('pitchset: filter', function (t) {
+  t.deepEqual(pitchset.filter('c d e', 'c2 c#2 d2 c3 c#3 d3'),
+    [ 'c2', 'd2', 'c3', 'd3' ])
+  t.end()
+})

@@ -2,41 +2,34 @@ var test = require('tape')
 var _ = require('../')
 function up (s) { return s.toUpperCase() }
 
-test('asArr', function (t) {
+test('array: asArr', function (t) {
   t.deepEqual(_.asArr('a b c'), [ 'a', 'b', 'c' ])
   t.deepEqual(_.asArr('a |  b    |  c   '), ['a', 'b', 'c'])
   t.deepEqual(_.asArr('a , b  | c    d'), ['a', 'b', 'c', 'd'])
   t.end()
 })
 
-test('map', function (t) {
+test('array: map', function (t) {
   t.deepEqual(_.map(up, 'a bb cx'), [ 'A', 'BB', 'CX' ])
   var ups = _.map(up)
   t.deepEqual(ups('a bb cx'), [ 'A', 'BB', 'CX' ])
   t.end()
 })
 
-test('cMap', function (t) {
-  function even (x) { return x % 2 ? null : x }
-  t.deepEqual(_.cMap(even, [1, 2, 3, 4]), [ 2, 4 ])
-  t.deepEqual(_.cMap(even, [-2, -1, 0, 1, 2, 3, 4]), [ -2, 0, 2, 4 ])
-  t.end()
-})
-
-test('compact', function (t) {
+test('array: compact', function (t) {
   t.deepEqual(_.compact(['a', null, 'b']), ['a', 'b'])
   t.deepEqual(_.compact([0, 1, 2, 3, null, 4]), [ 0, 1, 2, 3, 4 ])
   t.end()
 })
 
-test('filter', function (t) {
+test('array: filter', function (t) {
   function isUpLetter (s) { return 'CDEFGAB'.indexOf(s[0]) !== -1 }
   t.deepEqual(_.filter(isUpLetter, 'C d f4 A4 M3'),
   [ 'C', 'A4' ])
   t.end()
 })
 
-test('shuffle', function (t) {
+test('array: shuffle', function (t) {
   var s = _.shuffle('A B C D')
   t.equal(s.length, 4)
   t.notEqual(s.indexOf('A'), -1)

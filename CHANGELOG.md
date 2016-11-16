@@ -1,6 +1,18 @@
 # Changelog
 
-## 0.62.0 (MASTER)
+## 0.63.0
+
+`tonal-pitchset`
+- Add includes
+- Add filter
+
+`tonal-array`
+- Remove cMap
+
+`tonal-filter`
+- Deprecated
+
+## 0.62.0
 
 `tonal-pitchset`
 - Add toBinary, equal, subset and superset functions
