@@ -17,20 +17,24 @@
 import { fifths, asNotePitch, strNote, parseIvl, chr } from 'tonal-pitch'
 import { transpose as tr } from 'tonal-transpose'
 import { toMidi, toNote as midiToNote } from 'tonal-midi'
+import { toFreq } from 'tonal-freq'
 
 /**
- * Get the note midi number (an alias of midi.toMidi)
+ * Get the note midi number
+ * (an alias of tonal-midi `toMidi` function)
  *
  * @function
  * @param {Array|String|Number} note - the note to get the midi number from
  * @return {Integer} the midi number or null if not valid pitch
  * @example
  * note.midi('C4') // => 60
+ * @see midi.toMidi
  */
 export var midi = toMidi
 
 /**
  * Get the note name of a given midi note number
+ * (an alias of tonal-midi `toNote` function)
  *
  * @function
  * @param {Integer} midi - the midi note number
@@ -38,8 +42,22 @@ export var midi = toMidi
  * @return {String} the note name
  * @example
  * note.fromMidi(60) // => 'C4'
+ * @see midi.toNote
  */
 export var fromMidi = midiToNote
+
+/**
+ * Get the frequency of a note
+ * (an alias of the tonal-freq package `toFreq` function)
+ *
+ * @function
+ * @param {Array|String|Number} note - the note to get the frequency
+ * @return {Number} the frequency
+ * @example
+ * note.freq('A4') // => 440
+ * @see freq.toFreq
+ */
+export var freq = toFreq
 
 /**
  * Return the chroma of a note. The chroma is the numeric equivalent to the

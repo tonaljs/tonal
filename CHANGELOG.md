@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.63.1
+
+`tonal-note`
+- Add note.freq
+
 ## 0.63.0
 
 `tonal-pitchset`
@@ -19,7 +24,6 @@
 
 `tonal-note`
 - add note.midi and note.fromMidi
-- add note.freq
 
 `tonal-midi`
 - Rename fromNote to toMidi
