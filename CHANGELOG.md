@@ -1,15 +1,15 @@
 # Changelog
 
-## 0.65.0 [Master]
+## 0.65.0
 
 `tonal-note`
 - Expose note properties: props, oct, alt, step
 
 `tonal-array`
-- TODO: sort: change order of parameters to make it more JS friendly
+- sort: change order of parameters to make it more JS friendly
 
 `tonal-pitchset`
-- TODO: rename toBinary to chroma
+- rename toBinary to chroma
 
 ## 0.64.1
 

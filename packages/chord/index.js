@@ -14,7 +14,7 @@ import { parseIvl } from 'tonal-pitch'
 import { compact, sort } from 'tonal-array'
 import { regex } from 'note-parser'
 import { harmonize } from 'tonal-harmonizer'
-import { toBinary, rotations } from 'tonal-pitchset'
+import { chroma, rotations } from 'tonal-pitchset'
 
 var DATA = require('./chords.json')
 
@@ -106,12 +106,12 @@ export function parse (name) {
 
 function detector (data) {
   var dict = Object.keys(data).reduce(function (dict, key) {
-    dict[toBinary(data[key][0])] = key
+    dict[chroma(data[key][0])] = key
     return dict
   }, {})
 
   return function (notes) {
-    notes = sort(true, notes)
+    notes = sort(notes)
     var sets = rotations(notes)
     return compact(sets.map(function (set, i) {
       return dict[set] ? [dict[set], notes[i]] : null

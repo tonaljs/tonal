@@ -12,7 +12,7 @@
  *
  * @module array
  */
-import { asPitch, isPitch, strPitch, pitch } from 'tonal-pitch'
+import { asPitch, isPitch, strPitch, pitch, fifths, focts } from 'tonal-pitch'
 import { transpose as tr } from 'tonal-transpose'
 import { semitones } from 'tonal-distance'
 import * as toArr from 'as-arr'
@@ -102,11 +102,11 @@ export function filter (fn, list) {
 
 // a custom height function that
 // - returns -Infinity for non-pitch objects
-// - assumes pitch classes has octave -10 (so are sorted before that notes)
-var objHeight = function (p) {
+// - assumes pitch classes has octave -100 (so are sorted before that notes)
+function objHeight (p) {
   if (!p) return -Infinity
-  var f = p[1] * 7
-  var o = typeof p[2] === 'number' ? p[2] : -Math.floor(f / 12) - 10
+  var f = fifths(p) * 7
+  var o = focts(p) || -Math.floor(f / 12) - 100
   return f + o * 12
 }
 
@@ -116,24 +116,32 @@ function ascComp (a, b) { return objHeight(a) - objHeight(b) }
 function descComp (a, b) { return -ascComp(a, b) }
 
 /**
- * Sort an array or notes or intervals in ascending or descending pitch.
+ * Sort a list of notes or intervals in ascending or descending pitch order.
+ * It removes from the list any thing is not a pitch (a note or interval)
  *
- * @param {Array|String} arr - the array of notes or intervals
+ * Note this function returns a __copy__ of the array, it does NOT modify
+ * the original.
+ *
+ * @param {Array|String} list - the list of notes or intervals
  * @param {Boolean|Function} comp - (Optional) comparator.
- * Asceding pitch by default. `true` means ascending, `false` descending
- * comparator, or you can pass a custom comparator (that receives pitches
- * in array notation).
+ * Ascending pitch by default. Pass a `false` to order descending
+ * or a custom comparator function (that receives pitches in array notation).
+ * Note that any other value is ignored.
  * @example
  * array.sort('D E C') // => ['C', 'D', 'E']
  * array.sort('D E C', false) // => ['E', 'D', 'C']
+ * // if is not a note, it wil be removed
+ * array.sort('g h f i c') // => ['C', 'F', 'G']
  */
-export function sort (comp, list) {
-  if (arguments.length > 1) return sort(comp)(list)
-  var fn = comp === true || comp === null ? ascComp
-    : comp === false ? descComp : comp
+export function sort (list, comp) {
+  var fn = arguments.length === 1 || comp === true ? ascComp
+    : comp === false ? descComp
+    : typeof comp === 'function' ? comp : ascComp
+  // if the list is an array, make a copy
+  list = Array.isArray(list) ? list.slice() : asArr(list)
   return listFn(function (arr) {
-    return arr.sort(fn)
-  })
+    return arr.sort(fn).filter(hasVal)
+  }, list)
 }
 
 /**
@@ -201,7 +209,7 @@ export function rotateAsc (times, list) {
       else tail = tail.map(trOct(-octs))
     }
     return head.concat(tail)
-  })(list)
+  }, list)
 }
 
 /**
@@ -245,10 +253,9 @@ function listToStr (v) {
  * var octUp = listFn((p) => { p[2] = p[2] + 1; return p[2] })
  * octUp('C2 D2 E2') // => ['C3', 'D3', 'E3']
  */
-function listFn (fn) {
-  return function (list) {
-    var arr = asArr(list).map(asPitch)
-    var res = fn(arr)
-    return listToStr(res)
-  }
+function listFn (fn, list) {
+  if (arguments.length === 1) return function (l) { return listFn(fn, l) }
+  var arr = asArr(list).map(asPitch)
+  var res = fn(arr)
+  return listToStr(res)
 }

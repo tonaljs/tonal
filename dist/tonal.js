@@ -93,11 +93,11 @@ function filter (fn, list) {
 
 // a custom height function that
 // - returns -Infinity for non-pitch objects
-// - assumes pitch classes has octave -10 (so are sorted before that notes)
-var objHeight = function (p) {
+// - assumes pitch classes has octave -100 (so are sorted before that notes)
+function objHeight (p) {
   if (!p) return -Infinity
-  var f = p[1] * 7
-  var o = typeof p[2] === 'number' ? p[2] : -Math.floor(f / 12) - 10
+  var f = tonalPitch.fifths(p) * 7
+  var o = tonalPitch.focts(p) || -Math.floor(f / 12) - 100
   return f + o * 12
 }
 
@@ -107,24 +107,32 @@ function ascComp (a, b) { return objHeight(a) - objHeight(b) }
 function descComp (a, b) { return -ascComp(a, b) }
 
 /**
- * Sort an array or notes or intervals in ascending or descending pitch.
+ * Sort a list of notes or intervals in ascending or descending pitch order.
+ * It removes from the list any thing is not a pitch (a note or interval)
  *
- * @param {Array|String} arr - the array of notes or intervals
+ * Note this function returns a __copy__ of the array, it does NOT modify
+ * the original.
+ *
+ * @param {Array|String} list - the list of notes or intervals
  * @param {Boolean|Function} comp - (Optional) comparator.
- * Asceding pitch by default. `true` means ascending, `false` descending
- * comparator, or you can pass a custom comparator (that receives pitches
- * in array notation).
+ * Ascending pitch by default. Pass a `false` to order descending
+ * or a custom comparator function (that receives pitches in array notation).
+ * Note that any other value is ignored.
  * @example
  * array.sort('D E C') // => ['C', 'D', 'E']
  * array.sort('D E C', false) // => ['E', 'D', 'C']
+ * // if is not a note, it wil be removed
+ * array.sort('g h f i c') // => ['C', 'F', 'G']
  */
-function sort (comp, list) {
-  if (arguments.length > 1) return sort(comp)(list)
-  var fn = comp === true || comp === null ? ascComp
-    : comp === false ? descComp : comp
+function sort (list, comp) {
+  var fn = arguments.length === 1 || comp === true ? ascComp
+    : comp === false ? descComp
+    : typeof comp === 'function' ? comp : ascComp
+  // if the list is an array, make a copy
+  list = Array.isArray(list) ? list.slice() : asArr(list)
   return listFn(function (arr) {
-    return arr.sort(fn)
-  })
+    return arr.sort(fn).filter(hasVal)
+  }, list)
 }
 
 /**
@@ -192,7 +200,7 @@ function rotateAsc (times, list) {
       else tail = tail.map(trOct(-octs))
     }
     return head.concat(tail)
-  })(list)
+  }, list)
 }
 
 /**
@@ -236,12 +244,11 @@ function listToStr (v) {
  * var octUp = listFn((p) => { p[2] = p[2] + 1; return p[2] })
  * octUp('C2 D2 E2') // => ['C3', 'D3', 'E3']
  */
-function listFn (fn) {
-  return function (list) {
-    var arr = asArr(list).map(tonalPitch.asPitch)
-    var res = fn(arr)
-    return listToStr(res)
-  }
+function listFn (fn, list) {
+  if (arguments.length === 1) return function (l) { return listFn(fn, l) }
+  var arr = asArr(list).map(tonalPitch.asPitch)
+  var res = fn(arr)
+  return listToStr(res)
 }
 
 exports.asArr = asArr;
@@ -460,15 +467,20 @@ function get$1 (name) {
 }
 
 /**
- * Try to parse a chord name. It returns an array with the chord name and
+ * Try to parse a chord name. It returns an array with the chord type and
  * the tonic. If not tonic is found, all the name is considered the chord
- * name
+ * name.
+ *
+ * This function does NOT check if the chord type exists or not. It only tries
+ * to split the tonic and chord type.
+ *
  * @param {String} name - the chord name
- * @return {Array} an array with [chordType, tonic]
+ * @return {Array} an array with [type, tonic]
  * @example
  * chord.parse('Cmaj7') // => ['maj7', 'C']
  * chord.parse('C7') // => ['7', 'C']
  * chord.parse('mMaj7') // => ['mMaj7', null]
+ * chord.parse('Cnonsense') // => ['nonsense', 'C']
  */
 function parse (name) {
   var p = noteParser.regex().exec(name)
@@ -481,12 +493,12 @@ function parse (name) {
 
 function detector (data) {
   var dict = Object.keys(data).reduce(function (dict, key) {
-    dict[tonalPitchset.toBinary(data[key][0])] = key
+    dict[tonalPitchset.chroma(data[key][0])] = key
     return dict
   }, {})
 
   return function (notes) {
-    notes = tonalArray.sort(true, notes)
+    notes = tonalArray.sort(notes)
     var sets = tonalPitchset.rotations(notes)
     return tonalArray.compact(sets.map(function (set, i) {
       return dict[set] ? [dict[set], notes[i]] : null
@@ -1536,6 +1548,73 @@ function toNote$1 (n) {
 }
 
 /**
+ * Get note properties. It returns an object with the following properties:
+ *
+ * - step: 0 for C, 6 for B. Do not confuse with chroma
+ * - alt: 0 for not accidentals, positive sharps, negative flats
+ * - oct: the octave number or undefined if a pitch class
+ *
+ * @param {String|Pitch} note - the note
+ * @return {Object} the object with note properties or null if not valid note
+ * @example
+ * note.props('Db3') // => { step: 1, alt: -1, oct: 3 }
+ * note.props('C#') // => { step: 0, alt: 1, oct: undefined }
+ */
+function props (n) {
+  var p = tonalPitch.asNotePitch(n)
+  if (!p) return null
+  var d = tonalPitch.decode(p)
+  return { step: d[0], alt: d[1], oct: d[2] }
+}
+
+function getProp (name) {
+  return function (n) { var p = props(n); return p ? p[name] : null }
+}
+
+/**
+ * Get the octave of the given pitch
+ *
+ * @function
+ * @param {String|Pitch} note - the note
+ * @return {Integer} the octave, undefined if its a pitch class or null if
+ * not a valid note
+ * @example
+ * note.oct('C#4') // => 4
+ * note.oct('C') // => undefined
+ * note.oct('blah') // => undefined
+ */
+var oct = getProp('oct')
+
+/**
+ * Get the note step: a number equivalent of the note letter. 0 means C and
+ * 6 means B. This is different from `chroma` (see example)
+ *
+ * @function
+ * @param {String|Pitch} note - the note
+ * @return {Integer} a number between 0 and 6 or null if not a note
+ * @example
+ * note.step('C') // => 0
+ * note.step('Cb') // => 0
+ * // usually what you need is chroma
+ * note.chroma('Cb') // => 6
+ */
+var step = getProp('step')
+
+/**
+ * Get the note alteration: a number equivalent to the accidentals. 0 means
+ * no accidentals, negative numbers are for flats, positive for sharps
+ *
+ * @function
+ * @param {String|Pitch} note - the note
+ * @return {Integer} the alteration
+ * @example
+ * note.alt('C') // => 0
+ * note.alt('C#') // => 1
+ * note.alt('Cb') // => -1
+ */
+var alt = getProp('alt')
+
+/**
  * Get pitch class of a note. The note can be a string or a pitch array.
  *
  * @function
@@ -1598,6 +1677,10 @@ exports.fromMidi = fromMidi;
 exports.freq = freq;
 exports.chroma = chroma;
 exports.toNote = toNote$1;
+exports.props = props;
+exports.oct = oct;
+exports.step = step;
+exports.alt = alt;
 exports.pc = pc;
 exports.enharmonics = enharmonics;
 exports.simplify = simplify;
@@ -1815,8 +1898,7 @@ function decode$1 (p) {
  * @return {String} 'ivl' or 'note' or null if not a pitch
  */
 function pType (p) {
-  return !isPitch(p) ? null
-    : p[2] ? 'ivl' : 'note'
+  return !isPitch(p) ? null : p[2] ? 'ivl' : 'note'
 }
 /**
  * Test if is a pitch note (with or without octave)
@@ -2207,15 +2289,22 @@ var tonalPitch = require('tonal-pitch');
 var tonalArray = require('tonal-array');
 var tonalTranspose = require('tonal-transpose');
 
-function toInt (set) { return parseInt(toBinary(set), 2) }
-function chroma (p) { p = tonalPitch.asPitch(p); return p ? tonalPitch.chr(p) : null }
+function toInt (set) { return parseInt(chroma(set), 2) }
+function pitchChr (p) { p = tonalPitch.asPitch(p); return p ? tonalPitch.chr(p) : null }
 
 /**
- * Get the pitchset binary rotations of a list of notes
+ * Given a pitch set (a list of notes or a pitch set chroma), produce the 12 rotations
+ * of the chroma (and discard the ones that starts with '0')
+ *
+ * This can be used, for example, to get all the modes of a scale.
+ *
+ * @param {Array|String} set - the list of notes or pitchChr of the set
+ * @param {Boolean} normalize - (Optional, true by default) remove all
+ * the rotations that starts with '0'
  */
 function rotations (set, normalize) {
   normalize = normalize !== false
-  var binary = toBinary(set).split('')
+  var binary = chroma(set).split('')
   return tonalArray.compact(binary.map(function (_, i) {
     var r = tonalArray.rotate(i, binary)
     return normalize && r[0] === '0' ? null : r.join('')
@@ -2223,26 +2312,35 @@ function rotations (set, normalize) {
 }
 
 var REGEX = /^[01]{12}$/
+
 /**
- * Test if the given value is a pitch set in binary representation
+ * Test if the given string is a pitch set chroma.
+ * @param {String} chroma - the pitch set chroma
+ * @return {Boolean} true if its a valid pitchset chroma
+ * @example
+ * pitchset.isChroma('101010101010') // => true
+ * pitchset.isChroma('101001') // => false
  */
-function isBinary (set) {
+function isChroma (set) {
   return REGEX.test(set)
 }
 
 /**
- * Convert a pitch set into a binary representation. If the argument is
- * already a binary representation it returns it.
+ * Get chroma of a pitch set. A chroma identifies each pitch set uniquely.
+ * It's a 12-digit binary each presenting one semitone of the octave.
+ *
+ * Note that this function accepts a chroma as parameter and return it
+ * without modification.
  *
  * @param {Array|String} set - the pitch set
  * @return {String} a binary representation of the pitch set
  * @example
- * pitchset.toBinary('C D E') // => '1010100000000'
+ * pitchset.chroma('C D E') // => '1010100000000'
  */
-function toBinary (set) {
-  if (isBinary(set)) return set
+function chroma (set) {
+  if (isChroma(set)) return set
   var b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  tonalArray.map(chroma, set).forEach(function (i) {
+  tonalArray.map(pitchChr, set).forEach(function (i) {
     b[i] = 1
   })
   return b.join('')
@@ -2258,7 +2356,7 @@ function toBinary (set) {
  */
 function withTonic (tonic, set) {
   if (arguments.length === 1) return function (s) { return withTonic(tonic, s) }
-  return fromBinary(toBinary(set), tonic)
+  return fromBinary(chroma(set), tonic)
 }
 
 var IVLS = '1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M'.split(' ')
@@ -2273,7 +2371,7 @@ var IVLS = '1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M'.split(' ')
  */
 function fromBinary (binary, tonic) {
   if (arguments.length === 1) return function (t) { return fromBinary(binary, t) }
-  if (!isBinary(binary)) return null
+  if (!isChroma(binary)) return null
 
   tonic = tonic || 'P1'
   return tonalArray.compact(binary.split('').map(function (d, i) {
@@ -2292,7 +2390,7 @@ function fromBinary (binary, tonic) {
  */
 function equal (s1, s2) {
   if (arguments.length === 1) return function (s) { return equal(s1, s) }
-  return toBinary(s1) === toBinary(s2)
+  return chroma(s1) === chroma(s2)
 }
 
 /**
@@ -2335,8 +2433,8 @@ function superset (set, test) {
  */
 function includes (set, note) {
   if (arguments.length > 1) return includes(set)(note)
-  set = toBinary(set)
-  return function (note) { return set[chroma(note)] === '1' }
+  set = chroma(set)
+  return function (note) { return set[pitchChr(note)] === '1' }
 }
 
 /**
@@ -2355,8 +2453,8 @@ function filter (set, notes) {
 }
 
 exports.rotations = rotations;
-exports.isBinary = isBinary;
-exports.toBinary = toBinary;
+exports.isChroma = isChroma;
+exports.chroma = chroma;
 exports.withTonic = withTonic;
 exports.fromBinary = fromBinary;
 exports.equal = equal;

@@ -11,11 +11,11 @@ import { chr, asPitch } from 'tonal-pitch'
 import { map, asArr, rotate, compact } from 'tonal-array'
 import { transpose } from 'tonal-transpose'
 
-function toInt (set) { return parseInt(toBinary(set), 2) }
+function toInt (set) { return parseInt(chroma(set), 2) }
 function pitchChr (p) { p = asPitch(p); return p ? chr(p) : null }
 
 /**
- * Given a pitch set (a list of notes or a chroma), produce the 12 rotations
+ * Given a pitch set (a list of notes or a pitch set chroma), produce the 12 rotations
  * of the chroma (and discard the ones that starts with '0')
  *
  * This can be used, for example, to get all the modes of a scale.
@@ -26,7 +26,7 @@ function pitchChr (p) { p = asPitch(p); return p ? chr(p) : null }
  */
 export function rotations (set, normalize) {
   normalize = normalize !== false
-  var binary = toBinary(set).split('')
+  var binary = chroma(set).split('')
   return compact(binary.map(function (_, i) {
     var r = rotate(i, binary)
     return normalize && r[0] === '0' ? null : r.join('')
@@ -36,23 +36,31 @@ export function rotations (set, normalize) {
 var REGEX = /^[01]{12}$/
 
 /**
- * Test if the given value is a pitch set in binary representation
+ * Test if the given string is a pitch set chroma.
+ * @param {String} chroma - the pitch set chroma
+ * @return {Boolean} true if its a valid pitchset chroma
+ * @example
+ * pitchset.isChroma('101010101010') // => true
+ * pitchset.isChroma('101001') // => false
  */
-export function isBinary (set) {
+export function isChroma (set) {
   return REGEX.test(set)
 }
 
 /**
- * Convert a pitch set into a binary representation. If the argument is
- * already a binary representation it returns it.
+ * Get chroma of a pitch set. A chroma identifies each pitch set uniquely.
+ * It's a 12-digit binary each presenting one semitone of the octave.
+ *
+ * Note that this function accepts a chroma as parameter and return it
+ * without modification.
  *
  * @param {Array|String} set - the pitch set
  * @return {String} a binary representation of the pitch set
  * @example
- * pitchset.toBinary('C D E') // => '1010100000000'
+ * pitchset.chroma('C D E') // => '1010100000000'
  */
-export function toBinary (set) {
-  if (isBinary(set)) return set
+export function chroma (set) {
+  if (isChroma(set)) return set
   var b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   map(pitchChr, set).forEach(function (i) {
     b[i] = 1
@@ -70,7 +78,7 @@ export function toBinary (set) {
  */
 export function withTonic (tonic, set) {
   if (arguments.length === 1) return function (s) { return withTonic(tonic, s) }
-  return fromBinary(toBinary(set), tonic)
+  return fromBinary(chroma(set), tonic)
 }
 
 var IVLS = '1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M'.split(' ')
@@ -85,7 +93,7 @@ var IVLS = '1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M'.split(' ')
  */
 export function fromBinary (binary, tonic) {
   if (arguments.length === 1) return function (t) { return fromBinary(binary, t) }
-  if (!isBinary(binary)) return null
+  if (!isChroma(binary)) return null
 
   tonic = tonic || 'P1'
   return compact(binary.split('').map(function (d, i) {
@@ -104,7 +112,7 @@ export function fromBinary (binary, tonic) {
  */
 export function equal (s1, s2) {
   if (arguments.length === 1) return function (s) { return equal(s1, s) }
-  return toBinary(s1) === toBinary(s2)
+  return chroma(s1) === chroma(s2)
 }
 
 /**
@@ -147,7 +155,7 @@ export function superset (set, test) {
  */
 export function includes (set, note) {
   if (arguments.length > 1) return includes(set)(note)
-  set = toBinary(set)
+  set = chroma(set)
   return function (note) { return set[pitchChr(note)] === '1' }
 }
 

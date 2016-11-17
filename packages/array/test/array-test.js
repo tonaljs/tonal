@@ -16,6 +16,24 @@ test('array: map', function (t) {
   t.end()
 })
 
+test('array: sort', function (t) {
+  // sort notes
+  t.deepEqual(_.sort('c4 c3 c2'), [ 'C2', 'C3', 'C4' ])
+  t.deepEqual(_.sort('c2 c3 c4', false), [ 'C4', 'C3', 'C2' ])
+  // sort pitch classes
+  t.deepEqual(_.sort('a b c d e f g'), [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ])
+  // sort intervals
+  t.deepEqual(_.sort('2m 1P 3m 3M 4A 4P 9m 8P'), [ '1P', '2m', '3m', '3M', '4P', '4A', '8P', '9m' ])
+  t.deepEqual(_.sort('2m 1P 3m 3M 4A 4P 9m 8P', false), [ '9m', '8P', '4A', '4P', '3M', '3m', '2m', '1P' ])
+
+  // pitch classes are sorted before notes
+  t.deepEqual(_.sort('c3 d2 d c'), [ 'C', 'D', 'D2', 'C3' ])
+  // anything is not a pitch is removed
+  t.deepEqual(_.sort('a2 g3 f h c n x'), [ 'C', 'F', 'A2', 'G3' ])
+  t.deepEqual(_.sort('a2 g3 f h c n x', false), [ 'G3', 'A2', 'F', 'C' ])
+  t.end()
+})
+
 test('array: compact', function (t) {
   t.deepEqual(_.compact(['a', null, 'b']), ['a', 'b'])
   t.deepEqual(_.compact([0, 1, 2, 3, null, 4]), [ 0, 1, 2, 3, 4 ])

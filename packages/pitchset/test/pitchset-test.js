@@ -1,12 +1,12 @@
 var test = require('tape')
 var pitchset = require('..')
 
-test('pitchset: toBinary', function (t) {
-  t.equal(pitchset.toBinary('c d e'), '101010000000')
-  t.equal(pitchset.toBinary('g g#4 a bb5'), '000000011110')
-  t.equal(pitchset.toBinary('P1 M2 M3 P4 P5 M6 M7'),
-    pitchset.toBinary('c d e f g a b'))
-  t.equal(pitchset.toBinary('101010101010'), '101010101010')
+test('pitchset: chroma', function (t) {
+  t.equal(pitchset.chroma('c d e'), '101010000000')
+  t.equal(pitchset.chroma('g g#4 a bb5'), '000000011110')
+  t.equal(pitchset.chroma('P1 M2 M3 P4 P5 M6 M7'),
+    pitchset.chroma('c d e f g a b'))
+  t.equal(pitchset.chroma('101010101010'), '101010101010')
   t.end()
 })
 
@@ -31,11 +31,11 @@ test('pitchset: modes', function (t) {
   t.end()
 })
 
-test('pitchset: isBinary', function (t) {
-  t.equal(pitchset.isBinary('101010101010'), true)
-  t.equal(pitchset.isBinary('1010101'), false)
-  t.equal(pitchset.isBinary('blah'), false)
-  t.equal(pitchset.isBinary('c d e'), false)
+test('pitchset: isChroma', function (t) {
+  t.equal(pitchset.isChroma('101010101010'), true)
+  t.equal(pitchset.isChroma('1010101'), false)
+  t.equal(pitchset.isChroma('blah'), false)
+  t.equal(pitchset.isChroma('c d e'), false)
   t.end()
 })
 
