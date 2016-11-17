@@ -4,6 +4,38 @@ var pitchset = require('..')
 test('pitchset: toBinary', function (t) {
   t.equal(pitchset.toBinary('c d e'), '101010000000')
   t.equal(pitchset.toBinary('g g#4 a bb5'), '000000011110')
+  t.equal(pitchset.toBinary('P1 M2 M3 P4 P5 M6 M7'),
+    pitchset.toBinary('c d e f g a b'))
+  t.equal(pitchset.toBinary('101010101010'), '101010101010')
+  t.end()
+})
+
+test('pitchset: fromBinary', function (t) {
+  t.deepEqual(pitchset.fromBinary('101010101010', 'C'),
+    [ 'C', 'D', 'E', 'Gb', 'Ab', 'Bb' ])
+  t.deepEqual(pitchset.fromBinary('101010101010', null),
+    [ '1P', '2M', '3M', '5d', '6m', '7m' ])
+  t.end()
+})
+
+test('pitchset: modes', function (t) {
+  // TODO: fixme, the 4th mode should have F# instead of Gb
+  t.deepEqual(pitchset.rotations('c d e f g a b').map(pitchset.withTonic('C')),
+    [ [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ],
+      [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ],
+      [ 'C', 'Db', 'Eb', 'F', 'G', 'Ab', 'Bb' ],
+      [ 'C', 'D', 'E', 'Gb', 'G', 'A', 'B' ],
+      [ 'C', 'D', 'E', 'F', 'G', 'A', 'Bb' ],
+      [ 'C', 'D', 'Eb', 'F', 'G', 'Ab', 'Bb' ],
+      [ 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab', 'Bb' ] ])
+  t.end()
+})
+
+test('pitchset: isBinary', function (t) {
+  t.equal(pitchset.isBinary('101010101010'), true)
+  t.equal(pitchset.isBinary('1010101'), false)
+  t.equal(pitchset.isBinary('blah'), false)
+  t.equal(pitchset.isBinary('c d e'), false)
   t.end()
 })
 
@@ -36,5 +68,17 @@ test('pitchset: includes', function (t) {
 test('pitchset: filter', function (t) {
   t.deepEqual(pitchset.filter('c d e', 'c2 c#2 d2 c3 c#3 d3'),
     [ 'c2', 'd2', 'c3', 'd3' ])
+  t.end()
+})
+
+test('pitchset: rotations', function (t) {
+  t.deepEqual(pitchset.rotations('c d e f g a b'),
+    [ '101011010101', '101101010110', '110101011010', '101010110101',
+      '101011010110', '101101011010', '110101101010' ])
+  t.deepEqual(pitchset.rotations('c d e f g a b', false),
+    [ '101011010101', '010110101011', '101101010110', '011010101101',
+      '110101011010', '101010110101', '010101101011', '101011010110',
+      '010110101101', '101101011010', '011010110101', '110101101010' ])
+  t.deepEqual(pitchset.rotations('blah bleh'), [])
   t.end()
 })

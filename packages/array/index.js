@@ -116,19 +116,16 @@ function ascComp (a, b) { return objHeight(a) - objHeight(b) }
 function descComp (a, b) { return -ascComp(a, b) }
 
 /**
- * Sort an array or notes or intervals. It uses the JavaScript standard sort
- * function.
+ * Sort an array or notes or intervals in ascending or descending pitch.
  *
- * @param {Boolean|Function} comp - the comparator. `true` means use an
- * ascending comparator, `false` a descending comparator, or you can pass a
- * custom comparator (that receives pitches in array notation)
  * @param {Array|String} arr - the array of notes or intervals
+ * @param {Boolean|Function} comp - (Optional) comparator.
+ * Asceding pitch by default. `true` means ascending, `false` descending
+ * comparator, or you can pass a custom comparator (that receives pitches
+ * in array notation).
  * @example
- * import { sort } from 'tonal-arrays'
- * sort(true, 'D E C') // => ['C', 'D', 'E']
- * @example
- * var tonal = require('tonal')
- * tonal.sort(false, 'D E C') // => ['E', 'D', 'C']
+ * array.sort('D E C') // => ['C', 'D', 'E']
+ * array.sort('D E C', false) // => ['E', 'D', 'C']
  */
 export function sort (comp, list) {
   if (arguments.length > 1) return sort(comp)(list)

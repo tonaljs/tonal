@@ -2,6 +2,15 @@ var test = require('tape')
 var chord = require('..')
 var DATA = require('../chords.json')
 
+test('chord: detect', function (t) {
+  t.deepEqual(chord.detect('c e g b'), [ ['Maj7', 'C'] ])
+  t.deepEqual(chord.detect('e c a g'), [ [ 'M6', 'C' ], [ 'm7', 'A' ] ])
+  t.deepEqual(chord.detect('g d f# b'), [ ['Maj7', 'G'] ])
+  t.deepEqual(chord.detect('f a d g b'), [ [ 'm6', 'D' ], [ '9', 'G' ] ])
+  t.deepEqual(chord.detect('f bb g d# a'), [ ['m9#5', 'G'] ])
+  t.end()
+})
+
 test('chord: chord data integrity', function (t) {
   chord.names(true).forEach(function (name) {
     if (!Array.isArray(DATA[name])) return
@@ -33,13 +42,13 @@ test('chord: build', function (t) {
   t.end()
 })
 
-test('creates an chord from names', function (t) {
+test('chord: get', function (t) {
   t.deepEqual(chord.get('Cmaj7'), [ 'C', 'E', 'G', 'B' ])
   t.deepEqual(chord.get('C7'), [ 'C', 'E', 'G', 'Bb' ])
   t.deepEqual(chord.get('C64'), ['G', 'C', 'E'])
   t.end()
 })
-test('has names', function (t) {
+test('chord: names', function (t) {
   test(chord.names().length > 0)
   test(chord.names(true).length > chord.names().length)
   t.end()

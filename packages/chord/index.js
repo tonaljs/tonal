@@ -1,12 +1,20 @@
 /**
- * A collection of function to build chords. It includes a chord dictionary.
+ * A collection of function to create and manipulate chords. It includes a
+ * chord dictionary and a simple chord detection algorithm.
+ *
+ * @example
+ * var chord = require('tonal-chord')
+ * chord.detect('c b g e') // => ['Maj7', 'C']
+ * chord.get('CMaj7') // => ['C', 'E', 'G', 'B']
  *
  * @module chord
  */
 import { get as getter, keys } from 'tonal-dictionary'
 import { parseIvl } from 'tonal-pitch'
+import { compact, sort } from 'tonal-array'
 import { regex } from 'note-parser'
 import { harmonize } from 'tonal-harmonizer'
+import { toBinary, rotations } from 'tonal-pitchset'
 
 var DATA = require('./chords.json')
 
@@ -72,15 +80,20 @@ export function get (name) {
 }
 
 /**
- * Try to parse a chord name. It returns an array with the chord name and
+ * Try to parse a chord name. It returns an array with the chord type and
  * the tonic. If not tonic is found, all the name is considered the chord
- * name
+ * name.
+ *
+ * This function does NOT check if the chord type exists or not. It only tries
+ * to split the tonic and chord type.
+ *
  * @param {String} name - the chord name
- * @return {Array} an array with [chordType, tonic]
+ * @return {Array} an array with [type, tonic]
  * @example
  * chord.parse('Cmaj7') // => ['maj7', 'C']
  * chord.parse('C7') // => ['7', 'C']
  * chord.parse('mMaj7') // => ['mMaj7', null]
+ * chord.parse('Cnonsense') // => ['nonsense', 'C']
  */
 export function parse (name) {
   var p = regex().exec(name)
@@ -90,5 +103,33 @@ export function parse (name) {
   // doesn't have chord name: the name is the octave (example: 'C7' is dominant)
   return p[4] ? [p[4], p[1] + p[2] + p[3]] : [p[3], p[1] + p[2]]
 }
+
+function detector (data) {
+  var dict = Object.keys(data).reduce(function (dict, key) {
+    dict[toBinary(data[key][0])] = key
+    return dict
+  }, {})
+
+  return function (notes) {
+    notes = sort(true, notes)
+    var sets = rotations(notes)
+    return compact(sets.map(function (set, i) {
+      return dict[set] ? [dict[set], notes[i]] : null
+    }))
+  }
+}
+
+/**
+ * Detect a chord. Given a list of notes, return the chord name(s) if any.
+ * It only detects chords with exactly same notes.
+ *
+ * @function
+ * @param {Array|String} notes - the list of notes
+ * @return {Array<Array>} an array with the possible matches in the form
+ * [chordType, root]
+ * @example
+ * chord.detect('e c a g') // => [ [ 'M6', 'C' ], [ 'm7', 'A' ] ]
+ */
+export var detect = detector(DATA)
 
 export default get

@@ -1,9 +1,21 @@
 # Changelog
 
-## 0.64.1
+## 0.65.0 [Master]
 
 `tonal-note`
 - TODO: add oct
+
+`tonal-array`
+- TODO: sort: change order of parameters to make it more JS friendly
+
+## 0.64.1
+
+`tonal-chord`
+- detect: given a list of notes, return the possible chords
+
+`tonal-pitchset`
+- add functions: isBinary, rotations, fromBinary
+
 
 ## 0.64.0
 

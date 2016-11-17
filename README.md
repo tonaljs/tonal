@@ -1,10 +1,17 @@
 # tonal [![npm](https://img.shields.io/npm/v/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal) [![Build Status](https://travis-ci.org/danigb/tonal.svg?branch=master&style=flat-square)](https://travis-ci.org/danigb/tonal) [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/danigb/tonal) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard) [![license](https://img.shields.io/npm/l/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
 
+
+
+
 `tonal` is a functional music theory library. It provides functions to manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music).
 
 Think like an [underscorejs](http://underscorejs.org/) (or better: [ramdajs](http://ramdajs.com/)) library for music theory.
 
 [Read the API documentation](http://danigb.github.io/tonal/api/)
+
+Warning: although this library has some time now, the API is still changing.
+
+![stability](https://img.shields.io/badge/stability-experimental-red.svg?style=flat-square)
 
 ## Example
 
@@ -13,7 +20,6 @@ var tonal = require('tonal')
 
 // note properties
 tonal.note.pc('Db5') // => 'Db'
-tonal.note.oct('C4') // => 4
 tonal.note.chroma('Cb') // => 11
 tonal.note.simplify('B#3') // => 'C4'
 tonal.note.freq('C#2')
@@ -51,7 +57,7 @@ tonal.map(tonal.note.pc, 'C2 Eb5 gx4') // => ['C', 'Eb', 'G##']
 tonal.map(tonal.transpose('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
 
 // map functions
-var pcs = tonal.map(tonal.pc)
+var pcs = tonal.map(tonal.note.pc)
 pcs('C2 db3 e5') // => ['C', 'Db', 'E']
 var fifthUpAll = tonal.map(tonal.transpose('5P'))
 fifthUpAll('c d e') // => ['G', 'A', 'B']

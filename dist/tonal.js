@@ -107,19 +107,16 @@ function ascComp (a, b) { return objHeight(a) - objHeight(b) }
 function descComp (a, b) { return -ascComp(a, b) }
 
 /**
- * Sort an array or notes or intervals. It uses the JavaScript standard sort
- * function.
+ * Sort an array or notes or intervals in ascending or descending pitch.
  *
- * @param {Boolean|Function} comp - the comparator. `true` means use an
- * ascending comparator, `false` a descending comparator, or you can pass a
- * custom comparator (that receives pitches in array notation)
  * @param {Array|String} arr - the array of notes or intervals
+ * @param {Boolean|Function} comp - (Optional) comparator.
+ * Asceding pitch by default. `true` means ascending, `false` descending
+ * comparator, or you can pass a custom comparator (that receives pitches
+ * in array notation).
  * @example
- * import { sort } from 'tonal-arrays'
- * sort(true, 'D E C') // => ['C', 'D', 'E']
- * @example
- * var tonal = require('tonal')
- * tonal.sort(false, 'D E C') // => ['E', 'D', 'C']
+ * array.sort('D E C') // => ['C', 'D', 'E']
+ * array.sort('D E C', false) // => ['E', 'D', 'C']
  */
 function sort (comp, list) {
   if (arguments.length > 1) return sort(comp)(list)
@@ -394,8 +391,10 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var tonalDictionary = require('tonal-dictionary');
 var tonalPitch = require('tonal-pitch');
+var tonalArray = require('tonal-array');
 var noteParser = require('note-parser');
 var tonalHarmonizer = require('tonal-harmonizer');
+var tonalPitchset = require('tonal-pitchset');
 
 var DATA = require('./chords.json')
 
@@ -457,15 +456,64 @@ function get$1 (name) {
   if (!p) return []
   // it has note and chord name
   if (p[4]) return build(p[4], p[1] + p[2] + p[3])
-  // doesn't have chord name: the name is the octave (example: 'C7' is dominant)
   return build(p[3], p[1] + p[2])
 }
+
+/**
+ * Try to parse a chord name. It returns an array with the chord name and
+ * the tonic. If not tonic is found, all the name is considered the chord
+ * name
+ * @param {String} name - the chord name
+ * @return {Array} an array with [chordType, tonic]
+ * @example
+ * chord.parse('Cmaj7') // => ['maj7', 'C']
+ * chord.parse('C7') // => ['7', 'C']
+ * chord.parse('mMaj7') // => ['mMaj7', null]
+ */
+function parse (name) {
+  var p = noteParser.regex().exec(name)
+  if (!p) return [name, null]
+  // it can have a chord name: Cmaj7 is ['maj7', 'C']
+  // or if not, the octave is treated as chord name: C7 is ['7', 'C']
+  // doesn't have chord name: the name is the octave (example: 'C7' is dominant)
+  return p[4] ? [p[4], p[1] + p[2] + p[3]] : [p[3], p[1] + p[2]]
+}
+
+function detector (data) {
+  var dict = Object.keys(data).reduce(function (dict, key) {
+    dict[tonalPitchset.toBinary(data[key][0])] = key
+    return dict
+  }, {})
+
+  return function (notes) {
+    notes = tonalArray.sort(true, notes)
+    var sets = tonalPitchset.rotations(notes)
+    return tonalArray.compact(sets.map(function (set, i) {
+      return dict[set] ? [dict[set], notes[i]] : null
+    }))
+  }
+}
+
+/**
+ * Detect a chord. Given a list of notes, return the chord name(s) if any.
+ * It only detects chords with exactly same notes.
+ *
+ * @function
+ * @param {Array|String} notes - the list of notes
+ * @return {Array<Array>} an array with the possible matches in the form
+ * [chordType, root]
+ * @example
+ * chord.detect('e c a g') // => [ [ 'M6', 'C' ], [ 'm7', 'A' ] ]
+ */
+var detect = detector(DATA)
 
 exports.build = build;
 exports.names = names;
 exports.get = get$1;
+exports.parse = parse;
+exports.detect = detect;
 exports['default'] = get$1;
-},{"./chords.json":3,"note-parser":5,"tonal-dictionary":6,"tonal-harmonizer":10,"tonal-pitch":19}],5:[function(require,module,exports){
+},{"./chords.json":3,"note-parser":5,"tonal-array":1,"tonal-dictionary":6,"tonal-harmonizer":10,"tonal-pitch":19,"tonal-pitchset":22}],5:[function(require,module,exports){
 'use strict'
 
 // util
@@ -864,6 +912,12 @@ function unaltered (f) {
 // { 0: F, 1: C, 2: G, 3: D, 4: A, 5: E, 6: B}
 var STEPS = [3, 0, 4, 1, 5, 2, 6]
 
+/**
+ * Decode a encoded pitch
+ * @param {Number} fifths - the number of fifths
+ * @param {Number} octs - the number of octaves to compensate the fifhts
+ * @return {Array} in the form [step, alt, oct]
+ */
 function decode (f, o) {
   var step = STEPS[unaltered(f)]
   var alt = Math.floor((f + 1) / 7)
@@ -984,7 +1038,11 @@ var tonalArray = require('tonal-array');
  * @param {Array|String} notes - the list of notes
  * @return {Array} the intervals
  * @example
- * tonal.harmonics('C E g') // => ['1P', '3M', '5P']
+ * harmonizer.harmonics('C E G') // => ['1P', '3M', '5P']
+ *
+ * @example
+ * // in tonal this functions are NOT namespaced
+ * tonal.harmonics(tonal.scale('C major')) // => ['1P', ...]
  */
 function harmonics (list) {
   var a = tonalArray.asArr(list)
@@ -1043,6 +1101,60 @@ var tonalPitch = require('tonal-pitch');
 function toInterval (ivl) {
   var i = tonalPitch.asIvlPitch(ivl)
   return i ? tonalPitch.strIvl(i) : null
+}
+
+/**
+ * Get the number of the interval (same as value, but always positive)
+ *
+ * @param {String|Pitch} interval - the interval
+ * @return {Integer} the positive interval number (P1 is 1, m2 is 2, ...)
+ * @example
+ * interval.num('m2') // => 2
+ * interval.num('P9') // => 9
+ * interval.num('P-4') // => 4
+ */
+function num (ivl) {
+  var p = props(ivl)
+  return p ? p.num : null
+}
+
+/**
+ * Get the interval value (the interval number, but positive or negative
+ * depending the interval direction)
+ *
+ * @param {String|Pitch} interval - the interval
+ * @return {Integer} the positive interval number (P1 is 1, m-2 is -2, ...)
+ * @example
+ * interval.num('m2') // => 2
+ * interval.num('m9') // => 9
+ * interval.num('P-4') // => -4
+ * interval.num('m-9') // => -9
+ */
+function value (ivl) {
+  var p = props(ivl)
+  return p ? p.num * p.dir : null
+}
+
+/**
+ * Get interval properties. It returns an object with:
+ *
+ * - num: the interval number (always positive)
+ * - alt: the interval alteration (0 for perfect in perfectables, or 0 for major in _majorables_)
+ * - dir: the interval direction (1 ascending, -1 descending)
+ *
+ * @param {String|Pitch} interval - the interval
+ * @return {Array} the interval in the form [number, alt]
+ * @example
+ * interval.parse('m2') // => { num: 2, alt: -1, dir: 1 }
+ * interval.parse('m9') // => { num: 9, alt: -1, dir: 1 }
+ * interval.parse('P-4') // => { num: 4, alt: 0, dir: -1}
+ * interval.parse('m-9') // => { num: 9, alt: -1, dir: -1 }
+ */
+function props (ivl) {
+  var i = tonalPitch.asIvlPitch(ivl)
+  if (!i) return null
+  var d = tonalPitch.decode(i)
+  return { num: d[0] + 1 + d[2] * 7, alt: d[1], dir: i[2] }
 }
 
 /**
@@ -1170,6 +1282,9 @@ var simplify = tonalPitch.ivlFn(function (i) {
 })
 
 exports.toInterval = toInterval;
+exports.num = num;
+exports.value = value;
+exports.props = props;
 exports.semitones = semitones;
 exports.fromSemitones = fromSemitones;
 exports.ic = ic;
@@ -1325,9 +1440,7 @@ function fillStr (s, num) { return Array(num + 1).join(s) }
  * toAcc(-3) // => 'bbb'
  */
 function toAcc (n) {
-  return n === 0 ? ''
-    : n < 0 ? fillStr('b', -n)
-    : fillStr('#', n)
+  return !n ? '' : n < 0 ? fillStr('b', -n) : fillStr('#', n)
 }
 
 exports.toStep = toStep;
@@ -1936,10 +2049,14 @@ var COMPOSE = '(?:(' + IVL_TNL + ')|(' + IVL_STR + '))'
 var IVL_REGEX = new RegExp('^' + COMPOSE + '$')
 
 /**
- * Parse a string with an interval in [shorthand notation](https://en.wikipedia.org/wiki/Interval_(music)#Shorthand_notation)
- * and returns an object with interval properties
+ * Parse a string with an interval in shorthand notation (https://en.wikipedia.org/wiki/Interval_(music)#Shorthand_notation)
+ * and returns an object with interval properties.
  *
  * @param {String} str - the string with the interval
+ * @param {Boolean} strict - (Optional) if its false, it doesn't check if the
+ * interval is valid or not. For example, parse('P2') returns null
+ * (because a perfect second is not a valid interval), but
+ * parse('P2', false) it returns { num: 2, dir: 1, q: 'P'... }
  * @return {Object} an object properties or null if not valid interval string
  * The returned object contains:
  * - `num`: the interval number
@@ -1956,7 +2073,7 @@ var IVL_REGEX = new RegExp('^' + COMPOSE + '$')
  * // => { num: 3, q: 'M', dir: 1, simple: 3,
  * //      type: 'M', alt: 0, oct: 0, size: 4 }
  */
-function parse (str) {
+function parse (str, strict) {
   if (typeof str !== 'string') return null
   var m = IVL_REGEX.exec(str)
   if (!m) return null
@@ -1968,6 +2085,9 @@ function parse (str) {
   i.alt = qToAlt(i.type, i.q)
   i.oct = Math.floor((i.num - 1) / 7)
   i.size = i.dir * (SIZES[step] + i.alt + 12 * i.oct)
+  if (strict !== false) {
+    if (i.type === 'M' && i.q === 'P') return null
+  }
   return i
 }
 var SIZES = [0, 2, 4, 5, 7, 9, 11]
@@ -2051,7 +2171,7 @@ function qToAlt (num, q) {
   return null
 }
 
-function fillStr(s, n) { return Array(Math.abs(n) + 1).join(s) }
+function fillStr (s, n) { return Array(Math.abs(n) + 1).join(s) }
 /**
  * Get interval quality from interval type and alteration
  *
@@ -2083,13 +2203,36 @@ arguments[4][5][0].apply(exports,arguments)
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var tonalNote = require('tonal-note');
+var tonalPitch = require('tonal-pitch');
 var tonalArray = require('tonal-array');
+var tonalTranspose = require('tonal-transpose');
 
 function toInt (set) { return parseInt(toBinary(set), 2) }
+function chroma (p) { p = tonalPitch.asPitch(p); return p ? tonalPitch.chr(p) : null }
 
 /**
- * Convert a pitch set into a binary representation
+ * Get the pitchset binary rotations of a list of notes
+ */
+function rotations (set, normalize) {
+  normalize = normalize !== false
+  var binary = toBinary(set).split('')
+  return tonalArray.compact(binary.map(function (_, i) {
+    var r = tonalArray.rotate(i, binary)
+    return normalize && r[0] === '0' ? null : r.join('')
+  }))
+}
+
+var REGEX = /^[01]{12}$/
+/**
+ * Test if the given value is a pitch set in binary representation
+ */
+function isBinary (set) {
+  return REGEX.test(set)
+}
+
+/**
+ * Convert a pitch set into a binary representation. If the argument is
+ * already a binary representation it returns it.
  *
  * @param {Array|String} set - the pitch set
  * @return {String} a binary representation of the pitch set
@@ -2097,11 +2240,45 @@ function toInt (set) { return parseInt(toBinary(set), 2) }
  * pitchset.toBinary('C D E') // => '1010100000000'
  */
 function toBinary (set) {
+  if (isBinary(set)) return set
   var b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  tonalArray.map(tonalNote.chroma, set).forEach(function (i) {
+  tonalArray.map(chroma, set).forEach(function (i) {
     b[i] = 1
   })
   return b.join('')
+}
+
+/**
+ * Get a pitch set with different tonic
+ * @param {String|Pitch} tonic - the desired tonic
+ * @param {Array|String} set - the list of notes or the binary representation
+ * @param {Array} a list of notes or intervals (depending the root)
+ * @example
+ * pitchset.withTonic('c d e f g a b', 'D')
+ */
+function withTonic (tonic, set) {
+  if (arguments.length === 1) return function (s) { return withTonic(tonic, s) }
+  return fromBinary(toBinary(set), tonic)
+}
+
+var IVLS = '1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M'.split(' ')
+/**
+ * Given a pitch set in binary notation it returns the intervals or notes
+ * (depending on the tonic)
+ * @param {String} binary - the pitch set in binary representation
+ * @param {String|Pitch} tonic - the pitch set tonic
+ * @return {Array} a list of notes or intervals
+ * @example
+ * pitchset.fromBinary('101010101010', 'C') // => ['C', 'D', 'E', 'Gb', 'Ab', 'Bb']
+ */
+function fromBinary (binary, tonic) {
+  if (arguments.length === 1) return function (t) { return fromBinary(binary, t) }
+  if (!isBinary(binary)) return null
+
+  tonic = tonic || 'P1'
+  return tonalArray.compact(binary.split('').map(function (d, i) {
+    return d === '1' ? tonalTranspose.transpose(IVLS[i], tonic) : null
+  }))
 }
 
 /**
@@ -2159,7 +2336,7 @@ function superset (set, test) {
 function includes (set, note) {
   if (arguments.length > 1) return includes(set)(note)
   set = toBinary(set)
-  return function (note) { return set[tonalNote.chroma(note)] === '1' }
+  return function (note) { return set[chroma(note)] === '1' }
 }
 
 /**
@@ -2177,20 +2354,60 @@ function filter (set, notes) {
   return tonalArray.asArr(notes).filter(includes(set))
 }
 
+exports.rotations = rotations;
+exports.isBinary = isBinary;
 exports.toBinary = toBinary;
+exports.withTonic = withTonic;
+exports.fromBinary = fromBinary;
 exports.equal = equal;
 exports.subset = subset;
 exports.superset = superset;
 exports.includes = includes;
 exports.filter = filter;
-},{"tonal-array":1,"tonal-note":15}],23:[function(require,module,exports){
+},{"tonal-array":1,"tonal-pitch":19,"tonal-transpose":29}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var tonalPitch = require('tonal-pitch');
+var tonalNote = require('tonal-note');
+var tonalInterval = require('tonal-interval');
 var tonalArray = require('tonal-array');
 var tonalTranspose = require('tonal-transpose');
+var tonalDistance = require('tonal-distance');
+var tonalChord = require('tonal-chord');
+var tonalNotation = require('tonal-notation');
+
+/**
+ * Given a chord progression and a tonic, return the chord progression
+ * with roman numeral chords.
+ *
+ * @param {Array|String} chords - the chord progression
+ * @param {String} tonic - the tonic
+ * @return {Array} the chord progression in roman numerals
+ * @example
+ * progression.abstract('Cmaj7 Dm7 G7', 'C') // => [ 'Imaj7', 'IIm7', 'V7' ]
+ */
+function abstract (chords, tonic) {
+  tonic = tonalNote.pc(tonic)
+  chords = tonalArray.map(tonalChord.parse, chords)
+  var tonics = tonalArray.compact(chords.map(function (x) { return x[1] }))
+  // if some tonic missing, can't do the analysis
+  if (tonics.length !== chords.length) return null
+
+  return tonics.map(function (t, i) {
+    var p = tonalInterval.props(tonalDistance.interval(tonic, t))
+    return buildRoman(p.num - 1, p.alt, chords[i][0])
+  })
+}
+
+var NUMS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
+/**
+ * Build an abstract chord name using roman numerals
+ */
+function buildRoman (num, alt, element) {
+  return tonalNotation.toAcc(alt) + NUMS[num % 7] + (element || '')
+}
 
 /**
  * Get chord progression from a tonic and a list of chord in roman numerals
@@ -2201,13 +2418,13 @@ var tonalTranspose = require('tonal-transpose');
  *
  * @example
  * var progression = require('chord-progression')
- * progression.build('I IIm7 V7', 'C') // => ['C', 'Dm7', 'G7']
+ * progression.concrete('I IIm7 V7', 'C') // => ['C', 'Dm7', 'G7']
  */
-function build (chords, tonic) {
-  return tonalArray.asArr(chords).map(function (e) {
+function concrete (chords, tonic) {
+  return tonalArray.map(function (e) {
     var r = parseRomanChord(e)
     return r ? tonalTranspose.transpose(r.root, tonic) + r.name : null
-  })
+  }, chords)
 }
 
 var ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\s*$/
@@ -2216,16 +2433,18 @@ var ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\
  * `[accidentals]roman[element]`.
  *
  * The executed regex contains:
- * accidentals: (Optional) one or two flats (b) or shaprs (#)
- * roman: (Required) a roman numeral from I to VII either in upper or lower case
- * element: (Optional) a name of an element
+ *
+ * - input: the input string
+ * - accidentals: (Optional) one or two flats (b) or shaprs (#)
+ * - roman: (Required) a roman numeral from I to VII either in upper or lower case
+ * - element: (Optional) a name of an element
  *
  * @return {RegExp} the regexp
  *
  * @example
- * r.exec('bVII')
- * r.exec('IVMaj7')
- * r.exec('ii minor')
+ * var r = progression.romanRegex()
+ * r.exec('bVImaj7') // => ['bVImaj7', 'b', 'VI', 'maj7'])
+ * r.exec('III dom') // => ['III dom', '', 'III', 'dom'])
  */
 function romanRegex () { return ROMAN }
 
@@ -2252,10 +2471,12 @@ function parseRomanChord (str) {
   return { root: tonalPitch.encode(num, alt, 0, 1), name: m[3] }
 }
 
-exports.build = build;
+exports.abstract = abstract;
+exports.buildRoman = buildRoman;
+exports.concrete = concrete;
 exports.romanRegex = romanRegex;
 exports.parseRomanChord = parseRomanChord;
-},{"tonal-array":1,"tonal-pitch":19,"tonal-transpose":29}],24:[function(require,module,exports){
+},{"tonal-array":1,"tonal-chord":4,"tonal-distance":7,"tonal-interval":11,"tonal-notation":14,"tonal-note":15,"tonal-pitch":19,"tonal-transpose":29}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -2572,7 +2793,30 @@ function density (list) {
 
 exports.density = density;
 },{"tonal-array":1,"tonal-interval":11,"tonal-pitch":19}],28:[function(require,module,exports){
-'use strict';
+'use strict'
+/**
+ * The `tonal` module is a facade to all the rest of the modules. They are namespaced,
+ * so for example to use `pc` function from `tonal-note` you have to write:
+ * `tonal.note.pc`
+ *
+ * Some modules are NOT namespaced for developer comfort:
+ *
+ * - `tonal-array`: for example `tonal.map(tonal.note.pc, 'C#2')`
+ * - `tonal-transpose`: for example `tonal.transpose('C', '3M')`
+ * - `tonal-distance`: for example `tonal.interval('C3', 'G4')`
+ *
+ * It also adds a couple of function aliases:
+ *
+ * - `tonal.scale` is an alias for `tonal.scale.get`
+ * - `tonal.chord` is an alias for `tonal.chord.get`
+ *
+ * @example
+ * var tonal = require('tonal')
+ * tonal.transpose(tonal.note.pc('C#2'), 'M3') // => 'E#'
+ * tonal.chord('Dmaj7') // => ['D', 'F#', 'A', 'C#']
+ *
+ * @module tonal
+ */
 
 var assign = Object.assign
 var tonal = {}
@@ -2597,7 +2841,9 @@ tonal.notation = require('tonal-notation')
 tonal.progression = require('tonal-progression')
 tonal.sonority = require('tonal-sonority')
 
-module.exports = tonal
+if (typeof module === 'object' && module.exports) module.exports = tonal
+if (typeof window !== 'undefined') window.Tonal = tonal
+
 },{"tonal-array":1,"tonal-chord":4,"tonal-distance":7,"tonal-freq":9,"tonal-interval":11,"tonal-midi":12,"tonal-notation":14,"tonal-note":15,"tonal-pitch":19,"tonal-progression":23,"tonal-range":24,"tonal-scale":25,"tonal-sonority":27,"tonal-transpose":29}],29:[function(require,module,exports){
 'use strict';
 
