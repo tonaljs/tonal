@@ -12,10 +12,17 @@ import { map, asArr, rotate, compact } from 'tonal-array'
 import { transpose } from 'tonal-transpose'
 
 function toInt (set) { return parseInt(toBinary(set), 2) }
-function chroma (p) { p = asPitch(p); return p ? chr(p) : null }
+function pitchChr (p) { p = asPitch(p); return p ? chr(p) : null }
 
 /**
- * Get the pitchset binary rotations of a list of notes
+ * Given a pitch set (a list of notes or a chroma), produce the 12 rotations
+ * of the chroma (and discard the ones that starts with '0')
+ *
+ * This can be used, for example, to get all the modes of a scale.
+ *
+ * @param {Array|String} set - the list of notes or pitchChr of the set
+ * @param {Boolean} normalize - (Optional, true by default) remove all
+ * the rotations that starts with '0'
  */
 export function rotations (set, normalize) {
   normalize = normalize !== false
@@ -27,6 +34,7 @@ export function rotations (set, normalize) {
 }
 
 var REGEX = /^[01]{12}$/
+
 /**
  * Test if the given value is a pitch set in binary representation
  */
@@ -46,7 +54,7 @@ export function isBinary (set) {
 export function toBinary (set) {
   if (isBinary(set)) return set
   var b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  map(chroma, set).forEach(function (i) {
+  map(pitchChr, set).forEach(function (i) {
     b[i] = 1
   })
   return b.join('')
@@ -140,7 +148,7 @@ export function superset (set, test) {
 export function includes (set, note) {
   if (arguments.length > 1) return includes(set)(note)
   set = toBinary(set)
-  return function (note) { return set[chroma(note)] === '1' }
+  return function (note) { return set[pitchChr(note)] === '1' }
 }
 
 /**

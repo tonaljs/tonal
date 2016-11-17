@@ -1,8 +1,9 @@
 /**
  * Functions to deal with pitches (either notes or intervals).
  *
- * This functions are very low level and it's probably you wont need them. That's
- * why __this module is NOT exported in the tonal package__.
+ * This functions are very low level and more developer friendly of this functions
+ * are exposed in the note and interval packages. It's unlikely you need them.
+ * That's why __this module is NOT exported in the tonal package__.
  *
  * @private
  * @module pitch
@@ -53,8 +54,7 @@ export function decode (p) {
  * @return {String} 'ivl' or 'note' or null if not a pitch
  */
 export function pType (p) {
-  return !isPitch(p) ? null
-    : p[2] ? 'ivl' : 'note'
+  return !isPitch(p) ? null : p[2] ? 'ivl' : 'note'
 }
 /**
  * Test if is a pitch note (with or without octave)

@@ -14,7 +14,7 @@
  * import { name } from 'tonal-note'
  * ['c', 'db3', '2', 'g+', 'gx4'].map(name) // => ['C', 'Db3', null, null, 'G##4']
  */
-import { fifths, asNotePitch, strNote, parseIvl, chr } from 'tonal-pitch'
+import { fifths, asNotePitch, strNote, parseIvl, chr, decode } from 'tonal-pitch'
 import { transpose as tr } from 'tonal-transpose'
 import { toMidi, toNote as midiToNote } from 'tonal-midi'
 import { toFreq } from 'tonal-freq'
@@ -93,6 +93,73 @@ export function toNote (n) {
   var p = asNotePitch(n)
   return p ? strNote(p) : null
 }
+
+/**
+ * Get note properties. It returns an object with the following properties:
+ *
+ * - step: 0 for C, 6 for B. Do not confuse with chroma
+ * - alt: 0 for not accidentals, positive sharps, negative flats
+ * - oct: the octave number or undefined if a pitch class
+ *
+ * @param {String|Pitch} note - the note
+ * @return {Object} the object with note properties or null if not valid note
+ * @example
+ * note.props('Db3') // => { step: 1, alt: -1, oct: 3 }
+ * note.props('C#') // => { step: 0, alt: 1, oct: undefined }
+ */
+export function props (n) {
+  var p = asNotePitch(n)
+  if (!p) return null
+  var d = decode(p)
+  return { step: d[0], alt: d[1], oct: d[2] }
+}
+
+function getProp (name) {
+  return function (n) { var p = props(n); return p ? p[name] : null }
+}
+
+/**
+ * Get the octave of the given pitch
+ *
+ * @function
+ * @param {String|Pitch} note - the note
+ * @return {Integer} the octave, undefined if its a pitch class or null if
+ * not a valid note
+ * @example
+ * note.oct('C#4') // => 4
+ * note.oct('C') // => undefined
+ * note.oct('blah') // => undefined
+ */
+export var oct = getProp('oct')
+
+/**
+ * Get the note step: a number equivalent of the note letter. 0 means C and
+ * 6 means B. This is different from `chroma` (see example)
+ *
+ * @function
+ * @param {String|Pitch} note - the note
+ * @return {Integer} a number between 0 and 6 or null if not a note
+ * @example
+ * note.step('C') // => 0
+ * note.step('Cb') // => 0
+ * // usually what you need is chroma
+ * note.chroma('Cb') // => 6
+ */
+export var step = getProp('step')
+
+/**
+ * Get the note alteration: a number equivalent to the accidentals. 0 means
+ * no accidentals, negative numbers are for flats, positive for sharps
+ *
+ * @function
+ * @param {String|Pitch} note - the note
+ * @return {Integer} the alteration
+ * @example
+ * note.alt('C') // => 0
+ * note.alt('C#') // => 1
+ * note.alt('Cb') // => -1
+ */
+export var alt = getProp('alt')
 
 /**
  * Get pitch class of a note. The note can be a string or a pitch array.
