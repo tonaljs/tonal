@@ -1,6 +1,7 @@
 languages:
    JavaScript: true
 exclude_paths:
+- "docs/**"
 - "test/**/*"
 - "build/*"
 - "dist/*"
