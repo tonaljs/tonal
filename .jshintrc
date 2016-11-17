@@ -1,7 +1,8 @@
 {
   "node": true,
-  "esnext": true,
+  "esversion": 6,
 
+  "asi": true,
   "curly": true,
   "latedef": true,
   "quotmark": true,
