@@ -1,6 +1,6 @@
 {
   "name": "tonal-pitchset",
-  "version": "0.64.0",
+  "version": "0.64.1",
   "description": "Pitch set utilities",
   "keywords": [],
   "scripts": {
@@ -15,6 +15,6 @@
   "dependencies": {
     "tonal-pitch": "^0.64.0",
     "tonal-transpose": "^0.64.0",
-    "tonal-array": "^0.64.0"
+    "tonal-array": "^0.64.1"
   }
 }

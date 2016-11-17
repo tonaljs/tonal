@@ -1,6 +1,6 @@
 {
   "name": "tonal-harmonizer",
-  "version": "0.64.0",
+  "version": "0.64.1",
   "description": "Transpose collection of notes",
   "keywords": [],
   "scripts": {
@@ -15,6 +15,6 @@
   "dependencies": {
     "tonal-transpose": "^0.64.0",
     "tonal-distance": "^0.64.0",
-    "tonal-array": "^0.64.0"
+    "tonal-array": "^0.64.1"
   }
 }

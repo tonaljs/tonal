@@ -1,6 +1,6 @@
 {
   "name": "tonal-key",
-  "version": "0.64.0",
+  "version": "0.64.1",
   "description": "Conversion between key numbers and note names",
   "keywords": [
     "note",
@@ -20,9 +20,9 @@
     "tonal-notation": "^0.64.0",
     "tonal-transpose": "^0.64.0",
     "tonal-note": "^0.64.0",
-    "tonal-array": "^0.64.0",
-    "tonal-harmonizer": "^0.64.0",
-    "tonal-range": "^0.64.0",
+    "tonal-array": "^0.64.1",
+    "tonal-harmonizer": "^0.64.1",
+    "tonal-range": "^0.64.1",
     "tonal-pitch": "^0.64.0"
   }
 }

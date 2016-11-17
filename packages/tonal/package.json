@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "0.64.0",
+  "version": "0.64.1",
   "description": "A functional music theory library",
   "main": "index.js",
   "scripts": {
@@ -19,20 +19,20 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^0.64.0",
+    "tonal-array": "^0.64.1",
     "tonal-distance": "^0.64.0",
     "tonal-filter": "^0.63.0",
     "tonal-freq": "^0.62.0",
     "tonal-interval": "^0.64.0",
     "tonal-midi": "^0.62.0",
     "tonal-note": "^0.64.0",
-    "tonal-range": "^0.64.0",
-    "tonal-scale": "^0.64.0",
-    "tonal-chord": "^0.64.0",
+    "tonal-range": "^0.64.1",
+    "tonal-scale": "^0.64.1",
+    "tonal-chord": "^0.64.1",
     "tonal-notation": "^0.64.0",
     "tonal-pitch": "^0.64.0",
     "tonal-transpose": "^0.64.0",
-    "tonal-progression": "^0.64.0",
-    "tonal-sonority": "^0.64.0"
+    "tonal-progression": "^0.64.1",
+    "tonal-sonority": "^0.64.1"
   }
 }
