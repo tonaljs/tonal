@@ -1,5 +1,6 @@
 {
   "node": true,
+  "esnext": true,
 
   "curly": true,
   "latedef": true,

@@ -22,10 +22,15 @@
   "license": "MIT",
   "devDependencies": {
     "browserify": "^13.0.1",
+    "eslint": "^3.10.2",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-config-standard-jsx": "^3.2.0",
+    "eslint-plugin-promise": "^3.3.2",
+    "eslint-plugin-react": "^6.7.1",
+    "eslint-plugin-standard": "^2.0.1",
     "lerna": "2.0.0-beta.30",
     "postman-jsdoc-theme": "0.0.2",
     "rollup": "^0.34.1",
-    "tap-spec": "^4.1.1",
     "tape": "4",
     "uglify-js": "2"
   },
@@ -34,8 +39,5 @@
       "dist/*",
       "build/*"
     ]
-  },
-  "dependencies": {
-    "tap-spec": "^4.1.1"
   }
 }
