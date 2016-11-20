@@ -2,6 +2,7 @@
   "name": "tonal-key",
   "version": "0.65.0",
   "description": "Conversion between key numbers and note names",
+  "repository": "https://github.com/danigb/tonal/packages/key",
   "keywords": [
     "note",
     "key",
@@ -22,7 +23,6 @@
     "tonal-note": "^0.65.0",
     "tonal-array": "^0.65.0",
     "tonal-harmonizer": "^0.65.0",
-    "tonal-range": "^0.65.0",
-    "tonal-pitch": "^0.65.0"
+    "tonal-range": "^0.65.0"
   }
 }

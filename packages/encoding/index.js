@@ -34,7 +34,7 @@ function unaltered (f) {
 // We need to get the steps from fifths
 // Fifths for CDEFGAB are [ 0, 2, 4, -1, 1, 3, 5 ]
 // We add 1 to fifths to avoid negative numbers, so:
-// { 0: F, 1: C, 2: G, 3: D, 4: A, 5: E, 6: B}
+// for ['F', 'C', 'G', 'D', 'A', 'E', 'B'] we have:
 var STEPS = [3, 0, 4, 1, 5, 2, 6]
 
 /**

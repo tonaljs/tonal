@@ -27,6 +27,16 @@ test('interval: props', function (t) {
   t.end()
 })
 
+test('interval: fromProps', function (t) {
+  t.equal(ivl.fromProps({ num: 1, alt: 0, dir: 1 }), '1P')
+  t.equal(ivl.fromProps({ num: 8, alt: -1, dir: -1 }), '-8d')
+  t.equal(ivl.fromProps({ num: 9, alt: -1, dir: -1 }), '-9m')
+  t.equal(ivl.fromProps({ num: 0 }), null)
+  t.equal(ivl.fromProps({ num: -1 }), null)
+  t.equal(ivl.fromProps(), null)
+  t.end()
+})
+
 test('interval: num', function (t) {
   t.deepEqual(map(ivl.num, '1P 2M m3 P-4 5 blah m11'),
     [1, 2, 3, 4, null, null, 11])

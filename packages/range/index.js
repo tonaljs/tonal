@@ -20,7 +20,7 @@
  */
 import { asArr, map } from 'tonal-array'
 import { trFifths } from 'tonal-transpose'
-import { toMidi, toNote } from 'tonal-midi'
+import { toMidi, note } from 'tonal-midi'
 import { filter } from 'tonal-pitchset'
 
 function isNum (n) { return typeof n === 'number' }
@@ -72,7 +72,7 @@ export function numeric (list) {
  * tonal.chromatic('C2 C3', true) // => [ 'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2', 'C3' ]
  */
 export function chromatic (list, sharps) {
-  return map(toNote(sharps === true), numeric(list))
+  return map(note(sharps === true), numeric(list))
 }
 
 /**

@@ -14,9 +14,10 @@
  * import { name } from 'tonal-note'
  * ['c', 'db3', '2', 'g+', 'gx4'].map(name) // => ['C', 'Db3', null, null, 'G##4']
  */
-import { fifths, asNotePitch, strNote, parseIvl, chr, decode } from 'tonal-pitch'
+import { build } from 'note-parser'
+import { pitch, fifths, asNotePitch, strNote, parseIvl, chr, decode } from 'tonal-pitch'
 import { transpose as tr } from 'tonal-transpose'
-import { toMidi, toNote as midiToNote } from 'tonal-midi'
+import { toMidi, note as midiToNote } from 'tonal-midi'
 import { toFreq } from 'tonal-freq'
 
 /**
@@ -34,7 +35,7 @@ export var midi = toMidi
 
 /**
  * Get the note name of a given midi note number
- * (an alias of tonal-midi `toNote` function)
+ * (an alias of tonal-midi `note` function)
  *
  * @function
  * @param {Integer} midi - the midi note number
@@ -42,7 +43,7 @@ export var midi = toMidi
  * @return {String} the note name
  * @example
  * note.fromMidi(60) // => 'C4'
- * @see midi.toNote
+ * @see midi.note
  */
 export var fromMidi = midiToNote
 
@@ -86,10 +87,10 @@ export function chroma (n) {
  *
  * @example
  * var note = require('tonal-note')
- * note.toNote('cb2') // => 'Cb2'
+ * note.note('cb2') // => 'Cb2'
  * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
  */
-export function toNote (n) {
+export function note (n) {
   var p = asNotePitch(n)
   return p ? strNote(p) : null
 }
@@ -112,6 +113,25 @@ export function props (n) {
   if (!p) return null
   var d = decode(p)
   return { step: d[0], alt: d[1], oct: d[2] }
+}
+
+/**
+ * Given a note properties object, return the string representation if
+ * scientific notation
+ *
+ * @param {Object} noteProps - an object with the following attributes:
+ * @return {String} the note name
+ *
+ * - step: a number from 0 to 6 meaning note step letter from 'C' to 'B'
+ * - alt: the accidentals as number (0 no accidentals, 1 is '#', 2 is '##', -2 is 'bb')
+ * - oct: (Optional) the octave. If not present (or undefined) it returns a pitch class
+ *
+ * @example
+ * note.fromProps({ step: 1, alt: -1, oct: 5 }) // => 'Db5'
+ * note.fromProps({ step: 0, alt: 1 }) // => 'C#'
+ */
+export function fromProps (props) {
+  return props ? build(props.step, props.alt, props.oct) : null
 }
 
 function getProp (name) {
@@ -146,6 +166,18 @@ export var oct = getProp('oct')
  * note.chroma('Cb') // => 6
  */
 export var step = getProp('step')
+
+/**
+ * Get the note step in fifths from 'C'. One property of the perfect fifht
+ * interval is that you can obtain any pitch class by transposing 'C' a
+ * number of times. This function return that number.
+ * @param {String|Pitch} note - the note (can be a pitch class)
+ * @return {Integer} the number of fifths to reach that pitch class from 'C'
+ */
+export function pcFifths (note) {
+  var p = asNotePitch(note)
+  return p ? fifths(p) : null
+}
 
 /**
  * Get the note alteration: a number equivalent to the accidentals. 0 means

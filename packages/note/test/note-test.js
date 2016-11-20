@@ -24,8 +24,8 @@ test('note: chroma', function (t) {
   t.end()
 })
 
-test('note: toNote', function (t) {
-  t.deepEqual('c fx dbb bbb c##-1 fbb6'.split(' ').map(note.toNote),
+test('note: note', function (t) {
+  t.deepEqual('c fx dbb bbb c##-1 fbb6'.split(' ').map(note.note),
     [ 'C', 'F##', 'Dbb', 'Bbb', 'C##-1', 'Fbb6' ])
   t.end()
 })
@@ -33,5 +33,14 @@ test('note: toNote', function (t) {
 test('note: pc', function (t) {
   t.deepEqual('a b0 d2 e# fb3 g###4 bbbb5 h j'.split(' ').map(note.pc),
     [ 'A', 'B', 'D', 'E#', 'Fb', 'G###', 'Bbbb', null, null ])
+  t.end()
+})
+
+test('note: fromProps', function (t) {
+  t.equal(note.fromProps({ step: 1, alt: -1, oct: 2 }), 'Db2')
+  t.equal(note.fromProps({ step: 4, alt: 1 }), 'G#')
+  t.equal(note.fromProps({ step: 1 }), 'D')
+  t.equal(note.fromProps({}), null)
+  t.equal(note.fromProps(), null)
   t.end()
 })

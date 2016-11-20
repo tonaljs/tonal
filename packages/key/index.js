@@ -9,10 +9,9 @@
  * @module key
  */
 
-import { parseNote, pitch, fifths } from 'tonal-pitch'
 import { areFlats, areSharps, toAcc } from 'tonal-notation'
-import { transpose, trFifths } from 'tonal-transpose'
-import { pc } from 'tonal-note'
+import { trFifths } from 'tonal-transpose'
+import { pc, pcFifths } from 'tonal-note'
 import { numeric } from 'tonal-range'
 import { rotate } from 'tonal-array'
 import { harmonics, harmonize } from 'tonal-harmonizer'
@@ -61,8 +60,7 @@ export function relative (rel, key) {
   if (!r || hasTonic(r)) return null
   var k = asKey(key)
   if (!k || !hasTonic(k)) return null
-  var i = pitch(modeNum(r) - modeNum(k), 0, 1)
-  var tonic = transpose(k[1], i)
+  var tonic = trFifths(k[1], modeNum(r) - modeNum(k))
   return build(tonic, rel)
 }
 
@@ -168,8 +166,7 @@ export function fromName (str) {
   if (typeof str !== 'string') return null
   var p = str.split(/\s+/)
   switch (p.length) {
-    case 1: return parseNote(p[0]) ? build(p[0], 'major')
-      : isKeyMode(p[0]) ? build(false, p[0]) : null
+    case 1: return pc(p[0]) ? build(p[0], 'major') : build(false, p[0])
     case 2: return build(p[0], p[1])
     default: return null
   }
@@ -201,7 +198,7 @@ export function alteration (key) {
   var k = asKey(key)
   if (!k || !hasTonic(k)) return null
   var toMajor = modeNum(k)
-  var toC = fifths(parseNote(k[1]))
+  var toC = pcFifths(k[1])
   return toC - toMajor
 }
 

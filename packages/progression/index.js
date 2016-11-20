@@ -7,9 +7,8 @@
  *
  * @module progression
  */
-import { encode } from 'tonal-pitch'
 import { pc } from 'tonal-note'
-import { props } from 'tonal-interval'
+import { props, fromProps } from 'tonal-interval'
 import { map, compact } from 'tonal-array'
 import { transpose } from 'tonal-transpose'
 import { interval } from 'tonal-distance'
@@ -61,7 +60,7 @@ export function buildRoman (num, alt, element) {
 export function concrete (chords, tonic) {
   return map(function (e) {
     var r = parseRomanChord(e)
-    return r ? transpose(r.root, tonic) + r.name : null
+    return r ? transpose(r.root, tonic) + r.type : null
   }, chords)
 }
 
@@ -93,18 +92,21 @@ var NUM = {i: 0, ii: 1, iii: 2, iv: 3, v: 4, vi: 5, vii: 6}
  * the root of the chord relative to the key tonic and the chord name.
  *
  * @param {String} str - the roman numeral string
- * @return {Object} the roman number in array notation or null if not valid numeral
+ * @return {Object} the roman chord property object with:
+ *
+ * - type: the chord type
+ * - root: the interval from the key to the root of this chord
  *
  * @example
  * var parse = require('music-notation/roman.parse')
- * parse('V7') // => { root: ['tnl', 1, 0, 0, 1], name: '7'}
- * parse('bIIalt') // => [ root: ['tnl', -5, 0, 2, 1], name: 'alt']
+ * parse('V7') // => { root: '5P', type: '7' }
+ * parse('bIIalt') // => { root: '2m', type: 'alt' }
  */
 export function parseRomanChord (str) {
   var m = ROMAN.exec(str)
   if (!m) return null
-  var num = NUM[m[2].toLowerCase()]
+  var num = NUM[m[2].toLowerCase()] + 1
   var alt = m[1].length
   if (m[1][0] === 'b') alt = -alt
-  return { root: encode(num, alt, 0, 1), name: m[3] }
+  return { root: fromProps({ num: num, alt: alt, dir: 1 }), type: m[3] }
 }

@@ -33,20 +33,20 @@ test('midi: toMidi - accepts pitch in array notation', function (t) {
   t.equal(midi.toMidi([5]), null)
   t.end()
 })
-test('midi: toNote - get names from midi numbers', function (t) {
-  t.deepEqual(map(midi.toNote, [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]),
+test('midi: note - get names from midi numbers', function (t) {
+  t.deepEqual(map(midi.note, [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]),
   [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'Gb4', 'G4', 'Ab4', 'A4', 'Bb4', 'B4', 'C5' ])
   t.end()
 })
-test('midi: toNote with type', function (t) {
-  t.deepEqual(midi.toNote(61, false), 'Db4')
-  t.deepEqual(midi.toNote(false)(61), 'Db4')
-  t.deepEqual(midi.toNote(61, true), 'C#4')
-  t.deepEqual(midi.toNote(true)(61), 'C#4')
+test('midi: note with type', function (t) {
+  t.deepEqual(midi.note(61, false), 'Db4')
+  t.deepEqual(midi.note(false)(61), 'Db4')
+  t.deepEqual(midi.note(61, true), 'C#4')
+  t.deepEqual(midi.note(true)(61), 'C#4')
   t.end()
 })
-test('midi: toNote - partially applied with true', function (t) {
-  t.deepEqual(map(midi.toNote(true), [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]),
+test('midi: note - partially applied with true', function (t) {
+  t.deepEqual(map(midi.note(true), [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]),
   [ 'C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4', 'C5' ])
   t.end()
 })

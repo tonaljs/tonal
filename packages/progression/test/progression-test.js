@@ -1,6 +1,5 @@
 var test = require('tape')
 var prog = require('..')
-function exec (str) { return prog.romanRegex().exec(str).slice(0, 4) }
 
 test('progression: concrete', function (t) {
   t.deepEqual(prog.concrete('I IIm7 V7', 'C'), ['C', 'Dm7', 'G7'])
@@ -21,7 +20,14 @@ test('progressions: build roman chord', function (t) {
   t.end()
 })
 
-test('roman regex', function (t) {
+test('progression: parseRomanChord', function (t) {
+  t.deepEqual(prog.parseRomanChord('V7'), { type: '7', root: '5P' })
+  t.deepEqual(prog.parseRomanChord('IIm7'), { type: 'm7', root: '2M' })
+  t.end()
+})
+
+test('progression: romanRegex', function (t) {
+  function exec (str) { return prog.romanRegex().exec(str).slice(0, 4) }
   var nums = 'I II III IV V VI VII'.split(' ')
   nums.forEach(function (n) {
     t.deepEqual(exec(n), [n, '', n, ''])

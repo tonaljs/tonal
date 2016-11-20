@@ -4,11 +4,11 @@
  * @example
  * var freq = require('tonal-freq')
  * freq.toFreq('A4') // => 440
- * freq.toNote(440) // => 'A4'
- * freq.toNoteAndDetune(320) // => ['C4', 200]
+ * freq.note(440) // => 'A4'
+ * freq.noteAndDetune(320) // => ['C4', 200]
  * @module freq
  */
-import { toMidi as noteToMidi, toNote as midiToNote } from 'tonal-midi'
+import { toMidi as noteToMidi, note as midiToNote } from 'tonal-midi'
 
 /**
  * Return a function that converts midi or notes names to frequency using
@@ -68,13 +68,13 @@ export var toMidi = fromEqualTemp(440)
  * as reference
  *
  * @param {Float} freq
+ * @param {Boolean} useSharps - (Optional) set to true to use sharps instead of flats
  * @return {String} note name
  * @example
- * freq.toNote(440) // => 'A4'
+ * freq.note(440) // => 'A4'
  */
-export function toNote (freq) {
-  console.log('joder', toMidi(freq), Math.round(toMidi(freq)))
-  return midiToNote(toMidi(freq))
+export function note (freq, useSharps) {
+  return midiToNote(toMidi(freq), useSharps)
 }
 
 /**

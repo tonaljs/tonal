@@ -26,6 +26,7 @@
  *
  * @module interval
  */
+import { build } from 'interval-notation'
 import { asIvlPitch, ivlFn, chr, dir,
   strIvl, encode, decode, height } from 'tonal-pitch'
 
@@ -97,6 +98,23 @@ export function props (ivl) {
   if (!i) return null
   var d = decode(i)
   return { num: d[0] + 1 + d[2] * 7, alt: d[1], dir: i[2] }
+}
+
+/**
+ * Given a interval property object, get the interval name
+ *
+ * @param {Object} props - the interval property object
+ *
+ * - num: the interval number
+ * - alt: the interval alteration
+ * - dir: the direction
+ * @return {String} the interval name
+ */
+export function fromProps (props) {
+  if (!props || props.num < 1) return null
+  var octs = Math.floor((props.num) / 7)
+  var simple = props.num - 7 * octs
+  return build(simple, props.alt, octs, props.dir)
 }
 
 /**

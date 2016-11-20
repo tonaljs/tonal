@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.66.0
+
+`tonal-note`
+- Add 'fromProps' function
+- Add 'pcFifths' function
+- Rename 'toNote' to 'note'
+
+`tonal-interval`
+- Add 'fromProps' function
+
+`tonal-midi`
+- Rename 'toNote' to 'note'
+
+`tonal-freq`
+- Rename 'toNote' to 'note' and now accepts 'useSharps' parameter
+
+`tonal-progression`
+- The parseRomanChord now returns an object with { type: <chord type>, root: <interval from key root> }. Before 'type' was 'name' and root was a pitch.
+
 ## 0.65.0
 
 `tonal-note`

@@ -2,6 +2,7 @@
   "name": "tonal-array",
   "version": "0.65.0",
   "description": "Create and manipulate arrays of notes and intervals",
+  "repository": "https://github.com/danigb/tonal/packages/array",
   "keywords": [
     "music",
     "theory",

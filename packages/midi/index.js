@@ -5,9 +5,9 @@
  * @example
  * var midi = require('tonal-midi')
  * midi.toMidi('A4') // => 69
- * midi.toNote(69) // => 'A4'
- * midi.toNote(61) // => 'Db4'
- * midi.toNote(61, true) // => 'C#4'
+ * midi.note(69) // => 'A4'
+ * midi.note(61) // => 'Db4'
+ * midi.note(61, true) // => 'C#4'
  *
  * @module midi
  */
@@ -35,20 +35,21 @@ var SHARPS = 'C C# D D# E F F# G G# A A# B'.split(' ')
 
 /**
  * Given a midi number, returns a note name. The altered notes will have
- * flats.
+ * flats unless explicitly set with the optional `useSharps` parameter.
+ *
  * @function
  * @param {Integer} midi - the midi note number
  * @param {Boolean} useSharps - (Optional) set to true to use sharps instead of flats
  * @return {String} the note name
  * @example
  * var midi = require('tonal-midi')
- * midi.toNote(61) // => 'Db4'
- * midi.toNote(61, true) // => 'C#4'
+ * midi.note(61) // => 'Db4'
+ * midi.note(61, true) // => 'C#4'
  * // it rounds to nearest note
- * midi.toNote(61.7) // => 'D4'
+ * midi.note(61.7) // => 'D4'
  */
-export function toNote (num, sharps) {
-  if (num === true || num === false) return function (m) { return toNote(m, num) }
+export function note (num, sharps) {
+  if (num === true || num === false) return function (m) { return note(m, num) }
   num = Math.round(num)
   var pcs = sharps === true ? SHARPS : FLATS
   var pc = pcs[num % 12]

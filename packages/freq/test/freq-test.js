@@ -20,7 +20,9 @@ tape('midi number from frequency', function (test) {
 })
 
 tape('note name from frequency', function (test) {
-  test.equal(freq.toNote(261), 'C4')
+  test.equal(freq.note(261), 'C4')
+  test.equal(freq.note(275), 'Db4')
+  test.equal(freq.note(275, true), 'C#4')
   test.end()
 })
 
