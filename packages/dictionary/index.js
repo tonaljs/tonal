@@ -1,3 +1,5 @@
+import { compact, sort } from 'tonal-array'
+import { chroma, rotations } from 'tonal-pitchset'
 /**
  * This module contains functions to query tonal dictionaries.
  *
@@ -81,5 +83,37 @@ export function keys (raw, alias) {
   }, [])
   return function (alias) {
     return alias ? main.concat(aliases) : main.slice()
+  }
+}
+
+/**
+ * Create a pitch set detector. Given a dictionary data, it returns a
+ * function that tries to detect a given pitch set inside the dictionary
+ *
+ * @param {Function} builder - a function that given a name and a tonic,
+ * returns the object
+ * @param {Object} data - the dictionary data
+ * @return {Function} the detector function
+ * @see chord.detect
+ */
+export function detector (build, data) {
+  var isSep = typeof build === 'string'
+  var isFn = typeof build === 'function'
+  var dict = Object.keys(data).reduce(function (dict, key) {
+    dict[chroma(data[key][0])] = key
+    return dict
+  }, {})
+
+  return function (notes) {
+    notes = sort(notes)
+    var sets = rotations(notes)
+    return compact(sets.map(function (set, i) {
+      var type = dict[set]
+      if (!type) return null
+      var tonic = notes[i]
+      return isSep ? tonic + build + type
+        : isFn ? build(type, tonic)
+        : [type, tonic]
+    }))
   }
 }

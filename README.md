@@ -19,10 +19,10 @@ Warning: although this library has some time now, the API is still changing.
 var tonal = require('tonal')
 
 // note properties
-tonal.note.pc('Db5') // => 'Db'
 tonal.note.chroma('Cb') // => 11
+tonal.note.pc('Db5') // => 'Db'
 tonal.note.simplify('B#3') // => 'C4'
-tonal.note.freq('C#2')
+tonal.note.freq('C#3') // => 138.59
 tonal.note.midi('A4') // => 69
 tonal.note.fromMidi(69) // => 'A4'
 
@@ -40,11 +40,12 @@ tonal.semitones('C', 'G') // => 7
 tonal.scale('Bb lydian') // => [ 'Ab', 'Bb', 'C', 'D', 'Eb', 'F', 'G' ]
 tonal.scale('Eb bebop') // => [ 'Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'Db', 'D' ]
 tonal.scale.names()
+tonal.scale.detect('Bb4 Eb4 C5 G4 Bb4 F6') // => ['Eb major pentatonic']
 
 // chords
 tonal.chord('Fm7b5') // => [ 'F', 'Ab', 'Cb', 'Eb' ]
 tonal.chord.names()
-tonal.chord.detect('g f# d b') // => [ ['Maj7', 'G'] ]
+tonal.chord.detect('g f# d b') // => [ 'GMaj7' ]
 
 // partial application
 var fifthUp = tonal.transpose('P5')
@@ -55,19 +56,22 @@ tonal.scale('G melodic minor').map(tonal.transpose('m3')) // => [ 'Bb', 'C', 'Db
 tonal.map(tonal.note.pc, 'C2 Eb5 gx4') // => ['C', 'Eb', 'G##']
 tonal.map(tonal.transpose('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
 
-// map functions
-var pcs = tonal.map(tonal.note.pc)
-pcs('C2 db3 e5') // => ['C', 'Db', 'E']
+// lift functions
+var toPitchClasses = tonal.map(tonal.note.pc)
+toPitchClasses('C2 db3 e5') // => ['C', 'Db', 'E']
 var fifthUpAll = tonal.map(tonal.transpose('5P'))
 fifthUpAll('c d e') // => ['G', 'A', 'B']
 
-// Create note ranges
+// Create complex note ranges: from C4 up to F4 and then down to D4
 tonal.range.chromatic(['C4, F4, D4']) // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'E4', 'Eb4', 'D4' ]
-// Filter ranges to certain notes
+// Filter ranges to certain notes: from C3 to C4 and back to C3 , using only C Eb G and Bb notes
 tonal.range.pitchSet('C Eb G Bb', ['C3', 'C4', 'C3']) // => ['C3', 'Eb3', 'G3', 'Bb3', 'C4', 'Bb3', 'G3', 'Eb3', 'C3']
 
-// harmonizers
+// harmonize a note with a list intervals
 tonal.harmonize('P1 m3 d5', 'C') // => ['C', 'Eb', 'Gb']
+// or a list of a notes with an interval
+tonal.harmonize('c d e', 'M3') // => ['E', 'F#', 'G']
+// partial application
 var maj7 = tonal.harmonize('P1 M3 P5 M7')
 maj7('C2') // => ['C2', 'E2', 'G2', 'B2']
 

@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.67
+
+`tonal-chord`
+- 'detect' now returns the chord string
+
+`tonal-scale`
+- new 'detect' function
+
+`tonal-dictionary`
+- 'dectector' function extracted from `tonal-chord`
+
+`tonal-freq`
+- rename 'toEqualTemp' to 'eqTempFreq', and now accepts a maximum number of decimals
+- rename 'fromEqualTemp' to 'eqTempToMidi' and now accepts a maximum number of decimals
+- cents now returns an integer value (instead of a float)
+
+
+`tonal-note`
+- bug fix: note.midi is correctly exported
+
+`tonal-pitchset`
+- new 'notes' function
+- rename 'fromBinary' to 'fromChroma'
+
 ## 0.66.0
 
 `tonal-note`

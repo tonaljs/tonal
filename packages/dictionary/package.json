@@ -16,5 +16,8 @@
   "jsnext:main": "index",
   "author": "danigb@gmail.com",
   "license": "MIT",
-  "devDependencies": {}
+  "devDependencies": {
+    "tonal-array": "^0.66.0",
+    "tonal-pitchset": "^0.66.0"
+  }
 }

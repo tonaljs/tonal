@@ -3,7 +3,7 @@
  *
  * @module scale
  */
-import { get as getter, keys } from 'tonal-dictionary'
+import { get as getter, keys, detector } from 'tonal-dictionary'
 import { parseIvl, parseNote } from 'tonal-pitch'
 import { harmonize } from 'tonal-harmonizer'
 
@@ -68,3 +68,16 @@ export function get (name) {
   return parseNote(tonic) ? harmonize(dict(name.substring(i + 1)), tonic)
     : harmonize(dict(name), false)
 }
+
+/**
+ * Detect a scale. Given a list of notes, return the scale name(s) if any.
+ * It only detects chords with exactly same notes.
+ *
+ * @function
+ * @param {Array|String} notes - the list of notes
+ * @return {Array<String>} an array with the possible scales
+ * @example
+ * scale.detect('b g f# d') // => [ 'GMaj7' ]
+ * scale.detect('e c a g') // => [ 'CM6', 'Am7' ]
+ */
+export var detect = detector(' ', DATA)

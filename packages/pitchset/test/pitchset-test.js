@@ -1,6 +1,12 @@
 var test = require('tape')
 var pitchset = require('..')
 
+test('pitchset: notes', function (t) {
+  t.deepEqual(pitchset.notes('g4 f5 g3 d3 a3 a4 c6 a1'),
+    [ 'G', 'A', 'C', 'D', 'F' ])
+  t.end()
+})
+
 test('pitchset: chroma', function (t) {
   t.equal(pitchset.chroma('c d e'), '101010000000')
   t.equal(pitchset.chroma('g g#4 a bb5'), '000000011110')
@@ -10,10 +16,10 @@ test('pitchset: chroma', function (t) {
   t.end()
 })
 
-test('pitchset: fromBinary', function (t) {
-  t.deepEqual(pitchset.fromBinary('101010101010', 'C'),
+test('pitchset: fromChroma', function (t) {
+  t.deepEqual(pitchset.fromChroma('101010101010', 'C'),
     [ 'C', 'D', 'E', 'Gb', 'Ab', 'Bb' ])
-  t.deepEqual(pitchset.fromBinary('101010101010', null),
+  t.deepEqual(pitchset.fromChroma('101010101010', null),
     [ '1P', '2M', '3M', '5d', '6m', '7m' ])
   t.end()
 })

@@ -15,7 +15,7 @@
  * ['c', 'db3', '2', 'g+', 'gx4'].map(name) // => ['C', 'Db3', null, null, 'G##4']
  */
 import { build } from 'note-parser'
-import { pitch, fifths, asNotePitch, strNote, parseIvl, chr, decode } from 'tonal-pitch'
+import { fifths, asNotePitch, strNote, parseIvl, chr, decode } from 'tonal-pitch'
 import { transpose as tr } from 'tonal-transpose'
 import { toMidi, note as midiToNote } from 'tonal-midi'
 import { toFreq } from 'tonal-freq'

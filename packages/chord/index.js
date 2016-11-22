@@ -4,17 +4,15 @@
  *
  * @example
  * var chord = require('tonal-chord')
- * chord.detect('c b g e') // => ['Maj7', 'C']
+ * chord.detect('c b g e') // => 'CMaj7'
  * chord.get('CMaj7') // => ['C', 'E', 'G', 'B']
  *
  * @module chord
  */
-import { get as getter, keys } from 'tonal-dictionary'
+import { get as getter, keys, detector } from 'tonal-dictionary'
 import { parseIvl } from 'tonal-pitch'
-import { compact, sort } from 'tonal-array'
 import { regex } from 'note-parser'
 import { harmonize } from 'tonal-harmonizer'
-import { chroma, rotations } from 'tonal-pitchset'
 
 var DATA = require('./chords.json')
 
@@ -104,32 +102,15 @@ export function parse (name) {
   return p[4] ? [p[4], p[1] + p[2] + p[3]] : [p[3], p[1] + p[2]]
 }
 
-function detector (data) {
-  var dict = Object.keys(data).reduce(function (dict, key) {
-    dict[chroma(data[key][0])] = key
-    return dict
-  }, {})
-
-  return function (notes) {
-    notes = sort(notes)
-    var sets = rotations(notes)
-    return compact(sets.map(function (set, i) {
-      return dict[set] ? [dict[set], notes[i]] : null
-    }))
-  }
-}
-
 /**
  * Detect a chord. Given a list of notes, return the chord name(s) if any.
  * It only detects chords with exactly same notes.
  *
  * @function
  * @param {Array|String} notes - the list of notes
- * @return {Array<Array>} an array with the possible matches in the form
- * [chordType, root]
+ * @return {Array<String>} an array with the possible chords
  * @example
- * chord.detect('e c a g') // => [ [ 'M6', 'C' ], [ 'm7', 'A' ] ]
+ * chord.detect('b g f# d') // => [ 'GMaj7' ]
+ * chord.detect('e c a g') // => [ 'CM6', 'Am7' ]
  */
-export var detect = detector(DATA)
-
-export default get
+export var detect = detector('', DATA)

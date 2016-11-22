@@ -26,3 +26,10 @@ test('scale: names', function (t) {
   t.ok(scale.names(true).length > scale.names().length)
   t.end()
 })
+
+test('scale: detect', function (t) {
+  t.deepEqual(scale.detect('c d e f g a b'), [
+    'C major', 'D dorian', 'E phrygian', 'F lydian', 'G mixolydian',
+    'A aeolian', 'B locrian'])
+  t.end()
+})

@@ -10,58 +10,78 @@
  */
 import { toMidi as noteToMidi, note as midiToNote } from 'tonal-midi'
 
-/**
- * Return a function that converts midi or notes names to frequency using
- * equal temperament.
- * @function
- * @param {Float} ref - the tuning reference
- * @return {Function} the frequency calculator. It accepts midi numbers,
- * note names, pitches and returns a float.
- * @example
- * import { toEqualTemp } from 'tonal-freq'
- * const toFreq = toEqualTemp(444)
- * toFreq('A3') // => 222
- */
-export function toEqualTemp (ref) {
-  return function (p) {
-    var m = noteToMidi(p)
-    return m ? Math.pow(2, (m - 69) / 12) * ref : null
+// decorate a function to round the numeric result to a max
+function round (m, fn) {
+  m = m || m === 0 ? Math.pow(10, m) : false
+  return function (v) {
+    v = fn(v)
+    return v === null ? null : m ? Math.round(v * m) / m : v
   }
 }
 
 /**
- * Get the frequency of a pitch using equal temperament scale and A4 equal to 440Hz
+ * Return the equal tempered frequency of a note.
+ *
+ * This function can be partially applied if note parameter is not present.
+ * @function
+ * @param {Float} ref - the tuning reference
+ * @param {Integer} maxDecimals - (Optional) the maximum number of decimals (all by default)
+ * @param {String|Pitch} note - the note to get the frequency from
+ * @return {Number} the frequency
+ * @example
+ * eqTempFreq(444, 4, 'C3')
+ * const toFreq = eqTempFreq(444, 2)
+ * toFreq('A3') // => 222
+ */
+export function eqTempFreq (ref, max, note) {
+  if (arguments.length > 2) return eqTempFreq(ref, max)(note)
+  return round(max, function (p) {
+    var m = noteToMidi(p)
+    return m ? Math.pow(2, (m - 69) / 12) * ref : null
+  })
+}
+
+/**
+ * Get the frequency of note with 2 decimals precission using A4 440Hz tuning
+ *
+ * This is an alias for: `eqTempFreq(440, 2, <note>)`
+ *
  * @function
  * @param {Number|String} note - the note name or midi number
  * @return {Float} the frequency in herzs
  * @example
  * freq.toFreq('A4') // => 440
- * freq.toFreq('C4') // => 261.6255653005986
+ * freq.toFreq('C4') // => 261.63
  */
-export var toFreq = toEqualTemp(440)
+export var toFreq = eqTempFreq(440, 2)
 
 /**
- * Create a function that returns a midi number from a frequency using an
- * equal temperament and `ref` frequency as 'A4' frequency.
+ * Get the midi note from a frequency in equal temperament scale. You can
+ * specify the number of decimals of the midi number.
  *
- * @param {Float} ref - the frequency of A4
- * @return {Function} a function that converts from frequency to midi
+ * @param {Float} tuning - (Optional) the reference A4 tuning (440Hz by default)
+ * @param {Number} freq - the frequency
+ * @return {Number} the midi number
  */
-export function fromEqualTemp (ref) {
-  return function (freq) {
-    var m = 12 * (Math.log(freq) - Math.log(ref)) / Math.log(2) + 69
-    return Math.round(m * 100) / 100
-  }
+export function eqTempFreqToMidi (ref, max, freq) {
+  if (arguments.length > 2) return eqTempFreqToMidi(ref, max)(freq)
+  return round(max, function (freq) {
+    return 12 * (Math.log(freq) - Math.log(ref)) / Math.log(2) + 69
+  })
 }
 
 /**
- * Get note from frequency using a equal temeperament scale and 440Hz as
- * freq reference
- * @param {Float} freq
- * @return {Integer} midi number
+ * Get midi number from frequency with two decimals of precission.
+ *
+ * This is an alisas for: `eqTempFreqToMidi(440, 2, <freq>)`
+ *
  * @function
+ * @param {Float} freq
+ * @return {Number} midi number
+ * @example
+ * freq.toMidi(361) // => 59.96
  */
-export var toMidi = fromEqualTemp(440)
+export var toMidi = eqTempFreqToMidi(440, 2)
 
 /**
  * Get note name from frequency using an equal temperament scale with 440Hz
@@ -82,13 +102,13 @@ export function note (freq, useSharps) {
  * expressed with hertzs or midi numbers or note names
  * @param {Float|Integer|String} base
  * @param {Float|Integer|String} freq
- * @return {Float} The difference in cents
+ * @return {Integer} The difference in cents
  * @example
  * import { cents } from 'tonal-freq'
- * cents('C4', 261) // => -4.1444603457298985
+ * cents('C4', 261) // => -4
  */
 export function cents (base, freq) {
   var b = toFreq(base) || base
   var f = toFreq(freq) || freq
-  return 1200 * (Math.log(f / b) / Math.log(2))
+  return Math.round(1200 * (Math.log(f / b) / Math.log(2)))
 }

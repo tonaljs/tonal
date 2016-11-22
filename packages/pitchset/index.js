@@ -8,11 +8,25 @@
  * @module pitchset
  */
 import { chr, asPitch } from 'tonal-pitch'
+import { pc } from 'tonal-note'
 import { map, asArr, rotate, compact } from 'tonal-array'
 import { transpose } from 'tonal-transpose'
 
 function toInt (set) { return parseInt(chroma(set), 2) }
 function pitchChr (p) { p = asPitch(p); return p ? chr(p) : null }
+
+/**
+ * Given a list of notes, return the notes of the pitchset
+ * starting with the first note of the list
+ */
+export function notes (notes) {
+  var pcs = map(pc, notes)
+  if (!pcs.length) return pcs
+  var tonic = pcs[0]
+  // since the first note of the chroma is always C, we have to rotate it
+  var rotated = rotate(pitchChr(tonic), chroma(pcs).split('')).join('')
+  return fromChroma(rotated, tonic)
+}
 
 /**
  * Given a pitch set (a list of notes or a pitch set chroma), produce the 12 rotations
@@ -78,7 +92,7 @@ export function chroma (set) {
  */
 export function withTonic (tonic, set) {
   if (arguments.length === 1) return function (s) { return withTonic(tonic, s) }
-  return fromBinary(chroma(set), tonic)
+  return fromChroma(chroma(set), tonic)
 }
 
 var IVLS = '1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M'.split(' ')
@@ -89,10 +103,10 @@ var IVLS = '1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M'.split(' ')
  * @param {String|Pitch} tonic - the pitch set tonic
  * @return {Array} a list of notes or intervals
  * @example
- * pitchset.fromBinary('101010101010', 'C') // => ['C', 'D', 'E', 'Gb', 'Ab', 'Bb']
+ * pitchset.fromChroma('101010101010', 'C') // => ['C', 'D', 'E', 'Gb', 'Ab', 'Bb']
  */
-export function fromBinary (binary, tonic) {
-  if (arguments.length === 1) return function (t) { return fromBinary(binary, t) }
+export function fromChroma (binary, tonic) {
+  if (arguments.length === 1) return function (t) { return fromChroma(binary, t) }
   if (!isChroma(binary)) return null
 
   tonic = tonic || 'P1'

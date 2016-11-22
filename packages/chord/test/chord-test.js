@@ -3,11 +3,11 @@ var chord = require('..')
 var DATA = require('../chords.json')
 
 test('chord: detect', function (t) {
-  t.deepEqual(chord.detect('c e g b'), [ ['Maj7', 'C'] ])
-  t.deepEqual(chord.detect('e c a g'), [ [ 'M6', 'C' ], [ 'm7', 'A' ] ])
-  t.deepEqual(chord.detect('g d f# b'), [ ['Maj7', 'G'] ])
-  t.deepEqual(chord.detect('f a d g b'), [ [ 'm6', 'D' ], [ '9', 'G' ] ])
-  t.deepEqual(chord.detect('f bb g d# a'), [ ['m9#5', 'G'] ])
+  t.deepEqual(chord.detect('c e g b'), [ 'CMaj7' ])
+  t.deepEqual(chord.detect('e c a g'), [ 'CM6', 'Am7' ])
+  t.deepEqual(chord.detect('g d f# b'), [ 'GMaj7' ])
+  t.deepEqual(chord.detect('f a d g b'), [ 'Dm6', 'G9' ])
+  t.deepEqual(chord.detect('f bb g d# a'), [ 'Gm9#5' ])
   t.end()
 })
 

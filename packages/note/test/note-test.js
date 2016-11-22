@@ -16,6 +16,12 @@ test('note: oct', function (t) {
   t.end()
 })
 
+test('note: midi', function (t) {
+  t.deepEqual('c4 d4 e4 f4 g4 a4 b4 c4'.split(' ').map(note.midi),
+    [ 60, 62, 64, 65, 67, 69, 71, 60 ])
+  t.end()
+})
+
 test('note: chroma', function (t) {
   t.deepEqual('Cb C Db D Eb E Fb F Gb G Ab A Bb B'.split(' ').map(note.chroma),
     [ 11, 0, 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11 ])
