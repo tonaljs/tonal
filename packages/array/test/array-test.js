@@ -79,9 +79,17 @@ test('array: rotateAsc', function (t) {
   t.end()
 })
 
-test('select', function (t) {
+test('array: select', function (t) {
   t.deepEqual(_.select('1 3 5', 'C D E F G A B'), ['C', 'E', 'G'])
   t.deepEqual(_.select('1 -3 12 4', 'C D E F G A B'), [ 'C', null, null, 'F' ])
   t.deepEqual(_.select('-1 0 1 2 3', 'C D'), [ null, null, 'C', 'D', null ])
+  t.end()
+})
+
+test('array: permutations', function (t) {
+  t.deepEqual(_.permutations('a b c'), [
+    [ 'a', 'b', 'c' ], [ 'b', 'a', 'c' ], [ 'b', 'c', 'a' ],
+    [ 'a', 'c', 'b' ], [ 'c', 'a', 'b' ], [ 'c', 'b', 'a' ]
+  ])
   t.end()
 })

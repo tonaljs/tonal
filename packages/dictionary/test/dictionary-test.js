@@ -7,9 +7,9 @@ var DATA = {
 }
 
 test('dictionary: detector', function (t) {
-  t.deepEqual(dict.detector(null, DATA)('E4 C4 B2 G'), [ ['maj7', 'G'] ])
-  t.deepEqual(dict.detector('', DATA)('E4 C4 B2 G'), [ 'Gmaj7' ])
-  t.deepEqual(dict.detector(' ', DATA)('E4 C4 B2 G'), [ 'G maj7' ])
+  t.deepEqual(dict.detector(null, DATA)('E4 C4 B2 G5'), [ ['maj7', 'C'] ])
+  t.deepEqual(dict.detector('', DATA)('D4 b7 f#2 G5'), [ 'Gmaj7' ])
+  t.deepEqual(dict.detector(' ', DATA)('E C5 B G3'), [ 'C maj7' ])
   t.end()
 })
 

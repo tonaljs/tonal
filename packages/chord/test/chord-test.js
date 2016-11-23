@@ -13,8 +13,9 @@ test('chord: detect', function (t) {
 
 test('chord: chord data integrity', function (t) {
   chord.names(true).forEach(function (name) {
+    console.log('name', name)
     if (!Array.isArray(DATA[name])) return
-    var data = chord.build(name, false)
+    var data = chord.get(name, false)
     var filtered = data.filter(function (x) { return x })
     t.equal(data.length, filtered.length, 'Chord data: ' + name)
   })
@@ -22,32 +23,40 @@ test('chord: chord data integrity', function (t) {
 })
 
 test('chord: parse', function (t) {
-  t.deepEqual(chord.parse('Cmaj7'), ['maj7', 'C'])
-  t.deepEqual(chord.parse('C7'), ['7', 'C'])
-  t.deepEqual(chord.parse('maj7'), ['maj7', null])
-  t.deepEqual(chord.parse('C#4 m7b5'), [ 'm7b5', 'C#4' ])
-  t.deepEqual(chord.parse('C#4m7b5'), [ 'm7b5', 'C#4' ])
+  t.deepEqual(chord.parse('Cmaj7'), { type: 'maj7', tonic: 'C' })
+  t.deepEqual(chord.parse('C7'), { type: '7', tonic: 'C' })
+  t.deepEqual(chord.parse('maj7'), { type: 'maj7', tonic: false })
+  t.deepEqual(chord.parse('C#4 m7b5'), { type: 'm7b5', tonic: 'C#4' })
+  t.deepEqual(chord.parse('C#4m7b5'), { type: 'm7b5', tonic: 'C#4' })
   // TODO: fix this
-  t.deepEqual(chord.parse('C7b5'), ['b5', 'C7'])
-  t.end()
-})
-
-test('chord: build', function (t) {
-  t.deepEqual(chord.build('7', 'C'), [ 'C', 'E', 'G', 'Bb' ])
-  t.deepEqual(chord.build('maj7', 'A4'), ['A4', 'C#5', 'E5', 'G#5'])
-  t.deepEqual(chord.build('1P 3M 5P', 'A4'), ['A4', 'C#5', 'E5'])
-  t.deepEqual(chord.build('maj7', false), [ '1P', '3M', '5P', '7M' ])
-  t.deepEqual(chord.build('P1 M3 P5 M7', false), [ '1P', '3M', '5P', '7M' ])
-  t.deepEqual(chord.build('maj7', 'C'), chord.build('maj7')('C'))
+  t.deepEqual(chord.parse('C7b5'), { type: 'b5', tonic: 'C7' })
   t.end()
 })
 
 test('chord: get', function (t) {
-  t.deepEqual(chord.get('Cmaj7'), [ 'C', 'E', 'G', 'B' ])
-  t.deepEqual(chord.get('C7'), [ 'C', 'E', 'G', 'Bb' ])
-  t.deepEqual(chord.get('C64'), ['G', 'C', 'E'])
+  t.deepEqual(chord.get('maj7#5', 'D'), [ 'D', 'F#', 'A#', 'C#' ])
   t.end()
 })
+
+test('chord: notes', function (t) {
+  t.deepEqual(chord.notes('Cmaj7'), [ 'C', 'E', 'G', 'B' ])
+  t.deepEqual(chord.notes('C4 maj7'), [ 'C4', 'E4', 'G4', 'B4' ])
+  t.deepEqual(chord.notes('C7'), [ 'C', 'E', 'G', 'Bb' ])
+  t.deepEqual(chord.notes('C64'), ['G', 'C', 'E'])
+  t.deepEqual(chord.notes('Cmaj7#5'), [ 'C', 'E', 'G#', 'B' ])
+  t.deepEqual(chord.notes('e4 c5 g2'), ['E4', 'C5', 'G2'])
+  t.end()
+})
+
+test('chord: inversion', function (t) {
+  t.deepEqual(chord.inversion(0, 'e g c'), [ 'C', 'E', 'G' ])
+  t.deepEqual(chord.inversion(1, 'e g c'), [ 'E', 'G', 'C' ])
+  t.deepEqual(chord.inversion(2, 'e g c'), [ 'G', 'C', 'E' ])
+  t.deepEqual(chord.inversion(0)('b g e d c'), [ 'C', 'E', 'G', 'B', 'D' ])
+  t.deepEqual(chord.inversion(3, 'CMaj7#5'), [ 'B', 'C', 'E', 'G#' ])
+  t.end()
+})
+
 test('chord: names', function (t) {
   test(chord.names().length > 0)
   test(chord.names(true).length > chord.names().length)

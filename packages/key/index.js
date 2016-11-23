@@ -1,11 +1,15 @@
 /**
- * A collection of functions related to music keys. Things like keys signatures,
- * scales, modes, etc.
+ * _Key_ refers to the tonal system based on the major and minor scales. This is
+ * is the most common tonal system, but tonality can be present in music
+ * based in other scales or concepts.
+ *
+ * This is a collection of functions related to keys.
  *
  * @example
  * var key = require('tonal-key')
  * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
  * key.relative('minor', 'C major') // => ['minor', 'A']
+ *
  * @module key
  */
 
@@ -27,7 +31,8 @@ var SCALES = [0, 1, 2, 3, 4, 5, 6, 0, 5].map(function (n) {
 })
 
 /**
- * Get scale of a key
+ * Get scale of a key (with optionally a mode)
+ *
  * @param {String|Object} key
  * @return {Array} the key scale
  * @example
@@ -44,11 +49,14 @@ export function scale (key) {
 }
 
 /**
- * Get relative of a key. It can be partially applied.
+ * Get relative of a key. Two keys are relative when the have the same
+ * key signature (for example C major and A minor)
+ *
+ * It can be partially applied.
+ *
  * @param {String} mode - the relative destination
  * @param {String} key - the key source
  * @example
- * var key = require('tonal-keys')
  * key.relative('dorian', 'C major') // => ['dorian', 'D']
  * // partially application
  * var minor = key.relative('minor')

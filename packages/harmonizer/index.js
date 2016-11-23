@@ -30,7 +30,7 @@ import { asArr, map, compact } from 'tonal-array'
 /**
  * Given a list of notes, return the distance from the first note to the rest.
  * @param {Array|String} notes - the list of notes
- * @return {Array} the intervals
+ * @return {Array} the intervals relative to the first note
  * @example
  * harmonizer.harmonics('C E G') // => ['1P', '3M', '5P']
  *
@@ -41,6 +41,26 @@ import { asArr, map, compact } from 'tonal-array'
 export function harmonics (list) {
   var a = asArr(list)
   return a.length ? compact(a.map(interval(a[0]))) : a
+}
+
+/**
+ * Given a list of notes, return the distance from one to the next. Notice
+ * that the number of intervals is one less that the number of notes.
+ *
+ * @param {Array|String} notes - the list of notes
+ * @return {Array} the intervals relative to the previous
+ * @example
+ * harmonizer.distances('c e g') // => ['3M', '3m']
+ * harmonizer.distances('e g c') // => ['3m', '4P']
+ * harmonizer.distances('c') // => []
+ */
+export function distances (notes) {
+  var dist = []
+  notes = asArr(notes)
+  for (var i = 1; i < notes.length; i++) {
+    dist.push(interval(notes[i - 1], notes[i]))
+  }
+  return dist
 }
 
 /**

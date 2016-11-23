@@ -14,6 +14,7 @@
   "devDependencies": {},
   "dependencies": {
     "tonal-pitch": "^0.66.0",
+    "tonal-note": "^0.66.0",
     "tonal-transpose": "^0.66.0",
     "tonal-array": "^0.66.0"
   }

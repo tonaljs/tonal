@@ -26,8 +26,9 @@ test('pitchset: fromChroma', function (t) {
 
 test('pitchset: modes', function (t) {
   // TODO: fixme, the 4th mode should have F# instead of Gb
-  t.deepEqual(pitchset.rotations('c d e f g a b').map(pitchset.withTonic('C')),
-    [ [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ],
+  t.deepEqual(pitchset.chromaModes('c d e f g a b').map(function (chroma, i) {
+    return pitchset.fromChroma(chroma, 'C')
+  }), [ [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ],
       [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ],
       [ 'C', 'Db', 'Eb', 'F', 'G', 'Ab', 'Bb' ],
       [ 'C', 'D', 'E', 'Gb', 'G', 'A', 'B' ],
@@ -77,14 +78,14 @@ test('pitchset: filter', function (t) {
   t.end()
 })
 
-test('pitchset: rotations', function (t) {
-  t.deepEqual(pitchset.rotations('c d e f g a b'),
+test('pitchset: chromaModes', function (t) {
+  t.deepEqual(pitchset.chromaModes('c d e f g a b'),
     [ '101011010101', '101101010110', '110101011010', '101010110101',
       '101011010110', '101101011010', '110101101010' ])
-  t.deepEqual(pitchset.rotations('c d e f g a b', false),
+  t.deepEqual(pitchset.chromaModes('c d e f g a b', false),
     [ '101011010101', '010110101011', '101101010110', '011010101101',
       '110101011010', '101010110101', '010101101011', '101011010110',
       '010110101101', '101101011010', '011010110101', '110101101010' ])
-  t.deepEqual(pitchset.rotations('blah bleh'), [])
+  t.deepEqual(pitchset.chromaModes('blah bleh'), [])
   t.end()
 })

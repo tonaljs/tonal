@@ -37,8 +37,11 @@ export function notes (notes) {
  * @param {Array|String} set - the list of notes or pitchChr of the set
  * @param {Boolean} normalize - (Optional, true by default) remove all
  * the rotations that starts with '0'
+ * @return {Array<String>} an array with all the modes of the chroma
+ *
+ * @example
  */
-export function rotations (set, normalize) {
+export function chromaModes (set, normalize) {
   normalize = normalize !== false
   var binary = chroma(set).split('')
   return compact(binary.map(function (_, i) {
@@ -80,19 +83,6 @@ export function chroma (set) {
     b[i] = 1
   })
   return b.join('')
-}
-
-/**
- * Get a pitch set with different tonic
- * @param {String|Pitch} tonic - the desired tonic
- * @param {Array|String} set - the list of notes or the binary representation
- * @param {Array} a list of notes or intervals (depending the root)
- * @example
- * pitchset.withTonic('c d e f g a b', 'D')
- */
-export function withTonic (tonic, set) {
-  if (arguments.length === 1) return function (s) { return withTonic(tonic, s) }
-  return fromChroma(chroma(set), tonic)
 }
 
 var IVLS = '1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M'.split(' ')

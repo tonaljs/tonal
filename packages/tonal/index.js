@@ -12,8 +12,8 @@
  *
  * It also adds a couple of function aliases:
  *
- * - `tonal.scale` is an alias for `tonal.scale.get`
- * - `tonal.chord` is an alias for `tonal.chord.get`
+ * - `tonal.scale` is an alias for `tonal.scale.notes`
+ * - `tonal.chord` is an alias for `tonal.chord.notes`
  *
  * @example
  * var tonal = require('tonal')
@@ -36,9 +36,9 @@ tonal.midi = require('tonal-midi')
 tonal.freq = require('tonal-freq')
 tonal.range = require('tonal-range')
 
-tonal.scale = function (name) { return tonal.scale.get(name) }
+tonal.scale = function (name) { return tonal.scale.notes(name) }
 assign(tonal.scale, require('tonal-scale'))
-tonal.chord = function (name) { return tonal.chord.get(name) }
+tonal.chord = function (name) { return tonal.chord.notes(name) }
 assign(tonal.chord, require('tonal-chord'))
 
 tonal.pitch = require('tonal-pitch')

@@ -232,6 +232,24 @@ export function select (nums, list) {
   })
 }
 
+// http://stackoverflow.com/questions/9960908/permutations-in-javascript
+/**
+ * Get all permutations of a list
+ * @param {Array|Strng} list - the list
+ * @return {Array<Array>} an array with all the permutations
+ */
+export function permutations (list) {
+  list = asArr(list)
+  if (list.length === 0) return [[]]
+  return permutations(list.slice(1)).reduce(function (acc, perm) {
+    return acc.concat(list.map(function (e, pos) {
+      var new_perm = perm.slice()
+      new_perm.splice(pos, 0, list[0])
+      return new_perm
+    }))
+  }, [])
+}
+
 // #### Transform lists in array notation
 function asPitchStr (p) { return strPitch(p) || p }
 function listToStr (v) {

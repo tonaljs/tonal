@@ -2,6 +2,7 @@
   "name": "tonal-dictionary",
   "version": "0.67.0",
   "description": "Tonal key/value utilities",
+  "repository": "https://github.com/danigb/tonal/packages/dictionary",
   "keywords": [
     "music",
     "theory",

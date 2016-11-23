@@ -28,13 +28,13 @@ import { toAcc } from 'tonal-notation'
 export function abstract (chords, tonic) {
   tonic = pc(tonic)
   chords = map(parse, chords)
-  var tonics = compact(chords.map(function (x) { return x[1] }))
+  var tonics = compact(chords.map(function (x) { return x.tonic }))
   // if some tonic missing, can't do the analysis
   if (tonics.length !== chords.length) return null
 
   return tonics.map(function (t, i) {
     var p = props(interval(tonic, t))
-    return buildRoman(p.num - 1, p.alt, chords[i][0])
+    return buildRoman(p.num - 1, p.alt, chords[i].type)
   })
 }
 

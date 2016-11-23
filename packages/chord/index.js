@@ -1,5 +1,7 @@
 /**
- * A collection of function to create and manipulate chords. It includes a
+ * A chord is a harmonic unit with at least three different tones sounding simultaneously.
+ *
+ * This module have functions to create and manipulate chords. It includes a
  * chord dictionary and a simple chord detection algorithm.
  *
  * @example
@@ -10,40 +12,15 @@
  * @module chord
  */
 import { get as getter, keys, detector } from 'tonal-dictionary'
+import { map, compact, permutations, rotate } from 'tonal-array'
 import { parseIvl } from 'tonal-pitch'
+import { pc, note } from 'tonal-note'
 import { regex } from 'note-parser'
-import { harmonize } from 'tonal-harmonizer'
+import { harmonize, distances } from 'tonal-harmonizer'
 
 var DATA = require('./chords.json')
 
 var dict = getter(parseIvl, DATA)
-
-/**
- * Create chords by chord type or intervals and tonic. The returned chord is an
- * array of notes (or intervals if you specify `false` as tonic)
- *
- * This function is currified
- *
- * @param {String} source - the chord type, intervals or notes
- * @param {String} tonic - the chord tonic (or false to get intervals)
- * @return {Array} the chord notes
- *
- * @example
- * var chord = require('tonal-chord')
- * // get chord notes using type and tonic
- * chord.build('maj7', 'C2') // => ['C2', 'E2', 'G2', 'B2']
- * // get chord intervals (tonic false)
- * chord.build('maj7', false) // => ['1P', '3M', '5P', '7M']
- * // partially applied
- * var maj7 = chord.build('maj7')
- * maj7('C') // => ['C', 'E', 'G', 'B']
- * // create chord from intervals
- * chord.build('1 3 5 m7 m9', 'C') // => ['C', 'E', 'G', 'Bb', 'Db']
- */
-export function build (src, tonic) {
-  if (arguments.length === 1) return function (t) { return build(src, t) }
-  return harmonize(dict(src) || src, tonic)
-}
 
 /**
  * Return the available chord names
@@ -59,47 +36,41 @@ export function build (src, tonic) {
 export var names = keys(DATA)
 
 /**
- * Get chord notes from chord name
+ * Get chord notes or intervals from chord type
  *
- * @param {String} name - the chord name
- * @return {Array} the chord notes
+ * This function is currified
+ *
+ * @param {String} type - the chord type
+ * @param {Strng|Pitch} tonic - the tonic or false to get the intervals
+ * @return {Array<String>} the chord notes or intervals, or null if not valid type
  *
  * @example
- * var chords = require('tonal-chords')
- * chords.get('C7') // => ['C', 'E', 'G', 'Bb']
- * chords.get('CMaj7') // => ['C', 'E', 'G', 'B']
+ * chords.get('dom7', 'C') // => ['C', 'E', 'G', 'Bb']
+ * maj7 = chords.get('Maj7')
+ * maj7('C') // => ['C', 'E', 'G', 'B']
  */
-export function get (name) {
-  var p = regex().exec(name)
-  if (!p) return []
-  // it has note and chord name
-  if (p[4]) return build(p[4], p[1] + p[2] + p[3])
-  return build(p[3], p[1] + p[2])
+export function get (type, tonic) {
+  if (arguments.length === 1) return function (t) { return get(type, t) }
+  var ivls = dict(type)
+  return ivls ? harmonize(ivls, tonic) : null
 }
 
 /**
- * Try to parse a chord name. It returns an array with the chord type and
- * the tonic. If not tonic is found, all the name is considered the chord
- * name.
+ * Get the chord notes of a chord. This function accepts either a chord name
+ * (for example: 'Cmaj7') or a list of notes.
  *
- * This function does NOT check if the chord type exists or not. It only tries
- * to split the tonic and chord type.
+ * It always returns an array, even if the chord is not found.
  *
- * @param {String} name - the chord name
- * @return {Array} an array with [type, tonic]
+ * @param {String|Array} chord - the chord to get the notes from
+ * @return {Array<String>} a list of notes or empty list if not chord found
+ *
  * @example
- * chord.parse('Cmaj7') // => ['maj7', 'C']
- * chord.parse('C7') // => ['7', 'C']
- * chord.parse('mMaj7') // => ['mMaj7', null]
- * chord.parse('Cnonsense') // => ['nonsense', 'C']
+ * chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
  */
-export function parse (name) {
-  var p = regex().exec(name)
-  if (!p) return [name, null]
-  // it can have a chord name: Cmaj7 is ['maj7', 'C']
-  // or if not, the octave is treated as chord name: C7 is ['7', 'C']
-  // doesn't have chord name: the name is the octave (example: 'C7' is dominant)
-  return p[4] ? [p[4], p[1] + p[2] + p[3]] : [p[3], p[1] + p[2]]
+export function notes (chord) {
+  var p = parse(chord)
+  var ivls = dict(p.type)
+  return ivls ? harmonize(ivls, p.tonic) : compact(map(note, chord))
 }
 
 /**
@@ -114,3 +85,70 @@ export function parse (name) {
  * chord.detect('e c a g') // => [ 'CM6', 'Am7' ]
  */
 export var detect = detector('', DATA)
+
+/**
+ * Get the position (inversion number) of a chord (0 is root position, 1 is first
+ * inversion...). It assumes the chord is formed by superposed thirds.
+ *
+ * @param {Array|String} chord - the chord notes
+ * @return {Integer} the inversion number (0 for root inversion, 1 for first
+ * inversion...) or null if not a valid chord
+ *
+ * @example
+ * chord.position('e g c') // => 1
+ * chord.position('g3 e2 c5') // => 1 (e is the lowest note)
+ */
+export function position (num, chord) {
+  if (arguments.length === 1) return function (c) { return inversion(num, c) }
+  var all = permutations(notes(chord).map(pc))
+  for (var i = 0; i < all.length; i++) {
+    var ivls = distances(all[i])
+    if (areTriads(ivls)) return rotate(num, all[i])
+  }
+  return []
+}
+
+/**
+ * Return a chord in a given inversion
+ */
+export function inversion (num, chord) {
+  if (arguments.length === 1) return function (c) { return inversion(num, c) }
+  var all = permutations(notes(chord).map(pc))
+  for (var i = 0; i < all.length; i++) {
+    var ivls = distances(all[i])
+    if (areTriads(ivls)) return rotate(num, all[i])
+  }
+  return []
+}
+
+function areTriads (list) {
+  for (var i = 0; i < list.length; i++) {
+    if (list[i][0] !== '3') return false
+  }
+  return true
+}
+
+/**
+ * Try to parse a chord name. It returns an array with the chord type and
+ * the tonic. If not tonic is found, all the name is considered the chord
+ * name.
+ *
+ * This function does NOT check if the chord type exists or not. It only tries
+ * to split the tonic and chord type.
+ *
+ * @param {String} name - the chord name
+ * @return {Array} an array with [type, tonic]
+ * @example
+ * chord.parse('Cmaj7') // => { tonic: 'C', type: 'maj7' }
+ * chord.parse('C7') // => { tonic: 'C', type: '7' }
+ * chord.parse('mMaj7') // => { tonic: false, type: 'mMaj7' }
+ * chord.parse('Cnonsense') // => { tonic: 'C', type: 'nonsense' }
+ */
+export function parse (name) {
+  var p = regex().exec(name)
+  if (!p) return { type: name, tonic: false }
+  // it can have a chord name: Cmaj7 is ['maj7', 'C']
+  // or if not, the octave is treated as chord name: C7 is ['7', 'C']
+  // doesn't have chord name: the name is the octave (example: 'C7' is dominant)
+  return p[4] ? { type: p[4], tonic: p[1] + p[2] + p[3] } : { type: p[3], tonic: p[1] + p[2] }
+}

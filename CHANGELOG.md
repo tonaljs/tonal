@@ -1,19 +1,44 @@
 # Changelog
 
+## 0.68 [Master]
+
+`tonal-array`
+- new `permutations` function
+
+`tonal-transposer`
+- new `distances` function
+
+`tonal-scale`
+- rename `get` to `notes`
+- rename `build` to `get`
+
+`tonal-chord`
+- rename `build` to `get`
+- rename `get` to `notes` and now it accepts a list of notes
+- parse now returns an object with type and tonic instead of an array
+- new `inversion` function
+
+`tonal-pitchset`
+- rename `rotations` to `chromaModes`
+- remove `withTonic` function
+
+`tonal-dictionary`
+- fix a bug with dictionary detection
+
 ## 0.67
 
 `tonal-chord`
-- 'detect' now returns the chord string
+- `detect` now returns the chord string
 
 `tonal-scale`
-- new 'detect' function
+- new `detect` function
 
 `tonal-dictionary`
-- 'dectector' function extracted from `tonal-chord`
+- `dectector` function extracted from `tonal-chord`
 
 `tonal-freq`
-- rename 'toEqualTemp' to 'eqTempFreq', and now accepts a maximum number of decimals
-- rename 'fromEqualTemp' to 'eqTempToMidi' and now accepts a maximum number of decimals
+- rename `toEqualTemp` to `eqTempFreq`, and now accepts a maximum number of decimals
+- rename `fromEqualTemp` to `eqTempToMidi` and now accepts a maximum number of decimals
 - cents now returns an integer value (instead of a float)
 
 
@@ -21,24 +46,24 @@
 - bug fix: note.midi is correctly exported
 
 `tonal-pitchset`
-- new 'notes' function
-- rename 'fromBinary' to 'fromChroma'
+- new `notes` function
+- rename `fromBinary` to `fromChroma`
 
 ## 0.66.0
 
 `tonal-note`
-- Add 'fromProps' function
-- Add 'pcFifths' function
-- Rename 'toNote' to 'note'
+- Add `fromProps` function
+- Add `pcFifths` function
+- Rename `toNote` to `note`
 
 `tonal-interval`
-- Add 'fromProps' function
+- Add `fromProps` function
 
 `tonal-midi`
-- Rename 'toNote' to 'note'
+- Rename `toNote` to `note`
 
 `tonal-freq`
-- Rename 'toNote' to 'note' and now accepts 'useSharps' parameter
+- Rename `toNote` to `note` and now accepts 'useSharps' parameter
 
 `tonal-progression`
 - The parseRomanChord now returns an object with { type: <chord type>, root: <interval from key root> }. Before 'type' was 'name' and root was a pitch.
@@ -52,12 +77,12 @@
 - sort: change order of parameters to make it more JS friendly
 
 `tonal-pitchset`
-- rename toBinary to chroma
+- rename `toBinary` to `chroma`
 
 ## 0.64.1
 
 `tonal-chord`
-- detect: given a list of notes, return the possible chords
+- new function `detect`: given a list of notes, return the possible chords
 
 `tonal-pitchset`
 - add functions: isBinary, rotations, fromBinary
@@ -66,7 +91,7 @@
 ## 0.64.0
 
 `tonal-array`
-- remove listFn (now is private)
+- `listFn` function is now private (to be removed)
 - Move harmonizer, harmonize and harmonics to tonal-harmonizer
 
 `tonal-harmonizer`
@@ -132,27 +157,27 @@ __Now packages are namespaced inside tonal. Instead of `tonal.invert` now we hav
 - Rename ivlName to toInterval
 
 `tonal-midi`
-- rename toMidi to fromNote
-- rename fromMidi to toNote
-- remove fromMidiS, instead use an optional parameter in toNote
-- rename isMidiNum to isValidNote
+- rename `toMidi` to `fromNote`
+- rename `fromMidi` to `toNote`
+- remove `fromMidiS`, instead use an optional parameter in `toNote`
+- rename `isMidiNum` to `isValidNote`
 
 `tonal-range`
-- rename range to numeric
-- rename cycleOfFifths to fifths
-- rename scaleRange to pitchSet
+- rename `range` to `numeric`
+- rename `cycleOfFifths` to `fifths`
+- rename `scaleRange` to `pitchSet`
 - add sharps option to chromatic
 
 `tonal-distance`
-- rename distance to interval
-- return distInSemitones to semitones
+- rename `distance` to `interval`
+- return `distInSemitones` to `semitones`
 
 `tonal-filter`
 - TODO: needs some thinking about API
 
 `tonal-dictionary`
-- rename fromName to get
-- rename names to keys
+- rename `fromName` to `get`
+- rename `names` to `keys`
 
 `tonal-transpose`
-- remove tr alias
+- remove `tr` function alias (use `transpose`)
