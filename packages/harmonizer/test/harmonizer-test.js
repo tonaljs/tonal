@@ -9,9 +9,9 @@ test('harmonizer: harmonics', function (t) {
 })
 
 test('harmonizer: distances', function (t) {
-  t.deepEqual(_.distances('c e g'), [ '3M', '3m' ])
-  t.deepEqual(_.distances('e g c'), [ '3m', '4P' ])
-  t.deepEqual(_.distances('C2 g4 c4'), [ '19P', '-5P' ])
+  t.deepEqual(_.intervallic('c e g'), [ '3M', '3m' ])
+  t.deepEqual(_.intervallic('e g c'), [ '3m', '4P' ])
+  t.deepEqual(_.intervallic('C2 g4 c4'), [ '19P', '-5P' ])
   t.end()
 })
 

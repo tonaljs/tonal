@@ -1,12 +1,12 @@
 # Changelog
 
-## 0.68 [Master]
+## 0.68
 
 `tonal-array`
 - new `permutations` function
 
 `tonal-transposer`
-- new `distances` function
+- new `intervallic` function
 
 `tonal-scale`
 - rename `get` to `notes`
@@ -16,7 +16,7 @@
 - rename `build` to `get`
 - rename `get` to `notes` and now it accepts a list of notes
 - parse now returns an object with type and tonic instead of an array
-- new `inversion` function
+- new `inversion` and `position` functions
 
 `tonal-pitchset`
 - rename `rotations` to `chromaModes`
@@ -166,7 +166,7 @@ __Now packages are namespaced inside tonal. Instead of `tonal.invert` now we hav
 - rename `range` to `numeric`
 - rename `cycleOfFifths` to `fifths`
 - rename `scaleRange` to `pitchSet`
-- add sharps option to chromatic
+- add sharps option to `chromatic`
 
 `tonal-distance`
 - rename `distance` to `interval`

@@ -35,6 +35,7 @@ tonal.ivl = require('tonal-interval')
 tonal.midi = require('tonal-midi')
 tonal.freq = require('tonal-freq')
 tonal.range = require('tonal-range')
+tonal.key = require('tonal-key')
 
 tonal.scale = function (name) { return tonal.scale.notes(name) }
 assign(tonal.scale, require('tonal-scale'))

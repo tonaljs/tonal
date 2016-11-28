@@ -13,7 +13,6 @@ test('chord: detect', function (t) {
 
 test('chord: chord data integrity', function (t) {
   chord.names(true).forEach(function (name) {
-    console.log('name', name)
     if (!Array.isArray(DATA[name])) return
     var data = chord.get(name, false)
     var filtered = data.filter(function (x) { return x })
@@ -48,7 +47,13 @@ test('chord: notes', function (t) {
   t.end()
 })
 
+test('chord: position', function (t) {
+  t.deepEqual(chord.position('g2 c3 e4'))
+  t.end()
+})
+
 test('chord: inversion', function (t) {
+  t.deepEqual(chord.inversion(1, 'C4 maj7'), [ 'E', 'G', 'B', 'C' ])
   t.deepEqual(chord.inversion(0, 'e g c'), [ 'C', 'E', 'G' ])
   t.deepEqual(chord.inversion(1, 'e g c'), [ 'E', 'G', 'C' ])
   t.deepEqual(chord.inversion(2, 'e g c'), [ 'G', 'C', 'E' ])

@@ -1,6 +1,9 @@
 /**
- * Functions related to midi note numbers exclusively. This is not about midi
- * but about midi note numbers.
+ * A midi note number is a number representation of a note pitch. It can be
+ * integers so it's equal tempered tuned, or float to indicate it's not
+ * tuned into equal temepered scale.
+ *
+ * This module contains functions to convert to and from midi notes.
  *
  * @example
  * var midi = require('tonal-midi')

@@ -16,7 +16,7 @@ import { map, compact, permutations, rotate } from 'tonal-array'
 import { parseIvl } from 'tonal-pitch'
 import { pc, note } from 'tonal-note'
 import { regex } from 'note-parser'
-import { harmonize, distances } from 'tonal-harmonizer'
+import { harmonize, intervallic } from 'tonal-harmonizer'
 
 var DATA = require('./chords.json')
 
@@ -98,24 +98,17 @@ export var detect = detector('', DATA)
  * chord.position('e g c') // => 1
  * chord.position('g3 e2 c5') // => 1 (e is the lowest note)
  */
-export function position (num, chord) {
-  if (arguments.length === 1) return function (c) { return inversion(num, c) }
-  var all = permutations(notes(chord).map(pc))
-  for (var i = 0; i < all.length; i++) {
-    var ivls = distances(all[i])
-    if (areTriads(ivls)) return rotate(num, all[i])
-  }
-  return []
+export function position (chord) {
 }
 
 /**
- * Return a chord in a given inversion
+ * Given a chord in any inverstion, set to the given inversion
  */
 export function inversion (num, chord) {
   if (arguments.length === 1) return function (c) { return inversion(num, c) }
   var all = permutations(notes(chord).map(pc))
   for (var i = 0; i < all.length; i++) {
-    var ivls = distances(all[i])
+    var ivls = intervallic(all[i])
     if (areTriads(ivls)) return rotate(num, all[i])
   }
   return []

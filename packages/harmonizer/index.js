@@ -44,17 +44,19 @@ export function harmonics (list) {
 }
 
 /**
- * Given a list of notes, return the distance from one to the next. Notice
- * that the number of intervals is one less that the number of notes.
+ * Given a list of notes, return the intervallic structure: the distance from
+ * one to the next.
+ *
+ * Notice that the number of intervals is one less that the number of notes.
  *
  * @param {Array|String} notes - the list of notes
  * @return {Array} the intervals relative to the previous
  * @example
- * harmonizer.distances('c e g') // => ['3M', '3m']
- * harmonizer.distances('e g c') // => ['3m', '4P']
- * harmonizer.distances('c') // => []
+ * harmonizer.intervallic('c e g') // => ['3M', '3m']
+ * harmonizer.intervallic('e g c') // => ['3m', '4P']
+ * harmonizer.intervallic('c') // => []
  */
-export function distances (notes) {
+export function intervallic (notes) {
   var dist = []
   notes = asArr(notes)
   for (var i = 1; i < notes.length; i++) {

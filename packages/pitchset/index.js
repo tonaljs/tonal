@@ -40,6 +40,7 @@ export function notes (notes) {
  * @return {Array<String>} an array with all the modes of the chroma
  *
  * @example
+ * pitchset.chromaModes('C E G')
  */
 export function chromaModes (set, normalize) {
   normalize = normalize !== false
