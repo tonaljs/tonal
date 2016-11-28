@@ -1,10 +1,15 @@
 {
   "name": "tonal-harmonizer",
-  "version": "0.66.0",
+  "version": "0.68.0",
   "description": "Functions to transpose and get distances from collection of notes",
   "repository": "https://github.com/danigb/tonal/packages/harmonizer",
   "keywords": [
-    "music", "theory", "tranpose", "intervals", "collections", "tonal"
+    "music",
+    "theory",
+    "tranpose",
+    "intervals",
+    "collections",
+    "tonal"
   ],
   "scripts": {
     "pretest": "rollup -f cjs -o build/index.js -- index.js",
@@ -18,6 +23,6 @@
   "dependencies": {
     "tonal-transpose": "^0.66.0",
     "tonal-distance": "^0.66.0",
-    "tonal-array": "^0.66.0"
+    "tonal-array": "^0.68.0"
   }
 }
