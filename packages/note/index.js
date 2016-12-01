@@ -96,6 +96,14 @@ export function note (n) {
 }
 
 /**
+ * An alias for note. Get the name of a note in scientific notation
+ * @example
+ * note.name('fx') // => 'F##'
+ * note.name('bbb3') // => 'Bbb3'
+ */
+export const name = note
+
+/**
  * Get note properties. It returns an object with the following properties:
  *
  * - step: 0 for C, 6 for B. Do not confuse with chroma

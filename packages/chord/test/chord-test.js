@@ -48,7 +48,8 @@ test('chord: notes', function (t) {
 })
 
 test('chord: position', function (t) {
-  t.deepEqual(chord.position('g2 c3 e4'))
+  t.deepEqual(chord.position('g2 c3 e4 b'), 2)
+  t.deepEqual(chord.position('b e c g'), 3)
   t.end()
 })
 

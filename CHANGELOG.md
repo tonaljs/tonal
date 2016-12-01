@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.69 [MASTER]
+
+`tonal-key`
+- Simplified API: removed `asKey`, `fromName`. All returned keys are strings instead of arrays.
+- `names` renamed to `modes`
+
+`tonal-notation`
+- TODO: new `accType` function (return the accidentals type: flats, sharps, none)
+
+`tonal-note`
+- add `name` as an alias for `note`
+
+`tonal-dictionary`
+- Simplified API and code: `dictionary` and `detector`
+
+`tonal-scale`
+- add `parse` function
+- the `notes` function requires a tonic and returns pitch classes
+
+`tonal-pcset-dft`
+- New module (see README)
+
+
 ## 0.68
 
 `tonal-array`

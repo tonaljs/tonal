@@ -11,16 +11,15 @@
  *
  * @module chord
  */
-import { get as getter, keys, detector } from 'tonal-dictionary'
+import { dictionary, detector } from 'tonal-dictionary'
 import { map, compact, permutations, rotate } from 'tonal-array'
-import { parseIvl } from 'tonal-pitch'
 import { pc, note } from 'tonal-note'
 import { regex } from 'note-parser'
 import { harmonize, intervallic } from 'tonal-harmonizer'
 
 var DATA = require('./chords.json')
 
-var dict = getter(parseIvl, DATA)
+var dict = dictionary(DATA, function (str) { return str.split(' ') })
 
 /**
  * Return the available chord names
@@ -33,7 +32,7 @@ var dict = getter(parseIvl, DATA)
  * var chord = require('tonal-chord')
  * chord.names() // => ['maj7', ...]
  */
-export var names = keys(DATA)
+export var names = dict.keys
 
 /**
  * Get chord notes or intervals from chord type
@@ -51,7 +50,7 @@ export var names = keys(DATA)
  */
 export function get (type, tonic) {
   if (arguments.length === 1) return function (t) { return get(type, t) }
-  var ivls = dict(type)
+  var ivls = dict.get(type)
   return ivls ? harmonize(ivls, tonic) : null
 }
 
@@ -69,7 +68,7 @@ export function get (type, tonic) {
  */
 export function notes (chord) {
   var p = parse(chord)
-  var ivls = dict(p.type)
+  var ivls = dict.get(p.type)
   return ivls ? harmonize(ivls, p.tonic) : compact(map(note, chord))
 }
 
@@ -84,7 +83,7 @@ export function notes (chord) {
  * chord.detect('b g f# d') // => [ 'GMaj7' ]
  * chord.detect('e c a g') // => [ 'CM6', 'Am7' ]
  */
-export var detect = detector('', DATA)
+export var detect = detector(dict, '')
 
 /**
  * Get the position (inversion number) of a chord (0 is root position, 1 is first
@@ -99,19 +98,37 @@ export var detect = detector('', DATA)
  * chord.position('g3 e2 c5') // => 1 (e is the lowest note)
  */
 export function position (chord) {
+  var pcs = map(pc, chord)
+  var sorted = sortTriads(pcs)
+  return sorted ? sorted.indexOf(pcs[0]) : null
 }
 
 /**
- * Given a chord in any inverstion, set to the given inversion
+ * Given a chord in any inverstion, set to the given inversion. It accepts
+ * chord names
+ *
+ * @param {Integer} num - the inversion number (0 root position, 1 first
+ * inversion, ...)
+ * @param {String|Array} chord - the chord name or notes
+ * @return {Array} the chord pitch classes in the desired inversion
+ *
+ * @example
+ * chord.inversion(1, 'Cmaj7') // => [ 'E', 'G', 'B', 'C' ]
+ * chord.inversion(0, 'e g c') // => [ 'C', 'E', 'G' ]
  */
 export function inversion (num, chord) {
   if (arguments.length === 1) return function (c) { return inversion(num, c) }
+  var sorted = sortTriads(chord)
+  return sorted ? rotate(num, sorted) : []
+}
+
+function sortTriads (chord) {
   var all = permutations(notes(chord).map(pc))
   for (var i = 0; i < all.length; i++) {
     var ivls = intervallic(all[i])
-    if (areTriads(ivls)) return rotate(num, all[i])
+    if (areTriads(ivls)) return all[i]
   }
-  return []
+  return null
 }
 
 function areTriads (list) {

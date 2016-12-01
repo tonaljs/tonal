@@ -8,7 +8,7 @@
  * @example
  * var key = require('tonal-key')
  * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
- * key.relative('minor', 'C major') // => ['minor', 'A']
+ * key.relative('minor', 'C major') // => 'A minor'
  *
  * @module key
  */
@@ -20,7 +20,6 @@ import { numeric } from 'tonal-range'
 import { rotate } from 'tonal-array'
 import { harmonics, harmonize } from 'tonal-harmonizer'
 
-var isArr = Array.isArray
 // Order matters: use an array
 var MODES = ['ionian', 'dorian', 'phrygian', 'lydian', 'mixolydian',
   'aeolian', 'locrian', 'major', 'minor']
@@ -30,22 +29,71 @@ var SCALES = [0, 1, 2, 3, 4, 5, 6, 0, 5].map(function (n) {
   return harmonics(rotate(n, ['C', 'D', 'E', 'F', 'G', 'A', 'B']))
 })
 
+// PRIVATE
+// Given a tonic, mode pair, return the key string
+function toKey (t, m) { return !t ? m : t + ' ' + m }
+// Given the alterations, return the major key
+function majorKey (n) { return toKey(trFifths('C', n), 'major') }
+// given the mode name, return the alterations
+function modeNum (mode) { return FIFTHS[MODES.indexOf(mode)] }
+// given a string, return the valid mode it represents or null
+function validMode (m) {
+  m = m.trim().toLowerCase()
+  return MODES.indexOf(m) === -1 ? null : m
+}
+
 /**
- * Get scale of a key (with optionally a mode)
+ * Return the key properties, an object with { tonic, mode }
  *
- * @param {String|Object} key
- * @return {Array} the key scale
+ * @param {String} name - the key name
+ * @return {Key} the key properties object or null if not a valid key
  * @example
  * var key = require('tonal-key')
- * key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
- * key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
- * key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
- * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+ * key.props('C3 dorian') // => { tonic: 'C', mode: 'dorian' }
+ * key.props('dorian') // => { tonic: false, mode: 'dorian' }
+ * key.props('Ab bebop') // => null
+ * key.props('blah') // => null
  */
-export function scale (key) {
-  var k = asKey(key)
-  if (!k || !hasTonic(k)) return null
-  return harmonize(SCALES[MODES.indexOf(k[0])], k[1])
+export function props (str) {
+  if (typeof str !== 'string') return null
+  var ndx = str.indexOf(' ')
+  var key
+  if (ndx === -1) {
+    var p = pc(str)
+    key = p ? { tonic: p, mode: 'major' }
+      : { tonic: false, mode: validMode(str) }
+  } else {
+    key = { tonic: pc(str.slice(0, ndx)), mode: validMode(str.slice(ndx + 1)) }
+  }
+  return key.mode ? key : null
+}
+
+/**
+ * Get the tonic of a key
+ *
+ * @param {String} key - the key
+ * @return {String} the tonic or false is no tonic, or null if its not a valid key
+ * @example
+ * key.tonic('c3 major') // => 'C'
+ * key.tonic('minor') // => false
+ * key.tonic('bebop') // null
+ */
+export function tonic (key) {
+  return (props(key) || key || {}).tonic || null
+}
+
+/**
+ * Get the mode of a key. It can be used to test if its a valid key mode.
+ *
+ * @param {String}
+ * @return {Boolean}
+ * @example
+ * key.mode('A dorian') // => 'dorian'
+ * key.mode('DORIAN') // => 'dorian'
+ * key.mode('mixophrygian') // => null
+ */
+export function mode (key) {
+  return (props(key) || key || {}).mode || null
 }
 
 /**
@@ -57,19 +105,20 @@ export function scale (key) {
  * @param {String} mode - the relative destination
  * @param {String} key - the key source
  * @example
- * key.relative('dorian', 'C major') // => ['dorian', 'D']
- * // partially application
+ * key.relative('dorian', 'B major') // => 'C# dorian'
+ * // partial application
  * var minor = key.relative('minor')
- * minor('C major') // => ['minor', 'A']
+ * minor('C major') // => 'A minor'
+ * minor('E major') // => 'C# minor'
  */
 export function relative (rel, key) {
   if (arguments.length === 1) return function (k) { return relative(rel, k) }
-  var r = asKey(rel)
-  if (!r || hasTonic(r)) return null
-  var k = asKey(key)
-  if (!k || !hasTonic(k)) return null
-  var tonic = trFifths(k[1], modeNum(r) - modeNum(k))
-  return build(tonic, rel)
+  rel = props(rel)
+  if (!rel || rel.tonic) return null
+  key = props(key)
+  if (!key || !key.tonic) return null
+  var tonic = trFifths(key.tonic, modeNum(rel.mode) - modeNum(key.mode))
+  return toKey(tonic, rel.mode)
 }
 
 /**
@@ -94,45 +143,15 @@ export function alteredNotes (key) {
  *
  * @param {Boolean} alias - true to get aliases names
  * @return {Array} an array of strings
+ * @example
+ * key.modes() // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+ * // 'mixolydian', 'aeolian', 'locrian' ]
+ * key.modes(true) // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+ * // 'mixolydian', 'aeolian', 'locrian', 'major', 'minor' ]
  */
-export function names (alias) {
+export function modes (alias) {
   return alias ? MODES.slice() : MODES.slice(0, -2)
 }
-
-/**
- * Check if the given string is a valid mode name
- * @param {String}
- * @return {Boolean}
- */
-export function isKeyMode (m) { return MODES.indexOf(m) !== -1 }
-
-/**
- * Build a key object from tonic a mode.
- *
- * A key object is an array with the mode name and the tonic (or false if
- * no tonic specified)
- *
- * @param {String} tonic - the key tonic (or null or false to no tonic)
- * @param {String} mode - the keymode
- * @return {Key} a key data object
- * @example
- * var key = require('tonal-key')
- * key.build('g3', 'minor') // => ['minor', 'G']
- * key.build(false, 'locrian') // => ['locrian', false]
- */
-export function build (tonic, mode) {
-  if (typeof mode !== 'string') return null
-  var m = mode.trim().toLowerCase()
-  if (!isKeyMode(m)) return null
-  if (tonic === false || tonic === null) return [m, false]
-  var t = pc(tonic)
-  return t ? [m, t] : null
-}
-
-function isKey (o) { return isArr(o) && isKeyMode(o[0]) }
-function hasTonic (o) { return isKey(o) && o[1] }
-
-function majorKey (n) { return build(trFifths('C', n), 'major') }
 
 /**
  * Create a major key from alterations
@@ -141,19 +160,21 @@ function majorKey (n) { return build(trFifths('C', n), 'major') }
  * @return {Key} the key object
  * @example
  * var key = require('tonal-key')
- * key.fromAlter(2) // => ['major', 'D']
+ * key.fromAlter(2) // => 'D major'
  */
 export function fromAlter (n) {
   return typeof n === 'number' ? majorKey(n) : null
 }
 
 /**
- * Create a major key from accidentals
+ * Get key name from accidentals
+ *
  * @param {String} acc - the accidentals string
  * @return {Key} the key object
  * @example
  * var key = require('tonal-key')
- * key.fromAlter('bb') // => ['major', 'Bb']
+ * key.fromAcc('b') // => 'F major'
+ * key.fromAcc('##') // => 'D major'
  */
 export function fromAcc (s) {
   return areSharps(s) ? majorKey(s.length)
@@ -162,36 +183,21 @@ export function fromAcc (s) {
 }
 
 /**
- * Create a key from key name
- * @param {String} name - the key name
- * @return {Key} the key object or null if not valid key
+ * Get scale of a key
+ *
+ * @param {String|Object} key
+ * @return {Array} the key scale
  * @example
- * var key = require('tonal-key')
- * key.fromName('C3 dorian') // => ['dorian', 'C']
- * key.fromName('blah') // => null
+ * key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
+ * key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
+ * key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
+ * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
  */
-export function fromName (str) {
-  if (typeof str !== 'string') return null
-  var p = str.split(/\s+/)
-  switch (p.length) {
-    case 1: return pc(p[0]) ? build(p[0], 'major') : build(false, p[0])
-    case 2: return build(p[0], p[1])
-    default: return null
-  }
+export function scale (key) {
+  var p = props(key)
+  if (!p || !p.tonic) return null
+  return harmonize(SCALES[MODES.indexOf(p.mode)], p.tonic)
 }
-
-/**
- * Try to interpret the given object as a key. Given an object it will try to
- * parse as if it were a name, accidentals or alterations.
- * @function
- * @param {Object} obj
- * @return {Key} the key object or null
- */
-export function asKey (obj) {
-  return isKey(obj) ? obj : fromName(obj) || fromAcc(obj) || fromAlter(obj)
-}
-
-function modeNum (k) { return FIFTHS[MODES.indexOf(k[0])] }
 
 /**
  * Get key alteration. The alteration is a number indicating the number of
@@ -203,10 +209,10 @@ function modeNum (k) { return FIFTHS[MODES.indexOf(k[0])] }
  * key.alteration('A major') // => 3
  */
 export function alteration (key) {
-  var k = asKey(key)
-  if (!k || !hasTonic(k)) return null
-  var toMajor = modeNum(k)
-  var toC = pcFifths(k[1])
+  var k = props(key)
+  if (!k || !k.tonic) return null
+  var toMajor = modeNum(k.mode)
+  var toC = pcFifths(k.tonic)
   return toC - toMajor
 }
 

@@ -2,87 +2,77 @@
 var test = require('tape')
 var key = require('..')
 
-test('scale', function (t) {
+test('key: mode', function (t) {
+  t.equal(key.mode('mixophrygian'), null)
+  t.equal(key.mode('blah'), null)
+  t.equal(key.mode(null), null)
+  key.modes(true).forEach(function (m) {
+    t.equal(key.mode(m), m)
+  })
+  t.end()
+})
+
+test('key: tonic', function (t) {
+  t.equal(key.tonic('c4 mixolydian'), 'C')
+  t.equal(key.tonic('mixolydian'), null)
+  t.end()
+})
+
+test('key: props', function (t) {
+  t.deepEqual(key.props('Eb mixolydian'), { mode: 'mixolydian', tonic: 'Eb' })
+  t.deepEqual(key.props('lydian'), { mode: 'lydian', tonic: false })
+  t.deepEqual(key.props('F#'), { mode: 'major', tonic: 'F#' })
+  t.deepEqual(key.props('blah'), null)
+  t.deepEqual(key.props('Eb blah'), null)
+  t.end()
+})
+
+test('key: scale', function (t) {
   t.deepEqual(key.scale('C major'), [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ])
   t.deepEqual(key.scale('C dorian'), [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ])
   t.deepEqual(key.scale('E mixolydian'), [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ])
   t.end()
 })
 
-test('isKeyMode', function (t) {
-  key.names(true).forEach(function (m) {
-    t.ok(key.isKeyMode(m), m)
-  })
-  t.equal(key.isKeyMode('blah'), false)
-  t.equal(key.isKeyMode(null), false)
-  t.end()
-})
-
-test('names', function (t) {
-  t.deepEqual(key.names(false),
+test('key: modes', function (t) {
+  t.deepEqual(key.modes(false),
     [ 'ionian', 'dorian', 'phrygian', 'lydian', 'mixolydian', 'aeolian', 'locrian' ])
-  t.deepEqual(key.names(true),
+  t.deepEqual(key.modes(true),
     [ 'ionian', 'dorian', 'phrygian', 'lydian', 'mixolydian', 'aeolian', 'locrian',
       'major', 'minor' ])
   t.end()
 })
 
-test('build', function (t) {
-  t.deepEqual(key.build('C3', 'mixolydian'),
-    ['mixolydian', 'C'])
-  t.deepEqual(key.build(null, 'phrygian'),
-    ['phrygian', false])
-  t.deepEqual(key.build('blah', 'major'), null)
-  t.deepEqual(key.build('C', 'blah'), null)
-  t.end()
-})
-
 test('from alter', function (t) {
   t.deepEqual([0, 1, 2, 3, 4, 5, 6, 7].map(key.fromAlter),
-    [ [ 'major', 'C' ], [ 'major', 'G' ], [ 'major', 'D' ], [ 'major', 'A' ],
-      [ 'major', 'E' ], [ 'major', 'B' ], [ 'major', 'F#' ], [ 'major', 'C#' ] ])
+    [ 'C major', 'G major', 'D major', 'A major', 'E major',
+      'B major', 'F# major', 'C# major' ])
   t.deepEqual([-0, -1, -2, -3, -4, -5, -6, -7, -8].map(key.fromAlter),
-    [ [ 'major', 'C' ], [ 'major', 'F' ], [ 'major', 'Bb' ], [ 'major', 'Eb' ],
-      [ 'major', 'Ab' ], [ 'major', 'Db' ], [ 'major', 'Gb' ], [ 'major', 'Cb' ],
-      [ 'major', 'Fb' ] ])
+    [ 'C major', 'F major', 'Bb major', 'Eb major', 'Ab major',
+      'Db major', 'Gb major', 'Cb major', 'Fb major' ])
   t.end()
 })
 
-test('from accidentals', function (t) {
-  t.deepEqual(key.fromAcc('###'), [ 'major', 'A' ])
-  t.deepEqual(key.fromAcc('bbb'), [ 'major', 'Eb' ])
+test('key: from accidentals', function (t) {
+  t.equal(key.fromAcc('###'), 'A major')
+  t.equal(key.fromAcc('bbb'), 'Eb major')
   t.end()
 })
 
-test('from name', function (t) {
-  t.deepEqual(key.fromName('Eb mixolydian'), [ 'mixolydian', 'Eb' ])
-  t.deepEqual(key.fromName('lydian'), [ 'lydian', false ])
-  t.deepEqual(key.fromName('F#'), [ 'major', 'F#' ])
-  t.equal(key.fromName('blah'), null)
-  t.equal(key.fromName('Eb blah'), null)
-  t.end()
-})
-
-test('asKey', function (t) {
-  t.deepEqual(key.asKey('C minor'), ['minor', 'C'])
-  t.equal(key.asKey('blah'), null)
-  t.end()
-})
-
-test('relative', function (t) {
-  t.deepEqual(key.relative('minor', 'Eb major'), ['minor', 'C'])
-  t.deepEqual(key.relative('dorian', 'Bb mixolydian'), ['dorian', 'F'])
+test('key: relative', function (t) {
+  t.equal(key.relative('minor', 'Eb major'), 'C minor')
+  t.equal(key.relative('dorian', 'Bb mixolydian'), 'F dorian')
   t.equal(key.relative('blah', 'C major'), null)
 
   var minor = key.relative('minor')
-  t.deepEqual(minor('C'), [ 'minor', 'A' ])
+  t.equal(minor('C'), 'A minor')
   t.end()
 })
 
-test('alteration', function (t) {
+test('key: alteration', function (t) {
   t.equal(key.alteration('A major'), 3)
   var Amaj = 'A B C# D E F# G#'.split(' ')
-  var modes = key.names(false)
+  var modes = key.modes(false)
   Amaj.forEach(function (tonic, i) {
     t.equal(key.alteration(tonic + ' ' + modes[i]), 3)
   })

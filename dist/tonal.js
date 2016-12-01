@@ -417,14 +417,13 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var tonalDictionary = require('tonal-dictionary');
 var tonalArray = require('tonal-array');
-var tonalPitch = require('tonal-pitch');
 var tonalNote = require('tonal-note');
 var noteParser = require('note-parser');
 var tonalHarmonizer = require('tonal-harmonizer');
 
 var DATA = require('./chords.json')
 
-var dict = tonalDictionary.get(tonalPitch.parseIvl, DATA)
+var dict = tonalDictionary.dictionary(DATA, function (str) { return str.split(' ') })
 
 /**
  * Return the available chord names
@@ -437,7 +436,7 @@ var dict = tonalDictionary.get(tonalPitch.parseIvl, DATA)
  * var chord = require('tonal-chord')
  * chord.names() // => ['maj7', ...]
  */
-var names = tonalDictionary.keys(DATA)
+var names = dict.keys
 
 /**
  * Get chord notes or intervals from chord type
@@ -453,9 +452,9 @@ var names = tonalDictionary.keys(DATA)
  * maj7 = chords.get('Maj7')
  * maj7('C') // => ['C', 'E', 'G', 'B']
  */
-function get$1 (type, tonic) {
-  if (arguments.length === 1) return function (t) { return get$1(type, t) }
-  var ivls = dict(type)
+function get (type, tonic) {
+  if (arguments.length === 1) return function (t) { return get(type, t) }
+  var ivls = dict.get(type)
   return ivls ? tonalHarmonizer.harmonize(ivls, tonic) : null
 }
 
@@ -473,7 +472,7 @@ function get$1 (type, tonic) {
  */
 function notes (chord) {
   var p = parse(chord)
-  var ivls = dict(p.type)
+  var ivls = dict.get(p.type)
   return ivls ? tonalHarmonizer.harmonize(ivls, p.tonic) : tonalArray.compact(tonalArray.map(tonalNote.note, chord))
 }
 
@@ -488,7 +487,7 @@ function notes (chord) {
  * chord.detect('b g f# d') // => [ 'GMaj7' ]
  * chord.detect('e c a g') // => [ 'CM6', 'Am7' ]
  */
-var detect = tonalDictionary.detector('', DATA)
+var detect = tonalDictionary.detector(dict, '')
 
 /**
  * Get the position (inversion number) of a chord (0 is root position, 1 is first
@@ -503,19 +502,37 @@ var detect = tonalDictionary.detector('', DATA)
  * chord.position('g3 e2 c5') // => 1 (e is the lowest note)
  */
 function position (chord) {
+  var pcs = tonalArray.map(tonalNote.pc, chord)
+  var sorted = sortTriads(pcs)
+  return sorted ? sorted.indexOf(pcs[0]) : null
 }
 
 /**
- * Given a chord in any inverstion, set to the given inversion
+ * Given a chord in any inverstion, set to the given inversion. It accepts
+ * chord names
+ *
+ * @param {Integer} num - the inversion number (0 root position, 1 first
+ * inversion, ...)
+ * @param {String|Array} chord - the chord name or notes
+ * @return {Array} the chord pitch classes in the desired inversion
+ *
+ * @example
+ * chord.inversion(1, 'Cmaj7') // => [ 'E', 'G', 'B', 'C' ]
+ * chord.inversion(0, 'e g c') // => [ 'C', 'E', 'G' ]
  */
 function inversion (num, chord) {
   if (arguments.length === 1) return function (c) { return inversion(num, c) }
+  var sorted = sortTriads(chord)
+  return sorted ? tonalArray.rotate(num, sorted) : []
+}
+
+function sortTriads (chord) {
   var all = tonalArray.permutations(notes(chord).map(tonalNote.pc))
   for (var i = 0; i < all.length; i++) {
     var ivls = tonalHarmonizer.intervallic(all[i])
-    if (areTriads(ivls)) return tonalArray.rotate(num, all[i])
+    if (areTriads(ivls)) return all[i]
   }
-  return []
+  return null
 }
 
 function areTriads (list) {
@@ -551,13 +568,13 @@ function parse (name) {
 }
 
 exports.names = names;
-exports.get = get$1;
+exports.get = get;
 exports.notes = notes;
 exports.detect = detect;
 exports.position = position;
 exports.inversion = inversion;
 exports.parse = parse;
-},{"./chords.json":3,"note-parser":5,"tonal-array":1,"tonal-dictionary":6,"tonal-harmonizer":10,"tonal-note":17,"tonal-pitch":19}],5:[function(require,module,exports){
+},{"./chords.json":3,"note-parser":5,"tonal-array":1,"tonal-dictionary":6,"tonal-harmonizer":10,"tonal-note":17}],5:[function(require,module,exports){
 'use strict'
 
 // util
@@ -782,72 +799,69 @@ var tonalPitchset = require('tonal-pitchset');
 function id (x) { return x }
 
 /**
- * Query a tonal dictionary by key.
+ * Create a tonal dictionary. A dictionary is an object with two functions: get and
+ * keys.
  *
- * If you pass two parameters you get a currified version: a dictionary getter.
- * (see example)
+ * The data given to this constructor it's a HashMap in the form:
+ * `{ key: [intervals, [aliases]] }`
  *
- * @param {Function} parser - (Optional) the function to parse the intervals
- * @param {Hash<String, Array>} dictionary - the dictionary data
- * @param {String} key - the key to query
- * @return {Array} the list of intervals of that name or null if not present
- * in the dictionary
+ * @param {HashMap} data - the dictionary data
+ * @return {Object} the dictionary object
+ *
  * @example
- * var dict = require('tonal-dictionary')
+ * var dictionary = require('tonal-dictionary').dictionary
  * var DATA = {
  * 'maj7': ['1 3 5 7', ['Maj7']],
  *   'm7': ['1 b3 5 7']
  * }
- * var chord = dict.get(null, DATA)
- * chord('maj7') // => [ '1', '3', '5', '7' ]
- * chord('Maj7') // => [ '1', '3', '5', '7' ]
- * chord('m7') // => ['1', 'b3', '5', '7']
- * chord('m7b5') // => null
+ * var chords = dictionary(DATA, function (str) { return str.split(' ') })
+ * chords.get('maj7') // => [ '1', '3', '5', '7' ]
+ * chords.get('Maj7') // => [ '1', '3', '5', '7' ]
+ * chords.get('m7') // => ['1', 'b3', '5', '7']
+ * chords.get('m7b5') // => null
+ * chords.keys() // => ['maj7', 'm7']
+ * chords.keys(true) // => ['maj7', 'm7', 'Maj7']
  */
-function get (parse, raw, name) {
-  if (arguments.length > 2) return get(parse, raw)(name)
-  var data = Object.keys(raw).reduce(function (d, k) {
-    // add intervals
-    d[k] = raw[k][0].split(' ').map(parse || id)
-    // add alias
-    if (raw[k][1]) raw[k][1].forEach(function (a) { d[a] = d[k] })
-    return d
-  }, {})
-  return function (n) {
-    return data[n]
-  }
-}
-
-/**
- * Query a tonal dictionary to get all the defined keys
- *
- * If you pass only one parameter you get a partially applied version: a
- * function that returns all keys of the given dictionary.
- *
- * @param {Hash<String, Array>} dictionary - the dictionary data
- * @param {Boolean} aliases - (Optional) true to include the name aliases
- * @return {Array<String>} a list of defined keys
- * @example
- * var dict = require('tonal-dictionary')
- * var DATA = {
- * 'maj7': ['1 3 5 7', ['Maj7']],
- *   'm7': ['1 b3 5 7']
- * }
- * dict.keys(DATA, false) // => ['maj7', 'm7']
- * dict.keys(DATA, true) // => ['maj7', 'm7', 'Maj7']
- * // partially applied
- * var chordNames = dict.keys(DATA)
- * chordNames() // => ['maj7', 'm7']
- */
-function keys (raw, alias) {
-  if (arguments.length > 1) return keys(raw)(alias)
-  var main = Object.keys(raw)
-  var aliases = main.reduce(function (a, k) {
-    if (raw[k][1]) raw[k][1].forEach(function (n) { a.push(n) })
-    return a
-  }, [])
-  return function (alias) {
-    return alias ? main.concat(aliases) : main.slice()
+function dictionary (raw, parse) {
+  parse = parse || id
+  var byKey = {}
+  var names = Object.keys(raw)
+  var aliases = []
+  names.forEach(function (k) {
+    var value = parse(raw[k][0])
+    byKey[k] = value
+    if (raw[k][1]) {
+      raw[k][1].forEach(function (alias) {
+        byKey[alias] = value
+        aliases.push(alias)
+      })
+    }
+  })
+  return {
+    /**
+     * Get a value by key
+     * @name get
+     * @function
+     * @param {String} key
+     * @return {Object} the value (normally an array of intervals or notes)
+     * @memberof dictionary
+     */
+    get: function (n) { return byKey[n] },
+    /**
+     * Get the valid keys of dictionary
+     * @name keys
+     * @function
+     * @param {Boolean} aliases - (Optional) include aliases names (false by default)
+     * @param {Function} filter - a function to filter the names. It receives the
+     * name and the value as parameters
+     * @return {Array<String>} the keys
+     * @memberof dictionary
+     */
+    keys: function (all, filter) {
+      var keys = all ? names.concat(aliases) : names.slice()
+      return typeof filter !== 'function' ? keys
+        : keys.filter(function (k) { return filter(k, byKey[k]) })
+    }
   }
 }
 
@@ -855,25 +869,29 @@ function keys (raw, alias) {
  * Create a pitch set detector. Given a dictionary data, it returns a
  * function that tries to detect a given pitch set inside the dictionary
  *
- * @param {Function} builder - a function that given a name and a tonic,
- * returns the object
- * @param {Object} data - the dictionary data
+ * @param {Dictionary} dictionary - the dictionary object
+ * @param {Function|String} builder - (Optional) a function that given a name and a tonic,
+ * returns the object or a string to join both
  * @return {Function} the detector function
  * @see chord.detect
+ * @see scale.detect
+ * @example
+ * var detect = detector(dictionary(DATA), '')
+ * detect('c d e b') // => 'Cmaj/'
  */
-function detector (build, data) {
+function detector (dict, build) {
   var isSep = typeof build === 'string'
   var isFn = typeof build === 'function'
-  var dict = Object.keys(data).reduce(function (dict, key) {
-    dict[tonalPitchset.chroma(data[key][0])] = key
-    return dict
+  var nameByChroma = dict.keys(false).reduce(function (map, key) {
+    map[tonalPitchset.chroma(dict.get(key))] = key
+    return map
   }, {})
 
   return function (notes) {
     notes = tonalArray.sort(tonalArray.map(tonalNote.pc, notes))
     var sets = tonalPitchset.chromaModes(notes)
     return tonalArray.compact(sets.map(function (set, i) {
-      var type = dict[set]
+      var type = nameByChroma[set]
       if (!type) return null
       var tonic = notes[i]
       return isSep ? tonic + build + type
@@ -883,8 +901,7 @@ function detector (build, data) {
   }
 }
 
-exports.get = get;
-exports.keys = keys;
+exports.dictionary = dictionary;
 exports.detector = detector;
 },{"tonal-array":1,"tonal-note":17,"tonal-pitchset":22}],7:[function(require,module,exports){
 'use strict';
@@ -1604,7 +1621,6 @@ var tonalRange = require('tonal-range');
 var tonalArray = require('tonal-array');
 var tonalHarmonizer = require('tonal-harmonizer');
 
-var isArr = Array.isArray
 // Order matters: use an array
 var MODES = ['ionian', 'dorian', 'phrygian', 'lydian', 'mixolydian',
   'aeolian', 'locrian', 'major', 'minor']
@@ -1614,22 +1630,71 @@ var SCALES = [0, 1, 2, 3, 4, 5, 6, 0, 5].map(function (n) {
   return tonalHarmonizer.harmonics(tonalArray.rotate(n, ['C', 'D', 'E', 'F', 'G', 'A', 'B']))
 })
 
+// PRIVATE
+// Given a tonic, mode pair, return the key string
+function toKey (t, m) { return !t ? m : t + ' ' + m }
+// Given the alterations, return the major key
+function majorKey (n) { return toKey(tonalTranspose.trFifths('C', n), 'major') }
+// given the mode name, return the alterations
+function modeNum (mode) { return FIFTHS[MODES.indexOf(mode)] }
+// given a string, return the valid mode it represents or null
+function validMode (m) {
+  m = m.trim().toLowerCase()
+  return MODES.indexOf(m) === -1 ? null : m
+}
+
 /**
- * Get scale of a key (with optionally a mode)
+ * Return the key properties, an object with { tonic, mode }
  *
- * @param {String|Object} key
- * @return {Array} the key scale
+ * @param {String} name - the key name
+ * @return {Key} the key properties object or null if not a valid key
  * @example
  * var key = require('tonal-key')
- * key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
- * key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
- * key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
- * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+ * key.props('C3 dorian') // => { tonic: 'C', mode: 'dorian' }
+ * key.props('dorian') // => { tonic: false, mode: 'dorian' }
+ * key.props('Ab bebop') // => null
+ * key.props('blah') // => null
  */
-function scale (key) {
-  var k = asKey(key)
-  if (!k || !hasTonic(k)) return null
-  return tonalHarmonizer.harmonize(SCALES[MODES.indexOf(k[0])], k[1])
+function props (str) {
+  if (typeof str !== 'string') return null
+  var ndx = str.indexOf(' ')
+  var key
+  if (ndx === -1) {
+    var p = tonalNote.pc(str)
+    key = p ? { tonic: p, mode: 'major' }
+      : { tonic: false, mode: validMode(str) }
+  } else {
+    key = { tonic: tonalNote.pc(str.slice(0, ndx)), mode: validMode(str.slice(ndx + 1)) }
+  }
+  return key.mode ? key : null
+}
+
+/**
+ * Get the tonic of a key
+ *
+ * @param {String} key - the key
+ * @return {String} the tonic or false is no tonic, or null if its not a valid key
+ * @example
+ * key.tonic('c3 major') // => 'C'
+ * key.tonic('minor') // => false
+ * key.tonic('bebop') // null
+ */
+function tonic (key) {
+  return (props(key) || key || {}).tonic || null
+}
+
+/**
+ * Get the mode of a key. It can be used to test if its a valid key mode.
+ *
+ * @param {String}
+ * @return {Boolean}
+ * @example
+ * key.mode('A dorian') // => 'dorian'
+ * key.mode('DORIAN') // => 'dorian'
+ * key.mode('mixophrygian') // => null
+ */
+function mode (key) {
+  return (props(key) || key || {}).mode || null
 }
 
 /**
@@ -1641,19 +1706,20 @@ function scale (key) {
  * @param {String} mode - the relative destination
  * @param {String} key - the key source
  * @example
- * key.relative('dorian', 'C major') // => ['dorian', 'D']
- * // partially application
+ * key.relative('dorian', 'B major') // => 'C# dorian'
+ * // partial application
  * var minor = key.relative('minor')
- * minor('C major') // => ['minor', 'A']
+ * minor('C major') // => 'A minor'
+ * minor('E major') // => 'C# minor'
  */
 function relative (rel, key) {
   if (arguments.length === 1) return function (k) { return relative(rel, k) }
-  var r = asKey(rel)
-  if (!r || hasTonic(r)) return null
-  var k = asKey(key)
-  if (!k || !hasTonic(k)) return null
-  var tonic = tonalTranspose.trFifths(k[1], modeNum(r) - modeNum(k))
-  return build(tonic, rel)
+  rel = props(rel)
+  if (!rel || rel.tonic) return null
+  key = props(key)
+  if (!key || !key.tonic) return null
+  var tonic = tonalTranspose.trFifths(key.tonic, modeNum(rel.mode) - modeNum(key.mode))
+  return toKey(tonic, rel.mode)
 }
 
 /**
@@ -1678,45 +1744,15 @@ function alteredNotes (key) {
  *
  * @param {Boolean} alias - true to get aliases names
  * @return {Array} an array of strings
+ * @example
+ * key.modes() // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+ * // 'mixolydian', 'aeolian', 'locrian' ]
+ * key.modes(true) // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+ * // 'mixolydian', 'aeolian', 'locrian', 'major', 'minor' ]
  */
-function names (alias) {
+function modes (alias) {
   return alias ? MODES.slice() : MODES.slice(0, -2)
 }
-
-/**
- * Check if the given string is a valid mode name
- * @param {String}
- * @return {Boolean}
- */
-function isKeyMode (m) { return MODES.indexOf(m) !== -1 }
-
-/**
- * Build a key object from tonic a mode.
- *
- * A key object is an array with the mode name and the tonic (or false if
- * no tonic specified)
- *
- * @param {String} tonic - the key tonic (or null or false to no tonic)
- * @param {String} mode - the keymode
- * @return {Key} a key data object
- * @example
- * var key = require('tonal-key')
- * key.build('g3', 'minor') // => ['minor', 'G']
- * key.build(false, 'locrian') // => ['locrian', false]
- */
-function build (tonic, mode) {
-  if (typeof mode !== 'string') return null
-  var m = mode.trim().toLowerCase()
-  if (!isKeyMode(m)) return null
-  if (tonic === false || tonic === null) return [m, false]
-  var t = tonalNote.pc(tonic)
-  return t ? [m, t] : null
-}
-
-function isKey (o) { return isArr(o) && isKeyMode(o[0]) }
-function hasTonic (o) { return isKey(o) && o[1] }
-
-function majorKey (n) { return build(tonalTranspose.trFifths('C', n), 'major') }
 
 /**
  * Create a major key from alterations
@@ -1725,19 +1761,21 @@ function majorKey (n) { return build(tonalTranspose.trFifths('C', n), 'major') }
  * @return {Key} the key object
  * @example
  * var key = require('tonal-key')
- * key.fromAlter(2) // => ['major', 'D']
+ * key.fromAlter(2) // => 'D major'
  */
 function fromAlter (n) {
   return typeof n === 'number' ? majorKey(n) : null
 }
 
 /**
- * Create a major key from accidentals
+ * Get key name from accidentals
+ *
  * @param {String} acc - the accidentals string
  * @return {Key} the key object
  * @example
  * var key = require('tonal-key')
- * key.fromAlter('bb') // => ['major', 'Bb']
+ * key.fromAcc('b') // => 'F major'
+ * key.fromAcc('##') // => 'D major'
  */
 function fromAcc (s) {
   return tonalNotation.areSharps(s) ? majorKey(s.length)
@@ -1746,36 +1784,21 @@ function fromAcc (s) {
 }
 
 /**
- * Create a key from key name
- * @param {String} name - the key name
- * @return {Key} the key object or null if not valid key
+ * Get scale of a key
+ *
+ * @param {String|Object} key
+ * @return {Array} the key scale
  * @example
- * var key = require('tonal-key')
- * key.fromName('C3 dorian') // => ['dorian', 'C']
- * key.fromName('blah') // => null
+ * key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
+ * key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
+ * key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
+ * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
  */
-function fromName (str) {
-  if (typeof str !== 'string') return null
-  var p = str.split(/\s+/)
-  switch (p.length) {
-    case 1: return tonalNote.pc(p[0]) ? build(p[0], 'major') : build(false, p[0])
-    case 2: return build(p[0], p[1])
-    default: return null
-  }
+function scale (key) {
+  var p = props(key)
+  if (!p || !p.tonic) return null
+  return tonalHarmonizer.harmonize(SCALES[MODES.indexOf(p.mode)], p.tonic)
 }
-
-/**
- * Try to interpret the given object as a key. Given an object it will try to
- * parse as if it were a name, accidentals or alterations.
- * @function
- * @param {Object} obj
- * @return {Key} the key object or null
- */
-function asKey (obj) {
-  return isKey(obj) ? obj : fromName(obj) || fromAcc(obj) || fromAlter(obj)
-}
-
-function modeNum (k) { return FIFTHS[MODES.indexOf(k[0])] }
 
 /**
  * Get key alteration. The alteration is a number indicating the number of
@@ -1787,10 +1810,10 @@ function modeNum (k) { return FIFTHS[MODES.indexOf(k[0])] }
  * key.alteration('A major') // => 3
  */
 function alteration (key) {
-  var k = asKey(key)
-  if (!k || !hasTonic(k)) return null
-  var toMajor = modeNum(k)
-  var toC = tonalNote.pcFifths(k[1])
+  var k = props(key)
+  if (!k || !k.tonic) return null
+  var toMajor = modeNum(k.mode)
+  var toC = tonalNote.pcFifths(k.tonic)
   return toC - toMajor
 }
 
@@ -1810,16 +1833,15 @@ function signature (key) {
  */
 var accidentals = signature
 
-exports.scale = scale;
+exports.props = props;
+exports.tonic = tonic;
+exports.mode = mode;
 exports.relative = relative;
 exports.alteredNotes = alteredNotes;
-exports.names = names;
-exports.isKeyMode = isKeyMode;
-exports.build = build;
+exports.modes = modes;
 exports.fromAlter = fromAlter;
 exports.fromAcc = fromAcc;
-exports.fromName = fromName;
-exports.asKey = asKey;
+exports.scale = scale;
 exports.alteration = alteration;
 exports.signature = signature;
 exports.accidentals = accidentals;
@@ -2070,6 +2092,14 @@ function note$1 (n) {
 }
 
 /**
+ * An alias for note. Get the name of a note in scientific notation
+ * @example
+ * note.name('fx') // => 'F##'
+ * note.name('bbb3') // => 'Bbb3'
+ */
+const name = note$1
+
+/**
  * Get note properties. It returns an object with the following properties:
  *
  * - step: 0 for C, 6 for B. Do not confuse with chroma
@@ -2230,6 +2260,7 @@ exports.fromMidi = fromMidi;
 exports.freq = freq;
 exports.chroma = chroma;
 exports.note = note$1;
+exports.name = name;
 exports.props = props;
 exports.fromProps = fromProps;
 exports.oct = oct;
@@ -2556,6 +2587,7 @@ function notes (notes) {
  * @return {Array<String>} an array with all the modes of the chroma
  *
  * @example
+ * pitchset.chromaModes('C E G')
  */
 function chromaModes (set, normalize) {
   normalize = normalize !== false
@@ -2868,8 +2900,262 @@ exports.toNote = toNote;
 },{"note-parser":25}],25:[function(require,module,exports){
 arguments[4][5][0].apply(exports,arguments)
 },{"dup":5}],26:[function(require,module,exports){
-arguments[4][17][0].apply(exports,arguments)
-},{"dup":17,"note-parser":27,"tonal-freq":23,"tonal-midi":24,"tonal-pitch":19,"tonal-transpose":34}],27:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var noteParser = require('note-parser');
+var tonalPitch = require('tonal-pitch');
+var tonalTranspose = require('tonal-transpose');
+var tonalMidi = require('tonal-midi');
+var tonalFreq = require('tonal-freq');
+
+/**
+ * Get the note midi number
+ * (an alias of tonal-midi `toMidi` function)
+ *
+ * @function
+ * @param {Array|String|Number} note - the note to get the midi number from
+ * @return {Integer} the midi number or null if not valid pitch
+ * @example
+ * note.midi('C4') // => 60
+ * @see midi.toMidi
+ */
+var midi = tonalMidi.toMidi
+
+/**
+ * Get the note name of a given midi note number
+ * (an alias of tonal-midi `note` function)
+ *
+ * @function
+ * @param {Integer} midi - the midi note number
+ * @param {Boolean} useSharps - (Optional) set to true to use sharps instead of flats
+ * @return {String} the note name
+ * @example
+ * note.fromMidi(60) // => 'C4'
+ * @see midi.note
+ */
+var fromMidi = tonalMidi.note
+
+/**
+ * Get the frequency of a note
+ * (an alias of the tonal-freq package `toFreq` function)
+ *
+ * @function
+ * @param {Array|String|Number} note - the note to get the frequency
+ * @return {Number} the frequency
+ * @example
+ * note.freq('A4') // => 440
+ * @see freq.toFreq
+ */
+var freq = tonalFreq.toFreq
+
+/**
+ * Return the chroma of a note. The chroma is the numeric equivalent to the
+ * pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
+ *
+ * @param {String|Pitch} note
+ * @return {Integer} the chroma
+ * @example
+ * var note = require('tonal-note')
+ * note.chroma('Cb') // => 11
+ * ['C', 'D', 'E', 'F'].map(note.chroma) // => [0, 2, 4, 5]
+ */
+function chroma (n) {
+  var p = tonalPitch.asNotePitch(n)
+  return p ? tonalPitch.chr(p) : null
+}
+
+/**
+ * Given a note (as string or as array notation) returns a string
+ * with the note name in scientific notation or null
+ * if not valid note
+ *
+ * @function
+ * @param {Pitch|String}
+ * @return {String}
+ *
+ * @example
+ * var note = require('tonal-note')
+ * note.note('cb2') // => 'Cb2'
+ * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
+ */
+function note$1 (n) {
+  var p = tonalPitch.asNotePitch(n)
+  return p ? tonalPitch.strNote(p) : null
+}
+
+/**
+ * Get note properties. It returns an object with the following properties:
+ *
+ * - step: 0 for C, 6 for B. Do not confuse with chroma
+ * - alt: 0 for not accidentals, positive sharps, negative flats
+ * - oct: the octave number or undefined if a pitch class
+ *
+ * @param {String|Pitch} note - the note
+ * @return {Object} the object with note properties or null if not valid note
+ * @example
+ * note.props('Db3') // => { step: 1, alt: -1, oct: 3 }
+ * note.props('C#') // => { step: 0, alt: 1, oct: undefined }
+ */
+function props (n) {
+  var p = tonalPitch.asNotePitch(n)
+  if (!p) return null
+  var d = tonalPitch.decode(p)
+  return { step: d[0], alt: d[1], oct: d[2] }
+}
+
+/**
+ * Given a note properties object, return the string representation if
+ * scientific notation
+ *
+ * @param {Object} noteProps - an object with the following attributes:
+ * @return {String} the note name
+ *
+ * - step: a number from 0 to 6 meaning note step letter from 'C' to 'B'
+ * - alt: the accidentals as number (0 no accidentals, 1 is '#', 2 is '##', -2 is 'bb')
+ * - oct: (Optional) the octave. If not present (or undefined) it returns a pitch class
+ *
+ * @example
+ * note.fromProps({ step: 1, alt: -1, oct: 5 }) // => 'Db5'
+ * note.fromProps({ step: 0, alt: 1 }) // => 'C#'
+ */
+function fromProps (props) {
+  return props ? noteParser.build(props.step, props.alt, props.oct) : null
+}
+
+function getProp (name) {
+  return function (n) { var p = props(n); return p ? p[name] : null }
+}
+
+/**
+ * Get the octave of the given pitch
+ *
+ * @function
+ * @param {String|Pitch} note - the note
+ * @return {Integer} the octave, undefined if its a pitch class or null if
+ * not a valid note
+ * @example
+ * note.oct('C#4') // => 4
+ * note.oct('C') // => undefined
+ * note.oct('blah') // => undefined
+ */
+var oct = getProp('oct')
+
+/**
+ * Get the note step: a number equivalent of the note letter. 0 means C and
+ * 6 means B. This is different from `chroma` (see example)
+ *
+ * @function
+ * @param {String|Pitch} note - the note
+ * @return {Integer} a number between 0 and 6 or null if not a note
+ * @example
+ * note.step('C') // => 0
+ * note.step('Cb') // => 0
+ * // usually what you need is chroma
+ * note.chroma('Cb') // => 6
+ */
+var step = getProp('step')
+
+/**
+ * Get the note step in fifths from 'C'. One property of the perfect fifht
+ * interval is that you can obtain any pitch class by transposing 'C' a
+ * number of times. This function return that number.
+ * @param {String|Pitch} note - the note (can be a pitch class)
+ * @return {Integer} the number of fifths to reach that pitch class from 'C'
+ */
+function pcFifths (note) {
+  var p = tonalPitch.asNotePitch(note)
+  return p ? tonalPitch.fifths(p) : null
+}
+
+/**
+ * Get the note alteration: a number equivalent to the accidentals. 0 means
+ * no accidentals, negative numbers are for flats, positive for sharps
+ *
+ * @function
+ * @param {String|Pitch} note - the note
+ * @return {Integer} the alteration
+ * @example
+ * note.alt('C') // => 0
+ * note.alt('C#') // => 1
+ * note.alt('Cb') // => -1
+ */
+var alt = getProp('alt')
+
+/**
+ * Get pitch class of a note. The note can be a string or a pitch array.
+ *
+ * @function
+ * @param {String|Pitch}
+ * @return {String} the pitch class
+ * @example
+ * tonal.pc('Db3') // => 'Db'
+ * tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
+ */
+function pc (n) {
+  var p = tonalPitch.asNotePitch(n)
+  return p ? tonalPitch.strNote([ p[0], [ tonalPitch.fifths(p) ] ]) : null
+}
+
+var ASC = tonalPitch.parseIvl('2d')
+var DESC = tonalPitch.parseIvl('-2d')
+
+/**
+ * Get the enharmonics of a note. It returns an array of three elements: the
+ * below enharmonic, the note, and the upper enharmonic
+ *
+ * @param {String} note - the note to get the enharmonics from
+ * @return {Array} an array of pitches ordered by distance to the given one
+ *
+ * @example
+ * var note = require('tonal-note')
+ * note.enharmonics('C') // => ['B#', 'C', 'Dbb']
+ * note.enharmonics('A') // => ['G##', 'A', 'Bbb']
+ * note.enharmonics('C#4') // => ['B##3', 'C#4' 'Db4']
+ * note.enharmonics('Db') // => ['C#', 'Db', 'Ebbb'])
+ */
+function enharmonics (pitch) {
+  var notes = []
+  notes.push(tonalTranspose.transpose(DESC, pitch))
+  if (notes[0] === null) return null
+  notes.push(pitch)
+  notes.push(tonalTranspose.transpose(ASC, pitch))
+  return notes
+}
+
+/**
+ * Get a simpler enharmonic note name from a note if exists
+ *
+ * @param {String} note - the note to simplify
+ * @return {String} the simplfiied note (if not found, return same note)
+ *
+ * @example
+ * var note = require('tonal-note')
+ * note.simplify('B#3') // => 'C4'
+ */
+function simplify (pitch) {
+  return enharmonics(pitch).reduce(function (simple, next) {
+    if (!simple) return next
+    return simple.length > next.length ? next : simple
+  }, null)
+}
+
+exports.midi = midi;
+exports.fromMidi = fromMidi;
+exports.freq = freq;
+exports.chroma = chroma;
+exports.note = note$1;
+exports.props = props;
+exports.fromProps = fromProps;
+exports.oct = oct;
+exports.step = step;
+exports.pcFifths = pcFifths;
+exports.alt = alt;
+exports.pc = pc;
+exports.enharmonics = enharmonics;
+exports.simplify = simplify;
+},{"note-parser":27,"tonal-freq":23,"tonal-midi":24,"tonal-pitch":19,"tonal-transpose":34}],27:[function(require,module,exports){
 arguments[4][5][0].apply(exports,arguments)
 },{"dup":5}],28:[function(require,module,exports){
 'use strict';
@@ -3091,12 +3377,11 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var tonalDictionary = require('tonal-dictionary');
 var tonalArray = require('tonal-array');
 var tonalNote = require('tonal-note');
-var tonalPitch = require('tonal-pitch');
 var tonalHarmonizer = require('tonal-harmonizer');
 
 var DATA = require('./scales.json')
 
-var dict = tonalDictionary.get(tonalPitch.parseIvl, DATA)
+var dict = tonalDictionary.dictionary(DATA, function (str) { return str.split(' ') })
 
 /**
  * Transpose the given scale notes, intervals or name to a given tonic.
@@ -3114,9 +3399,9 @@ var dict = tonalDictionary.get(tonalPitch.parseIvl, DATA)
  * var major = scale.get('major')
  * major('Db3') // => [ 'Db3', 'Eb3', 'F3', 'Gb3', 'Ab3', 'Bb3', 'C4' ]
  */
-function get$1 (type, tonic) {
-  if (arguments.length === 1) return function (t) { return get$1(type, t) }
-  var ivls = dict(type)
+function get (type, tonic) {
+  if (arguments.length === 1) return function (t) { return get(type, t) }
+  var ivls = dict.get(type)
   return ivls ? tonalHarmonizer.harmonize(ivls, tonic) : null
 }
 
@@ -3131,30 +3416,43 @@ function get$1 (type, tonic) {
  * var scale = require('tonal-scale')
  * scale.names() // => ['maj7', ...]
  */
-var names = tonalDictionary.keys(DATA)
+var names = dict.keys
 
 /**
- * Get scale notes from scale name
+ * Get the notes (pitch classes) of a scale. It accepts either a scale name
+ * (tonic and type) or a collection of notes.
  *
- * @param {String} name - the scale name (it must include the scale type and
- * optionally a tonic. The tonic can be a note or a pitch class)
- * @return {Array} the scale notes (or intervals if not tonic specified)
+ * Note that it always returns an array, and the values are only pitch classes.
+ *
+ * @param {String|Array} src - the scale name (it must include the scale type and
+ * a tonic. The tonic can be a note or a pitch class) or the list of notes
+ * @return {Array} the scale pitch classes
  *
  * @example
  * scale.notes('C major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
- * scale.notes('C4 major') // => [ 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4' ]
+ * scale.notes('C4 major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
  * scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
+ * scale.notes('C4 D6 E2 c7 a2 b5 g2 g4 f') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
  */
 function notes (name) {
-  var i = name.indexOf(' ')
-  var tonic = name.substring(0, i)
-  var notes = get$1(name.substring(i + 1), tonic)
-  if (notes) return notes
-  notes = tonalArray.compact(tonalArray.map(tonalNote.pc, name).map(function (n, i, arr) {
+  var scale = parse(name)
+  var notes = scale.tonic ? get(scale.type, tonalNote.pc(scale.tonic)) : null
+  return notes || tonalArray.compact(tonalArray.map(tonalNote.pc, name).map(function (n, i, arr) {
     // check for duplicates
+    // TODO: sort but preserving the root
     return arr.indexOf(n) < i ? null : n
   }))
-  return notes
+}
+
+/**
+ * Given a name, try to parse as if it were a scale
+ */
+function parse (str) {
+  if (typeof str !== 'string') return null
+  var i = str.indexOf(' ')
+  var tonic = tonalNote.note(str.substring(0, i)) || false
+  var type = tonic ? str.substring(i + 1) : str
+  return { tonic: tonic, type: type }
 }
 
 /**
@@ -3168,13 +3466,14 @@ function notes (name) {
  * scale.detect('b g f# d') // => [ 'GMaj7' ]
  * scale.detect('e c a g') // => [ 'CM6', 'Am7' ]
  */
-var detect = tonalDictionary.detector(' ', DATA)
+var detect = tonalDictionary.detector(dict, ' ')
 
-exports.get = get$1;
+exports.get = get;
 exports.names = names;
 exports.notes = notes;
+exports.parse = parse;
 exports.detect = detect;
-},{"./scales.json":31,"tonal-array":1,"tonal-dictionary":6,"tonal-harmonizer":10,"tonal-note":17,"tonal-pitch":19}],31:[function(require,module,exports){
+},{"./scales.json":31,"tonal-array":1,"tonal-dictionary":6,"tonal-harmonizer":10,"tonal-note":17}],31:[function(require,module,exports){
 module.exports={
   "lydian": [ "1P 2M 3M 4A 5P 6M 7M" ],
   "major": [ "1P 2M 3M 4P 5P 6M 7M" , [ "ionian" ] ],

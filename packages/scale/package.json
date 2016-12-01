@@ -22,7 +22,6 @@
     "tonal-harmonizer": "^0.68.0",
     "tonal-note": "^0.68.0",
     "tonal-array": "^0.68.0",
-    "tonal-dictionary": "^0.68.0",
-    "tonal-pitch": "^0.66.0"
+    "tonal-dictionary": "^0.68.0"
   }
 }

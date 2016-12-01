@@ -18,72 +18,69 @@ import { chroma, chromaModes } from 'tonal-pitchset'
 function id (x) { return x }
 
 /**
- * Query a tonal dictionary by key.
+ * Create a tonal dictionary. A dictionary is an object with two functions: get and
+ * keys.
  *
- * If you pass two parameters you get a currified version: a dictionary getter.
- * (see example)
+ * The data given to this constructor it's a HashMap in the form:
+ * `{ key: [intervals, [aliases]] }`
  *
- * @param {Function} parser - (Optional) the function to parse the intervals
- * @param {Hash<String, Array>} dictionary - the dictionary data
- * @param {String} key - the key to query
- * @return {Array} the list of intervals of that name or null if not present
- * in the dictionary
+ * @param {HashMap} data - the dictionary data
+ * @return {Object} the dictionary object
+ *
  * @example
- * var dict = require('tonal-dictionary')
+ * var dictionary = require('tonal-dictionary').dictionary
  * var DATA = {
  * 'maj7': ['1 3 5 7', ['Maj7']],
  *   'm7': ['1 b3 5 7']
  * }
- * var chord = dict.get(null, DATA)
- * chord('maj7') // => [ '1', '3', '5', '7' ]
- * chord('Maj7') // => [ '1', '3', '5', '7' ]
- * chord('m7') // => ['1', 'b3', '5', '7']
- * chord('m7b5') // => null
+ * var chords = dictionary(DATA, function (str) { return str.split(' ') })
+ * chords.get('maj7') // => [ '1', '3', '5', '7' ]
+ * chords.get('Maj7') // => [ '1', '3', '5', '7' ]
+ * chords.get('m7') // => ['1', 'b3', '5', '7']
+ * chords.get('m7b5') // => null
+ * chords.keys() // => ['maj7', 'm7']
+ * chords.keys(true) // => ['maj7', 'm7', 'Maj7']
  */
-export function get (parse, raw, name) {
-  if (arguments.length > 2) return get(parse, raw)(name)
-  var data = Object.keys(raw).reduce(function (d, k) {
-    // add intervals
-    d[k] = raw[k][0].split(' ').map(parse || id)
-    // add alias
-    if (raw[k][1]) raw[k][1].forEach(function (a) { d[a] = d[k] })
-    return d
-  }, {})
-  return function (n) {
-    return data[n]
-  }
-}
-
-/**
- * Query a tonal dictionary to get all the defined keys
- *
- * If you pass only one parameter you get a partially applied version: a
- * function that returns all keys of the given dictionary.
- *
- * @param {Hash<String, Array>} dictionary - the dictionary data
- * @param {Boolean} aliases - (Optional) true to include the name aliases
- * @return {Array<String>} a list of defined keys
- * @example
- * var dict = require('tonal-dictionary')
- * var DATA = {
- * 'maj7': ['1 3 5 7', ['Maj7']],
- *   'm7': ['1 b3 5 7']
- * }
- * dict.keys(DATA, false) // => ['maj7', 'm7']
- * dict.keys(DATA, true) // => ['maj7', 'm7', 'Maj7']
- * // partially applied
- * var chordNames = dict.keys(DATA)
- * chordNames() // => ['maj7', 'm7']
- */
-export function keys (raw, alias) {
-  if (arguments.length > 1) return keys(raw)(alias)
-  var main = Object.keys(raw)
-  var aliases = main.reduce(function (a, k) {
-    if (raw[k][1]) raw[k][1].forEach(function (n) { a.push(n) })
-    return a
-  }, [])
-  return function (alias) {
-    return alias ? main.concat(aliases) : main.slice()
+export function dictionary (raw, parse) {
+  parse = parse || id
+  var byKey = {}
+  var names = Object.keys(raw)
+  var aliases = []
+  names.forEach(function (k) {
+    var value = parse(raw[k][0])
+    byKey[k] = value
+    if (raw[k][1]) {
+      raw[k][1].forEach(function (alias) {
+        byKey[alias] = value
+        aliases.push(alias)
+      })
+    }
+  })
+  return {
+    /**
+     * Get a value by key
+     * @name get
+     * @function
+     * @param {String} key
+     * @return {Object} the value (normally an array of intervals or notes)
+     * @memberof dictionary
+     */
+    get: function (n) { return byKey[n] },
+    /**
+     * Get the valid keys of dictionary
+     * @name keys
+     * @function
+     * @param {Boolean} aliases - (Optional) include aliases names (false by default)
+     * @param {Function} filter - a function to filter the names. It receives the
+     * name and the value as parameters
+     * @return {Array<String>} the keys
+     * @memberof dictionary
+     */
+    keys: function (all, filter) {
+      var keys = all ? names.concat(aliases) : names.slice()
+      return typeof filter !== 'function' ? keys
+        : keys.filter(function (k) { return filter(k, byKey[k]) })
+    }
   }
 }
 
@@ -91,25 +88,29 @@ export function keys (raw, alias) {
  * Create a pitch set detector. Given a dictionary data, it returns a
  * function that tries to detect a given pitch set inside the dictionary
  *
- * @param {Function} builder - a function that given a name and a tonic,
- * returns the object
- * @param {Object} data - the dictionary data
+ * @param {Dictionary} dictionary - the dictionary object
+ * @param {Function|String} builder - (Optional) a function that given a name and a tonic,
+ * returns the object or a string to join both
  * @return {Function} the detector function
  * @see chord.detect
+ * @see scale.detect
+ * @example
+ * var detect = detector(dictionary(DATA), '')
+ * detect('c d e b') // => 'Cmaj/'
  */
-export function detector (build, data) {
+export function detector (dict, build) {
   var isSep = typeof build === 'string'
   var isFn = typeof build === 'function'
-  var dict = Object.keys(data).reduce(function (dict, key) {
-    dict[chroma(data[key][0])] = key
-    return dict
+  var nameByChroma = dict.keys(false).reduce(function (map, key) {
+    map[chroma(dict.get(key))] = key
+    return map
   }, {})
 
   return function (notes) {
     notes = sort(map(pc, notes))
     var sets = chromaModes(notes)
     return compact(sets.map(function (set, i) {
-      var type = dict[set]
+      var type = nameByChroma[set]
       if (!type) return null
       var tonic = notes[i]
       return isSep ? tonic + build + type

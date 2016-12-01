@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>dictionary - Postman Documentation</title>
+    <title>pcset-dft - Postman Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,7 +28,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">dictionary</h1>
+    <h1 class="page-title">pcset-dft</h1>
     
 
     
@@ -50,13 +50,14 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>This module contains functions to query tonal dictionaries.</p>
-<p>A tonal dictionary is basically a map from keys to list of intervals. It
-also supports name aliases. See <code>tonal-chords</code> or <code>tonal-scales</code> to examples
-of dictionaries.</p>
-<p>This functions are quite low level, and probably you wont need it, because
-they are friendly served via <code>tonal-chords</code> and <code>tonal-scales</code>.</p>
-<p><strong>Those functions are NOT visible via <code>tonal</code> package</strong>.</p></div>
+            <div class="description"><p><code>tonal-pcset-dft</code> is a implementation of the Discrete Fourier Transform
+applied to pitch class sets.</p>
+<p>References:</p>
+<ul>
+<li>Set-Class Similarity, Voice Leading, and the Fourier Transform (Dmitri Tymoczko): http://dmitri.mycpanel.princeton.edu/files/publications/fourier.pdf</li>
+<li>Continuous Harmonic Spaces (Clifton Callender)</li>
+</ul>
+<p><strong>This module is not YET included in the tonal facade</strong></p></div>
         
 
         
@@ -123,6 +124,12 @@ they are friendly served via <code>tonal-chords</code> and <code>tonal-scales</c
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var dft = require('tonal-pcset-dft')
+dft.spectra('C E G#') // => [3, 0, 0, 3, 0, 0, 3]</code></pre>
 
 
 
@@ -150,15 +157,94 @@ they are friendly served via <code>tonal-chords</code> and <code>tonal-scales</c
 
     
 
-    <h4 class="name" id=".detector"><span class="type-signature">(static) </span>detector<span class="signature">(dictionary, builder)</span><span class="type-signature"> &rarr; {function}</span></h4>
+    <h4 class="name" id=".dft"><span class="type-signature">(static) </span>dft<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Create a pitch set detector. Given a dictionary data, it returns a
-function that tries to detect a given pitch set inside the dictionary</p>
+    <p>Get the Fourier components of a pitch class set</p>
+<p>It applies the Discrete Fourier Transform to the pitch class set with
+numbers from 0 to 6 (the <em>Niquist</em> frequency: N / 2 where N is the number of
+possible pitch classes)</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".spectra"><span class="type-signature">(static) </span>spectra<span class="signature">(notes)</span><span class="type-signature"> &rarr; {Array.&lt;Number>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>The spectra is the magnitudes of the dft components.</p>
 </div>
 
 
@@ -194,39 +280,16 @@ function that tries to detect a given pitch set inside the dictionary</p>
 
         <tr>
             
-                <td class="name"><code>dictionary</code></td>
+                <td class="name"><code>notes</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Dictionary</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the dictionary object</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>builder</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
+<span class="param-type">String</span>
 |
 
-<span class="param-type">String</span>
+<span class="param-type">Array</span>
 
 
             
@@ -236,174 +299,7 @@ function that tries to detect a given pitch set inside the dictionary</p>
 
             
 
-            <td class="description last"><p>(Optional) a function that given a name and a tonic,
-returns the object or a string to join both</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li>chord.detect</li>
-        
-            <li>scale.detect</li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>the detector function</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">function</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>var detect = detector(dictionary(DATA), '')
-detect('c d e b') // => 'Cmaj/'</code></pre>
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".dictionary"><span class="type-signature">(static) </span>dictionary<span class="signature">(data)</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Create a tonal dictionary. A dictionary is an object with two functions: get and
-keys.</p>
-<p>The data given to this constructor it's a HashMap in the form:
-<code>{ key: [intervals, [aliases]] }</code></p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>data</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HashMap</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the dictionary data</p></td>
+            <td class="description last"><p>the notes or pitch set</p></td>
         </tr>
 
     
@@ -466,7 +362,7 @@ keys.</p>
 
         
 <div class="param-desc">
-    <p>the dictionary object</p>
+    <p>the magnitudes of the dft</p>
 </div>
 
 
@@ -477,7 +373,7 @@ keys.</p>
     </dt>
     <dd>
         
-<span class="param-type">Object</span>
+<span class="param-type">Array.&lt;Number></span>
 
 
     </dd>
@@ -488,18 +384,7 @@ keys.</p>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>var dictionary = require('tonal-dictionary').dictionary
-var DATA = {
-'maj7': ['1 3 5 7', ['Maj7']],
-  'm7': ['1 b3 5 7']
-}
-var chords = dictionary(DATA, function (str) { return str.split(' ') })
-chords.get('maj7') // => [ '1', '3', '5', '7' ]
-chords.get('Maj7') // => [ '1', '3', '5', '7' ]
-chords.get('m7') // => ['1', 'b3', '5', '7']
-chords.get('m7b5') // => null
-chords.keys() // => ['maj7', 'm7']
-chords.keys(true) // => ['maj7', 'm7', 'Maj7']</code></pre>
+    <pre class="prettyprint"><code>dft.spectra('C E G#') // => [3, 0, 0, 3, 0, 0, 3]</code></pre>
 
 
 

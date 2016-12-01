@@ -12,15 +12,14 @@
  * scale.detect('f5 d2 c5 b5 a2 e4 g') // => [ 'C major', 'D dorian', 'E phrygian', 'F lydian', 'G mixolydian', 'A aeolian', 'B locrian'])
  * @module scale
  */
-import { get as getter, keys, detector } from 'tonal-dictionary'
+import { dictionary, detector } from 'tonal-dictionary'
 import { map, compact } from 'tonal-array'
-import { pc } from 'tonal-note'
-import { parseIvl } from 'tonal-pitch'
+import { pc, note } from 'tonal-note'
 import { harmonize } from 'tonal-harmonizer'
 
 var DATA = require('./scales.json')
 
-var dict = getter(parseIvl, DATA)
+var dict = dictionary(DATA, function (str) { return str.split(' ') })
 
 /**
  * Transpose the given scale notes, intervals or name to a given tonic.
@@ -40,7 +39,7 @@ var dict = getter(parseIvl, DATA)
  */
 export function get (type, tonic) {
   if (arguments.length === 1) return function (t) { return get(type, t) }
-  var ivls = dict(type)
+  var ivls = dict.get(type)
   return ivls ? harmonize(ivls, tonic) : null
 }
 
@@ -55,30 +54,43 @@ export function get (type, tonic) {
  * var scale = require('tonal-scale')
  * scale.names() // => ['maj7', ...]
  */
-export var names = keys(DATA)
+export var names = dict.keys
 
 /**
- * Get scale notes from scale name
+ * Get the notes (pitch classes) of a scale. It accepts either a scale name
+ * (tonic and type) or a collection of notes.
  *
- * @param {String} name - the scale name (it must include the scale type and
- * optionally a tonic. The tonic can be a note or a pitch class)
- * @return {Array} the scale notes (or intervals if not tonic specified)
+ * Note that it always returns an array, and the values are only pitch classes.
+ *
+ * @param {String|Array} src - the scale name (it must include the scale type and
+ * a tonic. The tonic can be a note or a pitch class) or the list of notes
+ * @return {Array} the scale pitch classes
  *
  * @example
  * scale.notes('C major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
- * scale.notes('C4 major') // => [ 'C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4' ]
+ * scale.notes('C4 major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
  * scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
+ * scale.notes('C4 D6 E2 c7 a2 b5 g2 g4 f') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
  */
 export function notes (name) {
-  var i = name.indexOf(' ')
-  var tonic = name.substring(0, i)
-  var notes = get(name.substring(i + 1), tonic)
-  if (notes) return notes
-  notes = compact(map(pc, name).map(function (n, i, arr) {
+  var scale = parse(name)
+  var notes = scale.tonic ? get(scale.type, pc(scale.tonic)) : null
+  return notes || compact(map(pc, name).map(function (n, i, arr) {
     // check for duplicates
+    // TODO: sort but preserving the root
     return arr.indexOf(n) < i ? null : n
   }))
-  return notes
+}
+
+/**
+ * Given a name, try to parse as if it were a scale
+ */
+export function parse (str) {
+  if (typeof str !== 'string') return null
+  var i = str.indexOf(' ')
+  var tonic = note(str.substring(0, i)) || false
+  var type = tonic ? str.substring(i + 1) : str
+  return { tonic: tonic, type: type }
 }
 
 /**
@@ -92,4 +104,4 @@ export function notes (name) {
  * scale.detect('b g f# d') // => [ 'GMaj7' ]
  * scale.detect('e c a g') // => [ 'CM6', 'Am7' ]
  */
-export var detect = detector(' ', DATA)
+export var detect = detector(dict, ' ')
