@@ -1,6 +1,7 @@
 import { map, compact, sort } from 'tonal-array'
 import { pc } from 'tonal-note'
-import { chroma, chromaModes } from 'tonal-pitchset'
+import { chroma, chromaModes } from 'tonal-pcset'
+
 /**
  * This module contains functions to query tonal dictionaries.
  *

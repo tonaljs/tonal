@@ -12,7 +12,7 @@ import { transpose } from 'tonal-transpose'
 import { pc } from 'tonal-note'
 import { asArr, compact, map } from 'tonal-array'
 import { numeric } from 'tonal-range'
-import { includes } from 'tonal-pitchset'
+import { includes } from 'tonal-pcset'
 
 var DATA = require('./tunings.json')
 var dict = dictionary(DATA, function (s) { return s.split(' ') })

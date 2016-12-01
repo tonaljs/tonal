@@ -24,6 +24,6 @@
     "tonal-interval": "^0.66.0",
     "tonal-note": "^0.68.0",
     "tonal-range": "^0.68.0",
-    "tonal-pitchset": "^0.68.0"
+    "tonal-pcset": "^0.68.0"
   }
 }

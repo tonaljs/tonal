@@ -21,7 +21,7 @@
 import { asArr, map } from 'tonal-array'
 import { trFifths } from 'tonal-transpose'
 import { toMidi, note } from 'tonal-midi'
-import { filter } from 'tonal-pitchset'
+import { filter } from 'tonal-pcset'
 
 function isNum (n) { return typeof n === 'number' }
 // convert notes to midi if needed

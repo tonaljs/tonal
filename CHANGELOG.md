@@ -2,9 +2,18 @@
 
 ## 0.69 [MASTER]
 
+`tonal`
+- Tonal now exports `pcset` module
+
 `tonal-key`
 - Simplified API: removed `asKey`, `fromName`. All returned keys are strings instead of arrays.
 - `names` renamed to `modes`
+
+`tonal-pitchset`
+- All functions moved to `tonal-pcset`
+
+`tonal-pcset`
+- The old `pitchset` module was renamed to `pcset` that is more accurate
 
 `tonal-notation`
 - TODO: new `accType` function (return the accidentals type: flats, sharps, none)

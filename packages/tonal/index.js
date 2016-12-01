@@ -46,6 +46,7 @@ tonal.pitch = require('tonal-pitch')
 tonal.notation = require('tonal-notation')
 tonal.progression = require('tonal-progression')
 tonal.sonority = require('tonal-sonority')
+tonal.pcset = require('tonal-pcset')
 
 if (typeof module === 'object' && module.exports) module.exports = tonal
 if (typeof window !== 'undefined') window.Tonal = tonal
