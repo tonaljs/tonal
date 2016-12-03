@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>chord/index.js - tonal API documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-array.html">array</a><ul class='methods'><li data-type='method'><a href="module-array.html#.asArr">asArr</a></li><li data-type='method'><a href="module-array.html#.compact">compact</a></li><li data-type='method'><a href="module-array.html#.filter">filter</a></li><li data-type='method'><a href="module-array.html#.map">map</a></li><li data-type='method'><a href="module-array.html#.permutations">permutations</a></li><li data-type='method'><a href="module-array.html#.rotate">rotate</a></li><li data-type='method'><a href="module-array.html#.rotateAsc">rotateAsc</a></li><li data-type='method'><a href="module-array.html#.select">select</a></li><li data-type='method'><a href="module-array.html#.shuffle">shuffle</a></li><li data-type='method'><a href="module-array.html#.sort">sort</a></li></ul></li><li><a href="module-chord.html">chord</a><ul class='methods'><li data-type='method'><a href="module-chord.html#.detect">detect</a></li><li data-type='method'><a href="module-chord.html#.get">get</a></li><li data-type='method'><a href="module-chord.html#.intervals">intervals</a></li><li data-type='method'><a href="module-chord.html#.inversion">inversion</a></li><li data-type='method'><a href="module-chord.html#.isKnownChord">isKnownChord</a></li><li data-type='method'><a href="module-chord.html#.names">names</a></li><li data-type='method'><a href="module-chord.html#.notes">notes</a></li><li data-type='method'><a href="module-chord.html#.parse">parse</a></li><li data-type='method'><a href="module-chord.html#.position">position</a></li></ul></li><li><a href="module-dictionary.html">dictionary</a><ul class='methods'><li data-type='method'><a href="module-dictionary.html#.detector">detector</a></li><li data-type='method'><a href="module-dictionary.html#.dictionary">dictionary</a></li></ul></li><li><a href="module-distance.html">distance</a><ul class='methods'><li data-type='method'><a href="module-distance.html#.interval">interval</a></li><li data-type='method'><a href="module-distance.html#.semitones">semitones</a></li></ul></li><li><a href="module-freq.html">freq</a><ul class='methods'><li data-type='method'><a href="module-freq.html#.cents">cents</a></li><li data-type='method'><a href="module-freq.html#.eqTempFreq">eqTempFreq</a></li><li data-type='method'><a href="module-freq.html#.eqTempFreqToMidi">eqTempFreqToMidi</a></li><li data-type='method'><a href="module-freq.html#.note">note</a></li><li data-type='method'><a href="module-freq.html#.toFreq">toFreq</a></li><li data-type='method'><a href="module-freq.html#.toMidi">toMidi</a></li></ul></li><li><a href="module-fretboard.html">fretboard</a><ul class='methods'><li data-type='method'><a href="module-fretboard.html#.chordShapes">chordShapes</a></li><li data-type='method'><a href="module-fretboard.html#.names">names</a></li><li data-type='method'><a href="module-fretboard.html#.notes">notes</a></li><li data-type='method'><a href="module-fretboard.html#.scale">scale</a></li><li data-type='method'><a href="module-fretboard.html#.simpleTuning">simpleTuning</a></li><li data-type='method'><a href="module-fretboard.html#.tuning">tuning</a></li></ul></li><li><a href="module-harmonizer.html">harmonizer</a><ul class='methods'><li data-type='method'><a href="module-harmonizer.html#.harmonics">harmonics</a></li><li data-type='method'><a href="module-harmonizer.html#.harmonize">harmonize</a></li><li data-type='method'><a href="module-harmonizer.html#.intervallic">intervallic</a></li></ul></li><li><a href="module-interval.html">interval</a><ul class='methods'><li data-type='method'><a href="module-interval.html#.fromProps">fromProps</a></li><li data-type='method'><a href="module-interval.html#.fromSemitones">fromSemitones</a></li><li data-type='method'><a href="module-interval.html#.ic">ic</a></li><li data-type='method'><a href="module-interval.html#.invert">invert</a></li><li data-type='method'><a href="module-interval.html#.num">num</a></li><li data-type='method'><a href="module-interval.html#.props">props</a></li><li data-type='method'><a href="module-interval.html#.semitones">semitones</a></li><li data-type='method'><a href="module-interval.html#.simplify">simplify</a></li><li data-type='method'><a href="module-interval.html#.toInterval">toInterval</a></li><li data-type='method'><a href="module-interval.html#.type">type</a></li><li data-type='method'><a href="module-interval.html#.value">value</a></li></ul></li><li><a href="module-key.html">key</a><ul class='methods'><li data-type='method'><a href="module-key.html#.accidentals">accidentals</a></li><li data-type='method'><a href="module-key.html#.alteration">alteration</a></li><li data-type='method'><a href="module-key.html#.alteredNotes">alteredNotes</a></li><li data-type='method'><a href="module-key.html#.fromAcc">fromAcc</a></li><li data-type='method'><a href="module-key.html#.fromAlter">fromAlter</a></li><li data-type='method'><a href="module-key.html#.isKeyName">isKeyName</a></li><li data-type='method'><a href="module-key.html#.mode">mode</a></li><li data-type='method'><a href="module-key.html#.modes">modes</a></li><li data-type='method'><a href="module-key.html#.props">props</a></li><li data-type='method'><a href="module-key.html#.relative">relative</a></li><li data-type='method'><a href="module-key.html#.scale">scale</a></li><li data-type='method'><a href="module-key.html#.signature">signature</a></li><li data-type='method'><a href="module-key.html#.tonic">tonic</a></li></ul></li><li><a href="module-midi.html">midi</a><ul class='methods'><li data-type='method'><a href="module-midi.html#.note">note</a></li><li data-type='method'><a href="module-midi.html#.toMidi">toMidi</a></li></ul></li><li><a href="module-notation.html">notation</a><ul class='methods'><li data-type='method'><a href="module-notation.html#.areFlats">areFlats</a></li><li data-type='method'><a href="module-notation.html#.areSharps">areSharps</a></li><li data-type='method'><a href="module-notation.html#.isStep">isStep</a></li><li data-type='method'><a href="module-notation.html#.toAcc">toAcc</a></li><li data-type='method'><a href="module-notation.html#.toAlt">toAlt</a></li><li data-type='method'><a href="module-notation.html#.toLetter">toLetter</a></li><li data-type='method'><a href="module-notation.html#.toStep">toStep</a></li></ul></li><li><a href="module-note.html">note</a><ul class='methods'><li data-type='method'><a href="module-note.html#.alt">alt</a></li><li data-type='method'><a href="module-note.html#.chroma">chroma</a></li><li data-type='method'><a href="module-note.html#.enharmonics">enharmonics</a></li><li data-type='method'><a href="module-note.html#.freq">freq</a></li><li data-type='method'><a href="module-note.html#.fromMidi">fromMidi</a></li><li data-type='method'><a href="module-note.html#.fromProps">fromProps</a></li><li data-type='method'><a href="module-note.html#.midi">midi</a></li><li data-type='method'><a href="module-note.html#.note">note</a></li><li data-type='method'><a href="module-note.html#.oct">oct</a></li><li data-type='method'><a href="module-note.html#.pc">pc</a></li><li data-type='method'><a href="module-note.html#.pcFifths">pcFifths</a></li><li data-type='method'><a href="module-note.html#.props">props</a></li><li data-type='method'><a href="module-note.html#.simplify">simplify</a></li><li data-type='method'><a href="module-note.html#.step">step</a></li></ul></li><li><a href="module-pcset.html">pcset</a><ul class='methods'><li data-type='method'><a href="module-pcset.html#.chroma">chroma</a></li><li data-type='method'><a href="module-pcset.html#.chromaModes">chromaModes</a></li><li data-type='method'><a href="module-pcset.html#.equal">equal</a></li><li data-type='method'><a href="module-pcset.html#.filter">filter</a></li><li data-type='method'><a href="module-pcset.html#.fromChroma">fromChroma</a></li><li data-type='method'><a href="module-pcset.html#.includes">includes</a></li><li data-type='method'><a href="module-pcset.html#.isChroma">isChroma</a></li><li data-type='method'><a href="module-pcset.html#.notes">notes</a></li><li data-type='method'><a href="module-pcset.html#.subset">subset</a></li><li data-type='method'><a href="module-pcset.html#.superset">superset</a></li></ul></li><li><a href="module-pcset-dft.html">pcset-dft</a><ul class='methods'><li data-type='method'><a href="module-pcset-dft.html#.dft">dft</a></li><li data-type='method'><a href="module-pcset-dft.html#.distance">distance</a></li><li data-type='method'><a href="module-pcset-dft.html#.spectra">spectra</a></li></ul></li><li><a href="module-pitchset.html">pitchset</a><ul class='methods'><li data-type='method'><a href="module-pitchset.html#.notes">notes</a></li></ul></li><li><a href="module-progression.html">progression</a><ul class='methods'><li data-type='method'><a href="module-progression.html#.abstract">abstract</a></li><li data-type='method'><a href="module-progression.html#.buildRoman">buildRoman</a></li><li data-type='method'><a href="module-progression.html#.concrete">concrete</a></li><li data-type='method'><a href="module-progression.html#.parseRomanChord">parseRomanChord</a></li><li data-type='method'><a href="module-progression.html#.romanRegex">romanRegex</a></li></ul></li><li><a href="module-range.html">range</a><ul class='methods'><li data-type='method'><a href="module-range.html#.chromatic">chromatic</a></li><li data-type='method'><a href="module-range.html#.fifths">fifths</a></li><li data-type='method'><a href="module-range.html#.numeric">numeric</a></li><li data-type='method'><a href="module-range.html#.pitchSet">pitchSet</a></li></ul></li><li><a href="module-scale.html">scale</a><ul class='methods'><li data-type='method'><a href="module-scale.html#.detect">detect</a></li><li data-type='method'><a href="module-scale.html#.get">get</a></li><li data-type='method'><a href="module-scale.html#.intervals">intervals</a></li><li data-type='method'><a href="module-scale.html#.isKnowScale">isKnowScale</a></li><li data-type='method'><a href="module-scale.html#.names">names</a></li><li data-type='method'><a href="module-scale.html#.notes">notes</a></li><li data-type='method'><a href="module-scale.html#.parse">parse</a></li></ul></li><li><a href="module-sonority.html">sonority</a><ul class='methods'><li data-type='method'><a href="module-sonority.html#.density">density</a></li></ul></li><li><a href="module-tertian.html">tertian</a></li><li><a href="module-tonal.html">tonal</a></li><li><a href="module-transpose.html">transpose</a><ul class='methods'><li data-type='method'><a href="module-transpose.html#.transpose">transpose</a></li><li data-type='method'><a href="module-transpose.html#.trFifths">trFifths</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">chord/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * A chord is a harmonic unit with at least three different tones sounding simultaneously.
+ *
+ * This module have functions to create and manipulate chords. It includes a
+ * chord dictionary and a simple chord detection algorithm.
+ *
+ * @example
+ * var chord = require('tonal-chord')
+ * chord.detect('c b g e') // => 'CMaj7'
+ * chord.get('CMaj7') // => ['C', 'E', 'G', 'B']
+ *
+ * @module chord
+ */
+import { dictionary, detector } from 'tonal-dictionary'
+import { map, compact, permutations, rotate } from 'tonal-array'
+import { pc, note } from 'tonal-note'
+import { regex } from 'note-parser'
+import { harmonize, intervallic } from 'tonal-harmonizer'
+
+var DATA = require('./chords.json')
+
+var dict = dictionary(DATA, function (str) { return str.split(' ') })
+
+/**
+ * Return the available chord names
+ *
+ * @function
+ * @param {boolean} aliases - true to include aliases
+ * @return {Array} the chord names
+ *
+ * @example
+ * var chord = require('tonal-chord')
+ * chord.names() // => ['maj7', ...]
+ */
+export var names = dict.keys
+
+/**
+ * Get chord notes or intervals from chord type
+ *
+ * This function is currified
+ *
+ * @param {String} type - the chord type
+ * @param {Strng|Pitch} tonic - the tonic or false to get the intervals
+ * @return {Array&lt;String>} the chord notes or intervals, or null if not valid type
+ *
+ * @example
+ * chords.get('dom7', 'C') // => ['C', 'E', 'G', 'Bb']
+ * maj7 = chords.get('Maj7')
+ * maj7('C') // => ['C', 'E', 'G', 'B']
+ */
+export function get (type, tonic) {
+  if (arguments.length === 1) return function (t) { return get(type, t) }
+  var ivls = dict.get(type)
+  return ivls ? harmonize(ivls, tonic) : null
+}
+
+/**
+ * Get the chord notes of a chord. This function accepts either a chord name
+ * (for example: 'Cmaj7') or a list of notes.
+ *
+ * It always returns an array, even if the chord is not found.
+ *
+ * @param {String|Array} chord - the chord to get the notes from
+ * @return {Array&lt;String>} a list of notes or empty list if not chord found
+ *
+ * @example
+ * chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
+ */
+export function notes (chord) {
+  var p = parse(chord)
+  var ivls = dict.get(p.type)
+  return ivls ? harmonize(ivls, p.tonic) : compact(map(note, chord))
+}
+
+/**
+ * Get chord intervals
+ *
+ * @param {String} name - the chord name (optionally a tonic and type)
+ * @return {Array&lt;String>} a list of intervals or null if the type is not known
+ */
+export function intervals (name) {
+  var p = parse(name)
+  return dict.get(p.type)
+}
+
+/**
+ * Check if a given name correspond to a chord in the dictionary
+ * @param {String} name
+ * @return {Boolean}
+ * @example
+ * chord.isKnownChord('CMaj7') // => true
+ * chord.isKnownChord('Maj7') // => true
+ * chord.isKnownChord('Ablah') // => false
+ */
+export function isKnownChord (name) {
+  return intervals(name) !== null
+}
+
+/**
+ * Detect a chord. Given a list of notes, return the chord name(s) if any.
+ * It only detects chords with exactly same notes.
+ *
+ * @function
+ * @param {Array|String} notes - the list of notes
+ * @return {Array&lt;String>} an array with the possible chords
+ * @example
+ * chord.detect('b g f# d') // => [ 'GMaj7' ]
+ * chord.detect('e c a g') // => [ 'CM6', 'Am7' ]
+ */
+export var detect = detector(dict, '')
+
+/**
+ * Get the position (inversion number) of a chord (0 is root position, 1 is first
+ * inversion...). It assumes the chord is formed by superposed thirds.
+ *
+ * @param {Array|String} chord - the chord notes
+ * @return {Integer} the inversion number (0 for root inversion, 1 for first
+ * inversion...) or null if not a valid chord
+ *
+ * @example
+ * chord.position('e g c') // => 1
+ * chord.position('g3 e2 c5') // => 1 (e is the lowest note)
+ */
+export function position (chord) {
+  var pcs = map(pc, chord)
+  var sorted = sortTriads(pcs)
+  return sorted ? sorted.indexOf(pcs[0]) : null
+}
+
+/**
+ * Given a chord in any inverstion, set to the given inversion. It accepts
+ * chord names
+ *
+ * @param {Integer} num - the inversion number (0 root position, 1 first
+ * inversion, ...)
+ * @param {String|Array} chord - the chord name or notes
+ * @return {Array} the chord pitch classes in the desired inversion
+ *
+ * @example
+ * chord.inversion(1, 'Cmaj7') // => [ 'E', 'G', 'B', 'C' ]
+ * chord.inversion(0, 'e g c') // => [ 'C', 'E', 'G' ]
+ */
+export function inversion (num, chord) {
+  if (arguments.length === 1) return function (c) { return inversion(num, c) }
+  var sorted = sortTriads(chord)
+  return sorted ? rotate(num, sorted) : []
+}
+
+function sortTriads (chord) {
+  var all = permutations(notes(chord).map(pc))
+  for (var i = 0; i &lt; all.length; i++) {
+    var ivls = intervallic(all[i])
+    if (areTriads(ivls)) return all[i]
+  }
+  return null
+}
+
+function areTriads (list) {
+  for (var i = 0; i &lt; list.length; i++) {
+    if (list[i][0] !== '3') return false
+  }
+  return true
+}
+
+/**
+ * Try to parse a chord name. It returns an array with the chord type and
+ * the tonic. If not tonic is found, all the name is considered the chord
+ * name.
+ *
+ * This function does NOT check if the chord type exists or not. It only tries
+ * to split the tonic and chord type.
+ *
+ * @param {String} name - the chord name
+ * @return {Array} an array with [type, tonic]
+ * @example
+ * chord.parse('Cmaj7') // => { tonic: 'C', type: 'maj7' }
+ * chord.parse('C7') // => { tonic: 'C', type: '7' }
+ * chord.parse('mMaj7') // => { tonic: false, type: 'mMaj7' }
+ * chord.parse('Cnonsense') // => { tonic: 'C', type: 'nonsense' }
+ */
+export function parse (name) {
+  var p = regex().exec(name)
+  if (!p) return { type: name, tonic: false }
+  // it can have a chord name: Cmaj7 is ['maj7', 'C']
+  // or if not, the octave is treated as chord name: C7 is ['7', 'C']
+  // doesn't have chord name: the name is the octave (example: 'C7' is dominant)
+  return p[4] ? { type: p[4], tonic: p[1] + p[2] + p[3] } : { type: p[3], tonic: p[1] + p[2] }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+  <!--  Documentation generated at Thu Dec 01 2016 23:21:24 GMT+0100 (CET) -->
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

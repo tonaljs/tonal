@@ -279,7 +279,7 @@ exports.rotate = rotate;
 exports.rotateAsc = rotateAsc;
 exports.select = select;
 exports.permutations = permutations;
-},{"as-arr":2,"tonal-distance":7,"tonal-pitch":19,"tonal-transpose":34}],2:[function(require,module,exports){
+},{"as-arr":2,"tonal-distance":7,"tonal-pitch":28,"tonal-transpose":38}],2:[function(require,module,exports){
 'use strict'
 
 // Create a function that converts objects to arrays using the given string separator
@@ -477,6 +477,30 @@ function notes (chord) {
 }
 
 /**
+ * Get chord intervals
+ *
+ * @param {String} name - the chord name (optionally a tonic and type)
+ * @return {Array<String>} a list of intervals or null if the type is not known
+ */
+function intervals (name) {
+  var p = parse(name)
+  return dict.get(p.type)
+}
+
+/**
+ * Check if a given name correspond to a chord in the dictionary
+ * @param {String} name
+ * @return {Boolean}
+ * @example
+ * chord.isKnownChord('CMaj7') // => true
+ * chord.isKnownChord('Maj7') // => true
+ * chord.isKnownChord('Ablah') // => false
+ */
+function isKnownChord (name) {
+  return intervals(name) !== null
+}
+
+/**
  * Detect a chord. Given a list of notes, return the chord name(s) if any.
  * It only detects chords with exactly same notes.
  *
@@ -570,6 +594,8 @@ function parse (name) {
 exports.names = names;
 exports.get = get;
 exports.notes = notes;
+exports.intervals = intervals;
+exports.isKnownChord = isKnownChord;
 exports.detect = detect;
 exports.position = position;
 exports.inversion = inversion;
@@ -780,7 +806,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var tonalArray = require('tonal-array');
 var tonalNote = require('tonal-note');
-var tonalPitchset = require('tonal-pitchset');
+var tonalPcset = require('tonal-pcset');
 
 /**
  * This module contains functions to query tonal dictionaries.
@@ -883,13 +909,13 @@ function detector (dict, build) {
   var isSep = typeof build === 'string'
   var isFn = typeof build === 'function'
   var nameByChroma = dict.keys(false).reduce(function (map, key) {
-    map[tonalPitchset.chroma(dict.get(key))] = key
+    map[tonalPcset.chroma(dict.get(key))] = key
     return map
   }, {})
 
   return function (notes) {
     notes = tonalArray.sort(tonalArray.map(tonalNote.pc, notes))
-    var sets = tonalPitchset.chromaModes(notes)
+    var sets = tonalPcset.chromaModes(notes)
     return tonalArray.compact(sets.map(function (set, i) {
       var type = nameByChroma[set]
       if (!type) return null
@@ -903,7 +929,7 @@ function detector (dict, build) {
 
 exports.dictionary = dictionary;
 exports.detector = detector;
-},{"tonal-array":1,"tonal-note":17,"tonal-pitchset":22}],7:[function(require,module,exports){
+},{"tonal-array":1,"tonal-note":17,"tonal-pcset":19}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -966,7 +992,7 @@ function semitones (a, b) {
 
 exports.interval = interval;
 exports.semitones = semitones;
-},{"tonal-pitch":19}],8:[function(require,module,exports){
+},{"tonal-pitch":28}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -1221,7 +1247,7 @@ function harmonize (list, pitch) {
 exports.harmonics = harmonics;
 exports.intervallic = intervallic;
 exports.harmonize = harmonize;
-},{"tonal-array":1,"tonal-distance":7,"tonal-transpose":34}],11:[function(require,module,exports){
+},{"tonal-array":1,"tonal-distance":7,"tonal-transpose":38}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -1451,7 +1477,7 @@ exports.ic = ic;
 exports.type = type;
 exports.invert = invert;
 exports.simplify = simplify;
-},{"interval-notation":12,"tonal-pitch":19}],12:[function(require,module,exports){
+},{"interval-notation":12,"tonal-pitch":28}],12:[function(require,module,exports){
 'use strict'
 
 // shorthand tonal notation (with quality after number)
@@ -1670,6 +1696,20 @@ function props (str) {
 }
 
 /**
+ * Test if a given name is a valid key name
+ *
+ * @param {String} name
+ * @param {Boolean}
+ * @example
+ * key.isKeyName('C major') // => true
+ * key.isKeyName('major') // => true
+ * key.isKeyName('Bb bebop') // => false
+ */
+function isKeyName (name) {
+  return props(name) !== null
+}
+
+/**
  * Get the tonic of a key
  *
  * @param {String} key - the key
@@ -1834,6 +1874,7 @@ function signature (key) {
 var accidentals = signature
 
 exports.props = props;
+exports.isKeyName = isKeyName;
 exports.tonic = tonic;
 exports.mode = mode;
 exports.relative = relative;
@@ -1845,7 +1886,7 @@ exports.scale = scale;
 exports.alteration = alteration;
 exports.signature = signature;
 exports.accidentals = accidentals;
-},{"tonal-array":1,"tonal-harmonizer":10,"tonal-notation":16,"tonal-note":17,"tonal-range":29,"tonal-transpose":34}],14:[function(require,module,exports){
+},{"tonal-array":1,"tonal-harmonizer":10,"tonal-notation":16,"tonal-note":17,"tonal-range":33,"tonal-transpose":38}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -2270,9 +2311,623 @@ exports.alt = alt;
 exports.pc = pc;
 exports.enharmonics = enharmonics;
 exports.simplify = simplify;
-},{"note-parser":18,"tonal-freq":9,"tonal-midi":14,"tonal-pitch":19,"tonal-transpose":34}],18:[function(require,module,exports){
+},{"note-parser":18,"tonal-freq":9,"tonal-midi":14,"tonal-pitch":28,"tonal-transpose":38}],18:[function(require,module,exports){
 arguments[4][5][0].apply(exports,arguments)
 },{"dup":5}],19:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var tonalPitch = require('tonal-pitch');
+var tonalNote = require('tonal-note');
+var tonalArray = require('tonal-array');
+var tonalTranspose = require('tonal-transpose');
+
+function chrToInt (set) { return parseInt(chroma(set), 2) }
+function pitchChr (p) { p = tonalPitch.asPitch(p); return p ? tonalPitch.chr(p) : null }
+
+/**
+ * Get chroma of a pitch class set. A chroma identifies each set uniquely.
+ * It's a 12-digit binary each presenting one semitone of the octave.
+ *
+ * Note that this function accepts a chroma as parameter and return it
+ * without modification.
+ *
+ * @param {Array|String} set - the pitch class set
+ * @return {String} a binary representation of the pitch class set
+ * @example
+ * pcset.chroma('C D E') // => '1010100000000'
+ */
+function chroma (set) {
+  if (isChroma(set)) return set
+  var b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  tonalArray.map(pitchChr, set).forEach(function (i) {
+    b[i] = 1
+  })
+  return b.join('')
+}
+
+/**
+ * Given a list of notes, return the pitch class names of the set
+ * starting with the first note of the list
+ * @param {String|Array} notes - the pitch class set notes
+ * @return {Array} an array of pitch class sets
+ */
+function notes (notes) {
+  var pcs = tonalArray.map(tonalNote.pc, notes)
+  if (!pcs.length) return pcs
+  var tonic = pcs[0]
+  // since the first note of the chroma is always C, we have to rotate it
+  var rotated = tonalArray.rotate(pitchChr(tonic), chroma(pcs).split('')).join('')
+  return fromChroma(rotated, tonic)
+}
+
+/**
+ * Given a pitch class set (a list of notes or a pitch class set chroma), produce the 12 rotations
+ * of the chroma (and discard the ones that starts with '0')
+ *
+ * This can be used, for example, to get all the modes of a scale.
+ *
+ * @param {Array|String} set - the list of notes or pitchChr of the set
+ * @param {Boolean} normalize - (Optional, true by default) remove all
+ * the rotations that starts with '0'
+ * @return {Array<String>} an array with all the modes of the chroma
+ *
+ * @example
+ * pcset.chromaModes('C E G')
+ */
+function chromaModes (set, normalize) {
+  normalize = normalize !== false
+  var binary = chroma(set).split('')
+  return tonalArray.compact(binary.map(function (_, i) {
+    var r = tonalArray.rotate(i, binary)
+    return normalize && r[0] === '0' ? null : r.join('')
+  }))
+}
+
+var REGEX = /^[01]{12}$/
+
+/**
+ * Test if the given string is a pitch class set chroma.
+ * @param {String} chroma - the pitch class set chroma
+ * @return {Boolean} true if its a valid pcset chroma
+ * @example
+ * pcset.isChroma('101010101010') // => true
+ * pcset.isChroma('101001') // => false
+ */
+function isChroma (set) {
+  return REGEX.test(set)
+}
+
+var IVLS = '1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M'.split(' ')
+/**
+ * Given a pitch class set in binary notation it returns the intervals or notes
+ * (depending on the tonic)
+ * @param {String} binary - the pitch class set in binary representation
+ * @param {String|Pitch} tonic - the pitch class set tonic
+ * @return {Array} a list of notes or intervals
+ * @example
+ * pcset.fromChroma('101010101010', 'C') // => ['C', 'D', 'E', 'Gb', 'Ab', 'Bb']
+ */
+function fromChroma (binary, tonic) {
+  if (arguments.length === 1) return function (t) { return fromChroma(binary, t) }
+  if (!isChroma(binary)) return null
+
+  tonic = tonic || 'P1'
+  return tonalArray.compact(binary.split('').map(function (d, i) {
+    return d === '1' ? tonalTranspose.transpose(IVLS[i], tonic) : null
+  }))
+}
+
+/**
+ * Test if two pitch class sets are identical
+ *
+ * @param {Array|String} set1 - one of the pitch class sets
+ * @param {Array|String} set2 - the other pitch class set
+ * @return {Boolean} true if they are equal
+ * @example
+ * pcset.equal('c2 d3', 'c5 d2') // => true
+ */
+function equal (s1, s2) {
+  if (arguments.length === 1) return function (s) { return equal(s1, s) }
+  return chroma(s1) === chroma(s2)
+}
+
+/**
+ * Test if a pitch class set is a subset of another
+ *
+ * @param {Array|String} set - the base set to test against
+ * @param {Array|String} test - the set to test
+ * @return {Boolean} true if the test set is a subset of the set
+ * @example
+ * pcset.subset('c d e', 'C2 D4 D5 C6') // => true
+ */
+function subset (set, test) {
+  if (arguments.length === 1) return function (t) { return subset(set, t) }
+  test = chrToInt(test)
+  return (test & chrToInt(set)) === test
+}
+
+/**
+ * Test if a pitch class set is a superset
+ *
+ * @param {Array|String} set - the base set to test against
+ * @param {Array|String} test - the set to test
+ * @return {Boolean} true if the test set is a superset of the set
+ * @example
+ * pcset.subset('c d e', 'C2 D4 F4 D5 E5 C6') // => true
+ */
+function superset (set, test) {
+  if (arguments.length === 1) return function (t) { return superset(set, t) }
+  test = chrToInt(test)
+  return (test | chrToInt(set)) === test
+}
+
+/**
+ * Test if a given pitch class set includes a note
+ * @param {Array|String} set - the base set to test against
+ * @param {String|Pitch} note - the note to test
+ * @return {Boolean} true if the note is included in the pcset
+ * @example
+ * pcset.includes('c d e', 'C4') // =A true
+ * pcset.includes('c d e', 'C#4') // =A false
+ */
+function includes (set, note) {
+  if (arguments.length > 1) return includes(set)(note)
+  set = chroma(set)
+  return function (note) { return set[pitchChr(note)] === '1' }
+}
+
+/**
+ * Filter a list with a pitch class set
+ *
+ * @param {Array|String} set - the pitch class set notes
+ * @param {Array|String} notes - the note list to be filtered
+ * @return {Array} the filtered notes
+ *
+ * @example
+ * pcset.filter('c d e', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'd2', 'c3', 'd3' ])
+ * pcset.filter('c2', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'c3' ])
+ */
+function filter (set, notes) {
+  if (arguments.length === 1) return function (n) { return filter(set, n) }
+  return tonalArray.asArr(notes).filter(includes(set))
+}
+
+exports.chroma = chroma;
+exports.notes = notes;
+exports.chromaModes = chromaModes;
+exports.isChroma = isChroma;
+exports.fromChroma = fromChroma;
+exports.equal = equal;
+exports.subset = subset;
+exports.superset = superset;
+exports.includes = includes;
+exports.filter = filter;
+},{"tonal-array":1,"tonal-note":25,"tonal-pitch":28,"tonal-transpose":38}],20:[function(require,module,exports){
+arguments[4][12][0].apply(exports,arguments)
+},{"dup":12}],21:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],22:[function(require,module,exports){
+arguments[4][8][0].apply(exports,arguments)
+},{"dup":8}],23:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var tonalMidi = require('tonal-midi');
+
+/**
+ * Return a function that converts midi or notes names to frequency using
+ * equal temperament.
+ * @function
+ * @param {Float} ref - the tuning reference
+ * @return {Function} the frequency calculator. It accepts midi numbers,
+ * note names, pitches and returns a float.
+ * @example
+ * import { toEqualTemp } from 'tonal-freq'
+ * const toFreq = toEqualTemp(444)
+ * toFreq('A3') // => 222
+ */
+function toEqualTemp (ref) {
+  return function (p) {
+    var m = tonalMidi.fromNote(p)
+    return m ? Math.pow(2, (m - 69) / 12) * ref : null
+  }
+}
+
+/**
+ * Get the frequency of a pitch using equal temperament scale and A4 equal to 440Hz
+ * @function
+ * @param {Number|String} note - the note name or midi number
+ * @return {Float} the frequency in herzs
+ * @example
+ * import { toFreq } from 'tonal-freq'
+ * toFreq('A4') // => 440
+ * // using tonal
+ * tonal.toFreq('C4') // => 261.6255653005986
+ */
+var toFreq = toEqualTemp(440)
+
+/**
+ * Create a function that returns a midi number from a frequency using an
+ * equal temperament and `ref` frequency as 'A4' frequency.
+ *
+ * @param {Float} ref - the frequency of A4
+ * @return {Function} a function that converts from frequency to midi
+ */
+function fromEqualTemp (ref) {
+  return function (freq) {
+    var midiNum = 12 * (Math.log(freq) - Math.log(ref)) / Math.log(2) + 69
+    return Math.round(midiNum)
+  }
+}
+
+/**
+ * Get note from frequency using a equal temeperament scale and 440Hz as
+ * freq reference
+ * @param {Float} freq
+ * @return {Integer} midi number
+ * @function
+ */
+var midiFromFreq = fromEqualTemp(440)
+
+/**
+ * Get note name from frequency using an equal temperament scale with 440Hz
+ * as reference
+ * @param {Float} freq
+ * @return {String} note name
+ */
+function fromFreq (freq) {
+  return tonalMidi.toNote(midiFromFreq(freq))
+}
+
+/**
+ * Get difference in cents between two frequencies. The frequencies can be
+ * expressed with hertzs or midi numbers or note names
+ * @param {Float|Integer|String} base
+ * @param {Float|Integer|String} freq
+ * @return {Float} The difference in cents
+ * @example
+ * import { cents } from 'tonal-freq'
+ * cents('C4', 261) // => -4.1444603457298985
+ */
+function cents (base, freq) {
+  var b = toFreq(base) || base
+  var f = toFreq(freq) || freq
+  return 1200 * (Math.log(f / b) / Math.log(2))
+}
+
+exports.toEqualTemp = toEqualTemp;
+exports.toFreq = toFreq;
+exports.fromEqualTemp = fromEqualTemp;
+exports.midiFromFreq = midiFromFreq;
+exports.fromFreq = fromFreq;
+exports.cents = cents;
+},{"tonal-midi":24}],24:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var parser = _interopDefault(require('note-parser'));
+
+/**
+ * Test if the given number is a valid midi note number
+ * @function
+ * @param {Object} num - the thing to be tested
+ * @return {Boolean} true if it's a valid midi note number
+ * @example
+ * midi.isValidNote(30) // => true
+ * midi.isValidNote(200) // => false
+ */
+function isValidNote (m) {
+  return parser.midi(m) !== null
+}
+
+// To match the general midi specification where `C4` is 60 we must add 12 to
+// `height` function:
+
+/**
+ * Get midi note number. If you pass a midi number it will be
+ * bypassed.
+ *
+ * @param {Array|String} note - the note to get the midi number from
+ * @return {Integer} the midi number or null if not valid pitch
+ * @example
+ * midi.fromNote('C4') // => 60
+ * midi.fromNote(60) // => 60
+ * midi.fromNote('60') // => 60
+ */
+function fromNote (val) {
+  if (Array.isArray(val) && val.length === 2) return val[0] * 7 + val[1] * 12 + 12
+  return parser.midi(val)
+}
+
+var FLATS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')
+var SHARPS = 'C C# D D# E F F# G G# A A# B'.split(' ')
+
+/**
+ * Given a midi number, returns a note name. The altered notes will have
+ * flats.
+ * @function
+ * @param {Integer} midi - the midi note number
+ * @param {Boolean} useSharps - (Optional) set to true to use sharps instead of flats
+ * @return {String} the note name
+ * @example
+ * var midi = require('tonal-midi')
+ * midi.toNote(61) // => 'Db4'
+ * midi.toNote(61, true) // => 'C#4'
+ */
+function toNote (num, sharps) {
+  if (num === true || num === false) return function (m) { return toNote(m, num) }
+  var pcs = sharps === true ? SHARPS : FLATS
+  var pc = pcs[num % 12]
+  var o = Math.floor(num / 12) - 1
+  return pc + o
+}
+
+exports.isValidNote = isValidNote;
+exports.fromNote = fromNote;
+exports.toNote = toNote;
+},{"note-parser":21}],25:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var noteParser = require('note-parser');
+var tonalPitch = require('tonal-pitch');
+var tonalTranspose = require('tonal-transpose');
+var tonalMidi = require('tonal-midi');
+var tonalFreq = require('tonal-freq');
+
+/**
+ * Get the note midi number
+ * (an alias of tonal-midi `toMidi` function)
+ *
+ * @function
+ * @param {Array|String|Number} note - the note to get the midi number from
+ * @return {Integer} the midi number or null if not valid pitch
+ * @example
+ * note.midi('C4') // => 60
+ * @see midi.toMidi
+ */
+var midi = tonalMidi.toMidi
+
+/**
+ * Get the note name of a given midi note number
+ * (an alias of tonal-midi `note` function)
+ *
+ * @function
+ * @param {Integer} midi - the midi note number
+ * @param {Boolean} useSharps - (Optional) set to true to use sharps instead of flats
+ * @return {String} the note name
+ * @example
+ * note.fromMidi(60) // => 'C4'
+ * @see midi.note
+ */
+var fromMidi = tonalMidi.note
+
+/**
+ * Get the frequency of a note
+ * (an alias of the tonal-freq package `toFreq` function)
+ *
+ * @function
+ * @param {Array|String|Number} note - the note to get the frequency
+ * @return {Number} the frequency
+ * @example
+ * note.freq('A4') // => 440
+ * @see freq.toFreq
+ */
+var freq = tonalFreq.toFreq
+
+/**
+ * Return the chroma of a note. The chroma is the numeric equivalent to the
+ * pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
+ *
+ * @param {String|Pitch} note
+ * @return {Integer} the chroma
+ * @example
+ * var note = require('tonal-note')
+ * note.chroma('Cb') // => 11
+ * ['C', 'D', 'E', 'F'].map(note.chroma) // => [0, 2, 4, 5]
+ */
+function chroma (n) {
+  var p = tonalPitch.asNotePitch(n)
+  return p ? tonalPitch.chr(p) : null
+}
+
+/**
+ * Given a note (as string or as array notation) returns a string
+ * with the note name in scientific notation or null
+ * if not valid note
+ *
+ * @function
+ * @param {Pitch|String}
+ * @return {String}
+ *
+ * @example
+ * var note = require('tonal-note')
+ * note.note('cb2') // => 'Cb2'
+ * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
+ */
+function note$1 (n) {
+  var p = tonalPitch.asNotePitch(n)
+  return p ? tonalPitch.strNote(p) : null
+}
+
+/**
+ * Get note properties. It returns an object with the following properties:
+ *
+ * - step: 0 for C, 6 for B. Do not confuse with chroma
+ * - alt: 0 for not accidentals, positive sharps, negative flats
+ * - oct: the octave number or undefined if a pitch class
+ *
+ * @param {String|Pitch} note - the note
+ * @return {Object} the object with note properties or null if not valid note
+ * @example
+ * note.props('Db3') // => { step: 1, alt: -1, oct: 3 }
+ * note.props('C#') // => { step: 0, alt: 1, oct: undefined }
+ */
+function props (n) {
+  var p = tonalPitch.asNotePitch(n)
+  if (!p) return null
+  var d = tonalPitch.decode(p)
+  return { step: d[0], alt: d[1], oct: d[2] }
+}
+
+/**
+ * Given a note properties object, return the string representation if
+ * scientific notation
+ *
+ * @param {Object} noteProps - an object with the following attributes:
+ * @return {String} the note name
+ *
+ * - step: a number from 0 to 6 meaning note step letter from 'C' to 'B'
+ * - alt: the accidentals as number (0 no accidentals, 1 is '#', 2 is '##', -2 is 'bb')
+ * - oct: (Optional) the octave. If not present (or undefined) it returns a pitch class
+ *
+ * @example
+ * note.fromProps({ step: 1, alt: -1, oct: 5 }) // => 'Db5'
+ * note.fromProps({ step: 0, alt: 1 }) // => 'C#'
+ */
+function fromProps (props) {
+  return props ? noteParser.build(props.step, props.alt, props.oct) : null
+}
+
+function getProp (name) {
+  return function (n) { var p = props(n); return p ? p[name] : null }
+}
+
+/**
+ * Get the octave of the given pitch
+ *
+ * @function
+ * @param {String|Pitch} note - the note
+ * @return {Integer} the octave, undefined if its a pitch class or null if
+ * not a valid note
+ * @example
+ * note.oct('C#4') // => 4
+ * note.oct('C') // => undefined
+ * note.oct('blah') // => undefined
+ */
+var oct = getProp('oct')
+
+/**
+ * Get the note step: a number equivalent of the note letter. 0 means C and
+ * 6 means B. This is different from `chroma` (see example)
+ *
+ * @function
+ * @param {String|Pitch} note - the note
+ * @return {Integer} a number between 0 and 6 or null if not a note
+ * @example
+ * note.step('C') // => 0
+ * note.step('Cb') // => 0
+ * // usually what you need is chroma
+ * note.chroma('Cb') // => 6
+ */
+var step = getProp('step')
+
+/**
+ * Get the note step in fifths from 'C'. One property of the perfect fifht
+ * interval is that you can obtain any pitch class by transposing 'C' a
+ * number of times. This function return that number.
+ * @param {String|Pitch} note - the note (can be a pitch class)
+ * @return {Integer} the number of fifths to reach that pitch class from 'C'
+ */
+function pcFifths (note) {
+  var p = tonalPitch.asNotePitch(note)
+  return p ? tonalPitch.fifths(p) : null
+}
+
+/**
+ * Get the note alteration: a number equivalent to the accidentals. 0 means
+ * no accidentals, negative numbers are for flats, positive for sharps
+ *
+ * @function
+ * @param {String|Pitch} note - the note
+ * @return {Integer} the alteration
+ * @example
+ * note.alt('C') // => 0
+ * note.alt('C#') // => 1
+ * note.alt('Cb') // => -1
+ */
+var alt = getProp('alt')
+
+/**
+ * Get pitch class of a note. The note can be a string or a pitch array.
+ *
+ * @function
+ * @param {String|Pitch}
+ * @return {String} the pitch class
+ * @example
+ * tonal.pc('Db3') // => 'Db'
+ * tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
+ */
+function pc (n) {
+  var p = tonalPitch.asNotePitch(n)
+  return p ? tonalPitch.strNote([ p[0], [ tonalPitch.fifths(p) ] ]) : null
+}
+
+var ASC = tonalPitch.parseIvl('2d')
+var DESC = tonalPitch.parseIvl('-2d')
+
+/**
+ * Get the enharmonics of a note. It returns an array of three elements: the
+ * below enharmonic, the note, and the upper enharmonic
+ *
+ * @param {String} note - the note to get the enharmonics from
+ * @return {Array} an array of pitches ordered by distance to the given one
+ *
+ * @example
+ * var note = require('tonal-note')
+ * note.enharmonics('C') // => ['B#', 'C', 'Dbb']
+ * note.enharmonics('A') // => ['G##', 'A', 'Bbb']
+ * note.enharmonics('C#4') // => ['B##3', 'C#4' 'Db4']
+ * note.enharmonics('Db') // => ['C#', 'Db', 'Ebbb'])
+ */
+function enharmonics (pitch) {
+  var notes = []
+  notes.push(tonalTranspose.transpose(DESC, pitch))
+  if (notes[0] === null) return null
+  notes.push(pitch)
+  notes.push(tonalTranspose.transpose(ASC, pitch))
+  return notes
+}
+
+/**
+ * Get a simpler enharmonic note name from a note if exists
+ *
+ * @param {String} note - the note to simplify
+ * @return {String} the simplfiied note (if not found, return same note)
+ *
+ * @example
+ * var note = require('tonal-note')
+ * note.simplify('B#3') // => 'C4'
+ */
+function simplify (pitch) {
+  return enharmonics(pitch).reduce(function (simple, next) {
+    if (!simple) return next
+    return simple.length > next.length ? next : simple
+  }, null)
+}
+
+exports.midi = midi;
+exports.fromMidi = fromMidi;
+exports.freq = freq;
+exports.chroma = chroma;
+exports.note = note$1;
+exports.props = props;
+exports.fromProps = fromProps;
+exports.oct = oct;
+exports.step = step;
+exports.pcFifths = pcFifths;
+exports.alt = alt;
+exports.pc = pc;
+exports.enharmonics = enharmonics;
+exports.simplify = simplify;
+},{"note-parser":21,"tonal-freq":23,"tonal-midi":24,"tonal-pitch":26,"tonal-transpose":27}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -2545,619 +3200,108 @@ exports.strPitch = strPitch;
 exports.noteFn = noteFn;
 exports.ivlFn = ivlFn;
 exports.pitchFn = pitchFn;
-},{"interval-notation":20,"note-parser":21,"tonal-encoding":8}],20:[function(require,module,exports){
-arguments[4][12][0].apply(exports,arguments)
-},{"dup":12}],21:[function(require,module,exports){
-arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}],22:[function(require,module,exports){
+},{"interval-notation":20,"note-parser":21,"tonal-encoding":22}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var tonalPitch = require('tonal-pitch');
-var tonalNote = require('tonal-note');
-var tonalArray = require('tonal-array');
-var tonalTranspose = require('tonal-transpose');
 
-function toInt (set) { return parseInt(chroma(set), 2) }
-function pitchChr (p) { p = tonalPitch.asPitch(p); return p ? tonalPitch.chr(p) : null }
+function trBy (i, p) {
+  var t = tonalPitch.pType(p)
+  if (!t) return null
+  var f = tonalPitch.fifths(i) + tonalPitch.fifths(p)
+  if (tonalPitch.isPC(p)) return ['tnlp', [f]]
+  var o = tonalPitch.focts(i) + tonalPitch.focts(p)
+  if (t === 'note') return ['tnlp', [f, o]]
+  var d = tonalPitch.height(i) + tonalPitch.height(p) < 0 ? -1 : 1
+  return ['tnlp', [d * f, d * o], d]
+}
 
 /**
- * Given a list of notes, return the notes of the pitchset
- * starting with the first note of the list
+ * Transpose notes. Can be used to add intervals. At least one of the parameter
+ * is expected to be an interval. If not, it returns null.
+ *
+ * @param {String|Pitch} a - a note or interval
+ * @param {String|Pitch} b - a note or interavl
+ * @return {String|Pitch} the transposed pitch or null if not valid parameters
+ * @example
+ * var _ = require('tonal')
+ * // transpose a note by an interval
+ * _.transpose('d3', '3M') // => 'F#3'
+ * // transpose intervals
+ * _.transpose('3m', '5P') // => '7m'
+ * // it works with pitch classes
+ * _.transpose('d', '3M') // => 'F#'
+ * // order or parameters is irrelevant
+ * _.transpose('3M', 'd3') // => 'F#3'
+ * // can be partially applied
+ * _.map(_.transpose('3M'), 'c d e f g') // => ['E', 'F#', 'G#', 'A', 'B']
+ */
+function transpose (a, b) {
+  if (arguments.length === 1) return function (b) { return transpose(a, b) }
+  var pa = tonalPitch.asPitch(a)
+  var pb = tonalPitch.asPitch(b)
+  var r = tonalPitch.isIvlPitch(pa) ? trBy(pa, pb)
+    : tonalPitch.isIvlPitch(pb) ? trBy(pb, pa) : null
+  return a === pa && b === pb ? r : tonalPitch.strPitch(r)
+}
+
+/**
+ * Transpose a tonic a number of perfect fifths. It can be partially applied.
+ *
+ * @function
+ * @param {Pitch|String} tonic
+ * @param {Integer} number - the number of times
+ * @return {String|Pitch} the transposed note
+ * @example
+ * import { trFifths } from 'tonal-transpose'
+ * [0, 1, 2, 3, 4].map(trFifths('C')) // => ['C', 'G', 'D', 'A', 'E']
+ * // or using tonal
+ * tonal.trFifths('G4', 1) // => 'D5'
+ */
+function trFifths (t, n) {
+  if (arguments.length > 1) return trFifths(t)(n)
+  return function (n) {
+    return transpose(t, tonalPitch.pitch(n, 0, 1))
+  }
+}
+
+exports.transpose = transpose;
+exports.trFifths = trFifths;
+},{"tonal-pitch":26}],28:[function(require,module,exports){
+arguments[4][26][0].apply(exports,arguments)
+},{"dup":26,"interval-notation":29,"note-parser":30,"tonal-encoding":8}],29:[function(require,module,exports){
+arguments[4][12][0].apply(exports,arguments)
+},{"dup":12}],30:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],31:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var tonalArray = require('tonal-array');
+
+/**
+ * Get the notes of a pitch set. The notes in the set are sorted in asceding
+ * pitch order, and no repetitions are allowed.
+ *
+ * Note that it creates pitch sets and NOT picth class sets. This functionallity
+ * resides inside `tonal-pcset` module.
+ *
+ * @param {String|Array} notes - the notes to create the pitch set from
+ * @return {Array<String>} the ordered pitch set notes
+ * @example
+ * pitchset.notes('C4 c3 C5 c4') // => ['C3', 'C4', 'C5']
  */
 function notes (notes) {
-  var pcs = tonalArray.map(tonalNote.pc, notes)
-  if (!pcs.length) return pcs
-  var tonic = pcs[0]
-  // since the first note of the chroma is always C, we have to rotate it
-  var rotated = tonalArray.rotate(pitchChr(tonic), chroma(pcs).split('')).join('')
-  return fromChroma(rotated, tonic)
-}
-
-/**
- * Given a pitch set (a list of notes or a pitch set chroma), produce the 12 rotations
- * of the chroma (and discard the ones that starts with '0')
- *
- * This can be used, for example, to get all the modes of a scale.
- *
- * @param {Array|String} set - the list of notes or pitchChr of the set
- * @param {Boolean} normalize - (Optional, true by default) remove all
- * the rotations that starts with '0'
- * @return {Array<String>} an array with all the modes of the chroma
- *
- * @example
- * pitchset.chromaModes('C E G')
- */
-function chromaModes (set, normalize) {
-  normalize = normalize !== false
-  var binary = chroma(set).split('')
-  return tonalArray.compact(binary.map(function (_, i) {
-    var r = tonalArray.rotate(i, binary)
-    return normalize && r[0] === '0' ? null : r.join('')
-  }))
-}
-
-var REGEX = /^[01]{12}$/
-
-/**
- * Test if the given string is a pitch set chroma.
- * @param {String} chroma - the pitch set chroma
- * @return {Boolean} true if its a valid pitchset chroma
- * @example
- * pitchset.isChroma('101010101010') // => true
- * pitchset.isChroma('101001') // => false
- */
-function isChroma (set) {
-  return REGEX.test(set)
-}
-
-/**
- * Get chroma of a pitch set. A chroma identifies each pitch set uniquely.
- * It's a 12-digit binary each presenting one semitone of the octave.
- *
- * Note that this function accepts a chroma as parameter and return it
- * without modification.
- *
- * @param {Array|String} set - the pitch set
- * @return {String} a binary representation of the pitch set
- * @example
- * pitchset.chroma('C D E') // => '1010100000000'
- */
-function chroma (set) {
-  if (isChroma(set)) return set
-  var b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  tonalArray.map(pitchChr, set).forEach(function (i) {
-    b[i] = 1
+  return tonalArray.sort(notes).filter(function (n, i, arr) {
+    return i === 0 || n !== arr[i - 1]
   })
-  return b.join('')
-}
-
-var IVLS = '1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M'.split(' ')
-/**
- * Given a pitch set in binary notation it returns the intervals or notes
- * (depending on the tonic)
- * @param {String} binary - the pitch set in binary representation
- * @param {String|Pitch} tonic - the pitch set tonic
- * @return {Array} a list of notes or intervals
- * @example
- * pitchset.fromChroma('101010101010', 'C') // => ['C', 'D', 'E', 'Gb', 'Ab', 'Bb']
- */
-function fromChroma (binary, tonic) {
-  if (arguments.length === 1) return function (t) { return fromChroma(binary, t) }
-  if (!isChroma(binary)) return null
-
-  tonic = tonic || 'P1'
-  return tonalArray.compact(binary.split('').map(function (d, i) {
-    return d === '1' ? tonalTranspose.transpose(IVLS[i], tonic) : null
-  }))
-}
-
-/**
- * Test if two pitch sets are identical
- *
- * @param {Array|String} set1 - one of the pitch sets
- * @param {Array|String} set2 - the other pitch set
- * @return {Boolean} true if they are equal
- * @example
- * pitchset.equal('c2 d3', 'c5 d2') // => true
- */
-function equal (s1, s2) {
-  if (arguments.length === 1) return function (s) { return equal(s1, s) }
-  return chroma(s1) === chroma(s2)
-}
-
-/**
- * Test if a pitch set is a subset of another
- *
- * @param {Array|String} set - the base set to test against
- * @param {Array|String} test - the set to test
- * @return {Boolean} true if the test set is a subset of the set
- * @example
- * pitchset.subset('c d e', 'C2 D4 D5 C6') // => true
- */
-function subset (set, test) {
-  if (arguments.length === 1) return function (t) { return subset(set, t) }
-  test = toInt(test)
-  return (test & toInt(set)) === test
-}
-
-/**
- * Test if a pitch set is a superset
- * @param {Array|String} set - the base set to test against
- * @param {Array|String} test - the set to test
- * @return {Boolean} true if the test set is a superset of the set
- * @example
- * pitchset.subset('c d e', 'C2 D4 F4 D5 E5 C6') // => true
- */
-function superset (set, test) {
-  if (arguments.length === 1) return function (t) { return superset(set, t) }
-  test = toInt(test)
-  return (test | toInt(set)) === test
-}
-
-/**
- * Test if a given pitch set includes a note
- * @param {Array|String} set - the base set to test against
- * @param {String|Pitch} note - the note to test
- * @return {Boolean} true if the note is included in the pitchset
- * @example
- * pitchset.includes('c d e', 'C4') // =A true
- * pitchset.includes('c d e', 'C#4') // =A false
- */
-function includes (set, note) {
-  if (arguments.length > 1) return includes(set)(note)
-  set = chroma(set)
-  return function (note) { return set[pitchChr(note)] === '1' }
-}
-
-/**
- * Filter a list with a pitch set
- *
- * @param {Array|String} set - the pitch set
- * @param {Array|String} notes - the note list to be filtered
- * @return {Array} the filtered notes
- *
- * @example
- * pitchset.filter('c d e', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'd2', 'c3', 'd3' ])
- */
-function filter (set, notes) {
-  if (arguments.length === 1) return function (n) { return filter(set, n) }
-  return tonalArray.asArr(notes).filter(includes(set))
 }
 
 exports.notes = notes;
-exports.chromaModes = chromaModes;
-exports.isChroma = isChroma;
-exports.chroma = chroma;
-exports.fromChroma = fromChroma;
-exports.equal = equal;
-exports.subset = subset;
-exports.superset = superset;
-exports.includes = includes;
-exports.filter = filter;
-},{"tonal-array":1,"tonal-note":26,"tonal-pitch":19,"tonal-transpose":34}],23:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var tonalMidi = require('tonal-midi');
-
-/**
- * Return a function that converts midi or notes names to frequency using
- * equal temperament.
- * @function
- * @param {Float} ref - the tuning reference
- * @return {Function} the frequency calculator. It accepts midi numbers,
- * note names, pitches and returns a float.
- * @example
- * import { toEqualTemp } from 'tonal-freq'
- * const toFreq = toEqualTemp(444)
- * toFreq('A3') // => 222
- */
-function toEqualTemp (ref) {
-  return function (p) {
-    var m = tonalMidi.fromNote(p)
-    return m ? Math.pow(2, (m - 69) / 12) * ref : null
-  }
-}
-
-/**
- * Get the frequency of a pitch using equal temperament scale and A4 equal to 440Hz
- * @function
- * @param {Number|String} note - the note name or midi number
- * @return {Float} the frequency in herzs
- * @example
- * import { toFreq } from 'tonal-freq'
- * toFreq('A4') // => 440
- * // using tonal
- * tonal.toFreq('C4') // => 261.6255653005986
- */
-var toFreq = toEqualTemp(440)
-
-/**
- * Create a function that returns a midi number from a frequency using an
- * equal temperament and `ref` frequency as 'A4' frequency.
- *
- * @param {Float} ref - the frequency of A4
- * @return {Function} a function that converts from frequency to midi
- */
-function fromEqualTemp (ref) {
-  return function (freq) {
-    var midiNum = 12 * (Math.log(freq) - Math.log(ref)) / Math.log(2) + 69
-    return Math.round(midiNum)
-  }
-}
-
-/**
- * Get note from frequency using a equal temeperament scale and 440Hz as
- * freq reference
- * @param {Float} freq
- * @return {Integer} midi number
- * @function
- */
-var midiFromFreq = fromEqualTemp(440)
-
-/**
- * Get note name from frequency using an equal temperament scale with 440Hz
- * as reference
- * @param {Float} freq
- * @return {String} note name
- */
-function fromFreq (freq) {
-  return tonalMidi.toNote(midiFromFreq(freq))
-}
-
-/**
- * Get difference in cents between two frequencies. The frequencies can be
- * expressed with hertzs or midi numbers or note names
- * @param {Float|Integer|String} base
- * @param {Float|Integer|String} freq
- * @return {Float} The difference in cents
- * @example
- * import { cents } from 'tonal-freq'
- * cents('C4', 261) // => -4.1444603457298985
- */
-function cents (base, freq) {
-  var b = toFreq(base) || base
-  var f = toFreq(freq) || freq
-  return 1200 * (Math.log(f / b) / Math.log(2))
-}
-
-exports.toEqualTemp = toEqualTemp;
-exports.toFreq = toFreq;
-exports.fromEqualTemp = fromEqualTemp;
-exports.midiFromFreq = midiFromFreq;
-exports.fromFreq = fromFreq;
-exports.cents = cents;
-},{"tonal-midi":24}],24:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var parser = _interopDefault(require('note-parser'));
-
-/**
- * Test if the given number is a valid midi note number
- * @function
- * @param {Object} num - the thing to be tested
- * @return {Boolean} true if it's a valid midi note number
- * @example
- * midi.isValidNote(30) // => true
- * midi.isValidNote(200) // => false
- */
-function isValidNote (m) {
-  return parser.midi(m) !== null
-}
-
-// To match the general midi specification where `C4` is 60 we must add 12 to
-// `height` function:
-
-/**
- * Get midi note number. If you pass a midi number it will be
- * bypassed.
- *
- * @param {Array|String} note - the note to get the midi number from
- * @return {Integer} the midi number or null if not valid pitch
- * @example
- * midi.fromNote('C4') // => 60
- * midi.fromNote(60) // => 60
- * midi.fromNote('60') // => 60
- */
-function fromNote (val) {
-  if (Array.isArray(val) && val.length === 2) return val[0] * 7 + val[1] * 12 + 12
-  return parser.midi(val)
-}
-
-var FLATS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')
-var SHARPS = 'C C# D D# E F F# G G# A A# B'.split(' ')
-
-/**
- * Given a midi number, returns a note name. The altered notes will have
- * flats.
- * @function
- * @param {Integer} midi - the midi note number
- * @param {Boolean} useSharps - (Optional) set to true to use sharps instead of flats
- * @return {String} the note name
- * @example
- * var midi = require('tonal-midi')
- * midi.toNote(61) // => 'Db4'
- * midi.toNote(61, true) // => 'C#4'
- */
-function toNote (num, sharps) {
-  if (num === true || num === false) return function (m) { return toNote(m, num) }
-  var pcs = sharps === true ? SHARPS : FLATS
-  var pc = pcs[num % 12]
-  var o = Math.floor(num / 12) - 1
-  return pc + o
-}
-
-exports.isValidNote = isValidNote;
-exports.fromNote = fromNote;
-exports.toNote = toNote;
-},{"note-parser":25}],25:[function(require,module,exports){
-arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}],26:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var noteParser = require('note-parser');
-var tonalPitch = require('tonal-pitch');
-var tonalTranspose = require('tonal-transpose');
-var tonalMidi = require('tonal-midi');
-var tonalFreq = require('tonal-freq');
-
-/**
- * Get the note midi number
- * (an alias of tonal-midi `toMidi` function)
- *
- * @function
- * @param {Array|String|Number} note - the note to get the midi number from
- * @return {Integer} the midi number or null if not valid pitch
- * @example
- * note.midi('C4') // => 60
- * @see midi.toMidi
- */
-var midi = tonalMidi.toMidi
-
-/**
- * Get the note name of a given midi note number
- * (an alias of tonal-midi `note` function)
- *
- * @function
- * @param {Integer} midi - the midi note number
- * @param {Boolean} useSharps - (Optional) set to true to use sharps instead of flats
- * @return {String} the note name
- * @example
- * note.fromMidi(60) // => 'C4'
- * @see midi.note
- */
-var fromMidi = tonalMidi.note
-
-/**
- * Get the frequency of a note
- * (an alias of the tonal-freq package `toFreq` function)
- *
- * @function
- * @param {Array|String|Number} note - the note to get the frequency
- * @return {Number} the frequency
- * @example
- * note.freq('A4') // => 440
- * @see freq.toFreq
- */
-var freq = tonalFreq.toFreq
-
-/**
- * Return the chroma of a note. The chroma is the numeric equivalent to the
- * pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
- *
- * @param {String|Pitch} note
- * @return {Integer} the chroma
- * @example
- * var note = require('tonal-note')
- * note.chroma('Cb') // => 11
- * ['C', 'D', 'E', 'F'].map(note.chroma) // => [0, 2, 4, 5]
- */
-function chroma (n) {
-  var p = tonalPitch.asNotePitch(n)
-  return p ? tonalPitch.chr(p) : null
-}
-
-/**
- * Given a note (as string or as array notation) returns a string
- * with the note name in scientific notation or null
- * if not valid note
- *
- * @function
- * @param {Pitch|String}
- * @return {String}
- *
- * @example
- * var note = require('tonal-note')
- * note.note('cb2') // => 'Cb2'
- * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
- */
-function note$1 (n) {
-  var p = tonalPitch.asNotePitch(n)
-  return p ? tonalPitch.strNote(p) : null
-}
-
-/**
- * Get note properties. It returns an object with the following properties:
- *
- * - step: 0 for C, 6 for B. Do not confuse with chroma
- * - alt: 0 for not accidentals, positive sharps, negative flats
- * - oct: the octave number or undefined if a pitch class
- *
- * @param {String|Pitch} note - the note
- * @return {Object} the object with note properties or null if not valid note
- * @example
- * note.props('Db3') // => { step: 1, alt: -1, oct: 3 }
- * note.props('C#') // => { step: 0, alt: 1, oct: undefined }
- */
-function props (n) {
-  var p = tonalPitch.asNotePitch(n)
-  if (!p) return null
-  var d = tonalPitch.decode(p)
-  return { step: d[0], alt: d[1], oct: d[2] }
-}
-
-/**
- * Given a note properties object, return the string representation if
- * scientific notation
- *
- * @param {Object} noteProps - an object with the following attributes:
- * @return {String} the note name
- *
- * - step: a number from 0 to 6 meaning note step letter from 'C' to 'B'
- * - alt: the accidentals as number (0 no accidentals, 1 is '#', 2 is '##', -2 is 'bb')
- * - oct: (Optional) the octave. If not present (or undefined) it returns a pitch class
- *
- * @example
- * note.fromProps({ step: 1, alt: -1, oct: 5 }) // => 'Db5'
- * note.fromProps({ step: 0, alt: 1 }) // => 'C#'
- */
-function fromProps (props) {
-  return props ? noteParser.build(props.step, props.alt, props.oct) : null
-}
-
-function getProp (name) {
-  return function (n) { var p = props(n); return p ? p[name] : null }
-}
-
-/**
- * Get the octave of the given pitch
- *
- * @function
- * @param {String|Pitch} note - the note
- * @return {Integer} the octave, undefined if its a pitch class or null if
- * not a valid note
- * @example
- * note.oct('C#4') // => 4
- * note.oct('C') // => undefined
- * note.oct('blah') // => undefined
- */
-var oct = getProp('oct')
-
-/**
- * Get the note step: a number equivalent of the note letter. 0 means C and
- * 6 means B. This is different from `chroma` (see example)
- *
- * @function
- * @param {String|Pitch} note - the note
- * @return {Integer} a number between 0 and 6 or null if not a note
- * @example
- * note.step('C') // => 0
- * note.step('Cb') // => 0
- * // usually what you need is chroma
- * note.chroma('Cb') // => 6
- */
-var step = getProp('step')
-
-/**
- * Get the note step in fifths from 'C'. One property of the perfect fifht
- * interval is that you can obtain any pitch class by transposing 'C' a
- * number of times. This function return that number.
- * @param {String|Pitch} note - the note (can be a pitch class)
- * @return {Integer} the number of fifths to reach that pitch class from 'C'
- */
-function pcFifths (note) {
-  var p = tonalPitch.asNotePitch(note)
-  return p ? tonalPitch.fifths(p) : null
-}
-
-/**
- * Get the note alteration: a number equivalent to the accidentals. 0 means
- * no accidentals, negative numbers are for flats, positive for sharps
- *
- * @function
- * @param {String|Pitch} note - the note
- * @return {Integer} the alteration
- * @example
- * note.alt('C') // => 0
- * note.alt('C#') // => 1
- * note.alt('Cb') // => -1
- */
-var alt = getProp('alt')
-
-/**
- * Get pitch class of a note. The note can be a string or a pitch array.
- *
- * @function
- * @param {String|Pitch}
- * @return {String} the pitch class
- * @example
- * tonal.pc('Db3') // => 'Db'
- * tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
- */
-function pc (n) {
-  var p = tonalPitch.asNotePitch(n)
-  return p ? tonalPitch.strNote([ p[0], [ tonalPitch.fifths(p) ] ]) : null
-}
-
-var ASC = tonalPitch.parseIvl('2d')
-var DESC = tonalPitch.parseIvl('-2d')
-
-/**
- * Get the enharmonics of a note. It returns an array of three elements: the
- * below enharmonic, the note, and the upper enharmonic
- *
- * @param {String} note - the note to get the enharmonics from
- * @return {Array} an array of pitches ordered by distance to the given one
- *
- * @example
- * var note = require('tonal-note')
- * note.enharmonics('C') // => ['B#', 'C', 'Dbb']
- * note.enharmonics('A') // => ['G##', 'A', 'Bbb']
- * note.enharmonics('C#4') // => ['B##3', 'C#4' 'Db4']
- * note.enharmonics('Db') // => ['C#', 'Db', 'Ebbb'])
- */
-function enharmonics (pitch) {
-  var notes = []
-  notes.push(tonalTranspose.transpose(DESC, pitch))
-  if (notes[0] === null) return null
-  notes.push(pitch)
-  notes.push(tonalTranspose.transpose(ASC, pitch))
-  return notes
-}
-
-/**
- * Get a simpler enharmonic note name from a note if exists
- *
- * @param {String} note - the note to simplify
- * @return {String} the simplfiied note (if not found, return same note)
- *
- * @example
- * var note = require('tonal-note')
- * note.simplify('B#3') // => 'C4'
- */
-function simplify (pitch) {
-  return enharmonics(pitch).reduce(function (simple, next) {
-    if (!simple) return next
-    return simple.length > next.length ? next : simple
-  }, null)
-}
-
-exports.midi = midi;
-exports.fromMidi = fromMidi;
-exports.freq = freq;
-exports.chroma = chroma;
-exports.note = note$1;
-exports.props = props;
-exports.fromProps = fromProps;
-exports.oct = oct;
-exports.step = step;
-exports.pcFifths = pcFifths;
-exports.alt = alt;
-exports.pc = pc;
-exports.enharmonics = enharmonics;
-exports.simplify = simplify;
-},{"note-parser":27,"tonal-freq":23,"tonal-midi":24,"tonal-pitch":19,"tonal-transpose":34}],27:[function(require,module,exports){
-arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}],28:[function(require,module,exports){
+},{"tonal-array":1}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -3271,7 +3415,7 @@ exports.buildRoman = buildRoman;
 exports.concrete = concrete;
 exports.romanRegex = romanRegex;
 exports.parseRomanChord = parseRomanChord;
-},{"tonal-array":1,"tonal-chord":4,"tonal-distance":7,"tonal-interval":11,"tonal-notation":16,"tonal-note":17,"tonal-transpose":34}],29:[function(require,module,exports){
+},{"tonal-array":1,"tonal-chord":4,"tonal-distance":7,"tonal-interval":11,"tonal-notation":16,"tonal-note":17,"tonal-transpose":38}],33:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -3279,7 +3423,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var tonalArray = require('tonal-array');
 var tonalTranspose = require('tonal-transpose');
 var tonalMidi = require('tonal-midi');
-var tonalPitchset = require('tonal-pitchset');
+var tonalPcset = require('tonal-pcset');
 
 function isNum (n) { return typeof n === 'number' }
 // convert notes to midi if needed
@@ -3362,14 +3506,14 @@ function fifths (tonic, range) {
 function pitchSet (set, range) {
   if (arguments.length === 1) return function (l) { return pitchSet(set, l) }
 
-  return tonalPitchset.filter(set, chromatic(range))
+  return tonalPcset.filter(set, chromatic(range))
 }
 
 exports.numeric = numeric;
 exports.chromatic = chromatic;
 exports.fifths = fifths;
 exports.pitchSet = pitchSet;
-},{"tonal-array":1,"tonal-midi":14,"tonal-pitchset":22,"tonal-transpose":34}],30:[function(require,module,exports){
+},{"tonal-array":1,"tonal-midi":14,"tonal-pcset":19,"tonal-transpose":38}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -3445,7 +3589,44 @@ function notes (name) {
 }
 
 /**
- * Given a name, try to parse as if it were a scale
+ * Given a scale name, return its intervals. The name can be the type and
+ * optionally the tonic (which is ignored)
+ *
+ * @param {String} name - the scale name (tonic and type, tonic is optional)
+ * @return {Array<String>} the scale intervals if is a known scale, null otherwise
+ * @example
+ */
+function intervals (name) {
+  var scale = parse(name)
+  return get(scale.type, false)
+}
+
+/**
+ * Check if the given name (and optional tonic and type) is a know scale
+ * @param {String} name - the scale name
+ * @return {Boolean}
+ * @example
+ * scale.intervals('C major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
+ * scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
+ * scale.intervals('mixophrygian') // => null
+ */
+function isKnowScale (name) {
+  return intervals(name) !== null
+}
+
+/**
+ * Given a string try to parse as scale name. It retuns an object with the
+ * form { tonic, type } where tonic is the note or false if no tonic specified
+ * and type is the rest of the string minus the tonic
+ *
+ * Note that this function doesn't check that the scale type is a valid scale
+ * type or if is present in any scale dictionary.
+ *
+ * @param {String} name - the scale name
+ * @return {Object} an object { tonic, type }
+ * @example
+ * scale.parse('C mixoblydean') // => { tonic: 'C', type: 'mixoblydean' }
+ * scale.parse('anything is valid') // => { tonic: false, type: 'anything is valid'}
  */
 function parse (str) {
   if (typeof str !== 'string') return null
@@ -3471,9 +3652,11 @@ var detect = tonalDictionary.detector(dict, ' ')
 exports.get = get;
 exports.names = names;
 exports.notes = notes;
+exports.intervals = intervals;
+exports.isKnowScale = isKnowScale;
 exports.parse = parse;
 exports.detect = detect;
-},{"./scales.json":31,"tonal-array":1,"tonal-dictionary":6,"tonal-harmonizer":10,"tonal-note":17}],31:[function(require,module,exports){
+},{"./scales.json":35,"tonal-array":1,"tonal-dictionary":6,"tonal-harmonizer":10,"tonal-note":17}],35:[function(require,module,exports){
 module.exports={
   "lydian": [ "1P 2M 3M 4A 5P 6M 7M" ],
   "major": [ "1P 2M 3M 4P 5P 6M 7M" , [ "ionian" ] ],
@@ -3566,7 +3749,7 @@ module.exports={
   "six tone symmetric": [ "1P 2m 3M 4P 5A 6M" ]
 }
 
-},{}],32:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -3617,7 +3800,7 @@ function density (list) {
 }
 
 exports.density = density;
-},{"tonal-array":1,"tonal-interval":11,"tonal-pitch":19}],33:[function(require,module,exports){
+},{"tonal-array":1,"tonal-interval":11,"tonal-pitch":28}],37:[function(require,module,exports){
 'use strict'
 /**
  * The `tonal` module is a facade to all the rest of the modules. They are namespaced,
@@ -3648,6 +3831,7 @@ var tonal = {}
 
 assign(tonal, require('tonal-array'))
 assign(tonal, require('tonal-transpose'))
+assign(tonal, require('tonal-harmonizer'))
 assign(tonal, require('tonal-distance'))
 
 tonal.note = require('tonal-note')
@@ -3666,77 +3850,12 @@ tonal.pitch = require('tonal-pitch')
 tonal.notation = require('tonal-notation')
 tonal.progression = require('tonal-progression')
 tonal.sonority = require('tonal-sonority')
+tonal.pitchset = require('tonal-pitchset')
+tonal.pcset = require('tonal-pcset')
 
 if (typeof module === 'object' && module.exports) module.exports = tonal
 if (typeof window !== 'undefined') window.Tonal = tonal
 
-},{"tonal-array":1,"tonal-chord":4,"tonal-distance":7,"tonal-freq":9,"tonal-interval":11,"tonal-key":13,"tonal-midi":14,"tonal-notation":16,"tonal-note":17,"tonal-pitch":19,"tonal-progression":28,"tonal-range":29,"tonal-scale":30,"tonal-sonority":32,"tonal-transpose":34}],34:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var tonalPitch = require('tonal-pitch');
-
-function trBy (i, p) {
-  var t = tonalPitch.pType(p)
-  if (!t) return null
-  var f = tonalPitch.fifths(i) + tonalPitch.fifths(p)
-  if (tonalPitch.isPC(p)) return ['tnlp', [f]]
-  var o = tonalPitch.focts(i) + tonalPitch.focts(p)
-  if (t === 'note') return ['tnlp', [f, o]]
-  var d = tonalPitch.height(i) + tonalPitch.height(p) < 0 ? -1 : 1
-  return ['tnlp', [d * f, d * o], d]
-}
-
-/**
- * Transpose notes. Can be used to add intervals. At least one of the parameter
- * is expected to be an interval. If not, it returns null.
- *
- * @param {String|Pitch} a - a note or interval
- * @param {String|Pitch} b - a note or interavl
- * @return {String|Pitch} the transposed pitch or null if not valid parameters
- * @example
- * var _ = require('tonal')
- * // transpose a note by an interval
- * _.transpose('d3', '3M') // => 'F#3'
- * // transpose intervals
- * _.transpose('3m', '5P') // => '7m'
- * // it works with pitch classes
- * _.transpose('d', '3M') // => 'F#'
- * // order or parameters is irrelevant
- * _.transpose('3M', 'd3') // => 'F#3'
- * // can be partially applied
- * _.map(_.transpose('3M'), 'c d e f g') // => ['E', 'F#', 'G#', 'A', 'B']
- */
-function transpose (a, b) {
-  if (arguments.length === 1) return function (b) { return transpose(a, b) }
-  var pa = tonalPitch.asPitch(a)
-  var pb = tonalPitch.asPitch(b)
-  var r = tonalPitch.isIvlPitch(pa) ? trBy(pa, pb)
-    : tonalPitch.isIvlPitch(pb) ? trBy(pb, pa) : null
-  return a === pa && b === pb ? r : tonalPitch.strPitch(r)
-}
-
-/**
- * Transpose a tonic a number of perfect fifths. It can be partially applied.
- *
- * @function
- * @param {Pitch|String} tonic
- * @param {Integer} number - the number of times
- * @return {String|Pitch} the transposed note
- * @example
- * import { trFifths } from 'tonal-transpose'
- * [0, 1, 2, 3, 4].map(trFifths('C')) // => ['C', 'G', 'D', 'A', 'E']
- * // or using tonal
- * tonal.trFifths('G4', 1) // => 'D5'
- */
-function trFifths (t, n) {
-  if (arguments.length > 1) return trFifths(t)(n)
-  return function (n) {
-    return transpose(t, tonalPitch.pitch(n, 0, 1))
-  }
-}
-
-exports.transpose = transpose;
-exports.trFifths = trFifths;
-},{"tonal-pitch":19}]},{},[33]);
+},{"tonal-array":1,"tonal-chord":4,"tonal-distance":7,"tonal-freq":9,"tonal-harmonizer":10,"tonal-interval":11,"tonal-key":13,"tonal-midi":14,"tonal-notation":16,"tonal-note":17,"tonal-pcset":19,"tonal-pitch":28,"tonal-pitchset":31,"tonal-progression":32,"tonal-range":33,"tonal-scale":34,"tonal-sonority":36,"tonal-transpose":38}],38:[function(require,module,exports){
+arguments[4][27][0].apply(exports,arguments)
+},{"dup":27,"tonal-pitch":28}]},{},[37]);

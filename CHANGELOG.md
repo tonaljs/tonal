@@ -8,6 +8,7 @@
 `tonal-key`
 - Simplified API: removed `asKey`, `fromName`. All returned keys are strings instead of arrays.
 - `names` renamed to `modes`
+- New functions: `isKeyName`
 
 `tonal-pitchset`
 - All functions moved to `tonal-pcset`
@@ -27,6 +28,10 @@
 `tonal-scale`
 - add `parse` function
 - the `notes` function requires a tonic and returns pitch classes
+- add `intervals`, `isKnowScale` functions
+
+`tonal-chords`
+- add `intervals`, `isKnowChord` functions
 
 `tonal-pcset-dft`
 - New module (see README)

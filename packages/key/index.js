@@ -69,6 +69,20 @@ export function props (str) {
 }
 
 /**
+ * Test if a given name is a valid key name
+ *
+ * @param {String} name
+ * @param {Boolean}
+ * @example
+ * key.isKeyName('C major') // => true
+ * key.isKeyName('major') // => true
+ * key.isKeyName('Bb bebop') // => false
+ */
+export function isKeyName (name) {
+  return props(name) !== null
+}
+
+/**
  * Get the tonic of a key
  *
  * @param {String} key - the key

@@ -83,7 +83,45 @@ export function notes (name) {
 }
 
 /**
- * Given a name, try to parse as if it were a scale
+ * Given a scale name, return its intervals. The name can be the type and
+ * optionally the tonic (which is ignored)
+ *
+ * @param {String} name - the scale name (tonic and type, tonic is optional)
+ * @return {Array<String>} the scale intervals if is a known scale, null otherwise
+ * @example
+ * scale.intervals('C major')
+ */
+export function intervals (name) {
+  var scale = parse(name)
+  return get(scale.type, false)
+}
+
+/**
+ * Check if the given name (and optional tonic and type) is a know scale
+ * @param {String} name - the scale name
+ * @return {Boolean}
+ * @example
+ * scale.intervals('C major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
+ * scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
+ * scale.intervals('mixophrygian') // => null
+ */
+export function isKnowScale (name) {
+  return intervals(name) !== null
+}
+
+/**
+ * Given a string try to parse as scale name. It retuns an object with the
+ * form { tonic, type } where tonic is the note or false if no tonic specified
+ * and type is the rest of the string minus the tonic
+ *
+ * Note that this function doesn't check that the scale type is a valid scale
+ * type or if is present in any scale dictionary.
+ *
+ * @param {String} name - the scale name
+ * @return {Object} an object { tonic, type }
+ * @example
+ * scale.parse('C mixoblydean') // => { tonic: 'C', type: 'mixoblydean' }
+ * scale.parse('anything is valid') // => { tonic: false, type: 'anything is valid'}
  */
 export function parse (str) {
   if (typeof str !== 'string') return null

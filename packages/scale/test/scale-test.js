@@ -7,6 +7,13 @@ test('scale: parse', function (t) {
   t.end()
 })
 
+test('scale: intervals', function (t) {
+  t.deepEqual(scale.intervals('C major'), [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
+  t.deepEqual(scale.intervals('major'), [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
+  t.deepEqual(scale.intervals('blah'), null)
+  t.end()
+})
+
 test('scale: notes', function (t) {
   t.deepEqual(scale.notes('C major'), [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ])
   t.deepEqual(scale.notes('C4 major'), scale.notes('C major'))

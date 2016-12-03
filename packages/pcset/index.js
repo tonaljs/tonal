@@ -12,7 +12,7 @@ import { pc } from 'tonal-note'
 import { map, asArr, rotate, compact } from 'tonal-array'
 import { transpose } from 'tonal-transpose'
 
-function toInt (set) { return parseInt(chroma(set), 2) }
+function chrToInt (set) { return parseInt(chroma(set), 2) }
 function pitchChr (p) { p = asPitch(p); return p ? chr(p) : null }
 
 /**
@@ -22,8 +22,8 @@ function pitchChr (p) { p = asPitch(p); return p ? chr(p) : null }
  * Note that this function accepts a chroma as parameter and return it
  * without modification.
  *
- * @param {Array|String} set - the pitch set
- * @return {String} a binary representation of the pitch set
+ * @param {Array|String} set - the pitch class set
+ * @return {String} a binary representation of the pitch class set
  * @example
  * pcset.chroma('C D E') // => '1010100000000'
  */
@@ -40,7 +40,7 @@ export function chroma (set) {
  * Given a list of notes, return the pitch class names of the set
  * starting with the first note of the list
  * @param {String|Array} notes - the pitch class set notes
- * @return {Array} an array of pitch sets
+ * @return {Array} an array of pitch class sets
  */
 export function notes (notes) {
   var pcs = map(pc, notes)
@@ -52,7 +52,7 @@ export function notes (notes) {
 }
 
 /**
- * Given a pitch set (a list of notes or a pitch set chroma), produce the 12 rotations
+ * Given a pitch class set (a list of notes or a pitch class set chroma), produce the 12 rotations
  * of the chroma (and discard the ones that starts with '0')
  *
  * This can be used, for example, to get all the modes of a scale.
@@ -77,8 +77,8 @@ export function chromaModes (set, normalize) {
 var REGEX = /^[01]{12}$/
 
 /**
- * Test if the given string is a pitch set chroma.
- * @param {String} chroma - the pitch set chroma
+ * Test if the given string is a pitch class set chroma.
+ * @param {String} chroma - the pitch class set chroma
  * @return {Boolean} true if its a valid pcset chroma
  * @example
  * pcset.isChroma('101010101010') // => true
@@ -90,10 +90,10 @@ export function isChroma (set) {
 
 var IVLS = '1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M'.split(' ')
 /**
- * Given a pitch set in binary notation it returns the intervals or notes
+ * Given a pitch class set in binary notation it returns the intervals or notes
  * (depending on the tonic)
- * @param {String} binary - the pitch set in binary representation
- * @param {String|Pitch} tonic - the pitch set tonic
+ * @param {String} binary - the pitch class set in binary representation
+ * @param {String|Pitch} tonic - the pitch class set tonic
  * @return {Array} a list of notes or intervals
  * @example
  * pcset.fromChroma('101010101010', 'C') // => ['C', 'D', 'E', 'Gb', 'Ab', 'Bb']
@@ -109,10 +109,10 @@ export function fromChroma (binary, tonic) {
 }
 
 /**
- * Test if two pitch sets are identical
+ * Test if two pitch class sets are identical
  *
- * @param {Array|String} set1 - one of the pitch sets
- * @param {Array|String} set2 - the other pitch set
+ * @param {Array|String} set1 - one of the pitch class sets
+ * @param {Array|String} set2 - the other pitch class set
  * @return {Boolean} true if they are equal
  * @example
  * pcset.equal('c2 d3', 'c5 d2') // => true
@@ -123,7 +123,7 @@ export function equal (s1, s2) {
 }
 
 /**
- * Test if a pitch set is a subset of another
+ * Test if a pitch class set is a subset of another
  *
  * @param {Array|String} set - the base set to test against
  * @param {Array|String} test - the set to test
@@ -133,12 +133,13 @@ export function equal (s1, s2) {
  */
 export function subset (set, test) {
   if (arguments.length === 1) return function (t) { return subset(set, t) }
-  test = toInt(test)
-  return (test & toInt(set)) === test
+  test = chrToInt(test)
+  return (test & chrToInt(set)) === test
 }
 
 /**
- * Test if a pitch set is a superset
+ * Test if a pitch class set is a superset
+ *
  * @param {Array|String} set - the base set to test against
  * @param {Array|String} test - the set to test
  * @return {Boolean} true if the test set is a superset of the set
@@ -147,12 +148,12 @@ export function subset (set, test) {
  */
 export function superset (set, test) {
   if (arguments.length === 1) return function (t) { return superset(set, t) }
-  test = toInt(test)
-  return (test | toInt(set)) === test
+  test = chrToInt(test)
+  return (test | chrToInt(set)) === test
 }
 
 /**
- * Test if a given pitch set includes a note
+ * Test if a given pitch class set includes a note
  * @param {Array|String} set - the base set to test against
  * @param {String|Pitch} note - the note to test
  * @return {Boolean} true if the note is included in the pcset
@@ -167,14 +168,15 @@ export function includes (set, note) {
 }
 
 /**
- * Filter a list with a pitch set
+ * Filter a list with a pitch class set
  *
- * @param {Array|String} set - the pitch set
+ * @param {Array|String} set - the pitch class set notes
  * @param {Array|String} notes - the note list to be filtered
  * @return {Array} the filtered notes
  *
  * @example
  * pcset.filter('c d e', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'd2', 'c3', 'd3' ])
+ * pcset.filter('c2', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'c3' ])
  */
 export function filter (set, notes) {
   if (arguments.length === 1) return function (n) { return filter(set, n) }

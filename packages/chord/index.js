@@ -73,6 +73,30 @@ export function notes (chord) {
 }
 
 /**
+ * Get chord intervals
+ *
+ * @param {String} name - the chord name (optionally a tonic and type)
+ * @return {Array<String>} a list of intervals or null if the type is not known
+ */
+export function intervals (name) {
+  var p = parse(name)
+  return dict.get(p.type)
+}
+
+/**
+ * Check if a given name correspond to a chord in the dictionary
+ * @param {String} name
+ * @return {Boolean}
+ * @example
+ * chord.isKnownChord('CMaj7') // => true
+ * chord.isKnownChord('Maj7') // => true
+ * chord.isKnownChord('Ablah') // => false
+ */
+export function isKnownChord (name) {
+  return intervals(name) !== null
+}
+
+/**
  * Detect a chord. Given a list of notes, return the chord name(s) if any.
  * It only detects chords with exactly same notes.
  *

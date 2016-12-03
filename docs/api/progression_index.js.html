@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>progression/index.js - tonal API documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-array.html">array</a><ul class='methods'><li data-type='method'><a href="module-array.html#.asArr">asArr</a></li><li data-type='method'><a href="module-array.html#.compact">compact</a></li><li data-type='method'><a href="module-array.html#.filter">filter</a></li><li data-type='method'><a href="module-array.html#.map">map</a></li><li data-type='method'><a href="module-array.html#.permutations">permutations</a></li><li data-type='method'><a href="module-array.html#.rotate">rotate</a></li><li data-type='method'><a href="module-array.html#.rotateAsc">rotateAsc</a></li><li data-type='method'><a href="module-array.html#.select">select</a></li><li data-type='method'><a href="module-array.html#.shuffle">shuffle</a></li><li data-type='method'><a href="module-array.html#.sort">sort</a></li></ul></li><li><a href="module-chord.html">chord</a><ul class='methods'><li data-type='method'><a href="module-chord.html#.detect">detect</a></li><li data-type='method'><a href="module-chord.html#.get">get</a></li><li data-type='method'><a href="module-chord.html#.intervals">intervals</a></li><li data-type='method'><a href="module-chord.html#.inversion">inversion</a></li><li data-type='method'><a href="module-chord.html#.isKnownChord">isKnownChord</a></li><li data-type='method'><a href="module-chord.html#.names">names</a></li><li data-type='method'><a href="module-chord.html#.notes">notes</a></li><li data-type='method'><a href="module-chord.html#.parse">parse</a></li><li data-type='method'><a href="module-chord.html#.position">position</a></li></ul></li><li><a href="module-dictionary.html">dictionary</a><ul class='methods'><li data-type='method'><a href="module-dictionary.html#.detector">detector</a></li><li data-type='method'><a href="module-dictionary.html#.dictionary">dictionary</a></li></ul></li><li><a href="module-distance.html">distance</a><ul class='methods'><li data-type='method'><a href="module-distance.html#.interval">interval</a></li><li data-type='method'><a href="module-distance.html#.semitones">semitones</a></li></ul></li><li><a href="module-freq.html">freq</a><ul class='methods'><li data-type='method'><a href="module-freq.html#.cents">cents</a></li><li data-type='method'><a href="module-freq.html#.eqTempFreq">eqTempFreq</a></li><li data-type='method'><a href="module-freq.html#.eqTempFreqToMidi">eqTempFreqToMidi</a></li><li data-type='method'><a href="module-freq.html#.note">note</a></li><li data-type='method'><a href="module-freq.html#.toFreq">toFreq</a></li><li data-type='method'><a href="module-freq.html#.toMidi">toMidi</a></li></ul></li><li><a href="module-fretboard.html">fretboard</a><ul class='methods'><li data-type='method'><a href="module-fretboard.html#.chordShapes">chordShapes</a></li><li data-type='method'><a href="module-fretboard.html#.names">names</a></li><li data-type='method'><a href="module-fretboard.html#.notes">notes</a></li><li data-type='method'><a href="module-fretboard.html#.scale">scale</a></li><li data-type='method'><a href="module-fretboard.html#.simpleTuning">simpleTuning</a></li><li data-type='method'><a href="module-fretboard.html#.tuning">tuning</a></li></ul></li><li><a href="module-harmonizer.html">harmonizer</a><ul class='methods'><li data-type='method'><a href="module-harmonizer.html#.harmonics">harmonics</a></li><li data-type='method'><a href="module-harmonizer.html#.harmonize">harmonize</a></li><li data-type='method'><a href="module-harmonizer.html#.intervallic">intervallic</a></li></ul></li><li><a href="module-interval.html">interval</a><ul class='methods'><li data-type='method'><a href="module-interval.html#.fromProps">fromProps</a></li><li data-type='method'><a href="module-interval.html#.fromSemitones">fromSemitones</a></li><li data-type='method'><a href="module-interval.html#.ic">ic</a></li><li data-type='method'><a href="module-interval.html#.invert">invert</a></li><li data-type='method'><a href="module-interval.html#.num">num</a></li><li data-type='method'><a href="module-interval.html#.props">props</a></li><li data-type='method'><a href="module-interval.html#.semitones">semitones</a></li><li data-type='method'><a href="module-interval.html#.simplify">simplify</a></li><li data-type='method'><a href="module-interval.html#.toInterval">toInterval</a></li><li data-type='method'><a href="module-interval.html#.type">type</a></li><li data-type='method'><a href="module-interval.html#.value">value</a></li></ul></li><li><a href="module-key.html">key</a><ul class='methods'><li data-type='method'><a href="module-key.html#.accidentals">accidentals</a></li><li data-type='method'><a href="module-key.html#.alteration">alteration</a></li><li data-type='method'><a href="module-key.html#.alteredNotes">alteredNotes</a></li><li data-type='method'><a href="module-key.html#.fromAcc">fromAcc</a></li><li data-type='method'><a href="module-key.html#.fromAlter">fromAlter</a></li><li data-type='method'><a href="module-key.html#.isKeyName">isKeyName</a></li><li data-type='method'><a href="module-key.html#.mode">mode</a></li><li data-type='method'><a href="module-key.html#.modes">modes</a></li><li data-type='method'><a href="module-key.html#.props">props</a></li><li data-type='method'><a href="module-key.html#.relative">relative</a></li><li data-type='method'><a href="module-key.html#.scale">scale</a></li><li data-type='method'><a href="module-key.html#.signature">signature</a></li><li data-type='method'><a href="module-key.html#.tonic">tonic</a></li></ul></li><li><a href="module-midi.html">midi</a><ul class='methods'><li data-type='method'><a href="module-midi.html#.note">note</a></li><li data-type='method'><a href="module-midi.html#.toMidi">toMidi</a></li></ul></li><li><a href="module-notation.html">notation</a><ul class='methods'><li data-type='method'><a href="module-notation.html#.areFlats">areFlats</a></li><li data-type='method'><a href="module-notation.html#.areSharps">areSharps</a></li><li data-type='method'><a href="module-notation.html#.isStep">isStep</a></li><li data-type='method'><a href="module-notation.html#.toAcc">toAcc</a></li><li data-type='method'><a href="module-notation.html#.toAlt">toAlt</a></li><li data-type='method'><a href="module-notation.html#.toLetter">toLetter</a></li><li data-type='method'><a href="module-notation.html#.toStep">toStep</a></li></ul></li><li><a href="module-note.html">note</a><ul class='methods'><li data-type='method'><a href="module-note.html#.alt">alt</a></li><li data-type='method'><a href="module-note.html#.chroma">chroma</a></li><li data-type='method'><a href="module-note.html#.enharmonics">enharmonics</a></li><li data-type='method'><a href="module-note.html#.freq">freq</a></li><li data-type='method'><a href="module-note.html#.fromMidi">fromMidi</a></li><li data-type='method'><a href="module-note.html#.fromProps">fromProps</a></li><li data-type='method'><a href="module-note.html#.midi">midi</a></li><li data-type='method'><a href="module-note.html#.note">note</a></li><li data-type='method'><a href="module-note.html#.oct">oct</a></li><li data-type='method'><a href="module-note.html#.pc">pc</a></li><li data-type='method'><a href="module-note.html#.pcFifths">pcFifths</a></li><li data-type='method'><a href="module-note.html#.props">props</a></li><li data-type='method'><a href="module-note.html#.simplify">simplify</a></li><li data-type='method'><a href="module-note.html#.step">step</a></li></ul></li><li><a href="module-pcset.html">pcset</a><ul class='methods'><li data-type='method'><a href="module-pcset.html#.chroma">chroma</a></li><li data-type='method'><a href="module-pcset.html#.chromaModes">chromaModes</a></li><li data-type='method'><a href="module-pcset.html#.equal">equal</a></li><li data-type='method'><a href="module-pcset.html#.filter">filter</a></li><li data-type='method'><a href="module-pcset.html#.fromChroma">fromChroma</a></li><li data-type='method'><a href="module-pcset.html#.includes">includes</a></li><li data-type='method'><a href="module-pcset.html#.isChroma">isChroma</a></li><li data-type='method'><a href="module-pcset.html#.notes">notes</a></li><li data-type='method'><a href="module-pcset.html#.subset">subset</a></li><li data-type='method'><a href="module-pcset.html#.superset">superset</a></li></ul></li><li><a href="module-pcset-dft.html">pcset-dft</a><ul class='methods'><li data-type='method'><a href="module-pcset-dft.html#.dft">dft</a></li><li data-type='method'><a href="module-pcset-dft.html#.distance">distance</a></li><li data-type='method'><a href="module-pcset-dft.html#.spectra">spectra</a></li></ul></li><li><a href="module-pitchset.html">pitchset</a><ul class='methods'><li data-type='method'><a href="module-pitchset.html#.notes">notes</a></li></ul></li><li><a href="module-progression.html">progression</a><ul class='methods'><li data-type='method'><a href="module-progression.html#.abstract">abstract</a></li><li data-type='method'><a href="module-progression.html#.buildRoman">buildRoman</a></li><li data-type='method'><a href="module-progression.html#.concrete">concrete</a></li><li data-type='method'><a href="module-progression.html#.parseRomanChord">parseRomanChord</a></li><li data-type='method'><a href="module-progression.html#.romanRegex">romanRegex</a></li></ul></li><li><a href="module-range.html">range</a><ul class='methods'><li data-type='method'><a href="module-range.html#.chromatic">chromatic</a></li><li data-type='method'><a href="module-range.html#.fifths">fifths</a></li><li data-type='method'><a href="module-range.html#.numeric">numeric</a></li><li data-type='method'><a href="module-range.html#.pitchSet">pitchSet</a></li></ul></li><li><a href="module-scale.html">scale</a><ul class='methods'><li data-type='method'><a href="module-scale.html#.detect">detect</a></li><li data-type='method'><a href="module-scale.html#.get">get</a></li><li data-type='method'><a href="module-scale.html#.intervals">intervals</a></li><li data-type='method'><a href="module-scale.html#.isKnowScale">isKnowScale</a></li><li data-type='method'><a href="module-scale.html#.names">names</a></li><li data-type='method'><a href="module-scale.html#.notes">notes</a></li><li data-type='method'><a href="module-scale.html#.parse">parse</a></li></ul></li><li><a href="module-sonority.html">sonority</a><ul class='methods'><li data-type='method'><a href="module-sonority.html#.density">density</a></li></ul></li><li><a href="module-tertian.html">tertian</a></li><li><a href="module-tonal.html">tonal</a></li><li><a href="module-transpose.html">transpose</a><ul class='methods'><li data-type='method'><a href="module-transpose.html#.transpose">transpose</a></li><li data-type='method'><a href="module-transpose.html#.trFifths">trFifths</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">progression/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Work with chord progressions.
+ *
+ * @example
+ * var progression = require('tonal-progression')
+ * progression.abstract('Cmaj7 Dm7 G7', 'C')
+ *
+ * @module progression
+ */
+import { pc } from 'tonal-note'
+import { props, fromProps } from 'tonal-interval'
+import { map, compact } from 'tonal-array'
+import { transpose } from 'tonal-transpose'
+import { interval } from 'tonal-distance'
+import { parse } from 'tonal-chord'
+import { toAcc } from 'tonal-notation'
+
+/**
+ * Given a chord progression and a tonic, return the chord progression
+ * with roman numeral chords.
+ *
+ * @param {Array|String} chords - the chord progression
+ * @param {String} tonic - the tonic
+ * @return {Array} the chord progression in roman numerals
+ * @example
+ * progression.abstract('Cmaj7 Dm7 G7', 'C') // => [ 'Imaj7', 'IIm7', 'V7' ]
+ */
+export function abstract (chords, tonic) {
+  tonic = pc(tonic)
+  chords = map(parse, chords)
+  var tonics = compact(chords.map(function (x) { return x.tonic }))
+  // if some tonic missing, can't do the analysis
+  if (tonics.length !== chords.length) return null
+
+  return tonics.map(function (t, i) {
+    var p = props(interval(tonic, t))
+    return buildRoman(p.num - 1, p.alt, chords[i].type)
+  })
+}
+
+var NUMS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
+/**
+ * Build an abstract chord name using roman numerals
+ */
+export function buildRoman (num, alt, element) {
+  return toAcc(alt) + NUMS[num % 7] + (element || '')
+}
+
+/**
+ * Get chord progression from a tonic and a list of chord in roman numerals
+ *
+ * @param {String} tonic - the tonic
+ * @param {Array|String} progression - the progression in roman numerals
+ * @return {Array} the chord progression
+ *
+ * @example
+ * var progression = require('chord-progression')
+ * progression.concrete('I IIm7 V7', 'C') // => ['C', 'Dm7', 'G7']
+ */
+export function concrete (chords, tonic) {
+  return map(function (e) {
+    var r = parseRomanChord(e)
+    return r ? transpose(r.root, tonic) + r.type : null
+  }, chords)
+}
+
+var ROMAN = /^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\s*$/
+/**
+ * Returns a regex to match roman numbers literals with the from:
+ * `[accidentals]roman[element]`.
+ *
+ * The executed regex contains:
+ *
+ * - input: the input string
+ * - accidentals: (Optional) one or two flats (b) or shaprs (#)
+ * - roman: (Required) a roman numeral from I to VII either in upper or lower case
+ * - element: (Optional) a name of an element
+ *
+ * @return {RegExp} the regexp
+ *
+ * @example
+ * var r = progression.romanRegex()
+ * r.exec('bVImaj7') // => ['bVImaj7', 'b', 'VI', 'maj7'])
+ * r.exec('III dom') // => ['III dom', '', 'III', 'dom'])
+ */
+export function romanRegex () { return ROMAN }
+
+var NUM = {i: 0, ii: 1, iii: 2, iv: 3, v: 4, vi: 5, vii: 6}
+
+/**
+ * Parse a chord expressed with roman numerals. It returns an interval representing
+ * the root of the chord relative to the key tonic and the chord name.
+ *
+ * @param {String} str - the roman numeral string
+ * @return {Object} the roman chord property object with:
+ *
+ * - type: the chord type
+ * - root: the interval from the key to the root of this chord
+ *
+ * @example
+ * var parse = require('music-notation/roman.parse')
+ * parse('V7') // => { root: '5P', type: '7' }
+ * parse('bIIalt') // => { root: '2m', type: 'alt' }
+ */
+export function parseRomanChord (str) {
+  var m = ROMAN.exec(str)
+  if (!m) return null
+  var num = NUM[m[2].toLowerCase()] + 1
+  var alt = m[1].length
+  if (m[1][0] === 'b') alt = -alt
+  return { root: fromProps({ num: num, alt: alt, dir: 1 }), type: m[3] }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+  <!--  Documentation generated at Thu Dec 01 2016 23:21:24 GMT+0100 (CET) -->
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

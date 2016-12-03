@@ -32,8 +32,10 @@
     "tonal-chord": "^0.68.0",
     "tonal-notation": "^0.64.0",
     "tonal-pitch": "^0.66.0",
+    "tonal-pitchset": "^0.68.0",
     "tonal-pcset": "^0.68.0",
     "tonal-transpose": "^0.66.0",
+    "tonal-harmonizer": "^0.68.0",
     "tonal-progression": "^0.68.0",
     "tonal-sonority": "^0.68.0"
   }

@@ -28,6 +28,7 @@ var tonal = {}
 
 assign(tonal, require('tonal-array'))
 assign(tonal, require('tonal-transpose'))
+assign(tonal, require('tonal-harmonizer'))
 assign(tonal, require('tonal-distance'))
 
 tonal.note = require('tonal-note')
@@ -46,6 +47,7 @@ tonal.pitch = require('tonal-pitch')
 tonal.notation = require('tonal-notation')
 tonal.progression = require('tonal-progression')
 tonal.sonority = require('tonal-sonority')
+tonal.pitchset = require('tonal-pitchset')
 tonal.pcset = require('tonal-pcset')
 
 if (typeof module === 'object' && module.exports) module.exports = tonal
