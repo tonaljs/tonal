@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "pretest": "cp scales.json build/ && rollup -f cjs -o build/index.js -- index.js",
+    "docs": "jsdoc2md index.js > API.md",
     "test": "tape test/*.js"
   },
   "main": "build/index.js",
