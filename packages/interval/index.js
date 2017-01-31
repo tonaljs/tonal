@@ -112,9 +112,9 @@ export function props (ivl) {
  */
 export function fromProps (props) {
   if (!props || props.num < 1) return null
-  var octs = Math.floor((props.num) / 7)
+  var octs = Math.floor((props.num) / 8)
   var simple = props.num - 7 * octs
-  return build(simple, props.alt, octs, props.dir)
+  return build(simple, props.alt || 0, octs, props.dir)
 }
 
 /**

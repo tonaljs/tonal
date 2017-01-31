@@ -33,6 +33,7 @@ test('interval: fromProps', function (t) {
   t.equal(ivl.fromProps({ num: 9, alt: -1, dir: -1 }), '-9m')
   t.equal(ivl.fromProps({ num: 0 }), null)
   t.equal(ivl.fromProps({ num: -1 }), null)
+  t.equal(ivl.fromProps({ num: 7 }), '7M')
   t.equal(ivl.fromProps(), null)
   t.end()
 })
