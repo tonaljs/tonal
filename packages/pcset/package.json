@@ -1,9 +1,13 @@
 {
   "name": "tonal-pcset",
-  "version": "0.68.0",
+  "version": "0.68.1",
   "description": "Pitch class sets",
   "keywords": [
-    "music", "theory", "pitch class", "sets", "tonal"
+    "music",
+    "theory",
+    "pitch class",
+    "sets",
+    "tonal"
   ],
   "scripts": {
     "pretest": "rollup -f cjs -o build/index.js -- index.js",

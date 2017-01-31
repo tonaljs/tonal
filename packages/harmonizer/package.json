@@ -1,6 +1,6 @@
 {
   "name": "tonal-harmonizer",
-  "version": "0.68.0",
+  "version": "0.68.1",
   "description": "Functions to transpose and get distances from collection of notes",
   "repository": "https://github.com/danigb/tonal/packages/harmonizer",
   "keywords": [
