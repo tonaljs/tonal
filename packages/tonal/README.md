@@ -84,10 +84,10 @@ tonal.progression.abstract('Cmaj7 Dm7 G7', 'C') // => ['Imaj7', 'IIm7', 'V7']
 
 Because tonal makes heavy use of functional concepts, there's a few things that are not so common inside JS space, so take in mind that:
 
-- there are no objects. Only functions that performs transformations on data
+- there are no objects. Only functions that performs transformations on data.
 - notes and intervals are represented using strings.
 - most of the functions are currified, so you can partially applied them: it means that if you don't pass all the arguments, you get another function that accepts the rest of the parameters. For example `transpose` function accepts two arguments, the note and the interval, but sometimes is useful to pass only one: `['C', 'D', 'E'].map(tonal.transpose('P5'))`
-- the `tonal` module is a facade of all the rest of the modules. If you are concerned about code size, you can import only the required modules.
+- the `tonal` module is a facade of the rest of the modules. If you are concerned about code size, you can import only the required modules.
 - within the `tonal` facade, most (but not all) of the functions are namespaced to the name of the module. For example, to use the `chromatic` function of `tonal-range` module, you must write `tonal.range.chromatic`. The modules that are not namespaced are `array`, `transpose` and `distance`
 - the code is written using ES6 module system (and converted to ES5 modules using [rollup](http://rollupjs.org)). It means that if you use ES6 modules you can get some benefits like code tree shaking, for example. Anyway, they are fully compatible with ES5 modules.
 
@@ -102,6 +102,7 @@ Because tonal makes heavy use of functional concepts, there's a few things that 
 - Pitch sets comparations, chord and scale detection
 - Keys, keys signatures, key scales
 - Chord progressions
+- Pitch and pitch class sets
 
 ## Philosophy
 
@@ -118,18 +119,20 @@ This library is evolving with this ideas in mind:
 
 ## Why
 
-First of all, because I want to learn:
+Mostly, because I want to learn:
 
 > Reinventing the wheel is bad for business, but it’s great for learning
 [*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
 
-Also, I want a complete library, where I can model all what I learn, with some (for me) esoteric features like [interval classes](http://danigb.github.io/tonal/api/module-interval.html#.ic), pitch sets and other weird stuff.
+I want to learn about music theory and I want to express the conpcets I learn using functional programming style.
+
+Also, I want a complete library, where I can model some (for me) esoteric features like [interval classes](http://danigb.github.io/tonal/api/module-interval.html#.ic), pitch sets, dft to pitch class sets, and so on.
 
 ## What
 
 Tonal itself is built from a collection of [packages](https://github.com/danigb/tonal/tree/master/packages).
 
-You can [read the generated API documentation here](http://danigb.github.io/tonal/api/).
+Please [read the generated API documentation here](http://danigb.github.io/tonal/api/) to get an overview.
 
 ## Build, test and documentation
 
