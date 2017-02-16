@@ -1,4 +1,5 @@
 {
+  "chromatic": [ "1P 2m 2M 3m 3M 4P 4A 5P 6m 6M 7m 7M" ],
   "lydian": [ "1P 2M 3M 4A 5P 6M 7M" ],
   "major": [ "1P 2M 3M 4P 5P 6M 7M" , [ "ionian" ] ],
   "mixolydian": [ "1P 2M 3M 4P 5P 6M 7m" , [ "dominant" ] ],
