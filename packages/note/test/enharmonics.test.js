@@ -1,8 +1,8 @@
 /* global describe test expect */
 var note = require('..')
 
-describe('tonal-enharmonics', function () {
-  test('enharmonics', function () {
+describe('tonal-enharmonics', () => {
+  test('enharmonics', () => {
     expect(note.enharmonics('C')).toEqual([ 'B#', 'C', 'Dbb' ])
     expect(note.enharmonics('B')).toEqual([ 'A##', 'B', 'Cb' ])
     expect(note.enharmonics('B#')).toEqual([ 'A###', 'B#', 'C' ])
@@ -14,17 +14,17 @@ describe('tonal-enharmonics', function () {
     expect(note.enharmonics('Db')).toEqual([ 'C#', 'Db', 'Ebbb' ])
   })
 
-  test('enharmonics - returns empty array if not valid pitch', function () {
+  test('enharmonics - returns empty array if not valid pitch', () => {
     expect(note.enharmonics('blah')).toBe(null)
   })
 
-  test('enharmonics - pitch in array notation', function () {
+  test('enharmonics - pitch in array notation', () => {
     var C = ['tnlp', [0]]
     expect(note.enharmonics(C)).toEqual(
       [ [ 'tnlp', [ 12 ] ], [ 'tnlp', [ 0 ] ], [ 'tnlp', [ -12 ] ] ])
   })
 
-  test('simplify', function () {
+  test('simplify', () => {
     expect(note.simplify('E#2')).toEqual('F2')
     expect(note.simplify('B#2')).toEqual('C3')
     expect(note.simplify('Cb2')).toEqual('B1')

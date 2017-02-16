@@ -2,20 +2,20 @@
 var _ = require('../')
 function up (s) { return s.toUpperCase() }
 
-describe('tonal-array', function () {
-  it('asArr', function () {
+describe('tonal-array', () => {
+  it('asArr', () => {
     expect(_.asArr('a b c')).toEqual([ 'a', 'b', 'c' ])
     expect(_.asArr('a |  b    |  c   ')).toEqual(['a', 'b', 'c'])
     expect(_.asArr('a , b  | c    d')).toEqual(['a', 'b', 'c', 'd'])
   })
 
-  it('map', function () {
+  it('map', () => {
     expect(_.map(up, 'a bb cx')).toEqual([ 'A', 'BB', 'CX' ])
     var ups = _.map(up)
     expect(ups('a bb cx')).toEqual([ 'A', 'BB', 'CX' ])
   })
 
-  describe('sort', function () {
+  describe('sort', () => {
     it('sort notes', () => {
       expect(_.sort('c4 c3 c2')).toEqual([ 'C2', 'C3', 'C4' ])
       expect(_.sort('c2 c3 c4', false)).toEqual([ 'C4', 'C3', 'C2' ])
@@ -34,24 +34,24 @@ describe('tonal-array', function () {
       expect(_.sort('a2 g3 f h c n x')).toEqual([ 'C', 'F', 'A2', 'G3' ])
       expect(_.sort('a2 g3 f h c n x', false)).toEqual([ 'G3', 'A2', 'F', 'C' ])
     })
-    it('not modifies the array', function () {
+    it('not modifies the array', () => {
       var arr = ['c2', 'c1', 'c0']
       expect(_.sort(arr)).toEqual(['C0', 'C1', 'C2'])
       expect(arr).toEqual(['c2', 'c1', 'c0'])
     })
   })
 
-  it('compact', function () {
+  it('compact', () => {
     expect(_.compact(['a', null, 'b'])).toEqual(['a', 'b'])
     expect(_.compact([0, 1, 2, 3, null, 4])).toEqual([ 0, 1, 2, 3, 4 ])
   })
 
-  it('filter', function () {
+  it('filter', () => {
     function isUpLetter (s) { return 'CDEFGAB'.indexOf(s[0]) !== -1 }
     expect(_.filter(isUpLetter, 'C d f4 A4 M3')).toEqual([ 'C', 'A4' ])
   })
 
-  it('shuffle', function () {
+  it('shuffle', () => {
     var s = _.shuffle('A B C D')
     expect(s.length).toBe(4)
     expect(s.indexOf('A')).not.toBe(-1)
@@ -60,13 +60,13 @@ describe('tonal-array', function () {
     expect(s.indexOf('D')).not.toBe(-1)
   })
 
-  it('rotate', function () {
+  it('rotate', () => {
     expect(_.rotate(1, 'c d e')).toEqual(['d', 'e', 'c'])
     expect(_.rotate(-1, 'c d e')).toEqual([ 'e', 'c', 'd' ])
     expect(_.rotate(0, 'c d e')).toEqual([ 'c', 'd', 'e' ])
   })
 
-  it('rotateAsc', function () {
+  it('rotateAsc', () => {
     expect(_.rotateAsc(1, 'c d e')).toEqual(['D', 'E', 'C'])
     expect(_.rotateAsc(-1, 'c d e')).toEqual([ 'E', 'C', 'D' ])
     expect(_.rotateAsc(0, 'c d e')).toEqual([ 'C', 'D', 'E' ])
@@ -80,7 +80,7 @@ describe('tonal-array', function () {
     expect(_.rotateAsc(-2, 'C1 D3 E5')).toEqual([ 'D-2', 'E0', 'C1' ])
   })
 
-  it('select', function () {
+  it('select', () => {
     expect(_.select('1 3 5', 'C D E F G A B')).toEqual(['C', 'E', 'G'])
     expect(_.select('1 -3 12 4', 'C D E F G A B')).toEqual([ 'C', null, null, 'F' ])
     expect(_.select('-1 0 1 2 3', 'C D')).toEqual([ null, null, 'C', 'D', null ])
@@ -88,7 +88,7 @@ describe('tonal-array', function () {
     expect(_.select('1 3')('C D E')).toEqual(['C', 'E'])
   })
 
-  it('permutations', function () {
+  it('permutations', () => {
     expect(_.permutations('a b c')).toEqual([
       [ 'a', 'b', 'c' ], [ 'b', 'a', 'c' ], [ 'b', 'c', 'a' ],
       [ 'a', 'c', 'b' ], [ 'c', 'a', 'b' ], [ 'c', 'b', 'a' ]

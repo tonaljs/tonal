@@ -7,15 +7,15 @@ var DATA = {
 }
 function split (str) { return str.split(' ') }
 
-describe('tonal-dictionary', function () {
-  test('detector', function () {
+describe('tonal-dictionary', () => {
+  test('detector', () => {
     var dict = d.dictionary(DATA, split)
     expect(d.detector(dict, null)('E4 C4 B2 G5')).toEqual([ ['maj7', 'C'] ])
     expect(d.detector(dict, '')('D4 b7 f#2 G5')).toEqual([ 'Gmaj7' ])
     expect(d.detector(dict, ' ')('E C5 B G3')).toEqual([ 'C maj7' ])
   })
 
-  test('get', function () {
+  test('get', () => {
     var get = d.dictionary(DATA, split).get
     expect(get('maj7')).toEqual([ '1P', '3M', '5P', '7M' ])
     expect(get('Maj7')).toEqual([ '1P', '3M', '5P', '7M' ])
@@ -23,13 +23,13 @@ describe('tonal-dictionary', function () {
     expect(get('blah')).toBe(undefined)
   })
 
-  test('keys', function () {
+  test('keys', () => {
     var keys = d.dictionary(DATA, split).keys
     expect(keys()).toEqual([ 'maj7', 'm7' ])
     expect(keys(true)).toEqual([ 'maj7', 'm7', 'Maj7' ])
   })
 
-  test('dictionry: keys with filter', function () {
+  test('dictionry: keys with filter', () => {
     var keys = d.dictionary(DATA, split).keys
     var filter = function (name, intervals) {
       return intervals[1] === '3M'

@@ -1,8 +1,8 @@
 /* global describe test expect */
 var scale = require('..')
 
-describe('tonal-scale', function () {
-  test('parse', function () {
+describe('tonal-scale', () => {
+  test('parse', () => {
     expect(scale.parse('cb3 major')).toEqual({ tonic: 'Cb3', type: 'major' })
     expect(scale.parse('melodic minor')).toEqual({ tonic: false, type: 'melodic minor' })
     expect(scale.parse()).toBe(null)
@@ -13,13 +13,13 @@ describe('tonal-scale', function () {
     expect(scale.isKnowScale('Maj7')).toBe(false)
   })
 
-  test('intervals', function () {
+  test('intervals', () => {
     expect(scale.intervals('C major')).toEqual([ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
     expect(scale.intervals('major')).toEqual([ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
     expect(scale.intervals('blah')).toEqual([])
   })
 
-  test('notes', function () {
+  test('notes', () => {
     expect(scale.notes('C major')).toEqual([ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ])
     expect(scale.notes('C4 major')).toEqual(scale.notes('C major'))
     expect(scale.notes('Eb bebop')).toEqual([ 'Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'Db', 'D' ])
@@ -28,7 +28,7 @@ describe('tonal-scale', function () {
     expect(scale.notes('blah')).toEqual([])
   })
 
-  test('get', function () {
+  test('get', () => {
     expect(scale.get('major', 'C')).toEqual([ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ])
     expect(scale.get('major', 'C2')).toEqual([ 'C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2' ])
     // alias
@@ -42,18 +42,18 @@ describe('tonal-scale', function () {
     expect(scale.get('major', 'blah')).toEqual([])
   })
 
-  test('names', function () {
+  test('names', () => {
     expect(scale.names().length > 0).toBeTruthy()
     expect(scale.names(true).length > scale.names().length).toBeTruthy()
   })
 
-  test('names with filter', function () {
+  test('names with filter', () => {
     expect(scale.names(true, function (name, intervals) {
       return intervals.length === 9
     })).toEqual([ 'composite blues' ])
   })
 
-  test('detect', function () {
+  test('detect', () => {
     expect(scale.detect('f3 a c5 e2 d g2 b6')).toEqual([
       'C major', 'D dorian', 'E phrygian', 'F lydian', 'G mixolydian',
       'A aeolian', 'B locrian'

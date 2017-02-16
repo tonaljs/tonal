@@ -2,28 +2,28 @@
 
 var fr = require('..')
 
-describe('tonal-fretboard', function () {
-  test('names', function () {
+describe('tonal-fretboard', () => {
+  test('names', () => {
     expect(fr.names(true).length > fr.names(false).length).toBeTruthy()
   })
 
-  test('tuning', function () {
+  test('tuning', () => {
     expect(fr.tuning('guitar')).toEqual([ 'E2', 'A2', 'D3', 'G3', 'B3', 'E4' ])
     expect(fr.tuning('charango')).toEqual([ 'G4', 'G4', 'C5', 'C5', 'E5', 'E4', 'A4', 'A4', 'E5', 'E5' ])
   })
 
-  test('simple tuning', function () {
+  test('simple tuning', () => {
     expect(fr.simpleTuning('guitar')).toEqual([ 'E', 'A', 'D', 'G', 'B', 'E' ])
     expect(fr.simpleTuning('charango')).toEqual([ 'G', 'C', 'E', 'A', 'E' ])
   })
 
-  test('notes', function () {
+  test('notes', () => {
     expect(fr.notes('E2 A2 D3', 0, 2)).toEqual([ [ 'E2', 'F2', 'F#2' ], [ 'A2', 'Bb2', 'B2' ], [ 'D3', 'Eb3', 'E3' ] ])
     expect(fr.notes('guitar', 5, 7)).toEqual([ [ 'A2', 'Bb2', 'B2' ], [ 'D3', 'Eb3', 'E3' ], [ 'G3', 'Ab3', 'A3' ],
     [ 'C4', 'Db4', 'D4' ], [ 'E4', 'F4', 'F#4' ], [ 'A4', 'Bb4', 'B4' ] ])
   })
 
-  test('scale', function () {
+  test('scale', () => {
     expect(fr.scale('guitar', 'C E G', 0, 5)).toEqual(
       [ [ 'E2', null, null, 'G2', null, null ], [ null, null, null, 'C3', null, null ],
       [ null, null, 'E3', null, null, 'G3' ], [ 'G3', null, null, null, null, 'C4' ],
@@ -31,7 +31,7 @@ describe('tonal-fretboard', function () {
     )
   })
 
-  test('chordShapes', function () {
+  test('chordShapes', () => {
     expect(fr.chordShapes('guitar', [], 0, 5, 3)).toEqual([])
     expect(fr.chordShapes('guitar', ['G'], 0, 5, 3)).toEqual([ [ null, null, null, '0', null, null ],
     [ '3', null, null, null, null, '3' ],

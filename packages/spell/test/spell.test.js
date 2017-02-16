@@ -1,14 +1,14 @@
 /* global describe test expect */
 var spell = require('..')
 
-describe('tonal-spell', function () {
-  test('get pitch class names', function () {
+describe('tonal-spell', () => {
+  test('get pitch class names', () => {
     expect(spell.pcnote(60)).toBe('C')
     expect(spell.pcnote(70)).toBe('Bb')
     expect(spell.pcnote(73)).toBe('Db')
   })
 
-  test('get fifths from F', function () {
+  test('get fifths from F', () => {
     expect('F C G D A E B'.split(' ').map(spell.fifths))
       .toEqual([ 0, 1, 2, 3, 4, 5, 6 ])
     expect('F# C# G# D# A# E# B#'.split(' ').map(spell.fifths))
@@ -21,7 +21,7 @@ describe('tonal-spell', function () {
       .toEqual([ -8, -9, -10, -11, -12, -13, -14 ])
   })
 
-  test.skip('get note names', function () {
+  test.skip('get note names', () => {
     var notes = 'C D E F G A B'.split(' ')
     var major = [0, 2, 4, 5, 7, 9, 11]
     var chromatic = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]

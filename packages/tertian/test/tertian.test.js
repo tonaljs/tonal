@@ -2,7 +2,7 @@
 var tertian = require('..')
 var tonal = require('../../tonal')
 
-describe('tonal-scale', function () {
+describe('tonal-scale', () => {
   test('tertian: intervals', () => {
     expect(tertian.intervals('mm')).toEqual([ '1P', '3m', '5d' ])
     expect(tertian.intervals('Mm')).toEqual([ '1P', '3M', '5P' ])
