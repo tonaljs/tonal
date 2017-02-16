@@ -4,7 +4,7 @@
   "description": "A functional music theory library",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "jest --coverage"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal",

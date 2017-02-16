@@ -8,7 +8,7 @@
     "bundle": "cp packages/scale/scales.json packages/scale/build/ && cp packages/chord/chords.json packages/chord/build && cp packages/fretboard/tunings.json packages/fretboard/build/",
     "pretest": "npm run build && npm run bundle",
     "prepublish": "cp README.md ./packages/tonal/",
-    "test": "lerna exec -- tape test/*.js",
+    "test": "jest --coverage --no-cache",
     "docs": "jsdoc -c jsdoc3.config.json && open docs/api/index.html",
     "test-ci": "lerna bootstrap && npm test",
     "dist": "rm dist/* && browserify packages/tonal/index.js > dist/tonal.js && uglifyjs dist/tonal.js > dist/tonal.min.js && ls -hall dist/"
@@ -25,13 +25,15 @@
     "eslint": "^3.14.1",
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-standard": "^2.0.1",
-    "lerna": "2.0.0-beta.34",
+    "expect": "^1.20.2",
+    "jest": "^18.1.0",
+    "lerna": "2.0.0-beta.37",
     "postman-jsdoc-theme": "0.0.2",
     "rollup": "^0.41.4",
+    "rollup-plugin-json": "^2.1.0",
     "tape": "^4.6.3",
-    "uglify-js": "^2.7.5",
-    "expect": "^1.20.2",
-    "tst": "^1.3.1"
+    "tst": "^1.3.1",
+    "uglify-js": "^2.7.5"
   },
   "standard": {
     "ignore": [
@@ -40,5 +42,6 @@
     ]
   },
   "dependencies": {
+    "eslint-plugin-promise": "^3.4.0"
   }
 }

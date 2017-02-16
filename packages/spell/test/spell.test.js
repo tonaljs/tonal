@@ -1,8 +1,7 @@
-var test = require('tst')
-var expect = require('expect')
+/* global describe test expect */
 var spell = require('..')
 
-test('tonal-spell', function () {
+describe('tonal-spell', function () {
   test('get pitch class names', function () {
     expect(spell.pcnote(60)).toBe('C')
     expect(spell.pcnote(70)).toBe('Bb')
