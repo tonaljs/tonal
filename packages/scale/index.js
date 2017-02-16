@@ -25,6 +25,8 @@ var dict = dictionary(DATA, function (str) { return str.split(' ') })
  * Transpose the given scale notes, intervals or name to a given tonic.
  * The returned scale is an array of notes (or intervals if you specify `false` as tonic)
  *
+ * It returns null if the scale type is not in the scale dictionary
+ *
  * This function is currified
  *
  * @param {String} source - the scale type, intervals or notes
@@ -86,14 +88,17 @@ export function notes (name) {
  * Given a scale name, return its intervals. The name can be the type and
  * optionally the tonic (which is ignored)
  *
+ * It retruns an empty array when no scale found
+ *
  * @param {String} name - the scale name (tonic and type, tonic is optional)
- * @return {Array<String>} the scale intervals if is a known scale, null otherwise
+ * @return {Array<String>} the scale intervals if is a known scale or an empty
+ * array if no scale found
  * @example
  * scale.intervals('C major')
  */
 export function intervals (name) {
   var scale = parse(name)
-  return get(scale.type, false)
+  return get(scale.type, false) || []
 }
 
 /**
@@ -106,7 +111,7 @@ export function intervals (name) {
  * scale.intervals('mixophrygian') // => null
  */
 export function isKnowScale (name) {
-  return intervals(name) !== null
+  return intervals(name).length > 0
 }
 
 /**

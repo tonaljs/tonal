@@ -5,12 +5,18 @@ describe('tonal-scale', function () {
   test('parse', function () {
     expect(scale.parse('cb3 major')).toEqual({ tonic: 'Cb3', type: 'major' })
     expect(scale.parse('melodic minor')).toEqual({ tonic: false, type: 'melodic minor' })
+    expect(scale.parse()).toBe(null)
+  })
+
+  test('isKnowScale', () => {
+    expect(scale.isKnowScale('major')).toBe(true)
+    expect(scale.isKnowScale('Maj7')).toBe(false)
   })
 
   test('intervals', function () {
     expect(scale.intervals('C major')).toEqual([ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
     expect(scale.intervals('major')).toEqual([ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
-    expect(scale.intervals('blah')).toEqual(null)
+    expect(scale.intervals('blah')).toEqual([])
   })
 
   test('notes', function () {
@@ -18,6 +24,8 @@ describe('tonal-scale', function () {
     expect(scale.notes('C4 major')).toEqual(scale.notes('C major'))
     expect(scale.notes('Eb bebop')).toEqual([ 'Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'Db', 'D' ])
     expect(scale.notes('d4 e5 g3 c6 d5')).toEqual(['D', 'E', 'G', 'C'])
+    expect(scale.notes('Cmaj7')).toEqual([])
+    expect(scale.notes('blah')).toEqual([])
   })
 
   test('get', function () {
@@ -31,6 +39,7 @@ describe('tonal-scale', function () {
     expect(scale.get('major')('Db3')).toEqual([ 'Db3', 'Eb3', 'F3', 'Gb3', 'Ab3', 'Bb3', 'C4' ])
     // not found
     expect(scale.get('no-scale', 'D')).toEqual(null)
+    expect(scale.get('major', 'blah')).toEqual([])
   })
 
   test('names', function () {

@@ -73,14 +73,14 @@ export function notes (chord) {
 }
 
 /**
- * Get chord intervals
+ * Get chord intervals. It always returns an array
  *
  * @param {String} name - the chord name (optionally a tonic and type)
  * @return {Array<String>} a list of intervals or null if the type is not known
  */
 export function intervals (name) {
   var p = parse(name)
-  return dict.get(p.type)
+  return dict.get(p.type) || []
 }
 
 /**
@@ -93,7 +93,7 @@ export function intervals (name) {
  * chord.isKnownChord('Ablah') // => false
  */
 export function isKnownChord (name) {
-  return intervals(name) !== null
+  return intervals(name).length > 0
 }
 
 /**
@@ -134,7 +134,8 @@ export function position (chord) {
  * @param {Integer} num - the inversion number (0 root position, 1 first
  * inversion, ...)
  * @param {String|Array} chord - the chord name or notes
- * @return {Array} the chord pitch classes in the desired inversion
+ * @return {Array} the chord pitch classes in the desired inversion or
+ * an empty array if no inversion found (not triadic)
  *
  * @example
  * chord.inversion(1, 'Cmaj7') // => [ 'E', 'G', 'B', 'C' ]

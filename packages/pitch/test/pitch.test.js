@@ -2,6 +2,10 @@
 var p = require('..')
 
 describe('tonal-pitch', function () {
+  test('pitch', () => {
+    expect(p.pitch(2, 2)).toEqual(['tnlp', [2, 2]])
+    expect(p.pitch(2, 2, -1)).toEqual(['tnlp', [2, 2], -1])
+  })
   test('get fifths from pitch object', function () {
     expect(p.fifths(p.parseIvl('2M'))).toBe(2)
     expect(p.fifths(p.parseIvl('-2M'))).toBe(-2)

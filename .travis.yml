@@ -6,7 +6,12 @@ language: node_js
 cache:
   directories:
 
-script: npm run test-ci
+before_install:
+  - npm i -g codecov node-pre-gyp
+
+script:
+  - npm run test-ci
+  - codecov
 
 node_js:
  - stable

@@ -8,4 +8,8 @@ describe('tonal', function () {
       expect(tonal[name]).not.toBe(undefined)
     })
   })
+  test('aliases', function () {
+    expect(tonal.scale('C major')).toEqual(tonal.scale.notes('C major'))
+    expect(tonal.chord('Cmaj7')).toEqual(tonal.chord.notes('Cmaj7'))
+  })
 })
