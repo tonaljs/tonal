@@ -1,6 +1,6 @@
 {
   "name": "tonal-range",
-  "version": "0.68.1",
+  "version": "0.69.0",
   "description": "Create ranges of notes",
   "keywords": [
     "music",
@@ -18,10 +18,10 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "tonal-array": "^0.68.0",
-    "tonal-pcset": "^0.68.1",
-    "tonal-midi": "^0.68.1",
-    "tonal-note": "^0.68.1",
-    "tonal-transpose": "^0.66.0"
+    "tonal-array": "^0.69.0",
+    "tonal-pcset": "^0.69.0",
+    "tonal-midi": "^0.69.0",
+    "tonal-note": "^0.69.0",
+    "tonal-transpose": "^0.69.0"
   }
 }

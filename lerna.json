@@ -1,10 +1,8 @@
 {
   "lerna": "2.0.0-beta.37",
-  "version": "0.68.1",
-  "scripts": {
-  },
-  "devDependencies": {
-  },
+  "version": "0.69.0",
+  "scripts": {},
+  "devDependencies": {},
   "packages": [
     "packages/*"
   ]

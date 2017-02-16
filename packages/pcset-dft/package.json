@@ -1,6 +1,6 @@
 {
   "name": "tonal-pcset-dft",
-  "version": "0.68.1",
+  "version": "0.69.0",
   "description": "Discrete fourier transform applied to pitch class sets",
   "repository": "https://github.com/danigb/tonal/packages/pcset-dft",
   "keywords": [
@@ -23,7 +23,7 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "tonal-array": "^0.68.0",
-    "tonal-note": "^0.68.1"
+    "tonal-array": "^0.69.0",
+    "tonal-note": "^0.69.0"
   }
 }
