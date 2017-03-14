@@ -26,8 +26,9 @@ describe('tonal-chord', () => {
     expect(chord.parse('maj7')).toEqual({ type: 'maj7', tonic: false })
     expect(chord.parse('C#4 m7b5')).toEqual({ type: 'm7b5', tonic: 'C#4' })
     expect(chord.parse('C#4m7b5')).toEqual({ type: 'm7b5', tonic: 'C#4' })
-    // TODO: fix this
-    expect(chord.parse('C7b5')).toEqual({ type: 'b5', tonic: 'C7' })
+    expect(chord.parse('Cb7b5')).toEqual({ type: '7b5', tonic: 'Cb' })
+    expect(chord.parse('Eb7add6')).toEqual({ tonic: 'Eb', type: '7add6' })
+    expect(chord.parse('Bb6b5')).toEqual({ tonic: 'Bb', type: '6b5' })
   })
 
   test('get', () => {
@@ -37,6 +38,7 @@ describe('tonal-chord', () => {
 
   test('notes', () => {
     expect(chord.notes('Cmaj7')).toEqual([ 'C', 'E', 'G', 'B' ])
+    expect(chord.notes('Eb7add6')).toEqual(['Eb', 'G', 'Bb', 'Db', 'C'])
     expect(chord.notes('C4 maj7')).toEqual([ 'C4', 'E4', 'G4', 'B4' ])
     expect(chord.notes('C7')).toEqual([ 'C', 'E', 'G', 'Bb' ])
     expect(chord.notes('C64')).toEqual(['G', 'C', 'E'])

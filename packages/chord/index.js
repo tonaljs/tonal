@@ -182,8 +182,10 @@ function areTriads (list) {
 export function parse (name) {
   var p = regex().exec(name)
   if (!p) return { type: name, tonic: false }
-  // it can have a chord name: Cmaj7 is ['maj7', 'C']
-  // or if not, the octave is treated as chord name: C7 is ['7', 'C']
-  // doesn't have chord name: the name is the octave (example: 'C7' is dominant)
-  return p[4] ? { type: p[4], tonic: p[1] + p[2] + p[3] } : { type: p[3], tonic: p[1] + p[2] }
+
+  // If chord name is empty, the octave is the chord name
+  return !p[4] ? { type: p[3], tonic: p[1] + p[2] }
+    // If the octave is 6 or 7 is asumed to be part of the chord name
+    : (p[3] === '7' || p[3] === '6') ? { type: p[3] + p[4], tonic: p[1] + p[2] }
+    : { type: p[4], tonic: p[1] + p[2] + p[3] }
 }
