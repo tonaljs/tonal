@@ -5,6 +5,10 @@ describe('tonal-pcset', () => {
   test('notes', () => {
     expect(pcset.notes('g4 f5 g3 d3 a3 a4 c6 a1')).toEqual([ 'G', 'A', 'C', 'D', 'F' ])
   })
+  test('notes always return an array', () => {
+    expect(pcset.notes('blah blip')).toEqual([])
+    expect(pcset.notes()).toEqual([])
+  })
 
   test('chroma', () => {
     expect(pcset.chroma('c d e')).toBe('101010000000')
@@ -16,6 +20,8 @@ describe('tonal-pcset', () => {
   test('fromChroma', () => {
     expect(pcset.fromChroma('101010101010', 'C')).toEqual([ 'C', 'D', 'E', 'Gb', 'Ab', 'Bb' ])
     expect(pcset.fromChroma('101010101010', null)).toEqual([ '1P', '2M', '3M', '5d', '6m', '7m' ])
+    expect(pcset.fromChroma('100000100001')('Eb')).toEqual(['Eb', 'Bbb', 'D'])
+    expect(pcset.fromChroma('1010', 'D')).toEqual(null)
   })
 
   test('modes', () => {
@@ -42,17 +48,18 @@ describe('tonal-pcset', () => {
     expect(pcset.subset('c4 d5 e6', 'c2 d3')).toBe(true)
     expect(pcset.subset('c4 d5 e6', 'c2 d3 e5')).toBe(true)
     expect(pcset.subset('c d e', 'c d e f')).toBe(false)
-    expect(pcset.subset('c d e', 'c2 d3 f6')).toBe(false)
+    expect(pcset.subset('c d e')('c2 d3 f6')).toBe(false)
   })
 
   test('superset', () => {
     expect(pcset.superset('c d e', 'c2 d3 e4 f5')).toBe(true)
     expect(pcset.superset('c d e', 'e f g')).toBe(false)
-    expect(pcset.superset('c d e', 'd e')).toBe(false)
+    expect(pcset.superset('c d e')('d e')).toBe(false)
   })
 
   test('equal', () => {
     expect(pcset.equal('c2 d3 e7 f5', 'c4 c d5 e6 f1')).toBeTruthy()
+    expect(pcset.equal('c f')('c4 c f1')).toBeTruthy()
   })
 
   test('includes', () => {
@@ -62,6 +69,7 @@ describe('tonal-pcset', () => {
 
   test('filter', () => {
     expect(pcset.filter('c d e', 'c2 c#2 d2 c3 c#3 d3')).toEqual([ 'c2', 'd2', 'c3', 'd3' ])
+    expect(pcset.filter('c')('c2 c#2 d2 c3 c#3 d3')).toEqual([ 'c2', 'c3' ])
   })
 
   test('chromaModes', () => {

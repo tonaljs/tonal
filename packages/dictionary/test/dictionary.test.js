@@ -15,6 +15,12 @@ describe('tonal-dictionary', () => {
     expect(d.detector(dict, ' ')('E C5 B G3')).toEqual([ 'C maj7' ])
   })
 
+  test('create a dictionary', () => {
+    var DATA = { 'M': ['1P 3M 5P'] }
+    expect(d.dictionary(DATA).get('M')).toEqual('1P 3M 5P')
+    expect(d.dictionary(DATA, split).get('M')).toEqual(['1P', '3M', '5P'])
+  })
+
   test('get', () => {
     var get = d.dictionary(DATA, split).get
     expect(get('maj7')).toEqual([ '1P', '3M', '5P', '7M' ])
