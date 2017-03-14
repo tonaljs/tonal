@@ -65,7 +65,7 @@ var fifthUpAll = tonal.map(tonal.transpose('5P'))
 fifthUpAll('c d e') // => ['G', 'A', 'B']
 
 // Create complex note ranges: from C4 up to F4 and then down to D4
-tonal.range.chromatic(['C4, F4, D4']) // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'E4', 'Eb4', 'D4' ]
+tonal.range.chromatic('C4, F4, D4') // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'E4', 'Eb4', 'D4' ]
 // Filter ranges to certain notes: from C3 to C4 and back to C3 , using only C Eb G and Bb notes
 tonal.range.pitchSet('C Eb G Bb', ['C3', 'C4', 'C3']) // => ['C3', 'Eb3', 'G3', 'Bb3', 'C4', 'Bb3', 'G3', 'Eb3', 'C3']
 
