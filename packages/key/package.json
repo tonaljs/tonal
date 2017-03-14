@@ -1,6 +1,6 @@
 {
   "name": "tonal-key",
-  "version": "0.69.0",
+  "version": "0.69.1",
   "description": "Conversion between key numbers and note names",
   "repository": "https://github.com/danigb/tonal/packages/key",
   "keywords": [
@@ -23,6 +23,6 @@
     "tonal-note": "^0.69.0",
     "tonal-array": "^0.69.0",
     "tonal-harmonizer": "^0.69.0",
-    "tonal-range": "^0.69.0"
+    "tonal-range": "^0.69.1"
   }
 }
