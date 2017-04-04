@@ -17,6 +17,6 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "note-parser": "^2"
+    "note-parser": "^2.0.1"
   }
 }

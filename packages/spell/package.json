@@ -18,8 +18,8 @@
   "module": "index",
   "author": "danigb",
   "license": "MIT",
-  
+
   "dependencies": {
-    "note-parser": "^2.0.0"
+    "note-parser": "^2.0.1"
   }
 }

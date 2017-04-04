@@ -23,7 +23,7 @@
   "homepage": "https://github.com/danigb/tonal#readme",
   "dependencies": {
     "hyperscript": "^1.4.7",
-    "note-parser": "^2.0.0",
+    "note-parser": "^2.0.1",
     "scorejs": "^0.10.0",
     "snabbdom": "^0.4.2",
     "soundfont-player": "^0.7.0",

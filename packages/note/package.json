@@ -13,7 +13,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "note-parser": "^2.0.0",
+    "note-parser": "^2.0.1",
     "tonal-freq": "^0.69.3",
     "tonal-midi": "^0.69.3",
     "tonal-pitch": "^0.69.3",
