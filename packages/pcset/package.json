@@ -1,6 +1,6 @@
 {
   "name": "tonal-pcset",
-  "version": "0.69.2",
+  "version": "0.69.3",
   "description": "Pitch class sets",
   "keywords": [
     "music",
@@ -18,9 +18,9 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-pitch": "^0.69.2",
+    "tonal-pitch": "^0.69.3",
     "tonal-note": "^0.66.0",
-    "tonal-transpose": "^0.69.2",
-    "tonal-array": "^0.69.2"
+    "tonal-transpose": "^0.69.3",
+    "tonal-array": "^0.69.3"
   }
 }

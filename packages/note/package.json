@@ -1,6 +1,6 @@
 {
   "name": "tonal-note",
-  "version": "0.69.2",
+  "version": "0.69.3",
   "repository": "https://github.com/danigb/tonal/packages/note",
   "description": "Encode pitches using fifths/octaves",
   "keywords": [],
@@ -14,9 +14,9 @@
   "license": "MIT",
   "dependencies": {
     "note-parser": "^2.0.0",
-    "tonal-freq": "^0.69.2",
-    "tonal-midi": "^0.69.2",
-    "tonal-pitch": "^0.69.2",
-    "tonal-transpose": "^0.69.2"
+    "tonal-freq": "^0.69.3",
+    "tonal-midi": "^0.69.3",
+    "tonal-pitch": "^0.69.3",
+    "tonal-transpose": "^0.69.3"
   }
 }
