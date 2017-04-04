@@ -12,7 +12,7 @@
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  "devDependencies": {},
+  
   "dependencies": {
     "note-parser": "^2.0.0",
     "tonal-freq": "^0.69.0",

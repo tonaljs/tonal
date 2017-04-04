@@ -12,6 +12,5 @@
   "main": "build/index.js",
   "jsnext:main": "index",
   "author": "danigb",
-  "license": "MIT",
-  "devDependencies": {}
+  "license": "MIT"
 }

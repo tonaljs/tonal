@@ -16,7 +16,7 @@
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  "devDependencies": {},
+  
   "dependencies": {
     "interval-notation": "^1.0.0",
     "note-parser": "^2",

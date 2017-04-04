@@ -16,7 +16,7 @@
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  "devDependencies": {},
+  
   "dependencies": {
     "tonal-notation": "^0.69.0",
     "tonal-transpose": "^0.69.0",

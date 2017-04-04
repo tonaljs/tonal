@@ -18,7 +18,7 @@
   "jsnext:main": "index.js",
   "author": "danigb",
   "license": "MIT",
-  "devDependencies": {},
+  
   "dependencies": {
     "note-parser": "^2",
     "tonal-array": "^0.69.0",
