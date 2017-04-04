@@ -1,6 +1,6 @@
 {
   "name": "tonal-filter",
-  "version": "0.69.0",
+  "version": "0.69.2",
   "description": "DEPRECATED",
   "keywords": [
     "music",
@@ -16,6 +16,5 @@
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  
   "dependencies": {}
 }

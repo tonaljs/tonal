@@ -1,6 +1,6 @@
 {
   "name": "tonal-pitch",
-  "version": "0.69.0",
+  "version": "0.69.2",
   "description": "Music pitch utilities",
   "keywords": [
     "music",
@@ -16,10 +16,9 @@
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  
   "dependencies": {
     "interval-notation": "^1.0.0",
     "note-parser": "^2",
-    "tonal-encoding": "^0.69.0"
+    "tonal-encoding": "^0.69.2"
   }
 }

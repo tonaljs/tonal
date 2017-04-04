@@ -1,6 +1,6 @@
 {
   "name": "tonal-fretboard",
-  "version": "0.69.1",
+  "version": "0.69.2",
   "description": "Filter notes",
   "keywords": [
     "music",
@@ -16,14 +16,13 @@
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  
   "dependencies": {
-    "tonal-dictionary": "^0.69.1",
-    "tonal-array": "^0.69.0",
-    "tonal-transpose": "^0.69.0",
-    "tonal-interval": "^0.69.0",
-    "tonal-note": "^0.69.0",
-    "tonal-range": "^0.69.1",
-    "tonal-pcset": "^0.69.1"
+    "tonal-dictionary": "^0.69.2",
+    "tonal-array": "^0.69.2",
+    "tonal-transpose": "^0.69.2",
+    "tonal-interval": "^0.69.2",
+    "tonal-note": "^0.69.2",
+    "tonal-range": "^0.69.2",
+    "tonal-pcset": "^0.69.2"
   }
 }
