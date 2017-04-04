@@ -1,6 +1,6 @@
 {
   "name": "tonal-midi",
-  "version": "0.69.3",
+  "version": "0.69.4",
   "description": "Conversion between midi numbers and note names",
   "repository": "https://github.com/danigb/tonal/packages/midi",
   "keywords": [

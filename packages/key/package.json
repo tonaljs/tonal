@@ -1,6 +1,6 @@
 {
   "name": "tonal-key",
-  "version": "0.69.3",
+  "version": "0.69.4",
   "description": "Conversion between key numbers and note names",
   "repository": "https://github.com/danigb/tonal/packages/key",
   "keywords": [
@@ -18,10 +18,10 @@
   "license": "MIT",
   "dependencies": {
     "tonal-notation": "^0.69.3",
-    "tonal-transpose": "^0.69.3",
-    "tonal-note": "^0.69.3",
-    "tonal-array": "^0.69.3",
-    "tonal-harmonizer": "^0.69.3",
-    "tonal-range": "^0.69.3"
+    "tonal-transpose": "^0.69.4",
+    "tonal-note": "^0.69.4",
+    "tonal-array": "^0.69.4",
+    "tonal-harmonizer": "^0.69.4",
+    "tonal-range": "^0.69.4"
   }
 }

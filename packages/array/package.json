@@ -1,6 +1,6 @@
 {
   "name": "tonal-array",
-  "version": "0.69.3",
+  "version": "0.69.4",
   "description": "Create and manipulate arrays of notes and intervals",
   "repository": "https://github.com/danigb/tonal/packages/array",
   "keywords": [
@@ -19,8 +19,8 @@
   "license": "MIT",
   "dependencies": {
     "as-arr": "^1.0.0",
-    "tonal-distance": "^0.69.3",
-    "tonal-pitch": "^0.69.3",
-    "tonal-transpose": "^0.69.3"
+    "tonal-distance": "^0.69.4",
+    "tonal-pitch": "^0.69.4",
+    "tonal-transpose": "^0.69.4"
   }
 }
