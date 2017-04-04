@@ -101,7 +101,7 @@ export function note (n) {
  * note.name('fx') // => 'F##'
  * note.name('bbb3') // => 'Bbb3'
  */
-export const name = note
+export var name = note
 
 /**
  * Get note properties. It returns an object with the following properties:

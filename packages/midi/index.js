@@ -15,7 +15,7 @@
  * @module midi
  */
 
-import parser from 'note-parser'
+import { midi } from 'note-parser'
 
 /**
  * Convert the given note to a midi note number. If you pass a midi number it
@@ -30,7 +30,7 @@ import parser from 'note-parser'
  */
 export function toMidi (val) {
   if (Array.isArray(val) && val.length === 2) return val[0] * 7 + val[1] * 12 + 12
-  return parser.midi(val)
+  return midi(val)
 }
 
 var FLATS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')

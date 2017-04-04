@@ -26,7 +26,7 @@
 
 import { chroma } from 'tonal-note'
 import { map } from 'tonal-array'
-const { PI, sin, cos, pow, sqrt } = Math
+var { PI, sin, cos, pow, sqrt } = Math
 
 export function pcset (notes) {
   return Object.keys(map(chroma, notes).reduce(function (set, ch) {

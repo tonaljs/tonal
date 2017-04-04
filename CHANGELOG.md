@@ -3,6 +3,7 @@
 ## 0.69.x
 - Fix dictionary dependencies
 - Update to note-parser 2.0.1 for better ES6 module support
+- Fix midi note-parser dependency
 
 ## 0.69 [MASTER]
 
