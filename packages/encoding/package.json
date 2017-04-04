@@ -10,7 +10,7 @@
   ],
   "scripts": {},
   "main": "build/index.js",
-  "jsnext:main": "index",
+  "module": "index",
   "author": "danigb",
   "license": "MIT"
 }
