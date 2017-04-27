@@ -70,11 +70,11 @@ tonal.range.chromatic('C4, F4, D4') // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4'
 tonal.range.pitchSet('C Eb G Bb', ['C3', 'C4', 'C3']) // => ['C3', 'Eb3', 'G3', 'Bb3', 'C4', 'Bb3', 'G3', 'Eb3', 'C3']
 
 // harmonize a note with a list intervals
-tonal.harmonize('P1 m3 d5', 'C') // => ['C', 'Eb', 'Gb']
+tonal.harmonize('1P 3m 5d', 'C') // => ['C', 'Eb', 'Gb']
 // or a list of a notes with an interval
 tonal.harmonize('c d e', 'M3') // => ['E', 'F#', 'G']
 // partial application
-var maj7 = tonal.harmonize('P1 M3 P5 M7')
+var maj7 = tonal.harmonize('1P 3M 5P 7M')
 maj7('C2') // => ['C2', 'E2', 'G2', 'B2']
 
 // extract intervals
