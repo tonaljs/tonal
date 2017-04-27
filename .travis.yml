@@ -8,7 +8,7 @@ cache:
   directories:
 
 before_install:
-  - yarn global codecov node-pre-gyp
+  - yarn global add codecov node-pre-gyp
 
 script:
   - yarn run test-ci
