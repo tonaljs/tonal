@@ -4,13 +4,14 @@ git:
 sudo: false
 language: node_js
 cache:
+  yarn: true
   directories:
 
 before_install:
-  - npm i -g codecov node-pre-gyp
+  - yarn global codecov node-pre-gyp
 
 script:
-  - npm run test-ci
+  - yarn run test-ci
   - codecov
 
 node_js:
