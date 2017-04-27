@@ -1,5 +1,7 @@
-# tonal [![npm](https://img.shields.io/npm/v/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal) [![Build Status](https://travis-ci.org/danigb/tonal.svg?branch=master&style=flat-square)](https://travis-ci.org/danigb/tonal) [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/danigb/tonal) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard) [![license](https://img.shields.io/npm/l/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
+# tonal [![npm](https://img.shields.io/npm/v/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
 
+[![Build Status](https://travis-ci.org/danigb/tonal.svg?branch=master&style=flat-square)](https://travis-ci.org/danigb/tonal) [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/danigb/tonal) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard) [![license](https://img.shields.io/npm/l/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
+[![codecov](https://codecov.io/gh/danigb/tonal/branch/master/graph/badge.svg)](https://codecov.io/gh/danigb/tonal)
 
 
 
@@ -63,16 +65,16 @@ var fifthUpAll = tonal.map(tonal.transpose('5P'))
 fifthUpAll('c d e') // => ['G', 'A', 'B']
 
 // Create complex note ranges: from C4 up to F4 and then down to D4
-tonal.range.chromatic(['C4, F4, D4']) // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'E4', 'Eb4', 'D4' ]
+tonal.range.chromatic('C4, F4, D4') // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'E4', 'Eb4', 'D4' ]
 // Filter ranges to certain notes: from C3 to C4 and back to C3 , using only C Eb G and Bb notes
 tonal.range.pitchSet('C Eb G Bb', ['C3', 'C4', 'C3']) // => ['C3', 'Eb3', 'G3', 'Bb3', 'C4', 'Bb3', 'G3', 'Eb3', 'C3']
 
 // harmonize a note with a list intervals
-tonal.harmonize('P1 m3 d5', 'C') // => ['C', 'Eb', 'Gb']
+tonal.harmonize('1P 3m 5d', 'C') // => ['C', 'Eb', 'Gb']
 // or a list of a notes with an interval
 tonal.harmonize('c d e', 'M3') // => ['E', 'F#', 'G']
 // partial application
-var maj7 = tonal.harmonize('P1 M3 P5 M7')
+var maj7 = tonal.harmonize('1P 3M 5P 7M')
 maj7('C2') // => ['C2', 'E2', 'G2', 'B2']
 
 // extract intervals

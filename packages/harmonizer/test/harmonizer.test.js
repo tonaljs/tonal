@@ -26,6 +26,6 @@ describe('tonal-harmonizer', () => {
     expect(maj7('Bb')).toEqual([ 'Bb', 'D', 'F', 'A' ])
 
     var diminished = _.harmonize('P1 m3 5d', 'C')
-    expect(diminished).toEqual([])
+    expect(diminished).toEqual(['C', 'Eb', 'Gb'])
   })
 })
