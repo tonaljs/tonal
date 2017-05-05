@@ -1,6 +1,5 @@
 /* global describe test expect */
 var tertian = require('..')
-var tonal = require('../../tonal')
 
 describe('tonal-scale', () => {
   test('tertian: intervals', () => {
@@ -13,11 +12,14 @@ describe('tonal-scale', () => {
     expect(tertian.allFor('mmMM'))
     .toEqual([ 'MMmm', 'MmMm', 'MmmM', 'mMMm', 'mMmM', 'mmMM' ])
 
-    expect(tertian.allFor('mmMM').map(tertian.intervals)
-    .map((i) => tonal.harmonize(i, 'C').join(' ')))
+    expect(tertian.allFor('mmMM').map(tertian.intervals).map(i => i.join(' ')))
     .toEqual([
-      'C E G# B D', 'C E G B D', 'C E G Bb D',
-      'C Eb G B D', 'C Eb G Bb D', 'C Eb Gb Bb D'
+      '1P 3M 5A 7M 9M',
+      '1P 3M 5P 7M 9M',
+      '1P 3M 5P 7m 9M',
+      '1P 3m 5P 7M 9M',
+      '1P 3m 5P 7m 9M',
+      '1P 3m 5d 7m 9M'
     ])
   })
 })

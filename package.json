@@ -1,17 +1,17 @@
 {
   "name": "tonal-build",
   "private": true,
-  "main": "dist/tonal.js",
+  "main": "dist/tonal.min.js",
   "scripts": {
-    "init": "lerna bootstrap && npm run build",
-    "build": "lerna exec -- rollup -f cjs -o build/index.js -- index.js",
-    "bundle": "cp packages/scale/scales.json packages/scale/build/ && cp packages/chord/chords.json packages/chord/build && cp packages/fretboard/tunings.json packages/fretboard/build/",
-    "pretest": "npm run build && npm run bundle",
-    "prepublish": "cp README.md ./packages/tonal/",
+    "init": "lerna clean && lerna bootstrap && npm run build",
+    "noprebuild": "lerna exec -- rm build/*",
+    "build": "lerna exec -- rollup -c ../../rollup.config.js -o build/index.js -- index.js",
+    "prepublish": "npm run test && npm run dist && cp README.md ./packages/tonal/",
+    "pretest": "npm run build",
     "test": "jest --coverage --no-cache",
     "docs": "jsdoc -c jsdoc3.config.json && open docs/api/index.html",
     "test-ci": "lerna bootstrap && npm test",
-    "dist": "rm dist/* && browserify packages/tonal/index.js > dist/tonal.js && uglifyjs dist/tonal.js > dist/tonal.min.js && ls -hall dist/"
+    "dist": "rollup --config rollup.config.dist.js && ls -hall dist/*"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal",
@@ -21,22 +21,19 @@
   "author": "danigb@gmail.com",
   "license": "MIT",
   "devDependencies": {
-    "browserify": "^14.0.0",
     "eslint": "^3.14.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "expect": "^1.20.2",
     "jest": "^19.0.2",
     "lerna": "2.0.0-rc.4",
     "postman-jsdoc-theme": "0.0.2",
     "rollup": "^0.41.4",
-    "rollup-plugin-json": "^2.1.0",
-    "tape": "^4.6.3",
-    "tst": "^1.3.1",
-    "uglify-js": "^2.7.5"
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-json": "^2.1.1",
+    "rollup-plugin-uglify": "^1.0.2"
   },
   "standard": {
     "ignore": [

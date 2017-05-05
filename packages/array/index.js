@@ -15,11 +15,21 @@
 import { asPitch, isPitch, strPitch, pitch, fifths, focts } from 'tonal-pitch'
 import { transpose as tr } from 'tonal-transpose'
 import { semitones } from 'tonal-distance'
-import * as toArr from 'as-arr'
+
+function split (sep) {
+  return function (o) {
+    return o === undefined ? []
+      : Array.isArray(o) ? o
+      : typeof o === 'string' ? o.trim().split(sep) 
+      : [o]
+  }
+}
 
 // utility
 var isArr = Array.isArray
-function hasVal (e) { return e || e === 0 }
+function hasVal (e) {
+  return e || e === 0
+}
 
 /**
  * Convert anything to array. Speifically, split string separated by spaces,
@@ -42,7 +52,7 @@ function hasVal (e) { return e || e === 0 }
  * asArr('A, B, c') // => ['A', 'B', 'c']
  * asArr('1 | 2 | x') // => ['1', '2', 'x']
  */
-export var asArr = toArr.use(/\s*\|\s*|\s*,\s*|\s+/)
+export var asArr = split(/\s*\|\s*|\s*,\s*|\s+/)
 
 /**
  * Return a new array with the elements mapped by a function.
@@ -67,8 +77,11 @@ export var asArr = toArr.use(/\s*\|\s*|\s*,\s*|\s+/)
  * tonal.map(tonal.transpose('M3'), 'C D E') // => ['E', 'F#', 'G#']
  */
 export function map (fn, list) {
-  return arguments.length > 1 ? map(fn)(list)
-    : function (l) { return asArr(l).map(fn) }
+  return arguments.length > 1
+    ? map(fn)(list)
+    : function (l) {
+      return asArr(l).map(fn)
+    }
 }
 
 /**
@@ -96,8 +109,11 @@ export function compact (arr) {
  * t.filter(t.noteName, 'a b c x bb') // => [ 'a', 'b', 'c', 'bb' ]
  */
 export function filter (fn, list) {
-  return arguments.length > 1 ? filter(fn)(list)
-    : function (l) { return asArr(l).filter(fn) }
+  return arguments.length > 1
+    ? filter(fn)(list)
+    : function (l) {
+      return asArr(l).filter(fn)
+    }
 }
 
 // a custom height function that
@@ -111,9 +127,13 @@ function objHeight (p) {
 }
 
 // ascending comparator
-function ascComp (a, b) { return objHeight(a) - objHeight(b) }
+function ascComp (a, b) {
+  return objHeight(a) - objHeight(b)
+}
 // descending comparator
-function descComp (a, b) { return -ascComp(a, b) }
+function descComp (a, b) {
+  return -ascComp(a, b)
+}
 
 /**
  * Sort a list of notes or intervals in ascending or descending pitch order.
@@ -134,9 +154,9 @@ function descComp (a, b) { return -ascComp(a, b) }
  * array.sort('g h f i c') // => ['C', 'F', 'G']
  */
 export function sort (list, comp) {
-  var fn = arguments.length === 1 || comp === true ? ascComp
-    : comp === false ? descComp
-    : typeof comp === 'function' ? comp : ascComp
+  var fn = arguments.length === 1 || comp === true
+    ? ascComp
+    : comp === false ? descComp : typeof comp === 'function' ? comp : ascComp
   // if the list is an array, make a copy
   list = Array.isArray(list) ? list.slice() : asArr(list)
   return listFn(function (arr) {
@@ -161,7 +181,7 @@ export var shuffle = listFn(function (arr) {
   var i, t
   var m = arr.length
   while (m) {
-    i = Math.random() * m-- | 0
+    i = (Math.random() * m--) | 0
     t = arr[m]
     arr[m] = arr[i]
     arr[i] = t
@@ -169,7 +189,9 @@ export var shuffle = listFn(function (arr) {
   return arr
 })
 
-function trOct (n) { return tr(pitch(0, n, 1)) }
+function trOct (n) {
+  return tr(pitch(0, n, 1))
+}
 
 /**
  * Rotates a list a number of times. It's completly agnostic about the
@@ -181,7 +203,7 @@ function trOct (n) { return tr(pitch(0, n, 1)) }
 export function rotate (times, list) {
   var arr = asArr(list)
   var len = arr.length
-  var n = ((times % len) + len) % len
+  var n = (times % len + len) % len
   return arr.slice(n, len).concat(arr.slice(0, n))
 }
 
@@ -198,7 +220,7 @@ export function rotate (times, list) {
 export function rotateAsc (times, list) {
   return listFn(function (arr) {
     var len = arr.length
-    var n = ((times % len) + len) % len
+    var n = (times % len + len) % len
     var head = arr.slice(n, len)
     var tail = arr.slice(0, n)
     // See if the first note of tail is lower than the last of head
@@ -225,7 +247,11 @@ export function rotateAsc (times, list) {
  * select('-1 0 1 2 3', 'C D') // => [ null, null, 'C', 'D', null ]
  */
 export function select (nums, list) {
-  if (arguments.length === 1) return function (l) { return select(nums, l) }
+  if (arguments.length === 1) {
+    return function (l) {
+      return select(nums, l)
+    }
+  }
   var arr = asArr(list)
   return asArr(nums).map(function (n) {
     return arr[n - 1] || null
@@ -242,20 +268,22 @@ export function permutations (list) {
   list = asArr(list)
   if (list.length === 0) return [[]]
   return permutations(list.slice(1)).reduce(function (acc, perm) {
-    return acc.concat(list.map(function (e, pos) {
-      var new_perm = perm.slice()
-      new_perm.splice(pos, 0, list[0])
-      return new_perm
-    }))
+    return acc.concat(
+      list.map(function (e, pos) {
+        var newPerm = perm.slice()
+        newPerm.splice(pos, 0, list[0])
+        return newPerm
+      })
+    )
   }, [])
 }
 
 // #### Transform lists in array notation
-function asPitchStr (p) { return strPitch(p) || p }
+function asPitchStr (p) {
+  return strPitch(p) || p
+}
 function listToStr (v) {
-  return isPitch(v) ? strPitch(v)
-    : isArr(v) ? v.map(asPitchStr)
-    : v
+  return isPitch(v) ? strPitch(v) : isArr(v) ? v.map(asPitchStr) : v
 }
 
 /**
@@ -272,7 +300,11 @@ function listToStr (v) {
  * octUp('C2 D2 E2') // => ['C3', 'D3', 'E3']
  */
 function listFn (fn, list) {
-  if (arguments.length === 1) return function (l) { return listFn(fn, l) }
+  if (arguments.length === 1) {
+    return function (l) {
+      return listFn(fn, l)
+    }
+  }
   var arr = asArr(list).map(asPitch)
   var res = fn(arr)
   return listToStr(res)

@@ -5,7 +5,6 @@
   "description": "Encode pitches using fifths/octaves",
   "keywords": [],
   "scripts": {
-    "pretest": "rollup -f cjs -o build/index.js -- index.js",
     "test": "jest --coverage"
   },
   "main": "build/index.js",

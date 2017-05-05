@@ -16,8 +16,7 @@ import { map, compact, permutations, rotate } from 'tonal-array'
 import { pc, note } from 'tonal-note'
 import { regex } from 'note-parser'
 import { harmonize, intervallic } from 'tonal-harmonizer'
-
-var DATA = require('./chords.json')
+import DATA from './chords.json'
 
 var dict = dictionary(DATA, function (str) { return str.split(' ') })
 

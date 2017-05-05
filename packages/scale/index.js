@@ -16,8 +16,7 @@ import { dictionary, detector } from 'tonal-dictionary'
 import { map, compact } from 'tonal-array'
 import { pc, note } from 'tonal-note'
 import { harmonize } from 'tonal-harmonizer'
-
-var DATA = require('./scales.json')
+import DATA from './scales.json'
 
 var dict = dictionary(DATA, function (str) { return str.split(' ') })
 

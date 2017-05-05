@@ -1,4 +1,3 @@
-'use strict'
 /**
  * The `tonal` module is a facade to all the rest of the modules. They are namespaced,
  * so for example to use `pc` function from `tonal-note` you have to write:
@@ -22,33 +21,44 @@
  *
  * @module tonal
  */
+import * as array from 'tonal-array'
+import * as transpose from 'tonal-transpose'
+import * as harmonizer from 'tonal-harmonizer'
+import * as distance from 'tonal-distance'
+import * as note from 'tonal-note'
+import * as interval from 'tonal-interval'
+import * as midi from 'tonal-midi'
+import * as freq from 'tonal-freq'
+import * as range from 'tonal-range'
+import * as key from 'tonal-key'
+import * as scale from 'tonal-scale'
+import * as chord from 'tonal-chord'
+import * as pitch from 'tonal-pitch'
+import * as notation from 'tonal-notation'
+import * as progression from 'tonal-progression'
+import * as sonority from 'tonal-sonority'
+import * as pitchset from 'tonal-pitchset'
+import * as pcset from 'tonal-pcset'
 
 var assign = Object.assign
-var tonal = {}
-
-assign(tonal, require('tonal-array'))
-assign(tonal, require('tonal-transpose'))
-assign(tonal, require('tonal-harmonizer'))
-assign(tonal, require('tonal-distance'))
-
-tonal.note = require('tonal-note')
-tonal.ivl = require('tonal-interval')
-tonal.midi = require('tonal-midi')
-tonal.freq = require('tonal-freq')
-tonal.range = require('tonal-range')
-tonal.key = require('tonal-key')
+var tonal = assign({}, array, transpose, harmonizer, distance)
+tonal.pitch = pitch
+tonal.notation = notation
+tonal.note = note
+tonal.ivl = interval
+tonal.midi = midi
+tonal.freq = freq
+tonal.range = range
+tonal.key = key
+tonal.progression = progression
+tonal.sonority = sonority
+tonal.pitchset = pitchset
+tonal.pcset = pcset
 
 tonal.scale = function (name) { return tonal.scale.notes(name) }
-assign(tonal.scale, require('tonal-scale'))
+assign(tonal.scale, scale)
 tonal.chord = function (name) { return tonal.chord.notes(name) }
-assign(tonal.chord, require('tonal-chord'))
+assign(tonal.chord, chord)
 
-tonal.pitch = require('tonal-pitch')
-tonal.notation = require('tonal-notation')
-tonal.progression = require('tonal-progression')
-tonal.sonority = require('tonal-sonority')
-tonal.pitchset = require('tonal-pitchset')
-tonal.pcset = require('tonal-pcset')
-
-if (typeof module === 'object' && module.exports) module.exports = tonal
 if (typeof window !== 'undefined') window.Tonal = tonal
+export default tonal

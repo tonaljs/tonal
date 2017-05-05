@@ -119,6 +119,42 @@ This library is evolving with this ideas in mind:
 - Tested: every public method is tested with coverage support.
 - Advanced features: chord and scale detection, binary sets, chord progressions, key signatures...
 
+## Install
+
+Using yarn: `yarn add tonal` (or a single module: `yarn add tonal-scale`)
+
+Using npm: `npm install --save tonal` (or: `npm install --save tonal-scale`)
+
+Browser:
+
+```html
+<script src="tonal.min.js"></script>
+```
+
+## Usage
+
+ES6:
+
+```js
+import tonal from 'tonal' 
+tonal.transpose('C4', '3M')
+```
+
+ES5:
+
+```js
+var tonal = require('tonal')
+tonal.tranpose('C4', '2m')
+```
+
+Browser (use the `Tonal` global object):
+
+```html
+<script>
+  console.log(Tonal.transpose('C4', '8P'))
+</script>
+```
+
 ## Why
 
 Mostly, because I want to learn:
@@ -142,7 +178,9 @@ It's a multipackage module that uses [lerna](https://github.com/lerna/lerna) to 
 
 To build the library from the first time use `npm run init`
 
-The distributable `tonal-min.js` file is generated with `npm run dist`
+To run the tests: `npm run test`
+
+The distributable `tonal.min.js` file is generated with `npm run dist`
 
 The documentation can be generated with: `npm run docs`
 

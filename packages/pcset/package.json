@@ -10,7 +10,6 @@
     "tonal"
   ],
   "scripts": {
-    "pretest": "rollup -f cjs -o build/index.js -- index.js",
     "test": "jest --coverage"
   },
   "main": "build/index.js",
@@ -19,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "tonal-pitch": "^0.69.4",
-    "tonal-note": "^0.66.0",
+    "tonal-note": "^0.69.0",
     "tonal-transpose": "^0.69.4",
     "tonal-array": "^0.69.4"
   }

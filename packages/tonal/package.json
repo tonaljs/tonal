@@ -2,7 +2,8 @@
   "name": "tonal",
   "version": "0.69.5",
   "description": "A functional music theory library",
-  "main": "index.js",
+  "main": "build/index.js",
+  "module": "index.js",
   "scripts": {
     "test": "jest --coverage"
   },

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>scale - tonal API documentation</title>
+    <title>scale - Postman Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -322,6 +322,7 @@ scale.detect('e c a g') // => [ 'CM6', 'Am7' ]</code></pre>
 <div class="description">
     <p>Transpose the given scale notes, intervals or name to a given tonic.
 The returned scale is an array of notes (or intervals if you specify <code>false</code> as tonic)</p>
+<p>It returns null if the scale type is not in the scale dictionary</p>
 <p>This function is currified</p>
 </div>
 
@@ -503,6 +504,7 @@ major('Db3') // => [ 'Db3', 'Eb3', 'F3', 'Gb3', 'Ab3', 'Bb3', 'C4' ]</code></pre
 <div class="description">
     <p>Given a scale name, return its intervals. The name can be the type and
 optionally the tonic (which is ignored)</p>
+<p>It retruns an empty array when no scale found</p>
 </div>
 
 
@@ -617,7 +619,8 @@ optionally the tonic (which is ignored)</p>
 
         
 <div class="param-desc">
-    <p>the scale intervals if is a known scale, null otherwise</p>
+    <p>the scale intervals if is a known scale or an empty
+array if no scale found</p>
 </div>
 
 
@@ -1286,7 +1289,7 @@ scale.parse('anything is valid') // => { tonic: false, type: 'anything is valid'
 <br class="clear">
 
 <footer>
-  <!--  Documentation generated at Tue Jan 10 2017 18:08:40 GMT+0100 (CET) -->
+    Documentation generated at Fri May 05 2017 19:05:37 GMT+0200 (CEST)
 </footer>
 
 <script>prettyPrint();</script>

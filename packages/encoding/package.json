@@ -8,7 +8,9 @@
     "encode",
     "tonal"
   ],
-  "scripts": {},
+  "scripts": {
+
+  },
   "main": "build/index.js",
   "module": "index",
   "author": "danigb",
