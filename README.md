@@ -13,9 +13,7 @@ Think like an [underscorejs](http://underscorejs.org/) (or better: [ramdajs](htt
 
 Warning: although this library has some time now, the API is still changing.
 
-![stability](https://img.shields.io/badge/stability-experimental-red.svg?style=flat-square)
-
-## Example
+## Example
 
 ```js
 var tonal = require('tonal')
@@ -125,7 +123,7 @@ Using yarn: `yarn add tonal` (or a single module: `yarn add tonal-scale`)
 
 Using npm: `npm install --save tonal` (or: `npm install --save tonal-scale`)
 
-Browser:
+Browser: grab the minified file [here](https://github.com/danigb/tonal/blob/master/dist/tonal.min.js) (26kb) and include it in your html page:
 
 ```html
 <script src="tonal.min.js"></script>

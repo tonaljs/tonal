@@ -17,6 +17,6 @@ export default {
       jsnext: true,
       module: true
     }),
-    //uglify()
+    uglify()
   ]
 }
