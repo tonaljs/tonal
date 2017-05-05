@@ -1,6 +1,6 @@
 {
   "name": "tonal-pitch",
-  "version": "0.69.4",
+  "version": "0.69.6",
   "description": "Music pitch utilities",
   "keywords": [
     "music",
@@ -18,6 +18,6 @@
   "dependencies": {
     "interval-notation": "^1.0.1",
     "note-parser": "^2.0.1",
-    "tonal-encoding": "^0.69.3"
+    "tonal-encoding": "^0.69.6"
   }
 }

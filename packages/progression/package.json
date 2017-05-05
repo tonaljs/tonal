@@ -1,6 +1,6 @@
 {
   "name": "tonal-progression",
-  "version": "0.69.5",
+  "version": "0.69.6",
   "description": "Create chord progression",
   "repository": "https://github.com/danigb/tonal/packages/progression",
   "keywords": [
@@ -17,12 +17,12 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^0.69.4",
-    "tonal-note": "^0.69.5",
-    "tonal-interval": "^0.69.4",
-    "tonal-notation": "^0.69.3",
-    "tonal-chord": "^0.69.5",
-    "tonal-transpose": "^0.69.4",
-    "tonal-distance": "^0.69.4"
+    "tonal-array": "^0.69.6",
+    "tonal-chord": "^0.69.6",
+    "tonal-distance": "^0.69.6",
+    "tonal-interval": "^0.69.6",
+    "tonal-notation": "^0.69.6",
+    "tonal-note": "^0.69.6",
+    "tonal-transpose": "^0.69.6"
   }
 }
