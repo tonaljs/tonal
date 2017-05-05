@@ -11,7 +11,7 @@ before_install:
   - yarn global add codecov node-pre-gyp
 
 script:
-  - yarn run test-ci
+  - yarn run test
   - codecov
 
 node_js:

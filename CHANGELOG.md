@@ -1,11 +1,12 @@
 # Changelog
 
-## 0.69.x
+## 0.69.x [MASTER]
 - Fix dictionary dependencies
 - Update to note-parser 2.0.1 for better ES6 module support
 - Fix midi note-parser dependency
+- Better ES6 support and dist file bundling
 
-## 0.69 [MASTER]
+## 0.69.0
 
 `tonal`
 - Tonal now exports `pcset` module

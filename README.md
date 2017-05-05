@@ -166,7 +166,7 @@ I want to learn about music theory and I want to express the conpcets I learn us
 
 Also, I want a complete library, where I can model some (for me) esoteric features like [interval classes](http://danigb.github.io/tonal/api/module-interval.html#.ic), pitch sets, dft to pitch class sets, and so on.
 
-## What
+## What
 
 Tonal itself is built from a collection of [packages](https://github.com/danigb/tonal/tree/master/packages).
 
