@@ -1,5 +1,5 @@
 /**
- * `tonal-note` is a collection of functions to get properties from musical notes.
+ * # `tonal-note` 
  *
  * @module note
  * @example

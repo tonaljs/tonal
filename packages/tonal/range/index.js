@@ -44,8 +44,8 @@ function ran (a, b) {
  * @return {Array} an array of numbers or empty array if not vald parameters
  *
  * @example
- * range.numeric('C5 C4') // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
- * // it works with numbers
+ * range.numeric(["C5", "C4']) // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
+ * // it works midi notes
  * range.numeric([10, 5]) // => [ 10, 9, 8, 7, 6, 5 ]
  * // complex range
  * range.numeric('C4 E4 Bb3') // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]

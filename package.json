@@ -5,11 +5,12 @@
   "scripts": {
     "init": "lerna clean && lerna bootstrap && npm run build",
     "prebuild": "lerna bootstrap",
-    "build": "lerna exec -- rollup -c ../../rollup.config.js -o build/index.js -- index.js",
+    "build": "lerna exec -- rollup -c ../../../rollup.config.js -o build/index.js -- index.js",
     "prepublish": "npm run test && npm run dist && cp README.md ./packages/tonal/",
     "pretest": "npm run build",
     "test": "jest --coverage --no-cache",
-    "docs": "jsdoc -c jsdoc3.config.json && open docs/api/index.html",
+    "docs": "lerna exec -- jsdoc2md index.js > ./API.md",
+    "jsdocs": "jsdoc -c jsdoc3.config.json && open docs/api/index.html",
     "dist": "rollup --config rollup.config.dist.js && ls -hall dist/*"
   },
   "homepage": "https://github.com/danigb/tonal#readme",

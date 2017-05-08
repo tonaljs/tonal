@@ -1,24 +1,29 @@
 /**
- * This module implements functions related to tertians, chords constructed
+ * This module implements functions related to triads (tertians), chords constructed
  * from the intervals of (major and minor) thirds.
  *
- * This is an experimental module and is not published
- *
- * @private
- * @module tertian
+ * @module triad
  */
 import { permutations } from 'tonal-array'
 import { transpose } from 'tonal-transpose'
 
 /**
- * Given a tertian structure, return the intervals
+ * Given a scale, return a triadic structure starting from the root of the scale
+ * For example, given "c d e f g a b" returns "Mm"
+ * @param {Array} scale - the scale
+ */
+export function fromScale (scale, steps = 2) {
+
+}
+
+/**
+ * Given a triad structure, return the intervals
  * The structure is a string like 'mmM' where 'm' denotes a minor third
  * and 'M' a major one.
- * @private
- * @param {String} structure - the tertian structure
+ * @param {String} structure - the triad structure
  * @return {Array<String>} an array of intervals
  * @example
- * tertian.intervals('Mmm') // => [ '1P', '3M', '5P', '7m' ]
+ * triad.intervals('Mmm') // => [ '1P', '3M', '5P', '7m' ]
  */
 export function intervals (st) {
   var inner = st.split('').map((t) => t === 'm' ? '3m' : '3M')

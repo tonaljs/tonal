@@ -1,199 +1,97 @@
-# tonal [![npm](https://img.shields.io/npm/v/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
+# tonal packages
 
-[![Build Status](https://travis-ci.org/danigb/tonal.svg?branch=master&style=flat-square)](https://travis-ci.org/danigb/tonal) [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/danigb/tonal) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard) [![license](https://img.shields.io/npm/l/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
-[![codecov](https://codecov.io/gh/danigb/tonal/branch/master/graph/badge.svg)](https://codecov.io/gh/danigb/tonal)
-
+You can [read the generated API documentation here](http://danigb.github.io/tonal/api/).
 
 
-`tonal` is a functional music theory library. It provides functions to manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music).
+#### [tonal-note](https://github.com/danigb/tonal/tree/master/modules/note) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-note.svg)](https://www.npmjs.com/package/tonal-note)
+  - [noteName](https://github.com/danigb/tonal/tree/master/modules/note#noteName): get the note name
+  - [chroma](https://github.com/danigb/tonal/tree/master/modules/note#chroma): get chroma of a note
+  - [pc](https://github.com/danigb/tonal/tree/master/modules/note#pc): get pitch class of a note
+  - [enharmonics](https://github.com/danigb/tonal/tree/master/modules/note#enenharmonics): get a list of note enharmonics
+  - [simpleEnh](https://github.com/danigb/tonal/tree/master/modules/note#simpleEnh): get the simplest enharmonic of a note
 
-Think like an [underscorejs](http://underscorejs.org/) (or better: [ramdajs](http://ramdajs.com/)) library for music theory.
+#### [tonal-interval](https://github.com/danigb/tonal/tree/master/modules/interval) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-interval.svg)](https://www.npmjs.com/package/tonal-interval)
+  - [ivlName](https://github.com/danigb/tonal/tree/master/modules/interval#vilName): get the interval name
+  - [semitones](https://github.com/danigb/tonal/tree/master/modules/interval#semitones): get the size of an interval in semitones
+  - [fromSemitones](https://github.com/danigb/tonal/tree/master/modules/interval#fromSemitones): create an interval from a semitones number
+  - [ic](https://github.com/danigb/tonal/tree/master/modules/interval#ic): get interval class
+  - [itype](https://github.com/danigb/tonal/tree/master/modules/interval#itype): get interval type
+  - [invert](https://github.com/danigb/tonal/tree/master/modules/interval#invert): invert interval
+  - [simplify](https://github.com/danigb/tonal/tree/master/modules/interval#ssimplify): simplify interval
 
-[Read the API documentation](http://danigb.github.io/tonal/api/)
+#### [tonal-midi](https://github.com/danigb/tonal/tree/master/modules/midi) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-midi.svg)](https://www.npmjs.com/package/tonal-midi)
+  - [isMidiNum](https://github.com/danigb/tonal/tree/master/modules/midi#isMidiNum): test if the given number is a valid midi note number
+  - [toMidi](https://github.com/danigb/tonal/tree/master/modules/midi#toMidi): get midi note number from a note
+  - [fromMidi](https://github.com/danigb/tonal/tree/master/modules/midi#fromMidi): get note name from midi number
+  - [fromMidiS](https://github.com/danigb/tonal/tree/master/modules/midi#fromMidiS): get note name from midi number using sharps when altered
 
-Warning: although this library has some time now, the API is still changing.
+#### [tonal-freq](https://github.com/danigb/tonal/tree/master/modules/freq) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-freq.svg)](https://www.npmjs.com/package/tonal-freq)
+  - [toFreq](https://github.com/danigb/tonal/tree/master/modules/freq#toFreq): get frequency of a note name
+  - [fromFreq](https://github.com/danigb/tonal/tree/master/modules/freq#fromFreq): get note name from frequency
+  - [cents](https://github.com/danigb/tonal/tree/master/modules/freq#cents): get distance in cents between two notes or frequencies
+  - [toEqualTemp](https://github.com/danigb/tonal/tree/master/modules/freq#totoEqualTemp): create a function to convert notes to frequencies using equal temperament
+  - [fromEqualTemp](https://github.com/danigb/tonal/tree/master/modules/freq#fromEqualTemp): create a function to convert frequencies to notes using equal temperament
 
-![stability](https://img.shields.io/badge/stability-experimental-red.svg?style=flat-square)
+#### [tonal-transpose](https://github.com/danigb/tonal/tree/master/modules/transpose) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-transpose.svg)](https://www.npmjs.com/package/tonal-transpose)
+ - [transpose](https://github.com/danigb/tonal/tree/master/modules/transpose#transpose): transpose notes by intervals. Can be used to add intervals.
+ - [trFifths](https://github.com/danigb/tonal/tree/master/modules/transpose#trFifths): transpose a note by a number of perfect fifths
 
-## Example
+#### [tonal-distance](https://github.com/danigb/tonal/tree/master/modules/distance) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-distance.svg)](https://www.npmjs.com/package/tonal-distance)
+  - [distance](https://github.com/danigb/tonal/tree/master/modules/distance#distance): find the interval distance between two notes
+  - [distInSemitones](https://github.com/danigb/tonal/tree/master/modules/distance#distInSemitones): get the distance between notes measured in semitones
 
-```js
-var tonal = require('tonal')
+#### [tonal-array](https://github.com/danigb/tonal/tree/master/modules/array) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-array.svg)](https://www.npmjs.com/package/tonal-array)
+  - [asArr](https://github.com/danigb/tonal/tree/master/modules/array#asArr): split a strings into arrays
+  - [map](https://github.com/danigb/tonal/tree/master/modules/array#map): map a function to a list
+  - [filter](https://github.com/danigb/tonal/tree/master/modules/array#filter): filter a list using a function
+  - [harmonizer](https://github.com/danigb/tonal/tree/master/modules/array#harmonizer): return a function that harmonizes notes using a list of intervals
+  - [harmonize](https://github.com/danigb/tonal/tree/master/modules/array#harmonize): given a note and a list of intervals, harmonize the note with the intervals
+  - [harmonics](https://github.com/danigb/tonal/tree/master/modules/array#harmonics): Given a list of notes, return the intervals from the first note to the rest.
+  - [rotate](https://github.com/danigb/tonal/tree/master/modules/array#rotate): rotate a list
+  - [rotateAsc](https://github.com/danigb/tonal/tree/master/modules/array#rotateAsc): rotate an list of ascending pitches keeping the asceding property after rotation
+  - [select](https://github.com/danigb/tonal/tree/master/modules/array#select): select some elements from a list
+  - [sort](https://github.com/danigb/tonal/tree/master/modules/array#sort): sort a list of notes or intervals
+  - [shuffle](https://github.com/danigb/tonal/tree/master/modules/array#shuffle): shuffle an array
 
-// note properties
-tonal.note.chroma('Cb') // => 11
-tonal.note.pc('Db5') // => 'Db'
-tonal.note.simplify('B#3') // => 'C4'
-tonal.note.freq('C#3') // => 138.59
-tonal.note.midi('A4') // => 69
-tonal.note.fromMidi(69) // => 'A4'
 
-// interval properties
-tonal.ivl.semitones('5P') // => 7
-tonal.ivl.invert('3m') // => '6M'
-tonal.ivl.fromSemitones(7) // => '5P'
+#### [tonal-filter](https://github.com/danigb/tonal/tree/master/modules/filter) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-filter.svg)](https://www.npmjs.com/package/tonal-filter)
+- [scaleFilter](https://github.com/danigb/tonal/tree/master/modules/filter#scaleFilter): filter notes by a scale
 
-// transposition and distances
-tonal.transpose('D4', '2M') // => 'E#4'
-tonal.interval('C', 'G') // => '5P'
-tonal.semitones('C', 'G') // => 7
+#### [tonal-range](https://github.com/danigb/tonal/tree/master/modules/range) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-range.svg)](https://www.npmjs.com/package/tonal-range)
+- [range](https://github.com/danigb/tonal/tree/master/modules/range#range): create a range of notes
+- [scaleRange](https://github.com/danigb/tonal/tree/master/modules/range#sscaleRange): create a range using a scale
+- [chromatic](https://github.com/danigb/tonal/tree/master/modules/range#chromatic): create a chromatic range
+- [cycleOfFifths](https://github.com/danigb/tonal/tree/master/modules/range#cycleOfFifths): create a cycle of fifths range
 
-// scales
-tonal.scale('Bb lydian') // => [ 'Ab', 'Bb', 'C', 'D', 'Eb', 'F', 'G' ]
-tonal.scale('Eb bebop') // => [ 'Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'Db', 'D' ]
-tonal.scale.names()
-tonal.scale.detect('Bb4 Eb4 C5 G4 Bb4 F6') // => ['Eb major pentatonic']
+#### [tonal-scale](https://github.com/danigb/tonal/tree/master/modules/scale) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-scale.svg)](https://www.npmjs.com/package/tonal-scale)
 
-// chords
-tonal.chord('Fm7b5') // => [ 'F', 'Ab', 'Cb', 'Eb' ]
-tonal.chord.names()
-tonal.chord.detect('g f# d b') // => [ 'GMaj7' ]
+- [get](https://github.com/danigb/tonal/tree/master/modules/scale#get): get a scale from name
+- [build](https://github.com/danigb/tonal/tree/master/modules/scale#build): build a scale from type or intervals and tonic
+- [names](https://github.com/danigb/tonal/tree/master/modules/scale#names): get a list of all scale names
 
-// partial application
-var fifthUp = tonal.transpose('P5')
-fifthUp('c3') // => 'G3'
-tonal.scale('G melodic minor').map(tonal.transpose('m3')) // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'G', 'A' ]
+#### [tonal-chord](https://github.com/danigb/tonal/tree/master/modules/chord) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-chord.svg)](https://www.npmjs.com/package/tonal-chord)
+- [get](https://github.com/danigb/tonal/tree/master/modules/chord#get): get a chord from name
+- [build](https://github.com/danigb/tonal/tree/master/modules/chord#build): build a chord from type or intervals and tonic
+- [names](https://github.com/danigb/tonal/tree/master/modules/chord#names): get a list of all chord names
 
-// map lists
-tonal.map(tonal.note.pc, 'C2 Eb5 gx4') // => ['C', 'Eb', 'G##']
-tonal.map(tonal.transpose('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
 
-// lift functions
-var toPitchClasses = tonal.map(tonal.note.pc)
-toPitchClasses('C2 db3 e5') // => ['C', 'Db', 'E']
-var fifthUpAll = tonal.map(tonal.transpose('5P'))
-fifthUpAll('c d e') // => ['G', 'A', 'B']
+#### [tonal-key](https://github.com/danigb/tonal/tree/master/modules/key) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-key.svg)](https://www.npmjs.com/package/tonal-key)
 
-// Create complex note ranges: from C4 up to F4 and then down to D4
-tonal.range.chromatic('C4, F4, D4') // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'E4', 'Eb4', 'D4' ]
-// Filter ranges to certain notes: from C3 to C4 and back to C3 , using only C Eb G and Bb notes
-tonal.range.pitchSet('C Eb G Bb', ['C3', 'C4', 'C3']) // => ['C3', 'Eb3', 'G3', 'Bb3', 'C4', 'Bb3', 'G3', 'Eb3', 'C3']
+- [scale](https://github.com/danigb/tonal/tree/master/modules/key#scale): Get the scale of a given key
+- [relative](https://github.com/danigb/tonal/tree/master/modules/key#relative): Given a key in one mode, find it's relative in other.
+- [names](https://github.com/danigb/tonal/tree/master/modules/key#names): Get a list of mode names.
+- [isKeyMode](https://github.com/danigb/tonal/tree/master/modules/key#isKeyMode): test if a string is a valid key mode
+- [build](https://github.com/danigb/tonal/tree/master/modules/key#build): build a key from mode and tonic
+- [fromAlter](https://github.com/danigb/tonal/tree/master/modules/key#fromAlter): create a key from alteration
+- [fromAcc](https://github.com/danigb/tonal/tree/master/modules/key#fromAcc): create a key from accidentals
+- [fromName](https://github.com/danigb/tonal/tree/master/modules/key#fromName): create a key from name
+- [asKey](https://github.com/danigb/tonal/tree/master/modules/key#asKey): try to interpret the object as a key
+- [alteration](https://github.com/danigb/tonal/tree/master/modules/key#alteration): get key alteration
+- [accidentals](https://github.com/danigb/tonal/tree/master/modules/key#accidentals): get key accidentals
+- [alteredNotes](https://github.com/danigb/tonal/tree/master/modules/key#alteredNotes): get the altered notes of a key
 
-// harmonize a note with a list intervals
-tonal.harmonize('1P 3m 5d', 'C') // => ['C', 'Eb', 'Gb']
-// or a list of a notes with an interval
-tonal.harmonize('c d e', 'M3') // => ['E', 'F#', 'G']
-// partial application
-var maj7 = tonal.harmonize('1P 3M 5P 7M')
-maj7('C2') // => ['C2', 'E2', 'G2', 'B2']
+#### [tonal-progression](https://github.com/danigb/tonal/tree/master/modules/progression) ⇒ [![npm version](https://img.shields.io/npm/v/tonal-progression.svg)](https://www.npmjs.com/package/tonal-progression)
 
-// extract intervals
-tonal.harmonics('C Eb G Bb') // => ['1P', '3m', '5P', '7m']
-
-// work with chord progressions
-tonal.progression.abstract('Cmaj7 Dm7 G7', 'C') // => ['Imaj7', 'IIm7', 'V7']
-```
-
-Because tonal makes heavy use of functional concepts, there's a few things that are not so common inside JS space, so take in mind that:
-
-- there are no objects. Only functions that performs transformations on data.
-- notes and intervals are represented using strings.
-- most of the functions are currified, so you can partially applied them: it means that if you don't pass all the arguments, you get another function that accepts the rest of the parameters. For example `transpose` function accepts two arguments, the note and the interval, but sometimes is useful to pass only one: `['C', 'D', 'E'].map(tonal.transpose('P5'))`
-- the `tonal` module is a facade of the rest of the modules. If you are concerned about code size, you can import only the required modules.
-- within the `tonal` facade, most (but not all) of the functions are namespaced to the name of the module. For example, to use the `chromatic` function of `tonal-range` module, you must write `tonal.range.chromatic`. The modules that are not namespaced are `array`, `transpose` and `distance`
-- the code is written using ES6 module system (and converted to ES5 modules using [rollup](http://rollupjs.org)). It means that if you use ES6 modules you can get some benefits like code tree shaking, for example. Anyway, they are fully compatible with ES5 modules.
-
-## Features
-
-`tonal` is still a work in progress, but currently has implemented:
-
-- Note, intervals, transposition, distances, enharmonics
-- Midi and frequency conversion
-- Scales, chords, dictionaries
-- Utilities to work with collection of notes: sort, filter, rotate, shuffle.
-- Pitch sets comparations, chord and scale detection
-- Keys, keys signatures, key scales
-- Chord progressions
-- Pitch and pitch class sets
-
-## Philosophy
-
-This library is evolving with this ideas in mind:
-
-- Functional: no classes, no side effects, no mutations. Just functions, data-in data-out. Most of the functions has the data to operate on as last argument and lot of functions are currified.
-- Notes and intervals are represented with strings, instead of objects.
-- Carefully written: small, fast and modular.
-- Different notations: scientific notation by default. Helmholtz coming soon.
-- Documented: all public functions are fully documented inside the code. Read the generated API documentation [here](http://danigb.github.io/tonal/api/)
-- Learneable: since all the modules share the same philosophy is easy to work with them.
-- Tested: every public method is tested with coverage support.
-- Advanced features: chord and scale detection, binary sets, chord progressions, key signatures...
-
-## Install
-
-Using yarn: `yarn add tonal` (or a single module: `yarn add tonal-scale`)
-
-Using npm: `npm install --save tonal` (or: `npm install --save tonal-scale`)
-
-Browser:
-
-```html
-<script src="tonal.min.js"></script>
-```
-
-## Usage
-
-ES6:
-
-```js
-import tonal from 'tonal' 
-tonal.transpose('C4', '3M')
-```
-
-ES5:
-
-```js
-var tonal = require('tonal')
-tonal.tranpose('C4', '2m')
-```
-
-Browser (use the `Tonal` global object):
-
-```html
-<script>
-  console.log(Tonal.transpose('C4', '8P'))
-</script>
-```
-
-## Why
-
-Mostly, because I want to learn:
-
-> Reinventing the wheel is bad for business, but it’s great for learning
-[*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
-
-I want to learn about music theory and I want to express the conpcets I learn using functional programming style.
-
-Also, I want a complete library, where I can model some (for me) esoteric features like [interval classes](http://danigb.github.io/tonal/api/module-interval.html#.ic), pitch sets, dft to pitch class sets, and so on.
-
-## What
-
-Tonal itself is built from a collection of [packages](https://github.com/danigb/tonal/tree/master/packages).
-
-Please [read the generated API documentation here](http://danigb.github.io/tonal/api/) to get an overview.
-
-## Build, test and documentation
-
-It's a multipackage module that uses [lerna](https://github.com/lerna/lerna) to manage.
-
-To build the library from the first time use `npm run init`
-
-To run the tests: `npm run test`
-
-The distributable `tonal.min.js` file is generated with `npm run dist`
-
-The documentation can be generated with: `npm run docs`
-
-## Inspiration
-
-This library takes inspiration from other music theory libraries:
-
-- Teoria: https://github.com/saebekassebil/teoria
-- Impro-Visor: https://www.cs.hmc.edu/~keller/jazz/improvisor/
-- MusicKit: https://github.com/benzguo/MusicKit
-- Music21: http://web.mit.edu/music21/doc/index.html
-- Sharp11: https://github.com/jsrmath/sharp11
-
-## License
-
-MIT License
+- [build](https://github.com/danigb/tonal/tree/master/modules/progression#build): build a progression from a list of chords (in roman numerals) and a tonic
+- [romanRegex](https://github.com/danigb/tonal/tree/master/modules/progression#romanRegex): get a regex to match roman numerals.
+- [parseRomanChord](https://github.com/danigb/tonal/tree/master/modules/progression#parseRomanChord): parse chord expressed with roman numerals.

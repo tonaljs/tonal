@@ -4,6 +4,9 @@
   "scripts": {},
   "devDependencies": {},
   "packages": [
-    "packages/*"
+    "packages/tonal/*",
+    "packages/utilities/*",
+    "packages/incubator/*",
+    "packages/deprecated/*"
   ]
 }
