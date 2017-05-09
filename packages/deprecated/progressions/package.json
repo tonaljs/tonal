@@ -1,0 +1,11 @@
+{
+  "name": "tonal-progressions",
+  "version": "0.0.0",
+  "description": "Renamed to https://www.npmjs.com/package/tonal-progression",
+  "main": "index.js",
+  "scripts": {
+  },
+  "keywords": [],
+  "author": "danigb",
+  "license": "MIT"
+}

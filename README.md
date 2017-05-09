@@ -11,7 +11,7 @@ Think like an [underscorejs](http://underscorejs.org/) (or better: [ramdajs](htt
 
 [Read the API documentation](http://danigb.github.io/tonal/api/)
 
-Warning: although this library has some time now, the API is still changing.
+**Warning**: although this library has some time now, the API is not stable, and until 1.0, a minor change means a breaking change.
 
 ## Example
 

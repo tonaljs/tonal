@@ -9,7 +9,7 @@
     "prepublish": "npm run test && npm run dist && cp README.md ./packages/tonal/",
     "pretest": "npm run build",
     "test": "jest --coverage --no-cache",
-    "docs": "lerna exec -- jsdoc2md index.js > ./API.md",
+    "docs": "lerna exec -- jsdoc2md index.js > $LERNA_PACKAGE_NAME.md",
     "jsdocs": "jsdoc -c jsdoc3.config.json && open docs/api/index.html",
     "dist": "rollup --config rollup.config.dist.js && ls -hall dist/*"
   },

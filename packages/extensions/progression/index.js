@@ -1,5 +1,6 @@
 /**
- * Work with chord progressions.
+ * # `tonal-progressions`
+ * > Describe and manipulate chord progressions.
  *
  * @example
  * var progression = require('tonal-progression')

@@ -1,18 +1,25 @@
 /**
- * # `tonal-note` 
+ * > Work with music notes in scientific notation
  *
- * @module note
- * @example
- * var note = require('tonal-note')
+ * This is part of [tonal](https://github.com/danigb/tonal)
+ *
+ * ```js
+ * import * as note from 'tonal-note'
+ * // or var note = require('tonal-note')
  * note.name('bb2') // => 'Bb2'
  * note.chroma('bb2') // => 10
  * note.enharmonics('C#6') // => [ 'B##5', 'C#6', 'Db6' ]
  * note.simplify('B#3') // => 'C4'
  *
- * @example
  * // using ES6 import syntax
  * import { name } from 'tonal-note'
- * ['c', 'db3', '2', 'g+', 'gx4'].map(name) // => ['C', 'Db3', null, null, 'G##4']
+ * ['c', 'db3', '2', 'g+', 'gx4'].map(name)
+ * // => ['C', 'Db3', null, null, 'G##4']
+ * ```
+ * 
+ * ## API
+ *
+ * @module tonal-note
  */
 import { build } from 'note-parser'
 import { fifths, asNotePitch, strNote, parseIvl, chr, decode } from 'tonal-pitch'

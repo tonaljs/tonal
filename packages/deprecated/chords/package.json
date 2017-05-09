@@ -1,0 +1,11 @@
+{
+  "name": "tonal-chords",
+  "version": "0.0.0",
+  "description": "Renamed to https://www.npmjs.com/package/tonal-chord",
+  "main": "index.js",
+  "scripts": {
+  },
+  "keywords": [],
+  "author": "danigb",
+  "license": "MIT"
+}

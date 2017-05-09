@@ -6,19 +6,24 @@
 
 Currently there's too many functions to learn.
 
-- [ ] Split codebase into groups: core, extensions, utilities, incubator, deprecatedbb
+- [ ] Split codebase into groups: core, extensions, utilities, incubator, deprecated
+- [ ] Move deprecated functions to its own file and provide, warnings
+- [ ] Remove functional plumbering (`map` function, for example)
 
 #### Reduce technical debt
 
-- [ ] Interchangable notation introduced a cost abstraction. Remove it.
+- [ ] Interchangable notation introduced a cost abstraction. It was not a good idea. Remove it.
+- [ ] Deprecate unused packages (a lot! :-( https://www.npmjs.com/browse/keyword/tonal?offset=3)
 
 #### Stabilize
 
 All the core should be stable. Extensions may vary.
 
-- [ ] Use different versioning schemas for core and extensions?
+- [ ] Use different versioning schemas for core and extensions (lerna?)
 
 ## Proposed API
+
+### tonal (core)
 
 #### Note
 
@@ -60,6 +65,7 @@ subtract("2M")("5P") // => "4P"
 
 #### Array (¿Collection?, ¿Notes?)
 
+```js
 - toArr(arr) strings to arrays
 - toNotes(arr) remove all but notes
 - toPcset(arr) pcset, ordered starting from C
@@ -74,58 +80,72 @@ subtract("2M")("5P") // => "4P"
 
 - sort(notes)
 - rotate(notes, preserveOctaves: boolean)
-- range(['C4', 'C5'], [filter])
-```js
+
+// range(['C4', 'C5'], [filter])
 range(['C4', 'C5'])
 range(['C4', 'C5', 'C3'])
 range('C4 C5 C3');
 range('C4 C5', 'c d e f g a b')
-```
-- filterBy(notes)
-```js
+
+// filterBy(notes)
 const inC = filterBy('c d e f g a b') // => function
 inC('C4') // => true
 inC('C#4') // => false
-````
 
 - cycle('P5', 'C4', 4)
+```
 
 # Scale
 
+```js
 type scale = note[]
 
 - types(aliases, [tonic])
 - fromName(name, [tonic]) // tonic === null => intervals
-- detect(notes) => { exact: "", modes: "", includedIn: "", extendedBy: "" }
-- degree(name, step)
+- find(notes) => { exact: "", modes: "", includedIn: "", extendedBy: "" }
+- degree(name)(step)
+```
 
 # Chord
 
+```js
 type chord = note[]
 
 - types(aliases, [tonic])
 - fromName(name, [tonic])
-- detect(notes)
+- find(notes)
 - triad(scale) // => []
+```
 
-# Key
+### Extensions
 
+#### Key
+
+```js
 type key = string
 
 - names(tonic) // major, minor
 - altered(name) // altered notes
 - signature(name) // ### or bbb
 - scales() // => ["C major"] , ["A minor", "A melodic minor", "A harmonic minor" ]
-- harmony() => [
+```
+
+#### Harmony
+
+```js
+harmony() => [
   { tonic: "C", types: ["M", "Maj7", "M9", f: "tonic" },
   { tonic: "D", types: ["m", "m7"], f: "subdominant" },
   ...
 ]
+```
 
-# Modes
+#### Modes
 
-- names(tonic) // ionian, dorian (major, minor are aliases)
-- relative(mode, type)
-- scale(mode)
-- chord(mode)
-- modes(mode) // modes("C major") // => ["D dorian", ...]
+```js
+names(tonic) // ionian, dorian (major, minor are aliases)
+relative(mode, type)
+scale(mode)
+chord(mode)
+modes(mode) // modes("C major") // => ["D dorian", ...]
+```
