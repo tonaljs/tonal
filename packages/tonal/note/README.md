@@ -129,6 +129,8 @@ Given a note (as string or as array notation) returns a string
 with the note name in scientific notation or null
 if not valid note
 
+Can be used to test if a string is a valid note name.
+
 **Kind**: static method of <code>[note](#module_note)</code>  
 
 | Param | Type |
@@ -145,8 +147,6 @@ note.name('cb2') // => 'Cb2'
 
 ## ~~`note.note()`~~
 ***Deprecated***
-
-An alias for note. Get the name of a note in scientific notation
 
 **Kind**: static method of <code>[note](#module_note)</code>  
 <a name="module_note.props"></a>

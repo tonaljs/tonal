@@ -5,8 +5,8 @@
   "scripts": {},
   "devDependencies": {},
   "packages": [
+    "packages/core/*",
     "packages/tonal/*",
-    "packages/utilities/*",
     "packages/extensions/*",
     "packages/incubator/*"
   ]

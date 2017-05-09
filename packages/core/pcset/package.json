@@ -10,6 +10,7 @@
     "tonal"
   ],
   "scripts": {
+    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/index.js",
