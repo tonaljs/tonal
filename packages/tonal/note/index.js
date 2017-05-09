@@ -30,11 +30,17 @@
  *
  * @module note
  */
-import { build } from 'note-parser'
+import { build, parse } from 'note-parser'
 import { fifths, asNotePitch, strNote, parseIvl, chr, decode } from 'tonal-pitch'
 import { transpose as tr } from 'tonal-transpose'
 import { toMidi, note as midiToNote } from 'tonal-midi'
 import { toFreq } from 'tonal-note'
+
+const cache = {}
+function parseNote (name) {
+  if (typeof name !== 'string') return null
+  return cache[name] || (cache[name] = parse(name))
+}
 
 /**
  * Get the note midi number
@@ -88,8 +94,8 @@ export var freq = toFreq
  * ['C', 'D', 'E', 'F'].map(note.chroma) // => [0, 2, 4, 5]
  */
 export function chroma (n) {
-  var p = asNotePitch(n)
-  return p ? chr(p) : null
+  var p = parseNote(n)
+  return p ? p.chroma : null
 }
 
 /**
@@ -135,6 +141,7 @@ export function note (n) {
  * note.props('C#') // => { step: 0, alt: 1, oct: undefined }
  */
 export function props (n) {
+  console.warn('note.props() is deprecated. Use: note.step(), note.alt() or note.oct()')
   var p = asNotePitch(n)
   if (!p) return null
   var d = decode(p)
@@ -157,6 +164,7 @@ export function props (n) {
  * note.fromProps({ step: 0, alt: 1 }) // => 'C#'
  */
 export function fromProps (props) {
+  console.warn('note.fromProps() is deprecated. See npm package note-parser.')
   return props ? build(props.step, props.alt, props.oct) : null
 }
 

@@ -6,7 +6,7 @@ A toward 1.0 release
 
 #### Deprecations
 
-- Note: `note.note()`, `note.pcFifhts()`
+- Note: `note.note()`, `note.pcFifhts()`, `note.props()`, `note.fromProps()`
 
 
 ## 0.69.x 

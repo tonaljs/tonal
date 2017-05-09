@@ -23,8 +23,8 @@ describe('tonal-note', () => {
     expect('C C# D D# E E# F F# G G# A A# B B#'.split(' ').map(note.chroma)).toEqual([ 0, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9, 10, 11, 0 ])
   })
 
-  test('note', () => {
-    expect('c fx dbb bbb c##-1 fbb6'.split(' ').map(note.note)).toEqual([ 'C', 'F##', 'Dbb', 'Bbb', 'C##-1', 'Fbb6' ])
+  test('name', () => {
+    expect('c fx dbb bbb c##-1 fbb6'.split(' ').map(note.name)).toEqual([ 'C', 'F##', 'Dbb', 'Bbb', 'C##-1', 'Fbb6' ])
   })
 
   test('pc', () => {
