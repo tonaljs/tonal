@@ -3,7 +3,7 @@ import json from 'rollup-plugin-json'
 import uglify from 'rollup-plugin-uglify'
 
 export default {
-  entry: './packages/tonal/index.js',
+  entry: './packages/utilities/tonal/index.js',
   format: 'umd',
   dest: './dist/tonal.min.js',
   moduleName: 'Tonal',

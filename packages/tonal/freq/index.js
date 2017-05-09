@@ -1,11 +1,26 @@
 /**
- * A collection of modules to work with note frequencies
+ * [![npm version](https://img.shields.io/npm/v/tonal-freq.svg)](https://www.npmjs.com/package/tonal-freq)
+ * [![tonal](https://img.shields.io/badge/tonal-freq-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
  *
- * @example
+ * `tonal-freq` is a collection of functions to perform calculations related to frequencies.
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * ## Usage
+ *
+ * ```js
  * var freq = require('tonal-freq')
  * freq.toFreq('A4') // => 440
  * freq.note(440) // => 'A4'
  * freq.noteAndDetune(320) // => ['C4', 200]
+ * ```
+ *
+ * ## Install
+ *
+ * [![npm install tonal-freq](https://nodei.co/npm/tonal-freq.png?mini=true)](https://npmjs.org/package/tonal-freq/)
+ *
+ * ## API Documentation
+ *
  * @module freq
  */
 import { toMidi as noteToMidi, note as midiToNote } from 'tonal-midi'

@@ -1,67 +1,67 @@
-# tonal-freq [![npm version](https://img.shields.io/npm/v/tonal-freq.svg)](https://www.npmjs.com/package/tonal-freq)
+<a name="module_freq"></a>
 
+# freq
+[![npm version](https://img.shields.io/npm/v/tonal-freq.svg)](https://www.npmjs.com/package/tonal-freq)
 [![tonal](https://img.shields.io/badge/tonal-freq-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
 
 `tonal-freq` is a collection of functions to perform calculations related to frequencies.
 
 This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
 
-You can install via npm: `npm i --save tonal-freq`
+## Usage
 
-## API Reference
+```js
+var freq = require('tonal-freq')
+freq.toFreq('A4') // => 440
+freq.note(440) // => 'A4'
+freq.noteAndDetune(320) // => ['C4', 200]
+```
 
-<dl>
-<dt><a href="#toEqualTemp">toEqualTemp(ref)</a> ⇒ <code>function</code></dt>
-<dd><p>Return a function that converts midi or notes names to frequency using
-equal temperament.</p>
-</dd>
-<dt><a href="#toFreq">toFreq(note)</a> ⇒ <code>Float</code></dt>
-<dd><p>Get the frequency of a pitch using equal temperament scale and A4 equal to 440Hz</p>
-</dd>
-<dt><a href="#fromEqualTemp">fromEqualTemp(ref)</a> ⇒ <code>function</code></dt>
-<dd><p>Create a function that returns a midi number from a frequency using an
-equal temperament and <code>ref</code> frequency as &#39;A4&#39; frequency.</p>
-</dd>
-<dt><a href="#midiFromFreq">midiFromFreq(freq)</a> ⇒ <code>Integer</code></dt>
-<dd><p>Get note from frequency using a equal temeperament scale and 440Hz as
-freq reference</p>
-</dd>
-<dt><a href="#fromFreq">fromFreq(freq)</a> ⇒ <code>String</code></dt>
-<dd><p>Get note name from frequency using an equal temperament scale with 440Hz
-as reference</p>
-</dd>
-<dt><a href="#cents">cents(base, freq)</a> ⇒ <code>Float</code></dt>
-<dd><p>Get difference in cents between two frequencies. The frequencies can be
-expressed with hertzs or midi numbers or note names</p>
-</dd>
-</dl>
+## Install
 
-<a name="toEqualTemp"></a>
+[![npm install tonal-freq](https://nodei.co/npm/tonal-freq.png?mini=true)](https://npmjs.org/package/tonal-freq/)
 
-## toEqualTemp(ref) ⇒ <code>function</code>
-Return a function that converts midi or notes names to frequency using
-equal temperament.
+## API Documentation
 
-**Kind**: global function  
-**Returns**: <code>function</code> - the frequency calculator. It accepts midi numbers,
-note names, pitches and returns a float.  
+
+* [freq](#module_freq)
+    * [`.eqTempFreq(ref, maxDecimals, note)`](#module_freq.eqTempFreq) ⇒ <code>Number</code>
+    * [`.toFreq(note)`](#module_freq.toFreq) ⇒ <code>Float</code>
+    * [`.eqTempFreqToMidi(tuning, freq)`](#module_freq.eqTempFreqToMidi) ⇒ <code>Number</code>
+    * [`.toMidi(freq)`](#module_freq.toMidi) ⇒ <code>Number</code>
+    * [`.note(freq, useSharps)`](#module_freq.note) ⇒ <code>String</code>
+    * [`.cents(base, freq)`](#module_freq.cents) ⇒ <code>Integer</code>
+
+<a name="module_freq.eqTempFreq"></a>
+
+## `freq.eqTempFreq(ref, maxDecimals, note)` ⇒ <code>Number</code>
+Return the equal tempered frequency of a note.
+
+This function can be partially applied if note parameter is not present.
+
+**Kind**: static method of <code>[freq](#module_freq)</code>  
+**Returns**: <code>Number</code> - the frequency  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | ref | <code>Float</code> | the tuning reference |
+| maxDecimals | <code>Integer</code> | (Optional) the maximum number of decimals (all by default) |
+| note | <code>String</code> &#124; <code>Pitch</code> | the note to get the frequency from |
 
 **Example**  
 ```js
-import { toEqualTemp } from 'tonal-freq'
-const toFreq = toEqualTemp(444)
+eqTempFreq(444, 4, 'C3')
+const toFreq = eqTempFreq(444, 2)
 toFreq('A3') // => 222
 ```
-<a name="toFreq"></a>
+<a name="module_freq.toFreq"></a>
 
-## toFreq(note) ⇒ <code>Float</code>
-Get the frequency of a pitch using equal temperament scale and A4 equal to 440Hz
+## `freq.toFreq(note)` ⇒ <code>Float</code>
+Get the frequency of note with 2 decimals precission using A4 440Hz tuning
 
-**Kind**: global function  
+This is an alias for: `eqTempFreq(440, 2, <note>)`
+
+**Kind**: static method of <code>[freq](#module_freq)</code>  
 **Returns**: <code>Float</code> - the frequency in herzs  
 
 | Param | Type | Description |
@@ -70,66 +70,75 @@ Get the frequency of a pitch using equal temperament scale and A4 equal to 440Hz
 
 **Example**  
 ```js
-import { toFreq } from 'tonal-freq'
-toFreq('A4') // => 440
-// using tonal
-tonal.toFreq('C4') // => 261.6255653005986
+freq.toFreq('A4') // => 440
+freq.toFreq('C4') // => 261.63
 ```
-<a name="fromEqualTemp"></a>
+<a name="module_freq.eqTempFreqToMidi"></a>
 
-## fromEqualTemp(ref) ⇒ <code>function</code>
-Create a function that returns a midi number from a frequency using an
-equal temperament and `ref` frequency as 'A4' frequency.
+## `freq.eqTempFreqToMidi(tuning, freq)` ⇒ <code>Number</code>
+Get the midi note from a frequency in equal temperament scale. You can
+specify the number of decimals of the midi number.
 
-**Kind**: global function  
-**Returns**: <code>function</code> - a function that converts from frequency to midi  
+**Kind**: static method of <code>[freq](#module_freq)</code>  
+**Returns**: <code>Number</code> - the midi number  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| ref | <code>Float</code> | the frequency of A4 |
+| tuning | <code>Float</code> | (Optional) the reference A4 tuning (440Hz by default) |
+| freq | <code>Number</code> | the frequency |
 
-<a name="midiFromFreq"></a>
+<a name="module_freq.toMidi"></a>
 
-## midiFromFreq(freq) ⇒ <code>Integer</code>
-Get note from frequency using a equal temeperament scale and 440Hz as
-freq reference
+## `freq.toMidi(freq)` ⇒ <code>Number</code>
+Get midi number from frequency with two decimals of precission.
 
-**Kind**: global function  
-**Returns**: <code>Integer</code> - midi number  
+This is an alisas for: `eqTempFreqToMidi(440, 2, <freq>)`
+
+**Kind**: static method of <code>[freq](#module_freq)</code>  
+**Returns**: <code>Number</code> - midi number  
 
 | Param | Type |
 | --- | --- |
-| freq | <code>Float</code> |
+| freq | <code>Float</code> | 
 
-<a name="fromFreq"></a>
+**Example**  
+```js
+freq.toMidi(361) // => 59.96
+```
+<a name="module_freq.note"></a>
 
-## fromFreq(freq) ⇒ <code>String</code>
+## `freq.note(freq, useSharps)` ⇒ <code>String</code>
 Get note name from frequency using an equal temperament scale with 440Hz
 as reference
 
-**Kind**: global function  
+**Kind**: static method of <code>[freq](#module_freq)</code>  
 **Returns**: <code>String</code> - note name  
 
-| Param | Type |
-| --- | --- |
-| freq | <code>Float</code> |
+| Param | Type | Description |
+| --- | --- | --- |
+| freq | <code>Float</code> |  |
+| useSharps | <code>Boolean</code> | (Optional) set to true to use sharps instead of flats |
 
-<a name="cents"></a>
+**Example**  
+```js
+freq.note(440) // => 'A4'
+```
+<a name="module_freq.cents"></a>
 
-## cents(base, freq) ⇒ <code>Float</code>
+## `freq.cents(base, freq)` ⇒ <code>Integer</code>
 Get difference in cents between two frequencies. The frequencies can be
 expressed with hertzs or midi numbers or note names
 
-**Kind**: global function  
-**Returns**: <code>Float</code> - The difference in cents  
+**Kind**: static method of <code>[freq](#module_freq)</code>  
+**Returns**: <code>Integer</code> - The difference in cents  
 
 | Param | Type |
 | --- | --- |
-| base | <code>Float</code> &#124; <code>Integer</code> &#124; <code>String</code> |
-| freq | <code>Float</code> &#124; <code>Integer</code> &#124; <code>String</code> |
+| base | <code>Float</code> &#124; <code>Integer</code> &#124; <code>String</code> | 
+| freq | <code>Float</code> &#124; <code>Integer</code> &#124; <code>String</code> | 
 
 **Example**  
 ```js
 import { cents } from 'tonal-freq'
-cents('C4', 261) // => -4.1444603457298985
+cents('C4', 261) // => -4
 ```

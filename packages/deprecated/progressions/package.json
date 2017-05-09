@@ -1,6 +1,6 @@
 {
   "name": "tonal-progressions",
-  "version": "0.0.0",
+  "version": "0.70.0",
   "description": "Renamed to https://www.npmjs.com/package/tonal-progression",
   "main": "index.js",
   "scripts": {

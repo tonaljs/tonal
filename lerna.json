@@ -7,7 +7,6 @@
   "packages": [
     "packages/tonal/*",
     "packages/utilities/*",
-    "packages/incubator/*",
-    "packages/deprecated/*"
+    "packages/incubator/*"
   ]
 }

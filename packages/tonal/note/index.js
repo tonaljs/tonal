@@ -1,7 +1,12 @@
 /**
- * > Work with music notes in scientific notation
+ * [![npm version](https://img.shields.io/npm/v/tonal-note.svg)](https://www.npmjs.com/package/tonal-note)
+ * [![tonal](https://img.shields.io/badge/tonal-note-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
  *
- * This is part of [tonal](https://github.com/danigb/tonal)
+ * `tonal-note` is a collection of functions to manipulate musical notes in scientific notation
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * ## Usage
  *
  * ```js
  * import * as note from 'tonal-note'
@@ -16,16 +21,20 @@
  * ['c', 'db3', '2', 'g+', 'gx4'].map(name)
  * // => ['C', 'Db3', null, null, 'G##4']
  * ```
- * 
- * ## API
  *
- * @module tonal-note
+ * ## Install
+ *
+ * [![npm install tonal-note](https://nodei.co/npm/tonal-note.png?mini=true)](https://npmjs.org/package/tonal-note/)
+ *
+ * ## API Documentation
+ *
+ * @module note
  */
 import { build } from 'note-parser'
 import { fifths, asNotePitch, strNote, parseIvl, chr, decode } from 'tonal-pitch'
 import { transpose as tr } from 'tonal-transpose'
 import { toMidi, note as midiToNote } from 'tonal-midi'
-import { toFreq } from 'tonal-freq'
+import { toFreq } from 'tonal-note'
 
 /**
  * Get the note midi number
@@ -56,7 +65,7 @@ export var fromMidi = midiToNote
 
 /**
  * Get the frequency of a note
- * (an alias of the tonal-freq package `toFreq` function)
+ * (an alias of the tonal-note package `toFreq` function)
  *
  * @function
  * @param {Array|String|Number} note - the note to get the frequency

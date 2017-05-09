@@ -29,20 +29,19 @@ All the core should be stable. Extensions may vary.
 
 ```js
 type note = string
-
-names()  // => ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", ...]
-name(note)
-chroma(note) : number
-- freq(note)
-- midi(note)
-- octave(note)
-- fromFreq(freq)
-- fromMidi(midi)
-- withOctave(note)
-- transpose(note)(interval) 
-- transposeBy(interval)(note)
-- distance(from)(to)
-- distanceTo(to)(from)
+names() // => ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", ...]
+name('c3') // => 'C3'
+chroma('D4') // => 2
+freq(note)
+midi(note)
+octave(note)
+fromFreq(freq)
+fromMidi(69) // => 'A4'
+withOctave(note)
+transpose(note)(interval) 
+transposeBy(interval)(note)
+distance(from)(to)
+distanceTo(to)(from)
 ```
 
 ##### Interval
