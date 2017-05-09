@@ -13,7 +13,7 @@
  */
 import { dictionary, detector } from 'tonal-dictionary'
 import { map, compact, permutations, rotate } from 'tonal-array'
-import { pc, note } from 'tonal-note'
+import { pc, name as note } from 'tonal-note'
 import { regex } from 'note-parser'
 import { harmonize, intervallic } from 'tonal-harmonizer'
 import DATA from './chords.json'

@@ -32,33 +32,22 @@ import { name } from 'tonal-note'
 
 
 * [note](#module_note)
-    * [`.name`](#module_note.name)
     * [`.midi(note)`](#module_note.midi) ⇒ <code>Integer</code>
     * [`.fromMidi(midi, useSharps)`](#module_note.fromMidi) ⇒ <code>String</code>
     * [`.freq(note)`](#module_note.freq) ⇒ <code>Number</code>
     * [`.chroma(note)`](#module_note.chroma) ⇒ <code>Integer</code>
-    * [`.note(n)`](#module_note.note) ⇒ <code>String</code>
-    * [`.props(note)`](#module_note.props) ⇒ <code>Object</code>
-    * [`.fromProps(noteProps)`](#module_note.fromProps) ⇒ <code>String</code>
+    * [`.name(n)`](#module_note.name) ⇒ <code>String</code>
+    * ~~[`.note()`](#module_note.note)~~
+    * ~~[`.props(note)`](#module_note.props) ⇒ <code>Object</code>~~
+    * ~~[`.fromProps(noteProps)`](#module_note.fromProps) ⇒ <code>String</code>~~
     * [`.oct(note)`](#module_note.oct) ⇒ <code>Integer</code>
     * [`.step(note)`](#module_note.step) ⇒ <code>Integer</code>
-    * [`.pcFifths(note)`](#module_note.pcFifths) ⇒ <code>Integer</code>
+    * ~~[`.pcFifths(note)`](#module_note.pcFifths) ⇒ <code>Integer</code>~~
     * [`.alt(note)`](#module_note.alt) ⇒ <code>Integer</code>
     * [`.pc(n)`](#module_note.pc) ⇒ <code>String</code>
     * [`.enharmonics(note)`](#module_note.enharmonics) ⇒ <code>Array</code>
     * [`.simplify(note)`](#module_note.simplify) ⇒ <code>String</code>
 
-<a name="module_note.name"></a>
-
-## `note.name`
-An alias for note. Get the name of a note in scientific notation
-
-**Kind**: static property of <code>[note](#module_note)</code>  
-**Example**  
-```js
-note.name('fx') // => 'F##'
-note.name('bbb3') // => 'Bbb3'
-```
 <a name="module_note.midi"></a>
 
 ## `note.midi(note)` ⇒ <code>Integer</code>
@@ -133,9 +122,9 @@ var note = require('tonal-note')
 note.chroma('Cb') // => 11
 ['C', 'D', 'E', 'F'].map(note.chroma) // => [0, 2, 4, 5]
 ```
-<a name="module_note.note"></a>
+<a name="module_note.name"></a>
 
-## `note.note(n)` ⇒ <code>String</code>
+## `note.name(n)` ⇒ <code>String</code>
 Given a note (as string or as array notation) returns a string
 with the note name in scientific notation or null
 if not valid note
@@ -149,17 +138,21 @@ if not valid note
 **Example**  
 ```js
 var note = require('tonal-note')
-note.note('cb2') // => 'Cb2'
+note.name('cb2') // => 'Cb2'
 ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
 ```
+<a name="module_note.note"></a>
+
+## ~~`note.note()`~~
+***Deprecated***
+
+An alias for note. Get the name of a note in scientific notation
+
+**Kind**: static method of <code>[note](#module_note)</code>  
 <a name="module_note.props"></a>
 
-## `note.props(note)` ⇒ <code>Object</code>
-Get note properties. It returns an object with the following properties:
-
-- step: 0 for C, 6 for B. Do not confuse with chroma
-- alt: 0 for not accidentals, positive sharps, negative flats
-- oct: the octave number or undefined if a pitch class
+## ~~`note.props(note)` ⇒ <code>Object</code>~~
+***Deprecated***
 
 **Kind**: static method of <code>[note](#module_note)</code>  
 **Returns**: <code>Object</code> - the object with note properties or null if not valid note  
@@ -175,9 +168,8 @@ note.props('C#') // => { step: 0, alt: 1, oct: undefined }
 ```
 <a name="module_note.fromProps"></a>
 
-## `note.fromProps(noteProps)` ⇒ <code>String</code>
-Given a note properties object, return the string representation if
-scientific notation
+## ~~`note.fromProps(noteProps)` ⇒ <code>String</code>~~
+***Deprecated***
 
 **Kind**: static method of <code>[note](#module_note)</code>  
 **Returns**: <code>String</code> - the note name
@@ -236,10 +228,8 @@ note.chroma('Cb') // => 6
 ```
 <a name="module_note.pcFifths"></a>
 
-## `note.pcFifths(note)` ⇒ <code>Integer</code>
-Get the note step in fifths from 'C'. One property of the perfect fifht
-interval is that you can obtain any pitch class by transposing 'C' a
-number of times. This function return that number.
+## ~~`note.pcFifths(note)` ⇒ <code>Integer</code>~~
+***Deprecated***
 
 **Kind**: static method of <code>[note](#module_note)</code>  
 **Returns**: <code>Integer</code> - the number of fifths to reach that pitch class from 'C'  

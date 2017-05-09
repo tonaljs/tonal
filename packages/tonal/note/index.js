@@ -103,6 +103,8 @@ export function chroma (n) {
  * with the note name in scientific notation or null
  * if not valid note
  *
+ * Can be used to test if a string is a valid note name.
+ *
  * @function
  * @param {Pitch|String}
  * @return {String}
@@ -118,8 +120,8 @@ export function name (n) {
 }
 
 /**
- * An alias for note. Get the name of a note in scientific notation
  * @deprecated
+ * An alias for note. Get the name of a note in scientific notation
  * @function
  */
 export function note (n) {
@@ -128,6 +130,7 @@ export function note (n) {
 }
 
 /**
+ * @deprecated
  * Get note properties. It returns an object with the following properties:
  *
  * - step: 0 for C, 6 for B. Do not confuse with chroma
@@ -149,6 +152,7 @@ export function props (n) {
 }
 
 /**
+ * @deprecated
  * Given a note properties object, return the string representation if
  * scientific notation
  *
@@ -202,6 +206,7 @@ export var oct = getProp('oct')
 export var step = getProp('step')
 
 /**
+ * @deprecated
  * Get the note step in fifths from 'C'. One property of the perfect fifth
  * interval is that you can obtain any pitch class by transposing 'C' a
  * number of times. This function return that number.

@@ -1,5 +1,8 @@
 /**
- * A collection of functions to obtain music interval properties.
+ * [![npm version](https://img.shields.io/npm/v/tonal-interval.svg)](https://www.npmjs.com/package/tonal-interval)
+ * [![tonal](https://img.shields.io/badge/tonal-interval-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-interval` is a collection of functions to create and manipulate music intervals.
  *
  * The intervals are strings in shorthand notation. Two variations are supported:
  *
@@ -11,18 +14,23 @@
  * or an augmented four. To remove ambiguity, the prefered notation in tonal is the
  * inverse shortand notation.
  *
- * NOTE: this module is exported in tonal as ivl
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
  *
- * @example
- * var interval = require('tonal-interval')
+ * ## Usage
+ *
+ * ```js
+ * import * as interval from 'tonal-interval'
+ * // or var interval = require('tonal-interval')
  * interval.semitones('4P') // => 5
  * interval.invert('3m') // => '6M'
  * interval.simplify('9m') // => '2m'
+ * ```
  *
- * @example
- * // from tonal
- * var tonal = require('tonal')
- * tonal.ivl.invert('4P') // => '5P'
+ * ## Install
+ *
+ * [![npm install tonal-interval](https://nodei.co/npm/tonal-interval.png?mini=true)](https://npmjs.org/package/tonal-interval/)
+ *
+ * ## API Documentation
  *
  * @module interval
  */

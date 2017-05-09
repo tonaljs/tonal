@@ -14,7 +14,7 @@
  */
 import { dictionary, detector } from 'tonal-dictionary'
 import { map, compact } from 'tonal-array'
-import { pc, note } from 'tonal-note'
+import { pc, name as note } from 'tonal-note'
 import { harmonize } from 'tonal-harmonizer'
 import DATA from './scales.json'
 
