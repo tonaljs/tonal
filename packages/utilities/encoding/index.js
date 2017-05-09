@@ -1,9 +1,7 @@
 /**
  * Functions to encoding and decoding pitches into fifths/octaves notation.
  *
- * This functions are very low level and it's probably you wont need them. That's
- * why __this module is NOT exported in the tonal package__.
- *
+ * This functions are very low level and it's probably you wont need them.
  * @private
  * @module encoding
  */
@@ -18,6 +16,14 @@ function fOcts (f) { return Math.floor(f * 7 / 12) }
 // Get the number of octaves it span each step
 var FIFTH_OCTS = FIFTHS.map(fOcts)
 
+/**
+ * Given a note's step, alteration and octave returns the fiths/octave
+ * note encoding.
+ * @param {number} step - the step number (0 = C, 1 = D, ...)
+ * @param {number} alteration - the note alteration (..., -1 = 'b', 0 = '', 1 = '#', ...)
+ * @param {number} octave - the note octave
+ * @return {Array} the [fifths, octave] representation of that note
+ */
 export function encode (step, alt, oct) {
   var f = FIFTHS[step] + 7 * alt
   if (!isNum(oct)) return [f]

@@ -103,21 +103,23 @@ export function chroma (n) {
  *
  * @example
  * var note = require('tonal-note')
- * note.note('cb2') // => 'Cb2'
+ * note.name('cb2') // => 'Cb2'
  * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
  */
-export function note (n) {
+export function name (n) {
   var p = asNotePitch(n)
   return p ? strNote(p) : null
 }
 
 /**
  * An alias for note. Get the name of a note in scientific notation
- * @example
- * note.name('fx') // => 'F##'
- * note.name('bbb3') // => 'Bbb3'
+ * @deprecated
+ * @function
  */
-export var name = note
+export function note (n) {
+  console.warn('note.note() is deprecated. Use note.name()')
+  return name(n)
+}
 
 /**
  * Get note properties. It returns an object with the following properties:
@@ -192,13 +194,14 @@ export var oct = getProp('oct')
 export var step = getProp('step')
 
 /**
- * Get the note step in fifths from 'C'. One property of the perfect fifht
+ * Get the note step in fifths from 'C'. One property of the perfect fifth
  * interval is that you can obtain any pitch class by transposing 'C' a
  * number of times. This function return that number.
  * @param {String|Pitch} note - the note (can be a pitch class)
  * @return {Integer} the number of fifths to reach that pitch class from 'C'
  */
 export function pcFifths (note) {
+  console.warn('note.pcFifths() is deprecated. Use distance.inFifths()')
   var p = asNotePitch(note)
   return p ? fifths(p) : null
 }

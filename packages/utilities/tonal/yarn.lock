@@ -71,6 +71,17 @@ tonal-interval@^0.69.6:
     interval-notation "^1.0.0"
     tonal-pitch "^0.69.6"
 
+tonal-key@^0.69.6:
+  version "0.69.6"
+  resolved "https://registry.yarnpkg.com/tonal-key/-/tonal-key-0.69.6.tgz#63ca4df770069be3f3f8e37bb6cbcc53b6e2692e"
+  dependencies:
+    tonal-array "^0.69.6"
+    tonal-harmonizer "^0.69.6"
+    tonal-notation "^0.69.6"
+    tonal-note "^0.69.6"
+    tonal-range "^0.69.6"
+    tonal-transpose "^0.69.6"
+
 tonal-midi@^0.69.6:
   version "0.69.6"
   resolved "https://registry.yarnpkg.com/tonal-midi/-/tonal-midi-0.69.6.tgz#5dc4a684fe3e113f3d45a97d50976fa179f97300"
@@ -118,6 +129,16 @@ tonal-progression@^0.69.6:
     tonal-interval "^0.69.6"
     tonal-notation "^0.69.6"
     tonal-note "^0.69.6"
+    tonal-transpose "^0.69.6"
+
+tonal-range@^0.69.6:
+  version "0.69.6"
+  resolved "https://registry.yarnpkg.com/tonal-range/-/tonal-range-0.69.6.tgz#19177f71ca17118595426dffd713cf8a6f95856a"
+  dependencies:
+    tonal-array "^0.69.6"
+    tonal-midi "^0.69.6"
+    tonal-note "^0.69.6"
+    tonal-pcset "^0.69.6"
     tonal-transpose "^0.69.6"
 
 tonal-transpose@^0.69.6:

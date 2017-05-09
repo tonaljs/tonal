@@ -1,6 +1,15 @@
 # Changelog
 
-## 0.69.x [MASTER]
+## 0.70.0 [Master]
+
+A toward 1.0 release
+
+#### Deprecations
+
+- Note: `note.note()`, `note.pcFifhts()`
+
+
+## 0.69.x 
 - Fix dictionary dependencies
 - Update to note-parser 2.0.1 for better ES6 module support
 - Fix midi note-parser dependency
