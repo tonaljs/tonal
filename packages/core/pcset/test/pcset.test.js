@@ -17,16 +17,14 @@ describe('tonal-pcset', () => {
     expect(pcset.chroma('101010101010')).toBe('101010101010')
   })
 
-  test('fromChroma', () => {
-    expect(pcset.fromChroma('101010101010', 'C')).toEqual([ 'C', 'D', 'E', 'Gb', 'Ab', 'Bb' ])
-    expect(pcset.fromChroma('101010101010', null)).toEqual([ '1P', '2M', '3M', '5d', '6m', '7m' ])
-    expect(pcset.fromChroma('100000100001')('Eb')).toEqual(['Eb', 'Bbb', 'D'])
-    expect(pcset.fromChroma('1010', 'D')).toEqual(null)
+  test('intervals', () => {
+    expect(pcset.intervals('101010101010')).toEqual([ '1P', '2M', '3M', '5d', '6m', '7m' ])
+    expect(pcset.intervals('1010')).toEqual([])
   })
 
   test('modes', () => {
     // TODO: fixme, the 4th mode should have F# instead of Gb
-    expect(pcset.chromaModes('c d e f g a b').map(function (chroma, i) {
+    expect(pcset.modes('c d e f g a b').map(function (chroma, i) {
       return pcset.fromChroma(chroma, 'C')
     })).toEqual([ [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ],
     [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ],
@@ -45,21 +43,21 @@ describe('tonal-pcset', () => {
   })
 
   test('subset', () => {
-    expect(pcset.subset('c4 d5 e6', 'c2 d3')).toBe(true)
-    expect(pcset.subset('c4 d5 e6', 'c2 d3 e5')).toBe(true)
-    expect(pcset.subset('c d e', 'c d e f')).toBe(false)
-    expect(pcset.subset('c d e')('c2 d3 f6')).toBe(false)
+    expect(pcset.isSubset('c4 d5 e6', 'c2 d3')).toBe(true)
+    expect(pcset.isSubset('c4 d5 e6', 'c2 d3 e5')).toBe(true)
+    expect(pcset.isSubset('c d e', 'c d e f')).toBe(false)
+    expect(pcset.isSubset('c d e')('c2 d3 f6')).toBe(false)
   })
 
   test('superset', () => {
-    expect(pcset.superset('c d e', 'c2 d3 e4 f5')).toBe(true)
-    expect(pcset.superset('c d e', 'e f g')).toBe(false)
-    expect(pcset.superset('c d e')('d e')).toBe(false)
+    expect(pcset.isSuperset('c d e', 'c2 d3 e4 f5')).toBe(true)
+    expect(pcset.isSuperset('c d e', 'e f g')).toBe(false)
+    expect(pcset.isSuperset('c d e')('d e')).toBe(false)
   })
 
   test('equal', () => {
-    expect(pcset.equal('c2 d3 e7 f5', 'c4 c d5 e6 f1')).toBeTruthy()
-    expect(pcset.equal('c f')('c4 c f1')).toBeTruthy()
+    expect(pcset.isEqual('c2 d3 e7 f5', 'c4 c d5 e6 f1')).toBeTruthy()
+    expect(pcset.isEqual('c f')('c4 c f1')).toBeTruthy()
   })
 
   test('includes', () => {
@@ -72,14 +70,14 @@ describe('tonal-pcset', () => {
     expect(pcset.filter('c')('c2 c#2 d2 c3 c#3 d3')).toEqual([ 'c2', 'c3' ])
   })
 
-  test('chromaModes', () => {
-    expect(pcset.chromaModes('c d e f g a b')).toEqual([
+  test('modes', () => {
+    expect(pcset.modes('c d e f g a b')).toEqual([
       '101011010101', '101101010110', '110101011010', '101010110101',
       '101011010110', '101101011010', '110101101010' ])
-    expect(pcset.chromaModes('c d e f g a b', false)).toEqual([
+    expect(pcset.modes('c d e f g a b', false)).toEqual([
       '101011010101', '010110101011', '101101010110', '011010101101',
       '110101011010', '101010110101', '010101101011', '101011010110',
       '010110101101', '101101011010', '011010110101', '110101101010' ])
-    expect(pcset.chromaModes('blah bleh')).toEqual([])
+    expect(pcset.modes('blah bleh')).toEqual([])
   })
 })

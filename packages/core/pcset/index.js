@@ -2,15 +2,19 @@
  * [![npm version](https://img.shields.io/npm/v/tonal-pcset.svg?style=flat-square)](https://www.npmjs.com/package/tonal-pcset)
  * [![tonal](https://img.shields.io/badge/tonal-pcset-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
  *
- * `tonal-pcset` is a collection of functions to work with pitch class sets.
+ * `tonal-pcset` is a collection of functions to work with pitch class sets, oriented
+ * to make comparations (isEqual, isSubset, isSuperset)
  *
  * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
  *
  * You can install via npm: `npm i --save tonal-pcset`
  *
- * @example
+ * ```js
  * var pcset = require('tonal-pcset')
- * pcset.equal('c2 d5 e6', 'c6 e3 d1') // => true
+ * pcset.isEqual('c2 d5 e6', 'c6 e3 d1') // => true
+ * ```
+ *
+ * ## API documentation
  *
  * @module pcset
  */
@@ -44,12 +48,16 @@ export function chroma (set) {
 }
 
 /**
+ * @deprecated
+ * @see collection.pcset
  * Given a list of notes, return the pitch class names of the set
  * starting with the first note of the list
  * @param {String|Array} notes - the pitch class set notes
  * @return {Array} an array of pitch class sets
  */
 export function notes (notes) {
+  // FIXME: move to collection
+  console.warn('pcset.notes deprecated. Use collection.pcset')
   var pcs = map(pc, notes)
   if (!pcs.length) return pcs
   var tonic = pcs[0]
@@ -59,10 +67,10 @@ export function notes (notes) {
 }
 
 /**
- * Given a pitch class set (a list of notes or a pitch class set chroma), produce the 12 rotations
- * of the chroma (and discard the ones that starts with '0')
+ * Given a a list of notes or a pcset chroma, produce the rotations
+ * of the chroma discarding the ones that starts with '0'
  *
- * This can be used, for example, to get all the modes of a scale.
+ * This is used, for example, to get all the modes of a scale.
  *
  * @param {Array|String} set - the list of notes or pitchChr of the set
  * @param {Boolean} normalize - (Optional, true by default) remove all
@@ -70,15 +78,23 @@ export function notes (notes) {
  * @return {Array<String>} an array with all the modes of the chroma
  *
  * @example
- * pcset.chromaModes('C E G')
+ * pcset.modes('C E G')
  */
-export function chromaModes (set, normalize) {
+export function modes (set, normalize) {
   normalize = normalize !== false
   var binary = chroma(set).split('')
   return compact(binary.map(function (_, i) {
     var r = rotate(i, binary)
     return normalize && r[0] === '0' ? null : r.join('')
   }))
+}
+/**
+ * @deprecated
+ * @see modes
+ */
+export function chromaModes (set, norm) {
+  console.warn('pcset.chromaModes deprecated. Renamed to pcset.modes')
+  return modes(set, norm)
 }
 
 var REGEX = /^[01]{12}$/
@@ -97,6 +113,21 @@ export function isChroma (set) {
 
 var IVLS = '1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M'.split(' ')
 /**
+ * Given a pcset (notes or chroma) return it's intervals
+ * @param {String|Array} pcset - the pitch class set (notes or chroma)
+ * @return {Array} intervals or empty array if not valid pcset
+ * @example
+ * pcset.intervals('1010100000000') => ['C', 'D', 'E']
+ */
+export function intervals (set) {
+  return compact(chroma(set).split('').map(function (d, i) {
+    return d === '1' ? IVLS[i] : null
+  }))
+}
+
+/**
+ * @deprecated
+ * @see intervals
  * Given a pitch class set in binary notation it returns the intervals or notes
  * (depending on the tonic)
  * @param {String} binary - the pitch class set in binary representation
@@ -106,13 +137,10 @@ var IVLS = '1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M'.split(' ')
  * pcset.fromChroma('101010101010', 'C') // => ['C', 'D', 'E', 'Gb', 'Ab', 'Bb']
  */
 export function fromChroma (binary, tonic) {
+  console.warn('pcset.fromChroma is deprecated. Use pcset.intervals().map(...)')
   if (arguments.length === 1) return function (t) { return fromChroma(binary, t) }
-  if (!isChroma(binary)) return null
-
-  tonic = tonic || 'P1'
-  return compact(binary.split('').map(function (d, i) {
-    return d === '1' ? transpose(IVLS[i], tonic) : null
-  }))
+  if (!tonic) tonic = 'P1'
+  return intervals(binary).map(transpose(tonic))
 }
 
 /**
@@ -122,11 +150,15 @@ export function fromChroma (binary, tonic) {
  * @param {Array|String} set2 - the other pitch class set
  * @return {Boolean} true if they are equal
  * @example
- * pcset.equal('c2 d3', 'c5 d2') // => true
+ * pcset.isEqual('c2 d3', 'c5 d2') // => true
  */
-export function equal (s1, s2) {
-  if (arguments.length === 1) return function (s) { return equal(s1, s) }
+export function isEqual (s1, s2) {
+  if (arguments.length === 1) return function (s) { return isEqual(s1, s) }
   return chroma(s1) === chroma(s2)
+}
+export function equal (a, b) {
+  console.warn('pcset.equal is deprecated. Use pcset.isEqual')
+  return isEqual(a, b)
 }
 
 /**
@@ -138,10 +170,14 @@ export function equal (s1, s2) {
  * @example
  * pcset.subset('c d e', 'C2 D4 D5 C6') // => true
  */
-export function subset (set, test) {
-  if (arguments.length === 1) return function (t) { return subset(set, t) }
+export function isSubset (set, test) {
+  if (arguments.length === 1) return function (t) { return isSubset(set, t) }
   test = chrToInt(test)
   return (test & chrToInt(set)) === test
+}
+export function subset (a, b) {
+  console.warn('pcset.subset is deprecated. Use pcset.isSubset')
+  return isSubset(a, b)
 }
 
 /**
@@ -151,12 +187,16 @@ export function subset (set, test) {
  * @param {Array|String} test - the set to test
  * @return {Boolean} true if the test set is a superset of the set
  * @example
- * pcset.subset('c d e', 'C2 D4 F4 D5 E5 C6') // => true
+ * pcset.isSuperset('c d e', 'C2 D4 F4 D5 E5 C6') // => true
  */
-export function superset (set, test) {
-  if (arguments.length === 1) return function (t) { return superset(set, t) }
+export function isSuperset (set, test) {
+  if (arguments.length === 1) return function (t) { return isSuperset(set, t) }
   test = chrToInt(test)
   return (test | chrToInt(set)) === test
+}
+export function superset (a, b) {
+  console.warn('pcset.superset is deprecated. Use pcset.isSuperset')
+  return isSuperset(a, b)
 }
 
 /**
