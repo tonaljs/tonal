@@ -134,7 +134,7 @@ Browser: grab the minified file [here](https://github.com/danigb/tonal/blob/mast
 ES6:
 
 ```js
-import tonal from 'tonal' 
+import tonal from 'tonal'
 tonal.transpose('C4', '3M')
 ```
 
@@ -142,7 +142,7 @@ ES5:
 
 ```js
 var tonal = require('tonal')
-tonal.tranpose('C4', '2m')
+tonal.transpose('C4', '2m')
 ```
 
 Browser (use the `Tonal` global object):
@@ -160,7 +160,7 @@ Mostly, because I want to learn:
 > Reinventing the wheel is bad for business, but it’s great for learning
 [*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
 
-I want to learn about music theory and I want to express the conpcets I learn using functional programming style.
+I want to learn about music theory and I want to express the concepts I learn using functional programming style.
 
 Also, I want a complete library, where I can model some (for me) esoteric features like [interval classes](http://danigb.github.io/tonal/api/module-interval.html#.ic), pitch sets, dft to pitch class sets, and so on.
 
