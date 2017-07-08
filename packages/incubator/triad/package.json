@@ -1,7 +1,7 @@
 {
   "name": "tonal-tertian",
   "private": true,
-  "version": "0.69.6",
+  "version": "0.69.7",
   "description": "Create and manipulate tertians of notes and intervals",
   "repository": "https://github.com/danigb/tonal/packages/tertian",
   "keywords": [
@@ -19,7 +19,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^0.69.6",
-    "tonal-transpose": "^0.69.6"
+    "tonal-array": "^0.69.7",
+    "tonal-transpose": "^0.69.7"
   }
 }

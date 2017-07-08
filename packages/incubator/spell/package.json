@@ -1,6 +1,6 @@
 {
   "name": "tonal-spell",
-  "version": "0.69.6",
+  "version": "0.69.7",
   "private": true,
   "description": "Convert numeric pitch to note names",
   "repository": "https://github.com/danigb/tonal/packages/spell",

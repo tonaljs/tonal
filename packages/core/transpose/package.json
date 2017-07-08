@@ -1,6 +1,6 @@
 {
   "name": "tonal-transpose",
-  "version": "0.69.6",
+  "version": "0.69.7",
   "description": "Music note transposition",
   "keywords": [
     "note",
@@ -16,6 +16,6 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-pitch": "^0.69.6"
+    "tonal-pitch": "^0.69.7"
   }
 }

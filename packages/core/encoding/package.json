@@ -1,6 +1,6 @@
 {
   "name": "tonal-encoding",
-  "version": "0.69.6",
+  "version": "0.69.7",
   "description": "Encode pitches using fifths/octaves",
   "keywords": [
     "pitch",

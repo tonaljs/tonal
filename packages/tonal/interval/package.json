@@ -1,6 +1,6 @@
 {
   "name": "tonal-interval",
-  "version": "0.69.6",
+  "version": "0.69.7",
   "description": "Music interval creation and manipulation",
   "repository": "https://github.com/danigb/tonal/packages/interval",
   "keywords": [
@@ -19,6 +19,6 @@
   "license": "MIT",
   "dependencies": {
     "interval-notation": "^1.0.0",
-    "tonal-pitch": "^0.69.6"
+    "tonal-pitch": "^0.69.7"
   }
 }
