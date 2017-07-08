@@ -18,6 +18,10 @@ describe('tonal-note', () => {
     expect('c4 d4 e4 f4 g4 a4 b4 c4'.split(' ').map(note.midi)).toEqual([ 60, 62, 64, 65, 67, 69, 71, 60 ])
   })
 
+  test.only('toFreq', () => {
+    expect(note.freq('A4')).toBe(440)
+  })
+
   test('chroma', () => {
     expect('Cb C Db D Eb E Fb F Gb G Ab A Bb B'.split(' ').map(note.chroma)).toEqual([ 11, 0, 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 10, 11 ])
     expect('C C# D D# E E# F F# G G# A A# B B#'.split(' ').map(note.chroma)).toEqual([ 0, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9, 10, 11, 0 ])

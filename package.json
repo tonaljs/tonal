@@ -6,12 +6,12 @@
     "init": "lerna clean && lerna bootstrap && npm run build",
     "prebuild": "lerna bootstrap",
     "build": "lerna exec -- rollup -c ../../../rollup.config.js -o build/index.js -- index.js",
+    "dist": "rollup --config rollup.config.dist.js && ls -hall dist/*",
     "prepublish": "npm run test && npm run dist && cp README.md ./packages/tonal/",
     "pretest": "npm run build",
     "test": "jest --coverage --no-cache",
     "docs": "lerna run docs",
-    "jsdocs": "jsdoc -c jsdoc3.config.json && open docs/api/index.html",
-    "dist": "rollup --config rollup.config.dist.js && ls -hall dist/*"
+    "jsdocs": "jsdoc -c jsdoc3.config.json && open docs/api/index.html"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal",
@@ -28,13 +28,13 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "jest": "^20.0.0",
-    "lerna": "2.0.0-rc.4",
+    "lerna": "2.0.0",
     "postman-jsdoc-theme": "0.0.2",
-    "rollup": "^0.41.4",
+    "rollup": "^0.43.0",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-json": "^2.1.1",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^1.0.2"
+    "rollup-plugin-uglify": "^2.0.0"
   },
   "standard": {
     "ignore": [

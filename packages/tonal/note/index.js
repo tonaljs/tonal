@@ -31,12 +31,12 @@
  * @module note
  */
 import { build, parse } from 'note-parser'
-import { fifths, asNotePitch, strNote, parseIvl, chr, decode } from 'tonal-pitch'
+import { fifths, asNotePitch, strNote, parseIvl, decode } from 'tonal-pitch'
 import { transpose as tr } from 'tonal-transpose'
 import { toMidi, note as midiToNote } from 'tonal-midi'
-import { toFreq } from 'tonal-note'
+import { toFreq } from 'tonal-freq'
 
-const cache = {}
+var cache = {}
 function parseNote (name) {
   if (typeof name !== 'string') return null
   return cache[name] || (cache[name] = parse(name))
