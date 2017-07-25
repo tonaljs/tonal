@@ -136,9 +136,9 @@ export function chordShapes (tuning, notes, first, last, span) {
     })
   })
 
-  // Remove null and neighboring duplicate arrays
+  // Remove null, neighboring duplicate arrays, and arrays with a only one non-null value
   return positions.filter(function (position, i) {
-    if (!compact(position).length) return false
+    if (compact(position).length < 2) return false
     return i === 0 ? position : positions[i].toString() !== positions[i - 1].toString()
   })
 }
