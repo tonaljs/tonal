@@ -37,7 +37,7 @@ tonal.interval('C', 'G') // => '5P'
 tonal.semitones('C', 'G') // => 7
 
 // scales
-tonal.scale('Bb lydian') // => [ 'Ab', 'Bb', 'C', 'D', 'Eb', 'F', 'G' ]
+tonal.scale('Bb lydian') // => [ 'Bb', 'C', 'D', 'E', 'F', 'G', 'A']
 tonal.scale('Eb bebop') // => [ 'Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'Db', 'D' ]
 tonal.scale.names()
 tonal.scale.detect('Bb4 Eb4 C5 G4 Bb4 F6') // => ['Eb major pentatonic']
