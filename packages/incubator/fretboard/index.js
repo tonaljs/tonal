@@ -102,12 +102,17 @@ export function scale (tuning, scale, first, last) {
  * Build an array of reachable chord shapes based on given notes and tuning.
  * @param {String|Array} tuning - the tuning name or notes
  * @param {Array} notes - an array of chord notes
- * @param {Integer} first - the first fret number
- * @param {Integer} last - the last fret number
- * @param {Integer} span - how many frets to include per position
+ * @param {Integer} first - the first fret number.  Default 0.
+ * @param {Integer} last - the last fret number.  Default 12.
+ * @param {Integer} span - how many frets to include per position.  Default 4.
  * @return {Array} An array of arrays, one for each possible shape.  Element index is string number [ '0', '2', '2', '1', '0', '0' ]
  */
 export function chordShapes (tuning, notes, first, last, span) {
+  // Set defaults
+  first = first || 0;
+  last = last || 12;
+  span = span || 4;
+
   var fretboard = scale(tuning, notes, first, last)
   var positions = []
 
@@ -131,9 +136,9 @@ export function chordShapes (tuning, notes, first, last, span) {
     })
   })
 
-  // Remove null and neighboring duplicate arrays
+  // Remove null, neighboring duplicate arrays, and arrays with a only one non-null value
   return positions.filter(function (position, i) {
-    if (!compact(position).length) return false
+    if (compact(position).length < 2) return false
     return i === 0 ? position : positions[i].toString() !== positions[i - 1].toString()
   })
 }
