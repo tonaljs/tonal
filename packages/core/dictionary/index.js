@@ -1,6 +1,6 @@
 import { map, compact, sort } from 'tonal-array'
 import { pc } from 'tonal-note'
-import { chroma, chromaModes } from 'tonal-pcset'
+import { chroma, modes } from 'tonal-pcset'
 
 /**
  * This module contains functions to query tonal dictionaries.
@@ -109,7 +109,7 @@ export function detector (dict, build) {
 
   return function (notes) {
     notes = sort(map(pc, notes))
-    var sets = chromaModes(notes)
+    var sets = modes(notes)
     return compact(sets.map(function (set, i) {
       var type = nameByChroma[set]
       if (!type) return null

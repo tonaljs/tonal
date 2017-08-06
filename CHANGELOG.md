@@ -4,12 +4,18 @@
 
 A toward 1.0 release
 
+## 0.69.8
+
+- `dictionary` module uses `pcset.nodes` instead of `pcset.chromaModes`
+
+
+
 #### Deprecations
 
 - Note: `note.note()`, `note.pcFifhts()`, `note.props()`, `note.fromProps()`
 
 
-## 0.69.x 
+## 0.69.x
 - Fix dictionary dependencies
 - Update to note-parser 2.0.1 for better ES6 module support
 - Fix midi note-parser dependency
