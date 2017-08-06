@@ -54,13 +54,13 @@ import { name } from 'tonal-note'
 Get the note midi number
 (an alias of tonal-midi `toMidi` function)
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>Integer</code> - the midi number or null if not valid pitch  
 **See**: midi.toMidi  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>Array</code> &#124; <code>String</code> &#124; <code>Number</code> | the note to get the midi number from |
+| note | <code>Array</code> \| <code>String</code> \| <code>Number</code> | the note to get the midi number from |
 
 **Example**  
 ```js
@@ -72,7 +72,7 @@ note.midi('C4') // => 60
 Get the note name of a given midi note number
 (an alias of tonal-midi `note` function)
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>String</code> - the note name  
 **See**: midi.note  
 
@@ -91,13 +91,13 @@ note.fromMidi(60) // => 'C4'
 Get the frequency of a note
 (an alias of the tonal-note package `toFreq` function)
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>Number</code> - the frequency  
 **See**: freq.toFreq  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>Array</code> &#124; <code>String</code> &#124; <code>Number</code> | the note to get the frequency |
+| note | <code>Array</code> \| <code>String</code> \| <code>Number</code> | the note to get the frequency |
 
 **Example**  
 ```js
@@ -109,12 +109,12 @@ note.freq('A4') // => 440
 Return the chroma of a note. The chroma is the numeric equivalent to the
 pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>Integer</code> - the chroma  
 
 | Param | Type |
 | --- | --- |
-| note | <code>String</code> &#124; <code>Pitch</code> | 
+| note | <code>String</code> \| <code>Pitch</code> | 
 
 **Example**  
 ```js
@@ -131,11 +131,11 @@ if not valid note
 
 Can be used to test if a string is a valid note name.
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 
 | Param | Type |
 | --- | --- |
-| n | <code>Pitch</code> &#124; <code>String</code> | 
+| n | <code>Pitch</code> \| <code>String</code> | 
 
 **Example**  
 ```js
@@ -148,18 +148,18 @@ note.name('cb2') // => 'Cb2'
 ## ~~`note.note()`~~
 ***Deprecated***
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 <a name="module_note.props"></a>
 
 ## ~~`note.props(note)` ⇒ <code>Object</code>~~
 ***Deprecated***
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>Object</code> - the object with note properties or null if not valid note  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>String</code> &#124; <code>Pitch</code> | the note |
+| note | <code>String</code> \| <code>Pitch</code> | the note |
 
 **Example**  
 ```js
@@ -171,7 +171,7 @@ note.props('C#') // => { step: 0, alt: 1, oct: undefined }
 ## ~~`note.fromProps(noteProps)` ⇒ <code>String</code>~~
 ***Deprecated***
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>String</code> - the note name
 
 - step: a number from 0 to 6 meaning note step letter from 'C' to 'B'
@@ -192,13 +192,13 @@ note.fromProps({ step: 0, alt: 1 }) // => 'C#'
 ## `note.oct(note)` ⇒ <code>Integer</code>
 Get the octave of the given pitch
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>Integer</code> - the octave, undefined if its a pitch class or null if
 not a valid note  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>String</code> &#124; <code>Pitch</code> | the note |
+| note | <code>String</code> \| <code>Pitch</code> | the note |
 
 **Example**  
 ```js
@@ -212,12 +212,12 @@ note.oct('blah') // => undefined
 Get the note step: a number equivalent of the note letter. 0 means C and
 6 means B. This is different from `chroma` (see example)
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>Integer</code> - a number between 0 and 6 or null if not a note  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>String</code> &#124; <code>Pitch</code> | the note |
+| note | <code>String</code> \| <code>Pitch</code> | the note |
 
 **Example**  
 ```js
@@ -231,12 +231,12 @@ note.chroma('Cb') // => 6
 ## ~~`note.pcFifths(note)` ⇒ <code>Integer</code>~~
 ***Deprecated***
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>Integer</code> - the number of fifths to reach that pitch class from 'C'  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>String</code> &#124; <code>Pitch</code> | the note (can be a pitch class) |
+| note | <code>String</code> \| <code>Pitch</code> | the note (can be a pitch class) |
 
 <a name="module_note.alt"></a>
 
@@ -244,12 +244,12 @@ note.chroma('Cb') // => 6
 Get the note alteration: a number equivalent to the accidentals. 0 means
 no accidentals, negative numbers are for flats, positive for sharps
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>Integer</code> - the alteration  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>String</code> &#124; <code>Pitch</code> | the note |
+| note | <code>String</code> \| <code>Pitch</code> | the note |
 
 **Example**  
 ```js
@@ -262,12 +262,12 @@ note.alt('Cb') // => -1
 ## `note.pc(n)` ⇒ <code>String</code>
 Get pitch class of a note. The note can be a string or a pitch array.
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>String</code> - the pitch class  
 
 | Param | Type |
 | --- | --- |
-| n | <code>String</code> &#124; <code>Pitch</code> | 
+| n | <code>String</code> \| <code>Pitch</code> | 
 
 **Example**  
 ```js
@@ -280,7 +280,7 @@ tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
 Get the enharmonics of a note. It returns an array of three elements: the
 below enharmonic, the note, and the upper enharmonic
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>Array</code> - an array of pitches ordered by distance to the given one  
 
 | Param | Type | Description |
@@ -300,7 +300,7 @@ note.enharmonics('Db') // => ['C#', 'Db', 'Ebbb'])
 ## `note.simplify(note)` ⇒ <code>String</code>
 Get a simpler enharmonic note name from a note if exists
 
-**Kind**: static method of <code>[note](#module_note)</code>  
+**Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>String</code> - the simplfiied note (if not found, return same note)  
 
 | Param | Type | Description |

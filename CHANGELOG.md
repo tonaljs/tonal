@@ -8,8 +8,6 @@ A toward 1.0 release
 
 - `dictionary` module uses `pcset.nodes` instead of `pcset.chromaModes`
 
-
-
 #### Deprecations
 
 - Note: `note.note()`, `note.pcFifhts()`, `note.props()`, `note.fromProps()`

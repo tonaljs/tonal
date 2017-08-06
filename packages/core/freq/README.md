@@ -39,14 +39,14 @@ Return the equal tempered frequency of a note.
 
 This function can be partially applied if note parameter is not present.
 
-**Kind**: static method of <code>[freq](#module_freq)</code>  
+**Kind**: static method of [<code>freq</code>](#module_freq)  
 **Returns**: <code>Number</code> - the frequency  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | ref | <code>Float</code> | the tuning reference |
 | maxDecimals | <code>Integer</code> | (Optional) the maximum number of decimals (all by default) |
-| note | <code>String</code> &#124; <code>Pitch</code> | the note to get the frequency from |
+| note | <code>String</code> \| <code>Pitch</code> | the note to get the frequency from |
 
 **Example**  
 ```js
@@ -61,12 +61,12 @@ Get the frequency of note with 2 decimals precission using A4 440Hz tuning
 
 This is an alias for: `eqTempFreq(440, 2, <note>)`
 
-**Kind**: static method of <code>[freq](#module_freq)</code>  
+**Kind**: static method of [<code>freq</code>](#module_freq)  
 **Returns**: <code>Float</code> - the frequency in herzs  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>Number</code> &#124; <code>String</code> | the note name or midi number |
+| note | <code>Number</code> \| <code>String</code> | the note name or midi number |
 
 **Example**  
 ```js
@@ -79,7 +79,7 @@ freq.toFreq('C4') // => 261.63
 Get the midi note from a frequency in equal temperament scale. You can
 specify the number of decimals of the midi number.
 
-**Kind**: static method of <code>[freq](#module_freq)</code>  
+**Kind**: static method of [<code>freq</code>](#module_freq)  
 **Returns**: <code>Number</code> - the midi number  
 
 | Param | Type | Description |
@@ -94,7 +94,7 @@ Get midi number from frequency with two decimals of precission.
 
 This is an alisas for: `eqTempFreqToMidi(440, 2, <freq>)`
 
-**Kind**: static method of <code>[freq](#module_freq)</code>  
+**Kind**: static method of [<code>freq</code>](#module_freq)  
 **Returns**: <code>Number</code> - midi number  
 
 | Param | Type |
@@ -111,7 +111,7 @@ freq.toMidi(361) // => 59.96
 Get note name from frequency using an equal temperament scale with 440Hz
 as reference
 
-**Kind**: static method of <code>[freq](#module_freq)</code>  
+**Kind**: static method of [<code>freq</code>](#module_freq)  
 **Returns**: <code>String</code> - note name  
 
 | Param | Type | Description |
@@ -129,13 +129,13 @@ freq.note(440) // => 'A4'
 Get difference in cents between two frequencies. The frequencies can be
 expressed with hertzs or midi numbers or note names
 
-**Kind**: static method of <code>[freq](#module_freq)</code>  
+**Kind**: static method of [<code>freq</code>](#module_freq)  
 **Returns**: <code>Integer</code> - The difference in cents  
 
 | Param | Type |
 | --- | --- |
-| base | <code>Float</code> &#124; <code>Integer</code> &#124; <code>String</code> | 
-| freq | <code>Float</code> &#124; <code>Integer</code> &#124; <code>String</code> | 
+| base | <code>Float</code> \| <code>Integer</code> \| <code>String</code> | 
+| freq | <code>Float</code> \| <code>Integer</code> \| <code>String</code> | 
 
 **Example**  
 ```js
