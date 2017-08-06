@@ -1,6 +1,6 @@
 {
   "lerna": "2.0.0",
-  "version": "0.69.7",
+  "version": "0.69.8",
   "npmClient": "yarn",
   "scripts": {},
   "devDependencies": {},

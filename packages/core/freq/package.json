@@ -1,6 +1,6 @@
 {
   "name": "tonal-freq",
-  "version": "0.69.7",
+  "version": "0.69.8",
   "description": "Conversion between frequencies and note names",
   "repository": "https://github.com/danigb/tonal/packages/freq",
   "keywords": [
