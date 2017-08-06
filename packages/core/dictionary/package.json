@@ -1,6 +1,6 @@
 {
   "name": "tonal-dictionary",
-  "version": "0.69.8",
+  "version": "0.69.9",
   "description": "Tonal key/value utilities",
   "repository": "https://github.com/danigb/tonal/packages/dictionary",
   "keywords": [
@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "tonal-array": "^0.69.7",
-    "tonal-note": "^0.69.8",
-    "tonal-pcset": "^0.69.8"
+    "tonal-note": "^0.69.9",
+    "tonal-pcset": "^0.69.9"
   }
 }
