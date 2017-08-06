@@ -28,6 +28,9 @@ fret numbers</p>
 <dt><a href="#scale">scale(tuning, scale, first, last)</a> ⇒ <code>Array</code></dt>
 <dd><p>Build a fretboard only showing the notes for the given scale.</p>
 </dd>
+<dt><a href="#chordShapes">chordShapes(tuning, notes, first, last, span)</a> ⇒ <code>Array</code></dt>
+<dd><p>Build an array of reachable chord shapes based on given notes and tuning.</p>
+</dd>
 </dl>
 
 <a name="tuning"></a>
@@ -107,3 +110,19 @@ Build a fretboard only showing the notes for the given scale.
 | scale | <code>String</code> &#124; <code>Array</code> | the scale notes |
 | first | <code>Integer</code> | the first fret number |
 | last | <code>Integer</code> | the last fret number |
+
+<a name="chordShapes"></a>
+
+## chordShapes(tuning, notes, first, last, span) ⇒ <code>Array</code>
+Build an array of reachable chord shapes based on given notes and tuning.
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - An array of arrays, one for each possible shape.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| tuning | <code>String</code> &#124; <code>Array</code> | the tuning name or notes |
+| notes | <code>Array</code> | an array of chord notes |
+| first | <code>Integer</code> | the first fret number |
+| last | <code>Integer</code> | the last fret number |
+| span | <code>Integer</code> | how many frets to include per position |

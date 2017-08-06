@@ -33,14 +33,18 @@ describe('tonal-fretboard', () => {
 
   test('chordShapes', () => {
     expect(fr.chordShapes('guitar', [], 0, 5, 3)).toEqual([])
-    expect(fr.chordShapes('guitar', ['G'], 0, 5, 3)).toEqual([ [ null, null, null, '0', null, null ],
-    [ '3', null, null, null, null, '3' ],
-    [ '3', null, '5', null, null, '3' ],
-    [ null, null, '5', null, null, null ] ])
-    expect(fr.chordShapes('guitar', ['E', 'G#', 'B'], 0, 5, 3)).toEqual([ [ '0', '2', '2', '1', '0', '0' ],
-    [ null, '2', '2', '1', null, null ],
-    [ '4', '2', '2', '4', null, '4' ],
-    [ '4', null, null, '4', '5', '4' ],
-    [ null, null, null, null, '5', null ] ])
+    expect(fr.chordShapes('guitar', ['G'], 0, 5, 3)).toEqual(
+    [
+      [ '3', null, null, null, null, '3' ],
+      [ '3', null, '5', null, null, '3' ]
+    ])
+
+    expect(fr.chordShapes('guitar', ['E', 'G#', 'B'], 0, 5, 3)).toEqual(
+    [ 
+      [ '0', '2', '2', '1', '0', '0' ],
+      [ null, '2', '2', '1', null, null ],
+      [ '4', '2', '2', '4', null, '4' ],
+      [ '4', null, null, '4', '5', '4' ] 
+    ])
   })
 })
