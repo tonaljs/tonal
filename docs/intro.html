@@ -54,7 +54,7 @@
           reverse order from the standard JavaScript map function. <i>Data to
           be operated on is supplied last.</i> This allows partial application:</p>
         <pre><code class="language-js">
-          var invList = tonal.map(tonal.invert)
+          var invList = tonal.map(tonal.ivl.invert)
           invList('1P 2M 3M 4P') // => ['8P', '7m', '6m', '5P']
         </code></pre>
         <p>Most of the functions of tonal are currified so can be partially applied.</p>
