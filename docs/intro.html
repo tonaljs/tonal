@@ -61,28 +61,28 @@
       </section>
       <section>
         <h2>Ranges</h2>
-        <p>Tonal provides some functions to create note ranges. The range
+        <p>Tonal provides some functions to create note ranges. The <code>numeric</code>
           function generates numeric ranges (midi notes) from note names:</p>
         <pre><code class="language-js">
-          tonal.range('C4 C5') // => [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]
+          tonal.range.numeric('C4 C5') // => [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]
         </code></pre>
         <p>The <code>chromatic</code> function does the same, but returns
           note names:</p>
         <pre><code class="language-js">
-          tonal.chromatic('C4 C5') // => ['C4', 'Db4', 'D4', ..., 'Bb4', 'B4', 'C5']
+          tonal.range.chromatic('C4 C5') // => ['C4', 'Db4', 'D4', ..., 'Bb4', 'B4', 'C5']
         </code></pre>
         <p>Notice that ranges are not limited to two notes:</p>
         <pre><code class="language-js">
-          tonal.chromatic('C4 E4 A3') // => ['C4', 'Db4', 'D4', 'Eb4', 'E4', 'Eb4', 'D4', 'Db4', 'C4', 'B3', 'Bb3', 'A3']
+          tonal.range.chromatic('C4 E4 A3') // => ['C4', 'Db4', 'D4', 'Eb4', 'E4', 'Eb4', 'D4', 'Db4', 'C4', 'B3', 'Bb3', 'A3']
         </code></pre>
-        <p>The <code>scaleRange</code> function helps to create ranges os scales:</p>
+        <p>The <code>pitchSet</code> function helps to create ranges of scales:</p>
         <pre><code class="language-js">
-          var Amajor = tonal.scaleRange('A B C# D E F# G#')
+          var Amajor = tonal.range.pitchSet('A B C# D E F# G#')
           Amajor('C3 C4') // => ['C#3', 'D3', 'E3', 'F#3', 'G#3', 'A3', 'B3']
         </code></pre>
         <p>And it can be used with chords (in fact with any note set):</p>
         <pre><code class="language-js">
-          var Achord = tonal.scaleRange('A C# E')
+          var Achord = tonal.range.pitchSet('A C# E')
           Achord('A3 A5') // => ['A3', 'C#3', 'E3', 'A4', 'C#4', 'E4', 'A5']
         </code></pre>
       </section>
