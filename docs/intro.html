@@ -35,10 +35,9 @@
           they are just strings:</p>
 
         <pre><code class="language-js">
-          tonal.pc('c#4') // => 'C#'
-          tonal.enharmonics('Ab4') // => [ 'G#4', 'Ab4', 'Bbbb4' ]
-          tonal.semitones('5P') // => 7
-          tonal.invert('2M') // => '7m'
+          tonal.note.pc('c#4') // => 'C#'
+          tonal.note.enharmonics('Ab4') // => [ 'G#4', 'Ab4', 'Bbbb4' ]
+          tonal.ivl.invert('2M') // => '7m'
         </code></pre>
       </section>
       <section>
@@ -48,42 +47,42 @@
           the map function accepts arrays or strings:</p>
 
         <pre><code class="language-js">
-          tonal.map(tonal.pc, ['c#4', 'db5', 'fx6']) // => ['C#', 'Db', 'F##']
-          tonal.map(tonal.pc, 'c#4 db5 fx6') // => ['C#', 'Db', 'F##']
+          tonal.map(tonal.note.pc, ['c#4', 'db5', 'fx6']) // => ['C#', 'Db', 'F##']
+          tonal.map(tonal.note.pc, 'c#4 db5 fx6') // => ['C#', 'Db', 'F##']
         </code></pre>
         <p>As you can notice, the <code>map</code> function has the params in
           reverse order from the standard JavaScript map function. <i>Data to
           be operated on is supplied last.</i> This allows partial application:</p>
         <pre><code class="language-js">
-          var invList = tonal.map(tonal.invert)
+          var invList = tonal.map(tonal.ivl.invert)
           invList('1P 2M 3M 4P') // => ['8P', '7m', '6m', '5P']
         </code></pre>
         <p>Most of the functions of tonal are currified so can be partially applied.</p>
       </section>
       <section>
         <h2>Ranges</h2>
-        <p>Tonal provides some functions to create note ranges. The range
+        <p>Tonal provides some functions to create note ranges. The <code>numeric</code>
           function generates numeric ranges (midi notes) from note names:</p>
         <pre><code class="language-js">
-          tonal.range('C4 C5') // => [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]
+          tonal.range.numeric('C4 C5') // => [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]
         </code></pre>
         <p>The <code>chromatic</code> function does the same, but returns
           note names:</p>
         <pre><code class="language-js">
-          tonal.chromatic('C4 C5') // => ['C4', 'Db4', 'D4', ..., 'Bb4', 'B4', 'C5']
+          tonal.range.chromatic('C4 C5') // => ['C4', 'Db4', 'D4', ..., 'Bb4', 'B4', 'C5']
         </code></pre>
         <p>Notice that ranges are not limited to two notes:</p>
         <pre><code class="language-js">
-          tonal.chromatic('C4 E4 A3') // => ['C4', 'Db4', 'D4', 'Eb4', 'E4', 'Eb4', 'D4', 'Db4', 'C4', 'B3', 'Bb3', 'A3']
+          tonal.range.chromatic('C4 E4 A3') // => ['C4', 'Db4', 'D4', 'Eb4', 'E4', 'Eb4', 'D4', 'Db4', 'C4', 'B3', 'Bb3', 'A3']
         </code></pre>
-        <p>The <code>scaleRange</code> function helps to create ranges os scales:</p>
+        <p>The <code>pitchSet</code> function helps to create ranges of scales:</p>
         <pre><code class="language-js">
-          var Amajor = tonal.scaleRange('A B C# D E F# G#')
+          var Amajor = tonal.range.pitchSet('A B C# D E F# G#')
           Amajor('C3 C4') // => ['C#3', 'D3', 'E3', 'F#3', 'G#3', 'A3', 'B3']
         </code></pre>
         <p>And it can be used with chords (in fact with any note set):</p>
         <pre><code class="language-js">
-          var Achord = tonal.scaleRange('A C# E')
+          var Achord = tonal.range.pitchSet('A C# E')
           Achord('A3 A5') // => ['A3', 'C#3', 'E3', 'A4', 'C#4', 'E4', 'A5']
         </code></pre>
       </section>
