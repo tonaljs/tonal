@@ -3,13 +3,10 @@
   "version": "0.69.9",
   "description": "Conversion between frequencies and note names",
   "repository": "https://github.com/danigb/tonal/packages/freq",
-  "keywords": [
-    "note",
-    "freq",
-    "tonal"
-  ],
+  "keywords": ["note", "freq", "tonal"],
   "scripts": {
-    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs":
+      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/index.js",

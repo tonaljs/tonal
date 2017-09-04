@@ -2,11 +2,7 @@
   "name": "tonal-notation",
   "version": "0.69.7",
   "description": "Music notation utilities",
-  "keywords": [
-    "music",
-    "notation",
-    "tonal"
-  ],
+  "keywords": ["music", "notation", "tonal"],
   "scripts": {
     "test": "jest --coverage"
   },

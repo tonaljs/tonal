@@ -2,12 +2,7 @@
   "name": "tonal-encoding",
   "version": "0.69.7",
   "description": "Encode pitches using fifths/octaves",
-  "keywords": [
-    "pitch",
-    "fifths",
-    "encode",
-    "tonal"
-  ],
+  "keywords": ["pitch", "fifths", "encode", "tonal"],
   "scripts": {},
   "main": "build/index.js",
   "module": "index",

@@ -2,12 +2,7 @@
   "name": "tonal-sonority",
   "version": "0.69.9",
   "description": "Music sonority related function",
-  "keywords": [
-    "music",
-    "theory",
-    "sonority",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "sonority", "tonal"],
   "scripts": {
     "test": "jest --coverage"
   },

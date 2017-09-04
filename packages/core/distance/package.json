@@ -2,13 +2,7 @@
   "name": "tonal-distance",
   "version": "0.69.7",
   "description": "Find distances between musical notes",
-  "keywords": [
-    "music",
-    "theory",
-    "interval",
-    "distance",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "interval", "distance", "tonal"],
   "scripts": {
     "test": "jest --coverage"
   },

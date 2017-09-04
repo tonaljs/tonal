@@ -3,8 +3,7 @@
   "version": "0.70.0",
   "description": "Renamed to https://www.npmjs.com/package/tonal-progression",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "keywords": [],
   "author": "danigb",
   "license": "MIT"

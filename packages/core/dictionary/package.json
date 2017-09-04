@@ -3,12 +3,7 @@
   "version": "0.69.9",
   "description": "Tonal key/value utilities",
   "repository": "https://github.com/danigb/tonal/packages/dictionary",
-  "keywords": [
-    "music",
-    "theory",
-    "dictionary",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "dictionary", "tonal"],
   "scripts": {
     "test": "jest --coverage"
   },

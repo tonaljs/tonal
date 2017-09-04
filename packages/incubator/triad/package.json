@@ -4,13 +4,7 @@
   "version": "0.69.7",
   "description": "Create and manipulate tertians of notes and intervals",
   "repository": "https://github.com/danigb/tonal/packages/tertian",
-  "keywords": [
-    "music",
-    "theory",
-    "tertian",
-    "chords",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "tertian", "chords", "tonal"],
   "scripts": {
     "test": "jest --coverage"
   },

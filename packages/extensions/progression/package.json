@@ -3,12 +3,7 @@
   "version": "0.69.9",
   "description": "Create chord progression",
   "repository": "https://github.com/danigb/tonal/packages/progression",
-  "keywords": [
-    "music",
-    "theory",
-    "progression",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "progression", "tonal"],
   "scripts": {
     "test": "jest --coverage"
   },

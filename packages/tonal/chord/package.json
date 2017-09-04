@@ -3,12 +3,7 @@
   "version": "0.69.9",
   "description": "Music chords creation and manipulation",
   "repository": "https://github.com/danigb/tonal/packages/chord",
-  "keywords": [
-    "music",
-    "theory",
-    "chord",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "chord", "tonal"],
   "scripts": {
     "test": "jest --coverage"
   },

@@ -2,16 +2,12 @@
   "name": "tonal-pcset",
   "version": "0.69.9",
   "description": "Pitch class sets",
-  "keywords": [
-    "music",
-    "theory",
-    "pitch class",
-    "sets",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "pitch class", "sets", "tonal"],
   "scripts": {
-    "pretest": "rollup -c ../../../rollup.config.js -o build/index.js -- index.js",
-    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "pretest":
+      "rollup -c ../../../rollup.config.js -o build/index.js -- index.js",
+    "docs":
+      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/index.js",

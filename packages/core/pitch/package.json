@@ -2,12 +2,7 @@
   "name": "tonal-pitch",
   "version": "0.69.7",
   "description": "Music pitch utilities",
-  "keywords": [
-    "music",
-    "theory",
-    "pitch",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "pitch", "tonal"],
   "scripts": {
     "test": "jest --coverage"
   },

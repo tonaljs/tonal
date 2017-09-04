@@ -12,11 +12,7 @@
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
-  "keywords": [
-    "music",
-    "tonal",
-    "theory"
-  ],
+  "keywords": ["music", "tonal", "theory"],
   "author": "danigb",
   "license": "MIT",
   "dependencies": {

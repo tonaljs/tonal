@@ -2,12 +2,7 @@
   "name": "tonal-filter",
   "version": "0.69.6",
   "description": "DEPRECATED",
-  "keywords": [
-    "music",
-    "theory",
-    "filter",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "filter", "tonal"],
   "scripts": {
     "test": "jest --coverage"
   },

@@ -3,11 +3,7 @@
   "version": "0.69.9",
   "description": "Conversion between key numbers and note names",
   "repository": "https://github.com/danigb/tonal/packages/key",
-  "keywords": [
-    "note",
-    "key",
-    "tonal"
-  ],
+  "keywords": ["note", "key", "tonal"],
   "scripts": {
     "test": "jest --coverage"
   },

@@ -4,7 +4,7 @@
   "main": "dist/tonal.min.js",
   "scripts": {
     "init": "lerna clean && lerna bootstrap && npm run build",
-    "format": "prettier --write packages/**/*.js",
+    "format": "prettier --write \"packages/**/{*.js,*.json}\"",
     "prebuild": "npm run format && lerna bootstrap",
     "build": "lerna exec -- rollup -c ../../../rollup.config.js -- index.js",
     "dist": "rollup --config rollup.config.dist.js && ls -hall dist/*",

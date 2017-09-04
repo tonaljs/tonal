@@ -2,12 +2,7 @@
   "name": "tonal-fretboard",
   "version": "0.69.9",
   "description": "Filter notes",
-  "keywords": [
-    "music",
-    "theory",
-    "fretboard",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "fretboard", "tonal"],
   "scripts": {
     "test": "jest --coverage"
   },

@@ -2,12 +2,7 @@
   "name": "tonal-range",
   "version": "0.69.9",
   "description": "Create ranges of notes",
-  "keywords": [
-    "music",
-    "theory",
-    "range",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "range", "tonal"],
   "scripts": {
     "test": "jest --coverage"
   },

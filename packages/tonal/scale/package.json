@@ -3,12 +3,7 @@
   "version": "0.69.9",
   "description": "Music scales creation and manipulation",
   "repository": "https://github.com/danigb/tonal/packages/scale",
-  "keywords": [
-    "music",
-    "theory",
-    "scale",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "scale", "tonal"],
   "scripts": {
     "test": "jest --coverage"
   },
