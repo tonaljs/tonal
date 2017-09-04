@@ -12,13 +12,15 @@
  * scale.detect('f5 d2 c5 b5 a2 e4 g') // => [ 'C major', 'D dorian', 'E phrygian', 'F lydian', 'G mixolydian', 'A aeolian', 'B locrian'])
  * @module scale
  */
-import { dictionary, detector } from 'tonal-dictionary'
-import { map, compact } from 'tonal-array'
-import { pc, name as note } from 'tonal-note'
-import { harmonize } from 'tonal-harmonizer'
-import DATA from './scales.json'
+import { dictionary, detector } from "tonal-dictionary";
+import { map, compact } from "tonal-array";
+import { pc, name as note } from "tonal-note";
+import { harmonize } from "tonal-harmonizer";
+import DATA from "./scales.json";
 
-var dict = dictionary(DATA, function (str) { return str.split(' ') })
+var dict = dictionary(DATA, function(str) {
+  return str.split(" ");
+});
 
 /**
  * Transpose the given scale notes, intervals or name to a given tonic.
@@ -38,10 +40,13 @@ var dict = dictionary(DATA, function (str) { return str.split(' ') })
  * var major = scale.get('major')
  * major('Db3') // => [ 'Db3', 'Eb3', 'F3', 'Gb3', 'Ab3', 'Bb3', 'C4' ]
  */
-export function get (type, tonic) {
-  if (arguments.length === 1) return function (t) { return get(type, t) }
-  var ivls = dict.get(type)
-  return ivls ? harmonize(ivls, tonic) : null
+export function get(type, tonic) {
+  if (arguments.length === 1)
+    return function(t) {
+      return get(type, t);
+    };
+  var ivls = dict.get(type);
+  return ivls ? harmonize(ivls, tonic) : null;
 }
 
 /**
@@ -55,7 +60,7 @@ export function get (type, tonic) {
  * var scale = require('tonal-scale')
  * scale.names() // => ['maj7', ...]
  */
-export var names = dict.keys
+export var names = dict.keys;
 
 /**
  * Get the notes (pitch classes) of a scale. It accepts either a scale name
@@ -73,14 +78,19 @@ export var names = dict.keys
  * scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
  * scale.notes('C4 D6 E2 c7 a2 b5 g2 g4 f') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
  */
-export function notes (name) {
-  var scale = parse(name)
-  var notes = scale.tonic ? get(scale.type, pc(scale.tonic)) : null
-  return notes || compact(map(pc, name).map(function (n, i, arr) {
-    // check for duplicates
-    // TODO: sort but preserving the root
-    return arr.indexOf(n) < i ? null : n
-  }))
+export function notes(name) {
+  var scale = parse(name);
+  var notes = scale.tonic ? get(scale.type, pc(scale.tonic)) : null;
+  return (
+    notes ||
+    compact(
+      map(pc, name).map(function(n, i, arr) {
+        // check for duplicates
+        // TODO: sort but preserving the root
+        return arr.indexOf(n) < i ? null : n;
+      })
+    )
+  );
 }
 
 /**
@@ -95,9 +105,9 @@ export function notes (name) {
  * @example
  * scale.intervals('C major')
  */
-export function intervals (name) {
-  var scale = parse(name)
-  return get(scale.type, false) || []
+export function intervals(name) {
+  var scale = parse(name);
+  return get(scale.type, false) || [];
 }
 
 /**
@@ -109,8 +119,8 @@ export function intervals (name) {
  * scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
  * scale.intervals('mixophrygian') // => null
  */
-export function isKnowScale (name) {
-  return intervals(name).length > 0
+export function isKnowScale(name) {
+  return intervals(name).length > 0;
 }
 
 /**
@@ -127,12 +137,12 @@ export function isKnowScale (name) {
  * scale.parse('C mixoblydean') // => { tonic: 'C', type: 'mixoblydean' }
  * scale.parse('anything is valid') // => { tonic: false, type: 'anything is valid'}
  */
-export function parse (str) {
-  if (typeof str !== 'string') return null
-  var i = str.indexOf(' ')
-  var tonic = note(str.substring(0, i)) || false
-  var type = tonic ? str.substring(i + 1) : str
-  return { tonic: tonic, type: type }
+export function parse(str) {
+  if (typeof str !== "string") return null;
+  var i = str.indexOf(" ");
+  var tonic = note(str.substring(0, i)) || false;
+  var type = tonic ? str.substring(i + 1) : str;
+  return { tonic: tonic, type: type };
 }
 
 /**
@@ -146,4 +156,4 @@ export function parse (str) {
  * scale.detect('b g f# d') // => [ 'GMaj7' ]
  * scale.detect('e c a g') // => [ 'CM6', 'Am7' ]
  */
-export var detect = detector(dict, ' ')
+export var detect = detector(dict, " ");

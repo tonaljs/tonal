@@ -6,7 +6,7 @@
  *
  * @module pitchset
  */
-import { sort } from 'tonal-array'
+import { sort } from "tonal-array";
 
 /**
  * Get the notes of a pitch set. The notes in the set are sorted in asceding
@@ -20,8 +20,8 @@ import { sort } from 'tonal-array'
  * @example
  * pitchset.notes('C4 c3 C5 c4') // => ['C3', 'C4', 'C5']
  */
-export function notes (notes) {
-  return sort(notes).filter(function (n, i, arr) {
-    return i === 0 || n !== arr[i - 1]
-  })
+export function notes(notes) {
+  return sort(notes).filter(function(n, i, arr) {
+    return i === 0 || n !== arr[i - 1];
+  });
 }

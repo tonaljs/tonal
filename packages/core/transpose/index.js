@@ -11,18 +11,27 @@
  *
  * @module transpose
  */
-import { pitch, pType, fifths, focts, height, isPC,
-  asPitch, isIvlPitch, strPitch } from 'tonal-pitch'
+import {
+  pitch,
+  pType,
+  fifths,
+  focts,
+  height,
+  isPC,
+  asPitch,
+  isIvlPitch,
+  strPitch
+} from "tonal-pitch";
 
-function trBy (i, p) {
-  var t = pType(p)
-  if (!t) return null
-  var f = fifths(i) + fifths(p)
-  if (isPC(p)) return ['tnlp', [f]]
-  var o = focts(i) + focts(p)
-  if (t === 'note') return ['tnlp', [f, o]]
-  var d = height(i) + height(p) < 0 ? -1 : 1
-  return ['tnlp', [d * f, d * o], d]
+function trBy(i, p) {
+  var t = pType(p);
+  if (!t) return null;
+  var f = fifths(i) + fifths(p);
+  if (isPC(p)) return ["tnlp", [f]];
+  var o = focts(i) + focts(p);
+  if (t === "note") return ["tnlp", [f, o]];
+  var d = height(i) + height(p) < 0 ? -1 : 1;
+  return ["tnlp", [d * f, d * o], d];
 }
 
 /**
@@ -45,13 +54,15 @@ function trBy (i, p) {
  * // can be partially applied
  * _.map(_.transpose('3M'), 'c d e f g') // => ['E', 'F#', 'G#', 'A', 'B']
  */
-export function transpose (a, b) {
-  if (arguments.length === 1) return function (b) { return transpose(a, b) }
-  var pa = asPitch(a)
-  var pb = asPitch(b)
-  var r = isIvlPitch(pa) ? trBy(pa, pb)
-    : isIvlPitch(pb) ? trBy(pb, pa) : null
-  return a === pa && b === pb ? r : strPitch(r)
+export function transpose(a, b) {
+  if (arguments.length === 1)
+    return function(b) {
+      return transpose(a, b);
+    };
+  var pa = asPitch(a);
+  var pb = asPitch(b);
+  var r = isIvlPitch(pa) ? trBy(pa, pb) : isIvlPitch(pb) ? trBy(pb, pa) : null;
+  return a === pa && b === pb ? r : strPitch(r);
 }
 
 /**
@@ -67,9 +78,9 @@ export function transpose (a, b) {
  * // or using tonal
  * tonal.trFifths('G4', 1) // => 'D5'
  */
-export function trFifths (t, n) {
-  if (arguments.length > 1) return trFifths(t)(n)
-  return function (n) {
-    return transpose(t, pitch(n, 0, 1))
-  }
+export function trFifths(t, n) {
+  if (arguments.length > 1) return trFifths(t)(n);
+  return function(n) {
+    return transpose(t, pitch(n, 0, 1));
+  };
 }

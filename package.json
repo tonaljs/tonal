@@ -4,10 +4,12 @@
   "main": "dist/tonal.min.js",
   "scripts": {
     "init": "lerna clean && lerna bootstrap && npm run build",
-    "prebuild": "lerna bootstrap",
-    "build": "lerna exec -- rollup -c ../../../rollup.config.js -o build/index.js -- index.js",
+    "format": "prettier --write packages/**/*.js",
+    "prebuild": "npm run format && lerna bootstrap",
+    "build": "lerna exec -- rollup -c ../../../rollup.config.js -- index.js",
     "dist": "rollup --config rollup.config.dist.js && ls -hall dist/*",
-    "prepublish": "npm run test && npm run dist && cp README.md ./packages/tonal/",
+    "prepublish":
+      "npm run test && npm run dist && cp README.md ./packages/tonal/",
     "pretest": "npm run build",
     "test": "jest --coverage --no-cache",
     "docs": "lerna run docs",
@@ -21,26 +23,18 @@
   "author": "danigb@gmail.com",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^3.14.1",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-node": "^4.2.2",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1",
     "jest": "^20.0.0",
-    "lerna": "2.0.0",
-    "postman-jsdoc-theme": "0.0.2",
-    "rollup": "^0.43.0",
-    "rollup-plugin-commonjs": "^8.0.2",
+    "lerna": "2.1.2",
+    "postman-jsdoc-theme": "0.0.3",
+    "prettier": "^1.6.1",
+    "rollup": "^0.49.2",
+    "rollup-plugin-commonjs": "^8.2.0",
     "rollup-plugin-json": "^2.1.1",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.0"
   },
   "standard": {
-    "ignore": [
-      "dist/*",
-      "build/*"
-    ]
+    "ignore": ["dist/*", "build/*"]
   },
   "dependencies": {}
 }

@@ -4,6 +4,10 @@
 
 A toward 1.0 release
 
+## 0.69.9
+
+- Remove standard code style and use prettier
+
 ## 0.69.8
 
 - `dictionary` module uses `pcset.nodes` instead of `pcset.chromaModes`

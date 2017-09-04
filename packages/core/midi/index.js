@@ -15,7 +15,7 @@
  * @module midi
  */
 
-import { midi } from 'note-parser'
+import { midi } from "note-parser";
 
 /**
  * Convert the given note to a midi note number. If you pass a midi number it
@@ -28,13 +28,14 @@ import { midi } from 'note-parser'
  * midi.toMidi(60) // => 60
  * midi.toMidi('60') // => 60
  */
-export function toMidi (val) {
-  if (Array.isArray(val) && val.length === 2) return val[0] * 7 + val[1] * 12 + 12
-  return midi(val)
+export function toMidi(val) {
+  if (Array.isArray(val) && val.length === 2)
+    return val[0] * 7 + val[1] * 12 + 12;
+  return midi(val);
 }
 
-var FLATS = 'C Db D Eb E F Gb G Ab A Bb B'.split(' ')
-var SHARPS = 'C C# D D# E F F# G G# A A# B'.split(' ')
+var FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
+var SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
 
 /**
  * Given a midi number, returns a note name. The altered notes will have
@@ -51,11 +52,14 @@ var SHARPS = 'C C# D D# E F F# G G# A A# B'.split(' ')
  * // it rounds to nearest note
  * midi.note(61.7) // => 'D4'
  */
-export function note (num, sharps) {
-  if (num === true || num === false) return function (m) { return note(m, num) }
-  num = Math.round(num)
-  var pcs = sharps === true ? SHARPS : FLATS
-  var pc = pcs[num % 12]
-  var o = Math.floor(num / 12) - 1
-  return pc + o
+export function note(num, sharps) {
+  if (num === true || num === false)
+    return function(m) {
+      return note(m, num);
+    };
+  num = Math.round(num);
+  var pcs = sharps === true ? SHARPS : FLATS;
+  var pc = pcs[num % 12];
+  var o = Math.floor(num / 12) - 1;
+  return pc + o;
 }

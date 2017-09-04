@@ -11,14 +11,16 @@
  *
  * @module chord
  */
-import { dictionary, detector } from 'tonal-dictionary'
-import { map, compact, permutations, rotate } from 'tonal-array'
-import { pc, name as note } from 'tonal-note'
-import { regex } from 'note-parser'
-import { harmonize, intervallic } from 'tonal-harmonizer'
-import DATA from './chords.json'
+import { dictionary, detector } from "tonal-dictionary";
+import { map, compact, permutations, rotate } from "tonal-array";
+import { pc, name as note } from "tonal-note";
+import { regex } from "note-parser";
+import { harmonize, intervallic } from "tonal-harmonizer";
+import DATA from "./chords.json";
 
-var dict = dictionary(DATA, function (str) { return str.split(' ') })
+var dict = dictionary(DATA, function(str) {
+  return str.split(" ");
+});
 
 /**
  * Return the available chord names
@@ -31,7 +33,7 @@ var dict = dictionary(DATA, function (str) { return str.split(' ') })
  * var chord = require('tonal-chord')
  * chord.names() // => ['maj7', ...]
  */
-export var names = dict.keys
+export var names = dict.keys;
 
 /**
  * Get chord notes or intervals from chord type
@@ -47,10 +49,13 @@ export var names = dict.keys
  * maj7 = chords.get('Maj7')
  * maj7('C') // => ['C', 'E', 'G', 'B']
  */
-export function get (type, tonic) {
-  if (arguments.length === 1) return function (t) { return get(type, t) }
-  var ivls = dict.get(type)
-  return ivls ? harmonize(ivls, tonic) : null
+export function get(type, tonic) {
+  if (arguments.length === 1)
+    return function(t) {
+      return get(type, t);
+    };
+  var ivls = dict.get(type);
+  return ivls ? harmonize(ivls, tonic) : null;
 }
 
 /**
@@ -65,10 +70,10 @@ export function get (type, tonic) {
  * @example
  * chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
  */
-export function notes (chord) {
-  var p = parse(chord)
-  var ivls = dict.get(p.type)
-  return ivls ? harmonize(ivls, p.tonic) : compact(map(note, chord))
+export function notes(chord) {
+  var p = parse(chord);
+  var ivls = dict.get(p.type);
+  return ivls ? harmonize(ivls, p.tonic) : compact(map(note, chord));
 }
 
 /**
@@ -77,9 +82,9 @@ export function notes (chord) {
  * @param {String} name - the chord name (optionally a tonic and type)
  * @return {Array<String>} a list of intervals or null if the type is not known
  */
-export function intervals (name) {
-  var p = parse(name)
-  return dict.get(p.type) || []
+export function intervals(name) {
+  var p = parse(name);
+  return dict.get(p.type) || [];
 }
 
 /**
@@ -91,8 +96,8 @@ export function intervals (name) {
  * chord.isKnownChord('Maj7') // => true
  * chord.isKnownChord('Ablah') // => false
  */
-export function isKnownChord (name) {
-  return intervals(name).length > 0
+export function isKnownChord(name) {
+  return intervals(name).length > 0;
 }
 
 /**
@@ -106,7 +111,7 @@ export function isKnownChord (name) {
  * chord.detect('b g f# d') // => [ 'GMaj7' ]
  * chord.detect('e c a g') // => [ 'CM6', 'Am7' ]
  */
-export var detect = detector(dict, '')
+export var detect = detector(dict, "");
 
 /**
  * Get the position (inversion number) of a chord (0 is root position, 1 is first
@@ -120,10 +125,10 @@ export var detect = detector(dict, '')
  * chord.position('e g c') // => 1
  * chord.position('g3 e2 c5') // => 1 (e is the lowest note)
  */
-export function position (chord) {
-  var pcs = map(pc, chord)
-  var sorted = sortTriads(pcs)
-  return sorted ? sorted.indexOf(pcs[0]) : null
+export function position(chord) {
+  var pcs = map(pc, chord);
+  var sorted = sortTriads(pcs);
+  return sorted ? sorted.indexOf(pcs[0]) : null;
 }
 
 /**
@@ -140,26 +145,29 @@ export function position (chord) {
  * chord.inversion(1, 'Cmaj7') // => [ 'E', 'G', 'B', 'C' ]
  * chord.inversion(0, 'e g c') // => [ 'C', 'E', 'G' ]
  */
-export function inversion (num, chord) {
-  if (arguments.length === 1) return function (c) { return inversion(num, c) }
-  var sorted = sortTriads(chord)
-  return sorted ? rotate(num, sorted) : []
+export function inversion(num, chord) {
+  if (arguments.length === 1)
+    return function(c) {
+      return inversion(num, c);
+    };
+  var sorted = sortTriads(chord);
+  return sorted ? rotate(num, sorted) : [];
 }
 
-function sortTriads (chord) {
-  var all = permutations(notes(chord).map(pc))
+function sortTriads(chord) {
+  var all = permutations(notes(chord).map(pc));
   for (var i = 0; i < all.length; i++) {
-    var ivls = intervallic(all[i])
-    if (areTriads(ivls)) return all[i]
+    var ivls = intervallic(all[i]);
+    if (areTriads(ivls)) return all[i];
   }
-  return null
+  return null;
 }
 
-function areTriads (list) {
+function areTriads(list) {
   for (var i = 0; i < list.length; i++) {
-    if (list[i][0] !== '3') return false
+    if (list[i][0] !== "3") return false;
   }
-  return true
+  return true;
 }
 
 /**
@@ -178,13 +186,15 @@ function areTriads (list) {
  * chord.parse('mMaj7') // => { tonic: false, type: 'mMaj7' }
  * chord.parse('Cnonsense') // => { tonic: 'C', type: 'nonsense' }
  */
-export function parse (name) {
-  var p = regex().exec(name)
-  if (!p) return { type: name, tonic: false }
+export function parse(name) {
+  var p = regex().exec(name);
+  if (!p) return { type: name, tonic: false };
 
   // If chord name is empty, the octave is the chord name
-  return !p[4] ? { type: p[3], tonic: p[1] + p[2] }
-    // If the octave is 6 or 7 is asumed to be part of the chord name
-    : (p[3] === '7' || p[3] === '6') ? { type: p[3] + p[4], tonic: p[1] + p[2] }
-    : { type: p[4], tonic: p[1] + p[2] + p[3] }
+  return !p[4]
+    ? { type: p[3], tonic: p[1] + p[2] }
+    : // If the octave is 6 or 7 is asumed to be part of the chord name
+      p[3] === "7" || p[3] === "6"
+      ? { type: p[3] + p[4], tonic: p[1] + p[2] }
+      : { type: p[4], tonic: p[1] + p[2] + p[3] };
 }

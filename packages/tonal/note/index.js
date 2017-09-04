@@ -30,16 +30,16 @@
  *
  * @module note
  */
-import { build, parse } from 'note-parser'
-import { fifths, asNotePitch, strNote, parseIvl, decode } from 'tonal-pitch'
-import { transpose as tr } from 'tonal-transpose'
-import { toMidi, note as midiToNote } from 'tonal-midi'
-import { toFreq } from 'tonal-freq'
+import { build, parse } from "note-parser";
+import { fifths, asNotePitch, strNote, parseIvl, decode } from "tonal-pitch";
+import { transpose as tr } from "tonal-transpose";
+import { toMidi, note as midiToNote } from "tonal-midi";
+import { toFreq } from "tonal-freq";
 
-var cache = {}
-function parseNote (name) {
-  if (typeof name !== 'string') return null
-  return cache[name] || (cache[name] = parse(name))
+var cache = {};
+function parseNote(name) {
+  if (typeof name !== "string") return null;
+  return cache[name] || (cache[name] = parse(name));
 }
 
 /**
@@ -53,7 +53,7 @@ function parseNote (name) {
  * note.midi('C4') // => 60
  * @see midi.toMidi
  */
-export var midi = toMidi
+export var midi = toMidi;
 
 /**
  * Get the note name of a given midi note number
@@ -67,7 +67,7 @@ export var midi = toMidi
  * note.fromMidi(60) // => 'C4'
  * @see midi.note
  */
-export var fromMidi = midiToNote
+export var fromMidi = midiToNote;
 
 /**
  * Get the frequency of a note
@@ -80,7 +80,7 @@ export var fromMidi = midiToNote
  * note.freq('A4') // => 440
  * @see freq.toFreq
  */
-export var freq = toFreq
+export var freq = toFreq;
 
 /**
  * Return the chroma of a note. The chroma is the numeric equivalent to the
@@ -93,9 +93,9 @@ export var freq = toFreq
  * note.chroma('Cb') // => 11
  * ['C', 'D', 'E', 'F'].map(note.chroma) // => [0, 2, 4, 5]
  */
-export function chroma (n) {
-  var p = parseNote(n)
-  return p ? p.chroma : null
+export function chroma(n) {
+  var p = parseNote(n);
+  return p ? p.chroma : null;
 }
 
 /**
@@ -114,9 +114,9 @@ export function chroma (n) {
  * note.name('cb2') // => 'Cb2'
  * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
  */
-export function name (n) {
-  var p = asNotePitch(n)
-  return p ? strNote(p) : null
+export function name(n) {
+  var p = asNotePitch(n);
+  return p ? strNote(p) : null;
 }
 
 /**
@@ -124,9 +124,9 @@ export function name (n) {
  * An alias for note. Get the name of a note in scientific notation
  * @function
  */
-export function note (n) {
-  console.warn('note.note() is deprecated. Use note.name()')
-  return name(n)
+export function note(n) {
+  console.warn("note.note() is deprecated. Use note.name()");
+  return name(n);
 }
 
 /**
@@ -143,12 +143,14 @@ export function note (n) {
  * note.props('Db3') // => { step: 1, alt: -1, oct: 3 }
  * note.props('C#') // => { step: 0, alt: 1, oct: undefined }
  */
-export function props (n) {
-  console.warn('note.props() is deprecated. Use: note.step(), note.alt() or note.oct()')
-  var p = asNotePitch(n)
-  if (!p) return null
-  var d = decode(p)
-  return { step: d[0], alt: d[1], oct: d[2] }
+export function props(n) {
+  console.warn(
+    "note.props() is deprecated. Use: note.step(), note.alt() or note.oct()"
+  );
+  var p = asNotePitch(n);
+  if (!p) return null;
+  var d = decode(p);
+  return { step: d[0], alt: d[1], oct: d[2] };
 }
 
 /**
@@ -167,13 +169,16 @@ export function props (n) {
  * note.fromProps({ step: 1, alt: -1, oct: 5 }) // => 'Db5'
  * note.fromProps({ step: 0, alt: 1 }) // => 'C#'
  */
-export function fromProps (props) {
-  console.warn('note.fromProps() is deprecated. See npm package note-parser.')
-  return props ? build(props.step, props.alt, props.oct) : null
+export function fromProps(props) {
+  console.warn("note.fromProps() is deprecated. See npm package note-parser.");
+  return props ? build(props.step, props.alt, props.oct) : null;
 }
 
-function getProp (name) {
-  return function (n) { var p = props(n); return p ? p[name] : null }
+function getProp(name) {
+  return function(n) {
+    var p = props(n);
+    return p ? p[name] : null;
+  };
 }
 
 /**
@@ -188,7 +193,7 @@ function getProp (name) {
  * note.oct('C') // => undefined
  * note.oct('blah') // => undefined
  */
-export var oct = getProp('oct')
+export var oct = getProp("oct");
 
 /**
  * Get the note step: a number equivalent of the note letter. 0 means C and
@@ -203,7 +208,7 @@ export var oct = getProp('oct')
  * // usually what you need is chroma
  * note.chroma('Cb') // => 6
  */
-export var step = getProp('step')
+export var step = getProp("step");
 
 /**
  * @deprecated
@@ -213,9 +218,9 @@ export var step = getProp('step')
  * @param {String|Pitch} note - the note (can be a pitch class)
  * @return {Integer} the number of fifths to reach that pitch class from 'C'
  */
-export function pcFifths (note) {
-  var p = asNotePitch(note)
-  return p ? fifths(p) : null
+export function pcFifths(note) {
+  var p = asNotePitch(note);
+  return p ? fifths(p) : null;
 }
 
 /**
@@ -230,7 +235,7 @@ export function pcFifths (note) {
  * note.alt('C#') // => 1
  * note.alt('Cb') // => -1
  */
-export var alt = getProp('alt')
+export var alt = getProp("alt");
 
 /**
  * Get pitch class of a note. The note can be a string or a pitch array.
@@ -242,13 +247,13 @@ export var alt = getProp('alt')
  * tonal.pc('Db3') // => 'Db'
  * tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
  */
-export function pc (n) {
-  var p = asNotePitch(n)
-  return p ? strNote([ p[0], [ fifths(p) ] ]) : null
+export function pc(n) {
+  var p = asNotePitch(n);
+  return p ? strNote([p[0], [fifths(p)]]) : null;
 }
 
-var ASC = parseIvl('2d')
-var DESC = parseIvl('-2d')
+var ASC = parseIvl("2d");
+var DESC = parseIvl("-2d");
 
 /**
  * Get the enharmonics of a note. It returns an array of three elements: the
@@ -264,13 +269,13 @@ var DESC = parseIvl('-2d')
  * note.enharmonics('C#4') // => ['B##3', 'C#4' 'Db4']
  * note.enharmonics('Db') // => ['C#', 'Db', 'Ebbb'])
  */
-export function enharmonics (pitch) {
-  var notes = []
-  notes.push(tr(DESC, pitch))
-  if (notes[0] === null) return null
-  notes.push(pitch)
-  notes.push(tr(ASC, pitch))
-  return notes
+export function enharmonics(pitch) {
+  var notes = [];
+  notes.push(tr(DESC, pitch));
+  if (notes[0] === null) return null;
+  notes.push(pitch);
+  notes.push(tr(ASC, pitch));
+  return notes;
 }
 
 /**
@@ -283,9 +288,9 @@ export function enharmonics (pitch) {
  * var note = require('tonal-note')
  * note.simplify('B#3') // => 'C4'
  */
-export function simplify (pitch) {
-  return enharmonics(pitch).reduce(function (simple, next) {
-    if (!simple) return next
-    return simple.length > next.length ? next : simple
-  }, null)
+export function simplify(pitch) {
+  return enharmonics(pitch).reduce(function(simple, next) {
+    if (!simple) return next;
+    return simple.length > next.length ? next : simple;
+  }, null);
 }

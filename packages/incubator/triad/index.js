@@ -4,17 +4,15 @@
  *
  * @module triad
  */
-import { permutations } from 'tonal-array'
-import { transpose } from 'tonal-transpose'
+import { permutations } from "tonal-array";
+import { transpose } from "tonal-transpose";
 
 /**
  * Given a scale, return a triadic structure starting from the root of the scale
  * For example, given "c d e f g a b" returns "Mm"
  * @param {Array} scale - the scale
  */
-export function fromScale (scale, steps = 2) {
-
-}
+export function fromScale(scale, steps = 2) {}
 
 /**
  * Given a triad structure, return the intervals
@@ -25,20 +23,23 @@ export function fromScale (scale, steps = 2) {
  * @example
  * triad.intervals('Mmm') // => [ '1P', '3M', '5P', '7m' ]
  */
-export function intervals (st) {
-  var inner = st.split('').map((t) => t === 'm' ? '3m' : '3M')
-  return inner.reduce(function (ivls, v) {
-    ivls.push(transpose(v, ivls[ivls.length - 1]))
-    return ivls
-  }, ['1P'])
+export function intervals(st) {
+  var inner = st.split("").map(t => (t === "m" ? "3m" : "3M"));
+  return inner.reduce(
+    function(ivls, v) {
+      ivls.push(transpose(v, ivls[ivls.length - 1]));
+      return ivls;
+    },
+    ["1P"]
+  );
 }
 
-export function allFor (st) {
-  return sortedSet(permutations(st.split('')).map((s) => s.join('')))
+export function allFor(st) {
+  return sortedSet(permutations(st.split("")).map(s => s.join("")));
 }
 
-function sortedSet (arr) {
-  return arr.sort().filter(function (v, i) {
-    return i === 0 || v !== arr[i - 1]
-  })
+function sortedSet(arr) {
+  return arr.sort().filter(function(v, i) {
+    return i === 0 || v !== arr[i - 1];
+  });
 }

@@ -1,11 +1,14 @@
-import json from 'rollup-plugin-json'
+import json from "rollup-plugin-json";
 
 export default {
-  format: 'cjs',
+  output: {
+    file: "build/index.js",
+    format: "cjs"
+  },
   preferConst: false,
   plugins: [
     json({
       preferConst: false
     })
   ]
-}
+};

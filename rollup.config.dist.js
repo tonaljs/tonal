@@ -1,12 +1,15 @@
-import resolve from 'rollup-plugin-node-resolve'
-import json from 'rollup-plugin-json'
-import uglify from 'rollup-plugin-uglify'
+import resolve from "rollup-plugin-node-resolve";
+import json from "rollup-plugin-json";
+import uglify from "rollup-plugin-uglify";
 
 export default {
-  entry: './packages/core/tonal/index.js',
-  format: 'umd',
-  dest: './dist/tonal.min.js',
-  moduleName: 'Tonal',
+  input: "./packages/core/tonal/index.js",
+  output: {
+    format: "umd",
+    file: "./dist/tonal.min.js",
+    name: "Tonal",
+    sourcemap: true
+  },
   preferConst: false,
   plugins: [
     json({
@@ -19,4 +22,4 @@ export default {
     }),
     uglify()
   ]
-}
+};

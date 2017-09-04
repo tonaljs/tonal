@@ -1,1 +1,2 @@
-module.exports = 'This module has been renamed: https://www.npmjs.com/package/tonal-key'
+module.exports =
+  "This module has been renamed: https://www.npmjs.com/package/tonal-key";

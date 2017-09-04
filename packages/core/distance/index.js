@@ -13,16 +13,24 @@
  *
  * @module distance
  */
-import { isPC, fifths, focts, pitch, height, asPitch, strIvl } from 'tonal-pitch'
+import {
+  isPC,
+  fifths,
+  focts,
+  pitch,
+  height,
+  asPitch,
+  strIvl
+} from "tonal-pitch";
 
 // substract two pitches
-function substr (a, b) {
-  if (!a || !b || a[1].length !== b[1].length) return null
-  var f = fifths(b) - fifths(a)
-  if (isPC(a)) return pitch(f, -Math.floor(f * 7 / 12), 1)
-  var o = focts(b) - focts(a)
-  var d = height(b) - height(a) < 0 ? -1 : 1
-  return pitch(d * f, d * o, d)
+function substr(a, b) {
+  if (!a || !b || a[1].length !== b[1].length) return null;
+  var f = fifths(b) - fifths(a);
+  if (isPC(a)) return pitch(f, -Math.floor(f * 7 / 12), 1);
+  var o = focts(b) - focts(a);
+  var d = height(b) - height(a) < 0 ? -1 : 1;
+  return pitch(d * f, d * o, d);
 }
 
 /**
@@ -44,13 +52,16 @@ function substr (a, b) {
  * var tonal = require('tonal')
  * tonal.distance.interval('M2', 'P5') // => 'P4'
  */
-export function interval (a, b) {
-  if (arguments.length === 1) return function (b) { return interval(a, b) }
-  var pa = asPitch(a)
-  var pb = asPitch(b)
-  var i = substr(pa, pb)
+export function interval(a, b) {
+  if (arguments.length === 1)
+    return function(b) {
+      return interval(a, b);
+    };
+  var pa = asPitch(a);
+  var pb = asPitch(b);
+  var i = substr(pa, pb);
   // if a and b are in array notation, no conversion back
-  return a === pa && b === pb ? i : strIvl(i)
+  return a === pa && b === pb ? i : strIvl(i);
 }
 
 /**
@@ -64,7 +75,7 @@ export function interval (a, b) {
  * // or use tonal
  * tonal.distance.semitones('C3', 'G3') // => 7
  */
-export function semitones (a, b) {
-  var i = substr(asPitch(a), asPitch(b))
-  return i ? height(i) : null
+export function semitones(a, b) {
+  var i = substr(asPitch(a), asPitch(b));
+  return i ? height(i) : null;
 }

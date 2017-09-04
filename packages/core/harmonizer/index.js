@@ -23,9 +23,9 @@
  *
  * @module harmonizer
  */
-import { transpose as tr } from 'tonal-transpose'
-import { interval } from 'tonal-distance'
-import { asArr, map, compact } from 'tonal-array'
+import { transpose as tr } from "tonal-transpose";
+import { interval } from "tonal-distance";
+import { asArr, map, compact } from "tonal-array";
 
 /**
  * Given a list of notes, return the distance from the first note to the rest.
@@ -38,9 +38,9 @@ import { asArr, map, compact } from 'tonal-array'
  * // in tonal this functions are NOT namespaced
  * tonal.harmonics(tonal.scale('C major')) // => ['1P', ...]
  */
-export function harmonics (list) {
-  var a = asArr(list)
-  return a.length ? compact(a.map(interval(a[0]))) : a
+export function harmonics(list) {
+  var a = asArr(list);
+  return a.length ? compact(a.map(interval(a[0]))) : a;
 }
 
 /**
@@ -56,13 +56,13 @@ export function harmonics (list) {
  * harmonizer.intervallic('e g c') // => ['3m', '4P']
  * harmonizer.intervallic('c') // => []
  */
-export function intervallic (notes) {
-  var dist = []
-  notes = asArr(notes)
+export function intervallic(notes) {
+  var dist = [];
+  notes = asArr(notes);
   for (var i = 1; i < notes.length; i++) {
-    dist.push(interval(notes[i - 1], notes[i]))
+    dist.push(interval(notes[i - 1], notes[i]));
   }
-  return dist
+  return dist;
 }
 
 /**
@@ -87,9 +87,9 @@ export function intervallic (notes) {
  * var C = tonal.harmonizer('C D E')
  * C('M3') // => ['E', 'G#', 'B']
  */
-export function harmonize (list, pitch) {
-  if (arguments.length > 1) return harmonize(list)(pitch)
-  return function (tonic) {
-    return compact(map(tr(tonic || 'P1'), list))
-  }
+export function harmonize(list, pitch) {
+  if (arguments.length > 1) return harmonize(list)(pitch);
+  return function(tonic) {
+    return compact(map(tr(tonic || "P1"), list));
+  };
 }

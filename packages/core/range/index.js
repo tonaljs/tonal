@@ -18,22 +18,33 @@
  g
  * @module range
  */
-import { asArr, map } from 'tonal-array'
-import { trFifths } from 'tonal-transpose'
-import { toMidi, note } from 'tonal-midi'
-import { filter } from 'tonal-pcset'
+import { asArr, map } from "tonal-array";
+import { trFifths } from "tonal-transpose";
+import { toMidi, note } from "tonal-midi";
+import { filter } from "tonal-pcset";
 
-function isNum (n) { return typeof n === 'number' }
+function isNum(n) {
+  return typeof n === "number";
+}
 // convert notes to midi if needed
-function asNum (n) { return isNum(n) ? n : toMidi(n) }
+function asNum(n) {
+  return isNum(n) ? n : toMidi(n);
+}
 // ascending range
-function ascR (b, n) { for (var a = []; n--; a[n] = n + b); return a }
+function ascR(b, n) {
+  for (var a = []; n--; a[n] = n + b);
+  return a;
+}
 // descending range
-function descR (b, n) { for (var a = []; n--; a[n] = b - n); return a }
+function descR(b, n) {
+  for (var a = []; n--; a[n] = b - n);
+  return a;
+}
 // create a range between a and b
-function ran (a, b) {
-  return a === null || b === null ? []
-    : a < b ? ascR(a, b - a + 1) : descR(a, a - b + 1)
+function ran(a, b) {
+  return a === null || b === null
+    ? []
+    : a < b ? ascR(a, b - a + 1) : descR(a, a - b + 1);
 }
 
 /**
@@ -52,12 +63,14 @@ function ran (a, b) {
  * // can be expressed with a string or array
  * range.numeric('C2 C4 C2') === range.numeric(['C2', 'C4', 'C2'])
  */
-export function numeric (list) {
-  return asArr(list).map(asNum).reduce(function (r, n, i) {
-    if (i === 1) return ran(r, n)
-    var last = r[r.length - 1]
-    return r.concat(ran(last, n).slice(1))
-  })
+export function numeric(list) {
+  return asArr(list)
+    .map(asNum)
+    .reduce(function(r, n, i) {
+      if (i === 1) return ran(r, n);
+      var last = r[r.length - 1];
+      return r.concat(ran(last, n).slice(1));
+    });
 }
 
 /**
@@ -71,8 +84,8 @@ export function numeric (list) {
  * // with sharps
  * tonal.chromatic('C2 C3', true) // => [ 'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2', 'C3' ]
  */
-export function chromatic (list, sharps) {
-  return map(note(sharps === true), numeric(list))
+export function chromatic(list, sharps) {
+  return map(note(sharps === true), numeric(list));
 }
 
 /**
@@ -84,8 +97,8 @@ export function chromatic (list, sharps) {
  * @example
  * range.fifths('C', [0, 6]) // => [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ])
  */
-export function fifths (tonic, range) {
-  return numeric(range).map(trFifths(tonic))
+export function fifths(tonic, range) {
+  return numeric(range).map(trFifths(tonic));
 }
 
 /**
@@ -101,8 +114,11 @@ export function fifths (tonic, range) {
  * range.pitchSet('C D E F G A B', ['C3', 'C2'])
  * // => [ 'C3', 'B2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
  */
-export function pitchSet (set, range) {
-  if (arguments.length === 1) return function (l) { return pitchSet(set, l) }
+export function pitchSet(set, range) {
+  if (arguments.length === 1)
+    return function(l) {
+      return pitchSet(set, l);
+    };
 
-  return filter(set, chromatic(range))
+  return filter(set, chromatic(range));
 }

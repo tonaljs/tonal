@@ -13,33 +13,48 @@
  * @module key
  */
 
-import { areFlats, areSharps, toAcc } from 'tonal-notation'
-import { trFifths } from 'tonal-transpose'
-import { pc, pcFifths } from 'tonal-note'
-import { numeric } from 'tonal-range'
-import { rotate } from 'tonal-array'
-import { harmonics, harmonize } from 'tonal-harmonizer'
+import { areFlats, areSharps, toAcc } from "tonal-notation";
+import { trFifths } from "tonal-transpose";
+import { pc, pcFifths } from "tonal-note";
+import { numeric } from "tonal-range";
+import { rotate } from "tonal-array";
+import { harmonics, harmonize } from "tonal-harmonizer";
 
 // Order matters: use an array
-var MODES = ['ionian', 'dorian', 'phrygian', 'lydian', 'mixolydian',
-  'aeolian', 'locrian', 'major', 'minor']
+var MODES = [
+  "ionian",
+  "dorian",
+  "phrygian",
+  "lydian",
+  "mixolydian",
+  "aeolian",
+  "locrian",
+  "major",
+  "minor"
+];
 // { C: 0, D: 2, E: 4, F: -1, G: 1, A: 3, B: 5 }
-var FIFTHS = [0, 2, 4, -1, 1, 3, 5, 0, 3]
-var SCALES = [0, 1, 2, 3, 4, 5, 6, 0, 5].map(function (n) {
-  return harmonics(rotate(n, ['C', 'D', 'E', 'F', 'G', 'A', 'B']))
-})
+var FIFTHS = [0, 2, 4, -1, 1, 3, 5, 0, 3];
+var SCALES = [0, 1, 2, 3, 4, 5, 6, 0, 5].map(function(n) {
+  return harmonics(rotate(n, ["C", "D", "E", "F", "G", "A", "B"]));
+});
 
 // PRIVATE
 // Given a tonic, mode pair, return the key string
-function toKey (t, m) { return !t ? m : t + ' ' + m }
+function toKey(t, m) {
+  return !t ? m : t + " " + m;
+}
 // Given the alterations, return the major key
-function majorKey (n) { return toKey(trFifths('C', n), 'major') }
+function majorKey(n) {
+  return toKey(trFifths("C", n), "major");
+}
 // given the mode name, return the alterations
-function modeNum (mode) { return FIFTHS[MODES.indexOf(mode)] }
+function modeNum(mode) {
+  return FIFTHS[MODES.indexOf(mode)];
+}
 // given a string, return the valid mode it represents or null
-function validMode (m) {
-  m = m.trim().toLowerCase()
-  return MODES.indexOf(m) === -1 ? null : m
+function validMode(m) {
+  m = m.trim().toLowerCase();
+  return MODES.indexOf(m) === -1 ? null : m;
 }
 
 /**
@@ -54,18 +69,19 @@ function validMode (m) {
  * key.props('Ab bebop') // => null
  * key.props('blah') // => null
  */
-export function props (str) {
-  if (typeof str !== 'string') return null
-  var ndx = str.indexOf(' ')
-  var key
+export function props(str) {
+  if (typeof str !== "string") return null;
+  var ndx = str.indexOf(" ");
+  var key;
   if (ndx === -1) {
-    var p = pc(str)
-    key = p ? { tonic: p, mode: 'major' }
-      : { tonic: false, mode: validMode(str) }
+    var p = pc(str);
+    key = p
+      ? { tonic: p, mode: "major" }
+      : { tonic: false, mode: validMode(str) };
   } else {
-    key = { tonic: pc(str.slice(0, ndx)), mode: validMode(str.slice(ndx + 1)) }
+    key = { tonic: pc(str.slice(0, ndx)), mode: validMode(str.slice(ndx + 1)) };
   }
-  return key.mode ? key : null
+  return key.mode ? key : null;
 }
 
 /**
@@ -78,8 +94,8 @@ export function props (str) {
  * key.isKeyName('major') // => true
  * key.isKeyName('Bb bebop') // => false
  */
-export function isKeyName (name) {
-  return props(name) !== null
+export function isKeyName(name) {
+  return props(name) !== null;
 }
 
 /**
@@ -92,8 +108,8 @@ export function isKeyName (name) {
  * key.tonic('minor') // => false
  * key.tonic('bebop') // null
  */
-export function tonic (key) {
-  return (props(key) || key || {}).tonic || null
+export function tonic(key) {
+  return (props(key) || key || {}).tonic || null;
 }
 
 /**
@@ -106,8 +122,8 @@ export function tonic (key) {
  * key.mode('DORIAN') // => 'dorian'
  * key.mode('mixophrygian') // => null
  */
-export function mode (key) {
-  return (props(key) || key || {}).mode || null
+export function mode(key) {
+  return (props(key) || key || {}).mode || null;
 }
 
 /**
@@ -125,14 +141,17 @@ export function mode (key) {
  * minor('C major') // => 'A minor'
  * minor('E major') // => 'C# minor'
  */
-export function relative (rel, key) {
-  if (arguments.length === 1) return function (k) { return relative(rel, k) }
-  rel = props(rel)
-  if (!rel || rel.tonic) return null
-  key = props(key)
-  if (!key || !key.tonic) return null
-  var tonic = trFifths(key.tonic, modeNum(rel.mode) - modeNum(key.mode))
-  return toKey(tonic, rel.mode)
+export function relative(rel, key) {
+  if (arguments.length === 1)
+    return function(k) {
+      return relative(rel, k);
+    };
+  rel = props(rel);
+  if (!rel || rel.tonic) return null;
+  key = props(key);
+  if (!key || !key.tonic) return null;
+  var tonic = trFifths(key.tonic, modeNum(rel.mode) - modeNum(key.mode));
+  return toKey(tonic, rel.mode);
 }
 
 /**
@@ -144,11 +163,13 @@ export function relative (rel, key) {
  * var key = require('tonal-keys')
  * key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
  */
-export function alteredNotes (key) {
-  var alt = alteration(key)
-  return alt === null ? null
-    : alt < 0 ? numeric([-1, alt]).map(trFifths('F'))
-    : numeric([1, alt]).map(trFifths('B'))
+export function alteredNotes(key) {
+  var alt = alteration(key);
+  return alt === null
+    ? null
+    : alt < 0
+      ? numeric([-1, alt]).map(trFifths("F"))
+      : numeric([1, alt]).map(trFifths("B"));
 }
 
 /**
@@ -163,8 +184,8 @@ export function alteredNotes (key) {
  * key.modes(true) // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
  * // 'mixolydian', 'aeolian', 'locrian', 'major', 'minor' ]
  */
-export function modes (alias) {
-  return alias ? MODES.slice() : MODES.slice(0, -2)
+export function modes(alias) {
+  return alias ? MODES.slice() : MODES.slice(0, -2);
 }
 
 /**
@@ -176,8 +197,8 @@ export function modes (alias) {
  * var key = require('tonal-key')
  * key.fromAlter(2) // => 'D major'
  */
-export function fromAlter (n) {
-  return typeof n === 'number' ? majorKey(n) : null
+export function fromAlter(n) {
+  return typeof n === "number" ? majorKey(n) : null;
 }
 
 /**
@@ -190,10 +211,10 @@ export function fromAlter (n) {
  * key.fromAcc('b') // => 'F major'
  * key.fromAcc('##') // => 'D major'
  */
-export function fromAcc (s) {
-  return areSharps(s) ? majorKey(s.length)
-    : areFlats(s) ? majorKey(-s.length)
-    : null
+export function fromAcc(s) {
+  return areSharps(s)
+    ? majorKey(s.length)
+    : areFlats(s) ? majorKey(-s.length) : null;
 }
 
 /**
@@ -207,10 +228,10 @@ export function fromAcc (s) {
  * key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
  * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
  */
-export function scale (key) {
-  var p = props(key)
-  if (!p || !p.tonic) return null
-  return harmonize(SCALES[MODES.indexOf(p.mode)], p.tonic)
+export function scale(key) {
+  var p = props(key);
+  if (!p || !p.tonic) return null;
+  return harmonize(SCALES[MODES.indexOf(p.mode)], p.tonic);
 }
 
 /**
@@ -222,12 +243,12 @@ export function scale (key) {
  * var key = require('tonal-keys')
  * key.alteration('A major') // => 3
  */
-export function alteration (key) {
-  var k = props(key)
-  if (!k || !k.tonic) return null
-  var toMajor = modeNum(k.mode)
-  var toC = pcFifths(k.tonic)
-  return toC - toMajor
+export function alteration(key) {
+  var k = props(key);
+  if (!k || !k.tonic) return null;
+  var toMajor = modeNum(k.mode);
+  var toC = pcFifths(k.tonic);
+  return toC - toMajor;
 }
 
 /**
@@ -236,12 +257,12 @@ export function alteration (key) {
  * var key = require('tonal-keys')
  * key.signature('A major') // => '###'
  */
-export function signature (key) {
-  return toAcc(alteration(key))
+export function signature(key) {
+  return toAcc(alteration(key));
 }
 
 /**
  * An alias for `signature()`
  * @function
  */
-export var accidentals = signature
+export var accidentals = signature;

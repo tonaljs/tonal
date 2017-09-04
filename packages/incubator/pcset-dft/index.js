@@ -24,15 +24,17 @@
  * @module pcset-dft
  */
 
-import { chroma } from 'tonal-note'
-import { map } from 'tonal-array'
-var { PI, sin, cos, pow, sqrt } = Math
+import { chroma } from "tonal-note";
+import { map } from "tonal-array";
+var { PI, sin, cos, pow, sqrt } = Math;
 
-export function pcset (notes) {
-  return Object.keys(map(chroma, notes).reduce(function (set, ch) {
-    set[ch] = true
-    return set
-  }, {}))
+export function pcset(notes) {
+  return Object.keys(
+    map(chroma, notes).reduce(function(set, ch) {
+      set[ch] = true;
+      return set;
+    }, {})
+  );
 }
 
 /**
@@ -46,36 +48,39 @@ export function pcset (notes) {
  * @example
  * dft.dft('C E G#') // => [ [3, 0], [0, 0], [0, 0], [3, 0], [0, 0], [0, 0], [3, 0] ])
  */
-export function dft (notes) {
-  var pcs = pcset(notes)
-  return [0, 1, 2, 3, 4, 5, 6].map(function (n) {
-    return truncate(component(n, pcs))
-  })
+export function dft(notes) {
+  var pcs = pcset(notes);
+  return [0, 1, 2, 3, 4, 5, 6].map(function(n) {
+    return truncate(component(n, pcs));
+  });
 }
 
 /**
  * Get the nth component of a given pitch class set
  * @private
  */
-function component (n, pcs) {
-  return pcs.reduce(function (complex, p) {
-    // calculate the complex number for n
-    var v = 2 * PI * p * n / 12
-    complex[0] += cos(v)
-    complex[1] += sin(v)
-    return complex
-  }, [0, 0])
+function component(n, pcs) {
+  return pcs.reduce(
+    function(complex, p) {
+      // calculate the complex number for n
+      var v = 2 * PI * p * n / 12;
+      complex[0] += cos(v);
+      complex[1] += sin(v);
+      return complex;
+    },
+    [0, 0]
+  );
 }
 
-var MIN = 1e-10
+var MIN = 1e-10;
 /**
  * Set 0 very small numbers in a complex number
  * @private
  */
-function truncate (cpx) {
-  if (cpx[0] < MIN) cpx[0] = 0
-  if (cpx[1] < MIN) cpx[1] = 0
-  return cpx
+function truncate(cpx) {
+  if (cpx[0] < MIN) cpx[0] = 0;
+  if (cpx[1] < MIN) cpx[1] = 0;
+  return cpx;
 }
 
 /**
@@ -87,11 +92,11 @@ function truncate (cpx) {
  * @example
  * dft.spectra('C E G#') // => [3, 0, 0, 3, 0, 0, 3]
  */
-export function spectra (notes) {
-  var comp = dft(notes)
-  return comp.map(function (complex) {
-    return sqrt(pow(complex[0], 2) + pow(complex[1], 2))
-  })
+export function spectra(notes) {
+  var comp = dft(notes);
+  return comp.map(function(complex) {
+    return sqrt(pow(complex[0], 2) + pow(complex[1], 2));
+  });
 }
 
 /**
@@ -101,10 +106,12 @@ export function spectra (notes) {
  * @param {String|Array} set2 - the second pitch class set or notes
  * @return the Euclidean distance between both
  */
-export function distance (set1, set2) {
-  var sp1 = spectra(set1)
-  var sp2 = spectra(set2)
-  return Math.sqrt(sp1.reduce(function (v, _, i) {
-    return v + Math.pow(sp1[i] - sp2[i], 2)
-  }, 0))
+export function distance(set1, set2) {
+  var sp1 = spectra(set1);
+  var sp2 = spectra(set2);
+  return Math.sqrt(
+    sp1.reduce(function(v, _, i) {
+      return v + Math.pow(sp1[i] - sp2[i], 2);
+    }, 0)
+  );
 }

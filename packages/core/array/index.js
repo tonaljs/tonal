@@ -12,23 +12,24 @@
  *
  * @module array
  */
-import { asPitch, isPitch, strPitch, pitch, fifths, focts } from 'tonal-pitch'
-import { transpose as tr } from 'tonal-transpose'
-import { semitones } from 'tonal-distance'
+import { asPitch, isPitch, strPitch, pitch, fifths, focts } from "tonal-pitch";
+import { transpose as tr } from "tonal-transpose";
+import { semitones } from "tonal-distance";
 
-function split (sep) {
-  return function (o) {
-    return o === undefined ? []
-      : Array.isArray(o) ? o
-      : typeof o === 'string' ? o.trim().split(sep) 
-      : [o]
-  }
+function split(sep) {
+  return function(o) {
+    return o === undefined
+      ? []
+      : Array.isArray(o)
+        ? o
+        : typeof o === "string" ? o.trim().split(sep) : [o];
+  };
 }
 
 // utility
-var isArr = Array.isArray
-function hasVal (e) {
-  return e || e === 0
+var isArr = Array.isArray;
+function hasVal(e) {
+  return e || e === 0;
 }
 
 /**
@@ -52,7 +53,7 @@ function hasVal (e) {
  * asArr('A, B, c') // => ['A', 'B', 'c']
  * asArr('1 | 2 | x') // => ['1', '2', 'x']
  */
-export var asArr = split(/\s*\|\s*|\s*,\s*|\s+/)
+export var asArr = split(/\s*\|\s*|\s*,\s*|\s+/);
 
 /**
  * Return a new array with the elements mapped by a function.
@@ -76,12 +77,12 @@ export var asArr = split(/\s*\|\s*|\s*,\s*|\s+/)
  * var tonal = require('tonal')
  * tonal.map(tonal.transpose('M3'), 'C D E') // => ['E', 'F#', 'G#']
  */
-export function map (fn, list) {
+export function map(fn, list) {
   return arguments.length > 1
     ? map(fn)(list)
-    : function (l) {
-      return asArr(l).map(fn)
-    }
+    : function(l) {
+        return asArr(l).map(fn);
+      };
 }
 
 /**
@@ -91,8 +92,8 @@ export function map (fn, list) {
  * @example
  * tonal.compact(['a', 'b', null, 'c']) // => ['a', 'b', 'c']
  */
-export function compact (arr) {
-  return asArr(arr).filter(hasVal)
+export function compact(arr) {
+  return asArr(arr).filter(hasVal);
 }
 
 /**
@@ -108,31 +109,31 @@ export function compact (arr) {
  * @example
  * t.filter(t.noteName, 'a b c x bb') // => [ 'a', 'b', 'c', 'bb' ]
  */
-export function filter (fn, list) {
+export function filter(fn, list) {
   return arguments.length > 1
     ? filter(fn)(list)
-    : function (l) {
-      return asArr(l).filter(fn)
-    }
+    : function(l) {
+        return asArr(l).filter(fn);
+      };
 }
 
 // a custom height function that
 // - returns -Infinity for non-pitch objects
 // - assumes pitch classes has octave -100 (so are sorted before that notes)
-function objHeight (p) {
-  if (!p) return -Infinity
-  var f = fifths(p) * 7
-  var o = focts(p) || -Math.floor(f / 12) - 100
-  return f + o * 12
+function objHeight(p) {
+  if (!p) return -Infinity;
+  var f = fifths(p) * 7;
+  var o = focts(p) || -Math.floor(f / 12) - 100;
+  return f + o * 12;
 }
 
 // ascending comparator
-function ascComp (a, b) {
-  return objHeight(a) - objHeight(b)
+function ascComp(a, b) {
+  return objHeight(a) - objHeight(b);
 }
 // descending comparator
-function descComp (a, b) {
-  return -ascComp(a, b)
+function descComp(a, b) {
+  return -ascComp(a, b);
 }
 
 /**
@@ -153,15 +154,16 @@ function descComp (a, b) {
  * // if is not a note, it wil be removed
  * array.sort('g h f i c') // => ['C', 'F', 'G']
  */
-export function sort (list, comp) {
-  var fn = arguments.length === 1 || comp === true
-    ? ascComp
-    : comp === false ? descComp : typeof comp === 'function' ? comp : ascComp
+export function sort(list, comp) {
+  var fn =
+    arguments.length === 1 || comp === true
+      ? ascComp
+      : comp === false ? descComp : typeof comp === "function" ? comp : ascComp;
   // if the list is an array, make a copy
-  list = Array.isArray(list) ? list.slice() : asArr(list)
-  return listFn(function (arr) {
-    return arr.sort(fn).filter(hasVal)
-  }, list)
+  list = Array.isArray(list) ? list.slice() : asArr(list);
+  return listFn(function(arr) {
+    return arr.sort(fn).filter(hasVal);
+  }, list);
 }
 
 /**
@@ -177,20 +179,20 @@ export function sort (list, comp) {
  * var tonal = require('tonal')
  * tonal.shuffle('C D E F')
  */
-export var shuffle = listFn(function (arr) {
-  var i, t
-  var m = arr.length
+export var shuffle = listFn(function(arr) {
+  var i, t;
+  var m = arr.length;
   while (m) {
-    i = (Math.random() * m--) | 0
-    t = arr[m]
-    arr[m] = arr[i]
-    arr[i] = t
+    i = (Math.random() * m--) | 0;
+    t = arr[m];
+    arr[m] = arr[i];
+    arr[i] = t;
   }
-  return arr
-})
+  return arr;
+});
 
-function trOct (n) {
-  return tr(pitch(0, n, 1))
+function trOct(n) {
+  return tr(pitch(0, n, 1));
 }
 
 /**
@@ -200,11 +202,11 @@ function trOct (n) {
  * @param {Array|String} list - the list to be rotated
  * @return {Array} the rotated array
  */
-export function rotate (times, list) {
-  var arr = asArr(list)
-  var len = arr.length
-  var n = (times % len + len) % len
-  return arr.slice(n, len).concat(arr.slice(0, n))
+export function rotate(times, list) {
+  var arr = asArr(list);
+  var len = arr.length;
+  var n = (times % len + len) % len;
+  return arr.slice(n, len).concat(arr.slice(0, n));
 }
 
 /**
@@ -217,21 +219,21 @@ export function rotate (times, list) {
  * @param {Array|String} list - the list to be rotated
  * @return {Array} the rotated array
  */
-export function rotateAsc (times, list) {
-  return listFn(function (arr) {
-    var len = arr.length
-    var n = (times % len + len) % len
-    var head = arr.slice(n, len)
-    var tail = arr.slice(0, n)
+export function rotateAsc(times, list) {
+  return listFn(function(arr) {
+    var len = arr.length;
+    var n = (times % len + len) % len;
+    var head = arr.slice(n, len);
+    var tail = arr.slice(0, n);
     // See if the first note of tail is lower than the last of head
-    var s = semitones(head[len - n - 1], tail[0])
+    var s = semitones(head[len - n - 1], tail[0]);
     if (s < 0) {
-      var octs = Math.floor(s / 12)
-      if (times < 0) head = head.map(trOct(octs))
-      else tail = tail.map(trOct(-octs))
+      var octs = Math.floor(s / 12);
+      if (times < 0) head = head.map(trOct(octs));
+      else tail = tail.map(trOct(-octs));
     }
-    return head.concat(tail)
-  }, list)
+    return head.concat(tail);
+  }, list);
 }
 
 /**
@@ -246,16 +248,16 @@ export function rotateAsc (times, list) {
  * select('1 3 5', 'C D E F G A B') // => ['C', 'E', 'G']
  * select('-1 0 1 2 3', 'C D') // => [ null, null, 'C', 'D', null ]
  */
-export function select (nums, list) {
+export function select(nums, list) {
   if (arguments.length === 1) {
-    return function (l) {
-      return select(nums, l)
-    }
+    return function(l) {
+      return select(nums, l);
+    };
   }
-  var arr = asArr(list)
-  return asArr(nums).map(function (n) {
-    return arr[n - 1] || null
-  })
+  var arr = asArr(list);
+  return asArr(nums).map(function(n) {
+    return arr[n - 1] || null;
+  });
 }
 
 // http://stackoverflow.com/questions/9960908/permutations-in-javascript
@@ -264,26 +266,26 @@ export function select (nums, list) {
  * @param {Array|Strng} list - the list
  * @return {Array<Array>} an array with all the permutations
  */
-export function permutations (list) {
-  list = asArr(list)
-  if (list.length === 0) return [[]]
-  return permutations(list.slice(1)).reduce(function (acc, perm) {
+export function permutations(list) {
+  list = asArr(list);
+  if (list.length === 0) return [[]];
+  return permutations(list.slice(1)).reduce(function(acc, perm) {
     return acc.concat(
-      list.map(function (e, pos) {
-        var newPerm = perm.slice()
-        newPerm.splice(pos, 0, list[0])
-        return newPerm
+      list.map(function(e, pos) {
+        var newPerm = perm.slice();
+        newPerm.splice(pos, 0, list[0]);
+        return newPerm;
       })
-    )
-  }, [])
+    );
+  }, []);
 }
 
 // #### Transform lists in array notation
-function asPitchStr (p) {
-  return strPitch(p) || p
+function asPitchStr(p) {
+  return strPitch(p) || p;
 }
-function listToStr (v) {
-  return isPitch(v) ? strPitch(v) : isArr(v) ? v.map(asPitchStr) : v
+function listToStr(v) {
+  return isPitch(v) ? strPitch(v) : isArr(v) ? v.map(asPitchStr) : v;
 }
 
 /**
@@ -299,13 +301,13 @@ function listToStr (v) {
  * var octUp = listFn((p) => { p[2] = p[2] + 1; return p[2] })
  * octUp('C2 D2 E2') // => ['C3', 'D3', 'E3']
  */
-function listFn (fn, list) {
+function listFn(fn, list) {
   if (arguments.length === 1) {
-    return function (l) {
-      return listFn(fn, l)
-    }
+    return function(l) {
+      return listFn(fn, l);
+    };
   }
-  var arr = asArr(list).map(asPitch)
-  var res = fn(arr)
-  return listToStr(res)
+  var arr = asArr(list).map(asPitch);
+  var res = fn(arr);
+  return listToStr(res);
 }
