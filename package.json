@@ -1,5 +1,6 @@
 {
   "name": "tonal-build",
+  "version": "0.0.0",
   "private": true,
   "main": "dist/tonal.min.js",
   "scripts": {
@@ -9,7 +10,7 @@
     "build": "lerna exec -- rollup -c ../../../rollup.config.js -- index.js",
     "dist": "rollup --config rollup.config.dist.js && ls -hall dist/*",
     "prepublish":
-      "npm run test && npm run dist && cp README.md ./packages/tonal/",
+      "npm run test && npm run docs && cp README.md ./packages/tonal/",
     "pretest": "npm run build",
     "test": "jest --coverage --no-cache",
     "docs": "lerna run docs",
@@ -23,18 +24,17 @@
   "author": "danigb@gmail.com",
   "license": "MIT",
   "devDependencies": {
+    "babel-preset-env": "^1.6.0",
     "jest": "^20.0.0",
     "lerna": "2.1.2",
     "postman-jsdoc-theme": "0.0.3",
     "prettier": "^1.6.1",
     "rollup": "^0.49.2",
+    "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.2.0",
     "rollup-plugin-json": "^2.1.1",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.0"
-  },
-  "standard": {
-    "ignore": ["dist/*", "build/*"]
   },
   "dependencies": {}
 }

@@ -2,13 +2,16 @@
 
 ## 0.70.0 [Master]
 
-A toward 1.0 release
+- Create tonal-enharmonic package in extensions
+- Deprecate note.enhramonics in favour of enharmonic.find
+- Deprecate note.simplify in favour of enharmonic.simplify
+- Move transposition functions to tonal-distance
+- Remove standard code style and use prettier
 
 ## 0.69.9
 
-- Remove standard code style and use prettier
-- Deprecate note.enhramonics in favour of enharmonic.find
-- Deprecate note.simplify in favour of enharmonic.simplify
+- Bug fixes
+
 
 ## 0.69.8
 

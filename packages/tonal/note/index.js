@@ -219,6 +219,7 @@ export var step = getProp("step");
  * @return {Integer} the number of fifths to reach that pitch class from 'C'
  */
 export function pcFifths(note) {
+  console.warn("Deprecated. Do you really need this?");
   var p = asNotePitch(note);
   return p ? fifths(p) : null;
 }
