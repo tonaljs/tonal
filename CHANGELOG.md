@@ -2,6 +2,7 @@
 
 ## 0.70.0 [Master]
 
+- Simplify tonal-note package
 - Create tonal-enharmonic package in extensions
 - Deprecate note.enhramonics in favour of enharmonic.find
 - Deprecate note.simplify in favour of enharmonic.simplify

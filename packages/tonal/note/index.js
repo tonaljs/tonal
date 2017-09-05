@@ -13,13 +13,13 @@
  * // or var note = require('tonal-note')
  * note.name('bb2') // => 'Bb2'
  * note.chroma('bb2') // => 10
- * note.enharmonics('C#6') // => [ 'B##5', 'C#6', 'Db6' ]
- * note.simplify('B#3') // => 'C4'
- *
- * // using ES6 import syntax
- * import { name } from 'tonal-note'
- * ['c', 'db3', '2', 'g+', 'gx4'].map(name)
- * // => ['C', 'Db3', null, null, 'G##4']
+ * note.midi('a4') // => 69
+ * note.freq('a4') // => 440
+ * note.oct('G3') // => 3
+ * 
+ * // part of tonal
+ * const tonal = require('tonal')
+ * tonal.note.midi('d4') // => 62
  * ```
  *
  * ## Install
@@ -30,30 +30,60 @@
  *
  * @module note
  */
-import { build, parse } from "note-parser";
-import { fifths, asNotePitch, strNote, parseIvl, decode } from "tonal-pitch";
-import { transpose as tr } from "tonal-transpose";
-import { toMidi, note as midiToNote } from "tonal-midi";
-import { toFreq } from "tonal-freq";
+import { fifths, asNotePitch } from "tonal-pitch";
+import { note as midiToNote } from "tonal-midi";
 
-var cache = {};
-function parseNote(name) {
-  if (typeof name !== "string") return null;
-  return cache[name] || (cache[name] = parse(name));
+const REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)\s*$/;
+
+export function split(str) {
+  const m = REGEX.exec(str);
+  if (!m) return null;
+  return {
+    letter: m[1].toUpperCase(),
+    acc: m[2].replace(/x/g, "##"),
+    oct: m[3],
+    mod: m[4]
+  };
 }
 
+function parseNote(str) {
+  const p = split(str);
+  return p && p.mod === ""
+    ? {
+        step: (p.letter.charCodeAt(0) + 3) % 7,
+        alt: p.acc[0] === "b" ? -p.acc.length : p.acc.length,
+        oct: p.oct.length ? +p.oct : null
+      }
+    : null;
+}
+
+var cache = {};
+export function parse(name) {
+  if (typeof name !== "string") return null;
+  return cache[name] === undefined
+    ? (cache[name] = parseNote(name))
+    : cache[name];
+}
+
+const parsed = fn => (str, p) => ((p = parse(str)) !== null ? fn(p) : null);
+
+const SEMI = [0, 2, 4, 5, 7, 9, 11];
+const toMidi = parsed(
+  p => (p.oct !== null ? SEMI[p.step] + p.alt + 12 * (p.oct + 1) : null)
+);
 /**
  * Get the note midi number
  * (an alias of tonal-midi `toMidi` function)
  *
  * @function
- * @param {Array|String|Number} note - the note to get the midi number from
+ * @param {String|Number} note - the note to get the midi number from
  * @return {Integer} the midi number or null if not valid pitch
  * @example
  * note.midi('C4') // => 60
+ * note.midi(60) // => 60
  * @see midi.toMidi
  */
-export var midi = toMidi;
+export const midi = note => toMidi(note) || +note || null;
 
 /**
  * Get the note name of a given midi note number
@@ -71,53 +101,28 @@ export var fromMidi = midiToNote;
 
 /**
  * Get the frequency of a note
- * (an alias of the tonal-note package `toFreq` function)
  *
  * @function
- * @param {Array|String|Number} note - the note to get the frequency
+ * @param {String|Number} note - the note name or midi note number
  * @return {Number} the frequency
  * @example
  * note.freq('A4') // => 440
- * @see freq.toFreq
  */
-export var freq = toFreq;
+export const freq = (str, m) =>
+  (m = midi(str)) !== null ? Math.pow(2, (m - 69) / 12) * 440 : null;
 
 /**
  * Return the chroma of a note. The chroma is the numeric equivalent to the
  * pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
  *
- * @param {String|Pitch} note
- * @return {Integer} the chroma
+ * @param {String} note - the note name
+ * @return {Integer} the chroma number
  * @example
  * var note = require('tonal-note')
  * note.chroma('Cb') // => 11
  * ['C', 'D', 'E', 'F'].map(note.chroma) // => [0, 2, 4, 5]
  */
-export function chroma(n) {
-  var p = parseNote(n);
-  return p ? p.chroma : null;
-}
-
-/**
- * Given a note (as string or as array notation) returns a string
- * with the note name in scientific notation or null
- * if not valid note
- *
- * Can be used to test if a string is a valid note name.
- *
- * @function
- * @param {Pitch|String}
- * @return {String}
- *
- * @example
- * var note = require('tonal-note')
- * note.name('cb2') // => 'Cb2'
- * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
- */
-export function name(n) {
-  var p = asNotePitch(n);
-  return p ? strNote(p) : null;
-}
+export const chroma = parsed(p => (SEMI[p.step] + p.alt + 120) % 12);
 
 /**
  * @deprecated
@@ -130,77 +135,24 @@ export function note(n) {
 }
 
 /**
- * @deprecated
- * Get note properties. It returns an object with the following properties:
- *
- * - step: 0 for C, 6 for B. Do not confuse with chroma
- * - alt: 0 for not accidentals, positive sharps, negative flats
- * - oct: the octave number or undefined if a pitch class
- *
- * @param {String|Pitch} note - the note
- * @return {Object} the object with note properties or null if not valid note
- * @example
- * note.props('Db3') // => { step: 1, alt: -1, oct: 3 }
- * note.props('C#') // => { step: 0, alt: 1, oct: undefined }
- */
-export function props(n) {
-  console.warn(
-    "note.props() is deprecated. Use: note.step(), note.alt() or note.oct()"
-  );
-  var p = asNotePitch(n);
-  if (!p) return null;
-  var d = decode(p);
-  return { step: d[0], alt: d[1], oct: d[2] };
-}
-
-/**
- * @deprecated
- * Given a note properties object, return the string representation if
- * scientific notation
- *
- * @param {Object} noteProps - an object with the following attributes:
- * @return {String} the note name
- *
- * - step: a number from 0 to 6 meaning note step letter from 'C' to 'B'
- * - alt: the accidentals as number (0 no accidentals, 1 is '#', 2 is '##', -2 is 'bb')
- * - oct: (Optional) the octave. If not present (or undefined) it returns a pitch class
- *
- * @example
- * note.fromProps({ step: 1, alt: -1, oct: 5 }) // => 'Db5'
- * note.fromProps({ step: 0, alt: 1 }) // => 'C#'
- */
-export function fromProps(props) {
-  console.warn("note.fromProps() is deprecated. See npm package note-parser.");
-  return props ? build(props.step, props.alt, props.oct) : null;
-}
-
-function getProp(name) {
-  return function(n) {
-    var p = props(n);
-    return p ? p[name] : null;
-  };
-}
-
-/**
  * Get the octave of the given pitch
  *
  * @function
- * @param {String|Pitch} note - the note
- * @return {Integer} the octave, undefined if its a pitch class or null if
- * not a valid note
+ * @param {String} note - the note
+ * @return {Integer} the octave or null if doesn't have an octave or not a valid note
  * @example
  * note.oct('C#4') // => 4
- * note.oct('C') // => undefined
- * note.oct('blah') // => undefined
+ * note.oct('C') // => null
+ * note.oct('blah') // => null
  */
-export var oct = getProp("oct");
+export const oct = parsed(p => p.oct);
 
 /**
  * Get the note step: a number equivalent of the note letter. 0 means C and
  * 6 means B. This is different from `chroma` (see example)
  *
  * @function
- * @param {String|Pitch} note - the note
+ * @param {String} note - the note
  * @return {Integer} a number between 0 and 6 or null if not a note
  * @example
  * note.step('C') // => 0
@@ -208,7 +160,7 @@ export var oct = getProp("oct");
  * // usually what you need is chroma
  * note.chroma('Cb') // => 6
  */
-export var step = getProp("step");
+export const step = parsed(p => p.step);
 
 /**
  * @deprecated
@@ -236,7 +188,51 @@ export function pcFifths(note) {
  * note.alt('C#') // => 1
  * note.alt('Cb') // => -1
  */
-export var alt = getProp("alt");
+export const alt = parsed(p => p.alt);
+
+const LETTERS = "CDEFGAB";
+/**
+ * Given a step number return it's letter (0 = C, 1 = D, 2 = E)
+ * @param {number} step 
+ * @return {string} the letter
+ * @private
+ */
+const letter = step => LETTERS[step];
+
+const fillStr = (s, n) => Array(n + 1).join(s);
+const numToStr = (num, op) => (typeof num !== "number" ? "" : op(num));
+
+const acc = alt =>
+  numToStr(alt, alt => (alt < 0 ? fillStr("b", -alt) : fillStr("#", alt)));
+
+/**
+ * Build a note name in scientific notation from a parsed note 
+ * (an object with { step, alt, oct })
+ * @function
+ * @param {parsed} parsed
+ * @return {string} the note name
+ * @example
+ * note.build({ step: 1, alt: -1, oct: 3 }) // => Db3
+ */
+export const build = p => letter(p.step) + acc(p.alt) + numToStr(p.oct, o => o);
+
+/**
+ * Given a note name, return the note name or null if not valid note.
+ * The note name will ALWAYS have the letter in upercase and accidentals
+ * using # or b
+ * 
+ * Can be used to test if a string is a valid note name.
+ *
+ * @function
+ * @param {Pitch|String}
+ * @return {String}
+ *
+ * @example
+ * var note = require('tonal-note')
+ * note.name('cb2') // => 'Cb2'
+ * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
+ */
+export const name = parsed(p => build(p));
 
 /**
  * Get pitch class of a note. The note can be a string or a pitch array.
@@ -248,52 +244,4 @@ export var alt = getProp("alt");
  * tonal.pc('Db3') // => 'Db'
  * tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
  */
-export function pc(n) {
-  var p = asNotePitch(n);
-  return p ? strNote([p[0], [fifths(p)]]) : null;
-}
-
-var ASC = parseIvl("2d");
-var DESC = parseIvl("-2d");
-
-/**
- * Get the enharmonics of a note. It returns an array of three elements: the
- * below enharmonic, the note, and the upper enharmonic
- *
- * @param {String} note - the note to get the enharmonics from
- * @return {Array} an array of pitches ordered by distance to the given one
- *
- * @example
- * var note = require('tonal-note')
- * note.enharmonics('C') // => ['B#', 'C', 'Dbb']
- * note.enharmonics('A') // => ['G##', 'A', 'Bbb']
- * note.enharmonics('C#4') // => ['B##3', 'C#4' 'Db4']
- * note.enharmonics('Db') // => ['C#', 'Db', 'Ebbb'])
- */
-export function enharmonics(pitch) {
-  console.warn("Deprecated. Use find() from tonal-enhramonics");
-  var notes = [];
-  notes.push(tr(DESC, pitch));
-  if (notes[0] === null) return null;
-  notes.push(pitch);
-  notes.push(tr(ASC, pitch));
-  return notes;
-}
-
-/**
- * Get a simpler enharmonic note name from a note if exists
- *
- * @param {String} note - the note to simplify
- * @return {String} the simplfiied note (if not found, return same note)
- *
- * @example
- * var note = require('tonal-note')
- * note.simplify('B#3') // => 'C4'
- */
-export function simplify(pitch) {
-  console.warn("Deprecated. Use simplify() from tonal-enhramonics");
-  return enharmonics(pitch).reduce(function(simple, next) {
-    if (!simple) return next;
-    return simple.length > next.length ? next : simple;
-  }, null);
-}
+export const pc = parsed(p => letter(p.step) + acc(p.alt));

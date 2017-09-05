@@ -31,10 +31,10 @@ tonal.ivl.semitones('5P') // => 7
 tonal.ivl.invert('3m') // => '6M'
 tonal.ivl.fromSemitones(7) // => '5P'
 
-// transposition and distances
-tonal.transpose('D4', '2M') // => 'E#4'
-tonal.interval('C', 'G') // => '5P'
-tonal.semitones('C', 'G') // => 7
+// distances
+tonal.distance.transpose('D4', '2M') // => 'E#4'
+tonal.distance.interval('C', 'G') // => '5P'
+tonal.distance.semitones('C', 'G') // => 7
 
 // scales
 tonal.scale('Bb lydian') // => [ 'Bb', 'C', 'D', 'E', 'F', 'G', 'A']
