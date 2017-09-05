@@ -1,0 +1,19 @@
+{
+  "name": "tonal-enharmonic",
+  "version": "0.69.9",
+  "description": "Find and simplify enharmonic notes",
+  "repository": "https://github.com/danigb/tonal/packages/key",
+  "keywords": ["note", "enharmonics", "tonal", "music", "theory"],
+  "scripts": {
+    "test": "jest --coverage",
+    "docs":
+      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md"
+  },
+  "main": "build/index.js",
+  "module": "index",
+  "author": "danigb",
+  "license": "MIT",
+  "dependencies": {
+    "tonal-transpose": "^0.69.7"
+  }
+}

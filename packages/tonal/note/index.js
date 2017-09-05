@@ -270,6 +270,7 @@ var DESC = parseIvl("-2d");
  * note.enharmonics('Db') // => ['C#', 'Db', 'Ebbb'])
  */
 export function enharmonics(pitch) {
+  console.warn("Deprecated. Use find() from tonal-enhramonics");
   var notes = [];
   notes.push(tr(DESC, pitch));
   if (notes[0] === null) return null;
@@ -289,6 +290,7 @@ export function enharmonics(pitch) {
  * note.simplify('B#3') // => 'C4'
  */
 export function simplify(pitch) {
+  console.warn("Deprecated. Use simplify() from tonal-enhramonics");
   return enharmonics(pitch).reduce(function(simple, next) {
     if (!simple) return next;
     return simple.length > next.length ? next : simple;

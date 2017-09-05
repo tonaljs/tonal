@@ -7,6 +7,8 @@ A toward 1.0 release
 ## 0.69.9
 
 - Remove standard code style and use prettier
+- Deprecate note.enhramonics in favour of enharmonic.find
+- Deprecate note.simplify in favour of enharmonic.simplify
 
 ## 0.69.8
 
