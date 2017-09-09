@@ -31,7 +31,6 @@
  * @module note
  */
 import { fifths, asNotePitch } from "tonal-pitch";
-import { note as midiToNote } from "tonal-midi";
 
 const REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)\s*$/;
 
@@ -76,7 +75,7 @@ const toMidi = parsed(
  * (an alias of tonal-midi `toMidi` function)
  *
  * @function
- * @param {String|Number} note - the note to get the midi number from
+ * @param {string|Number} note - the note to get the midi number from
  * @return {Integer} the midi number or null if not valid pitch
  * @example
  * note.midi('C4') // => 60
@@ -85,25 +84,36 @@ const toMidi = parsed(
  */
 export const midi = note => toMidi(note) || +note || null;
 
+var FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
+var SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
 /**
- * Get the note name of a given midi note number
- * (an alias of tonal-midi `note` function)
+ * Given a midi number, returns a note name. The altered notes will have
+ * flats unless explicitly set with the optional `useSharps` parameter.
  *
  * @function
- * @param {Integer} midi - the midi note number
- * @param {Boolean} useSharps - (Optional) set to true to use sharps instead of flats
- * @return {String} the note name
+ * @param {number} midi - the midi note number
+ * @param [boolean] useSharps - (Optional) set to true to use sharps instead of flats
+ * @return {string} the note name
  * @example
- * note.fromMidi(60) // => 'C4'
- * @see midi.note
+ * var midi = require('tonal-midi')
+ * midi.note(61) // => 'Db4'
+ * midi.note(61, true) // => 'C#4'
+ * // it rounds to nearest note
+ * midi.note(61.7) // => 'D4'
  */
-export var fromMidi = midiToNote;
+export function fromMidi(num, sharps) {
+  num = Math.round(num);
+  var pcs = sharps === true ? SHARPS : FLATS;
+  var pc = pcs[num % 12];
+  var o = Math.floor(num / 12) - 1;
+  return pc + o;
+}
 
 /**
  * Get the frequency of a note
  *
  * @function
- * @param {String|Number} note - the note name or midi note number
+ * @param {string|Number} note - the note name or midi note number
  * @return {Number} the frequency
  * @example
  * note.freq('A4') // => 440
@@ -115,7 +125,7 @@ export const freq = (str, m) =>
  * Return the chroma of a note. The chroma is the numeric equivalent to the
  * pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
  *
- * @param {String} note - the note name
+ * @param {string} note - the note name
  * @return {Integer} the chroma number
  * @example
  * var note = require('tonal-note')
@@ -138,7 +148,7 @@ export function note(n) {
  * Get the octave of the given pitch
  *
  * @function
- * @param {String} note - the note
+ * @param {string} note - the note
  * @return {Integer} the octave or null if doesn't have an octave or not a valid note
  * @example
  * note.oct('C#4') // => 4
@@ -152,7 +162,7 @@ export const oct = parsed(p => p.oct);
  * 6 means B. This is different from `chroma` (see example)
  *
  * @function
- * @param {String} note - the note
+ * @param {string} note - the note
  * @return {Integer} a number between 0 and 6 or null if not a note
  * @example
  * note.step('C') // => 0
@@ -167,7 +177,7 @@ export const step = parsed(p => p.step);
  * Get the note step in fifths from 'C'. One property of the perfect fifth
  * interval is that you can obtain any pitch class by transposing 'C' a
  * number of times. This function return that number.
- * @param {String|Pitch} note - the note (can be a pitch class)
+ * @param {string|Pitch} note - the note (can be a pitch class)
  * @return {Integer} the number of fifths to reach that pitch class from 'C'
  */
 export function pcFifths(note) {
@@ -181,7 +191,7 @@ export function pcFifths(note) {
  * no accidentals, negative numbers are for flats, positive for sharps
  *
  * @function
- * @param {String|Pitch} note - the note
+ * @param {string|Pitch} note - the note
  * @return {Integer} the alteration
  * @example
  * note.alt('C') // => 0
@@ -224,8 +234,8 @@ export const build = p => letter(p.step) + acc(p.alt) + numToStr(p.oct, o => o);
  * Can be used to test if a string is a valid note name.
  *
  * @function
- * @param {Pitch|String}
- * @return {String}
+ * @param {Pitch|string}
+ * @return {string}
  *
  * @example
  * var note = require('tonal-note')
@@ -238,8 +248,8 @@ export const name = parsed(p => build(p));
  * Get pitch class of a note. The note can be a string or a pitch array.
  *
  * @function
- * @param {String|Pitch}
- * @return {String} the pitch class
+ * @param {string|Pitch}
+ * @return {string} the pitch class
  * @example
  * tonal.pc('Db3') // => 'Db'
  * tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']

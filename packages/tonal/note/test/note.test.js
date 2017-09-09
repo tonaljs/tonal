@@ -24,6 +24,16 @@ describe("tonal-note", () => {
     expect(midi).toEqual([60, 62, 64, 65, 67, 69, 71, 60]);
   });
 
+  test("fromMidi", () => {
+    let notes = [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72];
+    expect(notes.map(note.fromMidi).join(" ")).toEqual(
+      "C4 Db4 D4 Eb4 E4 F4 Gb4 G4 Ab4 A4 Bb4 B4 C5"
+    );
+    expect(notes.map(n => note.fromMidi(n, true)).join(" ")).toEqual(
+      "C4 C#4 D4 D#4 E4 F4 F#4 G4 G#4 A4 A#4 B4 C5"
+    );
+  });
+
   test("midi accepts numbers", () => {
     expect(note.midi(60)).toBe(60);
     expect(note.midi("60")).toBe(60);

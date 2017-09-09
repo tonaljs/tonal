@@ -2,6 +2,8 @@
 
 ## 0.70.0 [Master]
 
+- Simplify rollup bundle
+- Change midi dependency order
 - Simplify tonal-note package
 - Create tonal-enharmonic package in extensions
 - Deprecate note.enhramonics in favour of enharmonic.find

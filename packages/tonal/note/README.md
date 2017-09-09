@@ -17,11 +17,7 @@ note.name('bb2') // => 'Bb2'
 note.chroma('bb2') // => 10
 note.midi('a4') // => 69
 note.freq('a4') // => 440
-
-// using ES6 import syntax
-import { name } from 'tonal-note'
-['c', 'db3', '2', 'g+', 'gx4'].map(name)
-// => ['C', 'Db3', null, null, 'G##4']
+note.oct('G3') // => 3
 
 // part of tonal
 const tonal = require('tonal')
@@ -37,7 +33,8 @@ tonal.note.midi('d4') // => 62
 
 * [note](#module_note)
     * [`.chroma`](#module_note.chroma) ⇒ <code>Integer</code>
-    * [`.fromMidi(midi, useSharps)`](#module_note.fromMidi) ⇒ <code>String</code>
+    * [`.midi(note)`](#module_note.midi) ⇒ <code>Integer</code>
+    * [`.fromMidi(midi, [boolean])`](#module_note.fromMidi) ⇒ <code>string</code>
     * [`.freq(note)`](#module_note.freq) ⇒ <code>Number</code>
     * ~~[`.note()`](#module_note.note)~~
     * [`.oct(note)`](#module_note.oct) ⇒ <code>Integer</code>
@@ -45,9 +42,8 @@ tonal.note.midi('d4') // => 62
     * ~~[`.pcFifths(note)`](#module_note.pcFifths) ⇒ <code>Integer</code>~~
     * [`.alt(note)`](#module_note.alt) ⇒ <code>Integer</code>
     * [`.build(parsed)`](#module_note.build) ⇒ <code>string</code>
-    * [`.name()`](#module_note.name) ⇒ <code>String</code>
-    * [`.pc()`](#module_note.pc) ⇒ <code>String</code>
-    * [`~SEMI(note)`](#module_note..SEMI) ⇒ <code>Integer</code>
+    * [`.name()`](#module_note.name) ⇒ <code>string</code>
+    * [`.pc()`](#module_note.pc) ⇒ <code>string</code>
 
 <a name="module_note.chroma"></a>
 
@@ -58,9 +54,9 @@ pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
 **Kind**: static constant of [<code>note</code>](#module_note)  
 **Returns**: <code>Integer</code> - the chroma number  
 
-| Param | Type |
-| --- | --- |
-| note | <code>String</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| note | <code>string</code> | the note name |
 
 **Example**  
 ```js
@@ -68,37 +64,58 @@ var note = require('tonal-note')
 note.chroma('Cb') // => 11
 ['C', 'D', 'E', 'F'].map(note.chroma) // => [0, 2, 4, 5]
 ```
-<a name="module_note.fromMidi"></a>
+<a name="module_note.midi"></a>
 
-## `note.fromMidi(midi, useSharps)` ⇒ <code>String</code>
-Get the note name of a given midi note number
-(an alias of tonal-midi `note` function)
+## `note.midi(note)` ⇒ <code>Integer</code>
+Get the note midi number
+(an alias of tonal-midi `toMidi` function)
 
 **Kind**: static method of [<code>note</code>](#module_note)  
-**Returns**: <code>String</code> - the note name  
-**See**: midi.note  
+**Returns**: <code>Integer</code> - the midi number or null if not valid pitch  
+**See**: midi.toMidi  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| midi | <code>Integer</code> | the midi note number |
-| useSharps | <code>Boolean</code> | (Optional) set to true to use sharps instead of flats |
+| note | <code>string</code> \| <code>Number</code> | the note to get the midi number from |
 
 **Example**  
 ```js
-note.fromMidi(60) // => 'C4'
+note.midi('C4') // => 60
+note.midi(60) // => 60
+```
+<a name="module_note.fromMidi"></a>
+
+## `note.fromMidi(midi, [boolean])` ⇒ <code>string</code>
+Given a midi number, returns a note name. The altered notes will have
+flats unless explicitly set with the optional `useSharps` parameter.
+
+**Kind**: static method of [<code>note</code>](#module_note)  
+**Returns**: <code>string</code> - the note name  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| midi | <code>number</code> | the midi note number |
+| [boolean] |  | useSharps - (Optional) set to true to use sharps instead of flats |
+
+**Example**  
+```js
+var midi = require('tonal-midi')
+midi.note(61) // => 'Db4'
+midi.note(61, true) // => 'C#4'
+// it rounds to nearest note
+midi.note(61.7) // => 'D4'
 ```
 <a name="module_note.freq"></a>
 
 ## `note.freq(note)` ⇒ <code>Number</code>
 Get the frequency of a note
-(an alias of the tonal-note package `toFreq` function)
 
 **Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>Number</code> - the frequency  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>String</code> | the note to get the frequency |
+| note | <code>string</code> \| <code>Number</code> | the note name or midi note number |
 
 **Example**  
 ```js
@@ -120,7 +137,7 @@ Get the octave of the given pitch
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>String</code> | the note |
+| note | <code>string</code> | the note |
 
 **Example**  
 ```js
@@ -139,7 +156,7 @@ Get the note step: a number equivalent of the note letter. 0 means C and
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>String</code> | the note |
+| note | <code>string</code> | the note |
 
 **Example**  
 ```js
@@ -158,7 +175,7 @@ note.chroma('Cb') // => 6
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>String</code> \| <code>Pitch</code> | the note (can be a pitch class) |
+| note | <code>string</code> \| <code>Pitch</code> | the note (can be a pitch class) |
 
 <a name="module_note.alt"></a>
 
@@ -171,7 +188,7 @@ no accidentals, negative numbers are for flats, positive for sharps
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>String</code> \| <code>Pitch</code> | the note |
+| note | <code>string</code> \| <code>Pitch</code> | the note |
 
 **Example**  
 ```js
@@ -198,7 +215,7 @@ note.build({ step: 1, alt: -1, oct: 3 }) // => Db3
 ```
 <a name="module_note.name"></a>
 
-## `note.name()` ⇒ <code>String</code>
+## `note.name()` ⇒ <code>string</code>
 Given a note name, return the note name or null if not valid note.
 The note name will ALWAYS have the letter in upercase and accidentals
 using # or b
@@ -209,7 +226,7 @@ Can be used to test if a string is a valid note name.
 
 | Type |
 | --- |
-| <code>Pitch</code> \| <code>String</code> | 
+| <code>Pitch</code> \| <code>string</code> | 
 
 **Example**  
 ```js
@@ -219,36 +236,18 @@ note.name('cb2') // => 'Cb2'
 ```
 <a name="module_note.pc"></a>
 
-## `note.pc()` ⇒ <code>String</code>
+## `note.pc()` ⇒ <code>string</code>
 Get pitch class of a note. The note can be a string or a pitch array.
 
 **Kind**: static method of [<code>note</code>](#module_note)  
-**Returns**: <code>String</code> - the pitch class  
+**Returns**: <code>string</code> - the pitch class  
 
 | Type |
 | --- |
-| <code>String</code> \| <code>Pitch</code> | 
+| <code>string</code> \| <code>Pitch</code> | 
 
 **Example**  
 ```js
 tonal.pc('Db3') // => 'Db'
 tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
-```
-<a name="module_note..SEMI"></a>
-
-## `note~SEMI(note)` ⇒ <code>Integer</code>
-Get the note midi number
-(an alias of tonal-midi `toMidi` function)
-
-**Kind**: inner method of [<code>note</code>](#module_note)  
-**Returns**: <code>Integer</code> - the midi number or null if not valid pitch  
-**See**: midi.toMidi  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| note | <code>Array</code> \| <code>String</code> \| <code>Number</code> | the note to get the midi number from |
-
-**Example**  
-```js
-note.midi('C4') // => 60
 ```

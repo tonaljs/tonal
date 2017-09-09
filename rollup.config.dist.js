@@ -1,7 +1,7 @@
 import resolve from "rollup-plugin-node-resolve";
 import json from "rollup-plugin-json";
-import uglify from "rollup-plugin-uglify";
-import babel from "rollup-plugin-babel";
+import uglify from "rollup-plugin-uglify-es";
+import filesize from "rollup-plugin-filesize";
 
 export default {
   input: "./packages/core/tonal/index.js",
@@ -21,9 +21,7 @@ export default {
       jsnext: true,
       module: true
     }),
-    babel({
-      exclude: "node_modules/**"
-    }),
-    uglify()
+    uglify(),
+    filesize()
   ]
 };
