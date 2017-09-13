@@ -2,6 +2,8 @@
 
 ## 0.70.0 [Master]
 
+- [tonal-pcset] removed: chromaModes, superset and subset functions
+- [tonal-pcset] Change order of params in isSuperset and isSubset
 - Simplify rollup bundle
 - Change midi dependency order
 - Simplify tonal-note package

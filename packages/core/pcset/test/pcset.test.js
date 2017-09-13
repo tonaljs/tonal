@@ -1,5 +1,5 @@
 /* global describe test expect */
-var pcset = require("..");
+var pcset = require("../index.js");
 
 describe("tonal-pcset", () => {
   test("notes", () => {
@@ -61,17 +61,26 @@ describe("tonal-pcset", () => {
     expect(pcset.isChroma("c d e")).toBe(false);
   });
 
-  test("subset", () => {
-    expect(pcset.isSubset("c4 d5 e6", "c2 d3")).toBe(true);
-    expect(pcset.isSubset("c4 d5 e6", "c2 d3 e5")).toBe(true);
-    expect(pcset.isSubset("c d e", "c d e f")).toBe(false);
-    expect(pcset.isSubset("c d e")("c2 d3 f6")).toBe(false);
+  test("isSubset", () => {
+    expect(pcset.isSubset("c2 d3", "c4 d5 e6")).toBe(true);
+    expect(pcset.isSubset("c2 d3 e5", "c4 d5 e6")).toBe(true);
+    expect(pcset.isSubset("c d e f", "c d e")).toBe(false);
   });
 
-  test("superset", () => {
-    expect(pcset.isSuperset("c d e", "c2 d3 e4 f5")).toBe(true);
-    expect(pcset.isSuperset("c d e", "e f g")).toBe(false);
-    expect(pcset.isSuperset("c d e")("d e")).toBe(false);
+  test("subset with chroma", () => {
+    expect(pcset.isSubset("101000000000", "101010101010")).toBe(true);
+    expect(pcset.isSubset("111000000000", "101010101010")).toBe(false);
+  });
+
+  test("isSuperset", () => {
+    expect(pcset.isSuperset("c2 d3 e4 f5", "c d e")).toBe(true);
+    expect(pcset.isSuperset("e f g", "c d e")).toBe(false);
+    expect(pcset.isSuperset("d e", "c d e")).toBe(false);
+  });
+
+  test("isSuperset with chroma", () => {
+    expect(pcset.isSuperset("101010101010", "101000000000")).toBe(true);
+    expect(pcset.isSuperset("101010101010", "111000000000")).toBe(false);
   });
 
   test("equal", () => {

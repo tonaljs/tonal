@@ -46,7 +46,7 @@ function pitchChr(p) {
 export function chroma(set) {
   if (isChroma(set)) return set;
   var b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  map(pitchChr, set).forEach(function(i) {
+  map(pitchChr, set).forEach(i => {
     b[i] = 1;
   });
   return b.join("");
@@ -95,17 +95,8 @@ export function modes(set, normalize) {
     })
   );
 }
-/**
- * @deprecated
- * @see modes
- */
-export function chromaModes(set, norm) {
-  console.warn("pcset.chromaModes deprecated. Renamed to pcset.modes");
-  return modes(set, norm);
-}
 
 var REGEX = /^[01]{12}$/;
-
 /**
  * Test if the given string is a pitch class set chroma.
  * @param {String} chroma - the pitch class set chroma
@@ -175,53 +166,33 @@ export function isEqual(s1, s2) {
     };
   return chroma(s1) === chroma(s2);
 }
-export function equal(a, b) {
-  console.warn("pcset.equal is deprecated. Use pcset.isEqual");
-  return isEqual(a, b);
-}
 
 /**
  * Test if a pitch class set is a subset of another
  *
- * @param {Array|String} set - the base set to test against
  * @param {Array|String} test - the set to test
+ * @param {Array|String} set - the base set to test against
  * @return {Boolean} true if the test set is a subset of the set
  * @example
  * pcset.subset('c d e', 'C2 D4 D5 C6') // => true
  */
-export function isSubset(set, test) {
-  if (arguments.length === 1)
-    return function(t) {
-      return isSubset(set, t);
-    };
+export function isSubset(test, set) {
   test = chrToInt(test);
   return (test & chrToInt(set)) === test;
-}
-export function subset(a, b) {
-  console.warn("pcset.subset is deprecated. Use pcset.isSubset");
-  return isSubset(a, b);
 }
 
 /**
  * Test if a pitch class set is a superset
  *
- * @param {Array|String} set - the base set to test against
  * @param {Array|String} test - the set to test
+ * @param {Array|String} set - the base set to test against
  * @return {Boolean} true if the test set is a superset of the set
  * @example
  * pcset.isSuperset('c d e', 'C2 D4 F4 D5 E5 C6') // => true
  */
-export function isSuperset(set, test) {
-  if (arguments.length === 1)
-    return function(t) {
-      return isSuperset(set, t);
-    };
+export function isSuperset(test, set) {
   test = chrToInt(test);
   return (test | chrToInt(set)) === test;
-}
-export function superset(a, b) {
-  console.warn("pcset.superset is deprecated. Use pcset.isSuperset");
-  return isSuperset(a, b);
 }
 
 /**
