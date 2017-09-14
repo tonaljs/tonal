@@ -1,7 +1,3 @@
-import { map, compact, sort } from "tonal-array";
-import { pc } from "tonal-note";
-import { chroma, modes } from "tonal-pcset";
-
 /**
  * This module contains functions to query tonal dictionaries.
  *
@@ -16,6 +12,10 @@ import { chroma, modes } from "tonal-pcset";
  *
  * @module dictionary
  */
+import { map, compact, sort } from "tonal-array";
+import { pc } from "tonal-note";
+import { chroma, modes } from "tonal-pcset";
+
 function id(x) {
   return x;
 }
