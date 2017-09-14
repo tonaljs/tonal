@@ -2,8 +2,12 @@
 
 ## 0.70.0 [Master]
 
-- [tonal-pcset] removed: chromaModes, superset and subset functions
-- [tonal-pcset] Change order of params in isSuperset and isSubset
+- [tonal-dictionary]
+  - add new `scale`, `chord` and `pitchset` dictionaries (functions)
+  - `dictionary` function is deprectated in favour of `build`
+- [tonal-pcset] 
+    - deprecated functions removed: chromaModes, superset and subset functions
+    - Change order of params in isSuperset and isSubset
 - Simplify rollup bundle
 - Change midi dependency order
 - Simplify tonal-note package

@@ -1,24 +1,73 @@
 /**
- * This module contains functions to query tonal dictionaries.
- *
- * A tonal dictionary is basically a map from keys to list of intervals. It
- * also supports name aliases. See `tonal-chords` or `tonal-scales` to examples
- * of dictionaries.
- *
- * This functions are quite low level, and probably you wont need it, because
- * they are friendly served via `tonal-chords` and `tonal-scales`.
- *
- * __Those functions are NOT visible via `tonal` package__.
+ * This module tonal dictionaries: functions that, given a name, returns an
+ * array of intervals.
  *
  * @module dictionary
  */
 import { map, compact, sort } from "tonal-array";
 import { pc } from "tonal-note";
 import { chroma, modes } from "tonal-pcset";
+import scalesData from "./data/scales.json";
+import chordsData from "./data/chords.json";
 
-function id(x) {
-  return x;
+/**
+ * Create a tonal dictionary from data object
+ * 
+ * The data object must have this form:
+ * `{ key: [intervals, [aliases]] }`
+ * 
+ * @param {Object} source 
+ * @param {Function} parse 
+ * @example
+ * const dictionary = require('tonal-dictionary')
+ * var DATA = {
+ *   'maj7': ['1 3 5 7', ['Maj7']],
+ *   'm7':   ['1 b3 5 7']
+ * }
+ * var chords = dictionary.build(DATA);
+ * chords('maj7') // => [ '1', '3', '5', '7' ]
+ * chords('Maj7') // => [ '1', '3', '5', '7' ]
+ * chords('m7') // => ['1', 'b3', '5', '7']
+ * chords('m7b5') // => null
+ * chords.keys() // => ['maj7', 'm7']
+ * chords.keys(true) // => ['maj7', 'm7', 'Maj7']
+ */
+export function build(source, parse = x => x.split(" ")) {
+  const keys = Object.keys(source).sort();
+  const data = {};
+  keys.forEach(k => {
+    data[k] = parse(source[k][0]);
+    (source[k][1] || []).forEach(alias => (data[alias] = data[k]));
+  });
+  const allKeys = Object.keys(data).sort();
+  const dictionary = name => data[name];
+  dictionary.keys = aliases => (aliases ? allKeys : keys).slice();
+  return dictionary;
 }
+
+export const scale = build(scalesData);
+export const chord = build(chordsData);
+
+/**
+ * A dictionary with all known pitchsets (includes chords and scales)
+ * 
+ * @param {String} name 
+ */
+export const pitchset = name => scale(name) || chord(name);
+pitchset.keys = alias => scale.keys(alias).concat(chord.keys(alias));
+
+export const index = (dictionary, genKey = chroma) => {
+  const names = dictionary.keys(true);
+  const data = {};
+  names.forEach(name => {
+    const key = genKey(dictionary(name));
+    data[key] = data[key] || [];
+    data[key].push(name);
+  });
+  const index = name => data[name] || [];
+  index.keys = () => Object.keys(data);
+  return index;
+};
 
 /**
  * Create a tonal dictionary. A dictionary is an object with two functions: get and
@@ -45,7 +94,8 @@ function id(x) {
  * chords.keys(true) // => ['maj7', 'm7', 'Maj7']
  */
 export function dictionary(raw, parse) {
-  parse = parse || id;
+  console.warn("@deprecated: use dictionary.build");
+  parse = parse || (x => x);
   var byKey = {};
   var names = Object.keys(raw);
   var aliases = [];
