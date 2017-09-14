@@ -20,8 +20,9 @@ describe("tonal-note", () => {
   });
 
   test("midi", () => {
-    const midi = "c4 d4 e4 f4 g4 a4 b4 c4".split(" ").map(note.midi);
-    expect(midi).toEqual([60, 62, 64, 65, 67, 69, 71, 60]);
+    const midis = "c4 d4 e4 f4 g4 a4 b4 c4".split(" ").map(note.midi);
+    expect(midis).toEqual([60, 62, 64, 65, 67, 69, 71, 60]);
+    expect(note.midi("C")).toBe(null);
   });
 
   test("fromMidi", () => {

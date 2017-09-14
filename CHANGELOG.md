@@ -2,6 +2,7 @@
 
 ## 0.70.0 [Master]
 
+- New [tonal-notes] package 
 - [tonal-dictionary]
   - add new `scale`, `chord` and `pitchset` dictionaries (functions)
   - `dictionary` function is deprectated in favour of `build`

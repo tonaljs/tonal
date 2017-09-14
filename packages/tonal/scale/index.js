@@ -12,13 +12,14 @@
  * scale.detect('f5 d2 c5 b5 a2 e4 g') // => [ 'C major', 'D dorian', 'E phrygian', 'F lydian', 'G mixolydian', 'A aeolian', 'B locrian'])
  * @module scale
  */
-import { dictionary, detector } from "tonal-dictionary";
+import { scale, dictionary, detector } from "tonal-dictionary/index";
 import { map, compact } from "tonal-array";
 import { pc, name as note } from "tonal-note";
+import { transpose } from "tonal-distance/index";
 import { harmonize } from "tonal-harmonizer";
 import DATA from "./scales.json";
 
-var dict = dictionary(DATA, function(str) {
+const dict = dictionary(DATA, function(str) {
   return str.split(" ");
 });
 
@@ -37,15 +38,16 @@ var dict = dictionary(DATA, function(str) {
  * @example
  * scale.get('bebop', 'Eb') // => [ 'Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'Db', 'D' ]
  * scale.get('major', false) // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
- * var major = scale.get('major')
+ * const major = scale.get('major')
  * major('Db3') // => [ 'Db3', 'Eb3', 'F3', 'Gb3', 'Ab3', 'Bb3', 'C4' ]
  */
 export function get(type, tonic) {
+  console.warn("@deprecated: use scale.intervals or scale.notes");
   if (arguments.length === 1)
     return function(t) {
       return get(type, t);
     };
-  var ivls = dict.get(type);
+  const ivls = dict.get(type);
   return ivls ? harmonize(ivls, tonic) : null;
 }
 
@@ -57,10 +59,10 @@ export function get(type, tonic) {
  * @return {Array} the scale names
  *
  * @example
- * var scale = require('tonal-scale')
+ * const scale = require('tonal-scale')
  * scale.names() // => ['maj7', ...]
  */
-export var names = dict.keys;
+export const names = scale.keys;
 
 /**
  * Get the notes (pitch classes) of a scale. It accepts either a scale name
@@ -79,8 +81,13 @@ export var names = dict.keys;
  * scale.notes('C4 D6 E2 c7 a2 b5 g2 g4 f') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
  */
 export function notes(name) {
-  var scale = parse(name);
-  var notes = scale.tonic ? get(scale.type, pc(scale.tonic)) : null;
+  const parsed = parseName(name);
+  if (parsed.tonic) console.log(parsed.tonic, pc(parsed.tonic));
+  if (parsed.tonic) {
+    const ivls = scale(parsed.type);
+    return ivls ? ivls.map(transpose(pc(parsed.tonic))) : [];
+  }
+  const notes = scale.tonic ? get(scale.type, pc(scale.tonic)) : null;
   return (
     notes ||
     compact(
@@ -106,8 +113,8 @@ export function notes(name) {
  * scale.intervals('C major')
  */
 export function intervals(name) {
-  var scale = parse(name);
-  return get(scale.type, false) || [];
+  const parsed = parseName(name);
+  return scale(parsed.type) || [];
 }
 
 /**
@@ -119,8 +126,13 @@ export function intervals(name) {
  * scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ])
  * scale.intervals('mixophrygian') // => null
  */
+export function exists(name) {
+  return scale(name) !== undefined;
+}
+
 export function isKnowScale(name) {
-  return intervals(name).length > 0;
+  console.warn("@renamed: use scale.exists");
+  return exists(name);
 }
 
 /**
@@ -134,14 +146,14 @@ export function isKnowScale(name) {
  * @param {String} name - the scale name
  * @return {Object} an object { tonic, type }
  * @example
- * scale.parse('C mixoblydean') // => { tonic: 'C', type: 'mixoblydean' }
- * scale.parse('anything is valid') // => { tonic: false, type: 'anything is valid'}
+ * scale.parseName('C mixoblydean') // => { tonic: 'C', type: 'mixoblydean' }
+ * scale.parseName('anything is valid') // => { tonic: false, type: 'anything is valid'}
  */
-export function parse(str) {
+export function parseName(str) {
   if (typeof str !== "string") return null;
-  var i = str.indexOf(" ");
-  var tonic = note(str.substring(0, i)) || false;
-  var type = tonic ? str.substring(i + 1) : str;
+  const i = str.indexOf(" ");
+  const tonic = note(str.substring(0, i)) || false;
+  const type = tonic ? str.substring(i + 1) : str;
   return { tonic: tonic, type: type };
 }
 
@@ -156,4 +168,4 @@ export function parse(str) {
  * scale.detect('b g f# d') // => [ 'GMaj7' ]
  * scale.detect('e c a g') // => [ 'CM6', 'Am7' ]
  */
-export var detect = detector(dict, " ");
+export const detect = detector(dict, " ");

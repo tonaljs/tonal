@@ -1,10 +1,12 @@
 {
-  "name": "tonal-scale",
+  "name": "tonal-notes",
   "version": "0.69.9",
-  "description": "Music scales creation and manipulation",
-  "repository": "https://github.com/danigb/tonal/packages/scale",
-  "keywords": ["music", "theory", "scale", "tonal"],
+  "repository": "https://github.com/danigb/tonal/packages/notes",
+  "description": "Work with groups of notes",
+  "keywords": ["notes", "collection", "tonal", "music", "theory"],
   "scripts": {
+    "docs":
+      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/index.js",
@@ -13,10 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "tonal-array": "^0.69.7",
-    "tonal-distance": "^0.69.7",
-    "tonal-dictionary": "^0.69.9",
-    "tonal-harmonizer": "^0.69.7",
-    "tonal-note": "^0.69.9"
+    "tonal-note": "^0.69.7"
   },
   "babel": {
     "presets": ["es2015"]
