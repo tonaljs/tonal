@@ -5,6 +5,8 @@
   "repository": "https://github.com/danigb/tonal/packages/chord",
   "keywords": ["music", "theory", "chord", "tonal"],
   "scripts": {
+    "docs":
+      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/index.js",
@@ -17,5 +19,11 @@
     "tonal-dictionary": "^0.69.9",
     "tonal-harmonizer": "^0.69.7",
     "tonal-note": "^0.69.9"
+  },
+  "babel": {
+    "presets": ["es2015"]
+  },
+  "jest": {
+    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
   }
 }

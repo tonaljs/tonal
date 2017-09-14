@@ -11,8 +11,8 @@
  *
  * @module chord
  */
-import { dictionary, detector } from "tonal-dictionary";
-import { map, compact, permutations, rotate } from "tonal-array";
+import { dictionary, detector } from "tonal-dictionary/index";
+import { map, compact, permutations, rotate } from "tonal-array/index";
 import { pc, name as note } from "tonal-note";
 import { regex } from "note-parser";
 import { harmonize, intervallic } from "tonal-harmonizer";

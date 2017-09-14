@@ -24,6 +24,9 @@
     "tonal-pitch": "^0.69.7"
   },
   "babel": {
-    "presets": [["env", { "modules": "commonjs" }]]
+    "presets": ["es2015"]
+  },
+  "jest": {
+    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
   }
 }

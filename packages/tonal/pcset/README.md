@@ -23,13 +23,12 @@ pcset.isEqual('c2 d5 e6', 'c6 e3 d1') // => true
     * [`.chroma(set)`](#module_pcset.chroma) ⇒ <code>String</code>
     * ~~[`.notes(notes)`](#module_pcset.notes) ⇒ <code>Array</code>~~
     * [`.modes(set, normalize)`](#module_pcset.modes) ⇒ <code>Array.&lt;String&gt;</code>
-    * ~~[`.chromaModes()`](#module_pcset.chromaModes)~~
     * [`.isChroma(chroma)`](#module_pcset.isChroma) ⇒ <code>Boolean</code>
     * [`.intervals(pcset)`](#module_pcset.intervals) ⇒ <code>Array</code>
     * ~~[`.fromChroma(binary, tonic)`](#module_pcset.fromChroma) ⇒ <code>Array</code>~~
     * [`.isEqual(set1, set2)`](#module_pcset.isEqual) ⇒ <code>Boolean</code>
-    * [`.isSubset(set, test)`](#module_pcset.isSubset) ⇒ <code>Boolean</code>
-    * [`.isSuperset(set, test)`](#module_pcset.isSuperset) ⇒ <code>Boolean</code>
+    * [`.isSubset(test, set)`](#module_pcset.isSubset) ⇒ <code>Boolean</code>
+    * [`.isSuperset(test, set)`](#module_pcset.isSuperset) ⇒ <code>Boolean</code>
     * [`.includes(set, note)`](#module_pcset.includes) ⇒ <code>Boolean</code>
     * [`.filter(set, notes)`](#module_pcset.filter) ⇒ <code>Array</code>
 
@@ -88,13 +87,6 @@ This is used, for example, to get all the modes of a scale.
 ```js
 pcset.modes('C E G')
 ```
-<a name="module_pcset.chromaModes"></a>
-
-## ~~`pcset.chromaModes()`~~
-***Deprecated***
-
-**Kind**: static method of [<code>pcset</code>](#module_pcset)  
-**See**: modes  
 <a name="module_pcset.isChroma"></a>
 
 ## `pcset.isChroma(chroma)` ⇒ <code>Boolean</code>
@@ -167,7 +159,7 @@ pcset.isEqual('c2 d3', 'c5 d2') // => true
 ```
 <a name="module_pcset.isSubset"></a>
 
-## `pcset.isSubset(set, test)` ⇒ <code>Boolean</code>
+## `pcset.isSubset(test, set)` ⇒ <code>Boolean</code>
 Test if a pitch class set is a subset of another
 
 **Kind**: static method of [<code>pcset</code>](#module_pcset)  
@@ -175,8 +167,8 @@ Test if a pitch class set is a subset of another
 
 | Param | Type | Description |
 | --- | --- | --- |
-| set | <code>Array</code> \| <code>String</code> | the base set to test against |
 | test | <code>Array</code> \| <code>String</code> | the set to test |
+| set | <code>Array</code> \| <code>String</code> | the base set to test against |
 
 **Example**  
 ```js
@@ -184,7 +176,7 @@ pcset.subset('c d e', 'C2 D4 D5 C6') // => true
 ```
 <a name="module_pcset.isSuperset"></a>
 
-## `pcset.isSuperset(set, test)` ⇒ <code>Boolean</code>
+## `pcset.isSuperset(test, set)` ⇒ <code>Boolean</code>
 Test if a pitch class set is a superset
 
 **Kind**: static method of [<code>pcset</code>](#module_pcset)  
@@ -192,8 +184,8 @@ Test if a pitch class set is a superset
 
 | Param | Type | Description |
 | --- | --- | --- |
-| set | <code>Array</code> \| <code>String</code> | the base set to test against |
 | test | <code>Array</code> \| <code>String</code> | the set to test |
+| set | <code>Array</code> \| <code>String</code> | the base set to test against |
 
 **Example**  
 ```js
