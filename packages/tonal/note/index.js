@@ -158,6 +158,12 @@ export function note(n) {
 export const oct = parsed(p => p.oct);
 
 /**
+ * Get the note in a given octave
+ * @function
+ */
+export const inOct = (oct, note) => pc(note) + oct;
+
+/**
  * Get the note step: a number equivalent of the note letter. 0 means C and
  * 6 means B. This is different from `chroma` (see example)
  *

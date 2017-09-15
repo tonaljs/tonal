@@ -36,5 +36,11 @@
     "rollup-plugin-json": "^2.1.1",
     "rollup-plugin-node-resolve": "^3.0.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "babel": {
+    "presets": ["es2015"]
+  },
+  "jest": {
+    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
+  }
 }
