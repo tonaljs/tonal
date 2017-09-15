@@ -10,7 +10,7 @@
  *
  * ```js
  * import * as note from 'tonal-note'
- * // or var note = require('tonal-note')
+ * // or const note = require('tonal-note')
  * note.name('bb2') // => 'Bb2'
  * note.chroma('bb2') // => 10
  * note.midi('a4') // => 69
@@ -41,13 +41,13 @@ export function split(str) {
     letter: m[1].toUpperCase(),
     acc: m[2].replace(/x/g, "##"),
     oct: m[3],
-    mod: m[4]
+    type: m[4]
   };
 }
 
 function parseNote(str) {
   const p = split(str);
-  return p && p.mod === ""
+  return p && p.type === ""
     ? {
         step: (p.letter.charCodeAt(0) + 3) % 7,
         alt: p.acc[0] === "b" ? -p.acc.length : p.acc.length,
@@ -56,7 +56,7 @@ function parseNote(str) {
     : null;
 }
 
-var cache = {};
+const cache = {};
 export function parse(name) {
   if (typeof name !== "string") return null;
   return cache[name] === undefined
@@ -84,8 +84,8 @@ const toMidi = parsed(
  */
 export const midi = note => toMidi(note) || +note || null;
 
-var FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
-var SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
+const FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
+const SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
 /**
  * Given a midi number, returns a note name. The altered notes will have
  * flats unless explicitly set with the optional `useSharps` parameter.
@@ -95,17 +95,17 @@ var SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
  * @param [boolean] useSharps - (Optional) set to true to use sharps instead of flats
  * @return {string} the note name
  * @example
- * var midi = require('tonal-midi')
- * midi.note(61) // => 'Db4'
- * midi.note(61, true) // => 'C#4'
+ * const note = require('tonal-note')
+ * note.fromMidi(61) // => 'Db4'
+ * note.fromMidi(61, true) // => 'C#4'
  * // it rounds to nearest note
- * midi.note(61.7) // => 'D4'
+ * note.fromMidi(61.7) // => 'D4'
  */
 export function fromMidi(num, sharps) {
   num = Math.round(num);
-  var pcs = sharps === true ? SHARPS : FLATS;
-  var pc = pcs[num % 12];
-  var o = Math.floor(num / 12) - 1;
+  const pcs = sharps === true ? SHARPS : FLATS;
+  const pc = pcs[num % 12];
+  const o = Math.floor(num / 12) - 1;
   return pc + o;
 }
 
@@ -121,6 +121,24 @@ export function fromMidi(num, sharps) {
 export const freq = (str, m) =>
   (m = midi(str)) !== null ? Math.pow(2, (m - 69) / 12) * 440 : null;
 
+const L2 = Math.log(2);
+const L440 = Math.log(440);
+/**
+ * Get the midi number from a frequency in hertz. The midi number can
+ * contain decimals (with two digits precission)
+ * 
+ * @param {Number} frequency
+ * @return {Number}
+ * @example
+ * note.freqToMidi(220)); //=> 57;
+ * note.freqToMidi(261.62)); //=> 60;
+ * note.freqToMidi(261)); //=> 59.96;
+ */
+export const freqToMidi = freq => {
+  const v = 12 * (Math.log(freq) - L440) / L2 + 69;
+  return Math.round(v * 100) / 100;
+};
+
 /**
  * Return the chroma of a note. The chroma is the numeric equivalent to the
  * pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
@@ -128,7 +146,7 @@ export const freq = (str, m) =>
  * @param {string} note - the note name
  * @return {Integer} the chroma number
  * @example
- * var note = require('tonal-note')
+ * const note = require('tonal-note')
  * note.chroma('Cb') // => 11
  * ['C', 'D', 'E', 'F'].map(note.chroma) // => [0, 2, 4, 5]
  */
@@ -188,7 +206,7 @@ export const step = parsed(p => p.step);
  */
 export function pcFifths(note) {
   console.warn("Deprecated. Do you really need this?");
-  var p = asNotePitch(note);
+  const p = asNotePitch(note);
   return p ? fifths(p) : null;
 }
 
@@ -244,7 +262,7 @@ export const build = p => letter(p.step) + acc(p.alt) + numToStr(p.oct, o => o);
  * @return {string}
  *
  * @example
- * var note = require('tonal-note')
+ * const note = require('tonal-note')
  * note.name('cb2') // => 'Cb2'
  * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
  */

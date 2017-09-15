@@ -1,0 +1,43 @@
+html {
+  background-color: #efefef;
+}
+body {
+  margin: 0 auto;
+  padding: 0.1rem 1rem 4rem 1em;
+  max-width: 720px;
+  background-color: white;
+  box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+h1.note {
+  font-size: 8rem;
+}
+
+a.api {
+  margin-right: 0.5rem;
+}
+
+.Breadcrumbs {
+  display: block;
+  margin: 1em 0 4rem 0;
+}
+
+.Tonics a {
+  margin-right: 0.5rem;
+}
+
+.Circle .background {
+  fill: #ede3e3;
+}
+.Circle .tonic {
+  fill: #9b4dca;
+}
+
+.Circle polygon {
+  fill: #c99ae7;
+  stroke: #9b4dca;
+}
+.NOCircle polygon {
+  fill: #65c3de;
+  stroke: #4a8ea2;
+}

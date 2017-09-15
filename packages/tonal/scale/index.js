@@ -5,17 +5,15 @@
  *
  * @example
  * scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
- * scale.get('hungarian major', 'B3') // => [ 'B3', 'C##4', 'D#4', 'E#4', 'F#4', 'G#4', 'A4'
- * scale.get('C E F G', 'F') // => [ 'F', 'A', 'Bb', 'C' ]
- * scale.get('1P 2M 3M 5P 6M', 'D4') // => [ 'D4', 'E4', 'F#4', 'A4', 'B4' ]
  * scale.names() => ['major', 'minor', ...]
  * scale.detect('f5 d2 c5 b5 a2 e4 g') // => [ 'C major', 'D dorian', 'E phrygian', 'F lydian', 'G mixolydian', 'A aeolian', 'B locrian'])
  * @module scale
  */
-import { scale, dictionary, detector } from "tonal-dictionary/index";
-import { map, compact } from "tonal-array";
+import { scale, dictionary, detector, index } from "tonal-dictionary/index";
+import { map, compact, rotate } from "tonal-array";
 import { pc, name as note } from "tonal-note";
-import { transpose } from "tonal-distance/index";
+import { transpose, subtract } from "tonal-distance/index";
+import { modes as setModes } from "tonal-pcset";
 import { harmonize } from "tonal-harmonizer";
 import DATA from "./scales.json";
 
@@ -80,24 +78,11 @@ export const names = scale.keys;
  * scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
  * scale.notes('C4 D6 E2 c7 a2 b5 g2 g4 f') // => ['C', 'D', 'E', 'F', 'G', 'A', 'B']
  */
-export function notes(name) {
+export function notes(name, tonic) {
   const parsed = parseName(name);
-  if (parsed.tonic) console.log(parsed.tonic, pc(parsed.tonic));
-  if (parsed.tonic) {
-    const ivls = scale(parsed.type);
-    return ivls ? ivls.map(transpose(pc(parsed.tonic))) : [];
-  }
-  const notes = scale.tonic ? get(scale.type, pc(scale.tonic)) : null;
-  return (
-    notes ||
-    compact(
-      map(pc, name).map(function(n, i, arr) {
-        // check for duplicates
-        // TODO: sort but preserving the root
-        return arr.indexOf(n) < i ? null : n;
-      })
-    )
-  );
+  tonic = note(tonic) || parsed.tonic;
+  const ivls = scale(parsed.type);
+  return tonic && ivls ? ivls.map(transpose(pc(tonic))) : [];
 }
 
 /**
@@ -169,3 +154,29 @@ export function parseName(str) {
  * scale.detect('e c a g') // => [ 'CM6', 'Am7' ]
  */
 export const detect = detector(dict, " ");
+
+let scaleIndex = null;
+const find = notes => {
+  if (!scaleIndex) scaleIndex = index(scale);
+  return scaleIndex(notes);
+};
+
+/**
+ * 
+ * @param {String} name - scale name
+ * @param [String] tonic - overrides the given tonic
+ */
+export const modes = (name, tonic) => {
+  const parsed = parseName(name);
+  tonic = note(tonic) || parsed.tonic;
+  const ivls = intervals(parsed.type);
+  if (!tonic || !ivls) return [];
+  const tonics = ivls.map(transpose(tonic));
+
+  const m = setModes(ivls).map((chroma, idx) => {
+    const name = find(chroma)[0];
+    return name ? tonics[idx] + " " + name : null;
+  });
+
+  return m;
+};

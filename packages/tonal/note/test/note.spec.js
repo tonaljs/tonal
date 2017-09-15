@@ -4,6 +4,15 @@ var note = require("../index");
 const map = (fn, str) => str.split(" ").map(fn);
 
 describe("tonal-note", () => {
+  test("split", () => {
+    expect(note.split("Cbb5 major")).toEqual({
+      acc: "bb",
+      letter: "C",
+      type: "major",
+      oct: "5"
+    });
+    expect(note.split("Ax").acc).toEqual("##");
+  });
   test("step", () => {
     const steps = map(note.step, "c d e f g a b");
     expect(steps).toEqual([0, 1, 2, 3, 4, 5, 6]);
@@ -45,6 +54,12 @@ describe("tonal-note", () => {
     expect(note.freq("A4")).toBe(440);
     expect(note.freq(69)).toBe(440);
     expect(note.freq("bla")).toBe(null);
+  });
+
+  test("freqToMidi", () => {
+    expect(note.freqToMidi(220)).toBe(57);
+    expect(note.freqToMidi(261.62)).toBe(60);
+    expect(note.freqToMidi(261)).toBe(59.96);
   });
 
   test("chroma", () => {
