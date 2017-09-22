@@ -1,8 +1,18 @@
 /* global describe test expect */
 
-var key = require("..");
+var key = require("../index");
+
+const $ = str => str.split(" ");
 
 describe("tonal-key", () => {
+  test("chords: given a key return the chords", () => {
+    expect(key.chords("C", "major")).toEqual(
+      $("CMaj7 Dm7 Em7 FMaj7 G7 Am7 Bm7b5")
+    );
+    expect(key.chords("Bb", "minor")).toEqual(
+      $("Bbm7 Cm7b5 DbMaj7 Ebm7 Fm7 GbMaj7 Ab7")
+    );
+  });
   test("mode", () => {
     expect(key.mode("mixophrygian")).toBe(null);
     expect(key.mode("blah")).toBe(null);
@@ -29,16 +39,8 @@ describe("tonal-key", () => {
   });
 
   test("scale", () => {
-    expect(key.scale("C major")).toEqual(["C", "D", "E", "F", "G", "A", "B"]);
-    expect(key.scale("C dorian")).toEqual([
-      "C",
-      "D",
-      "Eb",
-      "F",
-      "G",
-      "A",
-      "Bb"
-    ]);
+    expect(key.scale("C major")).toEqual($("C D E F G A B"));
+    expect(key.scale("C dorian")).toEqual($("C D Eb F G A Bb"));
     expect(key.scale("E mixolydian")).toEqual([
       "E",
       "F#",

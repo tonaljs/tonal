@@ -45,31 +45,48 @@ export function split(str) {
   };
 }
 
-function parseNote(str) {
+const NO_NOTE = Object.freeze({
+  pc: null,
+  name: null,
+  step: null,
+  alt: null,
+  oct: null,
+  chroma: null,
+  midi: null
+});
+const SEMI = [0, 2, 4, 5, 7, 9, 11];
+
+const properties = str => {
   const p = split(str);
-  return p && p.type === ""
-    ? {
-        step: (p.letter.charCodeAt(0) + 3) % 7,
-        alt: p.acc[0] === "b" ? -p.acc.length : p.acc.length,
-        oct: p.oct.length ? +p.oct : null
-      }
-    : null;
-}
+  if (p === null || p.type !== "") return NO_NOTE;
+  p.pc = p.letter + p.acc;
+  p.name = p.pc + p.oct;
+  p.step = (p.letter.charCodeAt(0) + 3) % 7;
+  p.alt = p.acc[0] === "b" ? -p.acc.length : p.acc.length;
+  p.oct = p.oct.length ? +p.oct : null;
+  p.chroma = (SEMI[p.step] + p.alt + 120) % 12;
+  p.midi = p.oct !== null ? SEMI[p.step] + p.alt + 12 * (p.oct + 1) : null;
+  return Object.freeze(p);
+};
 
 const cache = {};
-export function parse(name) {
-  if (typeof name !== "string") return null;
-  return cache[name] === undefined
-    ? (cache[name] = parseNote(name))
-    : cache[name];
+export function parse(str) {
+  if (typeof str !== "string") return NO_NOTE;
+  return cache[str] === undefined ? (cache[str] = properties(str)) : cache[str];
 }
 
-const parsed = fn => (str, p) => ((p = parse(str)) !== null ? fn(p) : null);
+const parsed = fn => note => {
+  const p = parse(note);
+  return p !== NO_NOTE ? fn(p) : null;
+};
 
-const SEMI = [0, 2, 4, 5, 7, 9, 11];
-const toMidi = parsed(
-  p => (p.oct !== null ? SEMI[p.step] + p.alt + 12 * (p.oct + 1) : null)
-);
+/**
+ * Test if the given string is a note
+ * @param {String} name 
+ * @return {boolean}
+ */
+export const isNote = str => parse(str) !== NO_NOTE;
+
 /**
  * Get the note midi number
  * (an alias of tonal-midi `toMidi` function)
@@ -82,7 +99,7 @@ const toMidi = parsed(
  * note.midi(60) // => 60
  * @see midi.toMidi
  */
-export const midi = note => toMidi(note) || +note || null;
+export const midi = note => parse(note).midi || +note || null;
 
 const FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
 const SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
@@ -109,6 +126,9 @@ export function fromMidi(num, sharps) {
   return pc + o;
 }
 
+export const midiToFreq = midi =>
+  typeof midi === "number" ? Math.pow(2, (midi - 69) / 12) * 440 : null;
+
 /**
  * Get the frequency of a note
  *
@@ -117,9 +137,9 @@ export function fromMidi(num, sharps) {
  * @return {Number} the frequency
  * @example
  * note.freq('A4') // => 440
+ * note.freq(69) // => 440
  */
-export const freq = (str, m) =>
-  (m = midi(str)) !== null ? Math.pow(2, (m - 69) / 12) * 440 : null;
+export const freq = note => midiToFreq(parse(note).midi) || midiToFreq(note);
 
 const L2 = Math.log(2);
 const L440 = Math.log(440);
@@ -150,17 +170,7 @@ export const freqToMidi = freq => {
  * note.chroma('Cb') // => 11
  * ['C', 'D', 'E', 'F'].map(note.chroma) // => [0, 2, 4, 5]
  */
-export const chroma = parsed(p => (SEMI[p.step] + p.alt + 120) % 12);
-
-/**
- * @deprecated
- * An alias for note. Get the name of a note in scientific notation
- * @function
- */
-export function note(n) {
-  console.warn("note.note() is deprecated. Use note.name()");
-  return name(n);
-}
+export const chroma = str => parse(str).chroma;
 
 /**
  * Get the octave of the given pitch
@@ -171,15 +181,9 @@ export function note(n) {
  * @example
  * note.oct('C#4') // => 4
  * note.oct('C') // => null
- * note.oct('blah') // => null
+ * note.oct('blah') // => undefined
  */
-export const oct = parsed(p => p.oct);
-
-/**
- * Get the note in a given octave
- * @function
- */
-export const inOct = (oct, note) => pc(note) + oct;
+export const oct = str => parse(str).oct;
 
 /**
  * Get the note step: a number equivalent of the note letter. 0 means C and
@@ -194,7 +198,7 @@ export const inOct = (oct, note) => pc(note) + oct;
  * // usually what you need is chroma
  * note.chroma('Cb') // => 6
  */
-export const step = parsed(p => p.step);
+export const step = str => parse(str).step;
 
 /**
  * @deprecated
@@ -205,7 +209,7 @@ export const step = parsed(p => p.step);
  * @return {Integer} the number of fifths to reach that pitch class from 'C'
  */
 export function pcFifths(note) {
-  console.warn("Deprecated. Do you really need this?");
+  console.warn("note.pcFifths. Deprecated. Do you really need this?");
   const p = asNotePitch(note);
   return p ? fifths(p) : null;
 }
@@ -236,7 +240,7 @@ const letter = step => LETTERS[step];
 const fillStr = (s, n) => Array(n + 1).join(s);
 const numToStr = (num, op) => (typeof num !== "number" ? "" : op(num));
 
-const acc = alt =>
+export const altToAcc = alt =>
   numToStr(alt, alt => (alt < 0 ? fillStr("b", -alt) : fillStr("#", alt)));
 
 /**
@@ -248,7 +252,8 @@ const acc = alt =>
  * @example
  * note.build({ step: 1, alt: -1, oct: 3 }) // => Db3
  */
-export const build = p => letter(p.step) + acc(p.alt) + numToStr(p.oct, o => o);
+export const build = p =>
+  letter(p.step) + altToAcc(p.alt) + numToStr(p.oct, o => o);
 
 /**
  * Given a note name, return the note name or null if not valid note.
@@ -266,7 +271,7 @@ export const build = p => letter(p.step) + acc(p.alt) + numToStr(p.oct, o => o);
  * note.name('cb2') // => 'Cb2'
  * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
  */
-export const name = parsed(p => build(p));
+export const name = str => parse(str).name;
 
 /**
  * Get pitch class of a note. The note can be a string or a pitch array.
@@ -278,4 +283,4 @@ export const name = parsed(p => build(p));
  * tonal.pc('Db3') // => 'Db'
  * tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
  */
-export const pc = parsed(p => letter(p.step) + acc(p.alt));
+export const pc = str => parse(str).pc;

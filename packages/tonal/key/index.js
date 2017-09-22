@@ -6,7 +6,7 @@
  * This is a collection of functions related to keys.
  *
  * @example
- * var key = require('tonal-key')
+ * const key = require('tonal-key')
  * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
  * key.relative('minor', 'C major') // => 'A minor'
  *
@@ -20,21 +20,16 @@ import { numeric } from "tonal-range";
 import { rotate } from "tonal-array";
 import { harmonics, harmonize } from "tonal-harmonizer";
 
-// Order matters: use an array
-var MODES = [
-  "ionian",
-  "dorian",
-  "phrygian",
-  "lydian",
-  "mixolydian",
-  "aeolian",
-  "locrian",
-  "major",
-  "minor"
-];
+const MODES = "ionian dorian phrygian lydian mixolydian aeolian locrian major minor".split(
+  " "
+);
+
+const CHORDS = "Maj7 m7 m7 Maj7 7 m7 m7b5".split(" ");
+
 // { C: 0, D: 2, E: 4, F: -1, G: 1, A: 3, B: 5 }
-var FIFTHS = [0, 2, 4, -1, 1, 3, 5, 0, 3];
-var SCALES = [0, 1, 2, 3, 4, 5, 6, 0, 5].map(function(n) {
+const FIFTHS = [0, 2, 4, -1, 1, 3, 5, 0, 3];
+const OFFSETS = [0, 1, 2, 3, 4, 5, 6, 0, 5];
+const SCALES = OFFSETS.map(function(n) {
   return harmonics(rotate(n, ["C", "D", "E", "F", "G", "A", "B"]));
 });
 
@@ -51,6 +46,8 @@ function majorKey(n) {
 function modeNum(mode) {
   return FIFTHS[MODES.indexOf(mode)];
 }
+const offset = mode => OFFSETS[MODES.indexOf(mode)];
+
 // given a string, return the valid mode it represents or null
 function validMode(m) {
   m = m.trim().toLowerCase();
@@ -63,7 +60,7 @@ function validMode(m) {
  * @param {String} name - the key name
  * @return {Key} the key properties object or null if not a valid key
  * @example
- * var key = require('tonal-key')
+ * const key = require('tonal-key')
  * key.props('C3 dorian') // => { tonic: 'C', mode: 'dorian' }
  * key.props('dorian') // => { tonic: false, mode: 'dorian' }
  * key.props('Ab bebop') // => null
@@ -71,10 +68,10 @@ function validMode(m) {
  */
 export function props(str) {
   if (typeof str !== "string") return null;
-  var ndx = str.indexOf(" ");
-  var key;
+  const ndx = str.indexOf(" ");
+  let key;
   if (ndx === -1) {
-    var p = pc(str);
+    const p = pc(str);
     key = p
       ? { tonic: p, mode: "major" }
       : { tonic: false, mode: validMode(str) };
@@ -83,6 +80,13 @@ export function props(str) {
   }
   return key.mode ? key : null;
 }
+
+export const chords = (tonic, mode) => {
+  const notes = scale(tonic + " " + mode);
+  const chords = rotate(offset(mode), CHORDS);
+
+  return notes.map((note, i) => note + chords[i]);
+};
 
 /**
  * Test if a given name is a valid key name
@@ -137,7 +141,7 @@ export function mode(key) {
  * @example
  * key.relative('dorian', 'B major') // => 'C# dorian'
  * // partial application
- * var minor = key.relative('minor')
+ * const minor = key.relative('minor')
  * minor('C major') // => 'A minor'
  * minor('E major') // => 'C# minor'
  */
@@ -150,7 +154,7 @@ export function relative(rel, key) {
   if (!rel || rel.tonic) return null;
   key = props(key);
   if (!key || !key.tonic) return null;
-  var tonic = trFifths(key.tonic, modeNum(rel.mode) - modeNum(key.mode));
+  const tonic = trFifths(key.tonic, modeNum(rel.mode) - modeNum(key.mode));
   return toKey(tonic, rel.mode);
 }
 
@@ -160,11 +164,11 @@ export function relative(rel, key) {
  * @param {String|Nunber} key
  * @return {Array}
  * @example
- * var key = require('tonal-keys')
+ * const key = require('tonal-keys')
  * key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
  */
 export function alteredNotes(key) {
-  var alt = alteration(key);
+  const alt = alteration(key);
   return alt === null
     ? null
     : alt < 0
@@ -194,7 +198,7 @@ export function modes(alias) {
  * @param {Integer} alt - the alteration number (positive sharps, negative flats)
  * @return {Key} the key object
  * @example
- * var key = require('tonal-key')
+ * const key = require('tonal-key')
  * key.fromAlter(2) // => 'D major'
  */
 export function fromAlter(n) {
@@ -207,7 +211,7 @@ export function fromAlter(n) {
  * @param {String} acc - the accidentals string
  * @return {Key} the key object
  * @example
- * var key = require('tonal-key')
+ * const key = require('tonal-key')
  * key.fromAcc('b') // => 'F major'
  * key.fromAcc('##') // => 'D major'
  */
@@ -229,7 +233,7 @@ export function fromAcc(s) {
  * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
  */
 export function scale(key) {
-  var p = props(key);
+  const p = props(key);
   if (!p || !p.tonic) return null;
   return harmonize(SCALES[MODES.indexOf(p.mode)], p.tonic);
 }
@@ -240,21 +244,21 @@ export function scale(key) {
  * @param {String|Integer} key
  * @return {Integer}
  * @example
- * var key = require('tonal-keys')
+ * const key = require('tonal-keys')
  * key.alteration('A major') // => 3
  */
 export function alteration(key) {
-  var k = props(key);
+  const k = props(key);
   if (!k || !k.tonic) return null;
-  var toMajor = modeNum(k.mode);
-  var toC = pcFifths(k.tonic);
+  const toMajor = modeNum(k.mode);
+  const toC = pcFifths(k.tonic);
   return toC - toMajor;
 }
 
 /**
  * Get the signature of a key. The signature is a string with sharps or flats.
  * @example
- * var key = require('tonal-keys')
+ * const key = require('tonal-keys')
  * key.signature('A major') // => '###'
  */
 export function signature(key) {
@@ -265,4 +269,4 @@ export function signature(key) {
  * An alias for `signature()`
  * @function
  */
-export var accidentals = signature;
+export const accidentals = signature;

@@ -13,6 +13,12 @@ describe("tonal-note", () => {
     });
     expect(note.split("Ax").acc).toEqual("##");
   });
+
+  test("isNote", () => {
+    expect(note.isNote("c")).toBe(true);
+    expect(note.isNote("blah")).toBe(false);
+  });
+
   test("step", () => {
     const steps = map(note.step, "c d e f g a b");
     expect(steps).toEqual([0, 1, 2, 3, 4, 5, 6]);

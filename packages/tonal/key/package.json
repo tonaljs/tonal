@@ -18,5 +18,11 @@
     "tonal-note": "^0.69.9",
     "tonal-range": "^0.69.9",
     "tonal-transpose": "^0.69.7"
+  },
+  "babel": {
+    "presets": ["es2015"]
+  },
+  "jest": {
+    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
   }
 }
