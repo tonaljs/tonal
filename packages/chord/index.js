@@ -50,6 +50,18 @@ const properties = name => {
 
 const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
 
+/**
+ * Get chord properties. It returns an object with :
+ * - name: the chord name
+ * - names: a list with all possible names (includes the current)
+ * - intervals: an array with the chord intervals
+ * - chroma:  chord croma (see pcset)
+ * - setnum: chord chroma number
+ * 
+ * @function
+ * @param {String} name - the chord name (without tonic)
+ * @return {Object}
+ */
 export const props = memo(properties);
 
 /**

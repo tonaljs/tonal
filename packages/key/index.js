@@ -1,9 +1,10 @@
 /**
- * _Key_ refers to the tonal system based on the major and minor scales. This is
- * is the most common tonal system, but tonality can be present in music
- * based in other scales or concepts.
+ * [![npm version](https://img.shields.io/npm/v/tonal-key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
+ * [![tonal](https://img.shields.io/badge/tonal-key-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
  *
- * This is a collection of functions related to keys.
+ * `tonal-key` is a collection of functions to query about tonal keys.
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
  *
  * @example
  * const key = require('tonal-key')
@@ -26,9 +27,32 @@ const FIFTHS = [0, 2, 4, -1, 1, 3, 5, 0, 3];
 
 const modenum = mode => NUMS[MODES.indexOf(mode)];
 
+/**
+ * Get a list of valid mode names. The list of modes will be always in
+ * increasing order (ionian to locrian)
+ *
+ * @function
+ * @param {Boolean} alias - true to get aliases names
+ * @return {Array} an array of strings
+ * @example
+ * key.modes() // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+ * // 'mixolydian', 'aeolian', 'locrian' ]
+ * key.modes(true) // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+ * // 'mixolydian', 'aeolian', 'locrian', 'major', 'minor' ]
+ */
 export const modeNames = aliases =>
   aliases === true ? MODES.slice() : MODES.slice(0, 7);
 
+/**
+ * Create a major key from alterations
+ * 
+ * @function
+ * @param {Integer} alt - the alteration number (positive sharps, negative flats)
+ * @return {Key} the key object
+ * @example
+ * var key = require('tonal-key')
+ * key.fromAlter(2) // => 'D major'
+ */
 export const fromAlter = i => trFifths("C", i) + " major";
 
 export const names = (alt = 4) => {
@@ -46,7 +70,7 @@ const NO_KEY = Object.freeze({
   intervals: [],
   scale: [],
   alteration: null,
-  signature: null
+  accidentals: null
 });
 
 const properties = name => {
@@ -65,11 +89,65 @@ const properties = name => {
 
 const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
 
+/**
+ * Return the a key properties object with the following information:
+ *
+ * - name: name
+ * - tonic: key tonic
+ * - mode: key mode
+ * - modenum: mode number (0 major, 1 dorian, ...)
+ * - intervals: the scale intervals
+ * - scale: the scale notes
+ * - alteration: alteration number
+ * - accidentals: accidentals 
+ *
+ * @function
+ * @param {String} name - the key name
+ * @return {Object} the key properties object or null if not a valid key
+ * @example
+ * var key = require('tonal-key')
+ * key.props('C3 dorian') // => { tonic: 'C', mode: 'dorian', ... }
+ */
 export const props = memo(properties);
 
+/**
+ * Get scale of a key
+ *
+ * @function
+ * @param {String|Object} key
+ * @return {Array} the key scale
+ * @example
+ * key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
+ * key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
+ * key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
+ * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+ */
 export const scale = str => props(str).scale;
+
+/**
+ * Get key alteration. The alteration is a number indicating the number of
+ * sharpen notes (positive) or flaten notes (negative)
+ * 
+ * @function
+ * @param {String|Integer} key
+ * @return {Integer}
+ * @example
+ * var key = require('tonal-keys')
+ * key.alteration('A major') // => 3
+ */
 export const alteration = str => props(str).alteration;
 
+/**
+ * Get a list of the altered notes of a given key. The notes will be in
+ * the same order than in the key signature.
+ * 
+ * @function
+ * @param {String} key - the key name
+ * @return {Array}
+ * @example
+ * var key = require('tonal-keys')
+ * key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
+ */
 export const alteredNotes = name => {
   const alt = props(name).alteration;
   if (alt === null) return null;
@@ -80,6 +158,15 @@ export const alteredNotes = name => {
       : range(-1, alt).map(trFifths("F"));
 };
 
+/**
+ * Get key chords
+ * 
+ * @function
+ * @param {String} name - the key name
+ * @return {Array}
+ * @example
+ * key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
+ */
 export const chords = str => {
   const p = props(str);
   if (!p.name) return [];
@@ -87,13 +174,40 @@ export const chords = str => {
   return p.scale.map((tonic, i) => tonic + chords[i]);
 };
 
+/**
+ * Get secondary dominant key chords
+ * 
+ * @function
+ * @param {String} name - the key name
+ * @return {Array}
+ * @example
+ * key.secDomChords("A major") // => ["E7", "F#7", ...]
+ */
+
 export const secDomChords = name => {
   const p = props(name);
   if (!p.name) return [];
   return p.scale.map(t => transpose(t, "P5") + "7");
 };
 
+/**
+ * Get relative of a key. Two keys are relative when the have the same
+ * key signature (for example C major and A minor)
+ *
+ * It can be partially applied.
+ *
+ * @function
+ * @param {String} mode - the relative destination
+ * @param {String} key - the key source
+ * @example
+ * key.relative('dorian', 'B major') // => 'C# dorian'
+ * // partial application
+ * var minor = key.relative('minor')
+ * minor('C major') // => 'A minor'
+ * minor('E major') // => 'C# minor'
+ */
 export const relative = (mode, key) => {
+  if (arguments.length === 1) return key => relative(mode, key);
   const num = modenum(mode.toLowerCase());
   if (num === undefined) return null;
   const k = props(key);
@@ -101,6 +215,15 @@ export const relative = (mode, key) => {
   return trFifths(k.tonic, FIFTHS[num] - FIFTHS[k.modenum]) + " " + mode;
 };
 
+/**
+ * Split the key name into its components (pitch class tonic and mode name)
+ * 
+ * @function
+ * @param {String} name 
+ * @return {Array} an array in the form [tonic, key]
+ * @example
+ * key.tokenize('C major') // => ['C', 'major']
+ */
 export const tokenize = name => {
   const p = split(name);
   p[3] = p[3].toLowerCase();

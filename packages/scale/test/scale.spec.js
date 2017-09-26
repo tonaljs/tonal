@@ -48,8 +48,8 @@ describe("tonal-scale", () => {
     expect(scale.names(true).length > scale.names().length).toBeTruthy();
   });
 
-  test("modes", () => {
-    expect(scale.modes("major")).toEqual([
+  test("mode names", () => {
+    expect(scale.modeNames("major")).toEqual([
       "major",
       "dorian",
       "phrygian",

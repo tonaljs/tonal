@@ -21,7 +21,11 @@ import { scale, chord } from "tonal-dictionary/index";
 import { compact, unique, rotate } from "tonal-array/index";
 
 const NO_SCALE = Object.freeze({
-  intervals: []
+  name: null,
+  intervals: [],
+  names: [],
+  chroma: null,
+  setnum: null
 });
 
 const properties = name => {
@@ -37,15 +41,16 @@ const properties = name => {
 const memoize = (fn, cache) => str => cache[str] || (cache[str] = fn(str));
 
 /**
- * Get scale notes or intervals. It *always* return an array and the notes
- * are *always* pitch classes
+ * Get scale properties. It returns an object with:
+ * - name: the scale name
+ * - names: a list with all possible names (includes the current)
+ * - intervals: an array with the scale intervals
+ * - chroma:  scale croma (see pcset)
+ * - setnum: scale chroma number
  *
- * @param {String} name - the scale name 
- * @param [String] tonic - the tonic (optional)
- * @return {Array} the scale intervals or pitch classes (if tonic is provided)
- *
- * @example
- * scale.get('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
+ * @function
+ * @param {String} name - the scale name (without tonic)
+ * @return {Object} 
  */
 export const props = memoize(properties, {});
 
@@ -68,6 +73,7 @@ export const names = scale.names;
  *
  * It retruns an empty array when no scale found
  *
+ * @function
  * @param {String} name - the scale name (tonic and type, tonic is optional)
  * @return {Array<String>} the scale intervals if is a known scale or an empty
  * array if no scale found
@@ -84,6 +90,7 @@ export const intervals = name => {
  *
  * Note that it always returns an array, and the values are only pitch classes.
  *
+ * @function
  * @param {String} tonic 
  * @param {String} name - the scale name
  * @return {Array} a pitch classes array
@@ -103,6 +110,7 @@ export function notes(nameOrTonic, name) {
 /**
  * Check if the given name is a known scale from the scales dictionary
  * 
+ * @function
  * @param {String} name - the scale name
  * @return {Boolean}
  */
@@ -119,6 +127,7 @@ export function exists(name) {
  * note name or null and name can be any arbitrary string 
  * (this function doesn't check if that scale name exists)
  *
+ * @function
  * @param {String} name - the scale name
  * @return {Array} an array [tonic, name]
  * @example
@@ -136,9 +145,11 @@ export function tokenize(str) {
 
 /**
  * Find mode names of a scale
+ * 
+ * @function
  * @param {String} name - scale name
  */
-export const modes = name => {
+export const modeNames = name => {
   const ivls = intervals(name);
 
   return pcsetModes(ivls).map(chroma => {
@@ -149,6 +160,7 @@ export const modes = name => {
 /**
  * Get all chords that fits a given scale
  * 
+ * @function
  * @param {String} name
  */
 export const chords = name => {
@@ -160,6 +172,7 @@ export const chords = name => {
  * Given an array of notes, return the scale: a pitch class set starting from 
  * the first note of the array
  * 
+ * @function
  * @param {Array} notes 
  * @return {Array}
  */
@@ -174,6 +187,7 @@ export const toScale = notes => {
 /**
  * Find all scales than extends the given one
  * 
+ * @function
  * @param {String} name 
  */
 export const extensions = name => {
