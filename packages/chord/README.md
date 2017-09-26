@@ -14,15 +14,26 @@ chord.get('CMaj7') // => ['C', 'E', 'G', 'B']
 ```
 
 * [chord](#module_chord)
+    * [`.intervals`](#module_chord.intervals) ⇒ <code>Array.&lt;String&gt;</code>
     * [`.names(aliases)`](#module_chord.names) ⇒ <code>Array</code>
-    * [`.get(type, tonic)`](#module_chord.get) ⇒ <code>Array.&lt;String&gt;</code>
-    * [`.notes(chord)`](#module_chord.notes) ⇒ <code>Array.&lt;String&gt;</code>
-    * [`.intervals(name)`](#module_chord.intervals) ⇒ <code>Array.&lt;String&gt;</code>
-    * [`.isKnownChord(name)`](#module_chord.isKnownChord) ⇒ <code>Boolean</code>
+    * [`.notes(nameOrTonic)`](#module_chord.notes) ⇒
+    * [`.exists(name)`](#module_chord.exists) ⇒ <code>Boolean</code>
     * [`.detect(notes)`](#module_chord.detect) ⇒ <code>Array.&lt;String&gt;</code>
     * [`.position(chord)`](#module_chord.position) ⇒ <code>Integer</code>
     * [`.inversion(num, chord)`](#module_chord.inversion) ⇒ <code>Array</code>
-    * [`.parse(name)`](#module_chord.parse) ⇒ <code>Array</code>
+    * [`.tokenize(name)`](#module_chord.tokenize) ⇒ <code>Array</code>
+
+<a name="module_chord.intervals"></a>
+
+## `chord.intervals` ⇒ <code>Array.&lt;String&gt;</code>
+Get chord intervals. It always returns an array
+
+**Kind**: static constant of [<code>chord</code>](#module_chord)  
+**Returns**: <code>Array.&lt;String&gt;</code> - a list of intervals or null if the type is not known  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the chord name (optionally a tonic and type) |
 
 <a name="module_chord.names"></a>
 
@@ -41,61 +52,29 @@ Return the available chord names
 var chord = require('tonal-chord')
 chord.names() // => ['maj7', ...]
 ```
-<a name="module_chord.get"></a>
-
-## `chord.get(type, tonic)` ⇒ <code>Array.&lt;String&gt;</code>
-Get chord notes or intervals from chord type
-
-This function is currified
-
-**Kind**: static method of [<code>chord</code>](#module_chord)  
-**Returns**: <code>Array.&lt;String&gt;</code> - the chord notes or intervals, or null if not valid type  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| type | <code>String</code> | the chord type |
-| tonic | <code>Strng</code> \| <code>Pitch</code> | the tonic or false to get the intervals |
-
-**Example**  
-```js
-chords.get('dom7', 'C') // => ['C', 'E', 'G', 'Bb']
-maj7 = chords.get('Maj7')
-maj7('C') // => ['C', 'E', 'G', 'B']
-```
 <a name="module_chord.notes"></a>
 
-## `chord.notes(chord)` ⇒ <code>Array.&lt;String&gt;</code>
+## `chord.notes(nameOrTonic)` ⇒
 Get the chord notes of a chord. This function accepts either a chord name
 (for example: 'Cmaj7') or a list of notes.
 
 It always returns an array, even if the chord is not found.
 
 **Kind**: static method of [<code>chord</code>](#module_chord)  
-**Returns**: <code>Array.&lt;String&gt;</code> - a list of notes or empty list if not chord found  
+**Returns**: [String] name - (Optional) name if the first parameter is the tonic  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| chord | <code>String</code> \| <code>Array</code> | the chord to get the notes from |
+| nameOrTonic | <code>String</code> | name of the chord or the tonic |
 
 **Example**  
 ```js
 chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
+chord.notes('C', 'maj7') // => ['C', 'E', 'G', 'B']
 ```
-<a name="module_chord.intervals"></a>
+<a name="module_chord.exists"></a>
 
-## `chord.intervals(name)` ⇒ <code>Array.&lt;String&gt;</code>
-Get chord intervals. It always returns an array
-
-**Kind**: static method of [<code>chord</code>](#module_chord)  
-**Returns**: <code>Array.&lt;String&gt;</code> - a list of intervals or null if the type is not known  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> | the chord name (optionally a tonic and type) |
-
-<a name="module_chord.isKnownChord"></a>
-
-## `chord.isKnownChord(name)` ⇒ <code>Boolean</code>
+## `chord.exists(name)` ⇒ <code>Boolean</code>
 Check if a given name correspond to a chord in the dictionary
 
 **Kind**: static method of [<code>chord</code>](#module_chord)  
@@ -167,12 +146,11 @@ an empty array if no inversion found (not triadic)
 chord.inversion(1, 'Cmaj7') // => [ 'E', 'G', 'B', 'C' ]
 chord.inversion(0, 'e g c') // => [ 'C', 'E', 'G' ]
 ```
-<a name="module_chord.parse"></a>
+<a name="module_chord.tokenize"></a>
 
-## `chord.parse(name)` ⇒ <code>Array</code>
-Try to parse a chord name. It returns an array with the chord type and
-the tonic. If not tonic is found, all the name is considered the chord
-name.
+## `chord.tokenize(name)` ⇒ <code>Array</code>
+Tokenize a chord name. It returns an array with the tonic and chord type 
+If not tonic is found, all the name is considered the chord name.
 
 This function does NOT check if the chord type exists or not. It only tries
 to split the tonic and chord type.
@@ -186,8 +164,8 @@ to split the tonic and chord type.
 
 **Example**  
 ```js
-chord.parse('Cmaj7') // => { tonic: 'C', type: 'maj7' }
-chord.parse('C7') // => { tonic: 'C', type: '7' }
-chord.parse('mMaj7') // => { tonic: false, type: 'mMaj7' }
-chord.parse('Cnonsense') // => { tonic: 'C', type: 'nonsense' }
+chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
+chord.tokenize('C7') // => [ 'C', '7' ]
+chord.tokenize('mMaj7') // => [ null, 'mMaj7' ]
+chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
 ```

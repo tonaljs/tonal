@@ -21,7 +21,6 @@ var tonal = require('tonal')
 // note properties
 tonal.note.chroma('Cb') // => 11
 tonal.note.pc('Db5') // => 'Db'
-tonal.note.simplify('B#3') // => 'C4'
 tonal.note.freq('C#3') // => 138.59
 tonal.note.midi('A4') // => 69
 tonal.note.fromMidi(69) // => 'A4'
@@ -37,72 +36,36 @@ tonal.distance.interval('C', 'G') // => '5P'
 tonal.distance.semitones('C', 'G') // => 7
 
 // scales
-tonal.scale('Bb lydian') // => [ 'Bb', 'C', 'D', 'E', 'F', 'G', 'A']
-tonal.scale('Eb bebop') // => [ 'Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'Db', 'D' ]
-tonal.scale.names()
-tonal.scale.detect('Bb4 Eb4 C5 G4 Bb4 F6') // => ['Eb major pentatonic']
+tonal.scale.notes('Bb lydian') // => [ 'Bb', 'C', 'D', 'E', 'F', 'G', 'A']
+tonal.scale.notes('Eb bebop') // => [ 'Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'Db', 'D' ]
+tonal.scale.names() // => ["major", "minor", "bebop", ... and 90 more]
 
 // chords
-tonal.chord('Fm7b5') // => [ 'F', 'Ab', 'Cb', 'Eb' ]
-tonal.chord.names()
-tonal.chord.detect('g f# d b') // => [ 'GMaj7' ]
+tonal.chord.notes('Fm7b5') // => [ 'F', 'Ab', 'Cb', 'Eb' ]
+tonal.chord.names() // => ['M', 'm', 'm7b5', ... and 100 more]
 
 // partial application
-var fifthUp = tonal.transpose('P5')
-fifthUp('c3') // => 'G3'
-tonal.scale('G melodic minor').map(tonal.transpose('m3')) // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'G', 'A' ]
-
-// map lists
-tonal.map(tonal.note.pc, 'C2 Eb5 gx4') // => ['C', 'Eb', 'G##']
-tonal.map(tonal.transpose('3M'), 'c d e') // => ['E4', 'F#4', 'G#4']
-
-// lift functions
-var toPitchClasses = tonal.map(tonal.note.pc)
-toPitchClasses('C2 db3 e5') // => ['C', 'Db', 'E']
-var fifthUpAll = tonal.map(tonal.transpose('5P'))
-fifthUpAll('c d e') // => ['G', 'A', 'B']
-
-// Create complex note ranges: from C4 up to F4 and then down to D4
-tonal.range.chromatic('C4, F4, D4') // => [ 'C4', 'Db4', 'D4', 'Eb4', 'E4', 'F4', 'E4', 'Eb4', 'D4' ]
-// Filter ranges to certain notes: from C3 to C4 and back to C3 , using only C Eb G and Bb notes
-tonal.range.pitchSet('C Eb G Bb', ['C3', 'C4', 'C3']) // => ['C3', 'Eb3', 'G3', 'Bb3', 'C4', 'Bb3', 'G3', 'Eb3', 'C3']
-
-// harmonize a note with a list intervals
-tonal.harmonize('1P 3m 5d', 'C') // => ['C', 'Eb', 'Gb']
-// or a list of a notes with an interval
-tonal.harmonize('c d e', 'M3') // => ['E', 'F#', 'G']
-// partial application
-var maj7 = tonal.harmonize('1P 3M 5P 7M')
-maj7('C2') // => ['C2', 'E2', 'G2', 'B2']
-
-// extract intervals
-tonal.harmonics('C Eb G Bb') // => ['1P', '3m', '5P', '7m']
-
-// work with chord progressions
-tonal.progression.abstract('Cmaj7 Dm7 G7', 'C') // => ['Imaj7', 'IIm7', 'V7']
+var upFifth = tonal.transpose('P5')
+upFifth('c3') // => 'G3'
+tonal.scale.notes('G melodic minor').map(tonal.transpose('m3')) // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'G', 'A' ]
 ```
-
-Because tonal makes heavy use of functional concepts, there's a few things that are not so common inside JS space, so take in mind that:
-
-- there are no objects. Only functions that performs transformations on data.
-- notes and intervals are represented using strings.
-- most of the functions are currified, so you can partially applied them: it means that if you don't pass all the arguments, you get another function that accepts the rest of the parameters. For example `transpose` function accepts two arguments, the note and the interval, but sometimes is useful to pass only one: `['C', 'D', 'E'].map(tonal.transpose('P5'))`
-- the `tonal` module is a facade of the rest of the modules. If you are concerned about code size, you can import only the required modules.
-- within the `tonal` facade, most (but not all) of the functions are namespaced to the name of the module. For example, to use the `chromatic` function of `tonal-range` module, you must write `tonal.range.chromatic`. The modules that are not namespaced are `array`, `transpose` and `distance`
-- the code is written using ES6 module system (and converted to ES5 modules using [rollup](http://rollupjs.org)). It means that if you use ES6 modules you can get some benefits like code tree shaking, for example. Anyway, they are fully compatible with ES5 modules.
 
 ## Features
 
 `tonal` is still a work in progress, but currently has implemented:
 
-- Note, intervals, transposition, distances, enharmonics
+- Note, intervals, transposition, distances
 - Midi and frequency conversion
 - Scales, chords, dictionaries
 - Utilities to work with collection of notes: sort, filter, rotate, shuffle.
 - Pitch sets comparations, chord and scale detection
 - Keys, keys signatures, key scales
-- Chord progressions
 - Pitch and pitch class sets
+
+In [extensions](https://github.com/danigb/tonal-extensions):
+- Complex note range generation
+- Chord progressions
+- Enharmonics
 
 ## Philosophy
 
@@ -111,7 +74,6 @@ This library is evolving with this ideas in mind:
 - Functional: no classes, no side effects, no mutations. Just functions, data-in data-out. Most of the functions has the data to operate on as last argument and lot of functions are currified.
 - Notes and intervals are represented with strings, instead of objects.
 - Carefully written: small, fast and modular.
-- Different notations: scientific notation by default. Helmholtz coming soon.
 - Documented: all public functions are fully documented inside the code. Read the generated API documentation [here](http://danigb.github.io/tonal/api/)
 - Learneable: since all the modules share the same philosophy is easy to work with them.
 - Tested: every public method is tested with coverage support.
@@ -123,7 +85,7 @@ Using yarn: `yarn add tonal` (or a single module: `yarn add tonal-scale`)
 
 Using npm: `npm install --save tonal` (or: `npm install --save tonal-scale`)
 
-Browser: grab the minified file [here](https://github.com/danigb/tonal/blob/master/dist/tonal.min.js) (26kb) and include it in your html page:
+Browser: grab the minified file [here](https://github.com/danigb/tonal/blob/master/dist/tonal.min.js) (26kb) and include it in your html page (use a `Tonal` global object)
 
 ```html
 <script src="tonal.min.js"></script>
@@ -134,15 +96,15 @@ Browser: grab the minified file [here](https://github.com/danigb/tonal/blob/mast
 ES6:
 
 ```js
-import tonal from 'tonal'
-tonal.transpose('C4', '3M')
+import { distance } from 'tonal'
+distance.transpose('C4', '3M')
 ```
 
 ES5:
 
 ```js
 var tonal = require('tonal')
-tonal.transpose('C4', '2m')
+tonal.distance.transpose('C4', '2m')
 ```
 
 Browser (use the `Tonal` global object):
@@ -176,7 +138,7 @@ It's a multipackage module that uses [lerna](https://github.com/lerna/lerna) to 
 
 To build the library from the first time use `npm run init`
 
-To run the tests: `npm run test`
+To run the tests: `npm run test` or just `jest` if you have jest globally installed.
 
 The distributable `tonal.min.js` file is generated with `npm run dist`
 

@@ -21,11 +21,9 @@ pcset.isEqual('c2 d5 e6', 'c6 e3 d1') // => true
 
 * [pcset](#module_pcset)
     * [`.chroma(set)`](#module_pcset.chroma) ⇒ <code>String</code>
-    * ~~[`.notes(notes)`](#module_pcset.notes) ⇒ <code>Array</code>~~
     * [`.modes(set, normalize)`](#module_pcset.modes) ⇒ <code>Array.&lt;String&gt;</code>
     * [`.isChroma(chroma)`](#module_pcset.isChroma) ⇒ <code>Boolean</code>
     * [`.intervals(pcset)`](#module_pcset.intervals) ⇒ <code>Array</code>
-    * ~~[`.fromChroma(binary, tonic)`](#module_pcset.fromChroma) ⇒ <code>Array</code>~~
     * [`.isEqual(set1, set2)`](#module_pcset.isEqual) ⇒ <code>Boolean</code>
     * [`.isSubset(test, set)`](#module_pcset.isSubset) ⇒ <code>Boolean</code>
     * [`.isSuperset(test, set)`](#module_pcset.isSuperset) ⇒ <code>Boolean</code>
@@ -50,23 +48,8 @@ without modification.
 
 **Example**  
 ```js
-pcset.chroma('C D E') // => '1010100000000'
+pcset.chroma(["C", "D", "E"]) // => '1010100000000'
 ```
-<a name="module_pcset.notes"></a>
-
-## ~~`pcset.notes(notes)` ⇒ <code>Array</code>~~
-***Deprecated***
-
-**Kind**: static method of [<code>pcset</code>](#module_pcset)  
-**Returns**: <code>Array</code> - an array of pitch class sets  
-**See**: collection.pcset
-Given a list of notes, return the pitch class names of the set
-starting with the first note of the list  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| notes | <code>String</code> \| <code>Array</code> | the pitch class set notes |
-
 <a name="module_pcset.modes"></a>
 
 ## `pcset.modes(set, normalize)` ⇒ <code>Array.&lt;String&gt;</code>
@@ -85,7 +68,7 @@ This is used, for example, to get all the modes of a scale.
 
 **Example**  
 ```js
-pcset.modes('C E G')
+pcset.modes(["C", "D", "E"]).map(pcset.intervals)
 ```
 <a name="module_pcset.isChroma"></a>
 
@@ -118,27 +101,7 @@ Given a pcset (notes or chroma) return it's intervals
 
 **Example**  
 ```js
-pcset.intervals('1010100000000') => ['C', 'D', 'E']
-```
-<a name="module_pcset.fromChroma"></a>
-
-## ~~`pcset.fromChroma(binary, tonic)` ⇒ <code>Array</code>~~
-***Deprecated***
-
-**Kind**: static method of [<code>pcset</code>](#module_pcset)  
-**Returns**: <code>Array</code> - a list of notes or intervals  
-**See**: intervals
-Given a pitch class set in binary notation it returns the intervals or notes
-(depending on the tonic)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| binary | <code>String</code> | the pitch class set in binary representation |
-| tonic | <code>String</code> \| <code>Pitch</code> | the pitch class set tonic |
-
-**Example**  
-```js
-pcset.fromChroma('101010101010', 'C') // => ['C', 'D', 'E', 'Gb', 'Ab', 'Bb']
+pcset.intervals('1010100000000') => ["1P", "2M", "3M"]
 ```
 <a name="module_pcset.isEqual"></a>
 
@@ -206,8 +169,8 @@ Test if a given pitch class set includes a note
 
 **Example**  
 ```js
-pcset.includes('c d e', 'C4') // =A true
-pcset.includes('c d e', 'C#4') // =A false
+pcset.includes('c d e', 'C4') // => true
+pcset.includes('c d e', 'C#4') // => false
 ```
 <a name="module_pcset.filter"></a>
 
@@ -224,6 +187,6 @@ Filter a list with a pitch class set
 
 **Example**  
 ```js
-pcset.filter('c d e', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'd2', 'c3', 'd3' ])
-pcset.filter('c2', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'c3' ])
+pcset.filter(c d e', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'd2', 'c3', 'd3' ])
+pcset.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'c3' ])
 ```

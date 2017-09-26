@@ -16,7 +16,7 @@
     "test": "jest --coverage --no-cache",
     "docs": "lerna run docs",
     "api":
-      "rm docs/API.md && cat packages/tonal/note/README.md packages/tonal/interval/README.md packages/tonal/distance/README.md packages/tonal/notes/README.md  > docs/API.md"
+      "rm docs/API.md && cat packages/note/README.md packages/interval/README.md packages/distance/README.md packages/scale/README.md packages/chord/README.md packages/pcset/README.md packages/key/README.md > docs/API.md"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal",

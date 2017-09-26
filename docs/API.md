@@ -12,7 +12,7 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 
 ```js
 import * as note from 'tonal-note'
-// or var note = require('tonal-note')
+// or const note = require('tonal-note')
 note.name('bb2') // => 'Bb2'
 note.chroma('bb2') // => 10
 note.midi('a4') // => 69
@@ -32,19 +32,49 @@ tonal.note.midi('d4') // => 62
 
 
 * [note](#module_note)
+    * [`.isNote`](#module_note.isNote) ⇒ <code>boolean</code>
+    * [`.freqToMidi`](#module_note.freqToMidi) ⇒ <code>Number</code>
     * [`.chroma`](#module_note.chroma) ⇒ <code>Integer</code>
-    * [`.midi(note)`](#module_note.midi) ⇒ <code>Integer</code>
-    * [`.fromMidi(midi, [boolean])`](#module_note.fromMidi) ⇒ <code>string</code>
-    * [`.freq(note)`](#module_note.freq) ⇒ <code>Number</code>
-    * ~~[`.note()`](#module_note.note)~~
-    * [`.oct(note)`](#module_note.oct) ⇒ <code>Integer</code>
-    * [`.step(note)`](#module_note.step) ⇒ <code>Integer</code>
-    * ~~[`.pcFifths(note)`](#module_note.pcFifths) ⇒ <code>Integer</code>~~
-    * [`.alt(note)`](#module_note.alt) ⇒ <code>Integer</code>
-    * [`.build(parsed)`](#module_note.build) ⇒ <code>string</code>
+    * [`.stepToLetter`](#module_note.stepToLetter) ⇒ <code>string</code>
+    * [`.altToAcc`](#module_note.altToAcc) ⇒ <code>String</code>
     * [`.name()`](#module_note.name) ⇒ <code>string</code>
     * [`.pc()`](#module_note.pc) ⇒ <code>string</code>
+    * [`.midi(note)`](#module_note.midi) ⇒ <code>Integer</code>
+    * [`.freq(note)`](#module_note.freq) ⇒ <code>Number</code>
+    * [`.oct(note)`](#module_note.oct) ⇒ <code>Integer</code>
+    * [`.step(note)`](#module_note.step) ⇒ <code>Integer</code>
+    * [`.alt(note)`](#module_note.alt) ⇒ <code>Integer</code>
+    * [`.fromMidi(midi, [boolean])`](#module_note.fromMidi) ⇒ <code>string</code>
 
+<a name="module_note.isNote"></a>
+
+## `note.isNote` ⇒ <code>boolean</code>
+Test if the given string is a note
+
+**Kind**: static constant of [<code>note</code>](#module_note)  
+
+| Param | Type |
+| --- | --- |
+| name | <code>String</code> | 
+
+<a name="module_note.freqToMidi"></a>
+
+## `note.freqToMidi` ⇒ <code>Number</code>
+Get the midi number from a frequency in hertz. The midi number can
+contain decimals (with two digits precission)
+
+**Kind**: static constant of [<code>note</code>](#module_note)  
+
+| Param | Type |
+| --- | --- |
+| frequency | <code>Number</code> | 
+
+**Example**  
+```js
+note.freqToMidi(220)); //=> 57;
+note.freqToMidi(261.62)); //=> 60;
+note.freqToMidi(261)); //=> 59.96;
+```
 <a name="module_note.chroma"></a>
 
 ## `note.chroma` ⇒ <code>Integer</code>
@@ -60,9 +90,78 @@ pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
 
 **Example**  
 ```js
-var note = require('tonal-note')
+const note = require('tonal-note')
 note.chroma('Cb') // => 11
 ['C', 'D', 'E', 'F'].map(note.chroma) // => [0, 2, 4, 5]
+```
+<a name="module_note.stepToLetter"></a>
+
+## `note.stepToLetter` ⇒ <code>string</code>
+Given a step number return it's letter (0 = C, 1 = D, 2 = E)
+
+**Kind**: static constant of [<code>note</code>](#module_note)  
+**Returns**: <code>string</code> - the letter  
+
+| Param | Type |
+| --- | --- |
+| step | <code>number</code> | 
+
+**Example**  
+```js
+note.stepToLetter(3) // => "F"
+```
+<a name="module_note.altToAcc"></a>
+
+## `note.altToAcc` ⇒ <code>String</code>
+Given an alteration number, return the accidentals
+
+**Kind**: static constant of [<code>note</code>](#module_note)  
+
+| Param | Type |
+| --- | --- |
+| alt | <code>Number</code> | 
+
+**Example**  
+```js
+note.altToAcc(-3) // => 'bbb'
+```
+<a name="module_note.name"></a>
+
+## `note.name()` ⇒ <code>string</code>
+Given a note name, return the note name or null if not valid note.
+The note name will ALWAYS have the letter in upercase and accidentals
+using # or b
+
+Can be used to test if a string is a valid note name.
+
+**Kind**: static method of [<code>note</code>](#module_note)  
+
+| Type |
+| --- |
+| <code>Pitch</code> \| <code>string</code> | 
+
+**Example**  
+```js
+const note = require('tonal-note')
+note.name('cb2') // => 'Cb2'
+['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
+```
+<a name="module_note.pc"></a>
+
+## `note.pc()` ⇒ <code>string</code>
+Get pitch class of a note. The note can be a string or a pitch array.
+
+**Kind**: static method of [<code>note</code>](#module_note)  
+**Returns**: <code>string</code> - the pitch class  
+
+| Type |
+| --- |
+| <code>string</code> \| <code>Pitch</code> | 
+
+**Example**  
+```js
+tonal.pc('Db3') // => 'Db'
+tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
 ```
 <a name="module_note.midi"></a>
 
@@ -83,28 +182,6 @@ Get the note midi number
 note.midi('C4') // => 60
 note.midi(60) // => 60
 ```
-<a name="module_note.fromMidi"></a>
-
-## `note.fromMidi(midi, [boolean])` ⇒ <code>string</code>
-Given a midi number, returns a note name. The altered notes will have
-flats unless explicitly set with the optional `useSharps` parameter.
-
-**Kind**: static method of [<code>note</code>](#module_note)  
-**Returns**: <code>string</code> - the note name  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| midi | <code>number</code> | the midi note number |
-| [boolean] |  | useSharps - (Optional) set to true to use sharps instead of flats |
-
-**Example**  
-```js
-var midi = require('tonal-midi')
-midi.note(61) // => 'Db4'
-midi.note(61, true) // => 'C#4'
-// it rounds to nearest note
-midi.note(61.7) // => 'D4'
-```
 <a name="module_note.freq"></a>
 
 ## `note.freq(note)` ⇒ <code>Number</code>
@@ -120,13 +197,8 @@ Get the frequency of a note
 **Example**  
 ```js
 note.freq('A4') // => 440
+note.freq(69) // => 440
 ```
-<a name="module_note.note"></a>
-
-## ~~`note.note()`~~
-***Deprecated***
-
-**Kind**: static method of [<code>note</code>](#module_note)  
 <a name="module_note.oct"></a>
 
 ## `note.oct(note)` ⇒ <code>Integer</code>
@@ -143,7 +215,7 @@ Get the octave of the given pitch
 ```js
 note.oct('C#4') // => 4
 note.oct('C') // => null
-note.oct('blah') // => null
+note.oct('blah') // => undefined
 ```
 <a name="module_note.step"></a>
 
@@ -165,18 +237,6 @@ note.step('Cb') // => 0
 // usually what you need is chroma
 note.chroma('Cb') // => 6
 ```
-<a name="module_note.pcFifths"></a>
-
-## ~~`note.pcFifths(note)` ⇒ <code>Integer</code>~~
-***Deprecated***
-
-**Kind**: static method of [<code>note</code>](#module_note)  
-**Returns**: <code>Integer</code> - the number of fifths to reach that pitch class from 'C'  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| note | <code>string</code> \| <code>Pitch</code> | the note (can be a pitch class) |
-
 <a name="module_note.alt"></a>
 
 ## `note.alt(note)` ⇒ <code>Integer</code>
@@ -196,60 +256,27 @@ note.alt('C') // => 0
 note.alt('C#') // => 1
 note.alt('Cb') // => -1
 ```
-<a name="module_note.build"></a>
+<a name="module_note.fromMidi"></a>
 
-## `note.build(parsed)` ⇒ <code>string</code>
-Build a note name in scientific notation from a parsed note 
-(an object with { step, alt, oct })
+## `note.fromMidi(midi, [boolean])` ⇒ <code>string</code>
+Given a midi number, returns a note name. The altered notes will have
+flats unless explicitly set with the optional `useSharps` parameter.
 
 **Kind**: static method of [<code>note</code>](#module_note)  
 **Returns**: <code>string</code> - the note name  
 
-| Param | Type |
-| --- | --- |
-| parsed | <code>parsed</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| midi | <code>number</code> | the midi note number |
+| [boolean] |  | useSharps - (Optional) set to true to use sharps instead of flats |
 
 **Example**  
 ```js
-note.build({ step: 1, alt: -1, oct: 3 }) // => Db3
-```
-<a name="module_note.name"></a>
-
-## `note.name()` ⇒ <code>string</code>
-Given a note name, return the note name or null if not valid note.
-The note name will ALWAYS have the letter in upercase and accidentals
-using # or b
-
-Can be used to test if a string is a valid note name.
-
-**Kind**: static method of [<code>note</code>](#module_note)  
-
-| Type |
-| --- |
-| <code>Pitch</code> \| <code>string</code> | 
-
-**Example**  
-```js
-var note = require('tonal-note')
-note.name('cb2') // => 'Cb2'
-['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
-```
-<a name="module_note.pc"></a>
-
-## `note.pc()` ⇒ <code>string</code>
-Get pitch class of a note. The note can be a string or a pitch array.
-
-**Kind**: static method of [<code>note</code>](#module_note)  
-**Returns**: <code>string</code> - the pitch class  
-
-| Type |
-| --- |
-| <code>string</code> \| <code>Pitch</code> | 
-
-**Example**  
-```js
-tonal.pc('Db3') // => 'Db'
-tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
+const note = require('tonal-note')
+note.fromMidi(61) // => 'Db4'
+note.fromMidi(61, true) // => 'C#4'
+// it rounds to nearest note
+note.fromMidi(61.7) // => 'D4'
 ```
 <a name="module_interval"></a>
 
@@ -275,7 +302,7 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 
 ```js
 import * as interval from 'tonal-interval'
-// or var interval = require('tonal-interval')
+// or const interval = require('tonal-interval')
 interval.semitones('4P') // => 5
 interval.invert('3m') // => '6M'
 interval.simplify('9m') // => '2m'
@@ -287,138 +314,13 @@ interval.simplify('9m') // => '2m'
 
 ## API Documentation
 
-
-* [interval](#module_interval)
-    * [`.toInterval(interval)`](#module_interval.toInterval) ⇒ <code>String</code>
-    * [`.num(interval)`](#module_interval.num) ⇒ <code>Integer</code>
-    * [`.value(interval)`](#module_interval.value) ⇒ <code>Integer</code>
-    * [`.props(interval)`](#module_interval.props) ⇒ <code>Array</code>
-    * [`.fromProps(props)`](#module_interval.fromProps) ⇒ <code>String</code>
-    * [`.semitones(ivl)`](#module_interval.semitones) ⇒ <code>Integer</code>
-    * [`.fromSemitones(num)`](#module_interval.fromSemitones) ⇒ <code>String</code>
-    * [`.ic(interval)`](#module_interval.ic) ⇒ <code>Integer</code>
-    * [`.type(interval)`](#module_interval.type) ⇒ <code>String</code>
-    * [`.invert(interval)`](#module_interval.invert) ⇒ <code>String</code> \| <code>Pitch</code>
-    * [`.simplify(interval)`](#module_interval.simplify) ⇒ <code>String</code> \| <code>Array</code>
-
-<a name="module_interval.toInterval"></a>
-
-## `interval.toInterval(interval)` ⇒ <code>String</code>
-Get interval name. Can be used to test if it's an interval. It accepts intervals
-as pitch or string in shorthand notation or tonal notation. It returns always
-intervals in tonal notation.
-
-**Kind**: static method of [<code>interval</code>](#module_interval)  
-**Returns**: <code>String</code> - the interval name or null if not valid interval  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| interval | <code>String</code> \| <code>Pitch</code> | the interval string or array |
-
-**Example**  
-```js
-interval.toInterval('m-3') // => '-3m'
-interval.toInterval('3') // => null
-```
-<a name="module_interval.num"></a>
-
-## `interval.num(interval)` ⇒ <code>Integer</code>
-Get the number of the interval (same as value, but always positive)
-
-**Kind**: static method of [<code>interval</code>](#module_interval)  
-**Returns**: <code>Integer</code> - the positive interval number (P1 is 1, m2 is 2, ...)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| interval | <code>String</code> \| <code>Pitch</code> | the interval |
-
-**Example**  
-```js
-interval.num('m2') // => 2
-interval.num('P9') // => 9
-interval.num('P-4') // => 4
-```
-<a name="module_interval.value"></a>
-
-## `interval.value(interval)` ⇒ <code>Integer</code>
-Get the interval value (the interval number, but positive or negative
-depending the interval direction)
-
-**Kind**: static method of [<code>interval</code>](#module_interval)  
-**Returns**: <code>Integer</code> - the positive interval number (P1 is 1, m-2 is -2, ...)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| interval | <code>String</code> \| <code>Pitch</code> | the interval |
-
-**Example**  
-```js
-interval.num('m2') // => 2
-interval.num('m9') // => 9
-interval.num('P-4') // => -4
-interval.num('m-9') // => -9
-```
-<a name="module_interval.props"></a>
-
-## `interval.props(interval)` ⇒ <code>Array</code>
-Get interval properties. It returns an object with:
-
-- num: the interval number (always positive)
-- alt: the interval alteration (0 for perfect in perfectables, or 0 for major in _majorables_)
-- dir: the interval direction (1 ascending, -1 descending)
-
-**Kind**: static method of [<code>interval</code>](#module_interval)  
-**Returns**: <code>Array</code> - the interval in the form [number, alt]  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| interval | <code>String</code> \| <code>Pitch</code> | the interval |
-
-**Example**  
-```js
-interval.parse('m2') // => { num: 2, alt: -1, dir: 1 }
-interval.parse('m9') // => { num: 9, alt: -1, dir: 1 }
-interval.parse('P-4') // => { num: 4, alt: 0, dir: -1}
-interval.parse('m-9') // => { num: 9, alt: -1, dir: -1 }
-```
-<a name="module_interval.fromProps"></a>
-
-## `interval.fromProps(props)` ⇒ <code>String</code>
-Given a interval property object, get the interval name
-
-**Kind**: static method of [<code>interval</code>](#module_interval)  
-**Returns**: <code>String</code> - the interval name  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| props | <code>Object</code> | the interval property object - num: the interval number - alt: the interval alteration - dir: the direction |
-
-<a name="module_interval.semitones"></a>
-
-## `interval.semitones(ivl)` ⇒ <code>Integer</code>
-Get size in semitones of an interval
-
-**Kind**: static method of [<code>interval</code>](#module_interval)  
-**Returns**: <code>Integer</code> - the number of semitones or null if not an interval  
-
-| Param | Type |
-| --- | --- |
-| ivl | <code>String</code> \| <code>Pitch</code> | 
-
-**Example**  
-```js
-import { semitones } from 'tonal-interval'
-semitones('P4') // => 5
-// or using tonal
-tonal.semitones('P5') // => 7
-```
 <a name="module_interval.fromSemitones"></a>
 
-## `interval.fromSemitones(num)` ⇒ <code>String</code>
+## `interval.fromSemitones` ⇒ <code>String</code>
 Get interval name from semitones number. Since there are several interval
 names for the same number, the name it's arbitraty, but deterministic.
 
-**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Kind**: static constant of [<code>interval</code>](#module_interval)  
 **Returns**: <code>String</code> - the interval name  
 
 | Param | Type | Description |
@@ -431,87 +333,6 @@ import { fromSemitones } from 'tonal-interval'
 fromSemitones(7) // => '5P'
 // or using tonal
 tonal.fromSemitones(-7) // => '-5P'
-```
-<a name="module_interval.ic"></a>
-
-## `interval.ic(interval)` ⇒ <code>Integer</code>
-Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
-number of a given interval.
-
-In musical set theory, an interval class is the shortest distance in
-pitch class space between two unordered pitch classes
-
-As paramter you can pass an interval in shorthand notation, an interval in
-array notation or the number of semitones of the interval
-
-**Kind**: static method of [<code>interval</code>](#module_interval)  
-**Returns**: <code>Integer</code> - A value between 0 and 6  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| interval | <code>String</code> \| <code>Integer</code> | the interval or the number of semitones |
-
-**Example**  
-```js
-interval.ic('P8') // => 0
-interval.ic('m6') // => 4
-['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
-```
-<a name="module_interval.type"></a>
-
-## `interval.type(interval)` ⇒ <code>String</code>
-Get interval type. Can be perfectable (1, 4, 5) or majorable (2, 3, 6, 7)
-It does NOT return the actual quality.
-
-**Kind**: static method of [<code>interval</code>](#module_interval)  
-**Returns**: <code>String</code> - 'P' for perfectables, 'M' for majorables or null if not
-valid interval  
-
-| Param | Type |
-| --- | --- |
-| interval | <code>String</code> \| <code>Pitch</code> | 
-
-**Example**  
-```js
-interval.type('5A') // => 'P'
-```
-<a name="module_interval.invert"></a>
-
-## `interval.invert(interval)` ⇒ <code>String</code> \| <code>Pitch</code>
-Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
-of an interval.
-
-**Kind**: static method of [<code>interval</code>](#module_interval)  
-**Returns**: <code>String</code> \| <code>Pitch</code> - the inverted interval  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| interval | <code>String</code> \| <code>Pitch</code> | the interval to invert in interval shorthand notation or interval array notation |
-
-**Example**  
-```js
-interval.invert('3m') // => '6M'
-interval.invert('2M') // => '7m'
-```
-<a name="module_interval.simplify"></a>
-
-## `interval.simplify(interval)` ⇒ <code>String</code> \| <code>Array</code>
-Get the simplified version of an interval.
-
-**Kind**: static method of [<code>interval</code>](#module_interval)  
-**Returns**: <code>String</code> \| <code>Array</code> - the simplified interval  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| interval | <code>String</code> \| <code>Array</code> | the interval to simplify |
-
-**Example**  
-```js
-interval.simplify('9M') // => '2M'
-['8P', '9M', '10M', '11P', '12P', '13M', '14M', '15P'].map(interval.simplify)
-// => [ '8P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
-interval.simplify('2M') // => '2M'
-interval.simplify('-2M') // => '7m'
 ```
 <a name="module_distance"></a>
 
@@ -536,13 +357,17 @@ tonal.distance.transposeBy('P5', 'C4')
 ```
 
 * [distance](#module_distance)
-    * [`.transpose(note, interval)`](#module_distance.transpose) ⇒ <code>String</code>
-    * [`.transposeBy(note, interval)`](#module_distance.transposeBy) ⇒ <code>String</code>
-    * [`.add(interval1, interval2)`](#module_distance.add) ⇒ <code>String</code>
-    * [`.trFifths(note, times)`](#module_distance.trFifths) ⇒ <code>String</code>
-    * [`.interval(from, to)`](#module_distance.interval) ⇒ <code>String</code>
-    * [`.subtract(minuend, subtrahend)`](#module_distance.subtract) ⇒ <code>String</code>
-    * [`.semitones(from, to)`](#module_distance.semitones) ⇒ <code>Integer</code>
+    * _static_
+        * [`.transpose(note, interval)`](#module_distance.transpose) ⇒ <code>String</code>
+        * [`.trFifths(pitchClass, fifhts)`](#module_distance.trFifths) ⇒ <code>String</code>
+        * [`.fifths(to, from)`](#module_distance.fifths)
+        * [`.transposeBy(note, interval)`](#module_distance.transposeBy) ⇒ <code>String</code>
+        * [`.add(interval1, interval2)`](#module_distance.add) ⇒ <code>String</code>
+        * [`.subtract(minuend, subtrahend)`](#module_distance.subtract) ⇒ <code>String</code>
+        * [`.interval(from, to)`](#module_distance.interval) ⇒ <code>String</code>
+        * [`.semitones(from, to)`](#module_distance.semitones) ⇒ <code>Integer</code>
+    * _inner_
+        * [`~decode(fifths, octs)`](#module_distance..decode) ⇒ <code>Array</code>
 
 <a name="module_distance.transpose"></a>
 
@@ -568,6 +393,42 @@ transpose('D', '3M') // => 'F#'
 // can be partially applied
 ['C', 'D', 'E', 'F', 'G'].map(transpose('M3)) // => ['E', 'F#', 'G#', 'A', 'B']
 ```
+<a name="module_distance.trFifths"></a>
+
+## `distance.trFifths(pitchClass, fifhts)` ⇒ <code>String</code>
+Transpose a pitch class by a number of perfect fifths. 
+
+It can be partially applied.
+
+**Kind**: static method of [<code>distance</code>](#module_distance)  
+**Returns**: <code>String</code> - the transposed pitch class  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| pitchClass | <code>String</code> | the pitch class |
+| fifhts | <code>Integer</code> | the number of fifths |
+
+**Example**  
+```js
+import { trFifths } from 'tonal-transpose'
+[0, 1, 2, 3, 4].map(trFifths('C')) // => ['C', 'G', 'D', 'A', 'E']
+// or using tonal
+tonal.trFifths('G4', 1) // => 'D'
+```
+<a name="module_distance.fifths"></a>
+
+## `distance.fifths(to, from)`
+Get the distance in fifths between pitch classes
+
+Can be partially applied.
+
+**Kind**: static method of [<code>distance</code>](#module_distance)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| to | <code>String</code> | note or pitch class |
+| from | <code>String</code> | note or pitch class |
+
 <a name="module_distance.transposeBy"></a>
 
 ## `distance.transposeBy(note, interval)` ⇒ <code>String</code>
@@ -608,28 +469,21 @@ Can be partially applied.
 import { add } from 'tonal-distance'
 add('3m', '5P') // => '7m'
 ```
-<a name="module_distance.trFifths"></a>
+<a name="module_distance.subtract"></a>
 
-## `distance.trFifths(note, times)` ⇒ <code>String</code>
-Transpose a note by a number of perfect fifths. 
+## `distance.subtract(minuend, subtrahend)` ⇒ <code>String</code>
+Subtract two intervals
 
-It can be partially applied.
+Can be partially applied
 
 **Kind**: static method of [<code>distance</code>](#module_distance)  
-**Returns**: <code>String</code> - the transposed note  
+**Returns**: <code>String</code> - interval diference  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| note | <code>String</code> |  |
-| times | <code>Integer</code> | the number of times |
+| Param | Type |
+| --- | --- |
+| minuend | <code>String</code> | 
+| subtrahend | <code>String</code> | 
 
-**Example**  
-```js
-import { trFifths } from 'tonal-transpose'
-[0, 1, 2, 3, 4].map(trFifths('C')) // => ['C', 'G', 'D', 'A', 'E']
-// or using tonal
-tonal.trFifths('G4', 1) // => 'D5'
-```
 <a name="module_distance.interval"></a>
 
 ## `distance.interval(from, to)` ⇒ <code>String</code>
@@ -656,19 +510,6 @@ interval('G', 'B') // => 'M3'
 var tonal = require('tonal')
 tonal.distance.interval('M2', 'P5') // => 'P4'
 ```
-<a name="module_distance.subtract"></a>
-
-## `distance.subtract(minuend, subtrahend)` ⇒ <code>String</code>
-Subtract two intervals
-
-**Kind**: static method of [<code>distance</code>](#module_distance)  
-**Returns**: <code>String</code> - interval diference  
-
-| Param | Type |
-| --- | --- |
-| minuend | <code>String</code> | 
-| subtrahend | <code>String</code> | 
-
 <a name="module_distance.semitones"></a>
 
 ## `distance.semitones(from, to)` ⇒ <code>Integer</code>
@@ -689,88 +530,576 @@ semitones('C3', 'A2') // => -3
 // or use tonal
 tonal.distance.semitones('C3', 'G3') // => 7
 ```
-<a name="module_notes"></a>
+<a name="module_distance..decode"></a>
 
-# notes
-[![npm version](https://img.shields.io/npm/v/tonal-notes.svg)](https://www.npmjs.com/package/tonal-notes)
-[![tonal](https://img.shields.io/badge/tonal-notes-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+## `distance~decode(fifths, octs)` ⇒ <code>Array</code>
+Decode a encoded pitch
 
-> Manipulate arrays of music notes
+**Kind**: inner method of [<code>distance</code>](#module_distance)  
+**Returns**: <code>Array</code> - in the form [step, alt, oct]  
 
-This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+| Param | Type | Description |
+| --- | --- | --- |
+| fifths | <code>Number</code> | the number of fifths |
+| octs | <code>Number</code> | the number of octaves to compensate the fifhts |
 
-## Usage
+<a name="module_scale"></a>
 
-```js
-import { sort } as collection from 'tonal-notes'
-sort(["a3", "c2", "a4", "cb2"]) // => ["Cb2", "C2", "A3", "A4"]
-sort(["g", "a", "f", "d", "c", "b", "e"]) // => ["C", "D", "E", "F", "G", "A", "B"]
+# scale
+A scale is a collection of pitches in ascending or descending order.
 
-// part of tonal
-const tonal = require('tonal')
-tonal.notes.sort(["a3", "c2", "a4", "cb2"]) // => ["Cb2", "C2", "A3", "A4"]
-```
-
-## Install
-
-[![npm install tonal-notes](https://nodei.co/npm/tonal-notes.png?mini=true)](https://npmjs.org/package/tonal-notes/)
-
-## API Documentation
-
-
-* [notes](#module_notes)
-    * [`.sort(notes)`](#module_notes.sort) ⇒ <code>Array</code>
-    * [`.unique(notes)`](#module_notes.unique)
-    * [`.filter(source)`](#module_notes.filter) ⇒ <code>Array</code>
-    * [`.pcset(notes)`](#module_notes.pcset) ⇒ <code>Array</code>
-
-<a name="module_notes.sort"></a>
-
-## `notes.sort(notes)` ⇒ <code>Array</code>
-Sort an array of notes in ascending order
-
-**Kind**: static method of [<code>notes</code>](#module_notes)  
-**Returns**: <code>Array</code> - sorted array of notes  
-
-| Param | Type |
-| --- | --- |
-| notes | <code>String</code> \| <code>Array</code> | 
-
-<a name="module_notes.unique"></a>
-
-## `notes.unique(notes)`
-Get notes sorted with duplicates removed
-
-**Kind**: static method of [<code>notes</code>](#module_notes)  
-
-| Param | Type |
-| --- | --- |
-| notes | <code>Array</code> | 
-
-<a name="module_notes.filter"></a>
-
-## `notes.filter(source)` ⇒ <code>Array</code>
-Filter all except notes from an array
-
-**Kind**: static method of [<code>notes</code>](#module_notes)  
-
-| Param | Type |
-| --- | --- |
-| source | <code>Array</code> | 
+This module provides functions to get and manipulate scales.
 
 **Example**  
 ```js
-notes.filter("c d5 p5 5p other") // => ["C", "D5"]
+scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
+scale.names() => ['major', 'minor', ...]
+scale.detect('f5 d2 c5 b5 a2 e4 g') // => [ 'C major', 'D dorian', 'E phrygian', 'F lydian', 'G mixolydian', 'A aeolian', 'B locrian'])
 ```
-<a name="module_notes.pcset"></a>
 
-## `notes.pcset(notes)` ⇒ <code>Array</code>
-Get a pitch class set, ordered, starting from the first note
+* [scale](#module_scale)
+    * [`.props`](#module_scale.props) ⇒ <code>Array</code>
+    * [`.intervals`](#module_scale.intervals) ⇒ <code>Array.&lt;String&gt;</code>
+    * [`.modes`](#module_scale.modes)
+    * [`.chords`](#module_scale.chords)
+    * [`.toScale`](#module_scale.toScale) ⇒ <code>Array</code>
+    * [`.extensions`](#module_scale.extensions)
+    * [`.names(aliases)`](#module_scale.names) ⇒ <code>Array</code>
+    * [`.notes(tonic, name)`](#module_scale.notes) ⇒ <code>Array</code>
+    * [`.exists(name)`](#module_scale.exists) ⇒ <code>Boolean</code>
+    * [`.tokenize(name)`](#module_scale.tokenize) ⇒ <code>Array</code>
 
-**Kind**: static method of [<code>notes</code>](#module_notes)  
-**Returns**: <code>Array</code> - a pitch class set ordered starting from the first note  
+<a name="module_scale.props"></a>
+
+## `scale.props` ⇒ <code>Array</code>
+Get scale notes or intervals. It *always* return an array and the notes
+are *always* pitch classes
+
+**Kind**: static constant of [<code>scale</code>](#module_scale)  
+**Returns**: <code>Array</code> - the scale intervals or pitch classes (if tonic is provided)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the scale name |
+| [String] |  | tonic - the tonic (optional) |
+
+**Example**  
+```js
+scale.get('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
+```
+<a name="module_scale.intervals"></a>
+
+## `scale.intervals` ⇒ <code>Array.&lt;String&gt;</code>
+Given a scale name, return its intervals. The name can be the type and
+optionally the tonic (which is ignored)
+
+It retruns an empty array when no scale found
+
+**Kind**: static constant of [<code>scale</code>](#module_scale)  
+**Returns**: <code>Array.&lt;String&gt;</code> - the scale intervals if is a known scale or an empty
+array if no scale found  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the scale name (tonic and type, tonic is optional) |
+
+**Example**  
+```js
+scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
+```
+<a name="module_scale.modes"></a>
+
+## `scale.modes`
+Find mode names of a scale
+
+**Kind**: static constant of [<code>scale</code>](#module_scale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | scale name |
+
+<a name="module_scale.chords"></a>
+
+## `scale.chords`
+Get all chords that fits a given scale
+
+**Kind**: static constant of [<code>scale</code>](#module_scale)  
+
+| Param | Type |
+| --- | --- |
+| name | <code>String</code> | 
+
+<a name="module_scale.toScale"></a>
+
+## `scale.toScale` ⇒ <code>Array</code>
+Given an array of notes, return the scale: a pitch class set starting from 
+the first note of the array
+
+**Kind**: static constant of [<code>scale</code>](#module_scale)  
 
 | Param | Type |
 | --- | --- |
 | notes | <code>Array</code> | 
 
+<a name="module_scale.extensions"></a>
+
+## `scale.extensions`
+Find all scales than extends the given one
+
+**Kind**: static constant of [<code>scale</code>](#module_scale)  
+
+| Param | Type |
+| --- | --- |
+| name | <code>String</code> | 
+
+<a name="module_scale.names"></a>
+
+## `scale.names(aliases)` ⇒ <code>Array</code>
+Return the available scale names
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+**Returns**: <code>Array</code> - the scale names  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| aliases | <code>boolean</code> | true to include aliases |
+
+**Example**  
+```js
+const scale = require('tonal-scale')
+scale.names() // => ['maj7', ...]
+```
+<a name="module_scale.notes"></a>
+
+## `scale.notes(tonic, name)` ⇒ <code>Array</code>
+Get the notes (pitch classes) of a scale. 
+
+Note that it always returns an array, and the values are only pitch classes.
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+**Returns**: <code>Array</code> - a pitch classes array  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| tonic | <code>String</code> |  |
+| name | <code>String</code> | the scale name |
+
+**Example**  
+```js
+scale.notes("C", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+scale.notes("C4", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+scale.notes("A4", "no-scale") // => []
+scale.notes("blah", "major") // => []
+```
+<a name="module_scale.exists"></a>
+
+## `scale.exists(name)` ⇒ <code>Boolean</code>
+Check if the given name is a known scale from the scales dictionary
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the scale name |
+
+<a name="module_scale.tokenize"></a>
+
+## `scale.tokenize(name)` ⇒ <code>Array</code>
+Given a string with a scale name and (optionally) a tonic, split 
+that components.
+
+It retuns an array with the form [ name, tonic ] where tonic can be a 
+note name or null and name can be any arbitrary string 
+(this function doesn't check if that scale name exists)
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+**Returns**: <code>Array</code> - an array [tonic, name]  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the scale name |
+
+**Example**  
+```js
+scale.tokenize('C mixolydean') // => ["C", "mixolydean"]
+scale.tokenize('anything is valid') // => [null, "anything is valid"]
+scale.tokenize() // => [null, null]
+```
+<a name="module_chord"></a>
+
+# chord
+A chord is a harmonic unit with at least three different tones sounding simultaneously.
+
+This module have functions to create and manipulate chords. It includes a
+chord dictionary and a simple chord detection algorithm.
+
+**Example**  
+```js
+var chord = require('tonal-chord')
+chord.detect('c b g e') // => 'CMaj7'
+chord.get('CMaj7') // => ['C', 'E', 'G', 'B']
+```
+
+* [chord](#module_chord)
+    * [`.intervals`](#module_chord.intervals) ⇒ <code>Array.&lt;String&gt;</code>
+    * [`.names(aliases)`](#module_chord.names) ⇒ <code>Array</code>
+    * [`.notes(nameOrTonic)`](#module_chord.notes) ⇒
+    * [`.exists(name)`](#module_chord.exists) ⇒ <code>Boolean</code>
+    * [`.detect(notes)`](#module_chord.detect) ⇒ <code>Array.&lt;String&gt;</code>
+    * [`.position(chord)`](#module_chord.position) ⇒ <code>Integer</code>
+    * [`.inversion(num, chord)`](#module_chord.inversion) ⇒ <code>Array</code>
+    * [`.tokenize(name)`](#module_chord.tokenize) ⇒ <code>Array</code>
+
+<a name="module_chord.intervals"></a>
+
+## `chord.intervals` ⇒ <code>Array.&lt;String&gt;</code>
+Get chord intervals. It always returns an array
+
+**Kind**: static constant of [<code>chord</code>](#module_chord)  
+**Returns**: <code>Array.&lt;String&gt;</code> - a list of intervals or null if the type is not known  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the chord name (optionally a tonic and type) |
+
+<a name="module_chord.names"></a>
+
+## `chord.names(aliases)` ⇒ <code>Array</code>
+Return the available chord names
+
+**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Returns**: <code>Array</code> - the chord names  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| aliases | <code>boolean</code> | true to include aliases |
+
+**Example**  
+```js
+var chord = require('tonal-chord')
+chord.names() // => ['maj7', ...]
+```
+<a name="module_chord.notes"></a>
+
+## `chord.notes(nameOrTonic)` ⇒
+Get the chord notes of a chord. This function accepts either a chord name
+(for example: 'Cmaj7') or a list of notes.
+
+It always returns an array, even if the chord is not found.
+
+**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Returns**: [String] name - (Optional) name if the first parameter is the tonic  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| nameOrTonic | <code>String</code> | name of the chord or the tonic |
+
+**Example**  
+```js
+chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
+chord.notes('C', 'maj7') // => ['C', 'E', 'G', 'B']
+```
+<a name="module_chord.exists"></a>
+
+## `chord.exists(name)` ⇒ <code>Boolean</code>
+Check if a given name correspond to a chord in the dictionary
+
+**Kind**: static method of [<code>chord</code>](#module_chord)  
+
+| Param | Type |
+| --- | --- |
+| name | <code>String</code> | 
+
+**Example**  
+```js
+chord.isKnownChord('CMaj7') // => true
+chord.isKnownChord('Maj7') // => true
+chord.isKnownChord('Ablah') // => false
+```
+<a name="module_chord.detect"></a>
+
+## `chord.detect(notes)` ⇒ <code>Array.&lt;String&gt;</code>
+Detect a chord. Given a list of notes, return the chord name(s) if any.
+It only detects chords with exactly same notes.
+
+**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Returns**: <code>Array.&lt;String&gt;</code> - an array with the possible chords  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| notes | <code>Array</code> \| <code>String</code> | the list of notes |
+
+**Example**  
+```js
+chord.detect('b g f# d') // => [ 'GMaj7' ]
+chord.detect('e c a g') // => [ 'CM6', 'Am7' ]
+```
+<a name="module_chord.position"></a>
+
+## `chord.position(chord)` ⇒ <code>Integer</code>
+Get the position (inversion number) of a chord (0 is root position, 1 is first
+inversion...). It assumes the chord is formed by superposed thirds.
+
+**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Returns**: <code>Integer</code> - the inversion number (0 for root inversion, 1 for first
+inversion...) or null if not a valid chord  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chord | <code>Array</code> \| <code>String</code> | the chord notes |
+
+**Example**  
+```js
+chord.position('e g c') // => 1
+chord.position('g3 e2 c5') // => 1 (e is the lowest note)
+```
+<a name="module_chord.inversion"></a>
+
+## `chord.inversion(num, chord)` ⇒ <code>Array</code>
+Given a chord in any inverstion, set to the given inversion. It accepts
+chord names
+
+**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Returns**: <code>Array</code> - the chord pitch classes in the desired inversion or
+an empty array if no inversion found (not triadic)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| num | <code>Integer</code> | the inversion number (0 root position, 1 first inversion, ...) |
+| chord | <code>String</code> \| <code>Array</code> | the chord name or notes |
+
+**Example**  
+```js
+chord.inversion(1, 'Cmaj7') // => [ 'E', 'G', 'B', 'C' ]
+chord.inversion(0, 'e g c') // => [ 'C', 'E', 'G' ]
+```
+<a name="module_chord.tokenize"></a>
+
+## `chord.tokenize(name)` ⇒ <code>Array</code>
+Tokenize a chord name. It returns an array with the tonic and chord type 
+If not tonic is found, all the name is considered the chord name.
+
+This function does NOT check if the chord type exists or not. It only tries
+to split the tonic and chord type.
+
+**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Returns**: <code>Array</code> - an array with [type, tonic]  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the chord name |
+
+**Example**  
+```js
+chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
+chord.tokenize('C7') // => [ 'C', '7' ]
+chord.tokenize('mMaj7') // => [ null, 'mMaj7' ]
+chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
+```
+<a name="module_pcset"></a>
+
+# pcset
+[![npm version](https://img.shields.io/npm/v/tonal-pcset.svg?style=flat-square)](https://www.npmjs.com/package/tonal-pcset)
+[![tonal](https://img.shields.io/badge/tonal-pcset-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
+
+`tonal-pcset` is a collection of functions to work with pitch class sets, oriented
+to make comparations (isEqual, isSubset, isSuperset)
+
+This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+
+You can install via npm: `npm i --save tonal-pcset`
+
+```js
+var pcset = require('tonal-pcset')
+pcset.isEqual('c2 d5 e6', 'c6 e3 d1') // => true
+```
+
+## API documentation
+
+
+* [pcset](#module_pcset)
+    * [`.chroma(set)`](#module_pcset.chroma) ⇒ <code>String</code>
+    * [`.modes(set, normalize)`](#module_pcset.modes) ⇒ <code>Array.&lt;String&gt;</code>
+    * [`.isChroma(chroma)`](#module_pcset.isChroma) ⇒ <code>Boolean</code>
+    * [`.intervals(pcset)`](#module_pcset.intervals) ⇒ <code>Array</code>
+    * [`.isEqual(set1, set2)`](#module_pcset.isEqual) ⇒ <code>Boolean</code>
+    * [`.isSubset(test, set)`](#module_pcset.isSubset) ⇒ <code>Boolean</code>
+    * [`.isSuperset(test, set)`](#module_pcset.isSuperset) ⇒ <code>Boolean</code>
+    * [`.includes(set, note)`](#module_pcset.includes) ⇒ <code>Boolean</code>
+    * [`.filter(set, notes)`](#module_pcset.filter) ⇒ <code>Array</code>
+
+<a name="module_pcset.chroma"></a>
+
+## `pcset.chroma(set)` ⇒ <code>String</code>
+Get chroma of a pitch class set. A chroma identifies each set uniquely.
+It's a 12-digit binary each presenting one semitone of the octave.
+
+Note that this function accepts a chroma as parameter and return it
+without modification.
+
+**Kind**: static method of [<code>pcset</code>](#module_pcset)  
+**Returns**: <code>String</code> - a binary representation of the pitch class set  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| set | <code>Array</code> \| <code>String</code> | the pitch class set |
+
+**Example**  
+```js
+pcset.chroma(["C", "D", "E"]) // => '1010100000000'
+```
+<a name="module_pcset.modes"></a>
+
+## `pcset.modes(set, normalize)` ⇒ <code>Array.&lt;String&gt;</code>
+Given a a list of notes or a pcset chroma, produce the rotations
+of the chroma discarding the ones that starts with '0'
+
+This is used, for example, to get all the modes of a scale.
+
+**Kind**: static method of [<code>pcset</code>](#module_pcset)  
+**Returns**: <code>Array.&lt;String&gt;</code> - an array with all the modes of the chroma  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| set | <code>Array</code> \| <code>String</code> | the list of notes or pitchChr of the set |
+| normalize | <code>Boolean</code> | (Optional, true by default) remove all the rotations that starts with '0' |
+
+**Example**  
+```js
+pcset.modes(["C", "D", "E"]).map(pcset.intervals)
+```
+<a name="module_pcset.isChroma"></a>
+
+## `pcset.isChroma(chroma)` ⇒ <code>Boolean</code>
+Test if the given string is a pitch class set chroma.
+
+**Kind**: static method of [<code>pcset</code>](#module_pcset)  
+**Returns**: <code>Boolean</code> - true if its a valid pcset chroma  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chroma | <code>String</code> | the pitch class set chroma |
+
+**Example**  
+```js
+pcset.isChroma('101010101010') // => true
+pcset.isChroma('101001') // => false
+```
+<a name="module_pcset.intervals"></a>
+
+## `pcset.intervals(pcset)` ⇒ <code>Array</code>
+Given a pcset (notes or chroma) return it's intervals
+
+**Kind**: static method of [<code>pcset</code>](#module_pcset)  
+**Returns**: <code>Array</code> - intervals or empty array if not valid pcset  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| pcset | <code>String</code> \| <code>Array</code> | the pitch class set (notes or chroma) |
+
+**Example**  
+```js
+pcset.intervals('1010100000000') => ["1P", "2M", "3M"]
+```
+<a name="module_pcset.isEqual"></a>
+
+## `pcset.isEqual(set1, set2)` ⇒ <code>Boolean</code>
+Test if two pitch class sets are identical
+
+**Kind**: static method of [<code>pcset</code>](#module_pcset)  
+**Returns**: <code>Boolean</code> - true if they are equal  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| set1 | <code>Array</code> \| <code>String</code> | one of the pitch class sets |
+| set2 | <code>Array</code> \| <code>String</code> | the other pitch class set |
+
+**Example**  
+```js
+pcset.isEqual('c2 d3', 'c5 d2') // => true
+```
+<a name="module_pcset.isSubset"></a>
+
+## `pcset.isSubset(test, set)` ⇒ <code>Boolean</code>
+Test if a pitch class set is a subset of another
+
+**Kind**: static method of [<code>pcset</code>](#module_pcset)  
+**Returns**: <code>Boolean</code> - true if the test set is a subset of the set  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| test | <code>Array</code> \| <code>String</code> | the set to test |
+| set | <code>Array</code> \| <code>String</code> | the base set to test against |
+
+**Example**  
+```js
+pcset.subset('c d e', 'C2 D4 D5 C6') // => true
+```
+<a name="module_pcset.isSuperset"></a>
+
+## `pcset.isSuperset(test, set)` ⇒ <code>Boolean</code>
+Test if a pitch class set is a superset
+
+**Kind**: static method of [<code>pcset</code>](#module_pcset)  
+**Returns**: <code>Boolean</code> - true if the test set is a superset of the set  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| test | <code>Array</code> \| <code>String</code> | the set to test |
+| set | <code>Array</code> \| <code>String</code> | the base set to test against |
+
+**Example**  
+```js
+pcset.isSuperset('c d e', 'C2 D4 F4 D5 E5 C6') // => true
+```
+<a name="module_pcset.includes"></a>
+
+## `pcset.includes(set, note)` ⇒ <code>Boolean</code>
+Test if a given pitch class set includes a note
+
+**Kind**: static method of [<code>pcset</code>](#module_pcset)  
+**Returns**: <code>Boolean</code> - true if the note is included in the pcset  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| set | <code>Array</code> \| <code>String</code> | the base set to test against |
+| note | <code>String</code> \| <code>Pitch</code> | the note to test |
+
+**Example**  
+```js
+pcset.includes('c d e', 'C4') // => true
+pcset.includes('c d e', 'C#4') // => false
+```
+<a name="module_pcset.filter"></a>
+
+## `pcset.filter(set, notes)` ⇒ <code>Array</code>
+Filter a list with a pitch class set
+
+**Kind**: static method of [<code>pcset</code>](#module_pcset)  
+**Returns**: <code>Array</code> - the filtered notes  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| set | <code>Array</code> \| <code>String</code> | the pitch class set notes |
+| notes | <code>Array</code> \| <code>String</code> | the note list to be filtered |
+
+**Example**  
+```js
+pcset.filter(c d e', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'd2', 'c3', 'd3' ])
+pcset.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'c3' ])
+```
+<a name="module_key"></a>
+
+# key
+_Key_ refers to the tonal system based on the major and minor scales. This is
+is the most common tonal system, but tonality can be present in music
+based in other scales or concepts.
+
+This is a collection of functions related to keys.
+
+**Example**  
+```js
+const key = require('tonal-key')
+key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+key.relative('minor', 'C major') // => 'A minor'
+```
