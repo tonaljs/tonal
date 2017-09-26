@@ -1,8 +1,12 @@
 {
   "lerna": "2.0.0",
-  "version": "0.69.9",
+  "version": "1.0.0-0",
   "npmClient": "yarn",
   "scripts": {},
   "devDependencies": {},
-  "packages": ["packages/*", "extensions/*", "incubator/*"]
+  "packages": [
+    "packages/*",
+    "extensions/*",
+    "incubator/*"
+  ]
 }
