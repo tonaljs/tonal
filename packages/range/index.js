@@ -2,7 +2,7 @@
  * A collection of functions to create note ranges.
  *
  * @example
- * var range = require('tonal-range')
+ * const range = require('tonal-range')
  * // ascending chromatic range
  * range.chromatic(['C4', 'E4']) // => ['C4', 'Db4', 'D4', 'Eb4', 'E4']
  * // descending chromatic range
@@ -10,25 +10,23 @@
  * // combining ascending and descending in complex ranges
  * range.chromatic(['C2', 'E2', 'D2']) // => ['C2', 'Db2', 'D2', 'Eb2', 'E2', 'Eb2', 'D2']
  * // numeric (midi note numbers) range
- * range.numeric('C4 E4 Bb3') // => [60, 61, 62, 63, 64]
+ * range.numeric(['C4', 'E4', 'Bb3']) // => [60, 61, 62, 63, 64]
  * // complex numeric range
- * range.numeric('C4 E4 Bb3') // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
- * // create a scale range
- * range.pitchSet('c e g a', 'c2 c3 c2') // => [ 'C2', 'E2', 'G2', 'A2', 'C3', 'A2', 'G2', 'E2', 'C2' ] *
- g
+ * range.numeric(['C4', 'E4', 'Bb3']) // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
+ *
  * @module range
  */
-import { asArr, map } from "tonal-array";
-import { trFifths } from "tonal-transpose";
-import { toMidi, note } from "tonal-midi";
-import { filter } from "tonal-pcset";
+import { trFifths } from "tonal-distance/index";
+import { midi, fromMidi } from "tonal-note/index";
+import { range } from "tonal-array/index";
+import { filter } from "tonal-pcset/index";
 
 function isNum(n) {
   return typeof n === "number";
 }
 // convert notes to midi if needed
 function asNum(n) {
-  return isNum(n) ? n : toMidi(n);
+  return isNum(n) ? n : midi(n);
 }
 
 /**
@@ -47,14 +45,12 @@ function asNum(n) {
  * // can be expressed with a string or array
  * range.numeric('C2 C4 C2') === range.numeric(['C2', 'C4', 'C2'])
  */
-export function numeric(list) {
-  return asArr(list)
-    .map(asNum)
-    .reduce(function(r, n, i) {
-      if (i === 1) return ran(r, n);
-      var last = r[r.length - 1];
-      return r.concat(ran(last, n).slice(1));
-    });
+export function numeric(arr) {
+  return arr.map(asNum).reduce(function(r, n, i) {
+    if (i === 1) return range(r, n);
+    const last = r[r.length - 1];
+    return r.concat(range(last, n).slice(1));
+  });
 }
 
 /**
@@ -68,8 +64,8 @@ export function numeric(list) {
  * // with sharps
  * tonal.chromatic('C2 C3', true) // => [ 'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2', 'C3' ]
  */
-export function chromatic(list, sharps) {
-  return map(note(sharps === true), numeric(list));
+export function chromatic(arr, sharps) {
+  return numeric(arr).map(n => fromMidi(n, sharps));
 }
 
 /**
