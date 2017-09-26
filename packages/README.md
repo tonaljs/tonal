@@ -1,6 +1,6 @@
 # tonal [![npm](https://img.shields.io/npm/v/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
 
-[![Build Status](https://travis-ci.org/danigb/tonal.svg?branch=master&style=flat-square)](https://travis-ci.org/danigb/tonal) [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/danigb/tonal) [![license](https://img.shields.io/npm/l/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
+[![Build Status](https://travis-ci.org/danigb/tonal.svg?branch=master&style=flat-square)](https://travis-ci.org/danigb/tonal) [![Code Climate](https://codeclimate.com/github/danigb/tonal/badges/gpa.svg?style=flat-square)](https://codeclimate.com/github/danigb/tonal) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/feross/standard) [![license](https://img.shields.io/npm/l/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
 [![codecov](https://codecov.io/gh/danigb/tonal/branch/master/graph/badge.svg)](https://codecov.io/gh/danigb/tonal)
 
 
@@ -11,11 +11,9 @@ Think like an [underscorejs](http://underscorejs.org/) (or better: [ramdajs](htt
 
 [Read the API documentation](http://danigb.github.io/tonal/api/)
 
-Warning: although this library has some time now, the API is still changing.
+**Warning**: although this library has some time now, the API is not stable, and until 1.0, a minor change means a breaking change.
 
-![stability](https://img.shields.io/badge/stability-experimental-red.svg?style=flat-square)
-
-## Example
+## Example
 
 ```js
 var tonal = require('tonal')
@@ -33,13 +31,13 @@ tonal.ivl.semitones('5P') // => 7
 tonal.ivl.invert('3m') // => '6M'
 tonal.ivl.fromSemitones(7) // => '5P'
 
-// transposition and distances
-tonal.transpose('D4', '2M') // => 'E#4'
-tonal.interval('C', 'G') // => '5P'
-tonal.semitones('C', 'G') // => 7
+// distances
+tonal.distance.transpose('D4', '2M') // => 'E#4'
+tonal.distance.interval('C', 'G') // => '5P'
+tonal.distance.semitones('C', 'G') // => 7
 
 // scales
-tonal.scale('Bb lydian') // => [ 'Ab', 'Bb', 'C', 'D', 'Eb', 'F', 'G' ]
+tonal.scale('Bb lydian') // => [ 'Bb', 'C', 'D', 'E', 'F', 'G', 'A']
 tonal.scale('Eb bebop') // => [ 'Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'Db', 'D' ]
 tonal.scale.names()
 tonal.scale.detect('Bb4 Eb4 C5 G4 Bb4 F6') // => ['Eb major pentatonic']
@@ -125,7 +123,7 @@ Using yarn: `yarn add tonal` (or a single module: `yarn add tonal-scale`)
 
 Using npm: `npm install --save tonal` (or: `npm install --save tonal-scale`)
 
-Browser:
+Browser: grab the minified file [here](https://github.com/danigb/tonal/blob/master/dist/tonal.min.js) (26kb) and include it in your html page:
 
 ```html
 <script src="tonal.min.js"></script>
@@ -136,7 +134,7 @@ Browser:
 ES6:
 
 ```js
-import tonal from 'tonal' 
+import tonal from 'tonal'
 tonal.transpose('C4', '3M')
 ```
 
@@ -144,7 +142,7 @@ ES5:
 
 ```js
 var tonal = require('tonal')
-tonal.tranpose('C4', '2m')
+tonal.transpose('C4', '2m')
 ```
 
 Browser (use the `Tonal` global object):
@@ -162,7 +160,7 @@ Mostly, because I want to learn:
 > Reinventing the wheel is bad for business, but it’s great for learning
 [*](http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer)
 
-I want to learn about music theory and I want to express the conpcets I learn using functional programming style.
+I want to learn about music theory and I want to express the concepts I learn using functional programming style.
 
 Also, I want a complete library, where I can model some (for me) esoteric features like [interval classes](http://danigb.github.io/tonal/api/module-interval.html#.ic), pitch sets, dft to pitch class sets, and so on.
 
