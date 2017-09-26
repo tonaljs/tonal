@@ -104,12 +104,20 @@ describe("distance", () => {
     });
   });
 
-  test("transpose fifths", () => {
-    expect([0, 1, 2, 3, 4, 5, 6, 7].map(dist.trFifths("C")).join(" ")).toEqual(
-      "C G D A E B F# C#"
-    );
-    expect([0, 1, 2, 3, 4, 5, 6, 7].map(dist.trFifths("C4")).join(" ")).toEqual(
-      "C G D A E B F# C#"
-    );
+  describe("fifths", () => {
+    test("transpose fifths", () => {
+      expect(
+        [0, 1, 2, 3, 4, 5, 6, 7].map(dist.trFifths("C")).join(" ")
+      ).toEqual("C G D A E B F# C#");
+      expect(
+        [0, 1, 2, 3, 4, 5, 6, 7].map(dist.trFifths("C4")).join(" ")
+      ).toEqual("C G D A E B F# C#");
+    });
+
+    test("distance in fifths", () => {
+      expect(dist.fifths("C", "G")).toBe(1);
+      expect(dist.fifths("G", "D")).toBe(1);
+      expect(dist.fifths("C", "C#")).toBe(7);
+    });
   });
 });

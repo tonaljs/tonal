@@ -30,22 +30,6 @@ function isNum(n) {
 function asNum(n) {
   return isNum(n) ? n : toMidi(n);
 }
-// ascending range
-function ascR(b, n) {
-  for (var a = []; n--; a[n] = n + b);
-  return a;
-}
-// descending range
-function descR(b, n) {
-  for (var a = []; n--; a[n] = b - n);
-  return a;
-}
-// create a range between a and b
-function ran(a, b) {
-  return a === null || b === null
-    ? []
-    : a < b ? ascR(a, b - a + 1) : descR(a, a - b + 1);
-}
 
 /**
  * Create a numeric range. You supply a list of notes or numbers and it will

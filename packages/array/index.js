@@ -76,3 +76,21 @@ export const permutations = arr => {
     );
   }, []);
 };
+
+// ascending range
+function ascR(b, n) {
+  for (var a = []; n--; a[n] = n + b);
+  return a;
+}
+// descending range
+function descR(b, n) {
+  for (var a = []; n--; a[n] = b - n);
+  return a;
+}
+
+// create a range between a and b
+export function range(a, b) {
+  return a === null || b === null
+    ? []
+    : a < b ? ascR(a, b - a + 1) : descR(a, a - b + 1);
+}

@@ -128,6 +128,22 @@ export function trFifths(note, fifths) {
 }
 
 /**
+ * Get the distance in fifths between pitch classes
+ * 
+ * Can be partially applied.
+ * 
+ * @param {String} to - note or pitch class
+ * @param {String} from - note or pitch class 
+ */
+export function fifths(from, to) {
+  if (arguments.length === 1) return to => fifths(from, to);
+  const f = encodeNote(from);
+  const t = encodeNote(to);
+  if (t === null || f === null) return null;
+  return t[0] - f[0];
+}
+
+/**
  * The same as transpose with the arguments inverted.
  * 
  * Can be partially applied.

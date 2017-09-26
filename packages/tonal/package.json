@@ -16,24 +16,20 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^0.69.7",
     "tonal-chord": "^0.69.9",
     "tonal-distance": "^0.69.7",
-    "tonal-filter": "^0.69.6",
-    "tonal-freq": "^0.69.9",
-    "tonal-harmonizer": "^0.69.7",
     "tonal-interval": "^0.69.9",
     "tonal-key": "^0.69.9",
-    "tonal-midi": "^0.69.7",
-    "tonal-notation": "^0.69.7",
     "tonal-note": "^0.69.9",
     "tonal-pcset": "^0.69.9",
-    "tonal-pitch": "^0.69.7",
-    "tonal-pitchset": "^0.69.9",
-    "tonal-progression": "^0.69.9",
     "tonal-range": "^0.69.9",
     "tonal-scale": "^0.69.9",
-    "tonal-sonority": "^0.69.9",
-    "tonal-transpose": "^0.69.7"
+    "tonal-dictionary": "^0.69.7"
+  },
+  "babel": {
+    "presets": ["es2015"]
+  },
+  "jest": {
+    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
   }
 }

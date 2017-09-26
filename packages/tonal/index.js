@@ -21,48 +21,24 @@
  *
  * @module tonal
  */
-import * as array from "tonal-array";
-import * as transpose from "tonal-transpose";
-import * as harmonizer from "tonal-harmonizer";
-import * as distance from "tonal-distance";
-import * as note from "tonal-note";
-import * as interval from "tonal-interval";
-import * as midi from "tonal-midi";
-import * as freq from "tonal-freq";
-import * as range from "tonal-range";
-import * as key from "tonal-key";
-import * as scale from "tonal-scale";
-import * as chord from "tonal-chord";
-import * as pitch from "tonal-pitch";
-import * as notation from "tonal-notation";
-import * as progression from "tonal-progression";
-import * as sonority from "tonal-sonority";
-import * as pitchset from "tonal-pitchset";
-import * as pcset from "tonal-pcset";
+import * as note from "tonal-note/index";
+import * as interval from "tonal-interval/index";
+import * as distance from "tonal-distance/index";
+import * as range from "tonal-range/index";
+import * as key from "tonal-key/index";
+import * as scale from "tonal-scale/index";
+import * as chord from "tonal-chord/index";
+import * as pcset from "tonal-pcset/index";
+import * as dictionary from "tonal-dictionary/index";
 
-var assign = Object.assign;
-var tonal = assign({}, array, transpose, harmonizer, distance);
-tonal.pitch = pitch;
-tonal.notation = notation;
-tonal.note = note;
-tonal.ivl = interval;
-tonal.midi = midi;
-tonal.freq = freq;
-tonal.range = range;
-tonal.key = key;
-tonal.progression = progression;
-tonal.sonority = sonority;
-tonal.pitchset = pitchset;
-tonal.pcset = pcset;
-
-tonal.scale = function(name) {
-  return tonal.scale.notes(name);
+export {
+  note,
+  interval,
+  distance,
+  range,
+  key,
+  scale,
+  chord,
+  pcset,
+  dictionary
 };
-assign(tonal.scale, scale);
-tonal.chord = function(name) {
-  return tonal.chord.notes(name);
-};
-assign(tonal.chord, chord);
-
-if (typeof window !== "undefined") window.Tonal = tonal;
-export default tonal;
