@@ -24,21 +24,10 @@
 import * as note from "tonal-note/index";
 import * as interval from "tonal-interval/index";
 import * as distance from "tonal-distance/index";
-import * as range from "tonal-range/index";
 import * as key from "tonal-key/index";
 import * as scale from "tonal-scale/index";
 import * as chord from "tonal-chord/index";
 import * as pcset from "tonal-pcset/index";
 import * as dictionary from "tonal-dictionary/index";
 
-export {
-  note,
-  interval,
-  distance,
-  range,
-  key,
-  scale,
-  chord,
-  pcset,
-  dictionary
-};
+export { note, interval, distance, key, scale, chord, pcset, dictionary };

@@ -4,7 +4,7 @@ import uglify from "rollup-plugin-uglify-es";
 import filesize from "rollup-plugin-filesize";
 
 export default {
-  input: "./packages/core/tonal/index.js",
+  input: "./packages/tonal/index.js",
   output: {
     format: "umd",
     file: "./dist/tonal.min.js",
