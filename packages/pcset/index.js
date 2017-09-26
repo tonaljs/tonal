@@ -18,18 +18,13 @@
  *
  * @module pcset
  */
-import { chr, asPitch } from "tonal-pitch";
-import { pc } from "tonal-note";
-import { map, asArr, rotate, compact } from "tonal-array";
-import { transpose } from "tonal-transpose";
+import { chroma as notechr } from "tonal-note/index";
+import { chroma as ivlchr } from "tonal-interval/index";
+import { rotate } from "tonal-array/index";
 
-function chrToInt(set) {
-  return parseInt(chroma(set), 2);
-}
-function pitchChr(p) {
-  p = asPitch(p);
-  return p ? chr(p) : null;
-}
+const chr = str => notechr(str) || ivlchr(str) || 0;
+const pcsetNum = set => parseInt(chroma(set), 2);
+const compact = arr => arr.filter(x => x);
 
 /**
  * Get chroma of a pitch class set. A chroma identifies each set uniquely.
@@ -41,34 +36,16 @@ function pitchChr(p) {
  * @param {Array|String} set - the pitch class set
  * @return {String} a binary representation of the pitch class set
  * @example
- * pcset.chroma('C D E') // => '1010100000000'
+ * pcset.chroma(["C", "D", "E"]) // => '1010100000000'
  */
 export function chroma(set) {
   if (isChroma(set)) return set;
+  if (!Array.isArray(set)) return "";
   var b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  map(pitchChr, set).forEach(i => {
+  set.map(chr).forEach(i => {
     b[i] = 1;
   });
   return b.join("");
-}
-
-/**
- * @deprecated
- * @see collection.pcset
- * Given a list of notes, return the pitch class names of the set
- * starting with the first note of the list
- * @param {String|Array} notes - the pitch class set notes
- * @return {Array} an array of pitch class sets
- */
-export function notes(notes) {
-  // FIXME: move to collection
-  console.warn("pcset.notes deprecated. Use collection.pcset");
-  var pcs = map(pc, notes);
-  if (!pcs.length) return pcs;
-  var tonic = pcs[0];
-  // since the first note of the chroma is always C, we have to rotate it
-  var rotated = rotate(pitchChr(tonic), chroma(pcs).split("")).join("");
-  return fromChroma(rotated, tonic);
 }
 
 /**
@@ -83,7 +60,7 @@ export function notes(notes) {
  * @return {Array<String>} an array with all the modes of the chroma
  *
  * @example
- * pcset.modes('C E G')
+ * pcset.modes(["C", "D", "E"]).map(pcset.intervals)
  */
 export function modes(set, normalize) {
   normalize = normalize !== false;
@@ -115,39 +92,15 @@ var IVLS = "1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" ");
  * @param {String|Array} pcset - the pitch class set (notes or chroma)
  * @return {Array} intervals or empty array if not valid pcset
  * @example
- * pcset.intervals('1010100000000') => ['C', 'D', 'E']
+ * pcset.intervals('1010100000000') => ["1P", "2M", "3M"]
  */
 export function intervals(set) {
+  if (!isChroma(set)) return [];
   return compact(
-    chroma(set)
-      .split("")
-      .map(function(d, i) {
-        return d === "1" ? IVLS[i] : null;
-      })
+    set.split("").map(function(d, i) {
+      return d === "1" ? IVLS[i] : null;
+    })
   );
-}
-
-/**
- * @deprecated
- * @see intervals
- * Given a pitch class set in binary notation it returns the intervals or notes
- * (depending on the tonic)
- * @param {String} binary - the pitch class set in binary representation
- * @param {String|Pitch} tonic - the pitch class set tonic
- * @return {Array} a list of notes or intervals
- * @example
- * pcset.fromChroma('101010101010', 'C') // => ['C', 'D', 'E', 'Gb', 'Ab', 'Bb']
- */
-export function fromChroma(binary, tonic) {
-  console.warn(
-    "pcset.fromChroma is deprecated. Use pcset.intervals().map(...)"
-  );
-  if (arguments.length === 1)
-    return function(t) {
-      return fromChroma(binary, t);
-    };
-  if (!tonic) tonic = "P1";
-  return intervals(binary).map(transpose(tonic));
 }
 
 /**
@@ -160,10 +113,7 @@ export function fromChroma(binary, tonic) {
  * pcset.isEqual('c2 d3', 'c5 d2') // => true
  */
 export function isEqual(s1, s2) {
-  if (arguments.length === 1)
-    return function(s) {
-      return isEqual(s1, s);
-    };
+  if (arguments.length === 1) return s => isEqual(s1, s);
   return chroma(s1) === chroma(s2);
 }
 
@@ -177,8 +127,8 @@ export function isEqual(s1, s2) {
  * pcset.subset('c d e', 'C2 D4 D5 C6') // => true
  */
 export function isSubset(test, set) {
-  test = chrToInt(test);
-  return (test & chrToInt(set)) === test;
+  test = pcsetNum(test);
+  return (test & pcsetNum(set)) === test;
 }
 
 /**
@@ -191,8 +141,8 @@ export function isSubset(test, set) {
  * pcset.isSuperset('c d e', 'C2 D4 F4 D5 E5 C6') // => true
  */
 export function isSuperset(test, set) {
-  test = chrToInt(test);
-  return (test | chrToInt(set)) === test;
+  test = pcsetNum(test);
+  return (test | pcsetNum(set)) === test;
 }
 
 /**
@@ -201,14 +151,14 @@ export function isSuperset(test, set) {
  * @param {String|Pitch} note - the note to test
  * @return {Boolean} true if the note is included in the pcset
  * @example
- * pcset.includes('c d e', 'C4') // =A true
- * pcset.includes('c d e', 'C#4') // =A false
+ * pcset.includes('c d e', 'C4') // => true
+ * pcset.includes('c d e', 'C#4') // => false
  */
 export function includes(set, note) {
   if (arguments.length > 1) return includes(set)(note);
   set = chroma(set);
   return function(note) {
-    return set[pitchChr(note)] === "1";
+    return set[chr(note)] === "1";
   };
 }
 
@@ -220,13 +170,10 @@ export function includes(set, note) {
  * @return {Array} the filtered notes
  *
  * @example
- * pcset.filter('c d e', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'd2', 'c3', 'd3' ])
- * pcset.filter('c2', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'c3' ])
+ * pcset.filter(c d e', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'd2', 'c3', 'd3' ])
+ * pcset.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'c3' ])
  */
 export function filter(set, notes) {
-  if (arguments.length === 1)
-    return function(n) {
-      return filter(set, n);
-    };
-  return asArr(notes).filter(includes(set));
+  if (arguments.length === 1) return n => filter(set, n);
+  return notes.filter(includes(set));
 }

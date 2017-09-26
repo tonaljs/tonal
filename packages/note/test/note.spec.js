@@ -5,13 +5,10 @@ const map = (fn, str) => str.split(" ").map(fn);
 
 describe("tonal-note", () => {
   test("tokenize", () => {
-    expect(note.tokenize("Cbb5 major")).toEqual({
-      letter: "C",
-      acc: "bb",
-      oct: "5",
-      type: "major"
-    });
-    expect(note.tokenize("Ax").acc).toEqual("##");
+    expect(note.tokenize("Cbb5 major")).toEqual(["C", "bb", "5", "major"]);
+    expect(note.tokenize("Ax")).toEqual(["A", "##", "", ""]);
+    expect(note.tokenize("CM")).toEqual(["C", "", "", "M"]);
+    expect(note.tokenize("maj7")).toEqual(null);
   });
 
   test("isNote", () => {

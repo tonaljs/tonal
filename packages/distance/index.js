@@ -18,28 +18,65 @@
  * 
  * @module distance
  */
-import {
-  isPC,
-  fifths,
-  focts,
-  pitch,
-  height,
-  pType,
-  strPitch,
-  asPitch,
-  strIvl
-} from "tonal-pitch";
+import { props as nprops, build as nbuild } from "tonal-note/index";
+import { props as iprops, build as ibuild } from "tonal-interval/index";
 
-function trBy(i, p) {
-  var t = pType(p);
-  if (!t) return null;
-  var f = fifths(i) + fifths(p);
-  if (isPC(p)) return ["tnlp", [f]];
-  var o = focts(i) + focts(p);
-  if (t === "note") return ["tnlp", [f, o]];
-  var d = height(i) + height(p) < 0 ? -1 : 1;
-  return ["tnlp", [d * f, d * o], d];
+// Map from letter step to number of fifths starting from 'C':
+// { C: 0, D: 2, E: 4, F: -1, G: 1, A: 3, B: 5 }
+const FIFTHS = [0, 2, 4, -1, 1, 3, 5];
+
+// Given a number of fifths, return the octaves they span
+const fOcts = f => Math.floor(f * 7 / 12);
+
+// Get the number of octaves it span each step
+const FIFTH_OCTS = FIFTHS.map(fOcts);
+
+const encode = ({ step, alt, oct, dir = 1 }) => {
+  const f = FIFTHS[step] + 7 * alt;
+  if (oct === null) return [dir * f];
+  const o = oct - FIFTH_OCTS[step] - 4 * alt;
+  return [dir * f, dir * o];
+};
+
+// We need to get the steps from fifths
+// Fifths for CDEFGAB are [ 0, 2, 4, -1, 1, 3, 5 ]
+// We add 1 to fifths to avoid negative numbers, so:
+// for ['F', 'C', 'G', 'D', 'A', 'E', 'B'] we have:
+const STEPS = [3, 0, 4, 1, 5, 2, 6];
+
+// Return the number of fifths as if it were unaltered
+function unaltered(f) {
+  const i = (f + 1) % 7;
+  return i < 0 ? 7 + i : i;
 }
+/**
+ * Decode a encoded pitch
+ * @param {Number} fifths - the number of fifths
+ * @param {Number} octs - the number of octaves to compensate the fifhts
+ * @return {Array} in the form [step, alt, oct]
+ */
+const decode = (f, o, dir) => {
+  const step = STEPS[unaltered(f)];
+  const alt = Math.floor((f + 1) / 7);
+  if (o === undefined) return { step, alt, dir };
+  const oct = o + 4 * alt + FIFTH_OCTS[step];
+  return { step, alt, oct, dir };
+};
+
+const memoize = fn => {
+  const cache = {};
+  return str =>
+    cache[str] !== undefined ? cache[str] : (cache[str] = fn(str));
+};
+
+const encoder = props =>
+  memoize(str => {
+    const p = props(str);
+    return p.name === null ? null : encode(p);
+  });
+
+const encodeNote = encoder(nprops);
+const encodeIvl = encoder(iprops);
 
 /**
  * Transpose a note by an interval. The note can be a pitch class.
@@ -59,9 +96,35 @@ function trBy(i, p) {
  */
 export function transpose(note, interval) {
   if (arguments.length === 1) return i => transpose(note, i);
-  var n = asPitch(note);
-  var i = asPitch(interval);
-  return n && i ? strPitch(trBy(i, n)) : null;
+  const n = encodeNote(note);
+  const i = encodeIvl(interval);
+  if (n === null || i === null) return null;
+  const tr = n.length === 1 ? [n[0] + i[0]] : [n[0] + i[0], n[1] + i[1]];
+  return nbuild(decode(tr[0], tr[1]));
+}
+
+/**
+ * Transpose a pitch class by a number of perfect fifths. 
+ * 
+ * It can be partially applied.
+ *
+ * @function
+ * @param {String} pitchClass - the pitch class 
+ * @param {Integer} fifhts - the number of fifths
+ * @return {String} the transposed pitch class
+ * 
+ * @example
+ * import { trFifths } from 'tonal-transpose'
+ * [0, 1, 2, 3, 4].map(trFifths('C')) // => ['C', 'G', 'D', 'A', 'E']
+ * // or using tonal
+ * tonal.trFifths('G4', 1) // => 'D'
+ */
+
+export function trFifths(note, fifths) {
+  if (arguments.length === 1) return f => trFifths(note, f);
+  const n = encodeNote(note);
+  if (n === null) return null;
+  return nbuild(decode(n[0] + fifths));
 }
 
 /**
@@ -77,8 +140,20 @@ export function transpose(note, interval) {
  * transposeBy('3m', '5P') // => '7m'
  */
 export function transposeBy(interval, note) {
-  if (arguments.length === 1) return n => transposeBy(interval, n);
+  if (arguments.length === 1) return n => transpose(n, interval);
   return transpose(note, interval);
+}
+
+const isDescending = e => e[0] * 7 + e[1] * 12 < 0;
+const decodeIvl = i =>
+  isDescending(i) ? decode(-i[0], -i[1], -1) : decode(i[0], i[1], 1);
+
+export function addIntervals(ivl1, ivl2, dir) {
+  const i1 = encodeIvl(ivl1);
+  const i2 = encodeIvl(ivl2);
+  if (i1 === null || i2 === null) return null;
+  const i = [i1[0] + dir * i2[0], i1[1] + dir * i2[1]];
+  return ibuild(decodeIvl(i));
 }
 
 /**
@@ -94,42 +169,22 @@ export function transposeBy(interval, note) {
  * add('3m', '5P') // => '7m'
  */
 export function add(ivl1, ivl2) {
-  if (arguments.length === 1) return i2 => transposeBy(ivl1, i2);
-  var p1 = asPitch(ivl1);
-  var p2 = asPitch(ivl2);
-  return p1 && p2 ? strPitch(trBy(p1, p2)) : null;
+  if (arguments.length === 1) return i2 => add(ivl1, i2);
+  return addIntervals(ivl1, ivl2, 1);
 }
 
 /**
- * Transpose a note by a number of perfect fifths. 
+ * Subtract two intervals
  * 
- * It can be partially applied.
- *
- * @function
- * @param {String} note
- * @param {Integer} times - the number of times
- * @return {String} the transposed note
- * @example
- * import { trFifths } from 'tonal-transpose'
- * [0, 1, 2, 3, 4].map(trFifths('C')) // => ['C', 'G', 'D', 'A', 'E']
- * // or using tonal
- * tonal.trFifths('G4', 1) // => 'D5'
+ * Can be partially applied
+ * 
+ * @param {String} minuend
+ * @param {String} subtrahend
+ * @return {String} interval diference
  */
-export function trFifths(t, n) {
-  if (arguments.length > 1) return trFifths(t)(n);
-  return function(n) {
-    return transpose(t, pitch(n, 0, 1));
-  };
-}
-
-// substract two pitches
-function substr(a, b) {
-  if (!a || !b || a[1].length !== b[1].length) return null;
-  var f = fifths(b) - fifths(a);
-  if (isPC(a)) return pitch(f, -Math.floor(f * 7 / 12), 1);
-  var o = focts(b) - focts(a);
-  var d = height(b) - height(a) < 0 ? -1 : 1;
-  return pitch(d * f, d * o, d);
+export function subtract(ivl1, ivl2) {
+  if (arguments.length === 1) return i2 => add(ivl1, i2);
+  return addIntervals(ivl1, ivl2, -1);
 }
 
 /**
@@ -152,27 +207,20 @@ function substr(a, b) {
  * tonal.distance.interval('M2', 'P5') // => 'P4'
  */
 export function interval(from, to) {
-  if (arguments.length === 1) return to => interval(from, to);
-  var pa = asPitch(from);
-  var pb = asPitch(to);
-  var i = substr(pa, pb);
-  // if a and b are in array notation, no conversion back
-  return strIvl(i);
-}
-
-/**
- * Subtract two intervals
- * 
- * @param {String} minuend
- * @param {String} subtrahend
- * @return {String} interval diference
- */
-export function subtract(ivl1, ivl2) {
-  return interval(ivl2, ivl1);
+  if (arguments.length === 1) return t => interval(from, t);
+  const f = encodeNote(from);
+  const t = encodeNote(to);
+  if (f === null || t === null || f.length !== t.length) return null;
+  const d =
+    f.length === 1
+      ? [t[0] - f[0], -Math.floor((t[0] - f[0]) * 7 / 12)]
+      : [t[0] - f[0], t[1] - f[1]];
+  return ibuild(decodeIvl(d));
 }
 
 /**
  * Get the distance between two notes in semitones
+ * 
  * @param {String|Pitch} from - first note
  * @param {String|Pitch} to - last note
  * @return {Integer} the distance in semitones or null if not valid notes
@@ -182,7 +230,13 @@ export function subtract(ivl1, ivl2) {
  * // or use tonal
  * tonal.distance.semitones('C3', 'G3') // => 7
  */
-export function semitones(a, b) {
-  var i = substr(asPitch(a), asPitch(b));
-  return i ? height(i) : null;
+export function semitones(from, to) {
+  if (arguments.length === 1) return t => semitones(from, t);
+  const f = nprops(from);
+  const t = nprops(to);
+  return f.midi !== null && t.midi !== null
+    ? t.midi - f.midi
+    : f.chroma !== null && t.chroma !== null
+      ? (t.chroma - f.chroma + 12) % 12
+      : null;
 }

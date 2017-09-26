@@ -13,8 +13,8 @@
   "module": "index",
   "author": "danigb",
   "license": "MIT",
-  "dependencies": {
-    "interval-notation": "^1.0.0",
-    "tonal-pitch": "^0.69.7"
+  "dependencies": {},
+  "babel": {
+    "presets": ["es2015"]
   }
 }

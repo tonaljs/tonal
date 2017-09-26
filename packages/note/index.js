@@ -79,6 +79,36 @@ export function props(str) {
 export const isNote = str => props(str) !== NO_NOTE;
 
 /**
+ * Given a note name, return the note name or null if not valid note.
+ * The note name will ALWAYS have the letter in upercase and accidentals
+ * using # or b
+ * 
+ * Can be used to test if a string is a valid note name.
+ *
+ * @function
+ * @param {Pitch|string}
+ * @return {string}
+ *
+ * @example
+ * const note = require('tonal-note')
+ * note.name('cb2') // => 'Cb2'
+ * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
+ */
+export const name = str => props(str).name;
+
+/**
+ * Get pitch class of a note. The note can be a string or a pitch array.
+ *
+ * @function
+ * @param {string|Pitch}
+ * @return {string} the pitch class
+ * @example
+ * tonal.pc('Db3') // => 'Db'
+ * tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
+ */
+export const pc = str => props(str).pc;
+
+/**
  * Get the note midi number
  * (an alias of tonal-midi `toMidi` function)
  *
@@ -91,32 +121,6 @@ export const isNote = str => props(str) !== NO_NOTE;
  * @see midi.toMidi
  */
 export const midi = note => props(note).midi || +note || null;
-
-const FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
-const SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
-
-/**
- * Given a midi number, returns a note name. The altered notes will have
- * flats unless explicitly set with the optional `useSharps` parameter.
- *
- * @function
- * @param {number} midi - the midi note number
- * @param [boolean] useSharps - (Optional) set to true to use sharps instead of flats
- * @return {string} the note name
- * @example
- * const note = require('tonal-note')
- * note.fromMidi(61) // => 'Db4'
- * note.fromMidi(61, true) // => 'C#4'
- * // it rounds to nearest note
- * note.fromMidi(61.7) // => 'D4'
- */
-export function fromMidi(num, sharps) {
-  num = Math.round(num);
-  const pcs = sharps === true ? SHARPS : FLATS;
-  const pc = pcs[num % 12];
-  const o = Math.floor(num / 12) - 1;
-  return pc + o;
-}
 
 export const midiToFreq = midi =>
   typeof midi === "number" ? Math.pow(2, (midi - 69) / 12) * 440 : null;
@@ -229,32 +233,33 @@ const numToStr = (num, op) => (typeof num !== "number" ? "" : op(num));
 export const altToAcc = alt =>
   numToStr(alt, alt => (alt < 0 ? fillStr("b", -alt) : fillStr("#", alt)));
 
-/**
- * Given a note name, return the note name or null if not valid note.
- * The note name will ALWAYS have the letter in upercase and accidentals
- * using # or b
- * 
- * Can be used to test if a string is a valid note name.
- *
- * @function
- * @param {Pitch|string}
- * @return {string}
- *
- * @example
- * const note = require('tonal-note')
- * note.name('cb2') // => 'Cb2'
- * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
- */
-export const name = str => props(str).name;
+export const build = ({ step, alt, oct }) => {
+  const pc = stepToLetter(step) + altToAcc(alt);
+  return oct === undefined ? pc : pc + oct;
+};
+
+const FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
+const SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
 
 /**
- * Get pitch class of a note. The note can be a string or a pitch array.
+ * Given a midi number, returns a note name. The altered notes will have
+ * flats unless explicitly set with the optional `useSharps` parameter.
  *
  * @function
- * @param {string|Pitch}
- * @return {string} the pitch class
+ * @param {number} midi - the midi note number
+ * @param [boolean] useSharps - (Optional) set to true to use sharps instead of flats
+ * @return {string} the note name
  * @example
- * tonal.pc('Db3') // => 'Db'
- * tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
+ * const note = require('tonal-note')
+ * note.fromMidi(61) // => 'Db4'
+ * note.fromMidi(61, true) // => 'C#4'
+ * // it rounds to nearest note
+ * note.fromMidi(61.7) // => 'D4'
  */
-export const pc = str => props(str).pc;
+export function fromMidi(num, sharps) {
+  num = Math.round(num);
+  const pcs = sharps === true ? SHARPS : FLATS;
+  const pc = pcs[num % 12];
+  const o = Math.floor(num / 12) - 1;
+  return pc + o;
+}

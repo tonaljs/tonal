@@ -1,7 +1,7 @@
 {
   "name": "tonal-pcset",
   "version": "0.69.9",
-  "description": "Pitch class sets",
+  "description": "Create and manipulate pitch class sets",
   "keywords": ["music", "theory", "pitch class", "sets", "tonal"],
   "scripts": {
     "docs":
@@ -15,10 +15,12 @@
   "dependencies": {
     "tonal-array": "^0.69.7",
     "tonal-note": "^0.69.9",
-    "tonal-pitch": "^0.69.7",
-    "tonal-transpose": "^0.69.7"
+    "tonal-interval": "^0.69.7"
   },
   "babel": {
     "presets": ["es2015"]
+  },
+  "jest": {
+    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
   }
 }

@@ -20,7 +20,7 @@
  *
  * ```js
  * import * as interval from 'tonal-interval'
- * // or var interval = require('tonal-interval')
+ * // or const interval = require('tonal-interval')
  * interval.semitones('4P') // => 5
  * interval.invert('3m') // => '6M'
  * interval.simplify('9m') // => '2m'
@@ -34,119 +34,106 @@
  *
  * @module interval
  */
-import { build } from "interval-notation";
-import {
-  asIvlPitch,
-  ivlFn,
-  chr,
-  dir,
-  strIvl,
-  encode,
-  decode,
-  height
-} from "tonal-pitch";
+// shorthand tonal notation (with quality after number)
+const IVL_TNL = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
+// standard shorthand notation (with quality before number)
+const IVL_STR = "(AA|A|P|M|m|d|dd)([-+]?\\d+)";
+const REGEX = new RegExp("^" + IVL_TNL + "|" + IVL_STR + "$");
+const SIZES = [0, 2, 4, 5, 7, 9, 11];
+const TYPES = "PMMPPMM";
+const CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1];
 
-/**
- * Get interval name. Can be used to test if it's an interval. It accepts intervals
- * as pitch or string in shorthand notation or tonal notation. It returns always
- * intervals in tonal notation.
- *
- * @param {String|Pitch} interval - the interval string or array
- * @return {String} the interval name or null if not valid interval
- * @example
- * interval.toInterval('m-3') // => '-3m'
- * interval.toInterval('3') // => null
- */
-export function toInterval(ivl) {
-  var i = asIvlPitch(ivl);
-  return i ? strIvl(i) : null;
+export const tokenize = str => {
+  const m = REGEX.exec(str);
+  return m === null ? null : m[1] ? [m[1], m[2]] : [m[4], m[3]];
+};
+
+const NO_IVL = Object.freeze({
+  name: null,
+  num: null,
+  q: null,
+  step: null,
+  alt: null,
+  dir: null,
+  type: null,
+  simple: null,
+  semitones: null,
+  chroma: null,
+  ic: null
+});
+
+const fillStr = (s, n) => Array(Math.abs(n) + 1).join(s);
+
+const qToAlt = (type, q) => {
+  if (q === "M" && type === "M") return 0;
+  if (q === "P" && type === "P") return 0;
+  if (q === "m" && type === "M") return -1;
+  if (/^A+$/.test(q)) return q.length;
+  if (/^d+$/.test(q)) return type === "P" ? -q.length : -q.length - 1;
+  return null;
+};
+
+const altToQ = (type, alt) => {
+  if (alt === 0) return type === "M" ? "M" : "P";
+  else if (alt === -1 && type === "M") return "m";
+  else if (alt > 0) return fillStr("A", alt);
+  else if (alt < 0) return fillStr("d", type === "P" ? alt : alt + 1);
+  else return null;
+};
+
+const properties = str => {
+  const t = tokenize(str);
+  if (t === null) return NO_IVL;
+  const p = { num: +t[0], q: t[1] };
+  p.step = (Math.abs(p.num) - 1) % 7;
+  p.type = TYPES[p.step];
+  if (p.type === "M" && p.q === "P") return NO_IVL;
+
+  p.name = "" + p.num + p.q;
+  p.dir = p.num < 0 ? -1 : 1;
+  p.simple = p.num === 8 || p.num === -8 ? p.num : p.dir * (p.step + 1);
+  p.alt = qToAlt(p.type, p.q);
+  p.oct = Math.floor((Math.abs(p.num) - 1) / 7);
+  p.semitones = p.dir * (SIZES[p.step] + p.alt + 12 * p.oct);
+  p.chroma = ((p.dir * (SIZES[p.step] + p.alt)) % 12 + 12) % 12;
+  p.ic = CLASSES[p.chroma];
+  return Object.freeze(p);
+};
+
+const cache = {};
+export function props(str) {
+  if (typeof str !== "string") return NO_IVL;
+  return cache[str] === undefined ? (cache[str] = properties(str)) : cache[str];
 }
 
-/**
- * Get the number of the interval (same as value, but always positive)
- *
- * @param {String|Pitch} interval - the interval
- * @return {Integer} the positive interval number (P1 is 1, m2 is 2, ...)
- * @example
- * interval.num('m2') // => 2
- * interval.num('P9') // => 9
- * interval.num('P-4') // => 4
- */
-export function num(ivl) {
-  var p = props(ivl);
-  return p ? p.num : null;
-}
+export const num = str => props(str).num;
+export const name = str => props(str).name;
+export const type = str => props(str).type;
+export const semitones = str => props(str).semitones;
+export const chroma = str => props(str).chroma;
+export const ic = str => props(str).ic;
 
-/**
- * Get the interval value (the interval number, but positive or negative
- * depending the interval direction)
- *
- * @param {String|Pitch} interval - the interval
- * @return {Integer} the positive interval number (P1 is 1, m-2 is -2, ...)
- * @example
- * interval.num('m2') // => 2
- * interval.num('m9') // => 9
- * interval.num('P-4') // => -4
- * interval.num('m-9') // => -9
- */
-export function value(ivl) {
-  var p = props(ivl);
-  return p ? p.num * p.dir : null;
-}
+export const build = ({ step, alt, oct, dir } = {}) => {
+  if (step === undefined) return null;
+  const d = dir < 0 ? "-" : "";
+  const num = step + 1 + 7 * oct;
+  const type = TYPES[step];
+  return d + num + altToQ(type, alt);
+};
 
-/**
- * Get interval properties. It returns an object with:
- *
- * - num: the interval number (always positive)
- * - alt: the interval alteration (0 for perfect in perfectables, or 0 for major in _majorables_)
- * - dir: the interval direction (1 ascending, -1 descending)
- *
- * @param {String|Pitch} interval - the interval
- * @return {Array} the interval in the form [number, alt]
- * @example
- * interval.parse('m2') // => { num: 2, alt: -1, dir: 1 }
- * interval.parse('m9') // => { num: 9, alt: -1, dir: 1 }
- * interval.parse('P-4') // => { num: 4, alt: 0, dir: -1}
- * interval.parse('m-9') // => { num: 9, alt: -1, dir: -1 }
- */
-export function props(ivl) {
-  var i = asIvlPitch(ivl);
-  if (!i) return null;
-  var d = decode(i);
-  return { num: d[0] + 1 + d[2] * 7, alt: d[1], dir: i[2] };
-}
+export const simplify = str => {
+  const p = props(str);
+  if (p === NO_IVL) return null;
+  return p.simple + p.q;
+};
 
-/**
- * Given a interval property object, get the interval name
- *
- * @param {Object} props - the interval property object
- *
- * - num: the interval number
- * - alt: the interval alteration
- * - dir: the direction
- * @return {String} the interval name
- */
-export function fromProps(props) {
-  if (!props || props.num < 1) return null;
-  var octs = Math.floor(props.num / 8);
-  var simple = props.num - 7 * octs;
-  return build(simple, props.alt || 0, octs, props.dir);
-}
-
-/**
- * Get size in semitones of an interval
- * @param {String|Pitch} ivl
- * @return {Integer} the number of semitones or null if not an interval
- * @example
- * import { semitones } from 'tonal-interval'
- * semitones('P4') // => 5
- * // or using tonal
- * tonal.semitones('P5') // => 7
- */
-export function semitones(ivl) {
-  var i = asIvlPitch(ivl);
-  return i ? height(i) : null;
-}
+export const invert = str => {
+  const p = props(str);
+  if (p === NO_IVL) return null;
+  const step = (7 - p.step) % 7;
+  const alt = p.type === "P" ? -p.alt : -(p.alt + 1);
+  return build({ step, alt, oct: p.oct, dir: p.dir });
+};
 
 // interval numbers
 var IN = [1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 7, 7];
@@ -164,95 +151,10 @@ var IQ = "P m M m M P d P m M m M".split(" ");
  * // or using tonal
  * tonal.fromSemitones(-7) // => '-5P'
  */
-export function fromSemitones(num) {
+export const fromSemitones = num => {
   var d = num < 0 ? -1 : 1;
   var n = Math.abs(num);
   var c = n % 12;
   var o = Math.floor(n / 12);
   return d * (IN[c] + 7 * o) + IQ[c];
-}
-
-var CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1];
-/**
- * Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
- * number of a given interval.
- *
- * In musical set theory, an interval class is the shortest distance in
- * pitch class space between two unordered pitch classes
- *
- * As paramter you can pass an interval in shorthand notation, an interval in
- * array notation or the number of semitones of the interval
- *
- * @param {String|Integer} interval - the interval or the number of semitones
- * @return {Integer} A value between 0 and 6
- *
- * @example
- * interval.ic('P8') // => 0
- * interval.ic('m6') // => 4
- * ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
- */
-export function ic(ivl) {
-  var i = asIvlPitch(ivl);
-  var s = i ? chr(i) : Math.round(ivl);
-  return isNaN(s) ? null : CLASSES[Math.abs(s) % 12];
-}
-
-var TYPES = "PMMPPMM";
-/**
- * Get interval type. Can be perfectable (1, 4, 5) or majorable (2, 3, 6, 7)
- * It does NOT return the actual quality.
- *
- * @param {String|Pitch} interval
- * @return {String} 'P' for perfectables, 'M' for majorables or null if not
- * valid interval
- * @example
- * interval.type('5A') // => 'P'
- */
-export function type(ivl) {
-  var i = asIvlPitch(ivl);
-  return i ? TYPES[decode(i)[0]] : null;
-}
-
-/**
- * Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
- * of an interval.
- *
- * @function
- * @param {String|Pitch} interval - the interval to invert in interval shorthand
- * notation or interval array notation
- * @return {String|Pitch} the inverted interval
- *
- * @example
- * interval.invert('3m') // => '6M'
- * interval.invert('2M') // => '7m'
- */
-export var invert = ivlFn(function(i) {
-  var d = decode(i);
-  // d = [step, alt, oct]
-  var step = (7 - d[0]) % 7;
-  var alt = TYPES[d[0]] === "P" ? -d[1] : -(d[1] + 1);
-  return encode(step, alt, d[2], dir(i));
-});
-
-/**
- * Get the simplified version of an interval.
- *
- * @function
- * @param {String|Array} interval - the interval to simplify
- * @return {String|Array} the simplified interval
- *
- * @example
- * interval.simplify('9M') // => '2M'
- * ['8P', '9M', '10M', '11P', '12P', '13M', '14M', '15P'].map(interval.simplify)
- * // => [ '8P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
- * interval.simplify('2M') // => '2M'
- * interval.simplify('-2M') // => '7m'
- */
-export var simplify = ivlFn(function(i) {
-  // decode to [step, alt, octave]
-  var dec = decode(i);
-  // if it's not 8 reduce the octaves to 0
-  if (dec[0] !== 0 || dec[2] !== 1) dec[2] = 0;
-  // encode back
-  return encode(dec[0], dec[1], dec[2], dir(i));
-});
+};

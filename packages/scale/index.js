@@ -9,23 +9,32 @@
  * scale.detect('f5 d2 c5 b5 a2 e4 g') // => [ 'C major', 'D dorian', 'E phrygian', 'F lydian', 'G mixolydian', 'A aeolian', 'B locrian'])
  * @module scale
  */
+import { name as noteName, pc } from "tonal-note/index";
 import {
-  scale,
-  chord,
-  dictionary,
-  detector,
-  index
-} from "tonal-dictionary/index";
-import { map, compact, rotate } from "tonal-array";
-import { pc, name as note, isNote } from "tonal-note/index";
-import { transpose, subtract } from "tonal-distance/index";
-import { modes as setModes, chroma, isSubset } from "tonal-pcset";
-import { harmonize } from "tonal-harmonizer";
-import DATA from "./scales.json";
+  modes as pcsetModes,
+  chroma,
+  isSubset,
+  isSuperset
+} from "tonal-pcset/index";
+import { transpose } from "tonal-distance/index";
+import { scale, chord } from "tonal-dictionary/index";
+import { compact, unique, rotate } from "tonal-array/index";
 
-const dict = dictionary(DATA, function(str) {
-  return str.split(" ");
+const NO_SCALE = Object.freeze({
+  intervals: []
 });
+
+const properties = name => {
+  const intervals = scale(name);
+  if (!intervals) return NO_SCALE;
+  const s = { intervals, name };
+  s.chroma = chroma(intervals);
+  s.setnum = parseInt(s.chroma, 2);
+  s.names = scale.names(s.chroma);
+  return Object.freeze(s);
+};
+
+const memoize = (fn, cache) => str => cache[str] || (cache[str] = fn(str));
 
 /**
  * Get scale notes or intervals. It *always* return an array and the notes
@@ -38,7 +47,7 @@ const dict = dictionary(DATA, function(str) {
  * @example
  * scale.get('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
  */
-export function get(type, tonic) {}
+export const props = memoize(properties, {});
 
 /**
  * Return the available scale names
@@ -51,27 +60,7 @@ export function get(type, tonic) {}
  * const scale = require('tonal-scale')
  * scale.names() // => ['maj7', ...]
  */
-export const names = scale.keys;
-
-/**
- * Get the notes (pitch classes) of a scale. 
- *
- * Note that it always returns an array, and the values are only pitch classes.
- *
- * @param {String} tonic 
- * @param {String} name - the scale name
- * @return {Array} a pitch classes array
- * 
- * @example
- * scale.notes('major', 'C') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
- * scale.notes('major', 'C4') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
- * scale.notes('nonsense') // => []
- * scale.notes('major', 'nonsense') // => []
- */
-export function notes(name, tonic) {
-  const ivls = scale(name);
-  return isNote(tonic) && ivls ? ivls.map(transpose(tonic)) : [];
-}
+export const names = scale.names;
 
 /**
  * Given a scale name, return its intervals. The name can be the type and
@@ -85,8 +74,30 @@ export function notes(name, tonic) {
  * @example
  * scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
  */
-export function intervals(name) {
-  return scale(name) || [];
+export const intervals = name => {
+  const p = tokenize(name);
+  return props(p[1]).intervals;
+};
+
+/**
+ * Get the notes (pitch classes) of a scale. 
+ *
+ * Note that it always returns an array, and the values are only pitch classes.
+ *
+ * @param {String} tonic 
+ * @param {String} name - the scale name
+ * @return {Array} a pitch classes array
+ * 
+ * @example
+ * scale.notes("C", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+ * scale.notes("C4", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+ * scale.notes("A4", "no-scale") // => []
+ * scale.notes("blah", "major") // => []
+ */
+export function notes(nameOrTonic, name) {
+  const p = tokenize(nameOrTonic);
+  name = name || p[1];
+  return intervals(name).map(transpose(p[0]));
 }
 
 /**
@@ -96,7 +107,8 @@ export function intervals(name) {
  * @return {Boolean}
  */
 export function exists(name) {
-  return scale(name) !== undefined;
+  const p = tokenize(name);
+  return scale(p[1]) !== undefined;
 }
 
 /**
@@ -108,37 +120,19 @@ export function exists(name) {
  * (this function doesn't check if that scale name exists)
  *
  * @param {String} name - the scale name
- * @return {Object} an object { tonic, type }
+ * @return {Array} an array [tonic, name]
  * @example
- * scale.parseName('C mixoblydean') // => { tonic: 'C', type: 'mixoblydean' }
- * scale.parseName('anything is valid') // => { tonic: false, type: 'anything is valid'}
+ * scale.tokenize('C mixolydean') // => ["C", "mixolydean"]
+ * scale.tokenize('anything is valid') // => [null, "anything is valid"]
+ * scale.tokenize() // => [null, null]
  */
-export function parseName(str) {
-  if (typeof str !== "string") return null;
+export function tokenize(str) {
+  if (typeof str !== "string") return [null, null];
   const i = str.indexOf(" ");
-  const tonic = note(str.substring(0, i)) || null;
-  const name = tonic !== null ? str.substring(i + 1) : str;
-  return [name, tonic];
+  const tonic = noteName(str.substring(0, i)) || noteName(str);
+  const name = tonic !== null ? str.substring(tonic.length + 1) : str;
+  return [tonic, name.length ? name : null];
 }
-
-/**
- * Detect a scale. Given a list of notes, return the scale name(s) if any.
- * It only detects chords with exactly same notes.
- *
- * @function
- * @param {Array|String} notes - the list of notes
- * @return {Array<String>} an array with the possible scales
- * @example
- * scale.detect('b g f# d') // => [ 'GMaj7' ]
- * scale.detect('e c a g') // => [ 'CM6', 'Am7' ]
- */
-export const detect = detector(dict, " ");
-
-let scaleIndex = null;
-const find = notes => {
-  if (!scaleIndex) scaleIndex = index(scale);
-  return scaleIndex(notes);
-};
 
 /**
  * Find mode names of a scale
@@ -146,10 +140,9 @@ const find = notes => {
  */
 export const modes = name => {
   const ivls = intervals(name);
-  if (!ivls) return [];
 
-  return setModes(ivls).map(chroma => {
-    return find(chroma)[0];
+  return pcsetModes(ivls).map(chroma => {
+    return scale.names(chroma)[0];
   });
 };
 
@@ -159,6 +152,49 @@ export const modes = name => {
  * @param {String} name
  */
 export const chords = name => {
-  const ivls = scale(name);
-  return chord.keys().filter(name => isSubset(chord(name), ivls));
+  const ivls = intervals(name);
+  return chord.names().filter(name => isSubset(chord(name), ivls));
+};
+
+/**
+ * Given an array of notes, return the scale: a pitch class set starting from 
+ * the first note of the array
+ * 
+ * @param {Array} notes 
+ * @return {Array}
+ */
+export const toScale = notes => {
+  const pcset = compact(notes.map(pc));
+  if (!pcset.length) return pcset;
+  const tonic = pcset[0];
+  const scale = unique(pcset);
+  return rotate(scale.indexOf(tonic), scale);
+};
+
+/**
+ * Find all scales than extends the given one
+ * 
+ * @param {String} name 
+ */
+export const extensions = name => {
+  const ivls = intervals(name);
+  if (!ivls.length) return [];
+  return scale.names().filter(name => isSuperset(scale(name), ivls));
+};
+
+export const detect = notes => {
+  notes = toScale(notes);
+  const modes = pcsetModes(notes);
+  if (modes.length < 2) throw Error("It should have at least two notes");
+
+  const results = [];
+
+  names().forEach(name => {
+    const p = props(name);
+    modes.forEach((mode, i) => {
+      if (isSubset(mode, p.chroma)) results.push([notes[i], name]);
+    });
+  });
+
+  return results;
 };

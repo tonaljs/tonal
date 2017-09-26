@@ -11,16 +11,10 @@
  *
  * @module chord
  */
-import { dictionary, detector } from "tonal-dictionary/index";
-import { map, compact, permutations, rotate } from "tonal-array/index";
-import { pc, name as note } from "tonal-note";
-import { regex } from "note-parser";
-import { harmonize, intervallic } from "tonal-harmonizer";
-import DATA from "./chords.json";
-
-var dict = dictionary(DATA, function(str) {
-  return str.split(" ");
-});
+import { tokenize as split } from "tonal-note/index";
+import { transpose } from "tonal-distance/index";
+import { chord } from "tonal-dictionary/index";
+import { chroma } from "tonal-pcset/index";
 
 /**
  * Return the available chord names
@@ -33,48 +27,29 @@ var dict = dictionary(DATA, function(str) {
  * var chord = require('tonal-chord')
  * chord.names() // => ['maj7', ...]
  */
-export var names = dict.keys;
+export const names = chord.names;
 
-/**
- * Get chord notes or intervals from chord type
- *
- * This function is currified
- *
- * @param {String} type - the chord type
- * @param {Strng|Pitch} tonic - the tonic or false to get the intervals
- * @return {Array<String>} the chord notes or intervals, or null if not valid type
- *
- * @example
- * chords.get('dom7', 'C') // => ['C', 'E', 'G', 'Bb']
- * maj7 = chords.get('Maj7')
- * maj7('C') // => ['C', 'E', 'G', 'B']
- */
-export function get(type, tonic) {
-  if (arguments.length === 1)
-    return function(t) {
-      return get(type, t);
-    };
-  var ivls = dict.get(type);
-  return ivls ? harmonize(ivls, tonic) : null;
-}
+const NO_CHORD = Object.freeze({
+  name: null,
+  names: [],
+  intervals: [],
+  chroma: null,
+  setnum: null
+});
 
-/**
- * Get the chord notes of a chord. This function accepts either a chord name
- * (for example: 'Cmaj7') or a list of notes.
- *
- * It always returns an array, even if the chord is not found.
- *
- * @param {String|Array} chord - the chord to get the notes from
- * @return {Array<String>} a list of notes or empty list if not chord found
- *
- * @example
- * chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
- */
-export function notes(chord) {
-  var p = parse(chord);
-  var ivls = dict.get(p.type);
-  return ivls ? harmonize(ivls, p.tonic) : compact(map(note, chord));
-}
+const properties = name => {
+  const intervals = chord(name);
+  if (!intervals) return NO_CHORD;
+  const s = { intervals, name };
+  s.chroma = chroma(intervals);
+  s.setnum = parseInt(s.chroma, 2);
+  s.names = chord.names(s.chroma);
+  return s;
+};
+
+const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
+
+export const props = memo(properties);
 
 /**
  * Get chord intervals. It always returns an array
@@ -82,9 +57,28 @@ export function notes(chord) {
  * @param {String} name - the chord name (optionally a tonic and type)
  * @return {Array<String>} a list of intervals or null if the type is not known
  */
-export function intervals(name) {
-  var p = parse(name);
-  return dict.get(p.type) || [];
+export const intervals = name => {
+  const p = tokenize(name);
+  return props(p[1]).intervals;
+};
+
+/**
+ * Get the chord notes of a chord. This function accepts either a chord name
+ * (for example: 'Cmaj7') or a list of notes.
+ *
+ * It always returns an array, even if the chord is not found.
+ *
+ * @param {String} nameOrTonic - name of the chord or the tonic
+ * @return [String] name - (Optional) name if the first parameter is the tonic
+ *
+ * @example
+ * chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
+ * chord.notes('C', 'maj7') // => ['C', 'E', 'G', 'B']
+ */
+export function notes(nameOrTonic, name) {
+  var p = tokenize(nameOrTonic);
+  name = name || p[1];
+  return intervals(name).map(transpose(p[0]));
 }
 
 /**
@@ -96,8 +90,9 @@ export function intervals(name) {
  * chord.isKnownChord('Maj7') // => true
  * chord.isKnownChord('Ablah') // => false
  */
-export function isKnownChord(name) {
-  return intervals(name).length > 0;
+export function exists(name) {
+  const p = tokenize(name);
+  return chord(p[1]) !== undefined;
 }
 
 /**
@@ -111,7 +106,7 @@ export function isKnownChord(name) {
  * chord.detect('b g f# d') // => [ 'GMaj7' ]
  * chord.detect('e c a g') // => [ 'CM6', 'Am7' ]
  */
-export var detect = detector(dict, "");
+export var detect = () => [];
 
 /**
  * Get the position (inversion number) of a chord (0 is root position, 1 is first
@@ -171,9 +166,8 @@ function areTriads(list) {
 }
 
 /**
- * Try to parse a chord name. It returns an array with the chord type and
- * the tonic. If not tonic is found, all the name is considered the chord
- * name.
+ * Tokenize a chord name. It returns an array with the tonic and chord type 
+ * If not tonic is found, all the name is considered the chord name.
  *
  * This function does NOT check if the chord type exists or not. It only tries
  * to split the tonic and chord type.
@@ -181,20 +175,19 @@ function areTriads(list) {
  * @param {String} name - the chord name
  * @return {Array} an array with [type, tonic]
  * @example
- * chord.parse('Cmaj7') // => { tonic: 'C', type: 'maj7' }
- * chord.parse('C7') // => { tonic: 'C', type: '7' }
- * chord.parse('mMaj7') // => { tonic: false, type: 'mMaj7' }
- * chord.parse('Cnonsense') // => { tonic: 'C', type: 'nonsense' }
+ * chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
+ * chord.tokenize('C7') // => [ 'C', '7' ]
+ * chord.tokenize('mMaj7') // => [ null, 'mMaj7' ]
+ * chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
  */
-export function parse(name) {
-  var p = regex().exec(name);
-  if (!p) return { type: name, tonic: false };
+export function tokenize(name) {
+  var p = split(name);
+  if (!p) return [null, name];
 
-  // If chord name is empty, the octave is the chord name
-  return !p[4]
-    ? { type: p[3], tonic: p[1] + p[2] }
-    : // If the octave is 6 or 7 is asumed to be part of the chord name
-      p[3] === "7" || p[3] === "6"
-      ? { type: p[3] + p[4], tonic: p[1] + p[2] }
-      : { type: p[4], tonic: p[1] + p[2] + p[3] };
+  // 6 and 7 is consider part of the chord
+  if (p[0] !== "" && (p[2][0] === "6" || p[2][0] === "7")) {
+    return [p[0] + p[1], p[2] + p[3]];
+  } else {
+    return [p[0] + p[1] + p[2], p[3]];
+  }
 }

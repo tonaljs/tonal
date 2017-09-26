@@ -21,7 +21,8 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-pitch": "^0.69.7"
+    "tonal-note": "^0.69.7",
+    "tonal-interval": "^0.69.7"
   },
   "babel": {
     "presets": ["es2015"]
