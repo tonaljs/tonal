@@ -1,39 +1,27 @@
 <a name="module_chord"></a>
 
 # chord
-A chord is a harmonic unit with at least three different tones sounding simultaneously.
+[![npm version](https://img.shields.io/npm/v/tonal-chord.svg)](https://www.npmjs.com/package/tonal-chord)
+[![tonal](https://img.shields.io/badge/tonal-chord-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
 
-This module have functions to create and manipulate chords. It includes a
-chord dictionary and a simple chord detection algorithm.
+`tonal-chord` is a collection of functions to manipulate musical chords
+
+This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
 
 **Example**  
 ```js
-var chord = require('tonal-chord')
-chord.detect('c b g e') // => 'CMaj7'
-chord.get('CMaj7') // => ['C', 'E', 'G', 'B']
+const chord = require('tonal-chord')
+chord.notes('CMaj7') // => ['C', 'E', 'G', 'B']
 ```
 
 * [chord](#module_chord)
-    * [`.intervals`](#module_chord.intervals) ⇒ <code>Array.&lt;String&gt;</code>
     * [`.names(aliases)`](#module_chord.names) ⇒ <code>Array</code>
+    * [`.props(name)`](#module_chord.props) ⇒ <code>Object</code>
+    * [`.intervals(name)`](#module_chord.intervals) ⇒ <code>Array.&lt;String&gt;</code>
     * [`.notes(nameOrTonic)`](#module_chord.notes) ⇒
     * [`.exists(name)`](#module_chord.exists) ⇒ <code>Boolean</code>
-    * [`.detect(notes)`](#module_chord.detect) ⇒ <code>Array.&lt;String&gt;</code>
     * [`.position(chord)`](#module_chord.position) ⇒ <code>Integer</code>
-    * [`.inversion(num, chord)`](#module_chord.inversion) ⇒ <code>Array</code>
     * [`.tokenize(name)`](#module_chord.tokenize) ⇒ <code>Array</code>
-
-<a name="module_chord.intervals"></a>
-
-## `chord.intervals` ⇒ <code>Array.&lt;String&gt;</code>
-Get chord intervals. It always returns an array
-
-**Kind**: static constant of [<code>chord</code>](#module_chord)  
-**Returns**: <code>Array.&lt;String&gt;</code> - a list of intervals or null if the type is not known  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> | the chord name (optionally a tonic and type) |
 
 <a name="module_chord.names"></a>
 
@@ -49,9 +37,37 @@ Return the available chord names
 
 **Example**  
 ```js
-var chord = require('tonal-chord')
+import * as chord from 'tonal-chord'
 chord.names() // => ['maj7', ...]
 ```
+<a name="module_chord.props"></a>
+
+## `chord.props(name)` ⇒ <code>Object</code>
+Get chord properties. It returns an object with :
+- name: the chord name
+- names: a list with all possible names (includes the current)
+- intervals: an array with the chord intervals
+- chroma:  chord croma (see pcset)
+- setnum: chord chroma number
+
+**Kind**: static method of [<code>chord</code>](#module_chord)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the chord name (without tonic) |
+
+<a name="module_chord.intervals"></a>
+
+## `chord.intervals(name)` ⇒ <code>Array.&lt;String&gt;</code>
+Get chord intervals. It always returns an array
+
+**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Returns**: <code>Array.&lt;String&gt;</code> - a list of intervals or null if the type is not known  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the chord name (optionally a tonic and type) |
+
 <a name="module_chord.notes"></a>
 
 ## `chord.notes(nameOrTonic)` ⇒
@@ -85,27 +101,9 @@ Check if a given name correspond to a chord in the dictionary
 
 **Example**  
 ```js
-chord.isKnownChord('CMaj7') // => true
-chord.isKnownChord('Maj7') // => true
-chord.isKnownChord('Ablah') // => false
-```
-<a name="module_chord.detect"></a>
-
-## `chord.detect(notes)` ⇒ <code>Array.&lt;String&gt;</code>
-Detect a chord. Given a list of notes, return the chord name(s) if any.
-It only detects chords with exactly same notes.
-
-**Kind**: static method of [<code>chord</code>](#module_chord)  
-**Returns**: <code>Array.&lt;String&gt;</code> - an array with the possible chords  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| notes | <code>Array</code> \| <code>String</code> | the list of notes |
-
-**Example**  
-```js
-chord.detect('b g f# d') // => [ 'GMaj7' ]
-chord.detect('e c a g') // => [ 'CM6', 'Am7' ]
+chord.exists('CMaj7') // => true
+chord.exists('Maj7') // => true
+chord.exists('Ablah') // => false
 ```
 <a name="module_chord.position"></a>
 
@@ -125,26 +123,6 @@ inversion...) or null if not a valid chord
 ```js
 chord.position('e g c') // => 1
 chord.position('g3 e2 c5') // => 1 (e is the lowest note)
-```
-<a name="module_chord.inversion"></a>
-
-## `chord.inversion(num, chord)` ⇒ <code>Array</code>
-Given a chord in any inverstion, set to the given inversion. It accepts
-chord names
-
-**Kind**: static method of [<code>chord</code>](#module_chord)  
-**Returns**: <code>Array</code> - the chord pitch classes in the desired inversion or
-an empty array if no inversion found (not triadic)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| num | <code>Integer</code> | the inversion number (0 root position, 1 first inversion, ...) |
-| chord | <code>String</code> \| <code>Array</code> | the chord name or notes |
-
-**Example**  
-```js
-chord.inversion(1, 'Cmaj7') // => [ 'E', 'G', 'B', 'C' ]
-chord.inversion(0, 'e g c') // => [ 'C', 'E', 'G' ]
 ```
 <a name="module_chord.tokenize"></a>
 

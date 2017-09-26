@@ -314,13 +314,215 @@ interval.simplify('9m') // => '2m'
 
 ## API Documentation
 
+
+* [interval](#module_interval)
+    * [`.props(interval)`](#module_interval.props) ⇒ <code>Object</code>
+    * [`.num(interval)`](#module_interval.num) ⇒ <code>Integer</code>
+    * [`.name(interval)`](#module_interval.name) ⇒ <code>String</code>
+    * [`.type(interval)`](#module_interval.type) ⇒ <code>String</code>
+    * [`.semitones(ivl)`](#module_interval.semitones) ⇒ <code>Integer</code>
+    * [`.chroma(str)`](#module_interval.chroma) ⇒ <code>Number</code>
+    * [`.ic(interval)`](#module_interval.ic) ⇒ <code>Integer</code>
+    * [`.build(props)`](#module_interval.build) ⇒ <code>String</code>
+    * [`.simplify(interval)`](#module_interval.simplify) ⇒ <code>String</code>
+    * [`.invert(interval)`](#module_interval.invert) ⇒ <code>String</code>
+    * [`.fromSemitones(num)`](#module_interval.fromSemitones) ⇒ <code>String</code>
+
+<a name="module_interval.props"></a>
+
+## `interval.props(interval)` ⇒ <code>Object</code>
+Get interval properties. It returns an object with:
+
+- name: name
+- num: number
+- q: quality
+- step: step 
+- alt: alteration
+- dir: direction (1 ascending, -1 descending)
+- type: "P" or "M" for perfectable or majorable
+- simple: the simplified number
+- semitones: the size in semitones
+- chroma: the interval chroma
+- ic: the interval class
+
+**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Returns**: <code>Object</code> - the interval in the form [number, alt]  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| interval | <code>String</code> | the interval |
+
+<a name="module_interval.num"></a>
+
+## `interval.num(interval)` ⇒ <code>Integer</code>
+Get the number of the interval
+
+**Kind**: static method of [<code>interval</code>](#module_interval)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| interval | <code>String</code> | the interval |
+
+**Example**  
+```js
+interval.num('m2') // => 2
+interval.num('P9') // => 9
+interval.num('P-4') // => -4
+```
+<a name="module_interval.name"></a>
+
+## `interval.name(interval)` ⇒ <code>String</code>
+Get interval name. Can be used to test if it's an interval. It accepts intervals
+as pitch or string in shorthand notation or tonal notation. It returns always
+intervals in tonal notation.
+
+**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Returns**: <code>String</code> - the interval name or null if not valid interval  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| interval | <code>String</code> | the interval string or array |
+
+**Example**  
+```js
+interval.name('m-3') // => '-3m'
+interval.name('3') // => null
+```
+<a name="module_interval.type"></a>
+
+## `interval.type(interval)` ⇒ <code>String</code>
+Get interval type. Can be perfectable (1, 4, 5) or majorable (2, 3, 6, 7)
+It does NOT return the actual quality.
+
+**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Returns**: <code>String</code> - 'P' for perfectables, 'M' for majorables or null if not
+valid interval  
+
+| Param | Type |
+| --- | --- |
+| interval | <code>String</code> | 
+
+**Example**  
+```js
+interval.type('5A') // => 'P'
+```
+<a name="module_interval.semitones"></a>
+
+## `interval.semitones(ivl)` ⇒ <code>Integer</code>
+Get size in semitones of an interval
+
+**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Returns**: <code>Integer</code> - the number of semitones or null if not an interval  
+
+| Param | Type |
+| --- | --- |
+| ivl | <code>String</code> | 
+
+**Example**  
+```js
+import { semitones } from 'tonal-interval'
+semitones('P4') // => 5
+// or using tonal
+tonal.interval.semitones('P5') // => 7
+```
+<a name="module_interval.chroma"></a>
+
+## `interval.chroma(str)` ⇒ <code>Number</code>
+Get the chroma of the interval. The chroma is a number between 0 and 7
+that represents the position within an octave (pitch set)
+
+**Kind**: static method of [<code>interval</code>](#module_interval)  
+
+| Param | Type |
+| --- | --- |
+| str | <code>String</code> | 
+
+<a name="module_interval.ic"></a>
+
+## `interval.ic(interval)` ⇒ <code>Integer</code>
+Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
+number of a given interval.
+
+In musical set theory, an interval class is the shortest distance in
+pitch class space between two unordered pitch classes
+
+As paramter you can pass an interval in shorthand notation, an interval in
+array notation or the number of semitones of the interval
+
+**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Returns**: <code>Integer</code> - A value between 0 and 6  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| interval | <code>String</code> \| <code>Integer</code> | the interval or the number of semitones |
+
+**Example**  
+```js
+interval.ic('P8') // => 0
+interval.ic('m6') // => 4
+['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
+```
+<a name="module_interval.build"></a>
+
+## `interval.build(props)` ⇒ <code>String</code>
+Given a interval property object, get the interval name
+
+**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Returns**: <code>String</code> - the interval name  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| props | <code>Object</code> | the interval property object - num: the interval number - alt: the interval alteration - oct: the number of octaves - dir: the direction |
+
+**Example**  
+```js
+interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
+```
+<a name="module_interval.simplify"></a>
+
+## `interval.simplify(interval)` ⇒ <code>String</code>
+Get the simplified version of an interval.
+
+**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Returns**: <code>String</code> - the simplified interval  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| interval | <code>String</code> | the interval to simplify |
+
+**Example**  
+```js
+interval.simplify('9M') // => '2M'
+['8P', '9M', '10M', '11P', '12P', '13M', '14M', '15P'].map(interval.simplify)
+// => [ '8P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
+interval.simplify('2M') // => '2M'
+interval.simplify('-2M') // => '7m'
+```
+<a name="module_interval.invert"></a>
+
+## `interval.invert(interval)` ⇒ <code>String</code>
+Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
+of an interval.
+
+**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Returns**: <code>String</code> - the inverted interval  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| interval | <code>String</code> | the interval to invert in interval shorthand notation or interval array notation |
+
+**Example**  
+```js
+interval.invert('3m') // => '6M'
+interval.invert('2M') // => '7m'
+```
 <a name="module_interval.fromSemitones"></a>
 
-## `interval.fromSemitones` ⇒ <code>String</code>
+## `interval.fromSemitones(num)` ⇒ <code>String</code>
 Get interval name from semitones number. Since there are several interval
 names for the same number, the name it's arbitraty, but deterministic.
 
-**Kind**: static constant of [<code>interval</code>](#module_interval)  
+**Kind**: static method of [<code>interval</code>](#module_interval)  
 **Returns**: <code>String</code> - the interval name  
 
 | Param | Type | Description |
@@ -357,17 +559,14 @@ tonal.distance.transposeBy('P5', 'C4')
 ```
 
 * [distance](#module_distance)
-    * _static_
-        * [`.transpose(note, interval)`](#module_distance.transpose) ⇒ <code>String</code>
-        * [`.trFifths(pitchClass, fifhts)`](#module_distance.trFifths) ⇒ <code>String</code>
-        * [`.fifths(to, from)`](#module_distance.fifths)
-        * [`.transposeBy(note, interval)`](#module_distance.transposeBy) ⇒ <code>String</code>
-        * [`.add(interval1, interval2)`](#module_distance.add) ⇒ <code>String</code>
-        * [`.subtract(minuend, subtrahend)`](#module_distance.subtract) ⇒ <code>String</code>
-        * [`.interval(from, to)`](#module_distance.interval) ⇒ <code>String</code>
-        * [`.semitones(from, to)`](#module_distance.semitones) ⇒ <code>Integer</code>
-    * _inner_
-        * [`~decode(fifths, octs)`](#module_distance..decode) ⇒ <code>Array</code>
+    * [`.transpose(note, interval)`](#module_distance.transpose) ⇒ <code>String</code>
+    * [`.trFifths(pitchClass, fifhts)`](#module_distance.trFifths) ⇒ <code>String</code>
+    * [`.fifths(to, from)`](#module_distance.fifths)
+    * [`.transposeBy(note, interval)`](#module_distance.transposeBy) ⇒ <code>String</code>
+    * [`.add(interval1, interval2)`](#module_distance.add) ⇒ <code>String</code>
+    * [`.subtract(minuend, subtrahend)`](#module_distance.subtract) ⇒ <code>String</code>
+    * [`.interval(from, to)`](#module_distance.interval) ⇒ <code>String</code>
+    * [`.semitones(from, to)`](#module_distance.semitones) ⇒ <code>Integer</code>
 
 <a name="module_distance.transpose"></a>
 
@@ -530,19 +729,6 @@ semitones('C3', 'A2') // => -3
 // or use tonal
 tonal.distance.semitones('C3', 'G3') // => 7
 ```
-<a name="module_distance..decode"></a>
-
-## `distance~decode(fifths, octs)` ⇒ <code>Array</code>
-Decode a encoded pitch
-
-**Kind**: inner method of [<code>distance</code>](#module_distance)  
-**Returns**: <code>Array</code> - in the form [step, alt, oct]  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fifths | <code>Number</code> | the number of fifths |
-| octs | <code>Number</code> | the number of octaves to compensate the fifhts |
-
 <a name="module_scale"></a>
 
 # scale
@@ -558,99 +744,32 @@ scale.detect('f5 d2 c5 b5 a2 e4 g') // => [ 'C major', 'D dorian', 'E phrygian',
 ```
 
 * [scale](#module_scale)
-    * [`.props`](#module_scale.props) ⇒ <code>Array</code>
-    * [`.intervals`](#module_scale.intervals) ⇒ <code>Array.&lt;String&gt;</code>
-    * [`.modes`](#module_scale.modes)
-    * [`.chords`](#module_scale.chords)
-    * [`.toScale`](#module_scale.toScale) ⇒ <code>Array</code>
-    * [`.extensions`](#module_scale.extensions)
+    * [`.props(name)`](#module_scale.props) ⇒ <code>Object</code>
     * [`.names(aliases)`](#module_scale.names) ⇒ <code>Array</code>
+    * [`.intervals(name)`](#module_scale.intervals) ⇒ <code>Array.&lt;String&gt;</code>
     * [`.notes(tonic, name)`](#module_scale.notes) ⇒ <code>Array</code>
     * [`.exists(name)`](#module_scale.exists) ⇒ <code>Boolean</code>
     * [`.tokenize(name)`](#module_scale.tokenize) ⇒ <code>Array</code>
+    * [`.modeNames(name)`](#module_scale.modeNames)
+    * [`.chords(name)`](#module_scale.chords)
+    * [`.toScale(notes)`](#module_scale.toScale) ⇒ <code>Array</code>
+    * [`.extensions(name)`](#module_scale.extensions)
 
 <a name="module_scale.props"></a>
 
-## `scale.props` ⇒ <code>Array</code>
-Get scale notes or intervals. It *always* return an array and the notes
-are *always* pitch classes
+## `scale.props(name)` ⇒ <code>Object</code>
+Get scale properties. It returns an object with:
+- name: the scale name
+- names: a list with all possible names (includes the current)
+- intervals: an array with the scale intervals
+- chroma:  scale croma (see pcset)
+- setnum: scale chroma number
 
-**Kind**: static constant of [<code>scale</code>](#module_scale)  
-**Returns**: <code>Array</code> - the scale intervals or pitch classes (if tonic is provided)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> | the scale name |
-| [String] |  | tonic - the tonic (optional) |
-
-**Example**  
-```js
-scale.get('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
-```
-<a name="module_scale.intervals"></a>
-
-## `scale.intervals` ⇒ <code>Array.&lt;String&gt;</code>
-Given a scale name, return its intervals. The name can be the type and
-optionally the tonic (which is ignored)
-
-It retruns an empty array when no scale found
-
-**Kind**: static constant of [<code>scale</code>](#module_scale)  
-**Returns**: <code>Array.&lt;String&gt;</code> - the scale intervals if is a known scale or an empty
-array if no scale found  
+**Kind**: static method of [<code>scale</code>](#module_scale)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| name | <code>String</code> | the scale name (tonic and type, tonic is optional) |
-
-**Example**  
-```js
-scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
-```
-<a name="module_scale.modes"></a>
-
-## `scale.modes`
-Find mode names of a scale
-
-**Kind**: static constant of [<code>scale</code>](#module_scale)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> | scale name |
-
-<a name="module_scale.chords"></a>
-
-## `scale.chords`
-Get all chords that fits a given scale
-
-**Kind**: static constant of [<code>scale</code>](#module_scale)  
-
-| Param | Type |
-| --- | --- |
-| name | <code>String</code> | 
-
-<a name="module_scale.toScale"></a>
-
-## `scale.toScale` ⇒ <code>Array</code>
-Given an array of notes, return the scale: a pitch class set starting from 
-the first note of the array
-
-**Kind**: static constant of [<code>scale</code>](#module_scale)  
-
-| Param | Type |
-| --- | --- |
-| notes | <code>Array</code> | 
-
-<a name="module_scale.extensions"></a>
-
-## `scale.extensions`
-Find all scales than extends the given one
-
-**Kind**: static constant of [<code>scale</code>](#module_scale)  
-
-| Param | Type |
-| --- | --- |
-| name | <code>String</code> | 
+| name | <code>String</code> | the scale name (without tonic) |
 
 <a name="module_scale.names"></a>
 
@@ -668,6 +787,26 @@ Return the available scale names
 ```js
 const scale = require('tonal-scale')
 scale.names() // => ['maj7', ...]
+```
+<a name="module_scale.intervals"></a>
+
+## `scale.intervals(name)` ⇒ <code>Array.&lt;String&gt;</code>
+Given a scale name, return its intervals. The name can be the type and
+optionally the tonic (which is ignored)
+
+It retruns an empty array when no scale found
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+**Returns**: <code>Array.&lt;String&gt;</code> - the scale intervals if is a known scale or an empty
+array if no scale found  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the scale name (tonic and type, tonic is optional) |
+
+**Example**  
+```js
+scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
 ```
 <a name="module_scale.notes"></a>
 
@@ -725,42 +864,75 @@ scale.tokenize('C mixolydean') // => ["C", "mixolydean"]
 scale.tokenize('anything is valid') // => [null, "anything is valid"]
 scale.tokenize() // => [null, null]
 ```
-<a name="module_chord"></a>
+<a name="module_scale.modeNames"></a>
 
-# chord
-A chord is a harmonic unit with at least three different tones sounding simultaneously.
+## `scale.modeNames(name)`
+Find mode names of a scale
 
-This module have functions to create and manipulate chords. It includes a
-chord dictionary and a simple chord detection algorithm.
-
-**Example**  
-```js
-var chord = require('tonal-chord')
-chord.detect('c b g e') // => 'CMaj7'
-chord.get('CMaj7') // => ['C', 'E', 'G', 'B']
-```
-
-* [chord](#module_chord)
-    * [`.intervals`](#module_chord.intervals) ⇒ <code>Array.&lt;String&gt;</code>
-    * [`.names(aliases)`](#module_chord.names) ⇒ <code>Array</code>
-    * [`.notes(nameOrTonic)`](#module_chord.notes) ⇒
-    * [`.exists(name)`](#module_chord.exists) ⇒ <code>Boolean</code>
-    * [`.detect(notes)`](#module_chord.detect) ⇒ <code>Array.&lt;String&gt;</code>
-    * [`.position(chord)`](#module_chord.position) ⇒ <code>Integer</code>
-    * [`.inversion(num, chord)`](#module_chord.inversion) ⇒ <code>Array</code>
-    * [`.tokenize(name)`](#module_chord.tokenize) ⇒ <code>Array</code>
-
-<a name="module_chord.intervals"></a>
-
-## `chord.intervals` ⇒ <code>Array.&lt;String&gt;</code>
-Get chord intervals. It always returns an array
-
-**Kind**: static constant of [<code>chord</code>](#module_chord)  
-**Returns**: <code>Array.&lt;String&gt;</code> - a list of intervals or null if the type is not known  
+**Kind**: static method of [<code>scale</code>](#module_scale)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| name | <code>String</code> | the chord name (optionally a tonic and type) |
+| name | <code>String</code> | scale name |
+
+<a name="module_scale.chords"></a>
+
+## `scale.chords(name)`
+Get all chords that fits a given scale
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+
+| Param | Type |
+| --- | --- |
+| name | <code>String</code> | 
+
+<a name="module_scale.toScale"></a>
+
+## `scale.toScale(notes)` ⇒ <code>Array</code>
+Given an array of notes, return the scale: a pitch class set starting from 
+the first note of the array
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+
+| Param | Type |
+| --- | --- |
+| notes | <code>Array</code> | 
+
+<a name="module_scale.extensions"></a>
+
+## `scale.extensions(name)`
+Find all scales than extends the given one
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+
+| Param | Type |
+| --- | --- |
+| name | <code>String</code> | 
+
+<a name="module_chord"></a>
+
+# chord
+[![npm version](https://img.shields.io/npm/v/tonal-chord.svg)](https://www.npmjs.com/package/tonal-chord)
+[![tonal](https://img.shields.io/badge/tonal-chord-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+
+`tonal-chord` is a collection of functions to manipulate musical chords
+
+This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+
+**Example**  
+```js
+const chord = require('tonal-chord')
+chord.notes('CMaj7') // => ['C', 'E', 'G', 'B']
+```
+
+* [chord](#module_chord)
+    * [`.names(aliases)`](#module_chord.names) ⇒ <code>Array</code>
+    * [`.props(name)`](#module_chord.props) ⇒ <code>Object</code>
+    * [`.intervals(name)`](#module_chord.intervals) ⇒ <code>Array.&lt;String&gt;</code>
+    * [`.notes(nameOrTonic)`](#module_chord.notes) ⇒
+    * [`.exists(name)`](#module_chord.exists) ⇒ <code>Boolean</code>
+    * [`.position(chord)`](#module_chord.position) ⇒ <code>Integer</code>
+    * [`.tokenize(name)`](#module_chord.tokenize) ⇒ <code>Array</code>
 
 <a name="module_chord.names"></a>
 
@@ -776,9 +948,37 @@ Return the available chord names
 
 **Example**  
 ```js
-var chord = require('tonal-chord')
+import * as chord from 'tonal-chord'
 chord.names() // => ['maj7', ...]
 ```
+<a name="module_chord.props"></a>
+
+## `chord.props(name)` ⇒ <code>Object</code>
+Get chord properties. It returns an object with :
+- name: the chord name
+- names: a list with all possible names (includes the current)
+- intervals: an array with the chord intervals
+- chroma:  chord croma (see pcset)
+- setnum: chord chroma number
+
+**Kind**: static method of [<code>chord</code>](#module_chord)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the chord name (without tonic) |
+
+<a name="module_chord.intervals"></a>
+
+## `chord.intervals(name)` ⇒ <code>Array.&lt;String&gt;</code>
+Get chord intervals. It always returns an array
+
+**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Returns**: <code>Array.&lt;String&gt;</code> - a list of intervals or null if the type is not known  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the chord name (optionally a tonic and type) |
+
 <a name="module_chord.notes"></a>
 
 ## `chord.notes(nameOrTonic)` ⇒
@@ -812,27 +1012,9 @@ Check if a given name correspond to a chord in the dictionary
 
 **Example**  
 ```js
-chord.isKnownChord('CMaj7') // => true
-chord.isKnownChord('Maj7') // => true
-chord.isKnownChord('Ablah') // => false
-```
-<a name="module_chord.detect"></a>
-
-## `chord.detect(notes)` ⇒ <code>Array.&lt;String&gt;</code>
-Detect a chord. Given a list of notes, return the chord name(s) if any.
-It only detects chords with exactly same notes.
-
-**Kind**: static method of [<code>chord</code>](#module_chord)  
-**Returns**: <code>Array.&lt;String&gt;</code> - an array with the possible chords  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| notes | <code>Array</code> \| <code>String</code> | the list of notes |
-
-**Example**  
-```js
-chord.detect('b g f# d') // => [ 'GMaj7' ]
-chord.detect('e c a g') // => [ 'CM6', 'Am7' ]
+chord.exists('CMaj7') // => true
+chord.exists('Maj7') // => true
+chord.exists('Ablah') // => false
 ```
 <a name="module_chord.position"></a>
 
@@ -852,26 +1034,6 @@ inversion...) or null if not a valid chord
 ```js
 chord.position('e g c') // => 1
 chord.position('g3 e2 c5') // => 1 (e is the lowest note)
-```
-<a name="module_chord.inversion"></a>
-
-## `chord.inversion(num, chord)` ⇒ <code>Array</code>
-Given a chord in any inverstion, set to the given inversion. It accepts
-chord names
-
-**Kind**: static method of [<code>chord</code>](#module_chord)  
-**Returns**: <code>Array</code> - the chord pitch classes in the desired inversion or
-an empty array if no inversion found (not triadic)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| num | <code>Integer</code> | the inversion number (0 root position, 1 first inversion, ...) |
-| chord | <code>String</code> \| <code>Array</code> | the chord name or notes |
-
-**Example**  
-```js
-chord.inversion(1, 'Cmaj7') // => [ 'E', 'G', 'B', 'C' ]
-chord.inversion(0, 'e g c') // => [ 'C', 'E', 'G' ]
 ```
 <a name="module_chord.tokenize"></a>
 
@@ -1091,15 +1253,214 @@ pcset.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'c3' 
 <a name="module_key"></a>
 
 # key
-_Key_ refers to the tonal system based on the major and minor scales. This is
-is the most common tonal system, but tonality can be present in music
-based in other scales or concepts.
+[![npm version](https://img.shields.io/npm/v/tonal-key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
+[![tonal](https://img.shields.io/badge/tonal-key-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
 
-This is a collection of functions related to keys.
+`tonal-key` is a collection of functions to query about tonal keys.
+
+This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
 
 **Example**  
 ```js
 const key = require('tonal-key')
 key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
 key.relative('minor', 'C major') // => 'A minor'
+```
+
+* [key](#module_key)
+    * [`.modeNames(alias)`](#module_key.modeNames) ⇒ <code>Array</code>
+    * [`.fromAlter(alt)`](#module_key.fromAlter) ⇒ <code>Key</code>
+    * [`.props(name)`](#module_key.props) ⇒ <code>Object</code>
+    * [`.scale(key)`](#module_key.scale) ⇒ <code>Array</code>
+    * [`.alteration(key)`](#module_key.alteration) ⇒ <code>Integer</code>
+    * [`.alteredNotes(key)`](#module_key.alteredNotes) ⇒ <code>Array</code>
+    * [`.chords(name)`](#module_key.chords) ⇒ <code>Array</code>
+    * [`.secDomChords(name)`](#module_key.secDomChords) ⇒ <code>Array</code>
+    * [`.relative(mode, key)`](#module_key.relative)
+    * [`.tokenize(name)`](#module_key.tokenize) ⇒ <code>Array</code>
+
+<a name="module_key.modeNames"></a>
+
+## `key.modeNames(alias)` ⇒ <code>Array</code>
+Get a list of valid mode names. The list of modes will be always in
+increasing order (ionian to locrian)
+
+**Kind**: static method of [<code>key</code>](#module_key)  
+**Returns**: <code>Array</code> - an array of strings  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| alias | <code>Boolean</code> | true to get aliases names |
+
+**Example**  
+```js
+key.modes() // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+// 'mixolydian', 'aeolian', 'locrian' ]
+key.modes(true) // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+// 'mixolydian', 'aeolian', 'locrian', 'major', 'minor' ]
+```
+<a name="module_key.fromAlter"></a>
+
+## `key.fromAlter(alt)` ⇒ <code>Key</code>
+Create a major key from alterations
+
+**Kind**: static method of [<code>key</code>](#module_key)  
+**Returns**: <code>Key</code> - the key object  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| alt | <code>Integer</code> | the alteration number (positive sharps, negative flats) |
+
+**Example**  
+```js
+var key = require('tonal-key')
+key.fromAlter(2) // => 'D major'
+```
+<a name="module_key.props"></a>
+
+## `key.props(name)` ⇒ <code>Object</code>
+Return the a key properties object with the following information:
+
+- name: name
+- tonic: key tonic
+- mode: key mode
+- modenum: mode number (0 major, 1 dorian, ...)
+- intervals: the scale intervals
+- scale: the scale notes
+- alteration: alteration number
+- accidentals: accidentals
+
+**Kind**: static method of [<code>key</code>](#module_key)  
+**Returns**: <code>Object</code> - the key properties object or null if not a valid key  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the key name |
+
+**Example**  
+```js
+var key = require('tonal-key')
+key.props('C3 dorian') // => { tonic: 'C', mode: 'dorian', ... }
+```
+<a name="module_key.scale"></a>
+
+## `key.scale(key)` ⇒ <code>Array</code>
+Get scale of a key
+
+**Kind**: static method of [<code>key</code>](#module_key)  
+**Returns**: <code>Array</code> - the key scale  
+
+| Param | Type |
+| --- | --- |
+| key | <code>String</code> \| <code>Object</code> | 
+
+**Example**  
+```js
+key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
+key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
+key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
+key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+```
+<a name="module_key.alteration"></a>
+
+## `key.alteration(key)` ⇒ <code>Integer</code>
+Get key alteration. The alteration is a number indicating the number of
+sharpen notes (positive) or flaten notes (negative)
+
+**Kind**: static method of [<code>key</code>](#module_key)  
+
+| Param | Type |
+| --- | --- |
+| key | <code>String</code> \| <code>Integer</code> | 
+
+**Example**  
+```js
+var key = require('tonal-keys')
+key.alteration('A major') // => 3
+```
+<a name="module_key.alteredNotes"></a>
+
+## `key.alteredNotes(key)` ⇒ <code>Array</code>
+Get a list of the altered notes of a given key. The notes will be in
+the same order than in the key signature.
+
+**Kind**: static method of [<code>key</code>](#module_key)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| key | <code>String</code> | the key name |
+
+**Example**  
+```js
+var key = require('tonal-keys')
+key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
+```
+<a name="module_key.chords"></a>
+
+## `key.chords(name)` ⇒ <code>Array</code>
+Get key chords
+
+**Kind**: static method of [<code>key</code>](#module_key)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the key name |
+
+**Example**  
+```js
+key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
+```
+<a name="module_key.secDomChords"></a>
+
+## `key.secDomChords(name)` ⇒ <code>Array</code>
+Get secondary dominant key chords
+
+**Kind**: static method of [<code>key</code>](#module_key)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the key name |
+
+**Example**  
+```js
+key.secDomChords("A major") // => ["E7", "F#7", ...]
+```
+<a name="module_key.relative"></a>
+
+## `key.relative(mode, key)`
+Get relative of a key. Two keys are relative when the have the same
+key signature (for example C major and A minor)
+
+It can be partially applied.
+
+**Kind**: static method of [<code>key</code>](#module_key)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| mode | <code>String</code> | the relative destination |
+| key | <code>String</code> | the key source |
+
+**Example**  
+```js
+key.relative('dorian', 'B major') // => 'C# dorian'
+// partial application
+var minor = key.relative('minor')
+minor('C major') // => 'A minor'
+minor('E major') // => 'C# minor'
+```
+<a name="module_key.tokenize"></a>
+
+## `key.tokenize(name)` ⇒ <code>Array</code>
+Split the key name into its components (pitch class tonic and mode name)
+
+**Kind**: static method of [<code>key</code>](#module_key)  
+**Returns**: <code>Array</code> - an array in the form [tonic, key]  
+
+| Param | Type |
+| --- | --- |
+| name | <code>String</code> | 
+
+**Example**  
+```js
+key.tokenize('C major') // => ['C', 'major']
 ```

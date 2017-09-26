@@ -32,6 +32,6 @@ import * as distance from "tonal-distance/index";
 import * as key from "tonal-key/index";
 import * as scale from "tonal-scale/index";
 import * as chord from "tonal-chord/index";
-import * as pcset from "tonal-key/index";
+import * as pcset from "tonal-pcset/index";
 
 export { note, interval, distance, key, scale, chord, pcset };

@@ -13,99 +13,32 @@ scale.detect('f5 d2 c5 b5 a2 e4 g') // => [ 'C major', 'D dorian', 'E phrygian',
 ```
 
 * [scale](#module_scale)
-    * [`.props`](#module_scale.props) ⇒ <code>Array</code>
-    * [`.intervals`](#module_scale.intervals) ⇒ <code>Array.&lt;String&gt;</code>
-    * [`.modes`](#module_scale.modes)
-    * [`.chords`](#module_scale.chords)
-    * [`.toScale`](#module_scale.toScale) ⇒ <code>Array</code>
-    * [`.extensions`](#module_scale.extensions)
+    * [`.props(name)`](#module_scale.props) ⇒ <code>Object</code>
     * [`.names(aliases)`](#module_scale.names) ⇒ <code>Array</code>
+    * [`.intervals(name)`](#module_scale.intervals) ⇒ <code>Array.&lt;String&gt;</code>
     * [`.notes(tonic, name)`](#module_scale.notes) ⇒ <code>Array</code>
     * [`.exists(name)`](#module_scale.exists) ⇒ <code>Boolean</code>
     * [`.tokenize(name)`](#module_scale.tokenize) ⇒ <code>Array</code>
+    * [`.modeNames(name)`](#module_scale.modeNames)
+    * [`.chords(name)`](#module_scale.chords)
+    * [`.toScale(notes)`](#module_scale.toScale) ⇒ <code>Array</code>
+    * [`.extensions(name)`](#module_scale.extensions)
 
 <a name="module_scale.props"></a>
 
-## `scale.props` ⇒ <code>Array</code>
-Get scale notes or intervals. It *always* return an array and the notes
-are *always* pitch classes
+## `scale.props(name)` ⇒ <code>Object</code>
+Get scale properties. It returns an object with:
+- name: the scale name
+- names: a list with all possible names (includes the current)
+- intervals: an array with the scale intervals
+- chroma:  scale croma (see pcset)
+- setnum: scale chroma number
 
-**Kind**: static constant of [<code>scale</code>](#module_scale)  
-**Returns**: <code>Array</code> - the scale intervals or pitch classes (if tonic is provided)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> | the scale name |
-| [String] |  | tonic - the tonic (optional) |
-
-**Example**  
-```js
-scale.get('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
-```
-<a name="module_scale.intervals"></a>
-
-## `scale.intervals` ⇒ <code>Array.&lt;String&gt;</code>
-Given a scale name, return its intervals. The name can be the type and
-optionally the tonic (which is ignored)
-
-It retruns an empty array when no scale found
-
-**Kind**: static constant of [<code>scale</code>](#module_scale)  
-**Returns**: <code>Array.&lt;String&gt;</code> - the scale intervals if is a known scale or an empty
-array if no scale found  
+**Kind**: static method of [<code>scale</code>](#module_scale)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| name | <code>String</code> | the scale name (tonic and type, tonic is optional) |
-
-**Example**  
-```js
-scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
-```
-<a name="module_scale.modes"></a>
-
-## `scale.modes`
-Find mode names of a scale
-
-**Kind**: static constant of [<code>scale</code>](#module_scale)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>String</code> | scale name |
-
-<a name="module_scale.chords"></a>
-
-## `scale.chords`
-Get all chords that fits a given scale
-
-**Kind**: static constant of [<code>scale</code>](#module_scale)  
-
-| Param | Type |
-| --- | --- |
-| name | <code>String</code> | 
-
-<a name="module_scale.toScale"></a>
-
-## `scale.toScale` ⇒ <code>Array</code>
-Given an array of notes, return the scale: a pitch class set starting from 
-the first note of the array
-
-**Kind**: static constant of [<code>scale</code>](#module_scale)  
-
-| Param | Type |
-| --- | --- |
-| notes | <code>Array</code> | 
-
-<a name="module_scale.extensions"></a>
-
-## `scale.extensions`
-Find all scales than extends the given one
-
-**Kind**: static constant of [<code>scale</code>](#module_scale)  
-
-| Param | Type |
-| --- | --- |
-| name | <code>String</code> | 
+| name | <code>String</code> | the scale name (without tonic) |
 
 <a name="module_scale.names"></a>
 
@@ -123,6 +56,26 @@ Return the available scale names
 ```js
 const scale = require('tonal-scale')
 scale.names() // => ['maj7', ...]
+```
+<a name="module_scale.intervals"></a>
+
+## `scale.intervals(name)` ⇒ <code>Array.&lt;String&gt;</code>
+Given a scale name, return its intervals. The name can be the type and
+optionally the tonic (which is ignored)
+
+It retruns an empty array when no scale found
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+**Returns**: <code>Array.&lt;String&gt;</code> - the scale intervals if is a known scale or an empty
+array if no scale found  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | the scale name (tonic and type, tonic is optional) |
+
+**Example**  
+```js
+scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
 ```
 <a name="module_scale.notes"></a>
 
@@ -180,3 +133,48 @@ scale.tokenize('C mixolydean') // => ["C", "mixolydean"]
 scale.tokenize('anything is valid') // => [null, "anything is valid"]
 scale.tokenize() // => [null, null]
 ```
+<a name="module_scale.modeNames"></a>
+
+## `scale.modeNames(name)`
+Find mode names of a scale
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>String</code> | scale name |
+
+<a name="module_scale.chords"></a>
+
+## `scale.chords(name)`
+Get all chords that fits a given scale
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+
+| Param | Type |
+| --- | --- |
+| name | <code>String</code> | 
+
+<a name="module_scale.toScale"></a>
+
+## `scale.toScale(notes)` ⇒ <code>Array</code>
+Given an array of notes, return the scale: a pitch class set starting from 
+the first note of the array
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+
+| Param | Type |
+| --- | --- |
+| notes | <code>Array</code> | 
+
+<a name="module_scale.extensions"></a>
+
+## `scale.extensions(name)`
+Find all scales than extends the given one
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+
+| Param | Type |
+| --- | --- |
+| name | <code>String</code> | 
+

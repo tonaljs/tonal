@@ -21,17 +21,14 @@ tonal.distance.transposeBy('P5', 'C4')
 ```
 
 * [distance](#module_distance)
-    * _static_
-        * [`.transpose(note, interval)`](#module_distance.transpose) ⇒ <code>String</code>
-        * [`.trFifths(pitchClass, fifhts)`](#module_distance.trFifths) ⇒ <code>String</code>
-        * [`.fifths(to, from)`](#module_distance.fifths)
-        * [`.transposeBy(note, interval)`](#module_distance.transposeBy) ⇒ <code>String</code>
-        * [`.add(interval1, interval2)`](#module_distance.add) ⇒ <code>String</code>
-        * [`.subtract(minuend, subtrahend)`](#module_distance.subtract) ⇒ <code>String</code>
-        * [`.interval(from, to)`](#module_distance.interval) ⇒ <code>String</code>
-        * [`.semitones(from, to)`](#module_distance.semitones) ⇒ <code>Integer</code>
-    * _inner_
-        * [`~decode(fifths, octs)`](#module_distance..decode) ⇒ <code>Array</code>
+    * [`.transpose(note, interval)`](#module_distance.transpose) ⇒ <code>String</code>
+    * [`.trFifths(pitchClass, fifhts)`](#module_distance.trFifths) ⇒ <code>String</code>
+    * [`.fifths(to, from)`](#module_distance.fifths)
+    * [`.transposeBy(note, interval)`](#module_distance.transposeBy) ⇒ <code>String</code>
+    * [`.add(interval1, interval2)`](#module_distance.add) ⇒ <code>String</code>
+    * [`.subtract(minuend, subtrahend)`](#module_distance.subtract) ⇒ <code>String</code>
+    * [`.interval(from, to)`](#module_distance.interval) ⇒ <code>String</code>
+    * [`.semitones(from, to)`](#module_distance.semitones) ⇒ <code>Integer</code>
 
 <a name="module_distance.transpose"></a>
 
@@ -194,16 +191,3 @@ semitones('C3', 'A2') // => -3
 // or use tonal
 tonal.distance.semitones('C3', 'G3') // => 7
 ```
-<a name="module_distance..decode"></a>
-
-## `distance~decode(fifths, octs)` ⇒ <code>Array</code>
-Decode a encoded pitch
-
-**Kind**: inner method of [<code>distance</code>](#module_distance)  
-**Returns**: <code>Array</code> - in the form [step, alt, oct]  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fifths | <code>Number</code> | the number of fifths |
-| octs | <code>Number</code> | the number of octaves to compensate the fifhts |
-
