@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>tonal - Postman Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-chord.html">chord</a><ul class='methods'><li data-type='method'><a href="module-chord.html#.exists">exists</a></li><li data-type='method'><a href="module-chord.html#.intervals">intervals</a></li><li data-type='method'><a href="module-chord.html#.names">names</a></li><li data-type='method'><a href="module-chord.html#.notes">notes</a></li><li data-type='method'><a href="module-chord.html#.position">position</a></li><li data-type='method'><a href="module-chord.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-distance.html">distance</a><ul class='methods'><li data-type='method'><a href="module-distance.html#.add">add</a></li><li data-type='method'><a href="module-distance.html#.fifths">fifths</a></li><li data-type='method'><a href="module-distance.html#.interval">interval</a></li><li data-type='method'><a href="module-distance.html#.semitones">semitones</a></li><li data-type='method'><a href="module-distance.html#.subtract">subtract</a></li><li data-type='method'><a href="module-distance.html#.transpose">transpose</a></li><li data-type='method'><a href="module-distance.html#.transposeBy">transposeBy</a></li><li data-type='method'><a href="module-distance.html#.trFifths">trFifths</a></li></ul></li><li><a href="module-interval.html">interval</a><ul class='methods'><li data-type='method'><a href="module-interval.html#.build">build</a></li><li data-type='method'><a href="module-interval.html#.chroma">chroma</a></li><li data-type='method'><a href="module-interval.html#.fromSemitones">fromSemitones</a></li><li data-type='method'><a href="module-interval.html#.ic">ic</a></li><li data-type='method'><a href="module-interval.html#.invert">invert</a></li><li data-type='method'><a href="module-interval.html#.name">name</a></li><li data-type='method'><a href="module-interval.html#.num">num</a></li><li data-type='method'><a href="module-interval.html#.props">props</a></li><li data-type='method'><a href="module-interval.html#.semitones">semitones</a></li><li data-type='method'><a href="module-interval.html#.simplify">simplify</a></li><li data-type='method'><a href="module-interval.html#.type">type</a></li></ul></li><li><a href="module-key.html">key</a></li><li><a href="module-note.html">note</a><ul class='methods'><li data-type='method'><a href="module-note.html#.alt">alt</a></li><li data-type='method'><a href="module-note.html#.freq">freq</a></li><li data-type='method'><a href="module-note.html#.fromMidi">fromMidi</a></li><li data-type='method'><a href="module-note.html#.midi">midi</a></li><li data-type='method'><a href="module-note.html#.name">name</a></li><li data-type='method'><a href="module-note.html#.oct">oct</a></li><li data-type='method'><a href="module-note.html#.pc">pc</a></li><li data-type='method'><a href="module-note.html#.step">step</a></li></ul></li><li><a href="module-pcset.html">pcset</a><ul class='methods'><li data-type='method'><a href="module-pcset.html#.chroma">chroma</a></li><li data-type='method'><a href="module-pcset.html#.filter">filter</a></li><li data-type='method'><a href="module-pcset.html#.includes">includes</a></li><li data-type='method'><a href="module-pcset.html#.intervals">intervals</a></li><li data-type='method'><a href="module-pcset.html#.isChroma">isChroma</a></li><li data-type='method'><a href="module-pcset.html#.isEqual">isEqual</a></li><li data-type='method'><a href="module-pcset.html#.isSubset">isSubset</a></li><li data-type='method'><a href="module-pcset.html#.isSuperset">isSuperset</a></li><li data-type='method'><a href="module-pcset.html#.modes">modes</a></li></ul></li><li><a href="module-scale.html">scale</a><ul class='methods'><li data-type='method'><a href="module-scale.html#.exists">exists</a></li><li data-type='method'><a href="module-scale.html#.names">names</a></li><li data-type='method'><a href="module-scale.html#.notes">notes</a></li><li data-type='method'><a href="module-scale.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-tonal.html">tonal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#permutations">permutations</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">tonal</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>The <code>tonal</code> module is a facade to the rest of the modules. They are namespaced,
+so for example to use <code>pc</code> function from <code>tonal-note</code> you have to write:
+<code>tonal.note.pc</code></p>
+<p>It exports the following modules:</p>
+<ul>
+<li>note</li>
+<li>interval</li>
+<li>distance</li>
+<li>scale</li>
+<li>chord</li>
+<li>pcset</li>
+<li>key</li>
+<li>dictionary</li>
+</ul></div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tonal_index.js.html">tonal/index.js</a>, <a href="tonal_index.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var tonal = require('tonal')
+tonal.distance.transpose(tonal.note.pc('C#2'), 'M3') // => 'E#'
+tonal.chord.notes('Dmaj7') // => ['D', 'F#', 'A', 'C#']</code></pre>
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Tue Sep 26 2017 23:04:35 GMT+0200 (CEST)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

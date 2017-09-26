@@ -1,0 +1,1984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>interval - Postman Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-chord.html">chord</a><ul class='methods'><li data-type='method'><a href="module-chord.html#.exists">exists</a></li><li data-type='method'><a href="module-chord.html#.intervals">intervals</a></li><li data-type='method'><a href="module-chord.html#.names">names</a></li><li data-type='method'><a href="module-chord.html#.notes">notes</a></li><li data-type='method'><a href="module-chord.html#.position">position</a></li><li data-type='method'><a href="module-chord.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-distance.html">distance</a><ul class='methods'><li data-type='method'><a href="module-distance.html#.add">add</a></li><li data-type='method'><a href="module-distance.html#.fifths">fifths</a></li><li data-type='method'><a href="module-distance.html#.interval">interval</a></li><li data-type='method'><a href="module-distance.html#.semitones">semitones</a></li><li data-type='method'><a href="module-distance.html#.subtract">subtract</a></li><li data-type='method'><a href="module-distance.html#.transpose">transpose</a></li><li data-type='method'><a href="module-distance.html#.transposeBy">transposeBy</a></li><li data-type='method'><a href="module-distance.html#.trFifths">trFifths</a></li></ul></li><li><a href="module-interval.html">interval</a><ul class='methods'><li data-type='method'><a href="module-interval.html#.build">build</a></li><li data-type='method'><a href="module-interval.html#.chroma">chroma</a></li><li data-type='method'><a href="module-interval.html#.fromSemitones">fromSemitones</a></li><li data-type='method'><a href="module-interval.html#.ic">ic</a></li><li data-type='method'><a href="module-interval.html#.invert">invert</a></li><li data-type='method'><a href="module-interval.html#.name">name</a></li><li data-type='method'><a href="module-interval.html#.num">num</a></li><li data-type='method'><a href="module-interval.html#.props">props</a></li><li data-type='method'><a href="module-interval.html#.semitones">semitones</a></li><li data-type='method'><a href="module-interval.html#.simplify">simplify</a></li><li data-type='method'><a href="module-interval.html#.type">type</a></li></ul></li><li><a href="module-key.html">key</a></li><li><a href="module-note.html">note</a><ul class='methods'><li data-type='method'><a href="module-note.html#.alt">alt</a></li><li data-type='method'><a href="module-note.html#.freq">freq</a></li><li data-type='method'><a href="module-note.html#.fromMidi">fromMidi</a></li><li data-type='method'><a href="module-note.html#.midi">midi</a></li><li data-type='method'><a href="module-note.html#.name">name</a></li><li data-type='method'><a href="module-note.html#.oct">oct</a></li><li data-type='method'><a href="module-note.html#.pc">pc</a></li><li data-type='method'><a href="module-note.html#.step">step</a></li></ul></li><li><a href="module-pcset.html">pcset</a><ul class='methods'><li data-type='method'><a href="module-pcset.html#.chroma">chroma</a></li><li data-type='method'><a href="module-pcset.html#.filter">filter</a></li><li data-type='method'><a href="module-pcset.html#.includes">includes</a></li><li data-type='method'><a href="module-pcset.html#.intervals">intervals</a></li><li data-type='method'><a href="module-pcset.html#.isChroma">isChroma</a></li><li data-type='method'><a href="module-pcset.html#.isEqual">isEqual</a></li><li data-type='method'><a href="module-pcset.html#.isSubset">isSubset</a></li><li data-type='method'><a href="module-pcset.html#.isSuperset">isSuperset</a></li><li data-type='method'><a href="module-pcset.html#.modes">modes</a></li></ul></li><li><a href="module-scale.html">scale</a><ul class='methods'><li data-type='method'><a href="module-scale.html#.exists">exists</a></li><li data-type='method'><a href="module-scale.html#.names">names</a></li><li data-type='method'><a href="module-scale.html#.notes">notes</a></li><li data-type='method'><a href="module-scale.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-tonal.html">tonal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#permutations">permutations</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">interval</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p><a href="https://www.npmjs.com/package/tonal-interval"><img src="https://img.shields.io/npm/v/tonal-interval.svg" alt="npm version"></a>
+<a href="https://www.npmjs.com/browse/keyword/tonal"><img src="https://img.shields.io/badge/tonal-interval-yellow.svg" alt="tonal"></a></p>
+<p><code>tonal-interval</code> is a collection of functions to create and manipulate music intervals.</p>
+<p>The intervals are strings in shorthand notation. Two variations are supported:</p>
+<ul>
+<li>standard shorthand notation: type and number, for example: 'M3', 'd-4'</li>
+<li>inverse shorthand notation: number and then type, for example: '3M', '-4d'</li>
+</ul>
+<p>The problem with the standard shorthand notation is that some strings can be
+parsed as notes or intervals, for example: 'A4' can be note A in 4th octave
+or an augmented four. To remove ambiguity, the prefered notation in tonal is the
+inverse shortand notation.</p>
+<p>This is part of <a href="https://www.npmjs.com/package/tonal">tonal</a> music theory library.</p>
+<h2>Usage</h2><pre class="prettyprint source lang-js"><code>import * as interval from 'tonal-interval'
+// or const interval = require('tonal-interval')
+interval.semitones('4P') // => 5
+interval.invert('3m') // => '6M'
+interval.simplify('9m') // => '2m'</code></pre><h2>Install</h2><p><a href="https://npmjs.org/package/tonal-interval/"><img src="https://nodei.co/npm/tonal-interval.png?mini=true" alt="npm install tonal-interval"></a></p>
+<h2>API Documentation</h2></div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interval_index.js.html">interval/index.js</a>, <a href="interval_index.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".build"><span class="type-signature">(static) </span>build<span class="signature">(props)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+    <p class="summary"><p>Given a interval property object, get the interval name</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Given a interval property object, get the interval name</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>props</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the interval property object</p>
+<ul>
+<li>num: the interval number</li>
+<li>alt: the interval alteration</li>
+<li>oct: the number of octaves</li>
+<li>dir: the direction</li>
+</ul></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interval_index.js.html">interval/index.js</a>, <a href="interval_index.js.html#line228">line 228</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the interval name</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".chroma"><span class="type-signature">(static) </span>chroma<span class="signature">(str)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+    <p class="summary">Get the chroma of the interval.</p>
+    
+
+
+
+<div class="description">
+    <p>Get the chroma of the interval. The chroma is a number between 0 and 7
+that represents the position within an octave (pitch set)</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>str</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interval_index.js.html">interval/index.js</a>, <a href="interval_index.js.html#line190">line 190</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".fromSemitones"><span class="type-signature">(static) </span>fromSemitones<span class="signature">(num)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+    <p class="summary">Get interval name from semitones number.</p>
+    
+
+
+
+<div class="description">
+    <p>Get interval name from semitones number. Since there are several interval
+names for the same number, the name it's arbitraty, but deterministic.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the number of semitones (can be negative)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interval_index.js.html">interval/index.js</a>, <a href="interval_index.js.html#line295">line 295</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the interval name</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>import { fromSemitones } from 'tonal-interval'
+fromSemitones(7) // => '5P'
+// or using tonal
+tonal.fromSemitones(-7) // => '-5P'</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".ic"><span class="type-signature">(static) </span>ic<span class="signature">(interval)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+
+    
+    <p class="summary"><p>Get the <a href="https://en.wikipedia.org/wiki/Interval_class">interval class</a>
+number of a given interval.</p>
+    
+
+
+
+<div class="description">
+    <p>Get the <a href="https://en.wikipedia.org/wiki/Interval_class">interval class</a>
+number of a given interval.</p>
+<p>In musical set theory, an interval class is the shortest distance in
+pitch class space between two unordered pitch classes</p>
+<p>As paramter you can pass an interval in shorthand notation, an interval in
+array notation or the number of semitones of the interval</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the interval or the number of semitones</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interval_index.js.html">interval/index.js</a>, <a href="interval_index.js.html#line211">line 211</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>A value between 0 and 6</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Integer</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>interval.ic('P8') // => 0
+interval.ic('m6') // => 4
+['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'].map(ic) // => [0, 2, 4, 5, 5, 3, 1]</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".invert"><span class="type-signature">(static) </span>invert<span class="signature">(interval)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+    <p class="summary"><p>Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
+of an interval.</p></p>
+    
+
+
+
+<div class="description">
+    <p>Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
+of an interval.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the interval to invert in interval shorthand
+notation or interval array notation</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interval_index.js.html">interval/index.js</a>, <a href="interval_index.js.html#line269">line 269</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the inverted interval</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>interval.invert('3m') // => '6M'
+interval.invert('2M') // => '7m'</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".name"><span class="type-signature">(static) </span>name<span class="signature">(interval)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+    <p class="summary">Get interval name.</p>
+    
+
+
+
+<div class="description">
+    <p>Get interval name. Can be used to test if it's an interval. It accepts intervals
+as pitch or string in shorthand notation or tonal notation. It returns always
+intervals in tonal notation.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the interval string or array</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interval_index.js.html">interval/index.js</a>, <a href="interval_index.js.html#line153">line 153</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the interval name or null if not valid interval</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>interval.name('m-3') // => '-3m'
+interval.name('3') // => null</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".num"><span class="type-signature">(static) </span>num<span class="signature">(interval)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+
+    
+    <p class="summary"><p>Get the number of the interval</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Get the number of the interval</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the interval</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interval_index.js.html">interval/index.js</a>, <a href="interval_index.js.html#line139">line 139</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Integer</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>interval.num('m2') // => 2
+interval.num('P9') // => 9
+interval.num('P-4') // => -4</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".props"><span class="type-signature">(static) </span>props<span class="signature">(interval)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+    <p class="summary">Get interval properties.</p>
+    
+
+
+
+<div class="description">
+    <p>Get interval properties. It returns an object with:</p>
+<ul>
+<li>name: name</li>
+<li>num: number</li>
+<li>q: quality</li>
+<li>step: step </li>
+<li>alt: alteration</li>
+<li>dir: direction (1 ascending, -1 descending)</li>
+<li>type: &quot;P&quot; or &quot;M&quot; for perfectable or majorable</li>
+<li>simple: the simplified number</li>
+<li>semitones: the size in semitones</li>
+<li>chroma: the interval chroma</li>
+<li>ic: the interval class</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the interval</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interval_index.js.html">interval/index.js</a>, <a href="interval_index.js.html#line123">line 123</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the interval in the form [number, alt]</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".semitones"><span class="type-signature">(static) </span>semitones<span class="signature">(ivl)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+
+    
+    <p class="summary"><p>Get size in semitones of an interval</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Get size in semitones of an interval</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ivl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interval_index.js.html">interval/index.js</a>, <a href="interval_index.js.html#line180">line 180</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the number of semitones or null if not an interval</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Integer</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>import { semitones } from 'tonal-interval'
+semitones('P4') // => 5
+// or using tonal
+tonal.interval.semitones('P5') // => 7</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".simplify"><span class="type-signature">(static) </span>simplify<span class="signature">(interval)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+    <p class="summary">Get the simplified version of an interval.</p>
+    
+
+
+
+<div class="description">
+    <p>Get the simplified version of an interval.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the interval to simplify</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interval_index.js.html">interval/index.js</a>, <a href="interval_index.js.html#line250">line 250</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the simplified interval</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>interval.simplify('9M') // => '2M'
+['8P', '9M', '10M', '11P', '12P', '13M', '14M', '15P'].map(interval.simplify)
+// => [ '8P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
+interval.simplify('2M') // => '2M'
+interval.simplify('-2M') // => '7m'</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".type"><span class="type-signature">(static) </span>type<span class="signature">(interval)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+    <p class="summary">Get interval type.</p>
+    
+
+
+
+<div class="description">
+    <p>Get interval type. Can be perfectable (1, 4, 5) or majorable (2, 3, 6, 7)
+It does NOT return the actual quality.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="interval_index.js.html">interval/index.js</a>, <a href="interval_index.js.html#line166">line 166</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>'P' for perfectables, 'M' for majorables or null if not
+valid interval</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>interval.type('5A') // => 'P'</code></pre>
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Tue Sep 26 2017 23:04:35 GMT+0200 (CEST)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

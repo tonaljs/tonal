@@ -10,8 +10,7 @@ describe("tonal", () => {
       "key",
       "scale",
       "chord",
-      "pcset",
-      "dictionary"
+      "pcset"
     ]);
   });
 });

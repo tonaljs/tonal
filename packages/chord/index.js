@@ -1,13 +1,14 @@
 /**
- * A chord is a harmonic unit with at least three different tones sounding simultaneously.
+ * [![npm version](https://img.shields.io/npm/v/tonal-chord.svg)](https://www.npmjs.com/package/tonal-chord)
+ * [![tonal](https://img.shields.io/badge/tonal-chord-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
  *
- * This module have functions to create and manipulate chords. It includes a
- * chord dictionary and a simple chord detection algorithm.
+ * `tonal-chord` is a collection of functions to manipulate musical chords
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
  *
  * @example
- * var chord = require('tonal-chord')
- * chord.detect('c b g e') // => 'CMaj7'
- * chord.get('CMaj7') // => ['C', 'E', 'G', 'B']
+ * const chord = require('tonal-chord')
+ * chord.notes('CMaj7') // => ['C', 'E', 'G', 'B']
  *
  * @module chord
  */
@@ -24,7 +25,7 @@ import { chroma } from "tonal-pcset/index";
  * @return {Array} the chord names
  *
  * @example
- * var chord = require('tonal-chord')
+ * import * as chord from 'tonal-chord'
  * chord.names() // => ['maj7', ...]
  */
 export const names = chord.names;
@@ -53,14 +54,12 @@ export const props = memo(properties);
 
 /**
  * Get chord intervals. It always returns an array
- *
+ * 
+ * @function
  * @param {String} name - the chord name (optionally a tonic and type)
  * @return {Array<String>} a list of intervals or null if the type is not known
  */
-export const intervals = name => {
-  const p = tokenize(name);
-  return props(p[1]).intervals;
-};
+export const intervals = name => props(tokenize(name)[1]).intervals;
 
 /**
  * Get the chord notes of a chord. This function accepts either a chord name
@@ -68,6 +67,7 @@ export const intervals = name => {
  *
  * It always returns an array, even if the chord is not found.
  *
+ * @function
  * @param {String} nameOrTonic - name of the chord or the tonic
  * @return [String] name - (Optional) name if the first parameter is the tonic
  *
@@ -76,42 +76,43 @@ export const intervals = name => {
  * chord.notes('C', 'maj7') // => ['C', 'E', 'G', 'B']
  */
 export function notes(nameOrTonic, name) {
-  var p = tokenize(nameOrTonic);
+  const p = tokenize(nameOrTonic);
   name = name || p[1];
   return intervals(name).map(transpose(p[0]));
 }
 
 /**
  * Check if a given name correspond to a chord in the dictionary
+ * 
+ * @function
  * @param {String} name
  * @return {Boolean}
  * @example
- * chord.isKnownChord('CMaj7') // => true
- * chord.isKnownChord('Maj7') // => true
- * chord.isKnownChord('Ablah') // => false
+ * chord.exists('CMaj7') // => true
+ * chord.exists('Maj7') // => true
+ * chord.exists('Ablah') // => false
  */
-export function exists(name) {
-  const p = tokenize(name);
-  return chord(p[1]) !== undefined;
-}
+export const exists = name => chord(tokenize(name)[1]) !== undefined;
 
-/**
+/*
  * Detect a chord. Given a list of notes, return the chord name(s) if any.
  * It only detects chords with exactly same notes.
  *
  * @function
+ * @private
  * @param {Array|String} notes - the list of notes
  * @return {Array<String>} an array with the possible chords
  * @example
  * chord.detect('b g f# d') // => [ 'GMaj7' ]
  * chord.detect('e c a g') // => [ 'CM6', 'Am7' ]
  */
-export var detect = () => [];
+//export const detect = () => [];
 
 /**
  * Get the position (inversion number) of a chord (0 is root position, 1 is first
  * inversion...). It assumes the chord is formed by superposed thirds.
  *
+ * @function
  * @param {Array|String} chord - the chord notes
  * @return {Integer} the inversion number (0 for root inversion, 1 for first
  * inversion...) or null if not a valid chord
@@ -121,8 +122,8 @@ export var detect = () => [];
  * chord.position('g3 e2 c5') // => 1 (e is the lowest note)
  */
 export function position(chord) {
-  var pcs = map(pc, chord);
-  var sorted = sortTriads(pcs);
+  const pcs = map(pc, chord);
+  const sorted = sortTriads(pcs);
   return sorted ? sorted.indexOf(pcs[0]) : null;
 }
 
@@ -130,6 +131,7 @@ export function position(chord) {
  * Given a chord in any inverstion, set to the given inversion. It accepts
  * chord names
  *
+ * @private
  * @param {Integer} num - the inversion number (0 root position, 1 first
  * inversion, ...)
  * @param {String|Array} chord - the chord name or notes
@@ -145,21 +147,21 @@ export function inversion(num, chord) {
     return function(c) {
       return inversion(num, c);
     };
-  var sorted = sortTriads(chord);
+  const sorted = sortTriads(chord);
   return sorted ? rotate(num, sorted) : [];
 }
 
 function sortTriads(chord) {
-  var all = permutations(notes(chord).map(pc));
-  for (var i = 0; i < all.length; i++) {
-    var ivls = intervallic(all[i]);
+  const all = permutations(notes(chord).map(pc));
+  for (let i = 0; i < all.length; i++) {
+    const ivls = intervallic(all[i]);
     if (areTriads(ivls)) return all[i];
   }
   return null;
 }
 
 function areTriads(list) {
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     if (list[i][0] !== "3") return false;
   }
   return true;
@@ -172,6 +174,7 @@ function areTriads(list) {
  * This function does NOT check if the chord type exists or not. It only tries
  * to split the tonic and chord type.
  *
+ * @function
  * @param {String} name - the chord name
  * @return {Array} an array with [type, tonic]
  * @example
@@ -181,7 +184,7 @@ function areTriads(list) {
  * chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
  */
 export function tokenize(name) {
-  var p = split(name);
+  const p = split(name);
   if (!p) return [null, name];
 
   // 6 and 7 is consider part of the chord

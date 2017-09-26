@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>dictionary/index.js - Postman Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-chord.html">chord</a><ul class='methods'><li data-type='method'><a href="module-chord.html#.exists">exists</a></li><li data-type='method'><a href="module-chord.html#.intervals">intervals</a></li><li data-type='method'><a href="module-chord.html#.names">names</a></li><li data-type='method'><a href="module-chord.html#.notes">notes</a></li><li data-type='method'><a href="module-chord.html#.position">position</a></li><li data-type='method'><a href="module-chord.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-dictionary.html">dictionary</a><ul class='methods'><li data-type='method'><a href="module-dictionary.html#.chord">chord</a></li><li data-type='method'><a href="module-dictionary.html#.scale">scale</a></li></ul></li><li><a href="module-distance.html">distance</a><ul class='methods'><li data-type='method'><a href="module-distance.html#.add">add</a></li><li data-type='method'><a href="module-distance.html#.fifths">fifths</a></li><li data-type='method'><a href="module-distance.html#.interval">interval</a></li><li data-type='method'><a href="module-distance.html#.semitones">semitones</a></li><li data-type='method'><a href="module-distance.html#.subtract">subtract</a></li><li data-type='method'><a href="module-distance.html#.transpose">transpose</a></li><li data-type='method'><a href="module-distance.html#.transposeBy">transposeBy</a></li><li data-type='method'><a href="module-distance.html#.trFifths">trFifths</a></li></ul></li><li><a href="module-interval.html">interval</a><ul class='methods'><li data-type='method'><a href="module-interval.html#.build">build</a></li><li data-type='method'><a href="module-interval.html#.chroma">chroma</a></li><li data-type='method'><a href="module-interval.html#.fromSemitones">fromSemitones</a></li><li data-type='method'><a href="module-interval.html#.ic">ic</a></li><li data-type='method'><a href="module-interval.html#.invert">invert</a></li><li data-type='method'><a href="module-interval.html#.name">name</a></li><li data-type='method'><a href="module-interval.html#.num">num</a></li><li data-type='method'><a href="module-interval.html#.props">props</a></li><li data-type='method'><a href="module-interval.html#.semitones">semitones</a></li><li data-type='method'><a href="module-interval.html#.simplify">simplify</a></li><li data-type='method'><a href="module-interval.html#.type">type</a></li></ul></li><li><a href="module-key.html">key</a></li><li><a href="module-note.html">note</a><ul class='methods'><li data-type='method'><a href="module-note.html#.alt">alt</a></li><li data-type='method'><a href="module-note.html#.freq">freq</a></li><li data-type='method'><a href="module-note.html#.fromMidi">fromMidi</a></li><li data-type='method'><a href="module-note.html#.midi">midi</a></li><li data-type='method'><a href="module-note.html#.name">name</a></li><li data-type='method'><a href="module-note.html#.oct">oct</a></li><li data-type='method'><a href="module-note.html#.pc">pc</a></li><li data-type='method'><a href="module-note.html#.step">step</a></li></ul></li><li><a href="module-pcset.html">pcset</a><ul class='methods'><li data-type='method'><a href="module-pcset.html#.chroma">chroma</a></li><li data-type='method'><a href="module-pcset.html#.filter">filter</a></li><li data-type='method'><a href="module-pcset.html#.includes">includes</a></li><li data-type='method'><a href="module-pcset.html#.intervals">intervals</a></li><li data-type='method'><a href="module-pcset.html#.isChroma">isChroma</a></li><li data-type='method'><a href="module-pcset.html#.isEqual">isEqual</a></li><li data-type='method'><a href="module-pcset.html#.isSubset">isSubset</a></li><li data-type='method'><a href="module-pcset.html#.isSuperset">isSuperset</a></li><li data-type='method'><a href="module-pcset.html#.modes">modes</a></li></ul></li><li><a href="module-scale.html">scale</a><ul class='methods'><li data-type='method'><a href="module-scale.html#.exists">exists</a></li><li data-type='method'><a href="module-scale.html#.names">names</a></li><li data-type='method'><a href="module-scale.html#.notes">notes</a></li><li data-type='method'><a href="module-scale.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-tonal.html">tonal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#permutations">permutations</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">dictionary/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-dictionary.svg)](https://www.npmjs.com/package/tonal-dictionary)
+ * [![tonal](https://img.shields.io/badge/tonal-dictionary-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-dictionary` contains a dictionary of musical scales and chords
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * @example
+ * const dictionary= require('tonal-dictionary')
+ * dictionary.chord('Maj7') // => ['1P', '3M', '5P', '7M']
+ *
+ * @module dictionary
+ */
+import sdata from "./data/scales.json";
+import cdata from "./data/chords.json";
+import { chroma } from "tonal-pcset/index";
+
+export const dictionary = raw => {
+  const keys = Object.keys(raw).sort();
+  const data = [];
+  const index = [];
+
+  const add = (name, ivls, chroma) => {
+    data[name] = ivls;
+    index[chroma] = index[chroma] || [];
+    index[chroma].push(name);
+  };
+
+  keys.forEach(key => {
+    const ivls = raw[key][0].split(" ");
+    const alias = raw[key][1];
+    const chr = chroma(ivls);
+
+    add(key, ivls, chr);
+    if (alias) alias.forEach(a => add(a, ivls, chr));
+  });
+  const allKeys = Object.keys(data).sort();
+
+  const dict = name => data[name];
+  dict.names = p => {
+    if (typeof p === "string") return (index[p] || []).slice();
+    else return (p === true ? allKeys : keys).slice();
+  };
+  return dict;
+};
+
+export const combine = (a, b) => {
+  const dict = name => a(name) || b(name);
+  dict.names = p => a.names(p).concat(b.names(p));
+  return dict;
+};
+
+/**
+ * A dictionary of scales.
+ *
+ * @function
+ * @param {String} name
+ * @return {Array} intervals
+ * @example
+ * import { scale } from 'tonal-dictionary'
+ * scale('major') // => ["1P", "2M", ...]
+ * scale.names(); // => ["major", ...]
+ */
+export const scale = dictionary(sdata);
+/**
+ * A dictionary of chords.
+ *
+ * @function
+ * @param {String} name
+ * @return {Array} intervals
+ * @example
+ * import { chord } from 'tonal-dictionary'
+ * chord('Maj7') // => ["1P", "3M", ...]
+ * chord.names(); // => ["Maj3", ...]
+ */
+export const chord = dictionary(cdata);
+export const pcset = combine(scale, chord);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Tue Sep 26 2017 23:03:57 GMT+0200 (CEST)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

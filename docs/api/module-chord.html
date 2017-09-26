@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>chord - Postman Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-chord.html">chord</a><ul class='methods'><li data-type='method'><a href="module-chord.html#.exists">exists</a></li><li data-type='method'><a href="module-chord.html#.intervals">intervals</a></li><li data-type='method'><a href="module-chord.html#.names">names</a></li><li data-type='method'><a href="module-chord.html#.notes">notes</a></li><li data-type='method'><a href="module-chord.html#.position">position</a></li><li data-type='method'><a href="module-chord.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-distance.html">distance</a><ul class='methods'><li data-type='method'><a href="module-distance.html#.add">add</a></li><li data-type='method'><a href="module-distance.html#.fifths">fifths</a></li><li data-type='method'><a href="module-distance.html#.interval">interval</a></li><li data-type='method'><a href="module-distance.html#.semitones">semitones</a></li><li data-type='method'><a href="module-distance.html#.subtract">subtract</a></li><li data-type='method'><a href="module-distance.html#.transpose">transpose</a></li><li data-type='method'><a href="module-distance.html#.transposeBy">transposeBy</a></li><li data-type='method'><a href="module-distance.html#.trFifths">trFifths</a></li></ul></li><li><a href="module-interval.html">interval</a><ul class='methods'><li data-type='method'><a href="module-interval.html#.build">build</a></li><li data-type='method'><a href="module-interval.html#.chroma">chroma</a></li><li data-type='method'><a href="module-interval.html#.fromSemitones">fromSemitones</a></li><li data-type='method'><a href="module-interval.html#.ic">ic</a></li><li data-type='method'><a href="module-interval.html#.invert">invert</a></li><li data-type='method'><a href="module-interval.html#.name">name</a></li><li data-type='method'><a href="module-interval.html#.num">num</a></li><li data-type='method'><a href="module-interval.html#.props">props</a></li><li data-type='method'><a href="module-interval.html#.semitones">semitones</a></li><li data-type='method'><a href="module-interval.html#.simplify">simplify</a></li><li data-type='method'><a href="module-interval.html#.type">type</a></li></ul></li><li><a href="module-key.html">key</a></li><li><a href="module-note.html">note</a><ul class='methods'><li data-type='method'><a href="module-note.html#.alt">alt</a></li><li data-type='method'><a href="module-note.html#.freq">freq</a></li><li data-type='method'><a href="module-note.html#.fromMidi">fromMidi</a></li><li data-type='method'><a href="module-note.html#.midi">midi</a></li><li data-type='method'><a href="module-note.html#.name">name</a></li><li data-type='method'><a href="module-note.html#.oct">oct</a></li><li data-type='method'><a href="module-note.html#.pc">pc</a></li><li data-type='method'><a href="module-note.html#.step">step</a></li></ul></li><li><a href="module-pcset.html">pcset</a><ul class='methods'><li data-type='method'><a href="module-pcset.html#.chroma">chroma</a></li><li data-type='method'><a href="module-pcset.html#.filter">filter</a></li><li data-type='method'><a href="module-pcset.html#.includes">includes</a></li><li data-type='method'><a href="module-pcset.html#.intervals">intervals</a></li><li data-type='method'><a href="module-pcset.html#.isChroma">isChroma</a></li><li data-type='method'><a href="module-pcset.html#.isEqual">isEqual</a></li><li data-type='method'><a href="module-pcset.html#.isSubset">isSubset</a></li><li data-type='method'><a href="module-pcset.html#.isSuperset">isSuperset</a></li><li data-type='method'><a href="module-pcset.html#.modes">modes</a></li></ul></li><li><a href="module-scale.html">scale</a><ul class='methods'><li data-type='method'><a href="module-scale.html#.exists">exists</a></li><li data-type='method'><a href="module-scale.html#.names">names</a></li><li data-type='method'><a href="module-scale.html#.notes">notes</a></li><li data-type='method'><a href="module-scale.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-tonal.html">tonal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#permutations">permutations</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">chord</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p><a href="https://www.npmjs.com/package/tonal-chord"><img src="https://img.shields.io/npm/v/tonal-chord.svg" alt="npm version"></a>
+<a href="https://www.npmjs.com/browse/keyword/tonal"><img src="https://img.shields.io/badge/tonal-chord-yellow.svg" alt="tonal"></a></p>
+<p><code>tonal-chord</code> is a collection of functions to manipulate musical chords</p>
+<p>This is part of <a href="https://www.npmjs.com/package/tonal">tonal</a> music theory library.</p></div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="chord_index.js.html">chord/index.js</a>, <a href="chord_index.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const chord = require('tonal-chord')
+chord.notes('CMaj7') // => ['C', 'E', 'G', 'B']</code></pre>
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".exists"><span class="type-signature">(static) </span>exists<span class="signature">(name)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+    <p class="summary"><p>Check if a given name correspond to a chord in the dictionary</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Check if a given name correspond to a chord in the dictionary</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="chord_index.js.html">chord/index.js</a>, <a href="chord_index.js.html#line95">line 95</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>chord.exists('CMaj7') // => true
+chord.exists('Maj7') // => true
+chord.exists('Ablah') // => false</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".intervals"><span class="type-signature">(static) </span>intervals<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array.&lt;String>}</span></h4>
+
+    
+    <p class="summary">Get chord intervals.</p>
+    
+
+
+
+<div class="description">
+    <p>Get chord intervals. It always returns an array</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the chord name (optionally a tonic and type)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="chord_index.js.html">chord/index.js</a>, <a href="chord_index.js.html#line62">line 62</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>a list of intervals or null if the type is not known</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;String></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".names"><span class="type-signature">(static) </span>names<span class="signature">(aliases)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+    <p class="summary"><p>Return the available chord names</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Return the available chord names</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>aliases</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>true to include aliases</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="chord_index.js.html">chord/index.js</a>, <a href="chord_index.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the chord names</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>import * as chord from 'tonal-chord'
+chord.names() // => ['maj7', ...]</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".notes"><span class="type-signature">(static) </span>notes<span class="signature">(nameOrTonic)</span><span class="type-signature"></span></h4>
+
+    
+    <p class="summary">Get the chord notes of a chord.</p>
+    
+
+
+
+<div class="description">
+    <p>Get the chord notes of a chord. This function accepts either a chord name
+(for example: 'Cmaj7') or a list of notes.</p>
+<p>It always returns an array, even if the chord is not found.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>nameOrTonic</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>name of the chord or the tonic</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="chord_index.js.html">chord/index.js</a>, <a href="chord_index.js.html#line78">line 78</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>[String] name - (Optional) name if the first parameter is the tonic</p>
+</div>
+
+
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
+chord.notes('C', 'maj7') // => ['C', 'E', 'G', 'B']</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".position"><span class="type-signature">(static) </span>position<span class="signature">(chord)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+
+    
+    <p class="summary"><p>Get the position (inversion number) of a chord (0 is root position, 1 is first
+inversion...).</p></p>
+    
+
+
+
+<div class="description">
+    <p>Get the position (inversion number) of a chord (0 is root position, 1 is first
+inversion...). It assumes the chord is formed by superposed thirds.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>chord</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the chord notes</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="chord_index.js.html">chord/index.js</a>, <a href="chord_index.js.html#line124">line 124</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the inversion number (0 for root inversion, 1 for first
+inversion...) or null if not a valid chord</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Integer</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>chord.position('e g c') // => 1
+chord.position('g3 e2 c5') // => 1 (e is the lowest note)</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".tokenize"><span class="type-signature">(static) </span>tokenize<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+    <p class="summary">Tokenize a chord name.</p>
+    
+
+
+
+<div class="description">
+    <p>Tokenize a chord name. It returns an array with the tonic and chord type 
+If not tonic is found, all the name is considered the chord name.</p>
+<p>This function does NOT check if the chord type exists or not. It only tries
+to split the tonic and chord type.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the chord name</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="chord_index.js.html">chord/index.js</a>, <a href="chord_index.js.html#line186">line 186</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>an array with [type, tonic]</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
+chord.tokenize('C7') // => [ 'C', '7' ]
+chord.tokenize('mMaj7') // => [ null, 'mMaj7' ]
+chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]</code></pre>
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Tue Sep 26 2017 23:04:35 GMT+0200 (CEST)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

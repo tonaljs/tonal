@@ -1,3 +1,18 @@
+/**
+ * @private
+ * [![npm version](https://img.shields.io/npm/v/tonal-dictionary.svg)](https://www.npmjs.com/package/tonal-dictionary)
+ * [![tonal](https://img.shields.io/badge/tonal-dictionary-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-dictionary` contains a dictionary of musical scales and chords
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * @example
+ * const dictionary= require('tonal-dictionary')
+ * dictionary.chord('Maj7') // => ['1P', '3M', '5P', '7M']
+ *
+ * @module dictionary
+ */
 import sdata from "./data/scales.json";
 import cdata from "./data/chords.json";
 import { chroma } from "tonal-pcset/index";
@@ -37,6 +52,30 @@ export const combine = (a, b) => {
   return dict;
 };
 
+/**
+ * A dictionary of scales.
+ *
+ * @private
+ * @function
+ * @param {String} name
+ * @return {Array} intervals
+ * @example
+ * import { scale } from 'tonal-dictionary'
+ * scale('major') // => ["1P", "2M", ...]
+ * scale.names(); // => ["major", ...]
+ */
 export const scale = dictionary(sdata);
+/**
+ * A dictionary of chords.
+ *
+ * @private
+ * @function
+ * @param {String} name
+ * @return {Array} intervals
+ * @example
+ * import { chord } from 'tonal-dictionary'
+ * chord('Maj7') // => ["1P", "3M", ...]
+ * chord.names(); // => ["Maj3", ...]
+ */
 export const chord = dictionary(cdata);
 export const pcset = combine(scale, chord);

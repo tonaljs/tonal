@@ -17,6 +17,7 @@ const height = n => {
 /**
  * Sort an array of notes in ascending order
  * 
+ * @private
  * @param {String|Array} notes
  * @return {Array} sorted array of notes
  */
@@ -27,6 +28,7 @@ export function sort(src) {
 /**
  * Get sorted notes with duplicates removed
  * 
+ * @private
  * @function
  * @param {Array} notes
  */
@@ -37,6 +39,7 @@ export function unique(arr) {
 /**
  * Randomizes the order of the specified array in-place, using the Fisher–Yates shuffle.
  *
+ * @private
  * @function
  * @param {Array|String} arr - the array
  * @return {Array} the shuffled array

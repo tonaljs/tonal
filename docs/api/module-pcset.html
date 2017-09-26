@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>pcset - Postman Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-chord.html">chord</a><ul class='methods'><li data-type='method'><a href="module-chord.html#.exists">exists</a></li><li data-type='method'><a href="module-chord.html#.intervals">intervals</a></li><li data-type='method'><a href="module-chord.html#.names">names</a></li><li data-type='method'><a href="module-chord.html#.notes">notes</a></li><li data-type='method'><a href="module-chord.html#.position">position</a></li><li data-type='method'><a href="module-chord.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-distance.html">distance</a><ul class='methods'><li data-type='method'><a href="module-distance.html#.add">add</a></li><li data-type='method'><a href="module-distance.html#.fifths">fifths</a></li><li data-type='method'><a href="module-distance.html#.interval">interval</a></li><li data-type='method'><a href="module-distance.html#.semitones">semitones</a></li><li data-type='method'><a href="module-distance.html#.subtract">subtract</a></li><li data-type='method'><a href="module-distance.html#.transpose">transpose</a></li><li data-type='method'><a href="module-distance.html#.transposeBy">transposeBy</a></li><li data-type='method'><a href="module-distance.html#.trFifths">trFifths</a></li></ul></li><li><a href="module-interval.html">interval</a><ul class='methods'><li data-type='method'><a href="module-interval.html#.build">build</a></li><li data-type='method'><a href="module-interval.html#.chroma">chroma</a></li><li data-type='method'><a href="module-interval.html#.fromSemitones">fromSemitones</a></li><li data-type='method'><a href="module-interval.html#.ic">ic</a></li><li data-type='method'><a href="module-interval.html#.invert">invert</a></li><li data-type='method'><a href="module-interval.html#.name">name</a></li><li data-type='method'><a href="module-interval.html#.num">num</a></li><li data-type='method'><a href="module-interval.html#.props">props</a></li><li data-type='method'><a href="module-interval.html#.semitones">semitones</a></li><li data-type='method'><a href="module-interval.html#.simplify">simplify</a></li><li data-type='method'><a href="module-interval.html#.type">type</a></li></ul></li><li><a href="module-key.html">key</a></li><li><a href="module-note.html">note</a><ul class='methods'><li data-type='method'><a href="module-note.html#.alt">alt</a></li><li data-type='method'><a href="module-note.html#.freq">freq</a></li><li data-type='method'><a href="module-note.html#.fromMidi">fromMidi</a></li><li data-type='method'><a href="module-note.html#.midi">midi</a></li><li data-type='method'><a href="module-note.html#.name">name</a></li><li data-type='method'><a href="module-note.html#.oct">oct</a></li><li data-type='method'><a href="module-note.html#.pc">pc</a></li><li data-type='method'><a href="module-note.html#.step">step</a></li></ul></li><li><a href="module-pcset.html">pcset</a><ul class='methods'><li data-type='method'><a href="module-pcset.html#.chroma">chroma</a></li><li data-type='method'><a href="module-pcset.html#.filter">filter</a></li><li data-type='method'><a href="module-pcset.html#.includes">includes</a></li><li data-type='method'><a href="module-pcset.html#.intervals">intervals</a></li><li data-type='method'><a href="module-pcset.html#.isChroma">isChroma</a></li><li data-type='method'><a href="module-pcset.html#.isEqual">isEqual</a></li><li data-type='method'><a href="module-pcset.html#.isSubset">isSubset</a></li><li data-type='method'><a href="module-pcset.html#.isSuperset">isSuperset</a></li><li data-type='method'><a href="module-pcset.html#.modes">modes</a></li></ul></li><li><a href="module-scale.html">scale</a><ul class='methods'><li data-type='method'><a href="module-scale.html#.exists">exists</a></li><li data-type='method'><a href="module-scale.html#.names">names</a></li><li data-type='method'><a href="module-scale.html#.notes">notes</a></li><li data-type='method'><a href="module-scale.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-tonal.html">tonal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#permutations">permutations</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">pcset</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p><a href="https://www.npmjs.com/package/tonal-pcset"><img src="https://img.shields.io/npm/v/tonal-pcset.svg?style=flat-square" alt="npm version"></a>
+<a href="https://www.npmjs.com/browse/keyword/tonal"><img src="https://img.shields.io/badge/tonal-pcset-yellow.svg?style=flat-square" alt="tonal"></a></p>
+<p><code>tonal-pcset</code> is a collection of functions to work with pitch class sets, oriented
+to make comparations (isEqual, isSubset, isSuperset)</p>
+<p>This is part of <a href="https://www.npmjs.com/package/tonal">tonal</a> music theory library.</p>
+<p>You can install via npm: <code>npm i --save tonal-pcset</code></p>
+<pre class="prettyprint source lang-js"><code>var pcset = require('tonal-pcset')
+pcset.isEqual('c2 d5 e6', 'c6 e3 d1') // => true</code></pre><h2>API documentation</h2></div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pcset_index.js.html">pcset/index.js</a>, <a href="pcset_index.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".chroma"><span class="type-signature">(static) </span>chroma<span class="signature">(set)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+    <p class="summary">Get chroma of a pitch class set.</p>
+    
+
+
+
+<div class="description">
+    <p>Get chroma of a pitch class set. A chroma identifies each set uniquely.
+It's a 12-digit binary each presenting one semitone of the octave.</p>
+<p>Note that this function accepts a chroma as parameter and return it
+without modification.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>set</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the pitch class set</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pcset_index.js.html">pcset/index.js</a>, <a href="pcset_index.js.html#line41">line 41</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>a binary representation of the pitch class set</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pcset.chroma(["C", "D", "E"]) // => '1010100000000'</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".filter"><span class="type-signature">(static) </span>filter<span class="signature">(set, notes)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+    <p class="summary"><p>Filter a list with a pitch class set</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Filter a list with a pitch class set</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>set</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the pitch class set notes</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>notes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the note list to be filtered</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pcset_index.js.html">pcset/index.js</a>, <a href="pcset_index.js.html#line176">line 176</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the filtered notes</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pcset.filter(c d e', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'd2', 'c3', 'd3' ])
+pcset.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'c3' ])</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".includes"><span class="type-signature">(static) </span>includes<span class="signature">(set, note)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+    <p class="summary"><p>Test if a given pitch class set includes a note</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Test if a given pitch class set includes a note</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>set</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the base set to test against</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>note</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Pitch</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the note to test</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pcset_index.js.html">pcset/index.js</a>, <a href="pcset_index.js.html#line157">line 157</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>true if the note is included in the pcset</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pcset.includes('c d e', 'C4') // => true
+pcset.includes('c d e', 'C#4') // => false</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".intervals"><span class="type-signature">(static) </span>intervals<span class="signature">(pcset)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+    <p class="summary"><p>Given a pcset (notes or chroma) return it's intervals</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Given a pcset (notes or chroma) return it's intervals</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pcset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the pitch class set (notes or chroma)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pcset_index.js.html">pcset/index.js</a>, <a href="pcset_index.js.html#line97">line 97</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>intervals or empty array if not valid pcset</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pcset.intervals('1010100000000') => ["1P", "2M", "3M"]</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isChroma"><span class="type-signature">(static) </span>isChroma<span class="signature">(chroma)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+    <p class="summary">Test if the given string is a pitch class set chroma.</p>
+    
+
+
+
+<div class="description">
+    <p>Test if the given string is a pitch class set chroma.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>chroma</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the pitch class set chroma</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pcset_index.js.html">pcset/index.js</a>, <a href="pcset_index.js.html#line85">line 85</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>true if its a valid pcset chroma</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pcset.isChroma('101010101010') // => true
+pcset.isChroma('101001') // => false</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isEqual"><span class="type-signature">(static) </span>isEqual<span class="signature">(set1, set2)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+    <p class="summary"><p>Test if two pitch class sets are identical</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Test if two pitch class sets are identical</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>set1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>one of the pitch class sets</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>set2</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the other pitch class set</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pcset_index.js.html">pcset/index.js</a>, <a href="pcset_index.js.html#line115">line 115</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>true if they are equal</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pcset.isEqual('c2 d3', 'c5 d2') // => true</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isSubset"><span class="type-signature">(static) </span>isSubset<span class="signature">(test, set)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+    <p class="summary"><p>Test if a pitch class set is a subset of another</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Test if a pitch class set is a subset of another</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>test</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the set to test</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>set</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the base set to test against</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pcset_index.js.html">pcset/index.js</a>, <a href="pcset_index.js.html#line129">line 129</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>true if the test set is a subset of the set</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pcset.subset('c d e', 'C2 D4 D5 C6') // => true</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isSuperset"><span class="type-signature">(static) </span>isSuperset<span class="signature">(test, set)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+    <p class="summary"><p>Test if a pitch class set is a superset</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Test if a pitch class set is a superset</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>test</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the set to test</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>set</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the base set to test against</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pcset_index.js.html">pcset/index.js</a>, <a href="pcset_index.js.html#line143">line 143</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>true if the test set is a superset of the set</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pcset.isSuperset('c d e', 'C2 D4 F4 D5 E5 C6') // => true</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".modes"><span class="type-signature">(static) </span>modes<span class="signature">(set, normalize)</span><span class="type-signature"> &rarr; {Array.&lt;String>}</span></h4>
+
+    
+    <p class="summary"><p>Given a a list of notes or a pcset chroma, produce the rotations
+of the chroma discarding the ones that starts with '0'</p>
+<p>This is used, for example, to get all the modes of a scale.</p></p>
+    
+
+
+
+<div class="description">
+    <p>Given a a list of notes or a pcset chroma, produce the rotations
+of the chroma discarding the ones that starts with '0'</p>
+<p>This is used, for example, to get all the modes of a scale.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>set</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the list of notes or pitchChr of the set</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>normalize</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(Optional, true by default) remove all
+the rotations that starts with '0'</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pcset_index.js.html">pcset/index.js</a>, <a href="pcset_index.js.html#line65">line 65</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>an array with all the modes of the chroma</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;String></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pcset.modes(["C", "D", "E"]).map(pcset.intervals)</code></pre>
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Tue Sep 26 2017 23:04:35 GMT+0200 (CEST)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

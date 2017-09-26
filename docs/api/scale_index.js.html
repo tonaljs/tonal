@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>scale/index.js - Postman Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-chord.html">chord</a><ul class='methods'><li data-type='method'><a href="module-chord.html#.exists">exists</a></li><li data-type='method'><a href="module-chord.html#.intervals">intervals</a></li><li data-type='method'><a href="module-chord.html#.names">names</a></li><li data-type='method'><a href="module-chord.html#.notes">notes</a></li><li data-type='method'><a href="module-chord.html#.position">position</a></li><li data-type='method'><a href="module-chord.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-distance.html">distance</a><ul class='methods'><li data-type='method'><a href="module-distance.html#.add">add</a></li><li data-type='method'><a href="module-distance.html#.fifths">fifths</a></li><li data-type='method'><a href="module-distance.html#.interval">interval</a></li><li data-type='method'><a href="module-distance.html#.semitones">semitones</a></li><li data-type='method'><a href="module-distance.html#.subtract">subtract</a></li><li data-type='method'><a href="module-distance.html#.transpose">transpose</a></li><li data-type='method'><a href="module-distance.html#.transposeBy">transposeBy</a></li><li data-type='method'><a href="module-distance.html#.trFifths">trFifths</a></li></ul></li><li><a href="module-interval.html">interval</a><ul class='methods'><li data-type='method'><a href="module-interval.html#.build">build</a></li><li data-type='method'><a href="module-interval.html#.chroma">chroma</a></li><li data-type='method'><a href="module-interval.html#.fromSemitones">fromSemitones</a></li><li data-type='method'><a href="module-interval.html#.ic">ic</a></li><li data-type='method'><a href="module-interval.html#.invert">invert</a></li><li data-type='method'><a href="module-interval.html#.name">name</a></li><li data-type='method'><a href="module-interval.html#.num">num</a></li><li data-type='method'><a href="module-interval.html#.props">props</a></li><li data-type='method'><a href="module-interval.html#.semitones">semitones</a></li><li data-type='method'><a href="module-interval.html#.simplify">simplify</a></li><li data-type='method'><a href="module-interval.html#.type">type</a></li></ul></li><li><a href="module-key.html">key</a></li><li><a href="module-note.html">note</a><ul class='methods'><li data-type='method'><a href="module-note.html#.alt">alt</a></li><li data-type='method'><a href="module-note.html#.freq">freq</a></li><li data-type='method'><a href="module-note.html#.fromMidi">fromMidi</a></li><li data-type='method'><a href="module-note.html#.midi">midi</a></li><li data-type='method'><a href="module-note.html#.name">name</a></li><li data-type='method'><a href="module-note.html#.oct">oct</a></li><li data-type='method'><a href="module-note.html#.pc">pc</a></li><li data-type='method'><a href="module-note.html#.step">step</a></li></ul></li><li><a href="module-pcset.html">pcset</a><ul class='methods'><li data-type='method'><a href="module-pcset.html#.chroma">chroma</a></li><li data-type='method'><a href="module-pcset.html#.filter">filter</a></li><li data-type='method'><a href="module-pcset.html#.includes">includes</a></li><li data-type='method'><a href="module-pcset.html#.intervals">intervals</a></li><li data-type='method'><a href="module-pcset.html#.isChroma">isChroma</a></li><li data-type='method'><a href="module-pcset.html#.isEqual">isEqual</a></li><li data-type='method'><a href="module-pcset.html#.isSubset">isSubset</a></li><li data-type='method'><a href="module-pcset.html#.isSuperset">isSuperset</a></li><li data-type='method'><a href="module-pcset.html#.modes">modes</a></li></ul></li><li><a href="module-scale.html">scale</a><ul class='methods'><li data-type='method'><a href="module-scale.html#.exists">exists</a></li><li data-type='method'><a href="module-scale.html#.names">names</a></li><li data-type='method'><a href="module-scale.html#.notes">notes</a></li><li data-type='method'><a href="module-scale.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-tonal.html">tonal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#permutations">permutations</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">scale/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * A scale is a collection of pitches in ascending or descending order.
+ *
+ * This module provides functions to get and manipulate scales.
+ *
+ * @example
+ * scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
+ * scale.names() => ['major', 'minor', ...]
+ * scale.detect('f5 d2 c5 b5 a2 e4 g') // => [ 'C major', 'D dorian', 'E phrygian', 'F lydian', 'G mixolydian', 'A aeolian', 'B locrian'])
+ * @module scale
+ */
+import { name as noteName, pc } from "tonal-note/index";
+import {
+  modes as pcsetModes,
+  chroma,
+  isSubset,
+  isSuperset
+} from "tonal-pcset/index";
+import { transpose } from "tonal-distance/index";
+import { scale, chord } from "tonal-dictionary/index";
+import { compact, unique, rotate } from "tonal-array/index";
+
+const NO_SCALE = Object.freeze({
+  intervals: []
+});
+
+const properties = name => {
+  const intervals = scale(name);
+  if (!intervals) return NO_SCALE;
+  const s = { intervals, name };
+  s.chroma = chroma(intervals);
+  s.setnum = parseInt(s.chroma, 2);
+  s.names = scale.names(s.chroma);
+  return Object.freeze(s);
+};
+
+const memoize = (fn, cache) => str => cache[str] || (cache[str] = fn(str));
+
+/**
+ * Get scale notes or intervals. It *always* return an array and the notes
+ * are *always* pitch classes
+ *
+ * @param {String} name - the scale name 
+ * @param [String] tonic - the tonic (optional)
+ * @return {Array} the scale intervals or pitch classes (if tonic is provided)
+ *
+ * @example
+ * scale.get('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
+ */
+export const props = memoize(properties, {});
+
+/**
+ * Return the available scale names
+ *
+ * @function
+ * @param {boolean} aliases - true to include aliases
+ * @return {Array} the scale names
+ *
+ * @example
+ * const scale = require('tonal-scale')
+ * scale.names() // => ['maj7', ...]
+ */
+export const names = scale.names;
+
+/**
+ * Given a scale name, return its intervals. The name can be the type and
+ * optionally the tonic (which is ignored)
+ *
+ * It retruns an empty array when no scale found
+ *
+ * @param {String} name - the scale name (tonic and type, tonic is optional)
+ * @return {Array&lt;String>} the scale intervals if is a known scale or an empty
+ * array if no scale found
+ * @example
+ * scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
+ */
+export const intervals = name => {
+  const p = tokenize(name);
+  return props(p[1]).intervals;
+};
+
+/**
+ * Get the notes (pitch classes) of a scale. 
+ *
+ * Note that it always returns an array, and the values are only pitch classes.
+ *
+ * @param {String} tonic 
+ * @param {String} name - the scale name
+ * @return {Array} a pitch classes array
+ * 
+ * @example
+ * scale.notes("C", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+ * scale.notes("C4", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+ * scale.notes("A4", "no-scale") // => []
+ * scale.notes("blah", "major") // => []
+ */
+export function notes(nameOrTonic, name) {
+  const p = tokenize(nameOrTonic);
+  name = name || p[1];
+  return intervals(name).map(transpose(p[0]));
+}
+
+/**
+ * Check if the given name is a known scale from the scales dictionary
+ * 
+ * @param {String} name - the scale name
+ * @return {Boolean}
+ */
+export function exists(name) {
+  const p = tokenize(name);
+  return scale(p[1]) !== undefined;
+}
+
+/**
+ * Given a string with a scale name and (optionally) a tonic, split 
+ * that components.
+ * 
+ * It retuns an array with the form [ name, tonic ] where tonic can be a 
+ * note name or null and name can be any arbitrary string 
+ * (this function doesn't check if that scale name exists)
+ *
+ * @param {String} name - the scale name
+ * @return {Array} an array [tonic, name]
+ * @example
+ * scale.tokenize('C mixolydean') // => ["C", "mixolydean"]
+ * scale.tokenize('anything is valid') // => [null, "anything is valid"]
+ * scale.tokenize() // => [null, null]
+ */
+export function tokenize(str) {
+  if (typeof str !== "string") return [null, null];
+  const i = str.indexOf(" ");
+  const tonic = noteName(str.substring(0, i)) || noteName(str);
+  const name = tonic !== null ? str.substring(tonic.length + 1) : str;
+  return [tonic, name.length ? name : null];
+}
+
+/**
+ * Find mode names of a scale
+ * @param {String} name - scale name
+ */
+export const modes = name => {
+  const ivls = intervals(name);
+
+  return pcsetModes(ivls).map(chroma => {
+    return scale.names(chroma)[0];
+  });
+};
+
+/**
+ * Get all chords that fits a given scale
+ * 
+ * @param {String} name
+ */
+export const chords = name => {
+  const ivls = intervals(name);
+  return chord.names().filter(name => isSubset(chord(name), ivls));
+};
+
+/**
+ * Given an array of notes, return the scale: a pitch class set starting from 
+ * the first note of the array
+ * 
+ * @param {Array} notes 
+ * @return {Array}
+ */
+export const toScale = notes => {
+  const pcset = compact(notes.map(pc));
+  if (!pcset.length) return pcset;
+  const tonic = pcset[0];
+  const scale = unique(pcset);
+  return rotate(scale.indexOf(tonic), scale);
+};
+
+/**
+ * Find all scales than extends the given one
+ * 
+ * @param {String} name 
+ */
+export const extensions = name => {
+  const ivls = intervals(name);
+  if (!ivls.length) return [];
+  return scale.names().filter(name => isSuperset(scale(name), ivls));
+};
+
+export const detect = notes => {
+  notes = toScale(notes);
+  const modes = pcsetModes(notes);
+  if (modes.length &lt; 2) throw Error("It should have at least two notes");
+
+  const results = [];
+
+  names().forEach(name => {
+    const p = props(name);
+    modes.forEach((mode, i) => {
+      if (isSubset(mode, p.chroma)) results.push([notes[i], name]);
+    });
+  });
+
+  return results;
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Tue Sep 26 2017 23:04:35 GMT+0200 (CEST)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

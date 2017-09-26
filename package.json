@@ -10,13 +10,12 @@
     "prebuild": "npm run format && lerna bootstrap",
     "build": "lerna exec -- rollup -c ../../rollup.config.js -- index.js",
     "dist": "rollup --config rollup.config.dist.js",
-    "prepublish":
-      "npm run test && npm run docs && cp README.md ./packages/tonal/",
+    "prepublish": "npm run test && npm run docs && cp README.md ./packages/tonal/",
     "pretest": "npm run build",
     "test": "jest --coverage --no-cache",
+    "jsdoc": "jsdoc -c jsdoc3.json  > docs/api.json",
     "docs": "lerna run docs",
-    "api":
-      "rm docs/API.md && cat packages/note/README.md packages/interval/README.md packages/distance/README.md packages/scale/README.md packages/chord/README.md packages/pcset/README.md packages/key/README.md > docs/API.md"
+    "api": "rm docs/API.md && cat packages/note/README.md packages/interval/README.md packages/distance/README.md packages/scale/README.md packages/chord/README.md packages/pcset/README.md packages/key/README.md > docs/API.md"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal",
@@ -27,21 +26,27 @@
   "license": "MIT",
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
-    "rollup-plugin-uglify-es": "^0.0.1",
     "jest": "^20.0.0",
+    "jsdoc": "^3.5.5",
     "lerna": "2.1.2",
+    "postman-jsdoc-theme": "^0.0.3",
     "prettier": "^1.6.1",
     "rollup": "^0.49.2",
     "rollup-plugin-commonjs": "^8.2.0",
     "rollup-plugin-filesize": "^1.4.2",
     "rollup-plugin-json": "^2.1.1",
-    "rollup-plugin-node-resolve": "^3.0.0"
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify-es": "^0.0.1"
   },
   "dependencies": {},
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "jest": {
-    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!tonal)"
+    ]
   }
 }

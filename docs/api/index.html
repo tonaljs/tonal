@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home - Postman Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-chord.html">chord</a><ul class='methods'><li data-type='method'><a href="module-chord.html#.exists">exists</a></li><li data-type='method'><a href="module-chord.html#.intervals">intervals</a></li><li data-type='method'><a href="module-chord.html#.names">names</a></li><li data-type='method'><a href="module-chord.html#.notes">notes</a></li><li data-type='method'><a href="module-chord.html#.position">position</a></li><li data-type='method'><a href="module-chord.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-distance.html">distance</a><ul class='methods'><li data-type='method'><a href="module-distance.html#.add">add</a></li><li data-type='method'><a href="module-distance.html#.fifths">fifths</a></li><li data-type='method'><a href="module-distance.html#.interval">interval</a></li><li data-type='method'><a href="module-distance.html#.semitones">semitones</a></li><li data-type='method'><a href="module-distance.html#.subtract">subtract</a></li><li data-type='method'><a href="module-distance.html#.transpose">transpose</a></li><li data-type='method'><a href="module-distance.html#.transposeBy">transposeBy</a></li><li data-type='method'><a href="module-distance.html#.trFifths">trFifths</a></li></ul></li><li><a href="module-interval.html">interval</a><ul class='methods'><li data-type='method'><a href="module-interval.html#.build">build</a></li><li data-type='method'><a href="module-interval.html#.chroma">chroma</a></li><li data-type='method'><a href="module-interval.html#.fromSemitones">fromSemitones</a></li><li data-type='method'><a href="module-interval.html#.ic">ic</a></li><li data-type='method'><a href="module-interval.html#.invert">invert</a></li><li data-type='method'><a href="module-interval.html#.name">name</a></li><li data-type='method'><a href="module-interval.html#.num">num</a></li><li data-type='method'><a href="module-interval.html#.props">props</a></li><li data-type='method'><a href="module-interval.html#.semitones">semitones</a></li><li data-type='method'><a href="module-interval.html#.simplify">simplify</a></li><li data-type='method'><a href="module-interval.html#.type">type</a></li></ul></li><li><a href="module-key.html">key</a></li><li><a href="module-note.html">note</a><ul class='methods'><li data-type='method'><a href="module-note.html#.alt">alt</a></li><li data-type='method'><a href="module-note.html#.freq">freq</a></li><li data-type='method'><a href="module-note.html#.fromMidi">fromMidi</a></li><li data-type='method'><a href="module-note.html#.midi">midi</a></li><li data-type='method'><a href="module-note.html#.name">name</a></li><li data-type='method'><a href="module-note.html#.oct">oct</a></li><li data-type='method'><a href="module-note.html#.pc">pc</a></li><li data-type='method'><a href="module-note.html#.step">step</a></li></ul></li><li><a href="module-pcset.html">pcset</a><ul class='methods'><li data-type='method'><a href="module-pcset.html#.chroma">chroma</a></li><li data-type='method'><a href="module-pcset.html#.filter">filter</a></li><li data-type='method'><a href="module-pcset.html#.includes">includes</a></li><li data-type='method'><a href="module-pcset.html#.intervals">intervals</a></li><li data-type='method'><a href="module-pcset.html#.isChroma">isChroma</a></li><li data-type='method'><a href="module-pcset.html#.isEqual">isEqual</a></li><li data-type='method'><a href="module-pcset.html#.isSubset">isSubset</a></li><li data-type='method'><a href="module-pcset.html#.isSuperset">isSuperset</a></li><li data-type='method'><a href="module-pcset.html#.modes">modes</a></li></ul></li><li><a href="module-scale.html">scale</a><ul class='methods'><li data-type='method'><a href="module-scale.html#.exists">exists</a></li><li data-type='method'><a href="module-scale.html#.names">names</a></li><li data-type='method'><a href="module-scale.html#.notes">notes</a></li><li data-type='method'><a href="module-scale.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-tonal.html">tonal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#permutations">permutations</a></li></ul>
+</nav>
+
+<div id="main">
+    
+
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section class="readme">
+        <article><h1>tonal <a href="https://www.npmjs.com/package/tonal"><img src="https://img.shields.io/npm/v/tonal.svg?style=flat-square" alt="npm"></a></h1><p><a href="https://travis-ci.org/danigb/tonal"><img src="https://travis-ci.org/danigb/tonal.svg?branch=master&amp;style=flat-square" alt="Build Status"></a> <a href="https://codeclimate.com/github/danigb/tonal"><img src="https://codeclimate.com/github/danigb/tonal/badges/gpa.svg?style=flat-square" alt="Code Climate"></a> <a href="https://github.com/feross/standard"><img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square" alt="js-standard-style"></a> <a href="https://www.npmjs.com/package/tonal"><img src="https://img.shields.io/npm/l/tonal.svg?style=flat-square" alt="license"></a>
+<a href="https://codecov.io/gh/danigb/tonal"><img src="https://codecov.io/gh/danigb/tonal/branch/master/graph/badge.svg" alt="codecov"></a></p>
+<p><code>tonal</code> is a functional music theory library. It provides functions to manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music).</p>
+<p>Think like an <a href="http://underscorejs.org/">underscorejs</a> (or better: <a href="http://ramdajs.com/">ramdajs</a>) library for music theory.</p>
+<p><a href="http://danigb.github.io/tonal/api/">Read the API documentation</a></p>
+<p><strong>Warning</strong>: although this library has some time now, the API is not stable, and until 1.0, a minor change means a breaking change.</p>
+<h2>Example</h2><pre class="prettyprint source lang-js"><code>var tonal = require('tonal')
+
+// note properties
+tonal.note.chroma('Cb') // => 11
+tonal.note.pc('Db5') // => 'Db'
+tonal.note.freq('C#3') // => 138.59
+tonal.note.midi('A4') // => 69
+tonal.note.fromMidi(69) // => 'A4'
+
+// interval properties
+tonal.ivl.semitones('5P') // => 7
+tonal.ivl.invert('3m') // => '6M'
+tonal.ivl.fromSemitones(7) // => '5P'
+
+// distances
+tonal.distance.transpose('D4', '2M') // => 'E#4'
+tonal.distance.interval('C', 'G') // => '5P'
+tonal.distance.semitones('C', 'G') // => 7
+
+// scales
+tonal.scale.notes('Bb lydian') // => [ 'Bb', 'C', 'D', 'E', 'F', 'G', 'A']
+tonal.scale.notes('Eb bebop') // => [ 'Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'Db', 'D' ]
+tonal.scale.names() // => [&quot;major&quot;, &quot;minor&quot;, &quot;bebop&quot;, ... and 90 more]
+
+// chords
+tonal.chord.notes('Fm7b5') // => [ 'F', 'Ab', 'Cb', 'Eb' ]
+tonal.chord.names() // => ['M', 'm', 'm7b5', ... and 100 more]
+
+// partial application
+var upFifth = tonal.transpose('P5')
+upFifth('c3') // => 'G3'
+tonal.scale.notes('G melodic minor').map(tonal.transpose('m3')) // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'G', 'A' ]</code></pre><h2>Features</h2><p><code>tonal</code> is still a work in progress, but currently has implemented:</p>
+<ul>
+<li>Note, intervals, transposition, distances</li>
+<li>Midi and frequency conversion</li>
+<li>Scales, chords, dictionaries</li>
+<li>Utilities to work with collection of notes: sort, filter, rotate, shuffle.</li>
+<li>Pitch sets comparations, chord and scale detection</li>
+<li>Keys, keys signatures, key scales</li>
+<li>Pitch and pitch class sets</li>
+</ul>
+<p>In <a href="https://github.com/danigb/tonal-extensions">extensions</a>:</p>
+<ul>
+<li>Complex note range generation</li>
+<li>Chord progressions</li>
+<li>Enharmonics</li>
+</ul>
+<h2>Philosophy</h2><p>This library is evolving with this ideas in mind:</p>
+<ul>
+<li>Functional: no classes, no side effects, no mutations. Just functions, data-in data-out. Most of the functions has the data to operate on as last argument and lot of functions are currified.</li>
+<li>Notes and intervals are represented with strings, instead of objects.</li>
+<li>Carefully written: small, fast and modular.</li>
+<li>Documented: all public functions are fully documented inside the code. Read the generated API documentation <a href="http://danigb.github.io/tonal/api/">here</a></li>
+<li>Learneable: since all the modules share the same philosophy is easy to work with them.</li>
+<li>Tested: every public method is tested with coverage support.</li>
+<li>Advanced features: chord and scale detection, binary sets, chord progressions, key signatures...</li>
+</ul>
+<h2>Install</h2><p>Using yarn: <code>yarn add tonal</code> (or a single module: <code>yarn add tonal-scale</code>)</p>
+<p>Using npm: <code>npm install --save tonal</code> (or: <code>npm install --save tonal-scale</code>)</p>
+<p>Browser: grab the minified file <a href="https://github.com/danigb/tonal/blob/master/dist/tonal.min.js">here</a> (26kb) and include it in your html page (use a <code>Tonal</code> global object)</p>
+<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;tonal.min.js&quot;>&lt;/script></code></pre><h2>Usage</h2><p>ES6:</p>
+<pre class="prettyprint source lang-js"><code>import { distance } from 'tonal'
+distance.transpose('C4', '3M')</code></pre><p>ES5:</p>
+<pre class="prettyprint source lang-js"><code>var tonal = require('tonal')
+tonal.distance.transpose('C4', '2m')</code></pre><p>Browser (use the <code>Tonal</code> global object):</p>
+<pre class="prettyprint source lang-html"><code>&lt;script>
+  console.log(Tonal.transpose('C4', '8P'))
+&lt;/script></code></pre><h2>Why</h2><p>Mostly, because I want to learn:</p>
+<blockquote>
+<p>Reinventing the wheel is bad for business, but it’s great for learning
+<a href="http://philipwalton.com/articles/how-to-become-a-great-front-end-engineer">*</a></p>
+</blockquote>
+<p>I want to learn about music theory and I want to express the concepts I learn using functional programming style.</p>
+<p>Also, I want a complete library, where I can model some (for me) esoteric features like <a href="http://danigb.github.io/tonal/api/module-interval.html#.ic">interval classes</a>, pitch sets, dft to pitch class sets, and so on.</p>
+<h2>What</h2><p>Tonal itself is built from a collection of <a href="https://github.com/danigb/tonal/tree/master/packages">packages</a>.</p>
+<p>Please <a href="http://danigb.github.io/tonal/api/">read the generated API documentation here</a> to get an overview.</p>
+<h2>Build, test and documentation</h2><p>It's a multipackage module that uses <a href="https://github.com/lerna/lerna">lerna</a> to manage.</p>
+<p>To build the library from the first time use <code>npm run init</code></p>
+<p>To run the tests: <code>npm run test</code> or just <code>jest</code> if you have jest globally installed.</p>
+<p>The distributable <code>tonal.min.js</code> file is generated with <code>npm run dist</code></p>
+<p>The documentation can be generated with: <code>npm run docs</code></p>
+<h2>Inspiration</h2><p>This library takes inspiration from other music theory libraries:</p>
+<ul>
+<li>Teoria: https://github.com/saebekassebil/teoria</li>
+<li>Impro-Visor: https://www.cs.hmc.edu/~keller/jazz/improvisor/</li>
+<li>MusicKit: https://github.com/benzguo/MusicKit</li>
+<li>Music21: http://web.mit.edu/music21/doc/index.html</li>
+<li>Sharp11: https://github.com/jsrmath/sharp11</li>
+</ul>
+<h2>License</h2><p>MIT License</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Tue Sep 26 2017 23:04:35 GMT+0200 (CEST)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

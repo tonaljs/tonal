@@ -35,6 +35,7 @@ describe("tonal-chord", () => {
     expect(chord.intervals("maj7")).toEqual(["1P", "3M", "5P", "7M"]);
     expect(chord.intervals("Cmaj7")).toEqual(["1P", "3M", "5P", "7M"]);
     expect(chord.intervals("major")).toEqual([]);
+    expect(chord.intervals()).toEqual([]);
   });
 
   test("exists", () => {

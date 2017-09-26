@@ -1,0 +1,27 @@
+{
+  "plugins": ["plugins/markdown", "plugins/summarize"],
+  "recurseDepth": 10,
+  "source": {
+    "include": ["README.md", "packages/"],
+    "includePattern": "index.js$",
+    "excludePattern": "node_modules|build"
+  },
+  "sourceType": "module",
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  },
+  "opts": {
+    "destination": "./docs/api/",
+    "def-template": "./node_modules/jsdoc/templates/default",
+    "template": "./node_modules/postman-jsdoc-theme",
+    "recurse": true,
+    "jsdoc-template": "./node_modules/jsdoc/templates/haruki",
+    "encoding": "utf8",
+    "no-destination": "console"
+  }
+}
