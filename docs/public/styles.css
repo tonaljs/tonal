@@ -51,3 +51,7 @@ a.api {
 .Score {
   overflow: hidden;
 }
+
+button.small {
+  padding: 0 1rem;
+}

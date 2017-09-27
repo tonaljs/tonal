@@ -328,6 +328,28 @@ var Install = function (ref) {
 );
 };
 
+var Props = function (ref) {
+  var names = ref.names;
+  var values = ref.values;
+
+  return (
+  h( 'table', null,
+    h( 'thead', null,
+      h( 'tr', null,
+        names.map(function (name) { return (
+          h( 'td', null,
+            h( 'strong', null, name )
+          )
+        ); })
+      )
+    ),
+    h( 'tbody', null,
+      h( 'tr', null, values.map(function (value) { return h( 'td', null, value ); }) )
+    )
+  )
+);
+};
+
 var TONICS = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B B# Cb".split(
   " "
 );
@@ -629,7 +651,7 @@ function fromMidi(num, sharps) {
 }
 
 
-var index$1 = Object.freeze({
+var note$1 = Object.freeze({
 	tokenize: tokenize,
 	props: props,
 	isNote: isNote,
@@ -748,7 +770,7 @@ function range(a, b) {
 }
 
 
-var index = Object.freeze({
+var array = Object.freeze({
 	rotate: rotate$1,
 	compact: compact,
 	sort: sort,
@@ -1075,7 +1097,7 @@ var fromSemitones = function (num) {
 };
 
 
-var index$2 = Object.freeze({
+var interval = Object.freeze({
 	tokenize: tokenize$1,
 	props: props$1,
 	num: num,
@@ -1309,8 +1331,8 @@ function subtract(ivl1, ivl2) {
  * var tonal = require('tonal')
  * tonal.distance.interval('M2', 'P5') // => 'P4'
  */
-function interval(from, to) {
-  if (arguments.length === 1) { return function (t) { return interval(from, t); }; }
+function interval$1(from, to) {
+  if (arguments.length === 1) { return function (t) { return interval$1(from, t); }; }
   var f = encodeNote(from);
   var t = encodeNote(to);
   if (f === null || t === null || f.length !== t.length) { return null; }
@@ -1345,7 +1367,7 @@ function semitones$1(from, to) {
 }
 
 
-var index$3 = Object.freeze({
+var distance = Object.freeze({
 	transpose: transpose,
 	trFifths: trFifths,
 	fifths: fifths,
@@ -1353,7 +1375,7 @@ var index$3 = Object.freeze({
 	addIntervals: addIntervals,
 	add: add,
 	subtract: subtract,
-	interval: interval,
+	interval: interval$1,
 	semitones: semitones$1
 });
 
@@ -1437,7 +1459,7 @@ var properties$2 = function (name$$1) {
   k.name = k.tonic + " " + k.mode;
   k.modenum = modenum(k.mode);
   var cs = rotate$1(k.modenum, NOTES);
-  k.intervals = cs.map(interval(cs[0]));
+  k.intervals = cs.map(interval$1(cs[0]));
   k.scale = k.intervals.map(transpose(k.tonic));
   k.alteration = fifths("C", k.tonic) - FIFTHS$1[MODES.indexOf(k.mode)];
   k.accidentals = altToAcc(k.alteration);
@@ -1605,7 +1627,7 @@ var tokenize$2 = function (name$$1) {
 };
 
 
-var index$4 = Object.freeze({
+var key = Object.freeze({
 	modeNames: modeNames,
 	fromAlter: fromAlter,
 	names: names,
@@ -1797,7 +1819,7 @@ function filter(set, notes) {
 }
 
 
-var index$6 = Object.freeze({
+var pcset = Object.freeze({
 	chroma: chroma$2,
 	modes: modes,
 	isChroma: isChroma,
@@ -2148,7 +2170,7 @@ var combine = function (a, b) {
  * scale('major') // => ["1P", "2M", ...]
  * scale.names(); // => ["major", ...]
  */
-var scale$1 = dictionary(sdata);
+var scale$2 = dictionary(sdata);
 /**
  * A dictionary of chords.
  *
@@ -2162,7 +2184,7 @@ var scale$1 = dictionary(sdata);
  * chord.names(); // => ["Maj3", ...]
  */
 var chord = dictionary(cdata);
-var pcset = combine(scale$1, chord);
+var pcset$1 = combine(scale$2, chord);
 
 /**
  * A scale is a collection of pitches in ascending or descending order.
@@ -2184,12 +2206,12 @@ var NO_SCALE = Object.freeze({
 });
 
 var properties$3 = function (name$$1) {
-  var intervals = scale$1(name$$1);
+  var intervals = scale$2(name$$1);
   if (!intervals) { return NO_SCALE; }
   var s = { intervals: intervals, name: name$$1 };
   s.chroma = chroma$2(intervals);
   s.setnum = parseInt(s.chroma, 2);
-  s.names = scale$1.names(s.chroma);
+  s.names = scale$2.names(s.chroma);
   return Object.freeze(s);
 };
 
@@ -2220,7 +2242,7 @@ var props$3 = memoize(properties$3, {});
  * const scale = require('tonal-scale')
  * scale.names() // => ['maj7', ...]
  */
-var names$1 = scale$1.names;
+var names$1 = scale$2.names;
 
 /**
  * Given a scale name, return its intervals. The name can be the type and
@@ -2271,7 +2293,7 @@ function notes(nameOrTonic, name$$1) {
  */
 function exists(name$$1) {
   var p = tokenize$3(name$$1);
-  return scale$1(p[1]) !== undefined;
+  return scale$2(p[1]) !== undefined;
 }
 
 /**
@@ -2308,7 +2330,7 @@ var modeNames$1 = function (name$$1) {
   var ivls = intervals(name$$1);
 
   return modes(ivls).map(function (chroma$$1) {
-    return scale$1.names(chroma$$1)[0];
+    return scale$2.names(chroma$$1)[0];
   });
 };
 
@@ -2332,10 +2354,10 @@ var chords$1 = function (name$$1) {
  * @return {Array}
  */
 var toScale = function (notes) {
-  var pcset$$1 = compact(notes.map(pc$1));
-  if (!pcset$$1.length) { return pcset$$1; }
-  var tonic = pcset$$1[0];
-  var scale = unique(pcset$$1);
+  var pcset = compact(notes.map(pc$1));
+  if (!pcset.length) { return pcset; }
+  var tonic = pcset[0];
+  var scale = unique(pcset);
   return rotate$1(scale.indexOf(tonic), scale);
 };
 
@@ -2348,7 +2370,7 @@ var toScale = function (notes) {
 var extensions = function (name$$1) {
   var ivls = intervals(name$$1);
   if (!ivls.length) { return []; }
-  return scale$1.names().filter(function (name$$1) { return isSuperset(scale$1(name$$1), ivls); });
+  return scale$2.names().filter(function (name$$1) { return isSuperset(scale$2(name$$1), ivls); });
 };
 
 var detect = function (notes) {
@@ -2369,7 +2391,7 @@ var detect = function (notes) {
 };
 
 
-var index$5 = Object.freeze({
+var scale$1 = Object.freeze({
 	props: props$3,
 	names: names$1,
 	intervals: intervals,
@@ -2519,7 +2541,7 @@ function tokenize$4(name$$1) {
 }
 
 
-var index$7 = Object.freeze({
+var chord$1 = Object.freeze({
 	names: names$2,
 	props: props$4,
 	intervals: intervals$2,
@@ -2556,18 +2578,19 @@ var index$7 = Object.freeze({
  *
  * @module tonal
  */
+var tonal = { array: array, note: note$1, interval: interval, distance: distance, key: key, scale: scale$1, chord: chord$1, pcset: pcset };
 
 
-
-var tonal = Object.freeze({
-	array: index,
-	note: index$1,
-	interval: index$2,
-	distance: index$3,
-	key: index$4,
-	scale: index$5,
-	chord: index$7,
-	pcset: index$6
+var tonal$1 = Object.freeze({
+	array: array,
+	note: note$1,
+	interval: interval,
+	distance: distance,
+	key: key,
+	scale: scale$1,
+	chord: chord$1,
+	pcset: pcset,
+	default: tonal
 });
 
 var BASE_URL = "https://github.com/danigb/tonal/tree/master/packages/";
@@ -2594,7 +2617,7 @@ var API = function (ref) {
   return [
   h( 'h3', null, "API" ),
   h( 'dl', null,
-    Object.keys(tonal[module])
+    Object.keys(tonal$1[module])
       .sort()
       .map(function (n) { return h( Function, { module: module, name: n }); })
   )
@@ -2629,7 +2652,9 @@ var API$1 = function (ref) {
 );
 };
 
-var note = index$1;
+var note = note$1;
+
+var OCTS = [1, 2, 3, 4, 5, 6];
 
 var toStr = function (o) { return (o === null ? "null" : o); };
 var toFixed = function (dec, num$$1) { return typeof num$$1 === "number" ? num$$1.toFixed(dec) : "null"; };
@@ -2676,6 +2701,10 @@ var NoteMidiFreq = function (ref) {
 var NoteInfo = function (ref) {
   var tonic = ref.tonic;
 
+  var ref$1 = note.props(tonic);
+  var pc = ref$1.pc;
+  var oct$$1 = ref$1.oct;
+  var chroma$$1 = ref$1.chroma;
   var freq$$1 = note.freq(tonic);
   var midi$$1 = note.midi(tonic);
 
@@ -2683,12 +2712,29 @@ var NoteInfo = function (ref) {
     h( 'div', null,
       h( 'h4', null, "note" ),
       h( 'h1', { class: "note" }, tonic),
-      freq$$1 && (
-        h( 'h3', null, "freq: ", freq$$1.toFixed(2), "Hz ", h( 'br', null ), "midi: ", midi$$1
-        )
-      )
+      h( Props, {
+        names: ["Pitch Class", "Octave", "Chroma", "Frequency", "Midi"], values: [
+          pc,
+          oct$$1,
+          chroma$$1,
+          freq$$1 ? freq$$1.toFixed(2) + "Hz" : "",
+          freq$$1 ? midi$$1 : ""
+        ] })
     )
   );
+};
+
+var NoteSelector = function (ref) {
+  var tonic = ref.tonic;
+
+  var pc = note.pc(tonic);
+
+  return [
+    h( Selector, {
+      label: "Change note:", oct: note.oct(tonic), route: function (t) { return ["note", t]; } }),
+    h( Selector, {
+      label: "Change octave:", tonics: [pc].concat(OCTS.map(function (o) { return pc + o; })), route: function (t) { return ["note", t]; } })
+  ];
 };
 
 var Note = function (ref) {
@@ -2699,6 +2745,7 @@ var Note = function (ref) {
     h( 'div', { class: "row Note" },
       h( 'div', { class: "column column-67" },
         h( NoteInfo, { tonic: tonic }),
+        h( NoteSelector, { tonic: tonic }),
         h( NoteProperties, { tonic: tonic }),
         h( NoteMidiFreq, { tonic: tonic })
       ),
@@ -2866,9 +2913,78 @@ var CircleSet = function (ref) {
   );
 };
 
-var getIntervals = function (type$$1, name$$1) { return tonal[type$$1].intervals(name$$1); };
-var getNotes = function (type$$1, name$$1, tonic) { return tonal[type$$1].notes(tonic, name$$1); };
-var getSetChroma = function (type$$1, name$$1) { return chroma$2(getIntervals(type$$1, name$$1)); };
+/* global Soundfont */
+var ac = new AudioContext();
+console.log(Soundfont);
+var piano = null;
+
+Soundfont.instrument(ac, "acoustic_grand_piano").then(function (inst) {
+  piano = inst;
+});
+
+var centered = function (tonic) {
+  var pc = tonal.note.pc(tonic);
+  var oct$$1 = pc[0] === "A" || pc[0] === "B" ? 3 : 4;
+  return pc + oct$$1;
+};
+
+var buildScale = function (tonic, intervals$$1) {
+  var scale$$1 = intervals$$1.map(tonal.distance.transpose(centered(tonic)));
+  var rev = scale$$1.slice().reverse();
+  scale$$1.push(tonal.distance.transpose(scale$$1[0], "P8"));
+  return scale$$1.concat(rev);
+};
+
+var buildChord = function (tonic, intervals$$1) {
+  return intervals$$1.map(tonal.distance.transpose(centered(tonic)));
+};
+
+var player = function (tonic, intervals$$1, type$$1) {
+  if (!piano) { return; }
+  var notes$$1 =
+    type$$1 === "scale"
+      ? buildScale(tonic, intervals$$1)
+      : buildChord(tonic, intervals$$1);
+  var events = notes$$1.map(function (note, i) { return ({
+    time: type$$1 === "chord" ? 0 : i * 0.5,
+    note: note
+  }); });
+
+  piano.stop(ac.currentTime);
+  piano.schedule(ac.currentTime, events);
+};
+
+var Row = function (ref) {
+  var tonic = ref.tonic;
+  var name$$1 = ref.name;
+  var type$$1 = ref.type;
+  var sep = ref.sep;
+  var size = ref.size;
+
+  var intervals$$1 = tonal$1[type$$1].intervals(name$$1);
+  var setchroma = chroma$2(intervals$$1);
+  var notes$$1 = tonal$1[type$$1].notes(tonic, name$$1);
+  return (
+    h( 'tr', null,
+      h( 'td', null,
+        h( CircleSet, {
+          size: size, chroma: setchroma, offset: chroma(tonic) })
+      ),
+      h( 'td', null,
+        h( Link, { to: [type$$1, name$$1, tonic] },
+          tonic ? tonic + sep + name$$1 : name$$1
+        )
+      ),
+      h( 'td', null, (tonic ? notes$$1 : intervals$$1).join(" ") ),
+      h( 'td', null,
+        tonic ? (
+          h( 'button', {
+            class: "button button-clear small", onclick: function () { return player(tonic, intervals$$1, type$$1); } }, "Play")
+        ) : null
+      )
+    )
+  );
+};
 
 var PitchSetList = function (ref) {
   var type$$1 = ref.type;
@@ -2878,36 +2994,22 @@ var PitchSetList = function (ref) {
   var sep = ref.sep; if ( sep === void 0 ) sep = " ";
 
   return (
-  h( 'table', null,
-    h( 'thead', null,
-      h( 'tr', null,
-        h( 'td', null, " " ),
-        h( 'td', null, " " ),
-        h( 'td', null, " " )
-      )
-    ),
-    h( 'tbody', null,
-      names$$1.map(function (name$$1) { return (
+    h( 'table', null,
+      h( 'thead', null,
         h( 'tr', null,
-          h( 'td', null,
-            h( CircleSet, {
-              size: size, chroma: getSetChroma(type$$1, name$$1), offset: chroma(tonic) })
-          ),
-          h( 'td', null,
-            h( Link, { to: [type$$1, name$$1, tonic] },
-              tonic ? tonic + sep + name$$1 : name$$1
-            )
-          ),
-          h( 'td', null,
-            (tonic
-              ? getNotes(type$$1, name$$1, tonic)
-              : getIntervals(type$$1, name$$1)).join(" ")
-          )
+          h( 'td', null, " " ),
+          h( 'td', null, " " ),
+          h( 'td', null, " " ),
+          h( 'td', null, " " )
         )
-      ); })
+      ),
+      h( 'tbody', null,
+        names$$1.map(function (name$$1) { return (
+          h( Row, { type: type$$1, tonic: tonic, name: name$$1, size: size, sep: sep })
+        ); })
+      )
     )
-  )
-);
+  );
 };
 
 var PitchSetNames = function (ref) {
@@ -2952,15 +3054,15 @@ var Formatter = ref.Formatter;
 var W = 512;
 var H = 120;
 
-var draw = function (notes$$1) { return function (canvas) {
+var draw = function (key$$1, notes$$1) { return function (canvas) {
   var renderer = new Renderer(canvas, Renderer.Backends.CANVAS);
   var ctx = renderer.getContext();
   ctx.clearRect(0, 0, W, H);
   var stave = new Vex.Flow.Stave(0, 0, W - 5);
-  stave
-    .addClef("treble")
-    .setContext(ctx)
-    .draw();
+  stave.addClef("treble").setContext(ctx);
+  if (key$$1) { stave.addKeySignature(key$$1); }
+
+  stave.draw();
 
   Formatter.FormatAndDraw(
     ctx,
@@ -2983,11 +3085,12 @@ var draw = function (notes$$1) { return function (canvas) {
 
 var Score = function (ref) {
   var notes$$1 = ref.notes;
+  var key$$1 = ref.key;
+
   return (
     h( 'div', { className: "Score" },
       h( 'canvas', {
-        width: W, height: H, oncreate: draw(notes$$1), onupdate: draw(notes$$1) }),
-      h( 'div', { className: "controls" })
+        width: W, height: H, oncreate: draw(key$$1, notes$$1), onupdate: draw(key$$1, notes$$1) })
     )
   );
 };
@@ -2997,10 +3100,18 @@ var Stave = function (ref) {
   var name$$1 = ref.name;
   var type$$1 = ref.type;
 
-  var pc = pc$1(tonic);
+  var pc = tonal.note.pc(tonic);
   var oct$$1 = pc[0] === "A" || pc[0] === "B" ? 3 : 4;
-  var notes$$1 = tonal[type$$1].notes(pc + oct$$1, name$$1);
-  return h( Score, { notes: notes$$1 });
+  var intervals$$1 = tonal[type$$1].intervals(name$$1);
+  var notes$$1 = intervals$$1.map(tonal.distance.transpose(pc + oct$$1));
+  return [
+    h( 'p', null,
+      h( 'label', null, "Notes:" ),
+      intervals$$1.map(tonal.distance.transpose(pc)).join(" ")
+    ),
+    h( Score, { notes: notes$$1 }),
+    h( 'button', { class: "button", onclick: function () { return player(tonic, intervals$$1, type$$1); } }, "Play")
+  ];
 };
 
 var PitchSetInfo = function (ref) {
@@ -3010,7 +3121,7 @@ var PitchSetInfo = function (ref) {
 
   var intervals$$1 = tonal[type$$1].intervals(name$$1);
   var notes$$1 = tonal[type$$1].notes(name$$1, tonic);
-  var offset = chroma(tonic) || 0;
+  var offset = tonal.note.chroma(tonic) || 0;
   var sep = type$$1 === "chord" ? "" : " ";
 
   return (
@@ -3022,7 +3133,11 @@ var PitchSetInfo = function (ref) {
       ),
 
       h( CircleSet, {
-        size: 160, offset: offset, chroma: chroma$2(intervals$$1) }),
+        size: 160, offset: offset, chroma: tonal.pcset.chroma(intervals$$1) }),
+      h( 'p', null,
+        h( 'label', null, "Intervals: " ),
+        intervals$$1.join(" ")
+      ),
 
       tonic ? h( Stave, { type: type$$1, tonic: tonic, name: name$$1 }) : "",
 
@@ -3114,17 +3229,17 @@ var Chord = function (ref) {
 
 var ALTS = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5];
 
-var path = function (key) { return (key + " key").split(" ").reverse(); };
+var path = function (key$$1) { return (key$$1 + " key").split(" ").reverse(); };
 
 var KeyRow = function (ref) {
-  var key = ref.key;
+  var key$$1 = ref.key;
 
-  var minor = relative("minor", key);
+  var minor = relative("minor", key$$1);
   return (
     h( 'tr', null,
-      h( 'td', null, accidentals(key) ),
+      h( 'td', null, accidentals(key$$1) ),
       h( 'td', null,
-        h( Link, { to: path(key) }, key)
+        h( Link, { to: path(key$$1) }, key$$1)
       ),
       h( 'td', null,
         h( Link, { to: path(minor) }, minor)
@@ -3157,14 +3272,40 @@ var Keys = function (ref) { return (
 ); };
 
 var KeyChords = function (ref) {
-  return [h( 'h3', null, "Chords" )];
+  var keyName = ref.keyName;
+
+  return (
+  h( 'div', null,
+    h( 'h3', null, "Chords for ", keyName ),
+    h( 'table', null,
+      h( 'tbody', null,
+        h( 'tr', null, chords(keyName).map(function (chord) { return h( 'td', null, chord ); }) ),
+        h( 'tr', null,
+          secDomChords(keyName).map(function (chord) { return h( 'td', null, chord ); })
+        )
+      )
+    )
+  )
+);
 };
 
-var KeyModes = function (ref) {
-  return [
-  h( 'h3', null, "Modes" ),
-  names().map(function (mode) { return [h( Link, { to: [] }, mode), " | "]; })
-];
+var KeyRelatives = function (ref) {
+  var keyName = ref.keyName;
+
+  return (
+  h( 'div', null,
+    h( 'h3', null, "Relatives" ),
+    h( 'table', null,
+      h( 'tbody', null,
+        modeNames().map(function (name$$1) { return (
+          h( 'tr', null,
+            h( 'td', null, relative(name$$1, keyName) )
+          )
+        ); })
+      )
+    )
+  )
+);
 };
 
 var Key = function (ref) {
@@ -3173,21 +3314,23 @@ var Key = function (ref) {
 
   var keyName = tonic + " " + mode;
   var props$$1 = props$2(keyName);
-  var notes$$1 = scale(keyName);
+  var scale$$1 = scale(keyName);
+  var oct$$1 = scale$$1[0][0] === "A" || scale$$1[0][0] === "B" ? 3 : 4;
+  var notes$$1 = props$$1.intervals.map(transpose(scale$$1[0] + oct$$1));
+  var major = relative("major", keyName);
   return (
     h( 'div', { className: "row Key" },
       h( 'div', { class: "column column-67" },
         h( 'h1', null,
           tonic, " ", mode
         ),
-        h( 'p', null,
-          h( 'label', null, "Accidentals:" ), " ", accidentals(keyName)
-        ),
-        h( 'p', null,
-          h( 'label', null, "Altered notes:" ), " ",
-          alteredNotes(keyName).join(" ")
-        ),
-        h( Score, { notes: notes$$1 }),
+        h( Props, {
+          names: ["Accidentals", "Relative major", "Altered Notes"], values: [
+            accidentals(keyName),
+            major,
+            alteredNotes(keyName).join(" ")
+          ] }),
+        h( Score, { key: props$2(major).tonic, notes: notes$$1 }),
 
         h( 'h3', null, "Properties" ),
         h( Code, {
@@ -3195,8 +3338,8 @@ var Key = function (ref) {
             ("tonal.key.scale(\"" + keyName + "\") // => " + (arr(notes$$1))),
             ("tonal.key.props(\"" + keyName + "\") // => " + (json(props$$1)))
           ] }),
-        h( KeyChords, { mode: mode, tonic: tonic }),
-        h( KeyModes, { mode: mode, tonic: tonic })
+        h( KeyChords, { keyName: keyName }),
+        h( KeyRelatives, { keyName: keyName })
       ),
       h( 'div', { class: "column column-33" },
         h( API$1, { module: "key" })
@@ -3219,14 +3362,17 @@ var Tonal = function (ref) { return (
     h( 'h3', null,
       h( Link, { to: ["notes"] }, "Notes")
     ),
-    h( Selector, { route: function (t) { return ["note", t]; } }),
-    h( Code, {
-      lines: [
-        'tonal.note.freq("A4") // => 440',
-        'tonal.note.midi("A4") // => 69'
-      ] }),
     h( 'h3', null,
       h( Link, { to: ["intervals"] }, "Intervals")
+    ),
+    h( 'h3', null,
+      h( Link, { to: ["scales"] }, "Scales")
+    ),
+    h( 'h3', null,
+      h( Link, { to: ["chords"] }, "Chords")
+    ),
+    h( 'h3', null,
+      h( Link, { to: ["keys"] }, "Keys")
     )
   )
 ); };

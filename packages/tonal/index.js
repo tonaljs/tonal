@@ -36,3 +36,4 @@ import * as chord from "tonal-chord/index";
 import * as pcset from "tonal-pcset/index";
 
 export { array, note, interval, distance, key, scale, chord, pcset };
+export default { array, note, interval, distance, key, scale, chord, pcset };
