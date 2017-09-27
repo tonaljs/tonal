@@ -1,1 +1,3315 @@
-!function(){"use strict";function n(n,t){var e,r=arguments,o=[];for(he=arguments.length;he-- >2;)be.push(r[he]);for(;be.length;)if(Array.isArray(e=be.pop()))for(he=e.length;he--;)be.push(e[he]);else null!=e&&!0!==e&&!1!==e&&("number"==typeof e&&(e+=""),o.push(e));return"string"==typeof n?{tag:n,data:t||{},children:o}:n(t,o)}function t(n,t){return Array(t+1).join(n)}function e(n){return"number"==typeof n}function r(n,t){return Math.pow(2,(n-69)/12)*(t||440)}function o(n,t,e){if("string"!=typeof n)return null;var o=ke.exec(n);if(!o||!t&&o[4])return null;var i={letter:o[1].toUpperCase(),acc:o[2].replace(/x/g,"##")};i.pc=i.letter+i.acc,i.step=(i.letter.charCodeAt(0)+3)%7,i.alt="b"===i.acc[0]?-i.acc.length:i.acc.length;var u=_e[i.step]+i.alt;return i.chroma=u<0?12+u:u%12,o[3]&&(i.oct=+o[3],i.midi=u+12*(i.oct+1),i.freq=r(i.midi,e)),t&&(i.tonicOf=o[4]),i}function i(n){return e(n)?n<0?t("b",-n):t("#",n):""}function u(n){return e(n)?""+n:""}function a(n,t,e){return null===n||void 0===n?null:n.step?a(n.step,n.alt,n.oct):n<0||n>6?null:Oe.charAt(n)+i(t)+u(e)}function m(n,t){if("string"!=typeof n)return null;var e=Ce.exec(n);if(!e)return null;var r={num:+(e[3]||e[8]),q:e[4]||e[6]};r.dir="-"===(e[2]||e[7])?-1:1;var o=(r.num-1)%7;return r.simple=o+1,r.type=Ne[o],r.alt=P(r.type,r.q),r.oct=Math.floor((r.num-1)/7),r.size=r.dir*(Fe[o]+r.alt+12*r.oct),!1!==t&&"M"===r.type&&"P"===r.q?null:r}function c(n){return Ne[(n-1)%7]}function P(n,t){var e="number"==typeof n?c(n):n;return"M"===t&&"M"===e?0:"P"===t&&"P"===e?0:"m"===t&&"M"===e?-1:/^A+$/.test(t)?t.length:/^d+$/.test(t)?"P"===e?-t.length:-t.length-1:null}function M(n,t){return Array(Math.abs(t)+1).join(n)}function l(n,t){var e="number"==typeof n?c(Math.abs(n)):n;return 0===t?"M"===e?"M":"P":-1===t&&"M"===e?"m":t>0?M("A",t):t<0?M("d","P"===e?t:t+1):null}function s(n){return"number"==typeof n}function f(n){return Math.floor(7*n/12)}function d(n,t,e){var r=Ie[n]+7*t;return s(e)?[r,e-qe[n]-4*t]:[r]}function p(n){var t=(n+1)%7;return t<0?7+t:t}function h(n,t){var e=ze[p(n)],r=Math.floor((n+1)/7);return s(t)?[e,r,t+4*r+qe[e]]:[e,r]}function b(n,t,e){return e?["tnlp",[n,t],e]:["tnlp",[n,t]]}function v(n){return Array.isArray(n)&&"tnlp"===n[0]}function A(n,t,e,r){return r?["tnlp",d(n,t,e),r]:["tnlp",d(n,t,e)]}function g(n){return h.apply(null,n[1])}function y(n){return v(n)?n[2]?"ivl":"note":null}function j(n){return"note"===y(n)}function w(n){return"ivl"===y(n)}function x(n){return v(n)&&1===n[1].length}function k(n){return-1===n[2]?-1:1}function _(n){return-1===n[2]?-n[1][0]:n[1][0]}function O(n){return-1===n[2]?-n[1][1]:n[1][1]}function C(n){return 7*_(n)+12*O(n)}function F(n){var t=_(n);return 7*t-12*Math.floor(7*t/12)}function N(n){var t={};return function(e){return"string"!=typeof e?null:t[e]||(t[e]=n(e))}}function I(n){return De(n)||Ee(n)}function q(n){return j(n)?n:De(n)}function z(n){return w(n)?n:Ee(n)}function D(n){return v(n)?n:I(n)}function E(n){return j(n)?a.apply(null,g(n)):null}function B(n){if(!w(n))return null;var t=g(n),e=t[0]+1+7*t[2];return n[2]*e+l(e,t[1])}function G(n){return E(n)||B(n)}function S(n,t,e){return function(r){return function(o){if(n(o))return r(o);var i=t(o);return i?e(r(i)):null}}}function V(n,t){var e=y(t);if(!e)return null;var r=_(n)+_(t);if(x(t))return["tnlp",[r]];var o=O(n)+O(t);if("note"===e)return["tnlp",[r,o]];var i=C(n)+C(t)<0?-1:1;return["tnlp",[i*r,i*o],i]}function $(n,t){if(1===arguments.length)return function(t){return $(n,t)};var e=D(n),r=D(t),o=w(e)?V(e,r):w(r)?V(r,e):null;return n===e&&t===r?o:G(o)}function T(n,t){return arguments.length>1?T(n)(t):function(t){return $(n,b(t,0,1))}}function U(n,t){var e=y(t);if(!e)return null;var r=_(n)+_(t);if(x(t))return["tnlp",[r]];var o=O(n)+O(t);if("note"===e)return["tnlp",[r,o]];var i=C(n)+C(t)<0?-1:1;return["tnlp",[i*r,i*o],i]}function R(n,t){if(1===arguments.length)return function(t){return R(n,t)};var e=D(n),r=D(t);return e&&r?G(U(r,e)):null}function K(n,t){return 1===arguments.length?function(t){return K(n,t)}:R(t,n)}function L(n,t){if(1===arguments.length)return function(t){return K(n,t)};var e=D(n),r=D(t);return e&&r?G(U(e,r)):null}function H(n,t){return arguments.length>1?H(n)(t):function(t){return R(n,b(t,0,1))}}function J(n,t){if(!n||!t||n[1].length!==t[1].length)return null;var e=_(t)-_(n);if(x(n))return b(e,-Math.floor(7*e/12),1);var r=O(t)-O(n),o=C(t)-C(n)<0?-1:1;return b(o*e,o*r,o)}function W(n,t){return 1===arguments.length?function(t){return W(n,t)}:B(J(D(n),D(t)))}function Q(n,t){return W(t,n)}function X(n,t){var e=J(D(n),D(t));return e?C(e):null}function Y(n){return n||0===n}function Z(n,t){return arguments.length>1?Z(n)(t):function(t){return Re(t).map(n)}}function nn(n){return Re(n).filter(Y)}function tn(n,t){return arguments.length>1?tn(n)(t):function(t){return Re(t).filter(n)}}function en(n){if(!n)return-1/0;var t=7*_(n);return t+12*(O(n)||-Math.floor(t/12)-100)}function rn(n,t){return en(n)-en(t)}function on(n,t){return-rn(n,t)}function un(n,t){var e=1===arguments.length||!0===t?rn:!1===t?on:"function"==typeof t?t:rn;return n=Array.isArray(n)?n.slice():Re(n),fn(function(n){return n.sort(e).filter(Y)},n)}function an(n){return $(b(0,n,1))}function mn(n,t){var e=Re(t),r=e.length,o=(n%r+r)%r;return e.slice(o,r).concat(e.slice(0,o))}function cn(n,t){return fn(function(t){var e=t.length,r=(n%e+e)%e,o=t.slice(r,e),i=t.slice(0,r),u=X(o[e-r-1],i[0]);if(u<0){var a=Math.floor(u/12);n<0?o=o.map(an(a)):i=i.map(an(-a))}return o.concat(i)},t)}function Pn(n,t){if(1===arguments.length)return function(t){return Pn(n,t)};var e=Re(t);return Re(n).map(function(n){return e[n-1]||null})}function Mn(n){return n=Re(n),0===n.length?[[]]:Mn(n.slice(1)).reduce(function(t,e){return t.concat(n.map(function(t,r){var o=e.slice();return o.splice(r,0,n[0]),o}))},[])}function ln(n){return G(n)||n}function sn(n){return v(n)?G(n):Ue(n)?n.map(ln):n}function fn(n,t){if(1===arguments.length)return function(t){return fn(n,t)};var e=Re(t).map(D);return sn(n(e))}function dn(n){var t=Re(n);return t.length?nn(t.map(W(t[0]))):t}function pn(n){var t=[];n=Re(n);for(var e=1;e<n.length;e++)t.push(W(n[e-1],n[e]));return t}function hn(n,t){return arguments.length>1?hn(n)(t):function(t){return nn(Z($(t||"P1"),n))}}function bn(n){var t=Je.exec(n);return t?{letter:t[1].toUpperCase(),acc:t[2].replace(/x/g,"##"),oct:t[3],type:t[4]}:null}function vn(n){var t=bn(n);return t&&""===t.type?{step:(t.letter.charCodeAt(0)+3)%7,alt:"b"===t.acc[0]?-t.acc.length:t.acc.length,oct:t.oct.length?+t.oct:null}:null}function An(n){return"string"!=typeof n?null:void 0===We[n]?We[n]=vn(n):We[n]}function gn(n,t){return n=Math.round(n),(!0===t?tr:nr)[n%12]+(Math.floor(n/12)-1)}function yn(n){return console.warn("note.note() is deprecated. Use note.name()"),pr(n)}function jn(n){console.warn("Deprecated. Do you really need this?");var t=q(n);return t?_(t):null}function wn(n){return vr[(n-1)%7]}function xn(n){return-1===n?"-":""}function kn(n,t){return n+7*t}function _n(n,t,e,r){return xn(r)+kn(n,e)+Cn(n,t)}function On(n,t){return Array(Math.abs(t)+1).join(n)}function Cn(n,t){var e="number"==typeof n?wn(Math.abs(n)):n;return 0===t?"M"===e?"M":"P":-1===t&&"M"===e?"m":t>0?On("A",t):t<0?On("d","P"===e?t:t+1):null}function Fn(n){var t=z(n);return t?B(t):null}function Nn(n){var t=qn(n);return t?t.num:null}function In(n){var t=qn(n);return t?t.num*t.dir:null}function qn(n){var t=z(n);if(!t)return null;var e=g(t);return{num:e[0]+1+7*e[2],alt:e[1],dir:t[2]}}function zn(n){if(!n||n.num<1)return null;var t=Math.floor(n.num/8);return _n(n.num-7*t,n.alt||0,t,n.dir)}function Dn(n){var t=z(n);return t?C(t):null}function En(n){var t=n<0?-1:1,e=Math.abs(n),r=e%12,o=Math.floor(e/12);return t*(Ar[r]+7*o)+gr[r]}function Bn(n){var t=z(n),e=t?F(t):Math.round(n);return isNaN(e)?null:yr[Math.abs(e)%12]}function Gn(n){var t=z(n);return t?jr[g(t)[0]]:null}function Sn(n){return"number"==typeof n}function Vn(n){return"string"==typeof n}function $n(n){return void 0!==n}function Tn(n,t){return Math.pow(2,(n-69)/12)*(t||440)}function Un(n,t,e){if("string"!=typeof n)return null;var r=_r.exec(n);if(!r||!t&&r[4])return null;var o={letter:r[1].toUpperCase(),acc:r[2].replace(/x/g,"##")};o.pc=o.letter+o.acc,o.step=(o.letter.charCodeAt(0)+3)%7,o.alt="b"===o.acc[0]?-o.acc.length:o.acc.length;var i=Or[o.step]+o.alt;return o.chroma=i<0?12+i:i%12,r[3]&&(o.oct=+r[3],o.midi=i+12*(o.oct+1),o.freq=Tn(o.midi,e)),t&&(o.tonicOf=r[4]),o}function Rn(n){if((Sn(n)||Vn(n))&&n>=0&&n<128)return+n;var t=Un(n);return t&&$n(t.midi)?t.midi:null}function Kn(n){return Array.isArray(n)&&2===n.length?7*n[0]+12*n[1]+12:Rn(n)}function Ln(n,t){return!0===n||!1===n?function(t){return Ln(t,n)}:(n=Math.round(n),(!0===t?Fr:Cr)[n%12]+(Math.floor(n/12)-1))}function Hn(n,t){return n=!(!n&&0!==n)&&Math.pow(10,n),function(e){return e=t(e),null===e?null:n?Math.round(e*n)/n:e}}function Jn(n,t,e){return arguments.length>2?Jn(n,t)(e):Hn(t,function(t){var e=Kn(t);return e?Math.pow(2,(e-69)/12)*n:null})}function Wn(n,t,e){return arguments.length>2?Wn(n,t)(e):Hn(t,function(t){return 12*(Math.log(t)-Math.log(n))/Math.log(2)+69})}function Qn(n,t){return Ln(qr(n),t)}function Xn(n,t){var e=Ir(n)||n,r=Ir(t)||t;return Math.round(Math.log(r/e)/Math.log(2)*1200)}function Yn(n){return parseInt(nt(n),2)}function Zn(n){return n=D(n),n?F(n):null}function nt(n){if(rt(n))return n;var t=[0,0,0,0,0,0,0,0,0,0,0,0];return Z(Zn,n).forEach(function(n){t[n]=1}),t.join("")}function tt(n){console.warn("pcset.notes deprecated. Use collection.pcset");var t=Z(hr,n);if(!t.length)return t;var e=t[0];return it(mn(Zn(e),nt(t).split("")).join(""),e)}function et(n,t){t=!1!==t;var e=nt(n).split("");return nn(e.map(function(n,r){var o=mn(r,e);return t&&"0"===o[0]?null:o.join("")}))}function rt(n){return Dr.test(n)}function ot(n){return nn(nt(n).split("").map(function(n,t){return"1"===n?Er[t]:null}))}function it(n,t){return console.warn("pcset.fromChroma is deprecated. Use pcset.intervals().map(...)"),1===arguments.length?function(t){return it(n,t)}:(t||(t="P1"),ot(n).map($(t)))}function ut(n,t){return 1===arguments.length?function(t){return ut(n,t)}:nt(n)===nt(t)}function at(n,t){return((n=Yn(n))&Yn(t))===n}function mt(n,t){return((n=Yn(n))|Yn(t))===n}function ct(n,t){return arguments.length>1?ct(n)(t):(n=nt(n),function(t){return"1"===n[Zn(t)]})}function Pt(n,t){return 1===arguments.length?function(t){return Pt(n,t)}:Re(t).filter(ct(n))}function Mt(n){return"number"==typeof n}function lt(n){return Mt(n)?n:Kn(n)}function st(n,t){for(var e=[];t--;e[t]=t+n);return e}function ft(n,t){for(var e=[];t--;e[t]=n-t);return e}function dt(n,t){return null===n||null===t?[]:n<t?st(n,t-n+1):ft(n,n-t+1)}function pt(n){return Re(n).map(lt).reduce(function(n,t,e){if(1===e)return dt(n,t);var r=n[n.length-1];return n.concat(dt(r,t).slice(1))})}function ht(n,t){return Z(Ln(!0===t),pt(n))}function bt(n,t){return pt(t).map(T(n))}function vt(n,t){return 1===arguments.length?function(t){return vt(n,t)}:Pt(n,ht(t))}function At(n){var t="CDEFGAB".indexOf(n.toUpperCase());return t<0?null:t}function gt(n){return!(n<0||n>6)}function yt(n){return gt(n)?"CDEFGAB".charAt(n):null}function jt(n){return/^b+$/.test(n)}function wt(n){return/^#+$/.test(n)}function xt(n){return""===n?0:jt(n)?-n.length:wt(n)?n.length:null}function kt(n,t){return Array(t+1).join(n)}function _t(n){return n?n<0?kt("b",-n):kt("#",n):""}function Ot(n,t){return n?n+" "+t:t}function Ct(n){return Ot(T("C",n),"major")}function Ft(n){return $r[Vr.indexOf(n)]}function Nt(n){return n=n.trim().toLowerCase(),-1===Vr.indexOf(n)?null:n}function It(n){if("string"!=typeof n)return null;var t,e=n.indexOf(" ");if(-1===e){var r=hr(n);t=r?{tonic:r,mode:"major"}:{tonic:!1,mode:Nt(n)}}else t={tonic:hr(n.slice(0,e)),mode:Nt(n.slice(e+1))};return t.mode?t:null}function qt(n){return null!==It(n)}function zt(n){return(It(n)||n||{}).tonic||null}function Dt(n){return(It(n)||n||{}).mode||null}function Et(n,t){return 1===arguments.length?function(t){return Et(n,t)}:!(n=It(n))||n.tonic?null:(t=It(t))&&t.tonic?Ot(T(t.tonic,Ft(n.mode)-Ft(t.mode)),n.mode):null}function Bt(n){var t=Tt(n);return null===t?null:t<0?pt([-1,t]).map(T("F")):pt([1,t]).map(T("B"))}function Gt(n){return n?Vr.slice():Vr.slice(0,-2)}function St(n){return"number"==typeof n?Ct(n):null}function Vt(n){return wt(n)?Ct(n.length):jt(n)?Ct(-n.length):null}function $t(n){var t=It(n);return t&&t.tonic?hn(Tr[Vr.indexOf(t.mode)],t.tonic):null}function Tt(n){var t=It(n);if(!t||!t.tonic)return null;var e=Ft(t.mode);return jn(t.tonic)-e}function Ut(n){return _t(Tt(n))}function Rt(n,t){void 0===t&&(t=function(n){return n.split(" ")});var e=Object.keys(n).sort(),r={};e.forEach(function(e){r[e]=t(n[e][0]),(n[e][1]||[]).forEach(function(n){return r[n]=r[e]})});var o=Object.keys(r).sort(),i=function(n){return r[n]};return i.keys=function(n){return(n?o:e).slice()},i}function Kt(n,t){console.warn("@deprecated: use dictionary.build"),t=t||function(n){return n};var e={},r=Object.keys(n),o=[];return r.forEach(function(r){var i=t(n[r][0]);e[r]=i,n[r][1]&&n[r][1].forEach(function(n){e[n]=i,o.push(n)})}),{get:function(n){return e[n]},keys:function(n,t){var i=n?r.concat(o):r.slice();return"function"!=typeof t?i:i.filter(function(n){return t(n,e[n])})}}}function Lt(n,t){var e="string"==typeof t,r="function"==typeof t,o=n.keys(!1).reduce(function(t,e){return t[nt(n.get(e))]=e,t},{});return function(n){return nn(et(n=un(Z(hr,n))).map(function(i,u){var a=o[i];if(!a)return null;var m=n[u];return e?m+t+a:r?t(a,m):[a,m]}))}}function Ht(n,t){if(console.warn("@deprecated: use scale.intervals or scale.notes"),1===arguments.length)return function(t){return Ht(n,t)};var e=Wr.get(n);return e?hn(e,t):null}function Jt(n,t){var e=Yt(n);t=pr(t)||e.tonic;var r=Lr(e.type);return t&&r?r.map(R(hr(t))):[]}function Wt(n){var t=Yt(n);return Lr(t.type)||[]}function Qt(n){return void 0!==Lr(n)}function Xt(n){return console.warn("@renamed: use scale.exists"),Qt(n)}function Yt(n){if("string"!=typeof n)return null;var t=n.indexOf(" "),e=pr(n.substring(0,t))||!1;return{tonic:e,type:e?n.substring(t+1):n}}function Zt(){return eo}function ne(n,t){if(1===arguments.length)return function(t){return ne(n,t)};var e=ro.get(n);return e?hn(e,t):null}function te(n){var t=me(n),e=ro.get(t.type);return e?hn(e,t.tonic):nn(Z(pr,n))}function ee(n){var t=me(n);return ro.get(t.type)||[]}function re(n){return ee(n).length>0}function oe(n){var t=Z(hr,n),e=ue(t);return e?e.indexOf(t[0]):null}function ie(n,t){if(1===arguments.length)return function(t){return ie(n,t)};var e=ue(t);return e?mn(n,e):[]}function ue(n){for(var t=Mn(te(n).map(hr)),e=0;e<t.length;e++)if(ae(pn(t[e])))return t[e];return null}function ae(n){for(var t=0;t<n.length;t++)if("3"!==n[t][0])return!1;return!0}function me(n){var t=Zt().exec(n);return t?t[4]?"7"===t[3]||"6"===t[3]?{type:t[3]+t[4],tonic:t[1]+t[2]}:{type:t[4],tonic:t[1]+t[2]+t[3]}:{type:t[3],tonic:t[1]+t[2]}:{type:n,tonic:!1}}function ce(n,t){t=hr(t);var e=nn((n=Z(me,n)).map(function(n){return n.tonic}));return e.length!==n.length?null:e.map(function(e,r){var o=qn(W(t,e));return Pe(o.num-1,o.alt,n[r].type)})}function Pe(n,t,e){return _t(t)+ao[n%7]+(e||"")}function Me(n,t){return Z(function(n){var e=se(n);return e?$(e.root,t)+e.type:null},n)}function le(){return mo}function se(n){var t=mo.exec(n);if(!t)return null;var e=co[t[2].toLowerCase()]+1,r=t[1].length;return"b"===t[1][0]&&(r=-r),{root:zn({num:e,alt:r,dir:1}),type:t[3]}}function fe(n){var t,e,r,o=nn(Z(q,n)),i=o.length,u=[0,0,0,0,0,0];for(t=0;t<i;t++)for(e=t;e<i;e++)6===(r=Bn(F(o[e])-F(o[t])))?u[5]=u[5]+1:r>0&&(u[5-r]=u[5-r]+1);return u}function de(n){return un(n).filter(function(n,t,e){return 0===t||n!==e[t-1]})}function pe(t){var e=t.pc;return n("table",null,n("thead",null,n("tr",null,n("td",null,"Note"),n("td",null,"Midi"),n("td",null,"Frecuency"))),n("tbody",null,ho.map(function(t){return n("tr",null,n("td",null,n(Lo,{to:["note",e+t]},e+t)),n("td",null,po.midi(e+t)),n("td",null,po.freq(e+t).toFixed(3)))})))}var he,be=[],ve=[],Ae=function(n){return"https://www.npmjs.com/package/"+n+"/"},ge=function(n){return"https://nodei.co/npm/"+n+".png?mini=true"},ye=function(t){var e=t.name,r=t.packageName;return n("a",{href:Ae(r||"tonal-"+e)},n("img",{src:ge(r||"tonal-"+e)}))},je="C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B B# Cb".split(" "),we=function(t){var e=t.id,r=t.label,o=t.route,i=t.oct,u=t.tonics;void 0===u&&(u=je);var a=0===i||i?i:"";return n("p",{id:e,class:"Tonics"},r&&n("label",null,r),u.map(function(t){return n(Lo,{to:o(t+a)},t+a)}))},xe=function(t){return n("pre",null,n("code",null,t.lines.join("\n")))},ke=/^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)\s*$/,_e=[0,2,4,5,7,9,11],Oe="CDEFGAB",Ce=new RegExp("^(?:(([-+]?)(\\d+)(d{1,4}|m|M|P|A{1,4}))|((AA|A|P|M|m|d|dd)([-+]?)(\\d+)))$"),Fe=[0,2,4,5,7,9,11],Ne="PMMPPMM",Ie=[0,2,4,-1,1,3,5],qe=Ie.map(f),ze=[3,0,4,1,5,2,6],De=N(function(n){var t=o(n);return t?A(t.step,t.alt,t.oct):null}),Ee=N(function(n){var t=m(n);return t&&t?A(t.simple-1,t.alt,t.oct,t.dir):null}),Be=S(j,De,E),Ge=S(w,Ee,B),Se=S(v,I,G),Ve=Object.freeze({pitch:b,isPitch:v,encode:A,decode:g,pType:y,isNotePitch:j,isIvlPitch:w,isPC:x,dir:k,fifths:_,focts:O,height:C,chr:F,parseNote:De,parseIvl:Ee,parsePitch:I,asNotePitch:q,asIvlPitch:z,asPitch:D,strNote:E,strIvl:B,strPitch:G,noteFn:Be,ivlFn:Ge,pitchFn:Se}),$e=Object.freeze({transpose:$,trFifths:T}),Te=Object.freeze({transpose:R,transposeBy:K,add:L,trFifths:H,interval:W,subtract:Q,semitones:X}),Ue=Array.isArray,Re=function(n){return function(t){return void 0===t?[]:Array.isArray(t)?t:"string"==typeof t?t.trim().split(n):[t]}}(/\s*\|\s*|\s*,\s*|\s+/),Ke=fn(function(n){for(var t,e,r=n.length;r;)t=Math.random()*r--|0,e=n[r],n[r]=n[t],n[t]=e;return n}),Le=Object.freeze({asArr:Re,map:Z,compact:nn,filter:tn,sort:un,shuffle:Ke,rotate:mn,rotateAsc:cn,select:Pn,permutations:Mn}),He=Object.freeze({harmonics:dn,intervallic:pn,harmonize:hn}),Je=/^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)\s*$/,We={},Qe=function(n){return function(t,e){return null!==(e=An(t))?n(e):null}},Xe=[0,2,4,5,7,9,11],Ye=Qe(function(n){return null!==n.oct?Xe[n.step]+n.alt+12*(n.oct+1):null}),Ze=function(n){return Ye(n)||+n||null},nr="C Db D Eb E F Gb G Ab A Bb B".split(" "),tr="C C# D D# E F F# G G# A A# B".split(" "),er=function(n,t){return null!==(t=Ze(n))?440*Math.pow(2,(t-69)/12):null},rr=Math.log(2),or=Math.log(440),ir=function(n){var t=12*(Math.log(n)-or)/rr+69;return Math.round(100*t)/100},ur=Qe(function(n){return(Xe[n.step]+n.alt+120)%12}),ar=Qe(function(n){return n.oct}),mr=function(n,t){return hr(t)+n},cr=Qe(function(n){return n.step}),Pr=Qe(function(n){return n.alt}),Mr=function(n){return"CDEFGAB"[n]},lr=function(n,t){return Array(t+1).join(n)},sr=function(n,t){return"number"!=typeof n?"":t(n)},fr=function(n){return sr(n,function(n){return n<0?lr("b",-n):lr("#",n)})},dr=function(n){return Mr(n.step)+fr(n.alt)+sr(n.oct,function(n){return n})},pr=Qe(function(n){return dr(n)}),hr=Qe(function(n){return Mr(n.step)+fr(n.alt)}),br=Object.freeze({split:bn,parse:An,midi:Ze,fromMidi:gn,freq:er,freqToMidi:ir,chroma:ur,note:yn,oct:ar,inOct:mr,step:cr,pcFifths:jn,alt:Pr,build:dr,name:pr,pc:hr}),vr="PMMPPMM",Ar=[1,2,2,3,3,4,5,5,6,6,7,7],gr="P m M m M P d P m M m M".split(" "),yr=[0,1,2,3,4,5,6,5,4,3,2,1],jr="PMMPPMM",wr=Ge(function(n){var t=g(n);return A((7-t[0])%7,"P"===jr[t[0]]?-t[1]:-(t[1]+1),t[2],k(n))}),xr=Ge(function(n){var t=g(n);return 0===t[0]&&1===t[2]||(t[2]=0),A(t[0],t[1],t[2],k(n))}),kr=Object.freeze({toInterval:Fn,num:Nn,value:In,props:qn,fromProps:zn,semitones:Dn,fromSemitones:En,ic:Bn,type:Gn,invert:wr,simplify:xr}),_r=/^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)\s*$/,Or=[0,2,4,5,7,9,11],Cr="C Db D Eb E F Gb G Ab A Bb B".split(" "),Fr="C C# D D# E F F# G G# A A# B".split(" "),Nr=Object.freeze({toMidi:Kn,note:Ln}),Ir=Jn(440,2),qr=Wn(440,2),zr=Object.freeze({eqTempFreq:Jn,toFreq:Ir,eqTempFreqToMidi:Wn,toMidi:qr,note:Qn,cents:Xn}),Dr=/^[01]{12}$/,Er="1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" "),Br=Object.freeze({chroma:nt,notes:tt,modes:et,isChroma:rt,intervals:ot,fromChroma:it,isEqual:ut,isSubset:at,isSuperset:mt,includes:ct,filter:Pt}),Gr=Object.freeze({numeric:pt,chromatic:ht,fifths:bt,pitchSet:vt}),Sr=Object.freeze({toStep:At,isStep:gt,toLetter:yt,areFlats:jt,areSharps:wt,toAlt:xt,toAcc:_t}),Vr=["ionian","dorian","phrygian","lydian","mixolydian","aeolian","locrian","major","minor"],$r=[0,2,4,-1,1,3,5,0,3],Tr=[0,1,2,3,4,5,6,0,5].map(function(n){return dn(mn(n,["C","D","E","F","G","A","B"]))}),Ur=Ut,Rr=Object.freeze({props:It,isKeyName:qt,tonic:zt,mode:Dt,relative:Et,alteredNotes:Bt,modes:Gt,fromAlter:St,fromAcc:Vt,scale:$t,alteration:Tt,signature:Ut,accidentals:Ur}),Kr={M:["1P 3M 5P",["Major",""]],M13:["1P 3M 5P 7M 9M 13M",["maj13","Maj13"]],M6:["1P 3M 5P 13M",["6"]],M69:["1P 3M 5P 6M 9M",["69"]],M7add13:["1P 3M 5P 6M 7M 9M"],M7b5:["1P 3M 5d 7M"],M7b6:["1P 3M 6m 7M"],M7b9:["1P 3M 5P 7M 9m"],M7sus4:["1P 4P 5P 7M"],M9:["1P 3M 5P 7M 9M",["maj9","Maj9"]],M9b5:["1P 3M 5d 7M 9M"],M9sus4:["1P 4P 5P 7M 9M"],Madd9:["1P 3M 5P 9M",["2","add9","add2"]],Maj7:["1P 3M 5P 7M",["maj7","M7"]],Mb5:["1P 3M 5d"],Mb6:["1P 3M 13m"],Msus2:["1P 2M 5P",["add9no3","sus2"]],Msus4:["1P 4P 5P",["sus","sus4"]],addb9:["1P 3M 5P 9m"],m:["1P 3m 5P"],m11:["1P 3m 5P 7m 9M 11P",["_11"]],m11b5:["1P 3m 7m 12d 2M 4P",["h11","_11b5"]],m13:["1P 3m 5P 7m 9M 11P 13M",["_13"]],m6:["1P 3m 4P 5P 13M",["_6"]],m69:["1P 3m 5P 6M 9M",["_69"]],m7:["1P 3m 5P 7m",["minor7","_","_7"]],m7add11:["1P 3m 5P 7m 11P",["m7add4"]],m7b5:["1P 3m 5d 7m",["half-diminished","h7","_7b5"]],m9:["1P 3m 5P 7m 9M",["_9"]],m9b5:["1P 3m 7m 12d 2M",["h9","-9b5"]],mMaj7:["1P 3m 5P 7M",["mM7","_M7"]],mMaj7b6:["1P 3m 5P 6m 7M",["mM7b6"]],mM9:["1P 3m 5P 7M 9M",["mMaj9","-M9"]],mM9b6:["1P 3m 5P 6m 7M 9M",["mMaj9b6"]],mb6M7:["1P 3m 6m 7M"],mb6b9:["1P 3m 6m 9m"],o:["1P 3m 5d",["mb5","dim"]],o7:["1P 3m 5d 13M",["diminished","m6b5","dim7"]],o7M7:["1P 3m 5d 6M 7M"],oM7:["1P 3m 5d 7M"],sus24:["1P 2M 4P 5P",["sus4add9"]],madd4:["1P 3m 4P 5P"],madd9:["1P 3m 5P 9M"],4:["1P 4P 7m 10m",["quartal"]],5:["1P 5P"],7:["1P 3M 5P 7m",["Dominant","Dom"]],9:["1P 3M 5P 7m 9M",["79"]],11:["1P 5P 7m 9M 11P"],13:["1P 3M 5P 7m 9M 13M",["13_"]],64:["5P 8P 10M"],"M#5":["1P 3M 5A",["augmented","maj#5","Maj#5","+","aug"]],"M#5add9":["1P 3M 5A 9M",["+add9"]],"M13#11":["1P 3M 5P 7M 9M 11A 13M",["maj13#11","Maj13#11","M13+4","M13#4"]],"M6#11":["1P 3M 5P 6M 11A",["M6b5","6#11","6b5"]],"M69#11":["1P 3M 5P 6M 9M 11A"],"M7#11":["1P 3M 5P 7M 11A",["maj7#11","Maj7#11","M7+4","M7#4"]],"M7#5":["1P 3M 5A 7M",["maj7#5","Maj7#5","maj9#5","M7+"]],"M7#5sus4":["1P 4P 5A 7M"],"M7#9#11":["1P 3M 5P 7M 9A 11A"],"M9#11":["1P 3M 5P 7M 9M 11A",["maj9#11","Maj9#11","M9+4","M9#4"]],"M9#5":["1P 3M 5A 7M 9M",["Maj9#5"]],"M9#5sus4":["1P 4P 5A 7M 9M"],"11b9":["1P 5P 7m 9m 11P"],"13#11":["1P 3M 5P 7m 9M 11A 13M",["13+4","13#4"]],"13#9":["1P 3M 5P 7m 9A 13M",["13#9_"]],"13#9#11":["1P 3M 5P 7m 9A 11A 13M"],"13b5":["1P 3M 5d 6M 7m 9M"],"13b9":["1P 3M 5P 7m 9m 13M"],"13b9#11":["1P 3M 5P 7m 9m 11A 13M"],"13no5":["1P 3M 7m 9M 13M"],"13sus4":["1P 4P 5P 7m 9M 13M",["13sus"]],"69#11":["1P 3M 5P 6M 9M 11A"],"7#11":["1P 3M 5P 7m 11A",["7+4","7#4","7#11_","7#4_"]],"7#11b13":["1P 3M 5P 7m 11A 13m",["7b5b13"]],"7#5":["1P 3M 5A 7m",["+7","7aug","aug7"]],"7#5#9":["1P 3M 5A 7m 9A",["7alt","7#5#9_","7#9b13_"]],"7#5b9":["1P 3M 5A 7m 9m"],"7#5b9#11":["1P 3M 5A 7m 9m 11A"],"7#5sus4":["1P 4P 5A 7m"],"7#9":["1P 3M 5P 7m 9A",["7#9_"]],"7#9#11":["1P 3M 5P 7m 9A 11A",["7b5#9"]],"7#9#11b13":["1P 3M 5P 7m 9A 11A 13m"],"7#9b13":["1P 3M 5P 7m 9A 13m"],"7add6":["1P 3M 5P 7m 13M",["67","7add13"]],"7b13":["1P 3M 7m 13m"],"7b5":["1P 3M 5d 7m"],"7b6":["1P 3M 5P 6m 7m"],"7b9":["1P 3M 5P 7m 9m"],"7b9#11":["1P 3M 5P 7m 9m 11A",["7b5b9"]],"7b9#9":["1P 3M 5P 7m 9m 9A"],"7b9b13":["1P 3M 5P 7m 9m 13m"],"7b9b13#11":["1P 3M 5P 7m 9m 11A 13m",["7b9#11b13","7b5b9b13"]],"7no5":["1P 3M 7m"],"7sus4":["1P 4P 5P 7m",["7sus"]],"7sus4b9":["1P 4P 5P 7m 9m",["susb9","7susb9","7b9sus","7b9sus4","phryg"]],"7sus4b9b13":["1P 4P 5P 7m 9m 13m",["7b9b13sus4"]],"9#11":["1P 3M 5P 7m 9M 11A",["9+4","9#4","9#11_","9#4_"]],"9#11b13":["1P 3M 5P 7m 9M 11A 13m",["9b5b13"]],"9#5":["1P 3M 5A 7m 9M",["9+"]],"9#5#11":["1P 3M 5A 7m 9M 11A"],"9b13":["1P 3M 7m 9M 13m"],"9b5":["1P 3M 5d 7m 9M"],"9no5":["1P 3M 7m 9M"],"9sus4":["1P 4P 5P 7m 9M",["9sus"]],"m#5":["1P 3m 5A",["m+","mb6"]],"m11A 5":["1P 3m 6m 7m 9M 11P"],"m7#5":["1P 3m 6m 7m"],"m9#5":["1P 3m 6m 7m 9M"],"+add#9":["1P 3M 5A 9A"]},Lr=Rt({chromatic:["1P 2m 2M 3m 3M 4P 4A 5P 6m 6M 7m 7M"],lydian:["1P 2M 3M 4A 5P 6M 7M"],major:["1P 2M 3M 4P 5P 6M 7M",["ionian"]],mixolydian:["1P 2M 3M 4P 5P 6M 7m",["dominant"]],dorian:["1P 2M 3m 4P 5P 6M 7m"],aeolian:["1P 2M 3m 4P 5P 6m 7m",["minor"]],phrygian:["1P 2m 3m 4P 5P 6m 7m"],locrian:["1P 2m 3m 4P 5d 6m 7m"],altered:["1P 2m 3m 3M 5d 6m 7m",["super locrian","diminished whole tone","pomeroy"]],iwato:["1P 2m 4P 5d 7m"],hirajoshi:["1P 2M 3m 5P 6m"],kumoijoshi:["1P 2m 4P 5P 6m"],pelog:["1P 2m 3m 5P 6m"],prometheus:["1P 2M 3M 4A 6M 7m"],ritusen:["1P 2M 4P 5P 6M"],scriabin:["1P 2m 3M 5P 6M"],piongio:["1P 2M 4P 5P 6M 7m"],augmented:["1P 2A 3M 5P 5A 7M"],neopolitan:["1P 2m 3m 4P 5P 6m 7M"],diminished:["1P 2M 3m 4P 5d 6m 6M 7M"],egyptian:["1P 2M 4P 5P 7m"],oriental:["1P 2m 3M 4P 5d 6M 7m"],spanish:["1P 2m 3M 4P 5P 6m 7m",["phrygian major"]],flamenco:["1P 2m 3m 3M 4A 5P 7m"],balinese:["1P 2m 3m 4P 5P 6m 7M"],persian:["1P 2m 3M 4P 5d 6m 7M"],bebop:["1P 2M 3M 4P 5P 6M 7m 7M"],enigmatic:["1P 2m 3M 5d 6m 7m 7M"],ichikosucho:["1P 2M 3M 4P 5d 5P 6M 7M"],"melodic minor":["1P 2M 3m 4P 5P 6M 7M"],"melodic minor second mode":["1P 2m 3m 4P 5P 6M 7m"],"lydian augmented":["1P 2M 3M 4A 5A 6M 7M"],"lydian dominant":["1P 2M 3M 4A 5P 6M 7m",["lydian b7"]],"melodic minor fifth mode":["1P 2M 3M 4P 5P 6m 7m",["hindu","mixolydian b6M"]],"locrian #2":["1P 2M 3m 4P 5d 6m 7m"],"locrian major":["1P 2M 3M 4P 5d 6m 7m",["arabian"]],"major pentatonic":["1P 2M 3M 5P 6M",["pentatonic"]],"lydian pentatonic":["1P 3M 4A 5P 7M",["chinese"]],"mixolydian pentatonic":["1P 3M 4P 5P 7m",["indian"]],"locrian pentatonic":["1P 3m 4P 5d 7m",["minor seven flat five pentatonic"]],"minor pentatonic":["1P 3m 4P 5P 7m"],"minor six pentatonic":["1P 3m 4P 5P 6M"],"minor hexatonic":["1P 2M 3m 4P 5P 7M"],"flat three pentatonic":["1P 2M 3m 5P 6M",["kumoi"]],"flat six pentatonic":["1P 2M 3M 5P 6m"],"major flat two pentatonic":["1P 2m 3M 5P 6M"],"whole tone pentatonic":["1P 3M 5d 6m 7m"],"ionian pentatonic":["1P 3M 4P 5P 7M"],"lydian #5P pentatonic":["1P 3M 4A 5A 7M"],"lydian dominant pentatonic":["1P 3M 4A 5P 7m"],"minor #7M pentatonic":["1P 3m 4P 5P 7M"],"super locrian pentatonic":["1P 3m 4d 5d 7m"],"in-sen":["1P 2m 4P 5P 7m"],"vietnamese 1":["1P 3m 4P 5P 6m"],"vietnamese 2":["1P 3m 4P 5P 7m"],"prometheus neopolitan":["1P 2m 3M 4A 6M 7m"],"major blues":["1P 2M 3m 3M 5P 6M"],"minor blues":["1P 3m 4P 5d 5P 7m",["blues"]],"composite blues":["1P 2M 3m 3M 4P 5d 5P 6M 7m"],"augmented heptatonic":["1P 2A 3M 4P 5P 5A 7M"],"dorian #4":["1P 2M 3m 4A 5P 6M 7m"],"lydian diminished":["1P 2M 3m 4A 5P 6M 7M"],"whole tone":["1P 2M 3M 4A 5A 7m"],"leading whole tone":["1P 2M 3M 4A 5A 7m 7M"],"harmonic minor":["1P 2M 3m 4P 5P 6m 7M"],"lydian minor":["1P 2M 3M 4A 5P 6m 7m"],"neopolitan minor":["1P 2m 3m 4P 5P 6m 7M"],"neopolitan major":["1P 2m 3m 4P 5P 6M 7M",["dorian b2"]],"neopolitan major pentatonic":["1P 3M 4P 5d 7m"],"romanian minor":["1P 2M 3m 5d 5P 6M 7m"],"double harmonic lydian":["1P 2m 3M 4A 5P 6m 7M"],"harmonic major":["1P 2M 3M 4P 5P 6m 7M"],"double harmonic major":["1P 2m 3M 4P 5P 6m 7M",["gypsy"]],"hungarian minor":["1P 2M 3m 4A 5P 6m 7M"],"hungarian major":["1P 2A 3M 4A 5P 6M 7m"],"spanish heptatonic":["1P 2m 3m 3M 4P 5P 6m 7m"],"todi raga":["1P 2m 3m 4A 5P 6m 7M"],"malkos raga":["1P 3m 4P 6m 7m"],"kafi raga":["1P 3m 3M 4P 5P 6M 7m 7M"],"purvi raga":["1P 2m 3M 4P 4A 5P 6m 7M"],"bebop dominant":["1P 2M 3M 4P 5P 6M 7m 7M"],"bebop minor":["1P 2M 3m 3M 4P 5P 6M 7m"],"bebop major":["1P 2M 3M 4P 5P 5A 6M 7M"],"bebop locrian":["1P 2m 3m 4P 5d 5P 6m 7m"],"minor bebop":["1P 2M 3m 4P 5P 6m 7m 7M"],"mystery #1":["1P 2m 3M 5d 6m 7m"],"minor six diminished":["1P 2M 3m 4P 5P 6m 6M 7M"],"ionian augmented":["1P 2M 3M 4P 5A 6M 7M"],"lydian #9":["1P 2m 3M 4A 5P 6M 7M"],"six tone symmetric":["1P 2m 3M 4P 5A 6M"]}),Hr=Rt(Kr);(function(n){return Lr(n)||Hr(n)}).keys=function(n){return Lr.keys(n).concat(Hr.keys(n))};var Jr=function(n,t){void 0===t&&(t=nt);var e={};n.keys(!0).forEach(function(r){var o=t(n(r));e[o]=e[o]||[],e[o].push(r)});var r=function(n){return e[n]||[]};return r.keys=function(){return Object.keys(e)},r},Wr=Kt({chromatic:["1P 2m 2M 3m 3M 4P 4A 5P 6m 6M 7m 7M"],lydian:["1P 2M 3M 4A 5P 6M 7M"],major:["1P 2M 3M 4P 5P 6M 7M",["ionian"]],mixolydian:["1P 2M 3M 4P 5P 6M 7m",["dominant"]],dorian:["1P 2M 3m 4P 5P 6M 7m"],aeolian:["1P 2M 3m 4P 5P 6m 7m",["minor"]],phrygian:["1P 2m 3m 4P 5P 6m 7m"],locrian:["1P 2m 3m 4P 5d 6m 7m"],altered:["1P 2m 3m 3M 5d 6m 7m",["super locrian","diminished whole tone","pomeroy"]],iwato:["1P 2m 4P 5d 7m"],hirajoshi:["1P 2M 3m 5P 6m"],kumoijoshi:["1P 2m 4P 5P 6m"],pelog:["1P 2m 3m 5P 6m"],prometheus:["1P 2M 3M 4A 6M 7m"],ritusen:["1P 2M 4P 5P 6M"],scriabin:["1P 2m 3M 5P 6M"],piongio:["1P 2M 4P 5P 6M 7m"],augmented:["1P 2A 3M 5P 5A 7M"],neopolitan:["1P 2m 3m 4P 5P 6m 7M"],diminished:["1P 2M 3m 4P 5d 6m 6M 7M"],egyptian:["1P 2M 4P 5P 7m"],oriental:["1P 2m 3M 4P 5d 6M 7m"],spanish:["1P 2m 3M 4P 5P 6m 7m",["phrygian major"]],flamenco:["1P 2m 3m 3M 4A 5P 7m"],balinese:["1P 2m 3m 4P 5P 6m 7M"],persian:["1P 2m 3M 4P 5d 6m 7M"],bebop:["1P 2M 3M 4P 5P 6M 7m 7M"],enigmatic:["1P 2m 3M 5d 6m 7m 7M"],ichikosucho:["1P 2M 3M 4P 5d 5P 6M 7M"],"melodic minor":["1P 2M 3m 4P 5P 6M 7M"],"melodic minor second mode":["1P 2m 3m 4P 5P 6M 7m"],"lydian augmented":["1P 2M 3M 4A 5A 6M 7M"],"lydian dominant":["1P 2M 3M 4A 5P 6M 7m",["lydian b7"]],"melodic minor fifth mode":["1P 2M 3M 4P 5P 6m 7m",["hindu","mixolydian b6M"]],"locrian #2":["1P 2M 3m 4P 5d 6m 7m"],"locrian major":["1P 2M 3M 4P 5d 6m 7m",["arabian"]],"major pentatonic":["1P 2M 3M 5P 6M",["pentatonic"]],"lydian pentatonic":["1P 3M 4A 5P 7M",["chinese"]],"mixolydian pentatonic":["1P 3M 4P 5P 7m",["indian"]],"locrian pentatonic":["1P 3m 4P 5d 7m",["minor seven flat five pentatonic"]],"minor pentatonic":["1P 3m 4P 5P 7m"],"minor six pentatonic":["1P 3m 4P 5P 6M"],"minor hexatonic":["1P 2M 3m 4P 5P 7M"],"flat three pentatonic":["1P 2M 3m 5P 6M",["kumoi"]],"flat six pentatonic":["1P 2M 3M 5P 6m"],"major flat two pentatonic":["1P 2m 3M 5P 6M"],"whole tone pentatonic":["1P 3M 5d 6m 7m"],"ionian pentatonic":["1P 3M 4P 5P 7M"],"lydian #5P pentatonic":["1P 3M 4A 5A 7M"],"lydian dominant pentatonic":["1P 3M 4A 5P 7m"],"minor #7M pentatonic":["1P 3m 4P 5P 7M"],"super locrian pentatonic":["1P 3m 4d 5d 7m"],"in-sen":["1P 2m 4P 5P 7m"],"vietnamese 1":["1P 3m 4P 5P 6m"],"vietnamese 2":["1P 3m 4P 5P 7m"],"prometheus neopolitan":["1P 2m 3M 4A 6M 7m"],"major blues":["1P 2M 3m 3M 5P 6M"],"minor blues":["1P 3m 4P 5d 5P 7m",["blues"]],"composite blues":["1P 2M 3m 3M 4P 5d 5P 6M 7m"],"augmented heptatonic":["1P 2A 3M 4P 5P 5A 7M"],"dorian #4":["1P 2M 3m 4A 5P 6M 7m"],"lydian diminished":["1P 2M 3m 4A 5P 6M 7M"],"whole tone":["1P 2M 3M 4A 5A 7m"],"leading whole tone":["1P 2M 3M 4A 5A 7m 7M"],"harmonic minor":["1P 2M 3m 4P 5P 6m 7M"],"lydian minor":["1P 2M 3M 4A 5P 6m 7m"],"neopolitan minor":["1P 2m 3m 4P 5P 6m 7M"],"neopolitan major":["1P 2m 3m 4P 5P 6M 7M",["dorian b2"]],"neopolitan major pentatonic":["1P 3M 4P 5d 7m"],"romanian minor":["1P 2M 3m 5d 5P 6M 7m"],"double harmonic lydian":["1P 2m 3M 4A 5P 6m 7M"],"harmonic major":["1P 2M 3M 4P 5P 6m 7M"],"double harmonic major":["1P 2m 3M 4P 5P 6m 7M",["gypsy"]],"hungarian minor":["1P 2M 3m 4A 5P 6m 7M"],"hungarian major":["1P 2A 3M 4A 5P 6M 7m"],"spanish heptatonic":["1P 2m 3m 3M 4P 5P 6m 7m"],"todi raga":["1P 2m 3m 4A 5P 6m 7M"],"malkos raga":["1P 3m 4P 6m 7m"],"kafi raga":["1P 3m 3M 4P 5P 6M 7m 7M"],"purvi raga":["1P 2m 3M 4P 4A 5P 6m 7M"],"bebop dominant":["1P 2M 3M 4P 5P 6M 7m 7M"],"bebop minor":["1P 2M 3m 3M 4P 5P 6M 7m"],"bebop major":["1P 2M 3M 4P 5P 5A 6M 7M"],"bebop locrian":["1P 2m 3m 4P 5d 5P 6m 7m"],"minor bebop":["1P 2M 3m 4P 5P 6m 7m 7M"],"mystery #1":["1P 2m 3M 5d 6m 7m"],"minor six diminished":["1P 2M 3m 4P 5P 6m 6M 7M"],"ionian augmented":["1P 2M 3M 4P 5A 6M 7M"],"lydian #9":["1P 2m 3M 4A 5P 6M 7M"],"six tone symmetric":["1P 2m 3M 4P 5A 6M"]},function(n){return n.split(" ")}),Qr=Lr.keys,Xr=Lt(Wr," "),Yr=null,Zr=function(n){return Yr||(Yr=Jr(Lr)),Yr(n)},no=function(n,t){var e=Yt(n);t=pr(t)||e.tonic;var r=Wt(e.type);if(!t||!r)return[];var o=r.map(R(t));return et(r).map(function(n,t){var e=Zr(n)[0];return e?o[t]+" "+e:null})},to=Object.freeze({get:Ht,names:Qr,notes:Jt,intervals:Wt,exists:Qt,isKnowScale:Xt,parseName:Yt,detect:Xr,modes:no}),eo=/^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)\s*$/,ro=Kt({M:["1P 3M 5P",["Major",""]],M13:["1P 3M 5P 7M 9M 13M",["maj13","Maj13"]],M6:["1P 3M 5P 13M",["6"]],M69:["1P 3M 5P 6M 9M",["69"]],M7add13:["1P 3M 5P 6M 7M 9M"],M7b5:["1P 3M 5d 7M"],M7b6:["1P 3M 6m 7M"],M7b9:["1P 3M 5P 7M 9m"],M7sus4:["1P 4P 5P 7M"],M9:["1P 3M 5P 7M 9M",["maj9","Maj9"]],M9b5:["1P 3M 5d 7M 9M"],M9sus4:["1P 4P 5P 7M 9M"],Madd9:["1P 3M 5P 9M",["2","add9","add2"]],Maj7:["1P 3M 5P 7M",["maj7","M7"]],Mb5:["1P 3M 5d"],Mb6:["1P 3M 13m"],Msus2:["1P 2M 5P",["add9no3","sus2"]],Msus4:["1P 4P 5P",["sus","sus4"]],addb9:["1P 3M 5P 9m"],m:["1P 3m 5P",["minor"]],m11:["1P 3m 5P 7m 9M 11P",["_11"]],m11b5:["1P 3m 7m 12d 2M 4P",["h11","_11b5"]],m13:["1P 3m 5P 7m 9M 11P 13M",["_13"]],m6:["1P 3m 4P 5P 13M",["_6"]],m69:["1P 3m 5P 6M 9M",["_69"]],m7:["1P 3m 5P 7m",["minor7","_","_7"]],m7add11:["1P 3m 5P 7m 11P",["m7add4"]],m7b5:["1P 3m 5d 7m",["half-diminished","h7","_7b5"]],m9:["1P 3m 5P 7m 9M",["_9"]],m9b5:["1P 3m 7m 12d 2M",["h9","-9b5"]],mMaj7:["1P 3m 5P 7M",["mM7","_M7"]],mMaj7b6:["1P 3m 5P 6m 7M",["mM7b6"]],mM9:["1P 3m 5P 7M 9M",["mMaj9","-M9"]],mM9b6:["1P 3m 5P 6m 7M 9M",["mMaj9b6"]],mb6M7:["1P 3m 6m 7M"],mb6b9:["1P 3m 6m 9m"],o:["1P 3m 5d",["mb5","dim"]],o7:["1P 3m 5d 13M",["diminished","m6b5","dim7"]],o7M7:["1P 3m 5d 6M 7M"],oM7:["1P 3m 5d 7M"],sus24:["1P 2M 4P 5P",["sus4add9"]],madd4:["1P 3m 4P 5P"],madd9:["1P 3m 5P 9M"],4:["1P 4P 7m 10m",["quartal"]],5:["1P 5P"],7:["1P 3M 5P 7m",["Dominant","Dom"]],9:["1P 3M 5P 7m 9M",["79"]],11:["1P 5P 7m 9M 11P"],13:["1P 3M 5P 7m 9M 13M",["13_"]],64:["5P 8P 10M"],"M#5":["1P 3M 5A",["augmented","maj#5","Maj#5","+","aug"]],"M#5add9":["1P 3M 5A 9M",["+add9"]],"M13#11":["1P 3M 5P 7M 9M 11A 13M",["maj13#11","Maj13#11","M13+4","M13#4"]],"M6#11":["1P 3M 5P 6M 11A",["M6b5","6#11","6b5"]],"M69#11":["1P 3M 5P 6M 9M 11A"],"M7#11":["1P 3M 5P 7M 11A",["maj7#11","Maj7#11","M7+4","M7#4"]],"M7#5":["1P 3M 5A 7M",["maj7#5","Maj7#5","maj9#5","M7+"]],"M7#5sus4":["1P 4P 5A 7M"],"M7#9#11":["1P 3M 5P 7M 9A 11A"],"M9#11":["1P 3M 5P 7M 9M 11A",["maj9#11","Maj9#11","M9+4","M9#4"]],"M9#5":["1P 3M 5A 7M 9M",["Maj9#5"]],"M9#5sus4":["1P 4P 5A 7M 9M"],"11b9":["1P 5P 7m 9m 11P"],"13#11":["1P 3M 5P 7m 9M 11A 13M",["13+4","13#4"]],"13#9":["1P 3M 5P 7m 9A 13M",["13#9_"]],"13#9#11":["1P 3M 5P 7m 9A 11A 13M"],"13b5":["1P 3M 5d 6M 7m 9M"],"13b9":["1P 3M 5P 7m 9m 13M"],"13b9#11":["1P 3M 5P 7m 9m 11A 13M"],"13no5":["1P 3M 7m 9M 13M"],"13sus4":["1P 4P 5P 7m 9M 13M",["13sus"]],"69#11":["1P 3M 5P 6M 9M 11A"],"7#11":["1P 3M 5P 7m 11A",["7+4","7#4","7#11_","7#4_"]],"7#11b13":["1P 3M 5P 7m 11A 13m",["7b5b13"]],"7#5":["1P 3M 5A 7m",["+7","7aug","aug7"]],"7#5#9":["1P 3M 5A 7m 9A",["7alt","7#5#9_","7#9b13_"]],"7#5b9":["1P 3M 5A 7m 9m"],"7#5b9#11":["1P 3M 5A 7m 9m 11A"],"7#5sus4":["1P 4P 5A 7m"],"7#9":["1P 3M 5P 7m 9A",["7#9_"]],"7#9#11":["1P 3M 5P 7m 9A 11A",["7b5#9"]],"7#9#11b13":["1P 3M 5P 7m 9A 11A 13m"],"7#9b13":["1P 3M 5P 7m 9A 13m"],"7add6":["1P 3M 5P 7m 13M",["67","7add13"]],"7b13":["1P 3M 7m 13m"],"7b5":["1P 3M 5d 7m"],"7b6":["1P 3M 5P 6m 7m"],"7b9":["1P 3M 5P 7m 9m"],"7b9#11":["1P 3M 5P 7m 9m 11A",["7b5b9"]],"7b9#9":["1P 3M 5P 7m 9m 9A"],"7b9b13":["1P 3M 5P 7m 9m 13m"],"7b9b13#11":["1P 3M 5P 7m 9m 11A 13m",["7b9#11b13","7b5b9b13"]],"7no5":["1P 3M 7m"],"7sus4":["1P 4P 5P 7m",["7sus"]],"7sus4b9":["1P 4P 5P 7m 9m",["susb9","7susb9","7b9sus","7b9sus4","phryg"]],"7sus4b9b13":["1P 4P 5P 7m 9m 13m",["7b9b13sus4"]],"9#11":["1P 3M 5P 7m 9M 11A",["9+4","9#4","9#11_","9#4_"]],"9#11b13":["1P 3M 5P 7m 9M 11A 13m",["9b5b13"]],"9#5":["1P 3M 5A 7m 9M",["9+"]],"9#5#11":["1P 3M 5A 7m 9M 11A"],"9b13":["1P 3M 7m 9M 13m"],"9b5":["1P 3M 5d 7m 9M"],"9no5":["1P 3M 7m 9M"],"9sus4":["1P 4P 5P 7m 9M",["9sus"]],"m#5":["1P 3m 5A",["m+","mb6"]],"m11A 5":["1P 3m 6m 7m 9M 11P"],"m7#5":["1P 3m 6m 7m"],"m9#5":["1P 3m 6m 7m 9M"],"+add#9":["1P 3M 5A 9A"]},function(n){return n.split(" ")}),oo=ro.keys,io=Lt(ro,""),uo=Object.freeze({names:oo,get:ne,notes:te,intervals:ee,isKnownChord:re,detect:io,position:oe,inversion:ie,parse:me}),ao=["I","II","III","IV","V","VI","VII"],mo=/^\s*(b|bb|#|##|)(IV|III|II|I|VII|VI|V|iv|iii|ii|i|vii|vi|v)\s*(.*)\s*$/,co={i:0,ii:1,iii:2,iv:3,v:4,vi:5,vii:6},Po=Object.freeze({abstract:ce,buildRoman:Pe,concrete:Me,romanRegex:le,parseRomanChord:se}),Mo=Object.freeze({density:fe}),lo=Object.freeze({notes:de}),so=Object.assign,fo=so({},Le,$e,He,Te);fo.pitch=Ve,fo.notation=Sr,fo.note=br,fo.ivl=kr,fo.midi=Nr,fo.freq=zr,fo.range=Gr,fo.key=Rr,fo.progression=Po,fo.sonority=Mo,fo.pitchset=lo,fo.pcset=Br,fo.scale=function(n){return fo.scale.notes(n)},so(fo.scale,to),fo.chord=function(n){return fo.chord.notes(n)},so(fo.chord,uo),"undefined"!=typeof window&&(window.Tonal=fo);var po=fo.note,ho=[1,2,3,4,5,6],bo=function(n){return null===n?"null":n},vo=function(n,t){return"number"==typeof t?t.toFixed(n):"null"},Ao=function(n){return JSON.stringify(n,null,2)},go=function(n){return n?'"'+n+'"':"null"},yo=function(n){return"https://github.com/danigb/tonal/tree/master/packages/tonal/note#module_note."+n},jo=function(t){var e=t.tonic;e=po.note(e),console.log(e);var r=po.pc(e),o=po.freq(e),i=po.midi(e);return n("div",{class:"Note"},r&&n("h4",null,"note"),r?n("h1",{class:"note"},e):n("h1",null,"Notes"),o&&n("div",{class:"properties"},n("h3",null,"freq: ",o.toFixed(2),"Hz ",n("br",null),"midi: ",i)),n(we,{label:"Choose note:",oct:po.oct(e),route:function(n){return["note",n]}}),r&&n(we,{label:"Change octave:",tonics:[r].concat(ho.map(function(n){return r+n})),route:function(n){return["note",n]}}),n(ye,{packageName:"tonal-note"}),n(xe,{lines:['import note from "tonal-note"']}),n("p",null,"Or using tonal facade:"),n(xe,{lines:['import tonal from "tonal"','tonal.note.midi("C4");']}),n("h3",null,"API"),n("p",null,Object.keys(fo.note).sort().map(function(t){return n("a",{class:"api",href:yo(t),target:"_blank"},t)})),n("h3",null,"Properties"),n(xe,{lines:["note.split("+go(e)+") // => "+Ao(po.split(e)),"note.parse("+go(e)+") // => "+Ao(po.parse(e)),"note.step("+go(e)+") //=> "+bo(po.step(e)),"note.alt("+go(e)+") //=> "+bo(po.alt(e)),"note.oct("+go(e)+") //=> "+bo(po.oct(e)),"note.chroma("+go(e)+") //=> "+bo(po.chroma(e))]}),n("h3",null,"Midi and frequency"),n(xe,{lines:['note.freq("'+e+'") => '+bo(o),"note.fromFreq("+vo(2,o)+") => "+e,'note.midi("'+e+'") => '+i,"note.fromMidi("+i+") => "+e]}),n("h3",null,"Octaves"),n("pre",null,n("code",null,'note.inOct(4, "',e,'") // => ',bo(po.inOct(4,e)))),r&&n(pe,{pc:po.pc(e)}))},wo=function(t){var e=t.size;void 0===e&&(e=80);var r=t.offset;void 0===r&&(r=0);var o=t.chroma;void 0===o&&(o="0");var i=t.type;void 0===i&&(i="set");var u=e/2,a=e/2-.1*e/2,m=2*Math.PI/o.length,c=o.split("").reduce(function(n,t,e){return"1"===t&&(n.push(u+a*Math.cos((r+e-3)*m)),n.push(u+a*Math.sin((r+e-3)*m))),n},[]);return n("svg",{class:"Circle "+i,width:e,height:e,viewBox:"0 0 "+e+" "+e},n("circle",{class:"background",cx:u,cy:u,r:a}),n("circle",{class:"tonic",cx:c[0],cy:c[1],r:2}),n("polygon",{class:"overlay",points:c.join(" ")}))},xo=function(n,t){return fo.pcset.chroma(fo[n].intervals(t))},ko=function(n,t,e){return e||fo[n].parseName(t).tonic},_o=function(t){var e=t.type,r=t.names,o=t.tonic;return n("table",null,n("thead",null,n("tr",null,n("td",null," "),n("td",null," "))),n("tbody",null,r.map(function(t){return n("tr",null,n("td",null,n(wo,{size:40,chroma:xo(e,t),offset:fo.note.chroma(ko(e,t,o))})),n("td",null,n(Lo,{to:[e,t,o]},t)))})))},Oo=function(t){var e=t.tonic,r=t.names,o=t.title,i=t.type,u=t.packageName;return console.log("joder",r),n("div",{class:"{title}"},n("h1",null,o),n(ye,{packageName:u}),n(xe,{lines:["import "+i+' from "'+u+'"']}),n("p",null,"Or using tonal facade:"),n(xe,{lines:['import tonal from "tonal"']}),n("h3",null,"Names"),n(xe,{lines:["tonal."+i+'.names(); // => ["'+r[0]+'", "'+r[1]+'", ...]']}),n(_o,{names:r,type:i,tonic:e}))},Co=function(t){var e=t.tonic;return n(Oo,{title:"Scales",type:"scale",packageName:"tonal-scale",tonic:e,names:fo.scale.names()})},Fo=function(t){var e=t.tonic;return n(Oo,{title:"Chords",type:"chord",packageName:"tonal-chord",tonic:e,names:fo.chord.names()})},No=function(n,t){return"https://github.com/danigb/tonal/tree/master/packages/tonal/note#module_"+n+"."+t},Io=function(t){var e=t.module;return[n("h2",null,"API"),n(ye,{packageName:"tonal-"+e}),n("p",null,Object.keys(fo[e]).sort().map(function(t){return n("a",{class:"api",href:No(e,t),target:"_blank"},t)}))]},qo=Vex.Flow,zo=qo.Renderer,Do=qo.Formatter,Eo=function(n){return function(t){console.log("draw canvas",n),console.log("notes",n);var e=new zo(t,zo.Backends.CANVAS).getContext();e.clearRect(0,0,700,120);var r=new Vex.Flow.Stave(0,0,695);r.addClef("treble").setContext(e).draw();var o=4;Do.FormatAndDraw(e,r,n.map(function(n){var t=n.charAt(0),e=n.slice(1);0===fo.note.chroma(n)&&o++;var r=new Vex.Flow.StaveNote({keys:[t+"/"+o],duration:"q"});return console.log(t,e,o),e&&r.addAccidental(0,new Vex.Flow.Accidental(e)),r}))}},Bo=function(t){var e=t.notes;return n("div",{className:"Score"},n("canvas",{width:700,height:120,oncreate:Eo(e),onupdate:Eo(e)}),n("div",{className:"controls"}))},Go=function(n){return"["+n.map(function(n){return'"'+n+'"'}).join(", ")+"]"},So=function(n,t){return n?n+" "+t:t},Vo=fo.scale,$o=function(t){var e=t.tonic,r=t.name,o=fo.scale.intervals(r),i=fo.scale.notes(r,e),u=fo.note.chroma(e)||0,a=fo.scale.modes(r,e);return n("div",{class:"Scale"},n("h4",null,"scale"),n("h1",null,e," ",r),n("p",null,n(we,{route:function(n){return["scale",r,n]}})),n(wo,{size:160,offset:u,chroma:fo.pcset.chroma(o)}),n(Bo,{notes:i}),a.length&&[n("h2",null,"Scale modes"),n(_o,{type:"scale",names:a})],n(Io,{module:"scale"}),n(xe,{lines:['tonal.scale.exists("'+r+'"); // => '+Vo.exists(r),'tonal.scale.intervals("'+r+'"); // => '+Go(o),'tonal.scale.notes("'+So(e,r)+'"); // => '+Go(Vo.notes(r,e))]}))},To=function(t){return n("div",{class:"Chord"},n("h1",null,t.tonic+t.name))},Uo=function(t){return n("div",{class:"Welcome"},n("h1",null,"tonal"),n(ye,{packageName:"tonal"}),n(xe,{lines:['import tonal from "tonal";','tonal.note.freq("A4") // => 440','tonal.note.midi("A4") // => 69']}),n("pre",null),n("h3",null,n(Lo,{to:["notes"]},"Notes")),n(we,{route:function(n){return["note",n]}}),n(xe,{lines:['tonal.note.freq("A4") // => 440','tonal.note.midi("A4") // => 69']}),n("h3",null,n(Lo,{to:["intervals"]},"Intervals")))},Ro=function(n){return"#/"+n.filter(function(n){return"string"==typeof n}).map(function(n){return n.replace(/ /g,"_")}).join("/")},Ko=function(n){return n.split("/").map(function(n){return n.replace(/_/g," ")})},Lo=function(t,e){var r=t.to;return n("a",{href:Ro(r)},e)},Ho=function(t){var e=t.route;switch(e[0]){case"note":case"notes":return n(jo,{tonic:e[1]});case"scales":return n(Co,{tonic:e[1]});case"scale":return n($o,{name:e[1],tonic:e[2]});case"chords":return n(Fo,{tonic:e[1]});case"chord":return n(To,{name:e[1],tonic:e[2]});default:return n(Uo,null)}};!function(n){function t(n,e,r){Object.keys(e||[]).map(function(u){var a=e[u],m=r?r+"."+u:u;"function"==typeof a?n[u]=function(n){i("action",{name:m,data:n});var t=i("resolve",a(s,b,n));return"function"==typeof t?t(o):o(t)}:t(n[u]||(n[u]={}),a,m)})}function e(n){for(f=l(g,f,d,d=i("render",h)(s,b),p=!p);n=ve.pop();)n()}function r(){h&&!p&&requestAnimationFrame(e,p=!p)}function o(n){return"function"==typeof n?o(n(s)):(n&&(n=i("update",u(s,n)))&&r(s=n),s)}function i(n,t){return(v[n]||[]).map(function(n){var e=n(s,b,t);null!=e&&(t=e)}),t}function u(n,t){var e={};for(var r in n)e[r]=n[r];for(var r in t)e[r]=t[r];return e}function a(n){if(n&&(n=n.data))return n.key}function m(n,t){if("string"==typeof n)e=document.createTextNode(n);else{var e=(t=t||"svg"===n.tag)?document.createElementNS("http://www.w3.org/2000/svg",n.tag):document.createElement(n.tag);n.data&&n.data.oncreate&&ve.push(function(){n.data.oncreate(e)});for(var r in n.data)c(e,r,n.data[r]);for(r=0;r<n.children.length;)e.appendChild(m(n.children[r++],t))}return e}function c(n,t,e,r){if("key"===t);else if("style"===t)for(var o in u(r,e=e||{}))n.style[o]=e[o]||"";else{try{n[t]=e}catch(n){}"function"!=typeof e&&(e?n.setAttribute(t,e):n.removeAttribute(t))}}function P(n,t,e){for(var r in u(t,e)){var o=e[r],i="value"===r||"checked"===r?n[r]:t[r];o!==i&&c(n,r,o,i)}e&&e.onupdate&&ve.push(function(){e.onupdate(n,t)})}function M(n,t,e){e&&e.onremove?e.onremove(t):n.removeChild(t)}function l(n,t,e,r,o,i){if(null==e)t=n.insertBefore(m(r,o),t);else if(null!=r.tag&&r.tag===e.tag){P(t,e.data,r.data),o=o||"svg"===r.tag;for(var u=r.children.length,c=e.children.length,s={},f=[],d={},p=0;p<c;p++)b=f[p]=t.childNodes[p],null!=(j=a(v=e.children[p]))&&(s[j]=[b,v]);for(var p=0,h=0;h<u;){var b=f[p],v=e.children[p],A=r.children[h];if(d[j=a(v)])p++;else{var g=a(A),y=s[g]||[];null==g?(null==j&&(l(t,b,v,A,o),h++),p++):(j===g?(l(t,y[0],y[1],A,o),p++):y[0]?(t.insertBefore(y[0],b),l(t,y[0],y[1],A,o)):l(t,b,null,A,o),h++,d[g]=A)}}for(;p<c;){var j=a(v=e.children[p]);null==j&&M(t,f[p],v.data),p++}for(var p in s){var w=(y=s[p])[1];d[w.data.key]||M(t,y[0],w.data)}}else t&&r!==t.nodeValue&&("string"==typeof r&&"string"==typeof e?t.nodeValue=r:(t=n.insertBefore(m(r,o),i=t),M(n,i,e.data)));return t}var s,f,d,p,h=n.view,b={},v={},A=n.mixins||[],g=n.root||document.body;A.concat(n).map(function(n){n="function"==typeof n?n(i):n,Object.keys(n.events||[]).map(function(t){v[t]=(v[t]||[]).concat(n.events[t])}),s=u(s,n.state),t(b,n.actions)}),r((d=i("load",f=g.children[0]))===f&&(d=f=null))}({state:{route:[]},view:function(t){return n("div",null,n("p",{id:"top"},n(Lo,{to:["tonal"]},"tonal")," | ",n(Lo,{to:["notes"]},"notes")," | ",n(Lo,{to:["intervals"]},"intervals")," | ",n(Lo,{to:["scales"]},"scales")," | ",n(Lo,{to:["chords"]},"chords")),n(Ho,{route:t.route}))},actions:{route:function(n,t,e){return{route:Ko(e)}}},events:{load:function(n,t){console.log("load!"),window.onhashchange=function(){t.route(location.hash.slice(2))},window.onhashchange()}}})}();
+(function () {
+'use strict';
+
+var i;
+var stack = [];
+
+function h(tag, data) {
+  var arguments$1 = arguments;
+
+  var node;
+  var children = [];
+
+  for (i = arguments.length; i-- > 2; ) {
+    stack.push(arguments$1[i]);
+  }
+
+  while (stack.length) {
+    if (Array.isArray((node = stack.pop()))) {
+      for (i = node.length; i--; ) {
+        stack.push(node[i]);
+      }
+    } else if (node != null && node !== true && node !== false) {
+      if (typeof node === "number") {
+        node = node + "";
+      }
+      children.push(node);
+    }
+  }
+
+  return typeof tag === "string"
+    ? {
+        tag: tag,
+        data: data || {},
+        children: children
+      }
+    : tag(data, children)
+}
+
+var globalInvokeLaterStack = [];
+
+function app(props) {
+  var appState;
+  var appView = props.view;
+  var appActions = {};
+  var appEvents = {};
+  var appMixins = props.mixins || [];
+  var appRoot = props.root || document.body;
+  var element;
+  var oldNode;
+  var renderLock;
+
+  appMixins.concat(props).map(function(mixin) {
+    mixin = typeof mixin === "function" ? mixin(emit) : mixin;
+
+    Object.keys(mixin.events || []).map(function(key) {
+      appEvents[key] = (appEvents[key] || []).concat(mixin.events[key]);
+    });
+
+    appState = merge(appState, mixin.state);
+    initialize(appActions, mixin.actions);
+  });
+
+  requestRender(
+    (oldNode = emit("load", (element = appRoot.children[0]))) === element &&
+      (oldNode = element = null)
+  );
+
+  return emit
+
+  function initialize(actions, withActions, lastName) {
+    Object.keys(withActions || []).map(function(key) {
+      var action = withActions[key];
+      var name = lastName ? lastName + "." + key : key;
+
+      if (typeof action === "function") {
+        actions[key] = function(data) {
+          emit("action", { name: name, data: data });
+
+          var result = emit("resolve", action(appState, appActions, data));
+
+          return typeof result === "function" ? result(update) : update(result)
+        };
+      } else {
+        initialize(actions[key] || (actions[key] = {}), action, name);
+      }
+    });
+  }
+
+  function render(cb) {
+    element = patch(
+      appRoot,
+      element,
+      oldNode,
+      (oldNode = emit("render", appView)(appState, appActions)),
+      (renderLock = !renderLock)
+    );
+    while ((cb = globalInvokeLaterStack.pop())) { cb(); }
+  }
+
+  function requestRender() {
+    if (appView && !renderLock) {
+      requestAnimationFrame(render, (renderLock = !renderLock));
+    }
+  }
+
+  function update(withState) {
+    if (typeof withState === "function") {
+      return update(withState(appState))
+    }
+    if (withState && (withState = emit("update", merge(appState, withState)))) {
+      requestRender((appState = withState));
+    }
+    return appState
+  }
+
+  function emit(name, data) {
+    return (
+      (appEvents[name] || []).map(function(cb) {
+        var result = cb(appState, appActions, data);
+        if (result != null) {
+          data = result;
+        }
+      }),
+      data
+    )
+  }
+
+  function merge(a, b) {
+    var obj = {};
+
+    for (var i in a) {
+      obj[i] = a[i];
+    }
+
+    for (var i in b) {
+      obj[i] = b[i];
+    }
+
+    return obj
+  }
+
+  function getKey(node) {
+    if (node && (node = node.data)) {
+      return node.key
+    }
+  }
+
+  function createElement(node, isSVG) {
+    if (typeof node === "string") {
+      var element = document.createTextNode(node);
+    } else {
+      var element = (isSVG = isSVG || node.tag === "svg")
+        ? document.createElementNS("http://www.w3.org/2000/svg", node.tag)
+        : document.createElement(node.tag);
+
+      if (node.data && node.data.oncreate) {
+        globalInvokeLaterStack.push(function() {
+          node.data.oncreate(element);
+        });
+      }
+
+      for (var i in node.data) {
+        setData(element, i, node.data[i]);
+      }
+
+      for (var i = 0; i < node.children.length; ) {
+        element.appendChild(createElement(node.children[i++], isSVG));
+      }
+    }
+
+    return element
+  }
+
+  function setData(element, name, value, oldValue) {
+    if (name === "key") {
+    } else if (name === "style") {
+      for (var i in merge(oldValue, (value = value || {}))) {
+        element.style[i] = value[i] || "";
+      }
+    } else {
+      try {
+        element[name] = value;
+      } catch (_) {}
+
+      if (typeof value !== "function") {
+        if (value) {
+          element.setAttribute(name, value);
+        } else {
+          element.removeAttribute(name);
+        }
+      }
+    }
+  }
+
+  function updateElement(element, oldData, data) {
+    for (var i in merge(oldData, data)) {
+      var value = data[i];
+      var oldValue = i === "value" || i === "checked" ? element[i] : oldData[i];
+
+      if (value !== oldValue) {
+        setData(element, i, value, oldValue);
+      }
+    }
+
+    if (data && data.onupdate) {
+      globalInvokeLaterStack.push(function() {
+        data.onupdate(element, oldData);
+      });
+    }
+  }
+
+  function removeElement(parent, element, data) {
+    if (data && data.onremove) {
+      data.onremove(element);
+    } else {
+      parent.removeChild(element);
+    }
+  }
+
+  function patch(parent, element, oldNode, node, isSVG, nextSibling) {
+    if (oldNode == null) {
+      element = parent.insertBefore(createElement(node, isSVG), element);
+    } else if (node.tag != null && node.tag === oldNode.tag) {
+      updateElement(element, oldNode.data, node.data);
+
+      isSVG = isSVG || node.tag === "svg";
+
+      var len = node.children.length;
+      var oldLen = oldNode.children.length;
+      var oldKeyed = {};
+      var oldElements = [];
+      var keyed = {};
+
+      for (var i = 0; i < oldLen; i++) {
+        var oldElement = (oldElements[i] = element.childNodes[i]);
+        var oldChild = oldNode.children[i];
+        var oldKey = getKey(oldChild);
+
+        if (null != oldKey) {
+          oldKeyed[oldKey] = [oldElement, oldChild];
+        }
+      }
+
+      var i = 0;
+      var j = 0;
+
+      while (j < len) {
+        var oldElement = oldElements[i];
+        var oldChild = oldNode.children[i];
+        var newChild = node.children[j];
+
+        var oldKey = getKey(oldChild);
+        if (keyed[oldKey]) {
+          i++;
+          continue
+        }
+
+        var newKey = getKey(newChild);
+
+        var keyedNode = oldKeyed[newKey] || [];
+
+        if (null == newKey) {
+          if (null == oldKey) {
+            patch(element, oldElement, oldChild, newChild, isSVG);
+            j++;
+          }
+          i++;
+        } else {
+          if (oldKey === newKey) {
+            patch(element, keyedNode[0], keyedNode[1], newChild, isSVG);
+            i++;
+          } else if (keyedNode[0]) {
+            element.insertBefore(keyedNode[0], oldElement);
+            patch(element, keyedNode[0], keyedNode[1], newChild, isSVG);
+          } else {
+            patch(element, oldElement, null, newChild, isSVG);
+          }
+
+          j++;
+          keyed[newKey] = newChild;
+        }
+      }
+
+      while (i < oldLen) {
+        var oldChild = oldNode.children[i];
+        var oldKey = getKey(oldChild);
+        if (null == oldKey) {
+          removeElement(element, oldElements[i], oldChild.data);
+        }
+        i++;
+      }
+
+      for (var i in oldKeyed) {
+        var keyedNode = oldKeyed[i];
+        var reusableNode = keyedNode[1];
+        if (!keyed[reusableNode.data.key]) {
+          removeElement(element, keyedNode[0], reusableNode.data);
+        }
+      }
+    } else if (element && node !== element.nodeValue) {
+      if (typeof node === "string" && typeof oldNode === "string") {
+        element.nodeValue = node;
+      } else {
+        element = parent.insertBefore(
+          createElement(node, isSVG),
+          (nextSibling = element)
+        );
+        removeElement(parent, nextSibling, oldNode.data);
+      }
+    }
+
+    return element
+  }
+}
+
+var npmUrl = function (name) { return ("https://www.npmjs.com/package/" + name + "/"); };
+
+var nodeiCo = function (name) { return ("https://nodei.co/npm/" + name + ".png?mini=true"); };
+
+var Install = function (ref) {
+  var name = ref.name;
+  var packageName = ref.packageName;
+
+  return (
+  h( 'a', { href: npmUrl(packageName || "tonal-" + name) },
+    h( 'img', { src: nodeiCo(packageName || "tonal-" + name) })
+  )
+);
+};
+
+var TONICS = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B B# Cb".split(
+  " "
+);
+
+var Selector = function (ref) {
+  var id = ref.id;
+  var label = ref.label;
+  var route = ref.route;
+  var oct = ref.oct;
+  var tonics = ref.tonics; if ( tonics === void 0 ) tonics = TONICS;
+
+  var o = oct !== 0 && !oct ? "" : oct;
+  return (
+    h( 'p', { id: id, class: "Selector" },
+      label && h( 'label', null, label ),
+      tonics.map(function (t) { return h( Link, { to: route(t + o) }, t + o); })
+    )
+  );
+};
+
+var Code = function (ref) {
+  var lines = ref.lines;
+
+  return (
+  h( 'pre', null,
+    h( 'code', null, lines.join("\n") )
+  )
+);
+};
+
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-note.svg)](https://www.npmjs.com/package/tonal-note)
+ * [![tonal](https://img.shields.io/badge/tonal-note-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-note` is a collection of functions to manipulate musical notes in scientific notation
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * ## Usage
+ *
+ * ```js
+ * import * as note from 'tonal-note'
+ * // or const note = require('tonal-note')
+ * note.name('bb2') // => 'Bb2'
+ * note.chroma('bb2') // => 10
+ * note.midi('a4') // => 69
+ * note.freq('a4') // => 440
+ * note.oct('G3') // => 3
+ * 
+ * // part of tonal
+ * const tonal = require('tonal')
+ * tonal.note.midi('d4') // => 62
+ * ```
+ *
+ * ## Install
+ *
+ * [![npm install tonal-note](https://nodei.co/npm/tonal-note.png?mini=true)](https://npmjs.org/package/tonal-note/)
+ *
+ * ## API Documentation
+ *
+ * @module note
+ */
+
+var REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)\s*$/;
+
+function tokenize(str) {
+  var m = REGEX.exec(str);
+  if (!m) { return null; }
+  return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]];
+}
+
+var NO_NOTE = Object.freeze({
+  pc: null,
+  name: null,
+  step: null,
+  alt: null,
+  oct: null,
+  chroma: null,
+  midi: null
+});
+
+var SEMI = [0, 2, 4, 5, 7, 9, 11];
+var properties = function (str) {
+  var tokens = tokenize(str);
+  if (tokens === null || tokens[3] !== "") { return NO_NOTE; }
+  var letter = tokens[0];
+  var acc = tokens[1];
+  var oct = tokens[2];
+  var p = { letter: letter, acc: acc };
+  p.pc = p.letter + p.acc;
+  p.name = p.pc + oct;
+  p.step = (p.letter.charCodeAt(0) + 3) % 7;
+  p.alt = p.acc[0] === "b" ? -p.acc.length : p.acc.length;
+  p.oct = oct.length ? +oct : null;
+  p.chroma = (SEMI[p.step] + p.alt + 120) % 12;
+  p.midi = p.oct !== null ? SEMI[p.step] + p.alt + 12 * (p.oct + 1) : null;
+  return Object.freeze(p);
+};
+
+var cache = {};
+function props(str) {
+  if (typeof str !== "string") { return NO_NOTE; }
+  return cache[str] === undefined ? (cache[str] = properties(str)) : cache[str];
+}
+
+/**
+ * Test if the given string is a note
+ * @param {String} name 
+ * @return {boolean}
+ */
+var isNote = function (str) { return props(str) !== NO_NOTE; };
+
+/**
+ * Given a note name, return the note name or null if not valid note.
+ * The note name will ALWAYS have the letter in upercase and accidentals
+ * using # or b
+ * 
+ * Can be used to test if a string is a valid note name.
+ *
+ * @function
+ * @param {Pitch|string}
+ * @return {string}
+ *
+ * @example
+ * const note = require('tonal-note')
+ * note.name('cb2') // => 'Cb2'
+ * ['c', 'db3', '2', 'g+', 'gx4'].map(note.name) // => ['C', 'Db3', null, null, 'G##4']
+ */
+var name = function (str) { return props(str).name; };
+
+/**
+ * Get pitch class of a note. The note can be a string or a pitch array.
+ *
+ * @function
+ * @param {string|Pitch}
+ * @return {string} the pitch class
+ * @example
+ * tonal.pc('Db3') // => 'Db'
+ * tonal.map(tonal.pc, 'db3 bb6 fx2') // => [ 'Db', 'Bb', 'F##']
+ */
+var pc$1 = function (str) { return props(str).pc; };
+
+/**
+ * Get the note midi number
+ * (an alias of tonal-midi `toMidi` function)
+ *
+ * @function
+ * @param {string|Number} note - the note to get the midi number from
+ * @return {Integer} the midi number or null if not valid pitch
+ * @example
+ * note.midi('C4') // => 60
+ * note.midi(60) // => 60
+ * @see midi.toMidi
+ */
+var midi = function (note) { return props(note).midi || +note || null; };
+
+var midiToFreq = function (midi) { return typeof midi === "number" ? Math.pow(2, (midi - 69) / 12) * 440 : null; };
+
+/**
+ * Get the frequency of a note
+ *
+ * @function
+ * @param {string|Number} note - the note name or midi note number
+ * @return {Number} the frequency
+ * @example
+ * note.freq('A4') // => 440
+ * note.freq(69) // => 440
+ */
+var freq = function (note) { return midiToFreq(props(note).midi) || midiToFreq(note); };
+
+var L2 = Math.log(2);
+var L440 = Math.log(440);
+/**
+ * Get the midi number from a frequency in hertz. The midi number can
+ * contain decimals (with two digits precission)
+ * 
+ * @param {Number} frequency
+ * @return {Number}
+ * @example
+ * note.freqToMidi(220)); //=> 57;
+ * note.freqToMidi(261.62)); //=> 60;
+ * note.freqToMidi(261)); //=> 59.96;
+ */
+var freqToMidi = function (freq) {
+  var v = 12 * (Math.log(freq) - L440) / L2 + 69;
+  return Math.round(v * 100) / 100;
+};
+
+/**
+ * Return the chroma of a note. The chroma is the numeric equivalent to the
+ * pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
+ *
+ * @param {string} note - the note name
+ * @return {Integer} the chroma number
+ * @example
+ * const note = require('tonal-note')
+ * note.chroma('Cb') // => 11
+ * ['C', 'D', 'E', 'F'].map(note.chroma) // => [0, 2, 4, 5]
+ */
+var chroma = function (str) { return props(str).chroma; };
+
+/**
+ * Get the octave of the given pitch
+ *
+ * @function
+ * @param {string} note - the note
+ * @return {Integer} the octave or null if doesn't have an octave or not a valid note
+ * @example
+ * note.oct('C#4') // => 4
+ * note.oct('C') // => null
+ * note.oct('blah') // => undefined
+ */
+var oct = function (str) { return props(str).oct; };
+
+/**
+ * Get the note step: a number equivalent of the note letter. 0 means C and
+ * 6 means B. This is different from `chroma` (see example)
+ *
+ * @function
+ * @param {string} note - the note
+ * @return {Integer} a number between 0 and 6 or null if not a note
+ * @example
+ * note.step('C') // => 0
+ * note.step('Cb') // => 0
+ * // usually what you need is chroma
+ * note.chroma('Cb') // => 6
+ */
+var step = function (str) { return props(str).step; };
+
+/**
+ * Get the note alteration: a number equivalent to the accidentals. 0 means
+ * no accidentals, negative numbers are for flats, positive for sharps
+ *
+ * @function
+ * @param {string|Pitch} note - the note
+ * @return {Integer} the alteration
+ * @example
+ * note.alt('C') // => 0
+ * note.alt('C#') // => 1
+ * note.alt('Cb') // => -1
+ */
+var alt = function (str) { return props(str).alt; };
+
+var LETTERS = "CDEFGAB";
+/**
+ * Given a step number return it's letter (0 = C, 1 = D, 2 = E)
+ * @param {number} step 
+ * @return {string} the letter
+ * @example
+ * note.stepToLetter(3) // => "F"
+ */
+var stepToLetter = function (step) { return LETTERS[step]; };
+
+var fillStr = function (s, n) { return Array(n + 1).join(s); };
+var numToStr = function (num, op) { return (typeof num !== "number" ? "" : op(num)); };
+
+/**
+ * Given an alteration number, return the accidentals
+ * @param {Number} alt 
+ * @return {String}
+ * @example
+ * note.altToAcc(-3) // => 'bbb'
+ */
+var altToAcc = function (alt) { return numToStr(alt, function (alt) { return (alt < 0 ? fillStr("b", -alt) : fillStr("#", alt)); }); };
+
+var build = function (ref) {
+  var step = ref.step;
+  var alt = ref.alt;
+  var oct = ref.oct;
+
+  var pc = stepToLetter(step) + altToAcc(alt);
+  return oct === undefined ? pc : pc + oct;
+};
+
+var FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
+var SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
+
+/**
+ * Given a midi number, returns a note name. The altered notes will have
+ * flats unless explicitly set with the optional `useSharps` parameter.
+ *
+ * @function
+ * @param {number} midi - the midi note number
+ * @param [boolean] useSharps - (Optional) set to true to use sharps instead of flats
+ * @return {string} the note name
+ * @example
+ * const note = require('tonal-note')
+ * note.fromMidi(61) // => 'Db4'
+ * note.fromMidi(61, true) // => 'C#4'
+ * // it rounds to nearest note
+ * note.fromMidi(61.7) // => 'D4'
+ */
+function fromMidi(num, sharps) {
+  num = Math.round(num);
+  var pcs = sharps === true ? SHARPS : FLATS;
+  var pc = pcs[num % 12];
+  var o = Math.floor(num / 12) - 1;
+  return pc + o;
+}
+
+
+var index$1 = Object.freeze({
+	tokenize: tokenize,
+	props: props,
+	isNote: isNote,
+	name: name,
+	pc: pc$1,
+	midi: midi,
+	midiToFreq: midiToFreq,
+	freq: freq,
+	freqToMidi: freqToMidi,
+	chroma: chroma,
+	oct: oct,
+	step: step,
+	alt: alt,
+	stepToLetter: stepToLetter,
+	altToAcc: altToAcc,
+	build: build,
+	fromMidi: fromMidi
+});
+
+var rotate$1 = function (times, arr) {
+  var len = arr.length;
+  var n = (times % len + len) % len;
+  return arr.slice(n, len).concat(arr.slice(0, n));
+};
+
+var compact = function (arr) { return arr.filter(function (n) { return n === 0 || n; }); };
+
+// a function that get note heights (with negative number for pitch classes)
+var height = function (n) {
+  var m = midi(n);
+  return m !== null ? m : midi(n + "-100");
+};
+
+/**
+ * Sort an array of notes in ascending order
+ * 
+ * @private
+ * @param {String|Array} notes
+ * @return {Array} sorted array of notes
+ */
+function sort(src) {
+  return compact(src.map(name)).sort(function (a, b) { return height(a) > height(b); });
+}
+
+/**
+ * Get sorted notes with duplicates removed
+ * 
+ * @private
+ * @function
+ * @param {Array} notes
+ */
+function unique(arr) {
+  return sort(arr).filter(function (n, i, a) { return i === 0 || n !== a[i - 1]; });
+}
+
+/**
+ * Randomizes the order of the specified array in-place, using the Fisher–Yates shuffle.
+ *
+ * @private
+ * @function
+ * @param {Array|String} arr - the array
+ * @return {Array} the shuffled array
+ *
+ * @example
+ * import * as array from 'tonal-array'
+ * array.shuffle(["C", "D", "E", "F"])
+ */
+var shuffle = function (arr) {
+  var i, t;
+  var m = arr.length;
+  while (m) {
+    i = (Math.random() * m--) | 0;
+    t = arr[m];
+    arr[m] = arr[i];
+    arr[i] = t;
+  }
+  return arr;
+};
+
+/**
+ * Get all permutations of a list
+ * http://stackoverflow.com/questions/9960908/permutations-in-javascript
+ * 
+ * @param {Array|Strng} list - the list
+ * @return {Array<Array>} an array with all the permutations
+ */
+var permutations$1 = function (arr) {
+  if (arr.length === 0) { return [[]]; }
+  return permutations$1(arr.slice(1)).reduce(function(acc, perm) {
+    return acc.concat(
+      arr.map(function(e, pos) {
+        var newPerm = perm.slice();
+        newPerm.splice(pos, 0, arr[0]);
+        return newPerm;
+      })
+    );
+  }, []);
+};
+
+// ascending range
+function ascR(b, n) {
+  for (var a = []; n--; a[n] = n + b){  }
+  return a;
+}
+// descending range
+function descR(b, n) {
+  for (var a = []; n--; a[n] = b - n){  }
+  return a;
+}
+
+// create a range between a and b
+function range(a, b) {
+  return a === null || b === null
+    ? []
+    : a < b ? ascR(a, b - a + 1) : descR(a, a - b + 1);
+}
+
+
+var index = Object.freeze({
+	rotate: rotate$1,
+	compact: compact,
+	sort: sort,
+	unique: unique,
+	shuffle: shuffle,
+	permutations: permutations$1,
+	range: range
+});
+
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-interval.svg)](https://www.npmjs.com/package/tonal-interval)
+ * [![tonal](https://img.shields.io/badge/tonal-interval-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-interval` is a collection of functions to create and manipulate music intervals.
+ *
+ * The intervals are strings in shorthand notation. Two variations are supported:
+ *
+ * - standard shorthand notation: type and number, for example: 'M3', 'd-4'
+ * - inverse shorthand notation: number and then type, for example: '3M', '-4d'
+ *
+ * The problem with the standard shorthand notation is that some strings can be
+ * parsed as notes or intervals, for example: 'A4' can be note A in 4th octave
+ * or an augmented four. To remove ambiguity, the prefered notation in tonal is the
+ * inverse shortand notation.
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * ## Usage
+ *
+ * ```js
+ * import * as interval from 'tonal-interval'
+ * // or const interval = require('tonal-interval')
+ * interval.semitones('4P') // => 5
+ * interval.invert('3m') // => '6M'
+ * interval.simplify('9m') // => '2m'
+ * ```
+ *
+ * ## Install
+ *
+ * [![npm install tonal-interval](https://nodei.co/npm/tonal-interval.png?mini=true)](https://npmjs.org/package/tonal-interval/)
+ *
+ * ## API Documentation
+ *
+ * @module interval
+ */
+// shorthand tonal notation (with quality after number)
+var IVL_TNL = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
+// standard shorthand notation (with quality before number)
+var IVL_STR = "(AA|A|P|M|m|d|dd)([-+]?\\d+)";
+var REGEX$1 = new RegExp("^" + IVL_TNL + "|" + IVL_STR + "$");
+var SIZES = [0, 2, 4, 5, 7, 9, 11];
+var TYPES = "PMMPPMM";
+var CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1];
+
+var tokenize$1 = function (str) {
+  var m = REGEX$1.exec(str);
+  return m === null ? null : m[1] ? [m[1], m[2]] : [m[4], m[3]];
+};
+
+var NO_IVL = Object.freeze({
+  name: null,
+  num: null,
+  q: null,
+  step: null,
+  alt: null,
+  dir: null,
+  type: null,
+  simple: null,
+  semitones: null,
+  chroma: null,
+  ic: null
+});
+
+var fillStr$1 = function (s, n) { return Array(Math.abs(n) + 1).join(s); };
+
+var qToAlt = function (type, q) {
+  if (q === "M" && type === "M") { return 0; }
+  if (q === "P" && type === "P") { return 0; }
+  if (q === "m" && type === "M") { return -1; }
+  if (/^A+$/.test(q)) { return q.length; }
+  if (/^d+$/.test(q)) { return type === "P" ? -q.length : -q.length - 1; }
+  return null;
+};
+
+var altToQ = function (type, alt) {
+  if (alt === 0) { return type === "M" ? "M" : "P"; }
+  else if (alt === -1 && type === "M") { return "m"; }
+  else if (alt > 0) { return fillStr$1("A", alt); }
+  else if (alt < 0) { return fillStr$1("d", type === "P" ? alt : alt + 1); }
+  else { return null; }
+};
+
+var numToStep = function (num) { return (Math.abs(num) - 1) % 7; };
+
+var properties$1 = function (str) {
+  var t = tokenize$1(str);
+  if (t === null) { return NO_IVL; }
+  var p = { num: +t[0], q: t[1] };
+  p.step = numToStep(p.num);
+  p.type = TYPES[p.step];
+  if (p.type === "M" && p.q === "P") { return NO_IVL; }
+
+  p.name = "" + p.num + p.q;
+  p.dir = p.num < 0 ? -1 : 1;
+  p.simple = p.num === 8 || p.num === -8 ? p.num : p.dir * (p.step + 1);
+  p.alt = qToAlt(p.type, p.q);
+  p.oct = Math.floor((Math.abs(p.num) - 1) / 7);
+  p.semitones = p.dir * (SIZES[p.step] + p.alt + 12 * p.oct);
+  p.chroma = ((p.dir * (SIZES[p.step] + p.alt)) % 12 + 12) % 12;
+  p.ic = CLASSES[p.chroma];
+  return Object.freeze(p);
+};
+
+var cache$1 = {};
+/**
+ * Get interval properties. It returns an object with:
+ *
+ * - name: name
+ * - num: number
+ * - q: quality
+ * - step: step 
+ * - alt: alteration
+ * - dir: direction (1 ascending, -1 descending)
+ * - type: "P" or "M" for perfectable or majorable
+ * - simple: the simplified number
+ * - semitones: the size in semitones
+ * - chroma: the interval chroma
+ * - ic: the interval class
+ *
+ * @function
+ * @param {String} interval - the interval
+ * @return {Object} the interval in the form [number, alt]
+ */
+function props$1(str) {
+  if (typeof str !== "string") { return NO_IVL; }
+  return cache$1[str] || (cache$1[str] = properties$1(str));
+}
+
+/**
+ * Get the number of the interval 
+ *
+ * @function
+ * @param {String} interval - the interval
+ * @return {Integer} 
+ * @example
+ * interval.num('m2') // => 2
+ * interval.num('P9') // => 9
+ * interval.num('P-4') // => -4
+ */
+var num = function (str) { return props$1(str).num; };
+
+/**
+ * Get interval name. Can be used to test if it's an interval. It accepts intervals
+ * as pitch or string in shorthand notation or tonal notation. It returns always
+ * intervals in tonal notation.
+ *
+ * @function
+ * @param {String} interval - the interval string or array
+ * @return {String} the interval name or null if not valid interval
+ * @example
+ * interval.name('m-3') // => '-3m'
+ * interval.name('3') // => null
+ */
+var name$1 = function (str) { return props$1(str).name; };
+
+/**
+ * Get interval type. Can be perfectable (1, 4, 5) or majorable (2, 3, 6, 7)
+ * It does NOT return the actual quality.
+ *
+ * @function
+ * @param {String} interval
+ * @return {String} 'P' for perfectables, 'M' for majorables or null if not
+ * valid interval
+ * @example
+ * interval.type('5A') // => 'P'
+ */
+var type = function (str) { return props$1(str).type; };
+
+/**
+ * Get size in semitones of an interval
+ * 
+ * @function
+ * @param {String} ivl
+ * @return {Integer} the number of semitones or null if not an interval
+ * @example
+ * import { semitones } from 'tonal-interval'
+ * semitones('P4') // => 5
+ * // or using tonal
+ * tonal.interval.semitones('P5') // => 7
+ */
+var semitones = function (str) { return props$1(str).semitones; };
+
+/**
+ * Get the chroma of the interval. The chroma is a number between 0 and 7
+ * that represents the position within an octave (pitch set)
+ * 
+ * @function
+ * @param {String} str 
+ * @return {Number}
+ */
+var chroma$1 = function (str) { return props$1(str).chroma; };
+
+/**
+ * Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
+ * number of a given interval.
+ *
+ * In musical set theory, an interval class is the shortest distance in
+ * pitch class space between two unordered pitch classes
+ *
+ * As paramter you can pass an interval in shorthand notation, an interval in
+ * array notation or the number of semitones of the interval
+ *
+ * @function
+ * @param {String|Integer} interval - the interval or the number of semitones
+ * @return {Integer} A value between 0 and 6
+ *
+ * @example
+ * interval.ic('P8') // => 0
+ * interval.ic('m6') // => 4
+ * ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
+ */
+var ic = function (str) { return props$1(str).ic; };
+
+/**
+ * Given a interval property object, get the interval name
+ *
+ * The properties must contain a `num` *or* `step`, and `alt`:
+ * 
+ * - num: the interval number
+ * - step: the interval step (overrides the num property)
+ * - alt: the interval alteration
+ * - oct: (Optional) the number of octaves
+ * - dir: (Optional) the direction
+ * 
+ * @function
+ * @param {Object} props - the interval property object
+ *
+ * @return {String} the interval name
+ * @example
+ * interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
+ * interval.build({ num: 9, alt: -1 }) // => '9m'
+ */
+var build$1 = function (ref) {
+  if ( ref === void 0 ) ref = {};
+  var num = ref.num;
+  var step = ref.step;
+  var alt = ref.alt;
+  var oct = ref.oct; if ( oct === void 0 ) oct = 1;
+  var dir = ref.dir;
+
+  if (step !== undefined) { num = step + 1 + 7 * oct; }
+  if (num === undefined) { return null; }
+
+  var d = dir < 0 ? "-" : "";
+  var type = TYPES[numToStep(num)];
+  return d + num + altToQ(type, alt);
+};
+
+/**
+ * Get the simplified version of an interval.
+ *
+ * @function
+ * @param {String} interval - the interval to simplify
+ * @return {String} the simplified interval
+ *
+ * @example
+ * interval.simplify('9M') // => '2M'
+ * ['8P', '9M', '10M', '11P', '12P', '13M', '14M', '15P'].map(interval.simplify)
+ * // => [ '8P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
+ * interval.simplify('2M') // => '2M'
+ * interval.simplify('-2M') // => '7m'
+ */
+var simplify = function (str) {
+  var p = props$1(str);
+  if (p === NO_IVL) { return null; }
+  return p.simple + p.q;
+};
+
+/**
+ * Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
+ * of an interval.
+ *
+ * @function
+ * @param {String} interval - the interval to invert in interval shorthand
+ * notation or interval array notation
+ * @return {String} the inverted interval
+ *
+ * @example
+ * interval.invert('3m') // => '6M'
+ * interval.invert('2M') // => '7m'
+ */
+var invert = function (str) {
+  var p = props$1(str);
+  if (p === NO_IVL) { return null; }
+  var step = (7 - p.step) % 7;
+  var alt = p.type === "P" ? -p.alt : -(p.alt + 1);
+  return build$1({ step: step, alt: alt, oct: p.oct, dir: p.dir });
+};
+
+// interval numbers
+var IN = [1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 7, 7];
+// interval qualities
+var IQ = "P m M m M P d P m M m M".split(" ");
+
+/**
+ * Get interval name from semitones number. Since there are several interval
+ * names for the same number, the name it's arbitraty, but deterministic.
+ * 
+ * @function
+ * @param {Integer} num - the number of semitones (can be negative)
+ * @return {String} the interval name
+ * @example
+ * import { fromSemitones } from 'tonal-interval'
+ * fromSemitones(7) // => '5P'
+ * // or using tonal
+ * tonal.fromSemitones(-7) // => '-5P'
+ */
+var fromSemitones = function (num) {
+  var d = num < 0 ? -1 : 1;
+  var n = Math.abs(num);
+  var c = n % 12;
+  var o = Math.floor(n / 12);
+  return d * (IN[c] + 7 * o) + IQ[c];
+};
+
+
+var index$2 = Object.freeze({
+	tokenize: tokenize$1,
+	props: props$1,
+	num: num,
+	name: name$1,
+	type: type,
+	semitones: semitones,
+	chroma: chroma$1,
+	ic: ic,
+	build: build$1,
+	simplify: simplify,
+	invert: invert,
+	fromSemitones: fromSemitones
+});
+
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-distance.svg)](https://www.npmjs.com/package/tonal-distance)
+ * [![tonal](https://img.shields.io/badge/tonal-distance-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/tonal/distance)
+ * 
+ * Transpose notes by intervals and find distances between notes
+ *
+ * @example
+ * // using ES6 import
+ * import { interval, semitones, transpose } from 'tonal-distance'
+ * semitones('C' ,'D') // => 2
+ * interval('C4', 'G4') // => '5P'
+ * transpose('C4', 'P5') // => 'G4'
+ *
+ * // included in tonal facade
+ * const tonal = require('tonal');
+ * tonal.distance.transpose('C4', 'P5')
+ * tonal.distance.transposeBy('P5', 'C4')
+ * 
+ * @module distance
+ */
+// Map from letter step to number of fifths starting from 'C':
+// { C: 0, D: 2, E: 4, F: -1, G: 1, A: 3, B: 5 }
+var FIFTHS = [0, 2, 4, -1, 1, 3, 5];
+
+// Given a number of fifths, return the octaves they span
+var fOcts = function (f) { return Math.floor(f * 7 / 12); };
+
+// Get the number of octaves it span each step
+var FIFTH_OCTS = FIFTHS.map(fOcts);
+
+var encode$1 = function (ref) {
+  var step$$1 = ref.step;
+  var alt$$1 = ref.alt;
+  var oct$$1 = ref.oct;
+  var dir = ref.dir; if ( dir === void 0 ) dir = 1;
+
+  var f = FIFTHS[step$$1] + 7 * alt$$1;
+  if (oct$$1 === null) { return [dir * f]; }
+  var o = oct$$1 - FIFTH_OCTS[step$$1] - 4 * alt$$1;
+  return [dir * f, dir * o];
+};
+
+// We need to get the steps from fifths
+// Fifths for CDEFGAB are [ 0, 2, 4, -1, 1, 3, 5 ]
+// We add 1 to fifths to avoid negative numbers, so:
+// for ['F', 'C', 'G', 'D', 'A', 'E', 'B'] we have:
+var STEPS = [3, 0, 4, 1, 5, 2, 6];
+
+// Return the number of fifths as if it were unaltered
+function unaltered(f) {
+  var i = (f + 1) % 7;
+  return i < 0 ? 7 + i : i;
+}
+
+var decode$1 = function (f, o, dir) {
+  var step$$1 = STEPS[unaltered(f)];
+  var alt$$1 = Math.floor((f + 1) / 7);
+  if (o === undefined) { return { step: step$$1, alt: alt$$1, dir: dir }; }
+  var oct$$1 = o + 4 * alt$$1 + FIFTH_OCTS[step$$1];
+  return { step: step$$1, alt: alt$$1, oct: oct$$1, dir: dir };
+};
+
+var memo = function (fn, cache) {
+  if ( cache === void 0 ) cache = {};
+
+  return function (str) { return cache[str] || (cache[str] = fn(str)); };
+};
+
+var encoder = function (props$$1) { return memo(function (str) {
+    var p = props$$1(str);
+    return p.name === null ? null : encode$1(p);
+  }); };
+
+var encodeNote = encoder(props);
+var encodeIvl = encoder(props$1);
+
+/**
+ * Transpose a note by an interval. The note can be a pitch class.
+ * 
+ * This function can be partially applied.
+ * 
+ * @param {String} note
+ * @param {String} interval
+ * @return {String} the transposed note
+ * @example
+ * import { tranpose } from 'tonal-distance'
+ * transpose('d3', '3M') // => 'F#3'
+ * // it works with pitch classes
+ * transpose('D', '3M') // => 'F#'
+ * // can be partially applied
+ * ['C', 'D', 'E', 'F', 'G'].map(transpose('M3)) // => ['E', 'F#', 'G#', 'A', 'B']
+ */
+function transpose(note, interval) {
+  if (arguments.length === 1) { return function (i) { return transpose(note, i); }; }
+  var n = encodeNote(note);
+  var i = encodeIvl(interval);
+  if (n === null || i === null) { return null; }
+  var tr = n.length === 1 ? [n[0] + i[0]] : [n[0] + i[0], n[1] + i[1]];
+  return build(decode$1(tr[0], tr[1]));
+}
+
+/**
+ * Transpose a pitch class by a number of perfect fifths. 
+ * 
+ * It can be partially applied.
+ *
+ * @function
+ * @param {String} pitchClass - the pitch class 
+ * @param {Integer} fifhts - the number of fifths
+ * @return {String} the transposed pitch class
+ * 
+ * @example
+ * import { trFifths } from 'tonal-transpose'
+ * [0, 1, 2, 3, 4].map(trFifths('C')) // => ['C', 'G', 'D', 'A', 'E']
+ * // or using tonal
+ * tonal.trFifths('G4', 1) // => 'D'
+ */
+
+function trFifths(note, fifths) {
+  if (arguments.length === 1) { return function (f) { return trFifths(note, f); }; }
+  var n = encodeNote(note);
+  if (n === null) { return null; }
+  return build(decode$1(n[0] + fifths));
+}
+
+/**
+ * Get the distance in fifths between pitch classes
+ * 
+ * Can be partially applied.
+ * 
+ * @param {String} to - note or pitch class
+ * @param {String} from - note or pitch class 
+ */
+function fifths(from, to) {
+  if (arguments.length === 1) { return function (to) { return fifths(from, to); }; }
+  var f = encodeNote(from);
+  var t = encodeNote(to);
+  if (t === null || f === null) { return null; }
+  return t[0] - f[0];
+}
+
+/**
+ * The same as transpose with the arguments inverted.
+ * 
+ * Can be partially applied.
+ * 
+ * @param {String} note
+ * @param {String} interval
+ * @return {String} the transposed note
+ * @example
+ * import { tranposeBy } from 'tonal-distance'
+ * transposeBy('3m', '5P') // => '7m'
+ */
+function transposeBy(interval, note) {
+  if (arguments.length === 1) { return function (n) { return transpose(n, interval); }; }
+  return transpose(note, interval);
+}
+
+var isDescending = function (e) { return e[0] * 7 + e[1] * 12 < 0; };
+var decodeIvl = function (i) { return isDescending(i) ? decode$1(-i[0], -i[1], -1) : decode$1(i[0], i[1], 1); };
+
+function addIntervals(ivl1, ivl2, dir) {
+  var i1 = encodeIvl(ivl1);
+  var i2 = encodeIvl(ivl2);
+  if (i1 === null || i2 === null) { return null; }
+  var i = [i1[0] + dir * i2[0], i1[1] + dir * i2[1]];
+  return build$1(decodeIvl(i));
+}
+
+/**
+ * Add two intervals 
+ * 
+ * Can be partially applied.
+ * 
+ * @param {String} interval1
+ * @param {String} interval2
+ * @return {String} the resulting interval
+ * @example
+ * import { add } from 'tonal-distance'
+ * add('3m', '5P') // => '7m'
+ */
+function add(ivl1, ivl2) {
+  if (arguments.length === 1) { return function (i2) { return add(ivl1, i2); }; }
+  return addIntervals(ivl1, ivl2, 1);
+}
+
+/**
+ * Subtract two intervals
+ * 
+ * Can be partially applied
+ * 
+ * @param {String} minuend
+ * @param {String} subtrahend
+ * @return {String} interval diference
+ */
+function subtract(ivl1, ivl2) {
+  if (arguments.length === 1) { return function (i2) { return add(ivl1, i2); }; }
+  return addIntervals(ivl1, ivl2, -1);
+}
+
+/**
+ * Find the interval between two pitches. It works with pitch classes 
+ * (both must be pitch classes and the interval is always ascending)
+ * 
+ * Can be partially applied
+ *
+ * @param {String} from - distance from
+ * @param {String} to - distance to
+ * @return {String} the interval distance
+ *
+ * @example
+ * import { interval } from 'tonal-distance'
+ * interval('C2', 'C3') // => 'P8'
+ * interval('G', 'B') // => 'M3'
+ * 
+ * // or use tonal
+ * var tonal = require('tonal')
+ * tonal.distance.interval('M2', 'P5') // => 'P4'
+ */
+function interval(from, to) {
+  if (arguments.length === 1) { return function (t) { return interval(from, t); }; }
+  var f = encodeNote(from);
+  var t = encodeNote(to);
+  if (f === null || t === null || f.length !== t.length) { return null; }
+  var d =
+    f.length === 1
+      ? [t[0] - f[0], -Math.floor((t[0] - f[0]) * 7 / 12)]
+      : [t[0] - f[0], t[1] - f[1]];
+  return build$1(decodeIvl(d));
+}
+
+/**
+ * Get the distance between two notes in semitones
+ * 
+ * @param {String|Pitch} from - first note
+ * @param {String|Pitch} to - last note
+ * @return {Integer} the distance in semitones or null if not valid notes
+ * @example
+ * import { semitones } from 'tonal-distance'
+ * semitones('C3', 'A2') // => -3
+ * // or use tonal
+ * tonal.distance.semitones('C3', 'G3') // => 7
+ */
+function semitones$1(from, to) {
+  if (arguments.length === 1) { return function (t) { return semitones$1(from, t); }; }
+  var f = props(from);
+  var t = props(to);
+  return f.midi !== null && t.midi !== null
+    ? t.midi - f.midi
+    : f.chroma !== null && t.chroma !== null
+      ? (t.chroma - f.chroma + 12) % 12
+      : null;
+}
+
+
+var index$3 = Object.freeze({
+	transpose: transpose,
+	trFifths: trFifths,
+	fifths: fifths,
+	transposeBy: transposeBy,
+	addIntervals: addIntervals,
+	add: add,
+	subtract: subtract,
+	interval: interval,
+	semitones: semitones$1
+});
+
+var arguments$1 = arguments;
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
+ * [![tonal](https://img.shields.io/badge/tonal-key-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-key` is a collection of functions to query about tonal keys.
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * @example
+ * const key = require('tonal-key')
+ * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+ * key.relative('minor', 'C major') // => 'A minor'
+ *
+ * @module key
+ */
+var MODES = "major dorian phrygian lydian mixolydian minor locrian ionian aeolian".split(
+  " "
+);
+var NUMS = [0, 1, 2, 3, 4, 5, 6, 0, 5];
+var NOTES = "C D E F G A B".split(" ");
+var CHORDS = "Maj7 m7 m7 Maj7 7 m7 m7b5".split(" ");
+var FIFTHS$1 = [0, 2, 4, -1, 1, 3, 5, 0, 3];
+
+var modenum = function (mode) { return NUMS[MODES.indexOf(mode)]; };
+
+/**
+ * Get a list of valid mode names. The list of modes will be always in
+ * increasing order (ionian to locrian)
+ *
+ * @function
+ * @param {Boolean} alias - true to get aliases names
+ * @return {Array} an array of strings
+ * @example
+ * key.modes() // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+ * // 'mixolydian', 'aeolian', 'locrian' ]
+ * key.modes(true) // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+ * // 'mixolydian', 'aeolian', 'locrian', 'major', 'minor' ]
+ */
+var modeNames = function (aliases) { return aliases === true ? MODES.slice() : MODES.slice(0, 7); };
+
+/**
+ * Create a major key from alterations
+ * 
+ * @function
+ * @param {Integer} alt - the alteration number (positive sharps, negative flats)
+ * @return {Key} the key object
+ * @example
+ * var key = require('tonal-key')
+ * key.fromAlter(2) // => 'D major'
+ */
+var fromAlter = function (i) { return trFifths("C", i) + " major"; };
+
+var names = function (alt$$1) {
+  if ( alt$$1 === void 0 ) alt$$1 = 4;
+
+  alt$$1 = Math.abs(alt$$1);
+  var result = [];
+  for (var i = -alt$$1; i <= alt$$1; i++) { result.push(fromAlter(i)); }
+  return result;
+};
+
+var NO_KEY = Object.freeze({
+  name: null,
+  tonic: null,
+  mode: null,
+  modenum: null,
+  intervals: [],
+  scale: [],
+  alteration: null,
+  accidentals: null
+});
+
+var properties$2 = function (name$$1) {
+  var p = tokenize$2(name$$1);
+  if (p[0] === null) { return NO_KEY; }
+  var k = { tonic: p[0], mode: p[1] };
+  k.name = k.tonic + " " + k.mode;
+  k.modenum = modenum(k.mode);
+  var cs = rotate$1(k.modenum, NOTES);
+  k.intervals = cs.map(interval(cs[0]));
+  k.scale = k.intervals.map(transpose(k.tonic));
+  k.alteration = fifths("C", k.tonic) - FIFTHS$1[MODES.indexOf(k.mode)];
+  k.accidentals = altToAcc(k.alteration);
+  return Object.freeze(k);
+};
+
+var memo$1 = function (fn, cache) {
+  if ( cache === void 0 ) cache = {};
+
+  return function (str) { return cache[str] || (cache[str] = fn(str)); };
+};
+
+/**
+ * Return the a key properties object with the following information:
+ *
+ * - name: name
+ * - tonic: key tonic
+ * - mode: key mode
+ * - modenum: mode number (0 major, 1 dorian, ...)
+ * - intervals: the scale intervals
+ * - scale: the scale notes
+ * - alteration: alteration number
+ * - accidentals: accidentals 
+ *
+ * @function
+ * @param {String} name - the key name
+ * @return {Object} the key properties object or null if not a valid key
+ * @example
+ * var key = require('tonal-key')
+ * key.props('C3 dorian') // => { tonic: 'C', mode: 'dorian', ... }
+ */
+var props$2 = memo$1(properties$2);
+
+/**
+ * Get scale of a key
+ *
+ * @function
+ * @param {String|Object} key
+ * @return {Array} the key scale
+ * @example
+ * key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
+ * key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
+ * key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
+ * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+ */
+var scale = function (str) { return props$2(str).scale; };
+
+/**
+ * Get key alteration. The alteration is a number indicating the number of
+ * sharpen notes (positive) or flaten notes (negative)
+ * 
+ * @function
+ * @param {String|Integer} key
+ * @return {Integer}
+ * @example
+ * var key = require('tonal-keys')
+ * key.alteration('A major') // => 3
+ */
+var alteration = function (str) { return props$2(str).alteration; };
+
+/**
+ * Get key accidentals: a string with sharps or flats
+ * 
+ * @function
+ * @param {String} key
+ * @return {String}
+ * @example
+ * import * as key from 'tonal-keys'
+ * key.accidentals('A major') // => "###"
+ */
+var accidentals = function (str) { return props$2(str).accidentals; };
+
+/**
+ * Get a list of the altered notes of a given key. The notes will be in
+ * the same order than in the key signature.
+ * 
+ * @function
+ * @param {String} key - the key name
+ * @return {Array}
+ * @example
+ * var key = require('tonal-keys')
+ * key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
+ */
+var alteredNotes = function (name$$1) {
+  var alt$$1 = props$2(name$$1).alteration;
+  if (alt$$1 === null) { return null; }
+  return alt$$1 === 0
+    ? []
+    : alt$$1 > 0
+      ? range(1, alt$$1).map(trFifths("B"))
+      : range(-1, alt$$1).map(trFifths("F"));
+};
+
+/**
+ * Get key chords
+ * 
+ * @function
+ * @param {String} name - the key name
+ * @return {Array}
+ * @example
+ * key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
+ */
+var chords = function (str) {
+  var p = props$2(str);
+  if (!p.name) { return []; }
+  var chords = rotate$1(p.modenum, CHORDS);
+  return p.scale.map(function (tonic, i) { return tonic + chords[i]; });
+};
+
+/**
+ * Get secondary dominant key chords
+ * 
+ * @function
+ * @param {String} name - the key name
+ * @return {Array}
+ * @example
+ * key.secDomChords("A major") // => ["E7", "F#7", ...]
+ */
+
+var secDomChords = function (name$$1) {
+  var p = props$2(name$$1);
+  if (!p.name) { return []; }
+  return p.scale.map(function (t) { return transpose(t, "P5") + "7"; });
+};
+
+/**
+ * Get relative of a key. Two keys are relative when the have the same
+ * key signature (for example C major and A minor)
+ *
+ * It can be partially applied.
+ *
+ * @function
+ * @param {String} mode - the relative destination
+ * @param {String} key - the key source
+ * @example
+ * key.relative('dorian', 'B major') // => 'C# dorian'
+ * // partial application
+ * var minor = key.relative('minor')
+ * minor('C major') // => 'A minor'
+ * minor('E major') // => 'C# minor'
+ */
+var relative = function (mode, key) {
+  if (arguments$1.length === 1) { return function (key) { return relative(mode, key); }; }
+  var num = modenum(mode.toLowerCase());
+  if (num === undefined) { return null; }
+  var k = props$2(key);
+  if (k.name === null) { return null; }
+  return trFifths(k.tonic, FIFTHS$1[num] - FIFTHS$1[k.modenum]) + " " + mode;
+};
+
+/**
+ * Split the key name into its components (pitch class tonic and mode name)
+ * 
+ * @function
+ * @param {String} name 
+ * @return {Array} an array in the form [tonic, key]
+ * @example
+ * key.tokenize('C major') // => ['C', 'major']
+ */
+var tokenize$2 = function (name$$1) {
+  var p = tokenize(name$$1);
+  p[3] = p[3].toLowerCase();
+  if (p[0] === "" || MODES.indexOf(p[3]) === -1) { return [null, null]; }
+  return [p[0] + p[1], p[3]];
+};
+
+
+var index$4 = Object.freeze({
+	modeNames: modeNames,
+	fromAlter: fromAlter,
+	names: names,
+	props: props$2,
+	scale: scale,
+	alteration: alteration,
+	accidentals: accidentals,
+	alteredNotes: alteredNotes,
+	chords: chords,
+	secDomChords: secDomChords,
+	relative: relative,
+	tokenize: tokenize$2
+});
+
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-pcset.svg?style=flat-square)](https://www.npmjs.com/package/tonal-pcset)
+ * [![tonal](https://img.shields.io/badge/tonal-pcset-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-pcset` is a collection of functions to work with pitch class sets, oriented
+ * to make comparations (isEqual, isSubset, isSuperset)
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * You can install via npm: `npm i --save tonal-pcset`
+ *
+ * ```js
+ * var pcset = require('tonal-pcset')
+ * pcset.isEqual('c2 d5 e6', 'c6 e3 d1') // => true
+ * ```
+ *
+ * ## API documentation
+ *
+ * @module pcset
+ */
+var chr = function (str) { return chroma(str) || chroma$1(str) || 0; };
+var pcsetNum = function (set) { return parseInt(chroma$2(set), 2); };
+var compact$1 = function (arr) { return arr.filter(function (x) { return x; }); };
+
+/**
+ * Get chroma of a pitch class set. A chroma identifies each set uniquely.
+ * It's a 12-digit binary each presenting one semitone of the octave.
+ *
+ * Note that this function accepts a chroma as parameter and return it
+ * without modification.
+ *
+ * @param {Array|String} set - the pitch class set
+ * @return {String} a binary representation of the pitch class set
+ * @example
+ * pcset.chroma(["C", "D", "E"]) // => '1010100000000'
+ */
+function chroma$2(set) {
+  if (isChroma(set)) { return set; }
+  if (!Array.isArray(set)) { return ""; }
+  var b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  set.map(chr).forEach(function (i) {
+    b[i] = 1;
+  });
+  return b.join("");
+}
+
+/**
+ * Given a a list of notes or a pcset chroma, produce the rotations
+ * of the chroma discarding the ones that starts with '0'
+ *
+ * This is used, for example, to get all the modes of a scale.
+ *
+ * @param {Array|String} set - the list of notes or pitchChr of the set
+ * @param {Boolean} normalize - (Optional, true by default) remove all
+ * the rotations that starts with '0'
+ * @return {Array<String>} an array with all the modes of the chroma
+ *
+ * @example
+ * pcset.modes(["C", "D", "E"]).map(pcset.intervals)
+ */
+function modes(set, normalize) {
+  normalize = normalize !== false;
+  var binary = chroma$2(set).split("");
+  return compact$1(
+    binary.map(function(_, i) {
+      var r = rotate$1(i, binary);
+      return normalize && r[0] === "0" ? null : r.join("");
+    })
+  );
+}
+
+var REGEX$2 = /^[01]{12}$/;
+/**
+ * Test if the given string is a pitch class set chroma.
+ * @param {String} chroma - the pitch class set chroma
+ * @return {Boolean} true if its a valid pcset chroma
+ * @example
+ * pcset.isChroma('101010101010') // => true
+ * pcset.isChroma('101001') // => false
+ */
+function isChroma(set) {
+  return REGEX$2.test(set);
+}
+
+var IVLS = "1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" ");
+/**
+ * Given a pcset (notes or chroma) return it's intervals
+ * @param {String|Array} pcset - the pitch class set (notes or chroma)
+ * @return {Array} intervals or empty array if not valid pcset
+ * @example
+ * pcset.intervals('1010100000000') => ["1P", "2M", "3M"]
+ */
+function intervals$1(set) {
+  if (!isChroma(set)) { return []; }
+  return compact$1(
+    set.split("").map(function(d, i) {
+      return d === "1" ? IVLS[i] : null;
+    })
+  );
+}
+
+/**
+ * Test if two pitch class sets are identical
+ *
+ * @param {Array|String} set1 - one of the pitch class sets
+ * @param {Array|String} set2 - the other pitch class set
+ * @return {Boolean} true if they are equal
+ * @example
+ * pcset.isEqual('c2 d3', 'c5 d2') // => true
+ */
+function isEqual(s1, s2) {
+  if (arguments.length === 1) { return function (s) { return isEqual(s1, s); }; }
+  return chroma$2(s1) === chroma$2(s2);
+}
+
+/**
+ * Test if a pitch class set is a subset of another
+ *
+ * @param {Array|String} test - the set to test
+ * @param {Array|String} set - the base set to test against
+ * @return {Boolean} true if the test set is a subset of the set
+ * @example
+ * pcset.subset('c d e', 'C2 D4 D5 C6') // => true
+ */
+function isSubset(test, set) {
+  test = pcsetNum(test);
+  return (test & pcsetNum(set)) === test;
+}
+
+/**
+ * Test if a pitch class set is a superset
+ *
+ * @param {Array|String} test - the set to test
+ * @param {Array|String} set - the base set to test against
+ * @return {Boolean} true if the test set is a superset of the set
+ * @example
+ * pcset.isSuperset('c d e', 'C2 D4 F4 D5 E5 C6') // => true
+ */
+function isSuperset(test, set) {
+  test = pcsetNum(test);
+  return (test | pcsetNum(set)) === test;
+}
+
+/**
+ * Test if a given pitch class set includes a note
+ * @param {Array|String} set - the base set to test against
+ * @param {String|Pitch} note - the note to test
+ * @return {Boolean} true if the note is included in the pcset
+ * @example
+ * pcset.includes('c d e', 'C4') // => true
+ * pcset.includes('c d e', 'C#4') // => false
+ */
+function includes(set, note) {
+  if (arguments.length > 1) { return includes(set)(note); }
+  set = chroma$2(set);
+  return function(note) {
+    return set[chr(note)] === "1";
+  };
+}
+
+/**
+ * Filter a list with a pitch class set
+ *
+ * @param {Array|String} set - the pitch class set notes
+ * @param {Array|String} notes - the note list to be filtered
+ * @return {Array} the filtered notes
+ *
+ * @example
+ * pcset.filter(c d e', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'd2', 'c3', 'd3' ])
+ * pcset.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'c3' ])
+ */
+function filter(set, notes) {
+  if (arguments.length === 1) { return function (n) { return filter(set, n); }; }
+  return notes.filter(includes(set));
+}
+
+
+var index$6 = Object.freeze({
+	chroma: chroma$2,
+	modes: modes,
+	isChroma: isChroma,
+	intervals: intervals$1,
+	isEqual: isEqual,
+	isSubset: isSubset,
+	isSuperset: isSuperset,
+	includes: includes,
+	filter: filter
+});
+
+var chromatic = ["1P 2m 2M 3m 3M 4P 4A 5P 6m 6M 7m 7M"];
+var lydian = ["1P 2M 3M 4A 5P 6M 7M"];
+var major = ["1P 2M 3M 4P 5P 6M 7M",["ionian"]];
+var mixolydian = ["1P 2M 3M 4P 5P 6M 7m",["dominant"]];
+var dorian = ["1P 2M 3m 4P 5P 6M 7m"];
+var aeolian = ["1P 2M 3m 4P 5P 6m 7m",["minor"]];
+var phrygian = ["1P 2m 3m 4P 5P 6m 7m"];
+var locrian = ["1P 2m 3m 4P 5d 6m 7m"];
+var altered = ["1P 2m 3m 3M 5d 6m 7m",["super locrian","diminished whole tone","pomeroy"]];
+var iwato = ["1P 2m 4P 5d 7m"];
+var hirajoshi = ["1P 2M 3m 5P 6m"];
+var kumoijoshi = ["1P 2m 4P 5P 6m"];
+var pelog = ["1P 2m 3m 5P 6m"];
+var prometheus = ["1P 2M 3M 4A 6M 7m"];
+var ritusen = ["1P 2M 4P 5P 6M"];
+var scriabin = ["1P 2m 3M 5P 6M"];
+var piongio = ["1P 2M 4P 5P 6M 7m"];
+var augmented = ["1P 2A 3M 5P 5A 7M"];
+var neopolitan = ["1P 2m 3m 4P 5P 6m 7M"];
+var diminished = ["1P 2M 3m 4P 5d 6m 6M 7M"];
+var egyptian = ["1P 2M 4P 5P 7m"];
+var oriental = ["1P 2m 3M 4P 5d 6M 7m"];
+var spanish = ["1P 2m 3M 4P 5P 6m 7m",["phrygian major"]];
+var flamenco = ["1P 2m 3m 3M 4A 5P 7m"];
+var balinese = ["1P 2m 3m 4P 5P 6m 7M"];
+var persian = ["1P 2m 3M 4P 5d 6m 7M"];
+var bebop = ["1P 2M 3M 4P 5P 6M 7m 7M"];
+var enigmatic = ["1P 2m 3M 5d 6m 7m 7M"];
+var ichikosucho = ["1P 2M 3M 4P 5d 5P 6M 7M"];
+var sdata = {
+	chromatic: chromatic,
+	lydian: lydian,
+	major: major,
+	mixolydian: mixolydian,
+	dorian: dorian,
+	aeolian: aeolian,
+	phrygian: phrygian,
+	locrian: locrian,
+	altered: altered,
+	iwato: iwato,
+	hirajoshi: hirajoshi,
+	kumoijoshi: kumoijoshi,
+	pelog: pelog,
+	prometheus: prometheus,
+	ritusen: ritusen,
+	scriabin: scriabin,
+	piongio: piongio,
+	augmented: augmented,
+	neopolitan: neopolitan,
+	diminished: diminished,
+	egyptian: egyptian,
+	oriental: oriental,
+	spanish: spanish,
+	flamenco: flamenco,
+	balinese: balinese,
+	persian: persian,
+	bebop: bebop,
+	enigmatic: enigmatic,
+	ichikosucho: ichikosucho,
+	"melodic minor": ["1P 2M 3m 4P 5P 6M 7M"],
+	"melodic minor second mode": ["1P 2m 3m 4P 5P 6M 7m"],
+	"lydian augmented": ["1P 2M 3M 4A 5A 6M 7M"],
+	"lydian dominant": ["1P 2M 3M 4A 5P 6M 7m",["lydian b7"]],
+	"melodic minor fifth mode": ["1P 2M 3M 4P 5P 6m 7m",["hindu","mixolydian b6M"]],
+	"locrian #2": ["1P 2M 3m 4P 5d 6m 7m"],
+	"locrian major": ["1P 2M 3M 4P 5d 6m 7m",["arabian"]],
+	"major pentatonic": ["1P 2M 3M 5P 6M",["pentatonic"]],
+	"lydian pentatonic": ["1P 3M 4A 5P 7M",["chinese"]],
+	"mixolydian pentatonic": ["1P 3M 4P 5P 7m",["indian"]],
+	"locrian pentatonic": ["1P 3m 4P 5d 7m",["minor seven flat five pentatonic"]],
+	"minor pentatonic": ["1P 3m 4P 5P 7m"],
+	"minor six pentatonic": ["1P 3m 4P 5P 6M"],
+	"minor hexatonic": ["1P 2M 3m 4P 5P 7M"],
+	"flat three pentatonic": ["1P 2M 3m 5P 6M",["kumoi"]],
+	"flat six pentatonic": ["1P 2M 3M 5P 6m"],
+	"major flat two pentatonic": ["1P 2m 3M 5P 6M"],
+	"whole tone pentatonic": ["1P 3M 5d 6m 7m"],
+	"ionian pentatonic": ["1P 3M 4P 5P 7M"],
+	"lydian #5P pentatonic": ["1P 3M 4A 5A 7M"],
+	"lydian dominant pentatonic": ["1P 3M 4A 5P 7m"],
+	"minor #7M pentatonic": ["1P 3m 4P 5P 7M"],
+	"super locrian pentatonic": ["1P 3m 4d 5d 7m"],
+	"in-sen": ["1P 2m 4P 5P 7m"],
+	"vietnamese 1": ["1P 3m 4P 5P 6m"],
+	"vietnamese 2": ["1P 3m 4P 5P 7m"],
+	"prometheus neopolitan": ["1P 2m 3M 4A 6M 7m"],
+	"major blues": ["1P 2M 3m 3M 5P 6M"],
+	"minor blues": ["1P 3m 4P 5d 5P 7m",["blues"]],
+	"composite blues": ["1P 2M 3m 3M 4P 5d 5P 6M 7m"],
+	"augmented heptatonic": ["1P 2A 3M 4P 5P 5A 7M"],
+	"dorian #4": ["1P 2M 3m 4A 5P 6M 7m"],
+	"lydian diminished": ["1P 2M 3m 4A 5P 6M 7M"],
+	"whole tone": ["1P 2M 3M 4A 5A 7m"],
+	"leading whole tone": ["1P 2M 3M 4A 5A 7m 7M"],
+	"harmonic minor": ["1P 2M 3m 4P 5P 6m 7M"],
+	"lydian minor": ["1P 2M 3M 4A 5P 6m 7m"],
+	"neopolitan minor": ["1P 2m 3m 4P 5P 6m 7M"],
+	"neopolitan major": ["1P 2m 3m 4P 5P 6M 7M",["dorian b2"]],
+	"neopolitan major pentatonic": ["1P 3M 4P 5d 7m"],
+	"romanian minor": ["1P 2M 3m 5d 5P 6M 7m"],
+	"double harmonic lydian": ["1P 2m 3M 4A 5P 6m 7M"],
+	"harmonic major": ["1P 2M 3M 4P 5P 6m 7M"],
+	"double harmonic major": ["1P 2m 3M 4P 5P 6m 7M",["gypsy"]],
+	"hungarian minor": ["1P 2M 3m 4A 5P 6m 7M"],
+	"hungarian major": ["1P 2A 3M 4A 5P 6M 7m"],
+	"spanish heptatonic": ["1P 2m 3m 3M 4P 5P 6m 7m"],
+	"todi raga": ["1P 2m 3m 4A 5P 6m 7M"],
+	"malkos raga": ["1P 3m 4P 6m 7m"],
+	"kafi raga": ["1P 3m 3M 4P 5P 6M 7m 7M"],
+	"purvi raga": ["1P 2m 3M 4P 4A 5P 6m 7M"],
+	"bebop dominant": ["1P 2M 3M 4P 5P 6M 7m 7M"],
+	"bebop minor": ["1P 2M 3m 3M 4P 5P 6M 7m"],
+	"bebop major": ["1P 2M 3M 4P 5P 5A 6M 7M"],
+	"bebop locrian": ["1P 2m 3m 4P 5d 5P 6m 7m"],
+	"minor bebop": ["1P 2M 3m 4P 5P 6m 7m 7M"],
+	"mystery #1": ["1P 2m 3M 5d 6m 7m"],
+	"minor six diminished": ["1P 2M 3m 4P 5P 6m 6M 7M"],
+	"ionian augmented": ["1P 2M 3M 4P 5A 6M 7M"],
+	"lydian #9": ["1P 2m 3M 4A 5P 6M 7M"],
+	"six tone symmetric": ["1P 2m 3M 4P 5A 6M"]
+};
+
+var M = ["1P 3M 5P",["Major",""]];
+var M13 = ["1P 3M 5P 7M 9M 13M",["maj13","Maj13"]];
+var M6 = ["1P 3M 5P 13M",["6"]];
+var M69 = ["1P 3M 5P 6M 9M",["69"]];
+var M7add13 = ["1P 3M 5P 6M 7M 9M"];
+var M7b5 = ["1P 3M 5d 7M"];
+var M7b6 = ["1P 3M 6m 7M"];
+var M7b9 = ["1P 3M 5P 7M 9m"];
+var M7sus4 = ["1P 4P 5P 7M"];
+var M9 = ["1P 3M 5P 7M 9M",["maj9","Maj9"]];
+var M9b5 = ["1P 3M 5d 7M 9M"];
+var M9sus4 = ["1P 4P 5P 7M 9M"];
+var Madd9 = ["1P 3M 5P 9M",["2","add9","add2"]];
+var Maj7 = ["1P 3M 5P 7M",["maj7","M7"]];
+var Mb5 = ["1P 3M 5d"];
+var Mb6 = ["1P 3M 13m"];
+var Msus2 = ["1P 2M 5P",["add9no3","sus2"]];
+var Msus4 = ["1P 4P 5P",["sus","sus4"]];
+var addb9 = ["1P 3M 5P 9m"];
+var m = ["1P 3m 5P"];
+var m11 = ["1P 3m 5P 7m 9M 11P",["_11"]];
+var m11b5 = ["1P 3m 7m 12d 2M 4P",["h11","_11b5"]];
+var m13 = ["1P 3m 5P 7m 9M 11P 13M",["_13"]];
+var m6 = ["1P 3m 4P 5P 13M",["_6"]];
+var m69 = ["1P 3m 5P 6M 9M",["_69"]];
+var m7 = ["1P 3m 5P 7m",["minor7","_","_7"]];
+var m7add11 = ["1P 3m 5P 7m 11P",["m7add4"]];
+var m7b5 = ["1P 3m 5d 7m",["half-diminished","h7","_7b5"]];
+var m9 = ["1P 3m 5P 7m 9M",["_9"]];
+var m9b5 = ["1P 3m 7m 12d 2M",["h9","-9b5"]];
+var mMaj7 = ["1P 3m 5P 7M",["mM7","_M7"]];
+var mMaj7b6 = ["1P 3m 5P 6m 7M",["mM7b6"]];
+var mM9 = ["1P 3m 5P 7M 9M",["mMaj9","-M9"]];
+var mM9b6 = ["1P 3m 5P 6m 7M 9M",["mMaj9b6"]];
+var mb6M7 = ["1P 3m 6m 7M"];
+var mb6b9 = ["1P 3m 6m 9m"];
+var o = ["1P 3m 5d",["mb5","dim"]];
+var o7 = ["1P 3m 5d 13M",["diminished","m6b5","dim7"]];
+var o7M7 = ["1P 3m 5d 6M 7M"];
+var oM7 = ["1P 3m 5d 7M"];
+var sus24 = ["1P 2M 4P 5P",["sus4add9"]];
+var madd4 = ["1P 3m 4P 5P"];
+var madd9 = ["1P 3m 5P 9M"];
+var cdata = {
+	M: M,
+	M13: M13,
+	M6: M6,
+	M69: M69,
+	M7add13: M7add13,
+	M7b5: M7b5,
+	M7b6: M7b6,
+	M7b9: M7b9,
+	M7sus4: M7sus4,
+	M9: M9,
+	M9b5: M9b5,
+	M9sus4: M9sus4,
+	Madd9: Madd9,
+	Maj7: Maj7,
+	Mb5: Mb5,
+	Mb6: Mb6,
+	Msus2: Msus2,
+	Msus4: Msus4,
+	addb9: addb9,
+	m: m,
+	m11: m11,
+	m11b5: m11b5,
+	m13: m13,
+	m6: m6,
+	m69: m69,
+	m7: m7,
+	m7add11: m7add11,
+	m7b5: m7b5,
+	m9: m9,
+	m9b5: m9b5,
+	mMaj7: mMaj7,
+	mMaj7b6: mMaj7b6,
+	mM9: mM9,
+	mM9b6: mM9b6,
+	mb6M7: mb6M7,
+	mb6b9: mb6b9,
+	o: o,
+	o7: o7,
+	o7M7: o7M7,
+	oM7: oM7,
+	sus24: sus24,
+	madd4: madd4,
+	madd9: madd9,
+	"4": ["1P 4P 7m 10m",["quartal"]],
+	"5": ["1P 5P"],
+	"7": ["1P 3M 5P 7m",["Dominant","Dom"]],
+	"9": ["1P 3M 5P 7m 9M",["79"]],
+	"11": ["1P 5P 7m 9M 11P"],
+	"13": ["1P 3M 5P 7m 9M 13M",["13_"]],
+	"64": ["5P 8P 10M"],
+	"M#5": ["1P 3M 5A",["augmented","maj#5","Maj#5","+","aug"]],
+	"M#5add9": ["1P 3M 5A 9M",["+add9"]],
+	"M13#11": ["1P 3M 5P 7M 9M 11A 13M",["maj13#11","Maj13#11","M13+4","M13#4"]],
+	"M6#11": ["1P 3M 5P 6M 11A",["M6b5","6#11","6b5"]],
+	"M69#11": ["1P 3M 5P 6M 9M 11A"],
+	"M7#11": ["1P 3M 5P 7M 11A",["maj7#11","Maj7#11","M7+4","M7#4"]],
+	"M7#5": ["1P 3M 5A 7M",["maj7#5","Maj7#5","maj9#5","M7+"]],
+	"M7#5sus4": ["1P 4P 5A 7M"],
+	"M7#9#11": ["1P 3M 5P 7M 9A 11A"],
+	"M9#11": ["1P 3M 5P 7M 9M 11A",["maj9#11","Maj9#11","M9+4","M9#4"]],
+	"M9#5": ["1P 3M 5A 7M 9M",["Maj9#5"]],
+	"M9#5sus4": ["1P 4P 5A 7M 9M"],
+	"11b9": ["1P 5P 7m 9m 11P"],
+	"13#11": ["1P 3M 5P 7m 9M 11A 13M",["13+4","13#4"]],
+	"13#9": ["1P 3M 5P 7m 9A 13M",["13#9_"]],
+	"13#9#11": ["1P 3M 5P 7m 9A 11A 13M"],
+	"13b5": ["1P 3M 5d 6M 7m 9M"],
+	"13b9": ["1P 3M 5P 7m 9m 13M"],
+	"13b9#11": ["1P 3M 5P 7m 9m 11A 13M"],
+	"13no5": ["1P 3M 7m 9M 13M"],
+	"13sus4": ["1P 4P 5P 7m 9M 13M",["13sus"]],
+	"69#11": ["1P 3M 5P 6M 9M 11A"],
+	"7#11": ["1P 3M 5P 7m 11A",["7+4","7#4","7#11_","7#4_"]],
+	"7#11b13": ["1P 3M 5P 7m 11A 13m",["7b5b13"]],
+	"7#5": ["1P 3M 5A 7m",["+7","7aug","aug7"]],
+	"7#5#9": ["1P 3M 5A 7m 9A",["7alt","7#5#9_","7#9b13_"]],
+	"7#5b9": ["1P 3M 5A 7m 9m"],
+	"7#5b9#11": ["1P 3M 5A 7m 9m 11A"],
+	"7#5sus4": ["1P 4P 5A 7m"],
+	"7#9": ["1P 3M 5P 7m 9A",["7#9_"]],
+	"7#9#11": ["1P 3M 5P 7m 9A 11A",["7b5#9"]],
+	"7#9#11b13": ["1P 3M 5P 7m 9A 11A 13m"],
+	"7#9b13": ["1P 3M 5P 7m 9A 13m"],
+	"7add6": ["1P 3M 5P 7m 13M",["67","7add13"]],
+	"7b13": ["1P 3M 7m 13m"],
+	"7b5": ["1P 3M 5d 7m"],
+	"7b6": ["1P 3M 5P 6m 7m"],
+	"7b9": ["1P 3M 5P 7m 9m"],
+	"7b9#11": ["1P 3M 5P 7m 9m 11A",["7b5b9"]],
+	"7b9#9": ["1P 3M 5P 7m 9m 9A"],
+	"7b9b13": ["1P 3M 5P 7m 9m 13m"],
+	"7b9b13#11": ["1P 3M 5P 7m 9m 11A 13m",["7b9#11b13","7b5b9b13"]],
+	"7no5": ["1P 3M 7m"],
+	"7sus4": ["1P 4P 5P 7m",["7sus"]],
+	"7sus4b9": ["1P 4P 5P 7m 9m",["susb9","7susb9","7b9sus","7b9sus4","phryg"]],
+	"7sus4b9b13": ["1P 4P 5P 7m 9m 13m",["7b9b13sus4"]],
+	"9#11": ["1P 3M 5P 7m 9M 11A",["9+4","9#4","9#11_","9#4_"]],
+	"9#11b13": ["1P 3M 5P 7m 9M 11A 13m",["9b5b13"]],
+	"9#5": ["1P 3M 5A 7m 9M",["9+"]],
+	"9#5#11": ["1P 3M 5A 7m 9M 11A"],
+	"9b13": ["1P 3M 7m 9M 13m"],
+	"9b5": ["1P 3M 5d 7m 9M"],
+	"9no5": ["1P 3M 7m 9M"],
+	"9sus4": ["1P 4P 5P 7m 9M",["9sus"]],
+	"m#5": ["1P 3m 5A",["m+","mb6"]],
+	"m11A 5": ["1P 3m 6m 7m 9M 11P"],
+	"m7#5": ["1P 3m 6m 7m"],
+	"m9#5": ["1P 3m 6m 7m 9M"],
+	"+add#9": ["1P 3M 5A 9A"]
+};
+
+/**
+ * @private
+ * [![npm version](https://img.shields.io/npm/v/tonal-dictionary.svg)](https://www.npmjs.com/package/tonal-dictionary)
+ * [![tonal](https://img.shields.io/badge/tonal-dictionary-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-dictionary` contains a dictionary of musical scales and chords
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * @example
+ * const dictionary= require('tonal-dictionary')
+ * dictionary.chord('Maj7') // => ['1P', '3M', '5P', '7M']
+ *
+ * @module dictionary
+ */
+var dictionary = function (raw) {
+  var keys = Object.keys(raw).sort();
+  var data = [];
+  var index = [];
+
+  var add = function (name, ivls, chroma) {
+    data[name] = ivls;
+    index[chroma] = index[chroma] || [];
+    index[chroma].push(name);
+  };
+
+  keys.forEach(function (key) {
+    var ivls = raw[key][0].split(" ");
+    var alias = raw[key][1];
+    var chr = chroma$2(ivls);
+
+    add(key, ivls, chr);
+    if (alias) { alias.forEach(function (a) { return add(a, ivls, chr); }); }
+  });
+  var allKeys = Object.keys(data).sort();
+
+  var dict = function (name) { return data[name]; };
+  dict.names = function (p) {
+    if (typeof p === "string") { return (index[p] || []).slice(); }
+    else { return (p === true ? allKeys : keys).slice(); }
+  };
+  return dict;
+};
+
+var combine = function (a, b) {
+  var dict = function (name) { return a(name) || b(name); };
+  dict.names = function (p) { return a.names(p).concat(b.names(p)); };
+  return dict;
+};
+
+/**
+ * A dictionary of scales.
+ *
+ * @private
+ * @function
+ * @param {String} name
+ * @return {Array} intervals
+ * @example
+ * import { scale } from 'tonal-dictionary'
+ * scale('major') // => ["1P", "2M", ...]
+ * scale.names(); // => ["major", ...]
+ */
+var scale$1 = dictionary(sdata);
+/**
+ * A dictionary of chords.
+ *
+ * @private
+ * @function
+ * @param {String} name
+ * @return {Array} intervals
+ * @example
+ * import { chord } from 'tonal-dictionary'
+ * chord('Maj7') // => ["1P", "3M", ...]
+ * chord.names(); // => ["Maj3", ...]
+ */
+var chord = dictionary(cdata);
+var pcset = combine(scale$1, chord);
+
+/**
+ * A scale is a collection of pitches in ascending or descending order.
+ *
+ * This module provides functions to get and manipulate scales.
+ *
+ * @example
+ * scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
+ * scale.names() => ['major', 'minor', ...]
+ * scale.detect('f5 d2 c5 b5 a2 e4 g') // => [ 'C major', 'D dorian', 'E phrygian', 'F lydian', 'G mixolydian', 'A aeolian', 'B locrian'])
+ * @module scale
+ */
+var NO_SCALE = Object.freeze({
+  name: null,
+  intervals: [],
+  names: [],
+  chroma: null,
+  setnum: null
+});
+
+var properties$3 = function (name$$1) {
+  var intervals = scale$1(name$$1);
+  if (!intervals) { return NO_SCALE; }
+  var s = { intervals: intervals, name: name$$1 };
+  s.chroma = chroma$2(intervals);
+  s.setnum = parseInt(s.chroma, 2);
+  s.names = scale$1.names(s.chroma);
+  return Object.freeze(s);
+};
+
+var memoize = function (fn, cache) { return function (str) { return cache[str] || (cache[str] = fn(str)); }; };
+
+/**
+ * Get scale properties. It returns an object with:
+ * - name: the scale name
+ * - names: a list with all possible names (includes the current)
+ * - intervals: an array with the scale intervals
+ * - chroma:  scale croma (see pcset)
+ * - setnum: scale chroma number
+ *
+ * @function
+ * @param {String} name - the scale name (without tonic)
+ * @return {Object} 
+ */
+var props$3 = memoize(properties$3, {});
+
+/**
+ * Return the available scale names
+ *
+ * @function
+ * @param {boolean} aliases - true to include aliases
+ * @return {Array} the scale names
+ *
+ * @example
+ * const scale = require('tonal-scale')
+ * scale.names() // => ['maj7', ...]
+ */
+var names$1 = scale$1.names;
+
+/**
+ * Given a scale name, return its intervals. The name can be the type and
+ * optionally the tonic (which is ignored)
+ *
+ * It retruns an empty array when no scale found
+ *
+ * @function
+ * @param {String} name - the scale name (tonic and type, tonic is optional)
+ * @return {Array<String>} the scale intervals if is a known scale or an empty
+ * array if no scale found
+ * @example
+ * scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
+ */
+var intervals = function (name$$1) {
+  var p = tokenize$3(name$$1);
+  return props$3(p[1]).intervals;
+};
+
+/**
+ * Get the notes (pitch classes) of a scale. 
+ *
+ * Note that it always returns an array, and the values are only pitch classes.
+ *
+ * @function
+ * @param {String} tonic 
+ * @param {String} name - the scale name
+ * @return {Array} a pitch classes array
+ * 
+ * @example
+ * scale.notes("C", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+ * scale.notes("C4", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+ * scale.notes("A4", "no-scale") // => []
+ * scale.notes("blah", "major") // => []
+ */
+function notes(nameOrTonic, name$$1) {
+  var p = tokenize$3(nameOrTonic);
+  name$$1 = name$$1 || p[1];
+  return intervals(name$$1).map(transpose(p[0]));
+}
+
+/**
+ * Check if the given name is a known scale from the scales dictionary
+ * 
+ * @function
+ * @param {String} name - the scale name
+ * @return {Boolean}
+ */
+function exists(name$$1) {
+  var p = tokenize$3(name$$1);
+  return scale$1(p[1]) !== undefined;
+}
+
+/**
+ * Given a string with a scale name and (optionally) a tonic, split 
+ * that components.
+ * 
+ * It retuns an array with the form [ name, tonic ] where tonic can be a 
+ * note name or null and name can be any arbitrary string 
+ * (this function doesn't check if that scale name exists)
+ *
+ * @function
+ * @param {String} name - the scale name
+ * @return {Array} an array [tonic, name]
+ * @example
+ * scale.tokenize('C mixolydean') // => ["C", "mixolydean"]
+ * scale.tokenize('anything is valid') // => [null, "anything is valid"]
+ * scale.tokenize() // => [null, null]
+ */
+function tokenize$3(str) {
+  if (typeof str !== "string") { return [null, null]; }
+  var i = str.indexOf(" ");
+  var tonic = name(str.substring(0, i)) || name(str);
+  var name$$1 = tonic !== null ? str.substring(tonic.length + 1) : str;
+  return [tonic, name$$1.length ? name$$1 : null];
+}
+
+/**
+ * Find mode names of a scale
+ * 
+ * @function
+ * @param {String} name - scale name
+ */
+var modeNames$1 = function (name$$1) {
+  var ivls = intervals(name$$1);
+
+  return modes(ivls).map(function (chroma$$1) {
+    return scale$1.names(chroma$$1)[0];
+  });
+};
+
+/**
+ * Get all chords that fits a given scale
+ * 
+ * @function
+ * @param {String} name
+ */
+var chords$1 = function (name$$1) {
+  var ivls = intervals(name$$1);
+  return chord.names().filter(function (name$$1) { return isSubset(chord(name$$1), ivls); });
+};
+
+/**
+ * Given an array of notes, return the scale: a pitch class set starting from 
+ * the first note of the array
+ * 
+ * @function
+ * @param {Array} notes 
+ * @return {Array}
+ */
+var toScale = function (notes) {
+  var pcset$$1 = compact(notes.map(pc$1));
+  if (!pcset$$1.length) { return pcset$$1; }
+  var tonic = pcset$$1[0];
+  var scale = unique(pcset$$1);
+  return rotate$1(scale.indexOf(tonic), scale);
+};
+
+/**
+ * Find all scales than extends the given one
+ * 
+ * @function
+ * @param {String} name 
+ */
+var extensions = function (name$$1) {
+  var ivls = intervals(name$$1);
+  if (!ivls.length) { return []; }
+  return scale$1.names().filter(function (name$$1) { return isSuperset(scale$1(name$$1), ivls); });
+};
+
+var detect = function (notes) {
+  notes = toScale(notes);
+  var modes$$1 = modes(notes);
+  if (modes$$1.length < 2) { throw Error("It should have at least two notes"); }
+
+  var results = [];
+
+  names$1().forEach(function (name$$1) {
+    var p = props$3(name$$1);
+    modes$$1.forEach(function (mode, i) {
+      if (isSubset(mode, p.chroma)) { results.push([notes[i], name$$1]); }
+    });
+  });
+
+  return results;
+};
+
+
+var index$5 = Object.freeze({
+	props: props$3,
+	names: names$1,
+	intervals: intervals,
+	notes: notes,
+	exists: exists,
+	tokenize: tokenize$3,
+	modeNames: modeNames$1,
+	chords: chords$1,
+	toScale: toScale,
+	extensions: extensions,
+	detect: detect
+});
+
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-chord.svg)](https://www.npmjs.com/package/tonal-chord)
+ * [![tonal](https://img.shields.io/badge/tonal-chord-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-chord` is a collection of functions to manipulate musical chords
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * @example
+ * const chord = require('tonal-chord')
+ * chord.notes('CMaj7') // => ['C', 'E', 'G', 'B']
+ *
+ * @module chord
+ */
+/**
+ * Return the available chord names
+ *
+ * @function
+ * @param {boolean} aliases - true to include aliases
+ * @return {Array} the chord names
+ *
+ * @example
+ * import * as chord from 'tonal-chord'
+ * chord.names() // => ['maj7', ...]
+ */
+var names$2 = chord.names;
+
+var NO_CHORD = Object.freeze({
+  name: null,
+  names: [],
+  intervals: [],
+  chroma: null,
+  setnum: null
+});
+
+var properties$4 = function (name$$1) {
+  var intervals = chord(name$$1);
+  if (!intervals) { return NO_CHORD; }
+  var s = { intervals: intervals, name: name$$1 };
+  s.chroma = chroma$2(intervals);
+  s.setnum = parseInt(s.chroma, 2);
+  s.names = chord.names(s.chroma);
+  return s;
+};
+
+var memo$2 = function (fn, cache) {
+  if ( cache === void 0 ) cache = {};
+
+  return function (str) { return cache[str] || (cache[str] = fn(str)); };
+};
+
+/**
+ * Get chord properties. It returns an object with :
+ * - name: the chord name
+ * - names: a list with all possible names (includes the current)
+ * - intervals: an array with the chord intervals
+ * - chroma:  chord croma (see pcset)
+ * - setnum: chord chroma number
+ * 
+ * @function
+ * @param {String} name - the chord name (without tonic)
+ * @return {Object}
+ */
+var props$4 = memo$2(properties$4);
+
+/**
+ * Get chord intervals. It always returns an array
+ * 
+ * @function
+ * @param {String} name - the chord name (optionally a tonic and type)
+ * @return {Array<String>} a list of intervals or null if the type is not known
+ */
+var intervals$2 = function (name$$1) { return props$4(tokenize$4(name$$1)[1]).intervals; };
+
+/**
+ * Get the chord notes of a chord. This function accepts either a chord name
+ * (for example: 'Cmaj7') or a list of notes.
+ *
+ * It always returns an array, even if the chord is not found.
+ *
+ * @function
+ * @param {String} nameOrTonic - name of the chord or the tonic
+ * @return [String] name - (Optional) name if the first parameter is the tonic
+ *
+ * @example
+ * chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
+ * chord.notes('C', 'maj7') // => ['C', 'E', 'G', 'B']
+ */
+function notes$1(nameOrTonic, name$$1) {
+  var p = tokenize$4(nameOrTonic);
+  name$$1 = name$$1 || p[1];
+  return intervals$2(name$$1).map(transpose(p[0]));
+}
+
+/**
+ * Check if a given name correspond to a chord in the dictionary
+ * 
+ * @function
+ * @param {String} name
+ * @return {Boolean}
+ * @example
+ * chord.exists('CMaj7') // => true
+ * chord.exists('Maj7') // => true
+ * chord.exists('Ablah') // => false
+ */
+var exists$1 = function (name$$1) { return chord(tokenize$4(name$$1)[1]) !== undefined; };
+
+/**
+ * Tokenize a chord name. It returns an array with the tonic and chord type 
+ * If not tonic is found, all the name is considered the chord name.
+ *
+ * This function does NOT check if the chord type exists or not. It only tries
+ * to split the tonic and chord type.
+ *
+ * @function
+ * @param {String} name - the chord name
+ * @return {Array} an array with [type, tonic]
+ * @example
+ * chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
+ * chord.tokenize('C7') // => [ 'C', '7' ]
+ * chord.tokenize('mMaj7') // => [ null, 'mMaj7' ]
+ * chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
+ */
+function tokenize$4(name$$1) {
+  var p = tokenize(name$$1);
+  if (!p) { return [null, name$$1]; }
+
+  // 6 and 7 is consider part of the chord
+  if (p[0] !== "" && (p[2][0] === "6" || p[2][0] === "7")) {
+    return [p[0] + p[1], p[2] + p[3]];
+  } else {
+    return [p[0] + p[1] + p[2], p[3]];
+  }
+}
+
+
+var index$7 = Object.freeze({
+	names: names$2,
+	props: props$4,
+	intervals: intervals$2,
+	notes: notes$1,
+	exists: exists$1,
+	tokenize: tokenize$4
+});
+
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
+ * [![tonal](https://img.shields.io/badge/tonal-key-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-key` is a collection of functions to work with pitch class sets, oriented
+ * to make comparations (isEqual, isSubset, isSuperset)
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ * The `tonal` module is a facade to the rest of the modules. They are namespaced,
+ * so for example to use `pc` function from `tonal-note` you have to write:
+ * `tonal.note.pc`
+ *
+ * It exports the following modules:
+ * - note
+ * - interval
+ * - distance
+ * - scale
+ * - chord
+ * - pcset
+ * - key
+ *
+ * @example
+ * var tonal = require('tonal')
+ * tonal.distance.transpose(tonal.note.pc('C#2'), 'M3') // => 'E#'
+ * tonal.chord.notes('Dmaj7') // => ['D', 'F#', 'A', 'C#']
+ *
+ * @module tonal
+ */
+
+
+
+var tonal = Object.freeze({
+	array: index,
+	note: index$1,
+	interval: index$2,
+	distance: index$3,
+	key: index$4,
+	scale: index$5,
+	chord: index$7,
+	pcset: index$6
+});
+
+var BASE_URL = "https://github.com/danigb/tonal/tree/master/packages/";
+var apiUrl = function (modName, fnName) { return BASE_URL + modName + "#module_" + modName + "." + fnName; };
+
+var Function = function (ref) {
+  var module = ref.module;
+  var name$$1 = ref.name;
+
+  return (
+  h( 'dt', null,
+    h( 'code', null,
+      h( 'a', { class: "api", href: apiUrl(module, name$$1), target: "_blank" },
+        module, ".", name$$1
+      )
+    )
+  )
+);
+};
+
+var API = function (ref) {
+  var module = ref.module;
+
+  return [
+  h( 'h3', null, "API" ),
+  h( 'dl', null,
+    Object.keys(tonal[module])
+      .sort()
+      .map(function (n) { return h( Function, { module: module, name: n }); })
+  )
+];
+};
+
+var npmUrl$1 = function (name$$1) { return ("https://www.npmjs.com/package/" + name$$1 + "/"); };
+var nodeiCo$1 = function (name$$1) { return ("https://nodei.co/npm/" + name$$1 + ".png?mini=true"); };
+
+var Npm = function (ref) {
+  var name$$1 = ref.name;
+  var packageName = ref.packageName;
+
+  return (
+  h( 'p', null,
+    h( 'a', { href: npmUrl$1(packageName || "tonal-" + name$$1) },
+      h( 'img', { src: nodeiCo$1(packageName || "tonal-" + name$$1) })
+    )
+  )
+);
+};
+
+var API$1 = function (ref) {
+  var module = ref.module;
+  var api = ref.api;
+
+  return (
+  h( 'div', { class: "API" },
+    h( Npm, { packageName: "tonal-" + module }),
+    api !== false ? h( API, { module: module }) : null
+  )
+);
+};
+
+var note = index$1;
+
+var toStr = function (o) { return (o === null ? "null" : o); };
+var toFixed = function (dec, num$$1) { return typeof num$$1 === "number" ? num$$1.toFixed(dec) : "null"; };
+var toJson = function (o) { return JSON.stringify(o, null, 2); };
+var toName = function (n) { return (n ? '"' + n + '"' : "null"); };
+
+var NoteProperties = function (ref) {
+  var tonic = ref.tonic;
+
+  return (
+    h( 'div', null,
+      h( 'h3', null, "Properties" ),
+      h( Code, {
+        lines: [
+          ("note.props(" + (toName(tonic)) + ") // => " + (toJson(note.props(tonic)))),
+          ("note.step(" + (toName(tonic)) + ") //=> " + (toStr(note.step(tonic)))),
+          ("note.alt(" + (toName(tonic)) + ") //=> " + (toStr(note.alt(tonic)))),
+          ("note.oct(" + (toName(tonic)) + ") //=> " + (toStr(note.oct(tonic)))),
+          ("note.chroma(" + (toName(tonic)) + ") //=> " + (toStr(note.chroma(tonic))))
+        ] })
+    )
+  );
+};
+
+var NoteMidiFreq = function (ref) {
+  var tonic = ref.tonic;
+
+  var freq$$1 = note.freq(tonic);
+  var midi$$1 = note.midi(tonic);
+  return (
+    h( 'div', null,
+      h( 'h3', null, "Midi and frequency" ),
+      h( Code, {
+        lines: [
+          ("note.midi(\"" + tonic + "\") => " + midi$$1),
+          ("note.fromMidi(" + midi$$1 + ") => " + tonic),
+          ("note.freq(\"" + tonic + "\") => " + (toStr(freq$$1))),
+          ("note.fromFreq(" + (toFixed(2, freq$$1)) + ") => " + tonic)
+        ] })
+    )
+  );
+};
+
+var NoteInfo = function (ref) {
+  var tonic = ref.tonic;
+
+  var freq$$1 = note.freq(tonic);
+  var midi$$1 = note.midi(tonic);
+
+  return (
+    h( 'div', null,
+      h( 'h4', null, "note" ),
+      h( 'h1', { class: "note" }, tonic),
+      freq$$1 && (
+        h( 'h3', null, "freq: ", freq$$1.toFixed(2), "Hz ", h( 'br', null ), "midi: ", midi$$1
+        )
+      )
+    )
+  );
+};
+
+var Note = function (ref) {
+  var tonic = ref.tonic;
+
+  tonic = note.name(tonic);
+  return (
+    h( 'div', { class: "row Note" },
+      h( 'div', { class: "column column-67" },
+        h( NoteInfo, { tonic: tonic }),
+        h( NoteProperties, { tonic: tonic }),
+        h( NoteMidiFreq, { tonic: tonic })
+      ),
+      h( 'div', { class: "column column-67" },
+        h( API$1, { module: "note" })
+      )
+    )
+  );
+};
+
+var TONICS$1 = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B B# Cb".split(
+  " "
+);
+
+var Notes = function (ref) {
+  return (
+    h( 'div', { class: "row Note" },
+      h( 'div', { class: "column column-67" },
+        h( 'h1', null, "Notes" ),
+        h( 'table', null,
+          h( 'tbody', null,
+            TONICS$1.map(function (t) { return (
+              h( 'tr', null,
+                h( 'td', null,
+                  h( 'strong', null,
+                    h( Link, { to: ["note", t] }, t)
+                  )
+                ),
+                [2, 3, 4, 5].map(function (o) { return (
+                  h( 'td', null,
+                    h( Link, { to: ["note", t + o] }, t + o)
+                  )
+                ); })
+              )
+            ); })
+          )
+        )
+      ),
+      h( 'div', { class: "column column-33" },
+        h( API$1, { module: "note" })
+      )
+    )
+  );
+};
+
+var INTERVALS = "1p 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P".split(" ");
+var NUMS$1 = range(1, 15);
+
+var Ivl = function (props$$1) {
+  var ivl = build$1(props$$1);
+  return h( Link, { to: ["interval", ivl] }, ivl);
+};
+
+var Intervals = function (ref) {
+  return (
+    h( 'div', { class: "Note row" },
+      h( 'div', { class: "column column-67" },
+        h( 'h1', null, "Intervals" ),
+        h( 'table', null,
+          h( 'tbody', null,
+            NUMS$1.map(function (num$$1) { return (
+              h( 'tr', null,
+                h( 'td', null,
+                  h( Ivl, { num: num$$1, alt: -1 })
+                ),
+                h( 'td', null,
+                  h( 'strong', null,
+                    h( Ivl, { num: num$$1, alt: 0 })
+                  )
+                ),
+                h( 'td', null,
+                  h( Ivl, { num: num$$1, alt: 1 })
+                )
+              )
+            ); })
+          )
+        )
+      ),
+      h( 'div', { class: "column column-33" },
+        h( API$1, { module: "interval" })
+      )
+    )
+  );
+};
+
+var val = function (t) { return t === undefined
+    ? "undefined"
+    : t === null ? "null" : typeof t === "string" ? ("\"" + t + "\"") : t; };
+
+var arr = function (arr) { return "[" + arr.map(val).join(", ") + "]"; };
+
+var json = function (o) { return JSON.stringify(o, null, 2); };
+
+var INTERVALS$1 = "1P 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P".split(" ");
+
+var IntervalInfo = function (ref) {
+  var interval$$1 = ref.interval;
+
+  return (
+  h( 'div', null,
+    h( 'h4', null, "interval" ),
+    h( 'h1', null, interval$$1 ),
+    h( 'h3', null, "semitones: ", semitones(interval$$1),
+      h( 'br', null ), "inversion: ", invert(interval$$1)
+    )
+  )
+);
+};
+
+var Interval = function (ref) {
+  var interval$$1 = ref.interval;
+
+  var props$$1 = props$1(interval$$1);
+  var simple = simplify(interval$$1);
+  var inversion = invert(interval$$1);
+  return (
+    h( 'div', { class: "row Note" },
+      h( 'div', { class: "column column-67" },
+        h( IntervalInfo, { interval: interval$$1 }),
+        h( Selector, {
+          label: "Change interval:", route: function (t) { return ["interval", t]; }, tonics: INTERVALS$1 }),
+        h( 'h3', null, "Properties" ),
+        h( Code, {
+          lines: [
+            ("interval.props(" + (val(interval$$1)) + ") // => " + (json(props$$1))),
+            ("interval.simplify(" + (val(interval$$1)) + ") // => " + (val(simple))),
+            ("interval.invert(" + (val(interval$$1)) + ") // => " + (val(inversion)))
+          ] })
+      ),
+      h( 'div', { class: "column column-33" },
+        h( API$1, { module: "interval" })
+      )
+    )
+  );
+};
+
+var CircleSet = function (ref) {
+  var size = ref.size; if ( size === void 0 ) size = 80;
+  var offset = ref.offset; if ( offset === void 0 ) offset = 0;
+  var chroma = ref.chroma; if ( chroma === void 0 ) chroma = "0";
+  var type = ref.type; if ( type === void 0 ) type = "set";
+
+  var center = size / 2;
+  var strokeWidth = size * 0.1;
+  var radius = size / 2 - strokeWidth / 2;
+  // const circumference = 2 * Math.PI * radius;
+  var radians = 2 * Math.PI / chroma.length;
+  var points = chroma.split("").reduce(function (points, value, i) {
+    if (value === "1") {
+      points.push(center + radius * Math.cos((offset + i - 3) * radians));
+      points.push(center + radius * Math.sin((offset + i - 3) * radians));
+    }
+    return points;
+  }, []);
+
+  var classNames = "Circle " + type;
+
+  return (
+    h( 'svg', {
+      class: classNames, width: size, height: size, viewBox: ("0 0 " + size + " " + size) },
+      h( 'circle', { class: "background", cx: center, cy: center, r: radius }),
+      h( 'circle', { class: "tonic", cx: points[0], cy: points[1], r: 2 }),
+      h( 'polygon', { class: "overlay", points: points.join(" ") })
+    )
+  );
+};
+
+var getIntervals = function (type$$1, name$$1) { return tonal[type$$1].intervals(name$$1); };
+var getNotes = function (type$$1, name$$1, tonic) { return tonal[type$$1].notes(tonic, name$$1); };
+var getSetChroma = function (type$$1, name$$1) { return chroma$2(getIntervals(type$$1, name$$1)); };
+
+var PitchSetList = function (ref) {
+  var type$$1 = ref.type;
+  var names$$1 = ref.names;
+  var tonic = ref.tonic;
+  var size = ref.size; if ( size === void 0 ) size = 40;
+  var sep = ref.sep; if ( sep === void 0 ) sep = " ";
+
+  return (
+  h( 'table', null,
+    h( 'thead', null,
+      h( 'tr', null,
+        h( 'td', null, " " ),
+        h( 'td', null, " " ),
+        h( 'td', null, " " )
+      )
+    ),
+    h( 'tbody', null,
+      names$$1.map(function (name$$1) { return (
+        h( 'tr', null,
+          h( 'td', null,
+            h( CircleSet, {
+              size: size, chroma: getSetChroma(type$$1, name$$1), offset: chroma(tonic) })
+          ),
+          h( 'td', null,
+            h( Link, { to: [type$$1, name$$1, tonic] },
+              tonic ? tonic + sep + name$$1 : name$$1
+            )
+          ),
+          h( 'td', null,
+            (tonic
+              ? getNotes(type$$1, name$$1, tonic)
+              : getIntervals(type$$1, name$$1)).join(" ")
+          )
+        )
+      ); })
+    )
+  )
+);
+};
+
+var PitchSetNames = function (ref) {
+  var tonic = ref.tonic;
+  var names$$1 = ref.names;
+  var title = ref.title;
+  var type$$1 = ref.type;
+  return (
+    h( 'div', { class: "row " + title },
+      h( 'div', { class: "Main column column-67" },
+        h( 'h1', null, tonic ? title + " in " + tonic : title ),
+        h( Selector, { label: "Choose tonic:", route: function (t) { return [type$$1 + "s", t]; } }),
+
+        h( PitchSetList, {
+          names: names$$1, type: type$$1, tonic: tonic, sep: type$$1 === "chord" ? "" : " " })
+      ),
+      h( 'div', { class: "column column-33" },
+        h( API$1, { module: type$$1 })
+      )
+    )
+  );
+};
+
+var NAMES = names$1()
+  .sort(
+    function (a, b) { return intervals(a).length - intervals(b).length; }
+  );
+
+var Scales = function (ref) {
+  var tonic = ref.tonic;
+
+  return (
+  h( PitchSetNames, {
+    title: "Scales", type: "scale", packageName: "tonal-scale", tonic: tonic, names: NAMES })
+);
+};
+
+/* global Vex */
+var ref = Vex.Flow;
+var Renderer = ref.Renderer;
+var Formatter = ref.Formatter;
+var W = 512;
+var H = 120;
+
+var draw = function (notes$$1) { return function (canvas) {
+  var renderer = new Renderer(canvas, Renderer.Backends.CANVAS);
+  var ctx = renderer.getContext();
+  ctx.clearRect(0, 0, W, H);
+  var stave = new Vex.Flow.Stave(0, 0, W - 5);
+  stave
+    .addClef("treble")
+    .setContext(ctx)
+    .draw();
+
+  Formatter.FormatAndDraw(
+    ctx,
+    stave,
+    notes$$1.map(function(n) {
+      var ref = props(n);
+      var letter = ref.letter;
+      var acc = ref.acc;
+      var oct$$1 = ref.oct;
+
+      var note = new Vex.Flow.StaveNote({
+        keys: [letter + "/" + oct$$1],
+        duration: "q"
+      });
+      if (acc) { note.addAccidental(0, new Vex.Flow.Accidental(acc)); }
+      return note;
+    })
+  );
+}; };
+
+var Score = function (ref) {
+  var notes$$1 = ref.notes;
+  return (
+    h( 'div', { className: "Score" },
+      h( 'canvas', {
+        width: W, height: H, oncreate: draw(notes$$1), onupdate: draw(notes$$1) }),
+      h( 'div', { className: "controls" })
+    )
+  );
+};
+
+var Stave = function (ref) {
+  var tonic = ref.tonic;
+  var name$$1 = ref.name;
+  var type$$1 = ref.type;
+
+  var pc = pc$1(tonic);
+  var oct$$1 = pc[0] === "A" || pc[0] === "B" ? 3 : 4;
+  var notes$$1 = tonal[type$$1].notes(pc + oct$$1, name$$1);
+  return h( Score, { notes: notes$$1 });
+};
+
+var PitchSetInfo = function (ref) {
+  var tonic = ref.tonic;
+  var name$$1 = ref.name;
+  var type$$1 = ref.type;
+
+  var intervals$$1 = tonal[type$$1].intervals(name$$1);
+  var notes$$1 = tonal[type$$1].notes(name$$1, tonic);
+  var offset = chroma(tonic) || 0;
+  var sep = type$$1 === "chord" ? "" : " ";
+
+  return (
+    h( 'div', null,
+      h( 'h4', null, type$$1 ),
+      h( 'h1', null, tonic ? tonic + sep + name$$1 : tonic ),
+      h( 'p', null,
+        h( Selector, { label: "Change tonic: ", route: function (t) { return [type$$1, name$$1, t]; } })
+      ),
+
+      h( CircleSet, {
+        size: 160, offset: offset, chroma: chroma$2(intervals$$1) }),
+
+      tonic ? h( Stave, { type: type$$1, tonic: tonic, name: name$$1 }) : "",
+
+      h( Code, {
+        lines: [
+          ("tonal." + type$$1 + ".exists(\"" + name$$1 + "\"); // => " + (tonal[type$$1].exists(name$$1))),
+          ("tonal." + type$$1 + ".intervals(\"" + name$$1 + "\"); // => " + (arr(intervals$$1))),
+          ("tonal." + type$$1 + ".notes(" + (val(tonic)) + ", \"" + name$$1 + "\" ); // => " + (arr(
+            notes$$1
+          )))
+        ] })
+    )
+  );
+};
+
+var ScaleModes = function (ref) {
+  var name$$1 = ref.name;
+  var tonic = ref.tonic;
+
+  var modes$$1 = modeNames$1(name$$1);
+  var tonics = notes(name$$1, tonic);
+  return (
+    h( 'div', null,
+      h( 'h2', null, "Scale modes" ),
+      h( Code, {
+        lines: [("tonal.scale.modes(" + (val(name$$1)) + "); // => " + (arr(modes$$1)))] })
+    )
+  );
+};
+
+var Scale = function (ref) {
+  var tonic = ref.tonic;
+  var name$$1 = ref.name;
+
+  return (
+    h( 'div', { class: "row Scale" },
+      h( 'div', { class: "column column-67" },
+        h( PitchSetInfo, { type: "scale", name: name$$1, tonic: tonic }),
+        h( ScaleModes, { name: name$$1, tonic: tonic }),
+
+        h( 'h2', null, "Scale chords" ),
+        chords$1({ name: name$$1 }),
+        h( Code, {
+          lines: [
+            ("tonal.scale.chords(\"" + name$$1 + "\"); // => " + (arr(
+              chords$1(name$$1)
+            )))
+          ] })
+      ),
+      h( 'div', { class: "column column-33" },
+        h( API$1, { module: "scale" })
+      )
+    )
+  );
+};
+
+var NAMES$1 = names$2()
+  .sort(
+    function (a, b) { return props$4(a).intervals.length -
+      props$4(b).intervals.length; }
+  );
+
+console.log("joder", NAMES$1);
+
+var Chords = function (ref) {
+  var tonic = ref.tonic;
+
+  return (
+  h( PitchSetNames, {
+    title: "Chords", type: "chord", packageName: "tonal-chord", tonic: tonic, names: NAMES$1 })
+);
+};
+
+var Chord = function (ref) {
+  var tonic = ref.tonic;
+  var name$$1 = ref.name;
+
+  return (
+    h( 'div', { class: "row Chord" },
+      h( 'div', { class: "column column-67" },
+        h( PitchSetInfo, { type: "chord", name: name$$1, tonic: tonic })
+      ),
+      h( 'div', { class: "column column-33" },
+        h( API$1, { module: "scale" })
+      )
+    )
+  );
+};
+
+var ALTS = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5];
+
+var path = function (key) { return (key + " key").split(" ").reverse(); };
+
+var KeyRow = function (ref) {
+  var key = ref.key;
+
+  var minor = relative("minor", key);
+  return (
+    h( 'tr', null,
+      h( 'td', null, accidentals(key) ),
+      h( 'td', null,
+        h( Link, { to: path(key) }, key)
+      ),
+      h( 'td', null,
+        h( Link, { to: path(minor) }, minor)
+      )
+    )
+  );
+};
+
+var Keys = function (ref) { return (
+  h( 'div', { class: "row Keys" },
+    h( 'div', { class: "column column-67" },
+      h( 'h1', null, "Keys" ),
+      h( 'table', null,
+        h( 'thead', null,
+          h( 'tr', null,
+            h( 'td', null, "Accidentals" ),
+            h( 'td', null, "Major" ),
+            h( 'td', null, "Minor" )
+          )
+        ),
+        h( 'tbody', null,
+          ALTS.map(function (alt$$1) { return h( KeyRow, { key: fromAlter(alt$$1) }); })
+        )
+      )
+    ),
+    h( 'div', { class: "column column-33" },
+      h( API$1, { module: "key" })
+    )
+  )
+); };
+
+var KeyChords = function (ref) {
+  return [h( 'h3', null, "Chords" )];
+};
+
+var KeyModes = function (ref) {
+  return [
+  h( 'h3', null, "Modes" ),
+  names().map(function (mode) { return [h( Link, { to: [] }, mode), " | "]; })
+];
+};
+
+var Key = function (ref) {
+  var mode = ref.mode;
+  var tonic = ref.tonic;
+
+  var keyName = tonic + " " + mode;
+  var props$$1 = props$2(keyName);
+  var notes$$1 = scale(keyName);
+  return (
+    h( 'div', { className: "row Key" },
+      h( 'div', { class: "column column-67" },
+        h( 'h1', null,
+          tonic, " ", mode
+        ),
+        h( 'p', null,
+          h( 'label', null, "Accidentals:" ), " ", accidentals(keyName)
+        ),
+        h( 'p', null,
+          h( 'label', null, "Altered notes:" ), " ",
+          alteredNotes(keyName).join(" ")
+        ),
+        h( Score, { notes: notes$$1 }),
+
+        h( 'h3', null, "Properties" ),
+        h( Code, {
+          lines: [
+            ("tonal.key.scale(\"" + keyName + "\") // => " + (arr(notes$$1))),
+            ("tonal.key.props(\"" + keyName + "\") // => " + (json(props$$1)))
+          ] }),
+        h( KeyChords, { mode: mode, tonic: tonic }),
+        h( KeyModes, { mode: mode, tonic: tonic })
+      ),
+      h( 'div', { class: "column column-33" },
+        h( API$1, { module: "key" })
+      )
+    )
+  );
+};
+
+var Tonal = function (ref) { return (
+  h( 'div', { class: "Welcome" },
+    h( 'h1', null, "tonal" ),
+    h( Install, { packageName: "tonal" }),
+    h( Code, {
+      lines: [
+        'import * as tonal from "tonal";',
+        'tonal.note.freq("A4") // => 440',
+        'tonal.note.midi("A4") // => 69'
+      ] }),
+    h( 'pre', null ),
+    h( 'h3', null,
+      h( Link, { to: ["notes"] }, "Notes")
+    ),
+    h( Selector, { route: function (t) { return ["note", t]; } }),
+    h( Code, {
+      lines: [
+        'tonal.note.freq("A4") // => 440',
+        'tonal.note.midi("A4") // => 69'
+      ] }),
+    h( 'h3', null,
+      h( Link, { to: ["intervals"] }, "Intervals")
+    )
+  )
+); };
+
+var encode = function (paths) { return "#/" +
+  paths
+    .filter(function (n) { return typeof n === "string"; })
+    .map(function (n) { return n.replace(/ /g, "_"); })
+    .join("/"); };
+
+var decode = function (route) { return route.split("/").map(function (n) { return n.replace(/_/g, " "); }); };
+
+var Link = function (ref, children) {
+  var to = ref.to;
+
+  return h( 'a', { href: encode(to) }, children);
+};
+
+var View = function (ref) {
+  var route = ref.route;
+
+  switch (route[0]) {
+    case "notes":
+      return h( Notes, null );
+    case "note":
+      return h( Note, { tonic: route[1] });
+    case "intervals":
+      return h( Intervals, null );
+    case "interval":
+      return h( Interval, { interval: route[1] });
+    case "scales":
+      return h( Scales, { tonic: route[1] });
+    case "scale":
+      return h( Scale, { name: route[1], tonic: route[2] });
+    case "chords":
+      return h( Chords, { tonic: route[1] });
+    case "chord":
+      return h( Chord, { name: route[1], tonic: route[2] });
+    case "keys":
+      return h( Keys, null );
+    case "key":
+      return h( Key, { mode: route[1], tonic: route[2] });
+    default:
+      return h( Tonal, null );
+  }
+};
+
+var Router = function (ref) {
+  var route = ref.route;
+
+  return h( View, { route: route });
+};
+
+app({
+  state: {
+    route: []
+  },
+  view: function (state) { return (
+    h( 'div', { class: "container" },
+      h( 'div', { class: "row" },
+        h( 'div', { class: "column-100" },
+          h( 'p', { id: "top" },
+            h( Link, { to: ["tonal"] }, "tonal"), " | ", h( Link, { to: ["notes"] }, "notes"), " | ", h( Link, { to: ["intervals"] }, "intervals"), " | ", h( Link, { to: ["scales"] }, "scales"), " | ", h( Link, { to: ["chords"] }, "chords"), " | ", h( Link, { to: ["keys"] }, "keys")
+          )
+        )
+      ),
+      h( Router, { route: state.route })
+    )
+  ); },
+  actions: {
+    route: function (state, actions, data) {
+      return { route: decode(data) };
+    }
+  },
+  events: {
+    load: function (state, actions) {
+      console.log("load!");
+      window.onhashchange = function () {
+        actions.route(location.hash.slice(2));
+      };
+      window.onhashchange();
+    }
+  }
+});
+
+}());

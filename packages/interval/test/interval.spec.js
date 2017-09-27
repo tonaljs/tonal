@@ -44,6 +44,8 @@ describe("tonal-interval", () => {
     expect(ivl.build({ step: 0, alt: 0, oct: 0, dir: 1 })).toBe("1P");
     expect(ivl.build({ step: 0, alt: -1, oct: 1, dir: -1 })).toBe("-8d");
     expect(ivl.build({ step: 1, alt: -1, oct: 1, dir: -1 })).toBe("-9m");
+    expect(ivl.build({ num: 9, alt: 0 })).toBe("9M");
+    expect(ivl.build({ num: 15, alt: 0 })).toBe("15P");
     expect(ivl.build()).toBe(null);
   });
 

@@ -81,11 +81,13 @@ const altToQ = (type, alt) => {
   else return null;
 };
 
+const numToStep = num => (Math.abs(num) - 1) % 7;
+
 const properties = str => {
   const t = tokenize(str);
   if (t === null) return NO_IVL;
   const p = { num: +t[0], q: t[1] };
-  p.step = (Math.abs(p.num) - 1) % 7;
+  p.step = numToStep(p.num);
   p.type = TYPES[p.step];
   if (p.type === "M" && p.q === "P") return NO_IVL;
 
@@ -213,23 +215,28 @@ export const ic = str => props(str).ic;
 /**
  * Given a interval property object, get the interval name
  *
+ * The properties must contain a `num` *or* `step`, and `alt`:
+ * 
+ * - num: the interval number
+ * - step: the interval step (overrides the num property)
+ * - alt: the interval alteration
+ * - oct: (Optional) the number of octaves
+ * - dir: (Optional) the direction
+ * 
  * @function
  * @param {Object} props - the interval property object
  *
- * - num: the interval number
- * - alt: the interval alteration
- * - oct: the number of octaves
- * - dir: the direction
- * 
  * @return {String} the interval name
  * @example
  * interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
+ * interval.build({ num: 9, alt: -1 }) // => '9m'
  */
-export const build = ({ step, alt, oct, dir } = {}) => {
-  if (step === undefined) return null;
+export const build = ({ num, step, alt, oct = 1, dir } = {}) => {
+  if (step !== undefined) num = step + 1 + 7 * oct;
+  if (num === undefined) return null;
+
   const d = dir < 0 ? "-" : "";
-  const num = step + 1 + 7 * oct;
-  const type = TYPES[step];
+  const type = TYPES[numToStep(num)];
   return d + num + altToQ(type, alt);
 };
 

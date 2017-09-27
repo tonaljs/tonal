@@ -133,7 +133,7 @@ export const exists = name => chord(tokenize(name)[1]) !== undefined;
  * chord.position('e g c') // => 1
  * chord.position('g3 e2 c5') // => 1 (e is the lowest note)
  */
-export function position(chord) {
+function position(chord) {
   const pcs = map(pc, chord);
   const sorted = sortTriads(pcs);
   return sorted ? sorted.indexOf(pcs[0]) : null;
@@ -154,7 +154,7 @@ export function position(chord) {
  * chord.inversion(1, 'Cmaj7') // => [ 'E', 'G', 'B', 'C' ]
  * chord.inversion(0, 'e g c') // => [ 'C', 'E', 'G' ]
  */
-export function inversion(num, chord) {
+function inversion(num, chord) {
   if (arguments.length === 1)
     return function(c) {
       return inversion(num, c);

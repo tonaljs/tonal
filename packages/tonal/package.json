@@ -16,6 +16,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
+    "tonal-array": "^1.0.0-0",
     "tonal-chord": "^1.0.0-0",
     "tonal-dictionary": "^1.0.0-0",
     "tonal-distance": "^1.0.0-0",
@@ -23,7 +24,6 @@
     "tonal-key": "^1.0.0-0",
     "tonal-note": "^1.0.0-0",
     "tonal-pcset": "^1.0.0-0",
-    "tonal-range": "^0.69.9",
     "tonal-scale": "^1.0.0-0"
   },
   "babel": {

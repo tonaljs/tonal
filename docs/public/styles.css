@@ -4,9 +4,15 @@ html {
 body {
   margin: 0 auto;
   padding: 0.1rem 1rem 4rem 1em;
-  max-width: 720px;
+  max-width: 92rem;
   background-color: white;
   box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.API {
+  padding-left: 1rem;
+}
+.Main {
 }
 
 h1.note {
@@ -22,7 +28,7 @@ a.api {
   margin: 1em 0 4rem 0;
 }
 
-.Tonics a {
+.Selector a {
   margin-right: 0.5rem;
 }
 
@@ -34,10 +40,14 @@ a.api {
 }
 
 .Circle polygon {
-  fill: #c99ae7;
+  fill: #e9d7f5;
   stroke: #9b4dca;
 }
 .NOCircle polygon {
   fill: #65c3de;
   stroke: #4a8ea2;
+}
+
+.Score {
+  overflow: hidden;
 }

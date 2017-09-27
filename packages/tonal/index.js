@@ -26,6 +26,7 @@
  *
  * @module tonal
  */
+import * as array from "tonal-array/index";
 import * as note from "tonal-note/index";
 import * as interval from "tonal-interval/index";
 import * as distance from "tonal-distance/index";
@@ -34,4 +35,4 @@ import * as scale from "tonal-scale/index";
 import * as chord from "tonal-chord/index";
 import * as pcset from "tonal-pcset/index";
 
-export { note, interval, distance, key, scale, chord, pcset };
+export { array, note, interval, distance, key, scale, chord, pcset };

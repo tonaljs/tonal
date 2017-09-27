@@ -138,6 +138,18 @@ export const scale = str => props(str).scale;
 export const alteration = str => props(str).alteration;
 
 /**
+ * Get key accidentals: a string with sharps or flats
+ * 
+ * @function
+ * @param {String} key
+ * @return {String}
+ * @example
+ * import * as key from 'tonal-keys'
+ * key.accidentals('A major') // => "###"
+ */
+export const accidentals = str => props(str).accidentals;
+
+/**
  * Get a list of the altered notes of a given key. The notes will be in
  * the same order than in the key signature.
  * 
