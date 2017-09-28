@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest --coverage"
   },
-  "main": "build/index.js",
+  "main": "build/transpiled.js",
   "module": "index",
   "author": "danigb",
   "license": "MIT",

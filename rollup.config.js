@@ -2,7 +2,7 @@ import json from "rollup-plugin-json";
 
 export default {
   output: {
-    file: "build/index.js",
+    file: "build/transpiled.js",
     format: "cjs"
   },
   preferConst: false,

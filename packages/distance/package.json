@@ -16,7 +16,7 @@
     "docs":
       "jsdoc2md -d 1 --name-format --member-index-format grouped index.js > README.md"
   },
-  "main": "build/index.js",
+  "main": "build/transpiled.js",
   "module": "index",
   "author": "danigb",
   "license": "MIT",
