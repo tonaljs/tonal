@@ -11,6 +11,21 @@ describe("tonal-note", () => {
     expect(note.tokenize("maj7")).toEqual(null);
   });
 
+  test("props", () => {
+    expect(note.props("C#3")).toEqual({
+      acc: "#",
+      alt: 1,
+      chroma: 1,
+      letter: "C",
+      name: "C#3",
+      oct: 3,
+      pc: "C#",
+      step: 0,
+      midi: 49,
+      freq: 138.59131548843604
+    });
+  });
+
   test("isNote", () => {
     expect(note.isNote("c")).toBe(true);
     expect(note.isNote("blah")).toBe(false);
@@ -53,7 +68,7 @@ describe("tonal-note", () => {
     expect(note.midi("bla")).toBe(null);
   });
 
-  test("toFreq", () => {
+  test("freq", () => {
     expect(note.freq("A4")).toBe(440);
     expect(note.freq(69)).toBe(440);
     expect(note.freq("bla")).toBe(null);

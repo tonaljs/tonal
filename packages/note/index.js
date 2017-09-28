@@ -46,7 +46,8 @@ const NO_NOTE = Object.freeze({
   alt: null,
   oct: null,
   chroma: null,
-  midi: null
+  midi: null,
+  freq: null
 });
 
 const SEMI = [0, 2, 4, 5, 7, 9, 11];
@@ -62,6 +63,7 @@ const properties = str => {
   p.oct = oct.length ? +oct : null;
   p.chroma = (SEMI[p.step] + p.alt + 120) % 12;
   p.midi = p.oct !== null ? SEMI[p.step] + p.alt + 12 * (p.oct + 1) : null;
+  p.freq = midiToFreq(p.midi);
   return Object.freeze(p);
 };
 
@@ -122,8 +124,15 @@ export const pc = str => props(str).pc;
  */
 export const midi = note => props(note).midi || +note || null;
 
-export const midiToFreq = midi =>
-  typeof midi === "number" ? Math.pow(2, (midi - 69) / 12) * 440 : null;
+/**
+ * Get the frequency from midi number
+ * 
+ * @param {Number} midi - the note midi number
+ * @param {Number} tuning - (Optional) 440 by default
+ * @return {Number} the frequency or null if not valid note midi
+ */
+export const midiToFreq = (midi, tuning = 440) =>
+  typeof midi === "number" ? Math.pow(2, (midi - 69) / 12) * tuning : null;
 
 /**
  * Get the frequency of a note
@@ -135,7 +144,7 @@ export const midiToFreq = midi =>
  * note.freq('A4') // => 440
  * note.freq(69) // => 440
  */
-export const freq = note => midiToFreq(props(note).midi) || midiToFreq(note);
+export const freq = note => props(note).freq || midiToFreq(note);
 
 const L2 = Math.log(2);
 const L440 = Math.log(440);
