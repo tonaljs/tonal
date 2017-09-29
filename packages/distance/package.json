@@ -1,6 +1,6 @@
 {
   "name": "tonal-distance",
-  "version": "1.0.0-1",
+  "version": "1.0.0-pre2",
   "description": "Transpose notes and find intervals between them",
   "keywords": [
     "transpose",
@@ -13,21 +13,24 @@
   ],
   "scripts": {
     "test": "jest --coverage",
-    "docs":
-      "jsdoc2md -d 1 --name-format --member-index-format grouped index.js > README.md"
+    "docs": "jsdoc2md -d 1 --name-format --member-index-format grouped index.js > README.md"
   },
   "main": "build/transpiled.js",
   "module": "index",
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-interval": "^1.0.0-1",
-    "tonal-note": "^1.0.0-1"
+    "tonal-interval": "^1.0.0-pre2",
+    "tonal-note": "^1.0.0-pre2"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "jest": {
-    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!tonal)"
+    ]
   }
 }
