@@ -6,7 +6,6 @@
  * @example
  * scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
  * scale.names() => ['major', 'minor', ...]
- * scale.detect('f5 d2 c5 b5 a2 e4 g') // => [ 'C major', 'D dorian', 'E phrygian', 'F lydian', 'G mixolydian', 'A aeolian', 'B locrian'])
  * @module scale
  */
 import { name as noteName, pc } from "tonal-note/index";
@@ -185,15 +184,35 @@ export const toScale = notes => {
 };
 
 /**
- * Find all scales than extends the given one
+ * Find all scales names that has the same notes and more 
+ * (they are a superset of the given one)
+ * 
+ * *This function name may change*
  * 
  * @function
  * @param {String} name 
+ * @return {Array} a list of scale names
  */
 export const extensions = name => {
   const ivls = intervals(name);
   if (!ivls.length) return [];
   return scale.names().filter(name => isSuperset(scale(name), ivls));
+};
+
+/**
+ * Find all scales names that fits into this scale 
+ * (they are a subset of the given one)
+ * 
+ * *This function name may change*
+ * 
+ * @function
+ * @param {String} name 
+ * @return {Array} a list of scale names
+ */
+export const reductions = name => {
+  const ivls = intervals(name);
+  if (!ivls.length) return [];
+  return scale.names().filter(name => isSubset(scale(name), ivls));
 };
 
 export const detect = notes => {

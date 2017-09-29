@@ -11,7 +11,8 @@ describe("tonal", () => {
       "key",
       "scale",
       "chord",
-      "pcset"
+      "pcset",
+      "default"
     ]);
   });
 });

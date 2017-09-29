@@ -1,11 +1,25 @@
 import { midi, name } from "tonal-note";
 
+/**
+ * Rotates a list a number of times. It's completly agnostic about the
+ * contents of the list.
+ * @param {Integer} times - the number of rotations
+ * @param {Array} array
+ * @return {Array} the rotated array
+ */
 export const rotate = (times, arr) => {
   var len = arr.length;
   var n = (times % len + len) % len;
   return arr.slice(n, len).concat(arr.slice(0, n));
 };
 
+/**
+ * Return a copy of the array with the null values removed
+ * @param {Array} array
+ * @return {Array}
+ * @example
+ * tonal.compact(['a', 'b', null, 'c']) // => ['a', 'b', 'c']
+ */
 export const compact = arr => arr.filter(n => n === 0 || n);
 
 // a function that get note heights (with negative number for pitch classes)
