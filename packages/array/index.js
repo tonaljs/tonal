@@ -1,5 +1,30 @@
 import { midi, name } from "tonal-note";
 
+// ascending range
+function ascR(b, n) {
+  for (var a = []; n--; a[n] = n + b);
+  return a;
+}
+// descending range
+function descR(b, n) {
+  for (var a = []; n--; a[n] = b - n);
+  return a;
+}
+
+/**
+ * Create a numeric range
+ * @param {Number} from
+ * @param {Number} to
+ * @return {Array}
+ * @example
+ * array.range(-2, 2) // => [-2, -1, 0, 1, 2]
+ * array.range(2, -2) // => [2, 1, 0, -1, -2]
+ */
+export function range(a, b) {
+  return a === null || b === null
+    ? []
+    : a < b ? ascR(a, b - a + 1) : descR(a, a - b + 1);
+}
 /**
  * Rotates a list a number of times. It's completly agnostic about the
  * contents of the list.
@@ -62,11 +87,11 @@ export function unique(arr) {
  * import * as array from 'tonal-array'
  * array.shuffle(["C", "D", "E", "F"])
  */
-export var shuffle = arr => {
+export var shuffle = (arr, rnd = Math.random) => {
   var i, t;
   var m = arr.length;
   while (m) {
-    i = (Math.random() * m--) | 0;
+    i = (rnd() * m--) | 0;
     t = arr[m];
     arr[m] = arr[i];
     arr[i] = t;
@@ -93,21 +118,3 @@ export const permutations = arr => {
     );
   }, []);
 };
-
-// ascending range
-function ascR(b, n) {
-  for (var a = []; n--; a[n] = n + b);
-  return a;
-}
-// descending range
-function descR(b, n) {
-  for (var a = []; n--; a[n] = b - n);
-  return a;
-}
-
-// create a range between a and b
-export function range(a, b) {
-  return a === null || b === null
-    ? []
-    : a < b ? ascR(a, b - a + 1) : descR(a, a - b + 1);
-}
