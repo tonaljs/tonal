@@ -9,7 +9,8 @@
     "format": "prettier --write \"packages/**/{*.js,*.json}\"",
     "prebuild": "npm run format && lerna bootstrap",
     "build": "lerna exec -- rollup -c ../../rollup.config.js -- index.js",
-    "dist": "rollup --config rollup.config.dist.js",
+    "dist":
+      "rollup --config rollup.config.dist.js && cp dist/tonal.min.js packages/tonal/build/transpiled.js",
     "prepublish":
       "npm run test && npm run docs && cp README.md ./packages/tonal/",
     "pretest": "npm run build",
