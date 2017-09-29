@@ -6,7 +6,7 @@
   "main": "dist/tonal.min.js",
   "scripts": {
     "init": "lerna clean && lerna bootstrap && npm run build",
-    "format": "prettier --write \"packages/**/{*.js,*.json}\"",
+    "format": "prettier --write \"packages/**/{index.js,*.json}\"",
     "prebuild":
       "lerna bootstrap && mkdir -p packages/dictionary/build/data && cp packages/dictionary/data/* packages/dictionary/build/data/",
     "build": "npm run build-es6 && npm run build-es5",
