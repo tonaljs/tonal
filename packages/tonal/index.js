@@ -26,14 +26,14 @@
  *
  * @module tonal
  */
-import * as array from "tonal-array/index";
-import * as note from "tonal-note/index";
-import * as interval from "tonal-interval/index";
-import * as distance from "tonal-distance/index";
-import * as key from "tonal-key/index";
-import * as scale from "tonal-scale/index";
-import * as chord from "tonal-chord/index";
-import * as pcset from "tonal-pcset/index";
+import * as array from "tonal-array";
+import * as note from "tonal-note";
+import * as interval from "tonal-interval";
+import * as distance from "tonal-distance";
+import * as key from "tonal-key";
+import * as scale from "tonal-scale";
+import * as chord from "tonal-chord";
+import * as pcset from "tonal-pcset";
 
 export { array, note, interval, distance, key, scale, chord, pcset };
 export default { array, note, interval, distance, key, scale, chord, pcset };

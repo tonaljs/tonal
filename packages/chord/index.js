@@ -12,10 +12,10 @@
  *
  * @module chord
  */
-import { tokenize as split } from "tonal-note/index";
-import { transpose } from "tonal-distance/index";
-import { chord } from "tonal-dictionary/index";
-import { chroma } from "tonal-pcset/index";
+import { tokenize as split } from "tonal-note";
+import { transpose } from "tonal-distance";
+import { chord } from "tonal-dictionary";
+import { chroma } from "tonal-pcset";
 
 /**
  * Return the available chord names

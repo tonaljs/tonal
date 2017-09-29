@@ -15,7 +15,7 @@
  */
 import sdata from "./data/scales.json";
 import cdata from "./data/chords.json";
-import { chroma } from "tonal-pcset/index";
+import { chroma } from "tonal-pcset";
 
 export const dictionary = raw => {
   const keys = Object.keys(raw).sort();

@@ -18,9 +18,9 @@
  *
  * @module pcset
  */
-import { chroma as notechr } from "tonal-note/index";
-import { chroma as ivlchr } from "tonal-interval/index";
-import { rotate } from "tonal-array/index";
+import { chroma as notechr } from "tonal-note";
+import { chroma as ivlchr } from "tonal-interval";
+import { rotate } from "tonal-array";
 
 const chr = str => notechr(str) || ivlchr(str) || 0;
 const pcsetNum = set => parseInt(chroma(set), 2);

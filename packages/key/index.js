@@ -13,9 +13,9 @@
  *
  * @module key
  */
-import { rotate, range } from "tonal-array/index";
-import { tokenize as split, altToAcc } from "tonal-note/index";
-import { trFifths, fifths, interval, transpose } from "tonal-distance/index";
+import { rotate, range } from "tonal-array";
+import { tokenize as split, altToAcc } from "tonal-note";
+import { trFifths, fifths, interval, transpose } from "tonal-distance";
 
 const MODES = "major dorian phrygian lydian mixolydian minor locrian ionian aeolian".split(
   " "

@@ -8,16 +8,11 @@
  * scale.names() => ['major', 'minor', ...]
  * @module scale
  */
-import { name as noteName, pc } from "tonal-note/index";
-import {
-  modes as pcsetModes,
-  chroma,
-  isSubset,
-  isSuperset
-} from "tonal-pcset/index";
-import { transpose } from "tonal-distance/index";
-import { scale, chord } from "tonal-dictionary/index";
-import { compact, unique, rotate } from "tonal-array/index";
+import { name as noteName, pc } from "tonal-note";
+import { modes as pcsetModes, chroma, isSubset, isSuperset } from "tonal-pcset";
+import { transpose } from "tonal-distance";
+import { scale, chord } from "tonal-dictionary";
+import { compact, unique, rotate } from "tonal-array";
 
 const NO_SCALE = Object.freeze({
   name: null,

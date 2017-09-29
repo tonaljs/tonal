@@ -18,8 +18,8 @@
  * 
  * @module distance
  */
-import { props as nprops, build as nbuild } from "tonal-note/index";
-import { props as iprops, build as ibuild } from "tonal-interval/index";
+import { props as nprops, build as nbuild } from "tonal-note";
+import { props as iprops, build as ibuild } from "tonal-interval";
 
 // Map from letter step to number of fifths starting from 'C':
 // { C: 0, D: 2, E: 4, F: -1, G: 1, A: 3, B: 5 }
