@@ -3,7 +3,7 @@ import buble from "rollup-plugin-buble";
 
 export default {
   output: {
-    file: "build/transpiled.js",
+    file: "build/es5.js",
     format: "cjs"
   },
   preferConst: false,

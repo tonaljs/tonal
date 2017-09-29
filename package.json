@@ -7,12 +7,17 @@
   "scripts": {
     "init": "lerna clean && lerna bootstrap && npm run build",
     "format": "prettier --write \"packages/**/{*.js,*.json}\"",
-    "prebuild": "npm run format && lerna bootstrap",
-    "build": "lerna exec -- rollup -c ../../rollup.config.js -- index.js",
+    "prebuild":
+      "lerna bootstrap && mkdir -p packages/dictionary/build/data && cp packages/dictionary/data/* packages/dictionary/build/data/",
+    "build": "npm run build-es6 && npm run build-es5",
+    "build-es5":
+      "lerna exec -- rollup -c ../../rollup.config.es5.js -- index.js",
+    "build-es6": "lerna exec -- buble --no modules index.js -o build/es6.js",
     "dist":
       "rollup --config rollup.config.dist.js && cp dist/tonal.min.js packages/tonal/build/transpiled.js",
     "prepublish":
       "npm run test && npm run build && npm run dist && npm run docs && cp README.md ./packages/tonal/",
+    "pretest": "npm run format",
     "test": "jest --coverage --no-cache",
     "jsdoc": "jsdoc -c jsdoc3.json  > docs/api.json",
     "docs": "lerna run docs",
