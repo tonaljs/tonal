@@ -13,7 +13,6 @@
       "rollup --config rollup.config.dist.js && cp dist/tonal.min.js packages/tonal/build/transpiled.js",
     "prepublish":
       "npm run test && npm run docs && cp README.md ./packages/tonal/",
-    "pretest": "npm run build",
     "test": "jest --coverage --no-cache",
     "jsdoc": "jsdoc -c jsdoc3.json  > docs/api.json",
     "docs": "lerna run docs",
