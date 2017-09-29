@@ -1,12 +1,11 @@
 {
   "name": "tonal-note",
-  "version": "1.0.0-pre2",
+  "version": "1.0.0-pre3",
   "repository": "https://github.com/danigb/tonal/packages/note",
   "description": "Encode pitches using fifths/octaves",
   "keywords": [],
   "scripts": {
-    "docs":
-      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/transpiled.js",
@@ -14,6 +13,8 @@
   "author": "danigb",
   "license": "MIT",
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   }
 }
