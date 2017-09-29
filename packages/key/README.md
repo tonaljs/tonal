@@ -21,6 +21,7 @@ key.relative('minor', 'C major') // => 'A minor'
     * [`.props(name)`](#module_key.props) ⇒ <code>Object</code>
     * [`.scale(key)`](#module_key.scale) ⇒ <code>Array</code>
     * [`.alteration(key)`](#module_key.alteration) ⇒ <code>Integer</code>
+    * [`.accidentals(key)`](#module_key.accidentals) ⇒ <code>String</code>
     * [`.alteredNotes(key)`](#module_key.alteredNotes) ⇒ <code>Array</code>
     * [`.chords(name)`](#module_key.chords) ⇒ <code>Array</code>
     * [`.secDomChords(name)`](#module_key.secDomChords) ⇒ <code>Array</code>
@@ -125,6 +126,22 @@ sharpen notes (positive) or flaten notes (negative)
 ```js
 var key = require('tonal-keys')
 key.alteration('A major') // => 3
+```
+<a name="module_key.accidentals"></a>
+
+## `key.accidentals(key)` ⇒ <code>String</code>
+Get key accidentals: a string with sharps or flats
+
+**Kind**: static method of [<code>key</code>](#module_key)  
+
+| Param | Type |
+| --- | --- |
+| key | <code>String</code> | 
+
+**Example**  
+```js
+import * as key from 'tonal-keys'
+key.accidentals('A major') // => "###"
 ```
 <a name="module_key.alteredNotes"></a>
 

@@ -33,6 +33,7 @@ tonal.note.midi('d4') // => 62
 
 * [note](#module_note)
     * [`.isNote`](#module_note.isNote) ⇒ <code>boolean</code>
+    * [`.midiToFreq`](#module_note.midiToFreq) ⇒ <code>Number</code>
     * [`.freqToMidi`](#module_note.freqToMidi) ⇒ <code>Number</code>
     * [`.chroma`](#module_note.chroma) ⇒ <code>Integer</code>
     * [`.stepToLetter`](#module_note.stepToLetter) ⇒ <code>string</code>
@@ -56,6 +57,19 @@ Test if the given string is a note
 | Param | Type |
 | --- | --- |
 | name | <code>String</code> | 
+
+<a name="module_note.midiToFreq"></a>
+
+## `note.midiToFreq` ⇒ <code>Number</code>
+Get the frequency from midi number
+
+**Kind**: static constant of [<code>note</code>](#module_note)  
+**Returns**: <code>Number</code> - the frequency or null if not valid note midi  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| midi | <code>Number</code> | the note midi number |
+| tuning | <code>Number</code> | (Optional) 440 by default |
 
 <a name="module_note.freqToMidi"></a>
 

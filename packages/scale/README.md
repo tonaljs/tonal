@@ -9,7 +9,6 @@ This module provides functions to get and manipulate scales.
 ```js
 scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
 scale.names() => ['major', 'minor', ...]
-scale.detect('f5 d2 c5 b5 a2 e4 g') // => [ 'C major', 'D dorian', 'E phrygian', 'F lydian', 'G mixolydian', 'A aeolian', 'B locrian'])
 ```
 
 * [scale](#module_scale)
@@ -22,7 +21,8 @@ scale.detect('f5 d2 c5 b5 a2 e4 g') // => [ 'C major', 'D dorian', 'E phrygian',
     * [`.modeNames(name)`](#module_scale.modeNames)
     * [`.chords(name)`](#module_scale.chords)
     * [`.toScale(notes)`](#module_scale.toScale) ⇒ <code>Array</code>
-    * [`.extensions(name)`](#module_scale.extensions)
+    * [`.extensions(name)`](#module_scale.extensions) ⇒ <code>Array</code>
+    * [`.reductions(name)`](#module_scale.reductions) ⇒ <code>Array</code>
 
 <a name="module_scale.props"></a>
 
@@ -169,10 +169,29 @@ the first note of the array
 
 <a name="module_scale.extensions"></a>
 
-## `scale.extensions(name)`
-Find all scales than extends the given one
+## `scale.extensions(name)` ⇒ <code>Array</code>
+Find all scales names that has the same notes and more 
+(they are a superset of the given one)
+
+*This function name may change*
 
 **Kind**: static method of [<code>scale</code>](#module_scale)  
+**Returns**: <code>Array</code> - a list of scale names  
+
+| Param | Type |
+| --- | --- |
+| name | <code>String</code> | 
+
+<a name="module_scale.reductions"></a>
+
+## `scale.reductions(name)` ⇒ <code>Array</code>
+Find all scales names that fits into this scale 
+(they are a subset of the given one)
+
+*This function name may change*
+
+**Kind**: static method of [<code>scale</code>](#module_scale)  
+**Returns**: <code>Array</code> - a list of scale names  
 
 | Param | Type |
 | --- | --- |

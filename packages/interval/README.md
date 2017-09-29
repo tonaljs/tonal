@@ -187,16 +187,25 @@ interval.ic('m6') // => 4
 ## `interval.build(props)` ⇒ <code>String</code>
 Given a interval property object, get the interval name
 
+The properties must contain a `num` *or* `step`, and `alt`:
+
+- num: the interval number
+- step: the interval step (overrides the num property)
+- alt: the interval alteration
+- oct: (Optional) the number of octaves
+- dir: (Optional) the direction
+
 **Kind**: static method of [<code>interval</code>](#module_interval)  
 **Returns**: <code>String</code> - the interval name  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| props | <code>Object</code> | the interval property object - num: the interval number - alt: the interval alteration - oct: the number of octaves - dir: the direction |
+| props | <code>Object</code> | the interval property object |
 
 **Example**  
 ```js
 interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
+interval.build({ num: 9, alt: -1 }) // => '9m'
 ```
 <a name="module_interval.simplify"></a>
 

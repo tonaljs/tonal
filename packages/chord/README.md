@@ -20,8 +20,8 @@ chord.notes('CMaj7') // => ['C', 'E', 'G', 'B']
     * [`.intervals(name)`](#module_chord.intervals) ⇒ <code>Array.&lt;String&gt;</code>
     * [`.notes(nameOrTonic)`](#module_chord.notes) ⇒
     * [`.exists(name)`](#module_chord.exists) ⇒ <code>Boolean</code>
-    * [`.position(chord)`](#module_chord.position) ⇒ <code>Integer</code>
     * [`.tokenize(name)`](#module_chord.tokenize) ⇒ <code>Array</code>
+    * [`~position(chord)`](#module_chord..position) ⇒ <code>Integer</code>
 
 <a name="module_chord.names"></a>
 
@@ -105,25 +105,6 @@ chord.exists('CMaj7') // => true
 chord.exists('Maj7') // => true
 chord.exists('Ablah') // => false
 ```
-<a name="module_chord.position"></a>
-
-## `chord.position(chord)` ⇒ <code>Integer</code>
-Get the position (inversion number) of a chord (0 is root position, 1 is first
-inversion...). It assumes the chord is formed by superposed thirds.
-
-**Kind**: static method of [<code>chord</code>](#module_chord)  
-**Returns**: <code>Integer</code> - the inversion number (0 for root inversion, 1 for first
-inversion...) or null if not a valid chord  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| chord | <code>Array</code> \| <code>String</code> | the chord notes |
-
-**Example**  
-```js
-chord.position('e g c') // => 1
-chord.position('g3 e2 c5') // => 1 (e is the lowest note)
-```
 <a name="module_chord.tokenize"></a>
 
 ## `chord.tokenize(name)` ⇒ <code>Array</code>
@@ -146,4 +127,23 @@ chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
 chord.tokenize('C7') // => [ 'C', '7' ]
 chord.tokenize('mMaj7') // => [ null, 'mMaj7' ]
 chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
+```
+<a name="module_chord..position"></a>
+
+## `chord~position(chord)` ⇒ <code>Integer</code>
+Get the position (inversion number) of a chord (0 is root position, 1 is first
+inversion...). It assumes the chord is formed by superposed thirds.
+
+**Kind**: inner method of [<code>chord</code>](#module_chord)  
+**Returns**: <code>Integer</code> - the inversion number (0 for root inversion, 1 for first
+inversion...) or null if not a valid chord  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| chord | <code>Array</code> \| <code>String</code> | the chord notes |
+
+**Example**  
+```js
+chord.position('e g c') // => 1
+chord.position('g3 e2 c5') // => 1 (e is the lowest note)
 ```
