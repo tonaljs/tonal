@@ -2,6 +2,7 @@ import resolve from "rollup-plugin-node-resolve";
 import json from "rollup-plugin-json";
 import uglify from "rollup-plugin-uglify-es";
 import filesize from "rollup-plugin-filesize";
+import buble from "rollup-plugin-buble";
 
 export default {
   input: "./packages/tonal/index.js",
@@ -21,6 +22,7 @@ export default {
       jsnext: true,
       module: true
     }),
+    buble(),
     uglify(),
     filesize()
   ]
