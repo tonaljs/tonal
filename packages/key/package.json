@@ -1,12 +1,15 @@
 {
   "name": "tonal-key",
-  "version": "1.0.0-0",
+  "version": "1.0.0-1",
   "description": "Conversion between key numbers and note names",
   "repository": "https://github.com/danigb/tonal/packages/key",
-  "keywords": ["note", "key", "tonal"],
+  "keywords": [
+    "note",
+    "key",
+    "tonal"
+  ],
   "scripts": {
-    "docs":
-      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/transpiled.js",
@@ -14,14 +17,18 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^1.0.0-0",
-    "tonal-distance": "^1.0.0-0",
-    "tonal-note": "^1.0.0-0"
+    "tonal-array": "^1.0.0-1",
+    "tonal-distance": "^1.0.0-1",
+    "tonal-note": "^1.0.0-1"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "jest": {
-    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!tonal)"
+    ]
   }
 }
