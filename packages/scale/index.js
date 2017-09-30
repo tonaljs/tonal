@@ -155,7 +155,7 @@ export const modeNames = name => {
   return pcsetModes(ivls)
     .map((chroma, i) => {
       const name = scale.names(chroma)[0];
-      if (name) return tonics[i] ? tonics[i] + " " + name : name;
+      if (name) return [tonics[i] || ivls[i], name];
     })
     .filter(x => x);
 };

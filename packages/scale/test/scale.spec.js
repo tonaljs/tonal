@@ -50,24 +50,24 @@ describe("tonal-scale", () => {
 
   test("mode names", () => {
     expect(scale.modeNames("pentatonic")).toEqual([
-      "major pentatonic",
-      "egyptian",
-      "malkos raga",
-      "ritusen",
-      "minor pentatonic"
+      ["1P", "major pentatonic"],
+      ["2M", "egyptian"],
+      ["3M", "malkos raga"],
+      ["5P", "ritusen"],
+      ["6M", "minor pentatonic"]
     ]);
     expect(scale.modeNames("whole tone pentatonic")).toEqual([
-      "whole tone pentatonic"
+      ["1P", "whole tone pentatonic"]
     ]);
     expect(scale.modeNames("C pentatonic")).toEqual([
-      "C major pentatonic",
-      "D egyptian",
-      "E malkos raga",
-      "G ritusen",
-      "A minor pentatonic"
+      ["C", "major pentatonic"],
+      ["D", "egyptian"],
+      ["E", "malkos raga"],
+      ["G", "ritusen"],
+      ["A", "minor pentatonic"]
     ]);
     expect(scale.modeNames("C whole tone pentatonic")).toEqual([
-      "C whole tone pentatonic"
+      ["C", "whole tone pentatonic"]
     ]);
   });
 
