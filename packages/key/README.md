@@ -16,6 +16,7 @@ key.relative('minor', 'C major') // => 'A minor'
 ```
 
 * [key](#module_key)
+    * [`.degrees`](#module_key.degrees) ⇒ <code>Array</code>
     * [`.modeNames(alias)`](#module_key.modeNames) ⇒ <code>Array</code>
     * [`.fromAlter(alt)`](#module_key.fromAlter) ⇒ <code>Key</code>
     * [`.props(name)`](#module_key.props) ⇒ <code>Object</code>
@@ -28,6 +29,21 @@ key.relative('minor', 'C major') // => 'A minor'
     * [`.relative(mode, key)`](#module_key.relative)
     * [`.tokenize(name)`](#module_key.tokenize) ⇒ <code>Array</code>
 
+<a name="module_key.degrees"></a>
+
+## `key.degrees` ⇒ <code>Array</code>
+Get a list of key scale degrees
+
+**Kind**: static constant of [<code>key</code>](#module_key)  
+
+| Param | Type |
+| --- | --- |
+| keyName | <code>String</code> | 
+
+**Example**  
+```js
+tonal.key.degrees('C major') => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
+```
 <a name="module_key.modeNames"></a>
 
 ## `key.modeNames(alias)` ⇒ <code>Array</code>

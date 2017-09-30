@@ -23,6 +23,7 @@ const MODES = "major dorian phrygian lydian mixolydian minor locrian ionian aeol
 const NUMS = [0, 1, 2, 3, 4, 5, 6, 0, 5];
 const NOTES = "C D E F G A B".split(" ");
 const CHORDS = "Maj7 m7 m7 Maj7 7 m7 m7b5".split(" ");
+const DEGREES = "I II III IV V VI VII".split(" ");
 const FIFTHS = [0, 2, 4, -1, 1, 3, 5, 0, 3];
 
 const modenum = mode => NUMS[MODES.indexOf(mode)];
@@ -148,6 +149,23 @@ export const alteration = str => props(str).alteration;
  * key.accidentals('A major') // => "###"
  */
 export const accidentals = str => props(str).accidentals;
+
+/**
+ * Get a list of key scale degrees
+ * @param {String} keyName
+ * @return {Array}
+ * @example
+ * tonal.key.degrees('C major') => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
+ */
+export const degrees = str => {
+  const p = props(str);
+  if (p.name === null) return [];
+  const chords = rotate(p.modenum, CHORDS);
+  return chords.map((chord, i) => {
+    const deg = DEGREES[i];
+    return chord[0] === "m" ? deg.toLowerCase() : deg;
+  });
+};
 
 /**
  * Get a list of the altered notes of a given key. The notes will be in

@@ -16,6 +16,13 @@ describe("tonal-key", () => {
     );
   });
 
+  test("degrees", () => {
+    const major = ["I", "ii", "iii", "IV", "V", "vi", "vii"];
+    expect(key.degrees("C major")).toEqual(major);
+    const dorian = ["i", "ii", "III", "IV", "v", "vi", "VII"];
+    expect(key.degrees("D dorian")).toEqual(dorian);
+  });
+
   test("props", () => {
     expect(key.props("d mixolydian")).toEqual({
       name: "D mixolydian",

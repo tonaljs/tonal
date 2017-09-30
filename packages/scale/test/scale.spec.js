@@ -49,45 +49,58 @@ describe("tonal-scale", () => {
   });
 
   test("mode names", () => {
-    expect(scale.modeNames("major")).toEqual([
-      "major",
-      "dorian",
-      "phrygian",
-      "lydian",
-      "mixolydian",
-      "aeolian",
-      "locrian"
+    expect(scale.modeNames("pentatonic")).toEqual([
+      "major pentatonic",
+      "egyptian",
+      "malkos raga",
+      "ritusen",
+      "minor pentatonic"
+    ]);
+    expect(scale.modeNames("whole tone pentatonic")).toEqual([
+      "whole tone pentatonic"
+    ]);
+    expect(scale.modeNames("C pentatonic")).toEqual([
+      "C major pentatonic",
+      "D egyptian",
+      "E malkos raga",
+      "G ritusen",
+      "A minor pentatonic"
+    ]);
+    expect(scale.modeNames("C whole tone pentatonic")).toEqual([
+      "C whole tone pentatonic"
     ]);
   });
 
   test("chords: find all chords that fits into this scale", () => {
-    expect(scale.chords("pentatonic")).toEqual($("5 64 M M6 M69 Madd9 Msus2"));
+    expect(scale.chords("pentatonic")).toEqual($("5 64 M M6 Madd9 Msus2"));
     expect(scale.chords("none")).toEqual([]);
   });
 
-  test("extensions: find all scales that extends this one", () => {
-    expect(scale.extensions("major")).toEqual([
+  test("supersets: find all scales that extends this one", () => {
+    expect(scale.supersets("major")).toEqual([
       "bebop",
       "bebop dominant",
       "bebop major",
       "chromatic",
-      "ichikosucho",
-      "major"
+      "ichikosucho"
     ]);
-    expect(scale.extensions("none")).toEqual([]);
+    expect(scale.supersets("none")).toEqual([]);
   });
 
-  test("scale", () => {
+  test("subsets: all scales that are included in the given one", () => {
+    expect(scale.subsets("major")).toEqual([
+      "ionian pentatonic",
+      "major pentatonic",
+      "ritusen"
+    ]);
+    expect(scale.subsets("none")).toEqual([]);
+  });
+
+  test("toScale", () => {
     expect(scale.toScale($("C4 c3 C5 C4 c4"))).toEqual(["C"]);
     expect(scale.toScale($("C4 f3 c#10 b5 d4 cb4"))).toEqual(
       $("C C# D F B Cb")
     );
     expect(scale.toScale($("D4 c#5 A5 F#6"))).toEqual(["D", "F#", "A", "C#"]);
-  });
-
-  test.skip("detect", () => {
-    expect(scale.detect($("f3 a c5 e2 d g2 b6"))).toEqual(
-      "C major|D dorian|E phrygian|F lydian|G mixolydian|A aeolian|B locrian"
-    );
   });
 });

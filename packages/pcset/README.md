@@ -25,8 +25,8 @@ pcset.isEqual('c2 d5 e6', 'c6 e3 d1') // => true
     * [`.isChroma(chroma)`](#module_pcset.isChroma) ⇒ <code>Boolean</code>
     * [`.intervals(pcset)`](#module_pcset.intervals) ⇒ <code>Array</code>
     * [`.isEqual(set1, set2)`](#module_pcset.isEqual) ⇒ <code>Boolean</code>
-    * [`.isSubset(test, set)`](#module_pcset.isSubset) ⇒ <code>Boolean</code>
-    * [`.isSuperset(test, set)`](#module_pcset.isSuperset) ⇒ <code>Boolean</code>
+    * [`.isSubsetOf(set, notes)`](#module_pcset.isSubsetOf) ⇒ <code>boolean</code>
+    * [`.isSupersetOf(set, notes)`](#module_pcset.isSupersetOf) ⇒ <code>boolean</code>
     * [`.includes(set, note)`](#module_pcset.includes) ⇒ <code>Boolean</code>
     * [`.filter(set, notes)`](#module_pcset.filter) ⇒ <code>Array</code>
 
@@ -118,41 +118,49 @@ Test if two pitch class sets are identical
 
 **Example**  
 ```js
-pcset.isEqual('c2 d3', 'c5 d2') // => true
+pcset.isEqual(["c2", "d3"], ["c5", "d2"]) // => true
 ```
-<a name="module_pcset.isSubset"></a>
+<a name="module_pcset.isSubsetOf"></a>
 
-## `pcset.isSubset(test, set)` ⇒ <code>Boolean</code>
-Test if a pitch class set is a subset of another
+## `pcset.isSubsetOf(set, notes)` ⇒ <code>boolean</code>
+Create a function that test if a collection of notes is a 
+subset of a given set 
+
+The function can be partially applied
 
 **Kind**: static method of [<code>pcset</code>](#module_pcset)  
-**Returns**: <code>Boolean</code> - true if the test set is a subset of the set  
+**Returns**: <code>boolean</code> - true if notes is a subset of set, false otherwise  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| test | <code>Array</code> \| <code>String</code> | the set to test |
-| set | <code>Array</code> \| <code>String</code> | the base set to test against |
+| set | <code>Array</code> \| <code>String</code> | an array of notes or a chroma set string to test against |
+| notes | <code>Array</code> \| <code>String</code> | an array of notes or a chroma set |
 
 **Example**  
 ```js
-pcset.subset('c d e', 'C2 D4 D5 C6') // => true
+const inCMajor = pcset.isSubsetOf(["C", "E", "G"])
+inCMajor(["e6", "c4"]) // => true
+inCMajor(["e6", "c4", "d3"]) // => false
 ```
-<a name="module_pcset.isSuperset"></a>
+<a name="module_pcset.isSupersetOf"></a>
 
-## `pcset.isSuperset(test, set)` ⇒ <code>Boolean</code>
-Test if a pitch class set is a superset
+## `pcset.isSupersetOf(set, notes)` ⇒ <code>boolean</code>
+Create a function that test if a collectio of notes is a
+superset of a given set (it contains all notes and at least one more)
 
 **Kind**: static method of [<code>pcset</code>](#module_pcset)  
-**Returns**: <code>Boolean</code> - true if the test set is a superset of the set  
+**Returns**: <code>boolean</code> - true if notes is a superset of set, false otherwise  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| test | <code>Array</code> \| <code>String</code> | the set to test |
-| set | <code>Array</code> \| <code>String</code> | the base set to test against |
+| set | <code>Array</code> \| <code>String</code> | an array of notes or a chroma set string to test against |
+| notes | <code>Array</code> \| <code>String</code> | an array of notes or a chroma set |
 
 **Example**  
 ```js
-pcset.isSuperset('c d e', 'C2 D4 F4 D5 E5 C6') // => true
+const extendsCMajor = pcset.isSupersetOf(["C", "E", "G"])
+extendsCMajor(["e6", "a", "c4", "g2"]) // => true
+extendsCMajor(["c6", "e4", "g3"]) // => false
 ```
 <a name="module_pcset.includes"></a>
 
@@ -169,8 +177,8 @@ Test if a given pitch class set includes a note
 
 **Example**  
 ```js
-pcset.includes('c d e', 'C4') // => true
-pcset.includes('c d e', 'C#4') // => false
+pcset.includes(["C", "D", "E"], 'C4') // => true
+pcset.includes(["C", "D", "E"], 'C#4') // => false
 ```
 <a name="module_pcset.filter"></a>
 
@@ -187,6 +195,6 @@ Filter a list with a pitch class set
 
 **Example**  
 ```js
-pcset.filter(c d e', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'd2', 'c3', 'd3' ])
+pcset.filter(["C", "D", "E"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'd2', 'c3', 'd3' ])
 pcset.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'c3' ])
 ```

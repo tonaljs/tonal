@@ -24,26 +24,33 @@ describe("pcset", () => {
     expect(pcset.isChroma("c d e")).toBe(false);
   });
 
-  test("isSubset", () => {
-    expect(pcset.isSubset($("c2 d3"), $("c4 d5 e6"))).toBe(true);
-    expect(pcset.isSubset($("c2 d3 e5"), $("c4 d5 e6"))).toBe(true);
-    expect(pcset.isSubset($("c d e f"), $("c d e"))).toBe(false);
+  test("isSubsetOf", () => {
+    const isInCMajor = pcset.isSubsetOf($("c4 e6 g"));
+    expect(isInCMajor($("c2 g7"))).toBe(true);
+    expect(isInCMajor($("c2 e"))).toBe(true);
+    expect(isInCMajor($("c2 e3 g4"))).toBe(false);
+    expect(isInCMajor($("c2 e3 b5"))).toBe(false);
+    expect(pcset.isSubsetOf($("c d e"), $("c d"))).toBe(true);
   });
 
-  test("subset with chroma", () => {
-    expect(pcset.isSubset($("101000000000"), $("101010101010"))).toBe(true);
-    expect(pcset.isSubset($("111000000000"), $("101010101010"))).toBe(false);
+  test("isSubsetOf with chroma", () => {
+    const isSubset = pcset.isSubsetOf("101010101010");
+    expect(isSubset("101000000000")).toBe(true);
+    expect(isSubset("111000000000")).toBe(false);
   });
 
-  test("isSuperset", () => {
-    expect(pcset.isSuperset($("c2 d3 e4 f5"), $("c d e"))).toBe(true);
-    expect(pcset.isSuperset($("e f g"), $("c d e"))).toBe(false);
-    expect(pcset.isSuperset($("d e"), $("c d e"))).toBe(false);
+  test("isSupersetOf", () => {
+    const extendsCMajor = pcset.isSupersetOf(["c", "e", "g"]);
+    expect(extendsCMajor($("c2 g3 e4 f5"))).toBe(true);
+    expect(extendsCMajor($("e c g"))).toBe(false);
+    expect(extendsCMajor($("c e f"))).toBe(false);
+    expect(pcset.isSupersetOf(["c", "d"], ["c", "d", "e"])).toBe(true);
   });
 
-  test("isSuperset with chroma", () => {
-    expect(pcset.isSuperset("101010101010", "101000000000")).toBe(true);
-    expect(pcset.isSuperset("101010101010", "111000000000")).toBe(false);
+  test("isSupersetOf with chroma", () => {
+    const isSuperset = pcset.isSupersetOf("101000000000");
+    expect(isSuperset("101010101010")).toBe(true);
+    expect(isSuperset("110010101010")).toBe(false);
   });
 
   test("isEqual", () => {

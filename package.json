@@ -9,7 +9,8 @@
     "format": "prettier --write \"packages/**/{index.js,*.json}\"",
     "prebuild":
       "lerna bootstrap && lerna exec -- mkdir -p build/ && mkdir -p packages/dictionary/build/data && cp packages/dictionary/data/* packages/dictionary/build/data/",
-    "build": "npm run build-es6 && npm run build-es5",
+    "build":
+      "npm run build-es6 && npm run build-es5 && npm run dist && npm run docs",
     "build-es5":
       "lerna exec -- rollup -c ../../rollup.config.es5.js -- index.js",
     "build-es6": "lerna exec -- buble --no modules index.js -o build/es6.js",

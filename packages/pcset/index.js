@@ -110,7 +110,7 @@ export function intervals(set) {
  * @param {Array|String} set2 - the other pitch class set
  * @return {Boolean} true if they are equal
  * @example
- * pcset.isEqual('c2 d3', 'c5 d2') // => true
+ * pcset.isEqual(["c2", "d3"], ["c5", "d2"]) // => true
  */
 export function isEqual(s1, s2) {
   if (arguments.length === 1) return s => isEqual(s1, s);
@@ -118,31 +118,47 @@ export function isEqual(s1, s2) {
 }
 
 /**
- * Test if a pitch class set is a subset of another
+ * Create a function that test if a collection of notes is a 
+ * subset of a given set 
+ * 
+ * The function can be partially applied
  *
- * @param {Array|String} test - the set to test
- * @param {Array|String} set - the base set to test against
- * @return {Boolean} true if the test set is a subset of the set
+ * @param {Array|String} set - an array of notes or a chroma set string to test against
+ * @param {Array|String} notes - an array of notes or a chroma set 
+ * @return {boolean} true if notes is a subset of set, false otherwise
  * @example
- * pcset.subset('c d e', 'C2 D4 D5 C6') // => true
+ * const inCMajor = pcset.isSubsetOf(["C", "E", "G"])
+ * inCMajor(["e6", "c4"]) // => true
+ * inCMajor(["e6", "c4", "d3"]) // => false
  */
-export function isSubset(test, set) {
-  test = pcsetNum(test);
-  return (test & pcsetNum(set)) === test;
+export function isSubsetOf(set, notes) {
+  if (arguments.length > 1) return isSubsetOf(set)(notes);
+  set = pcsetNum(set);
+  return function(notes) {
+    notes = pcsetNum(notes);
+    return notes !== set && (notes & set) === notes;
+  };
 }
 
 /**
- * Test if a pitch class set is a superset
+ * Create a function that test if a collectio of notes is a
+ * superset of a given set (it contains all notes and at least one more)
  *
- * @param {Array|String} test - the set to test
- * @param {Array|String} set - the base set to test against
- * @return {Boolean} true if the test set is a superset of the set
+ * @param {Array|String} set - an array of notes or a chroma set string to test against
+ * @param {Array|String} notes - an array of notes or a chroma set 
+ * @return {boolean} true if notes is a superset of set, false otherwise
  * @example
- * pcset.isSuperset('c d e', 'C2 D4 F4 D5 E5 C6') // => true
+ * const extendsCMajor = pcset.isSupersetOf(["C", "E", "G"])
+ * extendsCMajor(["e6", "a", "c4", "g2"]) // => true
+ * extendsCMajor(["c6", "e4", "g3"]) // => false
  */
-export function isSuperset(test, set) {
-  test = pcsetNum(test);
-  return (test | pcsetNum(set)) === test;
+export function isSupersetOf(set, notes) {
+  if (arguments.length > 1) return isSupersetOf(set)(notes);
+  set = pcsetNum(set);
+  return function(notes) {
+    notes = pcsetNum(notes);
+    return notes !== set && (notes | set) === notes;
+  };
 }
 
 /**
@@ -151,8 +167,8 @@ export function isSuperset(test, set) {
  * @param {String|Pitch} note - the note to test
  * @return {Boolean} true if the note is included in the pcset
  * @example
- * pcset.includes('c d e', 'C4') // => true
- * pcset.includes('c d e', 'C#4') // => false
+ * pcset.includes(["C", "D", "E"], 'C4') // => true
+ * pcset.includes(["C", "D", "E"], 'C#4') // => false
  */
 export function includes(set, note) {
   if (arguments.length > 1) return includes(set)(note);
@@ -170,7 +186,7 @@ export function includes(set, note) {
  * @return {Array} the filtered notes
  *
  * @example
- * pcset.filter(c d e', 'c2 c#2 d2 c3 c#3 d3') // => [ 'c2', 'd2', 'c3', 'd3' ])
+ * pcset.filter(["C", "D", "E"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'd2', 'c3', 'd3' ])
  * pcset.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'c3' ])
  */
 export function filter(set, notes) {

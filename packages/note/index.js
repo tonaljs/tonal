@@ -31,6 +31,11 @@
  * @module note
  */
 
+const NAMES = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B".split(" ");
+const GROUPED = "C C#/Db D D#/Eb E F F#/Gb G G#/Ab A A#/Bb B".split(" ");
+
+export const names = grouped => (grouped ? GROUPED : NAMES).slice();
+
 const REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)\s*$/;
 
 export function tokenize(str) {

@@ -1,6 +1,7 @@
 /* global describe test expect */
 var note = require("../index");
 
+const $ = str => str.split(" ");
 const map = (fn, str) => str.split(" ").map(fn);
 
 describe("tonal-note", () => {
@@ -9,6 +10,15 @@ describe("tonal-note", () => {
     expect(note.tokenize("Ax")).toEqual(["A", "##", "", ""]);
     expect(note.tokenize("CM")).toEqual(["C", "", "", "M"]);
     expect(note.tokenize("maj7")).toEqual(null);
+  });
+
+  test("names", () => {
+    expect(note.names()).toEqual(
+      $("C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B")
+    );
+    expect(note.names(true)).toEqual(
+      $("C C#/Db D D#/Eb E F F#/Gb G G#/Ab A A#/Bb B")
+    );
   });
 
   test("props", () => {

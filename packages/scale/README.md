@@ -21,8 +21,8 @@ scale.names() => ['major', 'minor', ...]
     * [`.modeNames(name)`](#module_scale.modeNames)
     * [`.chords(name)`](#module_scale.chords)
     * [`.toScale(notes)`](#module_scale.toScale) ⇒ <code>Array</code>
-    * [`.extensions(name)`](#module_scale.extensions) ⇒ <code>Array</code>
-    * [`.reductions(name)`](#module_scale.reductions) ⇒ <code>Array</code>
+    * [`.supersets(name)`](#module_scale.supersets) ⇒ <code>Array</code>
+    * [`.subsets(name)`](#module_scale.subsets) ⇒ <code>Array</code>
 
 <a name="module_scale.props"></a>
 
@@ -167,13 +167,11 @@ the first note of the array
 | --- | --- |
 | notes | <code>Array</code> | 
 
-<a name="module_scale.extensions"></a>
+<a name="module_scale.supersets"></a>
 
-## `scale.extensions(name)` ⇒ <code>Array</code>
-Find all scales names that has the same notes and more 
-(they are a superset of the given one)
-
-*This function name may change*
+## `scale.supersets(name)` ⇒ <code>Array</code>
+Get all scales names that are a superset of the given one
+(has the same notes and at least one more)
 
 **Kind**: static method of [<code>scale</code>](#module_scale)  
 **Returns**: <code>Array</code> - a list of scale names  
@@ -182,13 +180,11 @@ Find all scales names that has the same notes and more
 | --- | --- |
 | name | <code>String</code> | 
 
-<a name="module_scale.reductions"></a>
+<a name="module_scale.subsets"></a>
 
-## `scale.reductions(name)` ⇒ <code>Array</code>
-Find all scales names that fits into this scale 
-(they are a subset of the given one)
-
-*This function name may change*
+## `scale.subsets(name)` ⇒ <code>Array</code>
+Find all scales names that are a subset of the given one
+(has less notes but all from the given scale)
 
 **Kind**: static method of [<code>scale</code>](#module_scale)  
 **Returns**: <code>Array</code> - a list of scale names  

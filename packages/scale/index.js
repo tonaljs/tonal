@@ -9,7 +9,12 @@
  * @module scale
  */
 import { name as noteName, pc } from "tonal-note";
-import { modes as pcsetModes, chroma, isSubset, isSuperset } from "tonal-pcset";
+import {
+  modes as pcsetModes,
+  chroma,
+  isSubsetOf,
+  isSupersetOf
+} from "tonal-pcset";
 import { transpose } from "tonal-distance";
 import { scale, chord } from "tonal-dictionary";
 import { compact, unique, rotate } from "tonal-array";
@@ -145,10 +150,14 @@ export function tokenize(str) {
  */
 export const modeNames = name => {
   const ivls = intervals(name);
+  const tonics = notes(name);
 
-  return pcsetModes(ivls).map(chroma => {
-    return scale.names(chroma)[0];
-  });
+  return pcsetModes(ivls)
+    .map((chroma, i) => {
+      const name = scale.names(chroma)[0];
+      if (name) return tonics[i] ? tonics[i] + " " + name : name;
+    })
+    .filter(x => x);
 };
 
 /**
@@ -158,8 +167,8 @@ export const modeNames = name => {
  * @param {String} name
  */
 export const chords = name => {
-  const ivls = intervals(name);
-  return chord.names().filter(name => isSubset(chord(name), ivls));
+  const inScale = isSubsetOf(intervals(name));
+  return chord.names().filter(name => inScale(chord(name)));
 };
 
 /**
@@ -179,50 +188,28 @@ export const toScale = notes => {
 };
 
 /**
- * Find all scales names that has the same notes and more 
- * (they are a superset of the given one)
- * 
- * *This function name may change*
+ * Get all scales names that are a superset of the given one
+ * (has the same notes and at least one more)
  * 
  * @function
  * @param {String} name 
  * @return {Array} a list of scale names
  */
-export const extensions = name => {
-  const ivls = intervals(name);
-  if (!ivls.length) return [];
-  return scale.names().filter(name => isSuperset(scale(name), ivls));
+export const supersets = name => {
+  if (!intervals(name).length) return [];
+  const isSuperset = isSupersetOf(intervals(name));
+  return scale.names().filter(name => isSuperset(scale(name)));
 };
 
 /**
- * Find all scales names that fits into this scale 
- * (they are a subset of the given one)
- * 
- * *This function name may change*
+ * Find all scales names that are a subset of the given one
+ * (has less notes but all from the given scale)
  * 
  * @function
  * @param {String} name 
  * @return {Array} a list of scale names
  */
-export const reductions = name => {
-  const ivls = intervals(name);
-  if (!ivls.length) return [];
-  return scale.names().filter(name => isSubset(scale(name), ivls));
-};
-
-export const detect = notes => {
-  notes = toScale(notes);
-  const modes = pcsetModes(notes);
-  if (modes.length < 2) throw Error("It should have at least two notes");
-
-  const results = [];
-
-  names().forEach(name => {
-    const p = props(name);
-    modes.forEach((mode, i) => {
-      if (isSubset(mode, p.chroma)) results.push([notes[i], name]);
-    });
-  });
-
-  return results;
+export const subsets = name => {
+  const isSubset = isSubsetOf(intervals(name));
+  return scale.names().filter(name => isSubset(scale(name)));
 };
