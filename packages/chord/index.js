@@ -15,7 +15,7 @@
 import { tokenize as split } from "tonal-note";
 import { transpose } from "tonal-distance";
 import { chord } from "tonal-dictionary";
-import { chroma } from "tonal-pcset";
+import { chroma, isSubsetOf, isSupersetOf } from "tonal-pcset";
 
 /**
  * Return the available chord names
@@ -106,19 +106,32 @@ export function notes(nameOrTonic, name) {
  */
 export const exists = name => chord(tokenize(name)[1]) !== undefined;
 
-/*
- * Detect a chord. Given a list of notes, return the chord name(s) if any.
- * It only detects chords with exactly same notes.
- *
+/**
+ * Get all chords names that are a superset of the given one
+ * (has the same notes and at least one more)
+ * 
  * @function
- * @private
- * @param {Array|String} notes - the list of notes
- * @return {Array<String>} an array with the possible chords
- * @example
- * chord.detect('b g f# d') // => [ 'GMaj7' ]
- * chord.detect('e c a g') // => [ 'CM6', 'Am7' ]
+ * @param {String} name 
+ * @return {Array} a list of chord names
  */
-//export const detect = () => [];
+export const supersets = name => {
+  if (!intervals(name).length) return [];
+  const isSuperset = isSupersetOf(intervals(name));
+  return chord.names().filter(name => isSuperset(chord(name)));
+};
+
+/**
+ * Find all chords names that are a subset of the given one
+ * (has less notes but all from the given chord)
+ * 
+ * @function
+ * @param {String} name 
+ * @return {Array} a list of chord names
+ */
+export const subsets = name => {
+  const isSubset = isSubsetOf(intervals(name));
+  return chord.names().filter(name => isSubset(chord(name)));
+};
 
 /**
  * Get the position (inversion number) of a chord (0 is root position, 1 is first

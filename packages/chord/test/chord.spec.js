@@ -44,6 +44,23 @@ describe("tonal-chord", () => {
     expect(chord.exists("major")).toBe(false);
   });
 
+  test("supsersets", () => {
+    expect(chord.supersets("CMaj7")).toEqual([
+      "M13",
+      "M13#11",
+      "M7#11",
+      "M7#9#11",
+      "M7add13",
+      "M7b9",
+      "M9",
+      "M9#11"
+    ]);
+  });
+
+  test("subset", () => {
+    expect(chord.subsets("CMaj7")).toEqual(["5", "64", "M"]);
+  });
+
   test.skip("position", () => {
     expect(chord.position("g2 c3 e4 b")).toEqual(2);
     expect(chord.position("b e c g")).toEqual(3);
