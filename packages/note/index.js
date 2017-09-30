@@ -33,8 +33,22 @@
 
 const NAMES = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B".split(" ");
 const GROUPED = "C C#/Db D D#/Eb E F F#/Gb G G#/Ab A A#/Bb B".split(" ");
+const FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
+const SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
 
-export const names = grouped => (grouped ? GROUPED : NAMES).slice();
+/**
+ * Get a list of note names (pitch classes) within a octave
+ * @param {boolean} sharps - true to use sharps, flats otherwise
+ * @return {Array}
+ */
+export const names = sharps => (sharps ? SHARPS : FLATS).slice();
+
+/**
+ * Get a list of names with enharmonics
+ * @param {boolean} grouped 
+ * @return {Array} an array of names
+ */
+export const namesEnh = grouped => (grouped ? GROUPED : NAMES).slice();
 
 const REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)\s*$/;
 
@@ -73,17 +87,38 @@ const properties = str => {
 };
 
 const cache = {};
+/**
+ * Get note properties. It returns an object with the following information:
+ * 
+ * - name {String}: the note name. The letter is always in uppercase
+ * - letter {String}: the note letter, always in uppercase
+ * - acc {String}: the note accidentals
+ * - octave {Number}: the octave or null if not present
+ * - pc {String}: the pitch class (letter + accidentals)
+ * - step {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
+ * - alt {Number}: number equivalent of accidentals (negative are flats, positive sharps)
+ * - chroma {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
+ * - midi {Number}: the note midi number
+ * - freq {Number}: the frequency using an equal temperament at 440Hz
+ * 
+ * This function *always* returns an object with all this properties, but if it's
+ * not a valid note all properties will be null.
+ * 
+ * The returned object can't be mutated.
+ * 
+ * @param {String} note - the note name in scientific notation
+ * @return {Object} an object with the properties (or an object will all properties
+ * set to null if not valid note)
+ * @example
+ * note.props('fx-3').name // => 'F##-3'
+ * note.props('invalid').name // => null
+ * note.props('C#3').oct // => 3
+ * note.props().oct // => null
+ */
 export function props(str) {
   if (typeof str !== "string") return NO_NOTE;
   return cache[str] === undefined ? (cache[str] = properties(str)) : cache[str];
 }
-
-/**
- * Test if the given string is a note
- * @param {String} name 
- * @return {boolean}
- */
-export const isNote = str => props(str) !== NO_NOTE;
 
 /**
  * Given a note name, return the note name or null if not valid note.
@@ -195,35 +230,6 @@ export const chroma = str => props(str).chroma;
  */
 export const oct = str => props(str).oct;
 
-/**
- * Get the note step: a number equivalent of the note letter. 0 means C and
- * 6 means B. This is different from `chroma` (see example)
- *
- * @function
- * @param {string} note - the note
- * @return {Integer} a number between 0 and 6 or null if not a note
- * @example
- * note.step('C') // => 0
- * note.step('Cb') // => 0
- * // usually what you need is chroma
- * note.chroma('Cb') // => 6
- */
-export const step = str => props(str).step;
-
-/**
- * Get the note alteration: a number equivalent to the accidentals. 0 means
- * no accidentals, negative numbers are for flats, positive for sharps
- *
- * @function
- * @param {string|Pitch} note - the note
- * @return {Integer} the alteration
- * @example
- * note.alt('C') // => 0
- * note.alt('C#') // => 1
- * note.alt('Cb') // => -1
- */
-export const alt = str => props(str).alt;
-
 const LETTERS = "CDEFGAB";
 /**
  * Given a step number return it's letter (0 = C, 1 = D, 2 = E)
@@ -247,13 +253,26 @@ const numToStr = (num, op) => (typeof num !== "number" ? "" : op(num));
 export const altToAcc = alt =>
   numToStr(alt, alt => (alt < 0 ? fillStr("b", -alt) : fillStr("#", alt)));
 
-export const build = ({ step, alt, oct }) => {
-  const pc = stepToLetter(step) + altToAcc(alt);
-  return oct === undefined ? pc : pc + oct;
+/**
+ * Build a note name in scientific notation from note properties.
+ * It receives an object with:
+ * - step: the note step (0 = C, 1 = D, ... 6 = B)
+ * - alt: (optional) the alteration. Negative numbers are flats, positive sharps
+ * - oct: (optional) the octave
+ * @param {Object} props - the note properties
+ * @return {String} the note name in scientific notation or null if not valid properties
+ * @example
+ * note.build({ step: 5 }) // => "A"
+ * note.build({ step: 1, acc: -1 }) // => 'Db'
+ * note.build({ step: 2, acc: 2, oct: 2 }) // => 'E##2'
+ * note.build({ step: 7 }) // => null
+ */
+export const build = ({ step, alt, oct } = {}) => {
+  const letter = stepToLetter(step);
+  if (!letter) return null;
+  const pc = letter + altToAcc(alt);
+  return oct || oct === 0 ? pc + oct : pc;
 };
-
-const FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
-const SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
 
 /**
  * Given a midi number, returns a note name. The altered notes will have

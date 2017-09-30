@@ -12,11 +12,34 @@ describe("tonal-note", () => {
     expect(note.tokenize("maj7")).toEqual(null);
   });
 
+  test("name", () => {
+    const names = map(note.name, "c fx dbb bbb c##-1 fbb6");
+    expect(names).toEqual(["C", "F##", "Dbb", "Bbb", "C##-1", "Fbb6"]);
+    expect(note.name("blah")).toEqual(null);
+    expect(note.name()).toEqual(null);
+  });
+
+  test("build", () => {
+    expect(note.build({ step: 1, alt: -1 })).toBe("Db");
+    expect(note.build({ step: 2, alt: 1, oct: null })).toBe("E#");
+    expect(note.build({ step: 5 })).toBe("A");
+    expect(note.build({ step: -1 })).toBe(null);
+    expect(note.build({ step: 8 })).toBe(null);
+    expect(note.build({})).toBe(null);
+    expect(note.build()).toBe(null);
+    expect(note.build("blah")).toBe(null);
+  });
+
   test("names", () => {
-    expect(note.names()).toEqual(
+    expect(note.names()).toEqual($("C Db D Eb E F Gb G Ab A Bb B"));
+    expect(note.names(true)).toEqual($("C C# D D# E F F# G G# A A# B"));
+  });
+
+  test("enharmonic names", () => {
+    expect(note.namesEnh()).toEqual(
       $("C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B")
     );
-    expect(note.names(true)).toEqual(
+    expect(note.namesEnh(true)).toEqual(
       $("C C#/Db D D#/Eb E F F#/Gb G G#/Ab A A#/Bb B")
     );
   });
@@ -34,18 +57,6 @@ describe("tonal-note", () => {
       midi: 49,
       freq: 138.59131548843604
     });
-  });
-
-  test("isNote", () => {
-    expect(note.isNote("c")).toBe(true);
-    expect(note.isNote("blah")).toBe(false);
-  });
-
-  test("step", () => {
-    const steps = map(note.step, "c d e f g a b");
-    expect(steps).toEqual([0, 1, 2, 3, 4, 5, 6]);
-
-    expect(map(note.step, "c# d## e### f####")).toEqual([0, 1, 2, 3]);
   });
 
   test("oct", () => {
@@ -100,11 +111,6 @@ describe("tonal-note", () => {
     ).toEqual([0, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9, 10, 11, 0]);
   });
 
-  test("name", () => {
-    const names = map(note.name, "c fx dbb bbb c##-1 fbb6");
-    expect(names).toEqual(["C", "F##", "Dbb", "Bbb", "C##-1", "Fbb6"]);
-  });
-
   test("pc", () => {
     const pcs = map(note.pc, "a b0 d2 e# fb3 g###4 bbbb5");
     expect(pcs).toEqual(["A", "B", "D", "E#", "Fb", "G###", "Bbbb"]);
@@ -116,5 +122,12 @@ describe("tonal-note", () => {
     const accs = [-4, -3, -2, -1, 0, 1, 2, 3, 4].map(note.altToAcc);
     const expected = ["bbbb", "bbb", "bb", "b", "", "#", "##", "###", "####"];
     expect(accs).toEqual(expected);
+  });
+
+  test("stepToLetter", () => {
+    const steps = [0, 1, 2, 3, 4, 5, 6];
+    expect(steps.map(note.stepToLetter)).toEqual($("C D E F G A B"));
+    expect(note.stepToLetter(-1)).toBe(undefined);
+    expect(note.stepToLetter(7)).toBe(undefined);
   });
 });
