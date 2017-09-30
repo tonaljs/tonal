@@ -51,7 +51,8 @@ const properties = name => {
 const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
 
 /**
- * Get chord properties. It returns an object with :
+ * Get chord properties. It returns an object with:
+ * 
  * - name: the chord name
  * - names: a list with all possible names (includes the current)
  * - intervals: an array with the chord intervals
@@ -60,7 +61,8 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
  * 
  * @function
  * @param {String} name - the chord name (without tonic)
- * @return {Object}
+ * @return {Object} an object with the properties or a object with all properties
+ * set to null if not valid chord name
  */
 export const props = memo(properties);
 
@@ -134,65 +136,6 @@ export const subsets = name => {
 };
 
 /**
- * Get the position (inversion number) of a chord (0 is root position, 1 is first
- * inversion...). It assumes the chord is formed by superposed thirds.
- *
- * @function
- * @param {Array|String} chord - the chord notes
- * @return {Integer} the inversion number (0 for root inversion, 1 for first
- * inversion...) or null if not a valid chord
- *
- * @example
- * chord.position('e g c') // => 1
- * chord.position('g3 e2 c5') // => 1 (e is the lowest note)
- */
-function position(chord) {
-  const pcs = map(pc, chord);
-  const sorted = sortTriads(pcs);
-  return sorted ? sorted.indexOf(pcs[0]) : null;
-}
-
-/**
- * Given a chord in any inverstion, set to the given inversion. It accepts
- * chord names
- *
- * @private
- * @param {Integer} num - the inversion number (0 root position, 1 first
- * inversion, ...)
- * @param {String|Array} chord - the chord name or notes
- * @return {Array} the chord pitch classes in the desired inversion or
- * an empty array if no inversion found (not triadic)
- *
- * @example
- * chord.inversion(1, 'Cmaj7') // => [ 'E', 'G', 'B', 'C' ]
- * chord.inversion(0, 'e g c') // => [ 'C', 'E', 'G' ]
- */
-function inversion(num, chord) {
-  if (arguments.length === 1)
-    return function(c) {
-      return inversion(num, c);
-    };
-  const sorted = sortTriads(chord);
-  return sorted ? rotate(num, sorted) : [];
-}
-
-function sortTriads(chord) {
-  const all = permutations(notes(chord).map(pc));
-  for (let i = 0; i < all.length; i++) {
-    const ivls = intervallic(all[i]);
-    if (areTriads(ivls)) return all[i];
-  }
-  return null;
-}
-
-function areTriads(list) {
-  for (let i = 0; i < list.length; i++) {
-    if (list[i][0] !== "3") return false;
-  }
-  return true;
-}
-
-/**
  * Tokenize a chord name. It returns an array with the tonic and chord type 
  * If not tonic is found, all the name is considered the chord name.
  *
@@ -210,7 +153,7 @@ function areTriads(list) {
  */
 export function tokenize(name) {
   const p = split(name);
-  if (!p) return [null, name];
+  if (p[0] === "") return [null, name];
 
   // 6 and 7 is consider part of the chord
   if (p[0] !== "" && (p[2][0] === "6" || p[2][0] === "7")) {

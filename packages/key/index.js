@@ -70,8 +70,8 @@ const NO_KEY = Object.freeze({
   modenum: null,
   intervals: [],
   scale: [],
-  alteration: null,
-  accidentals: null
+  alt: null,
+  acc: null
 });
 
 const properties = name => {
@@ -81,10 +81,10 @@ const properties = name => {
   k.name = k.tonic + " " + k.mode;
   k.modenum = modenum(k.mode);
   const cs = rotate(k.modenum, NOTES);
+  k.alt = fifths("C", k.tonic) - FIFTHS[MODES.indexOf(k.mode)];
+  k.acc = altToAcc(k.alt);
   k.intervals = cs.map(interval(cs[0]));
   k.scale = k.intervals.map(transpose(k.tonic));
-  k.alteration = fifths("C", k.tonic) - FIFTHS[MODES.indexOf(k.mode)];
-  k.accidentals = altToAcc(k.alteration);
   return Object.freeze(k);
 };
 
@@ -93,14 +93,14 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
 /**
  * Return the a key properties object with the following information:
  *
- * - name: name
- * - tonic: key tonic
- * - mode: key mode
- * - modenum: mode number (0 major, 1 dorian, ...)
- * - intervals: the scale intervals
- * - scale: the scale notes
- * - alteration: alteration number
- * - accidentals: accidentals 
+ * - name {String}: name
+ * - tonic {String}: key tonic
+ * - mode {String}: key mode
+ * - modenum {Number}: mode number (0 major, 1 dorian, ...)
+ * - intervals {Array}: the scale intervals
+ * - scale {Array}: the scale notes
+ * - acc {String}: accidentals of the key signature
+ * - alt {Number}: alteration number (a numeric representation of accidentals)
  *
  * @function
  * @param {String} name - the key name
@@ -124,31 +124,6 @@ export const props = memo(properties);
  * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
  */
 export const scale = str => props(str).scale;
-
-/**
- * Get key alteration. The alteration is a number indicating the number of
- * sharpen notes (positive) or flaten notes (negative)
- * 
- * @function
- * @param {String|Integer} key
- * @return {Integer}
- * @example
- * var key = require('tonal-keys')
- * key.alteration('A major') // => 3
- */
-export const alteration = str => props(str).alteration;
-
-/**
- * Get key accidentals: a string with sharps or flats
- * 
- * @function
- * @param {String} key
- * @return {String}
- * @example
- * import * as key from 'tonal-keys'
- * key.accidentals('A major') // => "###"
- */
-export const accidentals = str => props(str).accidentals;
 
 /**
  * Get a list of key scale degrees
@@ -179,7 +154,7 @@ export const degrees = str => {
  * key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
  */
 export const alteredNotes = name => {
-  const alt = props(name).alteration;
+  const alt = props(name).alt;
   if (alt === null) return null;
   return alt === 0
     ? []

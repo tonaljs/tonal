@@ -9,7 +9,13 @@ describe("tonal-note", () => {
     expect(note.tokenize("Cbb5 major")).toEqual(["C", "bb", "5", "major"]);
     expect(note.tokenize("Ax")).toEqual(["A", "##", "", ""]);
     expect(note.tokenize("CM")).toEqual(["C", "", "", "M"]);
-    expect(note.tokenize("maj7")).toEqual(null);
+    expect(note.tokenize("maj7")).toEqual(["", "", "", "maj7"]);
+    expect(note.tokenize("")).toEqual(["", "", "", ""]);
+    expect(note.tokenize("bb")).toEqual(["B", "b", "", ""]);
+    expect(note.tokenize("##")).toEqual(["", "##", "", ""]);
+    expect(note.tokenize(3)).toEqual(["", "", "3", ""]);
+    expect(note.tokenize()).toEqual(["", "", "", ""]);
+    expect(note.tokenize(null)).toEqual(["", "", "", ""]);
   });
 
   test("name", () => {

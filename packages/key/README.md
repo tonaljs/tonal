@@ -21,8 +21,6 @@ key.relative('minor', 'C major') // => 'A minor'
     * [`.fromAlter(alt)`](#module_key.fromAlter) ⇒ <code>Key</code>
     * [`.props(name)`](#module_key.props) ⇒ <code>Object</code>
     * [`.scale(key)`](#module_key.scale) ⇒ <code>Array</code>
-    * [`.alteration(key)`](#module_key.alteration) ⇒ <code>Integer</code>
-    * [`.accidentals(key)`](#module_key.accidentals) ⇒ <code>String</code>
     * [`.alteredNotes(key)`](#module_key.alteredNotes) ⇒ <code>Array</code>
     * [`.chords(name)`](#module_key.chords) ⇒ <code>Array</code>
     * [`.secDomChords(name)`](#module_key.secDomChords) ⇒ <code>Array</code>
@@ -86,14 +84,14 @@ key.fromAlter(2) // => 'D major'
 ## `key.props(name)` ⇒ <code>Object</code>
 Return the a key properties object with the following information:
 
-- name: name
-- tonic: key tonic
-- mode: key mode
-- modenum: mode number (0 major, 1 dorian, ...)
-- intervals: the scale intervals
-- scale: the scale notes
-- alteration: alteration number
-- accidentals: accidentals
+- name {String}: name
+- tonic {String}: key tonic
+- mode {String}: key mode
+- modenum {Number}: mode number (0 major, 1 dorian, ...)
+- intervals {Array}: the scale intervals
+- scale {Array}: the scale notes
+- acc {String}: accidentals of the key signature
+- alt {Number}: alteration number (a numeric representation of accidentals)
 
 **Kind**: static method of [<code>key</code>](#module_key)  
 **Returns**: <code>Object</code> - the key properties object or null if not a valid key  
@@ -125,39 +123,6 @@ key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
 key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
 key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
 key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
-```
-<a name="module_key.alteration"></a>
-
-## `key.alteration(key)` ⇒ <code>Integer</code>
-Get key alteration. The alteration is a number indicating the number of
-sharpen notes (positive) or flaten notes (negative)
-
-**Kind**: static method of [<code>key</code>](#module_key)  
-
-| Param | Type |
-| --- | --- |
-| key | <code>String</code> \| <code>Integer</code> | 
-
-**Example**  
-```js
-var key = require('tonal-keys')
-key.alteration('A major') // => 3
-```
-<a name="module_key.accidentals"></a>
-
-## `key.accidentals(key)` ⇒ <code>String</code>
-Get key accidentals: a string with sharps or flats
-
-**Kind**: static method of [<code>key</code>](#module_key)  
-
-| Param | Type |
-| --- | --- |
-| key | <code>String</code> | 
-
-**Example**  
-```js
-import * as key from 'tonal-keys'
-key.accidentals('A major') // => "###"
 ```
 <a name="module_key.alteredNotes"></a>
 

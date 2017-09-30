@@ -50,9 +50,10 @@ export const names = sharps => (sharps ? SHARPS : FLATS).slice();
  */
 export const namesEnh = grouped => (grouped ? GROUPED : NAMES).slice();
 
-const REGEX = /^([a-gA-G])(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)\s*$/;
+const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
 
 export function tokenize(str) {
+  str = str || str === 0 ? str : "";
   const m = REGEX.exec(str);
   if (!m) return null;
   return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]];

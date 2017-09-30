@@ -28,22 +28,23 @@ describe("tonal-key", () => {
       name: "D mixolydian",
       tonic: "D",
       mode: "mixolydian",
-      alteration: 1,
-      accidentals: "#",
+      alt: 1,
+      acc: "#",
       modenum: 4,
       intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7m"],
       scale: ["D", "E", "F#", "G", "A", "B", "C"]
     });
+    expect(key.props("none").name).toBe(null);
   });
 
   test("alteration", () => {
-    expect(key.alteration("A major")).toBe(3);
+    expect(key.props("A major").alt).toBe(3);
     var Amaj = "A B C# D E F# G#".split(" ");
     var modes = key.modeNames(false);
     Amaj.forEach(function(tonic, i) {
-      expect(key.alteration(tonic + " " + modes[i])).toBe(3);
+      expect(key.props(tonic + " " + modes[i]).alt).toBe(3);
     });
-    expect(key.alteration("Bb major")).toBe(-2);
+    expect(key.props("Bb major").alt).toBe(-2);
   });
 
   test("alteredNotes", () => {
