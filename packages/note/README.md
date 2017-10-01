@@ -34,19 +34,21 @@ tonal.note.midi('d4') // => 62
 * [note](#module_note)
     * [`.names`](#module_note.names) ⇒ <code>Array</code>
     * [`.namesEnh`](#module_note.namesEnh) ⇒ <code>Array</code>
+    * [`.props`](#module_note.props) ⇒ <code>Object</code>
     * [`.midiToFreq`](#module_note.midiToFreq) ⇒ <code>Number</code>
     * [`.freqToMidi`](#module_note.freqToMidi) ⇒ <code>Number</code>
     * [`.chroma`](#module_note.chroma) ⇒ <code>Integer</code>
     * [`.stepToLetter`](#module_note.stepToLetter) ⇒ <code>string</code>
     * [`.altToAcc`](#module_note.altToAcc) ⇒ <code>String</code>
     * [`.build`](#module_note.build) ⇒ <code>String</code>
-    * [`.props(note)`](#module_note.props) ⇒ <code>Object</code>
+    * [`.simplify`](#module_note.simplify) ⇒ <code>String</code>
+    * [`.tokenize(str)`](#module_note.tokenize) ⇒ <code>Array</code>
     * [`.name()`](#module_note.name) ⇒ <code>string</code>
     * [`.pc()`](#module_note.pc) ⇒ <code>string</code>
     * [`.midi(note)`](#module_note.midi) ⇒ <code>Integer</code>
     * [`.freq(note)`](#module_note.freq) ⇒ <code>Number</code>
     * [`.oct(note)`](#module_note.oct) ⇒ <code>Integer</code>
-    * [`.fromMidi(midi, [boolean])`](#module_note.fromMidi) ⇒ <code>string</code>
+    * [`.fromMidi(midi, useSharps)`](#module_note.fromMidi) ⇒ <code>string</code>
 
 <a name="module_note.names"></a>
 
@@ -59,6 +61,11 @@ Get a list of note names (pitch classes) within a octave
 | --- | --- | --- |
 | sharps | <code>boolean</code> | true to use sharps, flats otherwise |
 
+**Example**  
+```js
+note.names() // => [ 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B' ]
+note.names(true) // => [ 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' ]
+```
 <a name="module_note.namesEnh"></a>
 
 ## `note.namesEnh` ⇒ <code>Array</code>
@@ -71,6 +78,47 @@ Get a list of names with enharmonics
 | --- | --- |
 | grouped | <code>boolean</code> | 
 
+**Example**  
+```js
+note.namesEnh() // => ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B']
+note.namesEnh(true) // => [ 'C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B' ]
+```
+<a name="module_note.props"></a>
+
+## `note.props` ⇒ <code>Object</code>
+Get note properties. It returns an object with the following information:
+
+- name {String}: the note name. The letter is always in uppercase
+- letter {String}: the note letter, always in uppercase
+- acc {String}: the note accidentals
+- octave {Number}: the octave or null if not present
+- pc {String}: the pitch class (letter + accidentals)
+- step {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
+- alt {Number}: number equivalent of accidentals (negative are flats, positive sharps)
+- chroma {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
+- midi {Number}: the note midi number
+- freq {Number}: the frequency using an equal temperament at 440Hz
+
+This function *always* returns an object with all this properties, but if it's
+not a valid note all properties will be null.
+
+The returned object can't be mutated.
+
+**Kind**: static constant of [<code>note</code>](#module_note)  
+**Returns**: <code>Object</code> - an object with the properties (or an object will all properties
+set to null if not valid note)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| note | <code>String</code> | the note name in scientific notation |
+
+**Example**  
+```js
+note.props('fx-3').name // => 'F##-3'
+note.props('invalid').name // => null
+note.props('C#3').oct // => 3
+note.props().oct // => null
+```
 <a name="module_note.midiToFreq"></a>
 
 ## `note.midiToFreq` ⇒ <code>Number</code>
@@ -175,41 +223,48 @@ note.build({ step: 1, acc: -1 }) // => 'Db'
 note.build({ step: 2, acc: 2, oct: 2 }) // => 'E##2'
 note.build({ step: 7 }) // => null
 ```
-<a name="module_note.props"></a>
+<a name="module_note.simplify"></a>
 
-## `note.props(note)` ⇒ <code>Object</code>
-Get note properties. It returns an object with the following information:
+## `note.simplify` ⇒ <code>String</code>
+Simplify the note: find an enhramonic note with less accidentals.
 
-- name {String}: the note name. The letter is always in uppercase
-- letter {String}: the note letter, always in uppercase
-- acc {String}: the note accidentals
-- octave {Number}: the octave or null if not present
-- pc {String}: the pitch class (letter + accidentals)
-- step {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
-- alt {Number}: number equivalent of accidentals (negative are flats, positive sharps)
-- chroma {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
-- midi {Number}: the note midi number
-- freq {Number}: the frequency using an equal temperament at 440Hz
-
-This function *always* returns an object with all this properties, but if it's
-not a valid note all properties will be null.
-
-The returned object can't be mutated.
-
-**Kind**: static method of [<code>note</code>](#module_note)  
-**Returns**: <code>Object</code> - an object with the properties (or an object will all properties
-set to null if not valid note)  
+**Kind**: static constant of [<code>note</code>](#module_note)  
+**Returns**: <code>String</code> - the simplfiied note or null if not valid note  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>String</code> | the note name in scientific notation |
+| note | <code>String</code> | the note to be simplified |
+| useSameAccType | <code>boolean</code> | (optional, true by default) set to true to ensure the returned note has the same accidental types that the given note |
 
 **Example**  
 ```js
-note.props('fx-3').name // => 'F##-3'
-note.props('invalid').name // => null
-note.props('C#3').oct // => 3
-note.props().oct // => null
+note.simplify("C##") // => "D"
+note.simplify("C###") // => "D#"
+note.simplify("C###", false) // => "Eb"
+note.simplify("B#4") // => "C5"
+```
+<a name="module_note.tokenize"></a>
+
+## `note.tokenize(str)` ⇒ <code>Array</code>
+Split a string into tokens related to note parts. 
+It returns an array of strings `[letter, accidental, octave, modifier]` 
+
+It always returns an array
+
+**Kind**: static method of [<code>note</code>](#module_note)  
+**Returns**: <code>Array</code> - an array of note tokens  
+
+| Param | Type |
+| --- | --- |
+| str | <code>String</code> | 
+
+**Example**  
+```js
+note.tokenize('C#2') // => ["C", "#", "2", ""]
+note.tokenize('Db3 major') // => ["D", "b", "3", "major"]
+note.tokenize('major') // => ["", "", "", "major"]
+note.tokenize('##') // => ["", "##", "", ""]
+note.tokenize() // => ["", "", "", ""]
 ```
 <a name="module_note.name"></a>
 
@@ -305,7 +360,7 @@ note.oct('blah') // => undefined
 ```
 <a name="module_note.fromMidi"></a>
 
-## `note.fromMidi(midi, [boolean])` ⇒ <code>string</code>
+## `note.fromMidi(midi, useSharps)` ⇒ <code>string</code>
 Given a midi number, returns a note name. The altered notes will have
 flats unless explicitly set with the optional `useSharps` parameter.
 
@@ -315,7 +370,7 @@ flats unless explicitly set with the optional `useSharps` parameter.
 | Param | Type | Description |
 | --- | --- | --- |
 | midi | <code>number</code> | the midi note number |
-| [boolean] |  | useSharps - (Optional) set to true to use sharps instead of flats |
+| useSharps | <code>boolean</code> | (Optional) set to true to use sharps instead of flats |
 
 **Example**  
 ```js

@@ -138,4 +138,15 @@ describe("tonal-note", () => {
     expect(note.stepToLetter(-1)).toBe(undefined);
     expect(note.stepToLetter(7)).toBe(undefined);
   });
+
+  test("simplify", () => {
+    const notes = $("C## C### F##4 Gbbb5 B#4 Cbb4");
+    expect(notes.map(note.simplify)).toEqual($("D D# G4 E5 C5 Bb3"));
+    expect(notes.map(n => note.simplify(n, false))).toEqual(
+      $("D Eb G4 E5 C5 A#3")
+    );
+
+    expect(note.simplify("C#")).toEqual("C#");
+    expect(note.simplify("C#", false)).toEqual("Db");
+  });
 });

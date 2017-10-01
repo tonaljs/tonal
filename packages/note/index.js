@@ -300,7 +300,7 @@ export const build = ({ step, alt, oct } = {}) => {
  *
  * @function
  * @param {number} midi - the midi note number
- * @param [boolean] useSharps - (Optional) set to true to use sharps instead of flats
+ * @param {boolean} useSharps - (Optional) set to true to use sharps instead of flats
  * @return {string} the note name
  * @example
  * const note = require('tonal-note')
@@ -316,3 +316,24 @@ export function fromMidi(num, sharps) {
   const o = Math.floor(num / 12) - 1;
   return pc + o;
 }
+
+/**
+ * Simplify the note: find an enhramonic note with less accidentals. 
+ * @param {String} note - the note to be simplified
+ * @param {boolean} useSameAccType - (optional, true by default) set to true
+ * to ensure the returned note has the same accidental types that the given note
+ * @return {String} the simplfiied note or null if not valid note
+ * @example
+ * note.simplify("C##") // => "D"
+ * note.simplify("C###") // => "D#"
+ * note.simplify("C###", false) // => "Eb"
+ * note.simplify("B#4") // => "C5"
+ */
+export const simplify = (note, sameAcc) => {
+  const { alt, chroma, midi } = props(note);
+  if (chroma === null) return null;
+  const useSharps = sameAcc === false ? alt < 0 : alt > 0;
+  return midi === null
+    ? pc(fromMidi(chroma, useSharps))
+    : fromMidi(midi, useSharps);
+};
