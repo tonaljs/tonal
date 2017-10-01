@@ -1,11 +1,16 @@
 {
   "name": "tonal-pcset",
-  "version": "1.0.0-pre4",
+  "version": "1.0.0-pre5",
   "description": "Create and manipulate pitch class sets",
-  "keywords": ["music", "theory", "pitch class", "sets", "tonal"],
+  "keywords": [
+    "music",
+    "theory",
+    "pitch class",
+    "sets",
+    "tonal"
+  ],
   "scripts": {
-    "docs":
-      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/es5.js",
@@ -13,14 +18,18 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^1.0.0-pre4",
-    "tonal-interval": "^1.0.0-pre4",
-    "tonal-note": "^1.0.0-pre4"
+    "tonal-array": "^1.0.0-pre5",
+    "tonal-interval": "^1.0.0-pre5",
+    "tonal-note": "^1.0.0-pre5"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "jest": {
-    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!tonal)"
+    ]
   }
 }
