@@ -1,12 +1,16 @@
 {
   "name": "tonal-scale",
-  "version": "1.0.0-pre3",
+  "version": "1.0.0-pre4",
   "description": "Music scales creation and manipulation",
   "repository": "https://github.com/danigb/tonal/packages/scale",
-  "keywords": ["music", "theory", "scale", "tonal"],
+  "keywords": [
+    "music",
+    "theory",
+    "scale",
+    "tonal"
+  ],
   "scripts": {
-    "docs":
-      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/es5.js",
@@ -14,16 +18,20 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^1.0.0-pre3",
-    "tonal-dictionary": "^1.0.0-pre3",
-    "tonal-distance": "^1.0.0-pre3",
-    "tonal-note": "^1.0.0-pre3",
-    "tonal-pcset": "^1.0.0-pre3"
+    "tonal-array": "^1.0.0-pre4",
+    "tonal-dictionary": "^1.0.0-pre4",
+    "tonal-distance": "^1.0.0-pre4",
+    "tonal-note": "^1.0.0-pre4",
+    "tonal-pcset": "^1.0.0-pre4"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "jest": {
-    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!tonal)"
+    ]
   }
 }
