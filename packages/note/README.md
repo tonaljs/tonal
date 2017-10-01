@@ -42,6 +42,7 @@ tonal.note.midi('d4') // => 62
     * [`.altToAcc`](#module_note.altToAcc) ⇒ <code>String</code>
     * [`.build`](#module_note.build) ⇒ <code>String</code>
     * [`.simplify`](#module_note.simplify) ⇒ <code>String</code>
+    * [`.enharmonic`](#module_note.enharmonic) ⇒ <code>String</code>
     * [`.tokenize(str)`](#module_note.tokenize) ⇒ <code>Array</code>
     * [`.name()`](#module_note.name) ⇒ <code>string</code>
     * [`.pc()`](#module_note.pc) ⇒ <code>string</code>
@@ -242,6 +243,23 @@ note.simplify("C##") // => "D"
 note.simplify("C###") // => "D#"
 note.simplify("C###", false) // => "Eb"
 note.simplify("B#4") // => "C5"
+```
+<a name="module_note.enharmonic"></a>
+
+## `note.enharmonic` ⇒ <code>String</code>
+Get the simplified and enhramonic note of the given one
+
+**Kind**: static constant of [<code>note</code>](#module_note)  
+**Returns**: <code>String</code> - the enhramonic note  
+
+| Param | Type |
+| --- | --- |
+| note | <code>String</code> | 
+
+**Example**  
+```js
+note.enharmonic('Db') // => 'C#'
+note.enhramonic('C') // => 'C'
 ```
 <a name="module_note.tokenize"></a>
 

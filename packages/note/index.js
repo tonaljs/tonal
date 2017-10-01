@@ -86,6 +86,7 @@ const NO_NOTE = Object.freeze({
   step: null,
   alt: null,
   oct: null,
+  octStr: null,
   chroma: null,
   midi: null,
   freq: null
@@ -95,13 +96,13 @@ const SEMI = [0, 2, 4, 5, 7, 9, 11];
 const properties = str => {
   const tokens = tokenize(str);
   if (tokens[0] === "" || tokens[3] !== "") return NO_NOTE;
-  const [letter, acc, oct] = tokens;
-  const p = { letter, acc };
+  const [letter, acc, octStr] = tokens;
+  const p = { letter, acc, octStr };
   p.pc = p.letter + p.acc;
-  p.name = p.pc + oct;
+  p.name = p.pc + octStr;
   p.step = (p.letter.charCodeAt(0) + 3) % 7;
   p.alt = p.acc[0] === "b" ? -p.acc.length : p.acc.length;
-  p.oct = oct.length ? +oct : null;
+  p.oct = octStr.length ? +octStr : null;
   p.chroma = (SEMI[p.step] + p.alt + 120) % 12;
   p.midi = p.oct !== null ? SEMI[p.step] + p.alt + 12 * (p.oct + 1) : null;
   p.freq = midiToFreq(p.midi);
@@ -337,3 +338,13 @@ export const simplify = (note, sameAcc) => {
     ? pc(fromMidi(chroma, useSharps))
     : fromMidi(midi, useSharps);
 };
+
+/**
+ * Get the simplified and enhramonic note of the given one
+ * @param {String} note 
+ * @return {String} the enhramonic note
+ * @example
+ * note.enharmonic('Db') // => 'C#'
+ * note.enhramonic('C') // => 'C'
+ */
+export const enharmonic = note => simplify(note, false);

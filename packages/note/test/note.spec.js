@@ -59,6 +59,7 @@ describe("tonal-note", () => {
       letter: "C",
       name: "C#3",
       oct: 3,
+      octStr: "3",
       pc: "C#",
       step: 0,
       midi: 49,
