@@ -13,7 +13,8 @@ describe("tonal-note", () => {
     expect(note.tokenize("")).toEqual(["", "", "", ""]);
     expect(note.tokenize("bb")).toEqual(["B", "b", "", ""]);
     expect(note.tokenize("##")).toEqual(["", "##", "", ""]);
-    expect(note.tokenize(3)).toEqual(["", "", "3", ""]);
+    expect(note.tokenize(3)).toEqual(["", "", "", ""]);
+    expect(note.tokenize(false)).toEqual(["", "", "", ""]);
     expect(note.tokenize()).toEqual(["", "", "", ""]);
     expect(note.tokenize(null)).toEqual(["", "", "", ""]);
   });
@@ -63,6 +64,7 @@ describe("tonal-note", () => {
       midi: 49,
       freq: 138.59131548843604
     });
+    expect(note.props("major")).toEqual(note.props());
   });
 
   test("oct", () => {

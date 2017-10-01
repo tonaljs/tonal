@@ -40,6 +40,9 @@ const SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
  * Get a list of note names (pitch classes) within a octave
  * @param {boolean} sharps - true to use sharps, flats otherwise
  * @return {Array}
+ * @example
+ * note.names() // => [ 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B' ]
+ * note.names(true) // => [ 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' ]
  */
 export const names = sharps => (sharps ? SHARPS : FLATS).slice();
 
@@ -47,13 +50,31 @@ export const names = sharps => (sharps ? SHARPS : FLATS).slice();
  * Get a list of names with enharmonics
  * @param {boolean} grouped 
  * @return {Array} an array of names
+ * @example
+ * note.namesEnh() // => ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B']
+ * note.namesEnh(true) // => [ 'C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B' ]
  */
 export const namesEnh = grouped => (grouped ? GROUPED : NAMES).slice();
 
 const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
 
+/**
+ * Split a string into tokens related to note parts. 
+ * It returns an array of strings `[letter, accidental, octave, modifier]` 
+ * 
+ * It always returns an array
+ * 
+ * @param {String} str 
+ * @return {Array} an array of note tokens
+ * @example
+ * note.tokenize('C#2') // => ["C", "#", "2", ""]
+ * note.tokenize('Db3 major') // => ["D", "b", "3", "major"]
+ * note.tokenize('major') // => ["", "", "", "major"]
+ * note.tokenize('##') // => ["", "##", "", ""]
+ * note.tokenize() // => ["", "", "", ""]
+ */
 export function tokenize(str) {
-  str = str || str === 0 ? str : "";
+  if (typeof str !== "string") str = "";
   const m = REGEX.exec(str);
   if (!m) return null;
   return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]];
@@ -73,7 +94,7 @@ const NO_NOTE = Object.freeze({
 const SEMI = [0, 2, 4, 5, 7, 9, 11];
 const properties = str => {
   const tokens = tokenize(str);
-  if (tokens === null || tokens[3] !== "") return NO_NOTE;
+  if (tokens[0] === "" || tokens[3] !== "") return NO_NOTE;
   const [letter, acc, oct] = tokens;
   const p = { letter, acc };
   p.pc = p.letter + p.acc;
@@ -87,7 +108,8 @@ const properties = str => {
   return Object.freeze(p);
 };
 
-const cache = {};
+const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
+
 /**
  * Get note properties. It returns an object with the following information:
  * 
@@ -116,10 +138,7 @@ const cache = {};
  * note.props('C#3').oct // => 3
  * note.props().oct // => null
  */
-export function props(str) {
-  if (typeof str !== "string") return NO_NOTE;
-  return cache[str] === undefined ? (cache[str] = properties(str)) : cache[str];
-}
+export const props = memo(properties);
 
 /**
  * Given a note name, return the note name or null if not valid note.
