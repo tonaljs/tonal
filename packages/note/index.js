@@ -32,30 +32,28 @@
  */
 
 const NAMES = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B".split(" ");
-const GROUPED = "C C#/Db D D#/Eb E F F#/Gb G G#/Ab A A#/Bb B".split(" ");
-const FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
-const SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
 
 /**
  * Get a list of note names (pitch classes) within a octave
- * @param {boolean} sharps - true to use sharps, flats otherwise
+ * 
+ * @param {string} accTypes - (Optional, by default " b#"). A string with the 
+ * accidentals types: " " means no accidental, "#" means sharps, "b" mean flats,
+ * can be conbined (see examples)
  * @return {Array}
  * @example
- * note.names() // => [ 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B' ]
- * note.names(true) // => [ 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' ]
+ * note.names(" b") // => [ 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B' ]
+ * note.names(" #") // => [ 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' ]
  */
-export const names = sharps => (sharps ? SHARPS : FLATS).slice();
+export const names = accTypes =>
+  typeof accTypes !== "string"
+    ? NAMES.slice()
+    : NAMES.filter(n => {
+        const acc = n[1] || " ";
+        return accTypes.indexOf(acc) !== -1;
+      });
 
-/**
- * Get a list of names with enharmonics
- * @param {boolean} grouped 
- * @return {Array} an array of names
- * @example
- * note.namesEnh() // => ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B']
- * note.namesEnh(true) // => [ 'C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B' ]
- */
-export const namesEnh = grouped => (grouped ? GROUPED : NAMES).slice();
-
+const SHARPS = names(" #");
+const FLATS = names(" b");
 const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
 
 /**

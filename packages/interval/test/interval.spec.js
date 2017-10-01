@@ -13,6 +13,15 @@ describe("tonal-interval", () => {
     expect(ivl.tokenize("M-3")).toEqual(["-3", "M"]);
   });
 
+  test("names", () => {
+    expect(ivl.names()).toEqual($("1P 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P"));
+    expect(ivl.names("P")).toEqual($("1P 4P 5P 8P"));
+    expect(ivl.names("PM")).toEqual($("1P 2M 3M 4P 5P 6M 7M 8P"));
+    expect(ivl.names("Pm")).toEqual($("1P 2m 3m 4P 5P 6m 7m 8P"));
+    expect(ivl.names("m")).toEqual($("2m 3m 6m 7m"));
+    expect(ivl.names("d")).toEqual([]);
+  });
+
   test("num", () => {
     const pos = [1, 2, 3, 4, 5, 6, 7];
     expect($("1P 2M 3M 4P 5P 6M 7M").map(ivl.num)).toEqual(pos);

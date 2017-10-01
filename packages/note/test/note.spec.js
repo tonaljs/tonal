@@ -38,17 +38,13 @@ describe("tonal-note", () => {
   });
 
   test("names", () => {
-    expect(note.names()).toEqual($("C Db D Eb E F Gb G Ab A Bb B"));
-    expect(note.names(true)).toEqual($("C C# D D# E F F# G G# A A# B"));
-  });
-
-  test("enharmonic names", () => {
-    expect(note.namesEnh()).toEqual(
+    expect(note.names()).toEqual(
       $("C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B")
     );
-    expect(note.namesEnh(true)).toEqual(
-      $("C C#/Db D D#/Eb E F F#/Gb G G#/Ab A A#/Bb B")
-    );
+    expect(note.names(" ")).toEqual($("C D E F G A B"));
+    expect(note.names("b ")).toEqual($("C Db D Eb E F Gb G Ab A Bb B"));
+    expect(note.names("# ")).toEqual($("C C# D D# E F F# G G# A A# B"));
+    expect(note.names(" b#")).toEqual(note.names());
   });
 
   test("props", () => {

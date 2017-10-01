@@ -42,6 +42,23 @@ const REGEX = new RegExp("^" + IVL_TNL + "|" + IVL_STR + "$");
 const SIZES = [0, 2, 4, 5, 7, 9, 11];
 const TYPES = "PMMPPMM";
 const CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1];
+const NAMES = "1P 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P".split(" ");
+
+/**
+ * List basic (perfect, major, minor) interval names within a octave 
+ * @param {String} types - (Optional, default "PMm") the valid types
+ * @return {Array} the interval names
+ * @example
+ * tonal.interval.names() // => [ '1P', '2m', '2M', '3m', '3M', '4P', '5P', '6m', '6M', '7m', '7M', '8P' ]
+ * tonal.interval.names("P") // => [ '1P', '4P', '5P', '8P' ]
+ * tonal.interval.names("PM") // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
+ * tonal.interval.names("Pm") // => [ '1P', '2m', '3m', '4P', '5P', '6m', '7m', '8P' ]
+ * t.interval.names("d") // => []
+ */
+export const names = types =>
+  typeof types !== "string"
+    ? NAMES.slice()
+    : NAMES.filter(n => types.indexOf(n[1]) !== -1);
 
 export const tokenize = str => {
   const m = REGEX.exec(str);

@@ -36,6 +36,7 @@ interval.simplify('9m') // => '2m'
 
 
 * [interval](#module_interval)
+    * [`.names`](#module_interval.names) ⇒ <code>Array</code>
     * [`.props(interval)`](#module_interval.props) ⇒ <code>Object</code>
     * [`.num(interval)`](#module_interval.num) ⇒ <code>Integer</code>
     * [`.name(interval)`](#module_interval.name) ⇒ <code>String</code>
@@ -48,6 +49,26 @@ interval.simplify('9m') // => '2m'
     * [`.invert(interval)`](#module_interval.invert) ⇒ <code>String</code>
     * [`.fromSemitones(num)`](#module_interval.fromSemitones) ⇒ <code>String</code>
 
+<a name="module_interval.names"></a>
+
+## `interval.names` ⇒ <code>Array</code>
+List basic (perfect, major, minor) interval names within a octave
+
+**Kind**: static constant of [<code>interval</code>](#module_interval)  
+**Returns**: <code>Array</code> - the interval names  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| types | <code>String</code> | (Optional, default "PMm") the valid types |
+
+**Example**  
+```js
+tonal.interval.names() // => [ '1P', '2m', '2M', '3m', '3M', '4P', '5P', '6m', '6M', '7m', '7M', '8P' ]
+tonal.interval.names("P") // => [ '1P', '4P', '5P', '8P' ]
+tonal.interval.names("PM") // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
+tonal.interval.names("Pm") // => [ '1P', '2m', '3m', '4P', '5P', '6m', '7m', '8P' ]
+t.interval.names("d") // => []
+```
 <a name="module_interval.props"></a>
 
 ## `interval.props(interval)` ⇒ <code>Object</code>

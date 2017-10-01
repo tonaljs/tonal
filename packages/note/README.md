@@ -33,7 +33,6 @@ tonal.note.midi('d4') // => 62
 
 * [note](#module_note)
     * [`.names`](#module_note.names) ⇒ <code>Array</code>
-    * [`.namesEnh`](#module_note.namesEnh) ⇒ <code>Array</code>
     * [`.props`](#module_note.props) ⇒ <code>Object</code>
     * [`.midiToFreq`](#module_note.midiToFreq) ⇒ <code>Number</code>
     * [`.freqToMidi`](#module_note.freqToMidi) ⇒ <code>Number</code>
@@ -60,29 +59,12 @@ Get a list of note names (pitch classes) within a octave
 
 | Param | Type | Description |
 | --- | --- | --- |
-| sharps | <code>boolean</code> | true to use sharps, flats otherwise |
+| accTypes | <code>string</code> | (Optional, by default " b#"). A string with the  accidentals types: " " means no accidental, "#" means sharps, "b" mean flats, can be conbined (see examples) |
 
 **Example**  
 ```js
-note.names() // => [ 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B' ]
-note.names(true) // => [ 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' ]
-```
-<a name="module_note.namesEnh"></a>
-
-## `note.namesEnh` ⇒ <code>Array</code>
-Get a list of names with enharmonics
-
-**Kind**: static constant of [<code>note</code>](#module_note)  
-**Returns**: <code>Array</code> - an array of names  
-
-| Param | Type |
-| --- | --- |
-| grouped | <code>boolean</code> | 
-
-**Example**  
-```js
-note.namesEnh() // => ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B']
-note.namesEnh(true) // => [ 'C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B' ]
+note.names(" b") // => [ 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B' ]
+note.names(" #") // => [ 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' ]
 ```
 <a name="module_note.props"></a>
 
