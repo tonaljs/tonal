@@ -156,6 +156,6 @@ to split the tonic and chord type.
 ```js
 chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
 chord.tokenize('C7') // => [ 'C', '7' ]
-chord.tokenize('mMaj7') // => [ null, 'mMaj7' ]
+chord.tokenize('mMaj7') // => [ "", 'mMaj7' ]
 chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
 ```

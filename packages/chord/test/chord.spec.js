@@ -13,7 +13,7 @@ describe("tonal-chord", () => {
   test("tokenize", () => {
     expect(chord.tokenize("Cmaj7")).toEqual(["C", "maj7"]);
     expect(chord.tokenize("c7")).toEqual(["C", "7"]);
-    expect(chord.tokenize("maj7")).toEqual([null, "maj7"]);
+    expect(chord.tokenize("maj7")).toEqual(["", "maj7"]);
     expect(chord.tokenize("c#4 m7b5")).toEqual(["C#4", "m7b5"]);
     expect(chord.tokenize("c#4m7b5")).toEqual(["C#4", "m7b5"]);
     expect(chord.tokenize("Cb7b5")).toEqual(["Cb", "7b5"]);

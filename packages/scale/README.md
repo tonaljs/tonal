@@ -134,8 +134,8 @@ note name or null and name can be any arbitrary string
 **Example**  
 ```js
 scale.tokenize('C mixolydean') // => ["C", "mixolydean"]
-scale.tokenize('anything is valid') // => [null, "anything is valid"]
-scale.tokenize() // => [null, null]
+scale.tokenize('anything is valid') // => ["", "anything is valid"]
+scale.tokenize() // => ["", ""]
 ```
 <a name="module_scale.modeNames"></a>
 

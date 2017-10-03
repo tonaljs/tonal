@@ -13,12 +13,12 @@ describe("tonal-scale", () => {
       setnum: 2773
     });
   });
-  test("splitName", () => {
+  test("tokenize", () => {
     expect(scale.tokenize("c major")).toEqual(["C", "major"]);
     expect(scale.tokenize("cb3 major")).toEqual(["Cb3", "major"]);
-    expect(scale.tokenize("melodic minor")).toEqual([null, "melodic minor"]);
-    expect(scale.tokenize("c")).toEqual(["C", null]);
-    expect(scale.tokenize()).toEqual([null, null]);
+    expect(scale.tokenize("melodic minor")).toEqual(["", "melodic minor"]);
+    expect(scale.tokenize("c")).toEqual(["C", ""]);
+    expect(scale.tokenize()).toEqual(["", ""]);
   });
 
   test("exists", () => {

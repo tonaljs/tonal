@@ -149,12 +149,12 @@ export const subsets = name => {
  * @example
  * chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
  * chord.tokenize('C7') // => [ 'C', '7' ]
- * chord.tokenize('mMaj7') // => [ null, 'mMaj7' ]
+ * chord.tokenize('mMaj7') // => [ "", 'mMaj7' ]
  * chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
  */
 export function tokenize(name) {
   const p = split(name);
-  if (p[0] === "") return [null, name];
+  if (p[0] === "") return ["", name];
 
   // 6 and 7 is consider part of the chord
   if (p[0] !== "" && (p[2][0] === "6" || p[2][0] === "7")) {

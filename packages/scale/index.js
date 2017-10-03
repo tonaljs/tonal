@@ -135,15 +135,15 @@ export function exists(name) {
  * @return {Array} an array [tonic, name]
  * @example
  * scale.tokenize('C mixolydean') // => ["C", "mixolydean"]
- * scale.tokenize('anything is valid') // => [null, "anything is valid"]
- * scale.tokenize() // => [null, null]
+ * scale.tokenize('anything is valid') // => ["", "anything is valid"]
+ * scale.tokenize() // => ["", ""]
  */
 export function tokenize(str) {
-  if (typeof str !== "string") return [null, null];
+  if (typeof str !== "string") return ["", ""];
   const i = str.indexOf(" ");
-  const tonic = noteName(str.substring(0, i)) || noteName(str);
-  const name = tonic !== null ? str.substring(tonic.length + 1) : str;
-  return [tonic, name.length ? name : null];
+  const tonic = noteName(str.substring(0, i)) || noteName(str) || "";
+  const name = tonic !== "" ? str.substring(tonic.length + 1) : str;
+  return [tonic, name.length ? name : ""];
 }
 
 /**
