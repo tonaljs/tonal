@@ -20,7 +20,7 @@
       "npm run test && npm run build && npm run dist && npm run docs && cp README.md ./packages/tonal/",
     "pretest": "npm run format",
     "test": "jest --coverage --no-cache",
-    "jsdoc": "jsdoc -c jsdoc3.json  > docs/api.json",
+    "jsdoc": "jsdoc -c jsdoc3.json",
     "docs": "lerna run docs",
     "api":
       "rm docs/API.md && cat packages/note/README.md packages/interval/README.md packages/distance/README.md packages/scale/README.md packages/chord/README.md packages/pcset/README.md packages/key/README.md > docs/API.md"

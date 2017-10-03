@@ -2,14 +2,14 @@
   "plugins": ["plugins/markdown", "plugins/summarize"],
   "recurseDepth": 10,
   "source": {
-    "include": ["README.md", "packages/"],
+    "include": ["README.md", "packages/", "extensions/"],
     "includePattern": "index.js$",
     "excludePattern": "node_modules|build"
   },
   "sourceType": "module",
   "tags": {
     "allowUnknownTags": true,
-    "dictionaries": ["jsdoc", "closure"]
+    "dictionaries": ["jsdoc"]
   },
   "templates": {
     "cleverLinks": false,

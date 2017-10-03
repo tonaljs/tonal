@@ -4,9 +4,5 @@
   "npmClient": "yarn",
   "scripts": {},
   "devDependencies": {},
-  "packages": [
-    "packages/*",
-    "extensions/*",
-    "incubator/*"
-  ]
+  "packages": ["packages/*", "extensions/*"]
 }

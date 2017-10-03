@@ -8,7 +8,6 @@ describe("tonal", () => {
       "note",
       "interval",
       "distance",
-      "key",
       "scale",
       "chord",
       "pcset",

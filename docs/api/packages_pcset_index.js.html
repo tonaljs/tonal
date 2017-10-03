@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>packages/pcset/index.js - Postman Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-abc-notation.html">abc-notation</a><ul class='methods'><li data-type='method'><a href="module-abc-notation.html#.toAbc">toAbc</a></li><li data-type='method'><a href="module-abc-notation.html#.toNote">toNote</a></li></ul></li><li><a href="module-array.html">array</a><ul class='methods'><li data-type='method'><a href="module-array.html#.compact">compact</a></li><li data-type='method'><a href="module-array.html#.range">range</a></li><li data-type='method'><a href="module-array.html#.rotate">rotate</a></li><li data-type='method'><a href="module-array.html#.sort">sort</a></li><li data-type='method'><a href="module-array.html#.unique">unique</a></li></ul></li><li><a href="module-chord.html">chord</a><ul class='methods'><li data-type='method'><a href="module-chord.html#.exists">exists</a></li><li data-type='method'><a href="module-chord.html#.intervals">intervals</a></li><li data-type='method'><a href="module-chord.html#.names">names</a></li><li data-type='method'><a href="module-chord.html#.notes">notes</a></li><li data-type='method'><a href="module-chord.html#.props">props</a></li><li data-type='method'><a href="module-chord.html#.subsets">subsets</a></li><li data-type='method'><a href="module-chord.html#.supersets">supersets</a></li><li data-type='method'><a href="module-chord.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-dictionary.html">dictionary</a><ul class='methods'><li data-type='method'><a href="module-dictionary.html#.chord">chord</a></li><li data-type='method'><a href="module-dictionary.html#.scale">scale</a></li></ul></li><li><a href="module-distance.html">distance</a><ul class='methods'><li data-type='method'><a href="module-distance.html#.add">add</a></li><li data-type='method'><a href="module-distance.html#.fifths">fifths</a></li><li data-type='method'><a href="module-distance.html#.interval">interval</a></li><li data-type='method'><a href="module-distance.html#.semitones">semitones</a></li><li data-type='method'><a href="module-distance.html#.subtract">subtract</a></li><li data-type='method'><a href="module-distance.html#.transpose">transpose</a></li><li data-type='method'><a href="module-distance.html#.transposeBy">transposeBy</a></li><li data-type='method'><a href="module-distance.html#.trFifths">trFifths</a></li></ul></li><li><a href="module-interval.html">interval</a><ul class='methods'><li data-type='method'><a href="module-interval.html#.build">build</a></li><li data-type='method'><a href="module-interval.html#.chroma">chroma</a></li><li data-type='method'><a href="module-interval.html#.fromSemitones">fromSemitones</a></li><li data-type='method'><a href="module-interval.html#.ic">ic</a></li><li data-type='method'><a href="module-interval.html#.invert">invert</a></li><li data-type='method'><a href="module-interval.html#.name">name</a></li><li data-type='method'><a href="module-interval.html#.num">num</a></li><li data-type='method'><a href="module-interval.html#.props">props</a></li><li data-type='method'><a href="module-interval.html#.semitones">semitones</a></li><li data-type='method'><a href="module-interval.html#.simplify">simplify</a></li><li data-type='method'><a href="module-interval.html#.type">type</a></li></ul></li><li><a href="module-key.html">key</a><ul class='methods'><li data-type='method'><a href="module-key.html#.alteredNotes">alteredNotes</a></li><li data-type='method'><a href="module-key.html#.chords">chords</a></li><li data-type='method'><a href="module-key.html#.fromAlter">fromAlter</a></li><li data-type='method'><a href="module-key.html#.modeNames">modeNames</a></li><li data-type='method'><a href="module-key.html#.props">props</a></li><li data-type='method'><a href="module-key.html#.relative">relative</a></li><li data-type='method'><a href="module-key.html#.scale">scale</a></li><li data-type='method'><a href="module-key.html#.secDomChords">secDomChords</a></li><li data-type='method'><a href="module-key.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-note.html">note</a><ul class='methods'><li data-type='method'><a href="module-note.html#.freq">freq</a></li><li data-type='method'><a href="module-note.html#.fromMidi">fromMidi</a></li><li data-type='method'><a href="module-note.html#.midi">midi</a></li><li data-type='method'><a href="module-note.html#.name">name</a></li><li data-type='method'><a href="module-note.html#.oct">oct</a></li><li data-type='method'><a href="module-note.html#.pc">pc</a></li><li data-type='method'><a href="module-note.html#.tokenize">tokenize</a></li></ul></li><li><a href="module-pcset.html">pcset</a><ul class='methods'><li data-type='method'><a href="module-pcset.html#.chroma">chroma</a></li><li data-type='method'><a href="module-pcset.html#.filter">filter</a></li><li data-type='method'><a href="module-pcset.html#.includes">includes</a></li><li data-type='method'><a href="module-pcset.html#.intervals">intervals</a></li><li data-type='method'><a href="module-pcset.html#.isChroma">isChroma</a></li><li data-type='method'><a href="module-pcset.html#.isEqual">isEqual</a></li><li data-type='method'><a href="module-pcset.html#.isSubsetOf">isSubsetOf</a></li><li data-type='method'><a href="module-pcset.html#.isSupersetOf">isSupersetOf</a></li><li data-type='method'><a href="module-pcset.html#.modes">modes</a></li></ul></li><li><a href="module-range.html">range</a><ul class='methods'><li data-type='method'><a href="module-range.html#.chromatic">chromatic</a></li><li data-type='method'><a href="module-range.html#.fifths">fifths</a></li><li data-type='method'><a href="module-range.html#.numeric">numeric</a></li><li data-type='method'><a href="module-range.html#.scale">scale</a></li></ul></li><li><a href="module-scale.html">scale</a><ul class='methods'><li data-type='method'><a href="module-scale.html#.chords">chords</a></li><li data-type='method'><a href="module-scale.html#.exists">exists</a></li><li data-type='method'><a href="module-scale.html#.intervals">intervals</a></li><li data-type='method'><a href="module-scale.html#.modeNames">modeNames</a></li><li data-type='method'><a href="module-scale.html#.names">names</a></li><li data-type='method'><a href="module-scale.html#.notes">notes</a></li><li data-type='method'><a href="module-scale.html#.props">props</a></li><li data-type='method'><a href="module-scale.html#.subsets">subsets</a></li><li data-type='method'><a href="module-scale.html#.supersets">supersets</a></li><li data-type='method'><a href="module-scale.html#.tokenize">tokenize</a></li><li data-type='method'><a href="module-scale.html#.toScale">toScale</a></li></ul></li><li><a href="module-tonal.html">tonal</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">packages/pcset/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-pcset.svg?style=flat-square)](https://www.npmjs.com/package/tonal-pcset)
+ * [![tonal](https://img.shields.io/badge/tonal-pcset-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-pcset` is a collection of functions to work with pitch class sets, oriented
+ * to make comparations (isEqual, isSubset, isSuperset)
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * You can install via npm: `npm i --save tonal-pcset`
+ *
+ * ```js
+ * var pcset = require('tonal-pcset')
+ * pcset.isEqual('c2 d5 e6', 'c6 e3 d1') // => true
+ * ```
+ *
+ * ## API documentation
+ *
+ * @module pcset
+ */
+import { chroma as notechr } from "tonal-note";
+import { chroma as ivlchr } from "tonal-interval";
+import { rotate } from "tonal-array";
+
+const chr = str => notechr(str) || ivlchr(str) || 0;
+const pcsetNum = set => parseInt(chroma(set), 2);
+const compact = arr => arr.filter(x => x);
+
+/**
+ * Get chroma of a pitch class set. A chroma identifies each set uniquely.
+ * It's a 12-digit binary each presenting one semitone of the octave.
+ *
+ * Note that this function accepts a chroma as parameter and return it
+ * without modification.
+ *
+ * @param {Array|String} set - the pitch class set
+ * @return {String} a binary representation of the pitch class set
+ * @example
+ * pcset.chroma(["C", "D", "E"]) // => '1010100000000'
+ */
+export function chroma(set) {
+  if (isChroma(set)) return set;
+  if (!Array.isArray(set)) return "";
+  var b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  set.map(chr).forEach(i => {
+    b[i] = 1;
+  });
+  return b.join("");
+}
+
+/**
+ * Given a a list of notes or a pcset chroma, produce the rotations
+ * of the chroma discarding the ones that starts with '0'
+ *
+ * This is used, for example, to get all the modes of a scale.
+ *
+ * @param {Array|String} set - the list of notes or pitchChr of the set
+ * @param {Boolean} normalize - (Optional, true by default) remove all
+ * the rotations that starts with '0'
+ * @return {Array&lt;String>} an array with all the modes of the chroma
+ *
+ * @example
+ * pcset.modes(["C", "D", "E"]).map(pcset.intervals)
+ */
+export function modes(set, normalize) {
+  normalize = normalize !== false;
+  var binary = chroma(set).split("");
+  return compact(
+    binary.map(function(_, i) {
+      var r = rotate(i, binary);
+      return normalize &amp;&amp; r[0] === "0" ? null : r.join("");
+    })
+  );
+}
+
+var REGEX = /^[01]{12}$/;
+/**
+ * Test if the given string is a pitch class set chroma.
+ * @param {String} chroma - the pitch class set chroma
+ * @return {Boolean} true if its a valid pcset chroma
+ * @example
+ * pcset.isChroma('101010101010') // => true
+ * pcset.isChroma('101001') // => false
+ */
+export function isChroma(set) {
+  return REGEX.test(set);
+}
+
+var IVLS = "1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" ");
+/**
+ * Given a pcset (notes or chroma) return it's intervals
+ * @param {String|Array} pcset - the pitch class set (notes or chroma)
+ * @return {Array} intervals or empty array if not valid pcset
+ * @example
+ * pcset.intervals('1010100000000') => ["1P", "2M", "3M"]
+ */
+export function intervals(set) {
+  if (!isChroma(set)) return [];
+  return compact(
+    set.split("").map(function(d, i) {
+      return d === "1" ? IVLS[i] : null;
+    })
+  );
+}
+
+/**
+ * Test if two pitch class sets are identical
+ *
+ * @param {Array|String} set1 - one of the pitch class sets
+ * @param {Array|String} set2 - the other pitch class set
+ * @return {Boolean} true if they are equal
+ * @example
+ * pcset.isEqual(["c2", "d3"], ["c5", "d2"]) // => true
+ */
+export function isEqual(s1, s2) {
+  if (arguments.length === 1) return s => isEqual(s1, s);
+  return chroma(s1) === chroma(s2);
+}
+
+/**
+ * Create a function that test if a collection of notes is a 
+ * subset of a given set 
+ * 
+ * The function can be partially applied
+ *
+ * @param {Array|String} set - an array of notes or a chroma set string to test against
+ * @param {Array|String} notes - an array of notes or a chroma set 
+ * @return {boolean} true if notes is a subset of set, false otherwise
+ * @example
+ * const inCMajor = pcset.isSubsetOf(["C", "E", "G"])
+ * inCMajor(["e6", "c4"]) // => true
+ * inCMajor(["e6", "c4", "d3"]) // => false
+ */
+export function isSubsetOf(set, notes) {
+  if (arguments.length > 1) return isSubsetOf(set)(notes);
+  set = pcsetNum(set);
+  return function(notes) {
+    notes = pcsetNum(notes);
+    return notes !== set &amp;&amp; (notes &amp; set) === notes;
+  };
+}
+
+/**
+ * Create a function that test if a collectio of notes is a
+ * superset of a given set (it contains all notes and at least one more)
+ *
+ * @param {Array|String} set - an array of notes or a chroma set string to test against
+ * @param {Array|String} notes - an array of notes or a chroma set 
+ * @return {boolean} true if notes is a superset of set, false otherwise
+ * @example
+ * const extendsCMajor = pcset.isSupersetOf(["C", "E", "G"])
+ * extendsCMajor(["e6", "a", "c4", "g2"]) // => true
+ * extendsCMajor(["c6", "e4", "g3"]) // => false
+ */
+export function isSupersetOf(set, notes) {
+  if (arguments.length > 1) return isSupersetOf(set)(notes);
+  set = pcsetNum(set);
+  return function(notes) {
+    notes = pcsetNum(notes);
+    return notes !== set &amp;&amp; (notes | set) === notes;
+  };
+}
+
+/**
+ * Test if a given pitch class set includes a note
+ * @param {Array|String} set - the base set to test against
+ * @param {String|Pitch} note - the note to test
+ * @return {Boolean} true if the note is included in the pcset
+ * @example
+ * pcset.includes(["C", "D", "E"], 'C4') // => true
+ * pcset.includes(["C", "D", "E"], 'C#4') // => false
+ */
+export function includes(set, note) {
+  if (arguments.length > 1) return includes(set)(note);
+  set = chroma(set);
+  return function(note) {
+    return set[chr(note)] === "1";
+  };
+}
+
+/**
+ * Filter a list with a pitch class set
+ *
+ * @param {Array|String} set - the pitch class set notes
+ * @param {Array|String} notes - the note list to be filtered
+ * @return {Array} the filtered notes
+ *
+ * @example
+ * pcset.filter(["C", "D", "E"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'd2', 'c3', 'd3' ])
+ * pcset.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'c3' ])
+ */
+export function filter(set, notes) {
+  if (arguments.length === 1) return n => filter(set, n);
+  return notes.filter(includes(set));
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Wed Oct 04 2017 00:59:13 GMT+0200 (CEST)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

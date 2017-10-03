@@ -1,3 +1,19 @@
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-array.svg?style=flat-square)](https://www.npmjs.com/package/tonal-array)
+ * 
+ * A scale is a collection of pitches in ascending or descending order.
+ *
+ * This module provides functions to get and manipulate scales.
+ * 
+ * @example
+ * import * as array;
+ * array.sort(["f", "a", "c"]) // => ['C', 'F', 'A']
+ *
+ * @example
+ * const array = require('tonal-array)
+ * array.range(1, 4) // => [1, 2, 3, 4]
+ * @module array
+ */
 import { midi, name } from "tonal-note";
 
 // ascending range
@@ -26,20 +42,22 @@ export function range(a, b) {
     : a < b ? ascR(a, b - a + 1) : descR(a, a - b + 1);
 }
 /**
+ * 
  * Rotates a list a number of times. It's completly agnostic about the
  * contents of the list.
  * @param {Integer} times - the number of rotations
  * @param {Array} array
  * @return {Array} the rotated array
  */
-export const rotate = (times, arr) => {
+export function rotate(times, arr) {
   var len = arr.length;
   var n = (times % len + len) % len;
   return arr.slice(n, len).concat(arr.slice(0, n));
-};
+}
 
 /**
  * Return a copy of the array with the null values removed
+ * @function
  * @param {Array} array
  * @return {Array}
  * @example
@@ -56,7 +74,6 @@ const height = n => {
 /**
  * Sort an array of notes in ascending order
  * 
- * @private
  * @param {String|Array} notes
  * @return {Array} sorted array of notes
  */
@@ -67,7 +84,6 @@ export function sort(src) {
 /**
  * Get sorted notes with duplicates removed
  * 
- * @private
  * @function
  * @param {Array} notes
  */

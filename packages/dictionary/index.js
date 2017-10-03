@@ -1,7 +1,5 @@
 /**
- * @private
  * [![npm version](https://img.shields.io/npm/v/tonal-dictionary.svg)](https://www.npmjs.com/package/tonal-dictionary)
- * [![tonal](https://img.shields.io/badge/tonal-dictionary-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
  *
  * `tonal-dictionary` contains a dictionary of musical scales and chords
  *
@@ -53,9 +51,9 @@ export const combine = (a, b) => {
 };
 
 /**
- * A dictionary of scales.
+ * A dictionary of scales: a function that given a scale name (without tonic)
+ * returns an array of intervals
  *
- * @private
  * @function
  * @param {String} name
  * @return {Array} intervals
@@ -65,12 +63,13 @@ export const combine = (a, b) => {
  * scale.names(); // => ["major", ...]
  */
 export const scale = dictionary(sdata);
+
 /**
- * A dictionary of chords.
+ * A dictionary of chords: a function that given a chord type
+ * returns an array of intervals
  *
- * @private
  * @function
- * @param {String} name
+ * @param {String} type
  * @return {Array} intervals
  * @example
  * import { chord } from 'tonal-dictionary'

@@ -1,6 +1,8 @@
 <a name="module_scale"></a>
 
 # scale
+[![npm version](https://img.shields.io/npm/v/tonal-scale.svg?style=flat-square)](https://www.npmjs.com/package/tonal-scale)
+
 A scale is a collection of pitches in ascending or descending order.
 
 This module provides functions to get and manipulate scales.
