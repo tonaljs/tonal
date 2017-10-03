@@ -1,12 +1,16 @@
 {
   "name": "tonal-note",
-  "version": "1.0.0-pre5",
+  "version": "1.0.0-pre6",
   "repository": "https://github.com/danigb/tonal/packages/note",
   "description": "Parse and manipulate music notes in scientific notation",
-  "keywords": ["note", "music", "theory", "tonal"],
+  "keywords": [
+    "note",
+    "music",
+    "theory",
+    "tonal"
+  ],
   "scripts": {
-    "docs":
-      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/es5.js",
@@ -15,6 +19,8 @@
   "author": "danigb",
   "license": "MIT",
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   }
 }

@@ -1,11 +1,15 @@
 {
   "name": "tonal-range",
-  "version": "0.69.9",
+  "version": "1.0.0-pre6",
   "description": "Create ranges of notes",
-  "keywords": ["music", "theory", "range", "tonal"],
+  "keywords": [
+    "music",
+    "theory",
+    "range",
+    "tonal"
+  ],
   "scripts": {
-    "docs":
-      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/es5.js",
@@ -14,15 +18,19 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^1.0.0-pre5",
-    "tonal-note": "^1.0.0-pre5",
-    "tonal-pcset": "^1.0.0-pre5",
-    "tonal-distance": "^1.0.0-pre5"
+    "tonal-array": "^1.0.0-pre6",
+    "tonal-distance": "^1.0.0-pre6",
+    "tonal-note": "^1.0.0-pre6",
+    "tonal-pcset": "^1.0.0-pre6"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "jest": {
-    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!tonal)"
+    ]
   }
 }
