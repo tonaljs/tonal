@@ -18,7 +18,7 @@ chord.notes('CMaj7') // => ['C', 'E', 'G', 'B']
     * [`.names(aliases)`](#module_chord.names) ⇒ <code>Array</code>
     * [`.props(name)`](#module_chord.props) ⇒ <code>Object</code>
     * [`.intervals(name)`](#module_chord.intervals) ⇒ <code>Array.&lt;String&gt;</code>
-    * [`.notes(nameOrTonic)`](#module_chord.notes) ⇒
+    * [`.notes(nameOrTonic, [name])`](#module_chord.notes) ⇒ <code>Array</code>
     * [`.exists(name)`](#module_chord.exists) ⇒ <code>Boolean</code>
     * [`.supersets(name)`](#module_chord.supersets) ⇒ <code>Array</code>
     * [`.subsets(name)`](#module_chord.subsets) ⇒ <code>Array</code>
@@ -74,18 +74,19 @@ Get chord intervals. It always returns an array
 
 <a name="module_chord.notes"></a>
 
-## `chord.notes(nameOrTonic)` ⇒
+## `chord.notes(nameOrTonic, [name])` ⇒ <code>Array</code>
 Get the chord notes of a chord. This function accepts either a chord name
 (for example: 'Cmaj7') or a list of notes.
 
 It always returns an array, even if the chord is not found.
 
 **Kind**: static method of [<code>chord</code>](#module_chord)  
-**Returns**: [String] name - (Optional) name if the first parameter is the tonic  
+**Returns**: <code>Array</code> - an array of notes or an empty array  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| nameOrTonic | <code>String</code> | name of the chord or the tonic |
+| nameOrTonic | <code>String</code> | name of the chord or the tonic (if the second parameter is present) |
+| [name] | <code>String</code> | (Optional) name if the first parameter is the tonic |
 
 **Example**  
 ```js

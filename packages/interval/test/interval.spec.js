@@ -124,11 +124,12 @@ describe("tonal-interval", () => {
   });
 
   test("interval types", () => {
-    expect($("1P 2M 3M 4P 5P 6M 7M").map(ivl.type)).toEqual($("P M M P P M M"));
-    expect($("8d 9m 10m 11d 12d 13m 14m").map(ivl.type)).toEqual(
+    const type = i => ivl.props(i).type;
+    expect($("1P 2M 3M 4P 5P 6M 7M").map(type)).toEqual($("P M M P P M M"));
+    expect($("8d 9m 10m 11d 12d 13m 14m").map(type)).toEqual(
       $("P M M P P M M")
     );
-    expect($("-15A -16A -17A -18A -19A -20A -21A").map(ivl.type)).toEqual(
+    expect($("-15A -16A -17A -18A -19A -20A -21A").map(type)).toEqual(
       $("P M M P P M M")
     );
   });

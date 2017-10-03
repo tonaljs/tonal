@@ -18,7 +18,8 @@
   "opts": {
     "destination": "./docs/api/",
     "def-template": "./node_modules/jsdoc/templates/default",
-    "template": "./node_modules/postman-jsdoc-theme",
+    "old-template": "./node_modules/postman-jsdoc-theme",
+    "template": "./node_modules/docdash",
     "recurse": true,
     "jsdoc-template": "./node_modules/jsdoc/templates/haruki",
     "encoding": "utf8",

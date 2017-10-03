@@ -17,7 +17,7 @@ scale.names() => ['major', 'minor', ...]
     * [`.props(name)`](#module_scale.props) ⇒ <code>Object</code>
     * [`.names(aliases)`](#module_scale.names) ⇒ <code>Array</code>
     * [`.intervals(name)`](#module_scale.intervals) ⇒ <code>Array.&lt;String&gt;</code>
-    * [`.notes(tonic, name)`](#module_scale.notes) ⇒ <code>Array</code>
+    * [`.notes(tonic, nameOrTonic, [name])`](#module_scale.notes) ⇒ <code>Array</code>
     * [`.exists(name)`](#module_scale.exists) ⇒ <code>Boolean</code>
     * [`.tokenize(name)`](#module_scale.tokenize) ⇒ <code>Array</code>
     * [`.modeNames(name)`](#module_scale.modeNames)
@@ -81,7 +81,7 @@ scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
 ```
 <a name="module_scale.notes"></a>
 
-## `scale.notes(tonic, name)` ⇒ <code>Array</code>
+## `scale.notes(tonic, nameOrTonic, [name])` ⇒ <code>Array</code>
 Get the notes (pitch classes) of a scale. 
 
 Note that it always returns an array, and the values are only pitch classes.
@@ -92,11 +92,13 @@ Note that it always returns an array, and the values are only pitch classes.
 | Param | Type | Description |
 | --- | --- | --- |
 | tonic | <code>String</code> |  |
-| name | <code>String</code> | the scale name |
+| nameOrTonic | <code>String</code> | the scale name or tonic (if 2nd param) |
+| [name] | <code>String</code> | the scale name without tonic |
 
 **Example**  
 ```js
 scale.notes("C", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+scale.notes("C major") // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
 scale.notes("C4", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
 scale.notes("A4", "no-scale") // => []
 scale.notes("blah", "major") // => []

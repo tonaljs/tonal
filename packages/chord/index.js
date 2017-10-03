@@ -82,8 +82,9 @@ export const intervals = name => props(tokenize(name)[1]).intervals;
  * It always returns an array, even if the chord is not found.
  *
  * @function
- * @param {String} nameOrTonic - name of the chord or the tonic
- * @return [String] name - (Optional) name if the first parameter is the tonic
+ * @param {String} nameOrTonic - name of the chord or the tonic (if the second parameter is present)
+ * @param {String} [name] - (Optional) name if the first parameter is the tonic
+ * @return {Array} an array of notes or an empty array
  *
  * @example
  * chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']

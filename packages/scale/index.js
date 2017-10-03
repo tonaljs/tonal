@@ -93,11 +93,13 @@ export const intervals = name => {
  *
  * @function
  * @param {String} tonic 
- * @param {String} name - the scale name
+ * @param {String} nameOrTonic - the scale name or tonic (if 2nd param)
+ * @param {String} [name] - the scale name without tonic
  * @return {Array} a pitch classes array
  * 
  * @example
  * scale.notes("C", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+ * scale.notes("C major") // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
  * scale.notes("C4", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
  * scale.notes("A4", "no-scale") // => []
  * scale.notes("blah", "major") // => []

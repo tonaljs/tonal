@@ -30,6 +30,7 @@ export function tokenize(str) {
 
 /**
  * Convert a (string) note in ABC notation into a (string) note in scientific notation
+ * 
  * @param {String} abcNote - the note in ABC notation
  * @return {String} the note in scientific notation of null if not valid 
  * @example
@@ -50,6 +51,7 @@ export function toNote(str) {
 }
 
 /**
+ * Convert a (string) note in scientific notation into a (string) note in ABC notation
  * 
  * @param {String} note - a note in scientific notation
  * @return {String} the note in ABC notation or null if not valid note

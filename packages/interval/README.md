@@ -40,7 +40,6 @@ interval.simplify('9m') // => '2m'
     * [`.props(interval)`](#module_interval.props) ⇒ <code>Object</code>
     * [`.num(interval)`](#module_interval.num) ⇒ <code>Integer</code>
     * [`.name(interval)`](#module_interval.name) ⇒ <code>String</code>
-    * [`.type(interval)`](#module_interval.type) ⇒ <code>String</code>
     * [`.semitones(ivl)`](#module_interval.semitones) ⇒ <code>Integer</code>
     * [`.chroma(str)`](#module_interval.chroma) ⇒ <code>Number</code>
     * [`.ic(interval)`](#module_interval.ic) ⇒ <code>Integer</code>
@@ -59,7 +58,7 @@ List basic (perfect, major, minor) interval names within a octave
 
 | Param | Type | Description |
 | --- | --- | --- |
-| types | <code>String</code> | (Optional, default "PMm") the valid types |
+| qualities | <code>String</code> | (Optional, default "PMm") the valid types |
 
 **Example**  
 ```js
@@ -128,24 +127,6 @@ intervals in tonal notation.
 ```js
 interval.name('m-3') // => '-3m'
 interval.name('3') // => null
-```
-<a name="module_interval.type"></a>
-
-## `interval.type(interval)` ⇒ <code>String</code>
-Get interval type. Can be perfectable (1, 4, 5) or majorable (2, 3, 6, 7)
-It does NOT return the actual quality.
-
-**Kind**: static method of [<code>interval</code>](#module_interval)  
-**Returns**: <code>String</code> - 'P' for perfectables, 'M' for majorables or null if not
-valid interval  
-
-| Param | Type |
-| --- | --- |
-| interval | <code>String</code> | 
-
-**Example**  
-```js
-interval.type('5A') // => 'P'
 ```
 <a name="module_interval.semitones"></a>
 

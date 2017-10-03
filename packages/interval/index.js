@@ -46,7 +46,7 @@ const NAMES = "1P 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P".split(" ");
 
 /**
  * List basic (perfect, major, minor) interval names within a octave 
- * @param {String} types - (Optional, default "PMm") the valid types
+ * @param {String} qualities - (Optional, default "PMm") the valid types
  * @return {Array} the interval names
  * @example
  * tonal.interval.names() // => [ '1P', '2m', '2M', '3m', '3M', '4P', '5P', '6m', '6M', '7m', '7M', '8P' ]
@@ -170,19 +170,6 @@ export const num = str => props(str).num;
  * interval.name('3') // => null
  */
 export const name = str => props(str).name;
-
-/**
- * Get interval type. Can be perfectable (1, 4, 5) or majorable (2, 3, 6, 7)
- * It does NOT return the actual quality.
- *
- * @function
- * @param {String} interval
- * @return {String} 'P' for perfectables, 'M' for majorables or null if not
- * valid interval
- * @example
- * interval.type('5A') // => 'P'
- */
-export const type = str => props(str).type;
 
 /**
  * Get size in semitones of an interval

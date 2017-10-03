@@ -43,6 +43,8 @@ abc.toNote('c') // => 'C5'
 <a name="module_abc-notation.toAbc"></a>
 
 ## `abc-notation.toAbc(note)` ⇒ <code>String</code>
+Convert a (string) note in scientific notation into a (string) note in ABC notation
+
 **Kind**: static method of [<code>abc-notation</code>](#module_abc-notation)  
 **Returns**: <code>String</code> - the note in ABC notation or null if not valid note  
 
