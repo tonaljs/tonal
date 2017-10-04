@@ -23,11 +23,11 @@
  */
 import { chroma as notechr } from "tonal-note";
 import { chroma as ivlchr } from "tonal-interval";
-import { rotate } from "tonal-array";
+import { rotate, range, compact } from "tonal-array";
 
 const chr = str => notechr(str) || ivlchr(str) || 0;
 const pcsetNum = set => parseInt(chroma(set), 2);
-const compact = arr => arr.filter(x => x);
+const clen = chroma => chroma.replace(/0/g, "").length;
 
 /**
  * Get chroma of a pitch class set. A chroma identifies each set uniquely.
@@ -49,6 +49,20 @@ export function chroma(set) {
     b[i] = 1;
   });
   return b.join("");
+}
+
+let all = null;
+/**
+ * Get a list of all possible chromas (all possible scales)
+ * More information: http://allthescales.org/
+ * @return {Array} an array of possible chromas from '10000000000' to '11111111111'
+ * 
+ */
+export function chromas(n) {
+  all = all || range(2048, 4095).map(n => n.toString(2));
+  return typeof n === "number"
+    ? all.filter(chroma => clen(chroma) === n)
+    : all.slice();
 }
 
 /**

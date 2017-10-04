@@ -13,6 +13,8 @@
  * - Chord
  * - PcSet
  * 
+ * Additionally this facade exports some functions without namespace (see "Methods" below)
+ * 
  * @example
  * // es6 modules
  * import * as Tonal from "tonal"
@@ -53,6 +55,7 @@ export const transpose = Distance.transpose;
 
 /**
  * Get the interval from two notes
+ * @function
  * @param {String} from
  * @param {String} to
  * @return {String} the interval in reverse shorthand notation
@@ -62,6 +65,7 @@ export const interval = Distance.interval;
 
 /**
  * Get note properties
+ * @function
  * @param {String} note - the note name
  * @return {Object}
  * @see Note.props
@@ -72,6 +76,7 @@ export const note = Note.props;
 
 /**
  * Get midi note number
+ * @function
  * @param {String} note
  * @return {Number}
  * @see Note.midi
@@ -82,6 +87,7 @@ export const midi = Note.midi;
 
 /**
  * Get note frequency using equal tempered tuning at 440
+ * @function
  * @param {String} note
  * @return {Number}
  * @see Note.freq
@@ -92,6 +98,7 @@ export const freq = Note.freq;
 
 /**
  * Get intervals from a chord type
+ * @function
  * @param {String} type - the chord type (no tonic)
  * @return {Array} an array of intervals or undefined if the chord type is not known
  * @see Dictionary.chord
@@ -102,6 +109,7 @@ export const chord = Dictionary.chord;
 
 /**
  * Get intervals from scale name
+ * @function
  * @param {String} name - the scale name (without tonic)
  * @return {Array} an array of intervals or undefiend if the scale is not kown
  * @example

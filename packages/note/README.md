@@ -229,7 +229,7 @@ Note.simplify("B#4") // => "C5"
 <a name="module_Note.enharmonic"></a>
 
 ## `Note.enharmonic` ⇒ <code>String</code>
-Get the simplified and enhramonic note of the given one
+Get the simplified and enhramonic note of the given one.
 
 **Kind**: static constant of [<code>Note</code>](#module_Note)  
 **Returns**: <code>String</code> - the enhramonic note  

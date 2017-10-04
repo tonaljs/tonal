@@ -5,9 +5,9 @@
 
 
 
-`tonal` is a javascript modular music theory library. It provides functions to manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music).
+`tonal` is a small (20kb minified, 6kb gzipped) javascript modular music theory library. It provides functions to manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music).
 
-It uses a functional programing style, so all are pure functions, there is no data mutation, and no objects.
+It uses a functional programing style: all are pure functions, there is no data mutation, and no objects and lot of functions accept partial application.
 
 #### [Demo and live docs](https://danigb.github.io/tonal-app/)
 
@@ -69,14 +69,14 @@ Key.chord('Bb major') // => ["BbMaj7", "Cm7", "Dm7", "EbMaj7", "F7", "Gm7", "Am7
 
 `tonal` is still a work in progress, but currently has implemented:
 
-- Note, intervals, transposition, distances, enharmonics, midi, frecuency ([`tonal-note`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Note.html))
-- Scales and chords, dictionaries ([`tonal-dictionary`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Dictionary.html))
-- Utilities to work arrays of notes: sort, filter, rotate, shuffle ([`tonal-array`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Array.html))
-- Pitch sets comparations, chord and scale detection ([`tonal-pcset`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-PcSet.html))
+- Note, intervals, transposition, distances, enharmonics, midi, frecuency [`tonal-note`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Note.html)
+- Scales and chords, dictionaries [`tonal-dictionary`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Dictionary.html)
+- Utilities to work arrays of notes: sort, filter, rotate, shuffle [`tonal-array`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Array.html)
+- Pitch sets comparations, chord and scale detection [`tonal-pcset`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-PcSet.html)
 
 In [extensions](https://github.com/danigb/tonal/tree/master/extensions):
-- Keys, keys signatures, key scales ([`tonal-key`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Key.html)
-- Complex note range generation ([`tonal-range`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Range.html))
+- Keys, keys signatures, key scales [`tonal-key`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Key.html)
+- Complex note range generation [`tonal-range`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Range.html)
 - Chord progressions
 - Enharmonics
 
@@ -98,7 +98,7 @@ Using yarn: `yarn add tonal` (or a single module: `yarn add tonal-scale`)
 
 Using npm: `npm install --save tonal` (or: `npm install --save tonal-scale`)
 
-Browser: grab the minified file [here](https://github.com/danigb/tonal/blob/master/dist/tonal.min.js) (26kb) and include it in your html page (use a `Tonal` global object)
+Browser: grab the minified file [here](https://github.com/danigb/tonal/blob/master/dist/tonal.min.js) (20kb) and include it in your html page (use a `Tonal` global object)
 
 ```html
 <script src="tonal.min.js"></script>
@@ -109,8 +109,9 @@ Browser: grab the minified file [here](https://github.com/danigb/tonal/blob/mast
 ES6:
 
 ```js
-import { transpose } from 'tonal'
+import { transpose, Scale } from 'tonal'
 transpose('C4', '3M')
+Scale.notes('Db major')
 ```
 
 ES5:
@@ -118,6 +119,7 @@ ES5:
 ```js
 var Tonal = require('tonal')
 Tonal.transpose('C4', '2m')
+Tonal.Scale.notes('Bb minor')
 ```
 
 Browser (use the `Tonal` global object):

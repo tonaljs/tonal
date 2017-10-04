@@ -316,6 +316,7 @@ export function fromMidi(num, sharps) {
 
 /**
  * Simplify the note: find an enhramonic note with less accidentals. 
+ * 
  * @param {String} note - the note to be simplified
  * @param {boolean} useSameAccType - (optional, true by default) set to true
  * to ensure the returned note has the same accidental types that the given note
@@ -336,7 +337,8 @@ export const simplify = (note, sameAcc) => {
 };
 
 /**
- * Get the simplified and enhramonic note of the given one
+ * Get the simplified and enhramonic note of the given one.
+ * 
  * @param {String} note 
  * @return {String} the enhramonic note
  * @example

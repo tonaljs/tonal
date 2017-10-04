@@ -12,6 +12,16 @@ describe("pcset", () => {
     expect(pcset.chroma("101010101010")).toBe("101010101010");
   });
 
+  test("chromas", () => {
+    expect(pcset.chromas().length).toBe(2048);
+    expect(pcset.chromas()[0]).toBe("100000000000");
+    expect(pcset.chromas()[2047]).toBe("111111111111");
+    expect(pcset.chromas(0)).toEqual([]);
+    expect(pcset.chromas(1)).toEqual(["100000000000"]);
+    expect(pcset.chromas(12)).toEqual(["111111111111"]);
+    expect(pcset.chromas(2).length).toEqual(11);
+  });
+
   test("intervals", () => {
     expect(pcset.intervals("101010101010")).toEqual($("1P 2M 3M 5d 6m 7m"));
     expect(pcset.intervals("1010")).toEqual([]);

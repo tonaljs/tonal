@@ -24,6 +24,7 @@ PcSet.isEqual("c2 d5 e6", "c6 e3 d1") // => true
 
 * [PcSet](#module_PcSet)
     * [`.chroma(set)`](#module_PcSet.chroma) ⇒ <code>String</code>
+    * [`.chromas()`](#module_PcSet.chromas) ⇒ <code>Array</code>
     * [`.modes(set, normalize)`](#module_PcSet.modes) ⇒ <code>Array.&lt;String&gt;</code>
     * [`.isChroma(chroma)`](#module_PcSet.isChroma) ⇒ <code>Boolean</code>
     * [`.intervals(pcset)`](#module_PcSet.intervals) ⇒ <code>Array</code>
@@ -53,6 +54,14 @@ without modification.
 ```js
 PcSet.chroma(["C", "D", "E"]) // => "1010100000000"
 ```
+<a name="module_PcSet.chromas"></a>
+
+## `PcSet.chromas()` ⇒ <code>Array</code>
+Get a list of all possible chromas (all possible scales)
+More information: http://allthescales.org/
+
+**Kind**: static method of [<code>PcSet</code>](#module_PcSet)  
+**Returns**: <code>Array</code> - an array of possible chromas from '10000000000' to '11111111111'  
 <a name="module_PcSet.modes"></a>
 
 ## `PcSet.modes(set, normalize)` ⇒ <code>Array.&lt;String&gt;</code>
