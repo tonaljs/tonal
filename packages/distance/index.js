@@ -5,18 +5,25 @@
  * Transpose notes by intervals and find distances between notes
  *
  * @example
- * // using ES6 import
+ * // es6
+ * import * as Distance from 'tonal-distance'
+ * Distance.interval('C3', 'C4') // => '1P'
+ * 
+ * @example
+ * // es6 import selected functions
  * import { interval, semitones, transpose } from 'tonal-distance'
+ * 
  * semitones('C' ,'D') // => 2
  * interval('C4', 'G4') // => '5P'
  * transpose('C4', 'P5') // => 'G4'
  *
+ * @example
  * // included in tonal facade
- * const tonal = require('tonal');
- * tonal.distance.transpose('C4', 'P5')
- * tonal.distance.transposeBy('P5', 'C4')
+ * const Tonal = require('tonal');
+ * Tonal.Distance.transpose('C4', 'P5')
+ * Tonal.Distance.transposeBy('P5', 'C4')
  * 
- * @module distance
+ * @module Distance
  */
 import { props as nprops, build as nbuild } from "tonal-note";
 import { props as iprops, build as ibuild } from "tonal-interval";
@@ -108,7 +115,7 @@ export function transpose(note, interval) {
  * import { trFifths } from 'tonal-transpose'
  * [0, 1, 2, 3, 4].map(trFifths('C')) // => ['C', 'G', 'D', 'A', 'E']
  * // or using tonal
- * tonal.trFifths('G4', 1) // => 'D'
+ * Distance.trFifths('G4', 1) // => 'D'
  */
 
 export function trFifths(note, fifths) {
@@ -209,9 +216,9 @@ export function subtract(ivl1, ivl2) {
  * interval('C2', 'C3') // => 'P8'
  * interval('G', 'B') // => 'M3'
  * 
- * // or use tonal
- * var tonal = require('tonal')
- * tonal.distance.interval('M2', 'P5') // => 'P4'
+ * @example
+ * import * as Distance from 'tonal-distance'
+ * Distance.interval('M2', 'P5') // => 'P4'
  */
 export function interval(from, to) {
   if (arguments.length === 1) return t => interval(from, t);
@@ -235,7 +242,7 @@ export function interval(from, to) {
  * import { semitones } from 'tonal-distance'
  * semitones('C3', 'A2') // => -3
  * // or use tonal
- * tonal.distance.semitones('C3', 'G3') // => 7
+ * Tonal.Distance.semitones('C3', 'G3') // => 7
  */
 export function semitones(from, to) {
   if (arguments.length === 1) return t => semitones(from, t);

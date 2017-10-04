@@ -1,18 +1,17 @@
 /**
  * [![npm version](https://img.shields.io/npm/v/tonal-array.svg?style=flat-square)](https://www.npmjs.com/package/tonal-array)
  * 
- * A scale is a collection of pitches in ascending or descending order.
- *
- * This module provides functions to get and manipulate scales.
+ * Tonal array utilities. Create ranges, sort notes, ...
  * 
  * @example
- * import * as array;
- * array.sort(["f", "a", "c"]) // => ['C', 'F', 'A']
+ * import * as Array;
+ * Array.sort(["f", "a", "c"]) // => ['C', 'F', 'A']
  *
  * @example
- * const array = require('tonal-array)
- * array.range(1, 4) // => [1, 2, 3, 4]
- * @module array
+ * const Array = require('tonal-array)
+ * Array.range(1, 4) // => [1, 2, 3, 4]
+ * 
+ * @module Array
  */
 import { midi, name } from "tonal-note";
 
@@ -29,12 +28,14 @@ function descR(b, n) {
 
 /**
  * Create a numeric range
+ * 
  * @param {Number} from
  * @param {Number} to
- * @return {Array}
+ * @return {Array} 
+ * 
  * @example
- * array.range(-2, 2) // => [-2, -1, 0, 1, 2]
- * array.range(2, -2) // => [2, 1, 0, -1, -2]
+ * Array.range(-2, 2) // => [-2, -1, 0, 1, 2]
+ * Array.range(2, -2) // => [2, 1, 0, -1, -2]
  */
 export function range(a, b) {
   return a === null || b === null
@@ -45,9 +46,12 @@ export function range(a, b) {
  * 
  * Rotates a list a number of times. It's completly agnostic about the
  * contents of the list.
+ * 
  * @param {Integer} times - the number of rotations
  * @param {Array} array
  * @return {Array} the rotated array
+ * @example
+ * Array.rotate(1, [1, 2, 3]) // => [2, 3, 1]
  */
 export function rotate(times, arr) {
   var len = arr.length;
@@ -60,8 +64,9 @@ export function rotate(times, arr) {
  * @function
  * @param {Array} array
  * @return {Array}
+ * 
  * @example
- * tonal.compact(['a', 'b', null, 'c']) // => ['a', 'b', 'c']
+ * Array.compact(['a', 'b', null, 'c']) // => ['a', 'b', 'c']
  */
 export const compact = arr => arr.filter(n => n === 0 || n);
 
@@ -100,8 +105,7 @@ export function unique(arr) {
  * @return {Array} the shuffled array
  *
  * @example
- * import * as array from 'tonal-array'
- * array.shuffle(["C", "D", "E", "F"])
+ * Array.shuffle(["C", "D", "E", "F"])
  */
 export var shuffle = (arr, rnd = Math.random) => {
   var i, t;
@@ -116,10 +120,10 @@ export var shuffle = (arr, rnd = Math.random) => {
 };
 
 /**
- * Get all permutations of a list
+ * Get all permutations of an array
  * http://stackoverflow.com/questions/9960908/permutations-in-javascript
  * 
- * @param {Array|Strng} list - the list
+ * @param {Array} array - the array 
  * @return {Array<Array>} an array with all the permutations
  */
 export const permutations = arr => {

@@ -1,5 +1,5 @@
 /**
- * [![npm version](https://img.shields.io/npm/v/tonal-key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
+ * [![npm version](https://img.shields.io/npm/v/tonal-Key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
  * [![tonal](https://img.shields.io/badge/tonal-key-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
  *
  * `tonal-key` is a collection of functions to query about tonal keys.
@@ -7,11 +7,16 @@
  * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
  *
  * @example
- * const key = require('tonal-key')
- * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
- * key.relative('minor', 'C major') // => 'A minor'
+ * // es6
+ * import * as Key from 'tonal-key'
+ * // es5
+ * const Key = require('tonal-key')
+ * 
+ * @example
+ * Key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+ * Key.relative('minor', 'C major') // => 'A minor'
  *
- * @module key
+ * @module Key
  */
 import { rotate, range } from "tonal-array";
 import { tokenize as split, altToAcc } from "tonal-note";
@@ -36,9 +41,9 @@ const modenum = mode => NUMS[MODES.indexOf(mode)];
  * @param {Boolean} alias - true to get aliases names
  * @return {Array} an array of strings
  * @example
- * key.modes() // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+ * Key.modes() // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
  * // 'mixolydian', 'aeolian', 'locrian' ]
- * key.modes(true) // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+ * Key.modes(true) // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
  * // 'mixolydian', 'aeolian', 'locrian', 'major', 'minor' ]
  */
 export const modeNames = aliases =>
@@ -51,8 +56,7 @@ export const modeNames = aliases =>
  * @param {Integer} alt - the alteration number (positive sharps, negative flats)
  * @return {Key} the key object
  * @example
- * var key = require('tonal-key')
- * key.fromAlter(2) // => 'D major'
+ * Key.fromAlter(2) // => 'D major'
  */
 export const fromAlter = i => trFifths("C", i) + " major";
 
@@ -105,9 +109,9 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
  * @function
  * @param {String} name - the key name
  * @return {Object} the key properties object or null if not a valid key
+ * 
  * @example
- * var key = require('tonal-key')
- * key.props('C3 dorian') // => { tonic: 'C', mode: 'dorian', ... }
+ * Key.props('C3 dorian') // => { tonic: 'C', mode: 'dorian', ... }
  */
 export const props = memo(properties);
 
@@ -117,11 +121,12 @@ export const props = memo(properties);
  * @function
  * @param {String|Object} key
  * @return {Array} the key scale
+ * 
  * @example
- * key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
- * key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
- * key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
- * key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+ * Key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
+ * Key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
+ * Key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
+ * Key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
  */
 export const scale = str => props(str).scale;
 
@@ -130,7 +135,7 @@ export const scale = str => props(str).scale;
  * @param {String} keyName
  * @return {Array}
  * @example
- * tonal.key.degrees('C major') => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
+ * Key.degrees('C major') => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
  */
 export const degrees = str => {
   const p = props(str);
@@ -143,15 +148,15 @@ export const degrees = str => {
 };
 
 /**
- * Get a list of the altered notes of a given key. The notes will be in
+ * Get a list of the altered notes of a given Key. The notes will be in
  * the same order than in the key signature.
  * 
  * @function
  * @param {String} key - the key name
  * @return {Array}
+ * 
  * @example
- * var key = require('tonal-keys')
- * key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
+ * Key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
  */
 export const alteredNotes = name => {
   const alt = props(name).alt;
@@ -169,8 +174,9 @@ export const alteredNotes = name => {
  * @function
  * @param {String} name - the key name
  * @return {Array}
+ * 
  * @example
- * key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
+ * Key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
  */
 export const chords = str => {
   const p = props(str);
@@ -185,8 +191,9 @@ export const chords = str => {
  * @function
  * @param {String} name - the key name
  * @return {Array}
+ * 
  * @example
- * key.secDomChords("A major") // => ["E7", "F#7", ...]
+ * Key.secDomChords("A major") // => ["E7", "F#7", ...]
  */
 
 export const secDomChords = name => {
@@ -204,10 +211,11 @@ export const secDomChords = name => {
  * @function
  * @param {String} mode - the relative destination
  * @param {String} key - the key source
+ * 
  * @example
- * key.relative('dorian', 'B major') // => 'C# dorian'
+ * Key.relative('dorian', 'B major') // => 'C# dorian'
  * // partial application
- * var minor = key.relative('minor')
+ * var minor = Key.relative('minor')
  * minor('C major') // => 'A minor'
  * minor('E major') // => 'C# minor'
  */
@@ -226,8 +234,9 @@ export const relative = (mode, key) => {
  * @function
  * @param {String} name 
  * @return {Array} an array in the form [tonic, key]
+ * 
  * @example
- * key.tokenize('C major') // => ['C', 'major']
+ * Key.tokenize('C major') // => ['C', 'major']
  */
 export const tokenize = name => {
   const p = split(name);

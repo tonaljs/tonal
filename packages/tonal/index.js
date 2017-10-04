@@ -1,32 +1,45 @@
 /**
  * [![npm version](https://img.shields.io/npm/v/tonal-key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
  *
- * The `tonal` module is a facade to the rest of the modules. They are namespaced,
+ * The `Tonal` module is a facade to the rest of the modules. They are namespaced,
  * so for example to use `pc` function from `tonal-note` you have to write:
- * `tonal.note.pc`
+ * `Tonal.Note.pc`
  *
  * It exports the following modules:
- * - note
- * - interval
- * - distance
- * - scale
- * - chord
- * - pcset
+ * - Note
+ * - Interval
+ * - Distance
+ * - Scale
+ * - Chord
+ * - PcSet
+ * 
+ * @example
+ * // es6 modules
+ * import * as Tonal from 'tonal'
+ * Tonal.Note.name('cx') // => 'C##'
+ * 
+ * @example
+ * import { Note } from 'tonal'
+ * Note.name('bb') // => 'Bb'
  *
  * @example
- * var tonal = require('tonal')
- * tonal.distance.transpose(tonal.note.pc('C#2'), 'M3') // => 'E#'
- * tonal.chord.notes('Dmaj7') // => ['D', 'F#', 'A', 'C#']
+ * // es5 node modules
+ * var Tonal = require('tonal');
+ * Tonal.Distance.transpose(Tonal.Note.pc('C#2'), 'M3') // => 'E#'
+ * Tonal.Chord.notes('Dmaj7') // => ['D', 'F#', 'A', 'C#']
  *
- * @module tonal
+ * @module Tonal
  */
-import * as array from "tonal-array";
-import * as note from "tonal-note";
-import * as interval from "tonal-interval";
-import * as distance from "tonal-distance";
-import * as scale from "tonal-scale";
-import * as chord from "tonal-chord";
-import * as pcset from "tonal-pcset";
+import * as Array from "tonal-array";
+import * as Note from "tonal-note";
+import * as Interval from "tonal-interval";
+import * as Distance from "tonal-distance";
+import * as Scale from "tonal-scale";
+import * as Chord from "tonal-chord";
+import * as PcSet from "tonal-pcset";
 
-export { array, note, interval, distance, scale, chord, pcset };
-export default { array, note, interval, distance, scale, chord, pcset };
+export { Array, Note, Interval, Distance, Scale, Chord, PcSet };
+
+export const transpose = Distance.transpose;
+export const interval = Distance.interval;
+export const note = Note.props;

@@ -1,6 +1,6 @@
-<a name="module_dictionary"></a>
+<a name="module_Dictionary"></a>
 
-# dictionary
+# Dictionary
 [![npm version](https://img.shields.io/npm/v/tonal-dictionary.svg)](https://www.npmjs.com/package/tonal-dictionary)
 
 `tonal-dictionary` contains a dictionary of musical scales and chords
@@ -9,21 +9,27 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 
 **Example**  
 ```js
-const dictionary= require('tonal-dictionary')
-dictionary.chord('Maj7') // => ['1P', '3M', '5P', '7M']
+// es6
+import * as Dictionary from 'tonal-dictionary'
+// es5
+const Dictionary = require('tonal-dictionary')
+```
+**Example**  
+```js
+Dictionary.chord('Maj7') // => ['1P', '3M', '5P', '7M']
 ```
 
-* [dictionary](#module_dictionary)
-    * [`.scale(name)`](#module_dictionary.scale) ⇒ <code>Array</code>
-    * [`.chord(type)`](#module_dictionary.chord) ⇒ <code>Array</code>
+* [Dictionary](#module_Dictionary)
+    * [`.scale(name)`](#module_Dictionary.scale) ⇒ <code>Array</code>
+    * [`.chord(type)`](#module_Dictionary.chord) ⇒ <code>Array</code>
 
-<a name="module_dictionary.scale"></a>
+<a name="module_Dictionary.scale"></a>
 
-## `dictionary.scale(name)` ⇒ <code>Array</code>
+## `Dictionary.scale(name)` ⇒ <code>Array</code>
 A dictionary of scales: a function that given a scale name (without tonic)
 returns an array of intervals
 
-**Kind**: static method of [<code>dictionary</code>](#module_dictionary)  
+**Kind**: static method of [<code>Dictionary</code>](#module_Dictionary)  
 **Returns**: <code>Array</code> - intervals  
 
 | Param | Type |
@@ -36,13 +42,13 @@ import { scale } from 'tonal-dictionary'
 scale('major') // => ["1P", "2M", ...]
 scale.names(); // => ["major", ...]
 ```
-<a name="module_dictionary.chord"></a>
+<a name="module_Dictionary.chord"></a>
 
-## `dictionary.chord(type)` ⇒ <code>Array</code>
+## `Dictionary.chord(type)` ⇒ <code>Array</code>
 A dictionary of chords: a function that given a chord type
 returns an array of intervals
 
-**Kind**: static method of [<code>dictionary</code>](#module_dictionary)  
+**Kind**: static method of [<code>Dictionary</code>](#module_Dictionary)  
 **Returns**: <code>Array</code> - intervals  
 
 | Param | Type |

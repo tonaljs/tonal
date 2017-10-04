@@ -12,11 +12,7 @@
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
-  "keywords": [
-    "music",
-    "tonal",
-    "theory"
-  ],
+  "keywords": ["music", "tonal", "theory"],
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
@@ -31,13 +27,9 @@
     "tonal-scale": "^1.0.0-pre6"
   },
   "babel": {
-    "presets": [
-      "es2015"
-    ]
+    "presets": ["es2015"]
   },
   "jest": {
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!tonal)"
-    ]
+    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
   }
 }

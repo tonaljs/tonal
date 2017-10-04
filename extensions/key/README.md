@@ -1,7 +1,7 @@
-<a name="module_key"></a>
+<a name="module_Key"></a>
 
-# key
-[![npm version](https://img.shields.io/npm/v/tonal-key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
+# Key
+[![npm version](https://img.shields.io/npm/v/tonal-Key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
 [![tonal](https://img.shields.io/badge/tonal-key-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
 
 `tonal-key` is a collection of functions to query about tonal keys.
@@ -10,29 +10,35 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 
 **Example**  
 ```js
-const key = require('tonal-key')
-key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
-key.relative('minor', 'C major') // => 'A minor'
+// es6
+import * as Key from 'tonal-key'
+// es5
+const Key = require('tonal-key')
+```
+**Example**  
+```js
+Key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+Key.relative('minor', 'C major') // => 'A minor'
 ```
 
-* [key](#module_key)
-    * [`.degrees`](#module_key.degrees) ⇒ <code>Array</code>
-    * [`.modeNames(alias)`](#module_key.modeNames) ⇒ <code>Array</code>
-    * [`.fromAlter(alt)`](#module_key.fromAlter) ⇒ <code>Key</code>
-    * [`.props(name)`](#module_key.props) ⇒ <code>Object</code>
-    * [`.scale(key)`](#module_key.scale) ⇒ <code>Array</code>
-    * [`.alteredNotes(key)`](#module_key.alteredNotes) ⇒ <code>Array</code>
-    * [`.chords(name)`](#module_key.chords) ⇒ <code>Array</code>
-    * [`.secDomChords(name)`](#module_key.secDomChords) ⇒ <code>Array</code>
-    * [`.relative(mode, key)`](#module_key.relative)
-    * [`.tokenize(name)`](#module_key.tokenize) ⇒ <code>Array</code>
+* [Key](#module_Key)
+    * [`.degrees`](#module_Key.degrees) ⇒ <code>Array</code>
+    * [`.modeNames(alias)`](#module_Key.modeNames) ⇒ <code>Array</code>
+    * [`.fromAlter(alt)`](#module_Key.fromAlter) ⇒ <code>Key</code>
+    * [`.props(name)`](#module_Key.props) ⇒ <code>Object</code>
+    * [`.scale(key)`](#module_Key.scale) ⇒ <code>Array</code>
+    * [`.alteredNotes(key)`](#module_Key.alteredNotes) ⇒ <code>Array</code>
+    * [`.chords(name)`](#module_Key.chords) ⇒ <code>Array</code>
+    * [`.secDomChords(name)`](#module_Key.secDomChords) ⇒ <code>Array</code>
+    * [`.relative(mode, key)`](#module_Key.relative)
+    * [`.tokenize(name)`](#module_Key.tokenize) ⇒ <code>Array</code>
 
-<a name="module_key.degrees"></a>
+<a name="module_Key.degrees"></a>
 
-## `key.degrees` ⇒ <code>Array</code>
+## `Key.degrees` ⇒ <code>Array</code>
 Get a list of key scale degrees
 
-**Kind**: static constant of [<code>key</code>](#module_key)  
+**Kind**: static constant of [<code>Key</code>](#module_Key)  
 
 | Param | Type |
 | --- | --- |
@@ -40,15 +46,15 @@ Get a list of key scale degrees
 
 **Example**  
 ```js
-tonal.key.degrees('C major') => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
+Key.degrees('C major') => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
 ```
-<a name="module_key.modeNames"></a>
+<a name="module_Key.modeNames"></a>
 
-## `key.modeNames(alias)` ⇒ <code>Array</code>
+## `Key.modeNames(alias)` ⇒ <code>Array</code>
 Get a list of valid mode names. The list of modes will be always in
 increasing order (ionian to locrian)
 
-**Kind**: static method of [<code>key</code>](#module_key)  
+**Kind**: static method of [<code>Key</code>](#module_Key)  
 **Returns**: <code>Array</code> - an array of strings  
 
 | Param | Type | Description |
@@ -57,17 +63,17 @@ increasing order (ionian to locrian)
 
 **Example**  
 ```js
-key.modes() // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+Key.modes() // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
 // 'mixolydian', 'aeolian', 'locrian' ]
-key.modes(true) // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
+Key.modes(true) // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
 // 'mixolydian', 'aeolian', 'locrian', 'major', 'minor' ]
 ```
-<a name="module_key.fromAlter"></a>
+<a name="module_Key.fromAlter"></a>
 
-## `key.fromAlter(alt)` ⇒ <code>Key</code>
+## `Key.fromAlter(alt)` ⇒ <code>Key</code>
 Create a major key from alterations
 
-**Kind**: static method of [<code>key</code>](#module_key)  
+**Kind**: static method of [<code>Key</code>](#module_Key)  
 **Returns**: <code>Key</code> - the key object  
 
 | Param | Type | Description |
@@ -76,12 +82,11 @@ Create a major key from alterations
 
 **Example**  
 ```js
-var key = require('tonal-key')
-key.fromAlter(2) // => 'D major'
+Key.fromAlter(2) // => 'D major'
 ```
-<a name="module_key.props"></a>
+<a name="module_Key.props"></a>
 
-## `key.props(name)` ⇒ <code>Object</code>
+## `Key.props(name)` ⇒ <code>Object</code>
 Return the a key properties object with the following information:
 
 - name {String}: name
@@ -93,7 +98,7 @@ Return the a key properties object with the following information:
 - acc {String}: accidentals of the key signature
 - alt {Number}: alteration number (a numeric representation of accidentals)
 
-**Kind**: static method of [<code>key</code>](#module_key)  
+**Kind**: static method of [<code>Key</code>](#module_Key)  
 **Returns**: <code>Object</code> - the key properties object or null if not a valid key  
 
 | Param | Type | Description |
@@ -102,15 +107,14 @@ Return the a key properties object with the following information:
 
 **Example**  
 ```js
-var key = require('tonal-key')
-key.props('C3 dorian') // => { tonic: 'C', mode: 'dorian', ... }
+Key.props('C3 dorian') // => { tonic: 'C', mode: 'dorian', ... }
 ```
-<a name="module_key.scale"></a>
+<a name="module_Key.scale"></a>
 
-## `key.scale(key)` ⇒ <code>Array</code>
+## `Key.scale(key)` ⇒ <code>Array</code>
 Get scale of a key
 
-**Kind**: static method of [<code>key</code>](#module_key)  
+**Kind**: static method of [<code>Key</code>](#module_Key)  
 **Returns**: <code>Array</code> - the key scale  
 
 | Param | Type |
@@ -119,18 +123,18 @@ Get scale of a key
 
 **Example**  
 ```js
-key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
-key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
-key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
-key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+Key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
+Key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
+Key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
+Key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
 ```
-<a name="module_key.alteredNotes"></a>
+<a name="module_Key.alteredNotes"></a>
 
-## `key.alteredNotes(key)` ⇒ <code>Array</code>
-Get a list of the altered notes of a given key. The notes will be in
+## `Key.alteredNotes(key)` ⇒ <code>Array</code>
+Get a list of the altered notes of a given Key. The notes will be in
 the same order than in the key signature.
 
-**Kind**: static method of [<code>key</code>](#module_key)  
+**Kind**: static method of [<code>Key</code>](#module_Key)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -138,15 +142,14 @@ the same order than in the key signature.
 
 **Example**  
 ```js
-var key = require('tonal-keys')
-key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
+Key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
 ```
-<a name="module_key.chords"></a>
+<a name="module_Key.chords"></a>
 
-## `key.chords(name)` ⇒ <code>Array</code>
+## `Key.chords(name)` ⇒ <code>Array</code>
 Get key chords
 
-**Kind**: static method of [<code>key</code>](#module_key)  
+**Kind**: static method of [<code>Key</code>](#module_Key)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -154,14 +157,14 @@ Get key chords
 
 **Example**  
 ```js
-key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
+Key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
 ```
-<a name="module_key.secDomChords"></a>
+<a name="module_Key.secDomChords"></a>
 
-## `key.secDomChords(name)` ⇒ <code>Array</code>
+## `Key.secDomChords(name)` ⇒ <code>Array</code>
 Get secondary dominant key chords
 
-**Kind**: static method of [<code>key</code>](#module_key)  
+**Kind**: static method of [<code>Key</code>](#module_Key)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -169,17 +172,17 @@ Get secondary dominant key chords
 
 **Example**  
 ```js
-key.secDomChords("A major") // => ["E7", "F#7", ...]
+Key.secDomChords("A major") // => ["E7", "F#7", ...]
 ```
-<a name="module_key.relative"></a>
+<a name="module_Key.relative"></a>
 
-## `key.relative(mode, key)`
+## `Key.relative(mode, key)`
 Get relative of a key. Two keys are relative when the have the same
 key signature (for example C major and A minor)
 
 It can be partially applied.
 
-**Kind**: static method of [<code>key</code>](#module_key)  
+**Kind**: static method of [<code>Key</code>](#module_Key)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -188,18 +191,18 @@ It can be partially applied.
 
 **Example**  
 ```js
-key.relative('dorian', 'B major') // => 'C# dorian'
+Key.relative('dorian', 'B major') // => 'C# dorian'
 // partial application
-var minor = key.relative('minor')
+var minor = Key.relative('minor')
 minor('C major') // => 'A minor'
 minor('E major') // => 'C# minor'
 ```
-<a name="module_key.tokenize"></a>
+<a name="module_Key.tokenize"></a>
 
-## `key.tokenize(name)` ⇒ <code>Array</code>
+## `Key.tokenize(name)` ⇒ <code>Array</code>
 Split the key name into its components (pitch class tonic and mode name)
 
-**Kind**: static method of [<code>key</code>](#module_key)  
+**Kind**: static method of [<code>Key</code>](#module_Key)  
 **Returns**: <code>Array</code> - an array in the form [tonic, key]  
 
 | Param | Type |
@@ -208,5 +211,5 @@ Split the key name into its components (pitch class tonic and mode name)
 
 **Example**  
 ```js
-key.tokenize('C major') // => ['C', 'major']
+Key.tokenize('C major') // => ['C', 'major']
 ```

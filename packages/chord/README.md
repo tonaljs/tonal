@@ -1,6 +1,6 @@
-<a name="module_chord"></a>
+<a name="module_Chord"></a>
 
-# chord
+# Chord
 [![npm version](https://img.shields.io/npm/v/tonal-chord.svg)](https://www.npmjs.com/package/tonal-chord)
 [![tonal](https://img.shields.io/badge/tonal-chord-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
 
@@ -10,26 +10,32 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 
 **Example**  
 ```js
-const chord = require('tonal-chord')
-chord.notes('CMaj7') // => ['C', 'E', 'G', 'B']
+// es6
+import * as Chord from 'tonal-chord'
+// es5
+const Chord = require('tonal-chord')
+```
+**Example**  
+```js
+Chord.notes('CMaj7') // => ['C', 'E', 'G', 'B']
 ```
 
-* [chord](#module_chord)
-    * [`.names(aliases)`](#module_chord.names) ⇒ <code>Array</code>
-    * [`.props(name)`](#module_chord.props) ⇒ <code>Object</code>
-    * [`.intervals(name)`](#module_chord.intervals) ⇒ <code>Array.&lt;String&gt;</code>
-    * [`.notes(nameOrTonic, [name])`](#module_chord.notes) ⇒ <code>Array</code>
-    * [`.exists(name)`](#module_chord.exists) ⇒ <code>Boolean</code>
-    * [`.supersets(name)`](#module_chord.supersets) ⇒ <code>Array</code>
-    * [`.subsets(name)`](#module_chord.subsets) ⇒ <code>Array</code>
-    * [`.tokenize(name)`](#module_chord.tokenize) ⇒ <code>Array</code>
+* [Chord](#module_Chord)
+    * [`.names(aliases)`](#module_Chord.names) ⇒ <code>Array</code>
+    * [`.props(name)`](#module_Chord.props) ⇒ <code>Object</code>
+    * [`.intervals(name)`](#module_Chord.intervals) ⇒ <code>Array.&lt;String&gt;</code>
+    * [`.notes(nameOrTonic, [name])`](#module_Chord.notes) ⇒ <code>Array</code>
+    * [`.exists(name)`](#module_Chord.exists) ⇒ <code>Boolean</code>
+    * [`.supersets(name)`](#module_Chord.supersets) ⇒ <code>Array</code>
+    * [`.subsets(name)`](#module_Chord.subsets) ⇒ <code>Array</code>
+    * [`.tokenize(name)`](#module_Chord.tokenize) ⇒ <code>Array</code>
 
-<a name="module_chord.names"></a>
+<a name="module_Chord.names"></a>
 
-## `chord.names(aliases)` ⇒ <code>Array</code>
+## `Chord.names(aliases)` ⇒ <code>Array</code>
 Return the available chord names
 
-**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Kind**: static method of [<code>Chord</code>](#module_Chord)  
 **Returns**: <code>Array</code> - the chord names  
 
 | Param | Type | Description |
@@ -38,12 +44,11 @@ Return the available chord names
 
 **Example**  
 ```js
-import * as chord from 'tonal-chord'
-chord.names() // => ['maj7', ...]
+Chord.names() // => ['maj7', ...]
 ```
-<a name="module_chord.props"></a>
+<a name="module_Chord.props"></a>
 
-## `chord.props(name)` ⇒ <code>Object</code>
+## `Chord.props(name)` ⇒ <code>Object</code>
 Get chord properties. It returns an object with:
 
 - name: the chord name
@@ -52,7 +57,7 @@ Get chord properties. It returns an object with:
 - chroma:  chord croma (see pcset)
 - setnum: chord chroma number
 
-**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Kind**: static method of [<code>Chord</code>](#module_Chord)  
 **Returns**: <code>Object</code> - an object with the properties or a object with all properties
 set to null if not valid chord name  
 
@@ -60,27 +65,27 @@ set to null if not valid chord name
 | --- | --- | --- |
 | name | <code>String</code> | the chord name (without tonic) |
 
-<a name="module_chord.intervals"></a>
+<a name="module_Chord.intervals"></a>
 
-## `chord.intervals(name)` ⇒ <code>Array.&lt;String&gt;</code>
+## `Chord.intervals(name)` ⇒ <code>Array.&lt;String&gt;</code>
 Get chord intervals. It always returns an array
 
-**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Kind**: static method of [<code>Chord</code>](#module_Chord)  
 **Returns**: <code>Array.&lt;String&gt;</code> - a list of intervals or null if the type is not known  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | name | <code>String</code> | the chord name (optionally a tonic and type) |
 
-<a name="module_chord.notes"></a>
+<a name="module_Chord.notes"></a>
 
-## `chord.notes(nameOrTonic, [name])` ⇒ <code>Array</code>
+## `Chord.notes(nameOrTonic, [name])` ⇒ <code>Array</code>
 Get the chord notes of a chord. This function accepts either a chord name
 (for example: 'Cmaj7') or a list of notes.
 
 It always returns an array, even if the chord is not found.
 
-**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Kind**: static method of [<code>Chord</code>](#module_Chord)  
 **Returns**: <code>Array</code> - an array of notes or an empty array  
 
 | Param | Type | Description |
@@ -90,15 +95,15 @@ It always returns an array, even if the chord is not found.
 
 **Example**  
 ```js
-chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
-chord.notes('C', 'maj7') // => ['C', 'E', 'G', 'B']
+Chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
+Chord.notes('C', 'maj7') // => ['C', 'E', 'G', 'B']
 ```
-<a name="module_chord.exists"></a>
+<a name="module_Chord.exists"></a>
 
-## `chord.exists(name)` ⇒ <code>Boolean</code>
+## `Chord.exists(name)` ⇒ <code>Boolean</code>
 Check if a given name correspond to a chord in the dictionary
 
-**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Kind**: static method of [<code>Chord</code>](#module_Chord)  
 
 | Param | Type |
 | --- | --- |
@@ -106,46 +111,46 @@ Check if a given name correspond to a chord in the dictionary
 
 **Example**  
 ```js
-chord.exists('CMaj7') // => true
-chord.exists('Maj7') // => true
-chord.exists('Ablah') // => false
+Chord.exists('CMaj7') // => true
+Chord.exists('Maj7') // => true
+Chord.exists('Ablah') // => false
 ```
-<a name="module_chord.supersets"></a>
+<a name="module_Chord.supersets"></a>
 
-## `chord.supersets(name)` ⇒ <code>Array</code>
+## `Chord.supersets(name)` ⇒ <code>Array</code>
 Get all chords names that are a superset of the given one
 (has the same notes and at least one more)
 
-**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Kind**: static method of [<code>Chord</code>](#module_Chord)  
 **Returns**: <code>Array</code> - a list of chord names  
 
 | Param | Type |
 | --- | --- |
 | name | <code>String</code> | 
 
-<a name="module_chord.subsets"></a>
+<a name="module_Chord.subsets"></a>
 
-## `chord.subsets(name)` ⇒ <code>Array</code>
+## `Chord.subsets(name)` ⇒ <code>Array</code>
 Find all chords names that are a subset of the given one
 (has less notes but all from the given chord)
 
-**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Kind**: static method of [<code>Chord</code>](#module_Chord)  
 **Returns**: <code>Array</code> - a list of chord names  
 
 | Param | Type |
 | --- | --- |
 | name | <code>String</code> | 
 
-<a name="module_chord.tokenize"></a>
+<a name="module_Chord.tokenize"></a>
 
-## `chord.tokenize(name)` ⇒ <code>Array</code>
+## `Chord.tokenize(name)` ⇒ <code>Array</code>
 Tokenize a chord name. It returns an array with the tonic and chord type 
 If not tonic is found, all the name is considered the chord name.
 
 This function does NOT check if the chord type exists or not. It only tries
 to split the tonic and chord type.
 
-**Kind**: static method of [<code>chord</code>](#module_chord)  
+**Kind**: static method of [<code>Chord</code>](#module_Chord)  
 **Returns**: <code>Array</code> - an array with [type, tonic]  
 
 | Param | Type | Description |
@@ -154,8 +159,8 @@ to split the tonic and chord type.
 
 **Example**  
 ```js
-chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
-chord.tokenize('C7') // => [ 'C', '7' ]
-chord.tokenize('mMaj7') // => [ "", 'mMaj7' ]
-chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
+Chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
+Chord.tokenize('C7') // => [ 'C', '7' ]
+Chord.tokenize('mMaj7') // => [ "", 'mMaj7' ]
+Chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
 ```

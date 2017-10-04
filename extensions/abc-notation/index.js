@@ -6,16 +6,16 @@
  * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
  *
  * @example
- * const abc = require('tonal-abc-notation')
- * abc.toNote('c') // => 'C5'
- * abc.toAbc('Db2') // =>  '_D,,'
+ * const Abc = require('tonal-abc-notation')
+ * Abc.toNote('c') // => 'C5'
+ * Abc.toAbc('Db2') // =>  '_D,,'
  *
  * @example 
- * import tonal from 'tonal'
+ * import Tonal from 'tonal'
  * import { toAbc } from 'tonal-abc-notation'
- * tonal.scale.notes('C major').map(toAbc);
+ * Tonal.Scale.notes('C major').map(toAbc);
  *
- * @module abc-notation
+ * @module Abc
  */
 import { props } from "tonal-note";
 
@@ -34,7 +34,7 @@ export function tokenize(str) {
  * @param {String} abcNote - the note in ABC notation
  * @return {String} the note in scientific notation of null if not valid 
  * @example
- * abc.toNote('c') // => 'C5'
+ * Abc.toNote('c') // => 'C5'
  */
 export function toNote(str) {
   const [acc, letter, oct] = tokenize(str);
@@ -56,7 +56,7 @@ export function toNote(str) {
  * @param {String} note - a note in scientific notation
  * @return {String} the note in ABC notation or null if not valid note
  * @example
- * abc.toAbc('C#4') // => '^C'
+ * Abc.toAbc('C#4') // => '^C'
  */
 export function toAbc(str) {
   const { letter, acc, oct } = props(str);

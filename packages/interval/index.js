@@ -19,11 +19,11 @@
  * ## Usage
  *
  * ```js
- * import * as interval from 'tonal-interval'
- * // or const interval = require('tonal-interval')
- * interval.semitones('4P') // => 5
- * interval.invert('3m') // => '6M'
- * interval.simplify('9m') // => '2m'
+ * import * as Interval from 'tonal-interval'
+ * // or const Interval = require('tonal-interval')
+ * Interval.semitones('4P') // => 5
+ * Interval.invert('3m') // => '6M'
+ * Interval.simplify('9m') // => '2m'
  * ```
  *
  * ## Install
@@ -32,7 +32,7 @@
  *
  * ## API Documentation
  *
- * @module interval
+ * @module Interval
  */
 // shorthand tonal notation (with quality after number)
 const IVL_TNL = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
@@ -49,11 +49,11 @@ const NAMES = "1P 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P".split(" ");
  * @param {String} qualities - (Optional, default "PMm") the valid types
  * @return {Array} the interval names
  * @example
- * tonal.interval.names() // => [ '1P', '2m', '2M', '3m', '3M', '4P', '5P', '6m', '6M', '7m', '7M', '8P' ]
- * tonal.interval.names("P") // => [ '1P', '4P', '5P', '8P' ]
- * tonal.interval.names("PM") // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
- * tonal.interval.names("Pm") // => [ '1P', '2m', '3m', '4P', '5P', '6m', '7m', '8P' ]
- * t.interval.names("d") // => []
+ * Interval.names() // => [ '1P', '2m', '2M', '3m', '3M', '4P', '5P', '6m', '6M', '7m', '7M', '8P' ]
+ * Interval.names("P") // => [ '1P', '4P', '5P', '8P' ]
+ * Interval.names("PM") // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
+ * Interval.names("Pm") // => [ '1P', '2m', '3m', '4P', '5P', '6m', '7m', '8P' ]
+ * Interval.names("d") // => []
  */
 export const names = types =>
   typeof types !== "string"
@@ -151,9 +151,9 @@ export function props(str) {
  * @param {String} interval - the interval
  * @return {Integer} 
  * @example
- * interval.num('m2') // => 2
- * interval.num('P9') // => 9
- * interval.num('P-4') // => -4
+ * Interval.num('m2') // => 2
+ * Interval.num('P9') // => 9
+ * Interval.num('P-4') // => -4
  */
 export const num = str => props(str).num;
 
@@ -166,8 +166,8 @@ export const num = str => props(str).num;
  * @param {String} interval - the interval string or array
  * @return {String} the interval name or null if not valid interval
  * @example
- * interval.name('m-3') // => '-3m'
- * interval.name('3') // => null
+ * Interval.name('m-3') // => '-3m'
+ * Interval.name('3') // => null
  */
 export const name = str => props(str).name;
 
@@ -181,7 +181,7 @@ export const name = str => props(str).name;
  * import { semitones } from 'tonal-interval'
  * semitones('P4') // => 5
  * // or using tonal
- * tonal.interval.semitones('P5') // => 7
+ * Tonal.Interval.semitones('P5') // => 7
  */
 export const semitones = str => props(str).semitones;
 
@@ -210,8 +210,8 @@ export const chroma = str => props(str).chroma;
  * @return {Integer} A value between 0 and 6
  *
  * @example
- * interval.ic('P8') // => 0
- * interval.ic('m6') // => 4
+ * Interval.ic('P8') // => 0
+ * Interval.ic('m6') // => 4
  * ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
  */
 export const ic = str => props(str).ic;
@@ -232,8 +232,8 @@ export const ic = str => props(str).ic;
  *
  * @return {String} the interval name
  * @example
- * interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
- * interval.build({ num: 9, alt: -1 }) // => '9m'
+ * Interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
+ * Interval.build({ num: 9, alt: -1 }) // => '9m'
  */
 export const build = ({ num, step, alt, oct = 1, dir } = {}) => {
   if (step !== undefined) num = step + 1 + 7 * oct;
@@ -252,11 +252,11 @@ export const build = ({ num, step, alt, oct = 1, dir } = {}) => {
  * @return {String} the simplified interval
  *
  * @example
- * interval.simplify('9M') // => '2M'
- * ['8P', '9M', '10M', '11P', '12P', '13M', '14M', '15P'].map(interval.simplify)
+ * Interval.simplify('9M') // => '2M'
+ * ['8P', '9M', '10M', '11P', '12P', '13M', '14M', '15P'].map(Interval.simplify)
  * // => [ '8P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
- * interval.simplify('2M') // => '2M'
- * interval.simplify('-2M') // => '7m'
+ * Interval.simplify('2M') // => '2M'
+ * Interval.simplify('-2M') // => '7m'
  */
 export const simplify = str => {
   const p = props(str);
@@ -274,8 +274,8 @@ export const simplify = str => {
  * @return {String} the inverted interval
  *
  * @example
- * interval.invert('3m') // => '6M'
- * interval.invert('2M') // => '7m'
+ * Interval.invert('3m') // => '6M'
+ * Interval.invert('2M') // => '7m'
  */
 export const invert = str => {
   const p = props(str);
@@ -301,7 +301,7 @@ var IQ = "P m M m M P d P m M m M".split(" ");
  * import { fromSemitones } from 'tonal-interval'
  * fromSemitones(7) // => '5P'
  * // or using tonal
- * tonal.fromSemitones(-7) // => '-5P'
+ * Tonal.Distance.fromSemitones(-7) // => '-5P'
  */
 export const fromSemitones = num => {
   var d = num < 0 ? -1 : 1;

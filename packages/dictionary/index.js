@@ -6,10 +6,15 @@
  * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
  *
  * @example
- * const dictionary= require('tonal-dictionary')
- * dictionary.chord('Maj7') // => ['1P', '3M', '5P', '7M']
+ * // es6
+ * import * as Dictionary from 'tonal-dictionary'
+ * // es5
+ * const Dictionary = require('tonal-dictionary')
+ * 
+ * @example
+ * Dictionary.chord('Maj7') // => ['1P', '3M', '5P', '7M']
  *
- * @module dictionary
+ * @module Dictionary
  */
 import sdata from "./data/scales.json";
 import cdata from "./data/chords.json";

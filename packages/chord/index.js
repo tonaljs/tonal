@@ -7,10 +7,15 @@
  * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
  *
  * @example
- * const chord = require('tonal-chord')
- * chord.notes('CMaj7') // => ['C', 'E', 'G', 'B']
+ * // es6
+ * import * as Chord from 'tonal-chord'
+ * // es5
+ * const Chord = require('tonal-chord')
+ * 
+ * @example
+ * Chord.notes('CMaj7') // => ['C', 'E', 'G', 'B']
  *
- * @module chord
+ * @module Chord
  */
 import { tokenize as split } from "tonal-note";
 import { transpose } from "tonal-distance";
@@ -25,8 +30,7 @@ import { chroma, isSubsetOf, isSupersetOf } from "tonal-pcset";
  * @return {Array} the chord names
  *
  * @example
- * import * as chord from 'tonal-chord'
- * chord.names() // => ['maj7', ...]
+ * Chord.names() // => ['maj7', ...]
  */
 export const names = chord.names;
 
@@ -87,8 +91,8 @@ export const intervals = name => props(tokenize(name)[1]).intervals;
  * @return {Array} an array of notes or an empty array
  *
  * @example
- * chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
- * chord.notes('C', 'maj7') // => ['C', 'E', 'G', 'B']
+ * Chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
+ * Chord.notes('C', 'maj7') // => ['C', 'E', 'G', 'B']
  */
 export function notes(nameOrTonic, name) {
   const p = tokenize(nameOrTonic);
@@ -103,9 +107,9 @@ export function notes(nameOrTonic, name) {
  * @param {String} name
  * @return {Boolean}
  * @example
- * chord.exists('CMaj7') // => true
- * chord.exists('Maj7') // => true
- * chord.exists('Ablah') // => false
+ * Chord.exists('CMaj7') // => true
+ * Chord.exists('Maj7') // => true
+ * Chord.exists('Ablah') // => false
  */
 export const exists = name => chord(tokenize(name)[1]) !== undefined;
 
@@ -147,10 +151,10 @@ export const subsets = name => {
  * @param {String} name - the chord name
  * @return {Array} an array with [type, tonic]
  * @example
- * chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
- * chord.tokenize('C7') // => [ 'C', '7' ]
- * chord.tokenize('mMaj7') // => [ "", 'mMaj7' ]
- * chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
+ * Chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
+ * Chord.tokenize('C7') // => [ 'C', '7' ]
+ * Chord.tokenize('mMaj7') // => [ "", 'mMaj7' ]
+ * Chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
  */
 export function tokenize(name) {
   const p = split(name);

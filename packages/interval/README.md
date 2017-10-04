@@ -1,6 +1,6 @@
-<a name="module_interval"></a>
+<a name="module_Interval"></a>
 
-# interval
+# Interval
 [![npm version](https://img.shields.io/npm/v/tonal-interval.svg)](https://www.npmjs.com/package/tonal-interval)
 [![tonal](https://img.shields.io/badge/tonal-interval-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
 
@@ -21,11 +21,11 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 ## Usage
 
 ```js
-import * as interval from 'tonal-interval'
-// or const interval = require('tonal-interval')
-interval.semitones('4P') // => 5
-interval.invert('3m') // => '6M'
-interval.simplify('9m') // => '2m'
+import * as Interval from 'tonal-interval'
+// or const Interval = require('tonal-interval')
+Interval.semitones('4P') // => 5
+Interval.invert('3m') // => '6M'
+Interval.simplify('9m') // => '2m'
 ```
 
 ## Install
@@ -35,25 +35,25 @@ interval.simplify('9m') // => '2m'
 ## API Documentation
 
 
-* [interval](#module_interval)
-    * [`.names`](#module_interval.names) ⇒ <code>Array</code>
-    * [`.props(interval)`](#module_interval.props) ⇒ <code>Object</code>
-    * [`.num(interval)`](#module_interval.num) ⇒ <code>Integer</code>
-    * [`.name(interval)`](#module_interval.name) ⇒ <code>String</code>
-    * [`.semitones(ivl)`](#module_interval.semitones) ⇒ <code>Integer</code>
-    * [`.chroma(str)`](#module_interval.chroma) ⇒ <code>Number</code>
-    * [`.ic(interval)`](#module_interval.ic) ⇒ <code>Integer</code>
-    * [`.build(props)`](#module_interval.build) ⇒ <code>String</code>
-    * [`.simplify(interval)`](#module_interval.simplify) ⇒ <code>String</code>
-    * [`.invert(interval)`](#module_interval.invert) ⇒ <code>String</code>
-    * [`.fromSemitones(num)`](#module_interval.fromSemitones) ⇒ <code>String</code>
+* [Interval](#module_Interval)
+    * [`.names`](#module_Interval.names) ⇒ <code>Array</code>
+    * [`.props(interval)`](#module_Interval.props) ⇒ <code>Object</code>
+    * [`.num(interval)`](#module_Interval.num) ⇒ <code>Integer</code>
+    * [`.name(interval)`](#module_Interval.name) ⇒ <code>String</code>
+    * [`.semitones(ivl)`](#module_Interval.semitones) ⇒ <code>Integer</code>
+    * [`.chroma(str)`](#module_Interval.chroma) ⇒ <code>Number</code>
+    * [`.ic(interval)`](#module_Interval.ic) ⇒ <code>Integer</code>
+    * [`.build(props)`](#module_Interval.build) ⇒ <code>String</code>
+    * [`.simplify(interval)`](#module_Interval.simplify) ⇒ <code>String</code>
+    * [`.invert(interval)`](#module_Interval.invert) ⇒ <code>String</code>
+    * [`.fromSemitones(num)`](#module_Interval.fromSemitones) ⇒ <code>String</code>
 
-<a name="module_interval.names"></a>
+<a name="module_Interval.names"></a>
 
-## `interval.names` ⇒ <code>Array</code>
+## `Interval.names` ⇒ <code>Array</code>
 List basic (perfect, major, minor) interval names within a octave
 
-**Kind**: static constant of [<code>interval</code>](#module_interval)  
+**Kind**: static constant of [<code>Interval</code>](#module_Interval)  
 **Returns**: <code>Array</code> - the interval names  
 
 | Param | Type | Description |
@@ -62,15 +62,15 @@ List basic (perfect, major, minor) interval names within a octave
 
 **Example**  
 ```js
-tonal.interval.names() // => [ '1P', '2m', '2M', '3m', '3M', '4P', '5P', '6m', '6M', '7m', '7M', '8P' ]
-tonal.interval.names("P") // => [ '1P', '4P', '5P', '8P' ]
-tonal.interval.names("PM") // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
-tonal.interval.names("Pm") // => [ '1P', '2m', '3m', '4P', '5P', '6m', '7m', '8P' ]
-t.interval.names("d") // => []
+Interval.names() // => [ '1P', '2m', '2M', '3m', '3M', '4P', '5P', '6m', '6M', '7m', '7M', '8P' ]
+Interval.names("P") // => [ '1P', '4P', '5P', '8P' ]
+Interval.names("PM") // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
+Interval.names("Pm") // => [ '1P', '2m', '3m', '4P', '5P', '6m', '7m', '8P' ]
+Interval.names("d") // => []
 ```
-<a name="module_interval.props"></a>
+<a name="module_Interval.props"></a>
 
-## `interval.props(interval)` ⇒ <code>Object</code>
+## `Interval.props(interval)` ⇒ <code>Object</code>
 Get interval properties. It returns an object with:
 
 - name: name
@@ -85,19 +85,19 @@ Get interval properties. It returns an object with:
 - chroma: the interval chroma
 - ic: the interval class
 
-**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Kind**: static method of [<code>Interval</code>](#module_Interval)  
 **Returns**: <code>Object</code> - the interval in the form [number, alt]  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | interval | <code>String</code> | the interval |
 
-<a name="module_interval.num"></a>
+<a name="module_Interval.num"></a>
 
-## `interval.num(interval)` ⇒ <code>Integer</code>
+## `Interval.num(interval)` ⇒ <code>Integer</code>
 Get the number of the interval
 
-**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Kind**: static method of [<code>Interval</code>](#module_Interval)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -105,18 +105,18 @@ Get the number of the interval
 
 **Example**  
 ```js
-interval.num('m2') // => 2
-interval.num('P9') // => 9
-interval.num('P-4') // => -4
+Interval.num('m2') // => 2
+Interval.num('P9') // => 9
+Interval.num('P-4') // => -4
 ```
-<a name="module_interval.name"></a>
+<a name="module_Interval.name"></a>
 
-## `interval.name(interval)` ⇒ <code>String</code>
+## `Interval.name(interval)` ⇒ <code>String</code>
 Get interval name. Can be used to test if it's an interval. It accepts intervals
 as pitch or string in shorthand notation or tonal notation. It returns always
 intervals in tonal notation.
 
-**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Kind**: static method of [<code>Interval</code>](#module_Interval)  
 **Returns**: <code>String</code> - the interval name or null if not valid interval  
 
 | Param | Type | Description |
@@ -125,15 +125,15 @@ intervals in tonal notation.
 
 **Example**  
 ```js
-interval.name('m-3') // => '-3m'
-interval.name('3') // => null
+Interval.name('m-3') // => '-3m'
+Interval.name('3') // => null
 ```
-<a name="module_interval.semitones"></a>
+<a name="module_Interval.semitones"></a>
 
-## `interval.semitones(ivl)` ⇒ <code>Integer</code>
+## `Interval.semitones(ivl)` ⇒ <code>Integer</code>
 Get size in semitones of an interval
 
-**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Kind**: static method of [<code>Interval</code>](#module_Interval)  
 **Returns**: <code>Integer</code> - the number of semitones or null if not an interval  
 
 | Param | Type |
@@ -145,23 +145,23 @@ Get size in semitones of an interval
 import { semitones } from 'tonal-interval'
 semitones('P4') // => 5
 // or using tonal
-tonal.interval.semitones('P5') // => 7
+Tonal.Interval.semitones('P5') // => 7
 ```
-<a name="module_interval.chroma"></a>
+<a name="module_Interval.chroma"></a>
 
-## `interval.chroma(str)` ⇒ <code>Number</code>
+## `Interval.chroma(str)` ⇒ <code>Number</code>
 Get the chroma of the interval. The chroma is a number between 0 and 7
 that represents the position within an octave (pitch set)
 
-**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Kind**: static method of [<code>Interval</code>](#module_Interval)  
 
 | Param | Type |
 | --- | --- |
 | str | <code>String</code> | 
 
-<a name="module_interval.ic"></a>
+<a name="module_Interval.ic"></a>
 
-## `interval.ic(interval)` ⇒ <code>Integer</code>
+## `Interval.ic(interval)` ⇒ <code>Integer</code>
 Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
 number of a given interval.
 
@@ -171,7 +171,7 @@ pitch class space between two unordered pitch classes
 As paramter you can pass an interval in shorthand notation, an interval in
 array notation or the number of semitones of the interval
 
-**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Kind**: static method of [<code>Interval</code>](#module_Interval)  
 **Returns**: <code>Integer</code> - A value between 0 and 6  
 
 | Param | Type | Description |
@@ -180,13 +180,13 @@ array notation or the number of semitones of the interval
 
 **Example**  
 ```js
-interval.ic('P8') // => 0
-interval.ic('m6') // => 4
+Interval.ic('P8') // => 0
+Interval.ic('m6') // => 4
 ['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
 ```
-<a name="module_interval.build"></a>
+<a name="module_Interval.build"></a>
 
-## `interval.build(props)` ⇒ <code>String</code>
+## `Interval.build(props)` ⇒ <code>String</code>
 Given a interval property object, get the interval name
 
 The properties must contain a `num` *or* `step`, and `alt`:
@@ -197,7 +197,7 @@ The properties must contain a `num` *or* `step`, and `alt`:
 - oct: (Optional) the number of octaves
 - dir: (Optional) the direction
 
-**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Kind**: static method of [<code>Interval</code>](#module_Interval)  
 **Returns**: <code>String</code> - the interval name  
 
 | Param | Type | Description |
@@ -206,15 +206,15 @@ The properties must contain a `num` *or* `step`, and `alt`:
 
 **Example**  
 ```js
-interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
-interval.build({ num: 9, alt: -1 }) // => '9m'
+Interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
+Interval.build({ num: 9, alt: -1 }) // => '9m'
 ```
-<a name="module_interval.simplify"></a>
+<a name="module_Interval.simplify"></a>
 
-## `interval.simplify(interval)` ⇒ <code>String</code>
+## `Interval.simplify(interval)` ⇒ <code>String</code>
 Get the simplified version of an interval.
 
-**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Kind**: static method of [<code>Interval</code>](#module_Interval)  
 **Returns**: <code>String</code> - the simplified interval  
 
 | Param | Type | Description |
@@ -223,19 +223,19 @@ Get the simplified version of an interval.
 
 **Example**  
 ```js
-interval.simplify('9M') // => '2M'
-['8P', '9M', '10M', '11P', '12P', '13M', '14M', '15P'].map(interval.simplify)
+Interval.simplify('9M') // => '2M'
+['8P', '9M', '10M', '11P', '12P', '13M', '14M', '15P'].map(Interval.simplify)
 // => [ '8P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
-interval.simplify('2M') // => '2M'
-interval.simplify('-2M') // => '7m'
+Interval.simplify('2M') // => '2M'
+Interval.simplify('-2M') // => '7m'
 ```
-<a name="module_interval.invert"></a>
+<a name="module_Interval.invert"></a>
 
-## `interval.invert(interval)` ⇒ <code>String</code>
+## `Interval.invert(interval)` ⇒ <code>String</code>
 Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
 of an interval.
 
-**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Kind**: static method of [<code>Interval</code>](#module_Interval)  
 **Returns**: <code>String</code> - the inverted interval  
 
 | Param | Type | Description |
@@ -244,16 +244,16 @@ of an interval.
 
 **Example**  
 ```js
-interval.invert('3m') // => '6M'
-interval.invert('2M') // => '7m'
+Interval.invert('3m') // => '6M'
+Interval.invert('2M') // => '7m'
 ```
-<a name="module_interval.fromSemitones"></a>
+<a name="module_Interval.fromSemitones"></a>
 
-## `interval.fromSemitones(num)` ⇒ <code>String</code>
+## `Interval.fromSemitones(num)` ⇒ <code>String</code>
 Get interval name from semitones number. Since there are several interval
 names for the same number, the name it's arbitraty, but deterministic.
 
-**Kind**: static method of [<code>interval</code>](#module_interval)  
+**Kind**: static method of [<code>Interval</code>](#module_Interval)  
 **Returns**: <code>String</code> - the interval name  
 
 | Param | Type | Description |
@@ -265,5 +265,5 @@ names for the same number, the name it's arbitraty, but deterministic.
 import { fromSemitones } from 'tonal-interval'
 fromSemitones(7) // => '5P'
 // or using tonal
-tonal.fromSemitones(-7) // => '-5P'
+Tonal.Distance.fromSemitones(-7) // => '-5P'
 ```

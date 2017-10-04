@@ -4,11 +4,17 @@
  * A scale is a collection of pitches in ascending or descending order.
  *
  * This module provides functions to get and manipulate scales.
+ * 
+ * @example
+ * // es6
+ * import * as Scale from 'tonal-scale'
+ * // es5
+ * const Scale = require('tonal-scale');
  *
  * @example
- * scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
- * scale.names() => ['major', 'minor', ...]
- * @module scale
+ * Scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
+ * Scale.names() => ['major', 'minor', ...]
+ * @module Scale
  */
 import { name as noteName, pc } from "tonal-note";
 import {
@@ -63,8 +69,7 @@ export const props = memoize(properties, {});
  * @return {Array} the scale names
  *
  * @example
- * const scale = require('tonal-scale')
- * scale.names() // => ['maj7', ...]
+ * Scale.names() // => ['maj7', ...]
  */
 export const names = scale.names;
 
@@ -79,7 +84,7 @@ export const names = scale.names;
  * @return {Array<String>} the scale intervals if is a known scale or an empty
  * array if no scale found
  * @example
- * scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
+ * Scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
  */
 export const intervals = name => {
   const p = tokenize(name);
@@ -98,11 +103,11 @@ export const intervals = name => {
  * @return {Array} a pitch classes array
  * 
  * @example
- * scale.notes("C", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
- * scale.notes("C major") // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
- * scale.notes("C4", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
- * scale.notes("A4", "no-scale") // => []
- * scale.notes("blah", "major") // => []
+ * Scale.notes("C", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+ * Scale.notes("C major") // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+ * Scale.notes("C4", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+ * Scale.notes("A4", "no-scale") // => []
+ * Scale.notes("blah", "major") // => []
  */
 export function notes(nameOrTonic, name) {
   const p = tokenize(nameOrTonic);
@@ -134,9 +139,9 @@ export function exists(name) {
  * @param {String} name - the scale name
  * @return {Array} an array [tonic, name]
  * @example
- * scale.tokenize('C mixolydean') // => ["C", "mixolydean"]
- * scale.tokenize('anything is valid') // => ["", "anything is valid"]
- * scale.tokenize() // => ["", ""]
+ * Scale.tokenize('C mixolydean') // => ["C", "mixolydean"]
+ * Scale.tokenize('anything is valid') // => ["", "anything is valid"]
+ * Scale.tokenize() // => ["", ""]
  */
 export function tokenize(str) {
   if (typeof str !== "string") return ["", ""];

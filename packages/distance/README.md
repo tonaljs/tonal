@@ -1,6 +1,6 @@
-<a name="module_distance"></a>
+<a name="module_Distance"></a>
 
-# distance
+# Distance
 [![npm version](https://img.shields.io/npm/v/tonal-distance.svg)](https://www.npmjs.com/package/tonal-distance)
 [![tonal](https://img.shields.io/badge/tonal-distance-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/tonal/distance)
 
@@ -8,36 +8,45 @@ Transpose notes by intervals and find distances between notes
 
 **Example**  
 ```js
-// using ES6 import
+// es6
+import * as Distance from 'tonal-distance'
+Distance.interval('C3', 'C4') // => '1P'
+```
+**Example**  
+```js
+// es6 import selected functions
 import { interval, semitones, transpose } from 'tonal-distance'
+
 semitones('C' ,'D') // => 2
 interval('C4', 'G4') // => '5P'
 transpose('C4', 'P5') // => 'G4'
-
+```
+**Example**  
+```js
 // included in tonal facade
-const tonal = require('tonal');
-tonal.distance.transpose('C4', 'P5')
-tonal.distance.transposeBy('P5', 'C4')
+const Tonal = require('tonal');
+Tonal.Distance.transpose('C4', 'P5')
+Tonal.Distance.transposeBy('P5', 'C4')
 ```
 
-* [distance](#module_distance)
-    * [`.transpose(note, interval)`](#module_distance.transpose) ⇒ <code>String</code>
-    * [`.trFifths(pitchClass, fifhts)`](#module_distance.trFifths) ⇒ <code>String</code>
-    * [`.fifths(to, from)`](#module_distance.fifths)
-    * [`.transposeBy(note, interval)`](#module_distance.transposeBy) ⇒ <code>String</code>
-    * [`.add(interval1, interval2)`](#module_distance.add) ⇒ <code>String</code>
-    * [`.subtract(minuend, subtrahend)`](#module_distance.subtract) ⇒ <code>String</code>
-    * [`.interval(from, to)`](#module_distance.interval) ⇒ <code>String</code>
-    * [`.semitones(from, to)`](#module_distance.semitones) ⇒ <code>Integer</code>
+* [Distance](#module_Distance)
+    * [`.transpose(note, interval)`](#module_Distance.transpose) ⇒ <code>String</code>
+    * [`.trFifths(pitchClass, fifhts)`](#module_Distance.trFifths) ⇒ <code>String</code>
+    * [`.fifths(to, from)`](#module_Distance.fifths)
+    * [`.transposeBy(note, interval)`](#module_Distance.transposeBy) ⇒ <code>String</code>
+    * [`.add(interval1, interval2)`](#module_Distance.add) ⇒ <code>String</code>
+    * [`.subtract(minuend, subtrahend)`](#module_Distance.subtract) ⇒ <code>String</code>
+    * [`.interval(from, to)`](#module_Distance.interval) ⇒ <code>String</code>
+    * [`.semitones(from, to)`](#module_Distance.semitones) ⇒ <code>Integer</code>
 
-<a name="module_distance.transpose"></a>
+<a name="module_Distance.transpose"></a>
 
-## `distance.transpose(note, interval)` ⇒ <code>String</code>
+## `Distance.transpose(note, interval)` ⇒ <code>String</code>
 Transpose a note by an interval. The note can be a pitch class.
 
 This function can be partially applied.
 
-**Kind**: static method of [<code>distance</code>](#module_distance)  
+**Kind**: static method of [<code>Distance</code>](#module_Distance)  
 **Returns**: <code>String</code> - the transposed note  
 
 | Param | Type |
@@ -54,14 +63,14 @@ transpose('D', '3M') // => 'F#'
 // can be partially applied
 ['C', 'D', 'E', 'F', 'G'].map(transpose('M3)) // => ['E', 'F#', 'G#', 'A', 'B']
 ```
-<a name="module_distance.trFifths"></a>
+<a name="module_Distance.trFifths"></a>
 
-## `distance.trFifths(pitchClass, fifhts)` ⇒ <code>String</code>
+## `Distance.trFifths(pitchClass, fifhts)` ⇒ <code>String</code>
 Transpose a pitch class by a number of perfect fifths. 
 
 It can be partially applied.
 
-**Kind**: static method of [<code>distance</code>](#module_distance)  
+**Kind**: static method of [<code>Distance</code>](#module_Distance)  
 **Returns**: <code>String</code> - the transposed pitch class  
 
 | Param | Type | Description |
@@ -74,30 +83,30 @@ It can be partially applied.
 import { trFifths } from 'tonal-transpose'
 [0, 1, 2, 3, 4].map(trFifths('C')) // => ['C', 'G', 'D', 'A', 'E']
 // or using tonal
-tonal.trFifths('G4', 1) // => 'D'
+Distance.trFifths('G4', 1) // => 'D'
 ```
-<a name="module_distance.fifths"></a>
+<a name="module_Distance.fifths"></a>
 
-## `distance.fifths(to, from)`
+## `Distance.fifths(to, from)`
 Get the distance in fifths between pitch classes
 
 Can be partially applied.
 
-**Kind**: static method of [<code>distance</code>](#module_distance)  
+**Kind**: static method of [<code>Distance</code>](#module_Distance)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | to | <code>String</code> | note or pitch class |
 | from | <code>String</code> | note or pitch class |
 
-<a name="module_distance.transposeBy"></a>
+<a name="module_Distance.transposeBy"></a>
 
-## `distance.transposeBy(note, interval)` ⇒ <code>String</code>
+## `Distance.transposeBy(note, interval)` ⇒ <code>String</code>
 The same as transpose with the arguments inverted.
 
 Can be partially applied.
 
-**Kind**: static method of [<code>distance</code>](#module_distance)  
+**Kind**: static method of [<code>Distance</code>](#module_Distance)  
 **Returns**: <code>String</code> - the transposed note  
 
 | Param | Type |
@@ -110,14 +119,14 @@ Can be partially applied.
 import { tranposeBy } from 'tonal-distance'
 transposeBy('3m', '5P') // => '7m'
 ```
-<a name="module_distance.add"></a>
+<a name="module_Distance.add"></a>
 
-## `distance.add(interval1, interval2)` ⇒ <code>String</code>
+## `Distance.add(interval1, interval2)` ⇒ <code>String</code>
 Add two intervals 
 
 Can be partially applied.
 
-**Kind**: static method of [<code>distance</code>](#module_distance)  
+**Kind**: static method of [<code>Distance</code>](#module_Distance)  
 **Returns**: <code>String</code> - the resulting interval  
 
 | Param | Type |
@@ -130,14 +139,14 @@ Can be partially applied.
 import { add } from 'tonal-distance'
 add('3m', '5P') // => '7m'
 ```
-<a name="module_distance.subtract"></a>
+<a name="module_Distance.subtract"></a>
 
-## `distance.subtract(minuend, subtrahend)` ⇒ <code>String</code>
+## `Distance.subtract(minuend, subtrahend)` ⇒ <code>String</code>
 Subtract two intervals
 
 Can be partially applied
 
-**Kind**: static method of [<code>distance</code>](#module_distance)  
+**Kind**: static method of [<code>Distance</code>](#module_Distance)  
 **Returns**: <code>String</code> - interval diference  
 
 | Param | Type |
@@ -145,15 +154,15 @@ Can be partially applied
 | minuend | <code>String</code> | 
 | subtrahend | <code>String</code> | 
 
-<a name="module_distance.interval"></a>
+<a name="module_Distance.interval"></a>
 
-## `distance.interval(from, to)` ⇒ <code>String</code>
+## `Distance.interval(from, to)` ⇒ <code>String</code>
 Find the interval between two pitches. It works with pitch classes 
 (both must be pitch classes and the interval is always ascending)
 
 Can be partially applied
 
-**Kind**: static method of [<code>distance</code>](#module_distance)  
+**Kind**: static method of [<code>Distance</code>](#module_Distance)  
 **Returns**: <code>String</code> - the interval distance  
 
 | Param | Type | Description |
@@ -166,17 +175,18 @@ Can be partially applied
 import { interval } from 'tonal-distance'
 interval('C2', 'C3') // => 'P8'
 interval('G', 'B') // => 'M3'
-
-// or use tonal
-var tonal = require('tonal')
-tonal.distance.interval('M2', 'P5') // => 'P4'
 ```
-<a name="module_distance.semitones"></a>
+**Example**  
+```js
+import * as Distance from 'tonal-distance'
+Distance.interval('M2', 'P5') // => 'P4'
+```
+<a name="module_Distance.semitones"></a>
 
-## `distance.semitones(from, to)` ⇒ <code>Integer</code>
+## `Distance.semitones(from, to)` ⇒ <code>Integer</code>
 Get the distance between two notes in semitones
 
-**Kind**: static method of [<code>distance</code>](#module_distance)  
+**Kind**: static method of [<code>Distance</code>](#module_Distance)  
 **Returns**: <code>Integer</code> - the distance in semitones or null if not valid notes  
 
 | Param | Type | Description |
@@ -189,5 +199,5 @@ Get the distance between two notes in semitones
 import { semitones } from 'tonal-distance'
 semitones('C3', 'A2') // => -3
 // or use tonal
-tonal.distance.semitones('C3', 'G3') // => 7
+Tonal.Distance.semitones('C3', 'G3') // => 7
 ```

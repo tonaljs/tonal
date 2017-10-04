@@ -4,14 +4,16 @@ var tonal = require("../index");
 describe("tonal", () => {
   test("exports", () => {
     expect(Object.keys(tonal)).toEqual([
-      "array",
+      "Array",
+      "Note",
+      "Interval",
+      "Distance",
+      "Scale",
+      "Chord",
+      "PcSet",
       "note",
-      "interval",
-      "distance",
-      "scale",
-      "chord",
-      "pcset",
-      "default"
+      "transpose",
+      "interval"
     ]);
   });
 });

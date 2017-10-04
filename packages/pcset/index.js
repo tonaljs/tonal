@@ -10,13 +10,16 @@
  * You can install via npm: `npm i --save tonal-pcset`
  *
  * ```js
- * var pcset = require('tonal-pcset')
- * pcset.isEqual('c2 d5 e6', 'c6 e3 d1') // => true
+ * // es6
+ * import PcSet from 'tonal-pcset'
+ * var PcSet = require('tonal-pcset')
+ * 
+ * PcSet.isEqual('c2 d5 e6', 'c6 e3 d1') // => true
  * ```
  *
  * ## API documentation
  *
- * @module pcset
+ * @module PcSet
  */
 import { chroma as notechr } from "tonal-note";
 import { chroma as ivlchr } from "tonal-interval";
@@ -36,7 +39,7 @@ const compact = arr => arr.filter(x => x);
  * @param {Array|String} set - the pitch class set
  * @return {String} a binary representation of the pitch class set
  * @example
- * pcset.chroma(["C", "D", "E"]) // => '1010100000000'
+ * PcSet.chroma(["C", "D", "E"]) // => '1010100000000'
  */
 export function chroma(set) {
   if (isChroma(set)) return set;
@@ -60,7 +63,7 @@ export function chroma(set) {
  * @return {Array<String>} an array with all the modes of the chroma
  *
  * @example
- * pcset.modes(["C", "D", "E"]).map(pcset.intervals)
+ * PcSet.modes(["C", "D", "E"]).map(PcSet.intervals)
  */
 export function modes(set, normalize) {
   normalize = normalize !== false;
@@ -79,8 +82,8 @@ var REGEX = /^[01]{12}$/;
  * @param {String} chroma - the pitch class set chroma
  * @return {Boolean} true if its a valid pcset chroma
  * @example
- * pcset.isChroma('101010101010') // => true
- * pcset.isChroma('101001') // => false
+ * PcSet.isChroma('101010101010') // => true
+ * PcSet.isChroma('101001') // => false
  */
 export function isChroma(set) {
   return REGEX.test(set);
@@ -92,7 +95,7 @@ var IVLS = "1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" ");
  * @param {String|Array} pcset - the pitch class set (notes or chroma)
  * @return {Array} intervals or empty array if not valid pcset
  * @example
- * pcset.intervals('1010100000000') => ["1P", "2M", "3M"]
+ * PcSet.intervals('1010100000000') => ["1P", "2M", "3M"]
  */
 export function intervals(set) {
   if (!isChroma(set)) return [];
@@ -110,7 +113,7 @@ export function intervals(set) {
  * @param {Array|String} set2 - the other pitch class set
  * @return {Boolean} true if they are equal
  * @example
- * pcset.isEqual(["c2", "d3"], ["c5", "d2"]) // => true
+ * PcSet.isEqual(["c2", "d3"], ["c5", "d2"]) // => true
  */
 export function isEqual(s1, s2) {
   if (arguments.length === 1) return s => isEqual(s1, s);
@@ -127,7 +130,7 @@ export function isEqual(s1, s2) {
  * @param {Array|String} notes - an array of notes or a chroma set 
  * @return {boolean} true if notes is a subset of set, false otherwise
  * @example
- * const inCMajor = pcset.isSubsetOf(["C", "E", "G"])
+ * const inCMajor = PcSet.isSubsetOf(["C", "E", "G"])
  * inCMajor(["e6", "c4"]) // => true
  * inCMajor(["e6", "c4", "d3"]) // => false
  */
@@ -148,7 +151,7 @@ export function isSubsetOf(set, notes) {
  * @param {Array|String} notes - an array of notes or a chroma set 
  * @return {boolean} true if notes is a superset of set, false otherwise
  * @example
- * const extendsCMajor = pcset.isSupersetOf(["C", "E", "G"])
+ * const extendsCMajor = PcSet.isSupersetOf(["C", "E", "G"])
  * extendsCMajor(["e6", "a", "c4", "g2"]) // => true
  * extendsCMajor(["c6", "e4", "g3"]) // => false
  */
@@ -167,8 +170,8 @@ export function isSupersetOf(set, notes) {
  * @param {String|Pitch} note - the note to test
  * @return {Boolean} true if the note is included in the pcset
  * @example
- * pcset.includes(["C", "D", "E"], 'C4') // => true
- * pcset.includes(["C", "D", "E"], 'C#4') // => false
+ * PcSet.includes(["C", "D", "E"], 'C4') // => true
+ * PcSet.includes(["C", "D", "E"], 'C#4') // => false
  */
 export function includes(set, note) {
   if (arguments.length > 1) return includes(set)(note);
@@ -186,8 +189,8 @@ export function includes(set, note) {
  * @return {Array} the filtered notes
  *
  * @example
- * pcset.filter(["C", "D", "E"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'd2', 'c3', 'd3' ])
- * pcset.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'c3' ])
+ * PcSet.filter(["C", "D", "E"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'd2', 'c3', 'd3' ])
+ * PcSet.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'c3' ])
  */
 export function filter(set, notes) {
   if (arguments.length === 1) return n => filter(set, n);

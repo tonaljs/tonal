@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>packages/scale/index.js - Documentation</title>
+    <title>Abc - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -27,243 +27,470 @@
 
 <div id="main">
     
-    <h1 class="page-title">packages/scale/index.js</h1>
+    <h1 class="page-title">Abc</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * [![npm version](https://img.shields.io/npm/v/tonal-scale.svg?style=flat-square)](https://www.npmjs.com/package/tonal-scale)
- * 
- * A scale is a collection of pitches in ascending or descending order.
- *
- * This module provides functions to get and manipulate scales.
- * 
- * @example
- * // es6
- * import * as Scale from 'tonal-scale'
- * // es5
- * const Scale = require('tonal-scale');
- *
- * @example
- * Scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
- * Scale.names() => ['major', 'minor', ...]
- * @module Scale
- */
-import { name as noteName, pc } from "tonal-note";
-import {
-  modes as pcsetModes,
-  chroma,
-  isSubsetOf,
-  isSupersetOf
-} from "tonal-pcset";
-import { transpose } from "tonal-distance";
-import { scale, chord } from "tonal-dictionary";
-import { compact, unique, rotate } from "tonal-array";
+        
+            
+        
+    
+</header>
 
-const NO_SCALE = Object.freeze({
-  name: null,
-  intervals: [],
-  names: [],
-  chroma: null,
-  setnum: null
-});
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p><a href="https://www.npmjs.com/package/tonal-abc-notation"><img src="https://img.shields.io/npm/v/tonal-abc-notation.svg?style=flat-square" alt="npm version"></a></p>
+<p>Convert note strings between ABC and scientific notation</p>
+<p>This is part of <a href="https://www.npmjs.com/package/tonal">tonal</a> music theory library.</p></div>
+        
 
-const properties = name => {
-  const intervals = scale(name);
-  if (!intervals) return NO_SCALE;
-  const s = { intervals, name };
-  s.chroma = chroma(intervals);
-  s.setnum = parseInt(s.chroma, 2);
-  s.names = scale.names(s.chroma);
-  return Object.freeze(s);
-};
+        
+            
 
-const memoize = (fn, cache) => str => cache[str] || (cache[str] = fn(str));
 
-/**
- * Get scale properties. It returns an object with:
- * - name: the scale name
- * - names: a list with all possible names (includes the current)
- * - intervals: an array with the scale intervals
- * - chroma:  scale croma (see pcset)
- * - setnum: scale chroma number
- *
- * @function
- * @param {String} name - the scale name (without tonic)
- * @return {Object} 
- */
-export const props = memoize(properties, {});
 
-/**
- * Return the available scale names
- *
- * @function
- * @param {boolean} aliases - true to include aliases
- * @return {Array} the scale names
- *
- * @example
- * Scale.names() // => ['maj7', ...]
- */
-export const names = scale.names;
 
-/**
- * Given a scale name, return its intervals. The name can be the type and
- * optionally the tonic (which is ignored)
- *
- * It retruns an empty array when no scale found
- *
- * @function
- * @param {String} name - the scale name (tonic and type, tonic is optional)
- * @return {Array&lt;String>} the scale intervals if is a known scale or an empty
- * array if no scale found
- * @example
- * Scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
- */
-export const intervals = name => {
-  const p = tokenize(name);
-  return props(p[1]).intervals;
-};
+<dl class="details">
 
-/**
- * Get the notes (pitch classes) of a scale. 
- *
- * Note that it always returns an array, and the values are only pitch classes.
- *
- * @function
- * @param {String} tonic 
- * @param {String} nameOrTonic - the scale name or tonic (if 2nd param)
- * @param {String} [name] - the scale name without tonic
- * @return {Array} a pitch classes array
- * 
- * @example
- * Scale.notes("C", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
- * Scale.notes("C major") // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
- * Scale.notes("C4", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
- * Scale.notes("A4", "no-scale") // => []
- * Scale.notes("blah", "major") // => []
- */
-export function notes(nameOrTonic, name) {
-  const p = tokenize(nameOrTonic);
-  name = name || p[1];
-  return intervals(name).map(transpose(p[0]));
-}
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="extensions_abc-notation_index.js.html">extensions/abc-notation/index.js</a>, <a href="extensions_abc-notation_index.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
 
-/**
- * Check if the given name is a known scale from the scales dictionary
- * 
- * @function
- * @param {String} name - the scale name
- * @return {Boolean}
- */
-export function exists(name) {
-  const p = tokenize(name);
-  return scale(p[1]) !== undefined;
-}
+    
 
-/**
- * Given a string with a scale name and (optionally) a tonic, split 
- * that components.
- * 
- * It retuns an array with the form [ name, tonic ] where tonic can be a 
- * note name or null and name can be any arbitrary string 
- * (this function doesn't check if that scale name exists)
- *
- * @function
- * @param {String} name - the scale name
- * @return {Array} an array [tonic, name]
- * @example
- * Scale.tokenize('C mixolydean') // => ["C", "mixolydean"]
- * Scale.tokenize('anything is valid') // => ["", "anything is valid"]
- * Scale.tokenize() // => ["", ""]
- */
-export function tokenize(str) {
-  if (typeof str !== "string") return ["", ""];
-  const i = str.indexOf(" ");
-  const tonic = noteName(str.substring(0, i)) || noteName(str) || "";
-  const name = tonic !== "" ? str.substring(tonic.length + 1) : str;
-  return [tonic, name.length ? name : ""];
-}
+    
 
-/**
- * Find mode names of a scale
- * 
- * @function
- * @param {String} name - scale name
- */
-export const modeNames = name => {
-  const ivls = intervals(name);
-  const tonics = notes(name);
+    
 
-  return pcsetModes(ivls)
-    .map((chroma, i) => {
-      const name = scale.names(chroma)[0];
-      if (name) return [tonics[i] || ivls[i], name];
-    })
-    .filter(x => x);
-};
+    
 
-/**
- * Get all chords that fits a given scale
- * 
- * @function
- * @param {String} name
- */
-export const chords = name => {
-  const inScale = isSubsetOf(intervals(name));
-  return chord.names().filter(name => inScale(chord(name)));
-};
+    
 
-/**
- * Given an array of notes, return the scale: a pitch class set starting from 
- * the first note of the array
- * 
- * @function
- * @param {Array} notes 
- * @return {Array}
- */
-export const toScale = notes => {
-  const pcset = compact(notes.map(pc));
-  if (!pcset.length) return pcset;
-  const tonic = pcset[0];
-  const scale = unique(pcset);
-  return rotate(scale.indexOf(tonic), scale);
-};
+    
 
-/**
- * Get all scales names that are a superset of the given one
- * (has the same notes and at least one more)
- * 
- * @function
- * @param {String} name 
- * @return {Array} a list of scale names
- */
-export const supersets = name => {
-  if (!intervals(name).length) return [];
-  const isSuperset = isSupersetOf(intervals(name));
-  return scale.names().filter(name => isSuperset(scale(name)));
-};
+    
 
-/**
- * Find all scales names that are a subset of the given one
- * (has less notes but all from the given scale)
- * 
- * @function
- * @param {String} name 
- * @return {Array} a list of scale names
- */
-export const subsets = name => {
-  const isSubset = isSubsetOf(intervals(name));
-  return scale.names().filter(name => isSubset(scale(name)));
-};
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>const Abc = require('tonal-abc-notation')
+Abc.toNote('c') // => 'C5'
+Abc.toAbc('Db2') // =>  '_D,,'</code></pre>
+
+    <pre class="prettyprint"><code>import Tonal from 'tonal'
+import { toAbc } from 'tonal-abc-notation'
+Tonal.Scale.notes('C major').map(toAbc);</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".toAbc"><span class="type-signature">(static) </span>toAbc<span class="signature">(note)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+    <p class="summary"><p>Convert a (string) note in scientific notation into a (string) note in ABC notation</p>.</p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="extensions_abc-notation_index.js.html">extensions/abc-notation/index.js</a>, <a href="extensions_abc-notation_index.js.html#line61">line 61</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Convert a (string) note in scientific notation into a (string) note in ABC notation</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Abc.toAbc('C#4') // => '^C'</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>note</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>a note in scientific notation</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the note in ABC notation or null if not valid note</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".toNote"><span class="type-signature">(static) </span>toNote<span class="signature">(abcNote)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+    <p class="summary"><p>Convert a (string) note in ABC notation into a (string) note in scientific notation</p>.</p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="extensions_abc-notation_index.js.html">extensions/abc-notation/index.js</a>, <a href="extensions_abc-notation_index.js.html#line39">line 39</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Convert a (string) note in ABC notation into a (string) note in scientific notation</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Abc.toNote('c') // => 'C5'</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>abcNote</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the note in ABC notation</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the note in scientific notation of null if not valid</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

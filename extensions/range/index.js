@@ -2,19 +2,22 @@
  * A collection of functions to create note ranges.
  *
  * @example
- * const range = require('tonal-range')
+ * const Range = require('tonal-range')
+ * import * as Range from 'tonal-range'
+ * 
+ * @example
  * // ascending chromatic range
- * range.chromatic(['C4', 'E4']) // => ['C4', 'Db4', 'D4', 'Eb4', 'E4']
+ * Range.chromatic(['C4', 'E4']) // => ['C4', 'Db4', 'D4', 'Eb4', 'E4']
  * // descending chromatic range
- * range.chromatic(['E4', 'C4']) // => ['E4', 'Eb4', 'D4', 'Db4', 'C4']
+ * Range.chromatic(['E4', 'C4']) // => ['E4', 'Eb4', 'D4', 'Db4', 'C4']
  * // combining ascending and descending in complex ranges
- * range.chromatic(['C2', 'E2', 'D2']) // => ['C2', 'Db2', 'D2', 'Eb2', 'E2', 'Eb2', 'D2']
+ * Range.chromatic(['C2', 'E2', 'D2']) // => ['C2', 'Db2', 'D2', 'Eb2', 'E2', 'Eb2', 'D2']
  * // numeric (midi note numbers) range
- * range.numeric(['C4', 'E4', 'Bb3']) // => [60, 61, 62, 63, 64]
+ * Range.numeric(['C4', 'E4', 'Bb3']) // => [60, 61, 62, 63, 64]
  * // complex numeric range
- * range.numeric(['C4', 'E4', 'Bb3']) // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
+ * Range.numeric(['C4', 'E4', 'Bb3']) // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
  *
- * @module range
+ * @module Range
  */
 import { trFifths } from "tonal-distance";
 import { midi, fromMidi } from "tonal-note";
@@ -34,11 +37,11 @@ function asNum(n) {
  * @return {Array} an array of numbers or empty array if not vald parameters
  *
  * @example
- * range.numeric(["C5", "C4']) // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
+ * Range.numeric(["C5", "C4']) // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
  * // it works midi notes
- * range.numeric([10, 5]) // => [ 10, 9, 8, 7, 6, 5 ]
+ * Range.numeric([10, 5]) // => [ 10, 9, 8, 7, 6, 5 ]
  * // complex range
- * range.numeric(["C4", "E4", "Bb3"]) // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
+ * Range.numeric(["C4", "E4", "Bb3"]) // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
  * // can be expressed with a string or array
  */
 export function numeric(arr) {
@@ -55,10 +58,11 @@ export function numeric(arr) {
  * @function
  * @param {String|Array} list - the list of notes or midi note numbers
  * @return {Array} an array of note names
+ * 
  * @example
- * tonal.chromatic('C2 E2 D2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2', 'Eb2', 'D2']
+ * Range.chromatic('C2 E2 D2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2', 'Eb2', 'D2']
  * // with sharps
- * tonal.chromatic('C2 C3', true) // => [ 'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2', 'C3' ]
+ * Range.chromatic('C2 C3', true) // => [ 'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2', 'C3' ]
  */
 export function chromatic(arr, sharps) {
   return numeric(arr).map(n => fromMidi(n, sharps));
@@ -71,14 +75,14 @@ export function chromatic(arr, sharps) {
  * @param {Array|String} range - the range array
  * @return {Array} a range of cycle of fifths starting with the tonic
  * @example
- * range.fifths('C', [0, 6]) // => [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ])
+ * Range.fifths('C', [0, 6]) // => [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ])
  */
 export function fifths(tonic, range) {
   return numeric(range).map(trFifths(tonic));
 }
 
 /**
- * Create a scale (pitch class set) range. Given a scale (a pitch class set)
+ * Create a scale (pitch class set) Range. Given a scale (a pitch class set)
  * and a range array, it returns a range in notes.
  * 
  * Can be partially applied
@@ -91,9 +95,9 @@ export function fifths(tonic, range) {
  * null if not valid start or end
  * 
  * @example
- * range.scale('C D E F G A B', ['C3', 'C2'])
+ * Range.scale('C D E F G A B', ['C3', 'C2'])
  * // => [ 'C3', 'B2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
- * const majorC = range.scale('C D E F G A B')
+ * const majorC = Range.scale('C D E F G A B')
  * majorC(['C3', 'C2']) * // => [ 'C3', 'B2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
  */
 export function scale(set, range) {
