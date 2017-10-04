@@ -34,12 +34,17 @@ import * as Array from "tonal-array";
 import * as Note from "tonal-note";
 import * as Interval from "tonal-interval";
 import * as Distance from "tonal-distance";
+import * as Dictionary from "tonal-dictionary";
 import * as Scale from "tonal-scale";
 import * as Chord from "tonal-chord";
 import * as PcSet from "tonal-pcset";
 
-export { Array, Note, Interval, Distance, Scale, Chord, PcSet };
+export { Array, Note, Interval, Distance, Scale, Chord, PcSet, Dictionary };
 
 export const transpose = Distance.transpose;
 export const interval = Distance.interval;
 export const note = Note.props;
+export const midi = Note.midi;
+export const freq = Note.freq;
+export const chord = Dictionary.chord;
+export const scale = Dictionary.scale;

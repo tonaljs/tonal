@@ -21,8 +21,13 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 ## Usage
 
 ```js
+// es6
 import * as Interval from 'tonal-interval'
-// or const Interval = require('tonal-interval')
+// es5
+const Interval = require('tonal-interval')
+// part of tonal
+import { Interval } from 'tonal'
+
 Interval.semitones('4P') // => 5
 Interval.invert('3m') // => '6M'
 Interval.simplify('9m') // => '2m'

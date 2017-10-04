@@ -2,7 +2,7 @@
 var tonal = require("../index");
 
 describe("tonal", () => {
-  test("exports", () => {
+  test("Modules", () => {
     expect(Object.keys(tonal)).toEqual([
       "Array",
       "Note",
@@ -10,10 +10,16 @@ describe("tonal", () => {
       "Distance",
       "Scale",
       "Chord",
-      "PcSet",
+      "PcSet"
+    ]);
+  });
+  test("function aliases", () => {
+    expect(Object.keys(tonal)).toEqual([
       "note",
       "transpose",
-      "interval"
+      "interval",
+      "freq",
+      "midi"
     ]);
   });
 });
