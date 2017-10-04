@@ -1,12 +1,16 @@
 {
   "name": "tonal-dictionary",
-  "version": "1.0.0-pre6",
+  "version": "1.0.0",
   "description": "Tonal key/value utilities",
   "repository": "https://github.com/danigb/tonal/packages/dictionary",
-  "keywords": ["music", "theory", "dictionary", "tonal"],
+  "keywords": [
+    "music",
+    "theory",
+    "dictionary",
+    "tonal"
+  ],
   "scripts": {
-    "docs":
-      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/es5.js",
@@ -14,14 +18,18 @@
   "author": "danigb@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^1.0.0-pre6",
-    "tonal-note": "^1.0.0-pre6",
-    "tonal-pcset": "^1.0.0-pre6"
+    "tonal-array": "^1.0.0",
+    "tonal-note": "^1.0.0",
+    "tonal-pcset": "^1.0.0"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "jest": {
-    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!tonal)"
+    ]
   }
 }

@@ -1,9 +1,14 @@
 {
   "name": "tonal-array",
-  "version": "1.0.0-pre6",
+  "version": "1.0.0",
   "description": "Tonal array utilities",
   "repository": "https://github.com/danigb/tonal/packages/array",
-  "keywords": ["music", "theory", "array", "tonal"],
+  "keywords": [
+    "music",
+    "theory",
+    "array",
+    "tonal"
+  ],
   "scripts": {
     "test": "jest --coverage"
   },
@@ -12,12 +17,16 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-note": "^1.0.0-pre6"
+    "tonal-note": "^1.0.0"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "jest": {
-    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!tonal)"
+    ]
   }
 }
