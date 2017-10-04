@@ -111,7 +111,7 @@ describe("tonal-interval", () => {
     );
   });
 
-  test("get interval class", () => {
+  test("interval class", () => {
     let result = [0, 2, 4, 5, 5, 3, 1, 0];
     expect($("1P 2M 3M 4P 5P 6M 7M 8P").map(ivl.ic)).toEqual(result);
     result = [1, 1, 3, 4, 6, 4, 2, 1];
@@ -121,6 +121,10 @@ describe("tonal-interval", () => {
     result = [0, 2, 4, 5, 5, 3, 1, 0];
     expect($("-1P -2M -3M -4P -5P -6M -7M -8P").map(ivl.ic)).toEqual(result);
     expect(ivl.ic("blah")).toBe(null);
+
+    const semitones = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    const ics = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1, 0];
+    expect(semitones.map(ivl.ic)).toEqual(ics);
   });
 
   test("interval types", () => {

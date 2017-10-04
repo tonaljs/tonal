@@ -7,12 +7,12 @@
  *
  * @example
  * // es6
- * import * as Dictionary from 'tonal-dictionary'
+ * import * as Dictionary from "tonal-dictionary"
  * // es5
- * const Dictionary = require('tonal-dictionary')
+ * const Dictionary = require("tonal-dictionary")
  * 
  * @example
- * Dictionary.chord('Maj7') // => ['1P', '3M', '5P', '7M']
+ * Dictionary.chord("Maj7") // => ["1P", "3M", "5P", "7M"]
  *
  * @module Dictionary
  */
@@ -63,8 +63,8 @@ export const combine = (a, b) => {
  * @param {String} name
  * @return {Array} intervals
  * @example
- * import { scale } from 'tonal-dictionary'
- * scale('major') // => ["1P", "2M", ...]
+ * import { scale } from "tonal-dictionary"
+ * scale("major") // => ["1P", "2M", ...]
  * scale.names(); // => ["major", ...]
  */
 export const scale = dictionary(sdata);
@@ -77,8 +77,8 @@ export const scale = dictionary(sdata);
  * @param {String} type
  * @return {Array} intervals
  * @example
- * import { chord } from 'tonal-dictionary'
- * chord('Maj7') // => ["1P", "3M", ...]
+ * import { chord } from "tonal-dictionary"
+ * chord("Maj7") // => ["1P", "3M", ...]
  * chord.names(); // => ["Maj3", ...]
  */
 export const chord = dictionary(cdata);

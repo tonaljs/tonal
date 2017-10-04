@@ -15,18 +15,18 @@
  * 
  * @example
  * // es6 modules
- * import * as Tonal from 'tonal'
- * Tonal.Note.name('cx') // => 'C##'
+ * import * as Tonal from "tonal"
+ * Tonal.Note.name("cx") // => "C##"
  * 
  * @example
- * import { Note } from 'tonal'
- * Note.name('bb') // => 'Bb'
+ * import { Note } from "tonal"
+ * Note.name("bb") // => "Bb"
  *
  * @example
  * // es5 node modules
- * var Tonal = require('tonal');
- * Tonal.Distance.transpose(Tonal.Note.pc('C#2'), 'M3') // => 'E#'
- * Tonal.Chord.notes('Dmaj7') // => ['D', 'F#', 'A', 'C#']
+ * var Tonal = require("tonal");
+ * Tonal.Distance.transpose(Tonal.Note.pc("C#2"), "M3") // => "E#"
+ * Tonal.Chord.notes("Dmaj7") // => ["D", "F#", "A", "C#"]
  *
  * @module Tonal
  */
@@ -41,10 +41,70 @@ import * as PcSet from "tonal-pcset";
 
 export { Array, Note, Interval, Distance, Scale, Chord, PcSet, Dictionary };
 
+/**
+ * Transpose a note by an interval
+ * @function
+ * @param {String} note
+ * @param {String} interval
+ * @return {String} the transported note
+ * @see Distance.transpose
+ */
 export const transpose = Distance.transpose;
+
+/**
+ * Get the interval from two notes
+ * @param {String} from
+ * @param {String} to
+ * @return {String} the interval in reverse shorthand notation
+ * @see Distance.interval
+ */
 export const interval = Distance.interval;
+
+/**
+ * Get note properties
+ * @param {String} note - the note name
+ * @return {Object}
+ * @see Note.props
+ * @example
+ * Tonal.note("A4").chroma // => 9
+ */
 export const note = Note.props;
+
+/**
+ * Get midi note number
+ * @param {String} note
+ * @return {Number}
+ * @see Note.midi
+ * @example
+ * Tonal.midi("A4") // => 49
+ */
 export const midi = Note.midi;
+
+/**
+ * Get note frequency using equal tempered tuning at 440
+ * @param {String} note
+ * @return {Number}
+ * @see Note.freq
+ * @example
+ * Tonal.freq("A4") // => 440
+ */
 export const freq = Note.freq;
+
+/**
+ * Get intervals from a chord type
+ * @param {String} type - the chord type (no tonic)
+ * @return {Array} an array of intervals or undefined if the chord type is not known
+ * @see Dictionary.chord
+ * @example
+ * Tonal.chord("m7b5") // => ["1P", "3m", "5d", "7m"]
+ */
 export const chord = Dictionary.chord;
+
+/**
+ * Get intervals from scale name
+ * @param {String} name - the scale name (without tonic)
+ * @return {Array} an array of intervals or undefiend if the scale is not kown
+ * @example
+ * Tonal.scale("major") // => ["1P", "2M", "3M"...]
+ */
 export const scale = Dictionary.scale;

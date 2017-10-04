@@ -6,29 +6,29 @@
  *
  * @example
  * // es6
- * import * as Distance from 'tonal-distance'
- * Distance.interval('C3', 'C4') // => '1P'
+ * import * as Distance from "tonal-distance"
+ * Distance.interval("C3", "C4") // => "1P"
  * 
  * @example
  * // es6 import selected functions
- * import { interval, semitones, transpose } from 'tonal-distance'
+ * import { interval, semitones, transpose } from "tonal-distance"
  * 
- * semitones('C' ,'D') // => 2
- * interval('C4', 'G4') // => '5P'
- * transpose('C4', 'P5') // => 'G4'
+ * semitones("C" ,"D") // => 2
+ * interval("C4", "G4") // => "5P"
+ * transpose("C4", "P5") // => "G4"
  *
  * @example
  * // included in tonal facade
- * const Tonal = require('tonal');
- * Tonal.Distance.transpose('C4', 'P5')
- * Tonal.Distance.transposeBy('P5', 'C4')
+ * const Tonal = require("tonal");
+ * Tonal.Distance.transpose("C4", "P5")
+ * Tonal.Distance.transposeBy("P5", "C4")
  * 
  * @module Distance
  */
 import { props as nprops, build as nbuild } from "tonal-note";
 import { props as iprops, build as ibuild } from "tonal-interval";
 
-// Map from letter step to number of fifths starting from 'C':
+// Map from letter step to number of fifths starting from "C":
 // { C: 0, D: 2, E: 4, F: -1, G: 1, A: 3, B: 5 }
 const FIFTHS = [0, 2, 4, -1, 1, 3, 5];
 
@@ -48,7 +48,7 @@ const encode = ({ step, alt, oct, dir = 1 }) => {
 // We need to get the steps from fifths
 // Fifths for CDEFGAB are [ 0, 2, 4, -1, 1, 3, 5 ]
 // We add 1 to fifths to avoid negative numbers, so:
-// for ['F', 'C', 'G', 'D', 'A', 'E', 'B'] we have:
+// for ["F", "C", "G", "D", "A", "E", "B"] we have:
 const STEPS = [3, 0, 4, 1, 5, 2, 6];
 
 // Return the number of fifths as if it were unaltered
@@ -85,12 +85,12 @@ const encodeIvl = encoder(iprops);
  * @param {String} interval
  * @return {String} the transposed note
  * @example
- * import { tranpose } from 'tonal-distance'
- * transpose('d3', '3M') // => 'F#3'
+ * import { tranpose } from "tonal-distance"
+ * transpose("d3", "3M") // => "F#3"
  * // it works with pitch classes
- * transpose('D', '3M') // => 'F#'
+ * transpose("D", "3M") // => "F#"
  * // can be partially applied
- * ['C', 'D', 'E', 'F', 'G'].map(transpose('M3)) // => ['E', 'F#', 'G#', 'A', 'B']
+ * ["C", "D", "E", "F", "G"].map(transpose("M3)) // => ["E", "F#", "G#", "A", "B"]
  */
 export function transpose(note, interval) {
   if (arguments.length === 1) return i => transpose(note, i);
@@ -112,10 +112,10 @@ export function transpose(note, interval) {
  * @return {String} the transposed pitch class
  * 
  * @example
- * import { trFifths } from 'tonal-transpose'
- * [0, 1, 2, 3, 4].map(trFifths('C')) // => ['C', 'G', 'D', 'A', 'E']
+ * import { trFifths } from "tonal-transpose"
+ * [0, 1, 2, 3, 4].map(trFifths("C")) // => ["C", "G", "D", "A", "E"]
  * // or using tonal
- * Distance.trFifths('G4', 1) // => 'D'
+ * Distance.trFifths("G4", 1) // => "D"
  */
 
 export function trFifths(note, fifths) {
@@ -150,8 +150,8 @@ export function fifths(from, to) {
  * @param {String} interval
  * @return {String} the transposed note
  * @example
- * import { tranposeBy } from 'tonal-distance'
- * transposeBy('3m', '5P') // => '7m'
+ * import { tranposeBy } from "tonal-distance"
+ * transposeBy("3m", "5P") // => "7m"
  */
 export function transposeBy(interval, note) {
   if (arguments.length === 1) return n => transpose(n, interval);
@@ -179,8 +179,8 @@ export function addIntervals(ivl1, ivl2, dir) {
  * @param {String} interval2
  * @return {String} the resulting interval
  * @example
- * import { add } from 'tonal-distance'
- * add('3m', '5P') // => '7m'
+ * import { add } from "tonal-distance"
+ * add("3m", "5P") // => "7m"
  */
 export function add(ivl1, ivl2) {
   if (arguments.length === 1) return i2 => add(ivl1, i2);
@@ -212,13 +212,13 @@ export function subtract(ivl1, ivl2) {
  * @return {String} the interval distance
  *
  * @example
- * import { interval } from 'tonal-distance'
- * interval('C2', 'C3') // => 'P8'
- * interval('G', 'B') // => 'M3'
+ * import { interval } from "tonal-distance"
+ * interval("C2", "C3") // => "P8"
+ * interval("G", "B") // => "M3"
  * 
  * @example
- * import * as Distance from 'tonal-distance'
- * Distance.interval('M2', 'P5') // => 'P4'
+ * import * as Distance from "tonal-distance"
+ * Distance.interval("M2", "P5") // => "P4"
  */
 export function interval(from, to) {
   if (arguments.length === 1) return t => interval(from, t);
@@ -239,10 +239,10 @@ export function interval(from, to) {
  * @param {String|Pitch} to - last note
  * @return {Integer} the distance in semitones or null if not valid notes
  * @example
- * import { semitones } from 'tonal-distance'
- * semitones('C3', 'A2') // => -3
+ * import { semitones } from "tonal-distance"
+ * semitones("C3", "A2") // => -3
  * // or use tonal
- * Tonal.Distance.semitones('C3', 'G3') // => 7
+ * Tonal.Distance.semitones("C3", "G3") // => 7
  */
 export function semitones(from, to) {
   if (arguments.length === 1) return t => semitones(from, t);

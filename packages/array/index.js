@@ -5,10 +5,10 @@
  * 
  * @example
  * import * as Array;
- * Array.sort(["f", "a", "c"]) // => ['C', 'F', 'A']
+ * Array.sort(["f", "a", "c"]) // => ["C", "F", "A"]
  *
  * @example
- * const Array = require('tonal-array)
+ * const Array = require("tonal-array)
  * Array.range(1, 4) // => [1, 2, 3, 4]
  * 
  * @module Array
@@ -44,7 +44,7 @@ export function range(a, b) {
 }
 /**
  * 
- * Rotates a list a number of times. It's completly agnostic about the
+ * Rotates a list a number of times. It"s completly agnostic about the
  * contents of the list.
  * 
  * @param {Integer} times - the number of rotations
@@ -66,7 +66,7 @@ export function rotate(times, arr) {
  * @return {Array}
  * 
  * @example
- * Array.compact(['a', 'b', null, 'c']) // => ['a', 'b', 'c']
+ * Array.compact(["a", "b", null, "c"]) // => ["a", "b", "c"]
  */
 export const compact = arr => arr.filter(n => n === 0 || n);
 

@@ -10,16 +10,15 @@ describe("tonal", () => {
       "Distance",
       "Scale",
       "Chord",
-      "PcSet"
-    ]);
-  });
-  test("function aliases", () => {
-    expect(Object.keys(tonal)).toEqual([
-      "note",
+      "PcSet",
+      "Dictionary",
       "transpose",
       "interval",
+      "note",
+      "midi",
       "freq",
-      "midi"
+      "chord",
+      "scale"
     ]);
   });
 });

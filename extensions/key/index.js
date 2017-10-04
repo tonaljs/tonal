@@ -8,13 +8,13 @@
  *
  * @example
  * // es6
- * import * as Key from 'tonal-key'
+ * import * as Key from "tonal-key"
  * // es5
- * const Key = require('tonal-key')
+ * const Key = require("tonal-key")
  * 
  * @example
- * Key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
- * Key.relative('minor', 'C major') // => 'A minor'
+ * Key.scale("E mixolydian") // => [ "E", "F#", "G#", "A", "B", "C#", "D" ]
+ * Key.relative("minor", "C major") // => "A minor"
  *
  * @module Key
  */
@@ -41,10 +41,10 @@ const modenum = mode => NUMS[MODES.indexOf(mode)];
  * @param {Boolean} alias - true to get aliases names
  * @return {Array} an array of strings
  * @example
- * Key.modes() // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
- * // 'mixolydian', 'aeolian', 'locrian' ]
- * Key.modes(true) // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
- * // 'mixolydian', 'aeolian', 'locrian', 'major', 'minor' ]
+ * Key.modes() // => [ "ionian", "dorian", "phrygian", "lydian",
+ * // "mixolydian", "aeolian", "locrian" ]
+ * Key.modes(true) // => [ "ionian", "dorian", "phrygian", "lydian",
+ * // "mixolydian", "aeolian", "locrian", "major", "minor" ]
  */
 export const modeNames = aliases =>
   aliases === true ? MODES.slice() : MODES.slice(0, 7);
@@ -56,7 +56,7 @@ export const modeNames = aliases =>
  * @param {Integer} alt - the alteration number (positive sharps, negative flats)
  * @return {Key} the key object
  * @example
- * Key.fromAlter(2) // => 'D major'
+ * Key.fromAlter(2) // => "D major"
  */
 export const fromAlter = i => trFifths("C", i) + " major";
 
@@ -111,7 +111,7 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
  * @return {Object} the key properties object or null if not a valid key
  * 
  * @example
- * Key.props('C3 dorian') // => { tonic: 'C', mode: 'dorian', ... }
+ * Key.props("C3 dorian") // => { tonic: "C", mode: "dorian", ... }
  */
 export const props = memo(properties);
 
@@ -123,10 +123,10 @@ export const props = memo(properties);
  * @return {Array} the key scale
  * 
  * @example
- * Key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
- * Key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
- * Key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
- * Key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+ * Key.scale("A major") // => [ "A", "B", "C#", "D", "E", "F#", "G#" ]
+ * Key.scale("Bb minor") // => [ "Bb", "C", "Db", "Eb", "F", "Gb", "Ab" ]
+ * Key.scale("C dorian") // => [ "C", "D", "Eb", "F", "G", "A", "Bb" ]
+ * Key.scale("E mixolydian") // => [ "E", "F#", "G#", "A", "B", "C#", "D" ]
  */
 export const scale = str => props(str).scale;
 
@@ -135,7 +135,7 @@ export const scale = str => props(str).scale;
  * @param {String} keyName
  * @return {Array}
  * @example
- * Key.degrees('C major') => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
+ * Key.degrees("C major") => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
  */
 export const degrees = str => {
   const p = props(str);
@@ -156,7 +156,7 @@ export const degrees = str => {
  * @return {Array}
  * 
  * @example
- * Key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
+ * Key.alteredNotes("Eb major") // => [ "Bb", "Eb", "Ab" ]
  */
 export const alteredNotes = name => {
   const alt = props(name).alt;
@@ -213,11 +213,11 @@ export const secDomChords = name => {
  * @param {String} key - the key source
  * 
  * @example
- * Key.relative('dorian', 'B major') // => 'C# dorian'
+ * Key.relative("dorian", "B major") // => "C# dorian"
  * // partial application
- * var minor = Key.relative('minor')
- * minor('C major') // => 'A minor'
- * minor('E major') // => 'C# minor'
+ * var minor = Key.relative("minor")
+ * minor("C major") // => "A minor"
+ * minor("E major") // => "C# minor"
  */
 export const relative = (mode, key) => {
   if (arguments.length === 1) return key => relative(mode, key);
@@ -236,7 +236,7 @@ export const relative = (mode, key) => {
  * @return {Array} an array in the form [tonic, key]
  * 
  * @example
- * Key.tokenize('C major') // => ['C', 'major']
+ * Key.tokenize("C major") // => ["C", "major"]
  */
 export const tokenize = name => {
   const p = split(name);

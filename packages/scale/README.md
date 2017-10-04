@@ -10,14 +10,14 @@ This module provides functions to get and manipulate scales.
 **Example**  
 ```js
 // es6
-import * as Scale from 'tonal-scale'
+import * as Scale from "tonal-scale"
 // es5
-const Scale = require('tonal-scale');
+const Scale = require("tonal-scale");
 ```
 **Example**  
 ```js
-Scale.notes('Ab bebop') // => [ 'Ab', 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'G' ]
-Scale.names() => ['major', 'minor', ...]
+Scale.notes("Ab bebop") // => [ "Ab", "Bb", "C", "Db", "Eb", "F", "Gb", "G" ]
+Scale.names() => ["major", "minor", ...]
 ```
 
 * [Scale](#module_Scale)
@@ -63,7 +63,7 @@ Return the available scale names
 
 **Example**  
 ```js
-Scale.names() // => ['maj7', ...]
+Scale.names() // => ["maj7", ...]
 ```
 <a name="module_Scale.intervals"></a>
 
@@ -83,7 +83,7 @@ array if no scale found
 
 **Example**  
 ```js
-Scale.intervals('major') // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ]
+Scale.intervals("major") // => [ "1P", "2M", "3M", "4P", "5P", "6M", "7M" ]
 ```
 <a name="module_Scale.notes"></a>
 
@@ -103,9 +103,9 @@ Note that it always returns an array, and the values are only pitch classes.
 
 **Example**  
 ```js
-Scale.notes("C", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
-Scale.notes("C major") // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
-Scale.notes("C4", 'major') // => [ 'C', 'D', 'E', 'F', 'G', 'A', 'B' ]
+Scale.notes("C", "major") // => [ "C", "D", "E", "F", "G", "A", "B" ]
+Scale.notes("C major") // => [ "C", "D", "E", "F", "G", "A", "B" ]
+Scale.notes("C4", "major") // => [ "C", "D", "E", "F", "G", "A", "B" ]
 Scale.notes("A4", "no-scale") // => []
 Scale.notes("blah", "major") // => []
 ```
@@ -128,7 +128,7 @@ that components.
 
 It retuns an array with the form [ name, tonic ] where tonic can be a 
 note name or null and name can be any arbitrary string 
-(this function doesn't check if that scale name exists)
+(this function doesn"t check if that scale name exists)
 
 **Kind**: static method of [<code>Scale</code>](#module_Scale)  
 **Returns**: <code>Array</code> - an array [tonic, name]  
@@ -139,8 +139,8 @@ note name or null and name can be any arbitrary string
 
 **Example**  
 ```js
-Scale.tokenize('C mixolydean') // => ["C", "mixolydean"]
-Scale.tokenize('anything is valid') // => ["", "anything is valid"]
+Scale.tokenize("C mixolydean") // => ["C", "mixolydean"]
+Scale.tokenize("anything is valid") // => ["", "anything is valid"]
 Scale.tokenize() // => ["", ""]
 ```
 <a name="module_Scale.modeNames"></a>

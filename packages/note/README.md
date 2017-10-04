@@ -11,18 +11,18 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 ## Usage
 
 ```js
-import * as Note from 'tonal-note'
-// or const Note = require('tonal-note')
-Note.name('bb2') // => 'Bb2'
-Note.chroma('bb2') // => 10
-Note.midi('a4') // => 69
-Note.freq('a4') // => 440
-Note.oct('G3') // => 3
+import * as Note from "tonal-note"
+// or const Note = require("tonal-note")
+Note.name("bb2") // => "Bb2"
+Note.chroma("bb2") // => 10
+Note.midi("a4") // => 69
+Note.freq("a4") // => 440
+Note.oct("G3") // => 3
 
 // part of tonal
-const Tonal = require('tonal')
-// or import Note from 'tonal'
-Tonal.Note.midi('d4') // => 62
+const Tonal = require("tonal")
+// or import Note from "tonal"
+Tonal.Note.midi("d4") // => 62
 ```
 
 ## Install
@@ -64,8 +64,8 @@ Get a list of note names (pitch classes) within a octave
 
 **Example**  
 ```js
-Note.names(" b") // => [ 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B' ]
-Note.names(" #") // => [ 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' ]
+Note.names(" b") // => [ "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B" ]
+Note.names(" #") // => [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ]
 ```
 <a name="module_Note.props"></a>
 
@@ -83,10 +83,10 @@ Get note properties. It returns an object with the following information:
 - midi {Number}: the note midi number
 - freq {Number}: the frequency using an equal temperament at 440Hz
 
-This function *always* returns an object with all this properties, but if it's
+This function *always* returns an object with all this properties, but if it"s
 not a valid note all properties will be null.
 
-The returned object can't be mutated.
+The returned object can"t be mutated.
 
 **Kind**: static constant of [<code>Note</code>](#module_Note)  
 **Returns**: <code>Object</code> - an object with the properties (or an object will all properties
@@ -98,9 +98,9 @@ set to null if not valid note)
 
 **Example**  
 ```js
-Note.props('fx-3').name // => 'F##-3'
-Note.props('invalid').name // => null
-Note.props('C#3').oct // => 3
+Note.props("fx-3").name // => "F##-3"
+Note.props("invalid").name // => null
+Note.props("C#3").oct // => 3
 Note.props().oct // => null
 ```
 <a name="module_Note.midiToFreq"></a>
@@ -149,13 +149,13 @@ pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
 
 **Example**  
 ```js
-Note.chroma('Cb') // => 11
-['C', 'D', 'E', 'F'].map(Note.chroma) // => [0, 2, 4, 5]
+Note.chroma("Cb") // => 11
+["C", "D", "E", "F"].map(Note.chroma) // => [0, 2, 4, 5]
 ```
 <a name="module_Note.stepToLetter"></a>
 
 ## `Note.stepToLetter` ⇒ <code>string</code>
-Given a step number return it's letter (0 = C, 1 = D, 2 = E)
+Given a step number return it"s letter (0 = C, 1 = D, 2 = E)
 
 **Kind**: static constant of [<code>Note</code>](#module_Note)  
 **Returns**: <code>string</code> - the letter  
@@ -181,7 +181,7 @@ Given an alteration number, return the accidentals
 
 **Example**  
 ```js
-Note.altToAcc(-3) // => 'bbb'
+Note.altToAcc(-3) // => "bbb"
 ```
 <a name="module_Note.build"></a>
 
@@ -202,8 +202,8 @@ It receives an object with:
 **Example**  
 ```js
 Note.build({ step: 5 }) // => "A"
-Note.build({ step: 1, acc: -1 }) // => 'Db'
-Note.build({ step: 2, acc: 2, oct: 2 }) // => 'E##2'
+Note.build({ step: 1, acc: -1 }) // => "Db"
+Note.build({ step: 2, acc: 2, oct: 2 }) // => "E##2"
 Note.build({ step: 7 }) // => null
 ```
 <a name="module_Note.simplify"></a>
@@ -240,8 +240,8 @@ Get the simplified and enhramonic note of the given one
 
 **Example**  
 ```js
-Note.enharmonic('Db') // => 'C#'
-Note.enhramonic('C') // => 'C'
+Note.enharmonic("Db") // => "C#"
+Note.enhramonic("C") // => "C"
 ```
 <a name="module_Note.tokenize"></a>
 
@@ -260,10 +260,10 @@ It always returns an array
 
 **Example**  
 ```js
-Note.tokenize('C#2') // => ["C", "#", "2", ""]
-Note.tokenize('Db3 major') // => ["D", "b", "3", "major"]
-Note.tokenize('major') // => ["", "", "", "major"]
-Note.tokenize('##') // => ["", "##", "", ""]
+Note.tokenize("C#2") // => ["C", "#", "2", ""]
+Note.tokenize("Db3 major") // => ["D", "b", "3", "major"]
+Note.tokenize("major") // => ["", "", "", "major"]
+Note.tokenize("##") // => ["", "##", "", ""]
 Note.tokenize() // => ["", "", "", ""]
 ```
 <a name="module_Note.name"></a>
@@ -283,8 +283,8 @@ Can be used to test if a string is a valid note name.
 
 **Example**  
 ```js
-Note.name('cb2') // => 'Cb2'
-['c', 'db3', '2', 'g+', 'gx4'].map(Note.name) // => ['C', 'Db3', null, null, 'G##4']
+Note.name("cb2") // => "Cb2"
+["c", "db3", "2", "g+", "gx4"].map(Note.name) // => ["C", "Db3", null, null, "G##4"]
 ```
 <a name="module_Note.pc"></a>
 
@@ -300,8 +300,8 @@ Get pitch class of a note. The note can be a string or a pitch array.
 
 **Example**  
 ```js
-Note.pc('Db3') // => 'Db'
-["db3", "bb6", "fx2"].map(Note.pc) // => [ 'Db', 'Bb', 'F##']
+Note.pc("Db3") // => "Db"
+["db3", "bb6", "fx2"].map(Note.pc) // => [ "Db", "Bb", "F##"]
 ```
 <a name="module_Note.midi"></a>
 
@@ -319,7 +319,7 @@ Get the note midi number
 
 **Example**  
 ```js
-Note.midi('C4') // => 60
+Note.midi("C4") // => 60
 Note.midi(60) // => 60
 ```
 <a name="module_Note.freq"></a>
@@ -336,7 +336,7 @@ Get the frequency of a note
 
 **Example**  
 ```js
-Note.freq('A4') // => 440
+Note.freq("A4") // => 440
 Note.freq(69) // => 440
 ```
 <a name="module_Note.oct"></a>
@@ -345,7 +345,7 @@ Note.freq(69) // => 440
 Get the octave of the given pitch
 
 **Kind**: static method of [<code>Note</code>](#module_Note)  
-**Returns**: <code>Integer</code> - the octave or null if doesn't have an octave or not a valid note  
+**Returns**: <code>Integer</code> - the octave or null if doesn"t have an octave or not a valid note  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -353,9 +353,9 @@ Get the octave of the given pitch
 
 **Example**  
 ```js
-Note.oct('C#4') // => 4
-Note.oct('C') // => null
-Note.oct('blah') // => undefined
+Note.oct("C#4") // => 4
+Note.oct("C") // => null
+Note.oct("blah") // => undefined
 ```
 <a name="module_Note.fromMidi"></a>
 
@@ -373,8 +373,8 @@ flats unless explicitly set with the optional `useSharps` parameter.
 
 **Example**  
 ```js
-Note.fromMidi(61) // => 'Db4'
-Note.fromMidi(61, true) // => 'C#4'
+Note.fromMidi(61) // => "Db4"
+Note.fromMidi(61, true) // => "C#4"
 // it rounds to nearest note
-Note.fromMidi(61.7) // => 'D4'
+Note.fromMidi(61.7) // => "D4"
 ```

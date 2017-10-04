@@ -11,13 +11,13 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 **Example**  
 ```js
 // es6
-import * as Chord from 'tonal-chord'
+import * as Chord from "tonal-chord"
 // es5
-const Chord = require('tonal-chord')
+const Chord = require("tonal-chord")
 ```
 **Example**  
 ```js
-Chord.notes('CMaj7') // => ['C', 'E', 'G', 'B']
+Chord.notes("CMaj7") // => ["C", "E", "G", "B"]
 ```
 
 * [Chord](#module_Chord)
@@ -44,7 +44,7 @@ Return the available chord names
 
 **Example**  
 ```js
-Chord.names() // => ['maj7', ...]
+Chord.names() // => ["maj7", ...]
 ```
 <a name="module_Chord.props"></a>
 
@@ -81,7 +81,7 @@ Get chord intervals. It always returns an array
 
 ## `Chord.notes(nameOrTonic, [name])` ⇒ <code>Array</code>
 Get the chord notes of a chord. This function accepts either a chord name
-(for example: 'Cmaj7') or a list of notes.
+(for example: "Cmaj7") or a list of notes.
 
 It always returns an array, even if the chord is not found.
 
@@ -95,8 +95,8 @@ It always returns an array, even if the chord is not found.
 
 **Example**  
 ```js
-Chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
-Chord.notes('C', 'maj7') // => ['C', 'E', 'G', 'B']
+Chord.notes("Cmaj7") // => ["C", "E", "G", "B"]
+Chord.notes("C", "maj7") // => ["C", "E", "G", "B"]
 ```
 <a name="module_Chord.exists"></a>
 
@@ -111,9 +111,9 @@ Check if a given name correspond to a chord in the dictionary
 
 **Example**  
 ```js
-Chord.exists('CMaj7') // => true
-Chord.exists('Maj7') // => true
-Chord.exists('Ablah') // => false
+Chord.exists("CMaj7") // => true
+Chord.exists("Maj7") // => true
+Chord.exists("Ablah") // => false
 ```
 <a name="module_Chord.supersets"></a>
 
@@ -159,8 +159,8 @@ to split the tonic and chord type.
 
 **Example**  
 ```js
-Chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
-Chord.tokenize('C7') // => [ 'C', '7' ]
-Chord.tokenize('mMaj7') // => [ "", 'mMaj7' ]
-Chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
+Chord.tokenize("Cmaj7") // => [ "C", "maj7" ]
+Chord.tokenize("C7") // => [ "C", "7" ]
+Chord.tokenize("mMaj7") // => [ "", "mMaj7" ]
+Chord.tokenize("Cnonsense") // => [ "C", "nonsense" ]
 ```

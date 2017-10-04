@@ -9,18 +9,18 @@
  * ## Usage
  *
  * ```js
- * import * as Note from 'tonal-note'
- * // or const Note = require('tonal-note')
- * Note.name('bb2') // => 'Bb2'
- * Note.chroma('bb2') // => 10
- * Note.midi('a4') // => 69
- * Note.freq('a4') // => 440
- * Note.oct('G3') // => 3
+ * import * as Note from "tonal-note"
+ * // or const Note = require("tonal-note")
+ * Note.name("bb2") // => "Bb2"
+ * Note.chroma("bb2") // => 10
+ * Note.midi("a4") // => 69
+ * Note.freq("a4") // => 440
+ * Note.oct("G3") // => 3
  * 
  * // part of tonal
- * const Tonal = require('tonal')
- * // or import Note from 'tonal'
- * Tonal.Note.midi('d4') // => 62
+ * const Tonal = require("tonal")
+ * // or import Note from "tonal"
+ * Tonal.Note.midi("d4") // => 62
  * ```
  *
  * ## Install
@@ -42,8 +42,8 @@ const NAMES = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B".split(" ");
  * can be conbined (see examples)
  * @return {Array}
  * @example
- * Note.names(" b") // => [ 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B' ]
- * Note.names(" #") // => [ 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' ]
+ * Note.names(" b") // => [ "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B" ]
+ * Note.names(" #") // => [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ]
  */
 export const names = accTypes =>
   typeof accTypes !== "string"
@@ -66,10 +66,10 @@ const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
  * @param {String} str 
  * @return {Array} an array of note tokens
  * @example
- * Note.tokenize('C#2') // => ["C", "#", "2", ""]
- * Note.tokenize('Db3 major') // => ["D", "b", "3", "major"]
- * Note.tokenize('major') // => ["", "", "", "major"]
- * Note.tokenize('##') // => ["", "##", "", ""]
+ * Note.tokenize("C#2") // => ["C", "#", "2", ""]
+ * Note.tokenize("Db3 major") // => ["D", "b", "3", "major"]
+ * Note.tokenize("major") // => ["", "", "", "major"]
+ * Note.tokenize("##") // => ["", "##", "", ""]
  * Note.tokenize() // => ["", "", "", ""]
  */
 export function tokenize(str) {
@@ -124,18 +124,18 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
  * - midi {Number}: the note midi number
  * - freq {Number}: the frequency using an equal temperament at 440Hz
  * 
- * This function *always* returns an object with all this properties, but if it's
+ * This function *always* returns an object with all this properties, but if it"s
  * not a valid note all properties will be null.
  * 
- * The returned object can't be mutated.
+ * The returned object can"t be mutated.
  * 
  * @param {String} note - the note name in scientific notation
  * @return {Object} an object with the properties (or an object will all properties
  * set to null if not valid note)
  * @example
- * Note.props('fx-3').name // => 'F##-3'
- * Note.props('invalid').name // => null
- * Note.props('C#3').oct // => 3
+ * Note.props("fx-3").name // => "F##-3"
+ * Note.props("invalid").name // => null
+ * Note.props("C#3").oct // => 3
  * Note.props().oct // => null
  */
 export const props = memo(properties);
@@ -152,8 +152,8 @@ export const props = memo(properties);
  * @return {string}
  *
  * @example
- * Note.name('cb2') // => 'Cb2'
- * ['c', 'db3', '2', 'g+', 'gx4'].map(Note.name) // => ['C', 'Db3', null, null, 'G##4']
+ * Note.name("cb2") // => "Cb2"
+ * ["c", "db3", "2", "g+", "gx4"].map(Note.name) // => ["C", "Db3", null, null, "G##4"]
  */
 export const name = str => props(str).name;
 
@@ -164,8 +164,8 @@ export const name = str => props(str).name;
  * @param {string|Pitch}
  * @return {string} the pitch class
  * @example
- * Note.pc('Db3') // => 'Db'
- * ["db3", "bb6", "fx2"].map(Note.pc) // => [ 'Db', 'Bb', 'F##']
+ * Note.pc("Db3") // => "Db"
+ * ["db3", "bb6", "fx2"].map(Note.pc) // => [ "Db", "Bb", "F##"]
  */
 export const pc = str => props(str).pc;
 
@@ -177,7 +177,7 @@ export const pc = str => props(str).pc;
  * @param {string|Number} note - the note to get the midi number from
  * @return {Integer} the midi number or null if not valid pitch
  * @example
- * Note.midi('C4') // => 60
+ * Note.midi("C4") // => 60
  * Note.midi(60) // => 60
  * @see midi.toMidi
  */
@@ -200,7 +200,7 @@ export const midiToFreq = (midi, tuning = 440) =>
  * @param {string|Number} note - the note name or midi note number
  * @return {Number} the frequency
  * @example
- * Note.freq('A4') // => 440
+ * Note.freq("A4") // => 440
  * Note.freq(69) // => 440
  */
 export const freq = note => props(note).freq || midiToFreq(note);
@@ -230,8 +230,8 @@ export const freqToMidi = freq => {
  * @param {string} note - the note name
  * @return {Integer} the chroma number
  * @example
- * Note.chroma('Cb') // => 11
- * ['C', 'D', 'E', 'F'].map(Note.chroma) // => [0, 2, 4, 5]
+ * Note.chroma("Cb") // => 11
+ * ["C", "D", "E", "F"].map(Note.chroma) // => [0, 2, 4, 5]
  */
 export const chroma = str => props(str).chroma;
 
@@ -240,17 +240,17 @@ export const chroma = str => props(str).chroma;
  *
  * @function
  * @param {string} note - the note
- * @return {Integer} the octave or null if doesn't have an octave or not a valid note
+ * @return {Integer} the octave or null if doesn"t have an octave or not a valid note
  * @example
- * Note.oct('C#4') // => 4
- * Note.oct('C') // => null
- * Note.oct('blah') // => undefined
+ * Note.oct("C#4") // => 4
+ * Note.oct("C") // => null
+ * Note.oct("blah") // => undefined
  */
 export const oct = str => props(str).oct;
 
 const LETTERS = "CDEFGAB";
 /**
- * Given a step number return it's letter (0 = C, 1 = D, 2 = E)
+ * Given a step number return it"s letter (0 = C, 1 = D, 2 = E)
  * @param {number} step 
  * @return {string} the letter
  * @example
@@ -266,7 +266,7 @@ const numToStr = (num, op) => (typeof num !== "number" ? "" : op(num));
  * @param {Number} alt 
  * @return {String}
  * @example
- * Note.altToAcc(-3) // => 'bbb'
+ * Note.altToAcc(-3) // => "bbb"
  */
 export const altToAcc = alt =>
   numToStr(alt, alt => (alt < 0 ? fillStr("b", -alt) : fillStr("#", alt)));
@@ -281,8 +281,8 @@ export const altToAcc = alt =>
  * @return {String} the note name in scientific notation or null if not valid properties
  * @example
  * Note.build({ step: 5 }) // => "A"
- * Note.build({ step: 1, acc: -1 }) // => 'Db'
- * Note.build({ step: 2, acc: 2, oct: 2 }) // => 'E##2'
+ * Note.build({ step: 1, acc: -1 }) // => "Db"
+ * Note.build({ step: 2, acc: 2, oct: 2 }) // => "E##2"
  * Note.build({ step: 7 }) // => null
  */
 export const build = ({ step, alt, oct } = {}) => {
@@ -301,10 +301,10 @@ export const build = ({ step, alt, oct } = {}) => {
  * @param {boolean} useSharps - (Optional) set to true to use sharps instead of flats
  * @return {string} the note name
  * @example
- * Note.fromMidi(61) // => 'Db4'
- * Note.fromMidi(61, true) // => 'C#4'
+ * Note.fromMidi(61) // => "Db4"
+ * Note.fromMidi(61, true) // => "C#4"
  * // it rounds to nearest note
- * Note.fromMidi(61.7) // => 'D4'
+ * Note.fromMidi(61.7) // => "D4"
  */
 export function fromMidi(num, sharps) {
   num = Math.round(num);
@@ -340,7 +340,7 @@ export const simplify = (note, sameAcc) => {
  * @param {String} note 
  * @return {String} the enhramonic note
  * @example
- * Note.enharmonic('Db') // => 'C#'
- * Note.enhramonic('C') // => 'C'
+ * Note.enharmonic("Db") // => "C#"
+ * Note.enhramonic("C") // => "C"
  */
 export const enharmonic = note => simplify(note, false);

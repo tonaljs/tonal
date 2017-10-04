@@ -8,11 +8,11 @@
 
 The intervals are strings in shorthand notation. Two variations are supported:
 
-- standard shorthand notation: type and number, for example: 'M3', 'd-4'
-- inverse shorthand notation: number and then type, for example: '3M', '-4d'
+- standard shorthand notation: type and number, for example: "M3", "d-4"
+- inverse shorthand notation: number and then type, for example: "3M", "-4d"
 
 The problem with the standard shorthand notation is that some strings can be
-parsed as notes or intervals, for example: 'A4' can be note A in 4th octave
+parsed as notes or intervals, for example: "A4" can be note A in 4th octave
 or an augmented four. To remove ambiguity, the prefered notation in tonal is the
 inverse shortand notation.
 
@@ -22,15 +22,15 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 
 ```js
 // es6
-import * as Interval from 'tonal-interval'
+import * as Interval from "tonal-interval"
 // es5
-const Interval = require('tonal-interval')
+const Interval = require("tonal-interval")
 // part of tonal
-import { Interval } from 'tonal'
+import { Interval } from "tonal"
 
-Interval.semitones('4P') // => 5
-Interval.invert('3m') // => '6M'
-Interval.simplify('9m') // => '2m'
+Interval.semitones("4P") // => 5
+Interval.invert("3m") // => "6M"
+Interval.simplify("9m") // => "2m"
 ```
 
 ## Install
@@ -67,10 +67,10 @@ List basic (perfect, major, minor) interval names within a octave
 
 **Example**  
 ```js
-Interval.names() // => [ '1P', '2m', '2M', '3m', '3M', '4P', '5P', '6m', '6M', '7m', '7M', '8P' ]
-Interval.names("P") // => [ '1P', '4P', '5P', '8P' ]
-Interval.names("PM") // => [ '1P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
-Interval.names("Pm") // => [ '1P', '2m', '3m', '4P', '5P', '6m', '7m', '8P' ]
+Interval.names() // => [ "1P", "2m", "2M", "3m", "3M", "4P", "5P", "6m", "6M", "7m", "7M", "8P" ]
+Interval.names("P") // => [ "1P", "4P", "5P", "8P" ]
+Interval.names("PM") // => [ "1P", "2M", "3M", "4P", "5P", "6M", "7M", "8P" ]
+Interval.names("Pm") // => [ "1P", "2m", "3m", "4P", "5P", "6m", "7m", "8P" ]
 Interval.names("d") // => []
 ```
 <a name="module_Interval.props"></a>
@@ -110,14 +110,14 @@ Get the number of the interval
 
 **Example**  
 ```js
-Interval.num('m2') // => 2
-Interval.num('P9') // => 9
-Interval.num('P-4') // => -4
+Interval.num("m2") // => 2
+Interval.num("P9") // => 9
+Interval.num("P-4") // => -4
 ```
 <a name="module_Interval.name"></a>
 
 ## `Interval.name(interval)` ⇒ <code>String</code>
-Get interval name. Can be used to test if it's an interval. It accepts intervals
+Get interval name. Can be used to test if it"s an interval. It accepts intervals
 as pitch or string in shorthand notation or tonal notation. It returns always
 intervals in tonal notation.
 
@@ -130,8 +130,8 @@ intervals in tonal notation.
 
 **Example**  
 ```js
-Interval.name('m-3') // => '-3m'
-Interval.name('3') // => null
+Interval.name("m-3") // => "-3m"
+Interval.name("3") // => null
 ```
 <a name="module_Interval.semitones"></a>
 
@@ -147,10 +147,10 @@ Get size in semitones of an interval
 
 **Example**  
 ```js
-import { semitones } from 'tonal-interval'
-semitones('P4') // => 5
+import { semitones } from "tonal-interval"
+semitones("P4") // => 5
 // or using tonal
-Tonal.Interval.semitones('P5') // => 7
+Tonal.Interval.semitones("P5") // => 7
 ```
 <a name="module_Interval.chroma"></a>
 
@@ -173,9 +173,6 @@ number of a given interval.
 In musical set theory, an interval class is the shortest distance in
 pitch class space between two unordered pitch classes
 
-As paramter you can pass an interval in shorthand notation, an interval in
-array notation or the number of semitones of the interval
-
 **Kind**: static method of [<code>Interval</code>](#module_Interval)  
 **Returns**: <code>Integer</code> - A value between 0 and 6  
 
@@ -185,9 +182,10 @@ array notation or the number of semitones of the interval
 
 **Example**  
 ```js
-Interval.ic('P8') // => 0
-Interval.ic('m6') // => 4
-['P1', 'M2', 'M3', 'P4', 'P5', 'M6', 'M7'].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
+Interval.ic("P8") // => 0
+Interval.ic("m6") // => 4
+Interval.ic(10) // => 2
+["P1", "M2", "M3", "P4", "P5", "M6", "M7"].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
 ```
 <a name="module_Interval.build"></a>
 
@@ -212,7 +210,7 @@ The properties must contain a `num` *or* `step`, and `alt`:
 **Example**  
 ```js
 Interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
-Interval.build({ num: 9, alt: -1 }) // => '9m'
+Interval.build({ num: 9, alt: -1 }) // => "9m"
 ```
 <a name="module_Interval.simplify"></a>
 
@@ -228,11 +226,11 @@ Get the simplified version of an interval.
 
 **Example**  
 ```js
-Interval.simplify('9M') // => '2M'
-['8P', '9M', '10M', '11P', '12P', '13M', '14M', '15P'].map(Interval.simplify)
-// => [ '8P', '2M', '3M', '4P', '5P', '6M', '7M', '8P' ]
-Interval.simplify('2M') // => '2M'
-Interval.simplify('-2M') // => '7m'
+Interval.simplify("9M") // => "2M"
+["8P", "9M", "10M", "11P", "12P", "13M", "14M", "15P"].map(Interval.simplify)
+// => [ "8P", "2M", "3M", "4P", "5P", "6M", "7M", "8P" ]
+Interval.simplify("2M") // => "2M"
+Interval.simplify("-2M") // => "7m"
 ```
 <a name="module_Interval.invert"></a>
 
@@ -249,14 +247,14 @@ of an interval.
 
 **Example**  
 ```js
-Interval.invert('3m') // => '6M'
-Interval.invert('2M') // => '7m'
+Interval.invert("3m") // => "6M"
+Interval.invert("2M") // => "7m"
 ```
 <a name="module_Interval.fromSemitones"></a>
 
 ## `Interval.fromSemitones(num)` ⇒ <code>String</code>
 Get interval name from semitones number. Since there are several interval
-names for the same number, the name it's arbitraty, but deterministic.
+names for the same number, the name it"s arbitraty, but deterministic.
 
 **Kind**: static method of [<code>Interval</code>](#module_Interval)  
 **Returns**: <code>String</code> - the interval name  
@@ -267,8 +265,8 @@ names for the same number, the name it's arbitraty, but deterministic.
 
 **Example**  
 ```js
-import { fromSemitones } from 'tonal-interval'
-fromSemitones(7) // => '5P'
+import { fromSemitones } from "tonal-interval"
+fromSemitones(7) // => "5P"
 // or using tonal
-Tonal.Distance.fromSemitones(-7) // => '-5P'
+Tonal.Distance.fromSemitones(-7) // => "-5P"
 ```

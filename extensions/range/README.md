@@ -5,21 +5,21 @@ A collection of functions to create note ranges.
 
 **Example**  
 ```js
-const Range = require('tonal-range')
-import * as Range from 'tonal-range'
+const Range = require("tonal-range")
+import * as Range from "tonal-range"
 ```
 **Example**  
 ```js
 // ascending chromatic range
-Range.chromatic(['C4', 'E4']) // => ['C4', 'Db4', 'D4', 'Eb4', 'E4']
+Range.chromatic(["C4", "E4"]) // => ["C4", "Db4", "D4", "Eb4", "E4"]
 // descending chromatic range
-Range.chromatic(['E4', 'C4']) // => ['E4', 'Eb4', 'D4', 'Db4', 'C4']
+Range.chromatic(["E4", "C4"]) // => ["E4", "Eb4", "D4", "Db4", "C4"]
 // combining ascending and descending in complex ranges
-Range.chromatic(['C2', 'E2', 'D2']) // => ['C2', 'Db2', 'D2', 'Eb2', 'E2', 'Eb2', 'D2']
+Range.chromatic(["C2", "E2", "D2"]) // => ["C2", "Db2", "D2", "Eb2", "E2", "Eb2", "D2"]
 // numeric (midi note numbers) range
-Range.numeric(['C4', 'E4', 'Bb3']) // => [60, 61, 62, 63, 64]
+Range.numeric(["C4", "E4", "Bb3"]) // => [60, 61, 62, 63, 64]
 // complex numeric range
-Range.numeric(['C4', 'E4', 'Bb3']) // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
+Range.numeric(["C4", "E4", "Bb3"]) // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
 ```
 
 * [Range](#module_Range)
@@ -43,7 +43,7 @@ be conected to create complex ranges.
 
 **Example**  
 ```js
-Range.numeric(["C5", "C4']) // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
+Range.numeric(["C5", "C4"]) // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
 // it works midi notes
 Range.numeric([10, 5]) // => [ 10, 9, 8, 7, 6, 5 ]
 // complex range
@@ -64,9 +64,9 @@ Create a range of chromatic notes. The altered notes will use flats.
 
 **Example**  
 ```js
-Range.chromatic('C2 E2 D2') // => ['C2', 'Db2', 'D2', 'Eb2', 'E2', 'Eb2', 'D2']
+Range.chromatic("C2 E2 D2") // => ["C2", "Db2", "D2", "Eb2", "E2", "Eb2", "D2"]
 // with sharps
-Range.chromatic('C2 C3', true) // => [ 'C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2', 'C3' ]
+Range.chromatic("C2 C3", true) // => [ "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", "C3" ]
 ```
 <a name="module_Range.fifths"></a>
 
@@ -83,7 +83,7 @@ Create a range with a cycle of fifths
 
 **Example**  
 ```js
-Range.fifths('C', [0, 6]) // => [ 'C', 'G', 'D', 'A', 'E', 'B', 'F#' ])
+Range.fifths("C", [0, 6]) // => [ "C", "G", "D", "A", "E", "B", "F#" ])
 ```
 <a name="module_Range.scale"></a>
 
@@ -104,8 +104,8 @@ null if not valid start or end
 
 **Example**  
 ```js
-Range.scale('C D E F G A B', ['C3', 'C2'])
-// => [ 'C3', 'B2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
-const majorC = Range.scale('C D E F G A B')
-majorC(['C3', 'C2']) * // => [ 'C3', 'B2', 'A2', 'G2', 'F2', 'E2', 'D2', 'C2' ]
+Range.scale("C D E F G A B", ["C3", "C2"])
+// => [ "C3", "B2", "A2", "G2", "F2", "E2", "D2", "C2" ]
+const majorC = Range.scale("C D E F G A B")
+majorC(["C3", "C2"]) * // => [ "C3", "B2", "A2", "G2", "F2", "E2", "D2", "C2" ]
 ```

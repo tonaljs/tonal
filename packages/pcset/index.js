@@ -11,10 +11,10 @@
  *
  * ```js
  * // es6
- * import PcSet from 'tonal-pcset'
- * var PcSet = require('tonal-pcset')
+ * import PcSet from "tonal-pcset"
+ * var PcSet = require("tonal-pcset")
  * 
- * PcSet.isEqual('c2 d5 e6', 'c6 e3 d1') // => true
+ * PcSet.isEqual("c2 d5 e6", "c6 e3 d1") // => true
  * ```
  *
  * ## API documentation
@@ -31,7 +31,7 @@ const compact = arr => arr.filter(x => x);
 
 /**
  * Get chroma of a pitch class set. A chroma identifies each set uniquely.
- * It's a 12-digit binary each presenting one semitone of the octave.
+ * It"s a 12-digit binary each presenting one semitone of the octave.
  *
  * Note that this function accepts a chroma as parameter and return it
  * without modification.
@@ -39,7 +39,7 @@ const compact = arr => arr.filter(x => x);
  * @param {Array|String} set - the pitch class set
  * @return {String} a binary representation of the pitch class set
  * @example
- * PcSet.chroma(["C", "D", "E"]) // => '1010100000000'
+ * PcSet.chroma(["C", "D", "E"]) // => "1010100000000"
  */
 export function chroma(set) {
   if (isChroma(set)) return set;
@@ -53,13 +53,13 @@ export function chroma(set) {
 
 /**
  * Given a a list of notes or a pcset chroma, produce the rotations
- * of the chroma discarding the ones that starts with '0'
+ * of the chroma discarding the ones that starts with "0"
  *
  * This is used, for example, to get all the modes of a scale.
  *
  * @param {Array|String} set - the list of notes or pitchChr of the set
  * @param {Boolean} normalize - (Optional, true by default) remove all
- * the rotations that starts with '0'
+ * the rotations that starts with "0"
  * @return {Array<String>} an array with all the modes of the chroma
  *
  * @example
@@ -82,8 +82,8 @@ var REGEX = /^[01]{12}$/;
  * @param {String} chroma - the pitch class set chroma
  * @return {Boolean} true if its a valid pcset chroma
  * @example
- * PcSet.isChroma('101010101010') // => true
- * PcSet.isChroma('101001') // => false
+ * PcSet.isChroma("101010101010") // => true
+ * PcSet.isChroma("101001") // => false
  */
 export function isChroma(set) {
   return REGEX.test(set);
@@ -91,11 +91,11 @@ export function isChroma(set) {
 
 var IVLS = "1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" ");
 /**
- * Given a pcset (notes or chroma) return it's intervals
+ * Given a pcset (notes or chroma) return it"s intervals
  * @param {String|Array} pcset - the pitch class set (notes or chroma)
  * @return {Array} intervals or empty array if not valid pcset
  * @example
- * PcSet.intervals('1010100000000') => ["1P", "2M", "3M"]
+ * PcSet.intervals("1010100000000") => ["1P", "2M", "3M"]
  */
 export function intervals(set) {
   if (!isChroma(set)) return [];
@@ -170,8 +170,8 @@ export function isSupersetOf(set, notes) {
  * @param {String|Pitch} note - the note to test
  * @return {Boolean} true if the note is included in the pcset
  * @example
- * PcSet.includes(["C", "D", "E"], 'C4') // => true
- * PcSet.includes(["C", "D", "E"], 'C#4') // => false
+ * PcSet.includes(["C", "D", "E"], "C4") // => true
+ * PcSet.includes(["C", "D", "E"], "C#4") // => false
  */
 export function includes(set, note) {
   if (arguments.length > 1) return includes(set)(note);
@@ -189,8 +189,8 @@ export function includes(set, note) {
  * @return {Array} the filtered notes
  *
  * @example
- * PcSet.filter(["C", "D", "E"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'd2', 'c3', 'd3' ])
- * PcSet.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'c3' ])
+ * PcSet.filter(["C", "D", "E"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ "c2", "d2", "c3", "d3" ])
+ * PcSet.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ "c2", "c3" ])
  */
 export function filter(set, notes) {
   if (arguments.length === 1) return n => filter(set, n);

@@ -9,15 +9,15 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 
 **Example**  
 ```js
-const Abc = require('tonal-abc-notation')
-Abc.toNote('c') // => 'C5'
-Abc.toAbc('Db2') // =>  '_D,,'
+const Abc = require("tonal-abc-notation")
+Abc.toNote("c") // => "C5"
+Abc.toAbc("Db2") // =>  "_D,,"
 ```
 **Example**  
 ```js
-import Tonal from 'tonal'
-import { toAbc } from 'tonal-abc-notation'
-Tonal.Scale.notes('C major').map(toAbc);
+import Tonal from "tonal"
+import { toAbc } from "tonal-abc-notation"
+Tonal.Scale.notes("C major").map(toAbc);
 ```
 
 * [Abc](#module_Abc)
@@ -38,7 +38,7 @@ Convert a (string) note in ABC notation into a (string) note in scientific notat
 
 **Example**  
 ```js
-Abc.toNote('c') // => 'C5'
+Abc.toNote("c") // => "C5"
 ```
 <a name="module_Abc.toAbc"></a>
 
@@ -54,5 +54,5 @@ Convert a (string) note in scientific notation into a (string) note in ABC notat
 
 **Example**  
 ```js
-Abc.toAbc('C#4') // => '^C'
+abc.toAbc("C#4") // => "^C"
 ```

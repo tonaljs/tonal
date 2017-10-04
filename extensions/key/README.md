@@ -11,14 +11,14 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 **Example**  
 ```js
 // es6
-import * as Key from 'tonal-key'
+import * as Key from "tonal-key"
 // es5
-const Key = require('tonal-key')
+const Key = require("tonal-key")
 ```
 **Example**  
 ```js
-Key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
-Key.relative('minor', 'C major') // => 'A minor'
+Key.scale("E mixolydian") // => [ "E", "F#", "G#", "A", "B", "C#", "D" ]
+Key.relative("minor", "C major") // => "A minor"
 ```
 
 * [Key](#module_Key)
@@ -46,7 +46,7 @@ Get a list of key scale degrees
 
 **Example**  
 ```js
-Key.degrees('C major') => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
+Key.degrees("C major") => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
 ```
 <a name="module_Key.modeNames"></a>
 
@@ -63,10 +63,10 @@ increasing order (ionian to locrian)
 
 **Example**  
 ```js
-Key.modes() // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
-// 'mixolydian', 'aeolian', 'locrian' ]
-Key.modes(true) // => [ 'ionian', 'dorian', 'phrygian', 'lydian',
-// 'mixolydian', 'aeolian', 'locrian', 'major', 'minor' ]
+Key.modes() // => [ "ionian", "dorian", "phrygian", "lydian",
+// "mixolydian", "aeolian", "locrian" ]
+Key.modes(true) // => [ "ionian", "dorian", "phrygian", "lydian",
+// "mixolydian", "aeolian", "locrian", "major", "minor" ]
 ```
 <a name="module_Key.fromAlter"></a>
 
@@ -82,7 +82,7 @@ Create a major key from alterations
 
 **Example**  
 ```js
-Key.fromAlter(2) // => 'D major'
+Key.fromAlter(2) // => "D major"
 ```
 <a name="module_Key.props"></a>
 
@@ -107,7 +107,7 @@ Return the a key properties object with the following information:
 
 **Example**  
 ```js
-Key.props('C3 dorian') // => { tonic: 'C', mode: 'dorian', ... }
+Key.props("C3 dorian") // => { tonic: "C", mode: "dorian", ... }
 ```
 <a name="module_Key.scale"></a>
 
@@ -123,10 +123,10 @@ Get scale of a key
 
 **Example**  
 ```js
-Key.scale('A major') // => [ 'A', 'B', 'C#', 'D', 'E', 'F#', 'G#' ]
-Key.scale('Bb minor') // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'Gb', 'Ab' ]
-Key.scale('C dorian') // => [ 'C', 'D', 'Eb', 'F', 'G', 'A', 'Bb' ]
-Key.scale('E mixolydian') // => [ 'E', 'F#', 'G#', 'A', 'B', 'C#', 'D' ]
+Key.scale("A major") // => [ "A", "B", "C#", "D", "E", "F#", "G#" ]
+Key.scale("Bb minor") // => [ "Bb", "C", "Db", "Eb", "F", "Gb", "Ab" ]
+Key.scale("C dorian") // => [ "C", "D", "Eb", "F", "G", "A", "Bb" ]
+Key.scale("E mixolydian") // => [ "E", "F#", "G#", "A", "B", "C#", "D" ]
 ```
 <a name="module_Key.alteredNotes"></a>
 
@@ -142,7 +142,7 @@ the same order than in the key signature.
 
 **Example**  
 ```js
-Key.alteredNotes('Eb major') // => [ 'Bb', 'Eb', 'Ab' ]
+Key.alteredNotes("Eb major") // => [ "Bb", "Eb", "Ab" ]
 ```
 <a name="module_Key.chords"></a>
 
@@ -191,11 +191,11 @@ It can be partially applied.
 
 **Example**  
 ```js
-Key.relative('dorian', 'B major') // => 'C# dorian'
+Key.relative("dorian", "B major") // => "C# dorian"
 // partial application
-var minor = Key.relative('minor')
-minor('C major') // => 'A minor'
-minor('E major') // => 'C# minor'
+var minor = Key.relative("minor")
+minor("C major") // => "A minor"
+minor("E major") // => "C# minor"
 ```
 <a name="module_Key.tokenize"></a>
 
@@ -211,5 +211,5 @@ Split the key name into its components (pitch class tonic and mode name)
 
 **Example**  
 ```js
-Key.tokenize('C major') // => ['C', 'major']
+Key.tokenize("C major") // => ["C", "major"]
 ```

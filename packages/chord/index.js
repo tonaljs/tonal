@@ -8,12 +8,12 @@
  *
  * @example
  * // es6
- * import * as Chord from 'tonal-chord'
+ * import * as Chord from "tonal-chord"
  * // es5
- * const Chord = require('tonal-chord')
+ * const Chord = require("tonal-chord")
  * 
  * @example
- * Chord.notes('CMaj7') // => ['C', 'E', 'G', 'B']
+ * Chord.notes("CMaj7") // => ["C", "E", "G", "B"]
  *
  * @module Chord
  */
@@ -30,7 +30,7 @@ import { chroma, isSubsetOf, isSupersetOf } from "tonal-pcset";
  * @return {Array} the chord names
  *
  * @example
- * Chord.names() // => ['maj7', ...]
+ * Chord.names() // => ["maj7", ...]
  */
 export const names = chord.names;
 
@@ -81,7 +81,7 @@ export const intervals = name => props(tokenize(name)[1]).intervals;
 
 /**
  * Get the chord notes of a chord. This function accepts either a chord name
- * (for example: 'Cmaj7') or a list of notes.
+ * (for example: "Cmaj7") or a list of notes.
  *
  * It always returns an array, even if the chord is not found.
  *
@@ -91,8 +91,8 @@ export const intervals = name => props(tokenize(name)[1]).intervals;
  * @return {Array} an array of notes or an empty array
  *
  * @example
- * Chord.notes('Cmaj7') // => ['C', 'E', 'G', 'B']
- * Chord.notes('C', 'maj7') // => ['C', 'E', 'G', 'B']
+ * Chord.notes("Cmaj7") // => ["C", "E", "G", "B"]
+ * Chord.notes("C", "maj7") // => ["C", "E", "G", "B"]
  */
 export function notes(nameOrTonic, name) {
   const p = tokenize(nameOrTonic);
@@ -107,9 +107,9 @@ export function notes(nameOrTonic, name) {
  * @param {String} name
  * @return {Boolean}
  * @example
- * Chord.exists('CMaj7') // => true
- * Chord.exists('Maj7') // => true
- * Chord.exists('Ablah') // => false
+ * Chord.exists("CMaj7") // => true
+ * Chord.exists("Maj7") // => true
+ * Chord.exists("Ablah") // => false
  */
 export const exists = name => chord(tokenize(name)[1]) !== undefined;
 
@@ -151,10 +151,10 @@ export const subsets = name => {
  * @param {String} name - the chord name
  * @return {Array} an array with [type, tonic]
  * @example
- * Chord.tokenize('Cmaj7') // => [ 'C', 'maj7' ]
- * Chord.tokenize('C7') // => [ 'C', '7' ]
- * Chord.tokenize('mMaj7') // => [ "", 'mMaj7' ]
- * Chord.tokenize('Cnonsense') // => [ 'C', 'nonsense' ]
+ * Chord.tokenize("Cmaj7") // => [ "C", "maj7" ]
+ * Chord.tokenize("C7") // => [ "C", "7" ]
+ * Chord.tokenize("mMaj7") // => [ "", "mMaj7" ]
+ * Chord.tokenize("Cnonsense") // => [ "C", "nonsense" ]
  */
 export function tokenize(name) {
   const p = split(name);

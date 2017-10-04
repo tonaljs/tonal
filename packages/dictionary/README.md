@@ -10,13 +10,13 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 **Example**  
 ```js
 // es6
-import * as Dictionary from 'tonal-dictionary'
+import * as Dictionary from "tonal-dictionary"
 // es5
-const Dictionary = require('tonal-dictionary')
+const Dictionary = require("tonal-dictionary")
 ```
 **Example**  
 ```js
-Dictionary.chord('Maj7') // => ['1P', '3M', '5P', '7M']
+Dictionary.chord("Maj7") // => ["1P", "3M", "5P", "7M"]
 ```
 
 * [Dictionary](#module_Dictionary)
@@ -38,8 +38,8 @@ returns an array of intervals
 
 **Example**  
 ```js
-import { scale } from 'tonal-dictionary'
-scale('major') // => ["1P", "2M", ...]
+import { scale } from "tonal-dictionary"
+scale("major") // => ["1P", "2M", ...]
 scale.names(); // => ["major", ...]
 ```
 <a name="module_Dictionary.chord"></a>
@@ -57,7 +57,7 @@ returns an array of intervals
 
 **Example**  
 ```js
-import { chord } from 'tonal-dictionary'
-chord('Maj7') // => ["1P", "3M", ...]
+import { chord } from "tonal-dictionary"
+chord("Maj7") // => ["1P", "3M", ...]
 chord.names(); // => ["Maj3", ...]
 ```

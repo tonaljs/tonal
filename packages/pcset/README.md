@@ -13,10 +13,10 @@ You can install via npm: `npm i --save tonal-pcset`
 
 ```js
 // es6
-import PcSet from 'tonal-pcset'
-var PcSet = require('tonal-pcset')
+import PcSet from "tonal-pcset"
+var PcSet = require("tonal-pcset")
 
-PcSet.isEqual('c2 d5 e6', 'c6 e3 d1') // => true
+PcSet.isEqual("c2 d5 e6", "c6 e3 d1") // => true
 ```
 
 ## API documentation
@@ -37,7 +37,7 @@ PcSet.isEqual('c2 d5 e6', 'c6 e3 d1') // => true
 
 ## `PcSet.chroma(set)` ⇒ <code>String</code>
 Get chroma of a pitch class set. A chroma identifies each set uniquely.
-It's a 12-digit binary each presenting one semitone of the octave.
+It"s a 12-digit binary each presenting one semitone of the octave.
 
 Note that this function accepts a chroma as parameter and return it
 without modification.
@@ -51,13 +51,13 @@ without modification.
 
 **Example**  
 ```js
-PcSet.chroma(["C", "D", "E"]) // => '1010100000000'
+PcSet.chroma(["C", "D", "E"]) // => "1010100000000"
 ```
 <a name="module_PcSet.modes"></a>
 
 ## `PcSet.modes(set, normalize)` ⇒ <code>Array.&lt;String&gt;</code>
 Given a a list of notes or a pcset chroma, produce the rotations
-of the chroma discarding the ones that starts with '0'
+of the chroma discarding the ones that starts with "0"
 
 This is used, for example, to get all the modes of a scale.
 
@@ -67,7 +67,7 @@ This is used, for example, to get all the modes of a scale.
 | Param | Type | Description |
 | --- | --- | --- |
 | set | <code>Array</code> \| <code>String</code> | the list of notes or pitchChr of the set |
-| normalize | <code>Boolean</code> | (Optional, true by default) remove all the rotations that starts with '0' |
+| normalize | <code>Boolean</code> | (Optional, true by default) remove all the rotations that starts with "0" |
 
 **Example**  
 ```js
@@ -87,13 +87,13 @@ Test if the given string is a pitch class set chroma.
 
 **Example**  
 ```js
-PcSet.isChroma('101010101010') // => true
-PcSet.isChroma('101001') // => false
+PcSet.isChroma("101010101010") // => true
+PcSet.isChroma("101001") // => false
 ```
 <a name="module_PcSet.intervals"></a>
 
 ## `PcSet.intervals(pcset)` ⇒ <code>Array</code>
-Given a pcset (notes or chroma) return it's intervals
+Given a pcset (notes or chroma) return it"s intervals
 
 **Kind**: static method of [<code>PcSet</code>](#module_PcSet)  
 **Returns**: <code>Array</code> - intervals or empty array if not valid pcset  
@@ -104,7 +104,7 @@ Given a pcset (notes or chroma) return it's intervals
 
 **Example**  
 ```js
-PcSet.intervals('1010100000000') => ["1P", "2M", "3M"]
+PcSet.intervals("1010100000000") => ["1P", "2M", "3M"]
 ```
 <a name="module_PcSet.isEqual"></a>
 
@@ -180,8 +180,8 @@ Test if a given pitch class set includes a note
 
 **Example**  
 ```js
-PcSet.includes(["C", "D", "E"], 'C4') // => true
-PcSet.includes(["C", "D", "E"], 'C#4') // => false
+PcSet.includes(["C", "D", "E"], "C4") // => true
+PcSet.includes(["C", "D", "E"], "C#4") // => false
 ```
 <a name="module_PcSet.filter"></a>
 
@@ -198,6 +198,6 @@ Filter a list with a pitch class set
 
 **Example**  
 ```js
-PcSet.filter(["C", "D", "E"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'd2', 'c3', 'd3' ])
-PcSet.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ 'c2', 'c3' ])
+PcSet.filter(["C", "D", "E"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ "c2", "d2", "c3", "d3" ])
+PcSet.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ "c2", "c3" ])
 ```

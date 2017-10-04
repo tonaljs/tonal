@@ -9,24 +9,24 @@ Transpose notes by intervals and find distances between notes
 **Example**  
 ```js
 // es6
-import * as Distance from 'tonal-distance'
-Distance.interval('C3', 'C4') // => '1P'
+import * as Distance from "tonal-distance"
+Distance.interval("C3", "C4") // => "1P"
 ```
 **Example**  
 ```js
 // es6 import selected functions
-import { interval, semitones, transpose } from 'tonal-distance'
+import { interval, semitones, transpose } from "tonal-distance"
 
-semitones('C' ,'D') // => 2
-interval('C4', 'G4') // => '5P'
-transpose('C4', 'P5') // => 'G4'
+semitones("C" ,"D") // => 2
+interval("C4", "G4") // => "5P"
+transpose("C4", "P5") // => "G4"
 ```
 **Example**  
 ```js
 // included in tonal facade
-const Tonal = require('tonal');
-Tonal.Distance.transpose('C4', 'P5')
-Tonal.Distance.transposeBy('P5', 'C4')
+const Tonal = require("tonal");
+Tonal.Distance.transpose("C4", "P5")
+Tonal.Distance.transposeBy("P5", "C4")
 ```
 
 * [Distance](#module_Distance)
@@ -56,12 +56,12 @@ This function can be partially applied.
 
 **Example**  
 ```js
-import { tranpose } from 'tonal-distance'
-transpose('d3', '3M') // => 'F#3'
+import { tranpose } from "tonal-distance"
+transpose("d3", "3M") // => "F#3"
 // it works with pitch classes
-transpose('D', '3M') // => 'F#'
+transpose("D", "3M") // => "F#"
 // can be partially applied
-['C', 'D', 'E', 'F', 'G'].map(transpose('M3)) // => ['E', 'F#', 'G#', 'A', 'B']
+["C", "D", "E", "F", "G"].map(transpose("M3)) // => ["E", "F#", "G#", "A", "B"]
 ```
 <a name="module_Distance.trFifths"></a>
 
@@ -80,10 +80,10 @@ It can be partially applied.
 
 **Example**  
 ```js
-import { trFifths } from 'tonal-transpose'
-[0, 1, 2, 3, 4].map(trFifths('C')) // => ['C', 'G', 'D', 'A', 'E']
+import { trFifths } from "tonal-transpose"
+[0, 1, 2, 3, 4].map(trFifths("C")) // => ["C", "G", "D", "A", "E"]
 // or using tonal
-Distance.trFifths('G4', 1) // => 'D'
+Distance.trFifths("G4", 1) // => "D"
 ```
 <a name="module_Distance.fifths"></a>
 
@@ -116,8 +116,8 @@ Can be partially applied.
 
 **Example**  
 ```js
-import { tranposeBy } from 'tonal-distance'
-transposeBy('3m', '5P') // => '7m'
+import { tranposeBy } from "tonal-distance"
+transposeBy("3m", "5P") // => "7m"
 ```
 <a name="module_Distance.add"></a>
 
@@ -136,8 +136,8 @@ Can be partially applied.
 
 **Example**  
 ```js
-import { add } from 'tonal-distance'
-add('3m', '5P') // => '7m'
+import { add } from "tonal-distance"
+add("3m", "5P") // => "7m"
 ```
 <a name="module_Distance.subtract"></a>
 
@@ -172,14 +172,14 @@ Can be partially applied
 
 **Example**  
 ```js
-import { interval } from 'tonal-distance'
-interval('C2', 'C3') // => 'P8'
-interval('G', 'B') // => 'M3'
+import { interval } from "tonal-distance"
+interval("C2", "C3") // => "P8"
+interval("G", "B") // => "M3"
 ```
 **Example**  
 ```js
-import * as Distance from 'tonal-distance'
-Distance.interval('M2', 'P5') // => 'P4'
+import * as Distance from "tonal-distance"
+Distance.interval("M2", "P5") // => "P4"
 ```
 <a name="module_Distance.semitones"></a>
 
@@ -196,8 +196,8 @@ Get the distance between two notes in semitones
 
 **Example**  
 ```js
-import { semitones } from 'tonal-distance'
-semitones('C3', 'A2') // => -3
+import { semitones } from "tonal-distance"
+semitones("C3", "A2") // => -3
 // or use tonal
-Tonal.Distance.semitones('C3', 'G3') // => 7
+Tonal.Distance.semitones("C3", "G3") // => 7
 ```
