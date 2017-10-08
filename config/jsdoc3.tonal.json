@@ -2,7 +2,7 @@
   "plugins": ["plugins/markdown", "plugins/summarize"],
   "recurseDepth": 10,
   "source": {
-    "include": ["README.md", "packages/", "extensions/"],
+    "include": ["./README.md", "./packages/"],
     "includePattern": "index.js$",
     "excludePattern": "node_modules|build"
   },
@@ -17,12 +17,8 @@
   },
   "opts": {
     "destination": "./docs/api/",
-    "def-template": "./node_modules/jsdoc/templates/default",
-    "old-template": "./node_modules/postman-jsdoc-theme",
     "template": "./node_modules/docdash",
     "recurse": true,
-    "jsdoc-template": "./node_modules/jsdoc/templates/haruki",
-    "encoding": "utf8",
-    "no-destination": "console"
+    "encoding": "utf8"
   }
 }

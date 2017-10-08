@@ -1,0 +1,24 @@
+{
+  "plugins": ["plugins/markdown", "plugins/summarize"],
+  "recurseDepth": 10,
+  "source": {
+    "include": ["./README.md", "./packages/", "./extensions"],
+    "includePattern": "index.js$",
+    "excludePattern": "node_modules|build"
+  },
+  "sourceType": "module",
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc"]
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  },
+  "opts": {
+    "destination": "./docs/api/",
+    "template": "./node_modules/docdash",
+    "recurse": true,
+    "encoding": "utf8"
+  }
+}
