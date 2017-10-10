@@ -2,7 +2,7 @@
   "plugins": ["plugins/markdown", "plugins/summarize"],
   "recurseDepth": 10,
   "source": {
-    "include": ["./README.md", "./packages/"],
+    "include": ["./README.md", "./packages/", "./extensions"],
     "includePattern": "index.js$",
     "excludePattern": "node_modules|build"
   },
