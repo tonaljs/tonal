@@ -2,14 +2,6 @@
 var chord = require("../index");
 
 describe("tonal-chord", () => {
-  test.skip("detect", () => {
-    expect(chord.detect("c e g b")).toEqual(["CMaj7"]);
-    expect(chord.detect("e c a g")).toEqual(["CM6", "Am7"]);
-    expect(chord.detect("g d f# b")).toEqual(["GMaj7"]);
-    expect(chord.detect("f a d g b")).toEqual(["Dm6", "G9"]);
-    expect(chord.detect("f bb g d# a")).toEqual(["Gm9#5"]);
-  });
-
   test("tokenize", () => {
     expect(chord.tokenize("Cmaj7")).toEqual(["C", "maj7"]);
     expect(chord.tokenize("c7")).toEqual(["C", "7"]);

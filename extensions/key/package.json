@@ -2,7 +2,7 @@
   "name": "tonal-key",
   "version": "1.0.0",
   "description": "Conversion between key numbers and note names",
-  "repository": "https://github.com/danigb/tonal/packages/key",
+  "repository": "https://github.com/danigb/tonal/extensions/key",
   "keywords": ["note", "key", "tonal"],
   "scripts": {
     "docs":

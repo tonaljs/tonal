@@ -1,9 +1,9 @@
 {
-  "name": "tonal-range",
+  "name": "tonal-detector",
   "version": "1.0.0",
-  "description": "Create ranges of notes",
-  "keywords": ["music", "theory", "range", "tonal"],
-  "repository": "https://github.com/danigb/tonal/extensions/range",
+  "description": "Find the name of pitch class sets",
+  "repository": "https://github.com/danigb/tonal/extensions/detect",
+  "keywords": ["pcset", "detector", "scale", "chord", "music theory", "tonal"],
   "scripts": {
     "docs":
       "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
@@ -11,14 +11,13 @@
   },
   "main": "build/es5.js",
   "module": "build/es6.js",
-  "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
     "tonal-array": "^1.0.0",
-    "tonal-distance": "^1.0.0",
     "tonal-note": "^1.0.0",
-    "tonal-pcset": "^1.0.0"
+    "tonal-pcset": "^1.0.0",
+    "tonal-dictionary": "^1.0.0"
   },
   "babel": {
     "presets": ["es2015"]

@@ -2,7 +2,7 @@
   "name": "tonal-abc-notation",
   "version": "1.0.0",
   "description": "Conversion between notes in ABC and scientific notation",
-  "repository": "https://github.com/danigb/tonal/packages/abc-notation",
+  "repository": "https://github.com/danigb/tonal/extensions/abc-notation",
   "keywords": ["note", "ABC", "notation", "tonal"],
   "scripts": {
     "docs":
