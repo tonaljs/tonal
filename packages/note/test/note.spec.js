@@ -35,6 +35,9 @@ describe("tonal-note", () => {
     expect(note.build({})).toBe(null);
     expect(note.build()).toBe(null);
     expect(note.build("blah")).toBe(null);
+    expect(note.build({ alt: 1 }, "A4")).toBe("A#4");
+    expect(note.build({ alt: 0 }, "C#3")).toBe("C3");
+    expect(note.build({ step: 2, oct: 3 }, "B#")).toBe("E#3");
   });
 
   test("names", () => {

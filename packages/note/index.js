@@ -277,15 +277,21 @@ export const altToAcc = alt =>
  * - step: the note step (0 = C, 1 = D, ... 6 = B)
  * - alt: (optional) the alteration. Negative numbers are flats, positive sharps
  * - oct: (optional) the octave
+ * It can be used as an immutable "set" operator for a note with an optional second parameter
  * @param {Object} props - the note properties
+ * @param {String} fromNote - (Optional) note to build the result from. If given, it returns
+ * the result of applying the given props to this note.
  * @return {String} the note name in scientific notation or null if not valid properties
  * @example
  * Note.build({ step: 5 }) // => "A"
  * Note.build({ step: 1, acc: -1 }) // => "Db"
  * Note.build({ step: 2, acc: 2, oct: 2 }) // => "E##2"
  * Note.build({ step: 7 }) // => null
+ * Note.build({alt: 1, oct: 3}, "C4") // => "C3"
  */
-export const build = ({ step, alt, oct } = {}) => {
+export const build = (buildProps = {}, fromNote = null) => {
+  const fromProps = fromNote ? props(fromNote) : {};
+  const { step, alt, oct } = Object.assign({}, fromProps, buildProps);
   const letter = stepToLetter(step);
   if (!letter) return null;
   const pc = letter + altToAcc(alt);
