@@ -37,6 +37,20 @@ describe("tonal-note", () => {
     expect(note.build("blah")).toBe(null);
   });
 
+  test("from", () => {
+    expect(note.from({ step: 1, alt: -1 })).toBe("Db");
+    expect(note.from({ step: 2, alt: 1, oct: null })).toBe("E#");
+    expect(note.from({ step: 5 })).toBe("A");
+    expect(note.from({ step: -1 })).toBe(null);
+    expect(note.from({ step: 8 })).toBe(null);
+    expect(note.from({})).toBe(null);
+    expect(note.from()).toBe(null);
+    expect(note.from("blah")).toBe(null);
+    expect(note.from({ alt: 1 }, "A4")).toBe("A#4");
+    expect(note.from({ alt: 0 }, "C#3")).toBe("C3");
+    expect(note.from({ step: 2, oct: 3 }, "B#")).toBe("E#3");
+  });
+
   test("names", () => {
     expect(note.names()).toEqual(
       $("C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B")
