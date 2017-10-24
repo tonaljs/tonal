@@ -293,7 +293,7 @@ export const altToAcc = alt =>
  * Note.from({ step: 1, acc: -1 }) // => "Db"
  * Note.from({ step: 2, acc: 2, oct: 2 }) // => "E##2"
  * Note.from({ step: 7 }) // => null
- * Note.from({alt: 1, oct: 3}, "C4") // => "C3"
+ * Note.from({alt: 1, oct: 3}, "C4") // => "C#3"
  */
 export const from = (fromProps = {}, baseNote = null) => {
   const { step, alt, oct } = baseNote
