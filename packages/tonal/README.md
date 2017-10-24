@@ -5,63 +5,78 @@
 
 
 
-`tonal` is a javascript modular music theory library. It provides functions to manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music).
+`tonal` is a small (20kb minified, 6kb gzipped) javascript modular music theory library. It provides functions to manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music).
 
-It uses a functional programing style, so all are pure functions, there is no data mutation, and no objects.
+It uses a functional programing style: all are pure functions, there is no data mutation, and no objects and lot of functions accept partial application.
 
-See the [demo app](https://danigb.github.io/tonal-app/) or [read the API documentation](http://danigb.github.io/tonal/api/)
+#### [Demo and live docs](https://danigb.github.io/tonal-app/)
 
-## Example
+#### [API documentation](http://danigb.github.io/tonal/api/)
+
+## Examples
+
+Basic usage:
 
 ```js
-var tonal = require('tonal')
+import { midi, transpose, scale } from 'tonal'
+
+midi('c4') // => 60
+tranpose('d4', '3M') // => 'F#4'
+scale('major').map(transpose('C2')) // => ['C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2']
+```
+
+Tonal modules:
+
+```js
+import { Note, Interval, Distance, Scale, Chord } from 'tonal'
 
 // note properties
-tonal.note.chroma('Cb') // => 11
-tonal.note.pc('Db5') // => 'Db'
-tonal.note.freq('C#3') // => 138.59
-tonal.note.midi('A4') // => 69
-tonal.note.fromMidi(69) // => 'A4'
+Note.chroma('Cb') // => 11
+Note.pc('Db5') // => 'Db'
+Note.freq('C#3') // => 138.59
+Note.midi('A4') // => 69
+Note.fromMidi(69) // => 'A4'
 
 // interval properties
-tonal.ivl.semitones('5P') // => 7
-tonal.ivl.invert('3m') // => '6M'
-tonal.ivl.fromSemitones(7) // => '5P'
+Interval.semitones('5P') // => 7
+Interval.invert('3m') // => '6M'
+Interval.fromSemitones(7) // => '5P'
 
 // distances
-tonal.distance.transpose('D4', '2M') // => 'E#4'
-tonal.distance.interval('C', 'G') // => '5P'
-tonal.distance.semitones('C', 'G') // => 7
+Distance.transpose('D4', '2M') // => 'E#4'
+Distance.interval('C', 'G') // => '5P'
+Distance.semitones('C', 'G') // => 7
 
 // scales
-tonal.scale.notes('Bb lydian') // => [ 'Bb', 'C', 'D', 'E', 'F', 'G', 'A']
-tonal.scale.notes('Eb bebop') // => [ 'Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'Db', 'D' ]
-tonal.scale.names() // => ["major", "minor", "bebop", ... and 90 more]
+Scale.notes('Bb lydian') // => [ 'Bb', 'C', 'D', 'E', 'F', 'G', 'A']
+Scale.notes('Eb bebop') // => [ 'Eb', 'F', 'G', 'Ab', 'Bb', 'C', 'Db', 'D' ]
+Scale.names() // => ["major", "minor", "bebop", ... and 90 more]
 
 // chords
-tonal.chord.notes('Fm7b5') // => [ 'F', 'Ab', 'Cb', 'Eb' ]
-tonal.chord.names() // => ['M', 'm', 'm7b5', ... and 100 more]
+Chord.notes('Fm7b5') // => [ 'F', 'Ab', 'Cb', 'Eb' ]
+Chord.names() // => ['M', 'm', 'm7b5', ... and 100 more]
+```
 
-// partial application
-var upFifth = tonal.transpose('P5')
-upFifth('c3') // => 'G3'
-tonal.scale.notes('G melodic minor').map(tonal.transpose('m3')) // => [ 'Bb', 'C', 'Db', 'Eb', 'F', 'G', 'A' ]
+Extensions modules:
+
+```js
+import * as Key from 'tonal-key';
+
+Key.chord('Bb major') // => ["BbMaj7", "Cm7", "Dm7", "EbMaj7", "F7", "Gm7", "Am7b5W]
 ```
 
 ## Features
 
 `tonal` is still a work in progress, but currently has implemented:
 
-- Note, intervals, transposition, distances
-- Midi and frequency conversion
-- Scales, chords, dictionaries
-- Utilities to work with collection of notes: sort, filter, rotate, shuffle.
-- Pitch sets comparations, chord and scale detection
-- Keys, keys signatures, key scales
-- Pitch and pitch class sets
+- Note, intervals, transposition, distances, enharmonics, midi, frecuency [`tonal-note`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Note.html)
+- Scales and chords, dictionaries [`tonal-dictionary`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Dictionary.html)
+- Utilities to work arrays of notes: sort, filter, rotate, shuffle [`tonal-array`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Array.html)
+- Pitch sets comparations, chord and scale detection [`tonal-pcset`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-PcSet.html)
 
-In [extensions](https://github.com/danigb/tonal-extensions):
-- Complex note range generation
+In [extensions](https://github.com/danigb/tonal/tree/master/extensions):
+- Keys, keys signatures, key scales [`tonal-key`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Key.html)
+- Complex note range generation [`tonal-range`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Range.html)
 - Chord progressions
 - Enharmonics
 
@@ -83,7 +98,7 @@ Using yarn: `yarn add tonal` (or a single module: `yarn add tonal-scale`)
 
 Using npm: `npm install --save tonal` (or: `npm install --save tonal-scale`)
 
-Browser: grab the minified file [here](https://github.com/danigb/tonal/blob/master/dist/tonal.min.js) (26kb) and include it in your html page (use a `Tonal` global object)
+Browser: grab the minified file [here](https://github.com/danigb/tonal/blob/master/dist/tonal.min.js) (20kb) and include it in your html page (use a `Tonal` global object)
 
 ```html
 <script src="tonal.min.js"></script>
@@ -94,15 +109,17 @@ Browser: grab the minified file [here](https://github.com/danigb/tonal/blob/mast
 ES6:
 
 ```js
-import { distance } from 'tonal'
-distance.transpose('C4', '3M')
+import { transpose, Scale } from 'tonal'
+transpose('C4', '3M')
+Scale.notes('Db major')
 ```
 
 ES5:
 
 ```js
-var tonal = require('tonal')
-tonal.distance.transpose('C4', '2m')
+var Tonal = require('tonal')
+Tonal.transpose('C4', '2m')
+Tonal.Scale.notes('Bb minor')
 ```
 
 Browser (use the `Tonal` global object):

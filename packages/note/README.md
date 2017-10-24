@@ -40,7 +40,8 @@ Tonal.Note.midi("d4") // => 62
     * [`.chroma`](#module_Note.chroma) ⇒ <code>Integer</code>
     * [`.stepToLetter`](#module_Note.stepToLetter) ⇒ <code>string</code>
     * [`.altToAcc`](#module_Note.altToAcc) ⇒ <code>String</code>
-    * [`.build`](#module_Note.build) ⇒ <code>String</code>
+    * [`.from`](#module_Note.from) ⇒ <code>String</code>
+    * [`.build`](#module_Note.build)
     * [`.simplify`](#module_Note.simplify) ⇒ <code>String</code>
     * [`.enharmonic`](#module_Note.enharmonic) ⇒ <code>String</code>
     * [`.tokenize(str)`](#module_Note.tokenize) ⇒ <code>Array</code>
@@ -183,14 +184,18 @@ Given an alteration number, return the accidentals
 ```js
 Note.altToAcc(-3) // => "bbb"
 ```
-<a name="module_Note.build"></a>
+<a name="module_Note.from"></a>
 
-## `Note.build` ⇒ <code>String</code>
-Build a note name in scientific notation from note properties.
+## `Note.from` ⇒ <code>String</code>
+Creates a note name in scientific notation from note properties, 
+and optionally another note name.
 It receives an object with:
 - step: the note step (0 = C, 1 = D, ... 6 = B)
 - alt: (optional) the alteration. Negative numbers are flats, positive sharps
 - oct: (optional) the octave
+Optionally it receives another note as a "base", meaning that any prop not explicitly
+received on the first parameter will be taken from that base note. That way it can be used 
+as an immutable "set" operator for a that base note
 
 **Kind**: static constant of [<code>Note</code>](#module_Note)  
 **Returns**: <code>String</code> - the note name in scientific notation or null if not valid properties  
@@ -198,14 +203,23 @@ It receives an object with:
 | Param | Type | Description |
 | --- | --- | --- |
 | props | <code>Object</code> | the note properties |
+| baseNote | <code>String</code> | (Optional) note to build the result from. If given, it returns the result of applying the given props to this note. |
 
 **Example**  
 ```js
-Note.build({ step: 5 }) // => "A"
-Note.build({ step: 1, acc: -1 }) // => "Db"
-Note.build({ step: 2, acc: 2, oct: 2 }) // => "E##2"
-Note.build({ step: 7 }) // => null
+Note.from({ step: 5 }) // => "A"
+Note.from({ step: 1, acc: -1 }) // => "Db"
+Note.from({ step: 2, acc: 2, oct: 2 }) // => "E##2"
+Note.from({ step: 7 }) // => null
+Note.from({alt: 1, oct: 3}, "C4") // => "C3"
 ```
+<a name="module_Note.build"></a>
+
+## `Note.build`
+Deprecated. This is kept for backwards compatibility only.
+Use Note.from instead
+
+**Kind**: static constant of [<code>Note</code>](#module_Note)  
 <a name="module_Note.simplify"></a>
 
 ## `Note.simplify` ⇒ <code>String</code>

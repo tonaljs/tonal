@@ -21,7 +21,7 @@
       "npm run test && npm run build && npm run dist && npm run docs && cp README.md ./packages/tonal/",
     "pretest": "npm run format",
     "test": "jest --coverage --no-cache",
-    "jsdoc": "jsdoc -c ./config/jsdoc3.all.json",
+    "jsdoc": "jsdoc -c jsdoc3.json",
     "docs": "lerna run docs",
     "api":
       "rm docs/API.md && cat packages/note/README.md packages/interval/README.md packages/distance/README.md packages/scale/README.md packages/chord/README.md packages/pcset/README.md packages/key/README.md > docs/API.md"
@@ -50,7 +50,9 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify-es": "^0.0.1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "global": "^4.3.2"
+  },
   "babel": {
     "presets": ["es2015"]
   },

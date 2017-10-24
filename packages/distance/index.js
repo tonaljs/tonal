@@ -25,7 +25,7 @@
  * 
  * @module Distance
  */
-import { props as nprops, build as nbuild } from "tonal-note";
+import { props as noteProps, build as fromNote } from "tonal-note";
 import { props as iprops, build as ibuild } from "tonal-interval";
 
 // Map from letter step to number of fifths starting from "C":
@@ -73,7 +73,7 @@ const encoder = props =>
     return p.name === null ? null : encode(p);
   });
 
-const encodeNote = encoder(nprops);
+const encodeNote = encoder(noteProps);
 const encodeIvl = encoder(iprops);
 
 /**
@@ -98,7 +98,7 @@ export function transpose(note, interval) {
   const i = encodeIvl(interval);
   if (n === null || i === null) return null;
   const tr = n.length === 1 ? [n[0] + i[0]] : [n[0] + i[0], n[1] + i[1]];
-  return nbuild(decode(tr[0], tr[1]));
+  return fromNote(decode(tr[0], tr[1]));
 }
 
 /**
@@ -122,7 +122,7 @@ export function trFifths(note, fifths) {
   if (arguments.length === 1) return f => trFifths(note, f);
   const n = encodeNote(note);
   if (n === null) return null;
-  return nbuild(decode(n[0] + fifths));
+  return fromNote(decode(n[0] + fifths));
 }
 
 /**
@@ -246,8 +246,8 @@ export function interval(from, to) {
  */
 export function semitones(from, to) {
   if (arguments.length === 1) return t => semitones(from, t);
-  const f = nprops(from);
-  const t = nprops(to);
+  const f = noteProps(from);
+  const t = noteProps(to);
   return f.midi !== null && t.midi !== null
     ? t.midi - f.midi
     : f.chroma !== null && t.chroma !== null

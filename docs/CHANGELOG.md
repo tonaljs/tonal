@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.1.0
+
+- Rename `Note.build` to `Note.from` and add an extra parameter
+- Include `tonal-detect` module (with limited API and functionallity)
+
+
+## 1.0.0
+
+- Breaking change: Rename module names to upercase:
+
+```js
+import Tonal from 'tonal';
+
+Tonal.Note.midi("A4") // => 69
+```
+
+- Breaking change: Reduce the number of modules (mostly low level or internal modules) and simplify the API
+
 ## 0.70.0 [Master]
 
 - New [tonal-notes] package 
