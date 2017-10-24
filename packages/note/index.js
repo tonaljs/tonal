@@ -278,11 +278,14 @@ export const altToAcc = alt =>
  * - step: the note step (0 = C, 1 = D, ... 6 = B)
  * - alt: (optional) the alteration. Negative numbers are flats, positive sharps
  * - oct: (optional) the octave
+ * 
  * Optionally it receives another note as a "base", meaning that any prop not explicitly
  * received on the first parameter will be taken from that base note. That way it can be used 
  * as an immutable "set" operator for a that base note
+ * 
+ * @function
  * @param {Object} props - the note properties
- * @param {String} baseNote - (Optional) note to build the result from. If given, it returns
+ * @param {String} [baseNote] - note to build the result from. If given, it returns
  * the result of applying the given props to this note.
  * @return {String} the note name in scientific notation or null if not valid properties
  * @example
