@@ -36,6 +36,8 @@ Note.pc('Db5') // => 'Db'
 Note.freq('C#3') // => 138.59
 Note.midi('A4') // => 69
 Note.fromMidi(69) // => 'A4'
+Note.from({ alt: 2 }, 'C4') // => 'C##4'
+Note.from({ oct: 2 }, 'C4') // => 'C2'
 
 // interval properties
 Interval.semitones('5P') // => 7

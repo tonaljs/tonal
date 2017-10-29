@@ -2,15 +2,11 @@
   "name": "tonal-range",
   "version": "1.1.0",
   "description": "Create ranges of notes",
-  "keywords": [
-    "music",
-    "theory",
-    "range",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "range", "tonal"],
   "repository": "https://github.com/danigb/tonal/extensions/range",
   "scripts": {
-    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs":
+      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/es5.js",
@@ -25,13 +21,9 @@
     "tonal-pcset": "^1.1.0"
   },
   "babel": {
-    "presets": [
-      "es2015"
-    ]
+    "presets": ["es2015"]
   },
   "jest": {
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!tonal)"
-    ]
+    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
   }
 }

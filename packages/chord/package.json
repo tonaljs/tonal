@@ -3,14 +3,10 @@
   "version": "1.1.0",
   "description": "Music chords creation and manipulation",
   "repository": "https://github.com/danigb/tonal/packages/chord",
-  "keywords": [
-    "music",
-    "theory",
-    "chord",
-    "tonal"
-  ],
+  "keywords": ["music", "theory", "chord", "tonal"],
   "scripts": {
-    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs":
+      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/es5.js",
@@ -24,13 +20,9 @@
     "tonal-pcset": "^1.1.0"
   },
   "babel": {
-    "presets": [
-      "es2015"
-    ]
+    "presets": ["es2015"]
   },
   "jest": {
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!tonal)"
-    ]
+    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
   }
 }
