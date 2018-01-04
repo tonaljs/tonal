@@ -11,7 +11,7 @@
  * import * as Chord from "tonal-chord"
  * // es5
  * const Chord = require("tonal-chord")
- * 
+ *
  * @example
  * Chord.notes("CMaj7") // => ["C", "E", "G", "B"]
  *
@@ -56,13 +56,13 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
 
 /**
  * Get chord properties. It returns an object with:
- * 
+ *
  * - name: the chord name
  * - names: a list with all possible names (includes the current)
  * - intervals: an array with the chord intervals
  * - chroma:  chord croma (see pcset)
  * - setnum: chord chroma number
- * 
+ *
  * @function
  * @param {String} name - the chord name (without tonic)
  * @return {Object} an object with the properties or a object with all properties
@@ -72,7 +72,7 @@ export const props = memo(properties);
 
 /**
  * Get chord intervals. It always returns an array
- * 
+ *
  * @function
  * @param {String} name - the chord name (optionally a tonic and type)
  * @return {Array<String>} a list of intervals or null if the type is not known
@@ -97,12 +97,12 @@ export const intervals = name => props(tokenize(name)[1]).intervals;
 export function notes(nameOrTonic, name) {
   const p = tokenize(nameOrTonic);
   name = name || p[1];
-  return intervals(name).map(transpose(p[0]));
+  return props(name).intervals.map(transpose(p[0]));
 }
 
 /**
  * Check if a given name correspond to a chord in the dictionary
- * 
+ *
  * @function
  * @param {String} name
  * @return {Boolean}
@@ -116,9 +116,9 @@ export const exists = name => chord(tokenize(name)[1]) !== undefined;
 /**
  * Get all chords names that are a superset of the given one
  * (has the same notes and at least one more)
- * 
+ *
  * @function
- * @param {String} name 
+ * @param {String} name
  * @return {Array} a list of chord names
  */
 export const supersets = name => {
@@ -130,9 +130,9 @@ export const supersets = name => {
 /**
  * Find all chords names that are a subset of the given one
  * (has less notes but all from the given chord)
- * 
+ *
  * @function
- * @param {String} name 
+ * @param {String} name
  * @return {Array} a list of chord names
  */
 export const subsets = name => {
@@ -141,7 +141,7 @@ export const subsets = name => {
 };
 
 /**
- * Tokenize a chord name. It returns an array with the tonic and chord type 
+ * Tokenize a chord name. It returns an array with the tonic and chord type
  * If not tonic is found, all the name is considered the chord name.
  *
  * This function does NOT check if the chord type exists or not. It only tries

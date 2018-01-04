@@ -144,7 +144,7 @@ Find all chords names that are a subset of the given one
 <a name="module_Chord.tokenize"></a>
 
 ## `Chord.tokenize(name)` ⇒ <code>Array</code>
-Tokenize a chord name. It returns an array with the tonic and chord type 
+Tokenize a chord name. It returns an array with the tonic and chord type
 If not tonic is found, all the name is considered the chord name.
 
 This function does NOT check if the chord type exists or not. It only tries

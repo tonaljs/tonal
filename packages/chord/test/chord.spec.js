@@ -23,6 +23,12 @@ describe("tonal-chord", () => {
     expect(chord.notes("blah")).toEqual([]);
   });
 
+  // see: https://github.com/danigb/tonal/issues/52
+  test("augmented chords (issue #52)", () => {
+    expect(chord.notes("Caug")).toEqual(["C", "E", "G#"]);
+    expect(chord.notes("C", "aug")).toEqual(["C", "E", "G#"]);
+  });
+
   test("intervals", () => {
     expect(chord.intervals("maj7")).toEqual(["1P", "3M", "5P", "7M"]);
     expect(chord.intervals("Cmaj7")).toEqual(["1P", "3M", "5P", "7M"]);
