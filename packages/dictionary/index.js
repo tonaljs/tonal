@@ -10,7 +10,7 @@
  * import * as Dictionary from "tonal-dictionary"
  * // es5
  * const Dictionary = require("tonal-dictionary")
- * 
+ *
  * @example
  * Dictionary.chord("Maj7") // => ["1P", "3M", "5P", "7M"]
  *

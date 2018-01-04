@@ -13,7 +13,7 @@
  * // es6
  * import PcSet from "tonal-pcset"
  * var PcSet = require("tonal-pcset")
- * 
+ *
  * PcSet.isEqual("c2 d5 e6", "c6 e3 d1") // => true
  * ```
  *
@@ -56,7 +56,7 @@ let all = null;
  * Get a list of all possible chromas (all possible scales)
  * More information: http://allthescales.org/
  * @return {Array} an array of possible chromas from '10000000000' to '11111111111'
- * 
+ *
  */
 export function chromas(n) {
   all = all || range(2048, 4095).map(n => n.toString(2));
@@ -135,13 +135,13 @@ export function isEqual(s1, s2) {
 }
 
 /**
- * Create a function that test if a collection of notes is a 
- * subset of a given set 
- * 
+ * Create a function that test if a collection of notes is a
+ * subset of a given set
+ *
  * The function can be partially applied
  *
  * @param {Array|String} set - an array of notes or a chroma set string to test against
- * @param {Array|String} notes - an array of notes or a chroma set 
+ * @param {Array|String} notes - an array of notes or a chroma set
  * @return {boolean} true if notes is a subset of set, false otherwise
  * @example
  * const inCMajor = PcSet.isSubsetOf(["C", "E", "G"])
@@ -162,7 +162,7 @@ export function isSubsetOf(set, notes) {
  * superset of a given set (it contains all notes and at least one more)
  *
  * @param {Array|String} set - an array of notes or a chroma set string to test against
- * @param {Array|String} notes - an array of notes or a chroma set 
+ * @param {Array|String} notes - an array of notes or a chroma set
  * @return {boolean} true if notes is a superset of set, false otherwise
  * @example
  * const extendsCMajor = PcSet.isSupersetOf(["C", "E", "G"])

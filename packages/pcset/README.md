@@ -135,8 +135,8 @@ PcSet.isEqual(["c2", "d3"], ["c5", "d2"]) // => true
 <a name="module_PcSet.isSubsetOf"></a>
 
 ## `PcSet.isSubsetOf(set, notes)` ⇒ <code>boolean</code>
-Create a function that test if a collection of notes is a 
-subset of a given set 
+Create a function that test if a collection of notes is a
+subset of a given set
 
 The function can be partially applied
 

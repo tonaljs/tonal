@@ -4,7 +4,7 @@
  * @example
  * const Range = require("tonal-range")
  * import * as Range from "tonal-range"
- * 
+ *
  * @example
  * // ascending chromatic range
  * Range.chromatic(["C4", "E4"]) // => ["C4", "Db4", "D4", "Eb4", "E4"]
@@ -58,7 +58,7 @@ export function numeric(arr) {
  * @function
  * @param {String|Array} list - the list of notes or midi note numbers
  * @return {Array} an array of note names
- * 
+ *
  * @example
  * Range.chromatic("C2 E2 D2") // => ["C2", "Db2", "D2", "Eb2", "E2", "Eb2", "D2"]
  * // with sharps
@@ -84,7 +84,7 @@ export function fifths(tonic, range) {
 /**
  * Create a scale (pitch class set) Range. Given a scale (a pitch class set)
  * and a range array, it returns a range in notes.
- * 
+ *
  * Can be partially applied
  *
  * @function
@@ -93,7 +93,7 @@ export function fifths(tonic, range) {
  * @param {Array} range - a list of notes or midi numbers
  * @return {Array} the scale range, an empty array if not valid source or
  * null if not valid start or end
- * 
+ *
  * @example
  * Range.scale("C D E F G A B", ["C3", "C2"])
  * // => [ "C3", "B2", "A2", "G2", "F2", "E2", "D2", "C2" ]

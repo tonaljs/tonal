@@ -11,7 +11,7 @@
  * import * as Key from "tonal-key"
  * // es5
  * const Key = require("tonal-key")
- * 
+ *
  * @example
  * Key.scale("E mixolydian") // => [ "E", "F#", "G#", "A", "B", "C#", "D" ]
  * Key.relative("minor", "C major") // => "A minor"
@@ -51,7 +51,7 @@ export const modeNames = aliases =>
 
 /**
  * Create a major key from alterations
- * 
+ *
  * @function
  * @param {Integer} alt - the alteration number (positive sharps, negative flats)
  * @return {Key} the key object
@@ -109,7 +109,7 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
  * @function
  * @param {String} name - the key name
  * @return {Object} the key properties object or null if not a valid key
- * 
+ *
  * @example
  * Key.props("C3 dorian") // => { tonic: "C", mode: "dorian", ... }
  */
@@ -121,7 +121,7 @@ export const props = memo(properties);
  * @function
  * @param {String|Object} key
  * @return {Array} the key scale
- * 
+ *
  * @example
  * Key.scale("A major") // => [ "A", "B", "C#", "D", "E", "F#", "G#" ]
  * Key.scale("Bb minor") // => [ "Bb", "C", "Db", "Eb", "F", "Gb", "Ab" ]
@@ -150,11 +150,11 @@ export const degrees = str => {
 /**
  * Get a list of the altered notes of a given Key. The notes will be in
  * the same order than in the key signature.
- * 
+ *
  * @function
  * @param {String} key - the key name
  * @return {Array}
- * 
+ *
  * @example
  * Key.alteredNotes("Eb major") // => [ "Bb", "Eb", "Ab" ]
  */
@@ -170,11 +170,11 @@ export const alteredNotes = name => {
 
 /**
  * Get key chords
- * 
+ *
  * @function
  * @param {String} name - the key name
  * @return {Array}
- * 
+ *
  * @example
  * Key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
  */
@@ -187,11 +187,11 @@ export const chords = str => {
 
 /**
  * Get secondary dominant key chords
- * 
+ *
  * @function
  * @param {String} name - the key name
  * @return {Array}
- * 
+ *
  * @example
  * Key.secDomChords("A major") // => ["E7", "F#7", ...]
  */
@@ -211,7 +211,7 @@ export const secDomChords = name => {
  * @function
  * @param {String} mode - the relative destination
  * @param {String} key - the key source
- * 
+ *
  * @example
  * Key.relative("dorian", "B major") // => "C# dorian"
  * // partial application
@@ -230,11 +230,11 @@ export const relative = (mode, key) => {
 
 /**
  * Split the key name into its components (pitch class tonic and mode name)
- * 
+ *
  * @function
- * @param {String} name 
+ * @param {String} name
  * @return {Array} an array in the form [tonic, key]
- * 
+ *
  * @example
  * Key.tokenize("C major") // => ["C", "major"]
  */

@@ -1,18 +1,18 @@
 /**
  * [![npm version](https://img.shields.io/npm/v/tonal-distance.svg)](https://www.npmjs.com/package/tonal-distance)
  * [![tonal](https://img.shields.io/badge/tonal-distance-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/tonal/distance)
- * 
+ *
  * Transpose notes by intervals and find distances between notes
  *
  * @example
  * // es6
  * import * as Distance from "tonal-distance"
  * Distance.interval("C3", "C4") // => "1P"
- * 
+ *
  * @example
  * // es6 import selected functions
  * import { interval, semitones, transpose } from "tonal-distance"
- * 
+ *
  * semitones("C" ,"D") // => 2
  * interval("C4", "G4") // => "5P"
  * transpose("C4", "P5") // => "G4"
@@ -22,7 +22,7 @@
  * const Tonal = require("tonal");
  * Tonal.Distance.transpose("C4", "P5")
  * Tonal.Distance.transposeBy("P5", "C4")
- * 
+ *
  * @module Distance
  */
 import { props as noteProps, build as fromNote } from "tonal-note";
@@ -78,9 +78,9 @@ const encodeIvl = encoder(iprops);
 
 /**
  * Transpose a note by an interval. The note can be a pitch class.
- * 
+ *
  * This function can be partially applied.
- * 
+ *
  * @param {String} note
  * @param {String} interval
  * @return {String} the transposed note
@@ -102,15 +102,15 @@ export function transpose(note, interval) {
 }
 
 /**
- * Transpose a pitch class by a number of perfect fifths. 
- * 
+ * Transpose a pitch class by a number of perfect fifths.
+ *
  * It can be partially applied.
  *
  * @function
- * @param {String} pitchClass - the pitch class 
+ * @param {String} pitchClass - the pitch class
  * @param {Integer} fifhts - the number of fifths
  * @return {String} the transposed pitch class
- * 
+ *
  * @example
  * import { trFifths } from "tonal-transpose"
  * [0, 1, 2, 3, 4].map(trFifths("C")) // => ["C", "G", "D", "A", "E"]
@@ -127,11 +127,11 @@ export function trFifths(note, fifths) {
 
 /**
  * Get the distance in fifths between pitch classes
- * 
+ *
  * Can be partially applied.
- * 
+ *
  * @param {String} to - note or pitch class
- * @param {String} from - note or pitch class 
+ * @param {String} from - note or pitch class
  */
 export function fifths(from, to) {
   if (arguments.length === 1) return to => fifths(from, to);
@@ -143,9 +143,9 @@ export function fifths(from, to) {
 
 /**
  * The same as transpose with the arguments inverted.
- * 
+ *
  * Can be partially applied.
- * 
+ *
  * @param {String} note
  * @param {String} interval
  * @return {String} the transposed note
@@ -171,10 +171,10 @@ export function addIntervals(ivl1, ivl2, dir) {
 }
 
 /**
- * Add two intervals 
- * 
+ * Add two intervals
+ *
  * Can be partially applied.
- * 
+ *
  * @param {String} interval1
  * @param {String} interval2
  * @return {String} the resulting interval
@@ -189,9 +189,9 @@ export function add(ivl1, ivl2) {
 
 /**
  * Subtract two intervals
- * 
+ *
  * Can be partially applied
- * 
+ *
  * @param {String} minuend
  * @param {String} subtrahend
  * @return {String} interval diference
@@ -202,9 +202,9 @@ export function subtract(ivl1, ivl2) {
 }
 
 /**
- * Find the interval between two pitches. It works with pitch classes 
+ * Find the interval between two pitches. It works with pitch classes
  * (both must be pitch classes and the interval is always ascending)
- * 
+ *
  * Can be partially applied
  *
  * @param {String} from - distance from
@@ -215,7 +215,7 @@ export function subtract(ivl1, ivl2) {
  * import { interval } from "tonal-distance"
  * interval("C2", "C3") // => "P8"
  * interval("G", "B") // => "M3"
- * 
+ *
  * @example
  * import * as Distance from "tonal-distance"
  * Distance.interval("M2", "P5") // => "P4"
@@ -234,7 +234,7 @@ export function interval(from, to) {
 
 /**
  * Get the distance between two notes in semitones
- * 
+ *
  * @param {String|Pitch} from - first note
  * @param {String|Pitch} to - last note
  * @return {Integer} the distance in semitones or null if not valid notes

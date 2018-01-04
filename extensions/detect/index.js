@@ -5,7 +5,7 @@
  *
  * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
  *
- * @example 
+ * @example
  * import { chord } from "tonal-detect"
  * chord(["C", "E", "G", "A"]) // => ["CM6", "Am7"]
  *
@@ -56,10 +56,10 @@ export const chord = detector(
  * @example
  * Detect.scale(["f3", "a", "c5", "e2", "d", "g2", "b6"]) // => [
  * "C major",
- * "D dorian", 
- * "E phrygian", 
+ * "D dorian",
+ * "E phrygian",
  * "F lydian",
- * "G mixolydian", 
+ * "G mixolydian",
  * "A aeolian",
  * "B locrian"
  * ]

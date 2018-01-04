@@ -61,7 +61,7 @@ Get a list of note names (pitch classes) within a octave
 
 | Param | Type | Description |
 | --- | --- | --- |
-| accTypes | <code>string</code> | (Optional, by default " b#"). A string with the  accidentals types: " " means no accidental, "#" means sharps, "b" mean flats, can be conbined (see examples) |
+| accTypes | <code>string</code> | (Optional, by default " b#"). A string with the accidentals types: " " means no accidental, "#" means sharps, "b" mean flats, can be conbined (see examples) |
 
 **Example**  
 ```js
@@ -231,8 +231,8 @@ Note.enhramonic("C") // => "C"
 <a name="module_Note.tokenize"></a>
 
 ## `Note.tokenize(str)` ⇒ <code>Array</code>
-Split a string into tokens related to note parts. 
-It returns an array of strings `[letter, accidental, octave, modifier]` 
+Split a string into tokens related to note parts.
+It returns an array of strings `[letter, accidental, octave, modifier]`
 
 It always returns an array
 
@@ -345,7 +345,7 @@ Note.oct("blah") // => undefined
 <a name="module_Note.from"></a>
 
 ## `Note.from(props, [baseNote])` ⇒ <code>String</code>
-Creates a note name in scientific notation from note properties, 
+Creates a note name in scientific notation from note properties,
 and optionally another note name.
 It receives an object with:
 - step: the note step (0 = C, 1 = D, ... 6 = B)
@@ -353,7 +353,7 @@ It receives an object with:
 - oct: (optional) the octave
 
 Optionally it receives another note as a "base", meaning that any prop not explicitly
-received on the first parameter will be taken from that base note. That way it can be used 
+received on the first parameter will be taken from that base note. That way it can be used
 as an immutable "set" operator for a that base note
 
 **Kind**: static method of [<code>Note</code>](#module_Note)  

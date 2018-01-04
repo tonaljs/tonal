@@ -66,7 +66,7 @@ transpose("D", "3M") // => "F#"
 <a name="module_Distance.trFifths"></a>
 
 ## `Distance.trFifths(pitchClass, fifhts)` ⇒ <code>String</code>
-Transpose a pitch class by a number of perfect fifths. 
+Transpose a pitch class by a number of perfect fifths.
 
 It can be partially applied.
 
@@ -122,7 +122,7 @@ transposeBy("3m", "5P") // => "7m"
 <a name="module_Distance.add"></a>
 
 ## `Distance.add(interval1, interval2)` ⇒ <code>String</code>
-Add two intervals 
+Add two intervals
 
 Can be partially applied.
 
@@ -157,7 +157,7 @@ Can be partially applied
 <a name="module_Distance.interval"></a>
 
 ## `Distance.interval(from, to)` ⇒ <code>String</code>
-Find the interval between two pitches. It works with pitch classes 
+Find the interval between two pitches. It works with pitch classes
 (both must be pitch classes and the interval is always ascending)
 
 Can be partially applied

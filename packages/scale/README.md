@@ -88,7 +88,7 @@ Scale.intervals("major") // => [ "1P", "2M", "3M", "4P", "5P", "6M", "7M" ]
 <a name="module_Scale.notes"></a>
 
 ## `Scale.notes(tonic, nameOrTonic, [name])` ⇒ <code>Array</code>
-Get the notes (pitch classes) of a scale. 
+Get the notes (pitch classes) of a scale.
 
 Note that it always returns an array, and the values are only pitch classes.
 
@@ -123,11 +123,11 @@ Check if the given name is a known scale from the scales dictionary
 <a name="module_Scale.tokenize"></a>
 
 ## `Scale.tokenize(name)` ⇒ <code>Array</code>
-Given a string with a scale name and (optionally) a tonic, split 
+Given a string with a scale name and (optionally) a tonic, split
 that components.
 
-It retuns an array with the form [ name, tonic ] where tonic can be a 
-note name or null and name can be any arbitrary string 
+It retuns an array with the form [ name, tonic ] where tonic can be a
+note name or null and name can be any arbitrary string
 (this function doesn"t check if that scale name exists)
 
 **Kind**: static method of [<code>Scale</code>](#module_Scale)  
@@ -168,7 +168,7 @@ Get all chords that fits a given scale
 <a name="module_Scale.toScale"></a>
 
 ## `Scale.toScale(notes)` ⇒ <code>Array</code>
-Given an array of notes, return the scale: a pitch class set starting from 
+Given an array of notes, return the scale: a pitch class set starting from
 the first note of the array
 
 **Kind**: static method of [<code>Scale</code>](#module_Scale)  

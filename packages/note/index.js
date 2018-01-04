@@ -16,7 +16,7 @@
  * Note.midi("a4") // => 69
  * Note.freq("a4") // => 440
  * Note.oct("G3") // => 3
- * 
+ *
  * // part of tonal
  * const Tonal = require("tonal")
  * // or import Note from "tonal"
@@ -36,8 +36,8 @@ const NAMES = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B".split(" ");
 
 /**
  * Get a list of note names (pitch classes) within a octave
- * 
- * @param {string} accTypes - (Optional, by default " b#"). A string with the 
+ *
+ * @param {string} accTypes - (Optional, by default " b#"). A string with the
  * accidentals types: " " means no accidental, "#" means sharps, "b" mean flats,
  * can be conbined (see examples)
  * @return {Array}
@@ -58,12 +58,12 @@ const FLATS = names(" b");
 const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
 
 /**
- * Split a string into tokens related to note parts. 
- * It returns an array of strings `[letter, accidental, octave, modifier]` 
- * 
+ * Split a string into tokens related to note parts.
+ * It returns an array of strings `[letter, accidental, octave, modifier]`
+ *
  * It always returns an array
- * 
- * @param {String} str 
+ *
+ * @param {String} str
  * @return {Array} an array of note tokens
  * @example
  * Note.tokenize("C#2") // => ["C", "#", "2", ""]
@@ -112,7 +112,7 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
 
 /**
  * Get note properties. It returns an object with the following information:
- * 
+ *
  * - name {String}: the note name. The letter is always in uppercase
  * - letter {String}: the note letter, always in uppercase
  * - acc {String}: the note accidentals
@@ -123,12 +123,12 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
  * - chroma {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
  * - midi {Number}: the note midi number
  * - freq {Number}: the frequency using an equal temperament at 440Hz
- * 
+ *
  * This function *always* returns an object with all this properties, but if it"s
  * not a valid note all properties will be null.
- * 
+ *
  * The returned object can"t be mutated.
- * 
+ *
  * @param {String} note - the note name in scientific notation
  * @return {Object} an object with the properties (or an object will all properties
  * set to null if not valid note)
@@ -144,7 +144,7 @@ export const props = memo(properties);
  * Given a note name, return the note name or null if not valid note.
  * The note name will ALWAYS have the letter in upercase and accidentals
  * using # or b
- * 
+ *
  * Can be used to test if a string is a valid note name.
  *
  * @function
@@ -185,7 +185,7 @@ export const midi = note => props(note).midi || +note || null;
 
 /**
  * Get the frequency from midi number
- * 
+ *
  * @param {Number} midi - the note midi number
  * @param {Number} tuning - (Optional) 440 by default
  * @return {Number} the frequency or null if not valid note midi
@@ -210,7 +210,7 @@ const L440 = Math.log(440);
 /**
  * Get the midi number from a frequency in hertz. The midi number can
  * contain decimals (with two digits precission)
- * 
+ *
  * @param {Number} frequency
  * @return {Number}
  * @example
@@ -251,7 +251,7 @@ export const oct = str => props(str).oct;
 const LETTERS = "CDEFGAB";
 /**
  * Given a step number return it"s letter (0 = C, 1 = D, 2 = E)
- * @param {number} step 
+ * @param {number} step
  * @return {string} the letter
  * @example
  * Note.stepToLetter(3) // => "F"
@@ -263,7 +263,7 @@ const numToStr = (num, op) => (typeof num !== "number" ? "" : op(num));
 
 /**
  * Given an alteration number, return the accidentals
- * @param {Number} alt 
+ * @param {Number} alt
  * @return {String}
  * @example
  * Note.altToAcc(-3) // => "bbb"
@@ -272,17 +272,17 @@ export const altToAcc = alt =>
   numToStr(alt, alt => (alt < 0 ? fillStr("b", -alt) : fillStr("#", alt)));
 
 /**
- * Creates a note name in scientific notation from note properties, 
+ * Creates a note name in scientific notation from note properties,
  * and optionally another note name.
  * It receives an object with:
  * - step: the note step (0 = C, 1 = D, ... 6 = B)
  * - alt: (optional) the alteration. Negative numbers are flats, positive sharps
  * - oct: (optional) the octave
- * 
+ *
  * Optionally it receives another note as a "base", meaning that any prop not explicitly
- * received on the first parameter will be taken from that base note. That way it can be used 
+ * received on the first parameter will be taken from that base note. That way it can be used
  * as an immutable "set" operator for a that base note
- * 
+ *
  * @function
  * @param {Object} props - the note properties
  * @param {String} [baseNote] - note to build the result from. If given, it returns
@@ -334,8 +334,8 @@ export function fromMidi(num, sharps) {
 }
 
 /**
- * Simplify the note: find an enhramonic note with less accidentals. 
- * 
+ * Simplify the note: find an enhramonic note with less accidentals.
+ *
  * @param {String} note - the note to be simplified
  * @param {boolean} useSameAccType - (optional, true by default) set to true
  * to ensure the returned note has the same accidental types that the given note
@@ -357,8 +357,8 @@ export const simplify = (note, sameAcc) => {
 
 /**
  * Get the simplified and enhramonic note of the given one.
- * 
- * @param {String} note 
+ *
+ * @param {String} note
  * @return {String} the enhramonic note
  * @example
  * Note.enharmonic("Db") // => "C#"

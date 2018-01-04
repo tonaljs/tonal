@@ -12,14 +12,14 @@
  * - Scale
  * - Chord
  * - PcSet
- * 
+ *
  * Additionally this facade exports some functions without namespace (see "Methods" below)
- * 
+ *
  * @example
  * // es6 modules
  * import * as Tonal from "tonal"
  * Tonal.Note.name("cx") // => "C##"
- * 
+ *
  * @example
  * import { Note } from "tonal"
  * Note.name("bb") // => "Bb"

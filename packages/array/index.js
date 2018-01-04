@@ -1,8 +1,8 @@
 /**
  * [![npm version](https://img.shields.io/npm/v/tonal-array.svg?style=flat-square)](https://www.npmjs.com/package/tonal-array)
- * 
+ *
  * Tonal array utilities. Create ranges, sort notes, ...
- * 
+ *
  * @example
  * import * as Array;
  * Array.sort(["f", "a", "c"]) // => ["C", "F", "A"]
@@ -10,7 +10,7 @@
  * @example
  * const Array = require("tonal-array)
  * Array.range(1, 4) // => [1, 2, 3, 4]
- * 
+ *
  * @module Array
  */
 import { midi, name } from "tonal-note";
@@ -28,11 +28,11 @@ function descR(b, n) {
 
 /**
  * Create a numeric range
- * 
+ *
  * @param {Number} from
  * @param {Number} to
- * @return {Array} 
- * 
+ * @return {Array}
+ *
  * @example
  * Array.range(-2, 2) // => [-2, -1, 0, 1, 2]
  * Array.range(2, -2) // => [2, 1, 0, -1, -2]
@@ -43,10 +43,10 @@ export function range(a, b) {
     : a < b ? ascR(a, b - a + 1) : descR(a, a - b + 1);
 }
 /**
- * 
+ *
  * Rotates a list a number of times. It"s completly agnostic about the
  * contents of the list.
- * 
+ *
  * @param {Integer} times - the number of rotations
  * @param {Array} array
  * @return {Array} the rotated array
@@ -64,7 +64,7 @@ export function rotate(times, arr) {
  * @function
  * @param {Array} array
  * @return {Array}
- * 
+ *
  * @example
  * Array.compact(["a", "b", null, "c"]) // => ["a", "b", "c"]
  */
@@ -78,7 +78,7 @@ const height = n => {
 
 /**
  * Sort an array of notes in ascending order
- * 
+ *
  * @param {String|Array} notes
  * @return {Array} sorted array of notes
  */
@@ -88,7 +88,7 @@ export function sort(src) {
 
 /**
  * Get sorted notes with duplicates removed
- * 
+ *
  * @function
  * @param {Array} notes
  */
@@ -122,8 +122,8 @@ export var shuffle = (arr, rnd = Math.random) => {
 /**
  * Get all permutations of an array
  * http://stackoverflow.com/questions/9960908/permutations-in-javascript
- * 
- * @param {Array} array - the array 
+ *
+ * @param {Array} array - the array
  * @return {Array<Array>} an array with all the permutations
  */
 export const permutations = arr => {

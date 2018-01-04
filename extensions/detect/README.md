@@ -54,10 +54,10 @@ Given a collection of notes or pitch classes, try to find the scale names
 ```js
 Detect.scale(["f3", "a", "c5", "e2", "d", "g2", "b6"]) // => [
 "C major",
-"D dorian", 
-"E phrygian", 
+"D dorian",
+"E phrygian",
 "F lydian",
-"G mixolydian", 
+"G mixolydian",
 "A aeolian",
 "B locrian"
 ]

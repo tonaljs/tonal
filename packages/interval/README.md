@@ -81,7 +81,7 @@ Get interval properties. It returns an object with:
 - name: name
 - num: number
 - q: quality
-- step: step 
+- step: step
 - alt: alteration
 - dir: direction (1 ascending, -1 descending)
 - type: "P" or "M" for perfectable or majorable

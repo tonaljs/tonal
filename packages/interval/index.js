@@ -25,7 +25,7 @@
  * const Interval = require("tonal-interval")
  * // part of tonal
  * import { Interval } from "tonal"
- * 
+ *
  * Interval.semitones("4P") // => 5
  * Interval.invert("3m") // => "6M"
  * Interval.simplify("9m") // => "2m"
@@ -50,7 +50,7 @@ const CLASSES = [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1];
 const NAMES = "1P 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P".split(" ");
 
 /**
- * List basic (perfect, major, minor) interval names within a octave 
+ * List basic (perfect, major, minor) interval names within a octave
  * @param {String} qualities - (Optional, default "PMm") the valid types
  * @return {Array} the interval names
  * @example
@@ -129,7 +129,7 @@ const cache = {};
  * - name: name
  * - num: number
  * - q: quality
- * - step: step 
+ * - step: step
  * - alt: alteration
  * - dir: direction (1 ascending, -1 descending)
  * - type: "P" or "M" for perfectable or majorable
@@ -148,11 +148,11 @@ export function props(str) {
 }
 
 /**
- * Get the number of the interval 
+ * Get the number of the interval
  *
  * @function
  * @param {String} interval - the interval
- * @return {Integer} 
+ * @return {Integer}
  * @example
  * Interval.num("m2") // => 2
  * Interval.num("P9") // => 9
@@ -176,7 +176,7 @@ export const name = str => props(str).name;
 
 /**
  * Get size in semitones of an interval
- * 
+ *
  * @function
  * @param {String} ivl
  * @return {Integer} the number of semitones or null if not an interval
@@ -191,9 +191,9 @@ export const semitones = str => props(str).semitones;
 /**
  * Get the chroma of the interval. The chroma is a number between 0 and 7
  * that represents the position within an octave (pitch set)
- * 
+ *
  * @function
- * @param {String} str 
+ * @param {String} str
  * @return {Number}
  */
 export const chroma = str => props(str).chroma;
@@ -224,13 +224,13 @@ export const ic = ivl => {
  * Given a interval property object, get the interval name
  *
  * The properties must contain a `num` *or* `step`, and `alt`:
- * 
+ *
  * - num: the interval number
  * - step: the interval step (overrides the num property)
  * - alt: the interval alteration
  * - oct: (Optional) the number of octaves
  * - dir: (Optional) the direction
- * 
+ *
  * @function
  * @param {Object} props - the interval property object
  *
@@ -297,7 +297,7 @@ var IQ = "P m M m M P d P m M m M".split(" ");
 /**
  * Get interval name from semitones number. Since there are several interval
  * names for the same number, the name it"s arbitraty, but deterministic.
- * 
+ *
  * @function
  * @param {Integer} num - the number of semitones (can be negative)
  * @return {String} the interval name

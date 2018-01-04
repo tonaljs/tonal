@@ -1,10 +1,10 @@
 /**
  * [![npm version](https://img.shields.io/npm/v/tonal-scale.svg?style=flat-square)](https://www.npmjs.com/package/tonal-scale)
- * 
+ *
  * A scale is a collection of pitches in ascending or descending order.
  *
  * This module provides functions to get and manipulate scales.
- * 
+ *
  * @example
  * // es6
  * import * as Scale from "tonal-scale"
@@ -57,7 +57,7 @@ const memoize = (fn, cache) => str => cache[str] || (cache[str] = fn(str));
  *
  * @function
  * @param {String} name - the scale name (without tonic)
- * @return {Object} 
+ * @return {Object}
  */
 export const props = memoize(properties, {});
 
@@ -92,16 +92,16 @@ export const intervals = name => {
 };
 
 /**
- * Get the notes (pitch classes) of a scale. 
+ * Get the notes (pitch classes) of a scale.
  *
  * Note that it always returns an array, and the values are only pitch classes.
  *
  * @function
- * @param {String} tonic 
+ * @param {String} tonic
  * @param {String} nameOrTonic - the scale name or tonic (if 2nd param)
  * @param {String} [name] - the scale name without tonic
  * @return {Array} a pitch classes array
- * 
+ *
  * @example
  * Scale.notes("C", "major") // => [ "C", "D", "E", "F", "G", "A", "B" ]
  * Scale.notes("C major") // => [ "C", "D", "E", "F", "G", "A", "B" ]
@@ -117,7 +117,7 @@ export function notes(nameOrTonic, name) {
 
 /**
  * Check if the given name is a known scale from the scales dictionary
- * 
+ *
  * @function
  * @param {String} name - the scale name
  * @return {Boolean}
@@ -128,11 +128,11 @@ export function exists(name) {
 }
 
 /**
- * Given a string with a scale name and (optionally) a tonic, split 
+ * Given a string with a scale name and (optionally) a tonic, split
  * that components.
- * 
- * It retuns an array with the form [ name, tonic ] where tonic can be a 
- * note name or null and name can be any arbitrary string 
+ *
+ * It retuns an array with the form [ name, tonic ] where tonic can be a
+ * note name or null and name can be any arbitrary string
  * (this function doesn"t check if that scale name exists)
  *
  * @function
@@ -153,7 +153,7 @@ export function tokenize(str) {
 
 /**
  * Find mode names of a scale
- * 
+ *
  * @function
  * @param {String} name - scale name
  */
@@ -171,7 +171,7 @@ export const modeNames = name => {
 
 /**
  * Get all chords that fits a given scale
- * 
+ *
  * @function
  * @param {String} name
  */
@@ -181,11 +181,11 @@ export const chords = name => {
 };
 
 /**
- * Given an array of notes, return the scale: a pitch class set starting from 
+ * Given an array of notes, return the scale: a pitch class set starting from
  * the first note of the array
- * 
+ *
  * @function
- * @param {Array} notes 
+ * @param {Array} notes
  * @return {Array}
  */
 export const toScale = notes => {
@@ -199,9 +199,9 @@ export const toScale = notes => {
 /**
  * Get all scales names that are a superset of the given one
  * (has the same notes and at least one more)
- * 
+ *
  * @function
- * @param {String} name 
+ * @param {String} name
  * @return {Array} a list of scale names
  */
 export const supersets = name => {
@@ -213,9 +213,9 @@ export const supersets = name => {
 /**
  * Find all scales names that are a subset of the given one
  * (has less notes but all from the given scale)
- * 
+ *
  * @function
- * @param {String} name 
+ * @param {String} name
  * @return {Array} a list of scale names
  */
 export const subsets = name => {
