@@ -1,6 +1,6 @@
 {
   "name": "tonal-key",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Conversion between key numbers and note names",
   "repository": "https://github.com/danigb/tonal/extensions/key",
   "keywords": [
@@ -17,9 +17,9 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^1.1.1",
-    "tonal-distance": "^1.1.1",
-    "tonal-note": "^1.1.1"
+    "tonal-array": "^1.1.2",
+    "tonal-distance": "^1.1.2",
+    "tonal-note": "^1.1.2"
   },
   "babel": {
     "presets": [

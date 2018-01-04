@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A functional music theory library",
   "main": "build/es5.js",
   "module": "index.js",
@@ -20,15 +20,15 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^1.1.1",
-    "tonal-chord": "^1.1.1",
-    "tonal-dictionary": "^1.1.1",
-    "tonal-distance": "^1.1.1",
-    "tonal-interval": "^1.1.1",
-    "tonal-key": "^1.1.1",
-    "tonal-note": "^1.1.1",
-    "tonal-pcset": "^1.1.1",
-    "tonal-scale": "^1.1.1"
+    "tonal-array": "^1.1.2",
+    "tonal-chord": "^1.1.2",
+    "tonal-dictionary": "^1.1.2",
+    "tonal-distance": "^1.1.2",
+    "tonal-interval": "^1.1.2",
+    "tonal-key": "^1.1.2",
+    "tonal-note": "^1.1.2",
+    "tonal-pcset": "^1.1.2",
+    "tonal-scale": "^1.1.2"
   },
   "babel": {
     "presets": [

@@ -1,6 +1,6 @@
 {
   "name": "tonal-pcset",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Create and manipulate pitch class sets",
   "keywords": [
     "music",
@@ -18,9 +18,9 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^1.1.1",
-    "tonal-interval": "^1.1.1",
-    "tonal-note": "^1.1.1"
+    "tonal-array": "^1.1.2",
+    "tonal-interval": "^1.1.2",
+    "tonal-note": "^1.1.2"
   },
   "babel": {
     "presets": [
