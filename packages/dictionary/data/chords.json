@@ -103,7 +103,7 @@
   "m9": ["1P 3m 5P 7m 9M", ["_9"]],
   "m9#5": ["1P 3m 6m 7m 9M"],
   "m9b5": ["1P 3m 7m 12d 2M", ["h9", "-9b5"]],
-  "mMaj7": ["1P 3m 5P 7M", ["mM7", "minMmaj7", "mMmaj7", "_M7"]],
+  "mMaj7": ["1P 3m 5P 7M", ["mM7", "minMaj7", "mMaj7", "_M7"]],
   "mMaj7b6": ["1P 3m 5P 6m 7M", ["mM7b6", "minMaj7b6"]],
   "mM9": ["1P 3m 5P 7M 9M", ["mMaj9", "minMaj9", "-M9"]],
   "mM9b6": ["1P 3m 5P 6m 7M 9M", ["mMaj9b6", "minMaj9b6"]],
