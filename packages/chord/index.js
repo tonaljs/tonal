@@ -140,6 +140,9 @@ export const subsets = name => {
   return chord.names().filter(name => isSubset(chord(name)));
 };
 
+// 6, 64, 7, 9, 11 and 13 are consider part of the chord
+// (see https://github.com/danigb/tonal/issues/55)
+const NUM_TYPES = /^(6|64|7|9|11|13)$/;
 /**
  * Tokenize a chord name. It returns an array with the tonic and chord type
  * If not tonic is found, all the name is considered the chord name.
@@ -159,9 +162,10 @@ export const subsets = name => {
 export function tokenize(name) {
   const p = split(name);
   if (p[0] === "") return ["", name];
+  // aug is augmented (see https://github.com/danigb/tonal/issues/55)
+  if (p[0] === "A" && p[3] === "ug") return ["", "aug"];
 
-  // 6 and 7 is consider part of the chord
-  if (p[0] !== "" && (p[2][0] === "6" || p[2][0] === "7")) {
+  if (NUM_TYPES.test(p[2])) {
     return [p[0] + p[1], p[2] + p[3]];
   } else {
     return [p[0] + p[1] + p[2], p[3]];

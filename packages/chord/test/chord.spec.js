@@ -11,6 +11,9 @@ describe("tonal-chord", () => {
     expect(chord.tokenize("Cb7b5")).toEqual(["Cb", "7b5"]);
     expect(chord.tokenize("Eb7add6")).toEqual(["Eb", "7add6"]);
     expect(chord.tokenize("Bb6b5")).toEqual(["Bb", "6b5"]);
+    expect(chord.tokenize("aug")).toEqual(["", "aug"]);
+    expect(chord.tokenize("C11")).toEqual(["C", "11"]);
+    expect(chord.tokenize("C13no5")).toEqual(["C", "13no5"]);
   });
 
   test("notes", () => {
@@ -32,6 +35,8 @@ describe("tonal-chord", () => {
   test("intervals", () => {
     expect(chord.intervals("maj7")).toEqual(["1P", "3M", "5P", "7M"]);
     expect(chord.intervals("Cmaj7")).toEqual(["1P", "3M", "5P", "7M"]);
+    expect(chord.intervals("aug")).toEqual(["1P", "3M", "5A"]);
+    expect(chord.intervals("C13no5")).toEqual(["1P", "3M", "7m", "9M", "13M"]);
     expect(chord.intervals("major")).toEqual([]);
     expect(chord.intervals()).toEqual([]);
   });
