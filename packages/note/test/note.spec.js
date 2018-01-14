@@ -87,9 +87,12 @@ describe("tonal-note", () => {
   });
 
   test("midi", () => {
-    const midis = "c4 d4 e4 f4 g4 a4 b4 c4".split(" ").map(note.midi);
-    expect(midis).toEqual([60, 62, 64, 65, 67, 69, 71, 60]);
+    const midis = "c4 d4 e4 f4 g4 a4 b4 c4 c-1 c-2".split(" ").map(note.midi);
+    expect(midis).toEqual([60, 62, 64, 65, 67, 69, 71, 60, 0, null]);
     expect(note.midi("C")).toBe(null);
+    expect(note.midi("bla")).toBe(null);
+    expect(note.midi(true)).toBe(null);
+    expect(note.midi(false)).toBe(null);
   });
 
   test("fromMidi", () => {
@@ -102,10 +105,13 @@ describe("tonal-note", () => {
     );
   });
 
-  test("midi accepts numbers", () => {
+  test("midi accepts valid MIDI note numbers", () => {
     expect(note.midi(60)).toBe(60);
     expect(note.midi("60")).toBe(60);
-    expect(note.midi("bla")).toBe(null);
+    expect(note.midi(0)).toBe(0);
+    expect(note.midi("0")).toBe(0);
+    expect(note.midi(-1)).toBe(null);
+    expect(note.midi(128)).toBe(null);
   });
 
   test("freq", () => {
