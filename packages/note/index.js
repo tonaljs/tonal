@@ -103,7 +103,14 @@ const properties = str => {
   p.alt = p.acc[0] === "b" ? -p.acc.length : p.acc.length;
   p.oct = octStr.length ? +octStr : null;
   p.chroma = (SEMI[p.step] + p.alt + 120) % 12;
-  p.midi = p.oct !== null ? SEMI[p.step] + p.alt + 12 * (p.oct + 1) : null;
+  let midi = null;
+  if (p.oct !== null) {
+    const v = SEMI[p.step] + p.alt + 12 * (p.oct + 1);
+    if (v >= 0 && v <= 127) {
+      midi = v;
+    }
+  }
+  p.midi = midi;
   p.freq = midiToFreq(p.midi);
   return Object.freeze(p);
 };
@@ -181,7 +188,16 @@ export const pc = str => props(str).pc;
  * Note.midi(60) // => 60
  * @see midi.toMidi
  */
-export const midi = note => props(note).midi || +note || null;
+export const midi = note => {
+  if (typeof note !== "string" && typeof note !== "number") {
+    return null;
+  }
+  const n = +note;
+  if (n >= 0 && n <= 127) {
+    return n;
+  }
+  return props(note).midi;
+};
 
 /**
  * Get the frequency from midi number
