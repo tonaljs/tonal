@@ -16,48 +16,65 @@
  *
  * @module Dictionary
  */
-import sdata from "./data/scales.json";
-import cdata from "./data/chords.json";
 import { chroma } from "tonal-pcset";
 
-export const dictionary = raw => {
-  const keys = Object.keys(raw).sort();
-  const data = [];
-  const index = [];
+export const chordAliases = names => {
+  return names.reduce((all, name) => {
+    all.push(name);
+    if (/^Maj7/.test(name)) {
+      all.push(name.slice(4) + "maj7");
+      all.push(name.slice(4) + "M7");
+    } else if (/^m7/.test(name)) {
+      all.push(name.slice(2) + "_7");
+    } else if (/^M6/.test(name)) {
+      all.push(name.slice(1));
+    }
+    return all;
+  }, []);
+};
 
-  const add = (name, ivls, chroma) => {
-    data[name] = ivls;
-    index[chroma] = index[chroma] || [];
-    index[chroma].push(name);
-  };
+const noAlias = list => list;
+const comparator = (a, b) => a.localeCompare(b);
 
-  keys.forEach(key => {
-    const ivls = raw[key][0].split(" ");
-    const alias = raw[key][1];
+export function dictionary(list, withAlias, compare) {
+  if (!withAlias) withAlias = noAlias;
+  if (!compare) compare = comparator;
+
+  const data = {};
+  const names = [];
+  const index = {};
+
+  list.forEach(row => {
+    const ivls = row[0].split(" ");
     const chr = chroma(ivls);
-
-    add(key, ivls, chr);
-    if (alias) alias.forEach(a => add(a, ivls, chr));
+    index[chr] = [];
+    names.push(row[1]);
+    const nameList = withAlias(row.slice(1));
+    nameList.forEach(name => {
+      data[name] = ivls;
+      index[chr].push(name);
+    });
   });
-  const allKeys = Object.keys(data).sort();
 
-  const dict = name => data[name];
-  dict.names = p => {
-    if (typeof p === "string") return (index[p] || []).slice();
-    else return (p === true ? allKeys : keys).slice();
+  names.sort(compare);
+  const allNames = Object.keys(data).sort(compare);
+
+  function dictionary(name) {
+    return data[name];
+  }
+  dictionary.names = aliases => {
+    if (typeof aliases === "string") return index[aliases];
+    return (aliases === true ? allNames : names).slice();
   };
-  return dict;
-};
-
-export const combine = (a, b) => {
-  const dict = name => a(name) || b(name);
-  dict.names = p => a.names(p).concat(b.names(p));
-  return dict;
-};
+  return dictionary;
+}
 
 /**
  * A dictionary of scales: a function that given a scale name (without tonic)
  * returns an array of intervals
+ *
+ * It also has a names function that return the names,
+ * or the names of a given chroma.
  *
  * @function
  * @param {String} name
@@ -65,13 +82,21 @@ export const combine = (a, b) => {
  * @example
  * import { scale } from "tonal-dictionary"
  * scale("major") // => ["1P", "2M", ...]
+ * // scale names
  * scale.names(); // => ["major", ...]
+ * // names with aliases
+ * scale.names(true) // => ["major", "ionian", ...]
+ * // names for a given chroma
+ * scale.names("101011010101") // => ["major", "ionian"]
  */
-export const scale = dictionary(sdata);
+export const scale = dictionary(require("./data/scales.json"));
 
 /**
  * A dictionary of chords: a function that given a chord type
  * returns an array of intervals
+ *
+ * It also has a names function that return the names,
+ * or the names of a given chroma.
  *
  * @function
  * @param {String} type
@@ -80,6 +105,14 @@ export const scale = dictionary(sdata);
  * import { chord } from "tonal-dictionary"
  * chord("Maj7") // => ["1P", "3M", ...]
  * chord.names(); // => ["Maj3", ...]
+ * chord.names(true) // => return names including aliases
+ * chord.names("100010010000") // => ["Maj", "M"]
  */
-export const chord = dictionary(cdata);
+export const chord = dictionary(require("./data/chords.json"), chordAliases);
+
+export const combine = (a, b) => {
+  const dict = name => a(name) || b(name);
+  dict.names = p => a.names(p).concat(b.names(p));
+  return dict;
+};
 export const pcset = combine(scale, chord);
