@@ -5,7 +5,7 @@
 
 `tonal` is a small (20kb minified, 6kb gzipped) javascript modular music theory library. It provides functions to manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music).
 
-It uses a functional programing style: all are pure functions, there is no data mutation, and no objects and lot of functions accept partial application.
+It uses a functional programing style: all functions are pure, there is no data mutation, entities are represented by data structures instead of objects, and lot of functions accept partial application.
 
 #### [Demo and live docs](https://danigb.github.io/tonal-app/)
 
@@ -140,7 +140,7 @@ Mostly, because I want to learn:
 
 I want to learn about music theory and I want to express the concepts I learn using functional programming style.
 
-Also, I want a complete library, where I can model some (for me) esoteric features like [interval classes](http://danigb.github.io/tonal/api/module-interval.html#.ic), pitch sets, dft to pitch class sets, and so on.
+Also, I want a complete library, where I can model some (for me) esoteric features like [interval classes](http://danigb.github.io/tonal/api/module-Interval.html#.ic), pitch sets, dft to pitch class sets, and so on.
 
 ## What
 
