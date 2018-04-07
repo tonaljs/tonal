@@ -250,7 +250,7 @@ export const oct = str => props(str).oct;
 
 const LETTERS = "CDEFGAB";
 /**
- * Given a step number return it"s letter (0 = C, 1 = D, 2 = E)
+ * Given a step number return it's letter (0 = C, 1 = D, 2 = E)
  * @param {number} step
  * @return {string} the letter
  * @example
