@@ -39,7 +39,7 @@ const NAMES = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B".split(" ");
  *
  * @param {string} accTypes - (Optional, by default " b#"). A string with the
  * accidentals types: " " means no accidental, "#" means sharps, "b" mean flats,
- * can be conbined (see examples)
+ * can be combined (see examples)
  * @return {Array}
  * @example
  * Note.names(" b") // => [ "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B" ]
