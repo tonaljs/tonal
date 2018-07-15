@@ -83,3 +83,5 @@ export const scale = dictionary(sdata);
  */
 export const chord = dictionary(cdata);
 export const pcset = combine(scale, chord);
+export const allScales = sdata;
+export const allChords = cdata;
