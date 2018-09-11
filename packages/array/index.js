@@ -8,7 +8,7 @@
  * Array.sort(["f", "a", "c"]) // => ["C", "F", "A"]
  *
  * @example
- * const Array = require("tonal-array)
+ * const Array = require("tonal-array")
  * Array.range(1, 4) // => [1, 2, 3, 4]
  *
  * @module Array
