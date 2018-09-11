@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "A functional music theory library",
   "main": "build/es5.js",
   "module": "index.js",
