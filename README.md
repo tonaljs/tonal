@@ -19,7 +19,7 @@ Basic usage:
 import { midi, transpose, scale } from "tonal";
 
 midi("c4"); // => 60
-tranpose("d4", "3M"); // => 'F#4'
+transpose("d4", "3M"); // => 'F#4'
 scale("major").map(transpose("C2")); // => ['C2', 'D2', 'E2', 'F2', 'G2', 'A2', 'B2']
 ```
 
