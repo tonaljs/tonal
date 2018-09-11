@@ -1,12 +1,16 @@
 {
   "name": "tonal-interval",
-  "version": "1.1.4",
+  "version": "2.0.0",
   "description": "Music interval creation and manipulation",
   "repository": "https://github.com/danigb/tonal/packages/interval",
-  "keywords": ["music", "theory", "interval", "tonal"],
+  "keywords": [
+    "music",
+    "theory",
+    "interval",
+    "tonal"
+  ],
   "scripts": {
-    "docs":
-      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/es5.js",
@@ -14,6 +18,8 @@
   "author": "danigb",
   "license": "MIT",
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   }
 }

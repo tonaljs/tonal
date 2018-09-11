@@ -1,12 +1,18 @@
 {
   "name": "tonal-detect",
-  "version": "1.1.4",
+  "version": "2.0.0",
   "description": "Find the name of pitch class sets",
   "repository": "https://github.com/danigb/tonal/extensions/detect",
-  "keywords": ["pcset", "detector", "scale", "chord", "music theory", "tonal"],
+  "keywords": [
+    "pcset",
+    "detector",
+    "scale",
+    "chord",
+    "music theory",
+    "tonal"
+  ],
   "scripts": {
-    "docs":
-      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/es5.js",
@@ -14,15 +20,19 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^1.1.4",
-    "tonal-dictionary": "^1.1.4",
-    "tonal-note": "^1.1.4",
-    "tonal-pcset": "^1.1.4"
+    "tonal-array": "^2.0.0",
+    "tonal-dictionary": "^2.0.0",
+    "tonal-note": "^2.0.0",
+    "tonal-pcset": "^2.0.0"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "jest": {
-    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!tonal)"
+    ]
   }
 }
