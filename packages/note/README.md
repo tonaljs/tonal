@@ -61,7 +61,7 @@ Get a list of note names (pitch classes) within a octave
 
 | Param | Type | Description |
 | --- | --- | --- |
-| accTypes | <code>string</code> | (Optional, by default " b#"). A string with the accidentals types: " " means no accidental, "#" means sharps, "b" mean flats, can be conbined (see examples) |
+| accTypes | <code>string</code> | (Optional, by default " b#"). A string with the accidentals types: " " means no accidental, "#" means sharps, "b" mean flats, can be combined (see examples) |
 
 **Example**  
 ```js
@@ -81,7 +81,7 @@ Get note properties. It returns an object with the following information:
 - step {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
 - alt {Number}: number equivalent of accidentals (negative are flats, positive sharps)
 - chroma {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
-- midi {Number}: the note midi number
+- midi {Number}: the note midi number (IMPORTANT! it can be outside 0 to 127 range)
 - freq {Number}: the frequency using an equal temperament at 440Hz
 
 This function *always* returns an object with all this properties, but if it"s
@@ -156,7 +156,7 @@ Note.chroma("Cb") // => 11
 <a name="module_Note.stepToLetter"></a>
 
 ## `Note.stepToLetter` ⇒ <code>string</code>
-Given a step number return it"s letter (0 = C, 1 = D, 2 = E)
+Given a step number return it's letter (0 = C, 1 = D, 2 = E)
 
 **Kind**: static constant of [<code>Note</code>](#module_Note)  
 **Returns**: <code>string</code> - the letter  
@@ -291,8 +291,7 @@ Note.pc("Db3") // => "Db"
 <a name="module_Note.midi"></a>
 
 ## `Note.midi(note)` ⇒ <code>Integer</code>
-Get the note midi number
-(an alias of tonal-midi `toMidi` function)
+Get the note midi number. It always return a number between 0 and 127
 
 **Kind**: static method of [<code>Note</code>](#module_Note)  
 **Returns**: <code>Integer</code> - the midi number or null if not valid pitch  

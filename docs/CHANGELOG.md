@@ -2,6 +2,12 @@
 
 ## MASTER
 
+## 2.0.0
+
+* BREAKING CHANGE: note.midi function now returns a number between 0 and 127 (otherwise null). It also returns null for non numeric or string values. Before: `note.midi(true) // => 1` after: `note.midi(true) // => null`. Thanks @apalm
+
+* Rename `tonal-detector` into `tonal-detect`
+
 * Better chord parsing algorithm (now preserves 9, 11, 13 as chord names)
 
 ## 1.1.2

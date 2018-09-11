@@ -23,6 +23,9 @@ describe("tonal-array", () => {
 
   test("sort", () => {
     expect(array.sort($("c f g a b h j"))).toEqual($("C F G A B"));
+    expect(array.sort($("c f g a b h j j h b a g f c"))).toEqual(
+      $("C C F F G G A A B B")
+    );
     expect(array.sort($("c2 c5 c1 c0 c6 c"))).toEqual($("C C0 C1 C2 C5 C6"));
   });
 

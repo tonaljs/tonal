@@ -13,7 +13,7 @@
  *
  * @module Array
  */
-import { midi, name } from "tonal-note";
+import { props, name } from "tonal-note";
 
 // ascending range
 function ascR(b, n) {
@@ -71,9 +71,9 @@ export function rotate(times, arr) {
 export const compact = arr => arr.filter(n => n === 0 || n);
 
 // a function that get note heights (with negative number for pitch classes)
-const height = n => {
-  const m = midi(n);
-  return m !== null ? m : midi(n + "-100");
+const height = name => {
+  const m = props(name).midi;
+  return m !== null ? m : props(name + "-100").midi;
 };
 
 /**

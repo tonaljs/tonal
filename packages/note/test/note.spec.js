@@ -75,6 +75,19 @@ describe("tonal-note", () => {
       midi: 49,
       freq: 138.59131548843604
     });
+    expect(note.props("Bb-20")).toEqual({
+      acc: "b",
+      alt: -1,
+      chroma: 10,
+      freq: 0.000027785525412445636,
+      letter: "B",
+      midi: -218,
+      name: "Bb-20",
+      oct: -20,
+      octStr: "-20",
+      pc: "Bb",
+      step: 6
+    });
     expect(note.props("major")).toEqual(note.props());
   });
 

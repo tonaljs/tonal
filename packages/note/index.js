@@ -103,14 +103,7 @@ const properties = str => {
   p.alt = p.acc[0] === "b" ? -p.acc.length : p.acc.length;
   p.oct = octStr.length ? +octStr : null;
   p.chroma = (SEMI[p.step] + p.alt + 120) % 12;
-  let midi = null;
-  if (p.oct !== null) {
-    const v = SEMI[p.step] + p.alt + 12 * (p.oct + 1);
-    if (v >= 0 && v <= 127) {
-      midi = v;
-    }
-  }
-  p.midi = midi;
+  p.midi = p.oct !== null ? SEMI[p.step] + p.alt + 12 * (p.oct + 1) : null;
   p.freq = midiToFreq(p.midi);
   return Object.freeze(p);
 };
@@ -128,7 +121,7 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
  * - step {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
  * - alt {Number}: number equivalent of accidentals (negative are flats, positive sharps)
  * - chroma {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
- * - midi {Number}: the note midi number
+ * - midi {Number}: the note midi number (IMPORTANT! it can be outside 0 to 127 range)
  * - freq {Number}: the frequency using an equal temperament at 440Hz
  *
  * This function *always* returns an object with all this properties, but if it"s
@@ -176,9 +169,9 @@ export const name = str => props(str).name;
  */
 export const pc = str => props(str).pc;
 
+const isMidiRange = m => m >= 0 && m <= 127;
 /**
- * Get the note midi number
- * (an alias of tonal-midi `toMidi` function)
+ * Get the note midi number. It always return a number between 0 and 127
  *
  * @function
  * @param {string|Number} note - the note to get the midi number from
@@ -189,14 +182,12 @@ export const pc = str => props(str).pc;
  * @see midi.toMidi
  */
 export const midi = note => {
-  if (typeof note !== "string" && typeof note !== "number") {
+  if (typeof note !== "number" && typeof note !== "string") {
     return null;
   }
-  const n = +note;
-  if (n >= 0 && n <= 127) {
-    return n;
-  }
-  return props(note).midi;
+  const midi = props(note).midi;
+  const value = midi || midi === 0 ? midi : +note;
+  return isMidiRange(value) ? value : null;
 };
 
 /**
