@@ -1,12 +1,16 @@
 {
   "name": "tonal-abc-notation",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "Conversion between notes in ABC and scientific notation",
   "repository": "https://github.com/danigb/tonal/extensions/abc-notation",
-  "keywords": ["note", "ABC", "notation", "tonal"],
+  "keywords": [
+    "note",
+    "ABC",
+    "notation",
+    "tonal"
+  ],
   "scripts": {
-    "docs":
-      "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
     "test": "jest --coverage"
   },
   "main": "build/es5.js",
@@ -14,12 +18,16 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-note": "^1.1.2"
+    "tonal-note": "^1.1.4"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "jest": {
-    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!tonal)"
+    ]
   }
 }

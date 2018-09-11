@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "A functional music theory library",
   "main": "build/es5.js",
   "module": "index.js",
@@ -12,24 +12,32 @@
   "bugs": {
     "url": "https://github.com/danigb/tonal/issues"
   },
-  "keywords": ["music", "tonal", "theory"],
+  "keywords": [
+    "music",
+    "tonal",
+    "theory"
+  ],
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^1.1.2",
-    "tonal-chord": "^1.1.3",
-    "tonal-dictionary": "^1.1.2",
-    "tonal-distance": "^1.1.2",
-    "tonal-interval": "^1.1.2",
-    "tonal-key": "^1.1.2",
-    "tonal-note": "^1.1.2",
-    "tonal-pcset": "^1.1.2",
-    "tonal-scale": "^1.1.2"
+    "tonal-array": "^1.1.4",
+    "tonal-chord": "^1.1.4",
+    "tonal-dictionary": "^1.1.4",
+    "tonal-distance": "^1.1.4",
+    "tonal-interval": "^1.1.4",
+    "tonal-key": "^1.1.4",
+    "tonal-note": "^1.1.4",
+    "tonal-pcset": "^1.1.4",
+    "tonal-scale": "^1.1.4"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "jest": {
-    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!tonal)"
+    ]
   }
 }
