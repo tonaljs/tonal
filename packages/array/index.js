@@ -25,7 +25,7 @@ var height = function (name) {
     return m !== null ? m : props(name + "-100").midi;
 };
 export function sort(src) {
-    return compact(src.map(name)).sort(function (a, b) { return height(a) > height(b); });
+    return compact(src.map(name)).sort(function (a, b) { return (height(a) > height(b)) ? 1 : -1; });
 }
 export function unique(arr) {
     return sort(arr).filter(function (n, i, a) { return i === 0 || n !== a[i - 1]; });

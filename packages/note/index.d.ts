@@ -92,7 +92,7 @@ export declare function tokenize(str: string): string[];
  */
 export declare const props: (
   note: string
-) => { name: string | null; oct: number | null };
+) => { name: string | null; oct: number | null, midi:number };
 /**
  * Given a note name, return the note name or null if not valid note.
  * The note name will ALWAYS have the letter in upercase and accidentals

@@ -16,12 +16,12 @@
 import { props, name } from "tonal-note";
 
 // ascending range
-function ascR(b, n) {
+function ascR(b:number, n:number) {
   for (var a = []; n--; a[n] = n + b);
   return a;
 }
 // descending range
-function descR(b, n) {
+function descR(b:number, n:number) {
   for (var a = []; n--; a[n] = b - n);
   return a;
 }
@@ -37,7 +37,7 @@ function descR(b, n) {
  * Array.range(-2, 2) // => [-2, -1, 0, 1, 2]
  * Array.range(2, -2) // => [2, 1, 0, -1, -2]
  */
-export function range(a, b) {
+export function range(a:number, b:number) {
   return a === null || b === null
     ? []
     : a < b ? ascR(a, b - a + 1) : descR(a, a - b + 1);
@@ -53,7 +53,7 @@ export function range(a, b) {
  * @example
  * Array.rotate(1, [1, 2, 3]) // => [2, 3, 1]
  */
-export function rotate(times, arr) {
+export function rotate(times:number, arr:any[]) {
   var len = arr.length;
   var n = (times % len + len) % len;
   return arr.slice(n, len).concat(arr.slice(0, n));
@@ -68,10 +68,10 @@ export function rotate(times, arr) {
  * @example
  * Array.compact(["a", "b", null, "c"]) // => ["a", "b", "c"]
  */
-export const compact = arr => arr.filter(n => n === 0 || n);
+export const compact = (arr: any[]) => arr.filter(n => n === 0 || n);
 
 // a function that get note heights (with negative number for pitch classes)
-const height = name => {
+const height = (name:string) => {
   const m = props(name).midi;
   return m !== null ? m : props(name + "-100").midi;
 };
@@ -82,8 +82,8 @@ const height = name => {
  * @param {String|Array} notes
  * @return {Array} sorted array of notes
  */
-export function sort(src) {
-  return compact(src.map(name)).sort((a, b) => height(a) > height(b));
+export function sort(src:string[]) {
+  return compact(src.map(name)).sort((a, b) => (height(a) > height(b))?1:-1);
 }
 
 /**
@@ -92,7 +92,7 @@ export function sort(src) {
  * @function
  * @param {Array} notes
  */
-export function unique(arr) {
+export function unique(arr:string[]) {
   return sort(arr).filter((n, i, a) => i === 0 || n !== a[i - 1]);
 }
 
@@ -107,7 +107,7 @@ export function unique(arr) {
  * @example
  * Array.shuffle(["C", "D", "E", "F"])
  */
-export var shuffle = (arr, rnd = Math.random) => {
+export var shuffle = (arr:string[], rnd = Math.random) => {
   var i, t;
   var m = arr.length;
   while (m) {
@@ -126,7 +126,7 @@ export var shuffle = (arr, rnd = Math.random) => {
  * @param {Array} array - the array
  * @return {Array<Array>} an array with all the permutations
  */
-export const permutations = arr => {
+export const permutations = (arr:any[]):any[][] => {
   if (arr.length === 0) return [[]];
   return permutations(arr.slice(1)).reduce(function(acc, perm) {
     return acc.concat(
