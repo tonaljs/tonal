@@ -7,25 +7,18 @@
   "types": "packages/tonal/index.d.ts",
   "scripts": {
     "init": "lerna clean && lerna bootstrap && npm run build",
-    "format":
-      "prettier --write \"packages/**/{index.js,*.json}\" && prettier --write \"extensions/**/{index.js,*.json}\"",
-    "prebuild":
-      "lerna bootstrap && lerna exec -- mkdir -p build/ && mkdir -p packages/dictionary/build/data && cp packages/dictionary/data/* packages/dictionary/build/data/",
-    "build":
-      "npm run build-es6 && npm run build-es5 && npm run dist && npm run docs",
-    "build-es5":
-      "lerna exec -- rollup -c ../../config/rollup.config.es5.js -- index.js",
+    "format": "prettier --write \"packages/**/{index.js,*.json}\" && prettier --write \"extensions/**/{index.js,*.json}\"",
+    "prebuild": "lerna bootstrap && lerna exec -- mkdir -p build/ && mkdir -p packages/dictionary/build/data && cp packages/dictionary/data/* packages/dictionary/build/data/",
+    "build": "npm run build-es6 && npm run build-es5 && npm run dist && npm run docs",
+    "build-es5": "lerna exec -- rollup -c ../../config/rollup.config.es5.js -- index.js",
     "build-es6": "lerna exec -- buble --no modules index.js -o build/es6.js",
-    "dist":
-      "rollup -c ./config/rollup.config.dist.js && cp dist/tonal.min.js packages/tonal/build/transpiled.js",
-    "prepublish":
-      "npm run test && npm run build && npm run dist && npm run docs && cp README.md ./packages/tonal/",
+    "dist": "rollup -c ./config/rollup.config.dist.js && cp dist/tonal.min.js packages/tonal/build/transpiled.js",
+    "prepublish": "npm run test && npm run build && npm run dist && npm run docs && cp README.md ./packages/tonal/",
     "pretest": "npm run format",
     "test": "jest --coverage",
     "jsdoc": "jsdoc -c jsdoc3.json",
     "docs": "lerna run docs",
-    "api":
-      "rm docs/API.md && cat packages/note/README.md packages/interval/README.md packages/distance/README.md packages/scale/README.md packages/chord/README.md packages/pcset/README.md packages/key/README.md > docs/API.md"
+    "api": "rm docs/API.md && cat packages/note/README.md packages/interval/README.md packages/distance/README.md packages/scale/README.md packages/chord/README.md packages/pcset/README.md packages/key/README.md > docs/API.md"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal",
@@ -50,15 +43,20 @@
     "rollup-plugin-filesize": "^1.5.0",
     "rollup-plugin-json": "^2.1.1",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify-es": "^0.0.1"
+    "rollup-plugin-uglify-es": "^0.0.1",
+    "typescript": "^3.1.3"
   },
   "dependencies": {
     "global": "^4.3.2"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "jest": {
-    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!tonal)"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!tonal)"
+    ]
   }
 }
