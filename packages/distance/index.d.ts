@@ -14,7 +14,7 @@
  * // can be partially applied
  * ["C", "D", "E", "F", "G"].map(transpose("M3)) // => ["E", "F#", "G#", "A", "B"]
  */
-export declare function transpose(note: string, interval: string): string;
+export declare function transpose(note: string, interval: string): string | ((el:string)=>string);
 /**
  * Transpose a pitch class by a number of perfect fifths.
  *
