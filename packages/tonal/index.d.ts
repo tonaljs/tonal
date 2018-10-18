@@ -32,14 +32,14 @@
  *
  * @module Tonal
  */
-import * as Array from "tonal-array";
-import * as Note from "tonal-note";
-import * as Interval from "tonal-interval";
-import * as Distance from "tonal-distance";
-import * as Dictionary from "tonal-dictionary";
-import * as Scale from "tonal-scale";
-import * as Chord from "tonal-chord";
-import * as PcSet from "tonal-pcset";
+import * as Array from "../array";
+import * as Note from "../note";
+import * as Interval from "../interval";
+import * as Distance from "../distance";
+import * as Dictionary from "../dictionary";
+import * as Scale from "../scale";
+import * as Chord from "../chord";
+import * as PcSet from "../pcset";
 export { Array, Note, Interval, Distance, Scale, Chord, PcSet, Dictionary };
 /**
  * Transpose a note by an interval
