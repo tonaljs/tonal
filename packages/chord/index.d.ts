@@ -8,8 +8,7 @@
  * @example
  * Chord.names() // => ["maj7", ...]
  */
-type ChordName = string;
-export declare const names: () => ChordName[];
+export declare const names: () => string[];
 
 /**
  * Get chord properties. It returns an object with:
