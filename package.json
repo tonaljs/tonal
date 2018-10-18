@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "main": "dist/tonal.min.js",
+  "types": "packages/tonal/index.d.ts",
   "scripts": {
     "init": "lerna clean && lerna bootstrap && npm run build",
     "format":
