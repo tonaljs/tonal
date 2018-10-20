@@ -226,7 +226,7 @@ const L440 = Math.log(440);
  * Note.freqToMidi(261)); //=> 59.96;
  */
 export const freqToMidi = freq => {
-  const v = 12 * (Math.log(freq) - L440) / L2 + 69;
+  const v = (12 * (Math.log(freq) - L440)) / L2 + 69;
   return Math.round(v * 100) / 100;
 };
 
