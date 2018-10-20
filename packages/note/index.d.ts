@@ -290,7 +290,7 @@ export declare function fromMidi(num: number, sharps: boolean): string;
  * Note.simplify("C###", false) // => "Eb"
  * Note.simplify("B#4") // => "C5"
  */
-export declare const simplify: (note: Note, sameAcc?: boolean) => any;
+export declare const simplify: (note: Note, sameAcc?: boolean) => OrNull<Note>;
 /**
  * Get the simplified and enhramonic note of the given one.
  *
