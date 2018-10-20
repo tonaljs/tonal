@@ -1,3 +1,5 @@
+type Note = string;
+
 /**
  * [![npm version](https://img.shields.io/npm/v/tonal-note.svg)](https://www.npmjs.com/package/tonal-note)
  * [![tonal](https://img.shields.io/badge/tonal-note-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
@@ -119,7 +121,7 @@ export declare const name: (str: string) => string | null;
  * Note.pc("Db3") // => "Db"
  * ["db3", "bb6", "fx2"].map(Note.pc) // => [ "Db", "Bb", "F##"]
  */
-export declare const pc: (str: string) => string;
+export declare const pc: (str: string) => string | null;
 /**
  * Get the note midi number. It always return a number between 0 and 127
  *
@@ -196,7 +198,7 @@ export declare const oct: (note: string) => number;
  * @example
  * Note.stepToLetter(3) // => "F"
  */
-export declare const stepToLetter: (step: number) => string;
+export declare const stepToLetter: (step: number) => string | null;
 /**
  * Given an alteration number, return the accidentals
  * @param {Number} alt
@@ -271,7 +273,7 @@ export declare function fromMidi(num: number, sharps: boolean): string;
  * Note.simplify("C###", false) // => "Eb"
  * Note.simplify("B#4") // => "C5"
  */
-export declare const simplify: (note: string, sameAcc?: boolean) => any;
+export declare const simplify: (note: Note, sameAcc?: boolean) => any;
 /**
  * Get the simplified and enhramonic note of the given one.
  *

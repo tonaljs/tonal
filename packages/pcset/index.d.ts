@@ -1,3 +1,6 @@
+type Binary = "0" | "1";
+type Chroma = Binary[12];
+type Interval = string;
 /**
  * Get chroma of a pitch class set. A chroma identifies each set uniquely.
  * It"s a 12-digit binary each presenting one semitone of the octave.
@@ -10,14 +13,14 @@
  * @example
  * PcSet.chroma(["C", "D", "E"]) // => "1010100000000"
  */
-export declare function chroma(set: string | string[]): string;
+export declare function chroma(set: string | string[]): Chroma;
 /**
  * Get a list of all possible chromas (all possible scales)
  * More information: http://allthescales.org/
  * @return {Array} an array of possible chromas from '10000000000' to '11111111111'
  *
  */
-export declare function chromas(n: string): string[];
+export declare function chromas(numberOfNotes: number): Chroma[];
 /**
  * Given a a list of notes or a pcset chroma, produce the rotations
  * of the chroma discarding the ones that starts with "0"
@@ -52,7 +55,7 @@ export declare function isChroma(set: string): boolean;
  * @example
  * PcSet.intervals("1010100000000") => ["1P", "2M", "3M"]
  */
-export declare function intervals(set: string | string[]): string[];
+export declare function intervals(set: string | string[]): Interval[];
 /**
  * Test if two pitch class sets are identical
  *

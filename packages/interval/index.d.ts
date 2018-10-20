@@ -1,3 +1,5 @@
+type Interval = string;
+
 /**
  * List basic (perfect, major, minor) interval names within a octave
  * @param {String} qualities - (Optional, default "PMm") the valid types
@@ -10,7 +12,7 @@
  * Interval.names("d") // => []
  */
 export declare const names: (types: string) => string[];
-export declare const tokenize: (str: string) => string[] | null;
+export declare const tokenize: (str: string) => [string, string];
 /**
  * Get interval properties. It returns an object with:
  *
@@ -24,23 +26,23 @@ export declare const tokenize: (str: string) => string[] | null;
  * - simple: the simplified number
  * - semitones: the size in semitones
  * - chroma: the interval chroma
- * - ic: the interval class
  *
  * @function
  * @param {String} interval - the interval
  * @return {Object} the interval in the form [number, alt]
  */
-export declare function props(str: string): {
-    name:string,
-    num:number,
-    q:number,
-    step:number,
-    dir:1 | -1,
-    type: "P" | "M",
-    simple: number,
-    semitones: number,
-    chroma:number;
-    ic:any
+export declare function props(
+  str: string
+): {
+  name: string;
+  num: number;
+  q: number;
+  step: number;
+  dir: 1 | -1;
+  type: "P" | "M";
+  simple: number;
+  semitones: number;
+  chroma: number;
 };
 /**
  * Get the number of the interval
@@ -79,7 +81,7 @@ export declare const name: (interval: string) => string | null;
  * // or using tonal
  * Tonal.Interval.semitones("P5") // => 7
  */
-export declare const semitones: (str: string) => number;
+export declare const semitones: (str: string) => number | null;
 /**
  * Get the chroma of the interval. The chroma is a number between 0 and 7
  * that represents the position within an octave (pitch set)
@@ -126,13 +128,21 @@ export declare const ic: (ivl: string) => number | null;
  * Interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
  * Interval.build({ num: 9, alt: -1 }) // => "9m"
  */
-export declare const build: ({ num, step, alt, oct, dir }?: {
+export declare const build: (
+  {
+    num,
+    step,
+    alt,
+    oct,
+    dir
+  }?: {
     num: number;
     step: number;
     alt: any;
     oct?: number | undefined;
     dir: any;
-}) => string | null;
+  }
+) => string | null;
 /**
  * Get the simplified version of an interval.
  *
