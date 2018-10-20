@@ -32,7 +32,7 @@ export declare const tokenize: (str: string) => [string, string];
  * @return {Object} the interval in the form [number, alt]
  */
 export declare function props(
-  str: string
+  str: Interval
 ): {
   name: string;
   num: number;
@@ -55,7 +55,7 @@ export declare function props(
  * Interval.num("P9") // => 9
  * Interval.num("P-4") // => -4
  */
-export declare const num: (interval: string) => number;
+export declare const num: (interval: Interval) => number;
 /**
  * Get interval name. Can be used to test if it"s an interval. It accepts intervals
  * as pitch or string in shorthand notation or tonal notation. It returns always
@@ -68,7 +68,7 @@ export declare const num: (interval: string) => number;
  * Interval.name("m-3") // => "-3m"
  * Interval.name("3") // => null
  */
-export declare const name: (interval: string) => string | null;
+export declare const name: (interval: Interval) => string | null;
 /**
  * Get size in semitones of an interval
  *
@@ -81,7 +81,7 @@ export declare const name: (interval: string) => string | null;
  * // or using tonal
  * Tonal.Interval.semitones("P5") // => 7
  */
-export declare const semitones: (str: string) => number | null;
+export declare const semitones: (str: Interval) => number | null;
 /**
  * Get the chroma of the interval. The chroma is a number between 0 and 7
  * that represents the position within an octave (pitch set)
@@ -90,7 +90,7 @@ export declare const semitones: (str: string) => number | null;
  * @param {String} str
  * @return {Number}
  */
-export declare const chroma: (str: string) => number;
+export declare const chroma: (str: Interval) => number | null;
 /**
  * Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
  * number of a given interval.
@@ -108,7 +108,7 @@ export declare const chroma: (str: string) => number;
  * Interval.ic(10) // => 2
  * ["P1", "M2", "M3", "P4", "P5", "M6", "M7"].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
  */
-export declare const ic: (ivl: string) => number | null;
+export declare const ic: (ivl: Interval | number) => number | null;
 /**
  * Given a interval property object, get the interval name
  *
@@ -157,7 +157,7 @@ export declare const build: (
  * Interval.simplify("2M") // => "2M"
  * Interval.simplify("-2M") // => "7m"
  */
-export declare const simplify: (interval: string) => string;
+export declare const simplify: (interval: Interval) => Interval | null;
 /**
  * Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
  * of an interval.
@@ -171,7 +171,7 @@ export declare const simplify: (interval: string) => string;
  * Interval.invert("3m") // => "6M"
  * Interval.invert("2M") // => "7m"
  */
-export declare const invert: (interval: string) => string;
+export declare const invert: (interval: Interval) => string | null;
 /**
  * Get interval name from semitones number. Since there are several interval
  * names for the same number, the name it"s arbitraty, but deterministic.

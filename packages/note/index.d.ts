@@ -1,5 +1,22 @@
 type Note = string;
+type Midi = number;
+type OrNull<T> = T | null;
+type NoteLetter = "A" | "B" | "C" | "D" | "E" | "F" | "G";
+type NoteAccidental = "#" | "b";
+type Octave = number;
 
+type NoteProps = {
+  name: Note;
+  letter: NoteLetter;
+  acc: NoteAccidental; // {String}: the note accidentals
+  octave: Octave; // {Number}: the octave or null if not present
+  step: number; // {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
+  pc: Note; //{String}: the pitch class (letter + accidentals)
+  alt: number; // {Number}: number equivalent of accidentals (negative are flats, positive sharps)
+  chroma: number; // {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
+  midi: Midi; // {Number}: the note midi number (IMPORTANT! it can be outside 0 to 127 range)
+  freq: number; // {Number}: the frequency using an equal temperament at 440Hz
+};
 /**
  * [![npm version](https://img.shields.io/npm/v/tonal-note.svg)](https://www.npmjs.com/package/tonal-note)
  * [![tonal](https://img.shields.io/badge/tonal-note-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
@@ -63,7 +80,9 @@ export declare const names: (
  * Note.tokenize("##") // => ["", "##", "", ""]
  * Note.tokenize() // => ["", "", "", ""]
  */
-export declare function tokenize(str: string): string[];
+export declare function tokenize(
+  str?: string
+): [string, string, string, string];
 /**
  * Get note properties. It returns an object with the following information:
  *
@@ -92,9 +111,7 @@ export declare function tokenize(str: string): string[];
  * Note.props("C#3").oct // => 3
  * Note.props().oct // => null
  */
-export declare const props: (
-  note: string
-) => { name: string | null; oct: number | null };
+export declare const props: (note: Note) => NoteProps;
 /**
  * Given a note name, return the note name or null if not valid note.
  * The note name will ALWAYS have the letter in upercase and accidentals
@@ -110,7 +127,7 @@ export declare const props: (
  * Note.name("cb2") // => "Cb2"
  * ["c", "db3", "2", "g+", "gx4"].map(Note.name) // => ["C", "Db3", null, null, "G##4"]
  */
-export declare const name: (str: string) => string | null;
+export declare const name: (str: string) => OrNull<string>;
 /**
  * Get pitch class of a note. The note can be a string or a pitch array.
  *
@@ -121,7 +138,7 @@ export declare const name: (str: string) => string | null;
  * Note.pc("Db3") // => "Db"
  * ["db3", "bb6", "fx2"].map(Note.pc) // => [ "Db", "Bb", "F##"]
  */
-export declare const pc: (str: string) => string | null;
+export declare const pc: (str: string) => OrNull<string>;
 /**
  * Get the note midi number. It always return a number between 0 and 127
  *
@@ -133,7 +150,7 @@ export declare const pc: (str: string) => string | null;
  * Note.midi(60) // => 60
  * @see midi.toMidi
  */
-export declare const midi: (note: string | number) => number;
+export declare const midi: (note: Note | Midi) => OrNull<Midi>;
 /**
  * Get the frequency from midi number
  *
@@ -142,9 +159,9 @@ export declare const midi: (note: string | number) => number;
  * @return {Number} the frequency or null if not valid note midi
  */
 export declare const midiToFreq: (
-  midi: number,
+  midi: Midi,
   tuning?: number
-) => number | null;
+) => OrNull<number>;
 /**
  * Get the frequency of a note
  *
@@ -155,7 +172,7 @@ export declare const midiToFreq: (
  * Note.freq("A4") // => 440
  * Note.freq(69) // => 440
  */
-export declare const freq: (note: number | string) => number;
+export declare const freq: (note: Midi | Note) => OrNull<number>;
 /**
  * Get the midi number from a frequency in hertz. The midi number can
  * contain decimals (with two digits precission)
@@ -178,7 +195,7 @@ export declare const freqToMidi: (freq: number) => number;
  * Note.chroma("Cb") // => 11
  * ["C", "D", "E", "F"].map(Note.chroma) // => [0, 2, 4, 5]
  */
-export declare const chroma: (note: string) => number;
+export declare const chroma: (note: string) => OrNull<number>;
 /**
  * Get the octave of the given pitch
  *
@@ -190,7 +207,7 @@ export declare const chroma: (note: string) => number;
  * Note.oct("C") // => null
  * Note.oct("blah") // => undefined
  */
-export declare const oct: (note: string) => number;
+export declare const oct: (note: string) => OrNull<number>;
 /**
  * Given a step number return it's letter (0 = C, 1 = D, 2 = E)
  * @param {number} step
@@ -198,7 +215,7 @@ export declare const oct: (note: string) => number;
  * @example
  * Note.stepToLetter(3) // => "F"
  */
-export declare const stepToLetter: (step: number) => string | null;
+export declare const stepToLetter: (step: number) => OrNull<string>;
 /**
  * Given an alteration number, return the accidentals
  * @param {Number} alt
