@@ -40,7 +40,9 @@ function descR(b, n) {
 export function range(a, b) {
   return a === null || b === null
     ? []
-    : a < b ? ascR(a, b - a + 1) : descR(a, a - b + 1);
+    : a < b
+      ? ascR(a, b - a + 1)
+      : descR(a, a - b + 1);
 }
 /**
  *
@@ -55,7 +57,7 @@ export function range(a, b) {
  */
 export function rotate(times, arr) {
   var len = arr.length;
-  var n = (times % len + len) % len;
+  var n = ((times % len) + len) % len;
   return arr.slice(n, len).concat(arr.slice(0, n));
 }
 
