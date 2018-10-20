@@ -33,7 +33,7 @@ import { props as iprops, build as ibuild } from "tonal-interval";
 const FIFTHS = [0, 2, 4, -1, 1, 3, 5];
 
 // Given a number of fifths, return the octaves they span
-const fOcts = f => Math.floor(f * 7 / 12);
+const fOcts = f => Math.floor((f * 7) / 12);
 
 // Get the number of octaves it span each step
 const FIFTH_OCTS = FIFTHS.map(fOcts);
@@ -227,7 +227,7 @@ export function interval(from, to) {
   if (f === null || t === null || f.length !== t.length) return null;
   const d =
     f.length === 1
-      ? [t[0] - f[0], -Math.floor((t[0] - f[0]) * 7 / 12)]
+      ? [t[0] - f[0], -Math.floor(((t[0] - f[0]) * 7) / 12)]
       : [t[0] - f[0], t[1] - f[1]];
   return ibuild(decodeIvl(d));
 }

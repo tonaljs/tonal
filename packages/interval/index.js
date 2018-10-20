@@ -118,7 +118,7 @@ const properties = str => {
   p.alt = qToAlt(p.type, p.q);
   p.oct = Math.floor((Math.abs(p.num) - 1) / 7);
   p.semitones = p.dir * (SIZES[p.step] + p.alt + 12 * p.oct);
-  p.chroma = ((p.dir * (SIZES[p.step] + p.alt)) % 12 + 12) % 12;
+  p.chroma = (((p.dir * (SIZES[p.step] + p.alt)) % 12) + 12) % 12;
   return Object.freeze(p);
 };
 
