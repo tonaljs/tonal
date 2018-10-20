@@ -1,5 +1,15 @@
 type Interval = string;
-
+type IntervalProps = {
+  name: string;
+  num: number;
+  q: number;
+  step: number;
+  dir: 1 | -1;
+  type: "P" | "M";
+  simple: number;
+  semitones: number;
+  chroma: number;
+};
 /**
  * List basic (perfect, major, minor) interval names within a octave
  * @param {String} qualities - (Optional, default "PMm") the valid types
@@ -31,19 +41,7 @@ export declare const tokenize: (str: string) => [string, string];
  * @param {String} interval - the interval
  * @return {Object} the interval in the form [number, alt]
  */
-export declare function props(
-  str: Interval
-): {
-  name: string;
-  num: number;
-  q: number;
-  step: number;
-  dir: 1 | -1;
-  type: "P" | "M";
-  simple: number;
-  semitones: number;
-  chroma: number;
-};
+export declare function props(str: Interval): IntervalProps;
 /**
  * Get the number of the interval
  *
