@@ -8,7 +8,7 @@ type Octave = number;
 type NoteProps = {
   name: Note;
   letter: NoteLetter;
-  acc: NoteAccidental; // {String}: the note accidentals
+  acc: NoteAccidental | string; // {String}: the note accidentals
   octave: Octave; // {Number}: the octave or null if not present
   step: number; // {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
   pc: Note; //{String}: the pitch class (letter + accidentals)
@@ -82,7 +82,7 @@ export declare const names: (
  */
 export declare function tokenize(
   str?: string
-): [string, string, string, string];
+): [NoteLetter, string, string, string];
 /**
  * Get note properties. It returns an object with the following information:
  *
