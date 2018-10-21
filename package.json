@@ -1,9 +1,10 @@
 {
   "name": "tonal-core",
   "description": "All the core tonal packages",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "main": "dist/tonal.min.js",
+  "types": "packages/tonal/index.d.ts",
   "scripts": {
     "init": "lerna clean && lerna bootstrap && npm run build",
     "prebuild": "lerna bootstrap && lerna exec -- mkdir -p build/ && mkdir -p packages/dictionary/build/data && cp packages/dictionary/data/* packages/dictionary/build/data/",
