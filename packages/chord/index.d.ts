@@ -1,3 +1,15 @@
+type Chord = string;
+type Interval = string;
+type ChordChroma = string;
+type SetNum = number;
+type ChordProps = {
+  name: Chord;
+  names: Chord[];
+  intervals: Interval[];
+  chroma: ChordChroma;
+  setnum: number;
+};
+
 /**
  * Return the available chord names
  *
@@ -8,7 +20,7 @@
  * @example
  * Chord.names() // => ["maj7", ...]
  */
-export declare const names: () => string[];
+export declare const names: () => Chord[];
 
 /**
  * Get chord properties. It returns an object with:
@@ -24,7 +36,7 @@ export declare const names: () => string[];
  * @return {Object} an object with the properties or a object with all properties
  * set to null if not valid chord name
  */
-export declare const props: (str: string) => any;
+export declare const props: (str: string) => ChordProps;
 /**
  * Get chord intervals. It always returns an array
  *
@@ -95,4 +107,4 @@ export declare const subsets: (name: string) => string[];
  * Chord.tokenize("mMaj7") // => [ "", "mMaj7" ]
  * Chord.tokenize("Cnonsense") // => [ "C", "nonsense" ]
  */
-export declare function tokenize(name: string): string[];
+export declare function tokenize(name: string): [string, string];
