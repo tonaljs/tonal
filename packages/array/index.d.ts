@@ -1,3 +1,4 @@
+type Note = string;
 /**
  * Create a numeric range
  *
@@ -9,7 +10,7 @@
  * Array.range(-2, 2) // => [-2, -1, 0, 1, 2]
  * Array.range(2, -2) // => [2, 1, 0, -1, -2]
  */
-export declare function range(from: number, to: number): any[];
+export declare function range(from: number, to: number): number[];
 /**
  *
  * Rotates a list a number of times. It"s completly agnostic about the
@@ -21,7 +22,7 @@ export declare function range(from: number, to: number): any[];
  * @example
  * Array.rotate(1, [1, 2, 3]) // => [2, 3, 1]
  */
-export declare function rotate(times: number, arr: any[]): any;
+export declare function rotate(times: number, arr: any[]): any[];
 /**
  * Return a copy of the array with the null values removed
  * @function
@@ -38,7 +39,7 @@ export declare const compact: (arr: any[]) => any[];
  * @param {String|Array} notes
  * @return {Array} sorted array of notes
  */
-export declare function sort(src: any[]): any;
+export declare function sort(src: string[]): Note[];
 /**
  * Get sorted notes with duplicates removed
  *
@@ -65,4 +66,4 @@ export declare var shuffle: (arr: any[], rnd?: () => number) => any[];
  * @param {Array} array - the array
  * @return {Array<Array>} an array with all the permutations
  */
-export declare const permutations: (arr: any[]) => any[];
+export declare const permutations: (arr: any[]) => any[][];
