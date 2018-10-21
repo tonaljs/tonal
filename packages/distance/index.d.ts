@@ -1,3 +1,7 @@
+type Note = string;
+type Interval = string;
+type PitchClass = string;
+type NoteOrPitchClass = Note | PitchClass;
 /**
  * Transpose a note by an interval. The note can be a pitch class.
  *
@@ -14,7 +18,10 @@
  * // can be partially applied
  * ["C", "D", "E", "F", "G"].map(transpose("M3)) // => ["E", "F#", "G#", "A", "B"]
  */
-export declare function transpose(note: string, interval: string): string | ((el:string)=>string);
+export declare function transpose(
+  note: Note,
+  interval?: Interval
+): Note | ((interval: Interval) => Note);
 /**
  * Transpose a pitch class by a number of perfect fifths.
  *
@@ -31,7 +38,10 @@ export declare function transpose(note: string, interval: string): string | ((el
  * // or using tonal
  * Distance.trFifths("G4", 1) // => "D"
  */
-export declare function trFifths(pitchClass: string, fifths: number): string;
+export declare function trFifths(
+  pitchClass: PitchClass,
+  fifths: number
+): PitchClass | ((fifths: number) => PitchClass);
 /**
  * Get the distance in fifths between pitch classes
  *
@@ -40,7 +50,10 @@ export declare function trFifths(pitchClass: string, fifths: number): string;
  * @param {String} to - note or pitch class
  * @param {String} from - note or pitch class
  */
-export declare function fifths(from: string, to: string): number | ((to: any) => number | any | null) | null;
+export declare function fifths(
+  from: NoteOrPitchClass,
+  to?: NoteOrPitchClass
+): PitchClass | ((to: NoteOrPitchClass) => NoteOrPitchClass | null) | null;
 /**
  * The same as transpose with the arguments inverted.
  *
@@ -53,8 +66,16 @@ export declare function fifths(from: string, to: string): number | ((to: any) =>
  * import { tranposeBy } from "tonal-distance"
  * transposeBy("3m", "5P") // => "7m"
  */
-export declare function transposeBy(interval: string, note: string): string;
-export declare function addIntervals(ivl1: string, ivl2: string, dir: any): any;
+export declare function transposeBy(
+  interval: Interval,
+  note?: Note
+): (string | null) | ((note: Note) => string | null);
+
+export declare function addIntervals(
+  ivl1: Interval,
+  ivl2: Interval,
+  dir: any
+): any;
 /**
  * Add two intervals
  *
@@ -67,7 +88,10 @@ export declare function addIntervals(ivl1: string, ivl2: string, dir: any): any;
  * import { add } from "tonal-distance"
  * add("3m", "5P") // => "7m"
  */
-export declare function add(ivl1: string, ivl2: string): string;
+export declare function add(
+  ivl1: Interval,
+  ivl2?: Interval
+): Interval | ((ivl2: Interval) => Interval);
 /**
  * Subtract two intervals
  *
@@ -77,7 +101,10 @@ export declare function add(ivl1: string, ivl2: string): string;
  * @param {String} subtrahend
  * @return {String} interval diference
  */
-export declare function subtract(ivl1: string, ivl2: string): string;
+export declare function subtract(
+  ivl1: Interval,
+  ivl2?: Interval
+): string | ((ivl2: Interval) => Interval);
 /**
  * Find the interval between two pitches. It works with pitch classes
  * (both must be pitch classes and the interval is always ascending)
@@ -97,7 +124,10 @@ export declare function subtract(ivl1: string, ivl2: string): string;
  * import * as Distance from "tonal-distance"
  * Distance.interval("M2", "P5") // => "P4"
  */
-export declare function interval(from: string, to: string): string;
+export declare function interval(
+  from: string,
+  to?: string
+): string | ((to: string) => string);
 /**
  * Get the distance between two notes in semitones
  *
@@ -110,4 +140,7 @@ export declare function interval(from: string, to: string): string;
  * // or use tonal
  * Tonal.Distance.semitones("C3", "G3") // => 7
  */
-export declare function semitones(from: string, to: string): number;
+export declare function semitones(
+  from: NoteOrPitchClass,
+  to: NoteOrPitchClass
+): number | null;
