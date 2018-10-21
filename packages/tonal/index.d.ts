@@ -59,6 +59,7 @@ export declare const transpose: typeof Distance.transpose;
  * @see Distance.interval
  */
 export declare const interval: typeof Distance.interval;
+
 /**
  * Get note properties
  * @function
@@ -68,10 +69,7 @@ export declare const interval: typeof Distance.interval;
  * @example
  * Tonal.note("A4").chroma // => 9
  */
-export declare const note: (note: string) => {
-    name: string | null;
-    oct: number | null;
-};
+export declare const note: typeof Note.from;
 /**
  * Get midi note number
  * @function
@@ -81,7 +79,7 @@ export declare const note: (note: string) => {
  * @example
  * Tonal.midi("A4") // => 49
  */
-export declare const midi: (note: string | number) => number;
+export declare const midi: typeof Note.midi;
 /**
  * Get note frequency using equal tempered tuning at 440
  * @function
@@ -91,7 +89,7 @@ export declare const midi: (note: string | number) => number;
  * @example
  * Tonal.freq("A4") // => 440
  */
-export declare const freq: (note: string | number) => number;
+export declare const freq: typeof Note.freq;
 /**
  * Get intervals from a chord type
  * @function
@@ -101,7 +99,7 @@ export declare const freq: (note: string | number) => number;
  * @example
  * Tonal.chord("m7b5") // => ["1P", "3m", "5d", "7m"]
  */
-export declare const chord: (name: string) => string[];
+export declare const chord: typeof Chord.intervals;
 /**
  * Get intervals from scale name
  * @function
@@ -110,4 +108,4 @@ export declare const chord: (name: string) => string[];
  * @example
  * Tonal.scale("major") // => ["1P", "2M", "3M"...]
  */
-export declare const scale: (name: string) => string[];
+export declare const scale: typeof Scale.intervals;
