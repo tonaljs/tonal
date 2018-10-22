@@ -1,6 +1,6 @@
 type NoteLetter = "A" | "B" | "C" | "D" | "E" | "F" | "G";
-type NoteAccidental = " " | "#" | "b" | " #" | " b" | "b#" | "#b";
-type Note = string | number;
+type NoteAccidental = string; // " " | "#" | "b" | " #" | " b"  | "b " | "b#" | "#b" ;
+type Note = string;
 type Midi = number;
 type Octave = number;
 type OrNull<T> = T | null;
@@ -98,7 +98,7 @@ const NAMES = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B".split(
  * Note.names(" b") // => [ "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B" ]
  * Note.names(" #") // => [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ]
  */
-export const names = (accTypes: NoteAccidental) =>
+export const names = (accTypes?: NoteAccidental) =>
   typeof accTypes !== "string"
     ? NAMES.slice()
     : NAMES.filter(n => {
@@ -125,7 +125,7 @@ const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
  * Note.tokenize("##") // => ["", "##", "", ""]
  * Note.tokenize() // => ["", "", "", ""]
  */
-export function tokenize(str?: Note) {
+export function tokenize(str?: Note | Midi) {
   if (typeof str !== "string") str = "";
   const m = REGEX.exec(str);
   if (!m) return null;
@@ -150,7 +150,7 @@ const NO_NOTE = Object.freeze({
 } as NoNoteProps);
 
 const SEMI = [0, 2, 4, 5, 7, 9, 11];
-const properties = (str: Note) => {
+const properties = (str: Note | Midi) => {
   const tokens = tokenize(str);
   if (tokens === null) return NO_NOTE;
   if (tokens[0] === "" || tokens[3] !== "") return NO_NOTE;
@@ -225,7 +225,7 @@ export const props = memo(properties);
  * Note.name("cb2") // => "Cb2"
  * ["c", "db3", "2", "g+", "gx4"].map(Note.name) // => ["C", "Db3", null, null, "G##4"]
  */
-export const name = (str: Note) => props(str).name;
+export const name = (str: Note) => props(str).name as NoteName;
 
 /**
  * Get pitch class of a note. The note can be a string or a pitch array.
@@ -239,7 +239,7 @@ export const name = (str: Note) => props(str).name;
  */
 export const pc = (str: Note) => props(str).pc;
 
-const isMidiRange = (m: Midi) => m >= 0 && m <= 127;
+const isMidiRange = (m: Midi | number): m is Midi => m >= 0 && m <= 127;
 /**
  * Get the note midi number. It always return a number between 0 and 127
  *
@@ -251,7 +251,7 @@ const isMidiRange = (m: Midi) => m >= 0 && m <= 127;
  * Note.midi(60) // => 60
  * @see midi.toMidi
  */
-export const midi = (note: Note) => {
+export const midi = (note: Note | Midi) => {
   if (typeof note !== "number" && typeof note !== "string") {
     return null;
   }
@@ -280,7 +280,7 @@ export const midiToFreq = (midi: Midi | Note | null, tuning = 440) =>
  * Note.freq("A4") // => 440
  * Note.freq(69) // => 440
  */
-export const freq = (note: Note) => props(note).freq || midiToFreq(note);
+export const freq = (note: Note | Midi) => props(note).freq || midiToFreq(note);
 
 const L2 = Math.log(2);
 const L440 = Math.log(440);
@@ -346,7 +346,7 @@ const numToStr = (num: number | any, op: (a: number) => string) =>
  * @example
  * Note.altToAcc(-3) // => "bbb"
  */
-export const altToAcc = (alt: number) =>
+export const altToAcc = (alt?: number) =>
   numToStr(alt, alt => (alt < 0 ? fillStr("b", -alt) : fillStr("#", alt)));
 
 /**
@@ -374,12 +374,14 @@ export const altToAcc = (alt: number) =>
  * Note.from({alt: 1, oct: 3}, "C4") // => "C#3"
  */
 export const from = (
-  fromProps = {} as NoteProps,
-  baseNote = null as OrNull<Note>
+  fromProps = {} as Partial<NoteProps>,
+  baseNote?: OrNull<Note>
 ) => {
   const { step, alt, oct } = baseNote
     ? Object.assign({}, props(baseNote), fromProps)
     : fromProps;
+  if (typeof step !== "number") return null;
+  // if (typeof alt !== "number") return null
   const letter = stepToLetter(step);
   if (!letter) return null;
   const pc = letter + altToAcc(alt);
@@ -406,7 +408,7 @@ export const build = from;
  * // it rounds to nearest note
  * Note.fromMidi(61.7) // => "D4"
  */
-export function fromMidi(num: Midi, sharps: boolean = false) {
+export function fromMidi(num: Midi, sharps: boolean | number = false) {
   num = Math.round(num);
   const pcs = sharps === true ? SHARPS : FLATS;
   const pc = pcs[num % 12];
@@ -427,7 +429,7 @@ export function fromMidi(num: Midi, sharps: boolean = false) {
  * Note.simplify("C###", false) // => "Eb"
  * Note.simplify("B#4") // => "C5"
  */
-export const simplify = (note: Note, sameAcc = true) => {
+export const simplify = (note: Note, sameAcc: number | boolean = true) => {
   const { alt, chroma, midi } = props(note);
   if (chroma === null) return null;
   const alteration = alt as number;

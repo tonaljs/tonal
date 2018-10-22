@@ -121,13 +121,11 @@ export var from = function(fromProps, baseNote) {
   if (fromProps === void 0) {
     fromProps = {};
   }
-  if (baseNote === void 0) {
-    baseNote = null;
-  }
   var _a = baseNote ? Object.assign({}, props(baseNote), fromProps) : fromProps,
     step = _a.step,
     alt = _a.alt,
     oct = _a.oct;
+  if (typeof step !== "number") return null;
   var letter = stepToLetter(step);
   if (!letter) return null;
   var pc = letter + altToAcc(alt);
