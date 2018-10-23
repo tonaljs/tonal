@@ -4,24 +4,7 @@ type Note = string;
 type Midi = number;
 type Octave = number;
 type OrNull<T> = T | null;
-type NoteName =
-  | "C"
-  | "C#"
-  | "Db"
-  | "D"
-  | "D#"
-  | "Eb"
-  | "E"
-  | "F"
-  | "F#"
-  | "Gb"
-  | "G"
-  | "G#"
-  | "Ab"
-  | "A"
-  | "A#"
-  | "Bb"
-  | "B";
+type NoteName = string;
 
 type NoteProps = {
   name: NoteName;
@@ -375,7 +358,7 @@ export const altToAcc = (alt?: number) =>
  */
 export const from = (
   fromProps = {} as Partial<NoteProps>,
-  baseNote?: OrNull<Note>
+  baseNote: OrNull<Note> = null
 ) => {
   const { step, alt, oct } = baseNote
     ? Object.assign({}, props(baseNote), fromProps)
