@@ -110,8 +110,9 @@ const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
  */
 export function tokenize(str?: Note | Midi) {
   if (typeof str !== "string") str = "";
-  const m = REGEX.exec(str);
-  if (!m) return null;
+  const m = REGEX.exec(str) as string[];
+  // This will never be true
+  // if (!m) return null;
   return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]] as [
     NoteLetter | "",
     string,
@@ -135,7 +136,8 @@ const NO_NOTE = Object.freeze({
 const SEMI = [0, 2, 4, 5, 7, 9, 11];
 const properties = (str: Note | Midi) => {
   const tokens = tokenize(str);
-  if (tokens === null) return NO_NOTE;
+  // Will never execute
+  // if (tokens === null) return NO_NOTE;
   if (tokens[0] === "" || tokens[3] !== "") return NO_NOTE;
   const [letter, acc, octStr] = tokens;
   const p = {

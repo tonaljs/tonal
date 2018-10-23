@@ -13,7 +13,6 @@ var REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
 export function tokenize(str) {
   if (typeof str !== "string") str = "";
   var m = REGEX.exec(str);
-  if (!m) return null;
   return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]];
 }
 var NO_NOTE = Object.freeze({
@@ -30,7 +29,6 @@ var NO_NOTE = Object.freeze({
 var SEMI = [0, 2, 4, 5, 7, 9, 11];
 var properties = function(str) {
   var tokens = tokenize(str);
-  if (tokens === null) return NO_NOTE;
   if (tokens[0] === "" || tokens[3] !== "") return NO_NOTE;
   var letter = tokens[0],
     acc = tokens[1],
@@ -120,6 +118,9 @@ export var altToAcc = function(alt) {
 export var from = function(fromProps, baseNote) {
   if (fromProps === void 0) {
     fromProps = {};
+  }
+  if (baseNote === void 0) {
+    baseNote = null;
   }
   var _a = baseNote ? Object.assign({}, props(baseNote), fromProps) : fromProps,
     step = _a.step,
