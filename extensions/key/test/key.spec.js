@@ -65,6 +65,15 @@ describe("tonal-key", () => {
     );
   });
 
+  test("triads", () => {
+    expect(key.triads("A major").join(" ")).toEqual(
+      "AM Bm C#m DM E7 F#m G#mb5"
+    );
+    expect(key.triads("Bb dorian").join(" ")).toEqual(
+      "Bbm Cm DbM Eb7 Fm Gmb5 AbM"
+    );
+  });
+
   test("secDomChords", () => {
     expect(key.secDomChords("C major").join(" ")).toEqual(
       "G7 A7 B7 C7 D7 E7 F#7"

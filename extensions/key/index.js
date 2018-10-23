@@ -28,6 +28,7 @@ const MODES = "major dorian phrygian lydian mixolydian minor locrian ionian aeol
 const NUMS = [0, 1, 2, 3, 4, 5, 6, 0, 5];
 const NOTES = "C D E F G A B".split(" ");
 const CHORDS = "Maj7 m7 m7 Maj7 7 m7 m7b5".split(" ");
+const TRIADS = "M m m M 7 m mb5".split(" ");
 const DEGREES = "I II III IV V VI VII".split(" ");
 const FIFTHS = [0, 2, 4, -1, 1, 3, 5, 0, 3];
 
@@ -168,6 +169,13 @@ export const alteredNotes = name => {
       : range(-1, alt).map(trFifths("F"));
 };
 
+const getChords = chords => keyName => {
+  const p = props(keyName);
+  if (!p.name) return [];
+  const names = rotate(p.modenum, chords);
+  return p.scale.map((tonic, i) => tonic + names[i]);
+};
+
 /**
  * Get key chords
  *
@@ -178,12 +186,19 @@ export const alteredNotes = name => {
  * @example
  * Key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
  */
-export const chords = str => {
-  const p = props(str);
-  if (!p.name) return [];
-  const chords = rotate(p.modenum, CHORDS);
-  return p.scale.map((tonic, i) => tonic + chords[i]);
-};
+export const chords = getChords(CHORDS);
+
+/**
+ * Get key triads
+ *
+ * @function
+ * @param {String} name - the key name
+ * @return {Array}
+ *
+ * @example
+ * Key.triads("A major") // => ["AM", "Bm", "C#m", "DM", "E7", "F#m", "G#mb5"]
+ */
+export const triads = getChords(TRIADS);
 
 /**
  * Get secondary dominant key chords
