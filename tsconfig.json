@@ -1,5 +1,6 @@
 {
   "include": ["./packages/**/*.ts"],
+  "exclude": ["./packages/**/*.d.ts"],
   "compilerOptions": {
     "target": "es5",
     "module": "ESNext",
