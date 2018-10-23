@@ -144,7 +144,7 @@ const properties = (str: Note | Midi) => {
     letter,
     acc,
     octStr,
-    pc: (letter + acc) as NoteProps["pc"],
+    pc: letter + acc,
     name: letter + acc + octStr,
     step: (letter.charCodeAt(0) + 3) % 7,
     alt: acc[0] === "b" ? -acc.length : acc.length,
