@@ -193,8 +193,8 @@ export const alteredNotes = name => {
  * @see Key.triads
  *
  * @example
- * const chords = Key.leadsheetSymbols(["M", "m", "m", "M", "M7", "m", "dim"])
- * chords("D dorian") //=> ["Dm", "Em", "FM", "GM7", "Am", "Bdim", "CM"]
+ * const chords = Key.leadsheetSymbols(["M", "m", "m", "M", "7", "m", "dim"])
+ * chords("D dorian") //=> ["Dm", "Em", "FM", "G7", "Am", "Bdim", "CM"]
  */
 export function leadsheetSymbols(symbols, keyName) {
   if (arguments.length === 1) return name => leadsheetSymbols(symbols, name);
