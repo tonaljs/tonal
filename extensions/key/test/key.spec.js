@@ -56,6 +56,13 @@ describe("tonal-key", () => {
     expect(key.scale("G locrian").join(" ")).toEqual("G Ab Bb C Db Eb F");
   });
 
+  test("leadsheetSymbols", () => {
+    const symbols = ["M", "m", "m", "M", "M7", "m", "dim"];
+    expect(key.leadsheetSymbols(symbols, "C major").join(" ")).toEqual(
+      "CM Dm Em FM GM7 Am Bdim"
+    );
+  });
+
   test("chords", () => {
     expect(key.chords("A major").join(" ")).toEqual(
       "AMaj7 Bm7 C#m7 DMaj7 E7 F#m7 G#m7b5"
@@ -66,11 +73,9 @@ describe("tonal-key", () => {
   });
 
   test("triads", () => {
-    expect(key.triads("A major").join(" ")).toEqual(
-      "AM Bm C#m DM E7 F#m G#mb5"
-    );
+    expect(key.triads("A major").join(" ")).toEqual("A Bm C#m D E F#m G#dim");
     expect(key.triads("Bb dorian").join(" ")).toEqual(
-      "Bbm Cm DbM Eb7 Fm Gmb5 AbM"
+      "Bbm Cm Db Eb Fm Gdim Ab"
     );
   });
 
