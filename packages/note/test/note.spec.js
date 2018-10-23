@@ -112,6 +112,7 @@ describe("tonal-note", function() {
         })
         .join(" ")
     ).toEqual("C4 C#4 D4 D#4 E4 F4 F#4 G4 G#4 A4 A#4 B4 C5");
+    expect(note.fromMidi(60)).toEqual("C4");
   });
   test("midi accepts valid MIDI note numbers", function() {
     expect(note.midi(60)).toBe(60);
@@ -130,6 +131,11 @@ describe("tonal-note", function() {
     expect(note.freqToMidi(220)).toBe(57);
     expect(note.freqToMidi(261.62)).toBe(60);
     expect(note.freqToMidi(261)).toBe(59.96);
+  });
+  test("midiToFreq", function() {
+    expect(note.midiToFreq(57)).toBe(220);
+    expect(Math.floor(note.midiToFreq(60))).toEqual(261);
+    expect(note.midiToFreq(57, 440)).toBe(220);
   });
   test("chroma", function() {
     var chromas = "Cb C Db D Eb E Fb F Gb G Ab A Bb B"
@@ -167,5 +173,6 @@ describe("tonal-note", function() {
     ).toEqual($("D Eb G4 E5 C5 A#3"));
     expect(note.simplify("C#")).toEqual("C#");
     expect(note.simplify("C#", false)).toEqual("Db");
+    expect(note.simplify("ohhaimark")).toEqual(null);
   });
 });
