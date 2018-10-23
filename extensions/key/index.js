@@ -169,7 +169,17 @@ export const alteredNotes = name => {
       : range(-1, alt).map(trFifths("F"));
 };
 
-const getChords = chords => keyName => {
+/**
+ * @private
+ * Given a list of chords, return a function function that returns
+ * that chords for a given keyName
+ *
+ * @param {Array<String>} chords
+ * @return {function}
+ * @see Key.chords
+ * @see Key.triads
+ */
+const namesFor = chords => keyName => {
   const p = props(keyName);
   if (!p.name) return [];
   const names = rotate(p.modenum, chords);
@@ -186,7 +196,7 @@ const getChords = chords => keyName => {
  * @example
  * Key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
  */
-export const chords = getChords(CHORDS);
+export const chords = namesFor(CHORDS);
 
 /**
  * Get key triads
@@ -198,7 +208,7 @@ export const chords = getChords(CHORDS);
  * @example
  * Key.triads("A major") // => ["AM", "Bm", "C#m", "DM", "E7", "F#m", "G#mb5"]
  */
-export const triads = getChords(TRIADS);
+export const triads = namesFor(TRIADS);
 
 /**
  * Get secondary dominant key chords
