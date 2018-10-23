@@ -16,7 +16,7 @@ type NoteOrPitchClass = Note | PitchClass;
  * // it works with pitch classes
  * transpose("D", "3M") // => "F#"
  * // can be partially applied
- * ["C", "D", "E", "F", "G"].map(transpose("M3)) // => ["E", "F#", "G#", "A", "B"]
+ * ["C", "D", "E", "F", "G"].map(transpose("M3")) // => ["E", "F#", "G#", "A", "B"]
  */
 export declare function transpose(
   note: Note,
