@@ -10,19 +10,18 @@
     "tonal"
   ],
   "scripts": {
-    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.js > README.md",
+    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.ts > README.md",
     "test": "jest --coverage",
-    "build-es5": "rollup -c ../../config/rollup.config.es5.js -- index.js",
+    "build-es5": "rollup -c ../../config/rollup.config.ts.js index.ts",
     "build-es6": "buble --no modules index.js -o build/es6.js"
   },
   "main": "build/es5.js",
   "module": "build/es6.js",
+  "types": "build/index.d.ts",
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  "babel": {
-    "presets": [
-      "es2015"
-    ]
+  "jest": {
+    "preset": "ts-jest"
   }
 }
