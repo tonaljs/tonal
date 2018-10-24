@@ -10,7 +10,9 @@
     "tonal"
   ],
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "build-es5": "rollup -c ../../config/rollup.config.es5.js -- index.js",
+    "build-es6": "buble --no modules index.js -o build/es6.js"
   },
   "main": "build/es5.js",
   "module": "build/es6.js",
