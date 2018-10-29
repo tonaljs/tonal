@@ -10,10 +10,10 @@
     "tonal"
   ],
   "scripts": {
-    "docs": "jsdoc2md -d 1 --name-format --member-index-format list index.ts > README.md",
+    "docs": "jsdoc2md --files 'index.ts' --configure jsdoc2md.json > README.md",
     "test": "jest --coverage",
     "build-es5": "rollup -c ../../config/rollup.config.ts.js index.ts",
-    "build-es6": "buble --no modules index.js -o build/es6.js"
+    "build-es6": "echo done"
   },
   "main": "build/es5.js",
   "module": "build/es6.js",
