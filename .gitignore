@@ -10,3 +10,4 @@ disc.html
 jsdocs/
 *.spec.d.ts
 .rpt2_cache
+.vscode
