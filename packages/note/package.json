@@ -12,8 +12,7 @@
   "scripts": {
     "docs": "jsdoc2md --files 'index.ts' --configure jsdoc2md.json > README.md",
     "test": "jest --coverage",
-    "build-es5": "rollup -c ../../config/rollup.config.ts.js index.ts",
-    "build-es6": "echo done"
+    "build": "rollup -c ../../config/rollup.config.ts.js index.ts"
   },
   "main": "build/es5.js",
   "module": "build/es6.js",
