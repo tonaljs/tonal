@@ -1,7 +1,7 @@
 var ivl = require("../index");
 
-const $ = str => str.split(" ");
-const lift = fn => str =>
+const $ = (str: string) => str.split(" ");
+const lift = (fn: (str: any) => any) => (str: string) =>
   str
     .split(" ")
     .map(fn)
@@ -13,6 +13,15 @@ describe("tonal-interval", () => {
     expect(ivl.tokenize("M-3")).toEqual(["-3", "M"]);
   });
 
+  test("qToAlt", () => {
+    expect(ivl.qToAlt("blabla")).toEqual(null);
+    expect(ivl.qToAlt("P", "ddd")).toEqual(-3);
+    expect(ivl.qToAlt("P", "d")).toEqual(-1);
+    expect(ivl.qToAlt("M", "d")).toEqual(-2);
+  });
+  test("altToQ", () => {
+    expect(ivl.altToQ("blabla")).toEqual(null);
+  });
   test("names", () => {
     expect(ivl.names()).toEqual($("1P 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P"));
     expect(ivl.names("P")).toEqual($("1P 4P 5P 8P"));
@@ -55,6 +64,7 @@ describe("tonal-interval", () => {
     expect(ivl.build({ step: 1, alt: -1, oct: 1, dir: -1 })).toBe("-9m");
     expect(ivl.build({ num: 9, alt: 0 })).toBe("9M");
     expect(ivl.build({ num: 15, alt: 0 })).toBe("15P");
+    expect(ivl.build({ num: 9, alt: "some string" })).toBe(null);
     expect(ivl.build()).toBe(null);
   });
 
@@ -128,7 +138,7 @@ describe("tonal-interval", () => {
   });
 
   test("interval types", () => {
-    const type = i => ivl.props(i).type;
+    const type = (i: string) => ivl.props(i).type;
     expect($("1P 2M 3M 4P 5P 6M 7M").map(type)).toEqual($("P M M P P M M"));
     expect($("8d 9m 10m 11d 12d 13m 14m").map(type)).toEqual(
       $("P M M P P M M")
@@ -154,6 +164,7 @@ describe("tonal-interval", () => {
     expect($("-8P -9M -10M -11P -12P -13M -14M").map(ivl.simplify)).toEqual(
       $("-8P -2M -3M -4P -5P -6M -7M")
     );
+    expect(ivl.simplify("oh hai mark")).toEqual(null);
   });
 
   test("invert intervals", () => {
@@ -167,5 +178,6 @@ describe("tonal-interval", () => {
     expect(invert("8P 9M 10M 11P 12P 13M 14M")).toEqual(
       "8P 14m 13m 12P 11P 10m 9m"
     );
+    expect(ivl.invert("oh hai mark")).toEqual(null);
   });
 });
