@@ -23,5 +23,8 @@
   "license": "MIT",
   "jest": {
     "preset": "ts-jest"
+  },
+  "devDependencies": {
+    "jsdoc-babel": "^0.5.0"
   }
 }
