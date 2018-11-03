@@ -27,7 +27,20 @@ const MODES = "major dorian phrygian lydian mixolydian minor locrian ionian aeol
 );
 const NUMS = [0, 1, 2, 3, 4, 5, 6, 0, 5];
 const NOTES = "C D E F G A B".split(" ");
-const CHORDS = "Maj7 m7 m7 Maj7 7 m7 m7b5".split(" ");
+
+/**
+ *
+ * A lead-sheet symbol begins with a capital letter (and, if necessary,
+ * an accidental) denoting the root of the chord.
+ * That letter is followed by information about a chord’s quality:
+ *
+ * -major triad: no quality symbol is added
+ * -minor triad: lower-case “m”
+ * -diminished triad: lower-case “dim” or a degree sign “°”
+ * -augmented triad: lower-case “aug” or a plus sign “+”
+ */
+const TRIADS = ["", "m", "m", "", "", "m", "dim"];
+const SEVENTHS = "Maj7 m7 m7 Maj7 7 m7 m7b5".split(" ");
 const DEGREES = "I II III IV V VI VII".split(" ");
 const FIFTHS = [0, 2, 4, -1, 1, 3, 5, 0, 3];
 
@@ -140,7 +153,7 @@ export const scale = str => props(str).scale;
 export const degrees = str => {
   const p = props(str);
   if (p.name === null) return [];
-  const chords = rotate(p.modenum, CHORDS);
+  const chords = rotate(p.modenum, SEVENTHS);
   return chords.map((chord, i) => {
     const deg = DEGREES[i];
     return chord[0] === "m" ? deg.toLowerCase() : deg;
@@ -169,6 +182,29 @@ export const alteredNotes = name => {
 };
 
 /**
+ * Get a lead-sheet symbols for a given key name
+ *
+ * This function is currified (so can be partially applied)
+ *
+ * @param {Array<String>} symbols - an array of symbols in major scale order
+ * @param {String} keyName - the name of the key you want the symbols for
+ * @return {function}
+ * @see Key.chords
+ * @see Key.triads
+ *
+ * @example
+ * const chords = Key.leadsheetSymbols(["M", "m", "m", "M", "7", "m", "dim"])
+ * chords("D dorian") //=> ["Dm", "Em", "FM", "G7", "Am", "Bdim", "CM"]
+ */
+export function leadsheetSymbols(symbols, keyName) {
+  if (arguments.length === 1) return name => leadsheetSymbols(symbols, name);
+  const p = props(keyName);
+  if (!p.name) return [];
+  const names = rotate(p.modenum, symbols);
+  return p.scale.map((tonic, i) => tonic + names[i]);
+}
+
+/**
  * Get key chords
  *
  * @function
@@ -178,12 +214,19 @@ export const alteredNotes = name => {
  * @example
  * Key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
  */
-export const chords = str => {
-  const p = props(str);
-  if (!p.name) return [];
-  const chords = rotate(p.modenum, CHORDS);
-  return p.scale.map((tonic, i) => tonic + chords[i]);
-};
+export const chords = leadsheetSymbols(SEVENTHS);
+
+/**
+ * Get key triads
+ *
+ * @function
+ * @param {String} name - the key name
+ * @return {Array}
+ *
+ * @example
+ * Key.triads("A major") // => ["AM", "Bm", "C#m", "DM", "E7", "F#m", "G#mb5"]
+ */
+export const triads = leadsheetSymbols(TRIADS);
 
 /**
  * Get secondary dominant key chords
