@@ -15,4 +15,3 @@ script:
 
 node_js:
   - 8
-  - stable
