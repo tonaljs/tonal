@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A functional music theory library",
   "main": "build/es5.js",
   "module": "index.js",
@@ -25,7 +25,7 @@
     "tonal-dictionary": "^2.1.0",
     "tonal-distance": "^2.1.0",
     "tonal-interval": "^2.1.0",
-    "tonal-key": "^2.1.0",
+    "tonal-key": "^2.1.1",
     "tonal-note": "^2.1.0",
     "tonal-pcset": "^2.1.0",
     "tonal-scale": "^2.1.0"
