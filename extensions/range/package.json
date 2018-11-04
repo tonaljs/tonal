@@ -1,6 +1,6 @@
 {
   "name": "tonal-range",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Create ranges of notes",
   "keywords": [
     "music",
@@ -19,10 +19,10 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^2.0.0",
-    "tonal-distance": "^2.0.0",
-    "tonal-note": "^2.0.0",
-    "tonal-pcset": "^2.0.0"
+    "tonal-array": "^2.1.0",
+    "tonal-distance": "^2.1.0",
+    "tonal-note": "^2.1.0",
+    "tonal-pcset": "^2.1.0"
   },
   "babel": {
     "presets": [
