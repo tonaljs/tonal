@@ -1,12 +1,23 @@
 type IntervalName = string;
-type IntervalQuality = string;
+type IntervalQuality =
+  | "dddd"
+  | "ddd"
+  | "dd"
+  | "d"
+  | "m"
+  | "M"
+  | "P"
+  | "A"
+  | "AA"
+  | "AAA"
+  | "AAAA";
 type IntervalAlteration = number;
 type IntervalStep = number;
 type IntervalDirection = 1 | -1;
-type IntervalSimplifiedNumber = number;
+type IntervalSimplifiedNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 type IntervalType = "P" | "M";
-type IntervalChroma = number;
-type IntervalClass = string;
+type IntervalChroma = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+type IntervalClass = 0 | 1 | 2 | 3 | 4 | 5;
 type IntervalProps = {
   name: IntervalName;
   num: number;
@@ -19,6 +30,7 @@ type IntervalProps = {
   semitones: number;
   chroma: IntervalChroma;
   oct: number;
+  ic: IntervalClass;
 };
 
 type NoIntervalProps = {
@@ -148,30 +160,33 @@ const properties = (str?: string) => {
   if (t === null) return NO_IVL;
   const p = {
     num: 0,
-    q: "",
+    q: "d",
     name: "",
     type: "M",
     step: 0,
     dir: -1,
-    simple: 0,
+    simple: 1,
     alt: 0,
     oct: 0,
     semitones: 0,
     chroma: 0,
-    ic: ""
+    ic: 0
   } as IntervalProps;
   p.num = +t[0];
-  p.q = t[1];
+  p.q = t[1] as IntervalQuality;
   p.step = numToStep(p.num);
   p.type = TYPES[p.step] as IntervalType;
   if (p.type === "M" && p.q === "P") return NO_IVL;
   p.name = "" + p.num + p.q;
   p.dir = p.num < 0 ? -1 : 1;
-  p.simple = p.num === 8 || p.num === -8 ? p.num : p.dir * (p.step + 1);
+  p.simple = (p.num === 8 || p.num === -8
+    ? p.num
+    : p.dir * (p.step + 1)) as IntervalSimplifiedNumber;
   p.alt = qToAlt(p.type, p.q) as number;
   p.oct = Math.floor((Math.abs(p.num) - 1) / 7);
   p.semitones = p.dir * (SIZES[p.step] + p.alt + 12 * p.oct);
-  p.chroma = (((p.dir * (SIZES[p.step] + p.alt)) % 12) + 12) % 12;
+  p.chroma = ((((p.dir * (SIZES[p.step] + p.alt)) % 12) + 12) %
+    12) as IntervalChroma;
   return Object.freeze(p);
 };
 
