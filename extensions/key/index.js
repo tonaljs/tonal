@@ -1,5 +1,5 @@
 /**
- * [![npm version](https://img.shields.io/npm/v/tonal-Key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
+ * [![npm version](https://img.shields.io/npm/v/tonal-key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
  * [![tonal](https://img.shields.io/badge/tonal-key-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
  *
  * `tonal-key` is a collection of functions to query about tonal keys.
@@ -28,17 +28,6 @@ const MODES = "major dorian phrygian lydian mixolydian minor locrian ionian aeol
 const NUMS = [0, 1, 2, 3, 4, 5, 6, 0, 5];
 const NOTES = "C D E F G A B".split(" ");
 
-/**
- *
- * A lead-sheet symbol begins with a capital letter (and, if necessary,
- * an accidental) denoting the root of the chord.
- * That letter is followed by information about a chord’s quality:
- *
- * -major triad: no quality symbol is added
- * -minor triad: lower-case “m”
- * -diminished triad: lower-case “dim” or a degree sign “°”
- * -augmented triad: lower-case “aug” or a plus sign “+”
- */
 const TRIADS = ["", "m", "m", "", "", "m", "dim"];
 const SEVENTHS = "Maj7 m7 m7 Maj7 7 m7 m7b5".split(" ");
 const DEGREES = "I II III IV V VI VII".split(" ");
@@ -185,6 +174,17 @@ export const alteredNotes = name => {
  * Get a lead-sheet symbols for a given key name
  *
  * This function is currified (so can be partially applied)
+ *
+ * From http://openmusictheory.com/triads.html
+ *
+ * A lead-sheet symbol begins with a capital letter (and, if necessary,
+ * an accidental) denoting the root of the chord.
+ * That letter is followed by information about a chord’s quality:
+ *
+ * - major triad: no quality symbol is added
+ * - minor triad: lower-case “m”
+ * - diminished triad: lower-case “dim” or a degree sign “°”
+ * - augmented triad: lower-case “aug” or a plus sign “+”
  *
  * @param {Array<String>} symbols - an array of symbols in major scale order
  * @param {String} keyName - the name of the key you want the symbols for

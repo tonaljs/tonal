@@ -2,7 +2,7 @@
 
 # Key
 
-[![npm version](https://img.shields.io/npm/v/tonal-Key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
+[![npm version](https://img.shields.io/npm/v/tonal-key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
 [![tonal](https://img.shields.io/badge/tonal-key-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
 
 `tonal-key` is a collection of functions to query about tonal keys.
@@ -32,6 +32,7 @@ Key.relative("minor", "C major"); // => "A minor"
   - [`.props(name)`](#module_Key.props) ⇒ <code>Object</code>
   - [`.scale(key)`](#module_Key.scale) ⇒ <code>Array</code>
   - [`.alteredNotes(key)`](#module_Key.alteredNotes) ⇒ <code>Array</code>
+  - [`.leadsheetSymbols(symbols, keyName)`](#module_Key.leadsheetSymbols) ⇒ <code>function</code>
   - [`.chords(name)`](#module_Key.chords) ⇒ <code>Array</code>
   - [`.triads(name)`](#module_Key.triads) ⇒ <code>Array</code>
   - [`.secDomChords(name)`](#module_Key.secDomChords) ⇒ <code>Array</code>
@@ -165,6 +166,43 @@ the same order than in the key signature.
 
 ```js
 Key.alteredNotes("Eb major"); // => [ "Bb", "Eb", "Ab" ]
+```
+
+<a name="module_Key.leadsheetSymbols"></a>
+
+## `Key.leadsheetSymbols(symbols, keyName)` ⇒ <code>function</code>
+
+Get a lead-sheet symbols for a given key name
+
+This function is currified (so can be partially applied)
+
+From http://openmusictheory.com/triads.html
+
+A lead-sheet symbol begins with a capital letter (and, if necessary,
+an accidental) denoting the root of the chord.
+That letter is followed by information about a chord’s quality:
+
+- major triad: no quality symbol is added
+- minor triad: lower-case “m”
+- diminished triad: lower-case “dim” or a degree sign “°”
+- augmented triad: lower-case “aug” or a plus sign “+”
+
+**Kind**: static method of [<code>Key</code>](#module_Key)  
+**See**
+
+- Key.chords
+- Key.triads
+
+| Param   | Type                              | Description                                  |
+| ------- | --------------------------------- | -------------------------------------------- |
+| symbols | <code>Array.&lt;String&gt;</code> | an array of symbols in major scale order     |
+| keyName | <code>String</code>               | the name of the key you want the symbols for |
+
+**Example**
+
+```js
+const chords = Key.leadsheetSymbols(["M", "m", "m", "M", "7", "m", "dim"]);
+chords("D dorian"); //=> ["Dm", "Em", "FM", "G7", "Am", "Bdim", "CM"]
 ```
 
 <a name="module_Key.chords"></a>
