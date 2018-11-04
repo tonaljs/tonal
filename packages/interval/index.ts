@@ -1,3 +1,50 @@
+type IntervalName = string;
+type IntervalQuality =
+  | "dddd"
+  | "ddd"
+  | "dd"
+  | "d"
+  | "m"
+  | "M"
+  | "P"
+  | "A"
+  | "AA"
+  | "AAA"
+  | "AAAA";
+type IntervalAlteration = number;
+type IntervalStep = number;
+type IntervalDirection = 1 | -1;
+type IntervalSimplifiedNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+type IntervalType = "P" | "M";
+type IntervalChroma = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+type IntervalClass = 0 | 1 | 2 | 3 | 4 | 5;
+type IntervalProps = {
+  name: IntervalName;
+  num: number;
+  q: IntervalQuality;
+  step: IntervalStep;
+  alt: IntervalAlteration;
+  dir: IntervalDirection;
+  type: IntervalType;
+  simple: IntervalSimplifiedNumber;
+  semitones: number;
+  chroma: IntervalChroma;
+  oct: number;
+  ic: IntervalClass;
+};
+
+type NoIntervalProps = {
+  name: null;
+  num: null;
+  q: null;
+  step: null;
+  alt: null;
+  dir: null;
+  type: null;
+  simple: null;
+  semitones: null;
+  chroma: null;
+};
 /**
  * [![npm version](https://img.shields.io/npm/v/tonal-interval.svg)](https://www.npmjs.com/package/tonal-interval)
  * [![tonal](https://img.shields.io/badge/tonal-interval-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
@@ -39,6 +86,7 @@
  *
  * @module Interval
  */
+
 // shorthand tonal notation (with quality after number)
 const IVL_TNL = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
 // standard shorthand notation (with quality before number)
@@ -60,14 +108,15 @@ const NAMES = "1P 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P".split(" ");
  * Interval.names("Pm") // => [ "1P", "2m", "3m", "4P", "5P", "6m", "7m", "8P" ]
  * Interval.names("d") // => []
  */
-export const names = types =>
+export const names = (types?: IntervalName | IntervalName[]) =>
   typeof types !== "string"
     ? NAMES.slice()
     : NAMES.filter(n => types.indexOf(n[1]) !== -1);
 
-export const tokenize = str => {
-  const m = REGEX.exec(str);
-  return m === null ? null : m[1] ? [m[1], m[2]] : [m[4], m[3]];
+export const tokenize = (str?: IntervalName) => {
+  const m = REGEX.exec(`${str}`) as string[];
+  if (m === null) return null;
+  return (m[1] ? [m[1], m[2]] : [m[4], m[3]]) as [string, string];
 };
 
 const NO_IVL = Object.freeze({
@@ -80,12 +129,14 @@ const NO_IVL = Object.freeze({
   type: null,
   simple: null,
   semitones: null,
-  chroma: null
-});
+  chroma: null,
+  oct: null
+} as NoIntervalProps);
 
-const fillStr = (s, n) => Array(Math.abs(n) + 1).join(s);
+const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 
-const qToAlt = (type, q) => {
+// export for tests only
+export const qToAlt = (type: string, q: string) => {
   if (q === "M" && type === "M") return 0;
   if (q === "P" && type === "P") return 0;
   if (q === "m" && type === "M") return -1;
@@ -93,8 +144,8 @@ const qToAlt = (type, q) => {
   if (/^d+$/.test(q)) return type === "P" ? -q.length : -q.length - 1;
   return null;
 };
-
-const altToQ = (type, alt) => {
+// export for tests only
+export const altToQ = (type: string, alt: number) => {
   if (alt === 0) return type === "M" ? "M" : "P";
   else if (alt === -1 && type === "M") return "m";
   else if (alt > 0) return fillStr("A", alt);
@@ -102,27 +153,44 @@ const altToQ = (type, alt) => {
   else return null;
 };
 
-const numToStep = num => (Math.abs(num) - 1) % 7;
+const numToStep = (num: number) => (Math.abs(num) - 1) % 7;
 
-const properties = str => {
+const properties = (str?: string) => {
   const t = tokenize(str);
   if (t === null) return NO_IVL;
-  const p = { num: +t[0], q: t[1] };
+  const p = {
+    num: 0,
+    q: "d",
+    name: "",
+    type: "M",
+    step: 0,
+    dir: -1,
+    simple: 1,
+    alt: 0,
+    oct: 0,
+    semitones: 0,
+    chroma: 0,
+    ic: 0
+  } as IntervalProps;
+  p.num = +t[0];
+  p.q = t[1] as IntervalQuality;
   p.step = numToStep(p.num);
-  p.type = TYPES[p.step];
+  p.type = TYPES[p.step] as IntervalType;
   if (p.type === "M" && p.q === "P") return NO_IVL;
-
   p.name = "" + p.num + p.q;
   p.dir = p.num < 0 ? -1 : 1;
-  p.simple = p.num === 8 || p.num === -8 ? p.num : p.dir * (p.step + 1);
-  p.alt = qToAlt(p.type, p.q);
+  p.simple = (p.num === 8 || p.num === -8
+    ? p.num
+    : p.dir * (p.step + 1)) as IntervalSimplifiedNumber;
+  p.alt = qToAlt(p.type, p.q) as number;
   p.oct = Math.floor((Math.abs(p.num) - 1) / 7);
   p.semitones = p.dir * (SIZES[p.step] + p.alt + 12 * p.oct);
-  p.chroma = (((p.dir * (SIZES[p.step] + p.alt)) % 12) + 12) % 12;
+  p.chroma = ((((p.dir * (SIZES[p.step] + p.alt)) % 12) + 12) %
+    12) as IntervalChroma;
   return Object.freeze(p);
 };
 
-const cache = {};
+const cache = {} as { [key: string]: IntervalProps | NoIntervalProps };
 /**
  * Get interval properties. It returns an object with:
  *
@@ -142,7 +210,7 @@ const cache = {};
  * @param {String} interval - the interval
  * @return {Object} the interval in the form [number, alt]
  */
-export function props(str) {
+export function props(str?: string) {
   if (typeof str !== "string") return NO_IVL;
   return cache[str] || (cache[str] = properties(str));
 }
@@ -158,7 +226,7 @@ export function props(str) {
  * Interval.num("P9") // => 9
  * Interval.num("P-4") // => -4
  */
-export const num = str => props(str).num;
+export const num = (str: IntervalName) => props(str).num;
 
 /**
  * Get interval name. Can be used to test if it"s an interval. It accepts intervals
@@ -172,7 +240,7 @@ export const num = str => props(str).num;
  * Interval.name("m-3") // => "-3m"
  * Interval.name("3") // => null
  */
-export const name = str => props(str).name;
+export const name = (str: IntervalName) => props(str).name;
 
 /**
  * Get size in semitones of an interval
@@ -186,7 +254,7 @@ export const name = str => props(str).name;
  * // or using tonal
  * Tonal.Interval.semitones("P5") // => 7
  */
-export const semitones = str => props(str).semitones;
+export const semitones = (str: IntervalName) => props(str).semitones;
 
 /**
  * Get the chroma of the interval. The chroma is a number between 0 and 7
@@ -196,7 +264,7 @@ export const semitones = str => props(str).semitones;
  * @param {String} str
  * @return {Number}
  */
-export const chroma = str => props(str).chroma;
+export const chroma = (str: IntervalName) => props(str).chroma;
 
 /**
  * Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
@@ -215,7 +283,7 @@ export const chroma = str => props(str).chroma;
  * Interval.ic(10) // => 2
  * ["P1", "M2", "M3", "P4", "P5", "M6", "M7"].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
  */
-export const ic = ivl => {
+export const ic = (ivl?: IntervalName | IntervalStep | null) => {
   if (typeof ivl === "string") ivl = props(ivl).chroma;
   return typeof ivl === "number" ? CLASSES[ivl % 12] : null;
 };
@@ -239,13 +307,16 @@ export const ic = ivl => {
  * Interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
  * Interval.build({ num: 9, alt: -1 }) // => "9m"
  */
-export const build = ({ num, step, alt, oct = 1, dir } = {}) => {
+export const build = (
+  { num, step, alt, oct = 1, dir } = {} as Partial<IntervalProps>
+) => {
   if (step !== undefined) num = step + 1 + 7 * oct;
   if (num === undefined) return null;
-
-  const d = dir < 0 ? "-" : "";
+  if (typeof alt !== "number") return null;
+  const d = typeof dir !== "number" ? "" : dir < 0 ? "-" : "";
+  // const d = dir < 0 ? "-" : "";
   const type = TYPES[numToStep(num)];
-  return d + num + altToQ(type, alt);
+  return (d + num + altToQ(type, alt)) as IntervalName;
 };
 
 /**
@@ -262,10 +333,11 @@ export const build = ({ num, step, alt, oct = 1, dir } = {}) => {
  * Interval.simplify("2M") // => "2M"
  * Interval.simplify("-2M") // => "7m"
  */
-export const simplify = str => {
+export const simplify = (str: IntervalName) => {
   const p = props(str);
   if (p === NO_IVL) return null;
-  return p.simple + p.q;
+  const intervalProps = p as IntervalProps;
+  return intervalProps.simple + intervalProps.q;
 };
 
 /**
@@ -281,12 +353,14 @@ export const simplify = str => {
  * Interval.invert("3m") // => "6M"
  * Interval.invert("2M") // => "7m"
  */
-export const invert = str => {
+export const invert = (str: IntervalName) => {
   const p = props(str);
   if (p === NO_IVL) return null;
-  const step = (7 - p.step) % 7;
-  const alt = p.type === "P" ? -p.alt : -(p.alt + 1);
-  return build({ step, alt, oct: p.oct, dir: p.dir });
+  const intervalProps = p as IntervalProps;
+  const step = (7 - intervalProps.step) % 7;
+  const alt =
+    intervalProps.type === "P" ? -intervalProps.alt : -(intervalProps.alt + 1);
+  return build({ step, alt, oct: intervalProps.oct, dir: intervalProps.dir });
 };
 
 // interval numbers
@@ -307,7 +381,7 @@ var IQ = "P m M m M P d P m M m M".split(" ");
  * // or using tonal
  * Tonal.Distance.fromSemitones(-7) // => "-5P"
  */
-export const fromSemitones = num => {
+export const fromSemitones = (num: number) => {
   var d = num < 0 ? -1 : 1;
   var n = Math.abs(num);
   var c = n % 12;

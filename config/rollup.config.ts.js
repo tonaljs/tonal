@@ -15,13 +15,7 @@ export default {
   plugins: [
     typescript({
       typescript: require("typescript"),
-      abortOnError: false,
-      tsconfigOverride: {
-        include: ["./index.ts"],
-        compilerOptions: {
-          outDir: "build"
-        }
-      }
+      abortOnError: false
     })
   ]
 };
