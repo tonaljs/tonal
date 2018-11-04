@@ -9,7 +9,7 @@ type NoteName = string;
 type NoteProps = {
   name: NoteName;
   letter: NoteLetter;
-  acc: NoteAccidental | string; // {String}: the note accidentals
+  acc: NoteAccidental; // {String}: the note accidentals
   oct: OrNull<Octave>; // {Number}: the octave or null if not present
   step: number; // {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
   pc: NoteName; //{String}: the pitch class (letter + accidentals)
