@@ -14,4 +14,5 @@ script:
   - codecov
 
 node_js:
-  - 8
+  - "8"
+

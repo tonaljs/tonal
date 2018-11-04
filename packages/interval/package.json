@@ -1,6 +1,6 @@
 {
   "name": "tonal-interval",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Music interval creation and manipulation",
   "repository": "https://github.com/danigb/tonal/packages/interval",
   "keywords": [
