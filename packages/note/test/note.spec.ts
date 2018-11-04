@@ -1,8 +1,8 @@
 /* global describe test expect */
-var note = require("../index");
+import * as note from "../index";
 
-const $ = str => str.split(" ");
-const map = (fn, str) => str.split(" ").map(fn);
+const $ = (str: string) => str.split(" ");
+const map = (fn: (str: any) => any, str: any) => str.split(" ").map(fn);
 
 describe("tonal-note", () => {
   test("tokenize", () => {
@@ -14,8 +14,10 @@ describe("tonal-note", () => {
     expect(note.tokenize("bb")).toEqual(["B", "b", "", ""]);
     expect(note.tokenize("##")).toEqual(["", "##", "", ""]);
     expect(note.tokenize(3)).toEqual(["", "", "", ""]);
+    //@ts-ignore
     expect(note.tokenize(false)).toEqual(["", "", "", ""]);
     expect(note.tokenize()).toEqual(["", "", "", ""]);
+    //@ts-ignore
     expect(note.tokenize(null)).toEqual(["", "", "", ""]);
   });
 
@@ -23,6 +25,7 @@ describe("tonal-note", () => {
     const names = map(note.name, "c fx dbb bbb c##-1 fbb6");
     expect(names).toEqual(["C", "F##", "Dbb", "Bbb", "C##-1", "Fbb6"]);
     expect(note.name("blah")).toEqual(null);
+    //@ts-ignore
     expect(note.name()).toEqual(null);
   });
 
@@ -34,6 +37,7 @@ describe("tonal-note", () => {
     expect(note.build({ step: 8 })).toBe(null);
     expect(note.build({})).toBe(null);
     expect(note.build()).toBe(null);
+    //@ts-ignore
     expect(note.build("blah")).toBe(null);
   });
 
@@ -45,6 +49,7 @@ describe("tonal-note", () => {
     expect(note.from({ step: 8 })).toBe(null);
     expect(note.from({})).toBe(null);
     expect(note.from()).toBe(null);
+    //@ts-ignore
     expect(note.from("blah")).toBe(null);
     expect(note.from({ alt: 1 }, "A4")).toBe("A#4");
     expect(note.from({ alt: 0 }, "C#3")).toBe("C3");
@@ -88,6 +93,7 @@ describe("tonal-note", () => {
       pc: "Bb",
       step: 6
     });
+    // @ts-ignore
     expect(note.props("major")).toEqual(note.props());
   });
 
@@ -104,7 +110,9 @@ describe("tonal-note", () => {
     expect(midis).toEqual([60, 62, 64, 65, 67, 69, 71, 60, 0, null]);
     expect(note.midi("C")).toBe(null);
     expect(note.midi("bla")).toBe(null);
+    //@ts-ignore
     expect(note.midi(true)).toBe(null);
+    //@ts-ignore
     expect(note.midi(false)).toBe(null);
   });
 
@@ -116,6 +124,7 @@ describe("tonal-note", () => {
     expect(notes.map(n => note.fromMidi(n, true)).join(" ")).toEqual(
       "C4 C#4 D4 D#4 E4 F4 F#4 G4 G#4 A4 A#4 B4 C5"
     );
+    expect(note.fromMidi(60)).toEqual("C4");
   });
 
   test("midi accepts valid MIDI note numbers", () => {
@@ -137,6 +146,11 @@ describe("tonal-note", () => {
     expect(note.freqToMidi(220)).toBe(57);
     expect(note.freqToMidi(261.62)).toBe(60);
     expect(note.freqToMidi(261)).toBe(59.96);
+  });
+  test("midiToFreq", () => {
+    expect(note.midiToFreq(57)).toBe(220);
+    expect(Math.floor(note.midiToFreq(60) as number)).toEqual(261);
+    expect(note.midiToFreq(57, 440)).toBe(220);
   });
 
   test("chroma", () => {
@@ -178,5 +192,6 @@ describe("tonal-note", () => {
 
     expect(note.simplify("C#")).toEqual("C#");
     expect(note.simplify("C#", false)).toEqual("Db");
+    expect(note.simplify("ohhaimark")).toEqual(null);
   });
 });

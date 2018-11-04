@@ -1,3 +1,37 @@
+type NoteLetter = "A" | "B" | "C" | "D" | "E" | "F" | "G";
+type NoteAccidental = string; // " " | "#" | "b" | " #" | " b"  | "b " | "b#" | "#b" ;
+type Note = string;
+type Midi = number;
+type Octave = number;
+type OrNull<T> = T | null;
+type NoteName = string;
+
+type NoteProps = {
+  name: NoteName;
+  letter: NoteLetter;
+  acc: NoteAccidental; // {String}: the note accidentals
+  oct: OrNull<Octave>; // {Number}: the octave or null if not present
+  step: number; // {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
+  pc: NoteName; //{String}: the pitch class (letter + accidentals)
+  alt: number; // {Number}: number equivalent of accidentals (negative are flats, positive sharps)
+  chroma: number; // {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
+  midi: OrNull<Midi>; // {Number}: the note midi number (IMPORTANT! it can be outside 0 to 127 range)
+  freq: OrNull<number>; // {Number}: the frequency using an equal temperament at 440Hz
+};
+
+type NoNoteProps = {
+  name: null;
+  // letter: null;
+  // acc: null; // {String}: the note accidentals
+  oct: null; // {Number}: the octave or null if not present
+  step: null; // {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
+  pc: null; //{String}: the pitch class (letter + accidentals)
+  alt: null; // {Number}: number equivalent of accidentals (negative are flats, positive sharps)
+  chroma: null; // {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
+  midi: null; // {Number}: the note midi number (IMPORTANT! it can be outside 0 to 127 range)
+  freq: null;
+};
+
 /**
  * [![npm version](https://img.shields.io/npm/v/tonal-note.svg)](https://www.npmjs.com/package/tonal-note)
  * [![tonal](https://img.shields.io/badge/tonal-note-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
@@ -32,7 +66,9 @@
  * @module Note
  */
 
-const NAMES = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B".split(" ");
+const NAMES = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B".split(
+  " "
+) as NoteName[];
 
 /**
  * Get a list of note names (pitch classes) within a octave
@@ -45,7 +81,7 @@ const NAMES = "C C# Db D D# Eb E F F# Gb G G# Ab A A# Bb B".split(" ");
  * Note.names(" b") // => [ "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B" ]
  * Note.names(" #") // => [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ]
  */
-export const names = accTypes =>
+export const names = (accTypes?: NoteAccidental) =>
   typeof accTypes !== "string"
     ? NAMES.slice()
     : NAMES.filter(n => {
@@ -72,11 +108,17 @@ const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
  * Note.tokenize("##") // => ["", "##", "", ""]
  * Note.tokenize() // => ["", "", "", ""]
  */
-export function tokenize(str) {
+export function tokenize(str?: Note | Midi) {
   if (typeof str !== "string") str = "";
-  const m = REGEX.exec(str);
-  if (!m) return null;
-  return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]];
+  const m = REGEX.exec(str) as string[];
+  // Will never execute
+  // if (!m) return null;
+  return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]] as [
+    NoteLetter | "",
+    string,
+    string,
+    string
+  ];
 }
 
 const NO_NOTE = Object.freeze({
@@ -89,26 +131,39 @@ const NO_NOTE = Object.freeze({
   chroma: null,
   midi: null,
   freq: null
-});
+} as NoNoteProps);
 
 const SEMI = [0, 2, 4, 5, 7, 9, 11];
-const properties = str => {
+const properties = (str: Note | Midi) => {
   const tokens = tokenize(str);
+  // Will never execute
+  // if (tokens === null) return NO_NOTE;
   if (tokens[0] === "" || tokens[3] !== "") return NO_NOTE;
   const [letter, acc, octStr] = tokens;
-  const p = { letter, acc, octStr };
-  p.pc = p.letter + p.acc;
-  p.name = p.pc + octStr;
-  p.step = (p.letter.charCodeAt(0) + 3) % 7;
-  p.alt = p.acc[0] === "b" ? -p.acc.length : p.acc.length;
-  p.oct = octStr.length ? +octStr : null;
+  const p = {
+    letter,
+    acc,
+    octStr,
+    pc: letter + acc,
+    name: letter + acc + octStr,
+    step: (letter.charCodeAt(0) + 3) % 7,
+    alt: acc[0] === "b" ? -acc.length : acc.length,
+    oct: octStr.length ? +octStr : null,
+    chroma: 0,
+    midi: null,
+    freq: null
+  } as NoteProps;
   p.chroma = (SEMI[p.step] + p.alt + 120) % 12;
   p.midi = p.oct !== null ? SEMI[p.step] + p.alt + 12 * (p.oct + 1) : null;
   p.freq = midiToFreq(p.midi);
   return Object.freeze(p);
 };
 
-const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
+// function memo
+const memo = <T extends string | number, V>(
+  fn: (s: T) => V,
+  cache = {} as { [key in T]: V }
+) => (str: T) => cache[str] || (cache[str] = fn(str));
 
 /**
  * Get note properties. It returns an object with the following information:
@@ -155,7 +210,7 @@ export const props = memo(properties);
  * Note.name("cb2") // => "Cb2"
  * ["c", "db3", "2", "g+", "gx4"].map(Note.name) // => ["C", "Db3", null, null, "G##4"]
  */
-export const name = str => props(str).name;
+export const name = (str: Note) => props(str).name as NoteName;
 
 /**
  * Get pitch class of a note. The note can be a string or a pitch array.
@@ -167,9 +222,9 @@ export const name = str => props(str).name;
  * Note.pc("Db3") // => "Db"
  * ["db3", "bb6", "fx2"].map(Note.pc) // => [ "Db", "Bb", "F##"]
  */
-export const pc = str => props(str).pc;
+export const pc = (str: Note) => props(str).pc;
 
-const isMidiRange = m => m >= 0 && m <= 127;
+const isMidiRange = (m: Midi | number): m is Midi => m >= 0 && m <= 127;
 /**
  * Get the note midi number. It always return a number between 0 and 127
  *
@@ -181,7 +236,7 @@ const isMidiRange = m => m >= 0 && m <= 127;
  * Note.midi(60) // => 60
  * @see midi.toMidi
  */
-export const midi = note => {
+export const midi = (note: Note | Midi) => {
   if (typeof note !== "number" && typeof note !== "string") {
     return null;
   }
@@ -197,7 +252,7 @@ export const midi = note => {
  * @param {Number} tuning - (Optional) 440 by default
  * @return {Number} the frequency or null if not valid note midi
  */
-export const midiToFreq = (midi, tuning = 440) =>
+export const midiToFreq = (midi: Midi | Note | null, tuning = 440) =>
   typeof midi === "number" ? Math.pow(2, (midi - 69) / 12) * tuning : null;
 
 /**
@@ -210,7 +265,7 @@ export const midiToFreq = (midi, tuning = 440) =>
  * Note.freq("A4") // => 440
  * Note.freq(69) // => 440
  */
-export const freq = note => props(note).freq || midiToFreq(note);
+export const freq = (note: Note | Midi) => props(note).freq || midiToFreq(note);
 
 const L2 = Math.log(2);
 const L440 = Math.log(440);
@@ -225,7 +280,7 @@ const L440 = Math.log(440);
  * Note.freqToMidi(261.62)); //=> 60;
  * Note.freqToMidi(261)); //=> 59.96;
  */
-export const freqToMidi = freq => {
+export const freqToMidi = (freq: number) => {
   const v = (12 * (Math.log(freq) - L440)) / L2 + 69;
   return Math.round(v * 100) / 100;
 };
@@ -240,7 +295,7 @@ export const freqToMidi = freq => {
  * Note.chroma("Cb") // => 11
  * ["C", "D", "E", "F"].map(Note.chroma) // => [0, 2, 4, 5]
  */
-export const chroma = str => props(str).chroma;
+export const chroma = (str: Note) => props(str).chroma;
 
 /**
  * Get the octave of the given pitch
@@ -253,7 +308,7 @@ export const chroma = str => props(str).chroma;
  * Note.oct("C") // => null
  * Note.oct("blah") // => undefined
  */
-export const oct = str => props(str).oct;
+export const oct = (str: Note) => props(str).oct;
 
 const LETTERS = "CDEFGAB";
 /**
@@ -263,10 +318,11 @@ const LETTERS = "CDEFGAB";
  * @example
  * Note.stepToLetter(3) // => "F"
  */
-export const stepToLetter = step => LETTERS[step];
+export const stepToLetter = (step: number) => LETTERS[step];
 
-const fillStr = (s, n) => Array(n + 1).join(s);
-const numToStr = (num, op) => (typeof num !== "number" ? "" : op(num));
+const fillStr = (s: string, n: number) => Array(n + 1).join(s);
+const numToStr = (num: number | any, op: (a: number) => string) =>
+  typeof num !== "number" ? "" : op(num);
 
 /**
  * Given an alteration number, return the accidentals
@@ -275,7 +331,7 @@ const numToStr = (num, op) => (typeof num !== "number" ? "" : op(num));
  * @example
  * Note.altToAcc(-3) // => "bbb"
  */
-export const altToAcc = alt =>
+export const altToAcc = (alt?: number) =>
   numToStr(alt, alt => (alt < 0 ? fillStr("b", -alt) : fillStr("#", alt)));
 
 /**
@@ -302,10 +358,15 @@ export const altToAcc = alt =>
  * Note.from({ step: 7 }) // => null
  * Note.from({alt: 1, oct: 3}, "C4") // => "C#3"
  */
-export const from = (fromProps = {}, baseNote = null) => {
+export const from = (
+  fromProps = {} as Partial<NoteProps>,
+  baseNote: OrNull<Note> = null
+) => {
   const { step, alt, oct } = baseNote
     ? Object.assign({}, props(baseNote), fromProps)
     : fromProps;
+  if (typeof step !== "number") return null;
+  // if (typeof alt !== "number") return null
   const letter = stepToLetter(step);
   if (!letter) return null;
   const pc = letter + altToAcc(alt);
@@ -332,7 +393,7 @@ export const build = from;
  * // it rounds to nearest note
  * Note.fromMidi(61.7) // => "D4"
  */
-export function fromMidi(num, sharps) {
+export function fromMidi(num: Midi, sharps: boolean | number = false) {
   num = Math.round(num);
   const pcs = sharps === true ? SHARPS : FLATS;
   const pc = pcs[num % 12];
@@ -353,10 +414,11 @@ export function fromMidi(num, sharps) {
  * Note.simplify("C###", false) // => "Eb"
  * Note.simplify("B#4") // => "C5"
  */
-export const simplify = (note, sameAcc) => {
+export const simplify = (note: Note, sameAcc: number | boolean = true) => {
   const { alt, chroma, midi } = props(note);
   if (chroma === null) return null;
-  const useSharps = sameAcc === false ? alt < 0 : alt > 0;
+  const alteration = alt as number;
+  const useSharps = sameAcc === false ? alteration < 0 : alteration > 0;
   return midi === null
     ? pc(fromMidi(chroma, useSharps))
     : fromMidi(midi, useSharps);
@@ -371,4 +433,4 @@ export const simplify = (note, sameAcc) => {
  * Note.enharmonic("Db") // => "C#"
  * Note.enhramonic("C") // => "C"
  */
-export const enharmonic = note => simplify(note, false);
+export const enharmonic = (note: Note) => simplify(note, false);

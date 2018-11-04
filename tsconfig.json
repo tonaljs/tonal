@@ -1,0 +1,13 @@
+{
+  "include": ["./packages/**/index.ts"],
+  "exclude": ["./packages/**/*.d.ts", "./packages/**/*.spec.ts"],
+  "compilerOptions": {
+    "target": "es5",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": ["es2016"],
+    "strict": true,
+    "declaration": true,
+    "removeComments": true
+  }
+}

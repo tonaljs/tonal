@@ -5,7 +5,10 @@
   "main": "build/es5.js",
   "module": "index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "build": "npm run build-es5 && npm run build-es6",
+    "build-es5": "rollup -c ../../config/rollup.config.es5.js -- index.js",
+    "build-es6": "buble --no modules index.js -o build/es6.js"
   },
   "homepage": "https://github.com/danigb/tonal#readme",
   "repository": "https://github.com/danigb/tonal",
