@@ -6,7 +6,7 @@ export type PC = string; // Note letter + accidentals
 // Examples: C2, Db5, F#4
 export type Note = string; // NoteLetter + NoteAccidental + Octave
 
-export type NoteProps = {
+type NoteProperties = {
   name: Note;
   letter: string; // {string} note letter: "A" | "B" | "C" | "D" | "E" | "F" | "G";
   acc: string; // {string} the note accidentals ("", "#", "bb", ...)
@@ -19,7 +19,7 @@ export type NoteProps = {
   freq: OrNull<number>; // {number}: the frequency using an equal temperament at 440Hz
 };
 
-export type NoNoteProps = {
+type NoNoteProperties = {
   name: null;
   // letter: null;
   // acc: null; // {string}: the note accidentals
@@ -31,6 +31,8 @@ export type NoNoteProps = {
   midi: null; // {number}: the note midi number (IMPORTANT! it can be outside 0 to 127 range)
   freq: null;
 };
+
+export type Properties = Readonly<NoteProperties> | Readonly<NoNoteProperties>;
 
 /**
  * [![npm version](https://img.shields.io/npm/v/tonal-note.svg)](https://www.npmjs.com/package/tonal-note)
@@ -117,7 +119,7 @@ export function tokenize(str: any): [string, string, string, string] {
   return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]];
 }
 
-const NO_NOTE = Object.freeze({
+const NO_NOTE: Readonly<NoNoteProperties> = Object.freeze({
   pc: null,
   name: null,
   step: null,
@@ -127,7 +129,7 @@ const NO_NOTE = Object.freeze({
   chroma: null,
   midi: null,
   freq: null
-}) as NoNoteProps;
+});
 
 const SEMI = [0, 2, 4, 5, 7, 9, 11];
 
@@ -135,7 +137,7 @@ const SEMI = [0, 2, 4, 5, 7, 9, 11];
  * @private
  * Parse a note to obtain it's properties (public version is cached and it's called `Note.props`)
  */
-function parse(str: string): NoteProps | NoNoteProps {
+function parse(str: string): Properties {
   const tokens = tokenize(str);
   // Will never execute
   // if (tokens === null) return NO_NOTE;
@@ -153,14 +155,14 @@ function parse(str: string): NoteProps | NoNoteProps {
     chroma: 0,
     midi: null,
     freq: null
-  } as NoteProps;
+  } as NoteProperties;
   p.chroma = (SEMI[p.step] + p.alt + 120) % 12;
   p.midi = p.oct !== null ? SEMI[p.step] + p.alt + 12 * (p.oct + 1) : null;
   p.freq = midiToFreq(p.midi as number);
   return Object.freeze(p);
 }
 
-const cached = {} as { [key in Note]: NoteProps | NoNoteProps };
+const cached = {} as { [key in Note]: Properties };
 /**
  * Get note properties. It returns an object with the following information:
  *
@@ -190,7 +192,7 @@ const cached = {} as { [key in Note]: NoteProps | NoNoteProps };
  * Note.props("C#3").oct // => 3
  * Note.props().oct // => null
  */
-export function props(note: Note): NoteProps | NoNoteProps {
+export function props(note: Note): Properties {
   return cached[note] || (cached[note] = parse(note));
 }
 
@@ -227,7 +229,7 @@ export function pc(str: Note): PC | null {
   return props(str).pc;
 }
 
-const isMidiRange = (m: number | number): m is number => m >= 0 && m <= 127;
+const isMidiRange = (m: number | number): boolean => m >= 0 && m <= 127;
 /**
  * Get the note midi number. **It always return a number between 0 and 127**
  *
@@ -381,7 +383,7 @@ export function altToAcc(alt: number): string {
  * Note.from({alt: 1, oct: 3}, "C4") // => "C#3"
  */
 export function from(
-  fromProps = {} as Partial<NoteProps>,
+  fromProps = {} as Partial<NoteProperties>,
   baseNote: OrNull<Note> = null
 ): Note | null {
   const { step, alt, oct } = baseNote

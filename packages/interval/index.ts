@@ -1,36 +1,16 @@
-type IntervalName = string;
-type IntervalQuality =
-  | "dddd"
-  | "ddd"
-  | "dd"
-  | "d"
-  | "m"
-  | "M"
-  | "P"
-  | "A"
-  | "AA"
-  | "AAA"
-  | "AAAA";
-type IntervalAlteration = number;
-type IntervalStep = number;
-type IntervalDirection = 1 | -1;
-type IntervalSimplifiedNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-type IntervalType = "P" | "M";
-type IntervalChroma = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
-type IntervalClass = 0 | 1 | 2 | 3 | 4 | 5;
+export type Interval = string;
 type IntervalProps = {
-  name: IntervalName;
+  name: Interval;
   num: number;
-  q: IntervalQuality;
-  step: IntervalStep;
-  alt: IntervalAlteration;
-  dir: IntervalDirection;
-  type: IntervalType;
-  simple: IntervalSimplifiedNumber;
-  semitones: number;
-  chroma: IntervalChroma;
-  oct: number;
-  ic: IntervalClass;
+  q: string; // interval quality. One of: "dddd" | "ddd" | "dd" | "d" | "m" | "M" | "P" | "A" | "AA" | "AAA" | "AAAA";
+  step: number;
+  alt: number;
+  dir: number; // -1 or 1
+  type: string; // "P" or "M"
+  simple: number; // the simplified number
+  semitones: number; // the number of semitiones
+  chroma: number; // the chroma (the number of semitones of the simplified interval, except 8P)
+  oct: number; // the number of octaves
 };
 
 type NoIntervalProps = {
@@ -44,7 +24,9 @@ type NoIntervalProps = {
   simple: null;
   semitones: null;
   chroma: null;
+  oct: null;
 };
+export type Properties = Readonly<IntervalProps> | Readonly<NoIntervalProps>;
 /**
  * [![npm version](https://img.shields.io/npm/v/tonal-interval.svg)](https://www.npmjs.com/package/tonal-interval)
  * [![tonal](https://img.shields.io/badge/tonal-interval-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
@@ -99,7 +81,7 @@ const NAMES = "1P 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P".split(" ");
 
 /**
  * List basic (perfect, major, minor) interval names within a octave
- * @param {String} qualities - (Optional, default "PMm") the valid types
+ * @param {string} qualities - (Optional, default "PMm") the valid types
  * @return {Array} the interval names
  * @example
  * Interval.names() // => [ "1P", "2m", "2M", "3m", "3M", "4P", "5P", "6m", "6M", "7m", "7M", "8P" ]
@@ -108,18 +90,20 @@ const NAMES = "1P 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P".split(" ");
  * Interval.names("Pm") // => [ "1P", "2m", "3m", "4P", "5P", "6m", "7m", "8P" ]
  * Interval.names("d") // => []
  */
-export const names = (types?: IntervalName | IntervalName[]) =>
-  typeof types !== "string"
+export function names(types?: string) {
+  return typeof types !== "string"
     ? NAMES.slice()
     : NAMES.filter(n => types.indexOf(n[1]) !== -1);
+}
 
-export const tokenize = (str?: IntervalName) => {
+// FIXME: Note.tokenize always return an array... this should be the same
+export function tokenize(str?: string): [string, string] | null {
   const m = REGEX.exec(`${str}`) as string[];
   if (m === null) return null;
-  return (m[1] ? [m[1], m[2]] : [m[4], m[3]]) as [string, string];
-};
+  return m[1] ? [m[1], m[2]] : [m[4], m[3]];
+}
 
-const NO_IVL = Object.freeze({
+const NO_IVL: Readonly<NoIntervalProps> = Object.freeze({
   name: null,
   num: null,
   q: null,
@@ -131,7 +115,7 @@ const NO_IVL = Object.freeze({
   semitones: null,
   chroma: null,
   oct: null
-} as NoIntervalProps);
+});
 
 const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 
@@ -153,44 +137,40 @@ export const altToQ = (type: string, alt: number) => {
   else return null;
 };
 
-const numToStep = (num: number) => (Math.abs(num) - 1) % 7;
+const numToStep = (num: number): number => (Math.abs(num) - 1) % 7;
 
-const properties = (str?: string) => {
+function parse(str?: string): Properties {
   const t = tokenize(str);
   if (t === null) return NO_IVL;
-  const p = {
-    num: 0,
-    q: "d",
-    name: "",
-    type: "M",
-    step: 0,
-    dir: -1,
-    simple: 1,
-    alt: 0,
-    oct: 0,
-    semitones: 0,
-    chroma: 0,
-    ic: 0
-  } as IntervalProps;
-  p.num = +t[0];
-  p.q = t[1] as IntervalQuality;
-  p.step = numToStep(p.num);
-  p.type = TYPES[p.step] as IntervalType;
-  if (p.type === "M" && p.q === "P") return NO_IVL;
-  p.name = "" + p.num + p.q;
-  p.dir = p.num < 0 ? -1 : 1;
-  p.simple = (p.num === 8 || p.num === -8
-    ? p.num
-    : p.dir * (p.step + 1)) as IntervalSimplifiedNumber;
-  p.alt = qToAlt(p.type, p.q) as number;
-  p.oct = Math.floor((Math.abs(p.num) - 1) / 7);
-  p.semitones = p.dir * (SIZES[p.step] + p.alt + 12 * p.oct);
-  p.chroma = ((((p.dir * (SIZES[p.step] + p.alt)) % 12) + 12) %
-    12) as IntervalChroma;
-  return Object.freeze(p);
-};
+  const num = +t[0];
+  const q = t[1];
+  const step = numToStep(num);
+  const type = TYPES[step];
+  if (type === "M" && q === "P") return NO_IVL;
 
-const cache = {} as { [key: string]: IntervalProps | NoIntervalProps };
+  const name = "" + num + q;
+  const dir = num < 0 ? -1 : 1;
+  const simple = num === 8 || num === -8 ? num : dir * (step + 1);
+  const alt = qToAlt(type, q) as number;
+  const oct = Math.floor((Math.abs(num) - 1) / 7);
+  const semitones = dir * (SIZES[step] + alt + 12 * oct);
+  const chroma = (((dir * (SIZES[step] + alt)) % 12) + 12) % 12;
+  return Object.freeze({
+    num,
+    q,
+    step,
+    type,
+    name,
+    dir,
+    simple,
+    alt,
+    oct,
+    semitones,
+    chroma
+  });
+}
+
+const cache = {} as { [key: string]: Properties };
 /**
  * Get interval properties. It returns an object with:
  *
@@ -207,64 +187,69 @@ const cache = {} as { [key: string]: IntervalProps | NoIntervalProps };
  * - ic: the interval class
  *
  * @function
- * @param {String} interval - the interval
- * @return {Object} the interval in the form [number, alt]
+ * @param {string} interval - the interval
+ * @return {object} the interval in the form [number, alt]
  */
-export function props(str?: string) {
+export function props(str: Interval): Properties {
   if (typeof str !== "string") return NO_IVL;
-  return cache[str] || (cache[str] = properties(str));
+  return cache[str] || (cache[str] = parse(str));
 }
 
 /**
  * Get the number of the interval
  *
- * @function
- * @param {String} interval - the interval
- * @return {Integer}
+ * @param {string} interval - the interval
+ * @return {number}
  * @example
  * Interval.num("m2") // => 2
  * Interval.num("P9") // => 9
  * Interval.num("P-4") // => -4
  */
-export const num = (str: IntervalName) => props(str).num;
+export function num(str: Interval): number | null {
+  return props(str).num;
+}
 
 /**
  * Get interval name. Can be used to test if it"s an interval. It accepts intervals
  * as pitch or string in shorthand notation or tonal notation. It returns always
  * intervals in tonal notation.
  *
- * @function
- * @param {String} interval - the interval string or array
- * @return {String} the interval name or null if not valid interval
+ * @param {string} interval - the interval string or array
+ * @return {string} the interval name or null if not valid interval
  * @example
  * Interval.name("m-3") // => "-3m"
  * Interval.name("3") // => null
  */
-export const name = (str: IntervalName) => props(str).name;
+export function name(str: Interval): string | null {
+  return props(str).name;
+}
 
 /**
  * Get size in semitones of an interval
  *
  * @function
- * @param {String} ivl
- * @return {Integer} the number of semitones or null if not an interval
+ * @param {string} ivl
+ * @return {number} the number of semitones or null if not an interval
  * @example
  * import { semitones } from "tonal-interval"
  * semitones("P4") // => 5
  * // or using tonal
  * Tonal.Interval.semitones("P5") // => 7
  */
-export const semitones = (str: IntervalName) => props(str).semitones;
+export function semitones(str: Interval): number | null {
+  return props(str).semitones;
+}
 
 /**
- * Get the chroma of the interval. The chroma is a number between 0 and 7
+ * Get the chroma of the interval. The chroma is a number between 0 and 11
  * that represents the position within an octave (pitch set)
  *
- * @function
- * @param {String} str
- * @return {Number}
+ * @param {string} interval - the interval name
+ * @return {number | null} - the chroma (0...11) or null if not valid interval name
  */
-export const chroma = (str: IntervalName) => props(str).chroma;
+export function chroma(str: Interval): number | null {
+  return props(str).chroma;
+}
 
 /**
  * Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
@@ -274,8 +259,8 @@ export const chroma = (str: IntervalName) => props(str).chroma;
  * pitch class space between two unordered pitch classes
  *
  * @function
- * @param {String|Integer} interval - the interval or the number of semitones
- * @return {Integer} A value between 0 and 6
+ * @param {string | number} interval - the interval or the number of semitones
+ * @return {number | null} A value between 0 and 6
  *
  * @example
  * Interval.ic("P8") // => 0
@@ -283,10 +268,11 @@ export const chroma = (str: IntervalName) => props(str).chroma;
  * Interval.ic(10) // => 2
  * ["P1", "M2", "M3", "P4", "P5", "M6", "M7"].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
  */
-export const ic = (ivl?: IntervalName | IntervalStep | null) => {
-  if (typeof ivl === "string") ivl = props(ivl).chroma;
-  return typeof ivl === "number" ? CLASSES[ivl % 12] : null;
-};
+export function ic(ivl: Interval | number): number | null {
+  const c = props(ivl as Interval).chroma;
+  const chroma = c !== null ? c : ivl;
+  return typeof chroma === "number" ? CLASSES[chroma % 12] : null;
+}
 
 /**
  * Given a interval property object, get the interval name
@@ -299,32 +285,30 @@ export const ic = (ivl?: IntervalName | IntervalStep | null) => {
  * - oct: (Optional) the number of octaves
  * - dir: (Optional) the direction
  *
- * @function
- * @param {Object} props - the interval property object
+ * @param {object} props - the interval property object
  *
- * @return {String} the interval name
+ * @return {string} the interval name
  * @example
  * Interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
  * Interval.build({ num: 9, alt: -1 }) // => "9m"
  */
-export const build = (
-  { num, step, alt, oct = 1, dir } = {} as Partial<IntervalProps>
-) => {
+export function build(props = {} as Partial<IntervalProps>) {
+  let { num, step, alt, oct = 1, dir } = props;
   if (step !== undefined) num = step + 1 + 7 * oct;
   if (num === undefined) return null;
   if (typeof alt !== "number") return null;
   const d = typeof dir !== "number" ? "" : dir < 0 ? "-" : "";
   // const d = dir < 0 ? "-" : "";
   const type = TYPES[numToStep(num)];
-  return (d + num + altToQ(type, alt)) as IntervalName;
-};
+  return (d + num + altToQ(type, alt)) as Interval;
+}
 
 /**
  * Get the simplified version of an interval.
  *
  * @function
- * @param {String} interval - the interval to simplify
- * @return {String} the simplified interval
+ * @param {string} interval - the interval to simplify
+ * @return {string} the simplified interval
  *
  * @example
  * Interval.simplify("9M") // => "2M"
@@ -333,27 +317,27 @@ export const build = (
  * Interval.simplify("2M") // => "2M"
  * Interval.simplify("-2M") // => "7m"
  */
-export const simplify = (str: IntervalName) => {
+export function simplify(str: Interval): Interval | null {
   const p = props(str);
   if (p === NO_IVL) return null;
-  const intervalProps = p as IntervalProps;
-  return intervalProps.simple + intervalProps.q;
-};
+  const ip = p as IntervalProps;
+  return ip.simple + ip.q;
+}
 
 /**
  * Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
  * of an interval.
  *
  * @function
- * @param {String} interval - the interval to invert in interval shorthand
+ * @param {string} interval - the interval to invert in interval shorthand
  * notation or interval array notation
- * @return {String} the inverted interval
+ * @return {string} the inverted interval
  *
  * @example
  * Interval.invert("3m") // => "6M"
  * Interval.invert("2M") // => "7m"
  */
-export const invert = (str: IntervalName) => {
+export function invert(str: Interval): Interval | null {
   const p = props(str);
   if (p === NO_IVL) return null;
   const intervalProps = p as IntervalProps;
@@ -361,7 +345,7 @@ export const invert = (str: IntervalName) => {
   const alt =
     intervalProps.type === "P" ? -intervalProps.alt : -(intervalProps.alt + 1);
   return build({ step, alt, oct: intervalProps.oct, dir: intervalProps.dir });
-};
+}
 
 // interval numbers
 var IN = [1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 7, 7];
@@ -373,18 +357,18 @@ var IQ = "P m M m M P d P m M m M".split(" ");
  * names for the same number, the name it"s arbitraty, but deterministic.
  *
  * @function
- * @param {Integer} num - the number of semitones (can be negative)
- * @return {String} the interval name
+ * @param {number} num - the number of semitones (can be negative)
+ * @return {string} the interval name
  * @example
  * import { fromSemitones } from "tonal-interval"
  * fromSemitones(7) // => "5P"
  * // or using tonal
  * Tonal.Distance.fromSemitones(-7) // => "-5P"
  */
-export const fromSemitones = (num: number) => {
+export function fromSemitones(num: number): Interval {
   var d = num < 0 ? -1 : 1;
   var n = Math.abs(num);
   var c = n % 12;
   var o = Math.floor(n / 12);
   return d * (IN[c] + 7 * o) + IQ[c];
-};
+}
