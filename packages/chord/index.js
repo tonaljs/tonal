@@ -95,9 +95,9 @@ export const intervals = name => props(tokenize(name)[1]).intervals;
  * Chord.notes("C", "maj7") // => ["C", "E", "G", "B"]
  */
 export function notes(nameOrTonic, name) {
-  const p = tokenize(nameOrTonic);
-  name = name || p[1];
-  return props(name).intervals.map(transpose(p[0]));
+  if (name) return props(name).intervals.map(transpose(nameOrTonic));
+  const [tonic, type] = tokenize(nameOrTonic);
+  return props(type).intervals.map(transpose(tonic));
 }
 
 /**
