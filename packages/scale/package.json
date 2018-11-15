@@ -1,6 +1,6 @@
 {
   "name": "tonal-scale",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "Music scales creation and manipulation",
   "repository": "https://github.com/danigb/tonal/packages/scale",
   "keywords": [
@@ -21,11 +21,11 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^2.1.0",
-    "tonal-dictionary": "^2.1.0",
-    "tonal-distance": "^2.1.0",
-    "tonal-note": "^2.1.0",
-    "tonal-pcset": "^2.1.0"
+    "tonal-array": "^2.1.2",
+    "tonal-dictionary": "^2.1.2",
+    "tonal-distance": "^2.1.2",
+    "tonal-note": "^2.1.2",
+    "tonal-pcset": "^2.1.2"
   },
   "babel": {
     "presets": [
