@@ -16,6 +16,7 @@
   },
   "main": "build/es5.js",
   "module": "build/es6.js",
+  "types": "build/index.d.ts",
   "author": "danigb",
   "license": "MIT",
   "babel": {
