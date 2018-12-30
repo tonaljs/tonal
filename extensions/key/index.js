@@ -43,9 +43,9 @@ const modenum = mode => NUMS[MODES.indexOf(mode)];
  * @param {Boolean} alias - true to get aliases names
  * @return {Array} an array of strings
  * @example
- * Key.modes() // => [ "ionian", "dorian", "phrygian", "lydian",
+ * Key.modeNames() // => [ "ionian", "dorian", "phrygian", "lydian",
  * // "mixolydian", "aeolian", "locrian" ]
- * Key.modes(true) // => [ "ionian", "dorian", "phrygian", "lydian",
+ * Key.modeNames(true) // => [ "ionian", "dorian", "phrygian", "lydian",
  * // "mixolydian", "aeolian", "locrian", "major", "minor" ]
  */
 export const modeNames = aliases =>
