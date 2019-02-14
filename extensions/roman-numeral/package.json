@@ -1,6 +1,6 @@
 {
   "name": "tonal-roman-numeral",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "Work with roman numeral representation of degrees",
   "keywords": [
     "music",
@@ -21,7 +21,6 @@
   "jsnext:main": "index",
   "author": "danigb",
   "license": "MIT",
-  "dependencies": {},
   "babel": {
     "presets": [
       "es2015"

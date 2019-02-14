@@ -1,6 +1,6 @@
 {
   "name": "tonal-note",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "repository": "https://github.com/danigb/tonal/packages/note",
   "description": "Parse and manipulate music notes in scientific notation",
   "keywords": [
