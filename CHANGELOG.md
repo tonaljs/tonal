@@ -2,6 +2,11 @@
 
 ## MASTER
 
+## 2.2.0
+
+- Add tonal-roman-numeral
+- Add `degrees` param to `Key.chord`, `Key.triads`, and `Key.leadsheetSymbols
+
 ## 2.0.0
 
 - BREAKING CHANGE: note.midi function now returns a number between 0 and 127 (otherwise null). It also returns null for non numeric or string values. Before: `note.midi(true) // => 1` after: `note.midi(true) // => null`. Thanks @apalm
