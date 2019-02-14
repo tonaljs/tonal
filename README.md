@@ -7,7 +7,7 @@
 
 It uses a functional programing style: all functions are pure, there is no data mutation, entities are represented by data structures instead of objects, and lot of functions accept partial application.
 
-#### [Demo and live docs](https://danigb.github.io/tonal-app/)
+#### [Demo](https://danigb.github.io/tonal-app/)
 
 #### [API documentation](http://danigb.github.io/tonal/api/)
 
@@ -69,29 +69,29 @@ Key.chord("Bb major"); // => ["BbMaj7", "Cm7", "Dm7", "EbMaj7", "F7", "Gm7", "Am
 
 `tonal` is still a work in progress, but currently has implemented:
 
-* Note, intervals, transposition, distances, enharmonics, midi, frecuency [`tonal-note`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Note.html)
-* Scales and chords, dictionaries [`tonal-dictionary`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Dictionary.html)
-* Utilities to work arrays of notes: sort, filter, rotate, shuffle [`tonal-array`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Array.html)
-* Pitch sets comparations, chord and scale detection [`tonal-pcset`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-PcSet.html)
+- Note, intervals, transposition, distances, enharmonics, midi, frecuency [`tonal-note`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Note.html)
+- Scales and chords, dictionaries [`tonal-dictionary`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Dictionary.html)
+- Utilities to work arrays of notes: sort, filter, rotate, shuffle [`tonal-array`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Array.html)
+- Pitch sets comparations, chord and scale detection [`tonal-pcset`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-PcSet.html)
 
 In [extensions](https://github.com/danigb/tonal/tree/master/extensions):
 
-* Keys, keys signatures, key scales [`tonal-key`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Key.html)
-* Complex note range generation [`tonal-range`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Range.html)
-* Chord progressions
-* Enharmonics
+- Keys, keys signatures, key scales [`tonal-key`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Key.html)
+- Complex note range generation [`tonal-range`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Range.html)
+- Chord progressions
+- Enharmonics
 
 ## Philosophy
 
 This library is evolving with this ideas in mind:
 
-* Functional: no classes, no side effects, no mutations. Just functions, data-in data-out. Most of the functions has the data to operate on as last argument and lot of functions are currified.
-* Notes and intervals are represented with strings, instead of objects.
-* Carefully written: small, fast and modular.
-* Documented: all public functions are fully documented inside the code. Read the generated API documentation [here](http://danigb.github.io/tonal/api/)
-* Learneable: since all the modules share the same philosophy is easy to work with them.
-* Tested: every public method is tested with coverage support.
-* Advanced features: chord and scale detection, binary sets, chord progressions, key signatures...
+- Functional: no classes, no side effects, no mutations. Just functions, data-in data-out. Most of the functions has the data to operate on as last argument and lot of functions are currified.
+- Notes and intervals are represented with strings, instead of objects.
+- Carefully written: small, fast and modular.
+- Documented: all public functions are fully documented inside the code. Read the generated API documentation [here](http://danigb.github.io/tonal/api/)
+- Learneable: since all the modules share the same philosophy is easy to work with them.
+- Tested: every public method is tested with coverage support.
+- Advanced features: chord and scale detection, binary sets, chord progressions, key signatures...
 
 ## Install
 
@@ -164,11 +164,11 @@ The documentation can be generated with: `npm run docs`
 
 This library takes inspiration from other music theory libraries:
 
-* Teoria: https://github.com/saebekassebil/teoria
-* Impro-Visor: https://www.cs.hmc.edu/~keller/jazz/improvisor/
-* MusicKit: https://github.com/benzguo/MusicKit
-* Music21: http://web.mit.edu/music21/doc/index.html
-* Sharp11: https://github.com/jsrmath/sharp11
+- Teoria: https://github.com/saebekassebil/teoria
+- Impro-Visor: https://www.cs.hmc.edu/~keller/jazz/improvisor/
+- MusicKit: https://github.com/benzguo/MusicKit
+- Music21: http://web.mit.edu/music21/doc/index.html
+- Sharp11: https://github.com/jsrmath/sharp11
 
 ## License
 

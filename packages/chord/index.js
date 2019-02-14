@@ -152,7 +152,7 @@ const NUM_TYPES = /^(6|64|7|9|11|13)$/;
  *
  * @function
  * @param {String} name - the chord name
- * @return {Array} an array with [type, tonic]
+ * @return {Array} an array with [tonic, type]
  * @example
  * Chord.tokenize("Cmaj7") // => [ "C", "maj7" ]
  * Chord.tokenize("C7") // => [ "C", "7" ]

@@ -72,6 +72,18 @@ describe("tonal-key", () => {
     );
   });
 
+  test("chords with degrees", () => {
+    expect(key.chords("A major", ["i", "ii", "vii"]).join(" ")).toEqual(
+      "AMaj7 Bm7 G#m7b5"
+    );
+    expect(key.chords("A major", ["V", "IV", "I"]).join(" ")).toEqual(
+      "E7 DMaj7 AMaj7"
+    );
+    expect(key.chords("Bb dorian", [5, 4, 1]).join(" ")).toEqual(
+      "Fm7 Eb7 Bbm7"
+    );
+  });
+
   test("triads", () => {
     expect(key.triads("A major").join(" ")).toEqual("A Bm C#m D E F#m G#dim");
     expect(key.triads("Bb dorian").join(" ")).toEqual(

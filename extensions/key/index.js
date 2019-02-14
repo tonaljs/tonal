@@ -21,6 +21,7 @@
 import { rotate, range } from "tonal-array";
 import { tokenize as split, altToAcc } from "tonal-note";
 import { trFifths, fifths, interval, transpose } from "tonal-distance";
+import { degree, decimal } from "tonal-roman-numeral";
 
 const MODES = "major dorian phrygian lydian mixolydian minor locrian ionian aeolian".split(
   " "
@@ -30,7 +31,6 @@ const NOTES = "C D E F G A B".split(" ");
 
 const TRIADS = ["", "m", "m", "", "", "m", "dim"];
 const SEVENTHS = "Maj7 m7 m7 Maj7 7 m7 m7b5".split(" ");
-const DEGREES = "I II III IV V VI VII".split(" ");
 const FIFTHS = [0, 2, 4, -1, 1, 3, 5, 0, 3];
 
 const modenum = mode => NUMS[MODES.indexOf(mode)];
@@ -99,17 +99,17 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
 /**
  * Return the a key properties object with the following information:
  *
- * - name {String}: name
- * - tonic {String}: key tonic
- * - mode {String}: key mode
+ * - name {string}: name
+ * - tonic {string}: key tonic
+ * - mode {string}: key mode
  * - modenum {Number}: mode number (0 major, 1 dorian, ...)
  * - intervals {Array}: the scale intervals
  * - scale {Array}: the scale notes
- * - acc {String}: accidentals of the key signature
+ * - acc {string}: accidentals of the key signature
  * - alt {Number}: alteration number (a numeric representation of accidentals)
  *
  * @function
- * @param {String} name - the key name
+ * @param {string} name - the key name
  * @return {Object} the key properties object or null if not a valid key
  *
  * @example
@@ -121,7 +121,7 @@ export const props = memo(properties);
  * Get scale of a key
  *
  * @function
- * @param {String|Object} key
+ * @param {string|Object} key
  * @return {Array} the key scale
  *
  * @example
@@ -134,7 +134,7 @@ export const scale = str => props(str).scale;
 
 /**
  * Get a list of key scale degrees
- * @param {String} keyName
+ * @param {string} keyName
  * @return {Array}
  * @example
  * Key.degrees("C major") => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
@@ -144,8 +144,7 @@ export const degrees = str => {
   if (p.name === null) return [];
   const chords = rotate(p.modenum, SEVENTHS);
   return chords.map((chord, i) => {
-    const deg = DEGREES[i];
-    return chord[0] === "m" ? deg.toLowerCase() : deg;
+    return degree(i + 1, chord[0] !== "m");
   });
 };
 
@@ -154,7 +153,7 @@ export const degrees = str => {
  * the same order than in the key signature.
  *
  * @function
- * @param {String} key - the key name
+ * @param {string} key - the key name
  * @return {Array}
  *
  * @example
@@ -186,8 +185,9 @@ export const alteredNotes = name => {
  * - diminished triad: lower-case “dim” or a degree sign “°”
  * - augmented triad: lower-case “aug” or a plus sign “+”
  *
- * @param {Array<String>} symbols - an array of symbols in major scale order
- * @param {String} keyName - the name of the key you want the symbols for
+ * @param {Array<string>} symbols - an array of symbols in major scale order
+ * @param {string} keyName - the name of the key you want the symbols for
+ * @param {Array<string>} [degrees] - the list of degrees. By default from 1 to 7 in ascending order
  * @return {function}
  * @see Key.chords
  * @see Key.triads
@@ -195,24 +195,30 @@ export const alteredNotes = name => {
  * @example
  * const chords = Key.leadsheetSymbols(["M", "m", "m", "M", "7", "m", "dim"])
  * chords("D dorian") //=> ["Dm", "Em", "FM", "G7", "Am", "Bdim", "CM"]
+ * chords("D dorian", ['ii', 'V']) //=> [Em", "G7"]
  */
-export function leadsheetSymbols(symbols, keyName) {
-  if (arguments.length === 1) return name => leadsheetSymbols(symbols, name);
+export function leadsheetSymbols(symbols, keyName, degrees) {
+  if (arguments.length === 1) return (n, d) => leadsheetSymbols(symbols, n, d);
   const p = props(keyName);
   if (!p.name) return [];
   const names = rotate(p.modenum, symbols);
-  return p.scale.map((tonic, i) => tonic + names[i]);
+  const chords = p.scale.map((tonic, i) => tonic + names[i]);
+  if (!degrees) return chords;
+  return degrees.map(decimal).map(n => chords[n - 1]);
 }
 
 /**
- * Get key chords
+ * Get key seventh chords
  *
  * @function
- * @param {String} name - the key name
- * @return {Array}
+ * @param {string} name - the key name
+ * @param {Array<number|string>} [degrees] - can be numbers or roman numerals
+ * @return {Array<string>} seventh chord names
  *
  * @example
  * Key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
+ * Key.chords("A major", ['I', 'IV', 'V']) // => ["AMaj7", "DMaj7", "E7"]
+ * Key.chords("A major", [5, 4, 1]) // => ["E7", "DMaj7", AMaj7"]
  */
 export const chords = leadsheetSymbols(SEVENTHS);
 
@@ -220,11 +226,14 @@ export const chords = leadsheetSymbols(SEVENTHS);
  * Get key triads
  *
  * @function
- * @param {String} name - the key name
- * @return {Array}
+ * @param {string} name - the key name
+ * @param {Array<string|number>} [degrees]
+ * @return {Array<string>} triad names
  *
  * @example
  * Key.triads("A major") // => ["AM", "Bm", "C#m", "DM", "E7", "F#m", "G#mb5"]
+ * Key.triads("A major", ['I', 'IV', 'V']) // => ["AMaj7", "DMaj7", "E7"]
+ * Key.triads("A major", [1, 4, 5]) // => ["AMaj7", "DMaj7", "E7"]
  */
 export const triads = leadsheetSymbols(TRIADS);
 
@@ -232,7 +241,7 @@ export const triads = leadsheetSymbols(TRIADS);
  * Get secondary dominant key chords
  *
  * @function
- * @param {String} name - the key name
+ * @param {string} name - the key name
  * @return {Array}
  *
  * @example
@@ -252,8 +261,8 @@ export const secDomChords = name => {
  * It can be partially applied.
  *
  * @function
- * @param {String} mode - the relative destination
- * @param {String} key - the key source
+ * @param {string} mode - the relative destination
+ * @param {string} key - the key source
  *
  * @example
  * Key.relative("dorian", "B major") // => "C# dorian"
@@ -275,7 +284,7 @@ export const relative = (mode, key) => {
  * Split the key name into its components (pitch class tonic and mode name)
  *
  * @function
- * @param {String} name
+ * @param {string} name
  * @return {Array} an array in the form [tonic, key]
  *
  * @example
