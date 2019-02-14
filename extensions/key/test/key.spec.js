@@ -79,6 +79,9 @@ describe("tonal-key", () => {
     expect(key.chords("A major", ["V", "IV", "I"]).join(" ")).toEqual(
       "E7 DMaj7 AMaj7"
     );
+    expect(key.chords("Bb dorian", [5, 4, 1]).join(" ")).toEqual(
+      "Fm7 Eb7 Bbm7"
+    );
   });
 
   test("triads", () => {

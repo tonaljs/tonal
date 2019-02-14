@@ -33,8 +33,8 @@ Key.relative("minor", "C major"); // => "A minor"
   - [`.scale(key)`](#module_Key.scale) ⇒ <code>Array</code>
   - [`.alteredNotes(key)`](#module_Key.alteredNotes) ⇒ <code>Array</code>
   - [`.leadsheetSymbols(symbols, keyName, [degrees])`](#module_Key.leadsheetSymbols) ⇒ <code>function</code>
-  - [`.chords(name, [degrees])`](#module_Key.chords) ⇒ <code>Array.&lt;String&gt;</code>
-  - [`.triads(name, [degrees])`](#module_Key.triads) ⇒ <code>Array.&lt;String&gt;</code>
+  - [`.chords(name, [degrees])`](#module_Key.chords) ⇒ <code>Array.&lt;string&gt;</code>
+  - [`.triads(name, [degrees])`](#module_Key.triads) ⇒ <code>Array.&lt;string&gt;</code>
   - [`.secDomChords(name)`](#module_Key.secDomChords) ⇒ <code>Array</code>
   - [`.relative(mode, key)`](#module_Key.relative)
   - [`.tokenize(name)`](#module_Key.tokenize) ⇒ <code>Array</code>
@@ -49,7 +49,7 @@ Get a list of key scale degrees
 
 | Param   | Type                |
 | ------- | ------------------- |
-| keyName | <code>String</code> |
+| keyName | <code>string</code> |
 
 **Example**
 
@@ -105,13 +105,13 @@ Key.fromAlter(2); // => "D major"
 
 Return the a key properties object with the following information:
 
-- name {String}: name
-- tonic {String}: key tonic
-- mode {String}: key mode
+- name {string}: name
+- tonic {string}: key tonic
+- mode {string}: key mode
 - modenum {Number}: mode number (0 major, 1 dorian, ...)
 - intervals {Array}: the scale intervals
 - scale {Array}: the scale notes
-- acc {String}: accidentals of the key signature
+- acc {string}: accidentals of the key signature
 - alt {Number}: alteration number (a numeric representation of accidentals)
 
 **Kind**: static method of [<code>Key</code>](#module_Key)  
@@ -119,7 +119,7 @@ Return the a key properties object with the following information:
 
 | Param | Type                | Description  |
 | ----- | ------------------- | ------------ |
-| name  | <code>String</code> | the key name |
+| name  | <code>string</code> | the key name |
 
 **Example**
 
@@ -138,7 +138,7 @@ Get scale of a key
 
 | Param | Type                                       |
 | ----- | ------------------------------------------ |
-| key   | <code>String</code> \| <code>Object</code> |
+| key   | <code>string</code> \| <code>Object</code> |
 
 **Example**
 
@@ -160,7 +160,7 @@ the same order than in the key signature.
 
 | Param | Type                | Description  |
 | ----- | ------------------- | ------------ |
-| key   | <code>String</code> | the key name |
+| key   | <code>string</code> | the key name |
 
 **Example**
 
@@ -195,9 +195,9 @@ That letter is followed by information about a chord’s quality:
 
 | Param     | Type                              | Description                                                    |
 | --------- | --------------------------------- | -------------------------------------------------------------- |
-| symbols   | <code>Array.&lt;String&gt;</code> | an array of symbols in major scale order                       |
-| keyName   | <code>String</code>               | the name of the key you want the symbols for                   |
-| [degrees] | <code>Array.&lt;String&gt;</code> | the list of degrees. By default from 1 to 7 in ascending order |
+| symbols   | <code>Array.&lt;string&gt;</code> | an array of symbols in major scale order                       |
+| keyName   | <code>string</code>               | the name of the key you want the symbols for                   |
+| [degrees] | <code>Array.&lt;string&gt;</code> | the list of degrees. By default from 1 to 7 in ascending order |
 
 **Example**
 
@@ -209,44 +209,46 @@ chords("D dorian", ["ii", "V"]); //=> [Em", "G7"]
 
 <a name="module_Key.chords"></a>
 
-## `Key.chords(name, [degrees])` ⇒ <code>Array.&lt;String&gt;</code>
+## `Key.chords(name, [degrees])` ⇒ <code>Array.&lt;string&gt;</code>
 
 Get key seventh chords
 
 **Kind**: static method of [<code>Key</code>](#module_Key)  
-**Returns**: <code>Array.&lt;String&gt;</code> - seventh chord names
+**Returns**: <code>Array.&lt;string&gt;</code> - seventh chord names
 
-| Param     | Type                              | Description  |
-| --------- | --------------------------------- | ------------ |
-| name      | <code>String</code>               | the key name |
-| [degrees] | <code>Array.&lt;String&gt;</code> |              |
+| Param     | Type                                        | Description                      |
+| --------- | ------------------------------------------- | -------------------------------- |
+| name      | <code>string</code>                         | the key name                     |
+| [degrees] | <code>Array.&lt;(number\|string)&gt;</code> | can be numbers or roman numerals |
 
 **Example**
 
 ```js
 Key.chords("A major"); // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
 Key.chords("A major", ["I", "IV", "V"]); // => ["AMaj7", "DMaj7", "E7"]
+Key.chords("A major", [5, 4, 1]); // => ["E7", "DMaj7", AMaj7"]
 ```
 
 <a name="module_Key.triads"></a>
 
-## `Key.triads(name, [degrees])` ⇒ <code>Array.&lt;String&gt;</code>
+## `Key.triads(name, [degrees])` ⇒ <code>Array.&lt;string&gt;</code>
 
 Get key triads
 
 **Kind**: static method of [<code>Key</code>](#module_Key)  
-**Returns**: <code>Array.&lt;String&gt;</code> - triad names
+**Returns**: <code>Array.&lt;string&gt;</code> - triad names
 
-| Param     | Type                              | Description  |
-| --------- | --------------------------------- | ------------ |
-| name      | <code>String</code>               | the key name |
-| [degrees] | <code>Array.&lt;String&gt;</code> |              |
+| Param     | Type                                        | Description  |
+| --------- | ------------------------------------------- | ------------ |
+| name      | <code>string</code>                         | the key name |
+| [degrees] | <code>Array.&lt;(string\|number)&gt;</code> |              |
 
 **Example**
 
 ```js
 Key.triads("A major"); // => ["AM", "Bm", "C#m", "DM", "E7", "F#m", "G#mb5"]
 Key.triads("A major", ["I", "IV", "V"]); // => ["AMaj7", "DMaj7", "E7"]
+Key.triads("A major", [1, 4, 5]); // => ["AMaj7", "DMaj7", "E7"]
 ```
 
 <a name="module_Key.secDomChords"></a>
@@ -259,7 +261,7 @@ Get secondary dominant key chords
 
 | Param | Type                | Description  |
 | ----- | ------------------- | ------------ |
-| name  | <code>String</code> | the key name |
+| name  | <code>string</code> | the key name |
 
 **Example**
 
@@ -280,8 +282,8 @@ It can be partially applied.
 
 | Param | Type                | Description              |
 | ----- | ------------------- | ------------------------ |
-| mode  | <code>String</code> | the relative destination |
-| key   | <code>String</code> | the key source           |
+| mode  | <code>string</code> | the relative destination |
+| key   | <code>string</code> | the key source           |
 
 **Example**
 
@@ -304,7 +306,7 @@ Split the key name into its components (pitch class tonic and mode name)
 
 | Param | Type                |
 | ----- | ------------------- |
-| name  | <code>String</code> |
+| name  | <code>string</code> |
 
 **Example**
 

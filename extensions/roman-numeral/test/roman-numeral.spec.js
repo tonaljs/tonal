@@ -15,8 +15,9 @@ describe("tonal-roman-numeral", () => {
     expect(name("iI")).toEqual(null);
   });
 
-  it("get numbers", () => {
+  it("convert to decimal", () => {
     expect(names().map(decimal)).toEqual([1, 2, 3, 4, 5, 6, 7]);
+    expect([0, 1, 7, 9].map(decimal)).toEqual([null, 1, 7, null]);
   });
 
   it("get props", () => {

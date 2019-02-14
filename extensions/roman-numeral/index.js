@@ -91,16 +91,20 @@ export const name = str => props(str).name;
 export const type = str => props(str).type;
 
 /**
- * Get roman numeral number in decimal integer
+ * Get roman numeral number in decimal integer (it accepts numbers from 1 to 7)
+ *
  *
  * @function
- * @param {String} name
- * @return {integer}
+ * @param {string|number} name - roman numeral name (with optional type)
+ * @return {number}
  *
  * @example
  * decimal('IVmaj7') // => 4
+ * decimal(4) // => 4
+ * decimal(10) // => null
  */
-export const decimal = str => props(str).decimal;
+export const decimal = val =>
+  val > 0 && val < 8 ? val : props(val).decimal || null;
 
 /**
  * Get a degree in roman numeral

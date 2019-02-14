@@ -32,7 +32,7 @@ RomanNumeral.degree(2, false); // => "ii"
   - [`.names([isMajor])`](#module_RomanNumeral.names) ⇒ <code>Array.&lt;String&gt;</code>
   - [`.name(name)`](#module_RomanNumeral.name) ⇒ <code>String</code>
   - [`.type(name)`](#module_RomanNumeral.type) ⇒ <code>String</code>
-  - [`.decimal(name)`](#module_RomanNumeral.decimal) ⇒ <code>integer</code>
+  - [`.decimal(name)`](#module_RomanNumeral.decimal) ⇒ <code>number</code>
   - [`.degree(degree, [isMajor])`](#module_RomanNumeral.degree) ⇒ <code>String</code>
 
 <a name="module_RomanNumeral.props"></a>
@@ -113,20 +113,22 @@ type("Imaj7"); // => 'maj7'
 
 <a name="module_RomanNumeral.decimal"></a>
 
-## `RomanNumeral.decimal(name)` ⇒ <code>integer</code>
+## `RomanNumeral.decimal(name)` ⇒ <code>number</code>
 
-Get roman numeral number in decimal integer
+Get roman numeral number in decimal integer (it accepts numbers from 1 to 7)
 
 **Kind**: static method of [<code>RomanNumeral</code>](#module_RomanNumeral)
 
-| Param | Type                |
-| ----- | ------------------- |
-| name  | <code>String</code> |
+| Param | Type                                       | Description                             |
+| ----- | ------------------------------------------ | --------------------------------------- |
+| name  | <code>string</code> \| <code>number</code> | roman numeral name (with optional type) |
 
 **Example**
 
 ```js
 decimal("IVmaj7"); // => 4
+decimal(4); // => 4
+decimal(10); // => null
 ```
 
 <a name="module_RomanNumeral.degree"></a>
