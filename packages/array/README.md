@@ -8,4 +8,4 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 
 You can install via npm: `npm i --save tonal-array`
 
-[Read the API documentation](http://danigb.github.io/tonal/api/module-array.html).
+[Read the API documentation](http://danigb.github.io/tonal/module-array.html).

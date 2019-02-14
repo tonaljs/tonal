@@ -9,7 +9,7 @@ It uses a functional programing style: all functions are pure, there is no data 
 
 #### [Demo](https://danigb.github.io/tonal-app/)
 
-#### [API documentation](http://danigb.github.io/tonal/api/)
+#### [API documentation](http://danigb.github.io/tonal/)
 
 ## Examples
 
@@ -69,15 +69,15 @@ Key.chord("Bb major"); // => ["BbMaj7", "Cm7", "Dm7", "EbMaj7", "F7", "Gm7", "Am
 
 `tonal` is still a work in progress, but currently has implemented:
 
-- Note, intervals, transposition, distances, enharmonics, midi, frecuency [`tonal-note`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Note.html)
-- Scales and chords, dictionaries [`tonal-dictionary`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Dictionary.html)
-- Utilities to work arrays of notes: sort, filter, rotate, shuffle [`tonal-array`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Array.html)
-- Pitch sets comparations, chord and scale detection [`tonal-pcset`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-PcSet.html)
+- Note, intervals, transposition, distances, enharmonics, midi, frecuency [`tonal-note`](https://danigb.github.io/tonal/module-Note.html)
+- Scales and chords, dictionaries [`tonal-dictionary`](https://danigb.github.io/tonal/module-Dictionary.html)
+- Utilities to work arrays of notes: sort, filter, rotate, shuffle [`tonal-array`](https://danigb.github.io/tonal/module-Array.html)
+- Pitch sets comparations, chord and scale detection [`tonal-pcset`](https://danigb.github.io/tonal/module-PcSet.html)
 
 In [extensions](https://github.com/danigb/tonal/tree/master/extensions):
 
-- Keys, keys signatures, key scales [`tonal-key`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Key.html)
-- Complex note range generation [`tonal-range`](file:///Users/Dani/Code/Js16/tonal/docs/api/module-Range.html)
+- Keys, keys signatures, key scales [`tonal-key`](https://danigb.github.io/tonal/module-Key.html)
+- Complex note range generation [`tonal-range`](https://danigb.github.io/tonal/module-Range.html)
 - Chord progressions
 - Enharmonics
 
@@ -88,7 +88,7 @@ This library is evolving with this ideas in mind:
 - Functional: no classes, no side effects, no mutations. Just functions, data-in data-out. Most of the functions has the data to operate on as last argument and lot of functions are currified.
 - Notes and intervals are represented with strings, instead of objects.
 - Carefully written: small, fast and modular.
-- Documented: all public functions are fully documented inside the code. Read the generated API documentation [here](http://danigb.github.io/tonal/api/)
+- Documented: all public functions are fully documented inside the code. Read the generated API documentation [here](http://danigb.github.io/tonal/)
 - Learneable: since all the modules share the same philosophy is easy to work with them.
 - Tested: every public method is tested with coverage support.
 - Advanced features: chord and scale detection, binary sets, chord progressions, key signatures...
@@ -140,13 +140,13 @@ Mostly, because I want to learn:
 
 I want to learn about music theory and I want to express the concepts I learn using functional programming style.
 
-Also, I want a complete library, where I can model some (for me) esoteric features like [interval classes](http://danigb.github.io/tonal/api/module-Interval.html#.ic), pitch sets, dft to pitch class sets, and so on.
+Also, I want a complete library, where I can model some (for me) esoteric features like [interval classes](http://danigb.github.io/tonal/module-Interval.html#.ic), pitch sets, dft to pitch class sets, and so on.
 
 ## What
 
 Tonal itself is built from a collection of [packages](https://github.com/danigb/tonal/tree/master/packages).
 
-Please [read the generated API documentation here](http://danigb.github.io/tonal/api/) to get an overview.
+Please [read the generated API documentation here](http://danigb.github.io/tonal/) to get an overview.
 
 ## Build, test and documentation
 
