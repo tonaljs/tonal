@@ -32,9 +32,9 @@ Key.relative("minor", "C major"); // => "A minor"
   - [`.props(name)`](#module_Key.props) ⇒ <code>Object</code>
   - [`.scale(key)`](#module_Key.scale) ⇒ <code>Array</code>
   - [`.alteredNotes(key)`](#module_Key.alteredNotes) ⇒ <code>Array</code>
-  - [`.leadsheetSymbols(symbols, keyName)`](#module_Key.leadsheetSymbols) ⇒ <code>function</code>
-  - [`.chords(name)`](#module_Key.chords) ⇒ <code>Array</code>
-  - [`.triads(name)`](#module_Key.triads) ⇒ <code>Array</code>
+  - [`.leadsheetSymbols(symbols, keyName, [degrees])`](#module_Key.leadsheetSymbols) ⇒ <code>function</code>
+  - [`.chords(name, [degrees])`](#module_Key.chords) ⇒ <code>Array.&lt;String&gt;</code>
+  - [`.triads(name, [degrees])`](#module_Key.triads) ⇒ <code>Array.&lt;String&gt;</code>
   - [`.secDomChords(name)`](#module_Key.secDomChords) ⇒ <code>Array</code>
   - [`.relative(mode, key)`](#module_Key.relative)
   - [`.tokenize(name)`](#module_Key.tokenize) ⇒ <code>Array</code>
@@ -170,7 +170,7 @@ Key.alteredNotes("Eb major"); // => [ "Bb", "Eb", "Ab" ]
 
 <a name="module_Key.leadsheetSymbols"></a>
 
-## `Key.leadsheetSymbols(symbols, keyName)` ⇒ <code>function</code>
+## `Key.leadsheetSymbols(symbols, keyName, [degrees])` ⇒ <code>function</code>
 
 Get a lead-sheet symbols for a given key name
 
@@ -193,52 +193,60 @@ That letter is followed by information about a chord’s quality:
 - Key.chords
 - Key.triads
 
-| Param   | Type                              | Description                                  |
-| ------- | --------------------------------- | -------------------------------------------- |
-| symbols | <code>Array.&lt;String&gt;</code> | an array of symbols in major scale order     |
-| keyName | <code>String</code>               | the name of the key you want the symbols for |
+| Param     | Type                              | Description                                                    |
+| --------- | --------------------------------- | -------------------------------------------------------------- |
+| symbols   | <code>Array.&lt;String&gt;</code> | an array of symbols in major scale order                       |
+| keyName   | <code>String</code>               | the name of the key you want the symbols for                   |
+| [degrees] | <code>Array.&lt;String&gt;</code> | the list of degrees. By default from 1 to 7 in ascending order |
 
 **Example**
 
 ```js
 const chords = Key.leadsheetSymbols(["M", "m", "m", "M", "7", "m", "dim"]);
 chords("D dorian"); //=> ["Dm", "Em", "FM", "G7", "Am", "Bdim", "CM"]
+chords("D dorian", ["ii", "V"]); //=> [Em", "G7"]
 ```
 
 <a name="module_Key.chords"></a>
 
-## `Key.chords(name)` ⇒ <code>Array</code>
+## `Key.chords(name, [degrees])` ⇒ <code>Array.&lt;String&gt;</code>
 
-Get key chords
+Get key seventh chords
 
-**Kind**: static method of [<code>Key</code>](#module_Key)
+**Kind**: static method of [<code>Key</code>](#module_Key)  
+**Returns**: <code>Array.&lt;String&gt;</code> - seventh chord names
 
-| Param | Type                | Description  |
-| ----- | ------------------- | ------------ |
-| name  | <code>String</code> | the key name |
+| Param     | Type                              | Description  |
+| --------- | --------------------------------- | ------------ |
+| name      | <code>String</code>               | the key name |
+| [degrees] | <code>Array.&lt;String&gt;</code> |              |
 
 **Example**
 
 ```js
 Key.chords("A major"); // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
+Key.chords("A major", ["I", "IV", "V"]); // => ["AMaj7", "DMaj7", "E7"]
 ```
 
 <a name="module_Key.triads"></a>
 
-## `Key.triads(name)` ⇒ <code>Array</code>
+## `Key.triads(name, [degrees])` ⇒ <code>Array.&lt;String&gt;</code>
 
 Get key triads
 
-**Kind**: static method of [<code>Key</code>](#module_Key)
+**Kind**: static method of [<code>Key</code>](#module_Key)  
+**Returns**: <code>Array.&lt;String&gt;</code> - triad names
 
-| Param | Type                | Description  |
-| ----- | ------------------- | ------------ |
-| name  | <code>String</code> | the key name |
+| Param     | Type                              | Description  |
+| --------- | --------------------------------- | ------------ |
+| name      | <code>String</code>               | the key name |
+| [degrees] | <code>Array.&lt;String&gt;</code> |              |
 
 **Example**
 
 ```js
 Key.triads("A major"); // => ["AM", "Bm", "C#m", "DM", "E7", "F#m", "G#mb5"]
+Key.triads("A major", ["I", "IV", "V"]); // => ["AMaj7", "DMaj7", "E7"]
 ```
 
 <a name="module_Key.secDomChords"></a>

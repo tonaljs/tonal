@@ -21,6 +21,7 @@
 import { rotate, range } from "tonal-array";
 import { tokenize as split, altToAcc } from "tonal-note";
 import { trFifths, fifths, interval, transpose } from "tonal-distance";
+import { degree, decimal } from "tonal-roman-numeral";
 
 const MODES = "major dorian phrygian lydian mixolydian minor locrian ionian aeolian".split(
   " "
@@ -30,7 +31,6 @@ const NOTES = "C D E F G A B".split(" ");
 
 const TRIADS = ["", "m", "m", "", "", "m", "dim"];
 const SEVENTHS = "Maj7 m7 m7 Maj7 7 m7 m7b5".split(" ");
-const DEGREES = "I II III IV V VI VII".split(" ");
 const FIFTHS = [0, 2, 4, -1, 1, 3, 5, 0, 3];
 
 const modenum = mode => NUMS[MODES.indexOf(mode)];
@@ -144,8 +144,7 @@ export const degrees = str => {
   if (p.name === null) return [];
   const chords = rotate(p.modenum, SEVENTHS);
   return chords.map((chord, i) => {
-    const deg = DEGREES[i];
-    return chord[0] === "m" ? deg.toLowerCase() : deg;
+    return degree(i + 1, chord[0] !== "m");
   });
 };
 
@@ -188,6 +187,7 @@ export const alteredNotes = name => {
  *
  * @param {Array<String>} symbols - an array of symbols in major scale order
  * @param {String} keyName - the name of the key you want the symbols for
+ * @param {Array<String>} [degrees] - the list of degrees. By default from 1 to 7 in ascending order
  * @return {function}
  * @see Key.chords
  * @see Key.triads
@@ -195,24 +195,29 @@ export const alteredNotes = name => {
  * @example
  * const chords = Key.leadsheetSymbols(["M", "m", "m", "M", "7", "m", "dim"])
  * chords("D dorian") //=> ["Dm", "Em", "FM", "G7", "Am", "Bdim", "CM"]
+ * chords("D dorian", ['ii', 'V']) //=> [Em", "G7"]
  */
-export function leadsheetSymbols(symbols, keyName) {
-  if (arguments.length === 1) return name => leadsheetSymbols(symbols, name);
+export function leadsheetSymbols(symbols, keyName, degrees) {
+  if (arguments.length === 1) return (n, d) => leadsheetSymbols(symbols, n, d);
   const p = props(keyName);
   if (!p.name) return [];
   const names = rotate(p.modenum, symbols);
-  return p.scale.map((tonic, i) => tonic + names[i]);
+  const chords = p.scale.map((tonic, i) => tonic + names[i]);
+  if (!degrees) return chords;
+  return degrees.map(decimal).map(n => chords[n - 1]);
 }
 
 /**
- * Get key chords
+ * Get key seventh chords
  *
  * @function
  * @param {String} name - the key name
- * @return {Array}
+ * @param {Array<String>} [degrees]
+ * @return {Array<String>} seventh chord names
  *
  * @example
  * Key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
+ * Key.chords("A major", ['I', 'IV', 'V']) // => ["AMaj7", "DMaj7", "E7"]
  */
 export const chords = leadsheetSymbols(SEVENTHS);
 
@@ -221,10 +226,12 @@ export const chords = leadsheetSymbols(SEVENTHS);
  *
  * @function
  * @param {String} name - the key name
- * @return {Array}
+ * @param {Array<String>} [degrees]
+ * @return {Array<String>} triad names
  *
  * @example
  * Key.triads("A major") // => ["AM", "Bm", "C#m", "DM", "E7", "F#m", "G#mb5"]
+ * Key.triads("A major", ['I', 'IV', 'V']) // => ["AMaj7", "DMaj7", "E7"]
  */
 export const triads = leadsheetSymbols(TRIADS);
 
