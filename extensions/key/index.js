@@ -21,7 +21,7 @@
 import { rotate, range } from "tonal-array";
 import { tokenize as split, altToAcc } from "tonal-note";
 import { trFifths, fifths, interval, transpose } from "tonal-distance";
-import { degree, decimal } from "tonal-roman-numeral";
+import { fromDegree, decimal } from "tonal-roman-numeral";
 
 const MODES = "major dorian phrygian lydian mixolydian minor locrian ionian aeolian".split(
   " "
@@ -133,7 +133,7 @@ export const props = memo(properties);
 export const scale = str => props(str).scale;
 
 /**
- * Get a list of key scale degrees
+ * Get a list of key scale degrees in roman numerals
  * @param {string} keyName
  * @return {Array}
  * @example
@@ -144,7 +144,7 @@ export const degrees = str => {
   if (p.name === null) return [];
   const chords = rotate(p.modenum, SEVENTHS);
   return chords.map((chord, i) => {
-    return degree(i + 1, chord[0] !== "m");
+    return fromDegree(i + 1, chord[0] !== "m");
   });
 };
 

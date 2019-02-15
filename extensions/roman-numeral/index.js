@@ -107,16 +107,16 @@ export const decimal = val =>
   val > 0 && val < 8 ? val : props(val).decimal || null;
 
 /**
- * Get a degree in roman numeral
+ * Get a roman numeral from a degree number
  *
  * @function
  * @param {number} degree
  * @param {boolean} [isMajor=true]
- * @return {String}
+ * @return {String} the roman numeral
  *
  * @example
- * degree(2) // => "II"
- * degree(2, false) // => "ii"
+ * fromDegree(2) // => "II"
+ * fromDegree(2, false) // => "ii"
  */
-export const degree = (degree, isMajor) =>
+export const fromDegree = (degree, isMajor) =>
   getNames(isMajor)[degree - 1] || null;

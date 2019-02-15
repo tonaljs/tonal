@@ -56,7 +56,7 @@ const memoize = (fn, cache) => str => cache[str] || (cache[str] = fn(str));
  * - setnum: scale chroma number
  *
  * @function
- * @param {String} name - the scale name (without tonic)
+ * @param {string} name - the scale name (without tonic)
  * @return {Object}
  */
 export const props = memoize(properties, {});
@@ -65,7 +65,7 @@ export const props = memoize(properties, {});
  * Return the available scale names
  *
  * @function
- * @param {boolean} aliases - true to include aliases
+ * @param {boolean} [aliases=false] - true to include aliases
  * @return {Array} the scale names
  *
  * @example
@@ -80,8 +80,8 @@ export const names = scale.names;
  * It retruns an empty array when no scale found
  *
  * @function
- * @param {String} name - the scale name (tonic and type, tonic is optional)
- * @return {Array<String>} the scale intervals if is a known scale or an empty
+ * @param {string} name - the scale name (tonic and type, tonic is optional)
+ * @return {Array<string>} the scale intervals if is a known scale or an empty
  * array if no scale found
  * @example
  * Scale.intervals("major") // => [ "1P", "2M", "3M", "4P", "5P", "6M", "7M" ]
@@ -97,9 +97,9 @@ export const intervals = name => {
  * Note that it always returns an array, and the values are only pitch classes.
  *
  * @function
- * @param {String} tonic
- * @param {String} nameOrTonic - the scale name or tonic (if 2nd param)
- * @param {String} [name] - the scale name without tonic
+ * @param {string} tonic
+ * @param {string} nameOrTonic - the scale name or tonic (if 2nd param)
+ * @param {string} [name] - the scale name without tonic
  * @return {Array} a pitch classes array
  *
  * @example
@@ -119,7 +119,7 @@ export function notes(nameOrTonic, name) {
  * Check if the given name is a known scale from the scales dictionary
  *
  * @function
- * @param {String} name - the scale name
+ * @param {string} name - the scale name
  * @return {Boolean}
  */
 export function exists(name) {
@@ -136,7 +136,7 @@ export function exists(name) {
  * (this function doesn"t check if that scale name exists)
  *
  * @function
- * @param {String} name - the scale name
+ * @param {string} name - the scale name
  * @return {Array} an array [tonic, name]
  * @example
  * Scale.tokenize("C mixolydean") // => ["C", "mixolydean"]
@@ -155,7 +155,15 @@ export function tokenize(str) {
  * Find mode names of a scale
  *
  * @function
- * @param {String} name - scale name
+ * @param {string} name - scale name
+ * @example
+ * Scale.modeNames("C pentatonic") // => [
+ *   ["C", "major pentatonic"],
+ *   ["D", "egyptian"],
+ *   ["E", "malkos raga"],
+ *   ["G", "ritusen"],
+ *   ["A", "minor pentatonic"]
+ * ]
  */
 export const modeNames = name => {
   const ivls = intervals(name);
@@ -173,7 +181,11 @@ export const modeNames = name => {
  * Get all chords that fits a given scale
  *
  * @function
- * @param {String} name
+ * @param {string} name - the scale name
+ * @return {Array<string>} - the chord names
+ *
+ * @example
+ * Scale.chords("pentatonic") // => ["5", "64", "M", "M6", "Madd9", "Msus2"]
  */
 export const chords = name => {
   const inScale = isSubsetOf(intervals(name));
@@ -187,6 +199,9 @@ export const chords = name => {
  * @function
  * @param {Array} notes
  * @return {Array}
+ * @example
+ * Scale.toScale(['C4', 'c3', 'C5', 'C4', 'c4']) // => ["C"]
+ * Scale.toScale(['D4', 'c#5', 'A5', 'F#6']) // => ["D", "F#", "A", "C#"]
  */
 export const toScale = notes => {
   const pcset = compact(notes.map(pc));
@@ -201,8 +216,10 @@ export const toScale = notes => {
  * (has the same notes and at least one more)
  *
  * @function
- * @param {String} name
+ * @param {string} name
  * @return {Array} a list of scale names
+ * @example
+ * Scale.supersets("major") // => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]
  */
 export const supersets = name => {
   if (!intervals(name).length) return [];
@@ -215,8 +232,11 @@ export const supersets = name => {
  * (has less notes but all from the given scale)
  *
  * @function
- * @param {String} name
+ * @param {string} name
  * @return {Array} a list of scale names
+ *
+ * @example
+ * Scale.subsets("major") // => ["ionian pentatonic", "major pentatonic", "ritusen"]
  */
 export const subsets = name => {
   const isSubset = isSubsetOf(intervals(name));

@@ -33,7 +33,7 @@ RomanNumeral.degree(2, false); // => "ii"
   - [`.name(name)`](#module_RomanNumeral.name) ⇒ <code>String</code>
   - [`.type(name)`](#module_RomanNumeral.type) ⇒ <code>String</code>
   - [`.decimal(name)`](#module_RomanNumeral.decimal) ⇒ <code>number</code>
-  - [`.degree(degree, [isMajor])`](#module_RomanNumeral.degree) ⇒ <code>String</code>
+  - [`.fromDegree(degree, [isMajor])`](#module_RomanNumeral.fromDegree) ⇒ <code>String</code>
 
 <a name="module_RomanNumeral.props"></a>
 
@@ -131,13 +131,14 @@ decimal(4); // => 4
 decimal(10); // => null
 ```
 
-<a name="module_RomanNumeral.degree"></a>
+<a name="module_RomanNumeral.fromDegree"></a>
 
-## `RomanNumeral.degree(degree, [isMajor])` ⇒ <code>String</code>
+## `RomanNumeral.fromDegree(degree, [isMajor])` ⇒ <code>String</code>
 
-Get a degree in roman numeral
+Get a roman numeral from a degree number
 
-**Kind**: static method of [<code>RomanNumeral</code>](#module_RomanNumeral)
+**Kind**: static method of [<code>RomanNumeral</code>](#module_RomanNumeral)  
+**Returns**: <code>String</code> - the roman numeral
 
 | Param     | Type                 | Default           |
 | --------- | -------------------- | ----------------- |
@@ -147,6 +148,6 @@ Get a degree in roman numeral
 **Example**
 
 ```js
-degree(2); // => "II"
-degree(2, false); // => "ii"
+fromDegree(2); // => "II"
+fromDegree(2, false); // => "ii"
 ```
