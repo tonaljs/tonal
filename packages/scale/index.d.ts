@@ -23,7 +23,7 @@ type ScaleProps = {
  * - setnum: scale chroma number
  *
  * @function
- * @param {String} name - the scale name (without tonic)
+ * @param {string} name - the scale name (without tonic)
  * @return {Object}
  */
 export declare const props: (name: string) => ScaleProps;
@@ -45,7 +45,7 @@ export declare const names: (aliases?: boolean) => string[];
  * It retruns an empty array when no scale found
  *
  * @function
- * @param {String} name - the scale name (tonic and type, tonic is optional)
+ * @param {string} name - the scale name (tonic and type, tonic is optional)
  * @return {Array<String>} the scale intervals if is a known scale or an empty
  * array if no scale found
  * @example
@@ -58,8 +58,8 @@ export declare const intervals: (name: ScaleName | Scale) => Interval[];
  * Note that it always returns an array, and the values are only pitch classes.
  *
  * @function
- * @param {String} nameOrTonic - the scale name or tonic (if 2nd param)
- * @param {String} [name] - the scale name without tonic
+ * @param {string} nameOrTonic - the scale name or tonic (if 2nd param)
+ * @param {string} [name] - the scale name without tonic
  * @return {Array} a pitch classes array
  *
  * @example
@@ -77,7 +77,7 @@ export declare function notes(
  * Check if the given name is a known scale from the scales dictionary
  *
  * @function
- * @param {String} name - the scale name
+ * @param {string} name - the scale name
  * @return {Boolean}
  */
 export declare function exists(name: ScaleName): boolean;
@@ -90,7 +90,7 @@ export declare function exists(name: ScaleName): boolean;
  * (this function doesn"t check if that scale name exists)
  *
  * @function
- * @param {String} name - the scale name
+ * @param {string} name - the scale name
  * @return {Array} an array [tonic, name]
  * @example
  * Scale.tokenize("C mixolydean") // => ["C", "mixolydean"]
@@ -102,14 +102,14 @@ export declare function tokenize(name: ScaleName): [NoteName, ScaleName];
  * Find mode names of a scale
  *
  * @function
- * @param {String} name - scale name
+ * @param {string} name - scale name
  */
 export declare const modeNames: (name: ScaleName) => ModeName[];
 /**
  * Get all chords that fits a given scale
  *
  * @function
- * @param {String} name
+ * @param {string} name
  */
 export declare const chords: (name: Scale) => Chord[];
 /**
@@ -126,7 +126,7 @@ export declare const toScale: (notes: Note[]) => NoteName[];
  * (has the same notes and at least one more)
  *
  * @function
- * @param {String} name
+ * @param {string} name
  * @return {Array} a list of scale names
  */
 export declare const supersets: (name: ScaleName) => ScaleName[];
@@ -135,7 +135,7 @@ export declare const supersets: (name: ScaleName) => ScaleName[];
  * (has less notes but all from the given scale)
  *
  * @function
- * @param {String} name
+ * @param {string} name
  * @return {Array} a list of scale names
  */
 export declare const subsets: (name: ScaleName) => ScaleName[];

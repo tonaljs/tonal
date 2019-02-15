@@ -7,9 +7,9 @@ type NoteOrPitchClass = Note | PitchClass;
  *
  * This function can be partially applied.
  *
- * @param {String} note
- * @param {String} interval
- * @return {String} the transposed note
+ * @param {string} note
+ * @param {string} interval
+ * @return {string} the transposed note
  * @example
  * import { tranpose } from "tonal-distance"
  * transpose("d3", "3M") // => "F#3"
@@ -28,9 +28,9 @@ export declare function transpose(
  * It can be partially applied.
  *
  * @function
- * @param {String} pitchClass - the pitch class
+ * @param {string} pitchClass - the pitch class
  * @param {Integer} fifhts - the number of fifths
- * @return {String} the transposed pitch class
+ * @return {string} the transposed pitch class
  *
  * @example
  * import { trFifths } from "tonal-transpose"
@@ -47,8 +47,8 @@ export declare function trFifths(
  *
  * Can be partially applied.
  *
- * @param {String} to - note or pitch class
- * @param {String} from - note or pitch class
+ * @param {string} to - note or pitch class
+ * @param {string} from - note or pitch class
  */
 export declare function fifths(
   from: NoteOrPitchClass,
@@ -59,9 +59,9 @@ export declare function fifths(
  *
  * Can be partially applied.
  *
- * @param {String} note
- * @param {String} interval
- * @return {String} the transposed note
+ * @param {string} note
+ * @param {string} interval
+ * @return {string} the transposed note
  * @example
  * import { tranposeBy } from "tonal-distance"
  * transposeBy("3m", "5P") // => "7m"
@@ -81,9 +81,9 @@ export declare function addIntervals(
  *
  * Can be partially applied.
  *
- * @param {String} interval1
- * @param {String} interval2
- * @return {String} the resulting interval
+ * @param {string} interval1
+ * @param {string} interval2
+ * @return {string} the resulting interval
  * @example
  * import { add } from "tonal-distance"
  * add("3m", "5P") // => "7m"
@@ -97,9 +97,9 @@ export declare function add(
  *
  * Can be partially applied
  *
- * @param {String} minuend
- * @param {String} subtrahend
- * @return {String} interval diference
+ * @param {string} minuend
+ * @param {string} subtrahend
+ * @return {string} interval diference
  */
 export declare function subtract(
   ivl1: Interval,
@@ -111,9 +111,9 @@ export declare function subtract(
  *
  * Can be partially applied
  *
- * @param {String} from - distance from
- * @param {String} to - distance to
- * @return {String} the interval distance
+ * @param {string} from - distance from
+ * @param {string} to - distance to
+ * @return {string} the interval distance
  *
  * @example
  * import { interval } from "tonal-distance"

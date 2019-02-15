@@ -9,7 +9,7 @@ type Interval = string;
  * without modification.
  *
  * @param {Array|String} set - the pitch class set
- * @return {String} a binary representation of the pitch class set
+ * @return {string} a binary representation of the pitch class set
  * @example
  * PcSet.chroma(["C", "D", "E"]) // => "1010100000000"
  */
@@ -41,7 +41,7 @@ export declare function modes(
 ): string[];
 /**
  * Test if the given string is a pitch class set chroma.
- * @param {String} chroma - the pitch class set chroma
+ * @param {string} chroma - the pitch class set chroma
  * @return {Boolean} true if its a valid pcset chroma
  * @example
  * PcSet.isChroma("101010101010") // => true

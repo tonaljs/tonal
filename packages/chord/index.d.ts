@@ -32,7 +32,7 @@ export declare const names: () => Chord[];
  * - setnum: chord chroma number
  *
  * @function
- * @param {String} name - the chord name (without tonic)
+ * @param {string} name - the chord name (without tonic)
  * @return {Object} an object with the properties or a object with all properties
  * set to null if not valid chord name
  */
@@ -41,7 +41,7 @@ export declare const props: (str: string) => ChordProps;
  * Get chord intervals. It always returns an array
  *
  * @function
- * @param {String} name - the chord name (optionally a tonic and type)
+ * @param {string} name - the chord name (optionally a tonic and type)
  * @return {Array<String>} a list of intervals or null if the type is not known
  */
 export declare const intervals: (name: string) => string[] | null;
@@ -52,8 +52,8 @@ export declare const intervals: (name: string) => string[] | null;
  * It always returns an array, even if the chord is not found.
  *
  * @function
- * @param {String} nameOrTonic - name of the chord or the tonic (if the second parameter is present)
- * @param {String} [name] - (Optional) name if the first parameter is the tonic
+ * @param {string} nameOrTonic - name of the chord or the tonic (if the second parameter is present)
+ * @param {string} [name] - (Optional) name if the first parameter is the tonic
  * @return {Array} an array of notes or an empty array
  *
  * @example
@@ -65,7 +65,7 @@ export declare function notes(nameOrTonic: string, name?: string): string[];
  * Check if a given name correspond to a chord in the dictionary
  *
  * @function
- * @param {String} name
+ * @param {string} name
  * @return {Boolean}
  * @example
  * Chord.exists("CMaj7") // => true
@@ -78,7 +78,7 @@ export declare const exists: (name: string) => boolean;
  * (has the same notes and at least one more)
  *
  * @function
- * @param {String} name
+ * @param {string} name
  * @return {Array} a list of chord names
  */
 export declare const supersets: (name: string) => string[];
@@ -87,7 +87,7 @@ export declare const supersets: (name: string) => string[];
  * (has less notes but all from the given chord)
  *
  * @function
- * @param {String} name
+ * @param {string} name
  * @return {Array} a list of chord names
  */
 export declare const subsets: (name: string) => string[];
@@ -99,7 +99,7 @@ export declare const subsets: (name: string) => string[];
  * to split the tonic and chord type.
  *
  * @function
- * @param {String} name - the chord name
+ * @param {string} name - the chord name
  * @return {Array} an array with [type, tonic]
  * @example
  * Chord.tokenize("Cmaj7") // => [ "C", "maj7" ]

@@ -9,10 +9,10 @@ type NoteName = string;
 type NoteProps = {
   name: NoteName;
   letter: NoteLetter;
-  acc: NoteAccidental; // {String}: the note accidentals
+  acc: NoteAccidental; // {string}: the note accidentals
   oct: OrNull<Octave>; // {Number}: the octave or null if not present
   step: number; // {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
-  pc: NoteName; //{String}: the pitch class (letter + accidentals)
+  pc: NoteName; //{string}: the pitch class (letter + accidentals)
   alt: number; // {Number}: number equivalent of accidentals (negative are flats, positive sharps)
   chroma: number; // {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
   midi: OrNull<Midi>; // {Number}: the note midi number (IMPORTANT! it can be outside 0 to 127 range)
@@ -22,10 +22,10 @@ type NoteProps = {
 type NoNoteProps = {
   name: null;
   // letter: null;
-  // acc: null; // {String}: the note accidentals
+  // acc: null; // {string}: the note accidentals
   oct: null; // {Number}: the octave or null if not present
   step: null; // {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
-  pc: null; //{String}: the pitch class (letter + accidentals)
+  pc: null; //{string}: the pitch class (letter + accidentals)
   alt: null; // {Number}: number equivalent of accidentals (negative are flats, positive sharps)
   chroma: null; // {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
   midi: null; // {Number}: the note midi number (IMPORTANT! it can be outside 0 to 127 range)
@@ -99,7 +99,7 @@ const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
  *
  * It always returns an array
  *
- * @param {String} str
+ * @param {string} str
  * @return {Array} an array of note tokens
  * @example
  * Note.tokenize("C#2") // => ["C", "#", "2", ""]
@@ -168,11 +168,11 @@ const memo = <T extends string | number, V>(
 /**
  * Get note properties. It returns an object with the following information:
  *
- * - name {String}: the note name. The letter is always in uppercase
- * - letter {String}: the note letter, always in uppercase
- * - acc {String}: the note accidentals
+ * - name {string}: the note name. The letter is always in uppercase
+ * - letter {string}: the note letter, always in uppercase
+ * - acc {string}: the note accidentals
  * - octave {Number}: the octave or null if not present
- * - pc {String}: the pitch class (letter + accidentals)
+ * - pc {string}: the pitch class (letter + accidentals)
  * - step {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
  * - alt {Number}: number equivalent of accidentals (negative are flats, positive sharps)
  * - chroma {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
@@ -184,7 +184,7 @@ const memo = <T extends string | number, V>(
  *
  * The returned object can"t be mutated.
  *
- * @param {String} note - the note name in scientific notation
+ * @param {string} note - the note name in scientific notation
  * @return {Object} an object with the properties (or an object will all properties
  * set to null if not valid note)
  * @example
@@ -327,7 +327,7 @@ const numToStr = (num: number | any, op: (a: number) => string) =>
 /**
  * Given an alteration number, return the accidentals
  * @param {Number} alt
- * @return {String}
+ * @return {string}
  * @example
  * Note.altToAcc(-3) // => "bbb"
  */
@@ -348,9 +348,9 @@ export const altToAcc = (alt?: number) =>
  *
  * @function
  * @param {Object} props - the note properties
- * @param {String} [baseNote] - note to build the result from. If given, it returns
+ * @param {string} [baseNote] - note to build the result from. If given, it returns
  * the result of applying the given props to this note.
- * @return {String} the note name in scientific notation or null if not valid properties
+ * @return {string} the note name in scientific notation or null if not valid properties
  * @example
  * Note.from({ step: 5 }) // => "A"
  * Note.from({ step: 1, acc: -1 }) // => "Db"
@@ -404,10 +404,10 @@ export function fromMidi(num: Midi, sharps: boolean | number = false) {
 /**
  * Simplify the note: find an enhramonic note with less accidentals.
  *
- * @param {String} note - the note to be simplified
+ * @param {string} note - the note to be simplified
  * @param {boolean} useSameAccType - (optional, true by default) set to true
  * to ensure the returned note has the same accidental types that the given note
- * @return {String} the simplfiied note or null if not valid note
+ * @return {string} the simplfiied note or null if not valid note
  * @example
  * Note.simplify("C##") // => "D"
  * Note.simplify("C###") // => "D#"
@@ -427,8 +427,8 @@ export const simplify = (note: Note, sameAcc: number | boolean = true) => {
 /**
  * Get the simplified and enhramonic note of the given one.
  *
- * @param {String} note
- * @return {String} the enhramonic note
+ * @param {string} note
+ * @return {string} the enhramonic note
  * @example
  * Note.enharmonic("Db") // => "C#"
  * Note.enhramonic("C") // => "C"

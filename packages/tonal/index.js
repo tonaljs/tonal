@@ -46,9 +46,9 @@ export { Array, Note, Interval, Distance, Scale, Chord, PcSet, Dictionary };
 /**
  * Transpose a note by an interval
  * @function
- * @param {String} note
- * @param {String} interval
- * @return {String} the transported note
+ * @param {string} note
+ * @param {string} interval
+ * @return {string} the transported note
  * @see Distance.transpose
  */
 export const transpose = Distance.transpose;
@@ -56,9 +56,9 @@ export const transpose = Distance.transpose;
 /**
  * Get the interval from two notes
  * @function
- * @param {String} from
- * @param {String} to
- * @return {String} the interval in reverse shorthand notation
+ * @param {string} from
+ * @param {string} to
+ * @return {string} the interval in reverse shorthand notation
  * @see Distance.interval
  */
 export const interval = Distance.interval;
@@ -66,7 +66,7 @@ export const interval = Distance.interval;
 /**
  * Get note properties
  * @function
- * @param {String} note - the note name
+ * @param {string} note - the note name
  * @return {Object}
  * @see Note.props
  * @example
@@ -77,7 +77,7 @@ export const note = Note.props;
 /**
  * Get midi note number
  * @function
- * @param {String} note
+ * @param {string} note
  * @return {Number}
  * @see Note.midi
  * @example
@@ -88,7 +88,7 @@ export const midi = Note.midi;
 /**
  * Get note frequency using equal tempered tuning at 440
  * @function
- * @param {String} note
+ * @param {string} note
  * @return {Number}
  * @see Note.freq
  * @example
@@ -99,7 +99,7 @@ export const freq = Note.freq;
 /**
  * Get intervals from a chord type
  * @function
- * @param {String} type - the chord type (no tonic)
+ * @param {string} type - the chord type (no tonic)
  * @return {Array} an array of intervals or undefined if the chord type is not known
  * @see Dictionary.chord
  * @example
@@ -110,7 +110,7 @@ export const chord = Dictionary.chord;
 /**
  * Get intervals from scale name
  * @function
- * @param {String} name - the scale name (without tonic)
+ * @param {string} name - the scale name (without tonic)
  * @return {Array} an array of intervals or undefiend if the scale is not kown
  * @example
  * Tonal.scale("major") // => ["1P", "2M", "3M"...]
