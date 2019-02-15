@@ -5,7 +5,7 @@ export declare const combine: (a: any, b: any) => (name: string) => any;
  * returns an array of intervals
  *
  * @function
- * @param {String} name
+ * @param {string} name
  * @return {Array} intervals
  * @example
  * import { scale } from "tonal-dictionary"
@@ -18,7 +18,7 @@ export declare const scale: (name: string) => string[];
  * returns an array of intervals
  *
  * @function
- * @param {String} type
+ * @param {string} type
  * @return {Array} intervals
  * @example
  * import { chord } from "tonal-dictionary"

@@ -13,7 +13,8 @@
     "dist": "rollup -c ./config/rollup.config.dist.js && cp dist/tonal.min.js packages/tonal/build/transpiled.js",
     "prepublish": " npm run build && npm run test && npm run dist && npm run docs && cp README.md ./packages/tonal/",
     "test": "lerna exec -- npm run test",
-    "docs": "jsdoc -c config/jsdoc3.json",
+    "docs": "npm run build:readme && npm run docs:jsdoc",
+    "docs:jsdoc": "jsdoc -c config/jsdoc3.json",
     "docs:publish": "npm run docs && gh-pages -d build/docs",
     "tsc": "tsc"
   },

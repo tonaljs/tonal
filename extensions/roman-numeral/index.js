@@ -43,7 +43,7 @@ const properties = str => {
  * Get properties of a roman numeral string
  *
  * @function
- * @param {String} - the roman numeral string (can have type, like: Imaj7)
+ * @param {string} - the roman numeral string (can have type, like: Imaj7)
  * @return {Object} - the roman numeral properties
  *
  * @example
@@ -68,8 +68,8 @@ export const names = isMajor => getNames(isMajor).slice();
  * Get roman numeral name of a string or null if not valid roman numeral
  *
  * @function
- * @param {String} name
- * @return {String}
+ * @param {string} name
+ * @return {string}
  *
  * @example
  * name('IIb7') // => 'II
@@ -82,8 +82,8 @@ export const name = str => props(str).name;
  * Get type of a roman numeral
  *
  * @function
- * @param {String} name
- * @return {String}
+ * @param {string} name
+ * @return {string}
  *
  * @example
  * type('Imaj7') // => 'maj7'
@@ -107,16 +107,16 @@ export const decimal = val =>
   val > 0 && val < 8 ? val : props(val).decimal || null;
 
 /**
- * Get a degree in roman numeral
+ * Get a roman numeral from a degree number
  *
  * @function
  * @param {number} degree
  * @param {boolean} [isMajor=true]
- * @return {String}
+ * @return {string} the roman numeral
  *
  * @example
- * degree(2) // => "II"
- * degree(2, false) // => "ii"
+ * fromDegree(2) // => "II"
+ * fromDegree(2, false) // => "ii"
  */
-export const degree = (degree, isMajor) =>
+export const fromDegree = (degree, isMajor) =>
   getNames(isMajor)[degree - 1] || null;

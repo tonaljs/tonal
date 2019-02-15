@@ -1,4 +1,4 @@
-import { names, name, props, degree, decimal } from "..";
+import { names, name, props, fromDegree, decimal } from "..";
 
 const lowercase = xs => xs.map(x => x.toLowerCase());
 
@@ -29,9 +29,9 @@ describe("tonal-roman-numeral", () => {
     });
   });
 
-  it("create degrees", () => {
-    expect([1, 2, 3, 4, 5, 6, 7].map(degree)).toEqual(names());
-    expect([1, 2, 3, 4, 5, 6, 7].map(d => degree(d, false))).toEqual(
+  it("create from degrees", () => {
+    expect([1, 2, 3, 4, 5, 6, 7].map(fromDegree)).toEqual(names());
+    expect([1, 2, 3, 4, 5, 6, 7].map(d => fromDegree(d, false))).toEqual(
       names(false)
     );
   });

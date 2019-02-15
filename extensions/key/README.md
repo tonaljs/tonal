@@ -43,7 +43,7 @@ Key.relative("minor", "C major"); // => "A minor"
 
 ## `Key.degrees` ⇒ <code>Array</code>
 
-Get a list of key scale degrees
+Get a list of key scale degrees in roman numerals
 
 **Kind**: static constant of [<code>Key</code>](#module_Key)
 

@@ -60,7 +60,7 @@ export const combine = (a, b) => {
  * returns an array of intervals
  *
  * @function
- * @param {String} name
+ * @param {string} name
  * @return {Array} intervals
  * @example
  * import { scale } from "tonal-dictionary"
@@ -74,7 +74,7 @@ export const scale = dictionary(sdata);
  * returns an array of intervals
  *
  * @function
- * @param {String} type
+ * @param {string} type
  * @return {Array} intervals
  * @example
  * import { chord } from "tonal-dictionary"
