@@ -1,6 +1,6 @@
 {
   "name": "tonal-array",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Tonal array utilities",
   "repository": "https://github.com/danigb/tonal/packages/array",
   "keywords": [
@@ -20,7 +20,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-note": "^2.2.0"
+    "tonal-note": "^2.2.1"
   },
   "babel": {
     "presets": [

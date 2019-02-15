@@ -1,6 +1,6 @@
 {
   "name": "tonal-detect",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Find the name of pitch class sets",
   "repository": "https://github.com/danigb/tonal/extensions/detect",
   "keywords": [
@@ -23,10 +23,10 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-array": "^2.2.0",
-    "tonal-dictionary": "^2.2.0",
-    "tonal-note": "^2.2.0",
-    "tonal-pcset": "^2.2.0"
+    "tonal-array": "^2.2.1",
+    "tonal-dictionary": "^2.2.1",
+    "tonal-note": "^2.2.1",
+    "tonal-pcset": "^2.2.1"
   },
   "babel": {
     "presets": [
