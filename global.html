@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Scale - Documentation</title>
+    <title>Global - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,7 +31,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Scale</h1>
+    <h1 class="page-title">Global</h1>
     
 
     
@@ -43,8 +43,9 @@
 
 <header>
     
+        <h2>
         
-            
+        </h2>
         
     
 </header>
@@ -54,24 +55,9 @@
         <div class="container-overview">
         
             
-                <div class="description"><p><a href="https://www.npmjs.com/package/tonal-scale"><img src="https://img.shields.io/npm/v/tonal-scale.svg?style=flat-square" alt="npm version"></a></p>
-<p>A scale is a collection of pitches in ascending or descending order.</p>
-<p>This module provides functions to get and manipulate scales.</p></div>
-            
-
-            
-                
-
-
-
 
 <dl class="details">
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line11">line 11</a>
-    </li></ul></dd>
     
 
     
@@ -108,41 +94,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-    <h5>Examples</h5>
-    
-    <pre class="prettyprint"><code>// es6
-import * as Scale from "tonal-scale"
-// es5
-const Scale = require("tonal-scale");</code></pre>
-
-    <pre class="prettyprint"><code>Scale.notes("Ab bebop") // => [ "Ab", "Bb", "C", "Db", "Eb", "F", "Gb", "G" ]
-Scale.names() => ["major", "minor", ...]</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            
 
             
         
@@ -169,10 +121,10 @@ Scale.names() => ["major", "minor", ...]</code></pre>
 
     
 
-    <h4 class="name" id="~chords"><span class="type-signature">(inner) </span>chords<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
+    <h4 class="name" id="alteredNotes"><span class="type-signature"></span>alteredNotes<span class="signature">(key)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 
     
-    <p class="summary"><p>Get all chords that fits a given scale</p>.</p>
+    <p class="summary">Get a list of the altered notes of a given Key.</p>
     
 
 
@@ -183,7 +135,7 @@ Scale.names() => ["major", "minor", ...]</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line190">line 190</a>
+        <a href="extensions_key_build_es5.js.html">extensions/key/build/es5.js</a>, <a href="extensions_key_build_es5.js.html#line153">line 153</a>
     </li></ul></dd>
     
 
@@ -223,7 +175,8 @@ Scale.names() => ["major", "minor", ...]</code></pre>
 
 
 <div class="description">
-    <p>Get all chords that fits a given scale</p>
+    <p>Get a list of the altered notes of a given Key. The notes will be in
+the same order than in the key signature.</p>
 </div>
 
 
@@ -236,7 +189,7 @@ Scale.names() => ["major", "minor", ...]</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Scale.chords("pentatonic") // => ["5", "64", "M", "M6", "Madd9", "Msus2"]</code></pre>
+    <pre class="prettyprint"><code>Key.alteredNotes("Eb major") // => [ "Bb", "Eb", "Ab" ]</code></pre>
 
 
 
@@ -266,7 +219,7 @@ Scale.names() => ["major", "minor", ...]</code></pre>
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>key</code></td>
             
 
             <td class="type">
@@ -282,7 +235,7 @@ Scale.names() => ["major", "minor", ...]</code></pre>
 
             
 
-            <td class="description last"><p>the scale name</p></td>
+            <td class="description last"><p>the key name</p></td>
         </tr>
 
     
@@ -305,658 +258,6 @@ Scale.names() => ["major", "minor", ...]</code></pre>
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <ul>
-<li>the chord names</li>
-</ul>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;string></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~exists"><span class="type-signature">(inner) </span>exists<span class="signature">(name)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-    <p class="summary"><p>Check if the given name is a known scale from the scales dictionary</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line125">line 125</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Check if the given name is a known scale from the scales dictionary</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the scale name</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~intervals"><span class="type-signature">(inner) </span>intervals<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
-
-    
-    <p class="summary">Given a scale name, return its intervals.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line89">line 89</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Given a scale name, return its intervals. The name can be the type and
-optionally the tonic (which is ignored)</p>
-<p>It retruns an empty array when no scale found</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>Scale.intervals("major") // => [ "1P", "2M", "3M", "4P", "5P", "6M", "7M" ]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the scale name (tonic and type, tonic is optional)</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>the scale intervals if is a known scale or an empty
-array if no scale found</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;string></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~modeNames"><span class="type-signature">(inner) </span>modeNames<span class="signature">(name)</span><span class="type-signature"></span></h4>
-
-    
-    <p class="summary"><p>Find mode names of a scale</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line168">line 168</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Find mode names of a scale</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>Scale.modeNames("C pentatonic") // => [
-  ["C", "major pentatonic"],
-  ["D", "egyptian"],
-  ["E", "malkos raga"],
-  ["G", "ritusen"],
-  ["A", "minor pentatonic"]
-]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>scale name</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~names"><span class="type-signature">(inner) </span>names<span class="signature">(aliases<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>Return the available scale names</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line74">line 74</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Return the available scale names</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>Scale.names() // => ["maj7", ...]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>aliases</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>false</code>
-                
-                </td>
-            
-
-            <td class="description last"><p>true to include aliases</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>the scale names</p>
-</div>
-
 
 
 <dl class="param-type">
@@ -979,10 +280,10 @@ array if no scale found</p>
 
     
 
-    <h4 class="name" id="~notes"><span class="type-signature">(inner) </span>notes<span class="signature">(tonic, nameOrTonic, name<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="chords"><span class="type-signature"></span>chords<span class="signature">(name, degrees<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
 
     
-    <p class="summary">Get the notes (pitch classes) of a scale.</p>
+    <p class="summary"><p>Get key seventh chords</p>.</p>
     
 
 
@@ -993,7 +294,7 @@ array if no scale found</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line112">line 112</a>
+        <a href="extensions_key_build_es5.js.html">extensions/key/build/es5.js</a>, <a href="extensions_key_build_es5.js.html#line214">line 214</a>
     </li></ul></dd>
     
 
@@ -1033,8 +334,7 @@ array if no scale found</p>
 
 
 <div class="description">
-    <p>Get the notes (pitch classes) of a scale.</p>
-<p>Note that it always returns an array, and the values are only pitch classes.</p>
+    <p>Get key seventh chords</p>
 </div>
 
 
@@ -1047,11 +347,9 @@ array if no scale found</p>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Scale.notes("C", "major") // => [ "C", "D", "E", "F", "G", "A", "B" ]
-Scale.notes("C major") // => [ "C", "D", "E", "F", "G", "A", "B" ]
-Scale.notes("C4", "major") // => [ "C", "D", "E", "F", "G", "A", "B" ]
-Scale.notes("A4", "no-scale") // => []
-Scale.notes("blah", "major") // => []</code></pre>
+    <pre class="prettyprint"><code>Key.chords("A major") // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
+Key.chords("A major", ['I', 'IV', 'V']) // => ["AMaj7", "DMaj7", "E7"]
+Key.chords("A major", [5, 4, 1]) // => ["E7", "DMaj7", AMaj7"]</code></pre>
 
 
 
@@ -1083,7 +381,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
         <tr>
             
-                <td class="name"><code>tonic</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
@@ -1103,6 +401,201 @@ Scale.notes("blah", "major") // => []</code></pre>
 
                 
                 </td>
+            
+
+            
+
+            <td class="description last"><p>the key name</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>degrees</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;(number|string)></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>can be numbers or roman numerals</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>seventh chord names</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;string></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="degrees"><span class="type-signature"></span>degrees<span class="signature">(keyName)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+    <p class="summary"><p>Get a list of key scale degrees in roman numerals</p>.</p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="extensions_key_build_es5.js.html">extensions/key/build/es5.js</a>, <a href="extensions_key_build_es5.js.html#line133">line 133</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Get a list of key scale degrees in roman numerals</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Key.degrees("C major") => ["I", "ii", "iii", "IV", "V", "vi", "vii"]</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>keyName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
             
 
             
@@ -1111,70 +604,6 @@ Scale.notes("blah", "major") // => []</code></pre>
         </tr>
 
     
-
-        <tr>
-            
-                <td class="name"><code>nameOrTonic</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>the scale name or tonic (if 2nd param)</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>the scale name without tonic</p></td>
-        </tr>
-
-    
     </tbody>
 </table>
 
@@ -1194,10 +623,6 @@ Scale.notes("blah", "major") // => []</code></pre>
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <p>a pitch classes array</p>
-</div>
-
 
 
 <dl class="param-type">
@@ -1220,10 +645,10 @@ Scale.notes("blah", "major") // => []</code></pre>
 
     
 
-    <h4 class="name" id="~props"><span class="type-signature">(inner) </span>props<span class="signature">(name)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="fromAlter"><span class="type-signature"></span>fromAlter<span class="signature">(alt)</span><span class="type-signature"> &rarr; {Key}</span></h4>
 
     
-    <p class="summary">Get scale properties.</p>
+    <p class="summary"><p>Create a major key from alterations</p>.</p>
     
 
 
@@ -1234,7 +659,7 @@ Scale.notes("blah", "major") // => []</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line62">line 62</a>
+        <a href="extensions_key_build_es5.js.html">extensions/key/build/es5.js</a>, <a href="extensions_key_build_es5.js.html#line48">line 48</a>
     </li></ul></dd>
     
 
@@ -1274,13 +699,192 @@ Scale.notes("blah", "major") // => []</code></pre>
 
 
 <div class="description">
-    <p>Get scale properties. It returns an object with:</p>
+    <p>Create a major key from alterations</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Key.fromAlter(2) // => "D major"</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>alt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the alteration number (positive sharps, negative flats)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the key object</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Key</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="leadsheetSymbols"><span class="type-signature"></span>leadsheetSymbols<span class="signature">(symbols, keyName, degrees<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {function}</span></h4>
+
+    
+    <p class="summary"><p>Get a lead-sheet symbols for a given key name</p>
+<p>This function is currified (so can be partially applied)</p>
+<p>From http://openmusictheory.com/triads.html</p>
+<p>A lead-sheet symbol begins with a capital letter (and, if necessary,
+an accidental) denoting the root of the chord.</p></p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="extensions_key_build_es5.js.html">extensions/key/build/es5.js</a>, <a href="extensions_key_build_es5.js.html#line191">line 191</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>Key.chords</li>
+        
+            <li>Key.triads</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Get a lead-sheet symbols for a given key name</p>
+<p>This function is currified (so can be partially applied)</p>
+<p>From http://openmusictheory.com/triads.html</p>
+<p>A lead-sheet symbol begins with a capital letter (and, if necessary,
+an accidental) denoting the root of the chord.
+That letter is followed by information about a chord’s quality:</p>
 <ul>
-<li>name: the scale name</li>
-<li>names: a list with all possible names (includes the current)</li>
-<li>intervals: an array with the scale intervals</li>
-<li>chroma:  scale croma (see pcset)</li>
-<li>setnum: scale chroma number</li>
+<li>major triad: no quality symbol is added</li>
+<li>minor triad: lower-case “m”</li>
+<li>diminished triad: lower-case “dim” or a degree sign “°”</li>
+<li>augmented triad: lower-case “aug” or a plus sign “+”</li>
 </ul>
 </div>
 
@@ -1290,6 +894,431 @@ Scale.notes("blah", "major") // => []</code></pre>
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const chords = Key.leadsheetSymbols(["M", "m", "m", "M", "7", "m", "dim"])
+chords("D dorian") //=> ["Dm", "Em", "FM", "G7", "Am", "Bdim", "CM"]
+chords("D dorian", ['ii', 'V']) //=> [Em", "G7"]</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>symbols</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>an array of symbols in major scale order</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>the name of the key you want the symbols for</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>degrees</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>the list of degrees. By default from 1 to 7 in ascending order</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">function</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="modeNames"><span class="type-signature"></span>modeNames<span class="signature">(alias)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+    <p class="summary">Get a list of valid mode names.</p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="extensions_key_build_es5.js.html">extensions/key/build/es5.js</a>, <a href="extensions_key_build_es5.js.html#line37">line 37</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Get a list of valid mode names. The list of modes will be always in
+increasing order (ionian to locrian)</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Key.modes() // => [ "ionian", "dorian", "phrygian", "lydian",
+// "mixolydian", "aeolian", "locrian" ]
+Key.modes(true) // => [ "ionian", "dorian", "phrygian", "lydian",
+// "mixolydian", "aeolian", "locrian", "major", "minor" ]</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>alias</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>true to get aliases names</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>an array of strings</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="props"><span class="type-signature"></span>props<span class="signature">(name)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+    <p class="summary"><p>Return the a key properties object with the following information:</p>
+<ul>
+<li>name {string}: name</li>
+<li>tonic {string}: key tonic</li>
+<li>mode {string}: key mode</li>
+<li>modenum {Number}: mode number (0 major, 1 dorian, ...)</li>
+<li>intervals {Array}: the scale intervals</li>
+<li>scale {Array}: the scale notes</li>
+<li>acc {string}: accidentals of the key signature</li>
+<li>alt {Number}: alteration number (a numeric representation of accidentals)</li>
+</ul>.</p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="extensions_key_build_es5.js.html">extensions/key/build/es5.js</a>, <a href="extensions_key_build_es5.js.html#line109">line 109</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Return the a key properties object with the following information:</p>
+<ul>
+<li>name {string}: name</li>
+<li>tonic {string}: key tonic</li>
+<li>mode {string}: key mode</li>
+<li>modenum {Number}: mode number (0 major, 1 dorian, ...)</li>
+<li>intervals {Array}: the scale intervals</li>
+<li>scale {Array}: the scale notes</li>
+<li>acc {string}: accidentals of the key signature</li>
+<li>alt {Number}: alteration number (a numeric representation of accidentals)</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Key.props("C3 dorian") // => { tonic: "C", mode: "dorian", ... }</code></pre>
 
 
 
@@ -1335,7 +1364,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
             
 
-            <td class="description last"><p>the scale name (without tonic)</p></td>
+            <td class="description last"><p>the key name</p></td>
         </tr>
 
     
@@ -1358,6 +1387,10 @@ Scale.notes("blah", "major") // => []</code></pre>
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    <p>the key properties object or null if not a valid key</p>
+</div>
+
 
 
 <dl class="param-type">
@@ -1380,11 +1413,10 @@ Scale.notes("blah", "major") // => []</code></pre>
 
     
 
-    <h4 class="name" id="~subsets"><span class="type-signature">(inner) </span>subsets<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="relative"><span class="type-signature"></span>relative<span class="signature">(mode, key)</span><span class="type-signature"></span></h4>
 
     
-    <p class="summary"><p>Find all scales names that are a subset of the given one
-(has less notes but all from the given scale)</p>.</p>
+    <p class="summary">Get relative of a key.</p>
     
 
 
@@ -1395,7 +1427,7 @@ Scale.notes("blah", "major") // => []</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line241">line 241</a>
+        <a href="extensions_key_build_es5.js.html">extensions/key/build/es5.js</a>, <a href="extensions_key_build_es5.js.html#line265">line 265</a>
     </li></ul></dd>
     
 
@@ -1435,8 +1467,9 @@ Scale.notes("blah", "major") // => []</code></pre>
 
 
 <div class="description">
-    <p>Find all scales names that are a subset of the given one
-(has less notes but all from the given scale)</p>
+    <p>Get relative of a key. Two keys are relative when the have the same
+key signature (for example C major and A minor)</p>
+<p>It can be partially applied.</p>
 </div>
 
 
@@ -1449,7 +1482,500 @@ Scale.notes("blah", "major") // => []</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Scale.subsets("major") // => ["ionian pentatonic", "major pentatonic", "ritusen"]</code></pre>
+    <pre class="prettyprint"><code>Key.relative("dorian", "B major") // => "C# dorian"
+// partial application
+var minor = Key.relative("minor")
+minor("C major") // => "A minor"
+minor("E major") // => "C# minor"</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>mode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the relative destination</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the key source</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="scale"><span class="type-signature"></span>scale<span class="signature">(key)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+    <p class="summary"><p>Get scale of a key</p>.</p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="extensions_key_build_es5.js.html">extensions/key/build/es5.js</a>, <a href="extensions_key_build_es5.js.html#line124">line 124</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Get scale of a key</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Key.scale("A major") // => [ "A", "B", "C#", "D", "E", "F#", "G#" ]
+Key.scale("Bb minor") // => [ "Bb", "C", "Db", "Eb", "F", "Gb", "Ab" ]
+Key.scale("C dorian") // => [ "C", "D", "Eb", "F", "G", "A", "Bb" ]
+Key.scale("E mixolydian") // => [ "E", "F#", "G#", "A", "B", "C#", "D" ]</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the key scale</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="secDomChords"><span class="type-signature"></span>secDomChords<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+    <p class="summary"><p>Get secondary dominant key chords</p>.</p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="extensions_key_build_es5.js.html">extensions/key/build/es5.js</a>, <a href="extensions_key_build_es5.js.html#line242">line 242</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Get secondary dominant key chords</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Key.secDomChords("A major") // => ["E7", "F#7", ...]</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the key name</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="tokenize"><span class="type-signature"></span>tokenize<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+    <p class="summary"><p>Split the key name into its components (pitch class tonic and mode name)</p>.</p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="extensions_key_build_es5.js.html">extensions/key/build/es5.js</a>, <a href="extensions_key_build_es5.js.html#line284">line 284</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Split the key name into its components (pitch class tonic and mode name)</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Key.tokenize("C major") // => ["C", "major"]</code></pre>
 
 
 
@@ -1519,7 +2045,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
         
 <div class="param-desc">
-    <p>a list of scale names</p>
+    <p>an array in the form [tonic, key]</p>
 </div>
 
 
@@ -1544,11 +2070,10 @@ Scale.notes("blah", "major") // => []</code></pre>
 
     
 
-    <h4 class="name" id="~supersets"><span class="type-signature">(inner) </span>supersets<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="triads"><span class="type-signature"></span>triads<span class="signature">(name, degrees<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
 
     
-    <p class="summary"><p>Get all scales names that are a superset of the given one
-(has the same notes and at least one more)</p>.</p>
+    <p class="summary"><p>Get key triads</p>.</p>
     
 
 
@@ -1559,7 +2084,7 @@ Scale.notes("blah", "major") // => []</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line224">line 224</a>
+        <a href="extensions_key_build_es5.js.html">extensions/key/build/es5.js</a>, <a href="extensions_key_build_es5.js.html#line229">line 229</a>
     </li></ul></dd>
     
 
@@ -1599,8 +2124,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
 
 <div class="description">
-    <p>Get all scales names that are a superset of the given one
-(has the same notes and at least one more)</p>
+    <p>Get key triads</p>
 </div>
 
 
@@ -1613,7 +2137,9 @@ Scale.notes("blah", "major") // => []</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Scale.supersets("major") // => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]</code></pre>
+    <pre class="prettyprint"><code>Key.triads("A major") // => ["AM", "Bm", "C#m", "DM", "E7", "F#m", "G#mb5"]
+Key.triads("A major", ['I', 'IV', 'V']) // => ["AMaj7", "DMaj7", "E7"]
+Key.triads("A major", [1, 4, 5]) // => ["AMaj7", "DMaj7", "E7"]</code></pre>
 
 
 
@@ -1630,6 +2156,8 @@ Scale.notes("blah", "major") // => []</code></pre>
 
         <th>Type</th>
 
+        
+        <th>Attributes</th>
         
 
         
@@ -1655,6 +2183,47 @@ Scale.notes("blah", "major") // => []</code></pre>
             
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>the key name</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>degrees</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;(string|number)></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -1683,7 +2252,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
         
 <div class="param-desc">
-    <p>a list of scale names</p>
+    <p>triad names</p>
 </div>
 
 
@@ -1694,337 +2263,7 @@ Scale.notes("blah", "major") // => []</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~tokenize"><span class="type-signature">(inner) </span>tokenize<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>Given a string with a scale name and (optionally) a tonic, split
-that components.</p></p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line146">line 146</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Given a string with a scale name and (optionally) a tonic, split
-that components.</p>
-<p>It retuns an array with the form [ name, tonic ] where tonic can be a
-note name or null and name can be any arbitrary string
-(this function doesn&quot;t check if that scale name exists)</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>Scale.tokenize("C mixolydean") // => ["C", "mixolydean"]
-Scale.tokenize("anything is valid") // => ["", "anything is valid"]
-Scale.tokenize() // => ["", ""]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the scale name</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>an array [tonic, name]</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~toScale"><span class="type-signature">(inner) </span>toScale<span class="signature">(notes)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>Given an array of notes, return the scale: a pitch class set starting from
-the first note of the array</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line206">line 206</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Given an array of notes, return the scale: a pitch class set starting from
-the first note of the array</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>Scale.toScale(['C4', 'c3', 'C5', 'C4', 'c4']) // => ["C"]
-Scale.toScale(['D4', 'c#5', 'A5', 'F#6']) // => ["D", "F#", "A", "C#"]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>notes</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
+<span class="param-type">Array.&lt;string></span>
 
 
     </dd>

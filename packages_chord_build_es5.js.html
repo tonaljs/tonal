@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Dictionary - Documentation</title>
+    <title>packages/chord/build/es5.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,479 +31,212 @@
 
 <div id="main">
     
-    <h1 class="page-title">Dictionary</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        
-            
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-                <div class="description"><p><a href="https://www.npmjs.com/package/tonal-dictionary"><img src="https://img.shields.io/npm/v/tonal-dictionary.svg" alt="npm version"></a></p>
-<p><code>tonal-dictionary</code> contains a dictionary of musical scales and chords</p>
-<p>This is part of <a href="https://www.npmjs.com/package/tonal">tonal</a> music theory library.</p></div>
-            
-
-            
-                
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line975">line 975</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Examples</h5>
-    
-    <pre class="prettyprint"><code>// es6
-import * as Dictionary from "tonal-dictionary"
-// es5
-const Dictionary = require("tonal-dictionary")</code></pre>
-
-    <pre class="prettyprint"><code>Dictionary.chord("Maj7") // => ["1P", "3M", "5P", "7M"]</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="~chord"><span class="type-signature">(inner) </span>chord<span class="signature">(type)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>A dictionary of chords: a function that given a chord type
-returns an array of intervals</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line1055">line 1055</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>A dictionary of chords: a function that given a chord type
-returns an array of intervals</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>import { chord } from "tonal-dictionary"
-chord("Maj7") // => ["1P", "3M", ...]
-chord.names(); // => ["Maj3", ...]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>intervals</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~scale"><span class="type-signature">(inner) </span>scale<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>A dictionary of scales: a function that given a scale name (without tonic)
-returns an array of intervals</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line1041">line 1041</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>A dictionary of scales: a function that given a scale name (without tonic)
-returns an array of intervals</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>import { scale } from "tonal-dictionary"
-scale("major") // => ["1P", "2M", ...]
-scale.names(); // => ["major", ...]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>intervals</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">packages/chord/build/es5.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var tonalNote = require('tonal-note');
+var tonalDistance = require('tonal-distance');
+var tonalDictionary = require('tonal-dictionary');
+var tonalPcset = require('tonal-pcset');
+
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-chord.svg)](https://www.npmjs.com/package/tonal-chord)
+ * [![tonal](https://img.shields.io/badge/tonal-chord-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-chord` is a collection of functions to manipulate musical chords
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * @example
+ * // es6
+ * import * as Chord from "tonal-chord"
+ * // es5
+ * const Chord = require("tonal-chord")
+ *
+ * @example
+ * Chord.notes("CMaj7") // => ["C", "E", "G", "B"]
+ *
+ * @module Chord
+ */
+
+/**
+ * Return the available chord names
+ *
+ * @function
+ * @param {boolean} aliases - true to include aliases
+ * @return {Array} the chord names
+ *
+ * @example
+ * Chord.names() // => ["maj7", ...]
+ */
+var names = tonalDictionary.chord.names;
+
+var NO_CHORD = Object.freeze({
+  name: null,
+  names: [],
+  intervals: [],
+  chroma: null,
+  setnum: null
+});
+
+var properties = function (name) {
+  var intervals = tonalDictionary.chord(name);
+  if (!intervals) { return NO_CHORD; }
+  var s = { intervals: intervals, name: name };
+  s.chroma = tonalPcset.chroma(intervals);
+  s.setnum = parseInt(s.chroma, 2);
+  s.names = tonalDictionary.chord.names(s.chroma);
+  return s;
+};
+
+var memo = function (fn, cache) {
+  if ( cache === void 0 ) cache = {};
+
+  return function (str) { return cache[str] || (cache[str] = fn(str)); };
+};
+
+/**
+ * Get chord properties. It returns an object with:
+ *
+ * - name: the chord name
+ * - names: a list with all possible names (includes the current)
+ * - intervals: an array with the chord intervals
+ * - chroma:  chord croma (see pcset)
+ * - setnum: chord chroma number
+ *
+ * @function
+ * @param {string} name - the chord name (without tonic)
+ * @return {Object} an object with the properties or a object with all properties
+ * set to null if not valid chord name
+ */
+var props = memo(properties);
+
+/**
+ * Get chord intervals. It always returns an array
+ *
+ * @function
+ * @param {string} name - the chord name (optionally a tonic and type)
+ * @return {Array&lt;String>} a list of intervals or null if the type is not known
+ */
+var intervals = function (name) { return props(tokenize(name)[1]).intervals; };
+
+/**
+ * Get the chord notes of a chord. This function accepts either a chord name
+ * (for example: "Cmaj7") or a list of notes.
+ *
+ * It always returns an array, even if the chord is not found.
+ *
+ * @function
+ * @param {string} nameOrTonic - name of the chord or the tonic (if the second parameter is present)
+ * @param {string} [name] - (Optional) name if the first parameter is the tonic
+ * @return {Array} an array of notes or an empty array
+ *
+ * @example
+ * Chord.notes("Cmaj7") // => ["C", "E", "G", "B"]
+ * Chord.notes("C", "maj7") // => ["C", "E", "G", "B"]
+ */
+function notes(nameOrTonic, name) {
+  if (name) { return props(name).intervals.map(tonalDistance.transpose(nameOrTonic)); }
+  var ref = tokenize(nameOrTonic);
+  var tonic = ref[0];
+  var type = ref[1];
+  return props(type).intervals.map(tonalDistance.transpose(tonic));
+}
+
+/**
+ * Check if a given name correspond to a chord in the dictionary
+ *
+ * @function
+ * @param {string} name
+ * @return {Boolean}
+ * @example
+ * Chord.exists("CMaj7") // => true
+ * Chord.exists("Maj7") // => true
+ * Chord.exists("Ablah") // => false
+ */
+var exists = function (name) { return tonalDictionary.chord(tokenize(name)[1]) !== undefined; };
+
+/**
+ * Get all chords names that are a superset of the given one
+ * (has the same notes and at least one more)
+ *
+ * @function
+ * @param {string} name
+ * @return {Array} a list of chord names
+ */
+var supersets = function (name) {
+  if (!intervals(name).length) { return []; }
+  var isSuperset = tonalPcset.isSupersetOf(intervals(name));
+  return tonalDictionary.chord.names().filter(function (name) { return isSuperset(tonalDictionary.chord(name)); });
+};
+
+/**
+ * Find all chords names that are a subset of the given one
+ * (has less notes but all from the given chord)
+ *
+ * @function
+ * @param {string} name
+ * @return {Array} a list of chord names
+ */
+var subsets = function (name) {
+  var isSubset = tonalPcset.isSubsetOf(intervals(name));
+  return tonalDictionary.chord.names().filter(function (name) { return isSubset(tonalDictionary.chord(name)); });
+};
+
+// 6, 64, 7, 9, 11 and 13 are consider part of the chord
+// (see https://github.com/danigb/tonal/issues/55)
+var NUM_TYPES = /^(6|64|7|9|11|13)$/;
+/**
+ * Tokenize a chord name. It returns an array with the tonic and chord type
+ * If not tonic is found, all the name is considered the chord name.
+ *
+ * This function does NOT check if the chord type exists or not. It only tries
+ * to split the tonic and chord type.
+ *
+ * @function
+ * @param {string} name - the chord name
+ * @return {Array} an array with [tonic, type]
+ * @example
+ * Chord.tokenize("Cmaj7") // => [ "C", "maj7" ]
+ * Chord.tokenize("C7") // => [ "C", "7" ]
+ * Chord.tokenize("mMaj7") // => [ "", "mMaj7" ]
+ * Chord.tokenize("Cnonsense") // => [ "C", "nonsense" ]
+ */
+function tokenize(name) {
+  var p = tonalNote.tokenize(name);
+  if (p[0] === "") { return ["", name]; }
+  // aug is augmented (see https://github.com/danigb/tonal/issues/55)
+  if (p[0] === "A" &amp;&amp; p[3] === "ug") { return ["", "aug"]; }
+
+  if (NUM_TYPES.test(p[2])) {
+    return [p[0] + p[1], p[2] + p[3]];
+  } else {
+    return [p[0] + p[1] + p[2], p[3]];
+  }
+}
+
+exports.names = names;
+exports.props = props;
+exports.intervals = intervals;
+exports.notes = notes;
+exports.exists = exists;
+exports.supersets = supersets;
+exports.subsets = subsets;
+exports.tokenize = tokenize;
+</code></pre>
+        </article>
+    </section>
 
 
 

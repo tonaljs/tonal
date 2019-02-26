@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Dictionary - Documentation</title>
+    <title>extensions/roman-numeral/build/es5.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,479 +31,154 @@
 
 <div id="main">
     
-    <h1 class="page-title">Dictionary</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        
-            
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-                <div class="description"><p><a href="https://www.npmjs.com/package/tonal-dictionary"><img src="https://img.shields.io/npm/v/tonal-dictionary.svg" alt="npm version"></a></p>
-<p><code>tonal-dictionary</code> contains a dictionary of musical scales and chords</p>
-<p>This is part of <a href="https://www.npmjs.com/package/tonal">tonal</a> music theory library.</p></div>
-            
-
-            
-                
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line975">line 975</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Examples</h5>
-    
-    <pre class="prettyprint"><code>// es6
-import * as Dictionary from "tonal-dictionary"
-// es5
-const Dictionary = require("tonal-dictionary")</code></pre>
-
-    <pre class="prettyprint"><code>Dictionary.chord("Maj7") // => ["1P", "3M", "5P", "7M"]</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="~chord"><span class="type-signature">(inner) </span>chord<span class="signature">(type)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>A dictionary of chords: a function that given a chord type
-returns an array of intervals</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line1055">line 1055</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>A dictionary of chords: a function that given a chord type
-returns an array of intervals</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>import { chord } from "tonal-dictionary"
-chord("Maj7") // => ["1P", "3M", ...]
-chord.names(); // => ["Maj3", ...]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>intervals</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~scale"><span class="type-signature">(inner) </span>scale<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>A dictionary of scales: a function that given a scale name (without tonic)
-returns an array of intervals</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line1041">line 1041</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>A dictionary of scales: a function that given a scale name (without tonic)
-returns an array of intervals</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>import { scale } from "tonal-dictionary"
-scale("major") // => ["1P", "2M", ...]
-scale.names(); // => ["major", ...]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>intervals</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">extensions/roman-numeral/build/es5.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-roman-numeral.svg?style=flat-square)](https://www.npmjs.com/package/tonal-roman-numeral)
+ * [![tonal](https://img.shields.io/badge/tonal-roman-numeral-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
+ *
+ * `tonal-roman-numeral` is a collection of functions to query about tonal keys.
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * @example
+ * // es6
+ * import * as RomanNumeral from "tonal-roman-numeral"
+ * // es5
+ * const RomanNumeral = require("tonal-roman-numeral")
+ *
+ * @example
+ * RomanNumeral.names() // => ["I", "II", "III", "IV", "V", "VI", "VII"]
+ * RomanNumeral.props('ii7') // => { name: 'ii', type: '7', num: 2, major: false }
+ * RomanNumeral.fromDegree(2) // => "II"
+ * RomanNumeral.fromDegree(2, false) // => "ii"
+ * @module RomanNumeral
+ */
+
+var NAMES = "I II III IV V VI VII".split(" ");
+var NAMES_MINOR = NAMES.map(function (n) { return n.toLowerCase(); });
+var REGEX = /^(IV|I{1,3}|VI{0,2}|iv|i{1,3}|vi{0,2})([^IViv]*)$/;
+var NO_PROPS = { name: null, type: null };
+
+var getNames = function (major) { return (major === false ? NAMES_MINOR : NAMES); };
+var memo = function (fn, cache) {
+  if ( cache === void 0 ) cache = {};
+
+  return function (str) { return cache[str] || (cache[str] = fn(str)); };
+};
+
+var properties = function (str) {
+  var m = REGEX.exec(str);
+  if (!m) { return NO_PROPS; }
+  var name = m[1];
+  var type = m[2];
+  var n = name.toUpperCase();
+  var major = name === n;
+  var decimal = NAMES.indexOf(n) + 1;
+  return { name: name, type: type, decimal: decimal, major: major };
+};
+
+/**
+ * Get properties of a roman numeral string
+ *
+ * @function
+ * @param {string} - the roman numeral string (can have type, like: Imaj7)
+ * @return {Object} - the roman numeral properties
+ *
+ * @example
+ * props("VIIb5") // => { name: "VII", type: "b5", num: 7, major: true }
+ */
+var props = memo(properties);
+
+/**
+ * Get roman numeral names
+ *
+ * @function
+ * @param {boolean} [isMajor=true]
+ * @return {Array&lt;String>}
+ *
+ * @example
+ * names() // => ["I", "II", "III", "IV", "V", "VI", "VII"]
+ * names(false) // => ["i", "ii", "iii", "iv", "v", "vi", "vii"]
+ */
+var names = function (isMajor) { return getNames(isMajor).slice(); };
+
+/**
+ * Get roman numeral name of a string or null if not valid roman numeral
+ *
+ * @function
+ * @param {string} name
+ * @return {string}
+ *
+ * @example
+ * name('IIb7') // => 'II
+ * name('iii') // => 'iii'
+ * name('Ii') // => null (mixed case not allowed)
+ */
+var name = function (str) { return props(str).name; };
+
+/**
+ * Get type of a roman numeral
+ *
+ * @function
+ * @param {string} name
+ * @return {string}
+ *
+ * @example
+ * type('Imaj7') // => 'maj7'
+ */
+var type = function (str) { return props(str).type; };
+
+/**
+ * Get roman numeral number in decimal integer (it accepts numbers from 1 to 7)
+ *
+ *
+ * @function
+ * @param {string|number} name - roman numeral name (with optional type)
+ * @return {number}
+ *
+ * @example
+ * decimal('IVmaj7') // => 4
+ * decimal(4) // => 4
+ * decimal(10) // => null
+ */
+var decimal = function (val) { return val > 0 &amp;&amp; val &lt; 8 ? val : props(val).decimal || null; };
+
+/**
+ * Get a roman numeral from a degree number
+ *
+ * @function
+ * @param {number} degree
+ * @param {boolean} [isMajor=true]
+ * @return {string} the roman numeral
+ *
+ * @example
+ * fromDegree(2) // => "II"
+ * fromDegree(2, false) // => "ii"
+ */
+var fromDegree = function (degree, isMajor) { return getNames(isMajor)[degree - 1] || null; };
+
+exports.props = props;
+exports.names = names;
+exports.name = name;
+exports.type = type;
+exports.decimal = decimal;
+exports.fromDegree = fromDegree;
+</code></pre>
+        </article>
+    </section>
 
 
 

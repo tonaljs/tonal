@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Dictionary - Documentation</title>
+    <title>extensions/detect/build/es5.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,479 +31,101 @@
 
 <div id="main">
     
-    <h1 class="page-title">Dictionary</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        
-            
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-                <div class="description"><p><a href="https://www.npmjs.com/package/tonal-dictionary"><img src="https://img.shields.io/npm/v/tonal-dictionary.svg" alt="npm version"></a></p>
-<p><code>tonal-dictionary</code> contains a dictionary of musical scales and chords</p>
-<p>This is part of <a href="https://www.npmjs.com/package/tonal">tonal</a> music theory library.</p></div>
-            
-
-            
-                
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line975">line 975</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Examples</h5>
-    
-    <pre class="prettyprint"><code>// es6
-import * as Dictionary from "tonal-dictionary"
-// es5
-const Dictionary = require("tonal-dictionary")</code></pre>
-
-    <pre class="prettyprint"><code>Dictionary.chord("Maj7") // => ["1P", "3M", "5P", "7M"]</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="~chord"><span class="type-signature">(inner) </span>chord<span class="signature">(type)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>A dictionary of chords: a function that given a chord type
-returns an array of intervals</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line1055">line 1055</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>A dictionary of chords: a function that given a chord type
-returns an array of intervals</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>import { chord } from "tonal-dictionary"
-chord("Maj7") // => ["1P", "3M", ...]
-chord.names(); // => ["Maj3", ...]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>intervals</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~scale"><span class="type-signature">(inner) </span>scale<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>A dictionary of scales: a function that given a scale name (without tonic)
-returns an array of intervals</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line1041">line 1041</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>A dictionary of scales: a function that given a scale name (without tonic)
-returns an array of intervals</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>import { scale } from "tonal-dictionary"
-scale("major") // => ["1P", "2M", ...]
-scale.names(); // => ["major", ...]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>intervals</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">extensions/detect/build/es5.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var tonalNote = require('tonal-note');
+var Dictionary = require('tonal-dictionary');
+var tonalArray = require('tonal-array');
+var tonalPcset = require('tonal-pcset');
+
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-detect.svg?style=flat-square)](https://www.npmjs.com/package/tonal-detect)
+ *
+ * Find chord and scale names from a collection of notes or pitch classes
+ *
+ * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ *
+ * @example
+ * import { chord } from "tonal-detect"
+ * chord(["C", "E", "G", "A"]) // => ["CM6", "Am7"]
+ *
+ * @example
+ * const Detect = require("tonal-detect")
+ * Detect.chord(["C", "E", "G", "A"]) // => ["CM6", "Am7"]
+ *
+ * @module Detect
+ */
+
+function detector(dictionary, defaultBuilder) {
+  defaultBuilder = defaultBuilder || (function (tonic, names) { return [tonic, names]; });
+  return function(notes, builder) {
+    builder = builder || defaultBuilder;
+    notes = tonalArray.sort(notes.map(tonalNote.pc));
+    return tonalPcset.modes(notes)
+      .map(function (mode, i) {
+        var tonic = tonalNote.name(notes[i]);
+        var names = dictionary.names(mode);
+        return names.length ? builder(tonic, names) : null;
+      })
+      .filter(function (x) { return x; });
+  };
+}
+
+/**
+ * Given a collection of notes or pitch classes, try to find the chord name
+ * @function
+ * @param {Array&lt;String>} notes
+ * @return {Array&lt;String>} chord names or empty array
+ * @example
+ * Detect.chord(["C", "E", "G", "A"]) // => ["CM6", "Am7"]
+ */
+var chord = detector(
+  Dictionary.chord,
+  function (tonic, names) { return tonic + names[0]; }
+);
+
+/**
+ * Given a collection of notes or pitch classes, try to find the scale names
+ * @function
+ * @param {Array&lt;String>} notes
+ * @return {Array&lt;String>} scale names or empty array
+ * @example
+ * Detect.scale(["f3", "a", "c5", "e2", "d", "g2", "b6"]) // => [
+ * "C major",
+ * "D dorian",
+ * "E phrygian",
+ * "F lydian",
+ * "G mixolydian",
+ * "A aeolian",
+ * "B locrian"
+ * ]
+ */
+var scale = detector(
+  Dictionary.scale,
+  function (tonic, names) { return tonic + " " + names[0]; }
+);
+
+var pcset = detector(Dictionary.pcset);
+
+exports.detector = detector;
+exports.chord = chord;
+exports.scale = scale;
+exports.pcset = pcset;
+</code></pre>
+        </article>
+    </section>
 
 
 

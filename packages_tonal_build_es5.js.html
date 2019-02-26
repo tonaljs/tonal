@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Dictionary - Documentation</title>
+    <title>packages/tonal/build/es5.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,479 +31,156 @@
 
 <div id="main">
     
-    <h1 class="page-title">Dictionary</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        
-            
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-                <div class="description"><p><a href="https://www.npmjs.com/package/tonal-dictionary"><img src="https://img.shields.io/npm/v/tonal-dictionary.svg" alt="npm version"></a></p>
-<p><code>tonal-dictionary</code> contains a dictionary of musical scales and chords</p>
-<p>This is part of <a href="https://www.npmjs.com/package/tonal">tonal</a> music theory library.</p></div>
-            
-
-            
-                
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line975">line 975</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Examples</h5>
-    
-    <pre class="prettyprint"><code>// es6
-import * as Dictionary from "tonal-dictionary"
-// es5
-const Dictionary = require("tonal-dictionary")</code></pre>
-
-    <pre class="prettyprint"><code>Dictionary.chord("Maj7") // => ["1P", "3M", "5P", "7M"]</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="~chord"><span class="type-signature">(inner) </span>chord<span class="signature">(type)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>A dictionary of chords: a function that given a chord type
-returns an array of intervals</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line1055">line 1055</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>A dictionary of chords: a function that given a chord type
-returns an array of intervals</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>import { chord } from "tonal-dictionary"
-chord("Maj7") // => ["1P", "3M", ...]
-chord.names(); // => ["Maj3", ...]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>intervals</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~scale"><span class="type-signature">(inner) </span>scale<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>A dictionary of scales: a function that given a scale name (without tonic)
-returns an array of intervals</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line1041">line 1041</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>A dictionary of scales: a function that given a scale name (without tonic)
-returns an array of intervals</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>import { scale } from "tonal-dictionary"
-scale("major") // => ["1P", "2M", ...]
-scale.names(); // => ["major", ...]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>intervals</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">packages/tonal/build/es5.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var tonalArray = require('tonal-array');
+var Note = require('tonal-note');
+var tonalInterval = require('tonal-interval');
+var Distance = require('tonal-distance');
+var Dictionary = require('tonal-dictionary');
+var tonalScale = require('tonal-scale');
+var tonalChord = require('tonal-chord');
+var tonalPcset = require('tonal-pcset');
+
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
+ *
+ * The `Tonal` module is a facade to the rest of the modules. They are namespaced,
+ * so for example to use `pc` function from `tonal-note` you have to write:
+ * `Tonal.Note.pc`
+ *
+ * It exports the following modules:
+ * - Note
+ * - Interval
+ * - Distance
+ * - Scale
+ * - Chord
+ * - PcSet
+ *
+ * Additionally this facade exports some functions without namespace (see "Methods" below)
+ *
+ * @example
+ * // es6 modules
+ * import * as Tonal from "tonal"
+ * Tonal.Note.name("cx") // => "C##"
+ *
+ * @example
+ * import { Note } from "tonal"
+ * Note.name("bb") // => "Bb"
+ *
+ * @example
+ * // es5 node modules
+ * var Tonal = require("tonal");
+ * Tonal.Distance.transpose(Tonal.Note.pc("C#2"), "M3") // => "E#"
+ * Tonal.Chord.notes("Dmaj7") // => ["D", "F#", "A", "C#"]
+ *
+ * @module Tonal
+ */
+
+/**
+ * Transpose a note by an interval
+ * @function
+ * @param {string} note
+ * @param {string} interval
+ * @return {string} the transported note
+ * @see Distance.transpose
+ */
+var transpose = Distance.transpose;
+
+/**
+ * Get the interval from two notes
+ * @function
+ * @param {string} from
+ * @param {string} to
+ * @return {string} the interval in reverse shorthand notation
+ * @see Distance.interval
+ */
+var interval = Distance.interval;
+
+/**
+ * Get note properties
+ * @function
+ * @param {string} note - the note name
+ * @return {Object}
+ * @see Note.props
+ * @example
+ * Tonal.note("A4").chroma // => 9
+ */
+var note = Note.props;
+
+/**
+ * Get midi note number
+ * @function
+ * @param {string} note
+ * @return {Number}
+ * @see Note.midi
+ * @example
+ * Tonal.midi("A4") // => 49
+ */
+var midi = Note.midi;
+
+/**
+ * Get note frequency using equal tempered tuning at 440
+ * @function
+ * @param {string} note
+ * @return {Number}
+ * @see Note.freq
+ * @example
+ * Tonal.freq("A4") // => 440
+ */
+var freq = Note.freq;
+
+/**
+ * Get intervals from a chord type
+ * @function
+ * @param {string} type - the chord type (no tonic)
+ * @return {Array} an array of intervals or undefined if the chord type is not known
+ * @see Dictionary.chord
+ * @example
+ * Tonal.chord("m7b5") // => ["1P", "3m", "5d", "7m"]
+ */
+var chord = Dictionary.chord;
+
+/**
+ * Get intervals from scale name
+ * @function
+ * @param {string} name - the scale name (without tonic)
+ * @return {Array} an array of intervals or undefiend if the scale is not kown
+ * @example
+ * Tonal.scale("major") // => ["1P", "2M", "3M"...]
+ */
+var scale = Dictionary.scale;
+
+exports.Array = tonalArray;
+exports.Note = Note;
+exports.Interval = tonalInterval;
+exports.Distance = Distance;
+exports.Dictionary = Dictionary;
+exports.Scale = tonalScale;
+exports.Chord = tonalChord;
+exports.PcSet = tonalPcset;
+exports.transpose = transpose;
+exports.interval = interval;
+exports.note = note;
+exports.midi = midi;
+exports.freq = freq;
+exports.chord = chord;
+exports.scale = scale;
+</code></pre>
+        </article>
+    </section>
 
 
 

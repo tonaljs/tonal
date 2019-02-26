@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Scale - Documentation</title>
+    <title>Interval - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,7 +31,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Scale</h1>
+    <h1 class="page-title">Interval</h1>
     
 
     
@@ -54,9 +54,30 @@
         <div class="container-overview">
         
             
-                <div class="description"><p><a href="https://www.npmjs.com/package/tonal-scale"><img src="https://img.shields.io/npm/v/tonal-scale.svg?style=flat-square" alt="npm version"></a></p>
-<p>A scale is a collection of pitches in ascending or descending order.</p>
-<p>This module provides functions to get and manipulate scales.</p></div>
+                <div class="description"><p><a href="https://www.npmjs.com/package/tonal-interval"><img src="https://img.shields.io/npm/v/tonal-interval.svg" alt="npm version"></a>
+<a href="https://www.npmjs.com/browse/keyword/tonal"><img src="https://img.shields.io/badge/tonal-interval-yellow.svg" alt="tonal"></a></p>
+<p><code>tonal-interval</code> is a collection of functions to create and manipulate music intervals.</p>
+<p>The intervals are strings in shorthand notation. Two variations are supported:</p>
+<ul>
+<li>standard shorthand notation: type and number, for example: &quot;M3&quot;, &quot;d-4&quot;</li>
+<li>inverse shorthand notation: number and then type, for example: &quot;3M&quot;, &quot;-4d&quot;</li>
+</ul>
+<p>The problem with the standard shorthand notation is that some strings can be
+parsed as notes or intervals, for example: &quot;A4&quot; can be note A in 4th octave
+or an augmented four. To remove ambiguity, the prefered notation in tonal is the
+inverse shortand notation.</p>
+<p>This is part of <a href="https://www.npmjs.com/package/tonal">tonal</a> music theory library.</p>
+<h2>Usage</h2><pre class="prettyprint source lang-js"><code>// es6
+import * as Interval from &quot;tonal-interval&quot;
+// es5
+const Interval = require(&quot;tonal-interval&quot;)
+// part of tonal
+import { Interval } from &quot;tonal&quot;
+
+Interval.semitones(&quot;4P&quot;) // => 5
+Interval.invert(&quot;3m&quot;) // => &quot;6M&quot;
+Interval.simplify(&quot;9m&quot;) // => &quot;2m&quot;</code></pre><h2>Install</h2><p><a href="https://npmjs.org/package/tonal-interval/"><img src="https://nodei.co/npm/tonal-interval.png?mini=true" alt="npm install tonal-interval"></a></p>
+<h2>API Documentation</h2></div>
             
 
             
@@ -70,7 +91,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line11">line 11</a>
+        <a href="packages_interval_build_es5.js.html">packages/interval/build/es5.js</a>, <a href="packages_interval_build_es5.js.html#line5">line 5</a>
     </li></ul></dd>
     
 
@@ -115,17 +136,6 @@
 
 
 
-
-
-    <h5>Examples</h5>
-    
-    <pre class="prettyprint"><code>// es6
-import * as Scale from "tonal-scale"
-// es5
-const Scale = require("tonal-scale");</code></pre>
-
-    <pre class="prettyprint"><code>Scale.notes("Ab bebop") // => [ "Ab", "Bb", "C", "Db", "Eb", "F", "Gb", "G" ]
-Scale.names() => ["major", "minor", ...]</code></pre>
 
 
 
@@ -169,10 +179,18 @@ Scale.names() => ["major", "minor", ...]</code></pre>
 
     
 
-    <h4 class="name" id="~chords"><span class="type-signature">(inner) </span>chords<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
+    <h4 class="name" id="~build"><span class="type-signature">(inner) </span>build<span class="signature">(props)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
-    <p class="summary"><p>Get all chords that fits a given scale</p>.</p>
+    <p class="summary"><p>Given a interval property object, get the interval name</p>
+<p>The properties must contain a <code>num</code> <em>or</em> <code>step</code>, and <code>alt</code>:</p>
+<ul>
+<li>num: the interval number</li>
+<li>step: the interval step (overrides the num property)</li>
+<li>alt: the interval alteration</li>
+<li>oct: (Optional) the number of octaves</li>
+<li>dir: (Optional) the direction</li>
+</ul>.</p>
     
 
 
@@ -183,7 +201,7 @@ Scale.names() => ["major", "minor", ...]</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line190">line 190</a>
+        <a href="packages_interval_build_es5.js.html">packages/interval/build/es5.js</a>, <a href="packages_interval_build_es5.js.html#line268">line 268</a>
     </li></ul></dd>
     
 
@@ -223,330 +241,19 @@ Scale.names() => ["major", "minor", ...]</code></pre>
 
 
 <div class="description">
-    <p>Get all chords that fits a given scale</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>Scale.chords("pentatonic") // => ["5", "64", "M", "M6", "Madd9", "Msus2"]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the scale name</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <ul>
-<li>the chord names</li>
+    <p>Given a interval property object, get the interval name</p>
+<p>The properties must contain a <code>num</code> <em>or</em> <code>step</code>, and <code>alt</code>:</p>
+<ul>
+<li>num: the interval number</li>
+<li>step: the interval step (overrides the num property)</li>
+<li>alt: the interval alteration</li>
+<li>oct: (Optional) the number of octaves</li>
+<li>dir: (Optional) the direction</li>
 </ul>
 </div>
 
 
 
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;string></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~exists"><span class="type-signature">(inner) </span>exists<span class="signature">(name)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-    <p class="summary"><p>Check if the given name is a known scale from the scales dictionary</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line125">line 125</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Check if the given name is a known scale from the scales dictionary</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the scale name</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~intervals"><span class="type-signature">(inner) </span>intervals<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span></h4>
-
-    
-    <p class="summary">Given a scale name, return its intervals.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line89">line 89</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Given a scale name, return its intervals. The name can be the type and
-optionally the tonic (which is ignored)</p>
-<p>It retruns an empty array when no scale found</p>
-</div>
-
-
-
 
 
 
@@ -555,7 +262,7 @@ optionally the tonic (which is ignored)</p>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Scale.intervals("major") // => [ "1P", "2M", "3M", "4P", "5P", "6M", "7M" ]</code></pre>
+    <pre class="prettyprint"><code>Interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"Interval.build({ num: 9, alt: -1 }) // => "9m"</code></pre>
 
 
 
@@ -585,13 +292,13 @@ optionally the tonic (which is ignored)</p>
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>props</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">Object</span>
 
 
             
@@ -601,7 +308,7 @@ optionally the tonic (which is ignored)</p>
 
             
 
-            <td class="description last"><p>the scale name (tonic and type, tonic is optional)</p></td>
+            <td class="description last"><p>the interval property object</p></td>
         </tr>
 
     
@@ -625,8 +332,7 @@ optionally the tonic (which is ignored)</p>
 
         
 <div class="param-desc">
-    <p>the scale intervals if is a known scale or an empty
-array if no scale found</p>
+    <p>the interval name</p>
 </div>
 
 
@@ -637,7 +343,7 @@ array if no scale found</p>
     </dt>
     <dd>
         
-<span class="param-type">Array.&lt;string></span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -651,10 +357,10 @@ array if no scale found</p>
 
     
 
-    <h4 class="name" id="~modeNames"><span class="type-signature">(inner) </span>modeNames<span class="signature">(name)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~chroma"><span class="type-signature">(inner) </span>chroma<span class="signature">(str)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
-    <p class="summary"><p>Find mode names of a scale</p>.</p>
+    <p class="summary">Get the chroma of the interval.</p>
     
 
 
@@ -665,7 +371,7 @@ array if no scale found</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line168">line 168</a>
+        <a href="packages_interval_build_es5.js.html">packages/interval/build/es5.js</a>, <a href="packages_interval_build_es5.js.html#line226">line 226</a>
     </li></ul></dd>
     
 
@@ -705,7 +411,8 @@ array if no scale found</p>
 
 
 <div class="description">
-    <p>Find mode names of a scale</p>
+    <p>Get the chroma of the interval. The chroma is a number between 0 and 7
+that represents the position within an octave (pitch set)</p>
 </div>
 
 
@@ -714,17 +421,6 @@ array if no scale found</p>
 
 
 
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>Scale.modeNames("C pentatonic") // => [
-  ["C", "major pentatonic"],
-  ["D", "egyptian"],
-  ["E", "malkos raga"],
-  ["G", "ritusen"],
-  ["A", "minor pentatonic"]
-]</code></pre>
 
 
 
@@ -754,7 +450,7 @@ array if no scale found</p>
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>str</code></td>
             
 
             <td class="type">
@@ -766,343 +462,6 @@ array if no scale found</p>
             
             </td>
 
-            
-
-            
-
-            <td class="description last"><p>scale name</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~names"><span class="type-signature">(inner) </span>names<span class="signature">(aliases<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>Return the available scale names</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line74">line 74</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Return the available scale names</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>Scale.names() // => ["maj7", ...]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>aliases</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    <code>false</code>
-                
-                </td>
-            
-
-            <td class="description last"><p>true to include aliases</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>the scale names</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~notes"><span class="type-signature">(inner) </span>notes<span class="signature">(tonic, nameOrTonic, name<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary">Get the notes (pitch classes) of a scale.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line112">line 112</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Get the notes (pitch classes) of a scale.</p>
-<p>Note that it always returns an array, and the values are only pitch classes.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>Scale.notes("C", "major") // => [ "C", "D", "E", "F", "G", "A", "B" ]
-Scale.notes("C major") // => [ "C", "D", "E", "F", "G", "A", "B" ]
-Scale.notes("C4", "major") // => [ "C", "D", "E", "F", "G", "A", "B" ]
-Scale.notes("A4", "no-scale") // => []
-Scale.notes("blah", "major") // => []</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>tonic</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
             
 
             
@@ -1111,70 +470,6 @@ Scale.notes("blah", "major") // => []</code></pre>
         </tr>
 
     
-
-        <tr>
-            
-                <td class="name"><code>nameOrTonic</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>the scale name or tonic (if 2nd param)</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>the scale name without tonic</p></td>
-        </tr>
-
-    
     </tbody>
 </table>
 
@@ -1194,10 +489,6 @@ Scale.notes("blah", "major") // => []</code></pre>
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <p>a pitch classes array</p>
-</div>
-
 
 
 <dl class="param-type">
@@ -1206,7 +497,7 @@ Scale.notes("blah", "major") // => []</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">Array</span>
+<span class="param-type">Number</span>
 
 
     </dd>
@@ -1220,10 +511,10 @@ Scale.notes("blah", "major") // => []</code></pre>
 
     
 
-    <h4 class="name" id="~props"><span class="type-signature">(inner) </span>props<span class="signature">(name)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="~fromSemitones"><span class="type-signature">(inner) </span>fromSemitones<span class="signature">(num)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
-    <p class="summary">Get scale properties.</p>
+    <p class="summary">Get interval name from semitones number.</p>
     
 
 
@@ -1234,7 +525,7 @@ Scale.notes("blah", "major") // => []</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line62">line 62</a>
+        <a href="packages_interval_build_es5.js.html">packages/interval/build/es5.js</a>, <a href="packages_interval_build_es5.js.html#line341">line 341</a>
     </li></ul></dd>
     
 
@@ -1274,13 +565,1000 @@ Scale.notes("blah", "major") // => []</code></pre>
 
 
 <div class="description">
-    <p>Get scale properties. It returns an object with:</p>
+    <p>Get interval name from semitones number. Since there are several interval
+names for the same number, the name it&quot;s arbitraty, but deterministic.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>import { fromSemitones } from "tonal-interval"fromSemitones(7) // => "5P"// or using tonalTonal.Distance.fromSemitones(-7) // => "-5P"</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the number of semitones (can be negative)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the interval name</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~ic"><span class="type-signature">(inner) </span>ic<span class="signature">(interval)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+
+    
+    <p class="summary"><p>Get the <a href="https://en.wikipedia.org/wiki/Interval_class">interval class</a>
+number of a given interval.</p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="packages_interval_build_es5.js.html">packages/interval/build/es5.js</a>, <a href="packages_interval_build_es5.js.html#line244">line 244</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Get the <a href="https://en.wikipedia.org/wiki/Interval_class">interval class</a>
+number of a given interval.</p>
+<p>In musical set theory, an interval class is the shortest distance in
+pitch class space between two unordered pitch classes</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Interval.ic("P8") // => 0Interval.ic("m6") // => 4Interval.ic(10) // => 2["P1", "M2", "M3", "P4", "P5", "M6", "M7"].map(ic) // => [0, 2, 4, 5, 5, 3, 1]</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the interval or the number of semitones</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>A value between 0 and 6</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Integer</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~invert"><span class="type-signature">(inner) </span>invert<span class="signature">(interval)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+    <p class="summary"><p>Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
+of an interval.</p></p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="packages_interval_build_es5.js.html">packages/interval/build/es5.js</a>, <a href="packages_interval_build_es5.js.html#line315">line 315</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
+of an interval.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Interval.invert("3m") // => "6M"Interval.invert("2M") // => "7m"</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the interval to invert in interval shorthand
+notation or interval array notation</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the inverted interval</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~name"><span class="type-signature">(inner) </span>name<span class="signature">(interval)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+    <p class="summary">Get interval name.</p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="packages_interval_build_es5.js.html">packages/interval/build/es5.js</a>, <a href="packages_interval_build_es5.js.html#line204">line 204</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Get interval name. Can be used to test if it&quot;s an interval. It accepts intervals
+as pitch or string in shorthand notation or tonal notation. It returns always
+intervals in tonal notation.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Interval.name("m-3") // => "-3m"Interval.name("3") // => null</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the interval string or array</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the interval name or null if not valid interval</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~names"><span class="type-signature">(inner) </span>names<span class="signature">(qualities)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+    <p class="summary"><p>List basic (perfect, major, minor) interval names within a octave</p>.</p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="packages_interval_build_es5.js.html">packages/interval/build/es5.js</a>, <a href="packages_interval_build_es5.js.html#line66">line 66</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>List basic (perfect, major, minor) interval names within a octave</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Interval.names() // => [ "1P", "2m", "2M", "3m", "3M", "4P", "5P", "6m", "6M", "7m", "7M", "8P" ]Interval.names("P") // => [ "1P", "4P", "5P", "8P" ]Interval.names("PM") // => [ "1P", "2M", "3M", "4P", "5P", "6M", "7M", "8P" ]Interval.names("Pm") // => [ "1P", "2m", "3m", "4P", "5P", "6m", "7m", "8P" ]Interval.names("d") // => []</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>qualities</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(Optional, default &quot;PMm&quot;) the valid types</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the interval names</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~num"><span class="type-signature">(inner) </span>num<span class="signature">(interval)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
+
+    
+    <p class="summary"><p>Get the number of the interval</p>.</p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="packages_interval_build_es5.js.html">packages/interval/build/es5.js</a>, <a href="packages_interval_build_es5.js.html#line191">line 191</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Get the number of the interval</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>Interval.num("m2") // => 2Interval.num("P9") // => 9Interval.num("P-4") // => -4</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>interval</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the interval</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Integer</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~props"><span class="type-signature">(inner) </span>props<span class="signature">(interval)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+    <p class="summary">Get interval properties.</p>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="packages_interval_build_es5.js.html">packages/interval/build/es5.js</a>, <a href="packages_interval_build_es5.js.html#line175">line 175</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Get interval properties. It returns an object with:</p>
 <ul>
-<li>name: the scale name</li>
-<li>names: a list with all possible names (includes the current)</li>
-<li>intervals: an array with the scale intervals</li>
-<li>chroma:  scale croma (see pcset)</li>
-<li>setnum: scale chroma number</li>
+<li>name: name</li>
+<li>num: number</li>
+<li>q: quality</li>
+<li>step: step</li>
+<li>alt: alteration</li>
+<li>dir: direction (1 ascending, -1 descending)</li>
+<li>type: &quot;P&quot; or &quot;M&quot; for perfectable or majorable</li>
+<li>simple: the simplified number</li>
+<li>semitones: the size in semitones</li>
+<li>chroma: the interval chroma</li>
+<li>ic: the interval class</li>
 </ul>
 </div>
 
@@ -1319,7 +1597,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>interval</code></td>
             
 
             <td class="type">
@@ -1335,7 +1613,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
             
 
-            <td class="description last"><p>the scale name (without tonic)</p></td>
+            <td class="description last"><p>the interval</p></td>
         </tr>
 
     
@@ -1358,6 +1636,10 @@ Scale.notes("blah", "major") // => []</code></pre>
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    <p>the interval in the form [number, alt]</p>
+</div>
+
 
 
 <dl class="param-type">
@@ -1380,11 +1662,10 @@ Scale.notes("blah", "major") // => []</code></pre>
 
     
 
-    <h4 class="name" id="~subsets"><span class="type-signature">(inner) </span>subsets<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="~semitones"><span class="type-signature">(inner) </span>semitones<span class="signature">(ivl)</span><span class="type-signature"> &rarr; {Integer}</span></h4>
 
     
-    <p class="summary"><p>Find all scales names that are a subset of the given one
-(has less notes but all from the given scale)</p>.</p>
+    <p class="summary"><p>Get size in semitones of an interval</p>.</p>
     
 
 
@@ -1395,7 +1676,7 @@ Scale.notes("blah", "major") // => []</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line241">line 241</a>
+        <a href="packages_interval_build_es5.js.html">packages/interval/build/es5.js</a>, <a href="packages_interval_build_es5.js.html#line217">line 217</a>
     </li></ul></dd>
     
 
@@ -1435,8 +1716,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
 
 <div class="description">
-    <p>Find all scales names that are a subset of the given one
-(has less notes but all from the given scale)</p>
+    <p>Get size in semitones of an interval</p>
 </div>
 
 
@@ -1449,7 +1729,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Scale.subsets("major") // => ["ionian pentatonic", "major pentatonic", "ritusen"]</code></pre>
+    <pre class="prettyprint"><code>import { semitones } from "tonal-interval"semitones("P4") // => 5// or using tonalTonal.Interval.semitones("P5") // => 7</code></pre>
 
 
 
@@ -1479,7 +1759,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>ivl</code></td>
             
 
             <td class="type">
@@ -1519,7 +1799,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
         
 <div class="param-desc">
-    <p>a list of scale names</p>
+    <p>the number of semitones or null if not an interval</p>
 </div>
 
 
@@ -1530,7 +1810,7 @@ Scale.notes("blah", "major") // => []</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">Array</span>
+<span class="param-type">Integer</span>
 
 
     </dd>
@@ -1544,11 +1824,10 @@ Scale.notes("blah", "major") // => []</code></pre>
 
     
 
-    <h4 class="name" id="~supersets"><span class="type-signature">(inner) </span>supersets<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="~simplify"><span class="type-signature">(inner) </span>simplify<span class="signature">(interval)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
-    <p class="summary"><p>Get all scales names that are a superset of the given one
-(has the same notes and at least one more)</p>.</p>
+    <p class="summary">Get the simplified version of an interval.</p>
     
 
 
@@ -1559,7 +1838,7 @@ Scale.notes("blah", "major") // => []</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line224">line 224</a>
+        <a href="packages_interval_build_es5.js.html">packages/interval/build/es5.js</a>, <a href="packages_interval_build_es5.js.html#line295">line 295</a>
     </li></ul></dd>
     
 
@@ -1599,8 +1878,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
 
 <div class="description">
-    <p>Get all scales names that are a superset of the given one
-(has the same notes and at least one more)</p>
+    <p>Get the simplified version of an interval.</p>
 </div>
 
 
@@ -1613,7 +1891,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>Scale.supersets("major") // => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]</code></pre>
+    <pre class="prettyprint"><code>Interval.simplify("9M") // => "2M"["8P", "9M", "10M", "11P", "12P", "13M", "14M", "15P"].map(Interval.simplify)// => [ "8P", "2M", "3M", "4P", "5P", "6M", "7M", "8P" ]Interval.simplify("2M") // => "2M"Interval.simplify("-2M") // => "7m"</code></pre>
 
 
 
@@ -1643,7 +1921,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>interval</code></td>
             
 
             <td class="type">
@@ -1659,7 +1937,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
             
 
-            <td class="description last"></td>
+            <td class="description last"><p>the interval to simplify</p></td>
         </tr>
 
     
@@ -1683,7 +1961,7 @@ Scale.notes("blah", "major") // => []</code></pre>
 
         
 <div class="param-desc">
-    <p>a list of scale names</p>
+    <p>the simplified interval</p>
 </div>
 
 
@@ -1694,337 +1972,7 @@ Scale.notes("blah", "major") // => []</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~tokenize"><span class="type-signature">(inner) </span>tokenize<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>Given a string with a scale name and (optionally) a tonic, split
-that components.</p></p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line146">line 146</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Given a string with a scale name and (optionally) a tonic, split
-that components.</p>
-<p>It retuns an array with the form [ name, tonic ] where tonic can be a
-note name or null and name can be any arbitrary string
-(this function doesn&quot;t check if that scale name exists)</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>Scale.tokenize("C mixolydean") // => ["C", "mixolydean"]
-Scale.tokenize("anything is valid") // => ["", "anything is valid"]
-Scale.tokenize() // => ["", ""]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
 <span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the scale name</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>an array [tonic, name]</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~toScale"><span class="type-signature">(inner) </span>toScale<span class="signature">(notes)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>Given an array of notes, return the scale: a pitch class set starting from
-the first note of the array</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_scale_build_es5.js.html">packages/scale/build/es5.js</a>, <a href="packages_scale_build_es5.js.html#line206">line 206</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Given an array of notes, return the scale: a pitch class set starting from
-the first note of the array</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>Scale.toScale(['C4', 'c3', 'C5', 'C4', 'c4']) // => ["C"]
-Scale.toScale(['D4', 'c#5', 'A5', 'F#6']) // => ["D", "F#", "A", "C#"]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>notes</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
 
 
     </dd>

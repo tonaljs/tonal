@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Dictionary - Documentation</title>
+    <title>packages/array/build/es5.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -31,479 +31,176 @@
 
 <div id="main">
     
-    <h1 class="page-title">Dictionary</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        
-            
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-                <div class="description"><p><a href="https://www.npmjs.com/package/tonal-dictionary"><img src="https://img.shields.io/npm/v/tonal-dictionary.svg" alt="npm version"></a></p>
-<p><code>tonal-dictionary</code> contains a dictionary of musical scales and chords</p>
-<p>This is part of <a href="https://www.npmjs.com/package/tonal">tonal</a> music theory library.</p></div>
-            
-
-            
-                
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line975">line 975</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Examples</h5>
-    
-    <pre class="prettyprint"><code>// es6
-import * as Dictionary from "tonal-dictionary"
-// es5
-const Dictionary = require("tonal-dictionary")</code></pre>
-
-    <pre class="prettyprint"><code>Dictionary.chord("Maj7") // => ["1P", "3M", "5P", "7M"]</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="~chord"><span class="type-signature">(inner) </span>chord<span class="signature">(type)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>A dictionary of chords: a function that given a chord type
-returns an array of intervals</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line1055">line 1055</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>A dictionary of chords: a function that given a chord type
-returns an array of intervals</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>import { chord } from "tonal-dictionary"
-chord("Maj7") // => ["1P", "3M", ...]
-chord.names(); // => ["Maj3", ...]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>intervals</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="~scale"><span class="type-signature">(inner) </span>scale<span class="signature">(name)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-    <p class="summary"><p>A dictionary of scales: a function that given a scale name (without tonic)
-returns an array of intervals</p>.</p>
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="packages_dictionary_build_es5.js.html">packages/dictionary/build/es5.js</a>, <a href="packages_dictionary_build_es5.js.html#line1041">line 1041</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>A dictionary of scales: a function that given a scale name (without tonic)
-returns an array of intervals</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>import { scale } from "tonal-dictionary"
-scale("major") // => ["1P", "2M", ...]
-scale.names(); // => ["major", ...]</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>intervals</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">packages/array/build/es5.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var tonalNote = require('tonal-note');
+
+/**
+ * [![npm version](https://img.shields.io/npm/v/tonal-array.svg?style=flat-square)](https://www.npmjs.com/package/tonal-array)
+ *
+ * Tonal array utilities. Create ranges, sort notes, ...
+ *
+ * @example
+ * import * as Array;
+ * Array.sort(["f", "a", "c"]) // => ["C", "F", "A"]
+ *
+ * @example
+ * const Array = require("tonal-array")
+ * Array.range(1, 4) // => [1, 2, 3, 4]
+ *
+ * @module Array
+ */
+
+// ascending range
+function ascR(b, n) {
+  for (var a = []; n--; a[n] = n + b){ }
+  return a;
+}
+// descending range
+function descR(b, n) {
+  for (var a = []; n--; a[n] = b - n){ }
+  return a;
+}
+
+/**
+ * Create a numeric range
+ *
+ * @param {Number} from
+ * @param {Number} to
+ * @return {Array}
+ *
+ * @example
+ * Array.range(-2, 2) // => [-2, -1, 0, 1, 2]
+ * Array.range(2, -2) // => [2, 1, 0, -1, -2]
+ */
+function range(a, b) {
+  return a === null || b === null
+    ? []
+    : a &lt; b
+      ? ascR(a, b - a + 1)
+      : descR(a, a - b + 1);
+}
+/**
+ *
+ * Rotates a list a number of times. It"s completly agnostic about the
+ * contents of the list.
+ *
+ * @param {Integer} times - the number of rotations
+ * @param {Array} array
+ * @return {Array} the rotated array
+ * @example
+ * Array.rotate(1, [1, 2, 3]) // => [2, 3, 1]
+ */
+function rotate(times, arr) {
+  var len = arr.length;
+  var n = ((times % len) + len) % len;
+  return arr.slice(n, len).concat(arr.slice(0, n));
+}
+
+/**
+ * Return a copy of the array with the null values removed
+ * @function
+ * @param {Array} array
+ * @return {Array}
+ *
+ * @example
+ * Array.compact(["a", "b", null, "c"]) // => ["a", "b", "c"]
+ */
+var compact = function (arr) { return arr.filter(function (n) { return n === 0 || n; }); };
+
+// a function that get note heights (with negative number for pitch classes)
+var height = function (name) {
+  var m = tonalNote.props(name).midi;
+  return m !== null ? m : tonalNote.props(name + "-100").midi;
+};
+
+/**
+ * Sort an array of notes in ascending order
+ *
+ * @param {String|Array} notes
+ * @return {Array} sorted array of notes
+ */
+function sort(src) {
+  return compact(src.map(tonalNote.name)).sort(function (a, b) { return height(a) > height(b); });
+}
+
+/**
+ * Get sorted notes with duplicates removed
+ *
+ * @function
+ * @param {Array} notes
+ */
+function unique(arr) {
+  return sort(arr).filter(function (n, i, a) { return i === 0 || n !== a[i - 1]; });
+}
+
+/**
+ * Randomizes the order of the specified array in-place, using the Fisher–Yates shuffle.
+ *
+ * @private
+ * @function
+ * @param {Array|String} arr - the array
+ * @return {Array} the shuffled array
+ *
+ * @example
+ * Array.shuffle(["C", "D", "E", "F"])
+ */
+var shuffle = function (arr, rnd) {
+  if ( rnd === void 0 ) rnd = Math.random;
+
+  var i, t;
+  var m = arr.length;
+  while (m) {
+    i = (rnd() * m--) | 0;
+    t = arr[m];
+    arr[m] = arr[i];
+    arr[i] = t;
+  }
+  return arr;
+};
+
+/**
+ * Get all permutations of an array
+ * http://stackoverflow.com/questions/9960908/permutations-in-javascript
+ *
+ * @param {Array} array - the array
+ * @return {Array&lt;Array>} an array with all the permutations
+ */
+var permutations = function (arr) {
+  if (arr.length === 0) { return [[]]; }
+  return permutations(arr.slice(1)).reduce(function(acc, perm) {
+    return acc.concat(
+      arr.map(function(e, pos) {
+        var newPerm = perm.slice();
+        newPerm.splice(pos, 0, arr[0]);
+        return newPerm;
+      })
+    );
+  }, []);
+};
+
+exports.range = range;
+exports.rotate = rotate;
+exports.compact = compact;
+exports.sort = sort;
+exports.unique = unique;
+exports.shuffle = shuffle;
+exports.permutations = permutations;
+</code></pre>
+        </article>
+    </section>
 
 
 
