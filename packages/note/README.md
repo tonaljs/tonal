@@ -26,12 +26,12 @@ Tonal.Note.midi(&quot;d4&quot;) // => 62</code></pre><h2>Install</h2><p><a href=
     - [.midi](#module_Note.midi) ⇒ <code>Number</code>
     - [.freqToMidi](#module_Note.freqToMidi) ⇒ <code>Integer</code>
     - [.from](#module_Note.from)
-    - [.simplify](#module_Note.simplify) ⇒ <code>String</code>
+    - [.simplify](#module_Note.simplify) ⇒ <code>string</code>
     - [.props()](#module_Note.props) ⇒ <code>string</code>
     - [.name()](#module_Note.name) ⇒ <code>string</code>
     - [.midiToFreq(note)](#module_Note.midiToFreq) ⇒ <code>Number</code>
     - [.chroma(note)](#module_Note.chroma) ⇒ <code>Integer</code>
-    - [.altToAcc(props, [baseNote])](#module_Note.altToAcc) ⇒ <code>String</code>
+    - [.altToAcc(props, [baseNote])](#module_Note.altToAcc) ⇒ <code>string</code>
     - [.build(midi, useSharps)](#module_Note.build) ⇒ <code>string</code>
   - _inner_
     - [~props](#module_Note..props) ⇒ <code>Object</code>
@@ -40,8 +40,8 @@ Tonal.Note.midi(&quot;d4&quot;) // => 62</code></pre><h2>Install</h2><p><a href=
     - [~midi(note)](#module_Note..midi) ⇒ <code>Integer</code>
     - [~freqToMidi(frequency)](#module_Note..freqToMidi) ⇒ <code>Number</code>
     - [~stepToLetter(step)](#module_Note..stepToLetter) ⇒ <code>string</code>
-    - [~altToAcc(alt)](#module_Note..altToAcc) ⇒ <code>String</code>
-    - [~simplify(note, useSameAccType)](#module_Note..simplify) ⇒ <code>String</code>
+    - [~altToAcc(alt)](#module_Note..altToAcc) ⇒ <code>string</code>
+    - [~simplify(note, useSameAccType)](#module_Note..simplify) ⇒ <code>string</code>
 
 <a name="module_Note.midi"></a>
 
@@ -49,7 +49,7 @@ Tonal.Note.midi(&quot;d4&quot;) // => 62</code></pre><h2>Install</h2><p><a href=
 
 <p>Get the frequency from midi number</p>
 
-**Kind**: static property of [<code>Note</code>](#module_Note)
+**Kind**: static property of [<code>Note</code>](#module_Note)  
 **Returns**: <code>Number</code> - <p>the frequency or null if not valid note midi</p>
 
 | Param  | Type                | Description                      |
@@ -64,7 +64,7 @@ Tonal.Note.midi(&quot;d4&quot;) // => 62</code></pre><h2>Install</h2><p><a href=
 <p>Return the chroma of a note. The chroma is the numeric equivalent to the
 pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B</p>
 
-**Kind**: static property of [<code>Note</code>](#module_Note)
+**Kind**: static property of [<code>Note</code>](#module_Note)  
 **Returns**: <code>Integer</code> - <p>the chroma number</p>
 
 | Param | Type                | Description          |
@@ -85,19 +85,19 @@ Note.chroma("Cb") // => 11
 <p>Deprecated. This is kept for backwards compatibility only.
 Use Note.from instead</p>
 
-**Kind**: static property of [<code>Note</code>](#module_Note)
+**Kind**: static property of [<code>Note</code>](#module_Note)  
 <a name="module_Note.simplify"></a>
 
-### Note.simplify ⇒ <code>String</code>
+### Note.simplify ⇒ <code>string</code>
 
 <p>Get the simplified and enhramonic note of the given one.</p>
 
-**Kind**: static property of [<code>Note</code>](#module_Note)
-**Returns**: <code>String</code> - <p>the enhramonic note</p>
+**Kind**: static property of [<code>Note</code>](#module_Note)  
+**Returns**: <code>string</code> - <p>the enhramonic note</p>
 
 | Param | Type                |
 | ----- | ------------------- |
-| note  | <code>String</code> |
+| note  | <code>string</code> |
 
 **Example**
 
@@ -134,7 +134,7 @@ Note.name("cb2") // => "Cb2"
 
 <p>Get pitch class of a note. The note can be a string or a pitch array.</p>
 
-**Kind**: static method of [<code>Note</code>](#module_Note)
+**Kind**: static method of [<code>Note</code>](#module_Note)  
 **Returns**: <code>string</code> - <p>the pitch class</p>
 
 | Param | Type                                      |
@@ -154,7 +154,7 @@ Note.pc("Db3") // => "Db"
 
 <p>Get the frequency of a note</p>
 
-**Kind**: static method of [<code>Note</code>](#module_Note)
+**Kind**: static method of [<code>Note</code>](#module_Note)  
 **Returns**: <code>Number</code> - <p>the frequency</p>
 
 | Param | Type                                       | Description                              |
@@ -174,7 +174,7 @@ Note.freq(69); // => 440
 
 <p>Get the octave of the given pitch</p>
 
-**Kind**: static method of [<code>Note</code>](#module_Note)
+**Kind**: static method of [<code>Note</code>](#module_Note)  
 **Returns**: <code>Integer</code> - <p>the octave or null if doesn&quot;t have an octave or not a valid note</p>
 
 | Param | Type                | Description     |
@@ -191,7 +191,7 @@ Note.oct("blah"); // => undefined
 
 <a name="module_Note.altToAcc"></a>
 
-### Note.altToAcc(props, [baseNote]) ⇒ <code>String</code>
+### Note.altToAcc(props, [baseNote]) ⇒ <code>string</code>
 
 <p>Creates a note name in scientific notation from note properties,
 and optionally another note name.
@@ -205,13 +205,13 @@ It receives an object with:</p>
 received on the first parameter will be taken from that base note. That way it can be used
 as an immutable &quot;set&quot; operator for a that base note</p>
 
-**Kind**: static method of [<code>Note</code>](#module_Note)
-**Returns**: <code>String</code> - <p>the note name in scientific notation or null if not valid properties</p>
+**Kind**: static method of [<code>Note</code>](#module_Note)  
+**Returns**: <code>string</code> - <p>the note name in scientific notation or null if not valid properties</p>
 
 | Param      | Type                | Description                                                                                                     |
 | ---------- | ------------------- | --------------------------------------------------------------------------------------------------------------- |
 | props      | <code>Object</code> | <p>the note properties</p>                                                                                      |
-| [baseNote] | <code>String</code> | <p>note to build the result from. If given, it returns the result of applying the given props to this note.</p> |
+| [baseNote] | <code>string</code> | <p>note to build the result from. If given, it returns the result of applying the given props to this note.</p> |
 
 **Example**
 
@@ -230,7 +230,7 @@ Note.from({ alt: 1, oct: 3 }, "C4"); // => "C#3"
 <p>Given a midi number, returns a note name. The altered notes will have
 flats unless explicitly set with the optional <code>useSharps</code> parameter.</p>
 
-**Kind**: static method of [<code>Note</code>](#module_Note)
+**Kind**: static method of [<code>Note</code>](#module_Note)  
 **Returns**: <code>string</code> - <p>the note name</p>
 
 | Param     | Type                 | Description                                                  |
@@ -268,13 +268,13 @@ Note.fromMidi(61.7); // => "D4"
 not a valid note all properties will be null.</p>
 <p>The returned object can&quot;t be mutated.</p>
 
-**Kind**: inner constant of [<code>Note</code>](#module_Note)
+**Kind**: inner constant of [<code>Note</code>](#module_Note)  
 **Returns**: <code>Object</code> - <p>an object with the properties (or an object will all properties
 set to null if not valid note)</p>
 
 | Param | Type                | Description                                 |
 | ----- | ------------------- | ------------------------------------------- |
-| note  | <code>String</code> | <p>the note name in scientific notation</p> |
+| note  | <code>string</code> | <p>the note name in scientific notation</p> |
 
 **Example**
 
@@ -312,12 +312,12 @@ Note.names(" #"); // => [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", 
 It returns an array of strings <code>[letter, accidental, octave, modifier]</code></p>
 <p>It always returns an array</p>
 
-**Kind**: inner method of [<code>Note</code>](#module_Note)
+**Kind**: inner method of [<code>Note</code>](#module_Note)  
 **Returns**: <code>Array</code> - <p>an array of note tokens</p>
 
 | Param | Type                |
 | ----- | ------------------- |
-| str   | <code>String</code> |
+| str   | <code>string</code> |
 
 **Example**
 
@@ -335,8 +335,8 @@ Note.tokenize(); // => ["", "", "", ""]
 
 <p>Get the note midi number. It always return a number between 0 and 127</p>
 
-**Kind**: inner method of [<code>Note</code>](#module_Note)
-**Returns**: <code>Integer</code> - <p>the midi number or null if not valid pitch</p>
+**Kind**: inner method of [<code>Note</code>](#module_Note)  
+**Returns**: <code>Integer</code> - <p>the midi number or null if not valid pitch</p>  
 **See**: midi.toMidi
 
 | Param | Type                                       | Description                                 |
@@ -377,7 +377,7 @@ Note.freqToMidi(261)); //=> 59.96;
 
 <p>Given a step number return it's letter (0 = C, 1 = D, 2 = E)</p>
 
-**Kind**: inner method of [<code>Note</code>](#module_Note)
+**Kind**: inner method of [<code>Note</code>](#module_Note)  
 **Returns**: <code>string</code> - <p>the letter</p>
 
 | Param | Type                |
@@ -392,7 +392,7 @@ Note.stepToLetter(3); // => "F"
 
 <a name="module_Note..altToAcc"></a>
 
-### Note~altToAcc(alt) ⇒ <code>String</code>
+### Note~altToAcc(alt) ⇒ <code>string</code>
 
 <p>Given an alteration number, return the accidentals</p>
 
@@ -410,16 +410,16 @@ Note.altToAcc(-3); // => "bbb"
 
 <a name="module_Note..simplify"></a>
 
-### Note~simplify(note, useSameAccType) ⇒ <code>String</code>
+### Note~simplify(note, useSameAccType) ⇒ <code>string</code>
 
 <p>Simplify the note: find an enhramonic note with less accidentals.</p>
 
-**Kind**: inner method of [<code>Note</code>](#module_Note)
-**Returns**: <code>String</code> - <p>the simplfiied note or null if not valid note</p>
+**Kind**: inner method of [<code>Note</code>](#module_Note)  
+**Returns**: <code>string</code> - <p>the simplfiied note or null if not valid note</p>
 
 | Param          | Type                 | Description                                                                                                                  |
 | -------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| note           | <code>String</code>  | <p>the note to be simplified</p>                                                                                             |
+| note           | <code>string</code>  | <p>the note to be simplified</p>                                                                                             |
 | useSameAccType | <code>boolean</code> | <p>(optional, true by default) set to true to ensure the returned note has the same accidental types that the given note</p> |
 
 **Example**

@@ -3,8 +3,8 @@
   "recurseDepth": 10,
   "source": {
     "include": ["./README.md", "./packages/", "./extensions"],
-    "includePattern": "index.js$",
-    "excludePattern": "node_modules|build"
+    "includePattern": "es5.js$",
+    "excludePattern": "node_modules"
   },
   "sourceType": "module",
   "tags": {

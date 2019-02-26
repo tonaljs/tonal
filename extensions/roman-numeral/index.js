@@ -15,8 +15,8 @@
  * @example
  * RomanNumeral.names() // => ["I", "II", "III", "IV", "V", "VI", "VII"]
  * RomanNumeral.props('ii7') // => { name: 'ii', type: '7', num: 2, major: false }
- * RomanNumeral.degree(2) // => "II"
- * RomanNumeral.degree(2, false) // => "ii"
+ * RomanNumeral.fromDegree(2) // => "II"
+ * RomanNumeral.fromDegree(2, false) // => "ii"
  * @module RomanNumeral
  */
 

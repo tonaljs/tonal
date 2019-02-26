@@ -71,7 +71,7 @@ set to null if not valid chord name
 
 | Param | Type                | Description                    |
 | ----- | ------------------- | ------------------------------ |
-| name  | <code>String</code> | the chord name (without tonic) |
+| name  | <code>string</code> | the chord name (without tonic) |
 
 <a name="module_Chord.intervals"></a>
 
@@ -84,7 +84,7 @@ Get chord intervals. It always returns an array
 
 | Param | Type                | Description                                  |
 | ----- | ------------------- | -------------------------------------------- |
-| name  | <code>String</code> | the chord name (optionally a tonic and type) |
+| name  | <code>string</code> | the chord name (optionally a tonic and type) |
 
 <a name="module_Chord.notes"></a>
 
@@ -100,8 +100,8 @@ It always returns an array, even if the chord is not found.
 
 | Param       | Type                | Description                                                         |
 | ----------- | ------------------- | ------------------------------------------------------------------- |
-| nameOrTonic | <code>String</code> | name of the chord or the tonic (if the second parameter is present) |
-| [name]      | <code>String</code> | (Optional) name if the first parameter is the tonic                 |
+| nameOrTonic | <code>string</code> | name of the chord or the tonic (if the second parameter is present) |
+| [name]      | <code>string</code> | (Optional) name if the first parameter is the tonic                 |
 
 **Example**
 
@@ -120,7 +120,7 @@ Check if a given name correspond to a chord in the dictionary
 
 | Param | Type                |
 | ----- | ------------------- |
-| name  | <code>String</code> |
+| name  | <code>string</code> |
 
 **Example**
 
@@ -142,7 +142,7 @@ Get all chords names that are a superset of the given one
 
 | Param | Type                |
 | ----- | ------------------- |
-| name  | <code>String</code> |
+| name  | <code>string</code> |
 
 <a name="module_Chord.subsets"></a>
 
@@ -156,7 +156,7 @@ Find all chords names that are a subset of the given one
 
 | Param | Type                |
 | ----- | ------------------- |
-| name  | <code>String</code> |
+| name  | <code>string</code> |
 
 <a name="module_Chord.tokenize"></a>
 
@@ -173,7 +173,7 @@ to split the tonic and chord type.
 
 | Param | Type                | Description    |
 | ----- | ------------------- | -------------- |
-| name  | <code>String</code> | the chord name |
+| name  | <code>string</code> | the chord name |
 
 **Example**
 

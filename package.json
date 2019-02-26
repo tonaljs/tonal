@@ -8,14 +8,15 @@
   "scripts": {
     "init": "lerna clean && lerna bootstrap && npm run build",
     "prebuild": "lerna bootstrap && lerna exec -- mkdir -p build/ && mkdir -p packages/dictionary/build/data && cp packages/dictionary/data/* packages/dictionary/build/data/",
-    "build": "lerna exec -- npm run build && npm run dist && npm run build:readme",
-    "build:readme": "lerna run docs",
-    "dist": "rollup -c ./config/rollup.config.dist.js && cp dist/tonal.min.js packages/tonal/build/transpiled.js",
-    "prepublish": " npm run build && npm run test && npm run dist && npm run docs && cp README.md ./packages/tonal/",
+    "build": "npm run build:packages && npm run build:dist && npm run build:readme",
+    "build:packages": "lerna exec -- npm run build",
+    "build:dist": "rollup -c ./config/rollup.config.dist.js && cp dist/tonal.min.js packages/tonal/build/transpiled.js",
+    "build:readme": "lerna run docs && cp README.md ./packages/tonal/",
     "test": "lerna exec -- npm run test",
     "docs": "npm run build:readme && npm run docs:jsdoc",
     "docs:jsdoc": "jsdoc -c config/jsdoc3.json",
     "docs:publish": "npm run docs && gh-pages -d build/docs",
+    "docs:open": "open build/docs/index.html",
     "tsc": "tsc"
   },
   "husky": {

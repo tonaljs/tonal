@@ -6,6 +6,6 @@
     "lib": ["es2016"],
     "strict": true,
     "declaration": true,
-    "removeComments": true
+    "removeComments": false
   }
 }

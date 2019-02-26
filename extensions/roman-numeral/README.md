@@ -23,17 +23,17 @@ const RomanNumeral = require("tonal-roman-numeral");
 ```js
 RomanNumeral.names(); // => ["I", "II", "III", "IV", "V", "VI", "VII"]
 RomanNumeral.props("ii7"); // => { name: 'ii', type: '7', num: 2, major: false }
-RomanNumeral.degree(2); // => "II"
-RomanNumeral.degree(2, false); // => "ii"
+RomanNumeral.fromDegree(2); // => "II"
+RomanNumeral.fromDegree(2, false); // => "ii"
 ```
 
 - [RomanNumeral](#module_RomanNumeral)
   - [`.props()`](#module_RomanNumeral.props) ⇒ <code>Object</code>
   - [`.names([isMajor])`](#module_RomanNumeral.names) ⇒ <code>Array.&lt;String&gt;</code>
-  - [`.name(name)`](#module_RomanNumeral.name) ⇒ <code>String</code>
-  - [`.type(name)`](#module_RomanNumeral.type) ⇒ <code>String</code>
+  - [`.name(name)`](#module_RomanNumeral.name) ⇒ <code>string</code>
+  - [`.type(name)`](#module_RomanNumeral.type) ⇒ <code>string</code>
   - [`.decimal(name)`](#module_RomanNumeral.decimal) ⇒ <code>number</code>
-  - [`.fromDegree(degree, [isMajor])`](#module_RomanNumeral.fromDegree) ⇒ <code>String</code>
+  - [`.fromDegree(degree, [isMajor])`](#module_RomanNumeral.fromDegree) ⇒ <code>string</code>
 
 <a name="module_RomanNumeral.props"></a>
 
@@ -46,7 +46,7 @@ Get properties of a roman numeral string
 
 | Type                | Description                                           |
 | ------------------- | ----------------------------------------------------- |
-| <code>String</code> | the roman numeral string (can have type, like: Imaj7) |
+| <code>string</code> | the roman numeral string (can have type, like: Imaj7) |
 
 **Example**
 
@@ -75,7 +75,7 @@ names(false); // => ["i", "ii", "iii", "iv", "v", "vi", "vii"]
 
 <a name="module_RomanNumeral.name"></a>
 
-## `RomanNumeral.name(name)` ⇒ <code>String</code>
+## `RomanNumeral.name(name)` ⇒ <code>string</code>
 
 Get roman numeral name of a string or null if not valid roman numeral
 
@@ -83,7 +83,7 @@ Get roman numeral name of a string or null if not valid roman numeral
 
 | Param | Type                |
 | ----- | ------------------- |
-| name  | <code>String</code> |
+| name  | <code>string</code> |
 
 **Example**
 
@@ -95,7 +95,7 @@ name("Ii"); // => null (mixed case not allowed)
 
 <a name="module_RomanNumeral.type"></a>
 
-## `RomanNumeral.type(name)` ⇒ <code>String</code>
+## `RomanNumeral.type(name)` ⇒ <code>string</code>
 
 Get type of a roman numeral
 
@@ -103,7 +103,7 @@ Get type of a roman numeral
 
 | Param | Type                |
 | ----- | ------------------- |
-| name  | <code>String</code> |
+| name  | <code>string</code> |
 
 **Example**
 
@@ -133,12 +133,12 @@ decimal(10); // => null
 
 <a name="module_RomanNumeral.fromDegree"></a>
 
-## `RomanNumeral.fromDegree(degree, [isMajor])` ⇒ <code>String</code>
+## `RomanNumeral.fromDegree(degree, [isMajor])` ⇒ <code>string</code>
 
 Get a roman numeral from a degree number
 
 **Kind**: static method of [<code>RomanNumeral</code>](#module_RomanNumeral)  
-**Returns**: <code>String</code> - the roman numeral
+**Returns**: <code>string</code> - the roman numeral
 
 | Param     | Type                 | Default           |
 | --------- | -------------------- | ----------------- |

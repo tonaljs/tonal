@@ -30,33 +30,33 @@ Interval.simplify(&quot;9m&quot;) // => &quot;2m&quot;</code></pre><h2>Install</
 
 - [Interval](#module_Interval)
   - _static_
-    - [.num(interval)](#module_Interval.num) ⇒ <code>String</code>
+    - [.num(interval)](#module_Interval.num) ⇒ <code>string</code>
     - [.name(ivl)](#module_Interval.name) ⇒ <code>Integer</code>
     - [.semitones(str)](#module_Interval.semitones) ⇒ <code>Number</code>
     - [.chroma(interval)](#module_Interval.chroma) ⇒ <code>Integer</code>
-    - [.ic(props)](#module_Interval.ic) ⇒ <code>String</code>
-    - [.build(interval)](#module_Interval.build) ⇒ <code>String</code>
-    - [.simplify(interval)](#module_Interval.simplify) ⇒ <code>String</code>
+    - [.ic(props)](#module_Interval.ic) ⇒ <code>string</code>
+    - [.build(interval)](#module_Interval.build) ⇒ <code>string</code>
+    - [.simplify(interval)](#module_Interval.simplify) ⇒ <code>string</code>
   - _inner_
     - [~names(qualities)](#module_Interval..names) ⇒ <code>Array</code>
     - [~props(interval)](#module_Interval..props) ⇒ <code>Object</code>
     - [~num(interval)](#module_Interval..num) ⇒ <code>Integer</code>
-    - [~fromSemitones(num)](#module_Interval..fromSemitones) ⇒ <code>String</code>
+    - [~fromSemitones(num)](#module_Interval..fromSemitones) ⇒ <code>string</code>
 
 <a name="module_Interval.num"></a>
 
-### Interval.num(interval) ⇒ <code>String</code>
+### Interval.num(interval) ⇒ <code>string</code>
 
 <p>Get interval name. Can be used to test if it&quot;s an interval. It accepts intervals
 as pitch or string in shorthand notation or tonal notation. It returns always
 intervals in tonal notation.</p>
 
 **Kind**: static method of [<code>Interval</code>](#module_Interval)  
-**Returns**: <code>String</code> - <p>the interval name or null if not valid interval</p>
+**Returns**: <code>string</code> - <p>the interval name or null if not valid interval</p>
 
 | Param    | Type                | Description                         |
 | -------- | ------------------- | ----------------------------------- |
-| interval | <code>String</code> | <p>the interval string or array</p> |
+| interval | <code>string</code> | <p>the interval string or array</p> |
 
 **Example**
 
@@ -76,7 +76,7 @@ Interval.name("3"); // => null
 
 | Param | Type                |
 | ----- | ------------------- |
-| ivl   | <code>String</code> |
+| ivl   | <code>string</code> |
 
 **Example**
 
@@ -98,7 +98,7 @@ that represents the position within an octave (pitch set)</p>
 
 | Param | Type                |
 | ----- | ------------------- |
-| str   | <code>String</code> |
+| str   | <code>string</code> |
 
 <a name="module_Interval.chroma"></a>
 
@@ -127,7 +127,7 @@ Interval.ic(10) // => 2
 
 <a name="module_Interval.ic"></a>
 
-### Interval.ic(props) ⇒ <code>String</code>
+### Interval.ic(props) ⇒ <code>string</code>
 
 <p>Given a interval property object, get the interval name</p>
 <p>The properties must contain a <code>num</code> <em>or</em> <code>step</code>, and <code>alt</code>:</p>
@@ -140,7 +140,7 @@ Interval.ic(10) // => 2
 </ul>
 
 **Kind**: static method of [<code>Interval</code>](#module_Interval)  
-**Returns**: <code>String</code> - <p>the interval name</p>
+**Returns**: <code>string</code> - <p>the interval name</p>
 
 | Param | Type                | Description                         |
 | ----- | ------------------- | ----------------------------------- |
@@ -155,16 +155,16 @@ Interval.build({ num: 9, alt: -1 }); // => "9m"
 
 <a name="module_Interval.build"></a>
 
-### Interval.build(interval) ⇒ <code>String</code>
+### Interval.build(interval) ⇒ <code>string</code>
 
 <p>Get the simplified version of an interval.</p>
 
 **Kind**: static method of [<code>Interval</code>](#module_Interval)  
-**Returns**: <code>String</code> - <p>the simplified interval</p>
+**Returns**: <code>string</code> - <p>the simplified interval</p>
 
 | Param    | Type                | Description                     |
 | -------- | ------------------- | ------------------------------- |
-| interval | <code>String</code> | <p>the interval to simplify</p> |
+| interval | <code>string</code> | <p>the interval to simplify</p> |
 
 **Example**
 
@@ -180,17 +180,17 @@ Interval.simplify("-2M"); // => "7m"
 
 <a name="module_Interval.simplify"></a>
 
-### Interval.simplify(interval) ⇒ <code>String</code>
+### Interval.simplify(interval) ⇒ <code>string</code>
 
 <p>Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
 of an interval.</p>
 
 **Kind**: static method of [<code>Interval</code>](#module_Interval)  
-**Returns**: <code>String</code> - <p>the inverted interval</p>
+**Returns**: <code>string</code> - <p>the inverted interval</p>
 
 | Param    | Type                | Description                                                                             |
 | -------- | ------------------- | --------------------------------------------------------------------------------------- |
-| interval | <code>String</code> | <p>the interval to invert in interval shorthand notation or interval array notation</p> |
+| interval | <code>string</code> | <p>the interval to invert in interval shorthand notation or interval array notation</p> |
 
 **Example**
 
@@ -210,7 +210,7 @@ Interval.invert("2M"); // => "7m"
 
 | Param     | Type                | Description                                                |
 | --------- | ------------------- | ---------------------------------------------------------- |
-| qualities | <code>String</code> | <p>(Optional, default &quot;PMm&quot;) the valid types</p> |
+| qualities | <code>string</code> | <p>(Optional, default &quot;PMm&quot;) the valid types</p> |
 
 **Example**
 
@@ -246,7 +246,7 @@ Interval.names("d"); // => []
 
 | Param    | Type                | Description         |
 | -------- | ------------------- | ------------------- |
-| interval | <code>String</code> | <p>the interval</p> |
+| interval | <code>string</code> | <p>the interval</p> |
 
 <a name="module_Interval..num"></a>
 
@@ -258,7 +258,7 @@ Interval.names("d"); // => []
 
 | Param    | Type                | Description         |
 | -------- | ------------------- | ------------------- |
-| interval | <code>String</code> | <p>the interval</p> |
+| interval | <code>string</code> | <p>the interval</p> |
 
 **Example**
 
@@ -270,13 +270,13 @@ Interval.num("P-4"); // => -4
 
 <a name="module_Interval..fromSemitones"></a>
 
-### Interval~fromSemitones(num) ⇒ <code>String</code>
+### Interval~fromSemitones(num) ⇒ <code>string</code>
 
 <p>Get interval name from semitones number. Since there are several interval
 names for the same number, the name it&quot;s arbitraty, but deterministic.</p>
 
 **Kind**: inner method of [<code>Interval</code>](#module_Interval)  
-**Returns**: <code>String</code> - <p>the interval name</p>
+**Returns**: <code>string</code> - <p>the interval name</p>
 
 | Param | Type                 | Description                                      |
 | ----- | -------------------- | ------------------------------------------------ |
