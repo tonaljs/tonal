@@ -13,16 +13,16 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 
 ```js
 // es6
-import * as Key from "tonal-key";
+import * as Key from 'tonal-key';
 // es5
-const Key = require("tonal-key");
+const Key = require('tonal-key');
 ```
 
 **Example**
 
 ```js
-Key.scale("E mixolydian"); // => [ "E", "F#", "G#", "A", "B", "C#", "D" ]
-Key.relative("minor", "C major"); // => "A minor"
+Key.scale('E mixolydian'); // => [ "E", "F#", "G#", "A", "B", "C#", "D" ]
+Key.relative('minor', 'C major'); // => "A minor"
 ```
 
 - [Key](#module_Key)
@@ -124,7 +124,7 @@ Return the a key properties object with the following information:
 **Example**
 
 ```js
-Key.props("C3 dorian"); // => { tonic: "C", mode: "dorian", ... }
+Key.props('C3 dorian'); // => { tonic: "C", mode: "dorian", ... }
 ```
 
 <a name="module_Key.scale"></a>
@@ -143,10 +143,10 @@ Get scale of a key
 **Example**
 
 ```js
-Key.scale("A major"); // => [ "A", "B", "C#", "D", "E", "F#", "G#" ]
-Key.scale("Bb minor"); // => [ "Bb", "C", "Db", "Eb", "F", "Gb", "Ab" ]
-Key.scale("C dorian"); // => [ "C", "D", "Eb", "F", "G", "A", "Bb" ]
-Key.scale("E mixolydian"); // => [ "E", "F#", "G#", "A", "B", "C#", "D" ]
+Key.scale('A major'); // => [ "A", "B", "C#", "D", "E", "F#", "G#" ]
+Key.scale('Bb minor'); // => [ "Bb", "C", "Db", "Eb", "F", "Gb", "Ab" ]
+Key.scale('C dorian'); // => [ "C", "D", "Eb", "F", "G", "A", "Bb" ]
+Key.scale('E mixolydian'); // => [ "E", "F#", "G#", "A", "B", "C#", "D" ]
 ```
 
 <a name="module_Key.alteredNotes"></a>
@@ -165,7 +165,7 @@ the same order than in the key signature.
 **Example**
 
 ```js
-Key.alteredNotes("Eb major"); // => [ "Bb", "Eb", "Ab" ]
+Key.alteredNotes('Eb major'); // => [ "Bb", "Eb", "Ab" ]
 ```
 
 <a name="module_Key.leadsheetSymbols"></a>
@@ -202,9 +202,9 @@ That letter is followed by information about a chord’s quality:
 **Example**
 
 ```js
-const chords = Key.leadsheetSymbols(["M", "m", "m", "M", "7", "m", "dim"]);
-chords("D dorian"); //=> ["Dm", "Em", "FM", "G7", "Am", "Bdim", "CM"]
-chords("D dorian", ["ii", "V"]); //=> [Em", "G7"]
+const chords = Key.leadsheetSymbols(['M', 'm', 'm', 'M', '7', 'm', 'dim']);
+chords('D dorian'); //=> ["Dm", "Em", "FM", "G7", "Am", "Bdim", "CM"]
+chords('D dorian', ['ii', 'V']); //=> [Em", "G7"]
 ```
 
 <a name="module_Key.chords"></a>
@@ -224,9 +224,9 @@ Get key seventh chords
 **Example**
 
 ```js
-Key.chords("A major"); // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
-Key.chords("A major", ["I", "IV", "V"]); // => ["AMaj7", "DMaj7", "E7"]
-Key.chords("A major", [5, 4, 1]); // => ["E7", "DMaj7", AMaj7"]
+Key.chords('A major'); // => ["AMaj7", "Bm7", "C#m7", "DMaj7", ..,]
+Key.chords('A major', ['I', 'IV', 'V']); // => ["AMaj7", "DMaj7", "E7"]
+Key.chords('A major', [5, 4, 1]); // => ["E7", "DMaj7", AMaj7"]
 ```
 
 <a name="module_Key.triads"></a>
@@ -246,9 +246,9 @@ Get key triads
 **Example**
 
 ```js
-Key.triads("A major"); // => ["AM", "Bm", "C#m", "DM", "E7", "F#m", "G#mb5"]
-Key.triads("A major", ["I", "IV", "V"]); // => ["AMaj7", "DMaj7", "E7"]
-Key.triads("A major", [1, 4, 5]); // => ["AMaj7", "DMaj7", "E7"]
+Key.triads('A major'); // => ["AM", "Bm", "C#m", "DM", "E7", "F#m", "G#mb5"]
+Key.triads('A major', ['I', 'IV', 'V']); // => ["AMaj7", "DMaj7", "E7"]
+Key.triads('A major', [1, 4, 5]); // => ["AMaj7", "DMaj7", "E7"]
 ```
 
 <a name="module_Key.secDomChords"></a>
@@ -266,7 +266,7 @@ Get secondary dominant key chords
 **Example**
 
 ```js
-Key.secDomChords("A major"); // => ["E7", "F#7", ...]
+Key.secDomChords('A major'); // => ["E7", "F#7", ...]
 ```
 
 <a name="module_Key.relative"></a>
@@ -288,11 +288,11 @@ It can be partially applied.
 **Example**
 
 ```js
-Key.relative("dorian", "B major"); // => "C# dorian"
+Key.relative('dorian', 'B major'); // => "C# dorian"
 // partial application
-var minor = Key.relative("minor");
-minor("C major"); // => "A minor"
-minor("E major"); // => "C# minor"
+var minor = Key.relative('minor');
+minor('C major'); // => "A minor"
+minor('E major'); // => "C# minor"
 ```
 
 <a name="module_Key.tokenize"></a>
@@ -311,5 +311,5 @@ Split the key name into its components (pitch class tonic and mode name)
 **Example**
 
 ```js
-Key.tokenize("C major"); // => ["C", "major"]
+Key.tokenize('C major'); // => ["C", "major"]
 ```

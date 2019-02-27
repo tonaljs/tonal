@@ -12,9 +12,9 @@ This module provides functions to get and manipulate scales.
 
 ```js
 // es6
-import * as Scale from "tonal-scale";
+import * as Scale from 'tonal-scale';
 // es5
-const Scale = require("tonal-scale");
+const Scale = require('tonal-scale');
 ```
 
 **Example**
@@ -94,7 +94,7 @@ array if no scale found
 **Example**
 
 ```js
-Scale.intervals("major"); // => [ "1P", "2M", "3M", "4P", "5P", "6M", "7M" ]
+Scale.intervals('major'); // => [ "1P", "2M", "3M", "4P", "5P", "6M", "7M" ]
 ```
 
 <a name="module_Scale.notes"></a>
@@ -117,11 +117,11 @@ Note that it always returns an array, and the values are only pitch classes.
 **Example**
 
 ```js
-Scale.notes("C", "major"); // => [ "C", "D", "E", "F", "G", "A", "B" ]
-Scale.notes("C major"); // => [ "C", "D", "E", "F", "G", "A", "B" ]
-Scale.notes("C4", "major"); // => [ "C", "D", "E", "F", "G", "A", "B" ]
-Scale.notes("A4", "no-scale"); // => []
-Scale.notes("blah", "major"); // => []
+Scale.notes('C', 'major'); // => [ "C", "D", "E", "F", "G", "A", "B" ]
+Scale.notes('C major'); // => [ "C", "D", "E", "F", "G", "A", "B" ]
+Scale.notes('C4', 'major'); // => [ "C", "D", "E", "F", "G", "A", "B" ]
+Scale.notes('A4', 'no-scale'); // => []
+Scale.notes('blah', 'major'); // => []
 ```
 
 <a name="module_Scale.exists"></a>
@@ -157,8 +157,8 @@ note name or null and name can be any arbitrary string
 **Example**
 
 ```js
-Scale.tokenize("C mixolydean"); // => ["C", "mixolydean"]
-Scale.tokenize("anything is valid"); // => ["", "anything is valid"]
+Scale.tokenize('C mixolydean'); // => ["C", "mixolydean"]
+Scale.tokenize('anything is valid'); // => ["", "anything is valid"]
 Scale.tokenize(); // => ["", ""]
 ```
 
@@ -202,7 +202,7 @@ Get all chords that fits a given scale
 **Example**
 
 ```js
-Scale.chords("pentatonic"); // => ["5", "64", "M", "M6", "Madd9", "Msus2"]
+Scale.chords('pentatonic'); // => ["5", "64", "M", "M6", "Madd9", "Msus2"]
 ```
 
 <a name="module_Scale.toScale"></a>
@@ -221,8 +221,8 @@ the first note of the array
 **Example**
 
 ```js
-Scale.toScale(["C4", "c3", "C5", "C4", "c4"]); // => ["C"]
-Scale.toScale(["D4", "c#5", "A5", "F#6"]); // => ["D", "F#", "A", "C#"]
+Scale.toScale(['C4', 'c3', 'C5', 'C4', 'c4']); // => ["C"]
+Scale.toScale(['D4', 'c#5', 'A5', 'F#6']); // => ["D", "F#", "A", "C#"]
 ```
 
 <a name="module_Scale.supersets"></a>
@@ -242,7 +242,7 @@ Get all scales names that are a superset of the given one
 **Example**
 
 ```js
-Scale.supersets("major"); // => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]
+Scale.supersets('major'); // => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]
 ```
 
 <a name="module_Scale.subsets"></a>
@@ -262,5 +262,5 @@ Find all scales names that are a subset of the given one
 **Example**
 
 ```js
-Scale.subsets("major"); // => ["ionian pentatonic", "major pentatonic", "ritusen"]
+Scale.subsets('major'); // => ["ionian pentatonic", "major pentatonic", "ritusen"]
 ```
