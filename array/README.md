@@ -9,30 +9,20 @@ create ranges with notes or numbers and
 
 ## Usage
 
-**Example**
-
 ```js
-// ES6 modules
+// ES6 modules (babel, webpack, ...)
 import * as Array from "tonal/array";
 Array.sort(["f", "a", "c"]);
-```
 
-**Example**
-
-```js
 // CommonJS modules (node)
 const { Array } = require("tonal");
 Array.range(1, 4);
+
+// Browser
+Tonal.Array.range(1, 4);
 ```
-
-**Example**
-
-```js
-// browser
-Tonal.Array.range(1, 4)
 
 ## API
-```
 
 - [Array](#module_Array)
   - [`.permutations`](#module_Array.permutations) ⇒ <code>Array.&lt;Array&gt;</code>

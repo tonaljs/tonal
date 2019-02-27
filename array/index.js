@@ -6,19 +6,18 @@
  *
  * ## Usage
  *
- * @example
- * // ES6 modules
+ * ```js
+ * // ES6 modules (babel, webpack, ...)
  * import * as Array from 'tonal/array';
  * Array.sort(["f", "a", "c"])
  *
- * @example
  * // CommonJS modules (node)
  * const { Array } = require("tonal")
  * Array.range(1, 4)
  *
- * @example
- * // browser
+ * // Browser
  * Tonal.Array.range(1, 4)
+ * ```
  *
  * ## API
  *
