@@ -127,7 +127,7 @@ Browser (use the `Tonal` global object):
 
 ```html
 <script>
-  console.log(Tonal.transpose('C4', '8P'))
+  console.log(Tonal.transpose("C4", "8P"));
 </script>
 ```
 

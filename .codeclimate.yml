@@ -4,9 +4,6 @@ languages:
 engines:
   eslint:
     enabled: true
-    
+
 exclude_paths:
-- "docs/**"
-- "test/**/*"
 - "build/*"
-- "dist/*"
