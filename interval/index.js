@@ -51,7 +51,7 @@ const NAMES = "1P 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P".split(" ");
 
 /**
  * List basic (perfect, major, minor) interval names within a octave
- * @param {String} qualities - (Optional, default "PMm") the valid types
+ * @param {string} qualities - (Optional, default "PMm") the valid types
  * @return {Array} the interval names
  * @example
  * Interval.names() // => [ "1P", "2m", "2M", "3m", "3M", "4P", "5P", "6m", "6M", "7m", "7M", "8P" ]
@@ -139,7 +139,7 @@ const cache = {};
  * - ic: the interval class
  *
  * @function
- * @param {String} interval - the interval
+ * @param {string} interval - the interval
  * @return {Object} the interval in the form [number, alt]
  */
 export function props(str) {
@@ -151,7 +151,7 @@ export function props(str) {
  * Get the number of the interval
  *
  * @function
- * @param {String} interval - the interval
+ * @param {string} interval - the interval
  * @return {Integer}
  * @example
  * Interval.num("m2") // => 2
@@ -166,8 +166,8 @@ export const num = str => props(str).num;
  * intervals in tonal notation.
  *
  * @function
- * @param {String} interval - the interval string or array
- * @return {String} the interval name or null if not valid interval
+ * @param {string} interval - the interval string or array
+ * @return {string} the interval name or null if not valid interval
  * @example
  * Interval.name("m-3") // => "-3m"
  * Interval.name("3") // => null
@@ -178,7 +178,7 @@ export const name = str => props(str).name;
  * Get size in semitones of an interval
  *
  * @function
- * @param {String} ivl
+ * @param {string} ivl
  * @return {Integer} the number of semitones or null if not an interval
  * @example
  * import { semitones } from "tonal-interval"
@@ -193,8 +193,8 @@ export const semitones = str => props(str).semitones;
  * that represents the position within an octave (pitch set)
  *
  * @function
- * @param {String} str
- * @return {Number}
+ * @param {string} str
+ * @return {number}
  */
 export const chroma = str => props(str).chroma;
 
@@ -234,7 +234,7 @@ export const ic = ivl => {
  * @function
  * @param {Object} props - the interval property object
  *
- * @return {String} the interval name
+ * @return {string} the interval name
  * @example
  * Interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
  * Interval.build({ num: 9, alt: -1 }) // => "9m"
@@ -252,8 +252,8 @@ export const build = ({ num, step, alt, oct = 1, dir } = {}) => {
  * Get the simplified version of an interval.
  *
  * @function
- * @param {String} interval - the interval to simplify
- * @return {String} the simplified interval
+ * @param {string} interval - the interval to simplify
+ * @return {string} the simplified interval
  *
  * @example
  * Interval.simplify("9M") // => "2M"
@@ -273,9 +273,9 @@ export const simplify = str => {
  * of an interval.
  *
  * @function
- * @param {String} interval - the interval to invert in interval shorthand
+ * @param {string} interval - the interval to invert in interval shorthand
  * notation or interval array notation
- * @return {String} the inverted interval
+ * @return {string} the inverted interval
  *
  * @example
  * Interval.invert("3m") // => "6M"
@@ -300,7 +300,7 @@ var IQ = "P m M m M P d P m M m M".split(" ");
  *
  * @function
  * @param {Integer} num - the number of semitones (can be negative)
- * @return {String} the interval name
+ * @return {string} the interval name
  * @example
  * import { fromSemitones } from "tonal-interval"
  * fromSemitones(7) // => "5P"

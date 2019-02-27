@@ -102,11 +102,11 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
  * - name {string}: name
  * - tonic {string}: key tonic
  * - mode {string}: key mode
- * - modenum {Number}: mode number (0 major, 1 dorian, ...)
+ * - modenum {number}: mode number (0 major, 1 dorian, ...)
  * - intervals {Array}: the scale intervals
  * - scale {Array}: the scale notes
  * - acc {string}: accidentals of the key signature
- * - alt {Number}: alteration number (a numeric representation of accidentals)
+ * - alt {number}: alteration number (a numeric representation of accidentals)
  *
  * @function
  * @param {string} name - the key name

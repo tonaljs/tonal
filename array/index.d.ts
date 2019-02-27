@@ -2,8 +2,8 @@ type Note = string;
 /**
  * Create a numeric range
  *
- * @param {Number} from
- * @param {Number} to
+ * @param {number} from
+ * @param {number} to
  * @return {Array}
  *
  * @example

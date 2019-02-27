@@ -1,13 +1,15 @@
 {
   "name": "tonal",
   "description": "A functional music theory library",
-  "version": "@next",
+  "version": "3.0.0-alpha0",
   "private": true,
   "module": "tonal/index.js",
   "main": "build/dist/tonal.min.js",
   "types": "tonal/index.d.ts",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "npm run build:readme",
+    "build:readme": "ls -d */index.js | cut -d'/' -f1 | xargs -I {} bash -c \"jsdoc2md -d 1 --name-format --member-index-format list '{}'/index.js > '{}'/README.md\""
   },
   "husky": {
     "hooks": {

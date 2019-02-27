@@ -63,7 +63,7 @@ const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
  *
  * It always returns an array
  *
- * @param {String} str
+ * @param {string} str
  * @return {Array} an array of note tokens
  * @example
  * Note.tokenize("C#2") // => ["C", "#", "2", ""]
@@ -113,23 +113,23 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
 /**
  * Get note properties. It returns an object with the following information:
  *
- * - name {String}: the note name. The letter is always in uppercase
- * - letter {String}: the note letter, always in uppercase
- * - acc {String}: the note accidentals
- * - octave {Number}: the octave or null if not present
- * - pc {String}: the pitch class (letter + accidentals)
- * - step {Number}: number equivalent of the note letter. 0 means C ... 6 means B.
- * - alt {Number}: number equivalent of accidentals (negative are flats, positive sharps)
- * - chroma {Number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
- * - midi {Number}: the note midi number (IMPORTANT! it can be outside 0 to 127 range)
- * - freq {Number}: the frequency using an equal temperament at 440Hz
+ * - name {string}: the note name. The letter is always in uppercase
+ * - letter {string}: the note letter, always in uppercase
+ * - acc {string}: the note accidentals
+ * - octave {number}: the octave or null if not present
+ * - pc {string}: the pitch class (letter + accidentals)
+ * - step {number}: number equivalent of the note letter. 0 means C ... 6 means B.
+ * - alt {number}: number equivalent of accidentals (negative are flats, positive sharps)
+ * - chroma {number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
+ * - midi {number}: the note midi number (IMPORTANT! it can be outside 0 to 127 range)
+ * - freq {number}: the frequency using an equal temperament at 440Hz
  *
  * This function *always* returns an object with all this properties, but if it"s
  * not a valid note all properties will be null.
  *
  * The returned object can"t be mutated.
  *
- * @param {String} note - the note name in scientific notation
+ * @param {string} note - the note name in scientific notation
  * @return {Object} an object with the properties (or an object will all properties
  * set to null if not valid note)
  * @example
@@ -193,9 +193,9 @@ export const midi = note => {
 /**
  * Get the frequency from midi number
  *
- * @param {Number} midi - the note midi number
- * @param {Number} tuning - (Optional) 440 by default
- * @return {Number} the frequency or null if not valid note midi
+ * @param {number} midi - the note midi number
+ * @param {number} tuning - (Optional) 440 by default
+ * @return {number} the frequency or null if not valid note midi
  */
 export const midiToFreq = (midi, tuning = 440) =>
   typeof midi === "number" ? Math.pow(2, (midi - 69) / 12) * tuning : null;
@@ -205,7 +205,7 @@ export const midiToFreq = (midi, tuning = 440) =>
  *
  * @function
  * @param {string|Number} note - the note name or midi note number
- * @return {Number} the frequency
+ * @return {number} the frequency
  * @example
  * Note.freq("A4") // => 440
  * Note.freq(69) // => 440
@@ -218,8 +218,8 @@ const L440 = Math.log(440);
  * Get the midi number from a frequency in hertz. The midi number can
  * contain decimals (with two digits precission)
  *
- * @param {Number} frequency
- * @return {Number}
+ * @param {number} frequency
+ * @return {number}
  * @example
  * Note.freqToMidi(220)); //=> 57;
  * Note.freqToMidi(261.62)); //=> 60;
@@ -270,8 +270,8 @@ const numToStr = (num, op) => (typeof num !== "number" ? "" : op(num));
 
 /**
  * Given an alteration number, return the accidentals
- * @param {Number} alt
- * @return {String}
+ * @param {number} alt
+ * @return {string}
  * @example
  * Note.altToAcc(-3) // => "bbb"
  */
@@ -292,9 +292,9 @@ export const altToAcc = alt =>
  *
  * @function
  * @param {Object} props - the note properties
- * @param {String} [baseNote] - note to build the result from. If given, it returns
+ * @param {string} [baseNote] - note to build the result from. If given, it returns
  * the result of applying the given props to this note.
- * @return {String} the note name in scientific notation or null if not valid properties
+ * @return {string} the note name in scientific notation or null if not valid properties
  * @example
  * Note.from({ step: 5 }) // => "A"
  * Note.from({ step: 1, acc: -1 }) // => "Db"
@@ -343,10 +343,10 @@ export function fromMidi(num, sharps) {
 /**
  * Simplify the note: find an enhramonic note with less accidentals.
  *
- * @param {String} note - the note to be simplified
+ * @param {string} note - the note to be simplified
  * @param {boolean} useSameAccType - (optional, true by default) set to true
  * to ensure the returned note has the same accidental types that the given note
- * @return {String} the simplfiied note or null if not valid note
+ * @return {string} the simplfiied note or null if not valid note
  * @example
  * Note.simplify("C##") // => "D"
  * Note.simplify("C###") // => "D#"
@@ -365,8 +365,8 @@ export const simplify = (note, sameAcc) => {
 /**
  * Get the simplified and enhramonic note of the given one.
  *
- * @param {String} note
- * @return {String} the enhramonic note
+ * @param {string} note
+ * @return {string} the enhramonic note
  * @example
  * Note.enharmonic("Db") // => "C#"
  * Note.enhramonic("C") // => "C"

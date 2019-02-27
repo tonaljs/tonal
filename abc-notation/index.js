@@ -1,19 +1,22 @@
 /**
- * [![npm version](https://img.shields.io/npm/v/tonal-abc-notation.svg?style=flat-square)](https://www.npmjs.com/package/tonal-abc-notation)
- *
  * Convert note strings between ABC and scientific notation
  *
  * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
  *
  * @example
- * const Abc = require("tonal-abc-notation")
- * Abc.toNote("c") // => "C5"
- * Abc.toAbc("Db2") // =>  "_D,,"
+ * const Tonal = require('tonal')
+ * Tonal.Abc.toNote("c") // => "C5"
+ * Tonal.Abc.toAbc("Db2") // =>  "_D,,"
  *
  * @example
- * import Tonal from "tonal"
- * import { toAbc } from "tonal-abc-notation"
- * Tonal.Scale.notes("C major").map(toAbc);
+ * const { Abc } = require('tonal')
+ * const Abc = require('tonal/abc-notation')
+ * const { toAbc }= require('tonal/abc-notation')
+ *
+ * @example
+ * import { Abc } from 'tonal'
+ * import * as Abc from "tonal/abc-notation"
+ * import { toAbc } from "tonal/abc-notation"
  *
  * @module Abc
  */
@@ -31,8 +34,10 @@ export function tokenize(str) {
 /**
  * Convert a (string) note in ABC notation into a (string) note in scientific notation
  *
+ * @function
  * @param {string} abcNote - the note in ABC notation
  * @return {string} the note in scientific notation of null if not valid
+ *
  * @example
  * Abc.toNote("c") // => "C5"
  */
@@ -55,10 +60,12 @@ export function toNote(str) {
 /**
  * Convert a (string) note in scientific notation into a (string) note in ABC notation
  *
+ * @function
  * @param {string} note - a note in scientific notation
  * @return {string} the note in ABC notation or null if not valid note
+ *
  * @example
- * abc.toAbc("C#4") // => "^C"
+ * Abc.toAbc("C#4") // => "^C"
  */
 export function toAbc(str) {
   const { letter, acc, oct } = props(str);

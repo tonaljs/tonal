@@ -1,15 +1,26 @@
 /**
- * [![npm version](https://img.shields.io/npm/v/tonal-array.svg?style=flat-square)](https://www.npmjs.com/package/tonal-array)
+ * [![tonal](https://img.shields.io/badge/tonal-array-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
  *
- * Tonal array utilities. Create ranges, sort notes, ...
+ * Tonal array utilities. Sort notes by pitch, remove duplicates,
+ * create ranges with notes or numbers and
+ *
+ * ## Usage
  *
  * @example
- * import * as Array;
- * Array.sort(["f", "a", "c"]) // => ["C", "F", "A"]
+ * // ES6 modules
+ * import * as Array from 'tonal/array';
+ * Array.sort(["f", "a", "c"])
  *
  * @example
- * const Array = require("tonal-array")
- * Array.range(1, 4) // => [1, 2, 3, 4]
+ * // CommonJS modules (node)
+ * const { Array } = require("tonal")
+ * Array.range(1, 4)
+ *
+ * @example
+ * // browser
+ * Tonal.Array.range(1, 4)
+ *
+ * ## API
  *
  * @module Array
  */
@@ -29,9 +40,9 @@ function descR(b, n) {
 /**
  * Create a numeric range
  *
- * @param {Number} from
- * @param {Number} to
- * @return {Array}
+ * @param {number} from
+ * @param {number} to
+ * @return {Array<number>}
  *
  * @example
  * Array.range(-2, 2) // => [-2, -1, 0, 1, 2]
@@ -44,6 +55,7 @@ export function range(a, b) {
     ? ascR(a, b - a + 1)
     : descR(a, a - b + 1);
 }
+
 /**
  *
  * Rotates a list a number of times. It"s completly agnostic about the
@@ -52,6 +64,7 @@ export function range(a, b) {
  * @param {Integer} times - the number of rotations
  * @param {Array} array
  * @return {Array} the rotated array
+ *
  * @example
  * Array.rotate(1, [1, 2, 3]) // => [2, 3, 1]
  */
@@ -79,20 +92,33 @@ const height = name => {
 };
 
 /**
- * Sort an array of notes in ascending order
+ * Sort an array of notes in ascending order. Pitch classes are listed
+ * before notes. Any string that is not a note is removed.
  *
- * @param {String|Array} notes
- * @return {Array} sorted array of notes
+ * @param {Array<string>} notes
+ * @return {Array<string>} sorted array of notes
+ *
+ * @example
+ * Array.sort(['c2', 'c5', 'c1', 'c0', 'c6', 'c'])
+ * // => ['C', 'C0', 'C1', 'C2', 'C5', 'C6']
+ * Array.sort(['c', 'F', 'G', 'a', 'b', 'h', 'J'])
+ * // => ['C', 'F', 'G', 'A', 'B']
  */
 export function sort(src) {
   return compact(src.map(name)).sort((a, b) => height(a) > height(b));
 }
 
 /**
- * Get sorted notes with duplicates removed
+ * Get sorted notes with duplicates removed. Pitch classes are listed
+ * before notes.
  *
  * @function
- * @param {Array} notes
+ * @param {Array<string>} array
+ * @return {Array<string>} unique sorted notes
+ *
+ * @example
+ * Array.unique(['a', 'b', 'c2', '1p', 'p2', 'c2', 'b', 'c', 'c3' ])
+ * // => [ 'C', 'A', 'B', 'C2', 'C3' ]
  */
 export function unique(arr) {
   return sort(arr).filter((n, i, a) => i === 0 || n !== a[i - 1]);
@@ -101,13 +127,12 @@ export function unique(arr) {
 /**
  * Randomizes the order of the specified array in-place, using the Fisher–Yates shuffle.
  *
- * @private
  * @function
- * @param {Array|String} arr - the array
- * @return {Array} the shuffled array
+ * @param {Array} array
+ * @return {Array} the array shuffled
  *
  * @example
- * Array.shuffle(["C", "D", "E", "F"])
+ * Array.shuffle(["C", "D", "E", "F"]) // => [...]
  */
 export var shuffle = (arr, rnd = Math.random) => {
   var i, t;
@@ -127,6 +152,17 @@ export var shuffle = (arr, rnd = Math.random) => {
  *
  * @param {Array} array - the array
  * @return {Array<Array>} an array with all the permutations
+ * @example
+ * Array.permutations(["a", "b", "c"])) // =>
+ * [
+ *   ["a", "b", "c"],
+ *   ["b", "a", "c"],
+ *   ["b", "c", "a"],
+ *   ["a", "c", "b"],
+ *   ["c", "a", "b"],
+ *   ["c", "b", "a"]
+ * ]
+ *
  */
 export const permutations = arr => {
   if (arr.length === 0) return [[]];
