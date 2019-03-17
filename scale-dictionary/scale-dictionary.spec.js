@@ -1,24 +1,34 @@
-import * as Scale from "./";
+import Scales from "./";
 
-const $ = arr => arr.join(" ");
+const S = str => str.split(" ");
 
-describe("Scale dictionary", () => {
+describe("Scales dictionary", () => {
   it("list names", () => {
-    expect(Scale.names()).toHaveLength(86);
+    expect(Scales.names()).toHaveLength(86);
   });
+
   it("list aliases", () => {
-    expect(Scale.aliases()).toHaveLength(109);
+    expect(Scales.aliases()).toHaveLength(110);
   });
-  it("get alias of a name", () => {
-    expect(Scale.alias("minor blues")).toEqual(["minor blues", "blues"]);
-    expect(Scale.alias("blues")).toEqual(["minor blues", "blues"]);
-    expect(Scale.alias("no scale")).toEqual([]);
+
+  it("get the name from the intervals or chroma", () => {
+    expect(Scales.nameOf(S("1P 2M 3M 4P 5P 6M 7M"))).toEqual("major");
+    expect(Scales.nameOf("101011010101")).toEqual("major");
+    expect(Scales.nameOf("major")).toEqual("major");
+    expect(Scales.nameOf("ionian")).toEqual("major");
   });
+
+  it("get aliases of a chord name", () => {
+    expect(Scales.aliasesOf("minor blues")).toEqual(["minor blues", "blues"]);
+    expect(Scales.aliasesOf("blues")).toEqual(["minor blues", "blues"]);
+    expect(Scales.aliasesOf("no scale")).toEqual([]);
+  });
+
   it("get intervals from name", () => {
-    expect($(Scale.intervals("major"))).toEqual("1P 2M 3M 4P 5P 6M 7M");
-    expect(Scale.intervals("lydian pentatonic")).toEqual(
-      Scale.intervals("chinese")
+    expect(Scales.intervalsOf("major")).toEqual(S("1P 2M 3M 4P 5P 6M 7M"));
+    expect(Scales.intervalsOf("lydian pentatonic")).toEqual(
+      Scales.intervalsOf("chinese")
     );
-    expect(Scale.intervals("no scale")).toEqual([]);
+    expect(Scales.intervalsOf("no scale")).toEqual([]);
   });
 });
