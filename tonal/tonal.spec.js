@@ -6,16 +6,17 @@ describe("Tonal", () => {
       "Abc",
       "Array",
       "Chord",
+      "ChordDictionary",
       "Detect",
-      "Dictionary",
       "Distance",
       "Interval",
       "Key",
       "Note",
-      "PCSet",
+      "PcSet",
       "Range",
       "RomanNumeral",
-      "Scale"
+      "Scale",
+      "ScaleDictionary"
     ]);
   });
 });

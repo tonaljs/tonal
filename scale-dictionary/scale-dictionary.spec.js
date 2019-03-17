@@ -1,6 +1,6 @@
 import Scales from "./";
 
-const S = str => str.split(" ");
+const $ = str => str.split(" ");
 
 describe("Scales dictionary", () => {
   it("list names", () => {
@@ -12,7 +12,7 @@ describe("Scales dictionary", () => {
   });
 
   it("get the name from the intervals or chroma", () => {
-    expect(Scales.nameOf(S("1P 2M 3M 4P 5P 6M 7M"))).toEqual("major");
+    expect(Scales.nameOf($("1P 2M 3M 4P 5P 6M 7M"))).toEqual("major");
     expect(Scales.nameOf("101011010101")).toEqual("major");
     expect(Scales.nameOf("major")).toEqual("major");
     expect(Scales.nameOf("ionian")).toEqual("major");
@@ -25,7 +25,7 @@ describe("Scales dictionary", () => {
   });
 
   it("get intervals from name", () => {
-    expect(Scales.intervalsOf("major")).toEqual(S("1P 2M 3M 4P 5P 6M 7M"));
+    expect(Scales.intervalsOf("major")).toEqual($("1P 2M 3M 4P 5P 6M 7M"));
     expect(Scales.intervalsOf("lydian pentatonic")).toEqual(
       Scales.intervalsOf("chinese")
     );

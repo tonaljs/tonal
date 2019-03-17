@@ -1,4 +1,6 @@
-module.exports = {
+// SCALES
+// Format: "intervals": ["name", "alias1", "alias", ...]
+export default {
   "1P 2M 3M 5P 6M": ["major pentatonic", "pentatonic"],
   "1P 3M 4P 5P 7M": ["ionian pentatonic"],
   "1P 3M 4P 5P 7m": ["mixolydian pentatonic", "indian"],

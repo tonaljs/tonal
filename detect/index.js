@@ -16,11 +16,10 @@
  * @module Detect
  */
 import { name, pc } from "../note";
-import * as Dictionary from "../dictionary";
 import { sort } from "../array";
-import { modes } from "../pcset";
+import { modes } from "../pc-set";
 
-export function detector(dictionary, defaultBuilder) {
+function detector(dictionary, defaultBuilder) {
   defaultBuilder = defaultBuilder || ((tonic, names) => [tonic, names]);
   return function(notes, builder) {
     builder = builder || defaultBuilder;
@@ -43,10 +42,7 @@ export function detector(dictionary, defaultBuilder) {
  * @example
  * Detect.chord(["C", "E", "G", "A"]) // => ["CM6", "Am7"]
  */
-export const chord = detector(
-  Dictionary.chord,
-  (tonic, names) => tonic + names[0]
-);
+export function chord(intervals) {}
 
 /**
  * Given a collection of notes or pitch classes, try to find the scale names
@@ -64,9 +60,4 @@ export const chord = detector(
  * "B locrian"
  * ]
  */
-export const scale = detector(
-  Dictionary.scale,
-  (tonic, names) => tonic + " " + names[0]
-);
-
-export const pcset = detector(Dictionary.pcset);
+export function scale(intervals) {}
