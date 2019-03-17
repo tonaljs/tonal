@@ -1,22 +1,30 @@
 /**
- * [![npm version](https://img.shields.io/npm/v/tonal-chord.svg)](https://www.npmjs.com/package/tonal-chord)
- * [![tonal](https://img.shields.io/badge/tonal-chord-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+ * `tonal/chord` is a collection of functions to manipulate musical chords
  *
- * `tonal-chord` is a collection of functions to manipulate musical chords
- *
- * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+ * ## Usage
  *
  * @example
- * // es6
- * import * as Chord from "tonal-chord"
- * // es5
- * const Chord = require("tonal-chord")
- *
- * @example
+ * import Chord from 'tonal/chord'
  * Chord.notes("CMaj7") // => ["C", "E", "G", "B"]
+ *
+ * @example
+ * const Tonal = require('tonal')
+ * Tonal.Chord.intervals('Cmaj7') // => ["1P", "3M", "5P", "7M"]
+ *
+ * ## API
  *
  * @module Chord
  */
+export default {
+  tokenize,
+  props,
+  notes,
+  intervals,
+  exists,
+  subsets,
+  supersets
+};
+
 import { tokenize as split } from "../note";
 import { transpose } from "../distance";
 import { all as chords, find as findChord } from "../chord-dictionary";
@@ -99,7 +107,9 @@ export function props(chordName) {
  * @param {string} name - the chord name (optionally a tonic and type)
  * @return {Array<String>} a list of intervals or null if the type is not known
  */
-export const intervals = name => props(name).intervals;
+export function intervals(name) {
+  return props(name).intervals;
+}
 
 /**
  * Get the chord notes of a chord. This function accepts either a chord name
@@ -133,7 +143,9 @@ export function notes(nameOrTonic, type) {
  * Chord.exists("Maj7") // => true
  * Chord.exists("Ablah") // => false
  */
-export const exists = name => props(name).intervals.length > 0;
+export function exists(name) {
+  return props(name).intervals.length > 0;
+}
 
 /**
  * Get all chords names that are a superset of the given one
@@ -143,14 +155,14 @@ export const exists = name => props(name).intervals.length > 0;
  * @param {string} name
  * @return {Array} a list of chord names
  */
-export const supersets = name => {
+export function supersets(name) {
   const chordIntervals = intervals(name);
   if (chordIntervals.length === 0) return [];
   const isSuperset = isSupersetOf(chordIntervals);
   return chords()
     .filter(chord => isSuperset(chord.intervals))
     .map(chordName);
-};
+}
 
 /**
  * Find all chords names that are a subset of the given one
@@ -160,9 +172,9 @@ export const supersets = name => {
  * @param {string} name
  * @return {Array} a list of chord names
  */
-export const subsets = name => {
+export function subsets(name) {
   const isSubset = isSubsetOf(intervals(name));
   return chords()
     .filter(chord => isSubset(chord.intervals))
     .map(chordName);
-};
+}

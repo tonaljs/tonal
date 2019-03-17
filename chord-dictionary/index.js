@@ -14,6 +14,8 @@ import { chroma } from "../pc-set";
  * - {string} - chroma: the pitchclass set chroma
  * - {integer} - setnum: the pitchclass set chroma number in decimal
  *
+ * ## Usage
+ *
  * @example
  * import ChordDictionary from "tonal/chord-dictionary"
  *
@@ -24,6 +26,8 @@ import { chroma } from "../pc-set";
  * @example
  * // CommonJS modules (require, node.js)
  * const { ChordDictionary } = require("tonal")
+ *
+ * ## API
  *
  * @module ChordDictionary
  */

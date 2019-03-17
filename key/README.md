@@ -22,11 +22,11 @@ Key.relative("minor", "C major") // => "A minor"
 ```
 
 * [Key](#module_Key)
-    * [`.degrees`](#module_Key.degrees) ⇒ <code>Array</code>
     * [`.modeNames(alias)`](#module_Key.modeNames) ⇒ <code>Array</code>
     * [`.fromAlter(alt)`](#module_Key.fromAlter) ⇒ <code>Key</code>
     * [`.props(name)`](#module_Key.props) ⇒ <code>Object</code>
     * [`.scale(key)`](#module_Key.scale) ⇒ <code>Array</code>
+    * [`.degrees(keyName)`](#module_Key.degrees) ⇒ <code>Array</code>
     * [`.alteredNotes(key)`](#module_Key.alteredNotes) ⇒ <code>Array</code>
     * [`.leadsheetSymbols(symbols, keyName, [degrees])`](#module_Key.leadsheetSymbols) ⇒ <code>function</code>
     * [`.chords(name, [degrees])`](#module_Key.chords) ⇒ <code>Array.&lt;string&gt;</code>
@@ -35,21 +35,6 @@ Key.relative("minor", "C major") // => "A minor"
     * [`.relative(mode, key)`](#module_Key.relative)
     * [`.tokenize(name)`](#module_Key.tokenize) ⇒ <code>Array</code>
 
-<a name="module_Key.degrees"></a>
-
-## `Key.degrees` ⇒ <code>Array</code>
-Get a list of key scale degrees in roman numerals
-
-**Kind**: static constant of [<code>Key</code>](#module_Key)  
-
-| Param | Type |
-| --- | --- |
-| keyName | <code>string</code> | 
-
-**Example**  
-```js
-Key.degrees("C major") => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
-```
 <a name="module_Key.modeNames"></a>
 
 ## `Key.modeNames(alias)` ⇒ <code>Array</code>
@@ -129,6 +114,21 @@ Key.scale("A major") // => [ "A", "B", "C#", "D", "E", "F#", "G#" ]
 Key.scale("Bb minor") // => [ "Bb", "C", "Db", "Eb", "F", "Gb", "Ab" ]
 Key.scale("C dorian") // => [ "C", "D", "Eb", "F", "G", "A", "Bb" ]
 Key.scale("E mixolydian") // => [ "E", "F#", "G#", "A", "B", "C#", "D" ]
+```
+<a name="module_Key.degrees"></a>
+
+## `Key.degrees(keyName)` ⇒ <code>Array</code>
+Get a list of key scale degrees in roman numerals
+
+**Kind**: static method of [<code>Key</code>](#module_Key)  
+
+| Param | Type |
+| --- | --- |
+| keyName | <code>string</code> | 
+
+**Example**  
+```js
+Key.degrees("C major") => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
 ```
 <a name="module_Key.alteredNotes"></a>
 

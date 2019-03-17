@@ -1,8 +1,8 @@
-import * as Abc from "../abc-notation";
+import * as AbcNotation from "../abc-notation";
 import * as Array from "../array";
 import * as Chord from "../chord";
 import * as ChordDictionary from "../chord-dictionary";
-import * as Detect from "../detect";
+//import * as Detect from "../detect";
 import * as Distance from "../distance";
 import * as Interval from "../interval";
 import * as Key from "../key";
@@ -35,11 +35,11 @@ import * as ScaleDictionary from "../scale-dictionary";
  * @module Tonal
  */
 export default {
-  Abc,
+  AbcNotation,
   Array,
   Chord,
   ChordDictionary,
-  Detect,
+  // Detect, // not ready for publishing yet
   Distance,
   Interval,
   Key,

@@ -1,5 +1,4 @@
-/* global describe test expect */
-const Chord = require("./");
+import Chord from ".";
 
 const $ = str => str.split(" ");
 

@@ -19,6 +19,7 @@
  * RomanNumeral.degree(2, false) // => "ii"
  * @module RomanNumeral
  */
+export default { name, names, props, decimal, type, name, fromDegree };
 
 const NAMES = "I II III IV V VI VII".split(" ");
 const NAMES_MINOR = NAMES.map(n => n.toLowerCase());
@@ -26,7 +27,6 @@ const REGEX = /^(IV|I{1,3}|VI{0,2}|iv|i{1,3}|vi{0,2})([^IViv]*)$/;
 const NO_PROPS = { name: null, type: null };
 
 const getNames = major => (major === false ? NAMES_MINOR : NAMES);
-const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
 
 const properties = str => {
   const m = REGEX.exec(str);
@@ -39,6 +39,7 @@ const properties = str => {
   return { name, type, decimal, major };
 };
 
+const cache = {};
 /**
  * Get properties of a roman numeral string
  *
@@ -49,7 +50,9 @@ const properties = str => {
  * @example
  * props("VIIb5") // => { name: "VII", type: "b5", num: 7, major: true }
  */
-export const props = memo(properties);
+export function props(str) {
+  return cache[str] || (cache[str] = properties(str));
+}
 
 /**
  * Get roman numeral names
@@ -62,7 +65,9 @@ export const props = memo(properties);
  * names() // => ["I", "II", "III", "IV", "V", "VI", "VII"]
  * names(false) // => ["i", "ii", "iii", "iv", "v", "vi", "vii"]
  */
-export const names = isMajor => getNames(isMajor).slice();
+export function names(isMajor) {
+  return getNames(isMajor).slice();
+}
 
 /**
  * Get roman numeral name of a string or null if not valid roman numeral
@@ -76,7 +81,9 @@ export const names = isMajor => getNames(isMajor).slice();
  * name('iii') // => 'iii'
  * name('Ii') // => null (mixed case not allowed)
  */
-export const name = str => props(str).name;
+export function name(str) {
+  return props(str).name;
+}
 
 /**
  * Get type of a roman numeral
@@ -88,7 +95,9 @@ export const name = str => props(str).name;
  * @example
  * type('Imaj7') // => 'maj7'
  */
-export const type = str => props(str).type;
+export function type(str) {
+  return props(str).type;
+}
 
 /**
  * Get roman numeral number in decimal integer (it accepts numbers from 1 to 7)
@@ -103,8 +112,9 @@ export const type = str => props(str).type;
  * decimal(4) // => 4
  * decimal(10) // => null
  */
-export const decimal = val =>
-  val > 0 && val < 8 ? val : props(val).decimal || null;
+export function decimal(val) {
+  return val > 0 && val < 8 ? val : props(val).decimal || null;
+}
 
 /**
  * Get a roman numeral from a degree number
@@ -118,5 +128,6 @@ export const decimal = val =>
  * fromDegree(2) // => "II"
  * fromDegree(2, false) // => "ii"
  */
-export const fromDegree = (degree, isMajor) =>
-  getNames(isMajor)[degree - 1] || null;
+export function fromDegree(degree, isMajor) {
+  return getNames(isMajor)[degree - 1] || null;
+}

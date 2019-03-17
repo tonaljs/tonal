@@ -1,4 +1,4 @@
-var Interval = require("./");
+import Interval from ".";
 
 const $ = str => str.split(" ");
 const lift = fn => str =>
@@ -49,13 +49,17 @@ describe("tonal-interval", () => {
     expect(Interval.name()).toBe(null);
   });
 
-  test("build", () => {
-    expect(Interval.build({ step: 0, alt: 0, oct: 0, dir: 1 })).toBe("1P");
-    expect(Interval.build({ step: 0, alt: -1, oct: 1, dir: -1 })).toBe("-8d");
-    expect(Interval.build({ step: 1, alt: -1, oct: 1, dir: -1 })).toBe("-9m");
-    expect(Interval.build({ num: 9, alt: 0 })).toBe("9M");
-    expect(Interval.build({ num: 15, alt: 0 })).toBe("15P");
-    expect(Interval.build()).toBe(null);
+  test("fromProps", () => {
+    expect(Interval.fromProps({ step: 0, alt: 0, oct: 0, dir: 1 })).toBe("1P");
+    expect(Interval.fromProps({ step: 0, alt: -1, oct: 1, dir: -1 })).toBe(
+      "-8d"
+    );
+    expect(Interval.fromProps({ step: 1, alt: -1, oct: 1, dir: -1 })).toBe(
+      "-9m"
+    );
+    expect(Interval.fromProps({ num: 9, alt: 0 })).toBe("9M");
+    expect(Interval.fromProps({ num: 15, alt: 0 })).toBe("15P");
+    expect(Interval.fromProps()).toBe(null);
   });
 
   test("semitones", () => {

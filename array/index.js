@@ -1,38 +1,43 @@
+import { props, name } from "../note";
+
 /**
- * [![tonal](https://img.shields.io/badge/tonal-array-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
- *
  * Tonal array utilities. Sort notes by pitch, remove duplicates,
- * create ranges with notes or numbers and
+ * create ranges with notes or numbers.
  *
  * ## Usage
  *
- * ```js
- * // ES6 modules (babel, webpack, ...)
- * import * as Array from 'tonal/array';
+ * @example
+ * import Array from 'tonal/array';
  * Array.sort(["f", "a", "c"])
  *
- * // CommonJS modules (node)
- * const { Array } = require("tonal")
- * Array.range(1, 4)
- *
- * // Browser
+ * @example
+ * const Tonal = require("tonal")
  * Tonal.Array.range(1, 4)
- * ```
  *
  * ## API
  *
  * @module Array
  */
-import { props, name } from "../note";
+export default {
+  range,
+  rotate,
+  compact,
+  sort,
+  sortedUniq,
+  shuffle,
+  permutations
+};
 
 // ascending range
 function ascR(b, n) {
-  for (var a = []; n--; a[n] = n + b);
+  const a = [];
+  for (; n--; a[n] = n + b);
   return a;
 }
 // descending range
 function descR(b, n) {
-  for (var a = []; n--; a[n] = b - n);
+  const a = [];
+  for (; n--; a[n] = b - n);
   return a;
 }
 
@@ -68,8 +73,8 @@ export function range(a, b) {
  * Array.rotate(1, [1, 2, 3]) // => [2, 3, 1]
  */
 export function rotate(times, arr) {
-  var len = arr.length;
-  var n = ((times % len) + len) % len;
+  const len = arr.length;
+  const n = ((times % len) + len) % len;
   return arr.slice(n, len).concat(arr.slice(0, n));
 }
 
@@ -82,7 +87,9 @@ export function rotate(times, arr) {
  * @example
  * Array.compact(["a", "b", null, "c"]) // => ["a", "b", "c"]
  */
-export const compact = arr => arr.filter(n => n === 0 || n);
+export function compact(arr) {
+  return arr.filter(n => n === 0 || n);
+}
 
 // a function that get note heights (with negative number for pitch classes)
 const height = name => {
@@ -116,10 +123,10 @@ export function sort(src) {
  * @return {Array<string>} unique sorted notes
  *
  * @example
- * Array.unique(['a', 'b', 'c2', '1p', 'p2', 'c2', 'b', 'c', 'c3' ])
+ * Array.sortedUniq(['a', 'b', 'c2', '1p', 'p2', 'c2', 'b', 'c', 'c3' ])
  * // => [ 'C', 'A', 'B', 'C2', 'C3' ]
  */
-export function unique(arr) {
+export function sortedUniq(arr) {
   return sort(arr).filter((n, i, a) => i === 0 || n !== a[i - 1]);
 }
 
@@ -133,9 +140,9 @@ export function unique(arr) {
  * @example
  * Array.shuffle(["C", "D", "E", "F"]) // => [...]
  */
-export var shuffle = (arr, rnd = Math.random) => {
-  var i, t;
-  var m = arr.length;
+export function shuffle(arr, rnd = Math.random) {
+  let i, t;
+  let m = arr.length;
   while (m) {
     i = (rnd() * m--) | 0;
     t = arr[m];
@@ -143,7 +150,7 @@ export var shuffle = (arr, rnd = Math.random) => {
     arr[i] = t;
   }
   return arr;
-};
+}
 
 /**
  * Get all permutations of an array
@@ -163,15 +170,15 @@ export var shuffle = (arr, rnd = Math.random) => {
  * ]
  *
  */
-export const permutations = arr => {
+export function permutations(arr) {
   if (arr.length === 0) return [[]];
   return permutations(arr.slice(1)).reduce(function(acc, perm) {
     return acc.concat(
       arr.map(function(e, pos) {
-        var newPerm = perm.slice();
+        const newPerm = perm.slice();
         newPerm.splice(pos, 0, arr[0]);
         return newPerm;
       })
     );
   }, []);
-};
+}

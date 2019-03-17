@@ -1,11 +1,15 @@
+import { trFifths } from "../distance";
+import { midi, fromMidi } from "../note";
+import { range } from "../array";
+import { filter } from "../pc-set";
+
 /**
- * A collection of functions to create note ranges.
+ * A collection of functions to create complex note ranges.
+ *
+ * ## Usage
  *
  * @example
- * const Range = require("tonal-range")
- * import * as Range from "tonal-range"
- *
- * @example
+ * import Range from "tonal/range"
  * // ascending chromatic range
  * Range.chromatic(["C4", "E4"]) // => ["C4", "Db4", "D4", "Eb4", "E4"]
  * // descending chromatic range
@@ -17,12 +21,21 @@
  * // complex numeric range
  * Range.numeric(["C4", "E4", "Bb3"]) // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
  *
+ * @example
+ * const Tonal = require("tonal-range")
+ * Tonal.Range.scale("C D E F G A B", ["C3", "C2"])
+ * // => [ "C3", "B2", "A2", "G2", "F2", "E2", "D2", "C2" ]
+ *
+ * ## API
+ *
  * @module Range
  */
-import { trFifths } from "../distance";
-import { midi, fromMidi } from "../note";
-import { range } from "../array";
-import { filter } from "../pc-set";
+export default {
+  numeric,
+  chromatic,
+  fifths,
+  scale
+};
 
 // convert notes to midi if needed
 function asNum(n) {

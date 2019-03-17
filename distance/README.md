@@ -1,21 +1,19 @@
 <a name="module_Distance"></a>
 
 # Distance
-[![npm version](https://img.shields.io/npm/v/tonal-distance.svg)](https://www.npmjs.com/package/tonal-distance)
-[![tonal](https://img.shields.io/badge/tonal-distance-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/tonal/distance)
-
 Transpose notes by intervals and find distances between notes
+
+## Usage
 
 **Example**  
 ```js
-// es6
-import * as Distance from "tonal-distance"
+import Distance from "tonal/distance"
 Distance.interval("C3", "C4") // => "1P"
 ```
 **Example**  
 ```js
 // es6 import selected functions
-import { interval, semitones, transpose } from "tonal-distance"
+import { interval, semitones, transpose } from "tonal/distance"
 
 semitones("C" ,"D") // => 2
 interval("C4", "G4") // => "5P"
@@ -23,10 +21,11 @@ transpose("C4", "P5") // => "G4"
 ```
 **Example**  
 ```js
-// included in tonal facade
 const Tonal = require("tonal");
 Tonal.Distance.transpose("C4", "P5")
 Tonal.Distance.transposeBy("P5", "C4")
+
+## API
 ```
 
 * [Distance](#module_Distance)

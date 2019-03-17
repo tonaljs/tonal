@@ -1,4 +1,4 @@
-import * as Key from "./";
+import Key from ".";
 
 describe("tonal-key", () => {
   test("modeNames", () => {

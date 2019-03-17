@@ -24,7 +24,7 @@ RomanNumeral.degree(2, false) // => "ii"
 ```
 
 * [RomanNumeral](#module_RomanNumeral)
-    * [`.props()`](#module_RomanNumeral.props) ⇒ <code>Object</code>
+    * [`.props(str)`](#module_RomanNumeral.props) ⇒ <code>Object</code>
     * [`.names([isMajor])`](#module_RomanNumeral.names) ⇒ <code>Array.&lt;String&gt;</code>
     * [`.name(name)`](#module_RomanNumeral.name) ⇒ <code>string</code>
     * [`.type(name)`](#module_RomanNumeral.type) ⇒ <code>string</code>
@@ -33,15 +33,15 @@ RomanNumeral.degree(2, false) // => "ii"
 
 <a name="module_RomanNumeral.props"></a>
 
-## `RomanNumeral.props()` ⇒ <code>Object</code>
+## `RomanNumeral.props(str)` ⇒ <code>Object</code>
 Get properties of a roman numeral string
 
 **Kind**: static method of [<code>RomanNumeral</code>](#module_RomanNumeral)  
 **Returns**: <code>Object</code> - - the roman numeral properties  
 
-| Type | Description |
-| --- | --- |
-| <code>string</code> | the roman numeral string (can have type, like: Imaj7) |
+| Param | Type | Description |
+| --- | --- | --- |
+| str | <code>string</code> | the roman numeral string (can have type, like: Imaj7) |
 
 **Example**  
 ```js

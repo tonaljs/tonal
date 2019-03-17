@@ -1,27 +1,38 @@
-/**
- * [![npm version](https://img.shields.io/npm/v/tonal-scale.svg?style=flat-square)](https://www.npmjs.com/package/tonal-scale)
- *
- * A scale is a collection of pitches in ascending or descending order.
- *
- * This module provides functions to get and manipulate scales.
- *
- * @example
- * // es6
- * import * as Scale from "tonal-scale"
- * // es5
- * const Scale = require("tonal-scale");
- *
- * @example
- * Scale.notes("Ab bebop") // => [ "Ab", "Bb", "C", "Db", "Eb", "F", "Gb", "G" ]
- * Scale.names() => ["major", "minor", ...]
- * @module Scale
- */
 import { name as noteName, pc } from "../note";
 import { modes as pcsetModes, isSubsetOf, isSupersetOf } from "../pc-set";
 import { transpose } from "../distance";
 import { all as chordList } from "../chord-dictionary";
 import { all as scales, find as findScale } from "../scale-dictionary";
-import { compact, unique, rotate } from "../array";
+import { compact, sortedUniq, rotate } from "../array";
+
+/**
+ * A scale is a collection of pitches in ascending or descending order.
+ *
+ * This module provides functions to get and manipulate scales.
+ *
+ * @example
+ * import Scale from "tonal/scale"
+ * Scale.notes("Ab bebop") // => [ "Ab", "Bb", "C", "Db", "Eb", "F", "Gb", "G" ]
+ *
+ * @example
+ * const Tonal = require("tonal");
+ * Tonal.Scale.names() => ["major", "minor", ...]
+ *
+ * @module Scale
+ */
+export default {
+  tokenize,
+  props,
+  names,
+  intervals,
+  notes,
+  exists,
+  modeNames,
+  chords,
+  toScale,
+  supersets,
+  subsets
+};
 
 const scaleName = scale => scale.name;
 
@@ -81,12 +92,13 @@ export function props(name) {
  * @example
  * Scale.names() // => ["maj7", ...]
  */
-export const names = aliases =>
-  aliases
+export function names(aliases) {
+  return aliases
     ? scales()
         .map(s => s.names)
         .reduce((a, b) => [...a, ...b])
     : scales().map(scaleName);
+}
 
 /**
  * Given a scale name, return its intervals. The name can be the type and
@@ -101,10 +113,10 @@ export const names = aliases =>
  * @example
  * Scale.intervals("major") // => [ "1P", "2M", "3M", "4P", "5P", "6M", "7M" ]
  */
-export const intervals = name => {
+export function intervals(name) {
   const p = tokenize(name);
   return props(p[1]).intervals;
-};
+}
 
 /**
  * Get the notes (pitch classes) of a scale.
@@ -156,7 +168,7 @@ export function exists(name) {
  *   ["A", "minor pentatonic"]
  * ]
  */
-export const modeNames = name => {
+export function modeNames(name) {
   const ivls = intervals(name);
   const tonics = notes(name);
   debugger;
@@ -167,7 +179,7 @@ export const modeNames = name => {
       if (modeName) return [tonics[i] || ivls[i], modeName];
     })
     .filter(x => x);
-};
+}
 
 /**
  * Get all chords that fits a given scale
@@ -179,12 +191,12 @@ export const modeNames = name => {
  * @example
  * Scale.chords("pentatonic") // => ["5", "64", "M", "M6", "Madd9", "Msus2"]
  */
-export const chords = name => {
+export function chords(name) {
   const inScale = isSubsetOf(intervals(name));
   return chordList()
     .filter(chord => inScale(chord.intervals))
     .map(c => c.abbreviatures[0]);
-};
+}
 
 /**
  * Given an array of notes, return the scale: a pitch class set starting from
@@ -197,13 +209,13 @@ export const chords = name => {
  * Scale.toScale(['C4', 'c3', 'C5', 'C4', 'c4']) // => ["C"]
  * Scale.toScale(['D4', 'c#5', 'A5', 'F#6']) // => ["D", "F#", "A", "C#"]
  */
-export const toScale = notes => {
+export function toScale(notes) {
   const pcset = compact(notes.map(pc));
   if (!pcset.length) return pcset;
   const tonic = pcset[0];
-  const scale = unique(pcset);
+  const scale = sortedUniq(pcset);
   return rotate(scale.indexOf(tonic), scale);
-};
+}
 
 /**
  * Get all scales names that are a superset of the given one
@@ -215,13 +227,13 @@ export const toScale = notes => {
  * @example
  * Scale.supersets("major") // => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]
  */
-export const supersets = name => {
+export function supersets(name) {
   if (!intervals(name).length) return [];
   const isSuperset = isSupersetOf(intervals(name));
   return scales()
     .filter(scale => isSuperset(scale.intervals))
     .map(scaleName);
-};
+}
 
 /**
  * Find all scales names that are a subset of the given one
@@ -234,9 +246,9 @@ export const supersets = name => {
  * @example
  * Scale.subsets("major") // => ["ionian pentatonic", "major pentatonic", "ritusen"]
  */
-export const subsets = name => {
+export function subsets(name) {
   const isSubset = isSubsetOf(intervals(name));
   return scales()
     .filter(scale => isSubset(scale.intervals))
     .map(scaleName);
-};
+}

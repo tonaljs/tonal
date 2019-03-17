@@ -1,33 +1,42 @@
+import { props as noteProps, fromProps as fromNote } from "../note";
+import { props as intervalProps, fromProps as fromInterval } from "../interval";
+
 /**
- * [![npm version](https://img.shields.io/npm/v/tonal-distance.svg)](https://www.npmjs.com/package/tonal-distance)
- * [![tonal](https://img.shields.io/badge/tonal-distance-yellow.svg)](https://github.com/danigb/tonal/tree/master/packages/tonal/distance)
- *
  * Transpose notes by intervals and find distances between notes
  *
+ * ## Usage
+ *
  * @example
- * // es6
- * import * as Distance from "tonal-distance"
+ * import Distance from "tonal/distance"
  * Distance.interval("C3", "C4") // => "1P"
  *
  * @example
  * // es6 import selected functions
- * import { interval, semitones, transpose } from "tonal-distance"
+ * import { interval, semitones, transpose } from "tonal/distance"
  *
  * semitones("C" ,"D") // => 2
  * interval("C4", "G4") // => "5P"
  * transpose("C4", "P5") // => "G4"
  *
  * @example
- * // included in tonal facade
  * const Tonal = require("tonal");
  * Tonal.Distance.transpose("C4", "P5")
  * Tonal.Distance.transposeBy("P5", "C4")
  *
+ * ## API
+ *
  * @module Distance
  */
-import { props as noteProps, build as fromNote } from "../note";
-import { props as iprops, build as ibuild } from "../interval";
-
+export default {
+  transpose,
+  transposeBy,
+  add,
+  subtract,
+  interval,
+  semitones,
+  fifths,
+  trFifths
+};
 // Map from letter step to number of fifths starting from "C":
 // { C: 0, D: 2, E: 4, F: -1, G: 1, A: 3, B: 5 }
 const FIFTHS = [0, 2, 4, -1, 1, 3, 5];
@@ -74,7 +83,7 @@ const encoder = props =>
   });
 
 const encodeNote = encoder(noteProps);
-const encodeIvl = encoder(iprops);
+const encodeIvl = encoder(intervalProps);
 
 /**
  * Transpose a note by an interval. The note can be a pitch class.
@@ -167,7 +176,7 @@ export function addIntervals(ivl1, ivl2, dir) {
   const i2 = encodeIvl(ivl2);
   if (i1 === null || i2 === null) return null;
   const i = [i1[0] + dir * i2[0], i1[1] + dir * i2[1]];
-  return ibuild(decodeIvl(i));
+  return fromInterval(decodeIvl(i));
 }
 
 /**
@@ -229,7 +238,7 @@ export function interval(from, to) {
     f.length === 1
       ? [t[0] - f[0], -Math.floor(((t[0] - f[0]) * 7) / 12)]
       : [t[0] - f[0], t[1] - f[1]];
-  return ibuild(decodeIvl(d));
+  return fromInterval(decodeIvl(d));
 }
 
 /**

@@ -1,4 +1,4 @@
-const Range = require("./");
+import Range from ".";
 
 const $ = str => str.split(" ");
 

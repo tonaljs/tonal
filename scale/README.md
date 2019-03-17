@@ -1,23 +1,19 @@
 <a name="module_Scale"></a>
 
 # Scale
-[![npm version](https://img.shields.io/npm/v/tonal-scale.svg?style=flat-square)](https://www.npmjs.com/package/tonal-scale)
-
 A scale is a collection of pitches in ascending or descending order.
 
 This module provides functions to get and manipulate scales.
 
 **Example**  
 ```js
-// es6
-import * as Scale from "tonal-scale"
-// es5
-const Scale = require("tonal-scale");
+import Scale from "tonal/scale"
+Scale.notes("Ab bebop") // => [ "Ab", "Bb", "C", "Db", "Eb", "F", "Gb", "G" ]
 ```
 **Example**  
 ```js
-Scale.notes("Ab bebop") // => [ "Ab", "Bb", "C", "Db", "Eb", "F", "Gb", "G" ]
-Scale.names() => ["major", "minor", ...]
+const Tonal = require("tonal");
+Tonal.Scale.names() => ["major", "minor", ...]
 ```
 
 * [Scale](#module_Scale)

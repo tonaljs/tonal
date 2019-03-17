@@ -21,8 +21,8 @@ Tonal.Note.pc("Db5"); // => 'Db'
 Tonal.Note.freq("C#3"); // => 138.59
 Tonal.Note.midi("A4"); // => 69
 Tonal.Note.fromMidi(69); // => 'A4'
-Tonal.Note.from({ alt: 2 }, "C4"); // => 'C##4'
-Tonal.Note.from({ oct: 2 }, "C4"); // => 'C2'
+Tonal.Note.fromProps({ alt: 2, step: 5, oct: 4 }); // => 'A##4'
+Tonal.Note.fromProps({ oct: 2 }, "C4"); // => 'C2'
 
 Tonal.Interval.semitones("5P"); // => 7
 Tonal.Interval.invert("3m"); // => '6M'
@@ -43,6 +43,20 @@ Tonal.Key.chord("Bb major"); // => ["BbMaj7", "Cm7", "Dm7", "EbMaj7", "F7", "Gm7
 ```
 
 ## Modules
+
+This is the list of all published modules:
+
+- [Tonal.Note](https://github.com/danigb/tonal/tree/master/note)
+- [Tonal.Interval](https://github.com/danigb/tonal/tree/master/interval)
+- [Tonal.Distance](https://github.com/danigb/tonal/tree/master/distance)
+- [Tonal.PcSet](https://github.com/danigb/tonal/tree/master/pc-set)
+- [Tonal.Scale](https://github.com/danigb/tonal/tree/master/scale)
+- [Tonal.Chord](https://github.com/danigb/tonal/tree/master/chord)
+- [Tonal.Key](https://github.com/danigb/tonal/tree/master/key)
+- [Tonal.Array](https://github.com/danigb/tonal/tree/master/array)
+- [Tonal.Range](https://github.com/danigb/tonal/tree/master/range)
+- [Tonal.RomanNumeral](https://github.com/danigb/tonal/tree/master/roman-numeral)
+- [Tonal.AbcNotation](https://github.com/danigb/tonal/tree/master/abc-notation)
 
 ## Install
 

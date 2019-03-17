@@ -1,109 +1,46 @@
 <a name="module_Note"></a>
 
 # Note
-[![npm version](https://img.shields.io/npm/v/tonal-note.svg)](https://www.npmjs.com/package/tonal-note)
-[![tonal](https://img.shields.io/badge/tonal-note-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
-
-`tonal-note` is a collection of functions to manipulate musical notes in scientific notation
-
-This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+A collection of functions to manipulate musical notes in scientific notation
 
 ## Usage
 
+**Example**  
 ```js
-import * as Note from "tonal-note"
-// or const Note = require("tonal-note")
+import Note from "tonal/note"
 Note.name("bb2") // => "Bb2"
 Note.chroma("bb2") // => 10
 Note.midi("a4") // => 69
 Note.freq("a4") // => 440
 Note.oct("G3") // => 3
-
-// part of tonal
-const Tonal = require("tonal")
-// or import Note from "tonal"
-Tonal.Note.midi("d4") // => 62
 ```
+**Example**  
+```js
+const Tonal = require('tonal')
+Tonal.Note.midi("C4") // => 60
 
-## Install
-
-[![npm install tonal-note](https://nodei.co/npm/tonal-note.png?mini=true)](https://npmjs.org/package/tonal-note/)
-
-## API Documentation
-
+## API
+```
 
 * [Note](#module_Note)
-    * [`.names`](#module_Note.names) ⇒ <code>Array</code>
-    * [`.props`](#module_Note.props) ⇒ <code>Object</code>
     * [`.midiToFreq`](#module_Note.midiToFreq) ⇒ <code>number</code>
-    * [`.freqToMidi`](#module_Note.freqToMidi) ⇒ <code>number</code>
-    * [`.chroma`](#module_Note.chroma) ⇒ <code>Integer</code>
-    * [`.stepToLetter`](#module_Note.stepToLetter) ⇒ <code>string</code>
-    * [`.altToAcc`](#module_Note.altToAcc) ⇒ <code>string</code>
-    * [`.build`](#module_Note.build)
-    * [`.simplify`](#module_Note.simplify) ⇒ <code>string</code>
-    * [`.enharmonic`](#module_Note.enharmonic) ⇒ <code>string</code>
+    * [`.names(filter)`](#module_Note.names) ⇒ <code>Array.&lt;string&gt;</code>
     * [`.tokenize(str)`](#module_Note.tokenize) ⇒ <code>Array</code>
-    * [`.name()`](#module_Note.name) ⇒ <code>string</code>
-    * [`.pc()`](#module_Note.pc) ⇒ <code>string</code>
+    * [`.props(note)`](#module_Note.props) ⇒ <code>Object</code>
+    * [`.name(str)`](#module_Note.name) ⇒ <code>string</code>
+    * [`.pc(str)`](#module_Note.pc) ⇒ <code>string</code>
     * [`.midi(note)`](#module_Note.midi) ⇒ <code>Integer</code>
     * [`.freq(note)`](#module_Note.freq) ⇒ <code>number</code>
+    * [`.freqToMidi(frequency)`](#module_Note.freqToMidi) ⇒ <code>number</code>
+    * [`.chroma(note)`](#module_Note.chroma) ⇒ <code>Integer</code>
     * [`.oct(note)`](#module_Note.oct) ⇒ <code>Integer</code>
-    * [`.from(props, [baseNote])`](#module_Note.from) ⇒ <code>string</code>
+    * [`.stepToLetter(step)`](#module_Note.stepToLetter) ⇒ <code>string</code>
+    * [`.altToAcc(alt)`](#module_Note.altToAcc) ⇒ <code>string</code>
+    * [`.fromProps(props, [baseNote])`](#module_Note.fromProps) ⇒ <code>string</code>
     * [`.fromMidi(midi, useSharps)`](#module_Note.fromMidi) ⇒ <code>string</code>
+    * [`.simplify(note, useSameAccType)`](#module_Note.simplify) ⇒ <code>string</code>
+    * [`.enharmonic(note)`](#module_Note.enharmonic) ⇒ <code>string</code>
 
-<a name="module_Note.names"></a>
-
-## `Note.names` ⇒ <code>Array</code>
-Get a list of note names (pitch classes) within a octave
-
-**Kind**: static constant of [<code>Note</code>](#module_Note)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| accTypes | <code>string</code> | (Optional, by default " b#"). A string with the accidentals types: " " means no accidental, "#" means sharps, "b" mean flats, can be combined (see examples) |
-
-**Example**  
-```js
-Note.names(" b") // => [ "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B" ]
-Note.names(" #") // => [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ]
-```
-<a name="module_Note.props"></a>
-
-## `Note.props` ⇒ <code>Object</code>
-Get note properties. It returns an object with the following information:
-
-- name {string}: the note name. The letter is always in uppercase
-- letter {string}: the note letter, always in uppercase
-- acc {string}: the note accidentals
-- octave {number}: the octave or null if not present
-- pc {string}: the pitch class (letter + accidentals)
-- step {number}: number equivalent of the note letter. 0 means C ... 6 means B.
-- alt {number}: number equivalent of accidentals (negative are flats, positive sharps)
-- chroma {number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
-- midi {number}: the note midi number (IMPORTANT! it can be outside 0 to 127 range)
-- freq {number}: the frequency using an equal temperament at 440Hz
-
-This function *always* returns an object with all this properties, but if it"s
-not a valid note all properties will be null.
-
-The returned object can"t be mutated.
-
-**Kind**: static constant of [<code>Note</code>](#module_Note)  
-**Returns**: <code>Object</code> - an object with the properties (or an object will all properties
-set to null if not valid note)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| note | <code>string</code> | the note name in scientific notation |
-
-**Example**  
-```js
-Note.props("fx-3").name // => "F##-3"
-Note.props("invalid").name // => null
-Note.props("C#3").oct // => 3
-Note.props().oct // => null
-```
 <a name="module_Note.midiToFreq"></a>
 
 ## `Note.midiToFreq` ⇒ <code>number</code>
@@ -117,116 +54,25 @@ Get the frequency from midi number
 | midi | <code>number</code> | the note midi number |
 | tuning | <code>number</code> | (Optional) 440 by default |
 
-<a name="module_Note.freqToMidi"></a>
+<a name="module_Note.names"></a>
 
-## `Note.freqToMidi` ⇒ <code>number</code>
-Get the midi number from a frequency in hertz. The midi number can
-contain decimals (with two digits precission)
+## `Note.names(filter)` ⇒ <code>Array.&lt;string&gt;</code>
+Get a list of note names (pitch classes) within a octave
 
-**Kind**: static constant of [<code>Note</code>](#module_Note)  
-
-| Param | Type |
-| --- | --- |
-| frequency | <code>number</code> | 
-
-**Example**  
-```js
-Note.freqToMidi(220)); //=> 57;
-Note.freqToMidi(261.62)); //=> 60;
-Note.freqToMidi(261)); //=> 59.96;
-```
-<a name="module_Note.chroma"></a>
-
-## `Note.chroma` ⇒ <code>Integer</code>
-Return the chroma of a note. The chroma is the numeric equivalent to the
-pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
-
-**Kind**: static constant of [<code>Note</code>](#module_Note)  
-**Returns**: <code>Integer</code> - the chroma number  
+**Kind**: static method of [<code>Note</code>](#module_Note)  
+**Returns**: <code>Array.&lt;string&gt;</code> - the list of notes  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| note | <code>string</code> | the note name |
+| filter | <code>string</code> | an object with - [boolean] unaltered: defaults to true - [boolean] flats: defaults to false - [boolean] sharps: defaults to false |
 
 **Example**  
 ```js
-Note.chroma("Cb") // => 11
-["C", "D", "E", "F"].map(Note.chroma) // => [0, 2, 4, 5]
-```
-<a name="module_Note.stepToLetter"></a>
-
-## `Note.stepToLetter` ⇒ <code>string</code>
-Given a step number return it's letter (0 = C, 1 = D, 2 = E)
-
-**Kind**: static constant of [<code>Note</code>](#module_Note)  
-**Returns**: <code>string</code> - the letter  
-
-| Param | Type |
-| --- | --- |
-| step | <code>number</code> | 
-
-**Example**  
-```js
-Note.stepToLetter(3) // => "F"
-```
-<a name="module_Note.altToAcc"></a>
-
-## `Note.altToAcc` ⇒ <code>string</code>
-Given an alteration number, return the accidentals
-
-**Kind**: static constant of [<code>Note</code>](#module_Note)  
-
-| Param | Type |
-| --- | --- |
-| alt | <code>number</code> | 
-
-**Example**  
-```js
-Note.altToAcc(-3) // => "bbb"
-```
-<a name="module_Note.build"></a>
-
-## `Note.build`
-Deprecated. This is kept for backwards compatibility only.
-Use Note.from instead
-
-**Kind**: static constant of [<code>Note</code>](#module_Note)  
-<a name="module_Note.simplify"></a>
-
-## `Note.simplify` ⇒ <code>string</code>
-Simplify the note: find an enhramonic note with less accidentals.
-
-**Kind**: static constant of [<code>Note</code>](#module_Note)  
-**Returns**: <code>string</code> - the simplfiied note or null if not valid note  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| note | <code>string</code> | the note to be simplified |
-| useSameAccType | <code>boolean</code> | (optional, true by default) set to true to ensure the returned note has the same accidental types that the given note |
-
-**Example**  
-```js
-Note.simplify("C##") // => "D"
-Note.simplify("C###") // => "D#"
-Note.simplify("C###", false) // => "Eb"
-Note.simplify("B#4") // => "C5"
-```
-<a name="module_Note.enharmonic"></a>
-
-## `Note.enharmonic` ⇒ <code>string</code>
-Get the simplified and enhramonic note of the given one.
-
-**Kind**: static constant of [<code>Note</code>](#module_Note)  
-**Returns**: <code>string</code> - the enhramonic note  
-
-| Param | Type |
-| --- | --- |
-| note | <code>string</code> | 
-
-**Example**  
-```js
-Note.enharmonic("Db") // => "C#"
-Note.enhramonic("C") // => "C"
+Note.names() // => [ "C", "D", "E", "F", "G", "A", "B" ]
+Note.names({ flats: true }) // => [ "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B" ]
+Note.names({ sharps: true }) // => [ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" ]
+Note.names({ unaltered: false, flats: true })
+// => [ "Db", "Eb", "Gb", "Ab", "Bb" ]
 ```
 <a name="module_Note.tokenize"></a>
 
@@ -251,9 +97,45 @@ Note.tokenize("major") // => ["", "", "", "major"]
 Note.tokenize("##") // => ["", "##", "", ""]
 Note.tokenize() // => ["", "", "", ""]
 ```
+<a name="module_Note.props"></a>
+
+## `Note.props(note)` ⇒ <code>Object</code>
+Get note properties. It returns an object with the following information:
+
+- name {string}: the note name. The letter is always in uppercase
+- letter {string}: the note letter, always in uppercase
+- acc {string}: the note accidentals
+- octave {number}: the octave or null if not present
+- pc {string}: the pitch class (letter + accidentals)
+- step {number}: number equivalent of the note letter. 0 means C ... 6 means B.
+- alt {number}: number equivalent of accidentals (negative are flats, positive sharps)
+- chroma {number}: number equivalent of the pitch class, where 0 is C, 1 is C# or Db, 2 is D...
+- midi {number}: the note midi number (IMPORTANT! it can be outside 0 to 127 range)
+- freq {number}: the frequency using an equal temperament at 440Hz
+
+This function *always* returns an object with all this properties, but if it"s
+not a valid note all properties will be null.
+
+The returned object can"t be mutated.
+
+**Kind**: static method of [<code>Note</code>](#module_Note)  
+**Returns**: <code>Object</code> - an object with the properties (or an object will all properties
+set to null if not valid note)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| note | <code>string</code> | the note name in scientific notation |
+
+**Example**  
+```js
+Note.props("fx-3").name // => "F##-3"
+Note.props("invalid").name // => null
+Note.props("C#3").oct // => 3
+Note.props().oct // => null
+```
 <a name="module_Note.name"></a>
 
-## `Note.name()` ⇒ <code>string</code>
+## `Note.name(str)` ⇒ <code>string</code>
 Given a note name, return the note name or null if not valid note.
 The note name will ALWAYS have the letter in upercase and accidentals
 using # or b
@@ -262,9 +144,9 @@ Can be used to test if a string is a valid note name.
 
 **Kind**: static method of [<code>Note</code>](#module_Note)  
 
-| Type |
-| --- |
-| <code>Pitch</code> \| <code>string</code> | 
+| Param | Type |
+| --- | --- |
+| str | <code>Pitch</code> \| <code>string</code> | 
 
 **Example**  
 ```js
@@ -273,15 +155,15 @@ Note.name("cb2") // => "Cb2"
 ```
 <a name="module_Note.pc"></a>
 
-## `Note.pc()` ⇒ <code>string</code>
+## `Note.pc(str)` ⇒ <code>string</code>
 Get pitch class of a note. The note can be a string or a pitch array.
 
 **Kind**: static method of [<code>Note</code>](#module_Note)  
 **Returns**: <code>string</code> - the pitch class  
 
-| Type |
-| --- |
-| <code>string</code> \| <code>Pitch</code> | 
+| Param | Type |
+| --- | --- |
+| str | <code>string</code> \| <code>Pitch</code> | 
 
 **Example**  
 ```js
@@ -323,6 +205,42 @@ Get the frequency of a note
 Note.freq("A4") // => 440
 Note.freq(69) // => 440
 ```
+<a name="module_Note.freqToMidi"></a>
+
+## `Note.freqToMidi(frequency)` ⇒ <code>number</code>
+Get the midi number from a frequency in hertz. The midi number can
+contain decimals (with two digits precission)
+
+**Kind**: static method of [<code>Note</code>](#module_Note)  
+
+| Param | Type |
+| --- | --- |
+| frequency | <code>number</code> | 
+
+**Example**  
+```js
+Note.freqToMidi(220)); //=> 57;
+Note.freqToMidi(261.62)); //=> 60;
+Note.freqToMidi(261)); //=> 59.96;
+```
+<a name="module_Note.chroma"></a>
+
+## `Note.chroma(note)` ⇒ <code>Integer</code>
+Return the chroma of a note. The chroma is the numeric equivalent to the
+pitch class, where 0 is C, 1 is C# or Db, 2 is D... 11 is B
+
+**Kind**: static method of [<code>Note</code>](#module_Note)  
+**Returns**: <code>Integer</code> - the chroma number  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| note | <code>string</code> | the note name |
+
+**Example**  
+```js
+Note.chroma("Cb") // => 11
+["C", "D", "E", "F"].map(Note.chroma) // => [0, 2, 4, 5]
+```
 <a name="module_Note.oct"></a>
 
 ## `Note.oct(note)` ⇒ <code>Integer</code>
@@ -341,9 +259,40 @@ Note.oct("C#4") // => 4
 Note.oct("C") // => null
 Note.oct("blah") // => undefined
 ```
-<a name="module_Note.from"></a>
+<a name="module_Note.stepToLetter"></a>
 
-## `Note.from(props, [baseNote])` ⇒ <code>string</code>
+## `Note.stepToLetter(step)` ⇒ <code>string</code>
+Given a step number return it's letter (0 = C, 1 = D, 2 = E)
+
+**Kind**: static method of [<code>Note</code>](#module_Note)  
+**Returns**: <code>string</code> - the letter  
+
+| Param | Type |
+| --- | --- |
+| step | <code>number</code> | 
+
+**Example**  
+```js
+Note.stepToLetter(3) // => "F"
+```
+<a name="module_Note.altToAcc"></a>
+
+## `Note.altToAcc(alt)` ⇒ <code>string</code>
+Given an alteration number, return the accidentals
+
+**Kind**: static method of [<code>Note</code>](#module_Note)  
+
+| Param | Type |
+| --- | --- |
+| alt | <code>number</code> | 
+
+**Example**  
+```js
+Note.altToAcc(-3) // => "bbb"
+```
+<a name="module_Note.fromProps"></a>
+
+## `Note.fromProps(props, [baseNote])` ⇒ <code>string</code>
 Creates a note name in scientific notation from note properties,
 and optionally another note name.
 It receives an object with:
@@ -391,4 +340,41 @@ Note.fromMidi(61) // => "Db4"
 Note.fromMidi(61, true) // => "C#4"
 // it rounds to nearest note
 Note.fromMidi(61.7) // => "D4"
+```
+<a name="module_Note.simplify"></a>
+
+## `Note.simplify(note, useSameAccType)` ⇒ <code>string</code>
+Simplify the note: find an enhramonic note with less accidentals.
+
+**Kind**: static method of [<code>Note</code>](#module_Note)  
+**Returns**: <code>string</code> - the simplfiied note or null if not valid note  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| note | <code>string</code> | the note to be simplified |
+| useSameAccType | <code>boolean</code> | (optional, true by default) set to true to ensure the returned note has the same accidental types that the given note |
+
+**Example**  
+```js
+Note.simplify("C##") // => "D"
+Note.simplify("C###") // => "D#"
+Note.simplify("C###", false) // => "Eb"
+Note.simplify("B#4") // => "C5"
+```
+<a name="module_Note.enharmonic"></a>
+
+## `Note.enharmonic(note)` ⇒ <code>string</code>
+Get the simplified and enhramonic note of the given one.
+
+**Kind**: static method of [<code>Note</code>](#module_Note)  
+**Returns**: <code>string</code> - the enhramonic note  
+
+| Param | Type |
+| --- | --- |
+| note | <code>string</code> | 
+
+**Example**  
+```js
+Note.enharmonic("Db") // => "C#"
+Note.enhramonic("C") // => "C"
 ```

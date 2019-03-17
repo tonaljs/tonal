@@ -1,8 +1,5 @@
 /**
- * [![npm version](https://img.shields.io/npm/v/tonal-interval.svg)](https://www.npmjs.com/package/tonal-interval)
- * [![tonal](https://img.shields.io/badge/tonal-interval-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
- *
- * `tonal-interval` is a collection of functions to create and manipulate music intervals.
+ * A collection of functions to create and manipulate music intervals.
  *
  * The intervals are strings in shorthand notation. Two variations are supported:
  *
@@ -18,27 +15,35 @@
  *
  * ## Usage
  *
- * ```js
- * // es6
- * import * as Interval from "tonal-interval"
- * // es5
- * const Interval = require("tonal-interval")
- * // part of tonal
- * import { Interval } from "tonal"
- *
+ * @example
+ * import Interval from "tonal/interval"
  * Interval.semitones("4P") // => 5
  * Interval.invert("3m") // => "6M"
  * Interval.simplify("9m") // => "2m"
- * ```
  *
- * ## Install
+ * @example
+ * const Tonal = require('tonal')
+ * Tonal.Interval.semitones("4P") // => 5
  *
- * [![npm install tonal-interval](https://nodei.co/npm/tonal-interval.png?mini=true)](https://npmjs.org/package/tonal-interval/)
- *
- * ## API Documentation
+ * ## API
  *
  * @module Interval
  */
+export default {
+  tokenize,
+  props,
+  simplify,
+  invert,
+  names,
+  num,
+  name,
+  fromProps,
+  chroma,
+  ic,
+  semitones,
+  fromSemitones
+};
+
 // shorthand tonal notation (with quality after number)
 const IVL_TNL = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
 // standard shorthand notation (with quality before number)
@@ -60,15 +65,26 @@ const NAMES = "1P 2m 2M 3m 3M 4P 5P 6m 6M 7m 7M 8P".split(" ");
  * Interval.names("Pm") // => [ "1P", "2m", "3m", "4P", "5P", "6m", "7m", "8P" ]
  * Interval.names("d") // => []
  */
-export const names = types =>
-  typeof types !== "string"
+export function names(types) {
+  return typeof types !== "string"
     ? NAMES.slice()
     : NAMES.filter(n => types.indexOf(n[1]) !== -1);
+}
 
-export const tokenize = str => {
+/**
+ * Split a interval string into its parts
+ *
+ * It returns an array with the shape [number, type]
+ * @param {string} interval - the interval string
+ * @return {Array<String>}
+ *
+ * @example
+ * Interval.tokenize("-2M") //=> ["-2", "M"]
+ */
+export function tokenize(str) {
   const m = REGEX.exec(str);
   return m === null ? null : m[1] ? [m[1], m[2]] : [m[4], m[3]];
-};
+}
 
 const NO_IVL = Object.freeze({
   name: null,
@@ -158,7 +174,9 @@ export function props(str) {
  * Interval.num("P9") // => 9
  * Interval.num("P-4") // => -4
  */
-export const num = str => props(str).num;
+export function num(str) {
+  return props(str).num;
+}
 
 /**
  * Get interval name. Can be used to test if it"s an interval. It accepts intervals
@@ -172,7 +190,9 @@ export const num = str => props(str).num;
  * Interval.name("m-3") // => "-3m"
  * Interval.name("3") // => null
  */
-export const name = str => props(str).name;
+export function name(str) {
+  return props(str).name;
+}
 
 /**
  * Get size in semitones of an interval
@@ -186,7 +206,9 @@ export const name = str => props(str).name;
  * // or using tonal
  * Tonal.Interval.semitones("P5") // => 7
  */
-export const semitones = str => props(str).semitones;
+export function semitones(str) {
+  return props(str).semitones;
+}
 
 /**
  * Get the chroma of the interval. The chroma is a number between 0 and 7
@@ -196,7 +218,9 @@ export const semitones = str => props(str).semitones;
  * @param {string} str
  * @return {number}
  */
-export const chroma = str => props(str).chroma;
+export function chroma(str) {
+  return props(str).chroma;
+}
 
 /**
  * Get the [interval class](https://en.wikipedia.org/wiki/Interval_class)
@@ -215,13 +239,13 @@ export const chroma = str => props(str).chroma;
  * Interval.ic(10) // => 2
  * ["P1", "M2", "M3", "P4", "P5", "M6", "M7"].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
  */
-export const ic = ivl => {
+export function ic(ivl) {
   if (typeof ivl === "string") ivl = props(ivl).chroma;
   return typeof ivl === "number" ? CLASSES[ivl % 12] : null;
-};
+}
 
 /**
- * Given a interval property object, get the interval name
+ * Given a interval props object, get the interval name
  *
  * The properties must contain a `num` *or* `step`, and `alt`:
  *
@@ -236,17 +260,17 @@ export const ic = ivl => {
  *
  * @return {string} the interval name
  * @example
- * Interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
- * Interval.build({ num: 9, alt: -1 }) // => "9m"
+ * Interval.fromProps({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
+ * Interval.fromProps({ num: 9, alt: -1 }) // => "9m"
  */
-export const build = ({ num, step, alt, oct = 1, dir } = {}) => {
+export function fromProps({ num, step, alt, oct = 1, dir } = {}) {
   if (step !== undefined) num = step + 1 + 7 * oct;
   if (num === undefined) return null;
 
   const d = dir < 0 ? "-" : "";
   const type = TYPES[numToStep(num)];
   return d + num + altToQ(type, alt);
-};
+}
 
 /**
  * Get the simplified version of an interval.
@@ -262,11 +286,11 @@ export const build = ({ num, step, alt, oct = 1, dir } = {}) => {
  * Interval.simplify("2M") // => "2M"
  * Interval.simplify("-2M") // => "7m"
  */
-export const simplify = str => {
+export function simplify(str) {
   const p = props(str);
   if (p === NO_IVL) return null;
   return p.simple + p.q;
-};
+}
 
 /**
  * Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
@@ -281,13 +305,13 @@ export const simplify = str => {
  * Interval.invert("3m") // => "6M"
  * Interval.invert("2M") // => "7m"
  */
-export const invert = str => {
+export function invert(str) {
   const p = props(str);
   if (p === NO_IVL) return null;
   const step = (7 - p.step) % 7;
   const alt = p.type === "P" ? -p.alt : -(p.alt + 1);
-  return build({ step, alt, oct: p.oct, dir: p.dir });
-};
+  return fromProps({ step, alt, oct: p.oct, dir: p.dir });
+}
 
 // interval numbers
 var IN = [1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 7, 7];
@@ -307,10 +331,10 @@ var IQ = "P m M m M P d P m M m M".split(" ");
  * // or using tonal
  * Tonal.Distance.fromSemitones(-7) // => "-5P"
  */
-export const fromSemitones = num => {
+export function fromSemitones(num) {
   var d = num < 0 ? -1 : 1;
   var n = Math.abs(num);
   var c = n % 12;
   var o = Math.floor(n / 12);
   return d * (IN[c] + 7 * o) + IQ[c];
-};
+}

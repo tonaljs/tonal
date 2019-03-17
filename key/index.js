@@ -1,3 +1,8 @@
+import { rotate, range } from "../array";
+import { tokenize as split, altToAcc } from "../note";
+import { trFifths, fifths, interval, transpose } from "../distance";
+import { fromDegree, decimal } from "../roman-numeral";
+
 /**
  * [![npm version](https://img.shields.io/npm/v/tonal-key.svg?style=flat-square)](https://www.npmjs.com/package/tonal-key)
  * [![tonal](https://img.shields.io/badge/tonal-key-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
@@ -18,10 +23,6 @@
  *
  * @module Key
  */
-import { rotate, range } from "../array";
-import { tokenize as split, altToAcc } from "../note";
-import { trFifths, fifths, interval, transpose } from "../distance";
-import { fromDegree, decimal } from "../roman-numeral";
 
 const MODES = "major dorian phrygian lydian mixolydian minor locrian ionian aeolian".split(
   " "
@@ -48,8 +49,9 @@ const modenum = mode => NUMS[MODES.indexOf(mode)];
  * Key.modes(true) // => [ "ionian", "dorian", "phrygian", "lydian",
  * // "mixolydian", "aeolian", "locrian", "major", "minor" ]
  */
-export const modeNames = aliases =>
-  aliases === true ? MODES.slice() : MODES.slice(0, 7);
+export function modeNames(aliases) {
+  return aliases === true ? MODES.slice() : MODES.slice(0, 7);
+}
 
 /**
  * Create a major key from alterations
@@ -60,14 +62,16 @@ export const modeNames = aliases =>
  * @example
  * Key.fromAlter(2) // => "D major"
  */
-export const fromAlter = i => trFifths("C", i) + " major";
+export function fromAlter(i) {
+  return trFifths("C", i) + " major";
+}
 
-export const names = (alt = 4) => {
+export function names(alt = 4) {
   alt = Math.abs(alt);
   const result = [];
   for (let i = -alt; i <= alt; i++) result.push(fromAlter(i));
   return result;
-};
+}
 
 const NO_KEY = Object.freeze({
   name: null,
@@ -139,14 +143,14 @@ export const scale = str => props(str).scale;
  * @example
  * Key.degrees("C major") => ["I", "ii", "iii", "IV", "V", "vi", "vii"]
  */
-export const degrees = str => {
+export function degrees(str) {
   const p = props(str);
   if (p.name === null) return [];
   const chords = rotate(p.modenum, SEVENTHS);
   return chords.map((chord, i) => {
     return fromDegree(i + 1, chord[0] !== "m");
   });
-};
+}
 
 /**
  * Get a list of the altered notes of a given Key. The notes will be in
@@ -159,7 +163,7 @@ export const degrees = str => {
  * @example
  * Key.alteredNotes("Eb major") // => [ "Bb", "Eb", "Ab" ]
  */
-export const alteredNotes = name => {
+export function alteredNotes(name) {
   const alt = props(name).alt;
   if (alt === null) return null;
   return alt === 0
@@ -167,7 +171,7 @@ export const alteredNotes = name => {
     : alt > 0
     ? range(1, alt).map(trFifths("B"))
     : range(-1, alt).map(trFifths("F"));
-};
+}
 
 /**
  * Get a lead-sheet symbols for a given key name
@@ -271,14 +275,14 @@ export const secDomChords = name => {
  * minor("C major") // => "A minor"
  * minor("E major") // => "C# minor"
  */
-export const relative = (mode, key) => {
+export function relative(mode, key) {
   if (arguments.length === 1) return key => relative(mode, key);
   const num = modenum(mode.toLowerCase());
   if (num === undefined) return null;
   const k = props(key);
   if (k.name === null) return null;
   return trFifths(k.tonic, FIFTHS[num] - FIFTHS[k.modenum]) + " " + mode;
-};
+}
 
 /**
  * Split the key name into its components (pitch class tonic and mode name)
@@ -290,9 +294,25 @@ export const relative = (mode, key) => {
  * @example
  * Key.tokenize("C major") // => ["C", "major"]
  */
-export const tokenize = name => {
+export function tokenize(name) {
   const p = split(name);
   p[3] = p[3].toLowerCase();
   if (p[0] === "" || MODES.indexOf(p[3]) === -1) return [null, null];
   return [p[0] + p[1], p[3]];
+}
+
+export default {
+  tokenize,
+  modeNames,
+  fromAlter,
+  names,
+  props,
+  scale,
+  degrees,
+  relative,
+  alteredNotes,
+  leadsheetSymbols,
+  chords,
+  triads,
+  secDomChords
 };

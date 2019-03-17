@@ -13,6 +13,8 @@ Each musical chord is represented by an object with:
 - {string} - chroma: the pitchclass set chroma
 - {integer} - setnum: the pitchclass set chroma number in decimal
 
+## Usage
+
 **Example**  
 ```js
 import ChordDictionary from "tonal/chord-dictionary"
@@ -25,6 +27,8 @@ ChordDictionary.find("major") // => {
 ```js
 // CommonJS modules (require, node.js)
 const { ChordDictionary } = require("tonal")
+
+## API
 ```
 
 * [ChordDictionary](#module_ChordDictionary)

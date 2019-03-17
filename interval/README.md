@@ -1,10 +1,7 @@
 <a name="module_Interval"></a>
 
 # Interval
-[![npm version](https://img.shields.io/npm/v/tonal-interval.svg)](https://www.npmjs.com/package/tonal-interval)
-[![tonal](https://img.shields.io/badge/tonal-interval-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
-
-`tonal-interval` is a collection of functions to create and manipulate music intervals.
+A collection of functions to create and manipulate music intervals.
 
 The intervals are strings in shorthand notation. Two variations are supported:
 
@@ -20,45 +17,41 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 
 ## Usage
 
+**Example**  
 ```js
-// es6
-import * as Interval from "tonal-interval"
-// es5
-const Interval = require("tonal-interval")
-// part of tonal
-import { Interval } from "tonal"
-
+import Interval from "tonal/interval"
 Interval.semitones("4P") // => 5
 Interval.invert("3m") // => "6M"
 Interval.simplify("9m") // => "2m"
 ```
+**Example**  
+```js
+const Tonal = require('tonal')
+Tonal.Interval.semitones("4P") // => 5
 
-## Install
-
-[![npm install tonal-interval](https://nodei.co/npm/tonal-interval.png?mini=true)](https://npmjs.org/package/tonal-interval/)
-
-## API Documentation
-
+## API
+```
 
 * [Interval](#module_Interval)
-    * [`.names`](#module_Interval.names) ⇒ <code>Array</code>
+    * [`.names(qualities)`](#module_Interval.names) ⇒ <code>Array</code>
+    * [`.tokenize(interval)`](#module_Interval.tokenize) ⇒ <code>Array.&lt;String&gt;</code>
     * [`.props(interval)`](#module_Interval.props) ⇒ <code>Object</code>
     * [`.num(interval)`](#module_Interval.num) ⇒ <code>Integer</code>
     * [`.name(interval)`](#module_Interval.name) ⇒ <code>string</code>
     * [`.semitones(ivl)`](#module_Interval.semitones) ⇒ <code>Integer</code>
     * [`.chroma(str)`](#module_Interval.chroma) ⇒ <code>number</code>
     * [`.ic(interval)`](#module_Interval.ic) ⇒ <code>Integer</code>
-    * [`.build(props)`](#module_Interval.build) ⇒ <code>string</code>
+    * [`.fromProps(props)`](#module_Interval.fromProps) ⇒ <code>string</code>
     * [`.simplify(interval)`](#module_Interval.simplify) ⇒ <code>string</code>
     * [`.invert(interval)`](#module_Interval.invert) ⇒ <code>string</code>
     * [`.fromSemitones(num)`](#module_Interval.fromSemitones) ⇒ <code>string</code>
 
 <a name="module_Interval.names"></a>
 
-## `Interval.names` ⇒ <code>Array</code>
+## `Interval.names(qualities)` ⇒ <code>Array</code>
 List basic (perfect, major, minor) interval names within a octave
 
-**Kind**: static constant of [<code>Interval</code>](#module_Interval)  
+**Kind**: static method of [<code>Interval</code>](#module_Interval)  
 **Returns**: <code>Array</code> - the interval names  
 
 | Param | Type | Description |
@@ -72,6 +65,23 @@ Interval.names("P") // => [ "1P", "4P", "5P", "8P" ]
 Interval.names("PM") // => [ "1P", "2M", "3M", "4P", "5P", "6M", "7M", "8P" ]
 Interval.names("Pm") // => [ "1P", "2m", "3m", "4P", "5P", "6m", "7m", "8P" ]
 Interval.names("d") // => []
+```
+<a name="module_Interval.tokenize"></a>
+
+## `Interval.tokenize(interval)` ⇒ <code>Array.&lt;String&gt;</code>
+Split a interval string into its parts
+
+It returns an array with the shape [number, type]
+
+**Kind**: static method of [<code>Interval</code>](#module_Interval)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| interval | <code>string</code> | the interval string |
+
+**Example**  
+```js
+Interval.tokenize("-2M") //=> ["-2", "M"]
 ```
 <a name="module_Interval.props"></a>
 
@@ -187,10 +197,10 @@ Interval.ic("m6") // => 4
 Interval.ic(10) // => 2
 ["P1", "M2", "M3", "P4", "P5", "M6", "M7"].map(ic) // => [0, 2, 4, 5, 5, 3, 1]
 ```
-<a name="module_Interval.build"></a>
+<a name="module_Interval.fromProps"></a>
 
-## `Interval.build(props)` ⇒ <code>string</code>
-Given a interval property object, get the interval name
+## `Interval.fromProps(props)` ⇒ <code>string</code>
+Given a interval props object, get the interval name
 
 The properties must contain a `num` *or* `step`, and `alt`:
 
@@ -209,8 +219,8 @@ The properties must contain a `num` *or* `step`, and `alt`:
 
 **Example**  
 ```js
-Interval.build({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
-Interval.build({ num: 9, alt: -1 }) // => "9m"
+Interval.fromProps({ step: 1, alt: -1, oct: 0, dir: 1 }) // => "1d"
+Interval.fromProps({ num: 9, alt: -1 }) // => "9m"
 ```
 <a name="module_Interval.simplify"></a>
 

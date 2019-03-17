@@ -1,23 +1,21 @@
 <a name="module_Chord"></a>
 
 # Chord
-[![npm version](https://img.shields.io/npm/v/tonal-chord.svg)](https://www.npmjs.com/package/tonal-chord)
-[![tonal](https://img.shields.io/badge/tonal-chord-yellow.svg)](https://www.npmjs.com/browse/keyword/tonal)
+`tonal/chord` is a collection of functions to manipulate musical chords
 
-`tonal-chord` is a collection of functions to manipulate musical chords
-
-This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+## Usage
 
 **Example**  
 ```js
-// es6
-import * as Chord from "tonal-chord"
-// es5
-const Chord = require("tonal-chord")
+import Chord from 'tonal/chord'
+Chord.notes("CMaj7") // => ["C", "E", "G", "B"]
 ```
 **Example**  
 ```js
-Chord.notes("CMaj7") // => ["C", "E", "G", "B"]
+const Tonal = require('tonal')
+Tonal.Chord.intervals('Cmaj7') // => ["1P", "3M", "5P", "7M"]
+
+## API
 ```
 
 * [Chord](#module_Chord)
