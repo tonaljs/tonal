@@ -57,7 +57,7 @@ describe("tonal-chord", () => {
 
   test("supsersets", () => {
     expect(Chord.supersets("CMaj7")).toEqual(
-      $("M13 M13#11 M7add13 M7b9 Maj7#9#11 maj#4 maj13 maj7#11 maj7b6")
+      $("M13#11 M7add13 M7b9 Maj7#9#11 maj#4 maj13 maj9 maj9#11")
     );
   });
 

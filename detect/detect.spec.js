@@ -1,5 +1,4 @@
 import { detector, chord, scale } from "./";
-import * as Dict from "../dictionary";
 
 const $ = str => str.split(" ");
 
@@ -14,22 +13,6 @@ describe("Detect", () => {
 
   test("scale", () => {
     expect(scale($("f3 a c5 e2 d g2 b6"))).toEqual([
-      "C major",
-      "D dorian",
-      "E phrygian",
-      "F lydian",
-      "G mixolydian",
-      "A aeolian",
-      "B locrian"
-    ]);
-  });
-
-  it("create a detector", () => {
-    const detect = detector(
-      Dict.scale,
-      (tonic, names) => `${tonic} ${names[0]}`
-    );
-    expect(detect($("c d e f g a b"))).toEqual([
       "C major",
       "D dorian",
       "E phrygian",

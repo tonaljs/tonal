@@ -72,7 +72,7 @@ describe("tonal-scale", () => {
   });
 
   test("chords: find all chords that fits into this scale", () => {
-    expect(Scale.chords("pentatonic")).toEqual($("6 64 M M6 Madd9 sus2"));
+    expect(Scale.chords("pentatonic")).toEqual($("5 6 64 M Madd9 sus2"));
     expect(Scale.chords("none")).toEqual([]);
   });
 
