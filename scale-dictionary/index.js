@@ -1,5 +1,5 @@
-import data from "./data";
-import { chroma } from "../pcset";
+import data from "./scale-data";
+import { chroma } from "../pc-set";
 
 /**
  * A dictionary of musical scales. Query functions to get scale names,
@@ -87,14 +87,14 @@ export function intervalsOf(name) {
  * ScaleDictionary.nameOf("ionian") // => "major"
  * ScaleDictionary.nameOf("major") // => "major"
  */
-export function nameOf(intervals) {
+export function nameOf(source) {
   nameByChroma =
     nameByChroma ||
     buildIndex((index, ivls, names) => {
       index[chroma(ivls.split(" "))] = names[0];
       names.forEach(name => (index[name] = names[0]));
     });
-  return nameByChroma[chroma(intervals)] || nameByChroma[intervals];
+  return nameByChroma[chroma(source)] || nameByChroma[source];
 }
 
 /**

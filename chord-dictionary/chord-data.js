@@ -1,12 +1,12 @@
 // CHORDS
 // Format: "intervals": ["full name", "abrv1 abrv2"]
 // Source: https://en.wikibooks.org/wiki/Music_Theory/Complete_List_of_Chord_Patterns
-module.exports = {
+export default {
   // ==Major==
-  "1P 3M 5P": ["major", "major  M"],
-  "1P 3M 5P 7M": ["major seventh", "maj7 Δ7 ma7 M7 Δ"],
+  "1P 3M 5P": ["major", "M "],
+  "1P 3M 5P 7M": ["major seventh", "maj7 Δ ma7 M7 Maj7"],
   "1P 3M 5P 7M 9M": ["major ninth", "maj9"],
-  "1P 3M 5P 7M 9M 11P 13M": ["major thirteenth", "maj13"],
+  "1P 3M 5P 7M 9M 11P 13M": ["major thirteenth", "maj13 Maj13"],
   "1P 3M 5P 6M": ["sixth", "6 add6 add13"],
   "1P 3M 5P 6M 9M": ["sixth/ninth", "6/9 69"],
   "1P 3M 5P 7M 11A": ["lydian", "maj#4 Δ#4 Δ#11"],
@@ -54,9 +54,9 @@ module.exports = {
   "5P 7m 2M 1P $$$b 5P": ["Gm|Cm", "Cm9"],
   "5P 7M 2M 1P 3m 5P": ["G|Cm", "Cm maj9"],
   // ==Other==
-  "1P 5P": ["fifth", "5 (no 3rd)"],
+  "1P 5P": ["fifth", "5"],
   "1P 3M 5A": ["augmented", "aug +"],
-  "1P 3M 5A 7M": ["augmented seventh", "7#5 maj7+5"],
+  "1P 3M 5A 7M": ["augmented seventh", "maj7#5 maj7+5"],
   "1P 3M 5P 7M 9M 11A": ["major #11 (lydian)", "maj7#11 Δ#11 Δ#4"],
   "1P 3M 5P 7m 9A": ["dominant #9", "7#9"],
   "1P 4P 5P 7m 9m": ["suspended b9 (phrygian)", "b9sus"],

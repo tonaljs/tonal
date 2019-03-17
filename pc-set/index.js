@@ -1,7 +1,7 @@
 /**
  * [![npm version](https://img.shields.io/npm/v/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
  *
- * `tonal/pcset` is a collection of functions to work with pitch class sets, oriented
+ * `tonal/pc-set` is a collection of functions to work with pitch class sets, oriented
  * to make comparations (isEqual, isSubset, isSuperset)
  *
  * This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
@@ -11,7 +11,7 @@
  * ```js
  * // es6
  * import PCSet from "tonal-pcset"
- * var PCSet = require("tonal-pcset")
+ * const PCSet = require("tonal-pcset")
  *
  * PCSet.isEqual("c2 d5 e6", "c6 e3 d1") // => true
  * ```
@@ -42,8 +42,8 @@ const clen = chroma => chroma.replace(/0/g, "").length;
  */
 export function chroma(set) {
   if (isChroma(set)) return set;
-  if (!Array.isArray(set)) return "";
-  var b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  if (!Array.isArray(set)) return null;
+  const b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   set.map(chr).forEach(i => {
     b[i] = 1;
   });
@@ -80,16 +80,16 @@ export function chromas(n) {
  */
 export function modes(set, normalize) {
   normalize = normalize !== false;
-  var binary = chroma(set).split("");
+  const binary = (chroma(set) || "").split("");
   return compact(
     binary.map(function(_, i) {
-      var r = rotate(i, binary);
+      const r = rotate(i, binary);
       return normalize && r[0] === "0" ? null : r.join("");
     })
   );
 }
 
-var REGEX = /^[01]{12}$/;
+const REGEX = /^[01]{12}$/;
 /**
  * Test if the given string is a pitch class set chroma.
  * @param {string} chroma - the pitch class set chroma
@@ -102,7 +102,7 @@ export function isChroma(set) {
   return REGEX.test(set);
 }
 
-var IVLS = "1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" ");
+const IVLS = "1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" ");
 /**
  * Given a pcset (notes or chroma) return it"s intervals
  * @param {String|Array} pcset - the pitch class set (notes or chroma)

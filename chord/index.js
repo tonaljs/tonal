@@ -19,8 +19,8 @@
  */
 import { tokenize as split } from "../note";
 import { transpose } from "../distance";
-import { chord } from "../dictionary";
-import { chroma, isSubsetOf, isSupersetOf } from "../pcset";
+import Chords from "../chord-dictionary";
+import { chroma, isSubsetOf, isSupersetOf } from "../pc-set";
 
 /**
  * Return the available chord names
@@ -32,7 +32,8 @@ import { chroma, isSubsetOf, isSupersetOf } from "../pcset";
  * @example
  * Chord.names() // => ["maj7", ...]
  */
-export const names = chord.names;
+export const names = aliases =>
+  aliases ? Chords.abbreviations() : Chords.names();
 
 const NO_CHORD = Object.freeze({
   name: null,
@@ -41,16 +42,6 @@ const NO_CHORD = Object.freeze({
   chroma: null,
   setnum: null
 });
-
-const properties = name => {
-  const intervals = chord(name);
-  if (!intervals) return NO_CHORD;
-  const s = { intervals, name };
-  s.chroma = chroma(intervals);
-  s.setnum = parseInt(s.chroma, 2);
-  s.names = chord.names(s.chroma);
-  return s;
-};
 
 const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
 
@@ -68,7 +59,15 @@ const memo = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
  * @return {Object} an object with the properties or a object with all properties
  * set to null if not valid chord name
  */
-export const props = memo(properties);
+export const props = memo(name => {
+  const intervals = Chords.intervalsOf(name);
+  if (!intervals) return NO_CHORD;
+  const s = { intervals, name };
+  s.chroma = chroma(intervals);
+  s.setnum = parseInt(s.chroma, 2);
+  s.names = Chords.abbreviationsOf(name);
+  return s;
+});
 
 /**
  * Get chord intervals. It always returns an array
@@ -106,12 +105,13 @@ export function notes(nameOrTonic, name) {
  * @function
  * @param {string} name
  * @return {Boolean}
+ *
  * @example
  * Chord.exists("CMaj7") // => true
  * Chord.exists("Maj7") // => true
  * Chord.exists("Ablah") // => false
  */
-export const exists = name => chord(tokenize(name)[1]) !== undefined;
+export const exists = name => Chords.intervalsOf(tokenize(name)[1]).length > 0;
 
 /**
  * Get all chords names that are a superset of the given one
@@ -122,9 +122,12 @@ export const exists = name => chord(tokenize(name)[1]) !== undefined;
  * @return {Array} a list of chord names
  */
 export const supersets = name => {
-  if (!intervals(name).length) return [];
-  const isSuperset = isSupersetOf(intervals(name));
-  return chord.names().filter(name => isSuperset(chord(name)));
+  const chordIntervals = intervals(name);
+  if (chordIntervals.length === 0) return [];
+  const isSuperset = isSupersetOf(chordIntervals);
+  return Chords.abbreviations().filter(abbrv =>
+    isSuperset(Chords.intervalsOf(abbrv))
+  );
 };
 
 /**
@@ -137,7 +140,9 @@ export const supersets = name => {
  */
 export const subsets = name => {
   const isSubset = isSubsetOf(intervals(name));
-  return chord.names().filter(name => isSubset(chord(name)));
+  return Chords.abbreviations().filter(name =>
+    isSubset(Chords.intervalsOf(name))
+  );
 };
 
 // 6, 64, 7, 9, 11 and 13 are consider part of the chord

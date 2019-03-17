@@ -1,33 +1,50 @@
-import * as Chord from "./";
+import Chords from "./";
 
-const $ = arr => arr.join(" ");
+const $ = str => str.split(" ");
 
 describe("Chord dictionary", () => {
-  it("list names", () => {
-    expect(Chord.names()).toHaveLength(45);
+  describe("chord names", () => {
+    it("list names", () => {
+      expect(Chords.names()).toHaveLength(45);
+    });
+
+    it("list of abbreviations", () => {
+      expect(Chords.abbreviations()).toHaveLength(126);
+    });
+
+    it("list of all aliases (names + all abbreviations)", () => {
+      expect(Chords.aliases()).toHaveLength(226);
+    });
   });
-  it("list abbreviations", () => {
-    expect(Chord.abbreviations()).toHaveLength(126);
-  });
-  it("list aliases", () => {
-    expect(Chord.aliases()).toHaveLength(228);
-  });
-  it("get alias of a name", () => {
-    expect(Chord.alias("minor")).toEqual(["m", "min", "-"]);
-    expect(Chord.alias("-")).toEqual(["m", "min", "-"]);
-    expect(Chord.alias("maj13#11")).toEqual([
+
+  it("get abbreviations of a chord ", () => {
+    expect(Chords.abbreviationsOf($("1P 3m 5P"))).toEqual(["m", "min", "-"]);
+    expect(Chords.abbreviationsOf("minor")).toEqual(["m", "min", "-"]);
+    expect(Chords.abbreviationsOf("-")).toEqual(["m", "min", "-"]);
+    expect(Chords.abbreviationsOf("maj13#11")).toEqual([
       "M13#11",
       "maj13#11",
       "M13+4",
       "M13#4"
     ]);
-    expect(Chord.alias("no chord")).toEqual([]);
+    expect(Chords.abbreviationsOf("no chord")).toEqual([]);
   });
+
+  it("get name of a chord", () => {
+    expect(Chords.nameOf($("1P 3M 5P 7M 9M"))).toEqual("major seventh b6");
+    expect(Chords.nameOf("101010010001")).toEqual("major seventh b6");
+    expect(Chords.nameOf("m")).toEqual("minor");
+    expect(Chords.nameOf("-")).toEqual("minor");
+    expect(Chords.nameOf("minor")).toEqual("minor");
+    expect(Chords.nameOf("69#11")).toEqual(null);
+    expect(Chords.nameOf("no chord")).toEqual(undefined);
+  });
+
   it("get intervals from name or abbreviation", () => {
-    expect($(Chord.intervals("major"))).toEqual("1P 3M 5P");
-    expect($(Chord.intervals(""))).toEqual("1P 3M 5P");
-    expect($(Chord.intervals("M"))).toEqual("1P 3M 5P");
-    expect($(Chord.intervals("maj13#11"))).toEqual("1P 3M 5P 7M 9M 11A 13M");
-    expect(Chord.intervals("no chord")).toEqual([]);
+    expect(Chords.intervalsOf("major")).toEqual($("1P 3M 5P"));
+    expect(Chords.intervalsOf("")).toEqual($("1P 3M 5P"));
+    expect(Chords.intervalsOf("M")).toEqual($("1P 3M 5P"));
+    expect(Chords.intervalsOf("maj13#11")).toEqual($("1P 3M 5P 7M 9M 11A 13M"));
+    expect(Chords.intervalsOf("no chord")).toEqual([]);
   });
 });

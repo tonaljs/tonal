@@ -22,9 +22,14 @@ import {
   chroma,
   isSubsetOf,
   isSupersetOf
-} from "../pcset";
+} from "../pc-set";
 import { transpose } from "../distance";
-import { scale, chord } from "../dictionary";
+import Scales from "../scale-dictionary";
+import {
+  abbreviations as chordList,
+  intervalsOf as chordIntervals
+} from "../chord-dictionary";
+//import { chord } from "../dictionary";
 import { compact, unique, rotate } from "../array";
 
 const NO_SCALE = Object.freeze({
@@ -35,17 +40,7 @@ const NO_SCALE = Object.freeze({
   setnum: null
 });
 
-const properties = name => {
-  const intervals = scale(name);
-  if (!intervals) return NO_SCALE;
-  const s = { intervals, name };
-  s.chroma = chroma(intervals);
-  s.setnum = parseInt(s.chroma, 2);
-  s.names = scale.names(s.chroma);
-  return Object.freeze(s);
-};
-
-const memoize = (fn, cache) => str => cache[str] || (cache[str] = fn(str));
+const memoize = (fn, cache = {}) => str => cache[str] || (cache[str] = fn(str));
 
 /**
  * Get scale properties. It returns an object with:
@@ -59,7 +54,15 @@ const memoize = (fn, cache) => str => cache[str] || (cache[str] = fn(str));
  * @param {string} name - the scale name (without tonic)
  * @return {Object}
  */
-export const props = memoize(properties, {});
+export const props = memoize(name => {
+  const intervals = Scales.intervalsOf(name);
+  if (!intervals) return NO_SCALE;
+  const s = { intervals, name };
+  s.chroma = chroma(intervals);
+  s.setnum = parseInt(s.chroma, 2);
+  s.names = Scales.aliasesOf(name);
+  return Object.freeze(s);
+});
 
 /**
  * Return the available scale names
@@ -71,7 +74,7 @@ export const props = memoize(properties, {});
  * @example
  * Scale.names() // => ["maj7", ...]
  */
-export const names = scale.names;
+export const names = aliases => (aliases ? Scales.aliases() : Scales.names());
 
 /**
  * Given a scale name, return its intervals. The name can be the type and
@@ -124,7 +127,7 @@ export function notes(nameOrTonic, name) {
  */
 export function exists(name) {
   const p = tokenize(name);
-  return scale(p[1]) !== undefined;
+  return Scales.intervalsOf(p[1]).length > 0;
 }
 
 /**
@@ -168,11 +171,12 @@ export function tokenize(str) {
 export const modeNames = name => {
   const ivls = intervals(name);
   const tonics = notes(name);
+  debugger;
 
   return pcsetModes(ivls)
     .map((chroma, i) => {
-      const name = scale.names(chroma)[0];
-      if (name) return [tonics[i] || ivls[i], name];
+      const modeName = Scales.nameOf(chroma);
+      if (modeName) return [tonics[i] || ivls[i], modeName];
     })
     .filter(x => x);
 };
@@ -189,7 +193,7 @@ export const modeNames = name => {
  */
 export const chords = name => {
   const inScale = isSubsetOf(intervals(name));
-  return chord.names().filter(name => inScale(chord(name)));
+  return chordList().filter(chordName => inScale(chordIntervals(chordName)));
 };
 
 /**
@@ -224,7 +228,7 @@ export const toScale = notes => {
 export const supersets = name => {
   if (!intervals(name).length) return [];
   const isSuperset = isSupersetOf(intervals(name));
-  return scale.names().filter(name => isSuperset(scale(name)));
+  return Scales.names().filter(name => isSuperset(Scales.intervalsOf(name)));
 };
 
 /**
@@ -240,5 +244,5 @@ export const supersets = name => {
  */
 export const subsets = name => {
   const isSubset = isSubsetOf(intervals(name));
-  return scale.names().filter(name => isSubset(scale(name)));
+  return Scales.names().filter(name => isSubset(Scales.intervalsOf(name)));
 };

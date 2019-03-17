@@ -72,14 +72,13 @@ describe("tonal-scale", () => {
   });
 
   test("chords: find all chords that fits into this scale", () => {
-    expect(Scale.chords("pentatonic")).toEqual($("5 64 M M6 Madd9 Msus2"));
+    expect(Scale.chords("pentatonic")).toEqual($("6 64 M M6 Madd9 sus2"));
     expect(Scale.chords("none")).toEqual([]);
   });
 
   test("supersets: find all scales that extends this one", () => {
     expect(Scale.supersets("major")).toEqual([
       "bebop",
-      "bebop dominant",
       "bebop major",
       "chromatic",
       "ichikosucho"

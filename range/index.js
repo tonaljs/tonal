@@ -22,7 +22,7 @@
 import { trFifths } from "../distance";
 import { midi, fromMidi } from "../note";
 import { range } from "../array";
-import { filter } from "../pcset";
+import { filter } from "../pc-set";
 
 // convert notes to midi if needed
 function asNum(n) {
