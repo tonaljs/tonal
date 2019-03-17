@@ -21,6 +21,7 @@ Chord.notes("CMaj7") // => ["C", "E", "G", "B"]
 ```
 
 * [Chord](#module_Chord)
+    * [`.tokenize(name)`](#module_Chord.tokenize) ⇒ <code>Array</code>
     * [`.names(aliases)`](#module_Chord.names) ⇒ <code>Array</code>
     * [`.props(name)`](#module_Chord.props) ⇒ <code>Object</code>
     * [`.intervals(name)`](#module_Chord.intervals) ⇒ <code>Array.&lt;String&gt;</code>
@@ -28,8 +29,30 @@ Chord.notes("CMaj7") // => ["C", "E", "G", "B"]
     * [`.exists(name)`](#module_Chord.exists) ⇒ <code>Boolean</code>
     * [`.supersets(name)`](#module_Chord.supersets) ⇒ <code>Array</code>
     * [`.subsets(name)`](#module_Chord.subsets) ⇒ <code>Array</code>
-    * [`.tokenize(name)`](#module_Chord.tokenize) ⇒ <code>Array</code>
 
+<a name="module_Chord.tokenize"></a>
+
+## `Chord.tokenize(name)` ⇒ <code>Array</code>
+Tokenize a chord name. It returns an array with the tonic and chord type
+If not tonic is found, all the name is considered the chord name.
+
+This function does NOT check if the chord type exists or not. It only tries
+to split the tonic and chord type.
+
+**Kind**: static method of [<code>Chord</code>](#module_Chord)  
+**Returns**: <code>Array</code> - an array with [tonic, type]  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>string</code> | the chord name |
+
+**Example**  
+```js
+Chord.tokenize("Cmaj7") // => [ "C", "maj7" ]
+Chord.tokenize("C7") // => [ "C", "7" ]
+Chord.tokenize("mMaj7") // => [ null, "mMaj7" ]
+Chord.tokenize("Cnonsense") // => [ null, "nonsense" ]
+```
 <a name="module_Chord.names"></a>
 
 ## `Chord.names(aliases)` ⇒ <code>Array</code>
@@ -141,26 +164,3 @@ Find all chords names that are a subset of the given one
 | --- | --- |
 | name | <code>string</code> | 
 
-<a name="module_Chord.tokenize"></a>
-
-## `Chord.tokenize(name)` ⇒ <code>Array</code>
-Tokenize a chord name. It returns an array with the tonic and chord type
-If not tonic is found, all the name is considered the chord name.
-
-This function does NOT check if the chord type exists or not. It only tries
-to split the tonic and chord type.
-
-**Kind**: static method of [<code>Chord</code>](#module_Chord)  
-**Returns**: <code>Array</code> - an array with [tonic, type]  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>string</code> | the chord name |
-
-**Example**  
-```js
-Chord.tokenize("Cmaj7") // => [ "C", "maj7" ]
-Chord.tokenize("C7") // => [ "C", "7" ]
-Chord.tokenize("mMaj7") // => [ "", "mMaj7" ]
-Chord.tokenize("Cnonsense") // => [ "C", "nonsense" ]
-```

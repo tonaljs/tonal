@@ -2,16 +2,23 @@ import data from "./scale-data";
 import { chroma } from "../pc-set";
 
 /**
- * A dictionary of musical scales. Query functions to get scale names,
- * names from intervals, and intervals from names
+ * A dictionary of musical scales.
  *
- * Probably you want to use Tonal.Scale instead of this module.
+ * This is a low level module. Probably you should use Tonal.Scale that
+ * includes this module and more functionallities.
+ *
+ * Each musical scale is represented by an object with:
+ * - {string} - name: the main name
+ * - {array<string>} - names: all known names (including the main name)
+ * - {array<string>} - intervals
+ * - {string} - chroma: the pitchclass set chroma
+ * - {integer} - setnum: the pitchclass set chroma number in decimal
  *
  * @example
  * import ScaleDictionary from "tonal/scale-dictionary"
  *
- * ScaleDictionary.names() // => ["major", "minor", ...]
- * ScaleDictionary.getScale("major") // => {
+ * ScaleDictionary.all() // => [{ name: aeolian, .... }, ]
+ * ScaleDictionary.find("major") // => {
  *   name: 'major',
  *   intervals: [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ],
  *   names: [ 'major', 'ionian' ],
@@ -25,12 +32,10 @@ import { chroma } from "../pc-set";
  *
  * @module ScaleDictionary
  */
-export default { names, aliases, getScale };
+export default { all, find };
 
-// cache
-let nameList, aliasList, index;
+let cached;
 
-const NO_SCALE = Object.freeze({ intervals: [], names: [] });
 const toScale = data => {
   const intervals = data[0].split(" ");
   const name = data[1];
@@ -38,59 +43,37 @@ const toScale = data => {
   const scale = { name, intervals, names };
   scale.chroma = chroma(intervals);
   scale.setnum = parseInt(scale.chroma, 2);
-  return scale;
+  return Object.freeze(scale);
 };
-
-const buildIndex = () =>
-  data.map(toScale).reduce((index, scale) => {
-    index[scale.chroma] = scale;
-    scale.names.forEach(name => (index[name] = scale));
-    return index;
-  }, {});
+const byName = (a, b) => a.name.localeCompare(b.name);
 
 /**
- * Get all scale names without alises
- * @return {Array<string>} a list of scale names sorted alphabetically
- * @example
- * ScaleDictionary.names() // => [...]
+ * Return a list of all available scales
+ *
+ * @return {array<object>} array of scales
  */
-export function names() {
-  nameList = nameList || data.map(scale => scale[1]).sort();
-  return nameList.slice();
+export function all() {
+  return cached || (cached = data.map(toScale).sort(byName));
 }
 
-/**
- * Get all scale names with aliases
- * @return {Array<string>} a list of scale names sorted alphabetically
- * @example
- * ScaleDictionary.aliases() // => [...]
- */
-export function aliases() {
-  aliasList =
-    aliasList ||
-    data.reduce((list, scale) => [...list, ...scale.slice(1)], []).sort();
-  return aliasList.slice();
-}
+const NO_SCALE = Object.freeze({ intervals: [], names: [] });
 
 /**
- * Get a scale. The scale can be found using a name, an alias, a list
- * of intervals or a chroma string.
+ * Find a scale with the given query
  *
- * The scale object has the following fields:
- * - name: the scale main name
- * - names: a list with all possible names (including the main name)
- * - intervals: an array with the scale intervals
- * - chroma:  scale chroma
- * - setnum: scale chroma number
+ * The query can include: name, intervals, chroma or setnum
  *
- * In case of not found any scale, it returns { intervals: [], aliases: [] }
- *
- * @function
- * @param {string|Array<string>} source
- * @return {object} the scale object
+ * @param {*} props
  */
-export function getScale(source) {
-  index = index || buildIndex();
-  const scale = Array.isArray(source) ? index[chroma(source)] : index[source];
-  return scale || NO_SCALE;
+export function find(props) {
+  if (typeof props === "string") props = { name: props, chroma: props };
+  else if (Array.isArray(props)) props = { intervals: props };
+  else if (typeof props === "number") props = { setnum: props };
+  if (props.intervals) props.chroma = chroma(props.intervals);
+
+  const predicate = scale =>
+    (props.name && scale.names.indexOf(props.name) !== -1) ||
+    (props.chroma && props.chroma === scale.chroma) ||
+    (props.setnum && props.setnum === scale.setnum);
+  return all().find(predicate) || NO_SCALE;
 }

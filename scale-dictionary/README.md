@@ -1,17 +1,24 @@
 <a name="module_ScaleDictionary"></a>
 
 # ScaleDictionary
-A dictionary of musical scales. Query functions to get scale names,
-names from intervals, and intervals from names
+A dictionary of musical scales.
 
-Probably you want to use Tonal.Scale instead of this module.
+This is a low level module. Probably you should use Tonal.Scale that
+includes this module and more functionallities.
+
+Each musical scale is represented by an object with:
+- {string} - name: the main name
+- {array<string>} - names: all known names (including the main name)
+- {array<string>} - intervals
+- {string} - chroma: the pitchclass set chroma
+- {integer} - setnum: the pitchclass set chroma number in decimal
 
 **Example**  
 ```js
 import ScaleDictionary from "tonal/scale-dictionary"
 
-ScaleDictionary.names() // => ["major", "minor", ...]
-ScaleDictionary.getScale("major") // => {
+ScaleDictionary.all() // => [{ name: aeolian, .... }, ]
+ScaleDictionary.find("major") // => {
   name: 'major',
   intervals: [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ],
   names: [ 'major', 'ionian' ],
@@ -26,51 +33,26 @@ const { ScaleDictionary } = require("tonal")
 ```
 
 * [ScaleDictionary](#module_ScaleDictionary)
-    * [`.names()`](#module_ScaleDictionary.names) ⇒ <code>Array.&lt;string&gt;</code>
-    * [`.aliases()`](#module_ScaleDictionary.aliases) ⇒ <code>Array.&lt;string&gt;</code>
-    * [`.getScale(source)`](#module_ScaleDictionary.getScale) ⇒ <code>object</code>
+    * [`.all()`](#module_ScaleDictionary.all) ⇒ <code>array.&lt;object&gt;</code>
+    * [`.find(props)`](#module_ScaleDictionary.find)
 
-<a name="module_ScaleDictionary.names"></a>
+<a name="module_ScaleDictionary.all"></a>
 
-## `ScaleDictionary.names()` ⇒ <code>Array.&lt;string&gt;</code>
-Get all scale names without alises
-
-**Kind**: static method of [<code>ScaleDictionary</code>](#module_ScaleDictionary)  
-**Returns**: <code>Array.&lt;string&gt;</code> - a list of scale names sorted alphabetically  
-**Example**  
-```js
-ScaleDictionary.names() // => [...]
-```
-<a name="module_ScaleDictionary.aliases"></a>
-
-## `ScaleDictionary.aliases()` ⇒ <code>Array.&lt;string&gt;</code>
-Get all scale names with aliases
+## `ScaleDictionary.all()` ⇒ <code>array.&lt;object&gt;</code>
+Return a list of all available scales
 
 **Kind**: static method of [<code>ScaleDictionary</code>](#module_ScaleDictionary)  
-**Returns**: <code>Array.&lt;string&gt;</code> - a list of scale names sorted alphabetically  
-**Example**  
-```js
-ScaleDictionary.aliases() // => [...]
-```
-<a name="module_ScaleDictionary.getScale"></a>
+**Returns**: <code>array.&lt;object&gt;</code> - array of scales  
+<a name="module_ScaleDictionary.find"></a>
 
-## `ScaleDictionary.getScale(source)` ⇒ <code>object</code>
-Get a scale. The scale can be found using a name, an alias, a list
-of intervals or a chroma string.
+## `ScaleDictionary.find(props)`
+Find a scale with the given query
 
-The scale object has the following fields:
-- name: the scale main name
-- names: a list with all possible names (including the main name)
-- intervals: an array with the scale intervals
-- chroma:  scale chroma
-- setnum: scale chroma number
-
-In case of not found any scale, it returns { intervals: [], aliases: [] }
+The query can include: name, intervals, chroma or setnum
 
 **Kind**: static method of [<code>ScaleDictionary</code>](#module_ScaleDictionary)  
-**Returns**: <code>object</code> - the scale object  
 
 | Param | Type |
 | --- | --- |
-| source | <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
+| props | <code>\*</code> | 
 

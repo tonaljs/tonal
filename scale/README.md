@@ -21,18 +21,41 @@ Scale.names() => ["major", "minor", ...]
 ```
 
 * [Scale](#module_Scale)
+    * [`.tokenize(name)`](#module_Scale.tokenize) ⇒ <code>Array</code>
     * [`.props(name)`](#module_Scale.props) ⇒ <code>Object</code>
     * [`.names([aliases])`](#module_Scale.names) ⇒ <code>Array</code>
     * [`.intervals(name)`](#module_Scale.intervals) ⇒ <code>Array.&lt;string&gt;</code>
     * [`.notes(tonic, nameOrTonic, [name])`](#module_Scale.notes) ⇒ <code>Array</code>
     * [`.exists(name)`](#module_Scale.exists) ⇒ <code>Boolean</code>
-    * [`.tokenize(name)`](#module_Scale.tokenize) ⇒ <code>Array</code>
     * [`.modeNames(name)`](#module_Scale.modeNames)
     * [`.chords(name)`](#module_Scale.chords) ⇒ <code>Array.&lt;string&gt;</code>
     * [`.toScale(notes)`](#module_Scale.toScale) ⇒ <code>Array</code>
     * [`.supersets(name)`](#module_Scale.supersets) ⇒ <code>Array</code>
     * [`.subsets(name)`](#module_Scale.subsets) ⇒ <code>Array</code>
 
+<a name="module_Scale.tokenize"></a>
+
+## `Scale.tokenize(name)` ⇒ <code>Array</code>
+Given a string with a scale name and (optionally) a tonic, split
+that components.
+
+It retuns an array with the form [ name, tonic ] where tonic can be a
+note name or null and name can be any arbitrary string
+(this function doesn"t check if that scale name exists)
+
+**Kind**: static method of [<code>Scale</code>](#module_Scale)  
+**Returns**: <code>Array</code> - an array [tonic, name]  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>string</code> | the scale name |
+
+**Example**  
+```js
+Scale.tokenize("C mixolydean") // => ["C", "mixolydean"]
+Scale.tokenize("anything is valid") // => ["", "anything is valid"]
+Scale.tokenize() // => ["", ""]
+```
 <a name="module_Scale.props"></a>
 
 ## `Scale.props(name)` ⇒ <code>Object</code>
@@ -120,29 +143,6 @@ Check if the given name is a known scale from the scales dictionary
 | --- | --- | --- |
 | name | <code>string</code> | the scale name |
 
-<a name="module_Scale.tokenize"></a>
-
-## `Scale.tokenize(name)` ⇒ <code>Array</code>
-Given a string with a scale name and (optionally) a tonic, split
-that components.
-
-It retuns an array with the form [ name, tonic ] where tonic can be a
-note name or null and name can be any arbitrary string
-(this function doesn"t check if that scale name exists)
-
-**Kind**: static method of [<code>Scale</code>](#module_Scale)  
-**Returns**: <code>Array</code> - an array [tonic, name]  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| name | <code>string</code> | the scale name |
-
-**Example**  
-```js
-Scale.tokenize("C mixolydean") // => ["C", "mixolydean"]
-Scale.tokenize("anything is valid") // => ["", "anything is valid"]
-Scale.tokenize() // => ["", ""]
-```
 <a name="module_Scale.modeNames"></a>
 
 ## `Scale.modeNames(name)`

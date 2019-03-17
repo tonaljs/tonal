@@ -19,16 +19,35 @@
 import { name as noteName, pc } from "../note";
 import { modes as pcsetModes, isSubsetOf, isSupersetOf } from "../pc-set";
 import { transpose } from "../distance";
-import {
-  abbreviations as chordList,
-  intervalsOf as chordIntervals
-} from "../chord-dictionary";
-import {
-  names as scaleNames,
-  aliases as scaleAliases,
-  getScale
-} from "../scale-dictionary";
+import { all as chordList } from "../chord-dictionary";
+import { all as scales, find as findScale } from "../scale-dictionary";
 import { compact, unique, rotate } from "../array";
+
+const scaleName = scale => scale.name;
+
+/**
+ * Given a string with a scale name and (optionally) a tonic, split
+ * that components.
+ *
+ * It retuns an array with the form [ name, tonic ] where tonic can be a
+ * note name or null and name can be any arbitrary string
+ * (this function doesn"t check if that scale name exists)
+ *
+ * @function
+ * @param {string} name - the scale name
+ * @return {Array} an array [tonic, name]
+ * @example
+ * Scale.tokenize("C mixolydean") // => ["C", "mixolydean"]
+ * Scale.tokenize("anything is valid") // => ["", "anything is valid"]
+ * Scale.tokenize() // => ["", ""]
+ */
+export function tokenize(str) {
+  if (typeof str !== "string") return [null, ""];
+  const i = str.indexOf(" ");
+  const tonic = noteName(str.substring(0, i)) || noteName(str);
+  const name = tonic ? str.substring(tonic.length + 1) : str;
+  return [tonic, name.length ? name : ""];
+}
 
 /**
  * Get scale properties. It returns an object with:
@@ -42,7 +61,15 @@ import { compact, unique, rotate } from "../array";
  * @param {string} name - the scale name (without tonic)
  * @return {Object}
  */
-export const props = getScale;
+export function props(name) {
+  const [tonic, type] = tokenize(name);
+  const scale = findScale(type);
+  const props = {
+    tonic,
+    notes: tonic ? scale.intervals.map(transpose(tonic)) : []
+  };
+  return Object.assign(props, scale);
+}
 
 /**
  * Return the available scale names
@@ -54,7 +81,12 @@ export const props = getScale;
  * @example
  * Scale.names() // => ["maj7", ...]
  */
-export const names = aliases => (aliases ? scaleAliases() : scaleNames());
+export const names = aliases =>
+  aliases
+    ? scales()
+        .map(s => s.names)
+        .reduce((a, b) => [...a, ...b])
+    : scales().map(scaleName);
 
 /**
  * Given a scale name, return its intervals. The name can be the type and
@@ -107,31 +139,7 @@ export function notes(nameOrTonic, name) {
  */
 export function exists(name) {
   const p = tokenize(name);
-  return getScale(p[1]).name !== undefined;
-}
-
-/**
- * Given a string with a scale name and (optionally) a tonic, split
- * that components.
- *
- * It retuns an array with the form [ name, tonic ] where tonic can be a
- * note name or null and name can be any arbitrary string
- * (this function doesn"t check if that scale name exists)
- *
- * @function
- * @param {string} name - the scale name
- * @return {Array} an array [tonic, name]
- * @example
- * Scale.tokenize("C mixolydean") // => ["C", "mixolydean"]
- * Scale.tokenize("anything is valid") // => ["", "anything is valid"]
- * Scale.tokenize() // => ["", ""]
- */
-export function tokenize(str) {
-  if (typeof str !== "string") return ["", ""];
-  const i = str.indexOf(" ");
-  const tonic = noteName(str.substring(0, i)) || noteName(str) || "";
-  const name = tonic !== "" ? str.substring(tonic.length + 1) : str;
-  return [tonic, name.length ? name : ""];
+  return findScale(p[1]).name !== undefined;
 }
 
 /**
@@ -155,7 +163,7 @@ export const modeNames = name => {
 
   return pcsetModes(ivls)
     .map((chroma, i) => {
-      const modeName = getScale(chroma).name;
+      const modeName = findScale(chroma).name;
       if (modeName) return [tonics[i] || ivls[i], modeName];
     })
     .filter(x => x);
@@ -173,7 +181,9 @@ export const modeNames = name => {
  */
 export const chords = name => {
   const inScale = isSubsetOf(intervals(name));
-  return chordList().filter(chordName => inScale(chordIntervals(chordName)));
+  return chordList()
+    .filter(chord => inScale(chord.intervals))
+    .map(c => c.abbreviatures[0]);
 };
 
 /**
@@ -208,7 +218,9 @@ export const toScale = notes => {
 export const supersets = name => {
   if (!intervals(name).length) return [];
   const isSuperset = isSupersetOf(intervals(name));
-  return scaleNames().filter(name => isSuperset(getScale(name).intervals));
+  return scales()
+    .filter(scale => isSuperset(scale.intervals))
+    .map(scaleName);
 };
 
 /**
@@ -224,5 +236,7 @@ export const supersets = name => {
  */
 export const subsets = name => {
   const isSubset = isSubsetOf(intervals(name));
-  return scaleNames().filter(name => isSubset(getScale(name).intervals));
+  return scales()
+    .filter(scale => isSubset(scale.intervals))
+    .map(scaleName);
 };

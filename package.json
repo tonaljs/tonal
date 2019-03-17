@@ -2,7 +2,6 @@
   "name": "tonal",
   "description": "A functional music theory library",
   "version": "3.0.0-alpha0",
-  "private": true,
   "module": "tonal/index.js",
   "main": "build/dist/tonal.min.js",
   "types": "tonal/index.d.ts",

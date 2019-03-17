@@ -6,19 +6,31 @@ const $ = s => s.split(" ");
 describe("tonal-scale", () => {
   test("props", () => {
     expect(Scale.props("major")).toEqual({
+      tonic: null,
       name: "major",
       names: ["major", "ionian"],
       intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
+      notes: [],
       chroma: "101011010101",
       setnum: 2773
     });
+    expect(Scale.props("C5 pentatonic")).toEqual({
+      tonic: "C5",
+      name: "major pentatonic",
+      names: ["major pentatonic", "pentatonic"],
+      intervals: ["1P", "2M", "3M", "5P", "6M"],
+      notes: ["C5", "D5", "E5", "G5", "A5"],
+      chroma: "101010010100",
+      setnum: 2708
+    });
   });
+
   test("tokenize", () => {
     expect(Scale.tokenize("c major")).toEqual(["C", "major"]);
     expect(Scale.tokenize("cb3 major")).toEqual(["Cb3", "major"]);
-    expect(Scale.tokenize("melodic minor")).toEqual(["", "melodic minor"]);
+    expect(Scale.tokenize("melodic minor")).toEqual([null, "melodic minor"]);
     expect(Scale.tokenize("c")).toEqual(["C", ""]);
-    expect(Scale.tokenize()).toEqual(["", ""]);
+    expect(Scale.tokenize()).toEqual([null, ""]);
   });
 
   test("exists", () => {
@@ -72,7 +84,7 @@ describe("tonal-scale", () => {
   });
 
   test("chords: find all chords that fits into this scale", () => {
-    expect(Scale.chords("pentatonic")).toEqual($("5 6 64 M Madd9 sus2"));
+    expect(Scale.chords("pentatonic")).toEqual($("5 Madd9 M 6 sus2"));
     expect(Scale.chords("none")).toEqual([]);
   });
 
