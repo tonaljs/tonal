@@ -1,7 +1,7 @@
-<a name="module_PcSet"></a>
+<a name="module_Pcset"></a>
 
-# PcSet
-`tonal/pc-set` is a collection of functions to work with pitchclass sets.
+# Pcset
+`tonal/pcset` is a collection of functions to work with pitchclass sets.
 It has methods to compare pitch class sets and to work with pitch class set chromas
 
 
@@ -9,39 +9,39 @@ It has methods to compare pitch class sets and to work with pitch class set chro
 
 **Example**  
 ```js
-import PcSet from "tonal/pc-set"
-PcSet.isEqual("c2 d5 e6", "c6 e3 d1") // => true
+import Pcset from "tonal/pcset"
+Pcset.isEqual("c2 d5 e6", "c6 e3 d1") // => true
 ```
 **Example**  
 ```js
 const Tonal = require('tonal')
-Tonal.PcSet.chroma(['C', 'D', 'E']) // => "101010000000"
+Tonal.Pcset.chroma(['C', 'D', 'E']) // => "101010000000"
 
 ## API
 ```
 
-* [PcSet](#module_PcSet)
-    * [`.chroma(set)`](#module_PcSet.chroma) ⇒ <code>string</code>
-    * [`.chromas()`](#module_PcSet.chromas) ⇒ <code>Array</code>
-    * [`.modes(set, normalize)`](#module_PcSet.modes) ⇒ <code>Array.&lt;String&gt;</code>
-    * [`.isChroma(chroma)`](#module_PcSet.isChroma) ⇒ <code>Boolean</code>
-    * [`.intervals(pcset)`](#module_PcSet.intervals) ⇒ <code>Array</code>
-    * [`.isEqual(set1, set2)`](#module_PcSet.isEqual) ⇒ <code>Boolean</code>
-    * [`.isSubsetOf(set, notes)`](#module_PcSet.isSubsetOf) ⇒ <code>boolean</code>
-    * [`.isSupersetOf(set, notes)`](#module_PcSet.isSupersetOf) ⇒ <code>boolean</code>
-    * [`.includes(set, note)`](#module_PcSet.includes) ⇒ <code>Boolean</code>
-    * [`.filter(set, notes)`](#module_PcSet.filter) ⇒ <code>Array</code>
+* [Pcset](#module_Pcset)
+    * [`.chroma(set)`](#module_Pcset.chroma) ⇒ <code>string</code>
+    * [`.chromas()`](#module_Pcset.chromas) ⇒ <code>Array</code>
+    * [`.modes(set, normalize)`](#module_Pcset.modes) ⇒ <code>Array.&lt;String&gt;</code>
+    * [`.isChroma(chroma)`](#module_Pcset.isChroma) ⇒ <code>Boolean</code>
+    * [`.intervals(pcset)`](#module_Pcset.intervals) ⇒ <code>Array</code>
+    * [`.isEqual(set1, set2)`](#module_Pcset.isEqual) ⇒ <code>Boolean</code>
+    * [`.isSubsetOf(set, notes)`](#module_Pcset.isSubsetOf) ⇒ <code>boolean</code>
+    * [`.isSupersetOf(set, notes)`](#module_Pcset.isSupersetOf) ⇒ <code>boolean</code>
+    * [`.includes(set, note)`](#module_Pcset.includes) ⇒ <code>Boolean</code>
+    * [`.filter(set, notes)`](#module_Pcset.filter) ⇒ <code>Array</code>
 
-<a name="module_PcSet.chroma"></a>
+<a name="module_Pcset.chroma"></a>
 
-## `PcSet.chroma(set)` ⇒ <code>string</code>
+## `Pcset.chroma(set)` ⇒ <code>string</code>
 Get chroma of a pitch class set. A chroma identifies each set uniquely.
 It"s a 12-digit binary each presenting one semitone of the octave.
 
 Note that this function accepts a chroma as parameter and return it
 without modification.
 
-**Kind**: static method of [<code>PcSet</code>](#module_PcSet)  
+**Kind**: static method of [<code>Pcset</code>](#module_Pcset)  
 **Returns**: <code>string</code> - a binary representation of the pitch class set  
 
 | Param | Type | Description |
@@ -50,25 +50,25 @@ without modification.
 
 **Example**  
 ```js
-PcSet.chroma(["C", "D", "E"]) // => "1010100000000"
+Pcset.chroma(["C", "D", "E"]) // => "1010100000000"
 ```
-<a name="module_PcSet.chromas"></a>
+<a name="module_Pcset.chromas"></a>
 
-## `PcSet.chromas()` ⇒ <code>Array</code>
+## `Pcset.chromas()` ⇒ <code>Array</code>
 Get a list of all possible chromas (all possible scales)
 More information: http://allthescales.org/
 
-**Kind**: static method of [<code>PcSet</code>](#module_PcSet)  
+**Kind**: static method of [<code>Pcset</code>](#module_Pcset)  
 **Returns**: <code>Array</code> - an array of possible chromas from '10000000000' to '11111111111'  
-<a name="module_PcSet.modes"></a>
+<a name="module_Pcset.modes"></a>
 
-## `PcSet.modes(set, normalize)` ⇒ <code>Array.&lt;String&gt;</code>
+## `Pcset.modes(set, normalize)` ⇒ <code>Array.&lt;String&gt;</code>
 Given a a list of notes or a pcset chroma, produce the rotations
 of the chroma discarding the ones that starts with "0"
 
 This is used, for example, to get all the modes of a scale.
 
-**Kind**: static method of [<code>PcSet</code>](#module_PcSet)  
+**Kind**: static method of [<code>Pcset</code>](#module_Pcset)  
 **Returns**: <code>Array.&lt;String&gt;</code> - an array with all the modes of the chroma  
 
 | Param | Type | Description |
@@ -78,14 +78,14 @@ This is used, for example, to get all the modes of a scale.
 
 **Example**  
 ```js
-PcSet.modes(["C", "D", "E"]).map(PcSet.intervals)
+Pcset.modes(["C", "D", "E"]).map(Pcset.intervals)
 ```
-<a name="module_PcSet.isChroma"></a>
+<a name="module_Pcset.isChroma"></a>
 
-## `PcSet.isChroma(chroma)` ⇒ <code>Boolean</code>
+## `Pcset.isChroma(chroma)` ⇒ <code>Boolean</code>
 Test if the given string is a pitch class set chroma.
 
-**Kind**: static method of [<code>PcSet</code>](#module_PcSet)  
+**Kind**: static method of [<code>Pcset</code>](#module_Pcset)  
 **Returns**: <code>Boolean</code> - true if its a valid pcset chroma  
 
 | Param | Type | Description |
@@ -94,15 +94,15 @@ Test if the given string is a pitch class set chroma.
 
 **Example**  
 ```js
-PcSet.isChroma("101010101010") // => true
-PcSet.isChroma("101001") // => false
+Pcset.isChroma("101010101010") // => true
+Pcset.isChroma("101001") // => false
 ```
-<a name="module_PcSet.intervals"></a>
+<a name="module_Pcset.intervals"></a>
 
-## `PcSet.intervals(pcset)` ⇒ <code>Array</code>
+## `Pcset.intervals(pcset)` ⇒ <code>Array</code>
 Given a pcset (notes or chroma) return it"s intervals
 
-**Kind**: static method of [<code>PcSet</code>](#module_PcSet)  
+**Kind**: static method of [<code>Pcset</code>](#module_Pcset)  
 **Returns**: <code>Array</code> - intervals or empty array if not valid pcset  
 
 | Param | Type | Description |
@@ -111,14 +111,14 @@ Given a pcset (notes or chroma) return it"s intervals
 
 **Example**  
 ```js
-PcSet.intervals("1010100000000") => ["1P", "2M", "3M"]
+Pcset.intervals("1010100000000") => ["1P", "2M", "3M"]
 ```
-<a name="module_PcSet.isEqual"></a>
+<a name="module_Pcset.isEqual"></a>
 
-## `PcSet.isEqual(set1, set2)` ⇒ <code>Boolean</code>
+## `Pcset.isEqual(set1, set2)` ⇒ <code>Boolean</code>
 Test if two pitch class sets are identical
 
-**Kind**: static method of [<code>PcSet</code>](#module_PcSet)  
+**Kind**: static method of [<code>Pcset</code>](#module_Pcset)  
 **Returns**: <code>Boolean</code> - true if they are equal  
 
 | Param | Type | Description |
@@ -128,17 +128,17 @@ Test if two pitch class sets are identical
 
 **Example**  
 ```js
-PcSet.isEqual(["c2", "d3"], ["c5", "d2"]) // => true
+Pcset.isEqual(["c2", "d3"], ["c5", "d2"]) // => true
 ```
-<a name="module_PcSet.isSubsetOf"></a>
+<a name="module_Pcset.isSubsetOf"></a>
 
-## `PcSet.isSubsetOf(set, notes)` ⇒ <code>boolean</code>
+## `Pcset.isSubsetOf(set, notes)` ⇒ <code>boolean</code>
 Create a function that test if a collection of notes is a
 subset of a given set
 
 The function can be partially applied
 
-**Kind**: static method of [<code>PcSet</code>](#module_PcSet)  
+**Kind**: static method of [<code>Pcset</code>](#module_Pcset)  
 **Returns**: <code>boolean</code> - true if notes is a subset of set, false otherwise  
 
 | Param | Type | Description |
@@ -148,17 +148,17 @@ The function can be partially applied
 
 **Example**  
 ```js
-const inCMajor = PcSet.isSubsetOf(["C", "E", "G"])
+const inCMajor = Pcset.isSubsetOf(["C", "E", "G"])
 inCMajor(["e6", "c4"]) // => true
 inCMajor(["e6", "c4", "d3"]) // => false
 ```
-<a name="module_PcSet.isSupersetOf"></a>
+<a name="module_Pcset.isSupersetOf"></a>
 
-## `PcSet.isSupersetOf(set, notes)` ⇒ <code>boolean</code>
+## `Pcset.isSupersetOf(set, notes)` ⇒ <code>boolean</code>
 Create a function that test if a collectio of notes is a
 superset of a given set (it contains all notes and at least one more)
 
-**Kind**: static method of [<code>PcSet</code>](#module_PcSet)  
+**Kind**: static method of [<code>Pcset</code>](#module_Pcset)  
 **Returns**: <code>boolean</code> - true if notes is a superset of set, false otherwise  
 
 | Param | Type | Description |
@@ -168,16 +168,16 @@ superset of a given set (it contains all notes and at least one more)
 
 **Example**  
 ```js
-const extendsCMajor = PcSet.isSupersetOf(["C", "E", "G"])
+const extendsCMajor = Pcset.isSupersetOf(["C", "E", "G"])
 extendsCMajor(["e6", "a", "c4", "g2"]) // => true
 extendsCMajor(["c6", "e4", "g3"]) // => false
 ```
-<a name="module_PcSet.includes"></a>
+<a name="module_Pcset.includes"></a>
 
-## `PcSet.includes(set, note)` ⇒ <code>Boolean</code>
+## `Pcset.includes(set, note)` ⇒ <code>Boolean</code>
 Test if a given pitch class set includes a note
 
-**Kind**: static method of [<code>PcSet</code>](#module_PcSet)  
+**Kind**: static method of [<code>Pcset</code>](#module_Pcset)  
 **Returns**: <code>Boolean</code> - true if the note is included in the pcset  
 
 | Param | Type | Description |
@@ -187,15 +187,15 @@ Test if a given pitch class set includes a note
 
 **Example**  
 ```js
-PcSet.includes(["C", "D", "E"], "C4") // => true
-PcSet.includes(["C", "D", "E"], "C#4") // => false
+Pcset.includes(["C", "D", "E"], "C4") // => true
+Pcset.includes(["C", "D", "E"], "C#4") // => false
 ```
-<a name="module_PcSet.filter"></a>
+<a name="module_Pcset.filter"></a>
 
-## `PcSet.filter(set, notes)` ⇒ <code>Array</code>
+## `Pcset.filter(set, notes)` ⇒ <code>Array</code>
 Filter a list with a pitch class set
 
-**Kind**: static method of [<code>PcSet</code>](#module_PcSet)  
+**Kind**: static method of [<code>Pcset</code>](#module_Pcset)  
 **Returns**: <code>Array</code> - the filtered notes  
 
 | Param | Type | Description |
@@ -205,6 +205,6 @@ Filter a list with a pitch class set
 
 **Example**  
 ```js
-PcSet.filter(["C", "D", "E"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ "c2", "d2", "c3", "d3" ])
-PcSet.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ "c2", "c3" ])
+Pcset.filter(["C", "D", "E"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ "c2", "d2", "c3", "d3" ])
+Pcset.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ "c2", "c3" ])
 ```

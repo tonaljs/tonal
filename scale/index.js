@@ -1,5 +1,5 @@
 import { name as noteName, pc } from "../note";
-import { modes as pcsetModes, isSubsetOf, isSupersetOf } from "../pc-set";
+import { modes as pcsetModes, isSubsetOf, isSupersetOf } from "../pcset";
 import { transpose } from "../distance";
 import { all as chordList } from "../chord-dictionary";
 import { all as scales, find as findScale } from "../scale-dictionary";

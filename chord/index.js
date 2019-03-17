@@ -28,7 +28,7 @@ export default {
 import { tokenize as split } from "../note";
 import { transpose } from "../distance";
 import { all as chords, find as findChord } from "../chord-dictionary";
-import { isSubsetOf, isSupersetOf } from "../pc-set";
+import { isSubsetOf, isSupersetOf } from "../pcset";
 
 const chordName = chord => chord.abbreviatures[0];
 

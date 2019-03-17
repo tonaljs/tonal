@@ -42,57 +42,100 @@ Tonal.Chord.names(); // => ['M', 'm', 'm7b5', ... and 100 more]
 Tonal.Key.chord("Bb major"); // => ["BbMaj7", "Cm7", "Dm7", "EbMaj7", "F7", "Gm7", "Am7b5W]
 ```
 
-## Modules
-
-This is the list of all published modules:
-
-- [Tonal.Note](https://github.com/danigb/tonal/tree/master/note)
-- [Tonal.Interval](https://github.com/danigb/tonal/tree/master/interval)
-- [Tonal.Distance](https://github.com/danigb/tonal/tree/master/distance)
-- [Tonal.PcSet](https://github.com/danigb/tonal/tree/master/pc-set)
-- [Tonal.Scale](https://github.com/danigb/tonal/tree/master/scale)
-- [Tonal.Chord](https://github.com/danigb/tonal/tree/master/chord)
-- [Tonal.Key](https://github.com/danigb/tonal/tree/master/key)
-- [Tonal.Array](https://github.com/danigb/tonal/tree/master/array)
-- [Tonal.Range](https://github.com/danigb/tonal/tree/master/range)
-- [Tonal.RomanNumeral](https://github.com/danigb/tonal/tree/master/roman-numeral)
-- [Tonal.AbcNotation](https://github.com/danigb/tonal/tree/master/abc-notation)
-
 ## Install
+
+**IMPORTANT: since v3.0.0 single module packages are deprecated. The only maintaned package is `tonal`**
 
 Using yarn: `yarn add tonal`
 
 Using npm: `npm install --save tonal`
 
-Browser: grab the minified file [here](https://github.com/danigb/tonal/blob/master/dist/tonal.min.js) (20kb) and include it in your html page (use a `Tonal` global object)
-
-```html
-<script src="tonal.min.js"></script>
-```
-
 ## Usage
 
-ES6 modules:
+**ES6 modules (recommended):**
+
+Currently, it requires a bundler (babel, browserify, webpack, parcel, rollup) to convert your source code. Lot of JS development enviroments support ES6 modules out of the box:
 
 ```js
 import Scale from "tonal/scale";
 Scale.notes("Db major");
 ```
 
-CommonJS modules (node):
+**CommonJS modules (node):**
+
+If for some reason you need to use CommonJS modules you can `require` the `Tonal` facade from the package:
 
 ```js
 var Tonal = require("tonal");
 Tonal.Scale.notes("Bb minor");
 ```
 
-Browser (use the `Tonal` global object):
+**Browser:**
+
+Again, if you can't or want to use modules, you can download the browser compatible tonal package, and use the `Tonal` object exposed globally:
 
 ```html
+<script src="https://unpkg.com/tonal.min.js"></script>
 <script>
   console.log(Tonal.Distance.transpose("C4", "8P"));
 </script>
 ```
+
+## Modules
+
+### Core modules
+
+These are the core modules of Tonal:
+
+- [Tonal.Note](https://github.com/danigb/tonal/tree/master/note)
+- [Tonal.Interval](https://github.com/danigb/tonal/tree/master/interval)
+- [Tonal.Distance](https://github.com/danigb/tonal/tree/master/distance)
+- [Tonal.PcSet](https://github.com/danigb/tonal/tree/master/pcset)
+- [Tonal.Scale](https://github.com/danigb/tonal/tree/master/scale)
+- [Tonal.Chord](https://github.com/danigb/tonal/tree/master/chord)
+- [Tonal.Key](https://github.com/danigb/tonal/tree/master/key)
+- [Tonal.Array](https://github.com/danigb/tonal/tree/master/array)
+- [Tonal.RomanNumeral](https://github.com/danigb/tonal/tree/master/roman-numeral)
+
+Any of them can be imported individually, for example:
+
+```js
+import Note from "tonal/note";
+Note.midi("C4");
+```
+
+Or can be accessed using the `Tonal` facade:
+
+```js
+import Tonal from "tonal";
+// or
+const Tonal = require("tonal");
+
+Tonal.Note.midi("C4");
+```
+
+### Extension modules
+
+These modules not belong to core either because they are work in progress or not stable enough, or because the functionallity they provide are not very common. Use they are your own risk:
+
+- [Range](https://github.com/danigb/tonal/tree/master/range)
+- [AbcNotation](https://github.com/danigb/tonal/tree/master/abc-notation)
+- [PcsetDFT](https://github.com/danigb/tonal/tree/master/pcset-dft)
+
+Work in progress:
+
+- [Sonority](https://github.com/danigb/tonal/tree/master/sonority)
+- [Fretboard](https://github.com/danigb/tonal/tree/master/fretboard)
+- [Detect](https://github.com/danigb/tonal/tree/master/progression)
+
+They only can be imported using ES6 import syntax. For example:
+
+```js
+import Abc from "tonal/abc-notation";
+import Progression from "tonal/progression";
+```
+
+They are not included when importing or requiring the `Tonal` facade.
 
 ## Why
 
@@ -104,8 +147,6 @@ Mostly, because I want to learn:
 I want to learn about music theory and I want to express the concepts I learn using functional programming style.
 
 Also, I want a complete library, where I can model some (for me) esoteric features like [interval classes](http://danigb.github.io/tonal/module-Interval.html#.ic), pitch sets, dft to pitch class sets, and so on.
-
-## Contribution
 
 ## Inspiration
 
@@ -122,3 +163,7 @@ I want to thanks all the authors!
 ## License
 
 MIT License
+
+```
+
+```

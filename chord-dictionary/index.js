@@ -1,5 +1,5 @@
 import data from "./chord-data";
-import { chroma } from "../pc-set";
+import { chroma } from "../pcset";
 
 /**
  * A dictionary of musical chords.

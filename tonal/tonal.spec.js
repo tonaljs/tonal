@@ -3,7 +3,6 @@ import Tonal from "./";
 describe("Tonal", () => {
   it("exports modules", () => {
     expect(Object.keys(Tonal).sort()).toEqual([
-      "AbcNotation",
       "Array",
       "Chord",
       "ChordDictionary",
@@ -11,8 +10,7 @@ describe("Tonal", () => {
       "Interval",
       "Key",
       "Note",
-      "PcSet",
-      "Range",
+      "Pcset",
       "RomanNumeral",
       "Scale",
       "ScaleDictionary"

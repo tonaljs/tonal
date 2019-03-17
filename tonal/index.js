@@ -1,4 +1,3 @@
-import * as AbcNotation from "../abc-notation";
 import * as Array from "../array";
 import * as Chord from "../chord";
 import * as ChordDictionary from "../chord-dictionary";
@@ -7,8 +6,7 @@ import * as Distance from "../distance";
 import * as Interval from "../interval";
 import * as Key from "../key";
 import * as Note from "../note";
-import * as PcSet from "../pc-set";
-import * as Range from "../range";
+import * as Pcset from "../pcset";
 import * as RomanNumeral from "../roman-numeral";
 import * as Scale from "../scale";
 import * as ScaleDictionary from "../scale-dictionary";
@@ -35,7 +33,6 @@ import * as ScaleDictionary from "../scale-dictionary";
  * @module Tonal
  */
 export default {
-  AbcNotation,
   Array,
   Chord,
   ChordDictionary,
@@ -44,8 +41,7 @@ export default {
   Interval,
   Key,
   Note,
-  PcSet,
-  Range,
+  Pcset,
   RomanNumeral,
   Scale,
   ScaleDictionary

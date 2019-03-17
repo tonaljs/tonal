@@ -1,7 +1,7 @@
 import { trFifths } from "../distance";
 import { midi, fromMidi } from "../note";
 import { range } from "../array";
-import { filter } from "../pc-set";
+import { filter } from "../pcset";
 
 /**
  * A collection of functions to create complex note ranges.

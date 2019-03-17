@@ -17,7 +17,7 @@
  */
 import { name, pc } from "../note";
 import { sort } from "../array";
-import { modes } from "../pc-set";
+import { modes } from "../pcset";
 
 function detector(dictionary, defaultBuilder) {
   defaultBuilder = defaultBuilder || ((tonic, names) => [tonic, names]);

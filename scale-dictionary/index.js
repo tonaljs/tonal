@@ -1,5 +1,5 @@
 import data from "./scale-data";
-import { chroma } from "../pc-set";
+import { chroma } from "../pcset";
 
 /**
  * A dictionary of musical scales.
