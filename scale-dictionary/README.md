@@ -4,26 +4,31 @@
 A dictionary of musical scales. Query functions to get scale names,
 names from intervals, and intervals from names
 
+Probably you want to use Tonal.Scale instead of this module.
+
 **Example**  
 ```js
 import ScaleDictionary from "tonal/scale-dictionary"
 
 ScaleDictionary.names() // => ["major", "minor", ...]
-ScaleDictionary.intervalsOf("major") // => ["1P", "2M", "3M", "4P", "5P", "6M", "7M"]
-ScaleDictionary.nameOf(["1P", "2M", "3M", "4P", "5P", "6M", "7M"]) // =>  "major"
+ScaleDictionary.getScale("major") // => {
+  name: 'major',
+  intervals: [ '1P', '2M', '3M', '4P', '5P', '6M', '7M' ],
+  names: [ 'major', 'ionian' ],
+  chroma: '101011010101',
+  setnum: 2773
+}
 ```
 **Example**  
 ```js
-// with require
+// CommonJS modules (require, node.js)
 const { ScaleDictionary } = require("tonal")
 ```
 
 * [ScaleDictionary](#module_ScaleDictionary)
     * [`.names()`](#module_ScaleDictionary.names) ⇒ <code>Array.&lt;string&gt;</code>
     * [`.aliases()`](#module_ScaleDictionary.aliases) ⇒ <code>Array.&lt;string&gt;</code>
-    * [`.intervalsOf(name)`](#module_ScaleDictionary.intervalsOf) ⇒
-    * [`.nameOf(source)`](#module_ScaleDictionary.nameOf) ⇒ <code>string</code>
-    * [`.aliasesOf(name)`](#module_ScaleDictionary.aliasesOf) ⇒ <code>Array.&lt;string&gt;</code>
+    * [`.getScale(source)`](#module_ScaleDictionary.getScale) ⇒ <code>object</code>
 
 <a name="module_ScaleDictionary.names"></a>
 
@@ -47,54 +52,25 @@ Get all scale names with aliases
 ```js
 ScaleDictionary.aliases() // => [...]
 ```
-<a name="module_ScaleDictionary.intervalsOf"></a>
+<a name="module_ScaleDictionary.getScale"></a>
 
-## `ScaleDictionary.intervalsOf(name)` ⇒
-Given a scale name, return its intervals
+## `ScaleDictionary.getScale(source)` ⇒ <code>object</code>
+Get a scale. The scale can be found using a name, an alias, a list
+of intervals or a chroma string.
+
+The scale object has the following fields:
+- name: the scale main name
+- names: a list with all possible names (including the main name)
+- intervals: an array with the scale intervals
+- chroma:  scale chroma
+- setnum: scale chroma number
+
+In case of not found any scale, it returns { intervals: [], aliases: [] }
 
 **Kind**: static method of [<code>ScaleDictionary</code>](#module_ScaleDictionary)  
-**Returns**: [Array<string>] a list of intervals or empty list if name not found  
+**Returns**: <code>object</code> - the scale object  
 
 | Param | Type |
 | --- | --- |
-| name | <code>string</code> | 
+| source | <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
 
-**Example**  
-```js
-ScaleDictionary.intervalsOf("major") // => ["1P", "2M", "3M", "4P", "5P", "6M", "7M"]
-```
-<a name="module_ScaleDictionary.nameOf"></a>
-
-## `ScaleDictionary.nameOf(source)` ⇒ <code>string</code>
-Given a list of intervals or a chroma string, return the scale name
-
-**Kind**: static method of [<code>ScaleDictionary</code>](#module_ScaleDictionary)  
-**Returns**: <code>string</code> - the scale name or undefined if not found  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| source | <code>Array.&lt;string&gt;</code> \| <code>string</code> | a list of intervals, a pcset chroma or a scale name |
-
-**Example**  
-```js
-ScaleDictionary.nameOf(["1P", "2M", "3M", "4P", "5P", "6M", "7M"]) // => "major"
-ScaleDictionary.nameOf("101011010101") // => "major"
-ScaleDictionary.nameOf("ionian") // => "major"
-ScaleDictionary.nameOf("major") // => "major"
-```
-<a name="module_ScaleDictionary.aliasesOf"></a>
-
-## `ScaleDictionary.aliasesOf(name)` ⇒ <code>Array.&lt;string&gt;</code>
-Given a scale name, return all its aliases (including the given one)
-
-**Kind**: static method of [<code>ScaleDictionary</code>](#module_ScaleDictionary)  
-**Returns**: <code>Array.&lt;string&gt;</code> - list of names or empty list if name not found  
-
-| Param | Type |
-| --- | --- |
-| name | <code>string</code> | 
-
-**Example**  
-```js
-ScaleDictionary.aliasesOf("blues") // => ["blues", "minor blues"]
-```
