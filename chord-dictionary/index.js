@@ -1,5 +1,6 @@
 import data from "./chord-data";
 import { chroma } from "../pcset";
+import { hash } from "rsvp";
 
 /**
  * A dictionary of musical chords.
@@ -16,16 +17,20 @@ import { chroma } from "../pcset";
  *
  * ## Usage
  *
- * @example
+ * ```js
+ * // ES6 modules (import)
  * import ChordDictionary from "tonal/chord-dictionary"
  *
  * ChordDictionary.all() // => [{ name: aeolian, .... }, ]
- * ChordDictionary.find("major") // => {
+ * ChordDictionary.find("M") // => {
+ *   name: "major",
+ *   quality: "Major",
+ *   abbreviatures: ["M", ""],
+ *   chroma: "100010010000",
+ *   intervals: ["1P", "3M", "5P"],
+ *   setnum: 2192
  * }
- *
- * @example
- * // CommonJS modules (require, node.js)
- * const { ChordDictionary } = require("tonal")
+ * ```
  *
  * ## API
  *
@@ -40,6 +45,17 @@ const toChord = data => {
   const name = data[1];
   const abbreviatures = data[2].split(" ");
   const chord = { name, intervals, abbreviatures };
+
+  const has = interval => intervals.indexOf(interval) !== -1;
+  chord.quality = has("5A")
+    ? "Augmented"
+    : has("3M")
+    ? "Major"
+    : has("5d")
+    ? "Diminished"
+    : has("3m")
+    ? "Minor"
+    : null;
   chord.chroma = chroma(intervals);
   chord.setnum = parseInt(chord.chroma, 2);
   return Object.freeze(chord);

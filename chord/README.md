@@ -5,21 +5,22 @@
 
 ## Usage
 
-**Example**  
 ```js
+// ES6 modules (import)
 import Chord from 'tonal/chord'
 Chord.notes("CMaj7") // => ["C", "E", "G", "B"]
-```
-**Example**  
-```js
+
+// Tonal facade (require)
 const Tonal = require('tonal')
 Tonal.Chord.intervals('Cmaj7') // => ["1P", "3M", "5P", "7M"]
+```
 
 ## API
-```
+
 
 * [Chord](#module_Chord)
     * [`.tokenize(name)`](#module_Chord.tokenize) ⇒ <code>Array</code>
+    * [`.transpose(name)`](#module_Chord.transpose) ⇒ <code>string</code>
     * [`.names(aliases)`](#module_Chord.names) ⇒ <code>Array</code>
     * [`.props(name)`](#module_Chord.props) ⇒ <code>Object</code>
     * [`.intervals(name)`](#module_Chord.intervals) ⇒ <code>Array.&lt;String&gt;</code>
@@ -50,6 +51,22 @@ Chord.tokenize("Cmaj7") // => [ "C", "maj7" ]
 Chord.tokenize("C7") // => [ "C", "7" ]
 Chord.tokenize("mMaj7") // => [ null, "mMaj7" ]
 Chord.tokenize("Cnonsense") // => [ null, "nonsense" ]
+```
+<a name="module_Chord.transpose"></a>
+
+## `Chord.transpose(name)` ⇒ <code>string</code>
+Transpose a chord name
+
+**Kind**: static method of [<code>Chord</code>](#module_Chord)  
+**Returns**: <code>string</code> - the transposed chord  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>string</code> | the chord name |
+
+**Example**  
+```js
+Chord.transpose('Dm7', 'P4') // => 'Gm7
 ```
 <a name="module_Chord.names"></a>
 

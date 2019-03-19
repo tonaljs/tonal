@@ -22,7 +22,7 @@ export default [
   ["1P 3m 5P 7m 9M 11P", "minor eleventh", "m11"],
   ["1P 3m 5P 7m 9M 13M", "minor thirteenth", "m13"],
   // '''Diminished'''
-  ["1P 3m 5d", "diminished", "dim °"],
+  ["1P 3m 5d", "diminished", "dim ° o"],
   ["1P 3m 5d 7d", "diminished seventh", "dim7 °7 o7"],
   ["1P 3m 5d 7m", "half-diminished", "m7b5 ø"],
   // ==Dominant/Seventh==
@@ -43,7 +43,7 @@ export default [
   ["1P 4P 5P 7m 9m", "suspended 4th b9", "b9sus phryg"],
   // ==Other==
   ["1P 5P", "fifth", "5"],
-  ["1P 3M 5A", "augmented", "aug +"],
+  ["1P 3M 5A", "augmented", "aug + +5"],
   ["1P 3M 5A 7M", "augmented seventh", "maj7#5 maj7+5"],
   ["1P 3M 5P 7M 9M 11A", "major #11 (lydian)", "maj9#11 Δ9#11"],
   ["1P 3M 5P 7m 9A", "dominant #9", "7#9"],

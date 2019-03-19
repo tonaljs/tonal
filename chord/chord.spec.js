@@ -18,6 +18,10 @@ describe("tonal-chord", () => {
     expect(Chord.tokenize("C64")).toEqual(["C", "64"]);
   });
 
+  it("transpose chord names", () => {
+    expect(Chord.transpose("Eb7b9", "5P")).toEqual("Bb7b9");
+  });
+
   test("notes", () => {
     expect(Chord.notes("Cmaj7")).toEqual(["C", "E", "G", "B"]);
     expect(Chord.notes("Eb7add6")).toEqual(["Eb", "G", "Bb", "Db", "C"]);

@@ -3,13 +3,15 @@
  *
  * ## Usage
  *
- * @example
+ * ```js
+ * // ES6 modules (import)
  * import Chord from 'tonal/chord'
  * Chord.notes("CMaj7") // => ["C", "E", "G", "B"]
  *
- * @example
+ * // Tonal facade (require)
  * const Tonal = require('tonal')
  * Tonal.Chord.intervals('Cmaj7') // => ["1P", "3M", "5P", "7M"]
+ * ```
  *
  * ## API
  *
@@ -17,6 +19,7 @@
  */
 export default {
   tokenize,
+  transpose,
   props,
   notes,
   intervals,
@@ -26,7 +29,7 @@ export default {
 };
 
 import { tokenize as split } from "../note";
-import { transpose } from "../distance";
+import { transpose as tr } from "../distance";
 import { all as chords, find as findChord } from "../chord-dictionary";
 import { isSubsetOf, isSupersetOf } from "../pcset";
 
@@ -65,6 +68,21 @@ export function tokenize(name) {
 }
 
 /**
+ * Transpose a chord name
+ *
+ * @param {string} name - the chord name
+ * @return {string} the transposed chord
+ *
+ * @example
+ * Chord.transpose('Dm7', 'P4') // => 'Gm7
+ */
+export function transpose(name, interval) {
+  const [tonic, type] = tokenize(name);
+  if (!tonic) return name;
+  return tr(tonic, interval) + type;
+}
+
+/**
  * Return the available chord names
  *
  * @function
@@ -95,7 +113,7 @@ export function props(chordName) {
   const chord = findChord(type);
   const props = {
     tonic,
-    notes: tonic ? chord.intervals.map(transpose(tonic)) : []
+    notes: tonic ? chord.intervals.map(tr(tonic)) : []
   };
   return Object.assign(props, chord);
 }
@@ -127,7 +145,7 @@ export function intervals(name) {
  * Chord.notes("C", "maj7") // => ["C", "E", "G", "B"]
  */
 export function notes(nameOrTonic, type) {
-  if (type) return props(type).intervals.map(transpose(nameOrTonic));
+  if (type) return props(type).intervals.map(tr(nameOrTonic));
   return props(nameOrTonic).notes;
 }
 

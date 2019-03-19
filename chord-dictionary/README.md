@@ -15,21 +15,23 @@ Each musical chord is represented by an object with:
 
 ## Usage
 
-**Example**  
 ```js
+// ES6 modules (import)
 import ChordDictionary from "tonal/chord-dictionary"
 
 ChordDictionary.all() // => [{ name: aeolian, .... }, ]
-ChordDictionary.find("major") // => {
+ChordDictionary.find("M") // => {
+  name: "major",
+  quality: "Major",
+  abbreviatures: ["M", ""],
+  chroma: "100010010000",
+  intervals: ["1P", "3M", "5P"],
+  setnum: 2192
 }
 ```
-**Example**  
-```js
-// CommonJS modules (require, node.js)
-const { ChordDictionary } = require("tonal")
 
 ## API
-```
+
 
 * [ChordDictionary](#module_ChordDictionary)
     * [`.all()`](#module_ChordDictionary.all) ⇒ <code>array.&lt;object&gt;</code>

@@ -6,25 +6,28 @@ const $ = str => str.split(" ");
 describe("Chord dictionary", () => {
   it("get all chords", () => {
     expect(Chords.all()).toHaveLength(111);
-    expect(Chords.all()[0]).toEqual({
-      abbreviatures: ["alt7"],
-      chroma: "110010000010",
-      intervals: ["1P", "3M", "7m", "9m"],
-      name: "altered",
-      setnum: 3202
+    expect(Chords.all()[0].name).toEqual("altered");
+  });
+
+  test("props", () => {
+    expect(Chords.find("major")).toEqual({
+      name: "major",
+      quality: "Major",
+      abbreviatures: ["M", ""],
+      chroma: "100010010000",
+      intervals: ["1P", "3M", "5P"],
+      setnum: 2192
     });
+  });
+
+  it("has quality", () => {
+    const chords = ["M", "m", "o", "+5"];
+    const qualities = chords.map(Chords.find).map(c => c.quality);
+    expect(qualities).toEqual(["Major", "Minor", "Diminished", "Augmented"]);
   });
 
   it("finds chords", () => {
     const major = Chords.find({ name: "major" });
-    expect(major).toEqual({
-      abbreviatures: ["M", ""],
-      chroma: "100010010000",
-      intervals: ["1P", "3M", "5P"],
-      name: "major",
-      setnum: 2192
-    });
-
     expect(Chords.find({ abbreviature: "M" })).toBe(major);
     expect(Chords.find({ abbreviature: "" })).toBe(major);
     expect(Chords.find({ chroma: "100010010000" })).toBe(major);
