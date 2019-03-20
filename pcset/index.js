@@ -1,6 +1,6 @@
-import { chroma as notechr } from "../note";
-import { chroma as ivlchr } from "../interval";
-import { rotate, range, compact } from "../array";
+import { chroma as noteChroma } from "../note";
+import { chroma as ivlChroma } from "../interval";
+import { rotate, range, compact, assert } from "../array";
 
 /**
  *
@@ -35,9 +35,8 @@ export default {
   filter
 };
 
-const chr = str => notechr(str) || ivlchr(str) || 0;
 const pcsetNum = set => parseInt(chroma(set), 2);
-const clen = chroma => chroma.replace(/0/g, "").length;
+const numNotes = chroma => chroma.replace(/0/g, "").length;
 
 /**
  * Get chroma of a pitch class set. A chroma identifies each set uniquely.
@@ -46,32 +45,38 @@ const clen = chroma => chroma.replace(/0/g, "").length;
  * Note that this function accepts a chroma as parameter and return it
  * without modification.
  *
- * @param {Array|String} set - the pitch class set
- * @return {string} a binary representation of the pitch class set
+ * @param {Array<string>} set - the pitch class set
+ * @return {string} a binary representation of the pitch class set or null
  * @example
  * Pcset.chroma(["C", "D", "E"]) // => "1010100000000"
  */
 export function chroma(set) {
   if (isChroma(set)) return set;
-  if (!Array.isArray(set)) return null;
-  const b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  set.map(chr).forEach(i => {
-    b[i] = 1;
-  });
-  return b.join("");
+  assert(set);
+  let ch, note;
+  const binary = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  for (let i = 0; i < set.length; i++) {
+    note = set[i];
+    ch = noteChroma(note);
+    if (ch === null) ch = ivlChroma(set[i]);
+    if (ch === null) return null;
+    binary[ch] = 1;
+  }
+  return binary.join("");
 }
 
 let all = null;
 /**
  * Get a list of all possible chromas (all possible scales)
  * More information: http://allthescales.org/
- * @return {Array} an array of possible chromas from '10000000000' to '11111111111'
+ * @param [number] numberOfNotes - number of notes of the given chromas. Any by default
+ * @return {Array<string>} an array of possible chromas from '10000000000' to '11111111111'
  *
  */
 export function chromas(n) {
   all = all || range(2048, 4095).map(n => n.toString(2));
   return typeof n === "number"
-    ? all.filter(chroma => clen(chroma) === n)
+    ? all.filter(chroma => numNotes(chroma) === n)
     : all.slice();
 }
 
@@ -81,10 +86,10 @@ export function chromas(n) {
  *
  * This is used, for example, to get all the modes of a scale.
  *
- * @param {Array|String} set - the list of notes or pitchChr of the set
- * @param {Boolean} normalize - (Optional, true by default) remove all
+ * @param {Array|string} set - the list of notes or pitchChr of the set
+ * @param {boolean} normalize - (Optional, true by default) remove all
  * the rotations that starts with "0"
- * @return {Array<String>} an array with all the modes of the chroma
+ * @return {Array<string>} an array with all the modes of the chroma
  *
  * @example
  * Pcset.modes(["C", "D", "E"]).map(Pcset.intervals)
@@ -104,7 +109,7 @@ const REGEX = /^[01]{12}$/;
 /**
  * Test if the given string is a pitch class set chroma.
  * @param {string} chroma - the pitch class set chroma
- * @return {Boolean} true if its a valid pcset chroma
+ * @return {boolean} true if its a valid pcset chroma
  * @example
  * Pcset.isChroma("101010101010") // => true
  * Pcset.isChroma("101001") // => false
@@ -116,7 +121,7 @@ export function isChroma(set) {
 const IVLS = "1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" ");
 /**
  * Given a pcset (notes or chroma) return it"s intervals
- * @param {String|Array} pcset - the pitch class set (notes or chroma)
+ * @param {string|Array} pcset - the pitch class set (notes or chroma)
  * @return {Array} intervals or empty array if not valid pcset
  * @example
  * Pcset.intervals("1010100000000") => ["1P", "2M", "3M"]
@@ -133,9 +138,9 @@ export function intervals(set) {
 /**
  * Test if two pitch class sets are identical
  *
- * @param {Array|String} set1 - one of the pitch class sets
- * @param {Array|String} set2 - the other pitch class set
- * @return {Boolean} true if they are equal
+ * @param {Array|string} set1 - one of the pitch class sets
+ * @param {Array|string} set2 - the other pitch class set
+ * @return {boolean} true if they are equal
  * @example
  * Pcset.isEqual(["c2", "d3"], ["c5", "d2"]) // => true
  */
@@ -150,8 +155,8 @@ export function isEqual(s1, s2) {
  *
  * The function can be partially applied
  *
- * @param {Array|String} set - an array of notes or a chroma set string to test against
- * @param {Array|String} notes - an array of notes or a chroma set
+ * @param {Array|string} set - an array of notes or a chroma set string to test against
+ * @param {Array|string} notes - an array of notes or a chroma set
  * @return {boolean} true if notes is a subset of set, false otherwise
  * @example
  * const inCMajor = Pcset.isSubsetOf(["C", "E", "G"])
@@ -171,8 +176,8 @@ export function isSubsetOf(set, notes) {
  * Create a function that test if a collectio of notes is a
  * superset of a given set (it contains all notes and at least one more)
  *
- * @param {Array|String} set - an array of notes or a chroma set string to test against
- * @param {Array|String} notes - an array of notes or a chroma set
+ * @param {Array|string} set - an array of notes or a chroma set string to test against
+ * @param {Array|string} notes - an array of notes or a chroma set
  * @return {boolean} true if notes is a superset of set, false otherwise
  * @example
  * const extendsCMajor = Pcset.isSupersetOf(["C", "E", "G"])
@@ -190,9 +195,13 @@ export function isSupersetOf(set, notes) {
 
 /**
  * Test if a given pitch class set includes a note
- * @param {Array|String} set - the base set to test against
- * @param {String|Pitch} note - the note to test
- * @return {Boolean} true if the note is included in the pcset
+ *
+ * @param {Array<string>} set - the base set to test against
+ * @param {string} note - the note to test
+ * @return {boolean} true if the note is included in the pcset
+ *
+ * Can be partially applied
+ *
  * @example
  * Pcset.includes(["C", "D", "E"], "C4") // => true
  * Pcset.includes(["C", "D", "E"], "C#4") // => false
@@ -200,16 +209,14 @@ export function isSupersetOf(set, notes) {
 export function includes(set, note) {
   if (arguments.length > 1) return includes(set)(note);
   set = chroma(set);
-  return function(note) {
-    return set[chr(note)] === "1";
-  };
+  return note => set[noteChroma(note)] === "1";
 }
 
 /**
  * Filter a list with a pitch class set
  *
- * @param {Array|String} set - the pitch class set notes
- * @param {Array|String} notes - the note list to be filtered
+ * @param {Array|string} set - the pitch class set notes
+ * @param {Array|string} notes - the note list to be filtered
  * @return {Array} the filtered notes
  *
  * @example

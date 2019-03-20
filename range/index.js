@@ -8,7 +8,8 @@ import { filter } from "../pcset";
  *
  * ## Usage
  *
- * @example
+ * ```js
+ * // ES6 modules (import)
  * import Range from "tonal/range"
  * // ascending chromatic range
  * Range.chromatic(["C4", "E4"]) // => ["C4", "Db4", "D4", "Eb4", "E4"]
@@ -21,10 +22,11 @@ import { filter } from "../pcset";
  * // complex numeric range
  * Range.numeric(["C4", "E4", "Bb3"]) // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
  *
- * @example
+ * // Tonal facade (require)
  * const Tonal = require("tonal-range")
  * Tonal.Range.scale("C D E F G A B", ["C3", "C2"])
  * // => [ "C3", "B2", "A2", "G2", "F2", "E2", "D2", "C2" ]
+ * ```
  *
  * ## API
  *
@@ -53,7 +55,7 @@ function asNum(n) {
  * Range.numeric(["C5", "C4"]) // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
  * // it works midi notes
  * Range.numeric([10, 5]) // => [ 10, 9, 8, 7, 6, 5 ]
- * // complex range
+ * // multi-point range
  * Range.numeric(["C4", "E4", "Bb3"]) // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
  * // can be expressed with a string or array
  */
@@ -73,12 +75,13 @@ export function numeric(arr) {
  * @return {Array} an array of note names
  *
  * @example
- * Range.chromatic("C2 E2 D2") // => ["C2", "Db2", "D2", "Eb2", "E2", "Eb2", "D2"]
- * // with sharps
- * Range.chromatic("C2 C3", true) // => [ "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", "C3" ]
+ * Range.chromatic("C2 E2 D2")
+ * // => ["C2", "Db2", "D2", "Eb2", "E2", "Eb2", "D2"]
+ * Range.chromatic("C2 C3", { sharps: true })
+ * // => [ "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", "C3" ]
  */
-export function chromatic(arr, sharps) {
-  return numeric(arr).map(n => fromMidi(n, sharps));
+export function chromatic(arr, options) {
+  return numeric(arr).map(n => fromMidi(n, options));
 }
 
 /**

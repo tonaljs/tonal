@@ -19,20 +19,20 @@ Detect.chord(["C", "E", "G", "A"]) // => ["CM6", "Am7"]
 ```
 
 * [Detect](#module_Detect)
-    * [`.chord(notes)`](#module_Detect.chord) ⇒ <code>Array.&lt;String&gt;</code>
+    * [`.chord(notes)`](#module_Detect.chord) ⇒ <code>Array.&lt;Object&gt;</code>
     * [`.scale(notes)`](#module_Detect.scale) ⇒ <code>Array.&lt;String&gt;</code>
 
 <a name="module_Detect.chord"></a>
 
-## `Detect.chord(notes)` ⇒ <code>Array.&lt;String&gt;</code>
+## `Detect.chord(notes)` ⇒ <code>Array.&lt;Object&gt;</code>
 Given a collection of notes or pitch classes, try to find the chord name
 
 **Kind**: static method of [<code>Detect</code>](#module_Detect)  
-**Returns**: <code>Array.&lt;String&gt;</code> - chord names or empty array  
+**Returns**: <code>Array.&lt;Object&gt;</code> - chord names or empty array  
 
-| Param | Type |
-| --- | --- |
-| notes | <code>Array.&lt;String&gt;</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| notes | <code>Array.&lt;String&gt;</code> | notes (or intervals) |
 
 **Example**  
 ```js

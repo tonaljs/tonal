@@ -1,4 +1,5 @@
 import { props, name } from "../note";
+const isArray = Array.isArray;
 
 /**
  * Tonal array utilities. Sort notes by pitch, remove duplicates,
@@ -39,6 +40,14 @@ function descR(b, n) {
   const a = [];
   for (; n--; a[n] = b - n);
   return a;
+}
+
+/**
+ * Assert the value is an array
+ * @private
+ */
+export function assert(array, msg = "Must be an array.") {
+  if (!isArray(array)) throw Error(msg + " Was: " + array);
 }
 
 /**

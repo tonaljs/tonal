@@ -37,8 +37,8 @@ Tonal.Note.midi("C4") // => 60
     * [`.stepToLetter(step)`](#module_Note.stepToLetter) ⇒ <code>string</code>
     * [`.altToAcc(alt)`](#module_Note.altToAcc) ⇒ <code>string</code>
     * [`.fromProps(props, [baseNote])`](#module_Note.fromProps) ⇒ <code>string</code>
-    * [`.fromMidi(midi, useSharps)`](#module_Note.fromMidi) ⇒ <code>string</code>
-    * [`.simplify(note, useSameAccType)`](#module_Note.simplify) ⇒ <code>string</code>
+    * [`.fromMidi(midi, options, useSharps)`](#module_Note.fromMidi) ⇒ <code>string</code>
+    * [`.simplify(note, options)`](#module_Note.simplify) ⇒ <code>string</code>
     * [`.enharmonic(note)`](#module_Note.enharmonic) ⇒ <code>string</code>
 
 <a name="module_Note.midiToFreq"></a>
@@ -322,7 +322,7 @@ Note.from({alt: 1, oct: 3}, "C4") // => "C#3"
 ```
 <a name="module_Note.fromMidi"></a>
 
-## `Note.fromMidi(midi, useSharps)` ⇒ <code>string</code>
+## `Note.fromMidi(midi, options, useSharps)` ⇒ <code>string</code>
 Given a midi number, returns a note name. The altered notes will have
 flats unless explicitly set with the optional `useSharps` parameter.
 
@@ -332,18 +332,21 @@ flats unless explicitly set with the optional `useSharps` parameter.
 | Param | Type | Description |
 | --- | --- | --- |
 | midi | <code>number</code> | the midi note number |
+| options | <code>Object</code> | = default: `{ sharps: false, pitchClass: false }` |
 | useSharps | <code>boolean</code> | (Optional) set to true to use sharps instead of flats |
 
 **Example**  
 ```js
 Note.fromMidi(61) // => "Db4"
-Note.fromMidi(61, true) // => "C#4"
+Note.fromMidi(61, { pitchClass: true }) // => "Db"
+Note.fromMidi(61, { sharps: true }) // => "C#4"
+Note.fromMidi(61, { pitchClass: true, sharps: true }) // => "C#"
 // it rounds to nearest note
 Note.fromMidi(61.7) // => "D4"
 ```
 <a name="module_Note.simplify"></a>
 
-## `Note.simplify(note, useSameAccType)` ⇒ <code>string</code>
+## `Note.simplify(note, options)` ⇒ <code>string</code>
 Simplify the note: find an enhramonic note with less accidentals.
 
 **Kind**: static method of [<code>Note</code>](#module_Note)  
@@ -352,13 +355,13 @@ Simplify the note: find an enhramonic note with less accidentals.
 | Param | Type | Description |
 | --- | --- | --- |
 | note | <code>string</code> | the note to be simplified |
-| useSameAccType | <code>boolean</code> | (optional, true by default) set to true to ensure the returned note has the same accidental types that the given note |
+| options | <code>object</code> | - sameAccType: default true. Use same kind of accidentals that source |
 
 **Example**  
 ```js
 Note.simplify("C##") // => "D"
 Note.simplify("C###") // => "D#"
-Note.simplify("C###", false) // => "Eb"
+Note.simplify("C###", { sameAccType : false }) // => "Eb"
 Note.simplify("B#4") // => "C5"
 ```
 <a name="module_Note.enharmonic"></a>

@@ -1,17 +1,26 @@
-import { detector, chord, scale } from "./";
+import { chord, scale } from "./";
 
 const $ = str => str.split(" ");
 
-describe.skip("Detect", () => {
+describe("Detect", () => {
   test("chord", () => {
-    expect(chord($("c e g b"))).toEqual(["CMaj7"]);
-    expect(chord($("e c a g"))).toEqual(["CM6", "Am7"]);
-    expect(chord($("g d f# b"))).toEqual(["GMaj7"]);
-    expect(chord($("f a d g b"))).toEqual(["Dm6", "G9"]);
-    expect(chord($("f bb g d# a"))).toEqual(["Gm9#5"]);
+    const toStr = chord => chord.tonic + chord.name + chord.mod;
+
+    expect(chord($("c e g b")).map(toStr)).toEqual(["Cmaj7"]);
+    expect(chord($("C E G A")).map(toStr)).toEqual(["C6", "Am7/C"]);
+    expect(chord($("C# E# G# A#")).map(toStr)).toEqual(["C#6", "A#m7/C#"]);
+    expect(chord($("Cb Eb Gb Ab")).map(toStr)).toEqual(["B6", "Abm7/Cb"]);
+    expect(chord($("D F# A B")).map(toStr)).toEqual(["D6", "Bm7/D"]);
+    expect(chord($("d f# a c#")).map(toStr)).toEqual(["Dmaj7"]);
+    expect(chord($("g b d")).map(toStr)).toEqual(["GM", "Bm#5/G"]);
+    expect(chord($("b d f")).map(toStr)).toEqual(["Bdim"]);
+    expect(chord($("b d f a")).map(toStr)).toEqual($("Bm7b5 Dm6/B"));
+    expect(chord($("B D F Ab")).map(toStr)).toEqual(
+      $("Bdim7 Ddim7/B Fdim7/B Abdim7/B")
+    );
   });
 
-  test("scale", () => {
+  test.skip("scale", () => {
     expect(scale($("f3 a c5 e2 d g2 b6"))).toEqual([
       "C major",
       "D dorian",

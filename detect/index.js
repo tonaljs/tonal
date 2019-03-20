@@ -15,34 +15,41 @@
  *
  * @module Detect
  */
-import { name, pc } from "../note";
-import { sort } from "../array";
+import { find as findChord } from "../chord-dictionary";
+import { name, props, chroma, fromMidi } from "../note";
+import { compact } from "../array";
 import { modes } from "../pcset";
-
-function detector(dictionary, defaultBuilder) {
-  defaultBuilder = defaultBuilder || ((tonic, names) => [tonic, names]);
-  return function(notes, builder) {
-    builder = builder || defaultBuilder;
-    notes = sort(notes.map(pc));
-    return modes(notes)
-      .map((mode, i) => {
-        const tonic = name(notes[i]);
-        const names = dictionary.names(mode);
-        return names.length ? builder(tonic, names) : null;
-      })
-      .filter(x => x);
-  };
-}
 
 /**
  * Given a collection of notes or pitch classes, try to find the chord name
  * @function
- * @param {Array<String>} notes
- * @return {Array<String>} chord names or empty array
+ * @param {Array<String>} notes - notes (or intervals)
+ * @return {Array<Object>} chord names or empty array
  * @example
  * Detect.chord(["C", "E", "G", "A"]) // => ["CM6", "Am7"]
  */
-export function chord(intervals) {}
+export function chord(notes) {
+  notes = compact(notes.map(name));
+  const sharps = notes.find(note => props(note).alt > 0) !== undefined;
+  const root = notes[0];
+  const offset = chroma(root);
+
+  const results = [];
+  function found(chord, chroma, rotation) {
+    const score = rotation - offset ? 0.5 : 1;
+    const mod = score === 1 ? "" : "/" + root;
+    const tonic = fromMidi(rotation, { pitchClass: true, sharps });
+    const name = chord.abbreviatures[0];
+    results.push({ tonic, name, mod, score });
+  }
+
+  modes(notes, false).forEach((chroma, rotation) => {
+    const chord = findChord(chroma);
+    if (chord.intervals.length) found(chord, chroma, rotation);
+  });
+
+  return results.sort((a, b) => b.score - a.score);
+}
 
 /**
  * Given a collection of notes or pitch classes, try to find the scale names

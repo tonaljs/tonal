@@ -10,6 +10,9 @@ describe("Pcset", () => {
       Pcset.chroma($("c d e f g a b"))
     );
     expect(Pcset.chroma("101010101010")).toBe("101010101010");
+    expect(Pcset.chroma(["one", "two"])).toBe(null);
+
+    expect(() => Pcset.chroma("A B C")).toThrow();
   });
 
   test("chromas", () => {
@@ -104,6 +107,6 @@ describe("Pcset", () => {
       "011010110101",
       "110101101010"
     ]);
-    expect(Pcset.modes("blah bleh")).toEqual([]);
+    expect(Pcset.modes(["blah", "bleh"])).toEqual([]);
   });
 });

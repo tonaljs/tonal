@@ -41,7 +41,7 @@ describe("tonal-range", () => {
   });
 
   test("chromatic - sharps", () => {
-    expect(Range.chromatic(["C2", "C3"], true)).toEqual(
+    expect(Range.chromatic(["C2", "C3"], { sharps: true })).toEqual(
       $("C2 C#2 D2 D#2 E2 F2 F#2 G2 G#2 A2 A#2 B2 C3")
     );
   });

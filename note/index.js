@@ -346,18 +346,22 @@ export function fromProps(fromProps = {}, baseNote = null) {
  *
  * @function
  * @param {number} midi - the midi note number
+ * @param {Object} options = default: `{ sharps: false, pitchClass: false }`
  * @param {boolean} useSharps - (Optional) set to true to use sharps instead of flats
  * @return {string} the note name
  * @example
  * Note.fromMidi(61) // => "Db4"
- * Note.fromMidi(61, true) // => "C#4"
+ * Note.fromMidi(61, { pitchClass: true }) // => "Db"
+ * Note.fromMidi(61, { sharps: true }) // => "C#4"
+ * Note.fromMidi(61, { pitchClass: true, sharps: true }) // => "C#"
  * // it rounds to nearest note
  * Note.fromMidi(61.7) // => "D4"
  */
-export function fromMidi(num, sharps) {
+export function fromMidi(num, options = {}) {
   num = Math.round(num);
-  const pcs = sharps === true ? SHARPS : FLATS;
+  const pcs = options.sharps === true ? SHARPS : FLATS;
   const pc = pcs[num % 12];
+  if (options.pitchClass) return pc;
   const o = Math.floor(num / 12) - 1;
   return pc + o;
 }
@@ -366,22 +370,23 @@ export function fromMidi(num, sharps) {
  * Simplify the note: find an enhramonic note with less accidentals.
  *
  * @param {string} note - the note to be simplified
- * @param {boolean} useSameAccType - (optional, true by default) set to true
- * to ensure the returned note has the same accidental types that the given note
+ * @param {object} options
+ * - sameAccType: default true. Use same kind of accidentals that source
  * @return {string} the simplfiied note or null if not valid note
  * @example
  * Note.simplify("C##") // => "D"
  * Note.simplify("C###") // => "D#"
- * Note.simplify("C###", false) // => "Eb"
+ * Note.simplify("C###", { sameAccType : false }) // => "Eb"
  * Note.simplify("B#4") // => "C5"
  */
-export function simplify(note, sameAcc) {
+export function simplify(note, options = {}) {
   const { alt, chroma, midi } = props(note);
   if (chroma === null) return null;
-  const useSharps = sameAcc === false ? alt < 0 : alt > 0;
-  return midi === null
-    ? pc(fromMidi(chroma, useSharps))
-    : fromMidi(midi, useSharps);
+
+  const sharps = options.sameAccType === false ? alt < 0 : alt > 0;
+  const pitchClass = midi === null;
+
+  return fromMidi(midi || chroma, { sharps, pitchClass });
 }
 
 /**

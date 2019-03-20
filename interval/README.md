@@ -17,20 +17,24 @@ This is part of [tonal](https://www.npmjs.com/package/tonal) music theory librar
 
 ## Usage
 
-**Example**  
+With Es6 modules:
+
 ```js
 import Interval from "tonal/interval"
 Interval.semitones("4P") // => 5
 Interval.invert("3m") // => "6M"
 Interval.simplify("9m") // => "2m"
 ```
-**Example**  
+
+ES5 modules:
+
 ```js
 const Tonal = require('tonal')
 Tonal.Interval.semitones("4P") // => 5
+```
 
 ## API
-```
+
 
 * [Interval](#module_Interval)
     * [`.names(qualities)`](#module_Interval.names) ⇒ <code>Array</code>

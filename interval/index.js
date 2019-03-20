@@ -15,15 +15,21 @@
  *
  * ## Usage
  *
- * @example
+ * With Es6 modules:
+ *
+ * ```js
  * import Interval from "tonal/interval"
  * Interval.semitones("4P") // => 5
  * Interval.invert("3m") // => "6M"
  * Interval.simplify("9m") // => "2m"
+ * ```
  *
- * @example
+ * ES5 modules:
+ *
+ * ```js
  * const Tonal = require('tonal')
  * Tonal.Interval.semitones("4P") // => 5
+ * ```
  *
  * ## API
  *

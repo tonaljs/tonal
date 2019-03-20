@@ -106,9 +106,12 @@ describe("tonal-note", () => {
     expect(notes.map(Note.fromMidi).join(" ")).toEqual(
       "C4 Db4 D4 Eb4 E4 F4 Gb4 G4 Ab4 A4 Bb4 B4 C5"
     );
-    expect(notes.map(n => Note.fromMidi(n, true)).join(" ")).toEqual(
-      "C4 C#4 D4 D#4 E4 F4 F#4 G4 G#4 A4 A#4 B4 C5"
-    );
+    expect(
+      notes.map(n => Note.fromMidi(n, { sharps: true })).join(" ")
+    ).toEqual("C4 C#4 D4 D#4 E4 F4 F#4 G4 G#4 A4 A#4 B4 C5");
+    expect(
+      notes.map(n => Note.fromMidi(n, { pitchClass: true })).join(" ")
+    ).toEqual("C Db D Eb E F Gb G Ab A Bb B C");
   });
 
   test("midi accepts valid MIDI note numbers", () => {
@@ -140,6 +143,7 @@ describe("tonal-note", () => {
     expect(
       "C C# D D# E E# F F# G G# A A# B B#".split(" ").map(Note.chroma)
     ).toEqual([0, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9, 10, 11, 0]);
+    expect(Note.chroma("blah")).toEqual(null);
   });
 
   test("pc", () => {
@@ -165,11 +169,11 @@ describe("tonal-note", () => {
   test("simplify", () => {
     const notes = $("C## C### F##4 Gbbb5 B#4 Cbb4");
     expect(notes.map(Note.simplify)).toEqual($("D D# G4 E5 C5 Bb3"));
-    expect(notes.map(n => Note.simplify(n, false))).toEqual(
+    expect(notes.map(n => Note.simplify(n, { sameAccType: false }))).toEqual(
       $("D Eb G4 E5 C5 A#3")
     );
 
     expect(Note.simplify("C#")).toEqual("C#");
-    expect(Note.simplify("C#", false)).toEqual("Db");
+    expect(Note.simplify("C#", { sameAccType: false })).toEqual("Db");
   });
 });

@@ -1,21 +1,20 @@
 <a name="module_AbcNotation"></a>
 
 # AbcNotation
-Convert note strings between ABC and scientific notation
+Convert note names between ABC and scientific notation
 
-This is part of [tonal](https://www.npmjs.com/package/tonal) music theory library.
+**See**: https://en.wikipedia.org/wiki/ABC_notation
 
-**Example**  
+## Usage
+
 ```js
+// ES6 modules (import)
 import Abc from 'tonal/abc-notation'
 Abc.toNote("c") // => "C5"
 Abc.toAbc("Db2") // =>  "_D,,"
 ```
-**Example**  
-```js
-const Tonal = require('tonal')
-Tonal.AbcNotation.toNote("c") // => "C5"
-```
+
+## API  
 
 * [AbcNotation](#module_AbcNotation)
     * [`.toNote(abcNote)`](#module_AbcNotation.toNote) ⇒ <code>string</code>
