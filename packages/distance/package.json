@@ -1,6 +1,6 @@
 {
   "name": "tonal-distance",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Transpose notes and find intervals between them",
   "keywords": [
     "transpose",
@@ -23,8 +23,8 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-interval": "^2.2.1",
-    "tonal-note": "^2.2.1"
+    "tonal-interval": "^2.2.2",
+    "tonal-note": "^2.2.2"
   },
   "babel": {
     "presets": [

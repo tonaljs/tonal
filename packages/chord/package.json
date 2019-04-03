@@ -1,6 +1,6 @@
 {
   "name": "tonal-chord",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Music chords creation and manipulation",
   "repository": "https://github.com/danigb/tonal/packages/chord",
   "keywords": [
@@ -21,10 +21,10 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-dictionary": "^2.2.1",
-    "tonal-distance": "^2.2.1",
-    "tonal-note": "^2.2.1",
-    "tonal-pcset": "^2.2.1"
+    "tonal-dictionary": "^2.2.2",
+    "tonal-distance": "^2.2.2",
+    "tonal-note": "^2.2.2",
+    "tonal-pcset": "^2.2.2"
   },
   "babel": {
     "presets": [

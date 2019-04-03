@@ -1,6 +1,6 @@
 {
   "name": "tonal-abc-notation",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Conversion between notes in ABC and scientific notation",
   "repository": "https://github.com/danigb/tonal/extensions/abc-notation",
   "keywords": [
@@ -21,7 +21,7 @@
   "author": "danigb",
   "license": "MIT",
   "dependencies": {
-    "tonal-note": "^2.2.1"
+    "tonal-note": "^2.2.2"
   },
   "babel": {
     "presets": [
