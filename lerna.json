@@ -1,8 +1,0 @@
-{
-  "lerna": "2.0.0",
-  "version": "2.2.2",
-  "npmClient": "yarn",
-  "scripts": {},
-  "devDependencies": {},
-  "packages": ["packages/*", "extensions/*"]
-}
