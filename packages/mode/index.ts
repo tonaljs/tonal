@@ -1,26 +1,27 @@
 import DATA from "./data";
 
 export interface ModeValid {
-  valid: boolean;
-  name: string;
-  modeNum: number;
-  pcset: number;
-  alt: number; // number of alterations === number of fiths
-  triad: string;
-  seventh: string;
-  aliases: string[];
+  readonly valid: boolean;
+  readonly name: string;
+  readonly modeNum: number;
+  readonly pcset: number;
+  readonly alt: number; // number of alterations === number of fiths
+  readonly triad: string;
+  readonly seventh: string;
+  readonly aliases: string[];
 }
 
-export interface ModeInvalid extends Partial<ModeValid> {
-  valid: false;
+export interface NoMode extends Partial<ModeValid> {
+  readonly valid: false;
+  readonly name: "";
 }
 
-export const NoMode: ModeInvalid = {
+const NoMode: NoMode = {
   valid: false,
   name: ""
 };
 
-export type Mode = ModeValid | ModeInvalid;
+export type Mode = ModeValid | NoMode;
 
 const NAMES: string[] = [];
 const ALIASES: string[] = [];

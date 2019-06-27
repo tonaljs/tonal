@@ -1,5 +1,5 @@
 {
-  "name": "tonal-scale",
+  "name": "@tonaljs/scale",
   "version": "3.0.0",
   "description": "Functions to work with midi numbers",
   "keywords": [
@@ -7,7 +7,7 @@
     "midi",
     "music",
     "theory",
-    "tonal"
+    "@tonaljs/tonal"
   ],
   "main": "dist/index.es5.js",
   "module": "dist/index.esnext.js",
@@ -16,8 +16,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "tonal": "^3.0.0",
-    "tonal-scale-dictionary": "^3.0.0"
+    "@tonaljs/tonal": "^3.0.0",
+    "@tonaljs/scale-dictionary": "^3.0.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT"

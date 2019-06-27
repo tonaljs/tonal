@@ -38,8 +38,8 @@ describe("interval", () => {
       expect(names("P-1 M-2 M-3 P-4 P-5 M-6 M-7")).toEqual(
         "-1P -2M -3M -4P -5P -6M -7M"
       );
-      expect(interval("not-an-interval").name).toEqual(undefined);
-      expect(interval("2P").name).toBe(undefined);
+      expect(interval("not-an-interval").valid).toEqual(false);
+      expect(interval("2P").valid).toBe(false);
     });
     test("q", () => {
       const q = (str: string) => str.split(" ").map(i => interval(i).q);
@@ -75,17 +75,15 @@ describe("interval", () => {
       expect(interval({ step: 1, alt: 1, dir: 1 }).name).toBe("2A");
       expect(interval({ step: 2, alt: -2, dir: 1 }).name).toBe("3d");
       expect(interval({ step: 1, alt: 1, dir: -1 }).name).toBe("-2A");
-      expect(interval({ step: 1000, alt: 0 }).name).toBe(undefined);
+      expect(interval({ step: 1000, alt: 0 }).valid).toBe(false);
     });
+
     it("accepts octave", () => {
       expect(interval({ step: 0, alt: 0, oct: 0, dir: 1 }).name).toBe("1P");
       expect(interval({ step: 0, alt: -1, oct: 1, dir: -1 }).name).toBe("-8d");
       expect(interval({ step: 0, alt: 1, oct: 2, dir: -1 }).name).toBe("-15A");
       expect(interval({ step: 1, alt: -1, oct: 1, dir: -1 }).name).toBe("-9m");
       expect(interval({ step: 0, alt: 0, oct: 0, dir: 1 }).name).toBe("1P");
-    });
-    it("returns undefined if dir is not present", () => {
-      expect(interval({ step: 0, alt: 0, oct: 0 })).toEqual({ valid: false });
     });
   });
 });

@@ -24,6 +24,9 @@ note("x").midi; // => undefined
 The API documentation is inside each module:
 
 - [@tonaljs/tonal](/packages/tonal): The core module. Note and interval properties, note transposition and interval distances. API: `note`, `interval`, `transpose`, `distance`
+- [@tonaljs/midi](/packages/midi)
+- [@tonaljs/pcset](/packages/pcset)
+- [@tonaljs/mode](/packages/pcset)
 
 ## Contributing
 

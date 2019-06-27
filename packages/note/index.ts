@@ -1,11 +1,11 @@
-import { coordToNote, note, NoteName } from "tonal";
+import { coordToNote, note, NoteName } from "@tonaljs/tonal";
 export {
   Note,
   NoteName,
   note,
   tokenizeNote as tokenize,
   altToAcc
-} from "tonal";
+} from "@tonaljs/tonal";
 
 /**
  * Transpose a note by a number of perfect fifths.

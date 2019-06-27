@@ -1,5 +1,5 @@
-import { IntervalName } from "tonal-interval";
-import { EmptySet, pcset, Pcset, PcsetChroma, PcsetNum } from "tonal-pcset";
+import { IntervalName } from "@tonaljs/interval";
+import { EmptySet, pcset, Pcset, PcsetChroma, PcsetNum } from "@tonaljs/pcset";
 import data from "./data";
 
 /**
@@ -9,24 +9,24 @@ import data from "./data";
  * - aliases: alternative list of names
  * - intervals: an array of interval names
  */
-export interface ScalePcset extends Pcset {
+export interface ScaleType extends Pcset {
   readonly name: string;
   readonly intervals: IntervalName[];
   readonly aliases: string[];
 }
 
-export const NoScalePcset: ScalePcset = {
+export const NoScaleType: ScaleType = {
   ...EmptySet,
   name: "",
   intervals: [],
   aliases: []
 };
 
-type ScaleType = string | PcsetChroma | PcsetNum;
+type ScaleTypeName = string | PcsetChroma | PcsetNum;
 
 const scaleNames: string[] = [];
 const scaleAliases: string[] = [];
-const scales: Record<ScaleType, ScalePcset> = {};
+const scaleTypes: Record<ScaleTypeName, ScaleType> = {};
 
 /**
  * Given a scale name or chroma, return the scale properties
@@ -35,8 +35,8 @@ const scales: Record<ScaleType, ScalePcset> = {};
  * import { scale } from 'tonaljs/scale-dictionary'
  * scale('major')
  */
-export function scale(type: ScaleType): ScalePcset {
-  return scales[type] || NoScalePcset;
+export function scaleType(type: ScaleTypeName): ScaleType {
+  return scaleTypes[type] || NoScaleType;
 }
 
 /**
@@ -59,13 +59,13 @@ data.forEach(([ivls, name, ...aliases]) => {
   const intervals = ivls.split(" ");
   const set = pcset(intervals);
   if (set.chroma) {
-    const scale: ScalePcset = Object.assign({ name, intervals, aliases }, set);
+    const scale: ScaleType = Object.assign({ name, intervals, aliases }, set);
     scaleNames.push(name);
-    scales[scale.num] = scale;
-    scales[scale.name] = scale;
-    scales[scale.chroma] = scale;
+    scaleTypes[scale.num] = scale;
+    scaleTypes[scale.name] = scale;
+    scaleTypes[scale.chroma] = scale;
     aliases.forEach(alias => {
-      scales[alias] = scale;
+      scaleTypes[alias] = scale;
       scaleAliases.push(alias);
     });
   }

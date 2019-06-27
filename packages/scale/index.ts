@@ -1,11 +1,11 @@
-import { note, NoteName, transpose } from "tonal";
-import { scale as getScale, ScalePcset } from "tonal-scale-dictionary";
-export { names, aliases } from "tonal-scale-dictionary";
+import { scaleType, ScaleType } from "@tonaljs/scale-dictionary";
+import { note, NoteName, transpose } from "@tonaljs/tonal";
+export { names, aliases } from "@tonaljs/scale-dictionary";
 
 type ScaleName = string;
 type ScaleNameTokens = [string, string]; // [TONIC, SCALE TYPE]
 
-interface Scale extends ScalePcset {
+interface Scale extends ScaleType {
   tonic: string | null;
   notes: NoteName[];
 }
@@ -45,9 +45,10 @@ export function tokenize(name: ScaleName): ScaleNameTokens {
     return ["", ""];
   }
   const i = name.indexOf(" ");
-  const tonic = note(name.substring(0, i)) || note(name);
+  const tonic = note(name.substring(0, i));
   if (!tonic.valid) {
-    return ["", name];
+    const n = note(name);
+    return n.valid ? [n.name, ""] : ["", name];
   }
 
   const type = name.substring(tonic.name.length + 1);
@@ -57,7 +58,7 @@ export function tokenize(name: ScaleName): ScaleNameTokens {
 export function scale(name: ScaleName | ScaleNameTokens, type?: string): Scale {
   const [tonic, t] = Array.isArray(name) ? name : tokenize(name);
   type = type || t;
-  const set = getScale(type);
+  const set = scaleType(type);
   if (!set) {
     return NoScale;
   }
@@ -78,7 +79,7 @@ export function scale(name: ScaleName | ScaleNameTokens, type?: string): Scale {
  */
 export function isKnown(name: ScaleName): boolean {
   const [tonic, type] = tokenize(name);
-  return scale(type).name !== undefined;
+  return !!scale(type).name;
 }
 
 /**

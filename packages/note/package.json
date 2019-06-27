@@ -1,12 +1,12 @@
 {
-  "name": "tonal-note",
+  "name": "@tonaljs/note",
   "version": "3.0.0",
   "description": "Parse and manipulate music notes in scientific notation",
   "keywords": [
     "note",
     "music",
     "theory",
-    "tonal"
+    "@tonaljs/tonal"
   ],
   "main": "dist/index.es5.js",
   "module": "dist/index.esnext.js",
@@ -15,7 +15,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "tonal": "^3.0.0"
+    "@tonaljs/tonal": "^3.0.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT"

@@ -1,5 +1,13 @@
-import { Interval, interval, IntervalName, note, Note, NoteName } from "tonal";
-import { compact, range, rotate } from "tonal-array";
+import { compact, range, rotate } from "@tonaljs/array";
+import {
+  Interval,
+  interval,
+  IntervalName,
+  None,
+  note,
+  Note,
+  NoteName
+} from "@tonaljs/tonal";
 
 /**
  * The properties of a pitch class set
@@ -44,7 +52,7 @@ function toChroma(set: any[]): PcsetChroma {
     return EmptySet.chroma;
   }
 
-  let pitch: Note | Interval | null;
+  let pitch: Note | Interval | None;
   const binary = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   // tslint:disable-next-line:prefer-for-of
   for (let i = 0; i < set.length; i++) {
@@ -175,10 +183,9 @@ export const chromas = (num?: number) =>
  * @example
  * Pcset.modes(["C", "D", "E"]).map(Pcset.intervals)
  */
-export function modes(set: Set, normalize?: boolean): PcsetChroma[] {
+export function modes(set: Set, normalize = true): PcsetChroma[] {
   const pcs = pcset(set);
 
-  normalize = normalize !== false;
   const binary = pcs.chroma.split("");
   return compact(
     binary.map((_, i) => {

@@ -9,7 +9,7 @@
     "lerna": "lerna bootstrap",
     "prebuild": "yarn lerna",
     "build": "lerna exec -- rollup -c=../../rollup.config.js",
-    "build:clean": "lerna exec -- rimraf dist/",
+    "build:prod": "lerna exec -- rimraf dist/ && yarn build",
     "test": "jest --coverage",
     "test:prod": "npm run lint && npm run test -- --no-cache"
   },

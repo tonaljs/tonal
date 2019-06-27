@@ -8,8 +8,6 @@ import {
 
 export type IntervalName = string;
 
-export type IntervalTokens = [string, string];
-
 type Quality =
   | "dddd"
   | "ddd"
@@ -40,13 +38,12 @@ export interface Interval extends Pitch {
   readonly oct: number;
 }
 
-export interface InvalidInterval extends Partial<Interval> {
+export interface NoInterval extends Partial<Interval> {
   readonly valid: false;
+  readonly name: "";
 }
 
-export const NoInterval: InvalidInterval = {
-  valid: false
-};
+export type IntervalTokens = [string, string];
 
 // shorthand tonal notation (with quality after number)
 const IVL_TNL = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
@@ -62,7 +59,8 @@ export function tokenize(str?: IntervalName): IntervalTokens {
   return m[1] ? [m[1], m[2]] : [m[4], m[3]];
 }
 
-const CACHE: { [key in string]: Interval | InvalidInterval } = {};
+const NoInterval: NoInterval = { valid: false, name: "" };
+const CACHE: { [key in string]: Interval | NoInterval } = {};
 
 /**
  * Get interval properties. It returns an object with:
@@ -84,9 +82,7 @@ const CACHE: { [key in string]: Interval | InvalidInterval } = {};
  * interval('P5').semitones // => 7
  * interval('m3').type // => 'majorable'
  */
-export function interval(
-  ivl: IntervalName | Pitch
-): Interval | InvalidInterval {
+export function interval(ivl: IntervalName | Pitch): Interval | NoInterval {
   if (typeof ivl === "string") {
     if (CACHE[ivl]) {
       return CACHE[ivl];
@@ -100,7 +96,7 @@ export function interval(
 
 const SIZES = [0, 2, 4, 5, 7, 9, 11];
 const TYPES = "PMMPPMM";
-function properties(str?: string): Interval | InvalidInterval {
+function properties(str?: string): Interval | NoInterval {
   const tokens = tokenize(str);
   if (tokens[0] === "") {
     return NoInterval;
@@ -162,7 +158,7 @@ function qToAlt(type: Type, q: string): number {
     : 0;
 }
 
-function fromPitch(props: Pitch): Interval | InvalidInterval {
+function fromPitch(props: Pitch): Interval | NoInterval {
   const { step, alt, oct = 0, dir } = props;
   if (!dir) {
     return NoInterval;

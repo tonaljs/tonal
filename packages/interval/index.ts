@@ -3,4 +3,4 @@ export {
   IntervalName,
   interval,
   tokenizeInterval as tokenize
-} from "tonal";
+} from "@tonaljs/tonal";

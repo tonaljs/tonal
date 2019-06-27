@@ -1,4 +1,4 @@
-import { note, NoteProps } from "tonal";
+import { note, Note } from "@tonaljs/tonal";
 
 const isArray = Array.isArray;
 
@@ -77,7 +77,7 @@ export function compact(arr: any[]): any[] {
  * // => ['C', 'F', 'G', 'A', 'B']
  */
 export function sortNotes(notes: string[]): string[] {
-  const valid = notes.map(n => note(n)).filter(n => n.valid) as NoteProps[];
+  const valid = notes.map(n => note(n)).filter(n => n.valid) as Note[];
   return valid.sort((a, b) => a.height - b.height).map(n => n.name);
 }
 

@@ -1,4 +1,4 @@
-import { Note, note, tokenizeNote as tokenize } from "../index";
+import { note, tokenizeNote as tokenize } from "../index";
 
 describe("note", () => {
   test("tokenize", () => {
@@ -53,6 +53,7 @@ describe("note", () => {
       expect(note("F9").freq).toEqual(11175.303405856126);
       expect(note("C-4").freq).toEqual(1.0219748644554634);
       expect(note("C").freq).toEqual(null);
+      expect(note("x").freq).toEqual(undefined);
     });
   });
 
@@ -61,7 +62,7 @@ describe("note", () => {
     expect(note({ step: 2, alt: 1 }).name).toBe("E#");
     expect(note({ step: 2, alt: 1, oct: 4 }).name).toBe("E#4");
     expect(note({ step: 5, alt: 0 }).name).toBe("A");
-    expect(note({ step: -1, alt: 0 }).name).toBe(undefined);
-    expect(note({ step: 8, alt: 0 }).name).toBe(undefined);
+    expect(note({ step: -1, alt: 0 }).name).toBe("");
+    expect(note({ step: 8, alt: 0 }).name).toBe("");
   });
 });

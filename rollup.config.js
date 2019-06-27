@@ -32,14 +32,12 @@ export default formats.map(format => ({
 }));
 
 function getUmdName(packageName) {
-  if (packageName === "tonal") return "Tonal";
-
-  if (!packageName.startsWith("tonal-")) {
+  if (!packageName.startsWith("@tonaljs/")) {
     throw Error(
-      "Invalid package name. It should start with `tonal-` but was: " +
+      "Invalid package name. It should start with `@tonaljs/` but was: " +
         packageName
     );
   }
-  const sufix = packageName.slice("tonal-".length);
+  const sufix = packageName.slice("@tonaljs/".length);
   return _.startCase(sufix).replace(" ", "");
 }

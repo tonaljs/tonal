@@ -10,7 +10,7 @@ import {
 
 const $ = (arr: string) => arr.split(" ");
 
-describe("tonal-array", () => {
+describe("@tonaljs/array", () => {
   test("range", () => {
     expect(range(-2, 2)).toEqual([-2, -1, 0, 1, 2]);
     expect(range(2, -2)).toEqual([2, 1, 0, -1, -2]);

@@ -1,4 +1,5 @@
 export {
+  None,
   Pitch,
   NoteCoordinates,
   IntervalCoordinates,
@@ -11,7 +12,7 @@ export {
   tokenize as tokenizeNote,
   NoteName,
   Note,
-  NoteProps,
+  NoNote,
   PcName,
   altToAcc,
   coordToNote
@@ -22,6 +23,7 @@ export {
   tokenize as tokenizeInterval,
   IntervalName,
   Interval,
+  NoInterval,
   coordToInterval
 } from "./src/interval";
 

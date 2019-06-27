@@ -1,6 +1,6 @@
-import { aliases, names, scale } from "./index";
+import { aliases, names, scaleType } from "./index";
 
-describe("Scales dictionary", () => {
+describe("scaleTypes dictionary", () => {
   test("list names", () => {
     expect(names()).toHaveLength(86);
     // sorted
@@ -13,8 +13,8 @@ describe("Scales dictionary", () => {
     expect(aliases()[0]).toEqual("arabian");
   });
 
-  test("get scale properties", () => {
-    expect(scale("major")).toEqual({
+  test("scaleType ", () => {
+    expect(scaleType("major")).toEqual({
       num: 2773,
       name: "major",
       intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
@@ -25,8 +25,8 @@ describe("Scales dictionary", () => {
     });
   });
 
-  test("not valid scale type", () => {
-    expect(scale("unknown")).toEqual({
+  test("not valid scaleType type", () => {
+    expect(scaleType("unknown")).toEqual({
       name: "",
       num: 0,
       aliases: [],

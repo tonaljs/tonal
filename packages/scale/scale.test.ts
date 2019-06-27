@@ -1,10 +1,10 @@
 import { aliases, isKnown, names, scale, tokenize } from "./index";
 const $ = (s: string) => s.split(" ");
 
-describe("tonal-scale", () => {
+describe("@tonaljs/scale", () => {
   test("props", () => {
     expect(scale("major")).toEqual({
-      tonic: null,
+      tonic: "",
       notes: [],
       name: "major",
       intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],

@@ -1,5 +1,5 @@
-import { IntervalName } from "tonal-interval";
-import { EmptySet, Pcset, pcset, PcsetChroma, PcsetNum } from "tonal-pcset";
+import { IntervalName } from "@tonaljs/interval";
+import { EmptySet, Pcset, pcset, PcsetChroma, PcsetNum } from "@tonaljs/pcset";
 import data from "./data";
 
 export type ChordQuality =
@@ -9,13 +9,13 @@ export type ChordQuality =
   | "Diminished"
   | "Unknown";
 
-export interface ChordPcset extends Pcset {
+export interface ChordType extends Pcset {
   name: string;
   quality: ChordQuality;
   intervals: IntervalName[];
   aliases: string[];
 }
-const NoChord: ChordPcset = {
+const NoChordType: ChordType = {
   ...EmptySet,
   name: "",
   quality: "Unknown",
@@ -23,10 +23,10 @@ const NoChord: ChordPcset = {
   aliases: []
 };
 
-type ChordType = string | PcsetChroma | PcsetNum;
+type ChordTypeName = string | PcsetChroma | PcsetNum;
 const chordNames: string[] = [];
 const chordAliases: string[] = [];
-const chords: Record<ChordType, ChordPcset> = {};
+const chordTypes: Record<ChordTypeName, ChordType> = {};
 
 /**
  * Given a chord name or chroma, return the chord properties
@@ -35,8 +35,8 @@ const chords: Record<ChordType, ChordPcset> = {};
  * import { chord } from 'tonaljs/chord-dictionary'
  * chord('major')
  */
-export function chord(type: ChordType): ChordPcset {
-  return chords[type] || NoChord;
+export function chordType(type: ChordTypeName): ChordType {
+  return chordTypes[type] || NoChordType;
 }
 
 /**
@@ -64,22 +64,23 @@ function getQuality(intervals: IntervalName[]): ChordQuality {
     : "Unknown";
 }
 
+// build index and name lists
 data.forEach(([ivls, name, abbrvs]) => {
   const intervals = ivls.split(" ");
   const aliases = abbrvs.split(" ");
   const quality = getQuality(intervals);
   const set = pcset(intervals);
   if (set.chroma) {
-    const chord: ChordPcset = { name, quality, intervals, aliases, ...set };
+    const chord: ChordType = { name, quality, intervals, aliases, ...set };
     if (name) {
       chordNames.push(name);
-      chords[name] = chord;
+      chordTypes[name] = chord;
     }
-    chords[chord.num] = chord;
-    chords[chord.chroma] = chord;
+    chordTypes[chord.num] = chord;
+    chordTypes[chord.chroma] = chord;
     aliases.forEach(alias => {
       chordAliases.push(alias);
-      chords[alias] = chord;
+      chordTypes[alias] = chord;
     });
   }
 });

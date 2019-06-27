@@ -6,6 +6,11 @@ export type PitchCoordinates =
   | NoteCoordinates
   | IntervalCoordinates;
 
+export interface None {
+  valid: false;
+  name: "";
+}
+
 /**
  * Pitch properties
  *

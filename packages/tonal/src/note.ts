@@ -4,7 +4,7 @@ export type NoteWithOctave = string;
 export type PcName = string;
 export type NoteName = NoteWithOctave | PcName;
 
-export interface NoteProps extends Pitch {
+export interface Note extends Pitch {
   readonly valid: boolean;
   readonly name: NoteName;
   readonly letter: string;
@@ -17,19 +17,16 @@ export interface NoteProps extends Pitch {
   readonly freq: number | null;
 }
 
-export interface NoteInvalid extends Partial<NoteProps> {
-  valid: false;
+export interface NoNote extends Partial<Note> {
+  readonly valid: false;
+  readonly name: "";
 }
 
-export type Note = NoteProps | NoteInvalid;
+const NoNote: NoNote = { valid: false, name: "" };
 
-const NoNote: NoteInvalid = {
-  valid: false
-};
+const cache: Record<string, Note | NoNote> = {};
 
-const cache: Record<string, Note> = {};
-
-export function note(src: NoteName | Pitch): Note {
+export function note(src: NoteName | Pitch): Note | NoNote {
   const name: NoteName =
     typeof src === "string"
       ? src
@@ -49,12 +46,12 @@ export function tokenize(str: string) {
 /**
  * @private
  */
-export function coordToNote(noteCoord: PitchCoordinates): NoteProps {
-  return note(decode(noteCoord)) as NoteProps;
+export function coordToNote(noteCoord: PitchCoordinates): Note {
+  return note(decode(noteCoord)) as Note;
 }
 
 const SEMI = [0, 2, 4, 5, 7, 9, 11];
-function properties(noteName: NoteName): Note {
+function properties(noteName: NoteName): Note | NoNote {
   const tokens = tokenize(noteName);
   if (tokens[0] === "" || tokens[3] !== "") {
     return NoNote;

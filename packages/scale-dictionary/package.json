@@ -1,5 +1,5 @@
 {
-  "name": "tonal-scale-dictionary",
+  "name": "@tonaljs/scale-dictionary",
   "version": "3.0.0",
   "description": "A dictionary of musical scales",
   "keywords": [
@@ -7,7 +7,7 @@
     "dictionary",
     "music",
     "theory",
-    "tonal"
+    "@tonaljs/tonal"
   ],
   "main": "dist/index.es5.js",
   "module": "dist/index.esnext.js",
@@ -16,8 +16,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "tonal-interval": "^3.0.0",
-    "tonal-pcset": "^3.0.0"
+    "@tonaljs/interval": "^3.0.0",
+    "@tonaljs/pcset": "^3.0.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT"

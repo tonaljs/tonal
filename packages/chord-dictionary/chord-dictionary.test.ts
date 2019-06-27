@@ -1,4 +1,4 @@
-import { abbreviatures, chord, names } from "./";
+import { abbreviatures, chordType, names } from "./index";
 
 const $ = (str: string) => str.split(" ");
 
@@ -13,8 +13,8 @@ describe("Scales dictionary", () => {
     // sorted
     expect(abbreviatures()[0]).toEqual("");
   });
-  test("get chord properties", () => {
-    expect(chord("major")).toEqual({
+  test("chordType ", () => {
+    expect(chordType("major")).toEqual({
       name: "major",
       quality: "Major",
       intervals: ["1P", "3M", "5P"],
