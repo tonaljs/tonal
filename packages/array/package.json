@@ -1,0 +1,22 @@
+{
+  "name": "tonal-array",
+  "version": "3.0.0",
+  "description": "Functions to work with arrays of tonal objects",
+  "keywords": [
+    "array",
+    "music",
+    "theory",
+    "tonal"
+  ],
+  "main": "dist/index.es5.js",
+  "module": "dist/index.esnext.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "tonal": "^3.0.0"
+  },
+  "author": "danigb@gmail.com",
+  "license": "MIT"
+}

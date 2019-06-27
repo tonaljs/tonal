@@ -1,51 +1,44 @@
-# @tonaljs/tonal [![npm](https://img.shields.io/npm/v/@tonaljs/tonal.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/tonal)
+# tonal
 
-## We're moving. Looking for v2? It's [here](https://github.com/tonaljs/v2)
+`tonal` is a music theory library. Contains functions to manipulate tonal elements of music (pitches, chords, scales, keys). It deals with abstractions (not actual music or sound).
 
-`@tonaljs/tonal` is a small (4kb minified, 2kb gzipped) javascript music theory library. It provides functions to manipulate tonal elements of music (notes, intervals, transposition, distances). It deals with abstractions (not actual music).
+`tonal` is implemented in Typescript and published as a collection of npm modules. It uses a functional programing style: all functions are pure, there is no data mutation, and entities are represented by data structures instead of objects.
 
-## Usage
+## New v3 in Typescript
 
-#### Install
+IMPORTANT: master branch contains the new v3 version written in Typescript. **This version is not yet published **. For latest published version see [tonal v2](https://github.com/tonaljs/v2)
 
-npm: `npm i --save @tonaljs/tonal`
-
-yarn: `yarn add @tonaljs/tonal`
-
-#### Import
-
-ES6 module:
+## Example
 
 ```js
-import * as tonal from '@tonaljs/tonal'
-```
+import { note } from "@tonaljs/tonal";
 
-ES5 module:
-
-```js
-const tonal = require('@tonaljs/tonal')
+note("A4").midi; // => 60
+note("a4").freq; // => 440
+note("c#2").accidentals; // => '#'
+note("x").midi; // => undefined
 ```
 
 ## Documentation
 
-#### API
+The API documentation is inside each module:
 
-- `note(note: string): NoteProps`: get properties of a note name
-- `interval(interval: string): IntervalProps`: get properties of an interval name
-- `transpose(note: string, interval: string): string`: transpose a note by an interval
-- `distance(fromNote: string, toNote: string): string`: find the interval between two notes
+- [@tonaljs/tonal](/packages/tonal): The core module. Note and interval properties, note transposition and interval distances. API: `note`, `interval`, `transpose`, `distance`
 
-Read the [full API documentation here](API.md)
+## Contributing
 
-#### Examples
+Read [contributing document](/docs/CONTRIBUTING.md) for instructions
 
-```js
-tonal.note('C4').midi // => 60
-tonal.note('A4').freq // => 440
-tonal.transpose('C4', '5P') // => 'G4'
-tonal.distance('C4', 'G4') // => '5P'
-```
+## Inspiration
+
+This library takes inspiration from other music theory libraries:
+
+- Teoria: https://github.com/saebekassebil/teoria
+- Impro-Visor: https://www.cs.hmc.edu/~keller/jazz/improvisor/
+- MusicKit: https://github.com/benzguo/MusicKit
+- Music21: http://web.mit.edu/music21/doc/index.html
+- Sharp11: https://github.com/jsrmath/sharp11
 
 ## License
 
-MIT License
+[MIT License](docs/LICENSE)

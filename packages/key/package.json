@@ -1,0 +1,27 @@
+{
+  "name": "tonal-key",
+  "version": "3.0.0",
+  "description": "Functions to work with midi numbers",
+  "keywords": [
+    "note",
+    "midi",
+    "music",
+    "theory",
+    "tonal"
+  ],
+  "main": "dist/index.es5.js",
+  "module": "dist/index.esnext.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "tonal": "^3.0.0",
+    "tonal-array": "^3.0.0",
+    "tonal-mode": "^3.0.0",
+    "tonal-note": "^3.0.0",
+    "tonal-pcset": "^3.0.0"
+  },
+  "author": "danigb@gmail.com",
+  "license": "MIT"
+}

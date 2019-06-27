@@ -1,0 +1,24 @@
+{
+  "name": "tonal-scale-dictionary",
+  "version": "3.0.0",
+  "description": "A dictionary of musical scales",
+  "keywords": [
+    "scale",
+    "dictionary",
+    "music",
+    "theory",
+    "tonal"
+  ],
+  "main": "dist/index.es5.js",
+  "module": "dist/index.esnext.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "tonal-interval": "^3.0.0",
+    "tonal-pcset": "^3.0.0"
+  },
+  "author": "danigb@gmail.com",
+  "license": "MIT"
+}

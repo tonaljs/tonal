@@ -1,46 +1,17 @@
 {
-  "name": "@tonaljs/tonal",
-  "version": "3.0.0",
-  "description": "",
-  "keywords": [
-    "tonal",
-    "music",
-    "theory",
-    "solfa",
-    "solfege"
+  "name": "tonal",
+  "private": true,
+  "workspaces": [
+    "packages/*"
   ],
-  "main": "dist/tonal.umd.js",
-  "module": "dist/tonal.es5.js",
-  "typings": "dist/types/tonal.d.ts",
-  "files": [
-    "dist"
-  ],
-  "author": "danigb <danigb@gmail.com>",
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "license": "MIT",
-  "engines": {
-    "node": ">=6.0.0"
-  },
   "scripts": {
-    "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
-    "prebuild": "rimraf dist",
-    "build": "npm run build:dist && npm run build:docs && npm run build:api",
-    "build:dist": "tsc --module commonjs && rollup -c rollup.config.ts",
-    "build:docs": "typedoc --excludeNotExported --excludePrivate --out docs --target es6 --theme minimal --mode file src",
-    "build:api": "jsdoc2md --files 'dist/tonal.es5.js' > API.md",
-    "start": "rollup -c rollup.config.ts -w",
+    "lint": "tslint  --project tsconfig.json -t codeFrame 'packages/**/*.ts'",
+    "lerna": "lerna bootstrap",
+    "prebuild": "yarn lerna",
+    "build": "lerna exec -- rollup -c=../../rollup.config.js",
+    "build:clean": "lerna exec -- rimraf dist/",
     "test": "jest --coverage",
-    "test:watch": "jest --coverage --watch",
-    "test:prod": "npm run lint && npm run test -- --no-cache",
-    "deploy-docs": "ts-node tools/gh-pages-publish",
-    "report-coverage": "cat ./coverage/lcov.info | coveralls",
-    "commit": "git-cz",
-    "semantic-release": "semantic-release",
-    "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
-    "travis-deploy-once": "travis-deploy-once"
+    "test:prod": "npm run lint && npm run test -- --no-cache"
   },
   "husky": {
     "hooks": {
@@ -48,15 +19,11 @@
     }
   },
   "lint-staged": {
-    "{src,test}/**/*.ts": [
+    "packages/**/*.ts": [
       "prettier --write",
+      "tslint",
       "git add"
     ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-conventional-changelog"
-    }
   },
   "jest": {
     "transform": {
@@ -82,53 +49,25 @@
       }
     },
     "collectCoverageFrom": [
-      "src/*.{js,ts}"
-    ]
-  },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
+      "**/*.ts"
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.0.0",
-    "@commitlint/config-conventional": "^8.0.0",
-    "@types/jest": "^24.0.13",
-    "@types/node": "^12.0.7",
-    "colors": "^1.3.2",
-    "commitizen": "^3.0.0",
-    "coveralls": "^3.0.2",
-    "cross-env": "^5.2.0",
-    "cz-conventional-changelog": "^2.1.0",
-    "husky": "^2.4.0",
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.0.10",
+    "husky": "^2.4.1",
     "jest": "^24.8.0",
     "jest-config": "^24.8.0",
-    "lint-staged": "^8.0.0",
-    "lodash.camelcase": "^4.3.0",
-    "prettier": "^1.14.3",
-    "prompt": "^1.0.0",
-    "replace-in-file": "^4.1.0",
-    "rimraf": "^2.6.2",
-    "rollup": "^1.14.6",
-    "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-filesize": "^6.1.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-typescript2": "^0.21.1",
-    "semantic-release": "^15.9.16",
-    "shelljs": "^0.8.3",
-    "travis-deploy-once": "^5.0.9",
+    "lerna": "^3.15.0",
+    "lint-staged": "^8.2.1",
+    "lodash": "^4.17.11",
+    "prettier": "^1.18.2",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.16.2",
+    "rollup-plugin-typescript2": "^0.21.2",
     "ts-jest": "^24.0.2",
-    "ts-node": "^8.2.0",
-    "tslint": "^5.11.0",
-    "tslint-config-prettier": "^1.15.0",
-    "tslint-config-standard": "^8.0.1",
-    "typedoc": "^0.14.2",
-    "typescript": "^3.0.3",
-    "jsdoc": "^3.6.2",
-    "jsdoc-to-markdown": "^5.0.0"
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.5.2"
   }
 }

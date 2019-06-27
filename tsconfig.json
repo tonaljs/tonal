@@ -1,22 +1,15 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "es5",
-    "module":"es2015",
-    "lib": ["es2015", "es2016", "es2017", "dom"],
-    "strict": true,
-    "sourceMap": true,
     "declaration": true,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "declarationDir": "dist/types",
-    "outDir": "dist/lib",
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "declarationDir": "./dist",
+    "strict": true,
+    "module": "es6",
+    "noImplicitAny": true,
+    "outDir": "./dist",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "moduleResolution": "node"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["packages/**/*.ts", "../../packages/**/*"],
+  "exclude": ["node_modules", "packages/**/*.test.ts", "**/dist/**/*"]
 }
