@@ -25,15 +25,14 @@ function descR(b: number, n: number) {
  * @return {Array<number>}
  *
  * @example
- * Array.range(-2, 2) // => [-2, -1, 0, 1, 2]
- * Array.range(2, -2) // => [2, 1, 0, -1, -2]
+ * range(-2, 2) // => [-2, -1, 0, 1, 2]
+ * range(2, -2) // => [2, 1, 0, -1, -2]
  */
 export function range(from: number, to: number): number[] {
   return from < to ? ascR(from, to - from + 1) : descR(from, from - to + 1);
 }
 
 /**
- *
  * Rotates a list a number of times. It"s completly agnostic about the
  * contents of the list.
  *
@@ -42,7 +41,7 @@ export function range(from: number, to: number): number[] {
  * @return {Array} the rotated array
  *
  * @example
- * Array.rotate(1, [1, 2, 3]) // => [2, 3, 1]
+ * rotate(1, [1, 2, 3]) // => [2, 3, 1]
  */
 export function rotate<T>(times: number, arr: T[]): T[] {
   const len = arr.length;
@@ -57,7 +56,7 @@ export function rotate<T>(times: number, arr: T[]): T[] {
  * @return {Array}
  *
  * @example
- * Array.compact(["a", "b", null, "c"]) // => ["a", "b", "c"]
+ * compact(["a", "b", null, "c"]) // => ["a", "b", "c"]
  */
 export function compact(arr: any[]): any[] {
   return arr.filter(n => n === 0 || n);
@@ -71,12 +70,12 @@ export function compact(arr: any[]): any[] {
  * @return {string[]} sorted array of notes
  *
  * @example
- * Array.sort(['c2', 'c5', 'c1', 'c0', 'c6', 'c'])
+ * sortedNoteNames(['c2', 'c5', 'c1', 'c0', 'c6', 'c'])
  * // => ['C', 'C0', 'C1', 'C2', 'C5', 'C6']
- * Array.sort(['c', 'F', 'G', 'a', 'b', 'h', 'J'])
+ * sortedNoteNames(['c', 'F', 'G', 'a', 'b', 'h', 'J'])
  * // => ['C', 'F', 'G', 'A', 'B']
  */
-export function sortNotes(notes: string[]): string[] {
+export function sortedNoteNames(notes: string[]): string[] {
   const valid = notes.map(n => note(n)).filter(n => !n.empty) as Note[];
   return valid.sort((a, b) => a.height - b.height).map(n => n.name);
 }
@@ -90,11 +89,11 @@ export function sortNotes(notes: string[]): string[] {
  * @return {string[]} unique sorted notes
  *
  * @example
- * Array.sortedUniqNotes(['a', 'b', 'c2', '1p', 'p2', 'c2', 'b', 'c', 'c3' ])
+ * Array.sortedUniqNoteNames(['a', 'b', 'c2', '1p', 'p2', 'c2', 'b', 'c', 'c3' ])
  * // => [ 'C', 'A', 'B', 'C2', 'C3' ]
  */
-export function sortedUniqNotes(arr: string[]): string[] {
-  return sortNotes(arr).filter((n, i, a) => i === 0 || n !== a[i - 1]);
+export function sortedUniqNoteNames(arr: string[]): string[] {
+  return sortedNoteNames(arr).filter((n, i, a) => i === 0 || n !== a[i - 1]);
 }
 
 /**
@@ -105,7 +104,7 @@ export function sortedUniqNotes(arr: string[]): string[] {
  * @return {Array} the array shuffled
  *
  * @example
- * Array.shuffle(["C", "D", "E", "F"]) // => [...]
+ * shuffle(["C", "D", "E", "F"]) // => [...]
  */
 export function shuffle(arr: any[], rnd = Math.random): any[] {
   let i: number;
@@ -126,7 +125,7 @@ export function shuffle(arr: any[], rnd = Math.random): any[] {
  * @param {Array} array - the array
  * @return {Array<Array>} an array with all the permutations
  * @example
- * Array.permutations(["a", "b", "c"])) // =>
+ * permutations(["a", "b", "c"])) // =>
  * [
  *   ["a", "b", "c"],
  *   ["b", "a", "c"],
@@ -135,7 +134,6 @@ export function shuffle(arr: any[], rnd = Math.random): any[] {
  *   ["c", "a", "b"],
  *   ["c", "b", "a"]
  * ]
- *
  */
 export function permutations(arr: any[]): any[] {
   if (arr.length === 0) {

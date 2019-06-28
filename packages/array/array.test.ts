@@ -4,8 +4,8 @@ import {
   range,
   rotate,
   shuffle,
-  sortedUniqNotes,
-  sortNotes
+  sortedNoteNames,
+  sortedUniqNoteNames
 } from "./";
 
 const $ = (arr: string) => arr.split(" ");
@@ -27,15 +27,17 @@ describe("@tonaljs/array", () => {
   });
 
   test("sort", () => {
-    expect(sortNotes($("c f g a b h j"))).toEqual($("C F G A B"));
-    expect(sortNotes($("c f g a b h j j h b a g f c"))).toEqual(
+    expect(sortedNoteNames($("c f g a b h j"))).toEqual($("C F G A B"));
+    expect(sortedNoteNames($("c f g a b h j j h b a g f c"))).toEqual(
       $("C C F F G G A A B B")
     );
-    expect(sortNotes($("c2 c5 c1 c0 c6 c"))).toEqual($("C C0 C1 C2 C5 C6"));
+    expect(sortedNoteNames($("c2 c5 c1 c0 c6 c"))).toEqual(
+      $("C C0 C1 C2 C5 C6")
+    );
   });
 
   test("sortedUniq", () => {
-    expect(sortedUniqNotes($("a b c2 1p p2 c2 b c c3"))).toEqual(
+    expect(sortedUniqNoteNames($("a b c2 1p p2 c2 b c c3"))).toEqual(
       $("C A B C2 C3")
     );
   });

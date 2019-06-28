@@ -3,9 +3,9 @@ cache: yarn
 notifications:
   email: false
 node_js:
-  - "lts"
-  - "8"
+  - "10"
   - "6"
+  - "4.2"
 script:
   - yarn install
   - yarn test:ci

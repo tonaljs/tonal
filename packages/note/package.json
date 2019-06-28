@@ -15,7 +15,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/tonal": "^3.0.0"
+    "@tonaljs/tonal": "^3.0.0",
+    "@tonaljs/midi": "^3.0.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT"
