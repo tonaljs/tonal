@@ -77,7 +77,7 @@ export function compact(arr: any[]): any[] {
  * // => ['C', 'F', 'G', 'A', 'B']
  */
 export function sortNotes(notes: string[]): string[] {
-  const valid = notes.map(n => note(n)).filter(n => n.valid) as Note[];
+  const valid = notes.map(n => note(n)).filter(n => !n.empty) as Note[];
   return valid.sort((a, b) => a.height - b.height).map(n => n.name);
 }
 

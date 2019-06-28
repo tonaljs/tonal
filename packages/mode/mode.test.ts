@@ -15,7 +15,8 @@ describe("Mode", () => {
       alt: 0,
       triad: "",
       seventh: "Maj7",
-      aliases: ["major"]
+      aliases: ["major"],
+      intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"]
     });
     expect(mode("major")).toEqual(mode("ionian"));
   });

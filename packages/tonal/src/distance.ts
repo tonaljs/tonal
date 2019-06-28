@@ -25,7 +25,7 @@ export function transpose(
 ): NoteName {
   const note = asNote(noteName);
   const interval = toInterval(intervalName);
-  if (!note.valid || !interval.valid) {
+  if (note.empty || interval.empty) {
     return "";
   }
   const noteCoord = note.coord;
@@ -47,14 +47,11 @@ export function transpose(
  * @param {Note|string} to - the note or note name to calculate distance to
  * @return {string} the interval name or empty string if not valid notes
  *
- * @example
- * import { distance } from "@tonaljs/tonal"
- *
  */
 export function distance(fromNote: NoteName, toNote: NoteName): IntervalName {
   const from = asNote(fromNote);
   const to = asNote(toNote);
-  if (!from.valid || !to.valid) {
+  if (from.empty || to.empty) {
     return "";
   }
 

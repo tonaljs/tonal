@@ -22,5 +22,5 @@ export {
  */
 export function transposeFifths(noteName: NoteName, fifths: number): NoteName {
   const n = note(noteName);
-  return n.valid ? coordToNote([n.coord[0] + fifths]).name : "";
+  return n.empty ? "" : coordToNote([n.coord[0] + fifths]).name;
 }

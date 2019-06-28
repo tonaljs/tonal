@@ -1,7 +1,7 @@
 import {
   chromaList,
   chromas,
-  EmptySet,
+  EmptyPcset,
   filter,
   intervals,
   isChroma,
@@ -16,18 +16,20 @@ import {
 
 const $ = (str: string) => str.split(" ");
 
-describe("Pcset", () => {
+describe("@tonaljs/pcset", () => {
   describe("pcset", () => {
     test("from note list", () => {
       expect(pcset(["c", "d", "e"])).toEqual({
+        empty: false,
+        name: "",
         num: 2688,
         chroma: "101010000000",
         normalized: "101010000000",
         length: 3
       });
       expect(pcset(["d", "e", "c"])).toEqual(pcset(["c", "d", "e"]));
-      expect(pcset(["not a note or interval"])).toEqual(EmptySet);
-      expect(pcset([])).toEqual(EmptySet);
+      expect(pcset(["not a note or interval"])).toEqual(EmptyPcset);
+      expect(pcset([])).toEqual(EmptyPcset);
     });
     test("from pcset number", () => {
       expect(pcset(2048)).toEqual(pcset(["C"]));

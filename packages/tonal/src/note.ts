@@ -1,11 +1,11 @@
 import { decode, encode, Pitch, PitchCoordinates } from "./pitch";
+import { Nothing, Tonal } from "./tonal";
 
 export type NoteWithOctave = string;
 export type PcName = string;
 export type NoteName = NoteWithOctave | PcName;
 
-export interface Note extends Pitch {
-  readonly valid: boolean;
+export interface Note extends Pitch, Tonal {
   readonly name: NoteName;
   readonly letter: string;
   readonly acc: string;
@@ -18,11 +18,9 @@ export interface Note extends Pitch {
 }
 
 export interface NoNote extends Partial<Note> {
-  readonly valid: false;
-  readonly name: "";
+  empty: true;
+  name: "";
 }
-
-const NoNote: NoNote = { valid: false, name: "" };
 
 const cache: Record<string, Note | NoNote> = {};
 
@@ -54,7 +52,7 @@ const SEMI = [0, 2, 4, 5, 7, 9, 11];
 function properties(noteName: NoteName): Note | NoNote {
   const tokens = tokenize(noteName);
   if (tokens[0] === "" || tokens[3] !== "") {
-    return NoNote;
+    return Nothing as NoNote;
   }
 
   const letter = tokens[0];
@@ -75,6 +73,7 @@ function properties(noteName: NoteName): Note | NoNote {
   const freq = oct === undefined ? null : Math.pow(2, (height - 69) / 12) * 440;
 
   return {
+    empty: false,
     acc,
     alt,
     chroma,
@@ -86,8 +85,7 @@ function properties(noteName: NoteName): Note | NoNote {
     name,
     oct,
     pc,
-    step,
-    valid: true
+    step
   };
 }
 

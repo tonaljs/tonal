@@ -1,5 +1,6 @@
+export { Tonal, NoTonal, Nothing } from "./src/tonal";
+
 export {
-  None,
   Pitch,
   NoteCoordinates,
   IntervalCoordinates,

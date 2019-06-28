@@ -1,15 +1,16 @@
-export type PitchClassCoordinates = [number];
-export type NoteCoordinates = [number, number];
-export type IntervalCoordinates = [number, number, number];
+import { Tonal } from "./tonal";
+
+type Fifths = number;
+type Octaves = number;
+export type Direction = 1 | -1;
+
+export type PitchClassCoordinates = [Fifths];
+export type NoteCoordinates = [Fifths, Octaves];
+export type IntervalCoordinates = [Fifths, Octaves, Direction];
 export type PitchCoordinates =
   | PitchClassCoordinates
   | NoteCoordinates
   | IntervalCoordinates;
-
-export interface None {
-  valid: false;
-  name: "";
-}
 
 /**
  * Pitch properties
@@ -23,7 +24,7 @@ export interface Pitch {
   readonly step: number;
   readonly alt: number;
   readonly oct?: number; // undefined for pitch classes
-  readonly dir?: number; // undefined for notes
+  readonly dir?: Direction; // undefined for notes
 }
 
 // The nuuber of fifths of [C, D, E, F, G, A, B]

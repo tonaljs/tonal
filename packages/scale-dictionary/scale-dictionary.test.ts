@@ -15,6 +15,7 @@ describe("scaleTypes dictionary", () => {
 
   test("scaleType ", () => {
     expect(scaleType("major")).toEqual({
+      empty: false,
       num: 2773,
       name: "major",
       intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
@@ -27,6 +28,7 @@ describe("scaleTypes dictionary", () => {
 
   test("not valid scaleType type", () => {
     expect(scaleType("unknown")).toEqual({
+      empty: true,
       name: "",
       num: 0,
       aliases: [],

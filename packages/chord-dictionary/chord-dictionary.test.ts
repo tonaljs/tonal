@@ -2,7 +2,7 @@ import { abbreviatures, chordType, names } from "./index";
 
 const $ = (str: string) => str.split(" ");
 
-describe("Scales dictionary", () => {
+describe("@tonaljs/chord-dictionary", () => {
   test("list names", () => {
     expect(names()).toHaveLength(35);
     // sorted
@@ -15,6 +15,7 @@ describe("Scales dictionary", () => {
   });
   test("chordType ", () => {
     expect(chordType("major")).toEqual({
+      empty: false,
       name: "major",
       quality: "Major",
       intervals: ["1P", "3M", "5P"],

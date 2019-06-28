@@ -3,10 +3,11 @@ import {
   Interval,
   interval,
   IntervalName,
-  None,
   note,
   Note,
-  NoteName
+  NoteName,
+  NoTonal,
+  Tonal
 } from "@tonaljs/tonal";
 
 /**
@@ -17,18 +18,21 @@ import {
  * with either "1" or "0" as characters, representing a pitch class or not
  * for the given position in the octave. For example, a "1" at index 0 means 'C',
  * a "1" at index 2 means 'D', and so on...
+ * @param {string} normalized - the chroma but shifted to the first 1
  * @param {number} length - the number of notes of the pitch class set
  * @param {IntervalName[]} intervals - the intervals of the pitch class set
  * *starting from C*
  */
-export interface Pcset {
+export interface Pcset extends Tonal {
   readonly num: number;
   readonly chroma: PcsetChroma;
   readonly normalized: PcsetChroma;
   readonly length: number;
 }
 
-export const EmptySet: Pcset = {
+export const EmptyPcset: Pcset = {
+  empty: true,
+  name: "",
   num: 0,
   chroma: "000000000000",
   normalized: "000000000000",
@@ -49,18 +53,18 @@ export type Set = Pcset | PcsetChroma | PcsetNum | NoteName[] | IntervalName[];
 
 function toChroma(set: any[]): PcsetChroma {
   if (set.length === 0) {
-    return EmptySet.chroma;
+    return EmptyPcset.chroma;
   }
 
-  let pitch: Note | Interval | None;
+  let pitch: Note | Interval | NoTonal;
   const binary = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   // tslint:disable-next-line:prefer-for-of
   for (let i = 0; i < set.length; i++) {
     pitch = note(set[i]);
     // tslint:disable-next-line: curly
-    if (!pitch.valid) pitch = interval(set[i]);
+    if (pitch.empty) pitch = interval(set[i]);
     // tslint:disable-next-line: curly
-    if (pitch.valid) binary[pitch.chroma] = 1;
+    if (!pitch.empty) binary[pitch.chroma] = 1;
   }
   return binary.join("");
 }
@@ -83,7 +87,7 @@ const isPcsetNum = (set: any): set is PcsetNum =>
 
 const isPcset = (set: any): set is Pcset => set && isChroma(set.chroma);
 
-const cache: { [key in string]: Pcset } = {};
+const cache: { [key in string]: Pcset } = { [EmptyPcset.chroma]: EmptyPcset };
 
 export function pcset(src: Set): Pcset {
   const chroma: PcsetChroma = isChroma(src)
@@ -94,7 +98,7 @@ export function pcset(src: Set): Pcset {
     ? toChroma(src)
     : isPcset(src)
     ? src.chroma
-    : EmptySet.chroma;
+    : EmptyPcset.chroma;
 
   return (cache[chroma] = cache[chroma] || properties(chroma));
 }
@@ -121,7 +125,7 @@ function properties(chroma: PcsetChroma): Pcset {
     // tslint:disable-next-line: curly
     if (chroma.charAt(i) === "1") length++;
   }
-  return { num, chroma, normalized, length };
+  return { empty: false, name: "", num, chroma, normalized, length };
 }
 
 const IVLS = "1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" ");
@@ -277,7 +281,7 @@ export function isNoteIncludedInSet(set: Set) {
 
   return (noteName: NoteName): boolean => {
     const n = note(noteName);
-    return s && n.valid && s.chroma.charAt(n.chroma) === "1";
+    return s && !n.empty && s.chroma.charAt(n.chroma) === "1";
   };
 }
 

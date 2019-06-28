@@ -2,10 +2,12 @@ import { aliases, isKnown, names, scale, tokenize } from "./index";
 const $ = (s: string) => s.split(" ");
 
 describe("@tonaljs/scale", () => {
-  test("props", () => {
+  test.only("scale", () => {
     expect(scale("major")).toEqual({
+      empty: false,
       tonic: "",
       notes: [],
+      type: "major",
       name: "major",
       intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
       aliases: ["ionian"],
@@ -14,10 +16,12 @@ describe("@tonaljs/scale", () => {
       normalized: "101011010101",
       length: 7
     });
-    expect(scale("C5 pentatonic")).toEqual({
+    expect(scale("c5 pentatonic")).toEqual({
+      empty: false,
+      name: "C5 pentatonic",
+      type: "major pentatonic",
       tonic: "C5",
       notes: ["C5", "D5", "E5", "G5", "A5"],
-      name: "major pentatonic",
       intervals: ["1P", "2M", "3M", "5P", "6M"],
       aliases: ["pentatonic"],
       num: 2708,

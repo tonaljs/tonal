@@ -1,5 +1,11 @@
 import { IntervalName } from "@tonaljs/interval";
-import { EmptySet, pcset, Pcset, PcsetChroma, PcsetNum } from "@tonaljs/pcset";
+import {
+  EmptyPcset,
+  pcset,
+  Pcset,
+  PcsetChroma,
+  PcsetNum
+} from "@tonaljs/pcset";
 import data from "./data";
 
 /**
@@ -16,8 +22,7 @@ export interface ScaleType extends Pcset {
 }
 
 export const NoScaleType: ScaleType = {
-  ...EmptySet,
-  name: "",
+  ...EmptyPcset,
   intervals: [],
   aliases: []
 };
@@ -59,7 +64,7 @@ data.forEach(([ivls, name, ...aliases]) => {
   const intervals = ivls.split(" ");
   const set = pcset(intervals);
   if (set.chroma) {
-    const scale: ScaleType = Object.assign({ name, intervals, aliases }, set);
+    const scale: ScaleType = { ...set, name, intervals, aliases };
     scaleNames.push(name);
     scaleTypes[scale.num] = scale;
     scaleTypes[scale.name] = scale;

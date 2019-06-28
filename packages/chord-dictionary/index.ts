@@ -1,5 +1,11 @@
 import { IntervalName } from "@tonaljs/interval";
-import { EmptySet, Pcset, pcset, PcsetChroma, PcsetNum } from "@tonaljs/pcset";
+import {
+  EmptyPcset,
+  Pcset,
+  pcset,
+  PcsetChroma,
+  PcsetNum
+} from "@tonaljs/pcset";
 import data from "./data";
 
 export type ChordQuality =
@@ -16,7 +22,7 @@ export interface ChordType extends Pcset {
   aliases: string[];
 }
 const NoChordType: ChordType = {
-  ...EmptySet,
+  ...EmptyPcset,
   name: "",
   quality: "Unknown",
   intervals: [],
@@ -71,7 +77,7 @@ data.forEach(([ivls, name, abbrvs]) => {
   const quality = getQuality(intervals);
   const set = pcset(intervals);
   if (set.chroma) {
-    const chord: ChordType = { name, quality, intervals, aliases, ...set };
+    const chord: ChordType = { ...set, name, quality, intervals, aliases };
     if (name) {
       chordNames.push(name);
       chordTypes[name] = chord;

@@ -15,7 +15,7 @@ export function isMidi(arg: any): arg is Midi {
  * @param {string|number} note - the note name or midi number
  * @return {Integer} the midi number or undefined if not valid note
  * @example
- * import { toMidi } from '@tonal/midi'
+ * import { toMidi } from '@tonaljs/midi'
  * toMidi("C4") // => 60
  * toMidi(60) // => 60
  * toMidi('60') // => 60
@@ -25,7 +25,7 @@ export function toMidi(note: NoteName | number): number | null {
     return +note;
   }
   const n = toNote(note);
-  return n.valid ? n.midi : null;
+  return n.empty ? null : n.midi;
 }
 
 /**
@@ -35,7 +35,7 @@ export function toMidi(note: NoteName | number): number | null {
  * @param {number} [tuning = 440] - A4 tuning frequency in Hz (440 by default)
  * @return {number} the frequency or null if not valid note midi
  * @example
- * import { midiToFreq} from '@tonal/midi'
+ * import { midiToFreq} from '@tonaljs/midi'
  * midiToFreq(69) // => 440
  */
 export function midiToFreq(midi: number, tuning = 440): number {
@@ -52,10 +52,10 @@ const L440 = Math.log(440);
  * @param {number} frequency
  * @return {number}
  * @example
- * import { freqToMidi} from '@tonal/midi'
- * freqToMidi(220)); //=> 57;
- * freqToMidi(261.62)); //=> 60;
- * freqToMidi(261)); //=> 59.96;
+ * import { freqToMidi} from '@tonaljs/midi'
+ * freqToMidi(220)); //=> 57
+ * freqToMidi(261.62)); //=> 60
+ * freqToMidi(261)); //=> 59.96
  */
 export function freqToMidi(freq: number): number {
   const v = (12 * (Math.log(freq) - L440)) / L2 + 69;
@@ -79,7 +79,7 @@ const FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
  * @param {boolean} useSharps - (Optional) set to true to use sharps instead of flats
  * @return {string} the note name
  * @example
- * import { midiToNoteName } from '@tonal/midi'
+ * import { midiToNoteName } from '@tonaljs/midi'
  * midiToNoteName(61) // => "Db4"
  * midiToNoteName(61, { pitchClass: true }) // => "Db"
  * midiToNoteName(61, { sharps: true }) // => "C#4"

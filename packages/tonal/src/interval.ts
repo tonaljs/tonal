@@ -1,10 +1,12 @@
 import {
   decode,
+  Direction,
   encode,
   IntervalCoordinates,
   Pitch,
   PitchCoordinates
 } from "./pitch";
+import { Nothing, Tonal } from "./tonal";
 
 export type IntervalName = string;
 
@@ -22,15 +24,14 @@ type Quality =
   | "AAAA";
 type Type = "perfectable" | "majorable";
 
-export interface Interval extends Pitch {
-  readonly valid: boolean;
+export interface Interval extends Pitch, Tonal {
   readonly name: IntervalName;
   readonly num: number;
   readonly q: Quality;
   readonly type: Type;
   readonly step: number;
   readonly alt: number;
-  readonly dir: number;
+  readonly dir: Direction;
   readonly simple: number;
   readonly semitones: number;
   readonly chroma: number;
@@ -39,7 +40,7 @@ export interface Interval extends Pitch {
 }
 
 export interface NoInterval extends Partial<Interval> {
-  readonly valid: false;
+  readonly empty: true;
   readonly name: "";
 }
 
@@ -59,7 +60,6 @@ export function tokenize(str?: IntervalName): IntervalTokens {
   return m[1] ? [m[1], m[2]] : [m[4], m[3]];
 }
 
-const NoInterval: NoInterval = { valid: false, name: "" };
 const CACHE: { [key in string]: Interval | NoInterval } = {};
 
 /**
@@ -99,14 +99,14 @@ const TYPES = "PMMPPMM";
 function properties(str?: string): Interval | NoInterval {
   const tokens = tokenize(str);
   if (tokens[0] === "") {
-    return NoInterval;
+    return Nothing as NoInterval;
   }
   const num = +tokens[0];
   const q = tokens[1] as Quality;
   const step = (Math.abs(num) - 1) % 7;
   const t = TYPES[step];
   if (t === "M" && q === "P") {
-    return NoInterval;
+    return Nothing as NoInterval;
   }
   const type = t === "M" ? "majorable" : "perfectable";
 
@@ -119,7 +119,7 @@ function properties(str?: string): Interval | NoInterval {
   const chroma = (((dir * (SIZES[step] + alt)) % 12) + 12) % 12;
   const coord = encode({ step, alt, oct, dir }) as IntervalCoordinates;
   return {
-    valid: true,
+    empty: false,
     name,
     num,
     q,
@@ -161,7 +161,7 @@ function qToAlt(type: Type, q: string): number {
 function fromPitch(props: Pitch): Interval | NoInterval {
   const { step, alt, oct = 0, dir } = props;
   if (!dir) {
-    return NoInterval;
+    return Nothing as NoInterval;
   }
   const num = step + 1 + 7 * oct;
   const d = dir < 0 ? "-" : "";

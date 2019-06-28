@@ -7,11 +7,14 @@ type ScaleNameTokens = [string, string]; // [TONIC, SCALE TYPE]
 
 interface Scale extends ScaleType {
   tonic: string | null;
+  type: string;
   notes: NoteName[];
 }
 
 const NoScale: Scale = {
+  empty: true,
   name: "",
+  type: "",
   tonic: null,
   num: NaN,
   chroma: "",
@@ -46,20 +49,20 @@ export function tokenize(name: ScaleName): ScaleNameTokens {
   }
   const i = name.indexOf(" ");
   const tonic = note(name.substring(0, i));
-  if (!tonic.valid) {
+  if (tonic.empty) {
     const n = note(name);
-    return n.valid ? [n.name, ""] : ["", name];
+    return n.empty ? ["", name] : [n.name, ""];
   }
 
   const type = name.substring(tonic.name.length + 1);
   return [tonic.name, type.length ? type : ""];
 }
 
-export function scale(name: ScaleName | ScaleNameTokens, type?: string): Scale {
-  const [tonic, t] = Array.isArray(name) ? name : tokenize(name);
+export function scale(src: ScaleName | ScaleNameTokens, type?: string): Scale {
+  const [tonic, t] = Array.isArray(src) ? src : tokenize(src);
   type = type || t;
   const set = scaleType(type);
-  if (!set) {
+  if (set.empty) {
     return NoScale;
   }
 
@@ -67,7 +70,9 @@ export function scale(name: ScaleName | ScaleNameTokens, type?: string): Scale {
     ? names(set.intervals.map(i => transpose(tonic, i) as string))
     : [];
 
-  return { tonic, notes, ...set };
+  const name = tonic ? tonic + " " + type : type;
+
+  return { ...set, name, type: set.name, tonic, notes };
 }
 
 /**

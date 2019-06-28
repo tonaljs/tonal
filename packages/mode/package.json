@@ -15,7 +15,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/tonal": "^3.0.0"
+    "@tonaljs/pcset": "^3.0.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT"

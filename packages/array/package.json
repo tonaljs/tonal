@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/array",
-  "version": "3.0.0",
+  "version": "3.0.2",
   "description": "Functions to work with arrays of tonal objects",
   "keywords": [
     "array",

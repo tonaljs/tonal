@@ -14,7 +14,7 @@ describe("note", () => {
   describe("note properties from string", () => {
     test("properties", () => {
       expect(note("A4")).toEqual({
-        valid: true,
+        empty: false,
         name: "A4",
         letter: "A",
         acc: "",

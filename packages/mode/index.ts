@@ -1,3 +1,4 @@
+import { intervals } from "@tonaljs/pcset";
 import DATA from "./data";
 
 export interface ModeValid {
@@ -9,6 +10,7 @@ export interface ModeValid {
   readonly triad: string;
   readonly seventh: string;
   readonly aliases: string[];
+  readonly intervals: string[];
 }
 
 export interface NoMode extends Partial<ModeValid> {
@@ -18,7 +20,9 @@ export interface NoMode extends Partial<ModeValid> {
 
 const NoMode: NoMode = {
   valid: false,
-  name: ""
+  name: "",
+  aliases: [],
+  intervals: []
 };
 
 export type Mode = ModeValid | NoMode;
@@ -48,7 +52,8 @@ DATA.forEach(([name, pcset, alt, triad, seventh, alias], modeNum) => {
     alt,
     triad,
     seventh,
-    aliases
+    aliases,
+    intervals: intervals(Number(pcset).toString(2))
   };
   NAMES.push(mode.name);
   MODES[mode.name] = mode;
