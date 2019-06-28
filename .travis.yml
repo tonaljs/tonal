@@ -4,8 +4,7 @@ notifications:
   email: false
 node_js:
   - "10"
-  - "6"
-  - "4.2"
+
 script:
   - yarn install
   - yarn test:ci

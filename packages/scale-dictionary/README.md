@@ -39,3 +39,14 @@ Return a list of all available scale type names
 #### `aliases() => string[]`
 
 Return a list of all available scale type alternative names
+
+## FAQ
+
+#### How do I get all pentatonics names?
+
+```js
+names()
+  .map(scaleType)
+  .filter(type => type.intervals.length === 5)
+  .map(n => name);
+```

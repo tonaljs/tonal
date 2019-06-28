@@ -1,8 +1,6 @@
-# @tonaljs/interval [![npm version](https://img.shields.io/npm/v/@tonaljs/interval.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/interval)
+# @tonaljs/interval ![tonal](https://img.shields.io/badge/@tonaljs-interval-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/interval.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/interval)
 
-[![tonal](https://img.shields.io/badge/@tonaljs-interval-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
-
-`@tonaljs/interval` is a collection of functions to create and manipulate music intervals
+> A collection of functions to create and manipulate music intervals
 
 ## API
 

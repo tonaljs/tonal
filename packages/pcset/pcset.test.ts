@@ -1,17 +1,13 @@
 import {
-  chromaList,
   chromas,
   EmptyPcset,
   filter,
-  intervals,
-  isChroma,
   isEqual,
   isNoteIncludedInSet,
   isSubsetOf,
   isSupersetOf,
   modes,
-  pcset,
-  pcsetProp
+  pcset
 } from "./index";
 
 const $ = (str: string) => str.split(" ");
@@ -22,10 +18,10 @@ describe("@tonaljs/pcset", () => {
       expect(pcset(["c", "d", "e"])).toEqual({
         empty: false,
         name: "",
-        num: 2688,
+        setNum: 2688,
         chroma: "101010000000",
         normalized: "101010000000",
-        length: 3
+        intervals: ["1P", "2M", "3M"]
       });
       expect(pcset(["d", "e", "c"])).toEqual(pcset(["c", "d", "e"]));
       expect(pcset(["not a note or interval"])).toEqual(EmptyPcset);
@@ -34,14 +30,13 @@ describe("@tonaljs/pcset", () => {
     test("from pcset number", () => {
       expect(pcset(2048)).toEqual(pcset(["C"]));
     });
-    test("num", () => {
-      const num = pcsetProp("num");
-      expect(num("000000000001")).toBe(1);
-      expect(num(["B"])).toBe(1);
-      expect(num(["Cb"])).toBe(1);
-      expect(num(["C"])).toBe(2048);
-      expect(num("100000000000")).toBe(2048);
-      expect(num("111111111111")).toBe(4095);
+    test("setNum", () => {
+      expect(pcset("000000000001").setNum).toBe(1);
+      expect(pcset(["B"]).setNum).toBe(1);
+      expect(pcset(["Cb"]).setNum).toBe(1);
+      expect(pcset(["C"]).setNum).toBe(2048);
+      expect(pcset("100000000000").setNum).toBe(2048);
+      expect(pcset("111111111111").setNum).toBe(4095);
     });
     test("normalized", () => {
       const likeC = pcset(["C"]).chroma; // 100000000000
@@ -65,28 +60,23 @@ describe("@tonaljs/pcset", () => {
     expect(pcset("A B C").chroma).toBe("000000000000");
   });
 
-  test("chromaList", () => {
-    expect(chromaList().length).toBe(2048);
-    expect(chromaList()[0]).toBe("100000000000");
-    expect(chromaList()[2047]).toBe("111111111111");
-  });
   test("chromas", () => {
-    expect(chromas(0)).toEqual([]);
-    expect(chromas(1)).toEqual(["100000000000"]);
-    expect(chromas(12)).toEqual(["111111111111"]);
-    expect(chromas(2).length).toEqual(11);
+    expect(chromas().length).toBe(2048);
+    expect(chromas()[0]).toBe("100000000000");
+    expect(chromas()[2047]).toBe("111111111111");
   });
 
   test("intervals", () => {
-    expect(intervals("101010101010")).toEqual($("1P 2M 3M 5d 6m 7m"));
-    expect(intervals("1010")).toEqual([]);
+    expect(pcset("101010101010").intervals).toEqual($("1P 2M 3M 5d 6m 7m"));
+    expect(pcset("1010").intervals).toEqual([]);
+    expect(pcset(["D", "F", "A"]).intervals).toEqual(["2M", "4P", "6M"]);
   });
 
   test("isChroma", () => {
-    expect(isChroma("101010101010")).toBe(true);
-    expect(isChroma("1010101")).toBe(false);
-    expect(isChroma("blah")).toBe(false);
-    expect(isChroma("c d e")).toBe(false);
+    expect(pcset("101010101010").chroma).toBe("101010101010");
+    expect(pcset("1010101").chroma).toBe("000000000000");
+    expect(pcset("blah").chroma).toBe("000000000000");
+    expect(pcset("c d e").chroma).toBe("000000000000");
   });
 
   test("isSubsetOf", () => {

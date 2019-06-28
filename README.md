@@ -10,16 +10,6 @@ New version of `tonal` is written in Typescript.
 
 Unfortunately, there's a lot of breaking changes. See [migrate from v2](docs/migrate-from-v2.md) to learn about that changes.
 
-The most important breaking changes includes:
-
-- `@tonaljs/tonal` now exports the tonal core: `note`, `interval`, `transpose` and `distance` functions. In version 2 `tonal` module was a facade. In v3 this is not true anymore.
-- API radically simplified. Utility methods made private.
-- Related: all functions to extract a single property from anything are removed. For example: in v2 `Note.name('C4')` should be written in v3 as: `note('C4').name`
-
-Hopefully, those breaking changes made the library easy to understand and maintain.
-
-This version is not yet published. For latest published version see [tonal v2](https://github.com/tonaljs/v2)
-
 #### Migrating from v2
 
 ## Example
@@ -38,7 +28,7 @@ distance("C4", "G4"); // => "5P"
 
 ## Documentation
 
-The API documentation is inside each module:
+The API documentation lives inside README.md file of each module:
 
 - [@tonaljs/tonal](/packages/tonal): Note and interval properties, note transposition and distance
 - [@tonaljs/midi](/packages/midi): Midi number conversions
@@ -51,7 +41,7 @@ The API documentation is inside each module:
 
 ## Contributing
 
-Read [contributing document](/docs/CONTRIBUTING.md) for instructions
+Read [contributing document](/docs/CONTRIBUTING.md) for (wip) instructions
 
 ## Inspiration
 

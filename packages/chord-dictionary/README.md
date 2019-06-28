@@ -1,8 +1,6 @@
-# @tonaljs/chord-dictionary [![npm version](https://img.shields.io/npm/v/@tonaljs/chord-dictionary.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/chord-dictionary)
+# @tonaljs/chord-dictionary ![tonal](https://img.shields.io/badge/@tonaljs-chord_dictionary-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/chord-dictionary.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/chord-dictionary)
 
-[![tonal](https://img.shields.io/badge/@tonaljs-chord_dictionary-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
-
-`@tonaljs/chord-dictionary` is a dictionary of musical chords.
+> A dictionary of musical chords.
 
 ## API
 
@@ -40,3 +38,25 @@ Return a list of all available chord type names
 #### `aliases() => string[]`
 
 Return a list of all available chord type alternative names
+
+## FAQ
+
+#### How do I get all triad chord names?
+
+```js
+names()
+  .map(chordType)
+  .filter(type => type.intervals.length === 3)
+  .map(n => name);
+```
+
+#### How do I know if a collection of notes is a valid chord?
+
+A poor's man version of chord detection (a reliable one is more complex than this):
+
+```js
+import { pcset } from "@tonaljs/pcset";
+
+const set = pcset(["C4", "f#3", ...])
+chordType(set.chroma).name
+```

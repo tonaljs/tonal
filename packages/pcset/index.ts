@@ -24,19 +24,19 @@ import {
  * *starting from C*
  */
 export interface Pcset extends Tonal {
-  readonly num: number;
+  readonly setNum: number;
   readonly chroma: PcsetChroma;
   readonly normalized: PcsetChroma;
-  readonly length: number;
+  readonly intervals: IntervalName[];
 }
 
 export const EmptyPcset: Pcset = {
   empty: true,
   name: "",
-  num: 0,
+  setNum: 0,
   chroma: "000000000000",
   normalized: "000000000000",
-  length: 0
+  intervals: []
 };
 
 export type PcsetChroma = string;
@@ -70,15 +70,7 @@ function toChroma(set: any[]): PcsetChroma {
 }
 
 const REGEX = /^[01]{12}$/;
-/**
- * Test if the given string is a pitch class set chroma.
- * @param {string} chroma - the pitch class set chroma
- * @return {boolean} true if its a valnum pcset chroma
- * @example
- * Pcset.isChroma("101010101010") // => true
- * Pcset.isChroma("101001") // => false
- */
-export function isChroma(set: any): set is PcsetChroma {
+function isChroma(set: any): set is PcsetChroma {
   return REGEX.test(set);
 }
 
@@ -89,6 +81,9 @@ const isPcset = (set: any): set is Pcset => set && isChroma(set.chroma);
 
 const cache: { [key in string]: Pcset } = { [EmptyPcset.chroma]: EmptyPcset };
 
+/**
+ * Get the pitch class set of a collection of notes or set number or chroma
+ */
 export function pcset(src: Set): Pcset {
   const chroma: PcsetChroma = isChroma(src)
     ? src
@@ -103,43 +98,39 @@ export function pcset(src: Set): Pcset {
   return (cache[chroma] = cache[chroma] || properties(chroma));
 }
 
-export function pcsetProp(key: keyof Pcset) {
-  return (src: Set) => {
-    const s = pcset(src);
-    return s ? s[key] : null;
-  };
-}
-
 const normalize = (chroma: PcsetChroma): PcsetChroma => {
   const first = chroma.indexOf("1");
   return chroma.slice(first, 12) + chroma.slice(0, first);
 };
 
 function properties(chroma: PcsetChroma): Pcset {
-  const num = parseInt(chroma, 2);
+  const setNum = parseInt(chroma, 2);
   const normalized = normalize(chroma);
 
-  const pcs = chroma.split("");
-  let length = 0;
-  for (let i = 0; i < 12; i++) {
-    // tslint:disable-next-line: curly
-    if (chroma.charAt(i) === "1") length++;
-  }
-  return { empty: false, name: "", num, chroma, normalized, length };
+  const intervals = chromaToIntervals(chroma);
+  const length = intervals.length;
+
+  return {
+    empty: false,
+    name: "",
+    setNum,
+    chroma,
+    normalized,
+    intervals
+  };
 }
 
 const IVLS = "1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" ");
+
 /**
+ * @private
  * Get the intervals of a pcset *starting from C*
  * @param {Set} set - the pitch class set
  * @return {IntervalName[]} an array of interval names or an empty array
  * if not a valid pitch class set
  */
-export function intervals(src: Set): IntervalName[] {
-  const intervals: IntervalName[] = [];
-  const set = pcset(src);
-
-  const chroma = set.chroma;
+export function chromaToIntervals(chroma: PcsetChroma): IntervalName[] {
+  const intervals = [];
   for (let i = 0; i < 12; i++) {
     // tslint:disable-next-line:curly
     if (chroma.charAt(i) === "1") intervals.push(IVLS[i]);
@@ -157,21 +148,10 @@ let all: PcsetChroma[];
  * @see http://allthescales.org/
  * @return {Array<PcsetChroma>} an array of possible chromas from '10000000000' to '11111111111'
  */
-export function chromaList(): PcsetChroma[] {
+export function chromas(): PcsetChroma[] {
   all = all || range(2048, 4095).map(n => n.toString(2));
   return all.slice();
 }
-
-/**
- * @deprecated
- * @use chromaList
- * @example
- * chromaList().filter(chroma => pcset(chroma).length === 5)
- */
-export const chromas = (num?: number) =>
-  num === undefined
-    ? chromaList()
-    : chromaList().filter(chroma => pcset(chroma).length === num);
 
 /**
  * Given a a list of notes or a pcset chroma, produce the rotations
@@ -199,10 +179,6 @@ export function modes(set: Set, normalize = true): PcsetChroma[] {
   );
 }
 
-const num = (set: Set): number => {
-  const s = pcset(set);
-  return s ? s.num : NaN;
-};
 /**
  * Test if two pitch class sets are numentical
  *
@@ -213,7 +189,7 @@ const num = (set: Set): number => {
  * Pcset.isEqual(["c2", "d3"], ["c5", "d2"]) // => true
  */
 export function isEqual(s1: Set, s2: Set) {
-  return num(s1) === num(s2);
+  return pcset(s1).setNum === pcset(s2).setNum;
 }
 
 /**
@@ -232,10 +208,10 @@ export function isEqual(s1: Set, s2: Set) {
  * inCMajor(["e6", "c4", "d3"]) // => false
  */
 export function isSubsetOf(set: Set) {
-  const s = pcset(set).num;
+  const s = pcset(set).setNum;
 
   return (notes: Set | Pcset) => {
-    const o = pcset(notes).num;
+    const o = pcset(notes).setNum;
     // tslint:disable-next-line: no-bitwise
     return s !== o && (o & s) === o;
   };
@@ -254,9 +230,9 @@ export function isSubsetOf(set: Set) {
  * extendsCMajor(["c6", "e4", "g3"]) // => false
  */
 export function isSupersetOf(set: Set) {
-  const s = pcset(set).num;
+  const s = pcset(set).setNum;
   return (notes: Set) => {
-    const o = pcset(notes).num;
+    const o = pcset(notes).setNum;
     // tslint:disable-next-line: no-bitwise
     return s !== o && (o | s) === o;
   };
@@ -304,15 +280,4 @@ export function filter(set: Set) {
   return (notes: NoteName[]) => {
     return notes.filter(isIncluded);
   };
-}
-
-/**
- * @deprecated
- * @use pcset
- * @example
- * pcset(['C', 'D', 'E']).chroma
- */
-export function chroma(set: Set | Pcset): PcsetChroma | null {
-  const s = pcset(set);
-  return s ? s.chroma : null;
 }

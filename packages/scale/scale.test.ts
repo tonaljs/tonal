@@ -11,10 +11,9 @@ describe("@tonaljs/scale", () => {
       name: "major",
       intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
       aliases: ["ionian"],
-      num: 2773,
+      setNum: 2773,
       chroma: "101011010101",
-      normalized: "101011010101",
-      length: 7
+      normalized: "101011010101"
     });
     expect(scale("c5 pentatonic")).toEqual({
       empty: false,
@@ -24,10 +23,9 @@ describe("@tonaljs/scale", () => {
       notes: ["C5", "D5", "E5", "G5", "A5"],
       intervals: ["1P", "2M", "3M", "5P", "6M"],
       aliases: ["pentatonic"],
-      num: 2708,
+      setNum: 2708,
       chroma: "101010010100",
-      normalized: "101010010100",
-      length: 5
+      normalized: "101010010100"
     });
     expect(scale("C4 major")).toEqual(scale("C4", "major"));
   });

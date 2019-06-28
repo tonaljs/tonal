@@ -1,8 +1,28 @@
-# @tonaljs/tonal [![npm version](https://img.shields.io/npm/v/@tonaljs/tonal.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/tonal)
+# @tonaljs/tonal ![tonal](https://img.shields.io/badge/@tonaljs-tonal-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/tonal.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/tonal)
 
-[![tonal](https://img.shields.io/badge/@tonaljs-tonal-yellow.svg?style=flat-square)]()
+> Parse notes and interval names. Calculate distances and transpositions
 
-`@tonaljs/tonal` is a collection of functions to get musical notes and interval properties
+`@tonaljs/tonal` is the core module of the `tonal` music theory library.
+
+It exports just four functions.
+
+Two of them converts strings into data structures (`note` and `interval`):
+
+```js
+import { note, interval } from "@tonaljs/tonal";
+note("c4"); // => { name: 'C4', oct: 4, ...}
+interval("p5"); // => { name: '5P', semitones: 7, ...}
+```
+
+The other two manipulates notes and intervals, by it's string name representation:
+
+```js
+import { transpose, distance } from "@tonaljs/tonal";
+transpose("C4", "5P"); // => "G4"
+distance("C4", "G4"); // => "5P"
+```
+
+This is a common pattern in tonal packages: functions to parse strings, functions to manipulate strings.
 
 ## API
 
@@ -126,4 +146,48 @@ This function always returns a string:
 
 ```js
 distance("today", "tomorrow"); // => ""
+```
+
+## Want more?
+
+Take a look to [@tonaljs/note]() or [@tonaljs/interval]() modules.
+
+## FAQ
+
+#### How do I get the note frequency and midi number?
+
+```js
+note("C4").octave; // => 4
+note("C4").midi; // => 60
+```
+
+#### How do I know if a note name is valid?
+
+```js
+note("C4").empty; // => false
+note("x").empty; // => true
+note("x").name; // => ""
+note("x").octave; // => undefined
+// remove all invalid note names
+[...].map(note).filter(n => !n.empty).map(n => n.name)
+```
+
+#### How do I know if two notes are enharmonics?
+
+You can test the midi numbers:
+
+```js
+note("Cb4").midi === note("B3").midi;
+```
+
+Or better yet, use the `height` property that is also present on pitch classes (in notes without octaves midi property is `null`):
+
+```js
+note("Cb").height === note("B").height;
+```
+
+### How do I change the octave of a note?
+
+```js
+note("Cb4").pc + 5; // => "Cb5"
 ```

@@ -1,4 +1,3 @@
-import { IntervalName } from "@tonaljs/interval";
 import {
   EmptyPcset,
   pcset,
@@ -17,7 +16,6 @@ import data from "./data";
  */
 export interface ScaleType extends Pcset {
   readonly name: string;
-  readonly intervals: IntervalName[];
   readonly aliases: string[];
 }
 
@@ -66,7 +64,7 @@ data.forEach(([ivls, name, ...aliases]) => {
   if (set.chroma) {
     const scale: ScaleType = { ...set, name, intervals, aliases };
     scaleNames.push(name);
-    scaleTypes[scale.num] = scale;
+    scaleTypes[scale.setNum] = scale;
     scaleTypes[scale.name] = scale;
     scaleTypes[scale.chroma] = scale;
     aliases.forEach(alias => {

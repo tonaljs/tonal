@@ -1,8 +1,6 @@
-# @tonaljs/midi [![npm version](https://img.shields.io/npm/v/@tonaljs/midi.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/midi)
+# @tonaljs/midi ![tonal](https://img.shields.io/badge/@tonaljs-midi-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/midi.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/midi)
 
-[![tonal](https://img.shields.io/badge/@tonaljs-midi-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
-
-`@tonaljs/midi` is a collection of functions to work with midi numbers.
+> A collection of functions to work with midi numbers.
 
 ## Install
 

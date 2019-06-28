@@ -1,4 +1,3 @@
-import { IntervalName } from "@tonaljs/interval";
 import {
   EmptyPcset,
   Pcset,
@@ -18,7 +17,6 @@ export type ChordQuality =
 export interface ChordType extends Pcset {
   name: string;
   quality: ChordQuality;
-  intervals: IntervalName[];
   aliases: string[];
 }
 const NoChordType: ChordType = {
@@ -57,8 +55,8 @@ export function abbreviatures() {
   return chordAliases.slice();
 }
 
-function getQuality(intervals: IntervalName[]): ChordQuality {
-  const has = (interval: IntervalName) => intervals.indexOf(interval) !== -1;
+function getQuality(intervals: string[]): ChordQuality {
+  const has = (interval: string) => intervals.indexOf(interval) !== -1;
   return has("5A")
     ? "Augmented"
     : has("3M")
@@ -82,7 +80,7 @@ data.forEach(([ivls, name, abbrvs]) => {
       chordNames.push(name);
       chordTypes[name] = chord;
     }
-    chordTypes[chord.num] = chord;
+    chordTypes[chord.setNum] = chord;
     chordTypes[chord.chroma] = chord;
     aliases.forEach(alias => {
       chordAliases.push(alias);

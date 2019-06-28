@@ -1,31 +1,26 @@
-import { intervals } from "@tonaljs/pcset";
+import { chromaToIntervals, EmptyPcset, Pcset } from "@tonaljs/pcset";
 import DATA from "./data";
 
-export interface ModeValid {
-  readonly valid: boolean;
+export interface Mode extends Pcset {
   readonly name: string;
   readonly modeNum: number;
-  readonly pcset: number;
   readonly alt: number; // number of alterations === number of fiths
   readonly triad: string;
   readonly seventh: string;
   readonly aliases: string[];
-  readonly intervals: string[];
 }
 
-export interface NoMode extends Partial<ModeValid> {
-  readonly valid: false;
-  readonly name: "";
-}
-
-const NoMode: NoMode = {
-  valid: false,
+const NoMode: Mode = {
+  ...EmptyPcset,
   name: "",
-  aliases: [],
-  intervals: []
+  alt: 0,
+  modeNum: NaN,
+  triad: "",
+  seventh: "",
+  aliases: []
 };
 
-export type Mode = ModeValid | NoMode;
+const ea: Pcset = NoMode;
 
 const NAMES: string[] = [];
 const ALIASES: string[] = [];
@@ -42,18 +37,22 @@ export function aliases() {
   return ALIASES.slice();
 }
 
-DATA.forEach(([name, pcset, alt, triad, seventh, alias], modeNum) => {
+DATA.forEach(([name, setNum, alt, triad, seventh, alias], modeNum) => {
   const aliases = alias ? [alias] : [];
+  const chroma = Number(setNum).toString(2);
+  const intervals = chromaToIntervals(chroma);
   const mode: Mode = {
-    valid: true,
+    empty: false,
+    intervals,
     modeNum,
+    chroma,
+    normalized: chroma,
     name,
-    pcset,
+    setNum,
     alt,
     triad,
     seventh,
-    aliases,
-    intervals: intervals(Number(pcset).toString(2))
+    aliases
   };
   NAMES.push(mode.name);
   MODES[mode.name] = mode;

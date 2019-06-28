@@ -16,13 +16,12 @@ describe("scaleTypes dictionary", () => {
   test("scaleType ", () => {
     expect(scaleType("major")).toEqual({
       empty: false,
-      num: 2773,
+      setNum: 2773,
       name: "major",
       intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
       aliases: ["ionian"],
       chroma: "101011010101",
-      normalized: "101011010101",
-      length: 7
+      normalized: "101011010101"
     });
   });
 
@@ -30,11 +29,10 @@ describe("scaleTypes dictionary", () => {
     expect(scaleType("unknown")).toEqual({
       empty: true,
       name: "",
-      num: 0,
+      setNum: 0,
       aliases: [],
       chroma: "000000000000",
       intervals: [],
-      length: 0,
       normalized: "000000000000"
     });
   });
