@@ -1,6 +1,6 @@
 # @tonaljs/tonal [![npm version](https://img.shields.io/npm/v/@tonaljs/tonal.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/tonal)
 
-[![tonal](https://img.shields.io/badge/@tonaljs-tonal-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
+[![tonal](https://img.shields.io/badge/@tonaljs-tonal-yellow.svg?style=flat-square)]()
 
 `@tonaljs/tonal` is a collection of functions to get musical notes and interval properties
 
@@ -26,21 +26,21 @@ Example:
 ```js
 note("ab4");
 // =>
-{
-  name: "Ab4",
-  pc: "Ab",
-  letter: "A",
-  acc: "b",
-  step: 5,
-  alt: -1,
-  oct: 4,
-  chroma: 8,
-  midi: 68,
-  freq: 415.3046975799451,
-}
+// {
+//   name: "Ab4",
+//   pc: "Ab",
+//   letter: "A",
+//   acc: "b",
+//   step: 5,
+//   alt: -1,
+//   oct: 4,
+//   chroma: 8,
+//   midi: 68,
+//   freq: 415.3046975799451,
+// }
 ```
 
-This function **always** returns an object:
+This function always returns an object:
 
 ```js
 note("hello"); // => { empty: true, name: "" }
@@ -63,23 +63,23 @@ Given an interval name, ite returns an object with the following properties:
 Example:
 
 ```js
-interval("4d")
+interval("4d");
 // =>
-{
-  name: "4d",
-  type: "perfectable",
-  dir: 1,
-  num: 4,
-  q: "d",
-  alt: -1,
-  chroma: 4,
-  oct: 0,
-  semitones: 4,
-  simple: 4,
-}
+// {
+//   name: "4d",
+//   type: "perfectable",
+//   dir: 1,
+//   num: 4,
+//   q: "d",
+//   alt: -1,
+//   chroma: 4,
+//   oct: 0,
+//   semitones: 4,
+//   simple: 4,
+// }
 ```
 
-This function **always** returns an object:
+This function always returns an object:
 
 ```js
 interval("hello"); // => { empty: true, name: "" }
@@ -98,7 +98,7 @@ transpose("D", "3M"); // => "F#"
 // => ["E", "F#", "G#", "A", "B"]
 ```
 
-This function **always** returns a string:
+This function always returns a string:
 
 ```js
 transpose("one", "two"); // => ""
@@ -122,7 +122,7 @@ distance("C", "E4"); // => "3M"
 distance("C4", "E"); // => "3M"
 ```
 
-This function **always** returns a string:
+This function always returns a string:
 
 ```js
 distance("today", "tomorrow"); // => ""

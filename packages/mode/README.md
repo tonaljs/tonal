@@ -22,23 +22,33 @@ Example:
 
 ```js
 mode("major");
-// =>
-{
-  name: "ionian",
-  aliases: ["major"]
-  intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"]
-  modeNum: 0,
-  pcset: 2773,
-  alt: 0,
-  triad: "",
-  seventh: "Maj7",
-}
+// {
+//   name: "ionian",
+//   aliases: ["major"]
+//   intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"]
+//   modeNum: 0,
+//   pcset: 2773,
+//   alt: 0,
+//   triad: "",
+//   seventh: "Maj7",
+// }
 ```
 
 ### `names() => string[]`
 
 Rerturn a list of mode names
 
+Example:
+
+```js
+names();
+// => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"];
+```
+
 ### `aliases() => string[]`
 
 Return a list of alternative mode names
+
+```js
+aliases(); // => ["major", "minor"]
+```

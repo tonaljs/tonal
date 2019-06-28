@@ -7,11 +7,10 @@
   "scripts": {
     "lint": "tslint  --project tsconfig.json -t codeFrame 'packages/**/*.ts'",
     "lerna": "lerna bootstrap",
-    "prebuild": "yarn lerna",
-    "build": "lerna exec -- rollup -c=../../rollup.config.js",
+    "build": "yarn lerna && lerna exec -- rollup -c=../../rollup.config.js",
     "build:prod": "lerna exec -- rimraf dist/ && yarn build",
     "test": "jest --coverage",
-    "test:production": "yarn lint && yarn build && yarn test -- --no-cache"
+    "test:ci": "yarn lint && yarn build && yarn test -- --no-cache"
   },
   "husky": {
     "hooks": {
