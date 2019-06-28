@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "tslint --fix --project tsconfig.json -t codeFrame 'packages/**/*.ts'",
     "lerna": "lerna bootstrap",
-    "publish:all": "yarn build:prod && lerna publish",
+    "lerna:publish": "yarn build:prod && lerna publish",
     "build": "yarn lerna && lerna exec -- rollup -c=../../rollup.config.js",
     "build:prod": "lerna exec -- rimraf dist/ && yarn build",
     "test": "jest --coverage",

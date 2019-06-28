@@ -32,8 +32,10 @@ The API documentation lives inside README.md file of each module:
 
 - [@tonaljs/tonal](/packages/tonal): Note and interval properties, note transposition and distance
 - [@tonaljs/midi](/packages/midi): Midi number conversions
-- [@tonaljs/pcset](/packages/pcset): Pitch class sets
-- [@tonaljs/mode](/packages/mode): Tonal models
+- [@tonaljs/note](/packages/note): Note operations (simplify, transposeBy )
+- [@tonaljs/interval](/packages/interval): Interval operations (add, simplify, invert)
+- [@tonaljs/pcset](/packages/pcset): Pitch class sets properties
+- [@tonaljs/mode](/packages/mode): Tonal modes properties
 - [@tonaljs/scale-dictionary](/packages/scale-dictionary): A dictionary of scales
 - [@tonaljs/chord-dictionary](/packages/chord-dictionary): A dictionary of chords
 - [@tonaljs/scale](/packages/scale): Scales and its relations

@@ -16,10 +16,9 @@ const NoScale: Scale = {
   name: "",
   type: "",
   tonic: null,
-  num: NaN,
+  setNum: NaN,
   chroma: "",
   normalized: "",
-  length: 0,
   aliases: [],
   notes: [],
   intervals: []
