@@ -16,8 +16,11 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/scale-dictionary": "^3.0.3",
-    "@tonaljs/tonal": "^3.0.4"
+    "@tonaljs/tonal": "^3.0.4",
+    "@tonaljs/array": "^3.0.0",
+    "@tonaljs/scale-dictionary": "^3.0.0",
+    "@tonaljs/chord-dictionary": "^3.0.0",
+    "@tonaljs/pcset": "^3.0.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

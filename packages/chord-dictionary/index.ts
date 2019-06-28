@@ -28,9 +28,22 @@ const NoChordType: ChordType = {
 };
 
 type ChordTypeName = string | PcsetChroma | PcsetNum;
-const chordNames: string[] = [];
-const chordAliases: string[] = [];
-const chordTypes: Record<ChordTypeName, ChordType> = {};
+const chords: ChordType[] = data.map(dataToChordType);
+chords.sort((a, b) => a.setNum - b.setNum);
+const index: Record<ChordTypeName, ChordType> = chords.reduce(
+  (index: Record<ChordTypeName, ChordType>, chord) => {
+    if (chord.name) {
+      index[chord.name] = chord;
+    }
+    index[chord.setNum] = chord;
+    index[chord.chroma] = chord;
+    chord.aliases.forEach(alias => {
+      index[alias] = chord;
+    });
+    return index;
+  },
+  {}
+);
 
 /**
  * Given a chord name or chroma, return the chord properties
@@ -40,19 +53,14 @@ const chordTypes: Record<ChordTypeName, ChordType> = {};
  * chord('major')
  */
 export function chordType(type: ChordTypeName): ChordType {
-  return chordTypes[type] || NoChordType;
+  return index[type] || NoChordType;
 }
 
 /**
- * Get all chord names
- * @return {Array<String>} an array of chord names
+ * Return a list of all chord types
  */
-export function names() {
-  return chordNames.slice();
-}
-
-export function abbreviatures() {
-  return chordAliases.slice();
+export function entries(): ChordType[] {
+  return chords.slice();
 }
 
 function getQuality(intervals: string[]): ChordQuality {
@@ -68,25 +76,10 @@ function getQuality(intervals: string[]): ChordQuality {
     : "Unknown";
 }
 
-// build index and name lists
-data.forEach(([ivls, name, abbrvs]) => {
+function dataToChordType([ivls, name, abbrvs]: string[]) {
   const intervals = ivls.split(" ");
   const aliases = abbrvs.split(" ");
   const quality = getQuality(intervals);
   const set = pcset(intervals);
-  if (set.chroma) {
-    const chord: ChordType = { ...set, name, quality, intervals, aliases };
-    if (name) {
-      chordNames.push(name);
-      chordTypes[name] = chord;
-    }
-    chordTypes[chord.setNum] = chord;
-    chordTypes[chord.chroma] = chord;
-    aliases.forEach(alias => {
-      chordAliases.push(alias);
-      chordTypes[alias] = chord;
-    });
-  }
-});
-chordNames.sort((a, b) => a.localeCompare(b));
-chordAliases.sort((a, b) => a.localeCompare(b));
+  return { ...set, name, quality, intervals, aliases };
+}

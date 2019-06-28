@@ -27,9 +27,20 @@ export const NoScaleType: ScaleType = {
 
 type ScaleTypeName = string | PcsetChroma | PcsetNum;
 
-const scaleNames: string[] = [];
-const scaleAliases: string[] = [];
-const scaleTypes: Record<ScaleTypeName, ScaleType> = {};
+const scales: ScaleType[] = data.map(dataToScaleType);
+const index: Record<ScaleTypeName, ScaleType> = scales.reduce(
+  (index: Record<ScaleTypeName, ScaleType>, scale) => {
+    index[scale.name] = scale;
+    index[scale.setNum] = scale;
+    index[scale.chroma] = scale;
+    scale.aliases.forEach(alias => {
+      index[alias] = scale;
+    });
+    return index;
+  },
+  {}
+);
+const ks = Object.keys(index);
 
 /**
  * Given a scale name or chroma, return the scale properties
@@ -39,39 +50,22 @@ const scaleTypes: Record<ScaleTypeName, ScaleType> = {};
  * scale('major')
  */
 export function scaleType(type: ScaleTypeName): ScaleType {
-  return scaleTypes[type] || NoScaleType;
+  return index[type] || NoScaleType;
 }
 
 /**
- * Get all scale names
- * @return {Array<String>} an array of scale names
+ * Return a list of all scale types
  */
-export function names() {
-  return scaleNames.slice();
+export function entries() {
+  return scales.slice();
 }
 
-/**
- * Get all scale names
- * @return {Array<String>} an array of scale names
- */
-export function aliases() {
-  return scaleAliases.slice();
+export function keys() {
+  return ks.slice();
 }
 
-data.forEach(([ivls, name, ...aliases]) => {
+function dataToScaleType([ivls, name, ...aliases]: string[]): ScaleType {
   const intervals = ivls.split(" ");
   const set = pcset(intervals);
-  if (set.chroma) {
-    const scale: ScaleType = { ...set, name, intervals, aliases };
-    scaleNames.push(name);
-    scaleTypes[scale.setNum] = scale;
-    scaleTypes[scale.name] = scale;
-    scaleTypes[scale.chroma] = scale;
-    aliases.forEach(alias => {
-      scaleTypes[alias] = scale;
-      scaleAliases.push(alias);
-    });
-  }
-});
-scaleNames.sort((a, b) => a.localeCompare(b));
-scaleAliases.sort((a, b) => a.localeCompare(b));
+  return { ...set, name, intervals, aliases };
+}

@@ -1,18 +1,14 @@
-import { abbreviatures, chordType, names } from "./index";
+import { chordType, entries } from "./index";
 
 const $ = (str: string) => str.split(" ");
 
 describe("@tonaljs/chord-dictionary", () => {
   test("list names", () => {
-    expect(names()).toHaveLength(35);
+    expect(entries()).toHaveLength(110);
     // sorted
-    expect(names()[0]).toEqual("altered");
+    expect(entries()[0].name).toEqual("fifth");
   });
-  test("list abbreviatures", () => {
-    expect(abbreviatures()).toHaveLength(199);
-    // sorted
-    expect(abbreviatures()[0]).toEqual("");
-  });
+
   test("chordType ", () => {
     expect(chordType("major")).toEqual({
       empty: false,

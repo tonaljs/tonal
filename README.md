@@ -10,7 +10,7 @@ New version of `tonal` is written in Typescript.
 
 Unfortunately, there's a lot of breaking changes. See [migrate from v2](docs/migrate-from-v2.md) to learn about that changes.
 
-#### Migrating from v2
+#### 🏘 We moved: modules v3 and forward are published in npm namespace. For example: `@tonaljs/midi`
 
 ## Example
 

@@ -1,16 +1,10 @@
-import { aliases, names, scaleType } from "./index";
+import { entries, scaleType } from "./index";
 
 describe("scaleTypes dictionary", () => {
   test("list names", () => {
-    expect(names()).toHaveLength(86);
+    expect(entries()).toHaveLength(86);
     // sorted
-    expect(names()[0]).toEqual("aeolian");
-  });
-
-  test("aliases names", () => {
-    expect(aliases()).toHaveLength(24);
-    // sorted
-    expect(aliases()[0]).toEqual("arabian");
+    expect(entries()[0].name).toEqual("major pentatonic");
   });
 
   test("scaleType ", () => {

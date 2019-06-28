@@ -32,21 +32,16 @@ scaleType("major"); // =>
 // });
 ```
 
-#### `names() => string[]`
+#### `entries() => Scale[]`
 
-Return a list of all available scale type names
-
-#### `aliases() => string[]`
-
-Return a list of all available scale type alternative names
+Return a list of all available scale types
 
 ## FAQ
 
 #### How do I get all pentatonics names?
 
 ```js
-names()
-  .map(scaleType)
+entries()
   .filter(type => type.intervals.length === 5)
   .map(n => name);
 ```

@@ -1,5 +1,5 @@
 import { decode, encode, Pitch, PitchCoordinates } from "./pitch";
-import { Nothing, Tonal } from "./tonal";
+import { Tonal } from "./tonal";
 
 export type NoteWithOctave = string;
 export type PcName = string;
@@ -20,7 +20,10 @@ export interface Note extends Pitch, Tonal {
 export interface NoNote extends Partial<Note> {
   empty: true;
   name: "";
+  pc: "";
+  acc: "";
 }
+const NoNote: NoNote = { empty: true, name: "", pc: "", acc: "" };
 
 const cache: Record<string, Note | NoNote> = {};
 
@@ -52,7 +55,7 @@ const SEMI = [0, 2, 4, 5, 7, 9, 11];
 function properties(noteName: NoteName): Note | NoNote {
   const tokens = tokenize(noteName);
   if (tokens[0] === "" || tokens[3] !== "") {
-    return Nothing as NoNote;
+    return NoNote;
   }
 
   const letter = tokens[0];

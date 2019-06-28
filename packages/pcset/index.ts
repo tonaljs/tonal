@@ -213,7 +213,7 @@ export function isSubsetOf(set: Set) {
   return (notes: Set | Pcset) => {
     const o = pcset(notes).setNum;
     // tslint:disable-next-line: no-bitwise
-    return s !== o && (o & s) === o;
+    return s && s !== o && (o & s) === o;
   };
 }
 
@@ -234,7 +234,7 @@ export function isSupersetOf(set: Set) {
   return (notes: Set) => {
     const o = pcset(notes).setNum;
     // tslint:disable-next-line: no-bitwise
-    return s !== o && (o | s) === o;
+    return s && s !== o && (o | s) === o;
   };
 }
 

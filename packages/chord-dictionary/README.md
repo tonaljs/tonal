@@ -31,32 +31,27 @@ chordType("major"); // =>
 // });
 ```
 
-#### `names() => string[]`
+#### `entries() => ChordType[]`
 
-Return a list of all available chord type names
-
-#### `aliases() => string[]`
-
-Return a list of all available chord type alternative names
+Return a list of all available chord types
 
 ## FAQ
 
 #### How do I get all triad chord names?
 
 ```js
-names()
-  .map(chordType)
+entries()
   .filter(type => type.intervals.length === 3)
   .map(n => name);
 ```
 
-#### How do I know if a collection of notes is a valid chord?
+#### How do I know if a collection of notes is a known chord?
 
-A poor's man version of chord detection (a reliable one is more complex than this):
+A poor's man version of chord detection (to be a more reliable chord detection, at least you have to check rotations of the notes)
 
 ```js
 import { pcset } from "@tonaljs/pcset";
 
-const set = pcset(["C4", "f#3", ...])
-chordType(set.chroma).name
+const notes = ["C4", "f#3", ...]
+chordType(pcset(notes).chroma).name
 ```

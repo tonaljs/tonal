@@ -6,7 +6,7 @@ import {
   shuffle,
   sortedNoteNames,
   sortedUniqNoteNames
-} from "./";
+} from "./index";
 
 const $ = (arr: string) => arr.split(" ");
 
