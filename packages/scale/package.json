@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/scale",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Functions to work with midi numbers",
   "keywords": [
     "note",
@@ -16,8 +16,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/scale-dictionary": "^3.0.1",
-    "@tonaljs/tonal": "^3.0.2"
+    "@tonaljs/scale-dictionary": "^3.0.2",
+    "@tonaljs/tonal": "^3.0.3"
   },
   "author": "danigb@gmail.com",
   "license": "MIT"
