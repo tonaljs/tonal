@@ -21,5 +21,8 @@
     "@tonaljs/pcset": "^3.0.2"
   },
   "author": "danigb@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }

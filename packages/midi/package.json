@@ -19,5 +19,8 @@
     "@tonaljs/tonal": "^3.0.3"
   },
   "author": "danigb@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }

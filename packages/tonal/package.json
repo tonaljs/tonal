@@ -14,5 +14,8 @@
   ],
   "types": "dist/index.d.ts",
   "author": "danigb@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
