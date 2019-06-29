@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/pcset",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Functions to work with midi numbers",
   "keywords": [
     "note",
@@ -16,8 +16,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/array": "^3.0.5",
-    "@tonaljs/tonal": "^3.0.4"
+    "@tonaljs/array": "^3.0.6",
+    "@tonaljs/tonal": "^3.0.5"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
