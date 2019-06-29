@@ -1,10 +1,10 @@
 import {
-  chords,
+  extended,
   modeNames,
+  reduced,
   scale,
+  scaleChords,
   scaleNotes,
-  subsets,
-  supersets,
   tokenize
 } from "./index";
 
@@ -72,28 +72,28 @@ describe("@tonaljs/scale", () => {
   });
 
   test("chords: find all chords that fits into this scale", () => {
-    expect(chords("pentatonic")).toEqual($("5 M 6 sus2 Madd9"));
-    expect(chords("none")).toEqual([]);
+    expect(scaleChords("pentatonic")).toEqual($("5 M 6 sus2 Madd9"));
+    expect(scaleChords("none")).toEqual([]);
   });
 
-  test("supersets: find all scales that extends this one", () => {
-    expect(supersets("major")).toEqual([
+  test("extended: find all scales that extends this one", () => {
+    expect(extended("major")).toEqual([
       "bebop",
       "bebop major",
       "ichikosucho",
       "chromatic"
     ]);
-    expect(supersets("none")).toEqual([]);
+    expect(extended("none")).toEqual([]);
   });
 
-  test("subsets: all scales that are included in the given one", () => {
-    expect(subsets("major")).toEqual([
+  test("reduced: all scales that are included in the given one", () => {
+    expect(reduced("major")).toEqual([
       "major pentatonic",
       "ionian pentatonic",
       "ritusen"
     ]);
-    expect(subsets("D major")).toEqual(subsets("major"));
-    expect(subsets("none")).toEqual([]);
+    expect(reduced("D major")).toEqual(reduced("major"));
+    expect(reduced("none")).toEqual([]);
   });
 
   test("toScale", () => {

@@ -38,20 +38,20 @@ Scale.chords("pentatonic");
 // => ["5", "64", "M", "M6", "Madd9", "Msus2"]
 ```
 
-### `supersets(scale: string) => string[]`
+### `extended(scale: string) => string[]`
 
 Get all scales names that are a superset of the given one (has the same notes and at least one more)
 
 ```js
-Scale.supersets("major");
+Scale.extended("major");
 // => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]
 ```
 
-### `subsets(scale: string) => string[]`
+### `reduced(scale: string) => string[]`
 
 Find all scales names that are a subset of the given one (less notes but all from the given scale)
 
 ```js
-Scale.subsets("major");
+Scale.reduced("major");
 // => ["ionian pentatonic", "major pentatonic", "ritusen"]
 ```

@@ -1,10 +1,10 @@
 {
-  "name": "@tonaljs/scale",
+  "name": "@tonaljs/chord",
   "version": "3.0.3",
-  "description": "Musical scales and its relations",
+  "description": "Musical chords and its relations",
   "keywords": [
-    "scale",
-    "scales",
+    "chord",
+    "chords",
     "music",
     "theory",
     "@tonaljs"

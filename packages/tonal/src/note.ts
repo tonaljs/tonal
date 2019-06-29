@@ -38,8 +38,10 @@ export function note(src: NoteName | Pitch): Note | NoNote {
   return (cache[name] = cache[name] || properties(name));
 }
 
+type NoteTokens = [string, string, string, string];
+
 const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
-export function tokenize(str: string) {
+export function tokenize(str: string): NoteTokens {
   const m = REGEX.exec(str) as string[];
   return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]];
 }

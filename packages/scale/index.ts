@@ -42,9 +42,9 @@ const NoScale: Scale = {
  * @param {string} name - the scale name
  * @return {Array} an array [tonic, name]
  * @example
- * Scale.tokenize("C mixolydean") // => ["C", "mixolydean"]
- * Scale.tokenize("anything is valid") // => ["", "anything is valid"]
- * Scale.tokenize() // => ["", ""]
+ * tokenize("C mixolydean") // => ["C", "mixolydean"]
+ * tokenize("anything is valid") // => ["", "anything is valid"]
+ * tokenize() // => ["", ""]
  */
 export function tokenize(name: ScaleName): ScaleNameTokens {
   if (typeof name !== "string") {
@@ -90,9 +90,9 @@ export function scale(src: ScaleName | ScaleNameTokens): Scale {
  * @return {Array<string>} - the chord names
  *
  * @example
- * Scale.chords("pentatonic") // => ["5", "64", "M", "M6", "Madd9", "Msus2"]
+ * scaleChords("pentatonic") // => ["5", "64", "M", "M6", "Madd9", "Msus2"]
  */
-export function chords(name: string): string[] {
+export function scaleChords(name: string): string[] {
   const s = scale(name);
   const inScale = isSubsetOf(s.chroma);
   return chordTypes()
@@ -107,9 +107,9 @@ export function chords(name: string): string[] {
  * @param {string} name
  * @return {Array} a list of scale names
  * @example
- * Scale.supersets("major") // => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]
+ * extended("major") // => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]
  */
-export function supersets(name: string): string[] {
+export function extended(name: string): string[] {
   const s = scale(name);
   const isSuperset = isSupersetOf(s.chroma);
   return scaleTypes()
@@ -126,9 +126,9 @@ export function supersets(name: string): string[] {
  * @return {Array} a list of scale names
  *
  * @example
- * Scale.subsets("major") // => ["ionian pentatonic", "major pentatonic", "ritusen"]
+ * reduced("major") // => ["ionian pentatonic", "major pentatonic", "ritusen"]
  */
-export function subsets(name: string): string[] {
+export function reduced(name: string): string[] {
   const isSubset = isSubsetOf(scale(name).chroma);
   return scaleTypes()
     .filter(scale => isSubset(scale.chroma))
@@ -143,8 +143,8 @@ export function subsets(name: string): string[] {
  * @param {string[]} notes
  * @return {string[]} pitch classes with same tonic
  * @example
- * Scale.scaleNotes(['C4', 'c3', 'C5', 'C4', 'c4']) // => ["C"]
- * Scale.scaleNotes(['D4', 'c#5', 'A5', 'F#6']) // => ["D", "F#", "A", "C#"]
+ * scaleNotes(['C4', 'c3', 'C5', 'C4', 'c4']) // => ["C"]
+ * scaleNotes(['D4', 'c#5', 'A5', 'F#6']) // => ["D", "F#", "A", "C#"]
  */
 export function scaleNotes(notes: NoteName[]) {
   const pcset: string[] = notes.map(n => note(n).pc).filter(x => x);
@@ -160,7 +160,7 @@ type ScaleMode = [string, string];
  * @function
  * @param {string} name - scale name
  * @example
- * Scale.modeNames("C pentatonic") // => [
+ * modeNames("C pentatonic") // => [
  *   ["C", "major pentatonic"],
  *   ["D", "egyptian"],
  *   ["E", "malkos raga"],
