@@ -1,5 +1,7 @@
 # tonal
 
+[![Build Status](https://travis-ci.org/tonaljs/tonal.svg?branch=master)](https://travis-ci.org/tonaljs/tonal)
+
 `tonal` is a music theory library. Contains functions to manipulate tonal elements of music (note, intervals, chords, scales, modes, keys). It deals with abstractions (not actual music or sound).
 
 `tonal` is implemented in Typescript and published as a collection of npm modules. It uses a functional programing style: all functions are pure, there is no data mutation, and entities are represented by data structures instead of objects.

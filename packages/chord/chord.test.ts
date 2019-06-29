@@ -23,6 +23,9 @@ describe("tonal-chord", () => {
     expect(tokenize("C11")).toEqual(["C", "11"]);
     expect(tokenize("C13no5")).toEqual(["C", "13no5"]);
     expect(tokenize("C64")).toEqual(["C", "64"]);
+    // see: https://github.com/tonaljs/tonal/issues/70
+    expect(tokenize("C5")).toEqual(["C", "5"]);
+    expect(tokenize("C4")).toEqual(["C", "4"]);
   });
 
   test("chord", () => {
