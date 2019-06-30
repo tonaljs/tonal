@@ -1,4 +1,4 @@
-import { Tonal } from "./tonal";
+import { Named } from "./tonal";
 
 type Fifths = number;
 type Octaves = number;

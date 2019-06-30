@@ -24,6 +24,10 @@ describe("interval", () => {
         step: 3
       });
     });
+
+    test("accepts interval as parameter", () => {
+      expect(interval(interval("5P"))).toEqual(interval("5P"));
+    });
     test("name", () => {
       const names = (src: string) =>
         src

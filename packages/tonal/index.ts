@@ -1,4 +1,4 @@
-export { Tonal, NoTonal, Nothing, isTonal } from "./src/tonal";
+export { Named, NotFound, isNamed } from "./src/tonal";
 
 export {
   Pitch,

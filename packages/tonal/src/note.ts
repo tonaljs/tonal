@@ -1,11 +1,13 @@
-import { decode, encode, Pitch, PitchCoordinates } from "./pitch";
-import { Tonal } from "./tonal";
+import { decode, encode, isPitch, Pitch, PitchCoordinates } from "./pitch";
+import { isNamed, Named } from "./tonal";
 
 export type NoteWithOctave = string;
 export type PcName = string;
 export type NoteName = NoteWithOctave | PcName;
+export type NoteLiteral = NoteName | Pitch | Named;
 
-export interface Note extends Pitch, Tonal {
+export interface Note extends Pitch, Named {
+  readonly empty: boolean;
   readonly name: NoteName;
   readonly letter: string;
   readonly acc: string;
@@ -34,15 +36,14 @@ export const altToAcc = (alt: number): string =>
 export const accToAlt = (acc: string): number =>
   acc[0] === "b" ? -acc.length : acc.length;
 
-export function note(src: NoteName | Pitch): Note | NoNote {
-  const name: NoteName =
-    typeof src === "string"
-      ? src
-      : typeof src === "object"
-      ? fromPitch(src)
-      : "" + src;
-
-  return (cache[name] = cache[name] || properties(name));
+export function note(src: NoteLiteral): Note | NoNote {
+  return typeof src === "string"
+    ? cache[src] || (cache[src] = parse(src))
+    : isPitch(src)
+    ? note(pitchName(src))
+    : isNamed(src)
+    ? note(src.name)
+    : NoNote;
 }
 
 type NoteTokens = [string, string, string, string];
@@ -61,7 +62,7 @@ export function coordToNote(noteCoord: PitchCoordinates): Note {
 }
 
 const SEMI = [0, 2, 4, 5, 7, 9, 11];
-function properties(noteName: NoteName): Note | NoNote {
+function parse(noteName: NoteName): Note | NoNote {
   const tokens = tokenize(noteName);
   if (tokens[0] === "" || tokens[3] !== "") {
     return NoNote;
@@ -101,7 +102,7 @@ function properties(noteName: NoteName): Note | NoNote {
   };
 }
 
-function fromPitch(props: Pitch): NoteName {
+function pitchName(props: Pitch): NoteName {
   const { step, alt, oct } = props;
   const letter = stepToLetter(step);
   if (!letter) {

@@ -3,12 +3,14 @@ import {
   Direction,
   encode,
   IntervalCoordinates,
+  isPitch,
   Pitch,
   PitchCoordinates
 } from "./pitch";
-import { Nothing, Tonal } from "./tonal";
+import { isNamed, Named } from "./tonal";
 
 export type IntervalName = string;
+export type IntervalLiteral = IntervalName | Pitch | Named;
 
 type Quality =
   | "dddd"
@@ -24,7 +26,8 @@ type Quality =
   | "AAAA";
 type Type = "perfectable" | "majorable";
 
-export interface Interval extends Pitch, Tonal {
+export interface Interval extends Pitch, Named {
+  readonly empty: boolean;
   readonly name: IntervalName;
   readonly num: number;
   readonly q: Quality;
@@ -42,16 +45,24 @@ export interface Interval extends Pitch, Tonal {
 export interface NoInterval extends Partial<Interval> {
   readonly empty: true;
   readonly name: "";
+  readonly acc: "";
 }
 
-export type IntervalTokens = [string, string];
+const NoInterval: NoInterval = { empty: true, name: "", acc: "" };
 
 // shorthand tonal notation (with quality after number)
-const IVL_TNL = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
+const INTERVAL_TONAL_REGEX = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
 // standard shorthand notation (with quality before number)
-const IVL_STR = "(AA|A|P|M|m|d|dd)([-+]?\\d+)";
-const REGEX = new RegExp("^" + IVL_TNL + "|" + IVL_STR + "$");
+const INTERVAL_SHORTHAND_REGEX = "(AA|A|P|M|m|d|dd)([-+]?\\d+)";
+const REGEX = new RegExp(
+  "^" + INTERVAL_TONAL_REGEX + "|" + INTERVAL_SHORTHAND_REGEX + "$"
+);
 
+type IntervalTokens = [string, string];
+
+/**
+ * @private
+ */
 export function tokenize(str?: IntervalName): IntervalTokens {
   const m = REGEX.exec(`${str}`);
   if (m === null) {
@@ -60,7 +71,7 @@ export function tokenize(str?: IntervalName): IntervalTokens {
   return m[1] ? [m[1], m[2]] : [m[4], m[3]];
 }
 
-const CACHE: { [key in string]: Interval | NoInterval } = {};
+const cache: { [key in string]: Interval | NoInterval } = {};
 
 /**
  * Get interval properties. It returns an object with:
@@ -82,31 +93,29 @@ const CACHE: { [key in string]: Interval | NoInterval } = {};
  * interval('P5').semitones // => 7
  * interval('m3').type // => 'majorable'
  */
-export function interval(ivl: IntervalName | Pitch): Interval | NoInterval {
-  if (typeof ivl === "string") {
-    if (CACHE[ivl]) {
-      return CACHE[ivl];
-    }
-    CACHE[ivl] = properties(ivl);
-    return CACHE[ivl];
-  } else {
-    return fromPitch(ivl);
-  }
+export function interval(src: IntervalLiteral): Interval | NoInterval {
+  return typeof src === "string"
+    ? cache[src] || (cache[src] = parse(src))
+    : isPitch(src)
+    ? interval(pitchName(src))
+    : isNamed(src)
+    ? interval(src.name)
+    : NoInterval;
 }
 
 const SIZES = [0, 2, 4, 5, 7, 9, 11];
 const TYPES = "PMMPPMM";
-function properties(str?: string): Interval | NoInterval {
+function parse(str?: string): Interval | NoInterval {
   const tokens = tokenize(str);
   if (tokens[0] === "") {
-    return Nothing as NoInterval;
+    return NoInterval;
   }
   const num = +tokens[0];
   const q = tokens[1] as Quality;
   const step = (Math.abs(num) - 1) % 7;
   const t = TYPES[step];
   if (t === "M" && q === "P") {
-    return Nothing as NoInterval;
+    return NoInterval;
   }
   const type = t === "M" ? "majorable" : "perfectable";
 
@@ -158,16 +167,17 @@ function qToAlt(type: Type, q: string): number {
     : 0;
 }
 
-function fromPitch(props: Pitch): Interval | NoInterval {
+// return the interval name of a pitch
+function pitchName(props: Pitch): string {
   const { step, alt, oct = 0, dir } = props;
   if (!dir) {
-    return Nothing as NoInterval;
+    return "";
   }
   const num = step + 1 + 7 * oct;
   const d = dir < 0 ? "-" : "";
   const type = TYPES[step] === "M" ? "majorable" : "perfectable";
   const name = d + num + altToQ(type, alt);
-  return interval(name);
+  return name;
 }
 
 const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);

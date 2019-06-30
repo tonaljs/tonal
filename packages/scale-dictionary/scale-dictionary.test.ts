@@ -15,7 +15,7 @@ describe("scaleTypes dictionary", () => {
       intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
       aliases: ["ionian"],
       chroma: "101011010101",
-      normalized: "101011010101"
+      normalized: "101010110101"
     });
   });
 

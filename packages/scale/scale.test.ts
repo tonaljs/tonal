@@ -22,7 +22,7 @@ describe("@tonaljs/scale", () => {
       aliases: ["ionian"],
       setNum: 2773,
       chroma: "101011010101",
-      normalized: "101011010101"
+      normalized: "101010110101"
     });
     expect(scale("c5 pentatonic")).toEqual({
       empty: false,
@@ -34,7 +34,7 @@ describe("@tonaljs/scale", () => {
       aliases: ["pentatonic"],
       setNum: 2708,
       chroma: "101010010100",
-      normalized: "101010010100"
+      normalized: "100101001010"
     });
     expect(scale("C4 major")).toEqual(scale(["C4", "major"]));
   });

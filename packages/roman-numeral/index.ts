@@ -1,8 +1,14 @@
-import { accToAlt, altToAcc, isPitch, isTonal, Pitch } from "@tonaljs/tonal";
+import {
+  accToAlt,
+  altToAcc,
+  isNamed,
+  isPitch,
+  Named,
+  Pitch
+} from "@tonaljs/tonal";
 
-export interface RomanNumeral extends Pitch {
+export interface RomanNumeral extends Pitch, Named {
   readonly empty: boolean;
-  readonly name: string;
   readonly roman: string;
   readonly acc: string;
   readonly chordType: string;
@@ -39,7 +45,7 @@ export function romanNumeral(src: any): RomanNumeral | NoRomanNumeral {
     ? romanNumeral(NAMES[src] || "")
     : isPitch(src)
     ? fromPitch(src)
-    : isTonal(src)
+    : isNamed(src)
     ? romanNumeral(src.name)
     : NoRomanNumeral;
 }

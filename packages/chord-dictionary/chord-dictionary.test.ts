@@ -18,7 +18,7 @@ describe("@tonaljs/chord-dictionary", () => {
       intervals: ["1P", "3M", "5P"],
       aliases: ["M", ""],
       chroma: "100010010000",
-      normalized: "100010010000"
+      normalized: "100001000100"
     });
   });
 });

@@ -20,7 +20,7 @@ describe("@tonaljs/pcset", () => {
         name: "",
         setNum: 2688,
         chroma: "101010000000",
-        normalized: "101010000000",
+        normalized: "100000001010",
         intervals: ["1P", "2M", "3M"]
       });
       expect(pcset(["d", "e", "c"])).toEqual(pcset(["c", "d", "e"]));
@@ -43,8 +43,7 @@ describe("@tonaljs/pcset", () => {
       "cdefgab".split("").forEach(pc => {
         expect(pcset([pc]).normalized).toBe(likeC);
       });
-      const likeCD = pcset(["C", "D"]).chroma; // 101000000000
-      expect(pcset(["E", "F#"]).normalized).toBe(likeCD);
+      expect(pcset(["E", "F#"]).normalized).toBe(pcset(["C", "D"]).normalized);
     });
   });
   test("chroma", () => {

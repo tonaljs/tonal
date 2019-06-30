@@ -1,8 +1,6 @@
-# @tonaljs/mode [![npm version](https://img.shields.io/npm/v/@tonaljs/mode.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/mode)
+# @tonaljs/mode ![tonal](https://img.shields.io/badge/@tonaljs-mode-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/mode.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/mode)
 
-[![tonal](https://img.shields.io/badge/@tonaljs-mode-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
-
-`@tonaljs/mode` is a collection of functions to get musical modes
+`@tonaljs/mode` greek modes dictionary
 
 ## API
 
@@ -13,7 +11,7 @@ Given a mode name, returns a Mode object with the following fields:
 - name: the mode name
 - aliases: alternative mode names
 - modeNum: the mode number (0...7)
-- pcset: the pcset number
+- mode: the mode number
 - alt: the alterations
 - triad: the triad chord type
 - seventh: the seventh chord type
@@ -27,28 +25,38 @@ mode("major");
 //   aliases: ["major"]
 //   intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"]
 //   modeNum: 0,
-//   pcset: 2773,
+//   mode: 2773,
 //   alt: 0,
 //   triad: "",
 //   seventh: "Maj7",
 // }
 ```
 
-### `names() => string[]`
+### `entries() => Mode[]`
 
-Rerturn a list of mode names
+Return a list of known modes
 
 Example:
 
 ```js
-names();
+entries().map(mode => mode.name);
 // => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"];
 ```
 
-### `aliases() => string[]`
+## How to?
 
-Return a list of alternative mode names
+#### Get notes from a mode?
+
+For example, "A major" mode:
 
 ```js
-aliases(); // => ["major", "minor"]
+import { transpose } from "@tonaljs/tonal";
+import { mode } from "@tonaljs/mode";
+
+mode("major").intervals.map(interval => transpose("A", interval));
+["A", "B", "C#", "D", "E", "F#", "G#"];
 ```
+
+## Want more?
+
+Take a look to [@tonal/key]()

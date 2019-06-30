@@ -3,11 +3,11 @@ import {
   Interval,
   interval,
   IntervalName,
+  Named,
   note,
   Note,
   NoteName,
-  NoTonal,
-  Tonal
+  NotFound
 } from "@tonaljs/tonal";
 
 /**
@@ -23,7 +23,8 @@ import {
  * @param {IntervalName[]} intervals - the intervals of the pitch class set
  * *starting from C*
  */
-export interface Pcset extends Tonal {
+export interface Pcset extends Named {
+  readonly empty: boolean;
   readonly setNum: number;
   readonly chroma: PcsetChroma;
   readonly normalized: PcsetChroma;
@@ -42,6 +43,19 @@ export const EmptyPcset: Pcset = {
 export type PcsetChroma = string;
 export type PcsetNum = number;
 
+// UTILITIES
+const setNumToChroma = (num: number): string => Number(num).toString(2);
+const chromaToNumber = (chroma: string): number => parseInt(chroma, 2);
+const REGEX = /^[01]{12}$/;
+function isChroma(set: any): set is PcsetChroma {
+  return REGEX.test(set);
+}
+const isPcsetNum = (set: any): set is PcsetNum =>
+  typeof set === "number" && set >= 0 && set <= 4095;
+const isPcset = (set: any): set is Pcset => set && isChroma(set.chroma);
+
+const cache: { [key in string]: Pcset } = { [EmptyPcset.chroma]: EmptyPcset };
+
 /**
  * A definition of a pitch class set. It could be:
  * - The pitch class set chroma (a 12-length string with only 1s or 0s)
@@ -49,37 +63,12 @@ export type PcsetNum = number;
  * - An array of note names
  * - An array of interval names
  */
-export type Set = Pcset | PcsetChroma | PcsetNum | NoteName[] | IntervalName[];
-
-function toChroma(set: any[]): PcsetChroma {
-  if (set.length === 0) {
-    return EmptyPcset.chroma;
-  }
-
-  let pitch: Note | Interval | NoTonal;
-  const binary = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  // tslint:disable-next-line:prefer-for-of
-  for (let i = 0; i < set.length; i++) {
-    pitch = note(set[i]);
-    // tslint:disable-next-line: curly
-    if (pitch.empty) pitch = interval(set[i]);
-    // tslint:disable-next-line: curly
-    if (!pitch.empty) binary[pitch.chroma] = 1;
-  }
-  return binary.join("");
-}
-
-const REGEX = /^[01]{12}$/;
-function isChroma(set: any): set is PcsetChroma {
-  return REGEX.test(set);
-}
-
-const isPcsetNum = (set: any): set is PcsetNum =>
-  typeof set === "number" && set >= 0 && set <= 4095;
-
-const isPcset = (set: any): set is Pcset => set && isChroma(set.chroma);
-
-const cache: { [key in string]: Pcset } = { [EmptyPcset.chroma]: EmptyPcset };
+export type Set =
+  | Partial<Pcset>
+  | PcsetChroma
+  | PcsetNum
+  | NoteName[]
+  | IntervalName[];
 
 /**
  * Get the pitch class set of a collection of notes or set number or chroma
@@ -88,36 +77,14 @@ export function pcset(src: Set): Pcset {
   const chroma: PcsetChroma = isChroma(src)
     ? src
     : isPcsetNum(src)
-    ? Number(src).toString(2)
+    ? setNumToChroma(src)
     : Array.isArray(src)
-    ? toChroma(src)
+    ? listToChroma(src)
     : isPcset(src)
     ? src.chroma
     : EmptyPcset.chroma;
 
-  return (cache[chroma] = cache[chroma] || properties(chroma));
-}
-
-const normalize = (chroma: PcsetChroma): PcsetChroma => {
-  const first = chroma.indexOf("1");
-  return chroma.slice(first, 12) + chroma.slice(0, first);
-};
-
-function properties(chroma: PcsetChroma): Pcset {
-  const setNum = parseInt(chroma, 2);
-  const normalized = normalize(chroma);
-
-  const intervals = chromaToIntervals(chroma);
-  const length = intervals.length;
-
-  return {
-    empty: false,
-    name: "",
-    setNum,
-    chroma,
-    normalized,
-    intervals
-  };
+  return (cache[chroma] = cache[chroma] || chromaToPcset(chroma));
 }
 
 const IVLS = "1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" ");
@@ -149,7 +116,7 @@ let all: PcsetChroma[];
  * @return {Array<PcsetChroma>} an array of possible chromas from '10000000000' to '11111111111'
  */
 export function chromas(): PcsetChroma[] {
-  all = all || range(2048, 4095).map(n => n.toString(2));
+  all = all || range(2048, 4095).map(setNumToChroma);
   return all.slice();
 }
 
@@ -280,4 +247,49 @@ export function filter(set: Set) {
   return (notes: NoteName[]) => {
     return notes.filter(isIncluded);
   };
+}
+
+// PRIVATE //
+
+function chromaRotations(chroma: string): string[] {
+  const binary = chroma.split("");
+  return binary.map((_, i) => rotate(i, binary).join(""));
+}
+
+function chromaToPcset(chroma: PcsetChroma): Pcset {
+  const setNum = chromaToNumber(chroma);
+  const normalizedNum = chromaRotations(chroma)
+    .map(chromaToNumber)
+    .filter(n => n >= 2048)
+    .sort()[0];
+  const normalized = setNumToChroma(normalizedNum);
+
+  const intervals = chromaToIntervals(chroma);
+
+  return {
+    empty: false,
+    name: "",
+    setNum,
+    chroma,
+    normalized,
+    intervals
+  };
+}
+
+function listToChroma(set: any[]): PcsetChroma {
+  if (set.length === 0) {
+    return EmptyPcset.chroma;
+  }
+
+  let pitch: Note | Interval | NotFound;
+  const binary = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  // tslint:disable-next-line:prefer-for-of
+  for (let i = 0; i < set.length; i++) {
+    pitch = note(set[i]);
+    // tslint:disable-next-line: curly
+    if (pitch.empty) pitch = interval(set[i]);
+    // tslint:disable-next-line: curly
+    if (!pitch.empty) binary[pitch.chroma] = 1;
+  }
+  return binary.join("");
 }

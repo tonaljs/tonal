@@ -1,5 +1,6 @@
 import { chromaToIntervals, EmptyPcset, Pcset } from "@tonaljs/pcset";
-import DATA from "./data";
+import { Named } from "@tonaljs/tonal";
+import DATA, { ModeDefinition } from "./data";
 
 export interface Mode extends Pcset {
   readonly name: string;
@@ -20,28 +21,57 @@ const NoMode: Mode = {
   aliases: []
 };
 
-const ea: Pcset = NoMode;
+const all: Mode[] = DATA.map(toMode);
+const index: Record<string, Mode> = {};
+all.forEach(mode => {
+  index[mode.name] = mode;
+  mode.aliases.forEach(alias => {
+    index[alias] = mode;
+  });
+});
 
-const NAMES: string[] = [];
-const ALIASES: string[] = [];
-const MODES: Record<string, Mode> = {};
+type ModeLiteral = string | Named;
 
-export function mode(name: string): Mode {
-  return MODES[name] || NoMode;
+/**
+ * Get a Mode by it's name
+ *
+ * @example
+ * mode('dorian')
+ * // =>
+ * // {
+ * //   intervals: [ '1P', '2M', '3m', '4P', '5P', '6M', '7m' ],
+ * //   modeNum: 1,
+ * //   chroma: '101101010110',
+ * //   normalized: '101101010110',
+ * //   name: 'dorian',
+ * //   setNum: 2902,
+ * //   alt: 2,
+ * //   triad: 'm',
+ * //   seventh: 'm7',
+ * //   aliases: []
+ * // }
+ */
+export function mode(name: ModeLiteral): Mode {
+  return typeof name === "string"
+    ? index[name.toLowerCase()] || NoMode
+    : name && name.name
+    ? mode(name.name)
+    : NoMode;
 }
 
-export function names() {
-  return NAMES.slice();
-}
-export function aliases() {
-  return ALIASES.slice();
+/**
+ * Get a list of all know modes
+ */
+export function entries() {
+  return all.slice();
 }
 
-DATA.forEach(([name, setNum, alt, triad, seventh, alias], modeNum) => {
+function toMode(mode: ModeDefinition): Mode {
+  const [modeNum, setNum, alt, name, triad, seventh, alias] = mode;
   const aliases = alias ? [alias] : [];
   const chroma = Number(setNum).toString(2);
   const intervals = chromaToIntervals(chroma);
-  const mode: Mode = {
+  return {
     empty: false,
     intervals,
     modeNum,
@@ -54,10 +84,4 @@ DATA.forEach(([name, setNum, alt, triad, seventh, alias], modeNum) => {
     seventh,
     aliases
   };
-  NAMES.push(mode.name);
-  MODES[mode.name] = mode;
-  mode.aliases.forEach(alias => {
-    MODES[alias] = mode;
-    ALIASES.push(alias);
-  });
-});
+}

@@ -15,6 +15,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
+    "@tonaljs/tonal": "^3.0.4",
     "@tonaljs/pcset": "^3.0.4"
   },
   "author": "danigb@gmail.com",

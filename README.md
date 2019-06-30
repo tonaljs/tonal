@@ -32,16 +32,17 @@ distance("C4", "G4"); // => "5P"
 
 The API documentation lives inside README.md file of each module:
 
-- [@tonaljs/tonal](/packages/tonal): Note and interval properties, note transposition and distance
+- [@tonaljs/tonal](/packages/tonal): Parse notes and intervals, calculate distances and transpositions
 - [@tonaljs/midi](/packages/midi): Midi number conversions
 - [@tonaljs/note](/packages/note): Note operations (simplify, transposeBy )
 - [@tonaljs/interval](/packages/interval): Interval operations (add, simplify, invert)
 - [@tonaljs/pcset](/packages/pcset): Pitch class sets properties
-- [@tonaljs/mode](/packages/mode): Tonal modes properties
+- [@tonaljs/mode](/packages/mode): Parse (greek) tonal modes (ionian, dorian, ...)
 - [@tonaljs/scale-dictionary](/packages/scale-dictionary): A dictionary of scales
 - [@tonaljs/chord-dictionary](/packages/chord-dictionary): A dictionary of chords
 - [@tonaljs/scale](/packages/scale): Scales and its relations
 - [@tonaljs/chord](/packages/chord): Chords and its relations
+- [@tonaljs/roman-numeral](/packages/roman-numeral): Parse roman numeral symbols
 
 ## Contributing
 

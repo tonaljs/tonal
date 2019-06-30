@@ -66,6 +66,5 @@ export function keys() {
 
 function dataToScaleType([ivls, name, ...aliases]: string[]): ScaleType {
   const intervals = ivls.split(" ");
-  const set = pcset(intervals);
-  return { ...set, name, intervals, aliases };
+  return { ...pcset(intervals), name, intervals, aliases };
 }

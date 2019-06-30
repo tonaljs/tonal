@@ -30,6 +30,10 @@ describe("note", () => {
       });
     });
 
+    test("it accepts a Note as param", () => {
+      expect(note(note("C4"))).toEqual(note("C4"));
+    });
+
     test("height", () => {
       const height = (str: string) => str.split(" ").map(n => note(n).height);
       expect(height("C4 D4 E4 F4 G4")).toEqual([60, 62, 64, 65, 67]);
