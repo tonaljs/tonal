@@ -1,9 +1,10 @@
-export { Tonal, NoTonal, Nothing } from "./src/tonal";
+export { Tonal, NoTonal, Nothing, isTonal } from "./src/tonal";
 
 export {
   Pitch,
   NoteCoordinates,
   IntervalCoordinates,
+  isPitch,
   encode,
   decode
 } from "./src/pitch";
@@ -16,6 +17,7 @@ export {
   NoNote,
   PcName,
   altToAcc,
+  accToAlt,
   coordToNote
 } from "./src/note";
 

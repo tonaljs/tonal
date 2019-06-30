@@ -1,18 +1,28 @@
-# @tonaljs/chord
+# @tonaljs/chord ![tonal](https://img.shields.io/badge/@tonaljs-chord_dictionary-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/chord.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/chord)
 
 ## API
 
 ### `chord(name: string) => Scale`
 
-Get a chord from a chord name. Unlike `chordType`, `chord` accepts tonics in the chord name and returns the chord type with more properties:
+Get a chord from a chord name. Unlike `chordType`, `chord` accepts tonics in the chord name and returns the a Scale data object (a ChordType with extended properties):
 
 - tonic: the tonic of the chord, or "" if not present
 - notes: an array of notes, or empty array if tonic is not present
-- quality:
-
-  See [chord-dictionary](../chord-dictionary) for more details.
 
 ```js
+chord("Cmaj7");
+// =>
+// {
+//   name: "C major seventh",
+//   tonic: "C",
+//   setNum: 2193,
+//   type: "major seventh",
+//   aliases: ["maj7", "Δ", "ma7", "M7", "Maj7"],
+//   chroma: "100010010001",
+//   intervals: ["1P", "3M", "5P", "7M"],
+//   notes: ["C", "E", "G", "B"],
+//   quality: "Major"
+// };
 ```
 
 ### `transpose(chordName: string, intervalName: string) => string`

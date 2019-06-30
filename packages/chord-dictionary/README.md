@@ -2,6 +2,14 @@
 
 > A dictionary of musical chords.
 
+## Usage
+
+```js
+import { chordType } from "@tonaljs/chord-dictionary";
+// or
+const { chordType } = require("@tonaljs/chord-dictionary");
+```
+
 ## API
 
 #### `chordType(type: string) => ChordType`

@@ -27,6 +27,14 @@ export interface Pitch {
   readonly dir?: Direction; // undefined for notes
 }
 
+export function isPitch(pitch: any): pitch is Pitch {
+  return (
+    typeof pitch === "object" &&
+    typeof pitch.step === "number" &&
+    typeof pitch.alt === "number"
+  );
+}
+
 // The nuuber of fifths of [C, D, E, F, G, A, B]
 const FIFTHS = [0, 2, 4, -1, 1, 3, 5];
 // The number of octaves it span each step

@@ -27,6 +27,13 @@ const NoNote: NoNote = { empty: true, name: "", pc: "", acc: "" };
 
 const cache: Record<string, Note | NoNote> = {};
 
+const fillStr = (s: string, n: number) => Array(n + 1).join(s);
+export const stepToLetter = (step: number) => "CDEFGAB".charAt(step);
+export const altToAcc = (alt: number): string =>
+  alt < 0 ? fillStr("b", -alt) : fillStr("#", alt);
+export const accToAlt = (acc: string): number =>
+  acc[0] === "b" ? -acc.length : acc.length;
+
 export function note(src: NoteName | Pitch): Note | NoNote {
   const name: NoteName =
     typeof src === "string"
@@ -65,7 +72,7 @@ function properties(noteName: NoteName): Note | NoNote {
   const octStr = tokens[2];
 
   const step = (letter.charCodeAt(0) + 3) % 7;
-  const alt = acc[0] === "b" ? -acc.length : acc.length;
+  const alt = accToAlt(acc);
   const oct = octStr.length ? +octStr : undefined;
   const coord = encode({ step, alt, oct });
 
@@ -94,10 +101,6 @@ function properties(noteName: NoteName): Note | NoNote {
   };
 }
 
-const fillStr = (s: string, n: number) => Array(n + 1).join(s);
-export const stepToLetter = (step: number) => "CDEFGAB".charAt(step);
-export const altToAcc = (alt: number) =>
-  alt < 0 ? fillStr("b", -alt) : fillStr("#", alt);
 function fromPitch(props: Pitch): NoteName {
   const { step, alt, oct } = props;
   const letter = stepToLetter(step);

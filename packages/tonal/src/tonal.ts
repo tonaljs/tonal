@@ -8,4 +8,8 @@ export interface NoTonal {
   readonly name: "";
 }
 
+export function isTonal(src: any): src is Tonal {
+  return typeof src === "object" && typeof src.name === "string";
+}
+
 export const Nothing: Tonal = { empty: true, name: "" };
