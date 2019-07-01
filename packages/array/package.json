@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/array",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Functions to work with arrays of tonal objects",
   "keywords": [
     "array",
@@ -15,7 +15,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/tonal": "^3.2.0"
+    "@tonaljs/tonal": "^3.2.1"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

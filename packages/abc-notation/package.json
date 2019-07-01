@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/abc-notation",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Parse musical notes in abc notation",
   "keywords": [
     "note",
@@ -17,7 +17,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/tonal": "^3.2.0"
+    "@tonaljs/tonal": "^3.2.1"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
