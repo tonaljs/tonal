@@ -14,6 +14,7 @@ export {
   tokenize as tokenizeNote,
   NoteName,
   Note,
+  NoteLiteral,
   NoNote,
   PcName,
   altToAcc,
@@ -24,8 +25,9 @@ export {
 export {
   interval,
   tokenize as tokenizeInterval,
-  IntervalName,
   Interval,
+  IntervalLiteral,
+  IntervalName,
   NoInterval,
   coordToInterval
 } from "./src/interval";

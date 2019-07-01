@@ -13,6 +13,7 @@ export interface RomanNumeral extends Pitch, Named {
   readonly acc: string;
   readonly chordType: string;
   readonly major: boolean;
+  readonly dir: 1;
 }
 
 export interface NoRomanNumeral extends Partial<RomanNumeral> {
@@ -99,6 +100,7 @@ function parse(src: string): RomanNumeral | NoRomanNumeral {
     alt,
     step,
     major,
-    oct: 0
+    oct: 0,
+    dir: 1
   };
 }

@@ -1,10 +1,10 @@
 import {
   coordToInterval,
-  Interval,
-  interval as toInterval,
+  interval as asInterval,
+  IntervalLiteral,
   IntervalName
 } from "./interval";
-import { coordToNote, note as asNote, NoteName } from "./note";
+import { coordToNote, note as asNote, NoteLiteral, NoteName } from "./note";
 import { PitchCoordinates } from "./pitch";
 
 /**
@@ -20,11 +20,11 @@ import { PitchCoordinates } from "./pitch";
  * ["C", "D", "E", "F", "G"].map(pc => transpose(pc, "M3)) // => ["E", "F#", "G#", "A", "B"]
  */
 export function transpose(
-  noteName: NoteName,
-  intervalName: IntervalName | Interval
+  noteName: NoteLiteral,
+  intervalName: IntervalLiteral
 ): NoteName {
   const note = asNote(noteName);
-  const interval = toInterval(intervalName);
+  const interval = asInterval(intervalName);
   if (note.empty || interval.empty) {
     return "";
   }
@@ -48,7 +48,10 @@ export function transpose(
  * @return {string} the interval name or empty string if not valid notes
  *
  */
-export function distance(fromNote: NoteName, toNote: NoteName): IntervalName {
+export function distance(
+  fromNote: NoteLiteral,
+  toNote: NoteLiteral
+): IntervalName {
   const from = asNote(fromNote);
   const to = asNote(toNote);
   if (from.empty || to.empty) {

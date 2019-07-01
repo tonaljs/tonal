@@ -20,7 +20,8 @@ describe("tonal-roman-numeral", () => {
         major: true,
         step: 6,
         alt: 1,
-        oct: 0
+        oct: 0,
+        dir: 1
       });
     });
     test("RomanNumeral is compatible with Pitch", () => {
@@ -36,6 +37,11 @@ describe("tonal-roman-numeral", () => {
       expect(sharps.map(romanNumeral).map(n => n.name)).toEqual(
         $("#I #II #III #IV #V #VI #VII")
       );
+    });
+    test("Can convert to intervals", () => {
+      expect(interval(romanNumeral("I")).name).toEqual("1P");
+      expect(interval(romanNumeral("bIIImaj4")).name).toEqual("3m");
+      expect(interval(romanNumeral("#IV7")).name).toEqual("4A");
     });
     test("step", () => {
       const decimal = (x: string) => romanNumeral(x).step;
