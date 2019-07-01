@@ -36,6 +36,11 @@ export const altToAcc = (alt: number): string =>
 export const accToAlt = (acc: string): number =>
   acc[0] === "b" ? -acc.length : acc.length;
 
+/**
+ * Given a note literal (a note name or a note object), returns the Note object
+ * @example
+ * note('Bb4') // => { name: "Bb4", midi: 70, chroma: 10, ... }
+ */
 export function note(src: NoteLiteral): Note | NoNote {
   return typeof src === "string"
     ? cache[src] || (cache[src] = parse(src))
@@ -49,6 +54,9 @@ export function note(src: NoteLiteral): Note | NoNote {
 type NoteTokens = [string, string, string, string];
 
 const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
+/**
+ * @private
+ */
 export function tokenize(str: string): NoteTokens {
   const m = REGEX.exec(str) as string[];
   return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]];
