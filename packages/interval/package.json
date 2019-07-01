@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/interval",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Parse and manipulate music intervals",
   "keywords": [
     "interval",
@@ -15,7 +15,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/tonal": "^3.1.0"
+    "@tonaljs/tonal": "^3.2.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
