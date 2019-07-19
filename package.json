@@ -54,20 +54,20 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.15",
-    "@types/node": "^12.0.10",
-    "husky": "^2.4.1",
+    "@types/node": "^12.6.8",
+    "husky": "^3.0.1",
     "jest": "^24.8.0",
     "jest-config": "^24.8.0",
-    "lerna": "^3.15.0",
-    "lint-staged": "^8.2.1",
-    "lodash": "^4.17.11",
+    "lerna": "^3.16.0",
+    "lint-staged": "^9.2.0",
+    "lodash": "^4.17.15",
     "prettier": "^1.18.2",
     "rimraf": "^2.6.3",
-    "rollup": "^1.16.2",
-    "rollup-plugin-typescript2": "^0.21.2",
+    "rollup": "^1.17.0",
+    "rollup-plugin-typescript2": "^0.22.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.3"
   }
 }
