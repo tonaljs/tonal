@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/progression",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "Build musical chord progressions",
   "keywords": [
     "chord",
@@ -16,9 +16,9 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord": "^3.2.1",
-    "@tonaljs/roman-numeral": "^3.2.1",
-    "@tonaljs/tonal": "^3.2.1"
+    "@tonaljs/chord": "^3.2.2",
+    "@tonaljs/roman-numeral": "^3.2.2",
+    "@tonaljs/tonal": "^3.2.2"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
