@@ -51,15 +51,24 @@ export const enharmonic = toNoteName(false);
 /**
  * Transpose by an interval
  * @function
+ * @param {string} interval
+ * @return {function} a function that transposes by the given interval
+ * @example
+ * ["C", "D", "E"].map(transposeBy("5P"));
+ * // => ["G", "A", "B"]
  */
-export const transposeBy = (note: NoteName) => (interval: IntervalName) =>
+export const transposeBy = (interval: IntervalName) => (note: NoteName) =>
   transpose(note, interval);
 
 /**
  * Transpose from a note
  * @function
+ * @param {string} note
+ * @return {function}  a function that transposes the the note by an interval
+ * ["1P", "3M", "5P"].map(transposeFrom("C"));
+ * // => ["C", "E", "G"]
  */
-export const transposeFrom = (interval: IntervalName) => (note: NoteName) =>
+export const transposeFrom = (note: NoteName) => (interval: IntervalName) =>
   transpose(note, interval);
 
 /**

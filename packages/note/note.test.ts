@@ -20,10 +20,12 @@ describe("note", () => {
   });
 
   test("transposeFrom", () => {
-    expect(transposeFrom("C4")("5P")).toEqual("");
+    expect(transposeFrom("C4")("5P")).toEqual("G4");
+    expect(["1P", "3M", "5P"].map(transposeFrom("C"))).toEqual(["C", "E", "G"]);
   });
   test("transposeBy", () => {
-    expect(transposeBy("5P")("C4")).toEqual("");
+    expect(transposeBy("5P")("C4")).toEqual("G4");
+    expect(["C", "D", "E"].map(transposeBy("5P"))).toEqual(["G", "A", "B"]);
   });
 
   test("enharmonic", () => {
