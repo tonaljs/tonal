@@ -62,7 +62,7 @@ export function freqToMidi(freq: number): number {
   return Math.round(v * 100) / 100;
 }
 
-interface ToNoteNameOptions {
+export interface ToNoteNameOptions {
   pitchClass?: boolean;
   sharps?: boolean;
 }
