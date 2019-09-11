@@ -1,4 +1,3 @@
-import { rotate, sortedUniqNoteNames } from "@tonaljs/array";
 import {
   chordType,
   ChordType,

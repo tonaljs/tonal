@@ -14,7 +14,7 @@
   "files": [
     "dist"
   ],
-  "types": "dist/index.d.ts",
+  "types": "dist/midi/index.d.ts",
   "dependencies": {
     "@tonaljs/tonal": "^3.2.2"
   },

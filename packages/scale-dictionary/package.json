@@ -14,7 +14,7 @@
   "files": [
     "dist"
   ],
-  "types": "dist/index.d.ts",
+  "types": "dist/scale-dictionary/index.d.ts",
   "dependencies": {
     "@tonaljs/interval": "^3.2.2",
     "@tonaljs/pcset": "^3.2.2"

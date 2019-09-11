@@ -14,7 +14,7 @@
   "files": [
     "dist"
   ],
-  "types": "dist/index.d.ts",
+  "types": "dist/chord/index.d.ts",
   "dependencies": {
     "@tonaljs/array": "^3.2.2",
     "@tonaljs/chord-dictionary": "^3.2.2",

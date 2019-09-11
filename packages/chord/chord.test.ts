@@ -95,7 +95,7 @@ describe("tonal-chord", () => {
   test("extended", () => {
     const chords =
       "Cmaj#4 Cmaj7#9#11 Cmaj9 CM7add13 Cmaj13 Cmaj9#11 CM13#11 CM7b9";
-    expect(extended("CMaj7")).toEqual($(chords));
+    expect(extended("CMaj7").sort()).toEqual($(chords).sort());
   });
 
   test("reduced", () => {

@@ -15,7 +15,7 @@
   "files": [
     "dist"
   ],
-  "types": "dist/index.d.ts",
+  "types": "dist/abc-notation/index.d.ts",
   "dependencies": {
     "@tonaljs/tonal": "^3.2.2"
   },

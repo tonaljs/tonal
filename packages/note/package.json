@@ -13,7 +13,7 @@
   "files": [
     "dist"
   ],
-  "types": "dist/index.d.ts",
+  "types": "dist/note/index.d.ts",
   "dependencies": {
     "@tonaljs/midi": "^3.3.0",
     "@tonaljs/tonal": "^3.2.2"
