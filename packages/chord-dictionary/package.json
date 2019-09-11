@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chord-dictionary",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "A dictionary of musical chords",
   "keywords": [
     "chord",
@@ -17,8 +17,8 @@
   ],
   "types": "dist/chord-dictionary/index.d.ts",
   "dependencies": {
-    "@tonaljs/interval": "^3.2.2",
-    "@tonaljs/pcset": "^3.2.2"
+    "@tonaljs/interval": "^3.2.3",
+    "@tonaljs/pcset": "^3.2.3"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
