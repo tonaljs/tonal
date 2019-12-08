@@ -28,22 +28,9 @@ const NoChordType: ChordType = {
 };
 
 type ChordTypeName = string | PcsetChroma | PcsetNum;
-const chords: ChordType[] = data.map(dataToChordType);
-chords.sort((a, b) => a.setNum - b.setNum);
-const index: Record<ChordTypeName, ChordType> = chords.reduce(
-  (index: Record<ChordTypeName, ChordType>, chord) => {
-    if (chord.name) {
-      index[chord.name] = chord;
-    }
-    index[chord.setNum] = chord;
-    index[chord.chroma] = chord;
-    chord.aliases.forEach(alias => {
-      index[alias] = chord;
-    });
-    return index;
-  },
-  {}
-);
+
+let chords: ChordType[] = [];
+let index: Record<ChordTypeName, ChordType> = {};
 
 /**
  * Given a chord name or chroma, return the chord properties
@@ -57,10 +44,45 @@ export function chordType(type: ChordTypeName): ChordType {
 }
 
 /**
+ * Keys used to reference chord types
+ */
+export function keys() {
+  return Object.keys(index);
+}
+
+/**
  * Return a list of all chord types
  */
 export function entries(): ChordType[] {
   return chords.slice();
+}
+
+/**
+ * Clear the dictionary
+ */
+export function clear() {
+  chords = [];
+  index = {};
+}
+
+/**
+ * Add a chord to the dictionary
+ * @param intervals
+ * @param [fullName]
+ * @param [aliases ]
+ */
+function add(intervals: string[], name: string = "", aliases: string[] = []) {
+  const quality = getQuality(intervals);
+  const chord = { ...pcset(intervals), name, quality, intervals, aliases };
+  chords.push(chord);
+  if (chord.name) {
+    index[chord.name] = chord;
+  }
+  index[chord.setNum] = chord;
+  index[chord.chroma] = chord;
+  chord.aliases.forEach(alias => {
+    index[alias] = chord;
+  });
 }
 
 function getQuality(intervals: string[]): ChordQuality {
@@ -76,10 +98,7 @@ function getQuality(intervals: string[]): ChordQuality {
     : "Unknown";
 }
 
-function dataToChordType([ivls, name, abbrvs]: string[]) {
-  const intervals = ivls.split(" ");
-  const aliases = abbrvs.split(" ");
-  const quality = getQuality(intervals);
-  const set = pcset(intervals);
-  return { ...set, name, quality, intervals, aliases };
-}
+data.forEach(([ivls, name, abbrvs]: string[]) =>
+  add(ivls.split(" "), name, abbrvs.split(" "))
+);
+chords.sort((a, b) => a.setNum - b.setNum);
