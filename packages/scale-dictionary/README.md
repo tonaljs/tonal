@@ -45,3 +45,11 @@ entries()
   .filter(type => type.intervals.length === 5)
   .map(n => name);
 ```
+
+#### How do I add a scale to the dictionary?
+
+```js
+import { scale, add } from '@tonaljs/scale'
+add(['1P', '5P', 'quinta', ['fifth']])
+scale('Bb quinta') // => ...
+```
