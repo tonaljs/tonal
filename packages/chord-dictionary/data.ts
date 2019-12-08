@@ -48,7 +48,6 @@ const CHORDS: string[][] = [
   ["1P 3M 5A", "augmented", "aug + +5"],
   ["1P 3M 5A 7M", "augmented seventh", "maj7#5 maj7+5"],
   ["1P 3M 5P 7M 9M 11A", "major #11 (lydian)", "maj9#11 Δ9#11"],
-  ["1P 3M 5P 7m 9A", "dominant #9", "7#9"],
   // ==Legacy==
   ["1P 2M 4P 5P", "", "sus24 sus4add9"],
   ["1P 3M 13m", "", "Mb6"],
