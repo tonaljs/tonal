@@ -4,24 +4,27 @@ We're really glad you're reading this, because we need volunteer developers to h
 
 ## Prerequisites
 
-- node (>= 4.2)
-- yarn
+- node (>= 6.2)
 
-## Instructions
-
-These steps will guide you through contributing to this project:
-
-- Fork the repo
-- Clone it and install dependencies
+## Install
 
 ```bash
 git clone https://github.com/tonaljs/tonal
-yarn install
-yarn build
+npm run install
+npm run build
 ```
 
-Keep in mind that after running `yarn install` the git repo is reset. So a good way to cope with this is to have a copy of the folder to push the changes, and the other to try them.
+## Develop
 
-Make and commit your changes. Make sure the commands `yarn test` and `yarn build` are working.
+Ensure all tests pass:
 
-Finally send a [GitHub Pull Request](https://github.com/tonaljs/tonal/compare?expand=1) with a clear list of what you've done (read more [about pull requests](https://help.github.com/articles/about-pull-requests/)).
+```
+npm run test
+```
+
+Use the libraries from node repl:
+
+```bash
+> S = require('./packages/scale');
+> S.scale('C chromatic');
+```
