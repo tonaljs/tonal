@@ -79,10 +79,12 @@ export function add(
   index[scale.name] = scale;
   index[scale.setNum] = scale;
   index[scale.chroma] = scale;
-  scale.aliases.forEach(alias => {
-    index[alias] = scale;
-  });
+  scale.aliases.forEach(alias => addAlias(scale, alias));
   return scale;
+}
+
+export function addAlias(scale: ScaleType, alias: string) {
+  index[alias] = scale;
 }
 
 data.forEach(([ivls, name, ...aliases]: string[]) =>

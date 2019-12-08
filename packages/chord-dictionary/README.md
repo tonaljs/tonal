@@ -43,12 +43,12 @@ chordType("major"); // =>
 
 Return a list of all available chord types
 
-#### `add(intervals: string[], name: string, aliases?: string[]) => ChordType`
+#### `add(intervals: string[], names: string[], fullName?: string) => ChordType`
 
 Add a chord type to dictionary:
 
 ```js
-add(['1P', '3M', '5P'], 'mayor', ['Mayor']);
+add(['1P', '3M', '5P'], ['M'], 'mayor');
 ```
 
 
@@ -73,9 +73,9 @@ entries()
 #### How to add a chord type to the dictionary?
 
 ```js
-add(['1P', '3M', '5P'], 'mayor', ['major', 'maj'])
+add(['1P', '3M', '5P'], ['M', 'may'], 'mayor')
 chordType('mayor') // => { name: 'mayor', quality: "Major", chroma: ... }
-chordType('major') // => { name: 'mayor', quality: "Major", chroma: ... }
+chordType('may') // => { name: 'mayor', quality: "Major", chroma: ... }
 ```
 
 #### How to know if a collection of notes is a known chord?

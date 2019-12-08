@@ -66,23 +66,31 @@ export function clear() {
 }
 
 /**
- * Add a chord to the dictionary
+ * Add a chord to the dictionary.
  * @param intervals
+ * @param aliases
  * @param [fullName]
- * @param [aliases ]
  */
-function add(intervals: string[], name: string = "", aliases: string[] = []) {
+export function add(intervals: string[], aliases: string[], fullName?: string) {
   const quality = getQuality(intervals);
-  const chord = { ...pcset(intervals), name, quality, intervals, aliases };
+  const chord = {
+    ...pcset(intervals),
+    name: fullName || "",
+    quality,
+    intervals,
+    aliases
+  };
   chords.push(chord);
   if (chord.name) {
     index[chord.name] = chord;
   }
   index[chord.setNum] = chord;
   index[chord.chroma] = chord;
-  chord.aliases.forEach(alias => {
-    index[alias] = chord;
-  });
+  chord.aliases.forEach(alias => addAlias(chord, alias));
+}
+
+export function addAlias(chord: ChordType, alias: string) {
+  index[alias] = chord;
 }
 
 function getQuality(intervals: string[]): ChordQuality {
@@ -98,7 +106,7 @@ function getQuality(intervals: string[]): ChordQuality {
     : "Unknown";
 }
 
-data.forEach(([ivls, name, abbrvs]: string[]) =>
-  add(ivls.split(" "), name, abbrvs.split(" "))
+data.forEach(([ivls, fullName, names]: string[]) =>
+  add(ivls.split(" "), names.split(" "), fullName)
 );
 chords.sort((a, b) => a.setNum - b.setNum);
