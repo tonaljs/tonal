@@ -1,6 +1,6 @@
+import { transposeFifths } from "@tonaljs/note";
 import { romanNumeral } from "@tonaljs/roman-numeral";
 import { accToAlt, altToAcc, note, transpose } from "@tonaljs/tonal";
-import { transposeFifths } from "../note";
 
 export interface Key {
   type: "major" | "minor";

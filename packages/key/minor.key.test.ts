@@ -1,7 +1,6 @@
 import { minorKey } from "./index";
 
 describe("@tonal/key", () => {
-  test("", () => expect(minorKey("C")).toEqual(null));
   test("keySignature", () => {
     const tonics = "C D E F G A B".split(" ");
     expect(tonics.map(tonic => minorKey(tonic).keySignature).join(" ")).toEqual(
