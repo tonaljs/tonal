@@ -18,6 +18,15 @@ describe("@tonal/key", () => {
     expect(majorKey("C")).toMatchInlineSnapshot(`
       Object {
         "alteration": 0,
+        "chordScales": Array [
+          "C major",
+          "D dorian",
+          "E phrygian",
+          "F lydian",
+          "G mixolydian",
+          "A minor",
+          "B locrian",
+        ],
         "chords": Array [
           "Cmaj7",
           "Dm7",

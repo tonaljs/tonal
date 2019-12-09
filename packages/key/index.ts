@@ -16,6 +16,7 @@ interface KeyScale {
   scale: string[];
   chords: string[];
   chordsHarmonicFunction: string[];
+  chordScales: string[];
 }
 
 export interface MajorKey extends Key, KeyScale {
@@ -35,28 +36,31 @@ export interface MinorKey extends Key {
   melodic: KeyScale;
 }
 
-const mapToScale = (scale: string[], literal: string) =>
-  literal
-    .split(" ")
-    .map((item, index) => (item !== "-" ? scale[index] + item : ""));
+const mapToScale = (scale: string[]) => (symbols: string[], sep = "") =>
+  symbols.map((symbol, index) =>
+    symbol !== "-" ? scale[index] + sep + symbol : ""
+  );
 
 function keyScale(
   gradesLiteral: string,
   chordsLiteral: string,
-  hfLiteral: string
+  hfLiteral: string,
+  chordScalesLiteral: string
 ) {
   return (tonic: string): KeyScale => {
     const grades = gradesLiteral.split(" ");
     const intervals = grades.map(gr => romanNumeral(gr).interval || "");
     const scale = intervals.map(interval => transpose(tonic, interval));
+    const map = mapToScale(scale);
 
     return {
       tonic,
       grades,
       intervals,
       scale,
-      chords: mapToScale(scale, chordsLiteral),
-      chordsHarmonicFunction: hfLiteral.split(" ")
+      chords: map(chordsLiteral.split(" ")),
+      chordsHarmonicFunction: hfLiteral.split(" "),
+      chordScales: map(chordScalesLiteral.split(","), " ")
     };
   };
 }
@@ -70,22 +74,26 @@ const distInFifths = (from: string, to: string) => {
 const MajorScale = keyScale(
   "I II III IV V VI VII",
   "maj7 m7 m7 maj7 7 m7 m7b5",
-  "T SD T SD D T D"
+  "T SD T SD D T D",
+  "major,dorian,phrygian,lydian,mixolydian,minor,locrian"
 );
 const NaturalScale = keyScale(
   "I II bIII IV V bVI bVII",
   "m7 m7b5 maj7 m7 m7 maj7 7",
-  "T SD T SD D SD SD"
+  "T SD T SD D SD SD",
+  "minor,locrian,major,dorian,phrygian,lydian,mixolydian"
 );
 const HarmonicScale = keyScale(
   "I II bIII IV V bVI VII",
   "mmaj7 m7b5 +maj7 m7 7 maj7 mo7",
-  "T SD T SD D SD D"
+  "T SD T SD D SD D",
+  "harmonic minor,locrian 6,ionian #5,dorian #11,phrygian dominant,lydian #2,super locrian bb7"
 );
 const MelodicScale = keyScale(
   "I II bIII IV V VI VII",
   "m6 m7 +maj7 7 7 m7b5 m7b5",
-  "T SD T SD D - -"
+  "T SD T SD D - -",
+  "melodic minor,Dorian b2,Lydian augmented,Lydian dominant,Mixolydian b6,locrian 9,altered"
 );
 
 /**
@@ -95,24 +103,21 @@ const MelodicScale = keyScale(
 export function majorKey(tonic: string): MajorKey {
   const keyScale = MajorScale(tonic);
   const alteration = distInFifths("C", tonic);
+  const map = mapToScale(keyScale.scale);
+
   return {
     ...keyScale,
     type: "major",
     minorRelative: transpose(tonic, "-3m"),
     alteration,
     keySignature: altToAcc(alteration),
-    secondaryDominants: mapToScale(keyScale.scale, "- VI7 VII7 I7 II7 III7 -"),
-    secondaryDominantsMinorRelative: mapToScale(
-      keyScale.scale,
-      "- IIIm7b5 IV#m7 Vm7 VIm7 VIIm7b5 -"
+    secondaryDominants: map("- VI7 VII7 I7 II7 III7 -".split(" ")),
+    secondaryDominantsMinorRelative: map(
+      "- IIIm7b5 IV#m7 Vm7 VIm7 VIIm7b5 -".split(" ")
     ),
-    substituteDominants: mapToScale(
-      keyScale.scale,
-      "- bIII7 IV7 bV7 bVI7 bVII7 -"
-    ),
-    substituteDominantsMinorRelative: mapToScale(
-      keyScale.scale,
-      "- IIIm7 Im7 IIbm7 VIm7 IVm7 -"
+    substituteDominants: map("- bIII7 IV7 bV7 bVI7 bVII7 -".split(" ")),
+    substituteDominantsMinorRelative: map(
+      "- IIIm7 Im7 IIbm7 VIm7 IVm7 -".split(" ")
     )
   };
 }

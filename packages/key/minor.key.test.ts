@@ -1,6 +1,7 @@
 import { minorKey } from "./index";
 
 describe("@tonal/key", () => {
+  test("", () => expect(minorKey("C")).toEqual(null));
   test("keySignature", () => {
     const tonics = "C D E F G A B".split(" ");
     expect(tonics.map(tonic => minorKey(tonic).keySignature).join(" ")).toEqual(
@@ -13,6 +14,15 @@ describe("@tonal/key", () => {
       Object {
         "alteration": -3,
         "harmonic": Object {
+          "chordScales": Array [
+            "C harmonic minor",
+            "D locrian 6",
+            "Eb ionian #5",
+            "F dorian #11",
+            "G phrygian dominant",
+            "Ab lydian #2",
+            "B super locrian bb7",
+          ],
           "chords": Array [
             "Cmmaj7",
             "Dm7b5",
@@ -62,6 +72,15 @@ describe("@tonal/key", () => {
         },
         "keySignature": "bbb",
         "melodic": Object {
+          "chordScales": Array [
+            "C melodic minor",
+            "D Dorian b2",
+            "Eb Lydian augmented",
+            "F Lydian dominant",
+            "G Mixolydian b6",
+            "A locrian 9",
+            "B altered",
+          ],
           "chords": Array [
             "Cm6",
             "Dm7",
@@ -110,6 +129,15 @@ describe("@tonal/key", () => {
           "tonic": "C",
         },
         "natural": Object {
+          "chordScales": Array [
+            "C minor",
+            "D locrian",
+            "Eb major",
+            "F dorian",
+            "G phrygian",
+            "Ab lydian",
+            "Bb mixolydian",
+          ],
           "chords": Array [
             "Cm7",
             "Dm7b5",
