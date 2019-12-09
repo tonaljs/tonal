@@ -77,6 +77,7 @@ const SCALES: string[][] = [
   ],
   ["1P 2m 3m 4P 5d 6M 7m", "locrian 6", "locrian natural 6", "locrian sharp 6"],
   ["1P 2A 3M 4P 5P 5A 7M", "augmented heptatonic"],
+  ["1P 2M 3m 5d 5P 6M 7m", "romanian minor"],
   ["1P 2M 3m 4A 5P 6M 7m", "dorian #4"],
   ["1P 2M 3m 4A 5P 6M 7M", "lydian diminished"],
   ["1P 2m 3m 4P 5P 6m 7m", "phrygian"],
@@ -86,7 +87,6 @@ const SCALES: string[][] = [
   ["1P 2m 3m 4P 5P 6m 7M", "balinese"],
   ["1P 2m 3m 4P 5P 6M 7M", "neopolitan major", "dorian b2"],
   ["1P 2M 3m 4P 5P 6m 7m", "aeolian", "minor"],
-  ["1P 2M 3m 5d 5P 6M 7m", "romanian minor"],
   ["1P 2M 3M 4P 5P 6m 7M", "harmonic major"],
   ["1P 2m 3M 4P 5P 6m 7M", "double harmonic major", "gypsy"],
   ["1P 2M 3m 4P 5P 6M 7m", "dorian"],
@@ -99,7 +99,13 @@ const SCALES: string[][] = [
   ["1P 2m 3M 4P 5d 6m 7M", "persian"],
   ["1P 2M 3M 4P 5P 6M 7M", "major", "ionian"],
   ["1P 2m 3M 5d 6m 7m 7M", "enigmatic"],
-  ["1P 2M 3M 4P 5A 6M 7M", "ionian augmented"],
+  [
+    "1P 2M 3M 4P 5A 6M 7M",
+    "major augmented",
+    "major #5",
+    "ionian augmented",
+    "ionian #5"
+  ],
   ["1P 2A 3M 4A 5P 6M 7M", "lydian #9"],
 
   // 8-note scales

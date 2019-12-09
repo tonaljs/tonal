@@ -1,19 +1,6 @@
-import { majorKey, majorTonicFromKeySignature } from "./index";
+import { majorKey } from "./index";
 
 describe("@tonal/key", () => {
-  test("fromAlter", () => {
-    expect(majorTonicFromKeySignature("###")).toEqual("A");
-    expect(majorTonicFromKeySignature(3)).toEqual("A");
-    expect(majorTonicFromKeySignature("b")).toEqual("F");
-    expect(majorTonicFromKeySignature("bb")).toEqual("Bb");
-    expect(majorTonicFromKeySignature("other")).toEqual(null);
-  });
-  test("keySignature", () => {
-    const tonics = "C D E F G A B".split(" ");
-    expect(tonics.map(tonic => majorKey(tonic).keySignature).join(" ")).toEqual(
-      " ## #### b # ### #####"
-    );
-  });
   test("majorKey", () => {
     expect(majorKey("C")).toMatchInlineSnapshot(`
       Object {

@@ -3,7 +3,7 @@ import { add, clear, entries, keys, scaleType } from "./index";
 
 describe("scaleTypes dictionary", () => {
   test("list names", () => {
-    expect(entries()).toHaveLength(86);
+    expect(entries()).toHaveLength(88);
     // sorted
     expect(entries()[0].name).toEqual("major pentatonic");
   });
@@ -61,8 +61,8 @@ describe("scaleTypes dictionary", () => {
     expect(names).toEqual([
       "harmonic minor",
       "locrian 6",
-      "ionian augmented",
-      "romanian minor",
+      "major augmented",
+      "dorian #4",
       "phrygian dominant",
       "lydian #9",
       "ultralocrian"

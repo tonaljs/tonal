@@ -16,11 +16,11 @@ describe("@tonal/key", () => {
           "chordScales": Array [
             "C harmonic minor",
             "D locrian 6",
-            "Eb ionian #5",
-            "F dorian #11",
+            "Eb major augmented",
+            "F lydian diminished",
             "G phrygian dominant",
-            "Ab lydian #2",
-            "B super locrian bb7",
+            "Ab lydian #9",
+            "B ultralocrian",
           ],
           "chords": Array [
             "Cmmaj7",
@@ -73,11 +73,11 @@ describe("@tonal/key", () => {
         "melodic": Object {
           "chordScales": Array [
             "C melodic minor",
-            "D Dorian b2",
-            "Eb Lydian augmented",
-            "F Lydian dominant",
-            "G Mixolydian b6",
-            "A locrian 9",
+            "D dorian b2",
+            "Eb lydian augmented",
+            "F lydian dominant",
+            "G mixolydian b6",
+            "A locrian #2",
             "B altered",
           ],
           "chords": Array [

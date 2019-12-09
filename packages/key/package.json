@@ -12,6 +12,9 @@
     "@tonaljs/tonal": "^3.2.2",
     "@tonaljs/roman-numeral": "^3.2.3"
   },
+  "devDependencies": {
+    "@tonaljs/scale": "^3.2.5"
+  },
   "author": "danigb@gmail.com",
   "license": "MIT",
   "publishConfig": {
