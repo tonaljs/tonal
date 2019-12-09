@@ -42,6 +42,7 @@ The API documentation lives inside README.md file of each module:
 - [@tonaljs/chord-dictionary](/packages/chord-dictionary): A dictionary of chords
 - [@tonaljs/scale](/packages/scale): Scales and its relations
 - [@tonaljs/chord](/packages/chord): Chords and its relations
+- [@tonaljs/key](/packages/key): Major and minor keys scales and chords
 - [@tonaljs/roman-numeral](/packages/roman-numeral): Parse roman numeral symbols
 
 ## Contributing

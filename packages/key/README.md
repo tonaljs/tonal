@@ -4,12 +4,39 @@
 
 Get scale and chords of major and minor keys.
 
+## Install
+
+```bash
+npm i --save @tonaljs/key
+# or
+yarn add @tonaljs/key
+```
+
+## Usage
+
+With ES6 `import`:
+
+```js
+import { majorKey } from '@tonaljs/key';
+// or
+import * as Key from '@tonaljs/key';
+```
+
+With ES5 `require`:
+
+```js
+const { majorKey } = require('@tonaljs/key');
+// or
+const Key = require('@tonaljs/key');
+```
+
+
 ## API
 
 
 ### `majorKey(tonic: string) => MajorKey`
 
-Example:
+Major key properties for a given tonic. Example:
 
 ```js
 majorKey('C') // =>
@@ -33,7 +60,7 @@ majorKey('C') // =>
 
 ### `minorKey(tonic: string) => MinorKey`
 
-Example:
+Minor key properties for a given tonic. Example:
 
 ```js
 minorKey('C') // =>
