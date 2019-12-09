@@ -43,19 +43,44 @@ chordType("major"); // =>
 
 Return a list of all available chord types
 
-## FAQ
+#### `add(intervals: string[], names: string[], fullName?: string) => ChordType`
 
-#### How do I get all triad chord names?
+Add a chord type to dictionary:
+
+```js
+add(['1P', '3M', '5P'], ['M'], 'mayor');
+```
+
+
+## HOW TO
+
+#### Get all chord names
 
 ```js
 entries()
-  .filter(type => type.intervals.length === 3)
-  .map(n => name);
+  .map(chordType => chordType.name)
+  .filter(chordType => chordType)
 ```
 
-#### How do I know if a collection of notes is a known chord?
+#### How to get triad chord names?
 
-A poor's man version of chord detection (to be a more reliable chord detection, at least you have to check rotations of the notes)
+```js
+entries()
+  .filter(chordType => chordType.length === 3)
+  .map(chordType => chordType.name);
+```
+
+#### How to add a chord type to the dictionary?
+
+```js
+add(['1P', '3M', '5P'], ['M', 'may'], 'mayor')
+chordType('mayor') // => { name: 'mayor', quality: "Major", chroma: ... }
+chordType('may') // => { name: 'mayor', quality: "Major", chroma: ... }
+```
+
+#### How to know if a collection of notes is a known chord?
+
+A poor's man version of chord detection. Only detects chord in first inversion.
 
 ```js
 import { pcset } from "@tonaljs/pcset";

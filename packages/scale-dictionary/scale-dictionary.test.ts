@@ -1,4 +1,4 @@
-import { entries, scaleType } from "./index";
+import { add, clear, entries, keys, scaleType } from "./index";
 
 describe("scaleTypes dictionary", () => {
   test("list names", () => {
@@ -29,5 +29,21 @@ describe("scaleTypes dictionary", () => {
       intervals: [],
       normalized: "000000000000"
     });
+  });
+
+  test("add a chord type", () => {
+    add(["1P", "5P"], "quinta");
+    expect(scaleType("quinta")).toMatchObject({
+      chroma: "100000010000"
+    });
+    add(["1P", "5P"], "quinta", ["q", "Q"]);
+    expect(scaleType("q")).toEqual(scaleType("quinta"));
+    expect(scaleType("Q")).toEqual(scaleType("quinta"));
+  });
+
+  test("clear dictionary", () => {
+    clear();
+    expect(entries()).toEqual([]);
+    expect(keys()).toEqual([]);
   });
 });

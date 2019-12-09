@@ -36,12 +36,35 @@ scaleType("major"); // =>
 
 Return a list of all available scale types
 
-## FAQ
+#### `add(intervals: string[], name?: string, aliases?: string[]) => ScaleType`
 
-#### How do I get all pentatonics names?
+Add a scale type to dictionary:
+
+```js
+add(['1P', '5P'], null, ['5']);
+```
+
+## HOW TO
+
+#### How to get all names?
+
+```js
+entries().map(scaleType => scaleType.name)
+```
+
+#### How to get all pentatonics names?
 
 ```js
 entries()
-  .filter(type => type.intervals.length === 5)
-  .map(n => name);
+  .filter(scaleType => scaleType.length === 5)
+  .map(scaleType =>scaleType.name);
+```
+
+#### How do to add a scale to the dictionary?
+
+```js
+import { scale, add } from '@tonaljs/scale'
+add(['1P', '5P'], 'quinta', ['quinta justa', 'diapente'])
+scale('quinta') // => { name: "quinta", intervals: ...}
+scale('quinta justa') // => { name: "quinta", intervals: ... }
 ```

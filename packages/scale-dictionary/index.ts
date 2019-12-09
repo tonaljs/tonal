@@ -27,20 +27,8 @@ export const NoScaleType: ScaleType = {
 
 type ScaleTypeName = string | PcsetChroma | PcsetNum;
 
-const scales: ScaleType[] = data.map(dataToScaleType);
-const index: Record<ScaleTypeName, ScaleType> = scales.reduce(
-  (index: Record<ScaleTypeName, ScaleType>, scale) => {
-    index[scale.name] = scale;
-    index[scale.setNum] = scale;
-    index[scale.chroma] = scale;
-    scale.aliases.forEach(alias => {
-      index[alias] = scale;
-    });
-    return index;
-  },
-  {}
-);
-const ks = Object.keys(index);
+let scales: ScaleType[] = [];
+let index: Record<ScaleTypeName, ScaleType> = {};
 
 /**
  * Given a scale name or chroma, return the scale properties
@@ -60,11 +48,45 @@ export function entries() {
   return scales.slice();
 }
 
+/**
+ * Keys used to reference scale types
+ */
 export function keys() {
-  return ks.slice();
+  return Object.keys(index);
 }
 
-function dataToScaleType([ivls, name, ...aliases]: string[]): ScaleType {
-  const intervals = ivls.split(" ");
-  return { ...pcset(intervals), name, intervals, aliases };
+/**
+ * Clear the dictionary
+ */
+export function clear() {
+  scales = [];
+  index = {};
 }
+
+/**
+ * Add a scale into dictionary
+ * @param intervals
+ * @param name
+ * @param aliases
+ */
+export function add(
+  intervals: string[],
+  name: string,
+  aliases: string[] = []
+): ScaleType {
+  const scale = { ...pcset(intervals), name, intervals, aliases };
+  scales.push(scale);
+  index[scale.name] = scale;
+  index[scale.setNum] = scale;
+  index[scale.chroma] = scale;
+  scale.aliases.forEach(alias => addAlias(scale, alias));
+  return scale;
+}
+
+export function addAlias(scale: ScaleType, alias: string) {
+  index[alias] = scale;
+}
+
+data.forEach(([ivls, name, ...aliases]: string[]) =>
+  add(ivls.split(" "), name, aliases)
+);
