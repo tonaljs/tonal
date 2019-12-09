@@ -1,9 +1,17 @@
 import { minorKey } from "./index";
 
 describe("@tonal/key", () => {
+  test("keySignature", () => {
+    const tonics = "C D E F G A B".split(" ");
+    expect(tonics.map(tonic => minorKey(tonic).keySignature).join(" ")).toEqual(
+      "bbb b # bbbb bb  ##"
+    );
+  });
+
   test("majorKey", () => {
     expect(minorKey("C")).toMatchInlineSnapshot(`
       Object {
+        "alteration": -3,
         "harmonic": Object {
           "chords": Array [
             "Cmmaj7",
@@ -52,6 +60,7 @@ describe("@tonal/key", () => {
           ],
           "tonic": "C",
         },
+        "keySignature": "bbb",
         "melodic": Object {
           "chords": Array [
             "Cm6",
@@ -148,6 +157,7 @@ describe("@tonal/key", () => {
           ],
           "tonic": "C",
         },
+        "relativeMajor": "Eb",
         "tonic": "C",
         "type": "minor",
       }

@@ -16,6 +16,8 @@ majorKey('C') // =>
 {
   tonic: "C",
   type: "major",
+  keySignature: "",
+  relativeMinor: "A",
   grades: ["I", "II", "III", "IV", "V", "VI", "VII"],
   intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
   scale: ["C", "D", "E", "F", "G", "A", "B"],
@@ -37,6 +39,8 @@ minorKey('C') // =>
 {
   tonic: "C",
   type: "minor",
+  keySignature: "bbb",
+  relativeMajor: "Eb",
   harmonic: {
     tonic: "C",
     grades: ["I", "II", "bIII", "IV", "V", "bVI", "VII"],
@@ -64,5 +68,19 @@ minorKey('C') // =>
 }
 ```
 
+### `majorTonicFromKeySignature(keySignature: string)`
+
+Example:
+
+```js
+majorTonicFromKeySignature('bbb') // => Eb
+```
+
 
 ## HOW TO
+
+#### How to get minor tonic from key signature
+
+```js
+majorKey(majorTonicFromKeySignature('###')).minorRelative // => 'F#'
+```

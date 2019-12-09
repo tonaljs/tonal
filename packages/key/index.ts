@@ -1,9 +1,12 @@
 import { romanNumeral } from "@tonaljs/roman-numeral";
-import { transpose } from "@tonaljs/tonal";
+import { accToAlt, altToAcc, note, transpose } from "@tonaljs/tonal";
+import { transposeFifths } from "../note";
 
 export interface Key {
   type: "major" | "minor";
   tonic: string;
+  alteration: number;
+  keySignature: string;
 }
 
 interface KeyScale {
@@ -17,6 +20,7 @@ interface KeyScale {
 
 export interface MajorKey extends Key, KeyScale {
   type: "major";
+  minorRelative: string;
   scale: string[];
   secondaryDominants: string[];
   secondaryDominantsMinorRelative: string[];
@@ -25,6 +29,7 @@ export interface MajorKey extends Key, KeyScale {
 }
 export interface MinorKey extends Key {
   type: "minor";
+  relativeMajor: string;
   natural: KeyScale;
   harmonic: KeyScale;
   melodic: KeyScale;
@@ -56,6 +61,12 @@ function keyScale(
   };
 }
 
+const distInFifths = (from: string, to: string) => {
+  const f = note(from);
+  const t = note(to);
+  return f.empty || t.empty ? 0 : t.coord[0] - f.coord[0];
+};
+
 const MajorScale = keyScale(
   "I II III IV V VI VII",
   "maj7 m7 m7 maj7 7 m7 m7b5",
@@ -77,11 +88,19 @@ const MelodicScale = keyScale(
   "T SD T SD D - -"
 );
 
+/**
+ * Get a major key properties in a given tonic
+ * @param tonic
+ */
 export function majorKey(tonic: string): MajorKey {
   const keyScale = MajorScale(tonic);
+  const alteration = distInFifths("C", tonic);
   return {
     ...keyScale,
     type: "major",
+    minorRelative: transpose(tonic, "-3m"),
+    alteration,
+    keySignature: altToAcc(alteration),
     secondaryDominants: mapToScale(keyScale.scale, "- VI7 VII7 I7 II7 III7 -"),
     secondaryDominantsMinorRelative: mapToScale(
       keyScale.scale,
@@ -98,12 +117,37 @@ export function majorKey(tonic: string): MajorKey {
   };
 }
 
+/**
+ * Get minor key properties in a given tonic
+ * @param tonic
+ */
 export function minorKey(tonic: string): MinorKey {
+  const alteration = distInFifths("C", tonic) - 3;
   return {
     type: "minor",
     tonic,
+    relativeMajor: transpose(tonic, "3m"),
+    alteration,
+    keySignature: altToAcc(alteration),
     natural: NaturalScale(tonic),
     harmonic: HarmonicScale(tonic),
     melodic: MelodicScale(tonic)
   };
+}
+
+/**
+ * Given a key signature, returns the tonic of the major key
+ * @param sigature
+ * @example
+ * majorTonicFromKeySignature('###') // => 'A'
+ */
+export function majorTonicFromKeySignature(
+  sig: string | number
+): string | null {
+  if (typeof sig === "number") {
+    return transposeFifths("C", sig);
+  } else if (typeof sig === "string" && /^b+|#+$/.test(sig)) {
+    return transposeFifths("C", accToAlt(sig));
+  }
+  return null;
 }
