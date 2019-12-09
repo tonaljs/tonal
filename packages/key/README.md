@@ -4,4 +4,4 @@
 
 ## API
 
-## How to?
+## HOW TO

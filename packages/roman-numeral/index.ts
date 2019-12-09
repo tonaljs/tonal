@@ -1,6 +1,7 @@
 import {
   accToAlt,
   altToAcc,
+  interval,
   isNamed,
   isPitch,
   Named,
@@ -10,6 +11,7 @@ import {
 export interface RomanNumeral extends Pitch, Named {
   readonly empty: boolean;
   readonly roman: string;
+  readonly interval: string;
   readonly acc: string;
   readonly chordType: string;
   readonly major: boolean;
@@ -37,7 +39,7 @@ const cache: Record<string, RomanNumeral | NoRomanNumeral> = {};
  * @param {boolean} major - major or not
  *
  * @example
- * props("VIIb5") // => { name: "VII", type: "b5", num: 7, major: true }
+ * romanNumeral("VIIb5") // => { name: "VII", type: "b5", num: 7, major: true }
  */
 export function romanNumeral(src: any): RomanNumeral | NoRomanNumeral {
   return typeof src === "string"
@@ -87,20 +89,21 @@ function parse(src: string): RomanNumeral | NoRomanNumeral {
     return NoRomanNumeral;
   }
 
-  const alt = accToAlt(acc);
   const upperRoman = roman.toUpperCase();
-  const major = roman === upperRoman;
   const step = NAMES.indexOf(upperRoman);
+  const alt = accToAlt(acc);
+  const dir = 1;
   return {
     empty: false,
     name,
     roman,
+    interval: interval({ step, alt, dir }).name,
     acc,
     chordType,
     alt,
     step,
-    major,
+    major: roman === upperRoman,
     oct: 0,
-    dir: 1
+    dir
   };
 }

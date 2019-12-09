@@ -9,7 +9,8 @@
   "types": "dist/key/index.d.ts",
   "dependencies": {
     "@tonaljs/pcset": "^3.2.3",
-    "@tonaljs/tonal": "^3.2.2"
+    "@tonaljs/tonal": "^3.2.2",
+    "@tonaljs/roman-numeral": "^3.2.2"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
