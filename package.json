@@ -1,9 +1,7 @@
 {
   "name": "tonal",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "scripts": {
     "lint": "tslint --fix --project tsconfig.json -t codeFrame 'packages/**/*.ts'",
     "lerna": "lerna bootstrap",
@@ -20,11 +18,7 @@
     }
   },
   "lint-staged": {
-    "packages/**/*.ts": [
-      "prettier --write",
-      "tslint",
-      "git add"
-    ]
+    "packages/**/*.ts": ["prettier --write", "tslint", "git add"]
   },
   "jest": {
     "transform": {
@@ -32,15 +26,8 @@
     },
     "testEnvironment": "node",
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "coveragePathIgnorePatterns": ["/node_modules/", "/test/"],
     "coverageThreshold": {
       "global": {
         "branches": 90,
@@ -49,26 +36,24 @@
         "statements": 95
       }
     },
-    "collectCoverageFrom": [
-      "**/*.ts"
-    ]
+    "collectCoverageFrom": ["**/*.ts"]
   },
   "devDependencies": {
-    "@types/jest": "^24.0.15",
-    "@types/node": "^12.6.8",
-    "husky": "^3.0.1",
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.14",
+    "husky": "^3.1.0",
     "jest": "^24.8.0",
     "jest-config": "^24.8.0",
-    "lerna": "^3.16.0",
-    "lint-staged": "^9.2.0",
+    "lerna": "^3.19.0",
+    "lint-staged": "^9.5.0",
     "lodash": "^4.17.15",
-    "prettier": "^1.18.2",
+    "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
-    "rollup": "^1.17.0",
-    "rollup-plugin-typescript2": "^0.24.0",
-    "ts-jest": "^24.0.2",
-    "tslint": "^5.18.0",
+    "rollup": "^1.27.9",
+    "rollup-plugin-typescript2": "^0.25.3",
+    "ts-jest": "^24.2.0",
+    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.7.3"
   }
 }
