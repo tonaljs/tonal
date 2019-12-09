@@ -1,11 +1,17 @@
 {
   "name": "@tonaljs/modules",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "@tonaljs music theory full library",
-  "keywords": ["music", "theory", "music-theory"],
+  "keywords": [
+    "music",
+    "theory",
+    "music-theory"
+  ],
   "main": "dist/index.es5.js",
   "module": "dist/index.esnext.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "types": "dist/key/index.d.ts",
   "scripts": {
     "build": "rollup -c rollup.browser.config.js"
@@ -16,7 +22,7 @@
     "@tonaljs/chord": "^3.3.0",
     "@tonaljs/chord-dictionary": "^3.3.0",
     "@tonaljs/interval": "^3.2.3",
-    "@tonaljs/key": "^3.2.4",
+    "@tonaljs/key": "^3.4.0",
     "@tonaljs/midi": "^3.2.3",
     "@tonaljs/mode": "^3.2.3",
     "@tonaljs/note": "^3.2.4",
