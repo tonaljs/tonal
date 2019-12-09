@@ -1,4 +1,4 @@
-import { interval, Pitch } from "@tonaljs/tonal";
+import { interval } from "@tonaljs/tonal";
 import { names, romanNumeral, RomanNumeral } from "./index";
 
 const $ = (str: string) => str.split(" ");
@@ -15,6 +15,7 @@ describe("tonal-roman-numeral", () => {
         empty: false,
         name: "#VIIb5",
         roman: "VII",
+        interval: "7A",
         acc: "#",
         chordType: "b5",
         major: true,

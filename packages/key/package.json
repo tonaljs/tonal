@@ -1,0 +1,23 @@
+{
+  "name": "@tonaljs/key",
+  "version": "3.2.3",
+  "description": "Functions to work with musical keys",
+  "keywords": ["key", "music", "theory", "@tonaljs/tonal"],
+  "main": "dist/index.es5.js",
+  "module": "dist/index.esnext.js",
+  "files": ["dist"],
+  "types": "dist/key/index.d.ts",
+  "dependencies": {
+    "@tonaljs/note": "^3.2.4",
+    "@tonaljs/tonal": "^3.2.2",
+    "@tonaljs/roman-numeral": "^3.2.3"
+  },
+  "devDependencies": {
+    "@tonaljs/scale": "^3.2.5"
+  },
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,8 +1,9 @@
+import { modes } from "../pcset";
 import { add, clear, entries, keys, scaleType } from "./index";
 
 describe("scaleTypes dictionary", () => {
   test("list names", () => {
-    expect(entries()).toHaveLength(86);
+    expect(entries()).toHaveLength(88);
     // sorted
     expect(entries()[0].name).toEqual("major pentatonic");
   });
@@ -39,6 +40,46 @@ describe("scaleTypes dictionary", () => {
     add(["1P", "5P"], "quinta", ["q", "Q"]);
     expect(scaleType("q")).toEqual(scaleType("quinta"));
     expect(scaleType("Q")).toEqual(scaleType("quinta"));
+  });
+
+  test("major modes", () => {
+    const chromas = modes(scaleType("major").intervals, true);
+    const names = chromas.map(chroma => scaleType(chroma).name);
+    expect(names).toEqual([
+      "major",
+      "dorian",
+      "phrygian",
+      "lydian",
+      "mixolydian",
+      "aeolian",
+      "locrian"
+    ]);
+  });
+  test("harmonic minor modes", () => {
+    const chromas = modes(scaleType("harmonic minor").intervals, true);
+    const names = chromas.map(chroma => scaleType(chroma).name);
+    expect(names).toEqual([
+      "harmonic minor",
+      "locrian 6",
+      "major augmented",
+      "dorian #4",
+      "phrygian dominant",
+      "lydian #9",
+      "ultralocrian"
+    ]);
+  });
+  test("melodic minor modes", () => {
+    const chromas = modes(scaleType("melodic minor").intervals, true);
+    const names = chromas.map(chroma => scaleType(chroma).name);
+    expect(names).toEqual([
+      "melodic minor",
+      "dorian b2",
+      "lydian augmented",
+      "lydian dominant",
+      "mixolydian b6",
+      "locrian #2",
+      "altered"
+    ]);
   });
 
   test("clear dictionary", () => {

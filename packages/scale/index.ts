@@ -1,3 +1,8 @@
+/**
+ * References:
+ * - https://www.researchgate.net/publication/327567188_An_Algorithm_for_Spelling_the_Pitches_of_Any_Musical_Scale
+ * @module scale
+ */
 import { rotate, sortedUniqNoteNames } from "@tonaljs/array";
 import { entries as chordTypes } from "@tonaljs/chord-dictionary";
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
