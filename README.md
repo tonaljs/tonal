@@ -2,7 +2,7 @@
 
 
 [![npm version](https://img.shields.io/npm/v/@tonaljs/modules.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/modules)
-![build status](https://img.shields.io/travis/tonaljs/tonal?style=flat-square)
+[![build status](https://img.shields.io/travis/tonaljs/tonal?style=flat-square)](http://travis-ci.org/tonaljs/tonal/)
 ![minified size](https://img.shields.io/badge/minified-23.6kb-blue?style=flat-square)
 ![gzipped size](https://img.shields.io/badge/gzipped-8.08kb-blue?style=flat-square)
 
