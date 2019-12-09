@@ -1,32 +1,91 @@
 # tonal
 
-[![Build Status](https://travis-ci.org/tonaljs/tonal.svg?branch=master)](https://travis-ci.org/tonaljs/tonal)
+
+[![npm version](https://img.shields.io/npm/v/@tonaljs/modules.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/modules)
+![build status](https://img.shields.io/travis/tonaljs/tonal?style=flat-square)
+![minified size](https://img.shields.io/badge/minified-23.6kb-blue?style=flat-square)
+![gzipped size](https://img.shields.io/badge/gzipped-8.08kb-blue?style=flat-square)
+
 
 `tonal` is a music theory library. Contains functions to manipulate tonal elements of music (note, intervals, chords, scales, modes, keys). It deals with abstractions (not actual music or sound).
 
-`tonal` is implemented in Typescript and published as a collection of npm modules. It uses a functional programing style: all functions are pure, there is no data mutation, and entities are represented by data structures instead of objects.
+`tonal` is implemented in Typescript and published as a collection of Javascript npm packages.
 
-## ⚠️ New v3 in Typescript 🎉
+It uses a functional programing style: all functions are pure, there is no data mutation, and entities are represented by data structures instead of objects.
 
-New version of `tonal` is written in Typescript.
+## Install
 
-Unfortunately, there's a lot of breaking changes. See [migrate from v2](docs/migrate-from-v2.md) to learn about that changes.
+Install all modules:
 
-#### 🏘 We moved: modules v3 and forward are published in npm namespace. For example: `@tonaljs/midi`
+```bash
+npm install --save @tonaljs/modules
+```
+
+Or individually:
+
+```bash
+npm install --save @tonaljs/note @tonaljs/key
+```
+
+
+## Usage
+
+Tonal is compatible with both ES5 and ES6 modules, and browser.
+
+### ES6 `import`:
+
+```js
+import { Tonal, Scale } from '@tonaljs/modules';
+// or individually
+import * as Tonal from "@tonaljs/tonal";
+```
+
+### ES5 `require`:
+
+```js
+const { Tonal, Scale } = require('@tonaljs/modules');
+```
+
+### Browser
+
+Grab the [minified browser ready version](/packages/modules/browser/tonal.min.js) from the repository and include in the html file:
+
+```html
+<script src="tonal.min.js"></script>
+<script>
+console.log(Tonal.Key.minorKey("Ab"));
+</script>
+```
+
+### Bundle size
+
+`@tonaljs/modules` includes all published modules. Altough it is small (8kb gzipped), you can reduce bundle sizes by importing the modules individually, or even only the functions you need:
+
+```js
+import { transpose } from '@tonaljs/tonal'
+import { scale } from '@tonaljs/scale'
+```
+
 
 ## Example
 
 ```js
-import { note, interval, transpose, distance } from "@tonaljs/tonal";
+import { Tonal } from "@tonaljs/modules";
+// or individually:
+import * as Tonal from "@tonaljs/tonal";
 
-note("A4").midi; // => 60
-note("a4").freq; // => 440
-note("c#2").accidentals; // => '#'
-note("x").midi; // => undefined
-interval("5P").semitones; // => 7
-transpose("C4", "5P"); // => "G4"
-distance("C4", "G4"); // => "5P"
+Tonal.note("A4").midi; // => 60
+Tonal.note("a4").freq; // => 440
+Tonal.note("c#2").accidentals; // => '#'
+Tonal.note("x").midi; // => undefined
+Tonal.interval("5P").semitones; // => 7
+Tonal.transpose("C4", "5P"); // => "G4"
+Tonal.distance("C4", "G4"); // => "5P"
 ```
+
+
+
+
 
 ## Documentation
 
@@ -44,10 +103,11 @@ The API documentation lives inside README.md file of each module:
 - [@tonaljs/chord](/packages/chord): Chords and its relations
 - [@tonaljs/key](/packages/key): Major and minor keys scales and chords
 - [@tonaljs/roman-numeral](/packages/roman-numeral): Parse roman numeral symbols
+- [@tonaljs/modules](/packages/modules): All modules bundled in one package
 
 ## Contributing
 
-Read [contributing document](/docs/CONTRIBUTING.md) for (wip) instructions
+Read [contributing document](/docs/CONTRIBUTING.md) for instructions
 
 ## Inspiration
 

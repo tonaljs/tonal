@@ -1,0 +1,36 @@
+{
+  "name": "@tonaljs/modules",
+  "version": "3.3.0",
+  "description": "@tonaljs music theory full library",
+  "keywords": ["music", "theory", "music-theory"],
+  "main": "dist/index.es5.js",
+  "module": "dist/index.esnext.js",
+  "files": ["dist"],
+  "types": "dist/key/index.d.ts",
+  "scripts": {
+    "build": "rollup -c rollup.browser.config.js"
+  },
+  "dependencies": {
+    "@tonaljs/abc-notation": "^3.2.3",
+    "@tonaljs/array": "^3.2.3",
+    "@tonaljs/chord": "^3.3.0",
+    "@tonaljs/chord-dictionary": "^3.3.0",
+    "@tonaljs/interval": "^3.2.3",
+    "@tonaljs/key": "^3.2.4",
+    "@tonaljs/midi": "^3.2.3",
+    "@tonaljs/mode": "^3.2.3",
+    "@tonaljs/note": "^3.2.4",
+    "@tonaljs/pcset": "^3.2.3",
+    "@tonaljs/progression": "^3.2.3",
+    "@tonaljs/range": "^3.2.3",
+    "@tonaljs/roman-numeral": "^3.3.0",
+    "@tonaljs/scale": "^3.3.0",
+    "@tonaljs/scale-dictionary": "^3.4.0",
+    "@tonaljs/tonal": "^3.2.2"
+  },
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
