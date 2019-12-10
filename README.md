@@ -32,7 +32,7 @@ npm install --save @tonaljs/note @tonaljs/key
 
 Tonal is compatible with both ES5 and ES6 modules, and browser.
 
-### ES6 `import`:
+#### ES6 `import`:
 
 ```js
 import { Tonal, Scale } from '@tonaljs/modules';
@@ -40,15 +40,15 @@ import { Tonal, Scale } from '@tonaljs/modules';
 import * as Tonal from "@tonaljs/tonal";
 ```
 
-### ES5 `require`:
+#### ES5 `require`:
 
 ```js
 const { Tonal, Scale } = require('@tonaljs/modules');
 ```
 
-### Browser
+#### Browser
 
-Grab the [minified browser ready version](/packages/modules/browser/tonal.min.js) from the repository and include in the html file:
+Grab the [minified browser ready version](https://raw.githubusercontent.com/tonaljs/tonal/master/packages/modules/browser/tonal.min.js) from the repository and include in the html file:
 
 ```html
 <script src="tonal.min.js"></script>
@@ -57,7 +57,7 @@ console.log(Tonal.Key.minorKey("Ab"));
 </script>
 ```
 
-### Bundle size
+#### Bundle size
 
 `@tonaljs/modules` includes all published modules. Altough it is small (8kb gzipped), you can reduce bundle sizes by importing the modules individually, or even only the functions you need:
 
@@ -91,6 +91,7 @@ Tonal.distance("C4", "G4"); // => "5P"
 
 The API documentation lives inside README.md file of each module:
 
+
 - [@tonaljs/tonal](/packages/tonal): Parse notes and intervals, calculate distances and transpositions
 - [@tonaljs/midi](/packages/midi): Midi number conversions
 - [@tonaljs/note](/packages/note): Note operations (simplify, transposeBy )
@@ -102,7 +103,11 @@ The API documentation lives inside README.md file of each module:
 - [@tonaljs/scale](/packages/scale): Scales and its relations
 - [@tonaljs/chord](/packages/chord): Chords and its relations
 - [@tonaljs/key](/packages/key): Major and minor keys scales and chords
+- [@tonaljs/progression](/packages/progression): Chord progressions
 - [@tonaljs/roman-numeral](/packages/roman-numeral): Parse roman numeral symbols
+- [@tonaljs/abc-notation](/packages/abc-notation): Parse ABC notation notes
+- [@tonaljs/array](/packages/array): Array manipulation
+- [@tonaljs/range](/packages/range): Create note ranges
 - [@tonaljs/modules](/packages/modules): All modules bundled in one package
 
 ## Contributing
