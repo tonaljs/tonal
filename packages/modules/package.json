@@ -2,17 +2,11 @@
   "name": "@tonaljs/modules",
   "version": "3.4.0",
   "description": "@tonaljs music theory full library",
-  "keywords": [
-    "music",
-    "theory",
-    "music-theory"
-  ],
+  "keywords": ["music", "theory", "music-theory"],
   "main": "dist/index.es5.js",
   "module": "dist/index.esnext.js",
-  "files": [
-    "dist"
-  ],
-  "types": "dist/key/index.d.ts",
+  "files": ["dist"],
+  "types": "dist/modules/index.d.ts",
   "scripts": {
     "build": "rollup -c rollup.browser.config.js"
   },
