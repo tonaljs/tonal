@@ -16,7 +16,7 @@ import { note, NoteName, transpose } from "@tonaljs/tonal";
 type ScaleName = string;
 type ScaleNameTokens = [string, string]; // [TONIC, SCALE TYPE]
 
-interface Scale extends ScaleType {
+export interface Scale extends ScaleType {
   tonic: string | null;
   type: string;
   notes: NoteName[];
