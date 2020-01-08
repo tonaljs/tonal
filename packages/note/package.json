@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/note",
-  "version": "3.2.4",
+  "version": "3.2.5",
   "description": "Parse and manipulate music notes in scientific notation",
   "keywords": [
     "note",
