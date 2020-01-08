@@ -4,13 +4,13 @@
 
 ## API
 
-### `tokenize(noteName: string) => [string, string, string]`
+### `tokenize(noteName: string) => [string, string, string, string]`
 
 Given a note name, returns its parts: [letter, accidentals, octave, rest]:
 
 ```js
 tokenize("c##4"); // => ["C", "##", "4", ""]
-tokenize("c##4 mixolidian"); // => ["C", "##", "4", " mixolidian"]
+tokenize("c##4 mixolidian"); // => ["C", "##", "4", " mixolydian"]
 tokenize("not a note"); // => ["", "", "", ""]
 ```
 
