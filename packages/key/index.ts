@@ -85,13 +85,13 @@ const NaturalScale = keyScale(
 );
 const HarmonicScale = keyScale(
   "I II bIII IV V bVI VII",
-  "mmaj7 m7b5 +maj7 m7 7 maj7 mo7",
+  "mM7 m7b5 +7 m7 7 maj7 o7",
   "T SD T SD D SD D",
   "harmonic minor,locrian 6,major augmented,lydian diminished,phrygian dominant,lydian #9,ultralocrian"
 );
 const MelodicScale = keyScale(
   "I II bIII IV V VI VII",
-  "m6 m7 +maj7 7 7 m7b5 m7b5",
+  "m6 m7 +7 7 7 m7b5 m7b5",
   "T SD T SD D - -",
   "melodic minor,dorian b2,lydian augmented,lydian dominant,mixolydian b6,locrian #2,altered"
 );
