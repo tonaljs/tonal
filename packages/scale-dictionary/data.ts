@@ -85,7 +85,7 @@ const SCALES: string[][] = [
   ["1P 2M 3M 4A 5P 6m 7m", "lydian minor"],
   ["1P 2m 3M 4P 5P 6m 7m", "phrygian dominant", "spanish", "phrygian major"],
   ["1P 2m 3m 4P 5P 6m 7M", "balinese"],
-  ["1P 2m 3m 4P 5P 6M 7M", "neopolitan major", "dorian b2"],
+  ["1P 2m 3m 4P 5P 6M 7M", "neopolitan major"],
   ["1P 2M 3m 4P 5P 6m 7m", "aeolian", "minor"],
   ["1P 2M 3M 4P 5P 6m 7M", "harmonic major"],
   ["1P 2m 3M 4P 5P 6m 7M", "double harmonic major", "gypsy"],
