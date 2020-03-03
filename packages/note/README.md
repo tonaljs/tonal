@@ -45,7 +45,7 @@ Given an interval, returns a function that transposes a note by that interval:
 
 ### `transposeFrom(note: string) => (interval: string) => string`
 
-Given an interval, returns a function that transposes a note by that interval:
+Given a note, returns a function that transposes that note by given interval:
 
 ```js
 ["1P", "3M", "5P"].map(transposeFrom("C"));
