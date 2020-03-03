@@ -13,7 +13,7 @@ Get the properties of a roman numeral:
 Example:
 
 ```js
-romanNumeral("bVII7");
+romanNumeral("bVIIMaj7");
 // =>
 // {
 //   empty: false,
@@ -43,4 +43,4 @@ romanNumeral(interval("3m")).name; // => "bIII"
 
 ## Want more?
 
-Take a look to [@tonal/chord-progressions]() or [@tonal/key]()
+Take a look to [@tonal/progression](https://github.com/tonaljs/tonal/tree/master/packages/progression) or [@tonal/key](https://github.com/tonaljs/tonal/tree/master/packages/key)
