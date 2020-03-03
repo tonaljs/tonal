@@ -47,6 +47,24 @@ describe("tonal-chord", () => {
     expect(chord("C")).toEqual(chord("C major"));
   });
 
+  test("chord without tonic", () => {
+    expect(chord("dim")).toEqual({
+      aliases: ["dim", "°", "o"],
+      chroma: "100100100000",
+      empty: false,
+      intervals: ["1P", "3m", "5d"],
+      name: "diminished",
+      normalized: "100000100100",
+      notes: [],
+      quality: "Diminished",
+      setNum: 2336,
+      tonic: "",
+      type: "diminished"
+    });
+    expect(chord("dim7")).toMatchObject({ name: "diminished seventh" });
+    expect(chord("alt7")).toEqual({ name: "altered" });
+  });
+
   test("notes", () => {
     expect(chord("Cmaj7").notes).toEqual(["C", "E", "G", "B"]);
     expect(chord("Eb7add6").notes).toEqual(["Eb", "G", "Bb", "Db", "C"]);

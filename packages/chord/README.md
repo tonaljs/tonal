@@ -1,5 +1,19 @@
 # @tonaljs/chord ![tonal](https://img.shields.io/badge/@tonaljs-chord_dictionary-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/chord.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/chord)
 
+## Usage
+
+ES6 modules:
+
+```js
+import { chord } from "@tonaljs/chord";
+```
+
+Nodejs modules:
+
+```js
+const { chord } = require("@tonaljs/chord");
+```
+
 ## API
 
 ### `chord(name: string) => Scale`
@@ -35,7 +49,7 @@ transpose("Eb7b9", "5P"); // => "Bb7b9"
 
 ### `chordScales(chordName: string) => string[]`
 
-Get all scales wheree the given chord fits
+Get all scales where the given chord fits
 
 ```js
 chordScales("C7b9");

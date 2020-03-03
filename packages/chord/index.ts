@@ -83,8 +83,13 @@ export function chord(src: ChordName | ChordNameTokens): Chord {
   const tonic = note(tokens[0]).name;
   const st = chordType(tokens[1]);
 
-  if (st.empty || src === "") {
-    return NoChord;
+  if (st.empty && tonic && typeof src === "string") {
+    if (tonic && typeof src === "string") {
+      // try without tonic
+      return chord(["", src]);
+    } else {
+      return NoChord;
+    }
   }
 
   const type = st.name;
