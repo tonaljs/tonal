@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/roman-numeral",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "Parse and properties of roman numeral strings",
   "keywords": [
     "roman-numeral",
