@@ -62,7 +62,7 @@ describe("tonal-chord", () => {
       type: "diminished"
     });
     expect(chord("dim7")).toMatchObject({ name: "diminished seventh" });
-    expect(chord("alt7")).toEqual({ name: "altered" });
+    expect(chord("alt7")).toMatchObject({ name: "altered" });
   });
 
   test("notes", () => {

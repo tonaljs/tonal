@@ -79,27 +79,34 @@ export function tokenize(name: string): ChordNameTokens {
  * Get a Chord from a chord name.
  */
 export function chord(src: ChordName | ChordNameTokens): Chord {
-  const tokens = Array.isArray(src) ? src : tokenize(src);
-  const tonic = note(tokens[0]).name;
-  const st = chordType(tokens[1]);
+  const { type, tonic } = findChord(src);
 
-  if (st.empty && tonic && typeof src === "string") {
-    if (tonic && typeof src === "string") {
-      // try without tonic
-      return chord(["", src]);
-    } else {
-      return NoChord;
-    }
+  if (!type || type.empty) {
+    return NoChord;
   }
 
-  const type = st.name;
   const notes: string[] = tonic
-    ? st.intervals.map(i => transposeNote(tonic, i))
+    ? type.intervals.map(i => transposeNote(tonic, i))
     : [];
+  const name = tonic ? tonic + " " + type.name : type.name;
+  return { ...type, name, type: type.name, tonic: tonic || "", notes };
+}
 
-  const name = tonic ? tonic + " " + type : type;
+function findChord(src: string | ChordNameTokens) {
+  if (!src || !src.length) {
+    return {};
+  }
+  const tokens = Array.isArray(src) ? src : tokenize(src);
+  const tonic = note(tokens[0]).name;
+  const type = chordType(tokens[1]);
 
-  return { ...st, name, type, tonic, notes };
+  if (!type.empty) {
+    return { tonic, type };
+  } else if (tonic && typeof src === "string") {
+    return { tonic: "", type: chordType(src) };
+  } else {
+    return {};
+  }
 }
 
 /**

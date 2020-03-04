@@ -45,7 +45,7 @@ describe("@tonal/key", () => {
       const chordScales = minorKey("C").melodic.chordScales;
       expect(chordScales.map(scale).map(scale => scale.name)).toEqual([
         "C melodic minor",
-        "D neopolitan major",
+        "D dorian b2",
         "Eb lydian augmented",
         "F lydian dominant",
         "G mixolydian b6",
