@@ -106,7 +106,6 @@ const CHORDS: string[][] = [
   ["1P 3m 5P 9M", "", "madd9"],
   ["1P 3m 5d 6M 7M", "", "o7M7"],
   ["1P 3m 5d 7M", "", "oM7"],
-  ["1P 3m 5d 7m", "", "m7b5 half-diminished h7 _7b5"],
   ["1P 3m 6m 7M", "", "mb6M7"],
   ["1P 3m 6m 7m", "", "m7#5"],
   ["1P 3m 6m 7m 9M", "", "m9#5"],

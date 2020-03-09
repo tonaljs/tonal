@@ -4,7 +4,7 @@ const $ = (str: string) => str.split(" ");
 
 describe("@tonaljs/chord-dictionary", () => {
   test("list names", () => {
-    expect(entries()).toHaveLength(109);
+    expect(entries()).toHaveLength(108);
     // sorted
     expect(entries()[0].name).toEqual("fifth");
   });
