@@ -36,11 +36,23 @@ let index: Record<ChordTypeName, ChordType> = {};
  * Given a chord name or chroma, return the chord properties
  * @param {string} source - chord name or pitch class set chroma
  * @example
- * import { chord } from 'tonaljs/chord-dictionary'
- * chord('major')
+ * import { get } from 'tonaljs/chord-dictionary'
+ * get('major') // => { name: 'major', ... }
+ */
+export function get(type: ChordTypeName): ChordType {
+  return index[type] || NoChordType;
+}
+
+/**
+ * @deprecated
+ * @see get
  */
 export function chordType(type: ChordTypeName): ChordType {
-  return index[type] || NoChordType;
+  // tslint:disable-next-line
+  console.warn(
+    "ChordDictionary.chordType is deprecated. Use ChordDictionary.get instead"
+  );
+  return get(type);
 }
 
 /**

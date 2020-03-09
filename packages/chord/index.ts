@@ -1,7 +1,7 @@
 import {
-  chordType,
   ChordType,
-  entries as chordTypes
+  entries as chordTypes,
+  get as getChordType
 } from "@tonaljs/chord-dictionary";
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
 import { entries as scaleTypes } from "@tonaljs/scale-dictionary";
@@ -98,12 +98,12 @@ function findChord(src: string | ChordNameTokens) {
   }
   const tokens = Array.isArray(src) ? src : tokenize(src);
   const tonic = note(tokens[0]).name;
-  const type = chordType(tokens[1]);
+  const type = getChordType(tokens[1]);
 
   if (!type.empty) {
     return { tonic, type };
   } else if (tonic && typeof src === "string") {
-    return { tonic: "", type: chordType(src) };
+    return { tonic: "", type: getChordType(src) };
   } else {
     return {};
   }

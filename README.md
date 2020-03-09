@@ -1,11 +1,9 @@
 # tonal
 
-
 [![npm version](https://img.shields.io/npm/v/@tonaljs/modules.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/modules)
 [![build status](https://img.shields.io/travis/tonaljs/tonal?style=flat-square)](http://travis-ci.org/tonaljs/tonal/)
 ![minified size](https://img.shields.io/badge/minified-23.6kb-blue?style=flat-square)
 ![gzipped size](https://img.shields.io/badge/gzipped-8.08kb-blue?style=flat-square)
-
 
 `tonal` is a music theory library. Contains functions to manipulate tonal elements of music (note, intervals, chords, scales, modes, keys). It deals with abstractions (not actual music or sound).
 
@@ -27,7 +25,6 @@ Or individually:
 npm install --save @tonaljs/note @tonaljs/key
 ```
 
-
 ## Usage
 
 Tonal is compatible with both ES5 and ES6 modules, and browser.
@@ -35,7 +32,7 @@ Tonal is compatible with both ES5 and ES6 modules, and browser.
 #### ES6 `import`:
 
 ```js
-import { Tonal, Scale } from '@tonaljs/modules';
+import { Tonal, Scale } from "@tonaljs/modules";
 // or individually
 import * as Tonal from "@tonaljs/tonal";
 ```
@@ -43,7 +40,7 @@ import * as Tonal from "@tonaljs/tonal";
 #### ES5 `require`:
 
 ```js
-const { Tonal, Scale } = require('@tonaljs/modules');
+const { Tonal, Scale } = require("@tonaljs/modules");
 ```
 
 #### Browser
@@ -53,7 +50,7 @@ Grab the [minified browser ready version](https://raw.githubusercontent.com/tona
 ```html
 <script src="tonal.min.js"></script>
 <script>
-console.log(Tonal.Key.minorKey("Ab"));
+  console.log(Tonal.Key.minorKey("Ab"));
 </script>
 ```
 
@@ -62,10 +59,9 @@ console.log(Tonal.Key.minorKey("Ab"));
 `@tonaljs/modules` includes all published modules. Altough it is small (8kb gzipped), you can reduce bundle sizes by importing the modules individually, or even only the functions you need:
 
 ```js
-import { transpose } from '@tonaljs/tonal'
-import { scale } from '@tonaljs/scale'
+import { transpose } from "@tonaljs/tonal";
+import { scale } from "@tonaljs/scale";
 ```
-
 
 ## Example
 
@@ -83,14 +79,9 @@ Tonal.transpose("C4", "5P"); // => "G4"
 Tonal.distance("C4", "G4"); // => "5P"
 ```
 
-
-
-
-
 ## Documentation
 
 The API documentation lives inside README.md file of each module:
-
 
 - [@tonaljs/tonal](/packages/tonal): Parse notes and intervals, calculate distances and transpositions
 - [@tonaljs/midi](/packages/midi): Midi number conversions

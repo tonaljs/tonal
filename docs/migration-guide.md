@@ -1,4 +1,16 @@
-# Migrate from tonal version 2 to 3
+# Migration guide
+
+## From version 3 to 4
+
+### `chord-dictionary`
+
+- `ChordDictionary.chordType` renamed to `ChordDictionary.get`
+
+### `scale-dictionary`
+
+- `ScaleDictionary.scaleType` renamed to `ScaleDictionary.get`
+
+## From version 2 to 3
 
 Tonal version 3 is a complete rewrite of the library in Typescript.
 
@@ -10,7 +22,7 @@ The new features are:
 
 Unfortunately there are a lot of breaking changes:
 
-## tonal is published under `@tonaljs` namespace
+### tonal is published under `@tonaljs` namespace
 
 To avoid mistakes (and have a better npm home) from v3 the npm packages are namespaced.
 
@@ -79,7 +91,7 @@ The module architecture is easier to grasp:
 
 TODO: diagram of tonal modules
 
-## Simplified API
+### Simplified API
 
 Lot of changes, but as a positive side effect, the library API surface is smaller so code and documentation are easier to write and maintain.
 

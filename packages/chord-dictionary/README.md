@@ -5,14 +5,14 @@
 ## Usage
 
 ```js
-import { chordType } from "@tonaljs/chord-dictionary";
+import { get } from "@tonaljs/chord-dictionary";
 // or
-const { chordType } = require("@tonaljs/chord-dictionary");
+const { get } = require("@tonaljs/chord-dictionary");
 ```
 
 ## API
 
-#### `chordType(type: string) => ChordType`
+#### `get(type: string) => ChordType`
 
 Given a chord type name, return a ChordType object with the following properties:
 
@@ -27,7 +27,7 @@ Given a chord type name, return a ChordType object with the following properties
 Example:
 
 ```js
-chordType("major"); // =>
+get("major"); // =>
 // {
 //   name: "major",
 //   aliases: ["M", ""],
@@ -48,9 +48,8 @@ Return a list of all available chord types
 Add a chord type to dictionary:
 
 ```js
-add(['1P', '3M', '5P'], ['M'], 'mayor');
+add(["1P", "3M", "5P"], ["M"], "mayor");
 ```
-
 
 ## HOW TO
 
@@ -58,24 +57,24 @@ add(['1P', '3M', '5P'], ['M'], 'mayor');
 
 ```js
 entries()
-  .map(chordType => chordType.name)
-  .filter(chordType => chordType)
+  .map(get => get.name)
+  .filter(get => get);
 ```
 
 #### How to get triad chord names?
 
 ```js
 entries()
-  .filter(chordType => chordType.length === 3)
-  .map(chordType => chordType.name);
+  .filter(get => get.length === 3)
+  .map(get => get.name);
 ```
 
 #### How to add a chord type to the dictionary?
 
 ```js
-add(['1P', '3M', '5P'], ['M', 'may'], 'mayor')
-chordType('mayor') // => { name: 'mayor', quality: "Major", chroma: ... }
-chordType('may') // => { name: 'mayor', quality: "Major", chroma: ... }
+add(["1P", "3M", "5P"], ["M", "may"], "mayor");
+get("mayor"); // => { name: 'mayor', quality: "Major", chroma: ... }
+get("may"); // => { name: 'mayor', quality: "Major", chroma: ... }
 ```
 
 #### How to know if a collection of notes is a known chord?
@@ -86,5 +85,5 @@ A poor's man version of chord detection. Only detects chord in first inversion.
 import { pcset } from "@tonaljs/pcset";
 
 const notes = ["C4", "f#3", ...]
-chordType(pcset(notes).chroma).name
+get(pcset(notes).chroma).name
 ```
