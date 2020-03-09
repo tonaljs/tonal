@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chord",
-  "version": "3.3.3",
+  "version": "3.3.4",
   "description": "Musical chords and its relations",
   "keywords": [
     "chord",
@@ -17,7 +17,7 @@
   "types": "dist/chord/index.d.ts",
   "dependencies": {
     "@tonaljs/array": "^3.2.3",
-    "@tonaljs/chord-dictionary": "^3.3.0",
+    "@tonaljs/chord-dictionary": "^3.3.1",
     "@tonaljs/pcset": "^3.2.3",
     "@tonaljs/scale-dictionary": "^3.4.1",
     "@tonaljs/tonal": "^3.2.2"

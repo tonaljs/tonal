@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/modules",
-  "version": "3.4.5",
+  "version": "3.4.6",
   "description": "@tonaljs music theory full library",
   "keywords": [
     "music",
@@ -19,18 +19,18 @@
   "dependencies": {
     "@tonaljs/abc-notation": "^3.2.3",
     "@tonaljs/array": "^3.2.3",
-    "@tonaljs/chord": "^3.3.3",
-    "@tonaljs/chord-dictionary": "^3.3.0",
+    "@tonaljs/chord": "^3.3.4",
+    "@tonaljs/chord-dictionary": "^3.3.1",
     "@tonaljs/interval": "^3.2.3",
-    "@tonaljs/key": "^3.4.4",
+    "@tonaljs/key": "^3.4.5",
     "@tonaljs/midi": "^3.2.3",
     "@tonaljs/mode": "^3.2.3",
     "@tonaljs/note": "^3.2.6",
     "@tonaljs/pcset": "^3.2.3",
-    "@tonaljs/progression": "^3.2.9",
+    "@tonaljs/progression": "^3.2.10",
     "@tonaljs/range": "^3.2.3",
     "@tonaljs/roman-numeral": "^3.3.1",
-    "@tonaljs/scale": "^3.3.2",
+    "@tonaljs/scale": "^3.3.3",
     "@tonaljs/scale-dictionary": "^3.4.1",
     "@tonaljs/tonal": "^3.2.2"
   },

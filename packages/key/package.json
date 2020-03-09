@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/key",
-  "version": "3.4.4",
+  "version": "3.4.5",
   "description": "Functions to work with musical keys",
   "keywords": [
     "key",
@@ -20,7 +20,7 @@
     "@tonaljs/tonal": "^3.2.2"
   },
   "devDependencies": {
-    "@tonaljs/scale": "^3.3.2"
+    "@tonaljs/scale": "^3.3.3"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
