@@ -37,9 +37,9 @@ import * as tonal from "tonal";
 Now we have to:
 
 ```js
-const tonal = require("@tonaljs/tonal");
+const tonal = require("@tonaljs/core");
 // or
-import * as tonal from "@tonaljs/tonal";
+import * as tonal from "@tonaljs/core";
 ```
 
 ### Better module dependencies
@@ -48,7 +48,7 @@ In version 2 `tonal` was a facade for the modules, so dependencies between modul
 
 This is not longer true in v3
 
-### `@tonaljs/tonal` contains the tonal "core" functions
+### `@tonaljs/core` contains the tonal "core" functions
 
 In version 2 `tonal` was a facade for the rest of the modules:
 
@@ -57,10 +57,10 @@ In version 2 `tonal` was a facade for the rest of the modules:
 import { Note } from "tonal";
 ```
 
-Now, `@tonaljs/tonal` module contains just four functions:
+Now, `@tonaljs/core` module contains just four functions:
 
 ```js
-import { note, interval, transpose, distance } from "@tonaljs/tonal";
+import { note, interval, transpose, distance } from "@tonaljs/core";
 ```
 
 ### Midi related functions are moved from `note` to `midi`
@@ -85,7 +85,7 @@ In v2 some functions were exported in several places (like `Tonal.transpose` and
 
 Now, every public function is documented in it's own module.
 
-### Most of modules depends on `@tonaljs/tonal`
+### Most of modules depends on `@tonaljs/core`
 
 The module architecture is easier to grasp:
 

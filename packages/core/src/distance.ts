@@ -14,7 +14,7 @@ import { PitchCoordinates } from "./pitch";
  * @param {string} interval - the interval or interval name
  * @return {string} the transposed note name or empty string if not valid notes
  * @example
- * import { tranpose } from "@tonaljs/tonal"
+ * import { tranpose } from "@tonaljs/core"
  * transpose("d3", "3M") // => "F#3"
  * transpose("D", "3M") // => "F#"
  * ["C", "D", "E", "F", "G"].map(pc => transpose(pc, "M3)) // => ["E", "F#", "G#", "A", "B"]

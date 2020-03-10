@@ -1,11 +1,11 @@
-export { tokenizeInterval as tokenize } from "@tonaljs/tonal";
+export { tokenizeInterval as tokenize } from "@tonaljs/core";
 import {
   coordToInterval,
   interval,
   IntervalCoordinates,
   IntervalName,
   NoteCoordinates
-} from "@tonaljs/tonal";
+} from "@tonaljs/core";
 
 /**
  * Get the natural list of names
@@ -103,7 +103,7 @@ function combine(fn: Operation) {
  * @param {string} interval2
  * @return {string} the added interval name
  * @example
- * import { add } from "@tonaljs/tonal"
+ * import { add } from "@tonaljs/core"
  * add("3m", "5P") // => "7m"
  */
 export const add = combine((a, b) => [a[0] + b[0], a[1] + b[1]]);
@@ -116,7 +116,7 @@ export const add = combine((a, b) => [a[0] + b[0], a[1] + b[1]]);
  * @param {string} subtrahendInterval
  * @return {string} the substracted interval name
  * @example
- * import { substract } from '@tonaljs/tonal'
+ * import { substract } from '@tonaljs/core'
  * substract('5P', '3M') // => '3m'
  * substract('3M', '5P') // => '-3m'
  */

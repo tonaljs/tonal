@@ -3,14 +3,14 @@ import {
   entries as chordTypes,
   get as getChordType
 } from "@tonaljs/chord-dictionary";
-import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
-import { entries as scaleTypes } from "@tonaljs/scale-dictionary";
 import {
   note,
   NoteName,
   tokenizeNote,
   transpose as transposeNote
-} from "@tonaljs/tonal";
+} from "@tonaljs/core";
+import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
+import { entries as scaleTypes } from "@tonaljs/scale-dictionary";
 
 type ChordName = string;
 type ChordNameTokens = [string, string]; // [TONIC, SCALE TYPE]

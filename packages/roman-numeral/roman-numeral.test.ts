@@ -1,4 +1,4 @@
-import { interval } from "@tonaljs/tonal";
+import { interval } from "@tonaljs/core";
 import { names, romanNumeral, RomanNumeral } from "./index";
 
 const $ = (str: string) => str.split(" ");

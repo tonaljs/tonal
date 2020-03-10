@@ -1,11 +1,11 @@
 {
-  "name": "@tonaljs/tonal",
+  "name": "@tonaljs/core",
   "version": "3.2.2",
   "description": "Music theory library",
   "keywords": [
     "music",
     "theory",
-    "@tonaljs/tonal"
+    "@tonaljs/core"
   ],
   "main": "dist/index.es5.js",
   "module": "dist/index.esnext.js",

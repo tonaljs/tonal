@@ -50,7 +50,7 @@ entries().map(mode => mode.name);
 For example, "A major" mode:
 
 ```js
-import { transpose } from "@tonaljs/tonal";
+import { transpose } from "@tonaljs/core";
 import { mode } from "@tonaljs/mode";
 
 mode("major").intervals.map(interval => transpose("A", interval));

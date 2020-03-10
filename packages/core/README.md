@@ -1,15 +1,15 @@
-# @tonaljs/tonal ![tonal](https://img.shields.io/badge/@tonaljs-tonal-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/tonal.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/tonal)
+# @tonaljs/core ![tonal](https://img.shields.io/badge/@tonaljs-tonal-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/core.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/core)
 
 > Parse notes and interval names. Calculate distances and transpositions
 
-`@tonaljs/tonal` is the core module of the `tonal` music theory library.
+`@tonaljs/core` is the core module of the `tonal` music theory library.
 
 It exports just four functions.
 
 Two of them converts strings into data structures (`note` and `interval`):
 
 ```js
-import { note, interval } from "@tonaljs/tonal";
+import { note, interval } from "@tonaljs/core";
 note("c4"); // => { name: 'C4', oct: 4, ...}
 interval("p5"); // => { name: '5P', semitones: 7, ...}
 ```
@@ -17,7 +17,7 @@ interval("p5"); // => { name: '5P', semitones: 7, ...}
 The other two manipulates notes and intervals, by it's string name representation:
 
 ```js
-import { transpose, distance } from "@tonaljs/tonal";
+import { transpose, distance } from "@tonaljs/core";
 transpose("C4", "5P"); // => "G4"
 distance("C4", "G4"); // => "5P"
 ```

@@ -7,7 +7,7 @@
     "midi",
     "music",
     "theory",
-    "@tonaljs/tonal"
+    "@tonaljs/core"
   ],
   "main": "dist/index.es5.js",
   "module": "dist/index.esnext.js",
@@ -16,7 +16,7 @@
   ],
   "types": "dist/midi/index.d.ts",
   "dependencies": {
-    "@tonaljs/tonal": "^3.2.2"
+    "@tonaljs/core": "^3.2.2"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

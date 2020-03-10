@@ -1,4 +1,4 @@
-import { note, transpose as tr } from "@tonaljs/tonal";
+import { note, transpose as tr } from "@tonaljs/core";
 
 const fillStr = (character: string, times: number) =>
   Array(times + 1).join(character);

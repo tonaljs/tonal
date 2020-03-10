@@ -25,7 +25,7 @@ scientificToAbcNotation("C#4"); // => "^C"
 #### Transpose notes in abc notation
 
 ```js
-import { transpose } from "@tonal/tonal";
+import { transpose } from "@tonaljs/note";
 import {
   abcToScientificNotation,
   scientificToAbcNotation

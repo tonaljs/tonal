@@ -5,8 +5,8 @@ import {
   NoteName,
   Pitch,
   transpose
-} from "@tonaljs/tonal";
-export { tokenizeNote as tokenize } from "@tonaljs/tonal";
+} from "@tonaljs/core";
+export { tokenizeNote as tokenize } from "@tonaljs/core";
 import { midiToNoteName } from "@tonaljs/midi";
 
 const toNoteName = (sameAccidentals: boolean) => (

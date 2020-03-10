@@ -34,7 +34,7 @@ Tonal is compatible with both ES5 and ES6 modules, and browser.
 ```js
 import { Tonal, Scale } from "@tonaljs/modules";
 // or individually
-import * as Tonal from "@tonaljs/tonal";
+import * as Tonal from "@tonaljs/core";
 ```
 
 #### ES5 `require`:
@@ -59,7 +59,7 @@ Grab the [minified browser ready version](https://raw.githubusercontent.com/tona
 `@tonaljs/modules` includes all published modules. Altough it is small (8kb gzipped), you can reduce bundle sizes by importing the modules individually, or even only the functions you need:
 
 ```js
-import { transpose } from "@tonaljs/tonal";
+import { transpose } from "@tonaljs/core";
 import { scale } from "@tonaljs/scale";
 ```
 
@@ -68,7 +68,7 @@ import { scale } from "@tonaljs/scale";
 ```js
 import { Tonal } from "@tonaljs/modules";
 // or individually:
-import * as Tonal from "@tonaljs/tonal";
+import * as Tonal from "@tonaljs/core";
 
 Tonal.note("A4").midi; // => 60
 Tonal.note("a4").freq; // => 440
@@ -83,7 +83,7 @@ Tonal.distance("C4", "G4"); // => "5P"
 
 The API documentation lives inside README.md file of each module:
 
-- [@tonaljs/tonal](/packages/tonal): Parse notes and intervals, calculate distances and transpositions
+- [@tonaljs/core](/packages/tonal): Parse notes and intervals, calculate distances and transpositions
 - [@tonaljs/midi](/packages/midi): Midi number conversions
 - [@tonaljs/note](/packages/note): Note operations (simplify, transposeBy )
 - [@tonaljs/interval](/packages/interval): Interval operations (add, simplify, invert)

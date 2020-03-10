@@ -1,4 +1,4 @@
-import { note as toNote, NoteName } from "@tonaljs/tonal";
+import { note as toNote, NoteName } from "@tonaljs/core";
 
 type Midi = number;
 
