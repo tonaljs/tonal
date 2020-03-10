@@ -4,9 +4,15 @@
 
 `@tonaljs/scale-dictionary` is a dictionary of musical scales.
 
+## Usage
+
+```js
+import { ScaleDictionary } from "@tonaljs/modules";
+```
+
 ## API
 
-#### `scaleType(type: string) => ScaleType`
+#### `get(name: string) => ScaleType`
 
 Given a scale type name, return a ScaleType object with the following properties:
 
@@ -21,7 +27,7 @@ Given a scale type name, return a ScaleType object with the following properties
 Example:
 
 ```js
-scaleType("major"); // =>
+ScaleDictionary.get("major"); // =>
 // {
 // name: "major",
 // aliases: ["ionian"],
@@ -41,7 +47,7 @@ Return a list of all available scale types
 Add a scale type to dictionary:
 
 ```js
-add(['1P', '5P'], null, ['5']);
+ScaleDictionary.add(["1P", "5P"], null, ["5"]);
 ```
 
 ## HOW TO
@@ -49,22 +55,21 @@ add(['1P', '5P'], null, ['5']);
 #### How to get all names?
 
 ```js
-entries().map(scaleType => scaleType.name)
+ScaleDictionary.entries().map(scaleType => scaleType.name);
 ```
 
 #### How to get all pentatonics names?
 
 ```js
-entries()
+ScaleDictionary.entries()
   .filter(scaleType => scaleType.length === 5)
-  .map(scaleType =>scaleType.name);
+  .map(scaleType => scaleType.name);
 ```
 
 #### How do to add a scale to the dictionary?
 
 ```js
-import { scale, add } from '@tonaljs/scale'
-add(['1P', '5P'], 'quinta', ['quinta justa', 'diapente'])
-scale('quinta') // => { name: "quinta", intervals: ...}
-scale('quinta justa') // => { name: "quinta", intervals: ... }
+ScaleDictionary.add(["1P", "5P"], "quinta", ["quinta justa", "diapente"]);
+ScaleDictionary.scale("quinta"); // => { name: "quinta", intervals: ...}
+ScaleDictionary.scale("quinta justa"); // => { name: "quinta", intervals: ... }
 ```

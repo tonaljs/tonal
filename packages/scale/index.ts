@@ -8,7 +8,7 @@ import { entries as chordTypes } from "@tonaljs/chord-dictionary";
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
 import {
   entries as scaleTypes,
-  scaleType,
+  get as getScaleType,
   ScaleType
 } from "@tonaljs/scale-dictionary";
 import { note, NoteName, transpose } from "@tonaljs/tonal";
@@ -72,7 +72,7 @@ export function tokenize(name: ScaleName): ScaleNameTokens {
 export function scale(src: ScaleName | ScaleNameTokens): Scale {
   const tokens = Array.isArray(src) ? src : tokenize(src);
   const tonic = note(tokens[0]).name;
-  const st = scaleType(tokens[1]);
+  const st = getScaleType(tokens[1]);
   if (st.empty) {
     return NoScale;
   }

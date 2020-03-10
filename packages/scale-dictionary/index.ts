@@ -32,13 +32,27 @@ let index: Record<ScaleTypeName, ScaleType> = {};
 
 /**
  * Given a scale name or chroma, return the scale properties
+ *
  * @param {string} type - scale name or pitch class set chroma
  * @example
- * import { scale } from 'tonaljs/scale-dictionary'
- * scale('major')
+ * import { get } from 'tonaljs/scale-dictionary'
+ * get('major') // => { name: 'major', ... }
+ */
+export function get(type: ScaleTypeName): ScaleType {
+  return index[type] || NoScaleType;
+}
+
+/**
+ * Given a scale name or chroma, return the scale properties
+ * @deprecated
+ * @see Scale.get
  */
 export function scaleType(type: ScaleTypeName): ScaleType {
-  return index[type] || NoScaleType;
+  // tslint:disable-next-line
+  console.warn(
+    "ScaleDictionary.scaleType is deprecated. Use ScaleDictionary.get instead"
+  );
+  return get(type);
 }
 
 /**

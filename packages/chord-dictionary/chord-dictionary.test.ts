@@ -1,4 +1,4 @@
-import { add, chordType, clear, entries, keys } from "./index";
+import { add, clear, entries, get, keys } from "./index";
 
 const $ = (str: string) => str.split(" ");
 
@@ -9,8 +9,8 @@ describe("@tonaljs/chord-dictionary", () => {
     expect(entries()[0].name).toEqual("fifth");
   });
 
-  test("chordType ", () => {
-    expect(chordType("major")).toEqual({
+  test("get ", () => {
+    expect(get("major")).toEqual({
       empty: false,
       setNum: 2192,
       name: "major",
@@ -24,11 +24,11 @@ describe("@tonaljs/chord-dictionary", () => {
 
   test("add a chord", () => {
     add(["1P", "5P"], ["q"]);
-    expect(chordType("q")).toMatchObject({
+    expect(get("q")).toMatchObject({
       chroma: "100000010000"
     });
     add(["1P", "5P"], ["q"], "quinta");
-    expect(chordType("quinta")).toEqual(chordType("q"));
+    expect(get("quinta")).toEqual(get("q"));
   });
 
   test("clear dictionary", () => {

@@ -1,7 +1,7 @@
 import {
-  chordType,
   ChordType,
-  entries as chordTypes
+  entries as chordTypes,
+  get as getChordType
 } from "@tonaljs/chord-dictionary";
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
 import { entries as scaleTypes } from "@tonaljs/scale-dictionary";
@@ -55,23 +55,23 @@ const NUM_TYPES = /^(6|64|7|9|11|13)$/;
  * tokenize("Cnonsense") // => [ null, "nonsense" ]
  */
 export function tokenize(name: string): ChordNameTokens {
-  const [lt, acc, oct, type] = tokenizeNote(name);
-  if (lt === "") {
+  const [letter, acc, oct, type] = tokenizeNote(name);
+  if (letter === "") {
     return ["", name];
   }
   // aug is augmented (see https://github.com/danigb/tonal/issues/55)
-  if (lt === "A" && type === "ug") {
+  if (letter === "A" && type === "ug") {
     return ["", "aug"];
   }
   // see: https://github.com/tonaljs/tonal/issues/70
   if (!type && (oct === "4" || oct === "5")) {
-    return [lt + acc, oct];
+    return [letter + acc, oct];
   }
 
   if (NUM_TYPES.test(oct)) {
-    return [lt + acc, oct + type];
+    return [letter + acc, oct + type];
   } else {
-    return [lt + acc + oct, type];
+    return [letter + acc + oct, type];
   }
 }
 
@@ -98,12 +98,12 @@ function findChord(src: string | ChordNameTokens) {
   }
   const tokens = Array.isArray(src) ? src : tokenize(src);
   const tonic = note(tokens[0]).name;
-  const type = chordType(tokens[1]);
+  const type = getChordType(tokens[1]);
 
   if (!type.empty) {
     return { tonic, type };
   } else if (tonic && typeof src === "string") {
-    return { tonic: "", type: chordType(src) };
+    return { tonic: "", type: getChordType(src) };
   } else {
     return {};
   }
