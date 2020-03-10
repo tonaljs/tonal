@@ -55,23 +55,23 @@ const NUM_TYPES = /^(6|64|7|9|11|13)$/;
  * tokenize("Cnonsense") // => [ null, "nonsense" ]
  */
 export function tokenize(name: string): ChordNameTokens {
-  const [lt, acc, oct, type] = tokenizeNote(name);
-  if (lt === "") {
+  const [letter, acc, oct, type] = tokenizeNote(name);
+  if (letter === "") {
     return ["", name];
   }
   // aug is augmented (see https://github.com/danigb/tonal/issues/55)
-  if (lt === "A" && type === "ug") {
+  if (letter === "A" && type === "ug") {
     return ["", "aug"];
   }
   // see: https://github.com/tonaljs/tonal/issues/70
   if (!type && (oct === "4" || oct === "5")) {
-    return [lt + acc, oct];
+    return [letter + acc, oct];
   }
 
   if (NUM_TYPES.test(oct)) {
-    return [lt + acc, oct + type];
+    return [letter + acc, oct + type];
   } else {
-    return [lt + acc + oct, type];
+    return [letter + acc + oct, type];
   }
 }
 
