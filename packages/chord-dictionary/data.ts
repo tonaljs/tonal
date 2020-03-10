@@ -41,7 +41,7 @@ const CHORDS: string[][] = [
   ["1P 4P 5P", "suspended 4th", "sus4"],
   ["1P 2M 5P", "suspended 2nd", "sus2"],
   ["1P 4P 5P 7m", "suspended 4th seventh", "7sus4"],
-  ["1P 5P 7m 9M 11P", "eleventh", "11 sus Bb/C for C11"],
+  ["1P 5P 7m 9M 11P", "eleventh", "11"],
   ["1P 4P 5P 7m 9m", "suspended 4th b9", "b9sus phryg"],
   // ==Other==
   ["1P 5P", "fifth", "5"],
