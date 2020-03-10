@@ -1,16 +1,18 @@
 {
   "name": "tonal",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "main": "packages/modules/dist/index.es5.js",
   "module": "packages/modules/dist/index.esnext.js",
   "scripts": {
     "lerna": "lerna bootstrap",
-    "lerna:publish": "yarn build:prod && lerna publish",
-    "build": "lerna exec --parallel -- rollup -c=../../rollup.config.js",
+    "lerna:publish": "yarn build && lerna publish",
+    "build": "yarn build:clean && yarn lerna && yarn build:packages && yarn build:browser",
+    "build:packages": "lerna exec --parallel -- rollup -c=../../rollup.config.js",
     "build:browser": "cd packages/modules && rollup -c=rollup.browser.config.js",
     "build:clean": "lerna exec --parallel -- rimraf dist/",
-    "build:prod": "yarn build:clean && yarn lerna && yarn build && yarn build:browser",
     "test": "jest --coverage",
     "test:lint": "tslint --fix --project tsconfig.json -t codeFrame 'packages/**/*.ts'",
     "test:ci": "yarn test:lint && yarn build && yarn test -- --no-cache"
@@ -21,7 +23,11 @@
     }
   },
   "lint-staged": {
-    "packages/**/*.ts": ["prettier --write", "tslint", "git add"]
+    "packages/**/*.ts": [
+      "prettier --write",
+      "tslint",
+      "git add"
+    ]
   },
   "jest": {
     "transform": {
@@ -29,8 +35,16 @@
     },
     "testEnvironment": "node",
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": ["ts", "tsx", "js"],
-    "coveragePathIgnorePatterns": ["/node_modules/", "/test/", ".*\\.d\\.ts"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/",
+      ".*\\.d\\.ts"
+    ],
     "coverageThreshold": {
       "global": {
         "branches": 90,
@@ -39,7 +53,9 @@
         "statements": 95
       }
     },
-    "collectCoverageFrom": ["**/*.ts"]
+    "collectCoverageFrom": [
+      "**/*.ts"
+    ]
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
