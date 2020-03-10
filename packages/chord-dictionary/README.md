@@ -12,7 +12,7 @@ const { get } = require("@tonaljs/chord-dictionary");
 
 ## API
 
-#### `get(type: string) => ChordType`
+#### `get(name: string) => ChordType`
 
 Given a chord type name, return a ChordType object with the following properties:
 
@@ -41,7 +41,7 @@ get("major"); // =>
 
 #### `entries() => ChordType[]`
 
-Return a list of all available chord types
+Return a list of all available chord types.
 
 #### `add(intervals: string[], names: string[], fullName?: string) => ChordType`
 
@@ -55,10 +55,20 @@ add(["1P", "3M", "5P"], ["M"], "mayor");
 
 #### Get all chord names
 
+You can get (long) chord names:
+
 ```js
 entries()
-  .map(get => get.name)
-  .filter(get => get);
+  .map(type => type.name)
+  .filter(name => name);
+```
+
+Or the first (short) name:
+
+```js
+entries()
+  .map(type => type.aliases[0])
+  .filter(name => name);
 ```
 
 #### How to get triad chord names?
@@ -75,15 +85,4 @@ entries()
 add(["1P", "3M", "5P"], ["M", "may"], "mayor");
 get("mayor"); // => { name: 'mayor', quality: "Major", chroma: ... }
 get("may"); // => { name: 'mayor', quality: "Major", chroma: ... }
-```
-
-#### How to know if a collection of notes is a known chord?
-
-A poor's man version of chord detection. Only detects chord in first inversion.
-
-```js
-import { pcset } from "@tonaljs/pcset";
-
-const notes = ["C4", "f#3", ...]
-get(pcset(notes).chroma).name
 ```
