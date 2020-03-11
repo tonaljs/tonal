@@ -153,7 +153,7 @@ Note.sortedNames(["c2", "c5", "c1", "c0", "c6", "c"], Note.descending);
 
 Sort notes ascending and remove duplicates.
 
-### Enharmonics
+### Enharmonics
 
 #### `simplify(noteName: string) => string`
 
