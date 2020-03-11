@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/collection",
-  "version": "3.2.4",
+  "version": "3.5.0",
   "description": "Utility functions to work with collections (arrays)",
   "keywords": [
     "collection",
@@ -13,7 +13,6 @@
     "dist"
   ],
   "types": "dist/collection/index.d.ts",
-  "dependencies": {},
   "author": "danigb@gmail.com",
   "license": "MIT",
   "publishConfig": {
