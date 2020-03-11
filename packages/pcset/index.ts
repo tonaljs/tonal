@@ -119,7 +119,20 @@ const intervals = (set: Set) => properties(set).intervals;
  */
 const num = (set: Set) => properties(set).setNum;
 
-const IVLS = "1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M".split(" ");
+const IVLS = [
+  "1P",
+  "2m",
+  "2M",
+  "3m",
+  "3M",
+  "4P",
+  "5d",
+  "5P",
+  "6m",
+  "6M",
+  "7m",
+  "7M"
+];
 
 /**
  * @private

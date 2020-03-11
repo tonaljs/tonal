@@ -1,4 +1,4 @@
-import { Named } from "@tonaljs/core";
+import { deprecate, Named } from "@tonaljs/core";
 import { chromaToIntervals, EmptyPcset, Pcset } from "@tonaljs/pcset";
 import DATA, { ModeDefinition } from "./data";
 
@@ -36,7 +36,7 @@ type ModeLiteral = string | Named;
  * Get a Mode by it's name
  *
  * @example
- * mode('dorian')
+ * properties('dorian')
  * // =>
  * // {
  * //   intervals: [ '1P', '2M', '3m', '4P', '5P', '6M', '7m' ],
@@ -51,19 +51,28 @@ type ModeLiteral = string | Named;
  * //   aliases: []
  * // }
  */
-export function mode(name: ModeLiteral): Mode {
+export function properties(name: ModeLiteral): Mode {
   return typeof name === "string"
     ? index[name.toLowerCase()] || NoMode
     : name && name.name
-    ? mode(name.name)
+    ? properties(name.name)
     : NoMode;
 }
 
+export const mode = deprecate("Mode.mode", "Mode.properties", properties);
+
 /**
- * Get a list of all know modes
+ * Get a list of all modes
  */
 export function entries() {
   return all.slice();
+}
+
+/**
+ * Get a list of all mode names
+ */
+export function names() {
+  return all.map(mode => mode.name);
 }
 
 function toMode(mode: ModeDefinition): Mode {
@@ -85,3 +94,11 @@ function toMode(mode: ModeDefinition): Mode {
     aliases
   };
 }
+
+export default {
+  properties,
+  names,
+  entries,
+  // deprecated
+  mode
+};
