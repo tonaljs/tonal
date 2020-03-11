@@ -19,8 +19,10 @@ import ScaleType from "@tonaljs/scale-type";
 export * from "@tonaljs/core";
 
 // deprecated (backwards compatibility)
-import * as Tonal from "@tonaljs/core";
-import PcSet from "@tonaljs/pcset";
+const Tonal = Core;
+const PcSet = Pcset;
+const ChordDictionary = ChordType;
+const ScaleDictionary = ScaleType;
 
 export {
   AbcNotation,
@@ -42,5 +44,7 @@ export {
   ScaleType,
   // backwards
   Tonal,
-  PcSet
+  PcSet,
+  ChordDictionary,
+  ScaleDictionary
 };

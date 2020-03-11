@@ -1,0 +1,20 @@
+{
+  "name": "@tonaljs/chord-dictionary",
+  "version": "3.4.1",
+  "description": "A dictionary of musical chords",
+  "keywords": [],
+  "main": "dist/index.es5.js",
+  "module": "dist/index.esnext.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/chord-dictionary/index.d.ts",
+  "dependencies": {
+    "@tonaljs/chord-type": "^3.4.1"
+  },
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
