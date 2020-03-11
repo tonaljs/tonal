@@ -1,0 +1,23 @@
+{
+  "name": "@tonaljs/core",
+  "version": "3.2.2",
+  "description": "Music theory library",
+  "scripts": {
+    "build": "rollup -c=../../rollup.config.js"
+  },
+  "keywords": [
+    "music",
+    "theory"
+  ],
+  "main": "dist/index.es5.js",
+  "module": "dist/index.esnext.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/core/index.d.ts",
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

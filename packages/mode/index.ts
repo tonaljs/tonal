@@ -1,5 +1,5 @@
+import { Named } from "@tonaljs/core";
 import { chromaToIntervals, EmptyPcset, Pcset } from "@tonaljs/pcset";
-import { Named } from "@tonaljs/tonal";
 import DATA, { ModeDefinition } from "./data";
 
 export interface Mode extends Pcset {

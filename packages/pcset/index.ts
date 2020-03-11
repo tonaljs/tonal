@@ -8,7 +8,7 @@ import {
   Note,
   NoteName,
   NotFound
-} from "@tonaljs/tonal";
+} from "@tonaljs/core";
 
 /**
  * The properties of a pitch class set

@@ -1,6 +1,6 @@
 import { interval, isNamed, note } from "../index";
 
-describe("@tonal/tonal", () => {
+describe("@tonaljs/core", () => {
   test("isNamed", () => {
     expect(isNamed(note("C4"))).toBe(true);
     expect(isNamed(interval("P4"))).toBe(true);

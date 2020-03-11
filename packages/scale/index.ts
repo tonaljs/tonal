@@ -5,13 +5,13 @@
  */
 import { rotate, sortedUniqNoteNames } from "@tonaljs/array";
 import { entries as chordTypes } from "@tonaljs/chord-dictionary";
+import { note, NoteName, transpose } from "@tonaljs/core";
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
 import {
   entries as scaleTypes,
   get as getScaleType,
   ScaleType
 } from "@tonaljs/scale-dictionary";
-import { note, NoteName, transpose } from "@tonaljs/tonal";
 
 type ScaleName = string;
 type ScaleNameTokens = [string, string]; // [TONIC, SCALE TYPE]

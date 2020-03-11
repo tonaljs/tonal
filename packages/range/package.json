@@ -6,7 +6,7 @@
     "range",
     "music",
     "theory",
-    "@tonaljs/tonal"
+    "@tonaljs/core"
   ],
   "main": "dist/index.es5.js",
   "module": "dist/index.esnext.js",

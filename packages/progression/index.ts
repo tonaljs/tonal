@@ -1,6 +1,6 @@
 import { tokenize } from "@tonaljs/chord";
+import { distance, interval, NoteLiteral, transpose } from "@tonaljs/core";
 import { romanNumeral } from "@tonaljs/roman-numeral";
-import { distance, interval, NoteLiteral, transpose } from "@tonaljs/tonal";
 
 /**
  * Given a tonic and a chord list expressed with roman numeral notation

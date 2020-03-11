@@ -6,7 +6,7 @@
     "key",
     "music",
     "theory",
-    "@tonaljs/tonal"
+    "@tonaljs/core"
   ],
   "main": "dist/index.es5.js",
   "module": "dist/index.esnext.js",
@@ -17,7 +17,7 @@
   "dependencies": {
     "@tonaljs/note": "^3.2.6",
     "@tonaljs/roman-numeral": "^3.3.1",
-    "@tonaljs/tonal": "^3.2.2"
+    "@tonaljs/core": "^3.2.2"
   },
   "devDependencies": {
     "@tonaljs/scale": "^3.3.4"

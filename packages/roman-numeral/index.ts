@@ -6,7 +6,7 @@ import {
   isPitch,
   Named,
   Pitch
-} from "@tonaljs/tonal";
+} from "@tonaljs/core";
 
 export interface RomanNumeral extends Pitch, Named {
   readonly empty: boolean;
