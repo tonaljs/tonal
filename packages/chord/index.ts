@@ -3,13 +3,17 @@ import {
   ChordType,
   get as getChordType
 } from "@tonaljs/chord-type";
+
 import {
+  deprecate,
   note,
   NoteName,
   tokenizeNote,
   transpose as transposeNote
 } from "@tonaljs/core";
+
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
+
 import { all as scaleTypes } from "@tonaljs/scale-type";
 
 type ChordName = string;
@@ -78,7 +82,7 @@ export function tokenize(name: string): ChordNameTokens {
 /**
  * Get a Chord from a chord name.
  */
-export function chord(src: ChordName | ChordNameTokens): Chord {
+export function get(src: ChordName | ChordNameTokens): Chord {
   const { type, tonic } = findChord(src);
 
   if (!type || type.empty) {
@@ -91,6 +95,8 @@ export function chord(src: ChordName | ChordNameTokens): Chord {
   const name = tonic ? tonic + " " + type.name : type.name;
   return { ...type, name, type: type.name, tonic: tonic || "", notes };
 }
+
+export const chord = deprecate("Chord.chord", "Chord.get", get);
 
 function findChord(src: string | ChordNameTokens) {
   if (!src || !src.length) {
@@ -134,7 +140,7 @@ export function transpose(chordName: string, interval: string): string {
  * // => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
  */
 export function chordScales(name: string): string[] {
-  const s = chord(name);
+  const s = get(name);
   const isChordIncluded = isSupersetOf(s.chroma);
   return scaleTypes()
     .filter(scale => isChordIncluded(scale.chroma))
@@ -150,7 +156,7 @@ export function chordScales(name: string): string[] {
  * // => [ 'Cmaj#4', 'Cmaj7#9#11', 'Cmaj9', 'CM7add13', 'Cmaj13', 'Cmaj9#11', 'CM13#11', 'CM7b9' ]
  */
 export function extended(chordName: string): string[] {
-  const s = chord(chordName);
+  const s = get(chordName);
   const isSuperset = isSupersetOf(s.chroma);
   return chordTypes()
     .filter(chord => isSuperset(chord.chroma))
@@ -164,9 +170,20 @@ export function extended(chordName: string): string[] {
  * @example
  */
 export function reduced(chordName: string): string[] {
-  const s = chord(chordName);
+  const s = get(chordName);
   const isSubset = isSubsetOf(s.chroma);
   return chordTypes()
     .filter(chord => isSubset(chord.chroma))
     .map(chord => s.tonic + chord.aliases[0]);
 }
+
+export default {
+  get,
+  chordScales,
+  extended,
+  reduced,
+  tokenize,
+  transpose,
+  // deprecate
+  chord
+};

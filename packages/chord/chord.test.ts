@@ -1,35 +1,28 @@
-import {
-  chord,
-  chordScales,
-  extended,
-  reduced,
-  tokenize,
-  transpose
-} from "./index";
+import Chord from "./index";
 
 const $ = (str: string) => str.split(" ");
 
 describe("tonal-chord", () => {
   test("tokenize", () => {
-    expect(tokenize("Cmaj7")).toEqual(["C", "maj7"]);
-    expect(tokenize("c7")).toEqual(["C", "7"]);
-    expect(tokenize("maj7")).toEqual(["", "maj7"]);
-    expect(tokenize("c#4 m7b5")).toEqual(["C#4", "m7b5"]);
-    expect(tokenize("c#4m7b5")).toEqual(["C#4", "m7b5"]);
-    expect(tokenize("Cb7b5")).toEqual(["Cb", "7b5"]);
-    expect(tokenize("Eb7add6")).toEqual(["Eb", "7add6"]);
-    expect(tokenize("Bb6b5")).toEqual(["Bb", "6b5"]);
-    expect(tokenize("aug")).toEqual(["", "aug"]);
-    expect(tokenize("C11")).toEqual(["C", "11"]);
-    expect(tokenize("C13no5")).toEqual(["C", "13no5"]);
-    expect(tokenize("C64")).toEqual(["C", "64"]);
+    expect(Chord.tokenize("Cmaj7")).toEqual(["C", "maj7"]);
+    expect(Chord.tokenize("c7")).toEqual(["C", "7"]);
+    expect(Chord.tokenize("maj7")).toEqual(["", "maj7"]);
+    expect(Chord.tokenize("c#4 m7b5")).toEqual(["C#4", "m7b5"]);
+    expect(Chord.tokenize("c#4m7b5")).toEqual(["C#4", "m7b5"]);
+    expect(Chord.tokenize("Cb7b5")).toEqual(["Cb", "7b5"]);
+    expect(Chord.tokenize("Eb7add6")).toEqual(["Eb", "7add6"]);
+    expect(Chord.tokenize("Bb6b5")).toEqual(["Bb", "6b5"]);
+    expect(Chord.tokenize("aug")).toEqual(["", "aug"]);
+    expect(Chord.tokenize("C11")).toEqual(["C", "11"]);
+    expect(Chord.tokenize("C13no5")).toEqual(["C", "13no5"]);
+    expect(Chord.tokenize("C64")).toEqual(["C", "64"]);
     // see: https://github.com/tonaljs/tonal/issues/70
-    expect(tokenize("C5")).toEqual(["C", "5"]);
-    expect(tokenize("C4")).toEqual(["C", "4"]);
+    expect(Chord.tokenize("C5")).toEqual(["C", "5"]);
+    expect(Chord.tokenize("C4")).toEqual(["C", "4"]);
   });
 
   test("chord", () => {
-    expect(chord("Cmaj7")).toEqual({
+    expect(Chord.get("Cmaj7")).toEqual({
       empty: false,
       name: "C major seventh",
       tonic: "C",
@@ -42,13 +35,13 @@ describe("tonal-chord", () => {
       notes: ["C", "E", "G", "B"],
       quality: "Major"
     });
-    expect(chord("hello").empty).toBe(true);
-    expect(chord("").empty).toBe(true);
-    expect(chord("C")).toEqual(chord("C major"));
+    expect(Chord.get("hello").empty).toBe(true);
+    expect(Chord.get("").empty).toBe(true);
+    expect(Chord.get("C")).toEqual(Chord.get("C major"));
   });
 
   test("chord without tonic", () => {
-    expect(chord("dim")).toEqual({
+    expect(Chord.get("dim")).toEqual({
       aliases: ["dim", "°", "o"],
       chroma: "100100100000",
       empty: false,
@@ -61,63 +54,69 @@ describe("tonal-chord", () => {
       tonic: "",
       type: "diminished"
     });
-    expect(chord("dim7")).toMatchObject({ name: "diminished seventh" });
-    expect(chord("alt7")).toMatchObject({ name: "altered" });
+    expect(Chord.get("dim7")).toMatchObject({ name: "diminished seventh" });
+    expect(Chord.get("alt7")).toMatchObject({ name: "altered" });
   });
 
   test("notes", () => {
-    expect(chord("Cmaj7").notes).toEqual(["C", "E", "G", "B"]);
-    expect(chord("Eb7add6").notes).toEqual(["Eb", "G", "Bb", "Db", "C"]);
-    expect(chord("C4 maj7").notes).toEqual(["C4", "E4", "G4", "B4"]);
-    expect(chord("C7").notes).toEqual(["C", "E", "G", "Bb"]);
-    expect(chord("Cmaj7#5").notes).toEqual(["C", "E", "G#", "B"]);
-    expect(chord("blah").notes).toEqual([]);
+    expect(Chord.get("Cmaj7").notes).toEqual(["C", "E", "G", "B"]);
+    expect(Chord.get("Eb7add6").notes).toEqual(["Eb", "G", "Bb", "Db", "C"]);
+    expect(Chord.get("C4 maj7").notes).toEqual(["C4", "E4", "G4", "B4"]);
+    expect(Chord.get("C7").notes).toEqual(["C", "E", "G", "Bb"]);
+    expect(Chord.get("Cmaj7#5").notes).toEqual(["C", "E", "G#", "B"]);
+    expect(Chord.get("blah").notes).toEqual([]);
   });
 
   test("notes with two params", () => {
-    expect(chord(["C", "maj7"]).notes).toEqual(["C", "E", "G", "B"]);
+    expect(Chord.get(["C", "maj7"]).notes).toEqual(["C", "E", "G", "B"]);
     // see: https://github.com/danigb/tonal/issues/82
-    expect(chord(["C6", "maj7"]).notes).toEqual(["C6", "E6", "G6", "B6"]);
+    expect(Chord.get(["C6", "maj7"]).notes).toEqual(["C6", "E6", "G6", "B6"]);
   });
 
   // see: https://github.com/danigb/tonal/issues/52
   test("augmented chords (issue #52)", () => {
-    expect(chord("Caug").notes).toEqual(["C", "E", "G#"]);
-    expect(chord(["C", "aug"]).notes).toEqual(["C", "E", "G#"]);
+    expect(Chord.get("Caug").notes).toEqual(["C", "E", "G#"]);
+    expect(Chord.get(["C", "aug"]).notes).toEqual(["C", "E", "G#"]);
   });
 
   test("intervals", () => {
-    expect(chord("maj7").intervals).toEqual(["1P", "3M", "5P", "7M"]);
-    expect(chord("Cmaj7").intervals).toEqual(["1P", "3M", "5P", "7M"]);
-    expect(chord("aug").intervals).toEqual(["1P", "3M", "5A"]);
-    expect(chord("C13no5").intervals).toEqual(["1P", "3M", "7m", "9M", "13M"]);
-    expect(chord("major").intervals).toEqual(["1P", "3M", "5P"]);
+    expect(Chord.get("maj7").intervals).toEqual(["1P", "3M", "5P", "7M"]);
+    expect(Chord.get("Cmaj7").intervals).toEqual(["1P", "3M", "5P", "7M"]);
+    expect(Chord.get("aug").intervals).toEqual(["1P", "3M", "5A"]);
+    expect(Chord.get("C13no5").intervals).toEqual([
+      "1P",
+      "3M",
+      "7m",
+      "9M",
+      "13M"
+    ]);
+    expect(Chord.get("major").intervals).toEqual(["1P", "3M", "5P"]);
   });
 
   test("exists", () => {
-    expect(!chord("maj7").empty).toBe(true);
-    expect(!chord("Cmaj7").empty).toBe(true);
-    expect(!chord("mixolydian").empty).toBe(false);
+    expect(Chord.get("maj7").empty).toBe(false);
+    expect(Chord.get("Cmaj7").empty).toBe(false);
+    expect(Chord.get("mixolydian").empty).toBe(true);
   });
 
   test("chordScales", () => {
     const names =
       "phrygian dominant,flamenco,spanish heptatonic,half-whole diminished,chromatic";
-    expect(chordScales("C7b9")).toEqual(names.split(","));
+    expect(Chord.chordScales("C7b9")).toEqual(names.split(","));
   });
 
   it("transpose chord names", () => {
-    expect(transpose("Eb7b9", "5P")).toEqual("Bb7b9");
+    expect(Chord.transpose("Eb7b9", "5P")).toEqual("Bb7b9");
   });
 
   test("extended", () => {
     const chords =
       "Cmaj#4 Cmaj7#9#11 Cmaj9 CM7add13 Cmaj13 Cmaj9#11 CM13#11 CM7b9";
-    expect(extended("CMaj7").sort()).toEqual($(chords).sort());
+    expect(Chord.extended("CMaj7").sort()).toEqual($(chords).sort());
   });
 
   test("reduced", () => {
-    expect(reduced("CMaj7")).toEqual(["C5", "CM"]);
+    expect(Chord.reduced("CMaj7")).toEqual(["C5", "CM"]);
   });
 
   /*

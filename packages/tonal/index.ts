@@ -1,6 +1,6 @@
 import AbcNotation from "@tonaljs/abc-notation";
 import * as Array from "@tonaljs/array";
-import * as Chord from "@tonaljs/chord";
+import Chord from "@tonaljs/chord";
 import ChordType from "@tonaljs/chord-type";
 import Collection from "@tonaljs/collection";
 import * as Core from "@tonaljs/core";
