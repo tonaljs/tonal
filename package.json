@@ -4,14 +4,15 @@
   "workspaces": [
     "packages/*"
   ],
-  "main": "packages/modules/dist/index.es5.js",
-  "module": "packages/modules/dist/index.esnext.js",
+  "main": "packages/tonal/dist/index.es5.js",
+  "module": "packages/tonal/dist/index.esnext.js",
   "scripts": {
     "lerna": "lerna bootstrap",
     "lerna:publish": "yarn build && lerna publish",
     "build": "yarn build:clean && yarn lerna && yarn build:packages && yarn build:browser",
     "build:packages": "lerna exec --parallel -- rollup -c=../../rollup.config.js",
-    "build:browser": "cd packages/modules && rollup -c=rollup.browser.config.js",
+    "build:packages:linear": "lerna exec  -- rollup -c=../../rollup.config.js",
+    "build:browser": "cd packages/tonal && rollup -c=rollup.browser.config.js",
     "build:clean": "lerna exec --parallel -- rimraf dist/",
     "test": "jest --coverage",
     "lint": "tslint --fix --project tsconfig.json -t codeFrame 'packages/**/*.ts'",

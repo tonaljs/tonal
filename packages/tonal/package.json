@@ -1,5 +1,5 @@
 {
-  "name": "@tonaljs/modules",
+  "name": "@tonaljs/tonal",
   "version": "3.4.7",
   "description": "@tonaljs music theory full library",
   "keywords": [
@@ -12,10 +12,7 @@
   "files": [
     "dist"
   ],
-  "types": "dist/modules/index.d.ts",
-  "scripts": {
-    "build": "rollup -c rollup.browser.config.js"
-  },
+  "types": "dist/tonal/index.d.ts",
   "dependencies": {
     "@tonaljs/abc-notation": "^3.2.3",
     "@tonaljs/array": "^3.2.3",

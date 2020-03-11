@@ -7,7 +7,7 @@
 ## Usage
 
 ```js
-import { ScaleDictionary } from "@tonaljs/modules";
+import { ScaleDictionary } from "@tonaljs/tonal";
 ```
 
 ## API

@@ -1,6 +1,6 @@
 import * as Modules from "./index";
 
-describe("@tonaljs/modules", () => {
+describe("@tonaljs/tonal", () => {
   test("modules count", () => {
     const moduleNames = Object.keys(Modules).sort();
     expect(moduleNames.length).toBe(16);
