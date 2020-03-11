@@ -2,63 +2,123 @@
 
 > A collection of functions to manipulate musical notes
 
-## API
+## Usage
 
-### `tokenize(noteName: string) => [string, string, string, string]`
-
-Given a note name, returns its parts: [letter, accidentals, octave, rest]:
+ES6:
 
 ```js
-tokenize("c##4"); // => ["C", "##", "4", ""]
-tokenize("c##4 mixolidian"); // => ["C", "##", "4", " mixolydian"]
-tokenize("not a note"); // => ["", "", "", ""]
+import { Note } from "@tonaljs/tonal";
 ```
 
-### `simplify(noteName: string) => string`
+nodejs:
+
+```js
+const { Note } = require("@tonaljs/tonal");
+```
+
+## API
+
+#### `properties(noteName: string) => Note`
+
+Given a note name, it returns an object with the following properties:
+
+- name: the note name
+- pc: the pitch class name
+- letter: the note letter
+- step: the letter number (0..6)
+- acc: the note accidentals
+- alt: the accidental number (..., -1 = 'b', 0 = '', 1 = '#', ...)
+- oct: the octave (or null if not present)
+- chroma: the note chroma (0..11)
+- midi: the note midi or null if octave is not present
+- freq: the note frequency in Hertzes, or null if the octave is note present
+
+It has several shorthands to retrieve properties easily:
+
+```js
+Note.name("fx4"); // => "F##4"
+Note.pitchClass("Ab5"); // => "Ab"
+Note.accidentals("Eb"); // => 'Eb'
+Note.octave("C4"); // => 4
+Note.midi("A4"); // => 6
+Note.freq("A4"); // => 440
+Note.chroma("D"); // => 2
+
+["C", "D", "E"].map(Note.chroma); // => [0, 2, 4]
+```
+
+#### `Note.fromMidi(midi: number) => string`
+
+Given a midi number, returns the note name. This function is the same as `midiToNoteName` from [@tonaljs/midi](/packages/midi)
+
+```js
+Note.fromMidi(61); // => "Db4"
+Note.fromMidi(61.7); // => "D4"
+[60, 61, 62].map(Note.fromMidi); // => ["C4", "Db4", "D4"]
+```
+
+There's also a `Note.fromMidiSharps` version:
+
+```js
+Note.fromMidiSharps(61); // => "C#4"
+```
+
+#### `simplify(noteName: string) => string`
 
 Given a note name, return the same note with less accidentals (or "" if not a valid note):
 
 ```js
-simplify("C#"); // => "C#"
-simplify("C##"); // => "D"
-simplify("C###"); // => "D#"
+Note.simplify("C#"); // => "C#"
+Note.simplify("C##"); // => "D"
+Note.simplify("C###"); // => "D#"
 ```
 
-### `enharmonic(noteName: string) => string`
+#### `enharmonic(noteName: string) => string`
 
 Given a note name, returns it enharmonic not (or "" if not valid note):
 
 ```js
-enharmonic("C#"); // => "Db"
-enharmonic("C##"); // => "D"
-enharmonic("C###"); // => "Eb"
+Note.enharmonic("C#"); // => "Db"
+Note.enharmonic("C##"); // => "D"
+Note.enharmonic("C###"); // => "Eb"
 ```
 
-### `transposeBy(interval: string) => (note: string) => string`
+#### `transpose(note: string, interval: string) => string`
+
+Transpose a note by an interval. It returns the note name or "" if not valid parameters.
+
+Examples:
+
+```js
+Note.transpose("d3", "3M"); // => "F#3"
+Note.transpose("D", "3M"); // => "F#"
+```
+
+#### `transposeBy(interval: string) => (note: string) => string`
 
 Given an interval, returns a function that transposes a note by that interval:
 
 ```js
-["C", "D", "E"].map(transposeBy("5P"));
+["C", "D", "E"].map(Note.transposeBy("5P"));
 // => ["G", "A", "B"]
 ```
 
-### `transposeFrom(note: string) => (interval: string) => string`
+#### `transposeFrom(note: string) => (interval: string) => string`
 
 Given a note, returns a function that transposes that note by given interval:
 
 ```js
-["1P", "3M", "5P"].map(transposeFrom("C"));
+["1P", "3M", "5P"].map(Note.transposeFrom("C"));
 // => ["C", "E", "G"]
 ```
 
-### `transposeFifths(noteName: string, fifths: number) => string`
+#### `transposeFifths(noteName: string, fifths: number) => string`
 
 Transpose a note a given number of fifths:
 
 ```js
-transposeFifths("G4", 3); // => "E6"
-transposeFifths("G", 3); // => "E"
+Note.transposeFifths("G4", 3); // => "E6"
+Note.transposeFifths("G", 3); // => "E"
 
 [0, 1, 2, 3, 4, 5, 6].map(n => transposeFifths("F#", n));
 // => ["F#", "C#", "G#", "D#", "A#", "E#", "B#"]

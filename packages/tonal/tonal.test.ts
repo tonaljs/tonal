@@ -32,6 +32,7 @@ describe("@tonaljs/tonal", () => {
       "isNamed",
       "isPitch",
       "note",
+      "stepToLetter",
       "tokenizeInterval",
       "tokenizeNote",
       "transpose"

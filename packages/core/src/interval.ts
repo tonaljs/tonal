@@ -63,7 +63,7 @@ type IntervalTokens = [string, string];
 /**
  * @private
  */
-export function tokenize(str?: IntervalName): IntervalTokens {
+export function tokenizeInterval(str?: IntervalName): IntervalTokens {
   const m = REGEX.exec(`${str}`);
   if (m === null) {
     return ["", ""];
@@ -106,7 +106,7 @@ export function interval(src: IntervalLiteral): Interval | NoInterval {
 const SIZES = [0, 2, 4, 5, 7, 9, 11];
 const TYPES = "PMMPPMM";
 function parse(str?: string): Interval | NoInterval {
-  const tokens = tokenize(str);
+  const tokens = tokenizeInterval(str);
   if (tokens[0] === "") {
     return NoInterval;
   }

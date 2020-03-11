@@ -16,12 +16,11 @@ It uses a functional programing style: all functions are pure, there is no data 
 ```js
 import { Note, Interval } from "@tonaljs/tonal";
 
-Note.note("A4").midi; // => 60
-Note.note("a4").freq; // => 440
-Note.note("c#2").accidentals; // => '#'
-Note.note("x").midi; // => undefined
+Note.midi("A4"); // => 60
+Note.freq("a4").freq; // => 440
+Note.accidentals("c#2"); // => '#'
 Note.transpose("C4", "5P"); // => "G4"
-Interval.interval("5P").semitones; // => 7
+Interval.semitones("5P"); // => 7
 Interval.distance("C4", "G4"); // => "5P"
 ```
 
