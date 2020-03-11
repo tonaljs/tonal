@@ -14,7 +14,8 @@ describe("@tonaljs/tonal", () => {
       "Midi",
       "Mode",
       "Note",
-      "PcSet",
+      "PcSet", // <- deprecated
+      "Pcset",
       "Progression",
       "Range",
       "RomanNumeral",

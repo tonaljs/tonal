@@ -2,9 +2,9 @@ import { deprecate } from "@tonaljs/core";
 import {
   EmptyPcset,
   Pcset,
-  pcset,
   PcsetChroma,
-  PcsetNum
+  PcsetNum,
+  properties as pcset
 } from "@tonaljs/pcset";
 import data from "./data";
 

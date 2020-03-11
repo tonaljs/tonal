@@ -9,6 +9,7 @@ import * as Midi from "@tonaljs/midi";
 import * as Mode from "@tonaljs/mode";
 import * as Note from "@tonaljs/note";
 import * as PcSet from "@tonaljs/pcset";
+import Pcset from "@tonaljs/pcset";
 import * as Progression from "@tonaljs/progression";
 import * as Range from "@tonaljs/range";
 import * as RomanNumeral from "@tonaljs/roman-numeral";
@@ -30,12 +31,14 @@ export {
   Key,
   Midi,
   Mode,
-  PcSet,
+  Pcset,
   Progression,
   Range,
   RomanNumeral,
   Scale,
   ScaleDictionary,
   Core,
-  Tonal
+  Tonal,
+  // backwards
+  PcSet
 };
