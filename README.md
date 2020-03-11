@@ -14,7 +14,7 @@ It uses a functional programing style: all functions are pure, there is no data 
 ## Example
 
 ```js
-import { Note, Interval } from "@tonaljs/tonal";
+import { Note, Interval, Scale } from "@tonaljs/tonal";
 
 Note.midi("A4"); // => 60
 Note.freq("a4").freq; // => 440
@@ -22,6 +22,7 @@ Note.accidentals("c#2"); // => '#'
 Note.transpose("C4", "5P"); // => "G4"
 Interval.semitones("5P"); // => 7
 Interval.distance("C4", "G4"); // => "5P"
+Scale.get("C major").notes; // =>["C", "D", "E", "F", "G", "A", "B"];
 ```
 
 ## Install
@@ -107,6 +108,7 @@ This library takes inspiration from other music theory libraries:
 - MusicKit: https://github.com/benzguo/MusicKit
 - Music21: http://web.mit.edu/music21/doc/index.html
 - Sharp11: https://github.com/jsrmath/sharp11
+- python-mingus: https://github.com/bspaans/python-mingus
 
 ## License
 
