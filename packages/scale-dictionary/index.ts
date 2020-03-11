@@ -1,3 +1,4 @@
+import { deprecate } from "@tonaljs/core";
 import {
   EmptyPcset,
   pcset,
@@ -42,18 +43,11 @@ export function get(type: ScaleTypeName): ScaleType {
   return index[type] || NoScaleType;
 }
 
-/**
- * Given a scale name or chroma, return the scale properties
- * @deprecated
- * @see Scale.get
- */
-export function scaleType(type: ScaleTypeName): ScaleType {
-  // tslint:disable-next-line
-  console.warn(
-    "ScaleDictionary.scaleType is deprecated. Use ScaleDictionary.get instead"
-  );
-  return get(type);
-}
+export const scaleType = deprecate(
+  "ScaleDictionary.scaleType",
+  "ScaleDictionary.get",
+  get
+);
 
 /**
  * Return a list of all scale types

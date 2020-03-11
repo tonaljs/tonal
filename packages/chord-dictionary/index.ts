@@ -1,3 +1,4 @@
+import { deprecate } from "@tonaljs/core";
 import {
   EmptyPcset,
   Pcset,
@@ -43,17 +44,11 @@ export function get(type: ChordTypeName): ChordType {
   return index[type] || NoChordType;
 }
 
-/**
- * @deprecated
- * @see get
- */
-export function chordType(type: ChordTypeName): ChordType {
-  // tslint:disable-next-line
-  console.warn(
-    "ChordDictionary.chordType is deprecated. Use ChordDictionary.get instead"
-  );
-  return get(type);
-}
+export const chordType = deprecate(
+  "ChordDictionary.chordType",
+  "ChordDictionary.get",
+  get
+);
 
 /**
  * Keys used to reference chord types

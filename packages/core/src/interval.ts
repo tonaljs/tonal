@@ -1,3 +1,4 @@
+import { isNamed, Named } from "./named";
 import {
   decode,
   Direction,
@@ -7,7 +8,7 @@ import {
   Pitch,
   PitchCoordinates
 } from "./pitch";
-import { isNamed, Named } from "./tonal";
+import { fillStr } from "./utils";
 
 export type IntervalName = string;
 export type IntervalLiteral = IntervalName | Pitch | Named;
@@ -179,8 +180,6 @@ function pitchName(props: Pitch): string {
   const name = d + num + altToQ(type, alt);
   return name;
 }
-
-const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 
 function altToQ(type: Type, alt: number): Quality {
   if (alt === 0) {

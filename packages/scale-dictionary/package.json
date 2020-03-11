@@ -16,7 +16,7 @@
   ],
   "types": "dist/scale-dictionary/index.d.ts",
   "dependencies": {
-    "@tonaljs/interval": "^3.2.4",
+    "@tonaljs/core": "^3.2.4",
     "@tonaljs/pcset": "^3.2.4"
   },
   "author": "danigb@gmail.com",

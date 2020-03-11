@@ -1,5 +1,6 @@
+import { isNamed, Named } from "./named";
 import { decode, encode, isPitch, Pitch, PitchCoordinates } from "./pitch";
-import { isNamed, Named } from "./tonal";
+import { fillStr } from "./utils";
 
 export type NoteWithOctave = string;
 export type PcName = string;
@@ -29,7 +30,6 @@ const NoNote: NoNote = { empty: true, name: "", pc: "", acc: "" };
 
 const cache: Map<NoteLiteral | undefined, Note | NoNote> = new Map();
 
-const fillStr = (s: string, n: number) => Array(n + 1).join(s);
 export const stepToLetter = (step: number) => "CDEFGAB".charAt(step);
 export const altToAcc = (alt: number): string =>
   alt < 0 ? fillStr("b", -alt) : fillStr("#", alt);
