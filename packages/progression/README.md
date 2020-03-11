@@ -2,27 +2,41 @@
 
 > Convert chord list to roman numerals analysis chord and reverse
 
-## Resources
+## Usage
 
-- [Roman numeral analisys](https://en.wikipedia.org/wiki/Roman_numeral_analysis)
-- [Leadsheet chord symbols](https://en.wikipedia.org/wiki/Lead_sheet)
+ES6:
+
+```js
+import { Progression } from "@tonaljs/tonal";
+```
+
+node:
+
+```js
+const { Progression } = require("@tonaljs/tonal");
+```
 
 ## API
 
-### `fromRomanNumerals(keyTonic: string, chordProgression: string[]) => string[]`
+### `Progression.fromRomanNumerals(keyTonic: string, chordProgression: string[]) => string[]`
 
 Given a tonic and a chord progression expressed in roman numeral analisys chords, returns the progression expressed in leadsheet chords.
 
 ```js
-fromRomanNumerals("C", ["IMaj7", "IIm7", "V7"]);
+Progression.fromRomanNumerals("C", ["IMaj7", "IIm7", "V7"]);
 // => ["CMaj7", "Dm7", "G7"]
 ```
 
-### `toRomanNumerals(keyTonic: string, chordProgression: string[]) => string[]`
+### `Progression.toRomanNumerals(keyTonic: string, chordProgression: string[]) => string[]`
 
 The opposite of `fromRomanNumerals`. Given a tonic and a chord progression expressed in leadsheet chords, returns the progression using roman numeral analysis chords.
 
 ```js
-toRomanNumerals("C", ["CMaj7", "Dm7", "G7"]);
+Progression.toRomanNumerals("C", ["CMaj7", "Dm7", "G7"]);
 // => "IMaj7", "IIm7", "V7"]
 ```
+
+## Resources
+
+- [Roman numeral analisys](https://en.wikipedia.org/wiki/Roman_numeral_analysis)
+- [Leadsheet chord symbols](https://en.wikipedia.org/wiki/Lead_sheet)

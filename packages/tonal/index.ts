@@ -10,7 +10,7 @@ import Midi from "@tonaljs/midi";
 import Mode from "@tonaljs/mode";
 import Note from "@tonaljs/note";
 import Pcset from "@tonaljs/pcset";
-import * as Progression from "@tonaljs/progression";
+import Progression from "@tonaljs/progression";
 import * as Range from "@tonaljs/range";
 import * as RomanNumeral from "@tonaljs/roman-numeral";
 import * as Scale from "@tonaljs/scale";

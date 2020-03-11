@@ -1,10 +1,11 @@
-import { fromRomanNumerals, toRomanNumerals } from "./index";
+import Progression from "./index";
 
 const $ = (str: string) => str.split(" ");
 
 describe("@tonaljs/progression", () => {
   test("concrete", () => {
-    const inC = (chords: string[]) => fromRomanNumerals("C", chords);
+    const inC = (chords: string[]) =>
+      Progression.fromRomanNumerals("C", chords);
     expect(inC($("I IIm7 V7"))).toEqual($("C Dm7 G7"));
     expect(inC($("Imaj7 2 IIIm7"))).toEqual(["Cmaj7", "", "Em7"]);
     expect(inC($("I II III IV V VI VII"))).toEqual($("C D E F G A B"));
@@ -17,7 +18,7 @@ describe("@tonaljs/progression", () => {
   });
 
   test("abstract", () => {
-    const roman = toRomanNumerals("C", ["Cmaj7", "Dm7", "G7"]);
+    const roman = Progression.toRomanNumerals("C", ["Cmaj7", "Dm7", "G7"]);
     expect(roman).toEqual(["Imaj7", "IIm7", "V7"]);
   });
 });

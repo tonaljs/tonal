@@ -35,3 +35,5 @@ export function toRomanNumerals(
     return roman.name + chordType;
   });
 }
+
+export default { fromRomanNumerals, toRomanNumerals };
