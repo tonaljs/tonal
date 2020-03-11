@@ -1,6 +1,6 @@
 import {
+  all as chordTypes,
   ChordType,
-  entries as chordTypes,
   get as getChordType
 } from "@tonaljs/chord-type";
 import {
@@ -10,7 +10,7 @@ import {
   transpose as transposeNote
 } from "@tonaljs/core";
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
-import { entries as scaleTypes } from "@tonaljs/scale-type";
+import { all as scaleTypes } from "@tonaljs/scale-type";
 
 type ChordName = string;
 type ChordNameTokens = [string, string]; // [TONIC, SCALE TYPE]
