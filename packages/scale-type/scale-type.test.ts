@@ -1,15 +1,15 @@
-import { modes } from "../pcset";
-import { add, clear, entries, get, keys } from "./index";
+import { modes } from "@tonaljs/pcset";
+import ScaleType from "./index";
 
 describe("gets dictionary", () => {
   test("list names", () => {
-    expect(entries()).toHaveLength(88);
+    expect(ScaleType.all()).toHaveLength(88);
     // sorted
-    expect(entries()[0].name).toEqual("major pentatonic");
+    expect(ScaleType.all()[0].name).toEqual("major pentatonic");
   });
 
   test("get ", () => {
-    expect(get("major")).toEqual({
+    expect(ScaleType.get("major")).toEqual({
       empty: false,
       setNum: 2773,
       name: "major",
@@ -21,7 +21,7 @@ describe("gets dictionary", () => {
   });
 
   test("not valid get type", () => {
-    expect(get("unknown")).toEqual({
+    expect(ScaleType.get("unknown")).toEqual({
       empty: true,
       name: "",
       setNum: 0,
@@ -33,18 +33,18 @@ describe("gets dictionary", () => {
   });
 
   test("add a chord type", () => {
-    add(["1P", "5P"], "quinta");
-    expect(get("quinta")).toMatchObject({
+    ScaleType.add(["1P", "5P"], "quinta");
+    expect(ScaleType.get("quinta")).toMatchObject({
       chroma: "100000010000"
     });
-    add(["1P", "5P"], "quinta", ["q", "Q"]);
-    expect(get("q")).toEqual(get("quinta"));
-    expect(get("Q")).toEqual(get("quinta"));
+    ScaleType.add(["1P", "5P"], "quinta", ["q", "Q"]);
+    expect(ScaleType.get("q")).toEqual(ScaleType.get("quinta"));
+    expect(ScaleType.get("Q")).toEqual(ScaleType.get("quinta"));
   });
 
   test("major modes", () => {
-    const chromas = modes(get("major").intervals, true);
-    const names = chromas.map(chroma => get(chroma).name);
+    const chromas = modes(ScaleType.get("major").intervals, true);
+    const names = chromas.map(chroma => ScaleType.get(chroma).name);
     expect(names).toEqual([
       "major",
       "dorian",
@@ -56,8 +56,8 @@ describe("gets dictionary", () => {
     ]);
   });
   test("harmonic minor modes", () => {
-    const chromas = modes(get("harmonic minor").intervals, true);
-    const names = chromas.map(chroma => get(chroma).name);
+    const chromas = modes(ScaleType.get("harmonic minor").intervals, true);
+    const names = chromas.map(chroma => ScaleType.get(chroma).name);
     expect(names).toEqual([
       "harmonic minor",
       "locrian 6",
@@ -69,8 +69,8 @@ describe("gets dictionary", () => {
     ]);
   });
   test("melodic minor modes", () => {
-    const chromas = modes(get("melodic minor").intervals, true);
-    const names = chromas.map(chroma => get(chroma).name);
+    const chromas = modes(ScaleType.get("melodic minor").intervals, true);
+    const names = chromas.map(chroma => ScaleType.get(chroma).name);
     expect(names).toEqual([
       "melodic minor",
       "dorian b2",
@@ -83,8 +83,8 @@ describe("gets dictionary", () => {
   });
 
   test("clear dictionary", () => {
-    clear();
-    expect(entries()).toEqual([]);
-    expect(keys()).toEqual([]);
+    ScaleType.removeAll();
+    expect(ScaleType.all()).toEqual([]);
+    expect(ScaleType.keys()).toEqual([]);
   });
 });

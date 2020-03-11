@@ -18,7 +18,7 @@ const { Mode } = require("@tonaljs/tonal");
 
 ## API
 
-#### `properties(name: string) => Mode`
+#### `get(name: string) => object`
 
 Given a mode name, returns a Mode object with the following fields:
 
@@ -33,7 +33,7 @@ Given a mode name, returns a Mode object with the following fields:
 Example:
 
 ```js
-Mode.properties("major");
+Mode.get("major");
 // {
 //   name: "ionian",
 //   aliases: ["major"]
@@ -55,12 +55,12 @@ Mode.names();
 // => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"];
 ```
 
-#### `entries() => Mode[]`
+#### `all() => object[]`
 
 Return a list of known modes
 
 ```js
-Mode.entries();
+Mode.all();
 ```
 
 ## How to?
@@ -72,7 +72,7 @@ For example, "A major" mode:
 ```js
 import { Mode, Note } from "@tonaljs/tonal";
 
-Mode.properties("major").intervals.map(Note.transposeFrom("A"));
+Mode.get("major").intervals.map(Note.transposeFrom("A"));
 ["A", "B", "C#", "D", "E", "F#", "G#"];
 ```
 

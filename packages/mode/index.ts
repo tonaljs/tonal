@@ -21,9 +21,9 @@ const NoMode: Mode = {
   aliases: []
 };
 
-const all: Mode[] = DATA.map(toMode);
+const modes: Mode[] = DATA.map(toMode);
 const index: Record<string, Mode> = {};
-all.forEach(mode => {
+modes.forEach(mode => {
   index[mode.name] = mode;
   mode.aliases.forEach(alias => {
     index[alias] = mode;
@@ -36,7 +36,7 @@ type ModeLiteral = string | Named;
  * Get a Mode by it's name
  *
  * @example
- * properties('dorian')
+ * get('dorian')
  * // =>
  * // {
  * //   intervals: [ '1P', '2M', '3m', '4P', '5P', '6M', '7m' ],
@@ -51,28 +51,29 @@ type ModeLiteral = string | Named;
  * //   aliases: []
  * // }
  */
-export function properties(name: ModeLiteral): Mode {
+export function get(name: ModeLiteral): Mode {
   return typeof name === "string"
     ? index[name.toLowerCase()] || NoMode
     : name && name.name
-    ? properties(name.name)
+    ? get(name.name)
     : NoMode;
 }
 
-export const mode = deprecate("Mode.mode", "Mode.properties", properties);
+export const mode = deprecate("Mode.mode", "Mode.get", get);
 
 /**
  * Get a list of all modes
  */
-export function entries() {
-  return all.slice();
+export function all() {
+  return modes.slice();
 }
+export const entries = deprecate("Mode.mode", "Mode.all", all);
 
 /**
  * Get a list of all mode names
  */
 export function names() {
-  return all.map(mode => mode.name);
+  return modes.map(mode => mode.name);
 }
 
 function toMode(mode: ModeDefinition): Mode {
@@ -96,9 +97,10 @@ function toMode(mode: ModeDefinition): Mode {
 }
 
 export default {
-  properties,
+  get,
   names,
-  entries,
+  all,
   // deprecated
+  entries,
   mode
 };

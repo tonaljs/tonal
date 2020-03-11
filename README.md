@@ -84,7 +84,7 @@ The API documentation lives inside README.md file of each module:
 - [@tonaljs/interval](/packages/interval): Interval operations (add, simplify, invert)
 - [@tonaljs/pcset](/packages/pcset): Pitch class sets properties
 - [@tonaljs/mode](/packages/mode): Parse (greek) tonal modes (ionian, dorian, ...)
-- [@tonaljs/scale-dictionary](/packages/scale-dictionary): A dictionary of scales
+- [@tonaljs/scale-type](/packages/scale-type): A dictionary of scales
 - [@tonaljs/chord-type](/packages/chord-type): A dictionary of chords
 - [@tonaljs/key](/packages/key): Major and minor keys scales and chords
 - [@tonaljs/progression](/packages/progression): Chord progressions

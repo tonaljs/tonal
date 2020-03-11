@@ -6,9 +6,9 @@
 
 - `ChordType.chordType` renamed to `ChordType.get`
 
-### `scale-dictionary`
+### `scale-type`
 
-- `ScaleDictionary.scaleType` renamed to `ScaleDictionary.get`
+- `ScaleType.scaleType` renamed to `ScaleType.get`
 
 ## From version 2 to 3
 

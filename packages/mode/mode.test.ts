@@ -3,7 +3,7 @@ import Mode from "./index";
 describe("Mode", () => {
   describe("mode", () => {
     test("properties", () => {
-      expect(Mode.properties("ionian")).toEqual({
+      expect(Mode.get("ionian")).toEqual({
         empty: false,
         modeNum: 0,
         name: "ionian",
@@ -16,40 +16,36 @@ describe("Mode", () => {
         aliases: ["major"],
         intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"]
       });
-      expect(Mode.properties("major")).toEqual(Mode.properties("ionian"));
+      expect(Mode.get("major")).toEqual(Mode.get("ionian"));
     });
     test("accept Named as parameter", () => {
-      expect(Mode.properties(Mode.properties("major"))).toEqual(
-        Mode.properties("major")
-      );
-      expect(Mode.properties({ name: "Major" })).toEqual(
-        Mode.properties("major")
-      );
+      expect(Mode.get(Mode.get("major"))).toEqual(Mode.get("major"));
+      expect(Mode.get({ name: "Major" })).toEqual(Mode.get("major"));
     });
     test("name is case independent", () => {
-      expect(Mode.properties("Dorian")).toEqual(Mode.properties("dorian"));
+      expect(Mode.get("Dorian")).toEqual(Mode.get("dorian"));
     });
     test("setNum", () => {
-      const pcsets = Mode.names().map(name => Mode.properties(name).setNum);
+      const pcsets = Mode.names().map(name => Mode.get(name).setNum);
       expect(pcsets).toEqual([2773, 2902, 3418, 2741, 2774, 2906, 3434]);
     });
 
     test("alt", () => {
-      const alt = Mode.names().map(name => Mode.properties(name).alt);
+      const alt = Mode.names().map(name => Mode.get(name).alt);
       expect(alt).toEqual([0, 2, 4, -1, 1, 3, 5]);
     });
     test("triad", () => {
-      const triads = Mode.names().map(name => Mode.properties(name).triad);
+      const triads = Mode.names().map(name => Mode.get(name).triad);
       expect(triads).toEqual(["", "m", "m", "", "", "m", "dim"]);
     });
     test("seventh", () => {
-      const sevenths = Mode.names().map(name => Mode.properties(name).seventh);
+      const sevenths = Mode.names().map(name => Mode.get(name).seventh);
       expect(sevenths).toEqual(["Maj7", "m7", "m7", "Maj7", "7", "m7", "m7b5"]);
     });
 
     test("aliases", () => {
-      expect(Mode.properties("major")).toEqual(Mode.properties("ionian"));
-      expect(Mode.properties("minor")).toEqual(Mode.properties("aeolian"));
+      expect(Mode.get("major")).toEqual(Mode.get("ionian"));
+      expect(Mode.get("minor")).toEqual(Mode.get("aeolian"));
     });
   });
   test("names", () => {

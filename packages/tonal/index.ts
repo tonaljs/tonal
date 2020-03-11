@@ -1,7 +1,7 @@
 import AbcNotation from "@tonaljs/abc-notation";
 import * as Array from "@tonaljs/array";
 import * as Chord from "@tonaljs/chord";
-import * as ChordType from "@tonaljs/chord-type";
+import ChordType from "@tonaljs/chord-type";
 import Collection from "@tonaljs/collection";
 import * as Core from "@tonaljs/core";
 import Interval from "@tonaljs/interval";
@@ -9,18 +9,18 @@ import Key from "@tonaljs/key";
 import Midi from "@tonaljs/midi";
 import Mode from "@tonaljs/mode";
 import Note from "@tonaljs/note";
-import PcSet from "@tonaljs/pcset";
 import Pcset from "@tonaljs/pcset";
 import * as Progression from "@tonaljs/progression";
 import * as Range from "@tonaljs/range";
 import * as RomanNumeral from "@tonaljs/roman-numeral";
 import * as Scale from "@tonaljs/scale";
-import * as ScaleDictionary from "@tonaljs/scale-dictionary";
+import ScaleType from "@tonaljs/scale-type";
 
 export * from "@tonaljs/core";
 
-// backwards compatibility
+// deprecated (backwards compatibility)
 import * as Tonal from "@tonaljs/core";
+import PcSet from "@tonaljs/pcset";
 
 export {
   AbcNotation,
@@ -39,7 +39,7 @@ export {
   Range,
   RomanNumeral,
   Scale,
-  ScaleDictionary,
+  ScaleType,
   // backwards
   Tonal,
   PcSet

@@ -28,15 +28,19 @@ export const NoScaleType: ScaleType = {
 
 type ScaleTypeName = string | PcsetChroma | PcsetNum;
 
-let scales: ScaleType[] = [];
+let dictionary: ScaleType[] = [];
 let index: Record<ScaleTypeName, ScaleType> = {};
+
+export function names() {
+  return dictionary.map(scale => scale.name);
+}
 
 /**
  * Given a scale name or chroma, return the scale properties
  *
  * @param {string} type - scale name or pitch class set chroma
  * @example
- * import { get } from 'tonaljs/scale-dictionary'
+ * import { get } from 'tonaljs/scale-type'
  * get('major') // => { name: 'major', ... }
  */
 export function get(type: ScaleTypeName): ScaleType {
@@ -45,16 +49,22 @@ export function get(type: ScaleTypeName): ScaleType {
 
 export const scaleType = deprecate(
   "ScaleDictionary.scaleType",
-  "ScaleDictionary.get",
+  "ScaleType.get",
   get
 );
 
 /**
  * Return a list of all scale types
  */
-export function entries() {
-  return scales.slice();
+export function all() {
+  return dictionary.slice();
 }
+
+export const entries = deprecate(
+  "ScaleDictionary.entries",
+  "ScaleType.all",
+  all
+);
 
 /**
  * Keys used to reference scale types
@@ -66,8 +76,8 @@ export function keys() {
 /**
  * Clear the dictionary
  */
-export function clear() {
-  scales = [];
+export function removeAll() {
+  dictionary = [];
   index = {};
 }
 
@@ -83,7 +93,7 @@ export function add(
   aliases: string[] = []
 ): ScaleType {
   const scale = { ...pcset(intervals), name, intervals, aliases };
-  scales.push(scale);
+  dictionary.push(scale);
   index[scale.name] = scale;
   index[scale.setNum] = scale;
   index[scale.chroma] = scale;
@@ -98,3 +108,16 @@ export function addAlias(scale: ScaleType, alias: string) {
 data.forEach(([ivls, name, ...aliases]: string[]) =>
   add(ivls.split(" "), name, aliases)
 );
+
+export default {
+  names,
+  get,
+  all,
+  add,
+  removeAll,
+  keys,
+
+  // deprecated
+  entries,
+  scaleType
+};

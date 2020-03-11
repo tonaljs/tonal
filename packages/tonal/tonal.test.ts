@@ -21,7 +21,7 @@ describe("@tonaljs/tonal", () => {
       "Range",
       "RomanNumeral",
       "Scale",
-      "ScaleDictionary",
+      "ScaleType",
       "Tonal",
       "accToAlt",
       "altToAcc",

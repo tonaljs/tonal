@@ -10,7 +10,7 @@ import {
   transpose as transposeNote
 } from "@tonaljs/core";
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
-import { entries as scaleTypes } from "@tonaljs/scale-dictionary";
+import { entries as scaleTypes } from "@tonaljs/scale-type";
 
 type ChordName = string;
 type ChordNameTokens = [string, string]; // [TONIC, SCALE TYPE]

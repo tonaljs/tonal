@@ -30,7 +30,7 @@
     "@tonaljs/range": "^3.2.5",
     "@tonaljs/roman-numeral": "^3.3.2",
     "@tonaljs/scale": "^3.3.5",
-    "@tonaljs/scale-dictionary": "^3.4.3"
+    "@tonaljs/scale-type": "^3.4.3"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

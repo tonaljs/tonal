@@ -10,7 +10,7 @@
 
 Get a scale from a scale name. Unlike `scaleType`, `scale` accepts tonics in the scale name and returns the scale type with two more properties: `tonic` and `notes`:
 
-See [scale-dictionary](../scale-dictionary) for more details.
+See [scale-type](../scale-type) for more details.
 
 ```js
 scale("c5 pentatonic");

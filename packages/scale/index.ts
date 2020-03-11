@@ -12,7 +12,7 @@ import {
   entries as scaleTypes,
   get as getScaleType,
   ScaleType
-} from "@tonaljs/scale-dictionary";
+} from "@tonaljs/scale-type";
 
 type ScaleName = string;
 type ScaleNameTokens = [string, string]; // [TONIC, SCALE TYPE]

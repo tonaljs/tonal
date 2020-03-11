@@ -1,13 +1,21 @@
-# @tonaljs/scale-dictionary [![npm version](https://img.shields.io/npm/v/@tonaljs/scale-dictionary.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/scale-dictionary)
+# @tonaljs/scale-type [![npm version](https://img.shields.io/npm/v/@tonaljs/scale-type.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/scale-type)
 
 [![tonal](https://img.shields.io/badge/@tonaljs-scale_dictionary-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
 
-`@tonaljs/scale-dictionary` is a dictionary of musical scales.
+`@tonaljs/scale-type` is a dictionary of musical scales.
 
 ## Usage
 
+ES6:
+
 ```js
-import { ScaleDictionary } from "@tonaljs/tonal";
+import { ScaleType } from "@tonaljs/tonal";
+```
+
+nodejs:
+
+```js
+const { ScaleType } = require("@tonaljs/tonal");
 ```
 
 ## API
@@ -27,7 +35,7 @@ Given a scale type name, return a ScaleType object with the following properties
 Example:
 
 ```js
-ScaleDictionary.get("major"); // =>
+ScaleType.get("major"); // =>
 // {
 // name: "major",
 // aliases: ["ionian"],
@@ -38,30 +46,28 @@ ScaleDictionary.get("major"); // =>
 // });
 ```
 
-#### `entries() => Scale[]`
+#### `names() => string[]`
 
-Return a list of all available scale types
+Return a list of all scale names
+
+#### `all() => object[]`
+
+Return a list of all scale types
 
 #### `add(intervals: string[], name?: string, aliases?: string[]) => ScaleType`
 
 Add a scale type to dictionary:
 
 ```js
-ScaleDictionary.add(["1P", "5P"], null, ["5"]);
+ScaleType.add(["1P", "5P"], null, ["5"]);
 ```
 
 ## HOW TO
 
-#### How to get all names?
-
-```js
-ScaleDictionary.entries().map(scaleType => scaleType.name);
-```
-
 #### How to get all pentatonics names?
 
 ```js
-ScaleDictionary.entries()
+ScaleType.all()
   .filter(scaleType => scaleType.length === 5)
   .map(scaleType => scaleType.name);
 ```
@@ -69,7 +75,7 @@ ScaleDictionary.entries()
 #### How do to add a scale to the dictionary?
 
 ```js
-ScaleDictionary.add(["1P", "5P"], "quinta", ["quinta justa", "diapente"]);
-ScaleDictionary.scale("quinta"); // => { name: "quinta", intervals: ...}
-ScaleDictionary.scale("quinta justa"); // => { name: "quinta", intervals: ... }
+ScaleType.add(["1P", "5P"], "quinta", ["quinta justa", "diapente"]);
+ScaleType.scale("quinta"); // => { name: "quinta", intervals: ...}
+ScaleType.scale("quinta justa"); // => { name: "quinta", intervals: ... }
 ```
