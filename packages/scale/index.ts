@@ -95,7 +95,7 @@ export function get(src: ScaleName | ScaleNameTokens): Scale {
   return { ...st, name, type, tonic, notes };
 }
 
-const scale = deprecate("Scale.scale", "Scale.get", get);
+export const scale = deprecate("Scale.scale", "Scale.get", get);
 
 /**
  * Get all chords that fits a given scale

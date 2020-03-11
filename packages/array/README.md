@@ -1,1 +1,3 @@
-# Deprecated: use [`@tonaljs/collection`](/packages/collection) instead
+# deprecated: @tonaljs/array
+
+Renamed to [`@tonaljs/collection`](/packages/collection)

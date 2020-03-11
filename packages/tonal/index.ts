@@ -11,9 +11,9 @@ import Mode from "@tonaljs/mode";
 import Note from "@tonaljs/note";
 import Pcset from "@tonaljs/pcset";
 import Progression from "@tonaljs/progression";
-import * as Range from "@tonaljs/range";
+import Range from "@tonaljs/range";
 import RomanNumeral from "@tonaljs/roman-numeral";
-import * as Scale from "@tonaljs/scale";
+import Scale from "@tonaljs/scale";
 import ScaleType from "@tonaljs/scale-type";
 
 export * from "@tonaljs/core";

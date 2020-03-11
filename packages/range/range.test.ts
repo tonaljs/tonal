@@ -1,4 +1,5 @@
-import { chromatic, numeric } from "./index";
+import Range from "./index";
+const { numeric, chromatic } = Range;
 
 const $ = (str: string) => str.split(" ");
 
