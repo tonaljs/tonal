@@ -20,7 +20,7 @@ const { Pcset } = require("@tonaljs/tonal");
 
 ## API
 
-#### `properties(src: note[] | string | number)`
+#### `get(src: note[] | string | number)`
 
 Given a collection of notes, a pitch class chroma string or a pitch class number, it returns a properties object with the following attributes:
 
@@ -32,7 +32,7 @@ Given a collection of notes, a pitch class chroma string or a pitch class number
 Example:
 
 ```js
-Pcset.properties(["c", "d", "e"]);
+Pcset.get(["c", "d", "e"]);
 // =>
 // {
 //   num: 2688,
@@ -45,9 +45,9 @@ Pcset.properties(["c", "d", "e"]);
 It is possible to obtain the properties from chroma or set number. All this function calls returns the same object:
 
 ```js
-Pcset.properties(["c", "d", "e"]);
-Pcset.properties(2688);
-Pcset.properties("101010000000");
+Pcset.get(["c", "d", "e"]);
+Pcset.get(2688);
+Pcset.get("101010000000");
 ```
 
 Several shorthands (`num`, `chroma`, intervals`) are provided:

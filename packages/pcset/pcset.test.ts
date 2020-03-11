@@ -5,7 +5,7 @@ const $ = (str: string) => str.split(" ");
 describe("@tonaljs/pcset", () => {
   describe("pcset", () => {
     test("from note list", () => {
-      expect(Pcset.properties(["c", "d", "e"])).toEqual({
+      expect(Pcset.get(["c", "d", "e"])).toEqual({
         empty: false,
         name: "",
         setNum: 2688,
@@ -13,14 +13,12 @@ describe("@tonaljs/pcset", () => {
         normalized: "100000001010",
         intervals: ["1P", "2M", "3M"]
       });
-      expect(Pcset.properties(["d", "e", "c"])).toEqual(
-        Pcset.properties(["c", "d", "e"])
-      );
-      expect(Pcset.properties(["not a note or interval"]).empty).toBe(true);
-      expect(Pcset.properties([]).empty).toBe(true);
+      expect(Pcset.get(["d", "e", "c"])).toEqual(Pcset.get(["c", "d", "e"]));
+      expect(Pcset.get(["not a note or interval"]).empty).toBe(true);
+      expect(Pcset.get([]).empty).toBe(true);
     });
     test("from pcset number", () => {
-      expect(Pcset.properties(2048)).toEqual(Pcset.properties(["C"]));
+      expect(Pcset.get(2048)).toEqual(Pcset.get(["C"]));
     });
     test("num", () => {
       expect(Pcset.num("000000000001")).toBe(1);
@@ -32,12 +30,12 @@ describe("@tonaljs/pcset", () => {
       expect(Pcset.num("111111111111")).toBe(4095);
     });
     test("normalized", () => {
-      const likeC = Pcset.properties(["C"]).chroma; // 100000000000
+      const likeC = Pcset.get(["C"]).chroma; // 100000000000
       "cdefgab".split("").forEach(pc => {
-        expect(Pcset.properties([pc]).normalized).toBe(likeC);
+        expect(Pcset.get([pc]).normalized).toBe(likeC);
       });
-      expect(Pcset.properties(["E", "F#"]).normalized).toBe(
-        Pcset.properties(["C", "D"]).normalized
+      expect(Pcset.get(["E", "F#"]).normalized).toBe(
+        Pcset.get(["C", "D"]).normalized
       );
     });
   });
@@ -69,10 +67,10 @@ describe("@tonaljs/pcset", () => {
   });
 
   test("isChroma", () => {
-    expect(Pcset.properties("101010101010").chroma).toBe("101010101010");
-    expect(Pcset.properties("1010101").chroma).toBe("000000000000");
-    expect(Pcset.properties("blah").chroma).toBe("000000000000");
-    expect(Pcset.properties("c d e").chroma).toBe("000000000000");
+    expect(Pcset.get("101010101010").chroma).toBe("101010101010");
+    expect(Pcset.get("1010101").chroma).toBe("000000000000");
+    expect(Pcset.get("blah").chroma).toBe("000000000000");
+    expect(Pcset.get("c d e").chroma).toBe("000000000000");
   });
 
   test("isSubsetOf", () => {

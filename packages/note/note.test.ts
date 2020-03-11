@@ -3,8 +3,8 @@ import Note from "./index";
 const $ = (str: string) => str.split(" ");
 
 describe("note", () => {
-  test("properties", () => {
-    expect(Note.properties("C4")).toEqual({
+  test("get", () => {
+    expect(Note.get("C4")).toEqual({
       acc: "",
       alt: 0,
       chroma: 0,
@@ -19,9 +19,7 @@ describe("note", () => {
       pc: "C",
       step: 0
     });
-    expect(Note.properties("C4")).toEqual(
-      Note.properties(Note.properties("C4"))
-    );
+    expect(Note.get("C4")).toEqual(Note.get(Note.get("C4")));
   });
   test("property shorthands", () => {
     expect(Note.name("db")).toEqual("Db");

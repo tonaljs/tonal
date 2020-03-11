@@ -4,7 +4,7 @@ const $ = (str: string) => str.split(" ");
 
 describe("@tonaljs/interval", () => {
   test("properties", () => {
-    expect(Interval.properties("P4")).toEqual({
+    expect(Interval.get("P4")).toEqual({
       alt: 0,
       chroma: 5,
       coord: [-1, 1],

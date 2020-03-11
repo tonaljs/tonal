@@ -74,7 +74,7 @@ export type Set =
 /**
  * Get the pitch class set of a collection of notes or set number or chroma
  */
-export function properties(src: Set): Pcset {
+export function get(src: Set): Pcset {
   const chroma: PcsetChroma = isChroma(src)
     ? src
     : isPcsetNum(src)
@@ -93,7 +93,7 @@ export function properties(src: Set): Pcset {
  * @function
  * @deprecated
  */
-export const pcset = deprecate("Pcset.pcset", "Pcset.properties", properties);
+export const pcset = deprecate("Pcset.pcset", "Pcset.get", get);
 
 /**
  * Get pitch class set chroma
@@ -101,7 +101,7 @@ export const pcset = deprecate("Pcset.pcset", "Pcset.properties", properties);
  * @example
  * Pcset.chroma(["c", "d", "e"]); //=> "101010000000"
  */
-const chroma = (set: Set) => properties(set).chroma;
+const chroma = (set: Set) => get(set).chroma;
 
 /**
  * Get intervals (from C) of a set
@@ -109,7 +109,7 @@ const chroma = (set: Set) => properties(set).chroma;
  * @example
  * Pcset.intervals(["c", "d", "e"]); //=>
  */
-const intervals = (set: Set) => properties(set).intervals;
+const intervals = (set: Set) => get(set).intervals;
 
 /**
  * Get pitch class set number
@@ -117,7 +117,7 @@ const intervals = (set: Set) => properties(set).intervals;
  * @example
  * Pcset.num(["c", "d", "e"]); //=> 2192
  */
-const num = (set: Set) => properties(set).setNum;
+const num = (set: Set) => get(set).setNum;
 
 const IVLS = [
   "1P",
@@ -177,7 +177,7 @@ export function chromas(): PcsetChroma[] {
  * Pcset.modes(["C", "D", "E"]).map(Pcset.intervals)
  */
 export function modes(set: Set, normalize = true): PcsetChroma[] {
-  const pcs = properties(set);
+  const pcs = get(set);
 
   const binary = pcs.chroma.split("");
   return compact(
@@ -198,7 +198,7 @@ export function modes(set: Set, normalize = true): PcsetChroma[] {
  * Pcset.isEqual(["c2", "d3"], ["c5", "d2"]) // => true
  */
 export function isEqual(s1: Set, s2: Set) {
-  return properties(s1).setNum === properties(s2).setNum;
+  return get(s1).setNum === get(s2).setNum;
 }
 
 /**
@@ -217,10 +217,10 @@ export function isEqual(s1: Set, s2: Set) {
  * inCMajor(["e6", "c4", "d3"]) // => false
  */
 export function isSubsetOf(set: Set) {
-  const s = properties(set).setNum;
+  const s = get(set).setNum;
 
   return (notes: Set | Pcset) => {
-    const o = properties(notes).setNum;
+    const o = get(notes).setNum;
     // tslint:disable-next-line: no-bitwise
     return s && s !== o && (o & s) === o;
   };
@@ -239,9 +239,9 @@ export function isSubsetOf(set: Set) {
  * extendsCMajor(["c6", "e4", "g3"]) // => false
  */
 export function isSupersetOf(set: Set) {
-  const s = properties(set).setNum;
+  const s = get(set).setNum;
   return (notes: Set) => {
-    const o = properties(notes).setNum;
+    const o = get(notes).setNum;
     // tslint:disable-next-line: no-bitwise
     return s && s !== o && (o | s) === o;
   };
@@ -262,7 +262,7 @@ export function isSupersetOf(set: Set) {
  * isNoteInCMajor('C#4') // => false
  */
 export function isNoteIncludedIn(set: Set) {
-  const s = properties(set);
+  const s = get(set);
 
   return (noteName: NoteName): boolean => {
     const n = note(noteName);
@@ -292,7 +292,7 @@ export function filter(set: Set) {
 }
 
 export default {
-  properties,
+  get,
   chroma,
   num,
   intervals,

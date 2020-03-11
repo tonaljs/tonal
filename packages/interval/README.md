@@ -18,7 +18,7 @@ const { Interval } = require("@tonaljs/tonal");
 
 ## API
 
-#### `properties(name: string)`
+#### `Interval.get(name: string)`
 
 Get properties of an interval:
 
@@ -32,10 +32,13 @@ Get properties of an interval:
 - semitones: the number of semitones it spans
 - simple: the simplified number
 
+```js
+Interval.get("5P"); // => { name: "5P", num: 5, ...}
+```
+
 There are some shorthand functions (`name`, `num`, `semitones`, `quality`):
 
 ```js
-Interval.properties("5P"); // => { name: "5P", num: 5, ...}
 Interval.name("d4"); // => "4d"
 Interval.num("5P"); // => 5
 Interval.quality("5P"); // => "P"

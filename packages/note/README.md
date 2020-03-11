@@ -18,9 +18,9 @@ const { Note } = require("@tonaljs/tonal");
 
 ## API
 
-### Note name and properties
+### Note properties
 
-#### `Note.properties(noteName: string) => Note`
+#### `Note.get(noteName: string) => Note`
 
 Given a note name, it returns an object with the following properties:
 
@@ -34,6 +34,10 @@ Given a note name, it returns an object with the following properties:
 - chroma: the note chroma (0..11)
 - midi: the note midi or null if octave is not present
 - freq: the note frequency in Hertzes, or null if the octave is note present
+
+```js
+Note.get("C4"); // => { name: "C4", midi: 60, ... }
+```
 
 It has several shorthands to retrieve properties easily:
 

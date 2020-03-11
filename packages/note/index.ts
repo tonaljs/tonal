@@ -38,51 +38,51 @@ export function names(array?: any[]): string[] {
  *
  * @function
  * @example
- * Note.properties('Bb4') // => { name: "Bb4", midi: 70, chroma: 10, ... }
+ * Note.get('Bb4') // => { name: "Bb4", midi: 70, chroma: 10, ... }
  */
-export const properties = props;
+export const get = props;
 
 /**
  * Get the note name
  * @function
  */
-export const name = (note: NoteLiteral) => properties(note).name;
+export const name = (note: NoteLiteral) => get(note).name;
 
 /**
  * Get the note pitch class name
  * @function
  */
-export const pitchClass = (note: NoteLiteral) => properties(note).pc;
+export const pitchClass = (note: NoteLiteral) => get(note).pc;
 
 /**
  * Get the note accidentals
  * @function
  */
-export const accidentals = (note: NoteLiteral) => properties(note).acc;
+export const accidentals = (note: NoteLiteral) => get(note).acc;
 
 /**
  * Get the note octave
  * @function
  */
-export const octave = (note: NoteLiteral) => properties(note).oct;
+export const octave = (note: NoteLiteral) => get(note).oct;
 
 /**
  * Get the note midi
  * @function
  */
-export const midi = (note: NoteLiteral) => properties(note).midi;
+export const midi = (note: NoteLiteral) => get(note).midi;
 
 /**
  * Get the note midi
  * @function
  */
-export const freq = (note: NoteLiteral) => properties(note).freq;
+export const freq = (note: NoteLiteral) => get(note).freq;
 
 /**
  * Get the note chroma
  * @function
  */
-export const chroma = (note: NoteLiteral) => properties(note).chroma;
+export const chroma = (note: NoteLiteral) => get(note).chroma;
 
 /**
  * Given a midi number, returns a note name. Uses flats for altered notes.
@@ -157,7 +157,7 @@ export const trFrom = transposeFrom;
  * [0, 1, 2, 3, 4].map(fifths => transposeFifths("C", fifths)) // => ["C", "G", "D", "A", "E"]
  */
 export function transposeFifths(noteName: NoteName, fifths: number): NoteName {
-  const note = properties(noteName);
+  const note = get(noteName);
   if (note.empty) {
     return "";
   }
@@ -221,7 +221,7 @@ export const enharmonic = nameBuilder(false);
 
 function nameBuilder(sameAccidentals: boolean) {
   return (noteName: NoteName | Pitch): string => {
-    const note = properties(noteName);
+    const note = get(noteName);
     if (note.empty) {
       return "";
     }
@@ -233,7 +233,7 @@ function nameBuilder(sameAccidentals: boolean) {
 
 export default {
   names,
-  properties,
+  get,
   name,
   pitchClass,
   accidentals,

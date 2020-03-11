@@ -20,9 +20,9 @@ export function names(): IntervalName[] {
  *
  * @function
  * @example
- * Interval.properties('P4') // => {"alt": 0,  "dir": 1,  "name": "4P", "num": 4, "oct": 0, "q": "P", "semitones": 5, "simple": 4, "step": 3, "type": "perfectable"}
+ * Interval.get('P4') // => {"alt": 0,  "dir": 1,  "name": "4P", "num": 4, "oct": 0, "q": "P", "semitones": 5, "simple": 4, "step": 3, "type": "perfectable"}
  */
-export const properties = props;
+export const get = props;
 
 /**
  * Get name of an interval
@@ -169,7 +169,7 @@ export const substract = combinator((a, b) => [a[0] - b[0], a[1] - b[1]]);
 
 export default {
   names,
-  properties,
+  get,
   name,
   num,
   semitones,
