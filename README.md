@@ -59,14 +59,16 @@ Grab the [minified browser ready version](https://raw.githubusercontent.com/tona
 
 #### Bundle size
 
-`@tonaljs/tonal` includes all published modules. Although tonal it is small, you can reduce bundle sizes by importing the modules individually, or even only the functions you need:
+`@tonaljs/tonal` includes all published modules.
+
+Although tonal it is small, you can reduce bundle sizes by installing the modules individually, and importing the functions you need:
 
 ```
-npm i @tonaljs/core
+npm i @tonaljs/note
 ```
 
 ```js
-import { transpose } from "@tonaljs/core";
+import { transpose } from "@tonaljs/note";
 transpose("A4", "P5");
 ```
 
