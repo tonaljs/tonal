@@ -156,3 +156,5 @@ export function majorTonicFromKeySignature(
   }
   return null;
 }
+
+export default { majorKey, majorTonicFromKeySignature, minorKey };
