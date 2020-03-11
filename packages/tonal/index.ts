@@ -1,4 +1,4 @@
-import * as AbcNotation from "@tonaljs/abc-notation";
+import AbcNotation from "@tonaljs/abc-notation";
 import * as Array from "@tonaljs/array";
 import * as Chord from "@tonaljs/chord";
 import * as ChordDictionary from "@tonaljs/chord-dictionary";
