@@ -107,11 +107,17 @@ This library takes inspiration from other music theory libraries:
 - Music21: http://web.mit.edu/music21/doc/index.html
 - Sharp11: https://github.com/jsrmath/sharp11
 
-## Showcase
+## Projects using tonal
 
-Showcase of projects that are using Tonal.
+Showcase of projects that are using Tonal:
 
-- Solfej: https://www.solfej.io/
+- [Solfej](https://www.solfej.io/) by [Shayan Javadi](https://github.com/ShayanJavadi)
+- [EarBeater](https://www.earbeater.com/online-ear-training/) by [Morten Vestergaard](https://github.com/vellebelle)
+- [sonid.app](https://sonid.app/) ([play store](https://play.google.com/store/apps/details?id=org.stroopwafel.music.app), [apple store](https://apps.apple.com/us/app/sonid/id1490221762?ls=1)) by [martijnmichel](https://github.com/martijnmichel)
+
+Thank you all!
+
+Add your project here by [editing this file](https://github.com/tonaljs/tonal/edit/master/README.md)
 
 ## License
 
