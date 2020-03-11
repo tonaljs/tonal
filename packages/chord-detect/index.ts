@@ -1,4 +1,4 @@
-import { get as chordType } from "@tonaljs/chord-dictionary";
+import { get as chordType } from "@tonaljs/chord-type";
 import { note } from "@tonaljs/core";
 import { modes } from "@tonaljs/pcset";
 

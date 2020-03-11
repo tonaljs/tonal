@@ -94,7 +94,7 @@ Test if a set is a superset of another. This function is currified
 
 ## Want more?
 
-Take a look to [@tonal/scale-dictionary]() or [@tonal/chord-dictionary]() that are, in fact, dictionaries of pitch class sets.
+Take a look to [@tonal/scale-dictionary]() or [@tonal/chord-type]() that are, in fact, dictionaries of pitch class sets.
 
 ## FAQ
 

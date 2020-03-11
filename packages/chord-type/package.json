@@ -1,5 +1,5 @@
 {
-  "name": "@tonaljs/chord-dictionary",
+  "name": "@tonaljs/chord-type",
   "version": "3.4.1",
   "description": "A dictionary of musical chords",
   "keywords": [
@@ -15,7 +15,7 @@
   "files": [
     "dist"
   ],
-  "types": "dist/chord-dictionary/index.d.ts",
+  "types": "dist/chord-type/index.d.ts",
   "dependencies": {
     "@tonaljs/core": "^3.2.4",
     "@tonaljs/pcset": "^3.2.4"

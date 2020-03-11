@@ -15,7 +15,7 @@
   ],
   "types": "dist/chord-detect/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord-dictionary": "^3.3.1",
+    "@tonaljs/chord-type": "^3.3.1",
     "@tonaljs/pcset": "^3.2.3",
     "@tonaljs/core": "^3.2.2"
   },

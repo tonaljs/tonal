@@ -2,9 +2,9 @@
 
 ## From version 3 to 4
 
-### `chord-dictionary`
+### `chord-type`
 
-- `ChordDictionary.chordType` renamed to `ChordDictionary.get`
+- `ChordType.chordType` renamed to `ChordType.get`
 
 ### `scale-dictionary`
 

@@ -30,25 +30,35 @@ const NoChordType: ChordType = {
 
 type ChordTypeName = string | PcsetChroma | PcsetNum;
 
-let chords: ChordType[] = [];
+let dictionary: ChordType[] = [];
 let index: Record<ChordTypeName, ChordType> = {};
 
 /**
  * Given a chord name or chroma, return the chord properties
  * @param {string} source - chord name or pitch class set chroma
  * @example
- * import { get } from 'tonaljs/chord-dictionary'
+ * import { get } from 'tonaljs/chord-type'
  * get('major') // => { name: 'major', ... }
  */
 export function get(type: ChordTypeName): ChordType {
   return index[type] || NoChordType;
 }
 
-export const chordType = deprecate(
-  "ChordDictionary.chordType",
-  "ChordDictionary.get",
-  get
-);
+export const chordType = deprecate("ChordType.chordType", "ChordType.get", get);
+
+/**
+ * Get all chord (long) names
+ */
+export function names() {
+  return dictionary.map(chord => chord.name).filter(x => x);
+}
+
+/**
+ * Get all chord symbols
+ */
+export function symbols() {
+  return dictionary.map(chord => chord.aliases[0]).filter(x => x);
+}
 
 /**
  * Keys used to reference chord types
@@ -60,15 +70,17 @@ export function keys() {
 /**
  * Return a list of all chord types
  */
-export function entries(): ChordType[] {
-  return chords.slice();
+export function all(): ChordType[] {
+  return dictionary.slice();
 }
+
+export const entries = deprecate("ChordType.entries", "ChordType.all", all);
 
 /**
  * Clear the dictionary
  */
-export function clear() {
-  chords = [];
+export function removeAll() {
+  dictionary = [];
   index = {};
 }
 
@@ -87,7 +99,7 @@ export function add(intervals: string[], aliases: string[], fullName?: string) {
     intervals,
     aliases
   };
-  chords.push(chord);
+  dictionary.push(chord);
   if (chord.name) {
     index[chord.name] = chord;
   }
@@ -116,4 +128,17 @@ function getQuality(intervals: string[]): ChordQuality {
 data.forEach(([ivls, fullName, names]: string[]) =>
   add(ivls.split(" "), names.split(" "), fullName)
 );
-chords.sort((a, b) => a.setNum - b.setNum);
+dictionary.sort((a, b) => a.setNum - b.setNum);
+
+export default {
+  names,
+  symbols,
+  get,
+  all,
+  add,
+  removeAll,
+  keys,
+  // deprecated
+  entries,
+  chordType
+};

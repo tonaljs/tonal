@@ -17,7 +17,7 @@
   "types": "dist/scale/index.d.ts",
   "dependencies": {
     "@tonaljs/collection": "^3.2.4",
-    "@tonaljs/chord-dictionary": "^3.4.1",
+    "@tonaljs/chord-type": "^3.4.1",
     "@tonaljs/core": "^3.3.0",
     "@tonaljs/note": "^3.2.0",
     "@tonaljs/pcset": "^3.2.4",

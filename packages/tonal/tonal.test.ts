@@ -7,7 +7,7 @@ describe("@tonaljs/tonal", () => {
       "AbcNotation",
       "Array",
       "Chord",
-      "ChordDictionary",
+      "ChordType",
       "Collection",
       "Core",
       "Interval",

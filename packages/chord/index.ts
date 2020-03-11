@@ -2,7 +2,7 @@ import {
   ChordType,
   entries as chordTypes,
   get as getChordType
-} from "@tonaljs/chord-dictionary";
+} from "@tonaljs/chord-type";
 import {
   note,
   NoteName,

@@ -3,7 +3,7 @@
  * - https://www.researchgate.net/publication/327567188_An_Algorithm_for_Spelling_the_Pitches_of_Any_Musical_Scale
  * @module scale
  */
-import { entries as chordTypes } from "@tonaljs/chord-dictionary";
+import { entries as chordTypes } from "@tonaljs/chord-type";
 import { rotate } from "@tonaljs/collection";
 import { note, NoteName, transpose } from "@tonaljs/core";
 import { sortedUniqNames } from "@tonaljs/note";
