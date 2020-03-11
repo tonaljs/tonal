@@ -18,6 +18,7 @@
   "dependencies": {
     "@tonaljs/collection": "^3.2.4",
     "@tonaljs/chord-type": "^3.4.1",
+    "@tonaljs/chord-detect": "^3.4.5",
     "@tonaljs/core": "^3.3.0",
     "@tonaljs/pcset": "^3.2.4",
     "@tonaljs/scale-type": "^3.4.3"

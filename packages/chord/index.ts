@@ -1,3 +1,4 @@
+import { detect } from "@tonaljs/chord-detect";
 import {
   all as chordTypes,
   ChordType,
@@ -15,6 +16,7 @@ import {
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
 
 import { all as scaleTypes } from "@tonaljs/scale-type";
+export { detect } from "@tonaljs/chord-detect";
 
 type ChordName = string;
 type ChordNameTokens = [string, string]; // [TONIC, SCALE TYPE]
@@ -179,6 +181,7 @@ export function reduced(chordName: string): string[] {
 
 export default {
   get,
+  detect,
   chordScales,
   extended,
   reduced,

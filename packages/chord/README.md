@@ -39,6 +39,14 @@ Chord.get("Cmaj7");
 // };
 ```
 
+#### `Chord.detect(notes: string[]) => string[]`
+
+Given a list of notes, get the possible chord names:
+
+```js
+Chord.detect(["D", "F#", "A", "C"]); // => ["D7"]
+```
+
 #### `Chord.transpose(chordName: string, intervalName: string) => string`
 
 Transpose a chord name by an interval:
