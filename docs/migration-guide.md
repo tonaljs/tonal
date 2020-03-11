@@ -2,13 +2,12 @@
 
 ## From version 3 to 4
 
-### `chord-type`
+No breaking changes, but deprecations:
 
-- `ChordType.chordType` renamed to `ChordType.get`
-
-### `scale-type`
-
-- `ScaleType.scaleType` renamed to `ScaleType.get`
+- New module structure: Tonal is renamed to Core. Modules renamed to Tonal
+- All modules exports default for easy ES6 import
+- Rename chord-dictionary to chord-type and scale-dictionary to scale-type
+- Rename array to collection (to avoid name classing with native Array)
 
 ## From version 2 to 3
 

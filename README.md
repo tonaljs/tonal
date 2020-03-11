@@ -93,15 +93,16 @@ The API documentation lives inside README.md file of each module
 #### Scales and chords
 
 - [@tonaljs/scale](/packages/scale): Scales
-- [@tonaljs/chord](/packages/chord): Chords
 - [@tonaljs/scale-type](/packages/scale-type): A dictionary of scales
+- [@tonaljs/chord](/packages/chord): Chords
 - [@tonaljs/chord-type](/packages/chord-type): A dictionary of chords
+- [@tonaljs/chord-detect](/packages/chord-detect): Detect chords from notes
 - [@tonaljs/pcset](/packages/pcset): Pitch class sets. Compare note groups.
-- [@tonaljs/mode](/packages/mode): A dictionary of Greek modes (ionian, dorian...)
 
 #### Keys, chord progressions
 
 - [@tonaljs/key](/packages/key): Major and minor keys, it's scales and chords
+- [@tonaljs/mode](/packages/mode): A dictionary of Greek modes (ionian, dorian...)
 - [@tonaljs/progression](/packages/progression): Chord progressions
 - [@tonaljs/roman-numeral](/packages/roman-numeral): Parse roman numeral symbols
 
