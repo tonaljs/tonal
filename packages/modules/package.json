@@ -1,0 +1,20 @@
+{
+  "name": "@tonaljs/modules",
+  "version": "3.4.7",
+  "description": "deprecated",
+  "keywords": [],
+  "main": "dist/index.es5.js",
+  "module": "dist/index.esnext.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/modules/index.d.ts",
+  "dependencies": {
+    "@tonaljs/tonal": "^3.2.6"
+  },
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

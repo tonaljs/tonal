@@ -150,7 +150,7 @@ distance("today", "tomorrow"); // => ""
 
 ## Want more?
 
-Take a look to [@tonaljs/note]() or [@tonaljs/interval]() modules.
+Take a look to [@tonaljs/note](/packages/note) or [@tonaljs/interval](/packages/interval) modules.
 
 ## FAQ
 
