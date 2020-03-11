@@ -293,3 +293,14 @@ function listToChroma(set: any[]): PcsetChroma {
   }
   return binary.join("");
 }
+
+export default {
+  pcset,
+  chromas,
+  isSupersetOf,
+  isSubsetOf,
+  isNoteIncludedInSet,
+  isEqual,
+  filter,
+  modes
+};
