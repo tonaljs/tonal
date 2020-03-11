@@ -1,0 +1,28 @@
+{
+  "name": "@tonaljs/chord-detect",
+  "version": "3.4.5",
+  "description": "Detect chord name based on note names",
+  "keywords": [
+    "chord-detect",
+    "music",
+    "theory",
+    "@tonaljs/tonal"
+  ],
+  "main": "dist/index.es5.js",
+  "module": "dist/index.esnext.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/chord-detect/index.d.ts",
+  "dependencies": {
+    "@tonaljs/chord-type": "^3.3.1",
+    "@tonaljs/pcset": "^3.2.3",
+    "@tonaljs/core": "^3.2.2"
+  },
+  "devDependencies": {},
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -3,15 +3,17 @@
  * - https://www.researchgate.net/publication/327567188_An_Algorithm_for_Spelling_the_Pitches_of_Any_Musical_Scale
  * @module scale
  */
-import { rotate, sortedUniqNoteNames } from "@tonaljs/array";
-import { entries as chordTypes } from "@tonaljs/chord-dictionary";
-import { note, NoteName, transpose } from "@tonaljs/core";
+import { all as chordTypes } from "@tonaljs/chord-type";
+import { rotate } from "@tonaljs/collection";
+import { deprecate, note, NoteName, transpose } from "@tonaljs/core";
+import { sortedUniqNames } from "@tonaljs/note";
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
 import {
-  entries as scaleTypes,
+  all as scaleTypes,
   get as getScaleType,
+  names as scaleTypeNames,
   ScaleType
-} from "@tonaljs/scale-dictionary";
+} from "@tonaljs/scale-type";
 
 type ScaleName = string;
 type ScaleNameTokens = [string, string]; // [TONIC, SCALE TYPE]
@@ -67,9 +69,15 @@ export function tokenize(name: ScaleName): ScaleNameTokens {
 }
 
 /**
+ * Get all scale names
+ * @function
+ */
+export const names = scaleTypeNames;
+
+/**
  * Get a Scale from a scale name.
  */
-export function scale(src: ScaleName | ScaleNameTokens): Scale {
+export function get(src: ScaleName | ScaleNameTokens): Scale {
   const tokens = Array.isArray(src) ? src : tokenize(src);
   const tonic = note(tokens[0]).name;
   const st = getScaleType(tokens[1]);
@@ -87,6 +95,8 @@ export function scale(src: ScaleName | ScaleNameTokens): Scale {
   return { ...st, name, type, tonic, notes };
 }
 
+export const scale = deprecate("Scale.scale", "Scale.get", get);
+
 /**
  * Get all chords that fits a given scale
  *
@@ -98,7 +108,7 @@ export function scale(src: ScaleName | ScaleNameTokens): Scale {
  * scaleChords("pentatonic") // => ["5", "64", "M", "M6", "Madd9", "Msus2"]
  */
 export function scaleChords(name: string): string[] {
-  const s = scale(name);
+  const s = get(name);
   const inScale = isSubsetOf(s.chroma);
   return chordTypes()
     .filter(chord => inScale(chord.chroma))
@@ -115,7 +125,7 @@ export function scaleChords(name: string): string[] {
  * extended("major") // => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]
  */
 export function extended(name: string): string[] {
-  const s = scale(name);
+  const s = get(name);
   const isSuperset = isSupersetOf(s.chroma);
   return scaleTypes()
     .filter(scale => isSuperset(scale.chroma))
@@ -134,7 +144,7 @@ export function extended(name: string): string[] {
  * reduced("major") // => ["ionian pentatonic", "major pentatonic", "ritusen"]
  */
 export function reduced(name: string): string[] {
-  const isSubset = isSubsetOf(scale(name).chroma);
+  const isSubset = isSubsetOf(get(name).chroma);
   return scaleTypes()
     .filter(scale => isSubset(scale.chroma))
     .map(scale => scale.name);
@@ -154,7 +164,7 @@ export function reduced(name: string): string[] {
 export function scaleNotes(notes: NoteName[]) {
   const pcset: string[] = notes.map(n => note(n).pc).filter(x => x);
   const tonic = pcset[0];
-  const scale = sortedUniqNoteNames(pcset);
+  const scale = sortedUniqNames(pcset);
   return rotate(scale.indexOf(tonic), scale);
 }
 
@@ -174,7 +184,7 @@ type ScaleMode = [string, string];
  * ]
  */
 export function modeNames(name: string): ScaleMode[] {
-  const s = scale(name);
+  const s = get(name);
   if (s.empty) {
     return [];
   }
@@ -183,9 +193,22 @@ export function modeNames(name: string): ScaleMode[] {
   return modes(s.chroma)
     .map(
       (chroma: string, i: number): ScaleMode => {
-        const modeName = scale(chroma).name;
+        const modeName = get(chroma).name;
         return modeName ? [tonics[i], modeName] : ["", ""];
       }
     )
     .filter(x => x[0]);
 }
+
+export default {
+  get,
+  names,
+  extended,
+  modeNames,
+  reduced,
+  scaleChords,
+  scaleNotes,
+  tokenize,
+  // deprecated
+  scale
+};

@@ -14,18 +14,20 @@ It uses a functional programing style: all functions are pure, there is no data 
 ## Example
 
 ```js
-import { Note, Interval } from "@tonaljs/tonal";
+import { Note, Interval, Scale } from "@tonaljs/tonal";
 
-Note.note("A4").midi; // => 60
-Note.note("a4").freq; // => 440
-Note.note("c#2").accidentals; // => '#'
-Note.note("x").midi; // => undefined
+Note.midi("A4"); // => 60
+Note.freq("a4").freq; // => 440
+Note.accidentals("c#2"); // => '#'
 Note.transpose("C4", "5P"); // => "G4"
-Interval.interval("5P").semitones; // => 7
+Interval.semitones("5P"); // => 7
 Interval.distance("C4", "G4"); // => "5P"
+Scale.get("C major").notes; // =>["C", "D", "E", "F", "G", "A", "B"];
 ```
 
 ## Install
+
+Install all packages at once:
 
 ```bash
 npm install --save @tonaljs/tonal
@@ -60,37 +62,53 @@ Grab the [minified browser ready version](https://raw.githubusercontent.com/tona
 
 #### Bundle size
 
-`@tonaljs/tonal` includes all published modules. Although tonal it is small, you can reduce bundle sizes by importing the modules individually, or even only the functions you need:
+`@tonaljs/tonal` includes all published modules.
 
-```
-npm i @tonaljs/core
+Although the final bundle it is small (less than 9kb minified and gzipped), you can reduce bundle sizes by installing the modules individually, and importing the functions you need:
+
+```bash
+npm i @tonaljs/note
 ```
 
 ```js
-import { transpose } from "@tonaljs/core";
+import { transpose } from "@tonaljs/note";
 transpose("A4", "P5");
 ```
 
 ## Documentation
 
-The API documentation lives inside README.md file of each module:
+Generally, you just need to install:
 
 - [@tonaljs/tonal](/packages/tonal): All modules bundled in one package
+
+The API documentation lives inside README.md file of each module
+
+#### Notes and intervals
+
 - [@tonaljs/note](/packages/note): Note operations (simplify, transposeBy )
 - [@tonaljs/midi](/packages/midi): Midi number conversions
-- [@tonaljs/scale](/packages/scale): Scales and its relations
-- [@tonaljs/chord](/packages/chord): Chords and its relations
 - [@tonaljs/interval](/packages/interval): Interval operations (add, simplify, invert)
-- [@tonaljs/pcset](/packages/pcset): Pitch class sets properties
-- [@tonaljs/mode](/packages/mode): Parse (greek) tonal modes (ionian, dorian, ...)
-- [@tonaljs/scale-dictionary](/packages/scale-dictionary): A dictionary of scales
-- [@tonaljs/chord-dictionary](/packages/chord-dictionary): A dictionary of chords
-- [@tonaljs/key](/packages/key): Major and minor keys scales and chords
+- [@tonaljs/abc-notation](/packages/abc-notation): Parse ABC notation notes
+
+#### Scales and chords
+
+- [@tonaljs/scale](/packages/scale): Scales
+- [@tonaljs/chord](/packages/chord): Chords
+- [@tonaljs/scale-type](/packages/scale-type): A dictionary of scales
+- [@tonaljs/chord-type](/packages/chord-type): A dictionary of chords
+- [@tonaljs/pcset](/packages/pcset): Pitch class sets. Compare note groups.
+- [@tonaljs/mode](/packages/mode): A dictionary of Greek modes (ionian, dorian...)
+
+#### Keys, chord progressions
+
+- [@tonaljs/key](/packages/key): Major and minor keys, it's scales and chords
 - [@tonaljs/progression](/packages/progression): Chord progressions
 - [@tonaljs/roman-numeral](/packages/roman-numeral): Parse roman numeral symbols
-- [@tonaljs/abc-notation](/packages/abc-notation): Parse ABC notation notes
+
+#### Utilities
+
 - [@tonaljs/core](/packages/core): Core functions (note, interval, transpose and distance)
-- [@tonaljs/array](/packages/array): Array manipulation
+- [@tonaljs/collection](/packages/collection): Utility functions to work with collections (range, shuffle, permutations)
 - [@tonaljs/range](/packages/range): Create note ranges
 
 ## Contributing
@@ -106,6 +124,7 @@ This library takes inspiration from other music theory libraries:
 - MusicKit: https://github.com/benzguo/MusicKit
 - Music21: http://web.mit.edu/music21/doc/index.html
 - Sharp11: https://github.com/jsrmath/sharp11
+- python-mingus: https://github.com/bspaans/python-mingus
 
 ## Projects using tonal
 

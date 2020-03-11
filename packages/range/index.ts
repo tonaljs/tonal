@@ -1,12 +1,12 @@
-import { compact, range } from "@tonaljs/array";
+import { compact, range } from "@tonaljs/collection";
 import { midiToNoteName, toMidi, ToNoteNameOptions } from "@tonaljs/midi";
 
 /**
  * Create a numeric range. You supply a list of notes or numbers and it will
- * be conected to create complex ranges.
+ * be connected to create complex ranges.
  *
  * @param {Array} array - the list of notes or numbers used
- * @return {Array} an array of numbers or empty array if not vald parameters
+ * @return {Array} an array of numbers or empty array if not valid parameters
  *
  * @example
  * numeric(["C5", "C4"]) // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
@@ -49,3 +49,5 @@ export function chromatic(
 ): string[] {
   return numeric(notes).map(midi => midiToNoteName(midi, options));
 }
+
+export default { numeric, chromatic };

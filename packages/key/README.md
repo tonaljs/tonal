@@ -4,42 +4,28 @@
 
 Get scale and chords of major and minor keys.
 
-## Install
-
-```bash
-npm i --save @tonaljs/key
-# or
-yarn add @tonaljs/key
-```
-
 ## Usage
 
-With ES6 `import`:
+ES6:
 
 ```js
-import { majorKey } from '@tonaljs/key';
-// or
-import * as Key from '@tonaljs/key';
+import { Key } from "@tonaljs/tonal";
 ```
 
-With ES5 `require`:
+nodejs:
 
 ```js
-const { majorKey } = require('@tonaljs/key');
-// or
-const Key = require('@tonaljs/key');
+const { Key } = require("@tonaljs/tonal");
 ```
-
 
 ## API
 
-
-### `majorKey(tonic: string) => MajorKey`
+#### `majorKey(tonic: string) => MajorKey`
 
 Major key properties for a given tonic. Example:
 
 ```js
-majorKey('C') // =>
+Key.majorKey('C') // =>
 {
   tonic: "C",
   type: "major",
@@ -58,12 +44,12 @@ majorKey('C') // =>
 }
 ```
 
-### `minorKey(tonic: string) => MinorKey`
+#### `minorKey(tonic: string) => MinorKey`
 
 Minor key properties for a given tonic. Example:
 
 ```js
-minorKey('C') // =>
+Key.minorKey('C') // =>
 {
   tonic: "C",
   type: "minor",
@@ -102,19 +88,18 @@ minorKey('C') // =>
 }
 ```
 
-### `majorTonicFromKeySignature(keySignature: string)`
+#### `majorTonicFromKeySignature(keySignature: string)`
 
 Example:
 
 ```js
-majorTonicFromKeySignature('bbb') // => Eb
+Key.majorTonicFromKeySignature("bbb"); // => Eb
 ```
-
 
 ## HOW TO
 
-#### How to get minor tonic from key signature
+##### How to get minor tonic from key signature
 
 ```js
-majorKey(majorTonicFromKeySignature('###')).minorRelative // => 'F#'
+majorKey(majorTonicFromKeySignature("###")).relativeMinor; // => 'F#'
 ```

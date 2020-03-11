@@ -1,5 +1,6 @@
+import { isNamed, Named } from "./named";
 import { decode, encode, isPitch, Pitch, PitchCoordinates } from "./pitch";
-import { isNamed, Named } from "./tonal";
+import { fillStr } from "./utils";
 
 export type NoteWithOctave = string;
 export type PcName = string;
@@ -27,9 +28,8 @@ export interface NoNote extends Partial<Note> {
 }
 const NoNote: NoNote = { empty: true, name: "", pc: "", acc: "" };
 
-const cache: Record<string, Note | NoNote> = {};
+const cache: Map<NoteLiteral | undefined, Note | NoNote> = new Map();
 
-const fillStr = (s: string, n: number) => Array(n + 1).join(s);
 export const stepToLetter = (step: number) => "CDEFGAB".charAt(step);
 export const altToAcc = (alt: number): string =>
   alt < 0 ? fillStr("b", -alt) : fillStr("#", alt);
@@ -42,22 +42,31 @@ export const accToAlt = (acc: string): number =>
  * note('Bb4') // => { name: "Bb4", midi: 70, chroma: 10, ... }
  */
 export function note(src: NoteLiteral): Note | NoNote {
-  return typeof src === "string"
-    ? cache[src] || (cache[src] = parse(src))
-    : isPitch(src)
-    ? note(pitchName(src))
-    : isNamed(src)
-    ? note(src.name)
-    : NoNote;
+  const cached = cache.get(src);
+  if (cached) {
+    return cached;
+  }
+
+  const value =
+    typeof src === "string"
+      ? parse(src)
+      : isPitch(src)
+      ? note(pitchName(src))
+      : isNamed(src)
+      ? note(src.name)
+      : NoNote;
+  cache.set(src, value);
+  return value;
 }
 
 type NoteTokens = [string, string, string, string];
 
 const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
+
 /**
  * @private
  */
-export function tokenize(str: string): NoteTokens {
+export function tokenizeNote(str: string): NoteTokens {
   const m = REGEX.exec(str) as string[];
   return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]];
 }
@@ -71,7 +80,7 @@ export function coordToNote(noteCoord: PitchCoordinates): Note {
 
 const SEMI = [0, 2, 4, 5, 7, 9, 11];
 function parse(noteName: NoteName): Note | NoNote {
-  const tokens = tokenize(noteName);
+  const tokens = tokenizeNote(noteName);
   if (tokens[0] === "" || tokens[3] !== "") {
     return NoNote;
   }

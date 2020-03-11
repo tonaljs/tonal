@@ -1,24 +1,24 @@
 // tslint:disable-next-line: no-implicit-dependencies
-import { scale } from "@tonaljs/scale";
-import { majorKey, majorTonicFromKeySignature, minorKey } from "./index";
+import { get as scale } from "@tonaljs/scale";
+import Key from "./index";
 
 describe("@tonal/key", () => {
   test("fromAlter", () => {
-    expect(majorTonicFromKeySignature("###")).toEqual("A");
-    expect(majorTonicFromKeySignature(3)).toEqual("A");
-    expect(majorTonicFromKeySignature("b")).toEqual("F");
-    expect(majorTonicFromKeySignature("bb")).toEqual("Bb");
-    expect(majorTonicFromKeySignature("other")).toEqual(null);
+    expect(Key.majorTonicFromKeySignature("###")).toEqual("A");
+    expect(Key.majorTonicFromKeySignature(3)).toEqual("A");
+    expect(Key.majorTonicFromKeySignature("b")).toEqual("F");
+    expect(Key.majorTonicFromKeySignature("bb")).toEqual("Bb");
+    expect(Key.majorTonicFromKeySignature("other")).toEqual(null);
   });
   test("keySignature", () => {
     const tonics = "C D E F G A B".split(" ");
-    expect(tonics.map(tonic => majorKey(tonic).keySignature).join(" ")).toEqual(
-      " ## #### b # ### #####"
-    );
+    expect(
+      tonics.map(tonic => Key.majorKey(tonic).keySignature).join(" ")
+    ).toEqual(" ## #### b # ### #####");
   });
   describe("scale names", () => {
     test("natural scales", () => {
-      const chordScales = minorKey("C").natural.chordScales;
+      const chordScales = Key.minorKey("C").natural.chordScales;
       expect(chordScales.map(scale).map(scale => scale.name)).toEqual([
         "C aeolian",
         "D locrian",
@@ -30,7 +30,7 @@ describe("@tonal/key", () => {
       ]);
     });
     test("harmonic scales", () => {
-      const chordScales = minorKey("C").harmonic.chordScales;
+      const chordScales = Key.minorKey("C").harmonic.chordScales;
       expect(chordScales.map(scale).map(scale => scale.name)).toEqual([
         "C harmonic minor",
         "D locrian 6",
@@ -42,7 +42,7 @@ describe("@tonal/key", () => {
       ]);
     });
     test("melodic scales", () => {
-      const chordScales = minorKey("C").melodic.chordScales;
+      const chordScales = Key.minorKey("C").melodic.chordScales;
       expect(chordScales.map(scale).map(scale => scale.name)).toEqual([
         "C melodic minor",
         "D dorian b2",

@@ -2,13 +2,19 @@
 
 > A collection of functions to work with midi numbers.
 
-## Install
+## Usage
 
-`npm i --save @tonaljs/midi`
+ES6:
 
-or
+```js
+import { Midi } from "@tonaljs/tonal";
+```
 
-`yarn add @tonaljs/midi`
+nodejs:
+
+```js
+const { Midi } = require("@tonaljs/tonal");
+```
 
 ## API
 

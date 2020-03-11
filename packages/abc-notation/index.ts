@@ -1,4 +1,4 @@
-import { note, transpose as tr } from "@tonaljs/core";
+import { distance as dist, note, transpose as tr } from "@tonaljs/core";
 
 const fillStr = (character: string, times: number) =>
   Array(times + 1).join(character);
@@ -63,3 +63,15 @@ export function scientificToAbcNotation(str: string): string {
 export function transpose(note: string, interval: string): string {
   return scientificToAbcNotation(tr(abcToScientificNotation(note), interval));
 }
+
+export function distance(from: string, to: string): string {
+  return dist(abcToScientificNotation(from), abcToScientificNotation(to));
+}
+
+export default {
+  abcToScientificNotation,
+  scientificToAbcNotation,
+  tokenize,
+  transpose,
+  distance
+};

@@ -4,9 +4,11 @@
 
 `@tonaljs/core` is the core module of the `tonal` music theory library.
 
-It exports just four functions.
+Normally you don't use this module directly.
 
-Two of them converts strings into data structures (`note` and `interval`):
+## Example
+
+Get note and interval properties:
 
 ```js
 import { note, interval } from "@tonaljs/core";
@@ -14,15 +16,13 @@ note("c4"); // => { name: 'C4', oct: 4, ...}
 interval("p5"); // => { name: '5P', semitones: 7, ...}
 ```
 
-The other two manipulates notes and intervals, by it's string name representation:
+Transpose notes and calculate intervals:
 
 ```js
 import { transpose, distance } from "@tonaljs/core";
 transpose("C4", "5P"); // => "G4"
 distance("C4", "G4"); // => "5P"
 ```
-
-This is a common pattern in tonal packages: functions to parse strings, functions to manipulate strings.
 
 ## API
 
@@ -39,7 +39,7 @@ Given a note name, it returns an object with the following properties:
 - oct: the octave (or null if not present)
 - chroma: the note chroma (0..11)
 - midi: the note midi or null if octave is not present
-- freq: the note frecuency in Hertzs, or null if the octave is note present
+- freq: the note frequency in Hertzes, or null if the octave is note present
 
 Example:
 

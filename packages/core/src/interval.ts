@@ -1,3 +1,4 @@
+import { isNamed, Named } from "./named";
 import {
   decode,
   Direction,
@@ -7,7 +8,7 @@ import {
   Pitch,
   PitchCoordinates
 } from "./pitch";
-import { isNamed, Named } from "./tonal";
+import { fillStr } from "./utils";
 
 export type IntervalName = string;
 export type IntervalLiteral = IntervalName | Pitch | Named;
@@ -63,7 +64,7 @@ type IntervalTokens = [string, string];
 /**
  * @private
  */
-export function tokenize(str?: IntervalName): IntervalTokens {
+export function tokenizeInterval(str?: IntervalName): IntervalTokens {
   const m = REGEX.exec(`${str}`);
   if (m === null) {
     return ["", ""];
@@ -106,7 +107,7 @@ export function interval(src: IntervalLiteral): Interval | NoInterval {
 const SIZES = [0, 2, 4, 5, 7, 9, 11];
 const TYPES = "PMMPPMM";
 function parse(str?: string): Interval | NoInterval {
-  const tokens = tokenize(str);
+  const tokens = tokenizeInterval(str);
   if (tokens[0] === "") {
     return NoInterval;
   }
@@ -179,8 +180,6 @@ function pitchName(props: Pitch): string {
   const name = d + num + altToQ(type, alt);
   return name;
 }
-
-const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 
 function altToQ(type: Type, alt: number): Quality {
   if (alt === 0) {

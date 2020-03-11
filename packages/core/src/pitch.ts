@@ -1,4 +1,4 @@
-import { Named } from "./tonal";
+import { Named } from "./named";
 
 type Fifths = number;
 type Octaves = number;
@@ -28,14 +28,15 @@ export interface Pitch {
 }
 
 export function isPitch(pitch: any): pitch is Pitch {
-  return (
+  return pitch !== null &&
     typeof pitch === "object" &&
     typeof pitch.step === "number" &&
     typeof pitch.alt === "number"
-  );
+    ? true
+    : false;
 }
 
-// The nuuber of fifths of [C, D, E, F, G, A, B]
+// The number of fifths of [C, D, E, F, G, A, B]
 const FIFTHS = [0, 2, 4, -1, 1, 3, 5];
 // The number of octaves it span each step
 const STEPS_TO_OCTS = FIFTHS.map((fifths: number) =>

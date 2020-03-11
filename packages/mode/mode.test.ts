@@ -1,11 +1,9 @@
-import { entries, mode } from "./index";
-
-const names = entries().map(m => m.name);
+import Mode from "./index";
 
 describe("Mode", () => {
   describe("mode", () => {
     test("properties", () => {
-      expect(mode("ionian")).toEqual({
+      expect(Mode.get("ionian")).toEqual({
         empty: false,
         modeNum: 0,
         name: "ionian",
@@ -18,40 +16,40 @@ describe("Mode", () => {
         aliases: ["major"],
         intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"]
       });
-      expect(mode("major")).toEqual(mode("ionian"));
+      expect(Mode.get("major")).toEqual(Mode.get("ionian"));
     });
     test("accept Named as parameter", () => {
-      expect(mode(mode("major"))).toEqual(mode("major"));
-      expect(mode({ name: "Major" })).toEqual(mode("major"));
+      expect(Mode.get(Mode.get("major"))).toEqual(Mode.get("major"));
+      expect(Mode.get({ name: "Major" })).toEqual(Mode.get("major"));
     });
     test("name is case independent", () => {
-      expect(mode("Dorian")).toEqual(mode("dorian"));
+      expect(Mode.get("Dorian")).toEqual(Mode.get("dorian"));
     });
     test("setNum", () => {
-      const pcsets = names.map(name => mode(name).setNum);
+      const pcsets = Mode.names().map(name => Mode.get(name).setNum);
       expect(pcsets).toEqual([2773, 2902, 3418, 2741, 2774, 2906, 3434]);
     });
 
     test("alt", () => {
-      const alt = names.map(name => mode(name).alt);
+      const alt = Mode.names().map(name => Mode.get(name).alt);
       expect(alt).toEqual([0, 2, 4, -1, 1, 3, 5]);
     });
     test("triad", () => {
-      const triads = names.map(name => mode(name).triad);
+      const triads = Mode.names().map(name => Mode.get(name).triad);
       expect(triads).toEqual(["", "m", "m", "", "", "m", "dim"]);
     });
     test("seventh", () => {
-      const sevenths = names.map(name => mode(name).seventh);
+      const sevenths = Mode.names().map(name => Mode.get(name).seventh);
       expect(sevenths).toEqual(["Maj7", "m7", "m7", "Maj7", "7", "m7", "m7b5"]);
     });
 
     test("aliases", () => {
-      expect(mode("major")).toEqual(mode("ionian"));
-      expect(mode("minor")).toEqual(mode("aeolian"));
+      expect(Mode.get("major")).toEqual(Mode.get("ionian"));
+      expect(Mode.get("minor")).toEqual(Mode.get("aeolian"));
     });
   });
   test("names", () => {
-    expect(names).toEqual([
+    expect(Mode.names()).toEqual([
       "ionian",
       "dorian",
       "phrygian",

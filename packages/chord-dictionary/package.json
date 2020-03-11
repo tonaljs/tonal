@@ -2,14 +2,7 @@
   "name": "@tonaljs/chord-dictionary",
   "version": "3.4.1",
   "description": "A dictionary of musical chords",
-  "keywords": [
-    "chord",
-    "dictionary",
-    "chords",
-    "music",
-    "theory",
-    "@tonaljs/core"
-  ],
+  "keywords": [],
   "main": "dist/index.es5.js",
   "module": "dist/index.esnext.js",
   "files": [
@@ -17,8 +10,7 @@
   ],
   "types": "dist/chord-dictionary/index.d.ts",
   "dependencies": {
-    "@tonaljs/interval": "^3.2.4",
-    "@tonaljs/pcset": "^3.2.4"
+    "@tonaljs/chord-type": "^3.4.1"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

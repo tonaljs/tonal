@@ -1,4 +1,4 @@
-import { note as toNote, NoteName } from "@tonaljs/core";
+import { note as props, NoteName } from "@tonaljs/core";
 
 type Midi = number;
 
@@ -24,7 +24,7 @@ export function toMidi(note: NoteName | number): number | null {
   if (isMidi(note)) {
     return +note;
   }
-  const n = toNote(note);
+  const n = props(note);
   return n.empty ? null : n.midi;
 }
 
@@ -97,3 +97,5 @@ export function midiToNoteName(midi: number, options: ToNoteNameOptions = {}) {
   const o = Math.floor(midi / 12) - 1;
   return pc + o;
 }
+
+export default { isMidi, toMidi, midiToFreq, midiToNoteName, freqToMidi };

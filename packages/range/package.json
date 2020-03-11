@@ -15,7 +15,7 @@
   ],
   "types": "dist/range/index.d.ts",
   "dependencies": {
-    "@tonaljs/array": "^3.2.4",
+    "@tonaljs/collection": "^3.2.4",
     "@tonaljs/midi": "^3.3.2"
   },
   "author": "danigb@gmail.com",

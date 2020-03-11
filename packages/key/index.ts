@@ -1,6 +1,6 @@
 import { accToAlt, altToAcc, note, transpose } from "@tonaljs/core";
 import { transposeFifths } from "@tonaljs/note";
-import { romanNumeral } from "@tonaljs/roman-numeral";
+import { get as roman } from "@tonaljs/roman-numeral";
 
 export interface Key {
   type: "major" | "minor";
@@ -49,7 +49,7 @@ function keyScale(
 ) {
   return (tonic: string): KeyScale => {
     const grades = gradesLiteral.split(" ");
-    const intervals = grades.map(gr => romanNumeral(gr).interval || "");
+    const intervals = grades.map(gr => roman(gr).interval || "");
     const scale = intervals.map(interval => transpose(tonic, interval));
     const map = mapToScale(scale);
 
@@ -156,3 +156,5 @@ export function majorTonicFromKeySignature(
   }
   return null;
 }
+
+export default { majorKey, majorTonicFromKeySignature, minorKey };

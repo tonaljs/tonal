@@ -2,37 +2,50 @@
 
 > Convert note names between scientific and abc notation
 
-## References
+## Usage
 
-- - [ABC Notation](https://en.wikipedia.org/wiki/ABC_notation)
+ES6:
+
+```js
+import { AbcNotation } from "@tonaljs/tonal";
+```
+
+nodejs:
+
+```js
+const { AbcNotation } = require("@tonaljs/tonal");
+```
 
 ## API
 
 #### `abcToScientificNotation(noteNameInAbc: string) => string`
 
 ```js
-abcToScientificNotation("c"); // => "C5"
+AbcNotation.abcToScientificNotation("c"); // => "C5"
 ```
 
 #### `scientificToAbcNotation(noteNameInScientific: string) => string`
 
 ```js
-scientificToAbcNotation("C#4"); // => "^C"
+AbcNotation.scientificToAbcNotation("C#4"); // => "^C"
 ```
 
-## How to?
+#### `transpose(note: string, interval: string) => string`
 
-#### Transpose notes in abc notation
+Transpose an note in abc notation:
 
 ```js
-import { transpose } from "@tonaljs/note";
-import {
-  abcToScientificNotation,
-  scientificToAbcNotation
-} from "@tonal/abc-notation";
-
-const transposeAbc = (note, interval) =>
-  scientificToAbcNotation(abcToScientificNotation(note), interval);
-
-transposeAbc("c", "P5");
+AbcNotation.transpose("=C", "P19"); // => "g'"
 ```
+
+#### `distance(from: string, to: string) => string`
+
+Find the interval between two notes in abc notation:
+
+```js
+AbcNotation.distance("=C", "g"); // => "12P"
+```
+
+## References
+
+- [ABC Notation](https://en.wikipedia.org/wiki/ABC_notation)

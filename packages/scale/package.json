@@ -16,11 +16,12 @@
   ],
   "types": "dist/scale/index.d.ts",
   "dependencies": {
-    "@tonaljs/array": "^3.2.4",
-    "@tonaljs/chord-dictionary": "^3.4.1",
+    "@tonaljs/collection": "^3.2.4",
+    "@tonaljs/chord-type": "^3.4.1",
     "@tonaljs/core": "^3.3.0",
+    "@tonaljs/note": "^3.2.0",
     "@tonaljs/pcset": "^3.2.4",
-    "@tonaljs/scale-dictionary": "^3.4.3"
+    "@tonaljs/scale-type": "^3.4.3"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

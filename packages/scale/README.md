@@ -4,16 +4,40 @@
 
 `@tonaljs/scale` is a collection of functions to create and manipulate musical scales
 
-## API
+## Usage
 
-### `scale(name: string) => Scale`
-
-Get a scale from a scale name. Unlike `scaleType`, `scale` accepts tonics in the scale name and returns the scale type with two more properties: `tonic` and `notes`:
-
-See [scale-dictionary](../scale-dictionary) for more details.
+ES6:
 
 ```js
-scale("c5 pentatonic");
+import { Scale } from "@tonaljs/tonal";
+```
+
+nodejs:
+
+```js
+const { Scale } = require("@tonaljs/tonal");
+```
+
+Single module:
+
+```js
+import Scale from "@tonaljs/scale";
+```
+
+## API
+
+### `Scale.names()`
+
+List all known scale names. Same as `ScaleType.names()`
+
+See [scale-type](/package/scale-type)
+
+### `Scale.get(name: string) => Scale`
+
+Get a scale from a scale name. `Scale.get` accepts tonics in the scale name and returns a [scale type](/packages/scale-type) with two more properties: `tonic` and `notes`:
+
+```js
+Scale.get("c5 pentatonic");
 // =>
 // {
 //   empty: false,
@@ -29,29 +53,52 @@ scale("c5 pentatonic");
 // }
 ```
 
-### `chords(scale: string) => string[]`
+### `Scale.chords(scale: string) => string[]`
 
-Get all chords that fits a given scale
+Get all chords that fits a given scale:
 
 ```js
 Scale.chords("pentatonic");
 // => ["5", "64", "M", "M6", "Madd9", "Msus2"]
 ```
 
-### `extended(scale: string) => string[]`
+### `Scale.extended(scale: string) => string[]`
 
-Get all scales names that are a superset of the given one (has the same notes and at least one more)
+Get all scales names that has the same notes and at least one more:
 
 ```js
 Scale.extended("major");
 // => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]
 ```
 
-### `reduced(scale: string) => string[]`
+### `Scale.reduced(scale: string) => string[]`
 
 Find all scales names that are a subset of the given one (less notes but all from the given scale)
 
 ```js
 Scale.reduced("major");
 // => ["ionian pentatonic", "major pentatonic", "ritusen"]
+```
+
+### `Scale.scaleNotes(notes: string[]) => string[]`
+
+Given an array of notes, return the scale: a pitch class set starting from the first note
+
+```js
+Scale.scaleNotes(["C4", "c3", "C5", "C4", "c4"]); // => ["C"]
+Scale.scaleNotes(["D4", "c#5", "A5", "F#6"]); // => ["D", "F#", "A", "C#"]
+```
+
+### `Scale.modes(name: string) => string[][]`
+
+Find mode names (if any) of a given scale:
+
+```js
+Scale.modeNames("C pentatonic"); // => [
+//    ["C", "major pentatonic"],
+//    ["D", "egyptian"],
+//    ["E", "malkos raga"],
+//    ["G", "ritusen"],
+//    ["A", "minor pentatonic"]
+//  ]
 ```

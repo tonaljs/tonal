@@ -1,6 +1,7 @@
 import {
   accToAlt,
   altToAcc,
+  deprecate,
   interval,
   isNamed,
   isPitch,
@@ -41,17 +42,23 @@ const cache: Record<string, RomanNumeral | NoRomanNumeral> = {};
  * @example
  * romanNumeral("VIIb5") // => { name: "VII", type: "b5", num: 7, major: true }
  */
-export function romanNumeral(src: any): RomanNumeral | NoRomanNumeral {
+export function get(src: any): RomanNumeral | NoRomanNumeral {
   return typeof src === "string"
     ? cache[src] || (cache[src] = parse(src))
     : typeof src === "number"
-    ? romanNumeral(NAMES[src] || "")
+    ? get(NAMES[src] || "")
     : isPitch(src)
     ? fromPitch(src)
     : isNamed(src)
-    ? romanNumeral(src.name)
+    ? get(src.name)
     : NoRomanNumeral;
 }
+
+const romanNumeral = deprecate(
+  "RomanNumeral.romanNumeral",
+  "RomanNumeral.get",
+  get
+);
 
 /**
  * Get roman numeral names
@@ -68,7 +75,7 @@ export function names(major = true) {
 }
 
 function fromPitch(pitch: Pitch): RomanNumeral | NoRomanNumeral {
-  return romanNumeral(altToAcc(pitch.alt) + NAMES[pitch.step]);
+  return get(altToAcc(pitch.alt) + NAMES[pitch.step]);
 }
 
 const REGEX = /^(#{1,}|b{1,}|x{1,}|)(IV|I{1,3}|VI{0,2}|iv|i{1,3}|vi{0,2})([^IViv]*)$/;
@@ -107,3 +114,10 @@ function parse(src: string): RomanNumeral | NoRomanNumeral {
     dir
   };
 }
+
+export default {
+  names,
+  get,
+  // deprecated
+  romanNumeral
+};

@@ -2,9 +2,23 @@
 
 `@tonaljs/mode` greek modes dictionary
 
+## Usage
+
+ES6:
+
+```js
+import { Mode } from "@tonaljs/tonal";
+```
+
+node:
+
+```js
+const { Mode } = require("@tonaljs/tonal");
+```
+
 ## API
 
-### `mode(name: string) => Mode`
+#### `get(name: string) => object`
 
 Given a mode name, returns a Mode object with the following fields:
 
@@ -19,7 +33,7 @@ Given a mode name, returns a Mode object with the following fields:
 Example:
 
 ```js
-mode("major");
+Mode.get("major");
 // {
 //   name: "ionian",
 //   aliases: ["major"]
@@ -32,15 +46,21 @@ mode("major");
 // }
 ```
 
-### `entries() => Mode[]`
+#### `names() => string[]`
+
+Get a list of all mode names.
+
+```js
+Mode.names();
+// => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"];
+```
+
+#### `all() => object[]`
 
 Return a list of known modes
 
-Example:
-
 ```js
-entries().map(mode => mode.name);
-// => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"];
+Mode.all();
 ```
 
 ## How to?
@@ -50,13 +70,12 @@ entries().map(mode => mode.name);
 For example, "A major" mode:
 
 ```js
-import { transpose } from "@tonaljs/core";
-import { mode } from "@tonaljs/mode";
+import { Mode, Note } from "@tonaljs/tonal";
 
-mode("major").intervals.map(interval => transpose("A", interval));
+Mode.get("major").intervals.map(Note.transposeFrom("A"));
 ["A", "B", "C#", "D", "E", "F#", "G#"];
 ```
 
 ## Want more?
 
-Take a look to [@tonal/key]()
+Take a look to [@tonal/key](/packages/key)

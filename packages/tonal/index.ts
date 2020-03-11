@@ -1,41 +1,50 @@
-import * as AbcNotation from "@tonaljs/abc-notation";
+import AbcNotation from "@tonaljs/abc-notation";
 import * as Array from "@tonaljs/array";
-import * as Chord from "@tonaljs/chord";
-import * as ChordDictionary from "@tonaljs/chord-dictionary";
+import Chord from "@tonaljs/chord";
+import ChordType from "@tonaljs/chord-type";
+import Collection from "@tonaljs/collection";
 import * as Core from "@tonaljs/core";
-import * as Interval from "@tonaljs/interval";
-import * as Key from "@tonaljs/key";
-import * as Midi from "@tonaljs/midi";
-import * as Mode from "@tonaljs/mode";
-import * as Note from "@tonaljs/note";
-import * as PcSet from "@tonaljs/pcset";
-import * as Progression from "@tonaljs/progression";
-import * as Range from "@tonaljs/range";
-import * as RomanNumeral from "@tonaljs/roman-numeral";
-import * as Scale from "@tonaljs/scale";
-import * as ScaleDictionary from "@tonaljs/scale-dictionary";
+import Interval from "@tonaljs/interval";
+import Key from "@tonaljs/key";
+import Midi from "@tonaljs/midi";
+import Mode from "@tonaljs/mode";
+import Note from "@tonaljs/note";
+import Pcset from "@tonaljs/pcset";
+import Progression from "@tonaljs/progression";
+import Range from "@tonaljs/range";
+import RomanNumeral from "@tonaljs/roman-numeral";
+import Scale from "@tonaljs/scale";
+import ScaleType from "@tonaljs/scale-type";
 
 export * from "@tonaljs/core";
 
-// backwards compatibility
+// deprecated (backwards compatibility)
 const Tonal = Core;
+const PcSet = Pcset;
+const ChordDictionary = ChordType;
+const ScaleDictionary = ScaleType;
 
 export {
   AbcNotation,
   Array,
   Chord,
-  ChordDictionary,
+  ChordType,
+  Collection,
+  Core,
   Note,
   Interval,
   Key,
   Midi,
   Mode,
-  PcSet,
+  Pcset,
   Progression,
   Range,
   RomanNumeral,
   Scale,
-  ScaleDictionary,
-  Core,
-  Tonal
+  ScaleType,
+  // backwards
+  Tonal,
+  PcSet,
+  ChordDictionary,
+  ScaleDictionary
 };
