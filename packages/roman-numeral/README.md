@@ -4,16 +4,30 @@
 
 A roman numeral symbol is a string like `"bVIImaj7"` that can be used to represent chords in an abstract tonallity.
 
+## Usage
+
+ES6:
+
+```js
+import { RomanNumeral } from "@tonaljs/tonal";
+```
+
+node:
+
+```js
+const { RomanNumeral } = require("@tonaljs/tonal");
+```
+
 ## API
 
-### `roman-numeral(src: string | Pitch): => RomanNumeral`
+### `RomanNumeral.get(src: string | Pitch): => RomanNumeral`
 
 Get the properties of a roman numeral:
 
 Example:
 
 ```js
-romanNumeral("bVIIMaj7");
+RomanNumeral.get("bVIIMaj7");
 // =>
 // {
 //   empty: false,
@@ -35,10 +49,9 @@ romanNumeral("bVIIMaj7");
 `romanNumeral` function accepts a `Pitch` as argument:
 
 ```js
-import { interval } from "@tonaljs/note";
-import { roman-numeral } from "@tonaljs/roman-numeral";
+import { Interval, RomanNumeral } from "@tonaljs/tonal";
 
-romanNumeral(interval("3m")).name; // => "bIII"
+RomanNumeral.get(Interval.get("3m")).name; // => "bIII"
 ```
 
 ## Want more?
