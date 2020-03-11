@@ -1,0 +1,22 @@
+{
+  "name": "@tonaljs/collection",
+  "version": "3.2.4",
+  "description": "Utility functions to work with collections (arrays)",
+  "keywords": [
+    "collection",
+    "music",
+    "theory"
+  ],
+  "main": "dist/index.es5.js",
+  "module": "dist/index.esnext.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/collection/index.d.ts",
+  "dependencies": {},
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,4 +1,4 @@
-import { compact, range, rotate } from "@tonaljs/array";
+import { compact, range, rotate } from "@tonaljs/collection";
 import {
   deprecate,
   Interval,

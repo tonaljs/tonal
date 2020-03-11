@@ -1,6 +1,8 @@
 import {
   coordToNote,
   IntervalName,
+  Named,
+  Note,
   note as props,
   NoteLiteral,
   NoteName,
@@ -8,6 +10,28 @@ import {
   transpose as _tr
 } from "@tonaljs/core";
 import { midiToNoteName } from "@tonaljs/midi";
+
+const NAMES = ["C", "D", "E", "F", "G", "A", "B"];
+
+const toName = (n: Named) => n.name;
+const onlyNotes = (array: any[]) =>
+  array.map(props).filter(n => !n.empty) as Note[];
+
+/**
+ * Return the natural note names without octave
+ * @function
+ * @example
+ * Note.names(); // => ["C", "D", "E", "F", "G", "A", "B"]
+ */
+export function names(array?: any[]): string[] {
+  if (array === undefined) {
+    return NAMES.slice();
+  } else if (!Array.isArray(array)) {
+    return [];
+  } else {
+    return onlyNotes(array).map(toName);
+  }
+}
 
 /**
  * Get a note from a note name
@@ -147,6 +171,27 @@ export function transposeFifths(noteName: NoteName, fifths: number): NoteName {
 }
 export const trFifths = transposeFifths;
 
+export type NoteComparator = (a: Note, b: Note) => number;
+
+export const ascending: NoteComparator = (a, b) => a.height - b.height;
+export const descending: NoteComparator = (a, b) => b.height - a.height;
+
+export function sortedNames(
+  notes: any[],
+  comparator?: NoteComparator
+): string[] {
+  comparator = comparator || ascending;
+  return onlyNotes(notes)
+    .sort(comparator)
+    .map(toName);
+}
+
+export function sortedUniqNames(notes: any[]): string[] {
+  return sortedNames(notes, ascending).filter(
+    (n, i, a) => i === 0 || n !== a[i - 1]
+  );
+}
+
 /**
  * Simplify a note
  *
@@ -187,12 +232,17 @@ function nameBuilder(sameAccidentals: boolean) {
 }
 
 export default {
+  names,
   properties,
   name,
   pitchClass,
   accidentals,
   octave,
   midi,
+  ascending,
+  descending,
+  sortedNames,
+  sortedUniqNames,
   fromMidi,
   fromMidiSharps,
   freq,

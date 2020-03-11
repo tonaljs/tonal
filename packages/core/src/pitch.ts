@@ -28,11 +28,12 @@ export interface Pitch {
 }
 
 export function isPitch(pitch: any): pitch is Pitch {
-  return (
+  return pitch !== null &&
     typeof pitch === "object" &&
     typeof pitch.step === "number" &&
     typeof pitch.alt === "number"
-  );
+    ? true
+    : false;
 }
 
 // The nuuber of fifths of [C, D, E, F, G, A, B]

@@ -3,9 +3,10 @@
  * - https://www.researchgate.net/publication/327567188_An_Algorithm_for_Spelling_the_Pitches_of_Any_Musical_Scale
  * @module scale
  */
-import { rotate, sortedUniqNoteNames } from "@tonaljs/array";
 import { entries as chordTypes } from "@tonaljs/chord-dictionary";
+import { rotate } from "@tonaljs/collection";
 import { note, NoteName, transpose } from "@tonaljs/core";
+import { sortedUniqNames } from "@tonaljs/note";
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
 import {
   entries as scaleTypes,
@@ -154,7 +155,7 @@ export function reduced(name: string): string[] {
 export function scaleNotes(notes: NoteName[]) {
   const pcset: string[] = notes.map(n => note(n).pc).filter(x => x);
   const tonic = pcset[0];
-  const scale = sortedUniqNoteNames(pcset);
+  const scale = sortedUniqNames(pcset);
   return rotate(scale.indexOf(tonic), scale);
 }
 

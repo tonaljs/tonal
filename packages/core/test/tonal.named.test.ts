@@ -7,6 +7,7 @@ describe("@tonaljs/core", () => {
     expect(isNamed(note("X"))).toBe(true);
 
     expect(isNamed(undefined)).toBe(false);
+    expect(isNamed(null)).toBe(false);
     expect(isNamed("")).toBe(false);
   });
 });

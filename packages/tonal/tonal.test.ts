@@ -8,6 +8,7 @@ describe("@tonaljs/tonal", () => {
       "Array",
       "Chord",
       "ChordDictionary",
+      "Collection",
       "Core",
       "Interval",
       "Key",

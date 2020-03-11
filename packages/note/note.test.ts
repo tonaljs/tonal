@@ -46,6 +46,32 @@ describe("note", () => {
     expect([60, 61, 62].map(Note.fromMidiSharps)).toEqual(["C4", "C#4", "D4"]);
   });
 
+  test("names", () => {
+    expect(Note.names()).toEqual(["C", "D", "E", "F", "G", "A", "B"]);
+    expect(Note.names(["fx", "bb", 12, "nothing", {}, null])).toEqual([
+      "F##",
+      "Bb"
+    ]);
+  });
+  test("sortedNames", () => {
+    expect(Note.sortedNames($("c f g a b h j"))).toEqual($("C F G A B"));
+    expect(Note.sortedNames($("c f g a b h j j h b a g f c"))).toEqual(
+      $("C C F F G G A A B B")
+    );
+    expect(Note.sortedNames($("c2 c5 c1 c0 c6 c"))).toEqual(
+      $("C C0 C1 C2 C5 C6")
+    );
+    expect(Note.sortedNames($("c2 c5 c1 c0 c6 c"), Note.descending)).toEqual(
+      $("C6 C5 C2 C1 C0 C")
+    );
+  });
+
+  test("sortedUniq", () => {
+    expect(Note.sortedUniqNames($("a b c2 1p p2 c2 b c c3"))).toEqual(
+      $("C A B C2 C3")
+    );
+  });
+
   test("transpose", () => {
     expect(Note.transpose("A4", "3M")).toEqual("C#5");
     expect(Note.tr("A4", "3M")).toEqual("C#5");

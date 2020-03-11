@@ -2,12 +2,13 @@ import AbcNotation from "@tonaljs/abc-notation";
 import * as Array from "@tonaljs/array";
 import * as Chord from "@tonaljs/chord";
 import * as ChordDictionary from "@tonaljs/chord-dictionary";
+import Collection from "@tonaljs/collection";
 import * as Core from "@tonaljs/core";
-import * as Interval from "@tonaljs/interval";
+import Interval from "@tonaljs/interval";
 import Key from "@tonaljs/key";
 import * as Midi from "@tonaljs/midi";
 import * as Mode from "@tonaljs/mode";
-import * as Note from "@tonaljs/note";
+import Note from "@tonaljs/note";
 import PcSet from "@tonaljs/pcset";
 import Pcset from "@tonaljs/pcset";
 import * as Progression from "@tonaljs/progression";
@@ -19,13 +20,15 @@ import * as ScaleDictionary from "@tonaljs/scale-dictionary";
 export * from "@tonaljs/core";
 
 // backwards compatibility
-const Tonal = Core;
+import * as Tonal from "@tonaljs/core";
 
 export {
   AbcNotation,
   Array,
   Chord,
   ChordDictionary,
+  Collection,
+  Core,
   Note,
   Interval,
   Key,
@@ -37,8 +40,7 @@ export {
   RomanNumeral,
   Scale,
   ScaleDictionary,
-  Core,
-  Tonal,
   // backwards
+  Tonal,
   PcSet
 };

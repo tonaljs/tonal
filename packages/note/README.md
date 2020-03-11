@@ -18,7 +18,9 @@ const { Note } = require("@tonaljs/tonal");
 
 ## API
 
-#### `properties(noteName: string) => Note`
+### Note name and properties
+
+#### `Note.properties(noteName: string) => Note`
 
 Given a note name, it returns an object with the following properties:
 
@@ -63,25 +65,7 @@ There's also a `Note.fromMidiSharps` version:
 Note.fromMidiSharps(61); // => "C#4"
 ```
 
-#### `simplify(noteName: string) => string`
-
-Given a note name, return the same note with less accidentals (or "" if not a valid note):
-
-```js
-Note.simplify("C#"); // => "C#"
-Note.simplify("C##"); // => "D"
-Note.simplify("C###"); // => "D#"
-```
-
-#### `enharmonic(noteName: string) => string`
-
-Given a note name, returns it enharmonic not (or "" if not valid note):
-
-```js
-Note.enharmonic("C#"); // => "Db"
-Note.enharmonic("C##"); // => "D"
-Note.enharmonic("C###"); // => "Eb"
-```
+### Transposition and distances
 
 #### `transpose(note: string, interval: string) => string`
 
@@ -94,18 +78,12 @@ Note.transpose("d3", "3M"); // => "F#3"
 Note.transpose("D", "3M"); // => "F#"
 ```
 
-#### `transposeBy(interval: string) => (note: string) => string`
-
-Given an interval, returns a function that transposes a note by that interval:
+`transposeBy` and `transposeFrom` are currified versions of this function to make easy work with arrays:
 
 ```js
 ["C", "D", "E"].map(Note.transposeBy("5P"));
 // => ["G", "A", "B"]
 ```
-
-#### `transposeFrom(note: string) => (interval: string) => string`
-
-Given a note, returns a function that transposes that note by given interval:
 
 ```js
 ["1P", "3M", "5P"].map(Note.transposeFrom("C"));
@@ -124,4 +102,71 @@ Note.transposeFifths("G", 3); // => "E"
 // => ["F#", "C#", "G#", "D#", "A#", "E#", "B#"]
 [0, -1, -2, -3, -4, -5, -6].map(n => transposeFifths("Bb", n));
 // => ["Bb", "Eb", "Ab", "Db", "Gb", "Cb", "Fb"]
+```
+
+#### `Note.distance(from: string, to: string) => string`
+
+Find interval between notes:
+
+```js
+```
+
+### Names collections
+
+#### `names(array?: any[]) => string[]`
+
+Get note names of an array of anything. Notice that names are normalized:
+
+```js
+Note.names(["fx", "bb", 12, "nothing", {}, null])) // => ["F##", "Bb"];
+```
+
+Without parameters, it returns a list of natural pitch classes:
+
+```js
+Note.names(); // =>["C", "D", "E", "F", "G", "A", "B"]
+```
+
+#### `sortedNames(array?: any[], comparator?: NoteComparator) => string[]`
+
+Sort an array of note names in ascending order. Pitch classes are listed before notes. Anything that is not a note is removed:
+
+```js
+Note.sortedNames(["c2", "c5", "c1", "c0", "c6", "c"]);
+// => ['C', 'C0', 'C1', 'C2', 'C5', 'C6']
+Note.sortedNames(["c", "F", "G", "a", "b", "h", "J"]);
+// => ['C', 'F', 'G', 'A', 'B']
+```
+
+An optional comparator can be passed as a second argument:
+
+```js
+Note.sortedNames(["c2", "c5", "c1", "c0", "c6", "c"], Note.descending);
+// => ['C6', 'C5', 'C2', 'C3', 'C1', 'C0']
+```
+
+#### `sortedUniqNames(array?: any[]) => string[]`
+
+Sort notes ascending and remove duplicates.
+
+### Enharmonics
+
+#### `simplify(noteName: string) => string`
+
+Given a note name, return the same note with less accidentals (or "" if not a valid note):
+
+```js
+Note.simplify("C#"); // => "C#"
+Note.simplify("C##"); // => "D"
+Note.simplify("C###"); // => "D#"
+```
+
+#### `enharmonic(noteName: string) => string`
+
+Given a note name, returns it enharmonic not (or "" if not valid note):
+
+```js
+Note.enharmonic("C#"); // => "Db"
+Note.enharmonic("C##"); // => "D"
+Note.enharmonic("C###"); // => "Eb"
 ```

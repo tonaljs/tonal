@@ -61,7 +61,7 @@ Grab the [minified browser ready version](https://raw.githubusercontent.com/tona
 
 `@tonaljs/tonal` includes all published modules.
 
-Although tonal it is small, you can reduce bundle sizes by installing the modules individually, and importing the functions you need:
+Although the final bundle it is small (less than 9kb minified and gzipped), you can reduce bundle sizes by installing the modules individually, and importing the functions you need:
 
 ```
 npm i @tonaljs/note
@@ -91,7 +91,7 @@ The API documentation lives inside README.md file of each module:
 - [@tonaljs/roman-numeral](/packages/roman-numeral): Parse roman numeral symbols
 - [@tonaljs/abc-notation](/packages/abc-notation): Parse ABC notation notes
 - [@tonaljs/core](/packages/core): Core functions (note, interval, transpose and distance)
-- [@tonaljs/array](/packages/array): Array manipulation
+- [@tonaljs/collection](/packages/collection): Utility functions to work with collections (range, shuffle, permutations)
 - [@tonaljs/range](/packages/range): Create note ranges
 
 ## Contributing

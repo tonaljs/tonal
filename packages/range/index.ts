@@ -1,4 +1,4 @@
-import { compact, range } from "@tonaljs/array";
+import { compact, range } from "@tonaljs/collection";
 import { midiToNoteName, toMidi, ToNoteNameOptions } from "@tonaljs/midi";
 
 /**
