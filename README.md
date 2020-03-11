@@ -27,6 +27,8 @@ Scale.get("C major").notes; // =>["C", "D", "E", "F", "G", "A", "B"];
 
 ## Install
 
+Install all packages at once:
+
 ```bash
 npm install --save @tonaljs/tonal
 ```
@@ -64,7 +66,7 @@ Grab the [minified browser ready version](https://raw.githubusercontent.com/tona
 
 Although the final bundle it is small (less than 9kb minified and gzipped), you can reduce bundle sizes by installing the modules individually, and importing the functions you need:
 
-```
+```bash
 npm i @tonaljs/note
 ```
 
@@ -75,22 +77,36 @@ transpose("A4", "P5");
 
 ## Documentation
 
-The API documentation lives inside README.md file of each module:
+Generally, you just need to install:
 
 - [@tonaljs/tonal](/packages/tonal): All modules bundled in one package
+
+The API documentation lives inside README.md file of each module
+
+#### Notes and intervals
+
 - [@tonaljs/note](/packages/note): Note operations (simplify, transposeBy )
 - [@tonaljs/midi](/packages/midi): Midi number conversions
-- [@tonaljs/scale](/packages/scale): Scales and its relations
-- [@tonaljs/chord](/packages/chord): Chords and its relations
 - [@tonaljs/interval](/packages/interval): Interval operations (add, simplify, invert)
-- [@tonaljs/pcset](/packages/pcset): Pitch class sets
-- [@tonaljs/mode](/packages/mode): Parse (greek) tonal modes (ionian, dorian, ...)
+- [@tonaljs/abc-notation](/packages/abc-notation): Parse ABC notation notes
+
+#### Scales and chords
+
+- [@tonaljs/scale](/packages/scale): Scales and its relations
 - [@tonaljs/scale-type](/packages/scale-type): A dictionary of scales
 - [@tonaljs/chord-type](/packages/chord-type): A dictionary of chords
+- [@tonaljs/chord](/packages/chord): Chords and its relations
+- [@tonaljs/mode](/packages/mode): Parse (greek) tonal modes (ionian, dorian, ...)
+- [@tonaljs/pcset](/packages/pcset): Pitch class sets
+
+#### Keys, chord progressions
+
 - [@tonaljs/key](/packages/key): Major and minor keys scales and chords
 - [@tonaljs/progression](/packages/progression): Chord progressions
 - [@tonaljs/roman-numeral](/packages/roman-numeral): Parse roman numeral symbols
-- [@tonaljs/abc-notation](/packages/abc-notation): Parse ABC notation notes
+
+#### Utilities
+
 - [@tonaljs/core](/packages/core): Core functions (note, interval, transpose and distance)
 - [@tonaljs/collection](/packages/collection): Utility functions to work with collections (range, shuffle, permutations)
 - [@tonaljs/range](/packages/range): Create note ranges
