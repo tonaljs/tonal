@@ -107,6 +107,12 @@ This library takes inspiration from other music theory libraries:
 - Music21: http://web.mit.edu/music21/doc/index.html
 - Sharp11: https://github.com/jsrmath/sharp11
 
+## Showcase
+
+Showcase of projects that are using Tonal.
+
+- Solfej: https://www.solfej.io/
+
 ## License
 
 [MIT License](docs/LICENSE)
