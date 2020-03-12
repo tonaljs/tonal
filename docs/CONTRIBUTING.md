@@ -4,7 +4,7 @@ We're really glad you're reading this, because we need volunteers to help this p
 
 ## Prerequisites
 
-You will need node and yarn installed in your computer to run the code. And git to download it:
+You will need node and yarn installed on your computer to run the code. And git to download it:
 
 - [node](https://nodejs.org/en/download/)
 - [yarn](https://yarnpkg.com/)
@@ -22,13 +22,13 @@ yarn build
 
 ## Develop
 
-Modules are written in Typescript and lives inside `packages/` folder.
+Modules are written in Typescript and live inside `packages/` folder.
 
-If you are adding new functionallity, plase add a test for it
+If you are adding new functionality, please add a test for it.
 
-If you are adding a new module, include it inside `packages/module/index.ts`
+If you are adding a new module, include it inside `packages/module/index.ts`.
 
-Ensure all tests passes and library can be built, before making a pull request:
+Ensure that all tests pass and the library can be built before making a pull request:
 
 ```
 yarn test
