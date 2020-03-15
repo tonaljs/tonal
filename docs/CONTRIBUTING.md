@@ -20,23 +20,23 @@ yarn install
 yarn build
 ```
 
-## Develop
+## Development
 
 Modules are written in Typescript and live inside `packages/` folder.
 
-If you are adding new functionality, please add a test for it.
+Some guidelines:
 
-If you are adding a new module, include it inside `packages/module/index.ts`.
+- If you are adding new functionality to a current module, please add a test for it.
+- Ensure all tests passes and library can be built, before making a pull request: `yarn test:ci`
 
-Ensure that all tests pass and the library can be built before making a pull request:
+#### How to add a new module
 
-```
-yarn test
-yarn test:lint
-yarn build
-```
+To create a new module:
 
-
-
-
-
+- Add a new folder inside packages: `packages/my-module`
+- Add a new package.json inside the folder (see any of them as an example)
+- Add required dependencies to "dependencies" inside package.json. Ensure correct dependency versions. For example, if your module needs to use `tonal/core` look at core's package.json to see what version to use
+- After adding your dependencies, use lerna to wire them up: run `yarn lerna` at root folder
+- Add your functionallity and tests
+- Ensure everything works: run `yarn test:ci` at root folder
+- Create a pull request
