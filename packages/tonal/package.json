@@ -7,6 +7,9 @@
     "theory",
     "music-theory"
   ],
+  "scripts": {
+    "build": "rollup -c=../../rollup.config.js"
+  },
   "main": "dist/index.es5.js",
   "module": "dist/index.esnext.js",
   "files": [

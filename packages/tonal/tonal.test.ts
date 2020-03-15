@@ -11,6 +11,7 @@ describe("@tonaljs/tonal", () => {
       "ChordType",
       "Collection",
       "Core",
+      "DurationValue",
       "Interval",
       "Key",
       "Midi",
