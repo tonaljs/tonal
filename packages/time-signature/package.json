@@ -1,0 +1,21 @@
+{
+  "name": "@tonaljs/time-signature",
+  "version": "3.6.0",
+  "description": "Musical time signatures",
+  "keywords": [
+    "time signature",
+    "music",
+    "theory"
+  ],
+  "main": "dist/index.es5.js",
+  "module": "dist/index.esnext.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/time-signature/index.d.ts",
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
