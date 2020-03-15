@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chord-dictionary",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "description": "A dictionary of musical chords",
   "keywords": [],
   "main": "dist/index.es5.js",
@@ -10,7 +10,7 @@
   ],
   "types": "dist/chord-dictionary/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord-type": "^3.5.0"
+    "@tonaljs/chord-type": "^3.5.1"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

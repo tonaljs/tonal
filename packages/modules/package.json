@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/modules",
-  "version": "3.4.9",
+  "version": "3.4.10",
   "description": "deprecated",
   "keywords": [],
   "main": "dist/index.es5.js",
@@ -10,7 +10,7 @@
   ],
   "types": "dist/modules/index.d.ts",
   "dependencies": {
-    "@tonaljs/tonal": "^3.5.1"
+    "@tonaljs/tonal": "^3.6.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
