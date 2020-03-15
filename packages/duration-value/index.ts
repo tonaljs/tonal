@@ -59,6 +59,10 @@ export function get(name: string): DurationValue {
 export const value = (name: string) => get(name).value;
 export const fraction = (name: string) => get(name).fraction;
 
+export default { names, shorthands, get, value, fraction };
+
+//// PRIVATE ////
+
 function add(denominator: number, shorthand: string, names: string[]) {
   VALUES.push({
     empty: false,
@@ -70,8 +74,6 @@ function add(denominator: number, shorthand: string, names: string[]) {
     names
   });
 }
-
-export default { names, shorthands, get, value, fraction };
 
 function calcDots(fraction: Fraction, dots: number): Fraction {
   const pow = Math.pow(2, dots);

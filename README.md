@@ -106,6 +106,10 @@ The API documentation lives inside README.md file of each module
 - [@tonaljs/progression](/packages/progression): Chord progressions
 - [@tonaljs/roman-numeral](/packages/roman-numeral): Parse roman numeral symbols
 
+#### Time, rhythm
+
+- [@tonaljs/duration-value](/packages/duration-value): Note duration values
+
 #### Utilities
 
 - [@tonaljs/core](/packages/core): Core functions (note, interval, transpose and distance)
