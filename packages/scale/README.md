@@ -53,12 +53,12 @@ Scale.get("c5 pentatonic");
 // }
 ```
 
-### `Scale.chords(scale: string) => string[]`
+### `Scale.scaleChords(scale: string) => string[]`
 
 Get all chords that fits a given scale:
 
 ```js
-Scale.chords("pentatonic");
+Scale.scaleChords("pentatonic");
 // => ["5", "64", "M", "M6", "Madd9", "Msus2"]
 ```
 
