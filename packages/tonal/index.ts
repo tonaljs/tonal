@@ -4,6 +4,7 @@ import Chord from "@tonaljs/chord";
 import ChordType from "@tonaljs/chord-type";
 import Collection from "@tonaljs/collection";
 import * as Core from "@tonaljs/core";
+import DurationValue from "@tonaljs/duration-value";
 import Interval from "@tonaljs/interval";
 import Key from "@tonaljs/key";
 import Midi from "@tonaljs/midi";
@@ -31,6 +32,7 @@ export {
   ChordType,
   Collection,
   Core,
+  DurationValue,
   Note,
   Interval,
   Key,

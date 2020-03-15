@@ -7,6 +7,9 @@
     "theory",
     "music-theory"
   ],
+  "scripts": {
+    "build": "rollup -c=../../rollup.config.js"
+  },
   "main": "dist/index.es5.js",
   "module": "dist/index.esnext.js",
   "files": [
@@ -20,6 +23,7 @@
     "@tonaljs/chord-type": "^3.5.0",
     "@tonaljs/collection": "^3.5.0",
     "@tonaljs/core": "^3.5.0",
+    "@tonaljs/duration-value": "^3.5.0",
     "@tonaljs/interval": "^3.5.0",
     "@tonaljs/key": "^3.5.0",
     "@tonaljs/midi": "^3.5.0",

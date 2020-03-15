@@ -1,0 +1,21 @@
+{
+  "name": "@tonaljs/duration-value",
+  "version": "3.5.0",
+  "description": "Musical duration values",
+  "keywords": [
+    "duration-value",
+    "music",
+    "theory"
+  ],
+  "main": "dist/index.es5.js",
+  "module": "dist/index.esnext.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/duration-value/index.d.ts",
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
