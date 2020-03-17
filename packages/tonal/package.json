@@ -34,7 +34,8 @@
     "@tonaljs/range": "^3.5.0",
     "@tonaljs/roman-numeral": "^3.5.0",
     "@tonaljs/scale": "^3.5.1",
-    "@tonaljs/scale-type": "^3.5.0"
+    "@tonaljs/scale-type": "^3.5.0",
+    "@tonaljs/time-signature": "^3.5.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

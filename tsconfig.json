@@ -11,5 +11,5 @@
     "moduleResolution": "node"
   },
   "include": ["packages/**/*.ts", "../../packages/**/*"],
-  "exclude": ["node_modules", "packages/**/*.test.ts", "**/dist/**/*"]
+  "exclude": ["node_modules", "packages/**/*test.ts", "**/dist/**/*"]
 }
