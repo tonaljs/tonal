@@ -108,6 +108,7 @@ The API documentation lives inside README.md file of each module
 
 #### Time, rhythm
 
+- [@tonaljs/time-signature](/packages/time-signature): Parse time signatures
 - [@tonaljs/duration-value](/packages/duration-value): Note duration values
 
 #### Utilities
