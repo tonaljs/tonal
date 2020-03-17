@@ -2,8 +2,13 @@
   "name": "@tonaljs/time-signature",
   "version": "3.6.0",
   "description": "Musical time signatures",
+  "scripts": {
+    "build": "rollup -c=../../rollup.config.js"
+  },
   "keywords": [
     "time signature",
+    "time meter",
+    "metre",
     "music",
     "theory"
   ],

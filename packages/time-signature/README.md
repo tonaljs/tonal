@@ -32,14 +32,47 @@ Return a list of most most frequently-used time signatures:
 TimeSignature.names();
 ```
 
-#### `TimeSignature.get(name: string) // => object`
+#### `TimeSignature.get(name: string | [number, number]) // => object`
 
-Get a time signature object from array or string:
+Get a time signature:
 
 ```js
 TimeSignature.get("3/4"); // =>
+// {
+//   empty: false,
+//   name: "3/4",
+//   upper: 3,
+//   lower: 4,
+//   type: "simple",
+//   additive: []
+// };
+```
+
+`type` can be `simple`, `compound` or `regular`
+
+Additive signatures are accepted:
+
+```js
+TimeSignature.get("3+2+3/8"); // =>
+// {
+//   empty: false,
+//   name: '3+2+3/8',
+//   type: 'irregular',
+//   upper: 8,
+//   lower: 8,
+//   additive: [ 3, 2, 3 ]
+// }
+```
+
+Arrays can be passed as arguments:
+
+```js
+TimeSignature.get([3, 4]);
+TimeSignature.get(["3", "4"]);
+TimeSignature.get(["3+2+3", "8"]);
 ```
 
 ## References
 
 - https://en.wikipedia.org/wiki/Time_signature
+- https://en.wikipedia.org/wiki/Metre_(music)
