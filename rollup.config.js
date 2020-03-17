@@ -7,11 +7,14 @@ const INPUT_FILE = path.join(PACKAGE_ROOT_PATH, "index.ts");
 const OUTPUT_DIR = path.join(PACKAGE_ROOT_PATH, "dist");
 const PKG_JSON = require(path.join(PACKAGE_ROOT_PATH, "package.json"));
 
-const formats = [{ dist: "umd", ts: "es5" }, { dist: "es", ts: "esnext" }];
+const OUTPUTS = [
+  { format: "umd", target: "es5" },
+  { format: "es", target: "esnext" }
+];
 
 const name = getUmdName(PKG_JSON.name);
 
-export default formats.map(format => ({
+export default OUTPUTS.map(format => ({
   input: INPUT_FILE,
   external: [
     ...Object.keys(PKG_JSON.dependencies || {}),
@@ -19,14 +22,14 @@ export default formats.map(format => ({
   ],
   output: {
     name,
-    file: path.join(OUTPUT_DIR, `index.${format.ts}.js`),
-    format: format.dist,
+    file: path.join(OUTPUT_DIR, `index.${format.target}.js`),
+    format: format.format,
     sourcemap: true
   },
   plugins: [
     typescript({
       tsconfig: `tsconfig.json`,
-      tsconfigOverride: { compilerOptions: { target: format.ts } }
+      tsconfigOverride: { compilerOptions: { target: format.target } }
     })
   ]
 }));
@@ -38,6 +41,6 @@ function getUmdName(packageName) {
         packageName
     );
   }
-  const sufix = packageName.slice("@tonaljs/".length);
-  return _.startCase(sufix).replace(" ", "");
+  const suffix = packageName.slice("@tonaljs/".length);
+  return _.startCase(suffix).replace(" ", "");
 }
