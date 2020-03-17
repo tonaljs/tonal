@@ -16,6 +16,7 @@ import Range from "@tonaljs/range";
 import RomanNumeral from "@tonaljs/roman-numeral";
 import Scale from "@tonaljs/scale";
 import ScaleType from "@tonaljs/scale-type";
+import TimeSignature from "@tonaljs/time-signature";
 
 export * from "@tonaljs/core";
 
@@ -44,7 +45,8 @@ export {
   RomanNumeral,
   Scale,
   ScaleType,
-  // backwards
+  TimeSignature,
+  // backwards API compatibility (3.0)
   Tonal,
   PcSet,
   ChordDictionary,

@@ -25,6 +25,7 @@ describe("@tonaljs/tonal", () => {
       "Scale",
       "ScaleDictionary",
       "ScaleType",
+      "TimeSignature",
       "Tonal",
       "accToAlt",
       "altToAcc",
