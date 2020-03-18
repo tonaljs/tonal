@@ -1,6 +1,6 @@
 # @tonaljs/duration-value ![tonal](https://img.shields.io/badge/@tonaljs-duration_value-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/duration-value.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/duration-value)
 
-> Functions to create note duration values
+> Functions to parse and manipulate time duration values
 
 ## Usage
 

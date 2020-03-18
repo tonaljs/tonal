@@ -4,13 +4,14 @@
   "workspaces": [
     "packages/*"
   ],
-  "main": "packages/tonal/dist/index.es5.js",
-  "module": "packages/tonal/dist/index.esnext.js",
+  "main": "packages/tonal/dist/index.js",
+  "module": "packages/tonal/dist/index.es.js",
+  "types": "packages/tonal/dist/index.dt.ts",
   "scripts": {
     "lerna": "lerna bootstrap",
     "lerna:publish": "yarn build && lerna publish",
     "build": "yarn build:clean && yarn lerna && yarn build:packages && yarn build:browser",
-    "build:packages": "lerna exec  -- rollup -c=../../rollup.config.js",
+    "build:packages": "lerna exec --parallel  -- rollup -c=../../rollup.config.js",
     "build:browser": "cd packages/tonal && rollup -c=rollup.browser.config.js",
     "build:clean": "lerna exec --parallel -- rimraf dist/",
     "test": "jest --coverage",
@@ -25,7 +26,7 @@
   "lint-staged": {
     "packages/**/*.ts": [
       "prettier --write",
-      "tslint",
+      "tslint -p tsconfig.json",
       "git add"
     ]
   },

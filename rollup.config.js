@@ -8,13 +8,13 @@ const OUTPUT_DIR = path.join(PACKAGE_ROOT_PATH, "dist");
 const PKG_JSON = require(path.join(PACKAGE_ROOT_PATH, "package.json"));
 
 const OUTPUTS = [
-  { format: "umd", target: "es5" },
-  { format: "es", target: "esnext" }
+  { format: "umd", target: "es5", ext: "" },
+  { format: "es", target: "esnext", ext: ".es" }
 ];
 
 const name = getUmdName(PKG_JSON.name);
 
-export default OUTPUTS.map(format => ({
+export default OUTPUTS.map(output => ({
   input: INPUT_FILE,
   external: [
     ...Object.keys(PKG_JSON.dependencies || {}),
@@ -22,14 +22,20 @@ export default OUTPUTS.map(format => ({
   ],
   output: {
     name,
-    file: path.join(OUTPUT_DIR, `index.${format.target}.js`),
-    format: format.format,
+    file: path.join(OUTPUT_DIR, `index${output.ext}.js`),
+    format: output.format,
     sourcemap: true
   },
   plugins: [
     typescript({
       tsconfig: `tsconfig.json`,
-      tsconfigOverride: { compilerOptions: { target: format.target } }
+      tsconfigOverride: {
+        compilerOptions: { target: output.target },
+        include: [
+          path.join(PACKAGE_ROOT_PATH, "index.ts"),
+          path.join(PACKAGE_ROOT_PATH, "src/*.ts")
+        ]
+      }
     })
   ]
 }));

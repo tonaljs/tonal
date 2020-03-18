@@ -10,12 +10,12 @@
   "scripts": {
     "build": "rollup -c=../../rollup.config.js"
   },
-  "main": "dist/index.es5.js",
-  "module": "dist/index.esnext.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "files": [
     "dist"
   ],
-  "types": "dist/tonal/index.d.ts",
+  "types": "dist/index.dt.ts",
   "dependencies": {
     "@tonaljs/abc-notation": "^3.5.0",
     "@tonaljs/array": "^3.2.5",

@@ -2,6 +2,18 @@
   "name": "@tonaljs/abc-notation",
   "version": "3.5.0",
   "description": "Parse musical notes in abc notation",
+  "scripts": {
+    "build": "rollup -c=../../rollup.config.js"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "@tonaljs/core": "^3.5.0"
+  },
   "keywords": [
     "note",
     "abc",
@@ -10,15 +22,6 @@
     "theory",
     "@tonaljs"
   ],
-  "main": "dist/index.es5.js",
-  "module": "dist/index.esnext.js",
-  "files": [
-    "dist"
-  ],
-  "types": "dist/abc-notation/index.d.ts",
-  "dependencies": {
-    "@tonaljs/core": "^3.5.0"
-  },
   "author": "danigb@gmail.com",
   "license": "MIT",
   "publishConfig": {
