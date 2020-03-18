@@ -9,12 +9,12 @@
     "theory",
     "@tonaljs"
   ],
-  "main": "dist/index.es5.js",
-  "module": "dist/index.esnext.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "files": [
     "dist"
   ],
-  "types": "dist/scale/index.d.ts",
+  "types": "dist/index.dt.ts",
   "dependencies": {
     "@tonaljs/chord-type": "^3.5.1",
     "@tonaljs/collection": "^3.5.0",

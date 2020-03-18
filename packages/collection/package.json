@@ -7,12 +7,12 @@
     "music",
     "theory"
   ],
-  "main": "dist/index.es5.js",
-  "module": "dist/index.esnext.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "files": [
     "dist"
   ],
-  "types": "dist/collection/index.d.ts",
+  "types": "dist/index.dt.ts",
   "author": "danigb@gmail.com",
   "license": "MIT",
   "publishConfig": {

@@ -3,12 +3,12 @@
   "version": "3.4.4",
   "description": "A dictionary of musical scales",
   "keywords": [],
-  "main": "dist/index.es5.js",
-  "module": "dist/index.esnext.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "files": [
     "dist"
   ],
-  "types": "dist/scale-dictionary/index.d.ts",
+  "types": "dist/index.dt.ts",
   "dependencies": {
     "@tonaljs/scale-type": "^3.5.0"
   },
