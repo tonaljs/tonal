@@ -24,7 +24,7 @@ describe("@tonaljs/chord-type", () => {
   });
 
   test("all", () => {
-    expect(ChordType.all()).toHaveLength(108);
+    expect(ChordType.all()).toHaveLength(107);
   });
 
   test("get ", () => {
