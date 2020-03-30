@@ -13,7 +13,7 @@ const CHORDS: string[][] = [
   ["1P 3M 5P 6M", "sixth", "6 add6 add13 M6"],
   ["1P 3M 5P 6M 9M", "sixth/ninth", "6/9 69"],
   ["1P 3M 5P 7M 11A", "lydian", "maj#4 Δ#4 Δ#11"],
-  ["1P 3M 6m 7M", "major seventh b6", "M7b6"],
+  ["1P 3M 6m 7M", "major seventh flat sixth", "M7b6"],
   // ==Minor==
   // '''Normal'''
   ["1P 3m 5P", "minor", "m min -"],
@@ -34,20 +34,20 @@ const CHORDS: string[][] = [
   ["1P 3M 5P 7m 9M 13M", "dominant thirteenth", "13"],
   ["1P 3M 5P 7m 11A", "lydian dominant seventh", "7#11 7#4"],
   // '''Altered'''
-  ["1P 3M 5P 7m 9m", "dominant b9", "7b9"],
-  ["1P 3M 5P 7m 9A", "dominant #9", "7#9"],
+  ["1P 3M 5P 7m 9m", "dominant flat ninth", "7b9"],
+  ["1P 3M 5P 7m 9A", "dominant sharp ninth", "7#9"],
   ["1P 3M 7m 9m", "altered", "alt7"],
   // '''Suspended'''
-  ["1P 4P 5P", "suspended 4th", "sus4"],
-  ["1P 2M 5P", "suspended 2nd", "sus2"],
-  ["1P 4P 5P 7m", "suspended 4th seventh", "7sus4"],
+  ["1P 4P 5P", "suspended fourth", "sus4"],
+  ["1P 2M 5P", "suspended second", "sus2"],
+  ["1P 4P 5P 7m", "suspended fourth seventh", "7sus4"],
   ["1P 5P 7m 9M 11P", "eleventh", "11"],
-  ["1P 4P 5P 7m 9m", "suspended 4th b9", "b9sus phryg"],
+  ["1P 4P 5P 7m 9m", "suspended fourth flat ninth", "b9sus phryg"],
   // ==Other==
   ["1P 5P", "fifth", "5"],
   ["1P 3M 5A", "augmented", "aug + +5"],
   ["1P 3M 5A 7M", "augmented seventh", "maj7#5 maj7+5"],
-  ["1P 3M 5P 7M 9M 11A", "major #11 (lydian)", "maj9#11 Δ9#11"],
+  ["1P 3M 5P 7M 9M 11A", "major sharp eleventh (lydian)", "maj9#11 Δ9#11"],
   // ==Legacy==
   ["1P 2M 4P 5P", "", "sus24 sus4add9"],
   ["1P 3M 13m", "", "Mb6"],
