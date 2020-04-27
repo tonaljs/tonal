@@ -16,27 +16,54 @@ const { Chord } = require("@tonaljs/tonal");
 
 ## API
 
-#### `Chord.get(name: string) => Scale`
+#### `Chord.getChord(type: string, tonic?: string, root?: string) => Chord`
 
-Get a chord from a chord name. Unlike `chordType`, `chord` accepts tonics in the chord name and returns the a Scale data object (a ChordType with extended properties):
+Get the chord properties from a chord type and an (optional) tonic and (optional) root. Notice that the tonic must be present if the root is present. Also the root must be part of the chord notes.
 
-- tonic: the tonic of the chord, or "" if not present
-- notes: an array of notes, or empty array if tonic is not present
+It returns the same object that `ChordType.get` but with additional properties:
+
+- symbol: the chord symbol (a combiation of the tonic, chord type shortname and root, if present). For example: `Cmaj7`, `Db7b5/F`. The symbol always uses pitch classes (note names without octaves) for both the tonic and root.
+- tonic: the tonic of the chord (or an empty string if not present)
+- root: the root of the chord (or an empty string if not present)
+- rootDegree: the degree of the root. 0 if root not present. A number greater than 0 if present, where 1 indicates the tonic, 2 the second note (normally the 3th), 2 the third note (normally the 5th), etc.
+- notes: an array of notes, or empty array if tonic is not present. If the root is pres
+
+Example:
 
 ```js
-Chord.get("Cmaj7");
-// =>
+Chord.getChord("maj7", "G4", "B4"); // =>
 // {
-//   name: "C major seventh",
-//   tonic: "C",
+//   empty: false,
+//   name: "G major seventh over B",
+//   symbol: "Gmaj7/B",
+//   tonic: "G4",
+//   root: "B4",
+//   rootDegree: 2,
 //   setNum: 2193,
 //   type: "major seventh",
 //   aliases: ["maj7", "Δ", "ma7", "M7", "Maj7"],
 //   chroma: "100010010001",
 //   intervals: ["1P", "3M", "5P", "7M"],
-//   notes: ["C", "E", "G", "B"],
-//   quality: "Major"
-// };
+//   normalized: "100010010001",
+//   notes: ["G4", "B4", "D5", "F#5"],
+//   quality: "Major",
+// }
+```
+
+#### `Chord.get(name: string) =>`
+
+An alias of `Chord.getChord` but accepts a chord symbol as parameter.
+
+```js
+Chord.get("Cmaj7");
+// same as
+Chord.getChord("maj7", "C");
+```
+
+Important: currently chord with roots are NOT allowed (will be implemented in next version):
+
+```js
+Chord.get("Cmaj7/E"); // => { empty: true }
 ```
 
 #### `Chord.detect(notes: string[]) => string[]`
@@ -52,7 +79,7 @@ Alias of [chord-detect](/packages/chord-detect)
 
 #### `Chord.transpose(chordName: string, intervalName: string) => string`
 
-Transpose a chord name by an interval:
+Transpose a chord symbol by an interval:
 
 ```js
 Chord.transpose("Eb7b9", "5P"); // => "Bb7b9"

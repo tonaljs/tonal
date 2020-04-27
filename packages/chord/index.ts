@@ -7,13 +7,14 @@ import {
 
 import {
   deprecate,
+  distance,
   note,
   NoteName,
   tokenizeNote,
   transpose as transposeNote
 } from "@tonaljs/core";
 
-import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
+import { isSubsetOf, isSupersetOf } from "@tonaljs/pcset";
 
 import { all as scaleTypes } from "@tonaljs/scale-type";
 export { detect } from "@tonaljs/chord-detect";
@@ -24,12 +25,18 @@ type ChordNameTokens = [string, string]; // [TONIC, SCALE TYPE]
 interface Chord extends ChordType {
   tonic: string | null;
   type: string;
+  root: string;
+  rootDegree: number;
+  symbol: string;
   notes: NoteName[];
 }
 
 const NoChord: Chord = {
   empty: true,
   name: "",
+  symbol: "",
+  root: "",
+  rootDegree: 0,
   type: "",
   tonic: null,
   setNum: NaN,
@@ -85,17 +92,68 @@ export function tokenize(name: string): ChordNameTokens {
  * Get a Chord from a chord name.
  */
 export function get(src: ChordName | ChordNameTokens): Chord {
-  const { type, tonic } = findChord(src);
+  if (src === "") {
+    return NoChord;
+  }
+  if (Array.isArray(src) && src.length === 2) {
+    return getChord(src[1], src[0]);
+  } else {
+    const [tonic, type] = tokenize(src);
+    const chord = getChord(type, tonic);
+    return chord.empty ? getChord(src) : chord;
+  }
+}
 
-  if (!type || type.empty) {
+/**
+ * Get chord properties
+ *
+ * @param typeName - the chord type name
+ * @param [tonic] - Optional tonic
+ * @param [root]  - Optional root (requires a tonic)
+ */
+export function getChord(
+  typeName: string,
+  optionalTonic?: string,
+  optionalRoot?: string
+): Chord {
+  const type = getChordType(typeName);
+  const tonic = note(optionalTonic || "");
+  const root = note(optionalRoot || "");
+
+  if (
+    type.empty ||
+    (optionalTonic && tonic.empty) ||
+    (optionalRoot && root.empty)
+  ) {
     return NoChord;
   }
 
-  const notes: string[] = tonic
-    ? type.intervals.map(i => transposeNote(tonic, i))
-    : [];
-  const name = tonic ? tonic + " " + type.name : type.name;
-  return { ...type, name, type: type.name, tonic: tonic || "", notes };
+  const rootInterval = distance(tonic.pc, root.pc);
+  const rootDegree = type.intervals.indexOf(rootInterval) + 1;
+  if (!root.empty && !rootDegree) {
+    return NoChord;
+  }
+
+  const notes = tonic.empty
+    ? []
+    : type.intervals.map(i => transposeNote(tonic, i));
+  typeName = type.aliases.indexOf(typeName) !== -1 ? typeName : type.aliases[0];
+  const symbol = `${tonic.empty ? "" : tonic.pc}${typeName}${
+    root.empty ? "" : "/" + root.pc
+  }`;
+  const name = `${optionalTonic ? tonic.pc + " " : ""}${type.name}${
+    optionalRoot ? " over " + root.pc : ""
+  }`;
+  return {
+    ...type,
+    name,
+    symbol,
+    type: type.name,
+    root: root.name,
+    rootDegree,
+    tonic: tonic.name,
+    notes
+  };
 }
 
 export const chord = deprecate("Chord.chord", "Chord.get", get);
@@ -180,6 +238,7 @@ export function reduced(chordName: string): string[] {
 }
 
 export default {
+  getChord,
   get,
   detect,
   chordScales,

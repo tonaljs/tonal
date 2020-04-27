@@ -7,10 +7,10 @@ describe("@tonaljs/chord-type", () => {
     // sorted
     expect(ChordType.names().slice(0, 5)).toEqual([
       "fifth",
-      "suspended 4th",
-      "suspended 4th seventh",
+      "suspended fourth",
+      "suspended fourth seventh",
       "augmented",
-      "major seventh b6"
+      "major seventh flat sixth"
     ]);
   });
 

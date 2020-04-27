@@ -21,11 +21,64 @@ describe("tonal-chord", () => {
     expect(Chord.tokenize("C4")).toEqual(["C", "4"]);
   });
 
+  describe("getChord", () => {
+    test("Chord properties", () => {
+      expect(Chord.getChord("maj7", "G4", "B4")).toEqual({
+        empty: false,
+        name: "G major seventh over B",
+        symbol: "Gmaj7/B",
+        tonic: "G4",
+        root: "B4",
+        rootDegree: 2,
+        setNum: 2193,
+        type: "major seventh",
+        aliases: ["maj7", "Δ", "ma7", "M7", "Maj7"],
+        chroma: "100010010001",
+        intervals: ["1P", "3M", "5P", "7M"],
+        normalized: "100010010001",
+        notes: ["G4", "B4", "D5", "F#5"],
+        quality: "Major"
+      });
+    });
+    test("without root", () => {
+      expect(Chord.getChord("M7", "G")).toMatchObject({
+        symbol: "GM7",
+        name: "G major seventh",
+        notes: ["G", "B", "D", "F#"]
+      });
+    });
+    test("rootDegrees", () => {
+      expect(Chord.getChord("maj7", "C", "C").rootDegree).toBe(1);
+      expect(Chord.getChord("maj7", "C", "D").empty).toBe(true);
+    });
+    test("without tonic nor root", () => {
+      expect(Chord.getChord("dim")).toEqual({
+        symbol: "dim",
+        name: "diminished",
+        tonic: "",
+        root: "",
+        rootDegree: 0,
+        type: "diminished",
+        aliases: ["dim", "°", "o"],
+        chroma: "100100100000",
+        empty: false,
+        intervals: ["1P", "3m", "5d"],
+        normalized: "100000100100",
+        notes: [],
+        quality: "Diminished",
+        setNum: 2336
+      });
+    });
+  });
+
   test("chord", () => {
     expect(Chord.get("Cmaj7")).toEqual({
       empty: false,
+      symbol: "Cmaj7",
       name: "C major seventh",
       tonic: "C",
+      root: "",
+      rootDegree: 0,
       setNum: 2193,
       type: "major seventh",
       aliases: ["maj7", "Δ", "ma7", "M7", "Maj7"],
@@ -37,23 +90,11 @@ describe("tonal-chord", () => {
     });
     expect(Chord.get("hello").empty).toBe(true);
     expect(Chord.get("").empty).toBe(true);
-    expect(Chord.get("C")).toEqual(Chord.get("C major"));
+    expect(Chord.get("C").name).toEqual("C major");
   });
 
   test("chord without tonic", () => {
-    expect(Chord.get("dim")).toEqual({
-      aliases: ["dim", "°", "o"],
-      chroma: "100100100000",
-      empty: false,
-      intervals: ["1P", "3m", "5d"],
-      name: "diminished",
-      normalized: "100000100100",
-      notes: [],
-      quality: "Diminished",
-      setNum: 2336,
-      tonic: "",
-      type: "diminished"
-    });
+    expect(Chord.get("dim")).toMatchObject({ name: "diminished" });
     expect(Chord.get("dim7")).toMatchObject({ name: "diminished seventh" });
     expect(Chord.get("alt7")).toMatchObject({ name: "altered" });
   });
