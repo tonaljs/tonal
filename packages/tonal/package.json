@@ -12,6 +12,7 @@
   },
   "main": "dist/index.js",
   "module": "dist/index.es.js",
+  "browser": "browser/tonal.min.js",
   "files": [
     "dist"
   ],
