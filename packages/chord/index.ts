@@ -7,13 +7,14 @@ import {
 
 import {
   deprecate,
+  distance,
   note,
   NoteName,
   tokenizeNote,
   transpose as transposeNote
 } from "@tonaljs/core";
 
-import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
+import { isSubsetOf, isSupersetOf } from "@tonaljs/pcset";
 
 import { all as scaleTypes } from "@tonaljs/scale-type";
 export { detect } from "@tonaljs/chord-detect";
@@ -25,6 +26,7 @@ interface Chord extends ChordType {
   tonic: string | null;
   type: string;
   root: string;
+  rootDegree: number;
   symbol: string;
   notes: NoteName[];
 }
@@ -34,6 +36,7 @@ const NoChord: Chord = {
   name: "",
   symbol: "",
   root: "",
+  rootDegree: 0,
   type: "",
   tonic: null,
   setNum: NaN,
@@ -101,6 +104,13 @@ export function get(src: ChordName | ChordNameTokens): Chord {
   }
 }
 
+/**
+ * Get chord properties
+ *
+ * @param typeName - the chord type name
+ * @param [tonic] - Optional tonic
+ * @param [root]  - Optional root (requires a tonic)
+ */
 export function getChord(
   typeName: string,
   optionalTonic?: string,
@@ -115,6 +125,12 @@ export function getChord(
     (optionalTonic && tonic.empty) ||
     (optionalRoot && root.empty)
   ) {
+    return NoChord;
+  }
+
+  const rootInterval = distance(tonic.pc, root.pc);
+  const rootDegree = type.intervals.indexOf(rootInterval) + 1;
+  if (!root.empty && !rootDegree) {
     return NoChord;
   }
 
@@ -134,6 +150,7 @@ export function getChord(
     symbol,
     type: type.name,
     root: root.name,
+    rootDegree,
     tonic: tonic.name,
     notes
   };

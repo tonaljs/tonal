@@ -22,13 +22,14 @@ describe("tonal-chord", () => {
   });
 
   describe("getChord", () => {
-    test("with all params", () => {
+    test("Chord properties", () => {
       expect(Chord.getChord("maj7", "G4", "B4")).toEqual({
         empty: false,
         name: "G major seventh over B",
         symbol: "Gmaj7/B",
         tonic: "G4",
         root: "B4",
+        rootDegree: 2,
         setNum: 2193,
         type: "major seventh",
         aliases: ["maj7", "Δ", "ma7", "M7", "Maj7"],
@@ -46,12 +47,17 @@ describe("tonal-chord", () => {
         notes: ["G", "B", "D", "F#"]
       });
     });
+    test("rootDegrees", () => {
+      expect(Chord.getChord("maj7", "C", "C").rootDegree).toBe(1);
+      expect(Chord.getChord("maj7", "C", "D").empty).toBe(true);
+    });
     test("without tonic nor root", () => {
       expect(Chord.getChord("dim")).toEqual({
         symbol: "dim",
         name: "diminished",
         tonic: "",
         root: "",
+        rootDegree: 0,
         type: "diminished",
         aliases: ["dim", "°", "o"],
         chroma: "100100100000",
@@ -72,6 +78,7 @@ describe("tonal-chord", () => {
       name: "C major seventh",
       tonic: "C",
       root: "",
+      rootDegree: 0,
       setNum: 2193,
       type: "major seventh",
       aliases: ["maj7", "Δ", "ma7", "M7", "Maj7"],
