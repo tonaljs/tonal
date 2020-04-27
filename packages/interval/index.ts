@@ -5,7 +5,7 @@ import {
   IntervalCoordinates,
   IntervalName,
   NoteCoordinates,
-  tokenizeInterval as tokenize
+  tokenizeInterval as tokenize,
 } from "@tonaljs/core";
 
 /**
@@ -180,7 +180,7 @@ export default {
   simplify,
   add,
   addTo,
-  substract
+  substract,
 };
 
 //// PRIVATE ////

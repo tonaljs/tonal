@@ -15,7 +15,7 @@ import { midiToNoteName, toMidi, ToNoteNameOptions } from "@tonaljs/midi";
  * // complex range
  * numeric(["C4", "E4", "Bb3"]) // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
  */
-export function numeric(notes: Array<string | number>): number[] {
+export function numeric(notes: (string | number)[]): number[] {
   const midi: number[] = compact(notes.map(toMidi));
   if (!notes.length || midi.length !== notes.length) {
     // there is no valid notes
@@ -44,10 +44,10 @@ export function numeric(notes: Array<string | number>): number[] {
  * Range.chromatic("C2 C3", true) // => [ "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", "C3" ]
  */
 export function chromatic(
-  notes: Array<string | number>,
+  notes: (string | number)[],
   options?: ToNoteNameOptions
 ): string[] {
-  return numeric(notes).map(midi => midiToNoteName(midi, options));
+  return numeric(notes).map((midi) => midiToNoteName(midi, options));
 }
 
 export default { numeric, chromatic };

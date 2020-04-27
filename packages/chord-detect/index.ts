@@ -22,7 +22,7 @@ const namedSet = (notes: string[]) => {
 };
 
 export function detect(source: string[]): string[] {
-  const notes = source.map(n => note(n).pc).filter(x => x);
+  const notes = source.map((n) => note(n).pc).filter((x) => x);
   if (note.length === 0) {
     return [];
   }
@@ -30,9 +30,9 @@ export function detect(source: string[]): string[] {
   const found: FoundChord[] = findExactMatches(notes, 1);
 
   return found
-    .filter(chord => chord.weight)
+    .filter((chord) => chord.weight)
     .sort((a, b) => b.weight - a.weight)
-    .map(chord => chord.name);
+    .map((chord) => chord.name);
 }
 
 function findExactMatches(notes: string[], weight: number): FoundChord[] {

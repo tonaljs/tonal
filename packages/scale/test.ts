@@ -14,7 +14,7 @@ describe("@tonaljs/scale", () => {
       aliases: ["ionian"],
       setNum: 2773,
       chroma: "101011010101",
-      normalized: "101010110101"
+      normalized: "101010110101",
     });
     expect(Scale.get("c5 pentatonic")).toEqual({
       empty: false,
@@ -26,7 +26,7 @@ describe("@tonaljs/scale", () => {
       aliases: ["pentatonic"],
       setNum: 2708,
       chroma: "101010010100",
-      normalized: "100101001010"
+      normalized: "100101001010",
     });
     expect(Scale.get("C4 major")).toEqual(Scale.get(["C4", "major"]));
   });
@@ -73,7 +73,7 @@ describe("@tonaljs/scale", () => {
       "bebop",
       "bebop major",
       "ichikosucho",
-      "chromatic"
+      "chromatic",
     ]);
     expect(Scale.extended("none")).toEqual([]);
   });
@@ -82,7 +82,7 @@ describe("@tonaljs/scale", () => {
     expect(Scale.reduced("major")).toEqual([
       "major pentatonic",
       "ionian pentatonic",
-      "ritusen"
+      "ritusen",
     ]);
     expect(Scale.reduced("D major")).toEqual(Scale.reduced("major"));
     expect(Scale.reduced("none")).toEqual([]);
@@ -97,7 +97,7 @@ describe("@tonaljs/scale", () => {
       "D",
       "F#",
       "A",
-      "C#"
+      "C#",
     ]);
   });
 
@@ -107,20 +107,20 @@ describe("@tonaljs/scale", () => {
       ["2M", "egyptian"],
       ["3M", "malkos raga"],
       ["5P", "ritusen"],
-      ["6M", "minor pentatonic"]
+      ["6M", "minor pentatonic"],
     ]);
     expect(Scale.modeNames("whole tone pentatonic")).toEqual([
-      ["1P", "whole tone pentatonic"]
+      ["1P", "whole tone pentatonic"],
     ]);
     expect(Scale.modeNames("C pentatonic")).toEqual([
       ["C", "major pentatonic"],
       ["D", "egyptian"],
       ["E", "malkos raga"],
       ["G", "ritusen"],
-      ["A", "minor pentatonic"]
+      ["A", "minor pentatonic"],
     ]);
     expect(Scale.modeNames("C whole tone pentatonic")).toEqual([
-      ["C", "whole tone pentatonic"]
+      ["C", "whole tone pentatonic"],
     ]);
   });
 });

@@ -11,7 +11,7 @@ describe("@tonaljs/pcset", () => {
         setNum: 2688,
         chroma: "101010000000",
         normalized: "100000001010",
-        intervals: ["1P", "2M", "3M"]
+        intervals: ["1P", "2M", "3M"],
       });
       expect(Pcset.get(["d", "e", "c"])).toEqual(Pcset.get(["c", "d", "e"]));
       expect(Pcset.get(["not a note or interval"]).empty).toBe(true);
@@ -31,7 +31,7 @@ describe("@tonaljs/pcset", () => {
     });
     test("normalized", () => {
       const likeC = Pcset.get(["C"]).chroma; // 100000000000
-      "cdefgab".split("").forEach(pc => {
+      "cdefgab".split("").forEach((pc) => {
         expect(Pcset.get([pc]).normalized).toBe(likeC);
       });
       expect(Pcset.get(["E", "F#"]).normalized).toBe(
@@ -127,7 +127,7 @@ describe("@tonaljs/pcset", () => {
       "101010110101",
       "101011010110",
       "101101011010",
-      "110101101010"
+      "110101101010",
     ]);
     expect(Pcset.modes($("c d e f g a b"), false)).toEqual([
       "101011010101",
@@ -141,7 +141,7 @@ describe("@tonaljs/pcset", () => {
       "010110101101",
       "101101011010",
       "011010110101",
-      "110101101010"
+      "110101101010",
     ]);
     expect(Pcset.modes(["blah", "bleh"])).toEqual([]);
   });

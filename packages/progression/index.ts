@@ -14,7 +14,9 @@ export function fromRomanNumerals(
   chords: string[]
 ): string[] {
   const romanNumerals = chords.map(romanNumeral);
-  return romanNumerals.map(rn => transpose(tonic, interval(rn)) + rn.chordType);
+  return romanNumerals.map(
+    (rn) => transpose(tonic, interval(rn)) + rn.chordType
+  );
 }
 
 /**
@@ -28,7 +30,7 @@ export function toRomanNumerals(
   tonic: NoteLiteral,
   chords: string[]
 ): string[] {
-  return chords.map(chord => {
+  return chords.map((chord) => {
     const [note, chordType] = tokenize(chord);
     const intervalName = distance(tonic, note);
     const roman = romanNumeral(interval(intervalName));

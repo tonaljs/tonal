@@ -13,53 +13,53 @@ describe("@tonal/key", () => {
   test("major keySignature", () => {
     const tonics = "C D E F G A B".split(" ");
     expect(
-      tonics.map(tonic => Key.majorKey(tonic).keySignature).join(" ")
+      tonics.map((tonic) => Key.majorKey(tonic).keySignature).join(" ")
     ).toEqual(" ## #### b # ### #####");
   });
 
   test("minor keySignature", () => {
     const tonics = "C D E F G A B".split(" ");
     expect(
-      tonics.map(tonic => Key.minorKey(tonic).keySignature).join(" ")
+      tonics.map((tonic) => Key.minorKey(tonic).keySignature).join(" ")
     ).toEqual("bbb b # bbbb bb  ##");
   });
 
   describe("scale names", () => {
     test("natural scales", () => {
       const chordScales = Key.minorKey("C").natural.chordScales;
-      expect(chordScales.map(scale).map(scale => scale.name)).toEqual([
+      expect(chordScales.map(scale).map((scale) => scale.name)).toEqual([
         "C aeolian",
         "D locrian",
         "Eb major",
         "F dorian",
         "G phrygian",
         "Ab lydian",
-        "Bb mixolydian"
+        "Bb mixolydian",
       ]);
     });
 
     test("harmonic scales", () => {
       const chordScales = Key.minorKey("C").harmonic.chordScales;
-      expect(chordScales.map(scale).map(scale => scale.name)).toEqual([
+      expect(chordScales.map(scale).map((scale) => scale.name)).toEqual([
         "C harmonic minor",
         "D locrian 6",
         "Eb major augmented",
         "F lydian diminished",
         "G phrygian dominant",
         "Ab lydian #9",
-        "B ultralocrian"
+        "B ultralocrian",
       ]);
     });
     test("melodic scales", () => {
       const chordScales = Key.minorKey("C").melodic.chordScales;
-      expect(chordScales.map(scale).map(scale => scale.name)).toEqual([
+      expect(chordScales.map(scale).map((scale) => scale.name)).toEqual([
         "C melodic minor",
         "D dorian b2",
         "Eb lydian augmented",
         "F lydian dominant",
         "G mixolydian b6",
         "A locrian #2",
-        "B altered"
+        "B altered",
       ]);
     });
   });

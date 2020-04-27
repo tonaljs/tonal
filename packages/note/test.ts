@@ -17,7 +17,7 @@ describe("note", () => {
       name: "C4",
       oct: 4,
       pc: "C",
-      step: 0
+      step: 0,
     });
     expect(Note.get("C4")).toEqual(Note.get(Note.get("C4")));
   });
@@ -48,7 +48,7 @@ describe("note", () => {
     expect(Note.names()).toEqual(["C", "D", "E", "F", "G", "A", "B"]);
     expect(Note.names(["fx", "bb", 12, "nothing", {}, null])).toEqual([
       "F##",
-      "Bb"
+      "Bb",
     ]);
   });
   test("sortedNames", () => {
@@ -80,7 +80,7 @@ describe("note", () => {
     expect(["1P", "3M", "5P"].map(Note.transposeFrom("C"))).toEqual([
       "C",
       "E",
-      "G"
+      "G",
     ]);
   });
   test("transposeBy", () => {
@@ -88,7 +88,7 @@ describe("note", () => {
     expect(["C", "D", "E"].map(Note.transposeBy("5P"))).toEqual([
       "G",
       "A",
-      "B"
+      "B",
     ]);
   });
 
@@ -105,13 +105,13 @@ describe("note", () => {
   test("transposeFifths", () => {
     expect(Note.transposeFifths("G4", 3)).toEqual("E6");
     expect(Note.transposeFifths("G", 3)).toEqual("E");
-    const ns = [0, 1, 2, 3, 4, 5].map(n => Note.transposeFifths("C2", n));
+    const ns = [0, 1, 2, 3, 4, 5].map((n) => Note.transposeFifths("C2", n));
     expect(ns).toEqual(["C2", "G2", "D3", "A3", "E4", "B4"]);
-    const sharps = [0, 1, 2, 3, 4, 5, 6].map(n =>
+    const sharps = [0, 1, 2, 3, 4, 5, 6].map((n) =>
       Note.transposeFifths("F#", n)
     );
     expect(sharps).toEqual(["F#", "C#", "G#", "D#", "A#", "E#", "B#"]);
-    const flats = [0, -1, -2, -3, -4, -5, -6].map(n =>
+    const flats = [0, -1, -2, -3, -4, -5, -6].map((n) =>
       Note.transposeFifths("Bb", n)
     );
     expect(flats).toEqual(["Bb", "Eb", "Ab", "Db", "Gb", "Cb", "Fb"]);

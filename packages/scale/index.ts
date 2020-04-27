@@ -12,7 +12,7 @@ import {
   all as scaleTypes,
   get as getScaleType,
   names as scaleTypeNames,
-  ScaleType
+  ScaleType,
 } from "@tonaljs/scale-type";
 
 type ScaleName = string;
@@ -34,7 +34,7 @@ const NoScale: Scale = {
   normalized: "",
   aliases: [],
   notes: [],
-  intervals: []
+  intervals: [],
 };
 
 /**
@@ -87,7 +87,7 @@ export function get(src: ScaleName | ScaleNameTokens): Scale {
 
   const type = st.name;
   const notes: string[] = tonic
-    ? st.intervals.map(i => transpose(tonic, i))
+    ? st.intervals.map((i) => transpose(tonic, i))
     : [];
 
   const name = tonic ? tonic + " " + type : type;
@@ -111,8 +111,8 @@ export function scaleChords(name: string): string[] {
   const s = get(name);
   const inScale = isSubsetOf(s.chroma);
   return chordTypes()
-    .filter(chord => inScale(chord.chroma))
-    .map(chord => chord.aliases[0]);
+    .filter((chord) => inScale(chord.chroma))
+    .map((chord) => chord.aliases[0]);
 }
 /**
  * Get all scales names that are a superset of the given one
@@ -128,8 +128,8 @@ export function extended(name: string): string[] {
   const s = get(name);
   const isSuperset = isSupersetOf(s.chroma);
   return scaleTypes()
-    .filter(scale => isSuperset(scale.chroma))
-    .map(scale => scale.name);
+    .filter((scale) => isSuperset(scale.chroma))
+    .map((scale) => scale.name);
 }
 
 /**
@@ -146,8 +146,8 @@ export function extended(name: string): string[] {
 export function reduced(name: string): string[] {
   const isSubset = isSubsetOf(get(name).chroma);
   return scaleTypes()
-    .filter(scale => isSubset(scale.chroma))
-    .map(scale => scale.name);
+    .filter((scale) => isSubset(scale.chroma))
+    .map((scale) => scale.name);
 }
 
 /**
@@ -162,7 +162,7 @@ export function reduced(name: string): string[] {
  * scaleNotes(['D4', 'c#5', 'A5', 'F#6']) // => ["D", "F#", "A", "C#"]
  */
 export function scaleNotes(notes: NoteName[]) {
-  const pcset: string[] = notes.map(n => note(n).pc).filter(x => x);
+  const pcset: string[] = notes.map((n) => note(n).pc).filter((x) => x);
   const tonic = pcset[0];
   const scale = sortedUniqNames(pcset);
   return rotate(scale.indexOf(tonic), scale);
@@ -197,7 +197,7 @@ export function modeNames(name: string): ScaleMode[] {
         return modeName ? [tonics[i], modeName] : ["", ""];
       }
     )
-    .filter(x => x[0]);
+    .filter((x) => x[0]);
 }
 
 export default {
@@ -210,5 +210,5 @@ export default {
   scaleNotes,
   tokenize,
   // deprecated
-  scale
+  scale,
 };

@@ -6,7 +6,7 @@ import {
   isNamed,
   isPitch,
   Named,
-  Pitch
+  Pitch,
 } from "@tonaljs/core";
 
 export interface RomanNumeral extends Pitch, Named {
@@ -111,7 +111,7 @@ function parse(src: string): RomanNumeral | NoRomanNumeral {
     step,
     major: roman === upperRoman,
     oct: 0,
-    dir
+    dir,
   };
 }
 
@@ -119,5 +119,5 @@ export default {
   names,
   get,
   // deprecated
-  romanNumeral
+  romanNumeral,
 };

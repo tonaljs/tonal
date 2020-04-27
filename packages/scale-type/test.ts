@@ -16,7 +16,7 @@ describe("gets dictionary", () => {
       intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
       aliases: ["ionian"],
       chroma: "101011010101",
-      normalized: "101010110101"
+      normalized: "101010110101",
     });
   });
 
@@ -28,14 +28,14 @@ describe("gets dictionary", () => {
       aliases: [],
       chroma: "000000000000",
       intervals: [],
-      normalized: "000000000000"
+      normalized: "000000000000",
     });
   });
 
   test("add a chord type", () => {
     ScaleType.add(["1P", "5P"], "quinta");
     expect(ScaleType.get("quinta")).toMatchObject({
-      chroma: "100000010000"
+      chroma: "100000010000",
     });
     ScaleType.add(["1P", "5P"], "quinta", ["q", "Q"]);
     expect(ScaleType.get("q")).toEqual(ScaleType.get("quinta"));
@@ -44,7 +44,7 @@ describe("gets dictionary", () => {
 
   test("major modes", () => {
     const chromas = modes(ScaleType.get("major").intervals, true);
-    const names = chromas.map(chroma => ScaleType.get(chroma).name);
+    const names = chromas.map((chroma) => ScaleType.get(chroma).name);
     expect(names).toEqual([
       "major",
       "dorian",
@@ -52,12 +52,12 @@ describe("gets dictionary", () => {
       "lydian",
       "mixolydian",
       "aeolian",
-      "locrian"
+      "locrian",
     ]);
   });
   test("harmonic minor modes", () => {
     const chromas = modes(ScaleType.get("harmonic minor").intervals, true);
-    const names = chromas.map(chroma => ScaleType.get(chroma).name);
+    const names = chromas.map((chroma) => ScaleType.get(chroma).name);
     expect(names).toEqual([
       "harmonic minor",
       "locrian 6",
@@ -65,12 +65,12 @@ describe("gets dictionary", () => {
       "dorian #4",
       "phrygian dominant",
       "lydian #9",
-      "ultralocrian"
+      "ultralocrian",
     ]);
   });
   test("melodic minor modes", () => {
     const chromas = modes(ScaleType.get("melodic minor").intervals, true);
-    const names = chromas.map(chroma => ScaleType.get(chroma).name);
+    const names = chromas.map((chroma) => ScaleType.get(chroma).name);
     expect(names).toEqual([
       "melodic minor",
       "dorian b2",
@@ -78,7 +78,7 @@ describe("gets dictionary", () => {
       "lydian dominant",
       "mixolydian b6",
       "locrian #2",
-      "altered"
+      "altered",
     ]);
   });
 

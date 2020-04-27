@@ -25,18 +25,18 @@ const NoDuration: DurationValue = {
   fraction: [0, 0],
   shorthand: "",
   dots: "",
-  names: []
+  names: [],
 };
 
 export function names(): string[] {
   return VALUES.reduce((names, duration) => {
-    duration.names.forEach(name => names.push(name));
+    duration.names.forEach((name) => names.push(name));
     return names;
   }, [] as string[]);
 }
 
 export function shorthands(): string[] {
-  return VALUES.map(dur => dur.shorthand);
+  return VALUES.map((dur) => dur.shorthand);
 }
 
 const REGEX = /^([^.]+)(\.*)$/;
@@ -44,7 +44,7 @@ const REGEX = /^([^.]+)(\.*)$/;
 export function get(name: string): DurationValue {
   const [_, simple, dots] = REGEX.exec(name) || [];
   const base = VALUES.find(
-    dur => dur.shorthand === simple || dur.names.includes(simple)
+    (dur) => dur.shorthand === simple || dur.names.includes(simple)
   );
   if (!base) {
     return NoDuration;
@@ -71,7 +71,7 @@ function add(denominator: number, shorthand: string, names: string[]) {
     value: 1 / denominator,
     fraction: denominator < 1 ? [1 / denominator, 1] : [1, denominator],
     shorthand,
-    names
+    names,
   });
 }
 

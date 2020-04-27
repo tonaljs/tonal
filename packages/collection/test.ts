@@ -30,7 +30,7 @@ describe("@tonaljs/collection", () => {
       ["b", "c", "a"],
       ["a", "c", "b"],
       ["c", "a", "b"],
-      ["c", "b", "a"]
+      ["c", "b", "a"],
     ]);
   });
 });

@@ -4,7 +4,7 @@ import {
   get as pcset,
   Pcset,
   PcsetChroma,
-  PcsetNum
+  PcsetNum,
 } from "@tonaljs/pcset";
 import data from "./data";
 
@@ -25,7 +25,7 @@ const NoChordType: ChordType = {
   name: "",
   quality: "Unknown",
   intervals: [],
-  aliases: []
+  aliases: [],
 };
 
 type ChordTypeName = string | PcsetChroma | PcsetNum;
@@ -50,14 +50,14 @@ export const chordType = deprecate("ChordType.chordType", "ChordType.get", get);
  * Get all chord (long) names
  */
 export function names() {
-  return dictionary.map(chord => chord.name).filter(x => x);
+  return dictionary.map((chord) => chord.name).filter((x) => x);
 }
 
 /**
  * Get all chord symbols
  */
 export function symbols() {
-  return dictionary.map(chord => chord.aliases[0]).filter(x => x);
+  return dictionary.map((chord) => chord.aliases[0]).filter((x) => x);
 }
 
 /**
@@ -97,7 +97,7 @@ export function add(intervals: string[], aliases: string[], fullName?: string) {
     name: fullName || "",
     quality,
     intervals,
-    aliases
+    aliases,
   };
   dictionary.push(chord);
   if (chord.name) {
@@ -105,7 +105,7 @@ export function add(intervals: string[], aliases: string[], fullName?: string) {
   }
   index[chord.setNum] = chord;
   index[chord.chroma] = chord;
-  chord.aliases.forEach(alias => addAlias(chord, alias));
+  chord.aliases.forEach((alias) => addAlias(chord, alias));
 }
 
 export function addAlias(chord: ChordType, alias: string) {
@@ -140,5 +140,5 @@ export default {
   keys,
   // deprecated
   entries,
-  chordType
+  chordType,
 };

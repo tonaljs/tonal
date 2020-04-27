@@ -10,7 +10,7 @@ describe("@tonaljs/chord-type", () => {
       "suspended fourth",
       "suspended fourth seventh",
       "augmented",
-      "major seventh flat sixth"
+      "major seventh flat sixth",
     ]);
   });
 
@@ -19,7 +19,7 @@ describe("@tonaljs/chord-type", () => {
     expect(ChordType.symbols().slice(0, 3)).toEqual([
       "5",
       "M7#5sus4",
-      "7#5sus4"
+      "7#5sus4",
     ]);
   });
 
@@ -36,14 +36,14 @@ describe("@tonaljs/chord-type", () => {
       intervals: ["1P", "3M", "5P"],
       aliases: ["M", ""],
       chroma: "100010010000",
-      normalized: "100001000100"
+      normalized: "100001000100",
     });
   });
 
   test("add a chord", () => {
     ChordType.add(["1P", "5P"], ["q"]);
     expect(ChordType.get("q")).toMatchObject({
-      chroma: "100000010000"
+      chroma: "100000010000",
     });
     ChordType.add(["1P", "5P"], ["q"], "quinta");
     expect(ChordType.get("quinta")).toEqual(ChordType.get("q"));

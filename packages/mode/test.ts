@@ -14,7 +14,7 @@ describe("Mode", () => {
         triad: "",
         seventh: "Maj7",
         aliases: ["major"],
-        intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"]
+        intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
       });
       expect(Mode.get("major")).toEqual(Mode.get("ionian"));
     });
@@ -26,20 +26,20 @@ describe("Mode", () => {
       expect(Mode.get("Dorian")).toEqual(Mode.get("dorian"));
     });
     test("setNum", () => {
-      const pcsets = Mode.names().map(name => Mode.get(name).setNum);
+      const pcsets = Mode.names().map((name) => Mode.get(name).setNum);
       expect(pcsets).toEqual([2773, 2902, 3418, 2741, 2774, 2906, 3434]);
     });
 
     test("alt", () => {
-      const alt = Mode.names().map(name => Mode.get(name).alt);
+      const alt = Mode.names().map((name) => Mode.get(name).alt);
       expect(alt).toEqual([0, 2, 4, -1, 1, 3, 5]);
     });
     test("triad", () => {
-      const triads = Mode.names().map(name => Mode.get(name).triad);
+      const triads = Mode.names().map((name) => Mode.get(name).triad);
       expect(triads).toEqual(["", "m", "m", "", "", "m", "dim"]);
     });
     test("seventh", () => {
-      const sevenths = Mode.names().map(name => Mode.get(name).seventh);
+      const sevenths = Mode.names().map((name) => Mode.get(name).seventh);
       expect(sevenths).toEqual(["Maj7", "m7", "m7", "Maj7", "7", "m7", "m7b5"]);
     });
 
@@ -56,7 +56,7 @@ describe("Mode", () => {
       "lydian",
       "mixolydian",
       "aeolian",
-      "locrian"
+      "locrian",
     ]);
   });
 });

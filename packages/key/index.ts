@@ -49,8 +49,8 @@ function keyScale(
 ) {
   return (tonic: string): KeyScale => {
     const grades = gradesLiteral.split(" ");
-    const intervals = grades.map(gr => roman(gr).interval || "");
-    const scale = intervals.map(interval => transpose(tonic, interval));
+    const intervals = grades.map((gr) => roman(gr).interval || "");
+    const scale = intervals.map((interval) => transpose(tonic, interval));
     const map = mapToScale(scale);
 
     return {
@@ -60,7 +60,7 @@ function keyScale(
       scale,
       chords: map(chordsLiteral.split(" ")),
       chordsHarmonicFunction: hfLiteral.split(" "),
-      chordScales: map(chordScalesLiteral.split(","), " ")
+      chordScales: map(chordScalesLiteral.split(","), " "),
     };
   };
 }
@@ -118,7 +118,7 @@ export function majorKey(tonic: string): MajorKey {
     substituteDominants: map("- bIII7 IV7 bV7 bVI7 bVII7 -".split(" ")),
     substituteDominantsMinorRelative: map(
       "- IIIm7 Im7 IIbm7 VIm7 IVm7 -".split(" ")
-    )
+    ),
   };
 }
 
@@ -136,7 +136,7 @@ export function minorKey(tonic: string): MinorKey {
     keySignature: altToAcc(alteration),
     natural: NaturalScale(tonic),
     harmonic: HarmonicScale(tonic),
-    melodic: MelodicScale(tonic)
+    melodic: MelodicScale(tonic),
   };
 }
 

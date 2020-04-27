@@ -50,5 +50,5 @@ export {
   Tonal,
   PcSet,
   ChordDictionary,
-  ScaleDictionary
+  ScaleDictionary,
 };

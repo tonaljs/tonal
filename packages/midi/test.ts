@@ -29,14 +29,14 @@ describe("midi", () => {
 
   test("midiToNoteName", () => {
     const notes = [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72];
-    expect(notes.map(m => Midi.midiToNoteName(m)).join(" ")).toEqual(
+    expect(notes.map((m) => Midi.midiToNoteName(m)).join(" ")).toEqual(
       "C4 Db4 D4 Eb4 E4 F4 Gb4 G4 Ab4 A4 Bb4 B4 C5"
     );
     expect(
-      notes.map(n => Midi.midiToNoteName(n, { sharps: true })).join(" ")
+      notes.map((n) => Midi.midiToNoteName(n, { sharps: true })).join(" ")
     ).toEqual("C4 C#4 D4 D#4 E4 F4 F#4 G4 G#4 A4 A#4 B4 C5");
     expect(
-      notes.map(n => Midi.midiToNoteName(n, { pitchClass: true })).join(" ")
+      notes.map((n) => Midi.midiToNoteName(n, { pitchClass: true })).join(" ")
     ).toEqual("C Db D Eb E F Gb G Ab A Bb B C");
   });
 });

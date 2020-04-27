@@ -12,7 +12,7 @@ describe("tonal-roman-numeral", () => {
       "IV",
       "V",
       "VI",
-      "VII"
+      "VII",
     ]);
     expect(RomanNumeral.names(false)).toEqual([
       "i",
@@ -21,7 +21,7 @@ describe("tonal-roman-numeral", () => {
       "iv",
       "v",
       "vi",
-      "vii"
+      "vii",
     ]);
   });
 
@@ -38,20 +38,20 @@ describe("tonal-roman-numeral", () => {
         step: 6,
         alt: 1,
         oct: 0,
-        dir: 1
+        dir: 1,
       });
     });
     test("RomanNumeral is compatible with Pitch", () => {
       const naturals = $("1P 2M 3M 4P 5P 6M 7M").map(interval);
-      expect(naturals.map(RomanNumeral.get).map(n => n.name)).toEqual(
+      expect(naturals.map(RomanNumeral.get).map((n) => n.name)).toEqual(
         $("I II III IV V VI VII")
       );
       const flats = $("1d 2m 3m 4d 5d 6m 7m").map(interval);
-      expect(flats.map(RomanNumeral.get).map(n => n.name)).toEqual(
+      expect(flats.map(RomanNumeral.get).map((n) => n.name)).toEqual(
         $("bI bII bIII bIV bV bVI bVII")
       );
       const sharps = $("1A 2A 3A 4A 5A 6A 7A").map(interval);
-      expect(sharps.map(RomanNumeral.get).map(n => n.name)).toEqual(
+      expect(sharps.map(RomanNumeral.get).map((n) => n.name)).toEqual(
         $("#I #II #III #IV #V #VI #VII")
       );
     });
@@ -72,7 +72,7 @@ describe("tonal-roman-numeral", () => {
 
     it("roman", () => {
       expect(RomanNumeral.get("IIIMaj7").roman).toEqual("III");
-      expect(RomanNumeral.names().map(x => RomanNumeral.get(x).name)).toEqual(
+      expect(RomanNumeral.names().map((x) => RomanNumeral.get(x).name)).toEqual(
         RomanNumeral.names()
       );
     });
@@ -80,7 +80,7 @@ describe("tonal-roman-numeral", () => {
 
   it("create from degrees", () => {
     expect(
-      [1, 2, 3, 4, 5, 6, 7].map(i => RomanNumeral.get(i - 1).name)
+      [1, 2, 3, 4, 5, 6, 7].map((i) => RomanNumeral.get(i - 1).name)
     ).toEqual(RomanNumeral.names());
   });
 });

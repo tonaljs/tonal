@@ -121,7 +121,7 @@ const CHORDS: string[][] = [
   ["1P 4P 5P 7m 9M 13M", "", "13sus4 13sus"],
   ["1P 4P 5P 7m 9m 13m", "", "7sus4b9b13 7b9b13sus4"],
   ["1P 4P 7m 10m", "", "4 quartal"],
-  ["1P 5P 7m 9m 11P", "", "11b9"]
+  ["1P 5P 7m 9m 11P", "", "11b9"],
 ];
 
 export default CHORDS;

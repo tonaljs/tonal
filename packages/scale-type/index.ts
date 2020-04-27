@@ -4,7 +4,7 @@ import {
   get as pcset,
   Pcset,
   PcsetChroma,
-  PcsetNum
+  PcsetNum,
 } from "@tonaljs/pcset";
 import data from "./data";
 
@@ -23,7 +23,7 @@ export interface ScaleType extends Pcset {
 export const NoScaleType: ScaleType = {
   ...EmptyPcset,
   intervals: [],
-  aliases: []
+  aliases: [],
 };
 
 type ScaleTypeName = string | PcsetChroma | PcsetNum;
@@ -32,7 +32,7 @@ let dictionary: ScaleType[] = [];
 let index: Record<ScaleTypeName, ScaleType> = {};
 
 export function names() {
-  return dictionary.map(scale => scale.name);
+  return dictionary.map((scale) => scale.name);
 }
 
 /**
@@ -97,7 +97,7 @@ export function add(
   index[scale.name] = scale;
   index[scale.setNum] = scale;
   index[scale.chroma] = scale;
-  scale.aliases.forEach(alias => addAlias(scale, alias));
+  scale.aliases.forEach((alias) => addAlias(scale, alias));
   return scale;
 }
 
@@ -119,5 +119,5 @@ export default {
 
   // deprecated
   entries,
-  scaleType
+  scaleType,
 };

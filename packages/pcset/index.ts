@@ -8,7 +8,7 @@ import {
   note,
   Note,
   NoteName,
-  NotFound
+  NotFound,
 } from "@tonaljs/core";
 
 /**
@@ -38,7 +38,7 @@ export const EmptyPcset: Pcset = {
   setNum: 0,
   chroma: "000000000000",
   normalized: "000000000000",
-  intervals: []
+  intervals: [],
 };
 
 export type PcsetChroma = string;
@@ -131,7 +131,7 @@ const IVLS = [
   "6m",
   "6M",
   "7m",
-  "7M"
+  "7M",
 ];
 
 /**
@@ -304,7 +304,7 @@ export default {
   filter,
   modes,
   // deprecated
-  pcset
+  pcset,
 };
 
 //// PRIVATE ////
@@ -318,7 +318,7 @@ function chromaToPcset(chroma: PcsetChroma): Pcset {
   const setNum = chromaToNumber(chroma);
   const normalizedNum = chromaRotations(chroma)
     .map(chromaToNumber)
-    .filter(n => n >= 2048)
+    .filter((n) => n >= 2048)
     .sort()[0];
   const normalized = setNumToChroma(normalizedNum);
 
@@ -330,7 +330,7 @@ function chromaToPcset(chroma: PcsetChroma): Pcset {
     setNum,
     chroma,
     normalized,
-    intervals
+    intervals,
   };
 }
 

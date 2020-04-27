@@ -1,7 +1,7 @@
 import { interval } from "@tonaljs/core";
 import DATA from "./data";
 
-const INTERVALS = DATA.map(d => d[0]).sort();
+const INTERVALS = DATA.map((d) => d[0]).sort();
 
 describe("chord-type data", () => {
   test("no repeated intervals", () => {
@@ -11,9 +11,9 @@ describe("chord-type data", () => {
   });
 
   test("intervals should be in ascending order", () => {
-    DATA.forEach(data => {
+    DATA.forEach((data) => {
       const [list, name, aliases] = data;
-      const intervals = list.split(" ").map(i => interval(i).semitones || 0);
+      const intervals = list.split(" ").map((i) => interval(i).semitones || 0);
 
       try {
         for (let i = 1; i < intervals.length; i++) {

@@ -2,7 +2,7 @@ import {
   coordToInterval,
   interval as asInterval,
   IntervalLiteral,
-  IntervalName
+  IntervalName,
 } from "./interval";
 import { coordToNote, note as asNote, NoteLiteral, NoteName } from "./note";
 import { PitchCoordinates } from "./pitch";

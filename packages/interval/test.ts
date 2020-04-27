@@ -17,7 +17,7 @@ describe("@tonaljs/interval", () => {
       semitones: 5,
       simple: 4,
       step: 3,
-      type: "perfectable"
+      type: "perfectable",
     });
   });
 
@@ -40,7 +40,7 @@ describe("@tonaljs/interval", () => {
       "4P",
       "5P",
       "6m",
-      "7m"
+      "7m",
     ]);
   });
 
@@ -100,7 +100,7 @@ describe("@tonaljs/interval", () => {
 
   test("add", () => {
     expect(Interval.add("3m", "5P")).toEqual("7m");
-    expect(Interval.names().map(n => Interval.add("5P", n))).toEqual(
+    expect(Interval.names().map((n) => Interval.add("5P", n))).toEqual(
       $("5P 6M 7M 8P 9M 10m 11P")
     );
     expect(Interval.names().map(Interval.addTo("5P"))).toEqual(
@@ -111,7 +111,7 @@ describe("@tonaljs/interval", () => {
   test("substract", () => {
     expect(Interval.substract("5P", "3M")).toEqual("3m");
     expect(Interval.substract("3M", "5P")).toEqual("-3m");
-    expect(Interval.names().map(n => Interval.substract("5P", n))).toEqual(
+    expect(Interval.names().map((n) => Interval.substract("5P", n))).toEqual(
       $("5P 4P 3m 2M 1P -2m -3m")
     );
   });

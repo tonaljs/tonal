@@ -7,7 +7,7 @@ import {
   NoteLiteral,
   NoteName,
   Pitch,
-  transpose as _tr
+  transpose as _tr,
 } from "@tonaljs/core";
 import { midiToNoteName } from "@tonaljs/midi";
 
@@ -15,7 +15,7 @@ const NAMES = ["C", "D", "E", "F", "G", "A", "B"];
 
 const toName = (n: Named) => n.name;
 const onlyNotes = (array: any[]) =>
-  array.map(props).filter(n => !n.empty) as Note[];
+  array.map(props).filter((n) => !n.empty) as Note[];
 
 /**
  * Return the natural note names without octave
@@ -181,9 +181,7 @@ export function sortedNames(
   comparator?: NoteComparator
 ): string[] {
   comparator = comparator || ascending;
-  return onlyNotes(notes)
-    .sort(comparator)
-    .map(toName);
+  return onlyNotes(notes).sort(comparator).map(toName);
 }
 
 export function sortedUniqNames(notes: any[]): string[] {
@@ -256,5 +254,5 @@ export default {
   transposeFifths,
   trFifths,
   simplify,
-  enharmonic
+  enharmonic,
 };
