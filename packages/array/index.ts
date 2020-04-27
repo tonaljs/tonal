@@ -59,7 +59,7 @@ export function rotate<T>(times: number, arr: T[]): T[] {
  * compact(["a", "b", null, "c"]) // => ["a", "b", "c"]
  */
 export function compact(arr: any[]): any[] {
-  return arr.filter(n => n === 0 || n);
+  return arr.filter((n) => n === 0 || n);
 }
 
 /**
@@ -76,8 +76,8 @@ export function compact(arr: any[]): any[] {
  * // => ['C', 'F', 'G', 'A', 'B']
  */
 export function sortedNoteNames(notes: string[]): string[] {
-  const valid = notes.map(n => note(n)).filter(n => !n.empty) as Note[];
-  return valid.sort((a, b) => a.height - b.height).map(n => n.name);
+  const valid = notes.map((n) => note(n)).filter((n) => !n.empty) as Note[];
+  return valid.sort((a, b) => a.height - b.height).map((n) => n.name);
 }
 
 /**

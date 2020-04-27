@@ -14,7 +14,8 @@
   "module": "dist/index.es.js",
   "browser": "browser/tonal.min.js",
   "files": [
-    "dist"
+    "dist",
+    "browser"
   ],
   "types": "dist/index.dt.ts",
   "dependencies": {

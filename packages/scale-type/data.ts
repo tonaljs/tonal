@@ -49,14 +49,14 @@ const SCALES: string[][] = [
     "altered",
     "super locrian",
     "diminished whole tone",
-    "pomeroy"
+    "pomeroy",
   ],
   ["1P 2M 3m 4P 5d 6m 7m", "locrian #2", "half-diminished", '"aeolian b5'],
   [
     "1P 2M 3M 4P 5P 6m 7m",
     "mixolydian b6",
     "melodic minor fifth mode",
-    "hindu"
+    "hindu",
   ],
   ["1P 2M 3M 4A 5P 6M 7m", "lydian dominant", "lydian b7", "overtone"],
   ["1P 2M 3M 4A 5P 6M 7M", "lydian"],
@@ -65,7 +65,7 @@ const SCALES: string[][] = [
     "1P 2m 3m 4P 5P 6M 7m",
     "dorian b2",
     "phrygian #6",
-    "melodic minor second mode"
+    "melodic minor second mode",
   ],
   ["1P 2M 3m 4P 5P 6M 7M", "melodic minor"],
   ["1P 2m 3m 4P 5d 6m 7m", "locrian"],
@@ -73,7 +73,7 @@ const SCALES: string[][] = [
     "1P 2m 3m 4d 5d 6m 7d",
     "ultralocrian",
     "superlocrian bb7",
-    "·superlocrian diminished"
+    "·superlocrian diminished",
   ],
   ["1P 2m 3m 4P 5d 6M 7m", "locrian 6", "locrian natural 6", "locrian sharp 6"],
   ["1P 2A 3M 4P 5P 5A 7M", "augmented heptatonic"],
@@ -104,7 +104,7 @@ const SCALES: string[][] = [
     "major augmented",
     "major #5",
     "ionian augmented",
-    "ionian #5"
+    "ionian #5",
   ],
   ["1P 2A 3M 4A 5P 6M 7M", "lydian #9"],
 
@@ -126,6 +126,6 @@ const SCALES: string[][] = [
   ["1P 2M 3m 3M 4P 5d 5P 6M 7m", "composite blues"],
 
   // 12-note scales
-  ["1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M", "chromatic"]
+  ["1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M", "chromatic"],
 ];
 export default SCALES;

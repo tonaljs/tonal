@@ -1,9 +1,9 @@
 import { transpose } from "../index";
 
 const transposeAllFrom = (from: string) => (str: string) =>
-  str.split(" ").map(i => transpose(from, i));
+  str.split(" ").map((i) => transpose(from, i));
 const transposeAllBy = (by: string) => (str: string) =>
-  str.split(" ").map(n => transpose(n, by));
+  str.split(" ").map((n) => transpose(n, by));
 
 describe("Transpose", () => {
   describe("transpose notes", () => {
@@ -50,7 +50,7 @@ describe("Transpose", () => {
         "Fb2",
         "F2",
         "F#2",
-        "F##2"
+        "F##2",
       ]);
       expect(fromC2("5P -5P 5A -5A")).toEqual(["G2", "F1", "G#2", "Fb1"]);
       expect(fromC2("6M -6M 6m -6m")).toEqual(["A2", "Eb1", "Ab2", "E1"]);

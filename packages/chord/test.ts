@@ -37,14 +37,14 @@ describe("tonal-chord", () => {
         intervals: ["1P", "3M", "5P", "7M"],
         normalized: "100010010001",
         notes: ["G4", "B4", "D5", "F#5"],
-        quality: "Major"
+        quality: "Major",
       });
     });
     test("without root", () => {
       expect(Chord.getChord("M7", "G")).toMatchObject({
         symbol: "GM7",
         name: "G major seventh",
-        notes: ["G", "B", "D", "F#"]
+        notes: ["G", "B", "D", "F#"],
       });
     });
     test("rootDegrees", () => {
@@ -66,7 +66,7 @@ describe("tonal-chord", () => {
         normalized: "100000100100",
         notes: [],
         quality: "Diminished",
-        setNum: 2336
+        setNum: 2336,
       });
     });
   });
@@ -86,7 +86,7 @@ describe("tonal-chord", () => {
       intervals: ["1P", "3M", "5P", "7M"],
       normalized: "100010010001",
       notes: ["C", "E", "G", "B"],
-      quality: "Major"
+      quality: "Major",
     });
     expect(Chord.get("hello").empty).toBe(true);
     expect(Chord.get("").empty).toBe(true);
@@ -129,7 +129,7 @@ describe("tonal-chord", () => {
       "3M",
       "7m",
       "9M",
-      "13M"
+      "13M",
     ]);
     expect(Chord.get("major").intervals).toEqual(["1P", "3M", "5P"]);
   });

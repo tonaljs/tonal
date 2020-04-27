@@ -73,5 +73,5 @@ export default {
   scientificToAbcNotation,
   tokenize,
   transpose,
-  distance
+  distance,
 };

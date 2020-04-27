@@ -5,7 +5,7 @@ import {
   rotate,
   shuffle,
   sortedNoteNames,
-  sortedUniqNoteNames
+  sortedUniqNoteNames,
 } from "./index";
 
 const $ = (arr: string) => arr.split(" ");
@@ -54,7 +54,7 @@ describe("@tonaljs/array", () => {
       ["b", "c", "a"],
       ["a", "c", "b"],
       ["c", "a", "b"],
-      ["c", "b", "a"]
+      ["c", "b", "a"],
     ]);
   });
 });

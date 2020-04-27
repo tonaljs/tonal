@@ -2,7 +2,7 @@ import { detect } from "@tonaljs/chord-detect";
 import {
   all as chordTypes,
   ChordType,
-  get as getChordType
+  get as getChordType,
 } from "@tonaljs/chord-type";
 
 import {
@@ -11,7 +11,7 @@ import {
   note,
   NoteName,
   tokenizeNote,
-  transpose as transposeNote
+  transpose as transposeNote,
 } from "@tonaljs/core";
 
 import { isSubsetOf, isSupersetOf } from "@tonaljs/pcset";
@@ -45,7 +45,7 @@ const NoChord: Chord = {
   normalized: "",
   aliases: [],
   notes: [],
-  intervals: []
+  intervals: [],
 };
 
 // 6, 64, 7, 9, 11 and 13 are consider part of the chord
@@ -136,7 +136,7 @@ export function getChord(
 
   const notes = tonic.empty
     ? []
-    : type.intervals.map(i => transposeNote(tonic, i));
+    : type.intervals.map((i) => transposeNote(tonic, i));
   typeName = type.aliases.indexOf(typeName) !== -1 ? typeName : type.aliases[0];
   const symbol = `${tonic.empty ? "" : tonic.pc}${typeName}${
     root.empty ? "" : "/" + root.pc
@@ -152,7 +152,7 @@ export function getChord(
     root: root.name,
     rootDegree,
     tonic: tonic.name,
-    notes
+    notes,
   };
 }
 
@@ -203,8 +203,8 @@ export function chordScales(name: string): string[] {
   const s = get(name);
   const isChordIncluded = isSupersetOf(s.chroma);
   return scaleTypes()
-    .filter(scale => isChordIncluded(scale.chroma))
-    .map(scale => scale.name);
+    .filter((scale) => isChordIncluded(scale.chroma))
+    .map((scale) => scale.name);
 }
 /**
  * Get all chords names that are a superset of the given one
@@ -219,8 +219,8 @@ export function extended(chordName: string): string[] {
   const s = get(chordName);
   const isSuperset = isSupersetOf(s.chroma);
   return chordTypes()
-    .filter(chord => isSuperset(chord.chroma))
-    .map(chord => s.tonic + chord.aliases[0]);
+    .filter((chord) => isSuperset(chord.chroma))
+    .map((chord) => s.tonic + chord.aliases[0]);
 }
 
 /**
@@ -233,8 +233,8 @@ export function reduced(chordName: string): string[] {
   const s = get(chordName);
   const isSubset = isSubsetOf(s.chroma);
   return chordTypes()
-    .filter(chord => isSubset(chord.chroma))
-    .map(chord => s.tonic + chord.aliases[0]);
+    .filter((chord) => isSubset(chord.chroma))
+    .map((chord) => s.tonic + chord.aliases[0]);
 }
 
 export default {
@@ -247,5 +247,5 @@ export default {
   tokenize,
   transpose,
   // deprecate
-  chord
+  chord,
 };

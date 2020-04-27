@@ -8,7 +8,7 @@ describe("time-signature", () => {
       type: "simple",
       upper: 4,
       lower: 4,
-      additive: []
+      additive: [],
     });
   });
 
@@ -43,7 +43,7 @@ describe("time-signature", () => {
       "12/8",
       "9/8",
       "6/8",
-      "3/8"
+      "3/8",
     ]);
   });
 });

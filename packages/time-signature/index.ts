@@ -30,7 +30,7 @@ const NONE: InvalidTimeSignature = {
   upper: undefined,
   lower: undefined,
   type: undefined,
-  additive: []
+  additive: [],
 };
 
 const NAMES = ["4/4", "3/4", "2/4", "2/2", "12/8", "9/8", "6/8", "3/8"];
@@ -67,7 +67,7 @@ export function parse(literal: TimeSignatureLiteral): ParsedTimeSignature {
     return [up, denominator];
   }
 
-  const list = up.split("+").map(n => +n);
+  const list = up.split("+").map((n) => +n);
   return list.length === 1 ? [list[0], denominator] : [list, denominator];
 }
 
@@ -97,6 +97,6 @@ function build([up, down]: ParsedTimeSignature): TimeSignature {
     type,
     upper,
     lower,
-    additive
+    additive,
   };
 }

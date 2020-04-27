@@ -115,7 +115,7 @@ function parse(noteName: NoteName): Note | NoNote {
     name,
     oct,
     pc,
-    step
+    step,
   };
 }
 

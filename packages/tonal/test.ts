@@ -43,7 +43,7 @@ describe("@tonaljs/tonal", () => {
       "stepToLetter",
       "tokenizeInterval",
       "tokenizeNote",
-      "transpose"
+      "transpose",
     ]);
   });
 });

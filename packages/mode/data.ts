@@ -16,7 +16,7 @@ const DATA: ModeDefinition[] = [
   [3, 2741, -1, "lydian", "", "Maj7"],
   [4, 2774, 1, "mixolydian", "", "7"],
   [5, 2906, 3, "aeolian", "m", "m7", "minor"],
-  [6, 3434, 5, "locrian", "dim", "m7b5"]
+  [6, 3434, 5, "locrian", "dim", "m7b5"],
 ];
 
 export default DATA;

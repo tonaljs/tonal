@@ -55,7 +55,7 @@ export function rotate<T>(times: number, arr: T[]): T[] {
  * compact(["a", "b", null, "c"]) // => ["a", "b", "c"]
  */
 export function compact(arr: any[]): any[] {
-  return arr.filter(n => n === 0 || n);
+  return arr.filter((n) => n === 0 || n);
 }
 
 /**
@@ -117,5 +117,5 @@ export default {
   permutations,
   range,
   rotate,
-  shuffle
+  shuffle,
 };

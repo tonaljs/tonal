@@ -9,7 +9,7 @@ describe("@tonaljs/duration-value", () => {
       fraction: [1, 4],
       dots: "",
       shorthand: "q",
-      names: ["quarter", "crotchet"]
+      names: ["quarter", "crotchet"],
     });
 
     expect(DurationValue.get("dl.")).toEqual({
@@ -19,14 +19,14 @@ describe("@tonaljs/duration-value", () => {
       value: 12,
       fraction: [12, 1],
       names: ["large", "duplex longa", "maxima", "octuple", "octuple whole"],
-      shorthand: "dl"
+      shorthand: "dl",
     });
   });
 
   test("get long name", () => {
     expect(DurationValue.get("large.")).toMatchObject({
       empty: false,
-      name: "large."
+      name: "large.",
     });
   });
 
@@ -46,7 +46,7 @@ describe("@tonaljs/duration-value", () => {
       [1, 1],
       [3, 2],
       [7, 4],
-      [15, 8]
+      [15, 8],
     ]);
   });
 

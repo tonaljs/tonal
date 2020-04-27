@@ -18,14 +18,14 @@ const NoMode: Mode = {
   modeNum: NaN,
   triad: "",
   seventh: "",
-  aliases: []
+  aliases: [],
 };
 
 const modes: Mode[] = DATA.map(toMode);
 const index: Record<string, Mode> = {};
-modes.forEach(mode => {
+modes.forEach((mode) => {
   index[mode.name] = mode;
-  mode.aliases.forEach(alias => {
+  mode.aliases.forEach((alias) => {
     index[alias] = mode;
   });
 });
@@ -73,7 +73,7 @@ export const entries = deprecate("Mode.mode", "Mode.all", all);
  * Get a list of all mode names
  */
 export function names() {
-  return modes.map(mode => mode.name);
+  return modes.map((mode) => mode.name);
 }
 
 function toMode(mode: ModeDefinition): Mode {
@@ -92,7 +92,7 @@ function toMode(mode: ModeDefinition): Mode {
     alt,
     triad,
     seventh,
-    aliases
+    aliases,
   };
 }
 
@@ -102,5 +102,5 @@ export default {
   all,
   // deprecated
   entries,
-  mode
+  mode,
 };

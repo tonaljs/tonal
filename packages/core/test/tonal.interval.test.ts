@@ -21,7 +21,7 @@ describe("interval", () => {
         oct: 0,
         semitones: 4,
         simple: 4,
-        step: 3
+        step: 3,
       });
     });
 
@@ -32,7 +32,7 @@ describe("interval", () => {
       const names = (src: string) =>
         src
           .split(" ")
-          .map(s => interval(s).name)
+          .map((s) => interval(s).name)
           .join(" ");
       expect(names("1P 2M 3M 4P 5P 6M 7M")).toEqual("1P 2M 3M 4P 5P 6M 7M");
       expect(names("P1 M2 M3 P4 P5 M6 M7")).toEqual("1P 2M 3M 4P 5P 6M 7M");
@@ -46,7 +46,7 @@ describe("interval", () => {
       expect(interval("2P").empty).toBe(true);
     });
     test("q", () => {
-      const q = (str: string) => str.split(" ").map(i => interval(i).q);
+      const q = (str: string) => str.split(" ").map((i) => interval(i).q);
       expect(q("1dd 1d 1P 1A 1AA")).toEqual(["dd", "d", "P", "A", "AA"]);
       expect(q("2dd 2d 2m 2M 2A 2AA")).toEqual([
         "dd",
@@ -54,18 +54,18 @@ describe("interval", () => {
         "m",
         "M",
         "A",
-        "AA"
+        "AA",
       ]);
     });
 
     test("alt", () => {
-      const alt = (str: string) => str.split(" ").map(i => interval(i).alt);
+      const alt = (str: string) => str.split(" ").map((i) => interval(i).alt);
       expect(alt("1dd 2dd 3dd 4dd")).toEqual([-2, -3, -3, -2]);
     });
 
     test("simple", () => {
       const simple = (str: string) =>
-        str.split(" ").map(i => interval(i).simple);
+        str.split(" ").map((i) => interval(i).simple);
       expect(simple("1P 2M 3M 4P")).toEqual([1, 2, 3, 4]);
       expect(simple("8P 9M 10M 11P")).toEqual([8, 2, 3, 4]);
       expect(simple("-8P -9M -10M -11P")).toEqual([-8, -2, -3, -4]);

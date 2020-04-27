@@ -26,7 +26,7 @@ describe("note", () => {
         height: 69,
         chroma: 9,
         midi: 69,
-        freq: 440
+        freq: 440,
       });
     });
 
@@ -35,7 +35,7 @@ describe("note", () => {
     });
 
     test("height", () => {
-      const height = (str: string) => str.split(" ").map(n => note(n).height);
+      const height = (str: string) => str.split(" ").map((n) => note(n).height);
       expect(height("C4 D4 E4 F4 G4")).toEqual([60, 62, 64, 65, 67]);
       expect(height("B-2 C-1 D-1")).toEqual([-1, 0, 2]);
       expect(height("F9 G9 A9")).toEqual([125, 127, 129]);
@@ -44,7 +44,7 @@ describe("note", () => {
     });
 
     test("midi", () => {
-      const midi = (str: string) => str.split(" ").map(n => note(n).midi);
+      const midi = (str: string) => str.split(" ").map((n) => note(n).midi);
       expect(midi("C4 D4 E4 F4 G4")).toEqual([60, 62, 64, 65, 67]);
       expect(midi("B-2 C-1 D-1")).toEqual([null, 0, 2]);
       expect(midi("F9 G9 A9")).toEqual([125, 127, null]);

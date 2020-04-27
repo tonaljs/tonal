@@ -3,7 +3,7 @@ import { distance } from "../index";
 const allIntervalsFrom = (from: string) => (str: string) =>
   str
     .split(" ")
-    .map(n => distance(from, n))
+    .map((n) => distance(from, n))
     .join(" ");
 
 describe("distance", () => {

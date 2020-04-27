@@ -6,7 +6,7 @@ import {
   IntervalCoordinates,
   isPitch,
   Pitch,
-  PitchCoordinates
+  PitchCoordinates,
 } from "./pitch";
 import { fillStr } from "./utils";
 
@@ -141,7 +141,7 @@ function parse(str?: string): Interval | NoInterval {
     semitones,
     chroma,
     coord,
-    oct
+    oct,
   };
 }
 
