@@ -51,14 +51,16 @@ const { Note, Scale } = require("@tonaljs/tonal");
 
 #### Browser
 
-Grab the [minified browser ready version](https://raw.githubusercontent.com/tonaljs/tonal/master/packages/modules/browser/tonal.min.js) from the repository and include in the html file:
+You can use the browser version from jsdelivr CDN directly in your html:
 
 ```html
-<script src="tonal.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tonaljs/tonal/browser/tonal.min.js"></script>
 <script>
   console.log(Tonal.Key.minorKey("Ab"));
 </script>
 ```
+
+Or if you prefer, grab the [minified browser ready version](https://raw.githubusercontent.com/tonaljs/tonal/master/packages/tonal/browser/tonal.min.js) from the repository.
 
 #### Bundle size
 
