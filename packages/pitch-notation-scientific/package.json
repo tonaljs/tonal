@@ -1,0 +1,30 @@
+{
+  "name": "@tonaljs/pitch-notation-scientific",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Parse note names in scientific notation",
+  "keywords": [
+    "note",
+    "music",
+    "theory",
+    "@tonaljs/core"
+  ],
+  "dependencies": {
+    "@tonaljs/pitch": "^1.0.0",
+    "@tonaljs/pitch-notation": "^1.0.0"
+  },
+  "scripts": {
+    "build": "rollup -c=../../rollup.config.js"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.dt.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

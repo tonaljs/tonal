@@ -1,0 +1,25 @@
+{
+  "name": "@tonaljs/pitch",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Pitch in (western) music theory",
+  "keywords": [
+    "pitch",
+    "music",
+    "theory"
+  ],
+  "scripts": {
+    "build": "rollup -c=../../rollup.config.js"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.dt.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}
