@@ -1,46 +1,52 @@
-import { parse, toString, tokenize } from "./index";
+import { parse, name, tokenize } from "./index";
 
 describe("@tonaljs/pitch-scientific-notation", () => {
   test("tokenize", () => {
     expect(tokenize("Cbb5 major")).toEqual({
-      valid: "Cbb5",
+      input: "Cbb5 major",
+      matched: "Cbb5",
       rest: "major",
-      acc: "bb",
       accidentals: "bb",
       letter: "C",
       octave: "5",
     });
-    expect(tokenize("Ax")).toEqual({
-      valid: "A##",
-      acc: "##",
+    expect(tokenize("ax")).toEqual({
+      input: "ax",
+      matched: "ax",
       accidentals: "##",
       letter: "A",
       octave: "",
       rest: "",
     });
-    expect(tokenize("CM")).toMatchObject({
-      valid: "C",
+    expect(tokenize("cM")).toEqual({
+      input: "cM",
+      matched: "c",
+      letter: "C",
+      accidentals: "",
+      octave: "",
       rest: "M",
     });
     expect(tokenize("maj7")).toMatchObject({
-      valid: "",
+      matched: "",
       rest: "maj7",
     });
     expect(tokenize("")).toMatchObject({
       rest: "",
-      valid: "",
+      matched: "",
     });
     expect(tokenize("bb")).toMatchObject({
-      valid: "Bb",
+      matched: "bb",
+      letter: "B",
+      accidentals: "b",
       rest: "",
     });
     expect(tokenize("##")).toEqual({
-      acc: "##",
-      accidentals: "##",
+      input: "##",
+      matched: "##",
       letter: "",
+      accidentals: "##",
       octave: "",
       rest: "",
-      valid: "##",
     });
   });
 
@@ -99,11 +105,11 @@ describe("@tonaljs/pitch-scientific-notation", () => {
   });
 
   test("note properties from pitch properties", () => {
-    expect(toString({ step: 1, alt: -1 })).toBe("Db");
-    expect(toString({ step: 2, alt: 1 })).toBe("E#");
-    expect(toString({ step: 2, alt: 1, oct: 4 })).toBe("E#4");
-    expect(toString({ step: 5, alt: 0 })).toBe("A");
-    expect(toString({ step: -1, alt: 0 })).toBe("");
-    expect(toString({ step: 8, alt: 0 })).toBe("");
+    expect(name({ step: 1, alt: -1 })).toBe("Db");
+    expect(name({ step: 2, alt: 1 })).toBe("E#");
+    expect(name({ step: 2, alt: 1, oct: 4 })).toBe("E#4");
+    expect(name({ step: 5, alt: 0 })).toBe("A");
+    expect(name({ step: -1, alt: 0 })).toBe("");
+    expect(name({ step: 8, alt: 0 })).toBe("");
   });
 });

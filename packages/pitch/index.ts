@@ -6,25 +6,18 @@
  * - {number} [oct] = The octave (undefined when is a coord class)
  * - {number} [dir] = Interval direction (undefined when is not an interval)
  */
-export type Pitch = {
+export type ValidPitch = {
   readonly step: number;
   readonly alt: number;
   readonly oct?: number; // undefined for pitch classes
   readonly dir?: 1 | -1; // undefined for notes
 };
 
-export type EmptyPitch = {
+export type InvalidPitch = {
   readonly step: undefined;
   readonly alt: undefined;
   readonly oct: undefined;
   readonly dir: undefined;
 };
 
-export function isPitch(pitch: any): pitch is Pitch {
-  return (
-    pitch !== null &&
-    typeof pitch === "object" &&
-    typeof pitch.step === "number" &&
-    typeof pitch.alt === "number"
-  );
-}
+export type Pitch = ValidPitch | InvalidPitch;

@@ -2,30 +2,37 @@
 
 > Parse note names in scientific notation
 
-⚠️ It's probably you don't need to use this package directly. Use [tonal-note](/packages/note) instead.
-
 ## Usage
 
+⚠️ It's probably you don't need to use this package directly. Use [tonal-note](/packages/note) instead.
+
 ```js
-import { parse, toString } from "@tonalhs/pitch-scientific-notation";
+import { parse, toName } from "@tonalhs/pitch-scientific-notation";
 
 parse("c4").name; // => "C4"
 ```
 
 ## API
 
-#### `parse(noteName: string) => ParsedPitch`
+#### `tokenize(input: string) => PitchScientificTokens`
+
+Tokenize a note name:
+
+```js
+```
+
+#### `parse(input: string) => PitchScientific`
 
 Parse a note name:
 
 ```js
 ```
 
-It's aliased as `parse`
+#### `name(pitch: Pitch) => string`
 
-#### `toString(pitch: Pitch) => string`
-
-Convert a Pitch into a note name:
+Convert a Pitch into a note name in scientific notation:
 
 ```js
 ```
+
+It returns an empty string if the pitch is not a valid pitch object
