@@ -52,7 +52,7 @@ const SCALES: string[][] = [
     "diminished whole tone",
     "pomeroy",
   ],
-  ["1P 2M 3m 4P 5d 6m 7m", "locrian #2", "half-diminished", '"aeolian b5'],
+  ["1P 2M 3m 4P 5d 6m 7m", "locrian #2", "half-diminished", "aeolian b5"],
   [
     "1P 2M 3M 4P 5P 6m 7m",
     "mixolydian b6",
@@ -135,4 +135,5 @@ const SCALES: string[][] = [
   // 12-note scales
   ["1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M", "chromatic"],
 ];
+
 export default SCALES;
