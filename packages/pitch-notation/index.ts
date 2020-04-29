@@ -1,5 +1,7 @@
 import { Pitch, InvalidPitch } from "@tonaljs/pitch";
 
+export const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
+
 /**
  * Tokens of a parsed pitch
  */

@@ -38,7 +38,7 @@ export const tokenize = tokenizer<PitchScientificTokens>((input) => {
 });
 
 // PARSE
-type ValidParsedScientific = (PitchClass | NotePitch) & {
+export type ValidParsedScientific = (PitchClass | NotePitch) & {
   // valid: true;
   empty: false;
   name: string;
@@ -54,7 +54,7 @@ type ValidParsedScientific = (PitchClass | NotePitch) & {
   coord: PitchCoordinates;
 };
 
-type InvalidParsedScientific = InvalidPitch & {
+export type InvalidParsedScientific = InvalidPitch & {
   // valid: false;
   empty: true;
   name: "";
@@ -108,7 +108,7 @@ export const parse = parser<ParsedScientific>((input) => {
     accidentals,
     acc: accidentals,
     octave,
-    valid: true,
+    // valid: true,
     empty: false,
   };
 });
@@ -137,3 +137,5 @@ const Invalid: InvalidParsedScientific = {
   octave: "",
   coord: [],
 };
+
+export default { tokenize, parse, name };

@@ -1,6 +1,16 @@
 import { parse, name, tokenize } from "./index";
+import { Notation } from "@tonaljs/pitch-notation";
 
 describe("@tonaljs/pitch-scientific-notation", () => {
+  test("conforms notation interface", () => {
+    const notation: Notation = {
+      tokenize,
+      parse,
+      name,
+    };
+    expect(notation).toBeDefined();
+  });
+
   test("tokenize", () => {
     expect(tokenize("Cbb5 major")).toEqual({
       input: "Cbb5 major",
