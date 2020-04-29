@@ -147,14 +147,6 @@ Thank you all!
 
 Add your project here by [editing this file](https://github.com/tonaljs/tonal/edit/master/README.md)
 
-## References
-
-Some sources explaining carious scale systems:
-
-- [Messiaen's "Modes of Limited Transposition"] (https://en.wikipedia.org/wiki/Mode_of_limited_transposition)
-
-
-
 ## License
 
 [MIT License](docs/LICENSE)
