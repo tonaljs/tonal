@@ -84,4 +84,4 @@ ScaleType.scale("quinta justa"); // => { name: "quinta", intervals: ... }
 
 Some sources explaining various scale systems:
 
-- [Messiaen's "Modes of Limited Transposition"] (https://en.wikipedia.org/wiki/Mode_of_limited_transposition)
+- [Messiaen's "Modes of Limited Transposition" (wikipedia, en)](https://en.wikipedia.org/wiki/Mode_of_limited_transposition)
