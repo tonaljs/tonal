@@ -1,0 +1,28 @@
+{
+  "name": "@tonaljs/pitch-notation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Create different pitch notations",
+  "keywords": [
+    "pitch",
+    "music",
+    "theory"
+  ],
+  "scripts": {
+    "build": "rollup -c=../../rollup.config.js"
+  },
+  "dependencies": {
+    "@tonaljs/pitch": "^1.0.0"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.dt.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

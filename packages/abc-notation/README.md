@@ -2,6 +2,8 @@
 
 > Convert note names between scientific and abc notation
 
+## ⚠️ Deprecated. Use `@tonaljs/pitch-notation-abc`
+
 ## Usage
 
 ES6:
