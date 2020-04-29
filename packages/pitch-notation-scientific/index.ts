@@ -38,7 +38,7 @@ export const tokenize = tokenizer<PitchScientificTokens>((input) => {
 });
 
 // PARSE
-type ValidPitchScientific = (PitchClass | NotePitch) & {
+type ValidParsedScientific = (PitchClass | NotePitch) & {
   // valid: true;
   empty: false;
   name: string;
@@ -54,7 +54,7 @@ type ValidPitchScientific = (PitchClass | NotePitch) & {
   coord: PitchCoordinates;
 };
 
-type InvalidPitchScientific = InvalidPitch & {
+type InvalidParsedScientific = InvalidPitch & {
   // valid: false;
   empty: true;
   name: "";
@@ -70,7 +70,7 @@ type InvalidPitchScientific = InvalidPitch & {
   coord: [];
 };
 
-export type PitchScientific = ValidPitchScientific | InvalidPitchScientific;
+export type ParsedScientific = ValidParsedScientific | InvalidParsedScientific;
 
 const LETTERS = "CDEFGAB";
 export const stepToLetter = (step: number) => LETTERS.charAt(step);
@@ -81,7 +81,7 @@ export const altToAcc = (alt: number): string =>
 export const accToAlt = (acc: string): number =>
   acc[0] === "b" ? -acc.length : acc.length;
 
-export const parse = parser<PitchScientific>((input) => {
+export const parse = parser<ParsedScientific>((input) => {
   const { letter, accidentals, octave, rest } = tokenize(input);
   if (letter === "" || rest !== "") {
     return Invalid;
@@ -126,7 +126,7 @@ export const name = toName((pitch) => {
 });
 
 // INVALID PARSED RESULT
-const Invalid: InvalidPitchScientific = {
+const Invalid: InvalidParsedScientific = {
   // valid: false,
   empty: true,
   name: "",

@@ -56,7 +56,7 @@ export const tokenize = tokenizer<PitchIntervalTokens>((input) => {
 
 // PARSE
 
-type ValidPitchInterval = IntervalPitch & {
+type ValidParsedInterval = IntervalPitch & {
   // readonly valid: true;
   readonly empty: false;
   readonly name: string;
@@ -69,7 +69,7 @@ type ValidPitchInterval = IntervalPitch & {
   readonly coord: PitchCoordinates;
 };
 
-type InvalidPitchInterval = InvalidPitch & {
+type InvalidParsedInterval = InvalidPitch & {
   // readonly valid: false;
   readonly empty: true;
   readonly name: "";
@@ -82,12 +82,12 @@ type InvalidPitchInterval = InvalidPitch & {
   readonly coord: [];
 };
 
-export type Interval = ValidPitchInterval | InvalidPitchInterval;
+export type ParsedInterval = ValidParsedInterval | InvalidParsedInterval;
 
 const SIZES = [0, 2, 4, 5, 7, 9, 11];
 const TYPES = "PMMPPMM";
 
-export const parse = parser<Interval>((input) => {
+export const parse = parser<ParsedInterval>((input) => {
   const { quality, number, rest } = tokenize(input);
   if (number === "" || rest !== "") {
     return Invalid;
@@ -140,7 +140,7 @@ export const name = toName((pitch) => {
   return "";
 });
 
-const Invalid: InvalidPitchInterval = {
+const Invalid: InvalidParsedInterval = {
   // valid: false,
   empty: true,
   name: "",

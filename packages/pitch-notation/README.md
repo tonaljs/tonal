@@ -6,6 +6,4 @@
 
 ⚠️ It's probably you don't need to use this package unless you want to extend Tonal with a new notation.
 
-## API
-
-####
+See `@tonaljs/note` or `@tonaljs/interval`

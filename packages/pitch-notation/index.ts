@@ -26,7 +26,7 @@ export type ParsedPitch = ValidName | InvalidName;
  */
 export type Notation = {
   tokenize: (input: string) => PitchTokens;
-  parse: (input: string) => Pitch;
+  parse: (input: string) => ParsedPitch;
   name: (pitch: Pitch) => string;
 };
 
