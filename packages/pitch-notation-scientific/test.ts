@@ -72,6 +72,12 @@ describe("@tonaljs/pitch-scientific-notation", () => {
       });
     });
 
+    test("empty", () => {
+      expect(Object.keys(parse("C4")).sort()).toEqual(
+        Object.keys(parse("")).sort()
+      );
+    });
+
     test("height", () => {
       const height = (str: string) =>
         str

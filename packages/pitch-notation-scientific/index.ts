@@ -11,12 +11,27 @@ import {
   pitchProps,
 } from "@tonaljs/pitch-properties";
 
+// TOKENIZE
 type PitchScientificTokens = PitchTokens & {
   letter: string;
   accidentals: string;
   octave: string;
 };
+const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
 
+export const tokenize = tokenizer<PitchScientificTokens>((input) => {
+  const m = REGEX.exec(input) as string[];
+  return {
+    input,
+    matched: m[1] + m[2] + m[3],
+    rest: m[4],
+    letter: m[1].toUpperCase(),
+    accidentals: m[2].replace(/x/g, "##"),
+    octave: m[3],
+  };
+});
+
+// PARSE
 type ValidPitchScientific = ValidPitch & {
   valid: true;
   empty: false;
@@ -49,19 +64,6 @@ export const altToAcc = (alt: number): string =>
   alt < 0 ? fillStr("b", -alt) : fillStr("#", alt);
 export const accToAlt = (acc: string): number =>
   acc[0] === "b" ? -acc.length : acc.length;
-const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
-
-export const tokenize = tokenizer<PitchScientificTokens>((input) => {
-  const m = REGEX.exec(input) as string[];
-  return {
-    input,
-    matched: m[1] + m[2] + m[3],
-    rest: m[4],
-    letter: m[1].toUpperCase(),
-    accidentals: m[2].replace(/x/g, "##"),
-    octave: m[3],
-  };
-});
 
 export const parse = parser<PitchScientific>((input) => {
   const { letter, accidentals, octave, rest } = tokenize(input);
@@ -79,6 +81,7 @@ export const parse = parser<PitchScientific>((input) => {
   return {
     ...pitch,
     ...pitchProps(pitch),
+    dir: undefined,
     name,
     pc,
     letter,
@@ -90,6 +93,7 @@ export const parse = parser<PitchScientific>((input) => {
   };
 });
 
+// NAME
 export const name = toName((pitch) => {
   const { step = -1, alt, oct } = pitch || {};
   const letter = stepToLetter(step);
@@ -101,6 +105,7 @@ export const name = toName((pitch) => {
   return oct || oct === 0 ? pc + oct : pc;
 });
 
+// INVALID PARSED RESULT
 const Invalid: InvalidPitchScientific = {
   valid: false,
   empty: true,

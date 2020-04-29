@@ -1,16 +1,18 @@
 {
-  "name": "@tonaljs/pitch-notation-scientific",
+  "name": "@tonaljs/pitch-notation-interval",
   "version": "1.0.0",
   "private": true,
-  "description": "Parse note names in scientific notation",
+  "description": "Parse intervals in shorthand notation",
   "keywords": [
     "note",
     "music",
     "theory",
-    "@tonaljs/core"
+    "interval",
+    "shorthand notation"
   ],
   "dependencies": {
     "@tonaljs/pitch": "^1.0.0",
+    "@tonaljs/pitch-coordinates": "^1.0.0",
     "@tonaljs/pitch-properties": "^1.0.0",
     "@tonaljs/pitch-notation": "^1.0.0"
   },

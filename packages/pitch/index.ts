@@ -21,3 +21,18 @@ export type InvalidPitch = {
 };
 
 export type Pitch = ValidPitch | InvalidPitch;
+
+const SIZES = [0, 2, 4, 5, 7, 9, 11];
+export const chroma = ({ step, alt }: ValidPitch) =>
+  (SIZES[step] + alt + 120) % 12;
+
+const height = ({ step, alt, oct = 0, dir = 1 }: ValidPitch) =>
+  dir * (SIZES[step] + alt + 12 * oct);
+
+export const midi = (pitch: ValidPitch) => {
+  const h = height(pitch);
+  return pitch.oct !== undefined && h >= -12 && h <= 115 ? h + 12 : null;
+};
+
+export const freq = (pitch: ValidPitch) =>
+  pitch.oct !== undefined ? Math.pow(2, (height(pitch) - 57) / 12) * 440 : null;

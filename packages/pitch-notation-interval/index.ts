@@ -5,118 +5,143 @@ import {
   toName,
   PitchTokens,
 } from "@tonaljs/pitch-notation";
-import {
-  PitchProperties,
-  EmptyPitchProperties,
-  pitchProps,
-} from "@tonaljs/pitch-properties";
+import { encode } from "@tonaljs/pitch-coordinates";
+import { IntervalCoordinates } from "../modules";
 
-type PitchScientificTokens = PitchTokens & {
-  letter: string;
-  accidentals: string;
-  octave: string;
+/* tslint:disable:variable-name */
+
+// TOKENIZE
+type Type = "perfectable" | "majorable";
+type Quality =
+  | "dddd"
+  | "ddd"
+  | "dd"
+  | "d"
+  | "m"
+  | "M"
+  | "P"
+  | "A"
+  | "AA"
+  | "AAA"
+  | "AAAA";
+type PitchIntervalTokens = PitchTokens & {
+  number: string;
+  quality: string;
+};
+// shorthand tonal notation (with quality after number)
+const INTERVAL_TONAL_REGEX = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
+// standard shorthand notation (with quality before number)
+const INTERVAL_SHORTHAND_REGEX = "(AA|A|P|M|m|d|dd)([-+]?\\d+)";
+const REGEX = new RegExp(
+  "^(?:" + INTERVAL_TONAL_REGEX + "|" + INTERVAL_SHORTHAND_REGEX + ")(.*)$"
+);
+export const tokenize = tokenizer<PitchIntervalTokens>((input) => {
+  const m = REGEX.exec(input) as string[];
+  const [n, q] = m === null ? ["", ""] : m[1] ? [m[1], m[2]] : [m[4], m[3]];
+  const rest = m[5];
+  const matched = input.slice(0, input.length - rest.length);
+  return {
+    input,
+    matched,
+    rest,
+    number: n,
+    quality: q,
+  };
+});
+
+type ValidPitchInterval = ValidPitch & {
+  readonly valid: true;
+  readonly empty: false;
+  readonly name: string;
+  readonly num: number;
+  readonly q: Quality;
+  readonly type: Type;
+  readonly simple: number;
+  readonly semitones: number;
+  readonly chroma: number;
+  readonly coord: IntervalCoordinates;
+  readonly oct: number;
 };
 
-type ValidPitchScientific = ValidPitch & {
-  valid: true;
-  empty: false;
-  name: string;
-  pc: string;
-  letter: string;
-  accidentals: string;
-  acc: string; // deprecated
-  octave: string;
-} & PitchProperties;
-
-type InvalidPitchScientific = InvalidPitch & {
+type InvalidPitchInterval = InvalidPitch & {
   valid: false;
   empty: true;
   name: "";
-  pc: "";
-  letter: "";
-  accidentals: "";
-  acc: "";
-  octave: "";
-} & EmptyPitchProperties;
+  num: undefined;
+  q: "";
+};
 
-export type PitchScientific = ValidPitchScientific | InvalidPitchScientific;
+export type PitchInterval = ValidPitchInterval | InvalidPitchInterval;
 
-const LETTERS = "CDEFGAB";
-export const stepToLetter = (step: number) => LETTERS.charAt(step);
-export const letterToStep = (letter: string) => (letter.charCodeAt(0) + 3) % 7;
-export const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
-export const altToAcc = (alt: number): string =>
-  alt < 0 ? fillStr("b", -alt) : fillStr("#", alt);
-export const accToAlt = (acc: string): number =>
-  acc[0] === "b" ? -acc.length : acc.length;
-const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
+const SIZES = [0, 2, 4, 5, 7, 9, 11];
+const TYPES = "PMMPPMM";
 
-export const tokenize = tokenizer<PitchScientificTokens>((input) => {
-  const m = REGEX.exec(input) as string[];
-  return {
-    input,
-    matched: m[1] + m[2] + m[3],
-    rest: m[4],
-    letter: m[1].toUpperCase(),
-    accidentals: m[2].replace(/x/g, "##"),
-    octave: m[3],
-  };
-});
-
-export const parse = parser<PitchScientific>((input) => {
-  const { letter, accidentals, octave, rest } = tokenize(input);
-  if (letter === "" || rest !== "") {
+export const parse = parser<PitchInterval>((input) => {
+  const { quality, number, rest } = tokenize(input);
+  if (number === "" || rest !== "") {
     return Invalid;
   }
-  const pc = letter + accidentals;
-  const name = pc + octave;
-  const pitch: ValidPitch = {
-    step: letterToStep(letter),
-    alt: accToAlt(accidentals),
-    oct: octave.length ? +octave : undefined,
-  };
-
-  return {
-    ...pitch,
-    ...pitchProps(pitch),
-    name,
-    pc,
-    letter,
-    accidentals,
-    acc: accidentals,
-    octave,
-    valid: true,
-    empty: false,
-  };
-});
-
-export const name = toName((pitch) => {
-  const { step = -1, alt, oct } = pitch || {};
-  const letter = stepToLetter(step);
-  if (!letter) {
-    return "";
+  const num = +number;
+  const q = quality as Quality;
+  const step = (Math.abs(num) - 1) % 7;
+  const t = TYPES[step];
+  const type = t === "M" ? "majorable" : "perfectable";
+  if (t === "M" && q === "P") {
+    return Invalid;
   }
 
-  const pc = letter + altToAcc(alt || 0);
-  return oct || oct === 0 ? pc + oct : pc;
+  const name = "" + num + q;
+  const dir = num < 0 ? -1 : 1;
+  const simple = num === 8 || num === -8 ? num : dir * (step + 1);
+  const alt = qToAlt(type, q);
+  const oct = Math.floor((Math.abs(num) - 1) / 7);
+  const semitones = dir * (SIZES[step] + alt + 12 * oct);
+  const chroma = (((dir * (SIZES[step] + alt)) % 12) + 12) % 12;
+  const coord = encode({ step, alt, oct, dir }) as IntervalCoordinates;
+
+  return {
+    valid: true,
+    empty: false,
+    name,
+    num,
+    q,
+    step,
+    alt,
+    oct,
+    dir,
+    type,
+    simple,
+    semitones,
+    chroma,
+    coord,
+  };
 });
 
-const Invalid: InvalidPitchScientific = {
+function qToAlt(type: Type, q: string): number {
+  return (q === "M" && type === "majorable") ||
+    (q === "P" && type === "perfectable")
+    ? 0
+    : q === "m" && type === "majorable"
+    ? -1
+    : /^A+$/.test(q)
+    ? q.length
+    : /^d+$/.test(q)
+    ? -1 * (type === "perfectable" ? q.length : q.length + 1)
+    : 0;
+}
+
+export const name = toName((pitch) => {
+  return "";
+});
+
+const Invalid: InvalidPitchInterval = {
   valid: false,
   empty: true,
   name: "",
-  pc: "",
-  letter: "",
-  accidentals: "",
-  acc: "",
-  octave: "",
+  q: "",
+  num: undefined,
   step: undefined,
   alt: undefined,
   oct: undefined,
   dir: undefined,
-  chroma: undefined,
-  midi: undefined,
-  height: undefined,
-  freq: undefined,
-  coord: [],
 };
