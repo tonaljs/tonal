@@ -84,4 +84,8 @@ ScaleType.scale("quinta justa"); // => { name: "quinta", intervals: ... }
 
 Some sources explaining various scale systems:
 
+- [Modes](https://en.wikipedia.org/wiki/Mode_(music))
+- [Blues Scales](https://en.wikipedia.org/wiki/Blues_scale)
+- [Jazz Scales](https://en.wikipedia.org/wiki/Jazz_scale)
 - [Messiaen's "Modes of Limited Transposition" (wikipedia, en)](https://en.wikipedia.org/wiki/Mode_of_limited_transposition)
+- [Raga](https://de.wikipedia.org/wiki/Raga)
