@@ -1,12 +1,17 @@
-import { ValidPitch, InvalidPitch } from "@tonaljs/pitch";
+import {
+  PitchCoordinates,
+  height,
+  chroma,
+  coordinates,
+  IntervalPitch,
+  InvalidPitch,
+} from "@tonaljs/pitch";
 import {
   parser,
   tokenizer,
   toName,
   PitchTokens,
 } from "@tonaljs/pitch-notation";
-import { encode } from "@tonaljs/pitch-coordinates";
-import { IntervalCoordinates } from "../modules";
 
 /* tslint:disable:variable-name */
 
@@ -49,8 +54,10 @@ export const tokenize = tokenizer<PitchIntervalTokens>((input) => {
   };
 });
 
-type ValidPitchInterval = ValidPitch & {
-  readonly valid: true;
+// PARSE
+
+type ValidPitchInterval = IntervalPitch & {
+  // readonly valid: true;
   readonly empty: false;
   readonly name: string;
   readonly num: number;
@@ -59,24 +66,28 @@ type ValidPitchInterval = ValidPitch & {
   readonly simple: number;
   readonly semitones: number;
   readonly chroma: number;
-  readonly coord: IntervalCoordinates;
-  readonly oct: number;
+  readonly coord: PitchCoordinates;
 };
 
 type InvalidPitchInterval = InvalidPitch & {
-  valid: false;
-  empty: true;
-  name: "";
-  num: undefined;
-  q: "";
+  // readonly valid: false;
+  readonly empty: true;
+  readonly name: "";
+  readonly num?: undefined;
+  readonly q: "";
+  readonly type: "";
+  readonly simple?: undefined;
+  readonly semitones?: undefined;
+  readonly chroma?: undefined;
+  readonly coord: [];
 };
 
-export type PitchInterval = ValidPitchInterval | InvalidPitchInterval;
+export type Interval = ValidPitchInterval | InvalidPitchInterval;
 
 const SIZES = [0, 2, 4, 5, 7, 9, 11];
 const TYPES = "PMMPPMM";
 
-export const parse = parser<PitchInterval>((input) => {
+export const parse = parser<Interval>((input) => {
   const { quality, number, rest } = tokenize(input);
   if (number === "" || rest !== "") {
     return Invalid;
@@ -95,25 +106,20 @@ export const parse = parser<PitchInterval>((input) => {
   const simple = num === 8 || num === -8 ? num : dir * (step + 1);
   const alt = qToAlt(type, q);
   const oct = Math.floor((Math.abs(num) - 1) / 7);
-  const semitones = dir * (SIZES[step] + alt + 12 * oct);
-  const chroma = (((dir * (SIZES[step] + alt)) % 12) + 12) % 12;
-  const coord = encode({ step, alt, oct, dir }) as IntervalCoordinates;
+  const pitch: IntervalPitch = { step, alt, oct, dir };
 
   return {
-    valid: true,
+    ...pitch,
+    // valid: true,
     empty: false,
     name,
     num,
     q,
-    step,
-    alt,
-    oct,
-    dir,
     type,
     simple,
-    semitones,
-    chroma,
-    coord,
+    semitones: height(pitch),
+    chroma: chroma(pitch),
+    coord: coordinates(pitch),
   };
 });
 
@@ -135,13 +141,10 @@ export const name = toName((pitch) => {
 });
 
 const Invalid: InvalidPitchInterval = {
-  valid: false,
+  // valid: false,
   empty: true,
   name: "",
   q: "",
-  num: undefined,
-  step: undefined,
-  alt: undefined,
-  oct: undefined,
-  dir: undefined,
+  type: "",
+  coord: [],
 };

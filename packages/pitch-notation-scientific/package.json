@@ -11,7 +11,6 @@
   ],
   "dependencies": {
     "@tonaljs/pitch": "^1.0.0",
-    "@tonaljs/pitch-properties": "^1.0.0",
     "@tonaljs/pitch-notation": "^1.0.0"
   },
   "scripts": {

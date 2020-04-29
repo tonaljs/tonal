@@ -1,15 +1,21 @@
-import { ValidPitch, InvalidPitch } from "@tonaljs/pitch";
+import {
+  InvalidPitch,
+  midi,
+  freq,
+  chroma,
+  height,
+  coordinates,
+  NotePitch,
+  PitchClass,
+  Pitch,
+} from "@tonaljs/pitch";
 import {
   parser,
   tokenizer,
   toName,
   PitchTokens,
 } from "@tonaljs/pitch-notation";
-import {
-  PitchProperties,
-  EmptyPitchProperties,
-  pitchProps,
-} from "@tonaljs/pitch-properties";
+import { PitchCoordinates } from "../modules";
 
 // TOKENIZE
 type PitchScientificTokens = PitchTokens & {
@@ -32,8 +38,8 @@ export const tokenize = tokenizer<PitchScientificTokens>((input) => {
 });
 
 // PARSE
-type ValidPitchScientific = ValidPitch & {
-  valid: true;
+type ValidPitchScientific = (PitchClass | NotePitch) & {
+  // valid: true;
   empty: false;
   name: string;
   pc: string;
@@ -41,10 +47,15 @@ type ValidPitchScientific = ValidPitch & {
   accidentals: string;
   acc: string; // deprecated
   octave: string;
-} & PitchProperties;
+  chroma: number;
+  height: number;
+  midi: number | null;
+  freq: number | null;
+  coord: PitchCoordinates;
+};
 
 type InvalidPitchScientific = InvalidPitch & {
-  valid: false;
+  // valid: false;
   empty: true;
   name: "";
   pc: "";
@@ -52,7 +63,12 @@ type InvalidPitchScientific = InvalidPitch & {
   accidentals: "";
   acc: "";
   octave: "";
-} & EmptyPitchProperties;
+  chroma?: undefined;
+  height?: undefined;
+  midi?: undefined;
+  freq?: undefined;
+  coord: [];
+};
 
 export type PitchScientific = ValidPitchScientific | InvalidPitchScientific;
 
@@ -72,15 +88,19 @@ export const parse = parser<PitchScientific>((input) => {
   }
   const pc = letter + accidentals;
   const name = pc + octave;
-  const pitch: ValidPitch = {
-    step: letterToStep(letter),
-    alt: accToAlt(accidentals),
-    oct: octave.length ? +octave : undefined,
-  };
+  const step = letterToStep(letter);
+  const alt = accToAlt(accidentals);
+  const pitch: Pitch = octave.length
+    ? { step, alt, oct: +octave }
+    : { step, alt };
 
   return {
     ...pitch,
-    ...pitchProps(pitch),
+    chroma: chroma(pitch),
+    height: height(pitch),
+    coord: coordinates(pitch),
+    midi: midi(pitch),
+    freq: freq(pitch),
     dir: undefined,
     name,
     pc,
@@ -107,7 +127,7 @@ export const name = toName((pitch) => {
 
 // INVALID PARSED RESULT
 const Invalid: InvalidPitchScientific = {
-  valid: false,
+  // valid: false,
   empty: true,
   name: "",
   pc: "",
@@ -115,13 +135,5 @@ const Invalid: InvalidPitchScientific = {
   accidentals: "",
   acc: "",
   octave: "",
-  step: undefined,
-  alt: undefined,
-  oct: undefined,
-  dir: undefined,
-  chroma: undefined,
-  midi: undefined,
-  height: undefined,
-  freq: undefined,
   coord: [],
 };

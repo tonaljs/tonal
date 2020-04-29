@@ -53,7 +53,7 @@ describe("@tonaljs/pitch-scientific-notation", () => {
   describe("parse", () => {
     test("properties", () => {
       expect(parse("A4")).toEqual({
-        valid: true,
+        // valid: true,
         empty: false,
         name: "A4",
         pc: "A",
@@ -73,9 +73,16 @@ describe("@tonaljs/pitch-scientific-notation", () => {
     });
 
     test("empty", () => {
-      expect(Object.keys(parse("C4")).sort()).toEqual(
-        Object.keys(parse("")).sort()
-      );
+      expect(parse("")).toEqual({
+        acc: "",
+        accidentals: "",
+        coord: [],
+        empty: true,
+        letter: "",
+        name: "",
+        octave: "",
+        pc: "",
+      });
     });
 
     test("height", () => {

@@ -1,4 +1,4 @@
-import { Pitch } from "@tonaljs/pitch";
+import { Pitch, InvalidPitch } from "@tonaljs/pitch";
 
 /**
  * Tokens of a parsed pitch
@@ -8,6 +8,18 @@ export type PitchTokens = {
   matched: string;
   rest: string;
 };
+
+export type ValidName = Pitch & {
+  readonly empty: false;
+  readonly name: string;
+};
+
+export type InvalidName = InvalidPitch & {
+  readonly empty: true;
+  readonly name: "";
+};
+
+export type ParsedPitch = ValidName | InvalidName;
 
 /**
  * The three functions combined it's an (interchangeable) notation
@@ -22,7 +34,7 @@ export const tokenizer = <T extends PitchTokens>(
   tokenize: (input: string) => T
 ) => memoize<T>(tokenize);
 
-export const parser = <T extends Pitch>(parse: (input: string) => T) =>
+export const parser = <T extends ParsedPitch>(parse: (input: string) => T) =>
   memoize<T>(parse);
 
 // in the future, it may memoize the function

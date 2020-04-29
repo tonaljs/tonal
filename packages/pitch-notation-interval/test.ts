@@ -28,7 +28,7 @@ describe("@tonaljs/pitch-scientific-notation", () => {
   describe("parse", () => {
     test("has properties", () => {
       expect(parse("4d")).toEqual({
-        valid: true,
+        // valid: true,
         empty: false,
         name: "4d",
         num: 4,
