@@ -37,8 +37,8 @@ const SCALES: string[][] = [
   ["1P 2M 3M 4A 6M 7m", "prometheus"],
   ["1P 2m 3M 5d 6m 7m", "mystery #1"],
   ["1P 2m 3M 4P 5A 6M", "six tone symmetric"],
-  ["1P 2M 3M 4A 5A 7m", "whole tone", "messiaen's mode of limited transposition #1"],
-  ["1P 2m 4P 4A 5P 7M", "messiaen's mode of limited transposition #5"],
+  ["1P 2M 3M 4A 5A 7m", "whole tone", "messiaen's mode #1"],
+  ["1P 2m 4P 4A 5P 7M", "messiaen's mode #5"],
   ["1P 3m 4P 5d 5P 7m", "minor blues", "blues"],
 
   // 7-note scales
@@ -110,7 +110,7 @@ const SCALES: string[][] = [
   ["1P 2A 3M 4A 5P 6M 7M", "lydian #9"],
 
   // 8-note scales
-  ["1P 2m 2M 4P 4A 5P 6m 7M", "messiaen's mode of limited transposition #4"],
+  ["1P 2m 2M 4P 4A 5P 6m 7M", "messiaen's mode #4"],
   ["1P 2m 3M 4P 4A 5P 6m 7M", "purvi raga"],
   ["1P 2m 3m 3M 4P 5P 6m 7m", "spanish heptatonic"],
   ["1P 2M 3M 4P 5P 6M 7m 7M", "bebop"],
@@ -121,18 +121,19 @@ const SCALES: string[][] = [
   ["1P 2M 3m 4P 5d 6m 6M 7M", "diminished", "whole-half diminished"],
   ["1P 2M 3M 4P 5d 5P 6M 7M", "ichikosucho"],
   ["1P 2M 3m 4P 5P 6m 6M 7M", "minor six diminished"],
-  ["1P 2m 3m 3M 4A 5P 6M 7m", "half-whole diminished", "dominant diminished", "messiaen's mode of limited transposition #2"],
+  ["1P 2m 3m 3M 4A 5P 6M 7m", "half-whole diminished", "dominant diminished", "messiaen's mode #2"],
   ["1P 3m 3M 4P 5P 6M 7m 7M", "kafi raga"],
-  ["1P 2M 3M 4P 4A 5A 6A 7M", "messiaen's mode of limited transposition #6"],
+  ["1P 2M 3M 4P 4A 5A 6A 7M", "messiaen's mode #6"],
 
   // 9-note scales
   ["1P 2M 3m 3M 4P 5d 5P 6M 7m", "composite blues"],
-  ["1P 2M 3m 3M 4A 5P 6m 7m 7M", "messiaen's mode of limited transposition #3"],
+  ["1P 2M 3m 3M 4A 5P 6m 7m 7M", "messiaen's mode #3"],
 
   // 10-note scales
-  ["1P 2m 2M 3m 4P 4A 5P 6m 6M 7M", "messiaen's mode of limited transposition #7"],
+  ["1P 2m 2M 3m 4P 4A 5P 6m 6M 7M", "messiaen's mode #7"],
 
   // 12-note scales
   ["1P 2m 2M 3m 3M 4P 5d 5P 6m 6M 7m 7M", "chromatic"],
 ];
+
 export default SCALES;
