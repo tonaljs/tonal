@@ -3,7 +3,7 @@ import ScaleType from "./index";
 
 describe("gets dictionary", () => {
   test("list names", () => {
-    expect(ScaleType.all()).toHaveLength(88);
+    expect(ScaleType.all()).toHaveLength(93);
     // sorted
     expect(ScaleType.all()[0].name).toEqual("major pentatonic");
   });
