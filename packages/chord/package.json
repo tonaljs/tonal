@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chord",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "description": "Musical chords and its relations",
   "keywords": [
     "chord",
@@ -21,7 +21,7 @@
     "@tonaljs/collection": "^3.5.2",
     "@tonaljs/core": "^3.5.2",
     "@tonaljs/pcset": "^3.5.2",
-    "@tonaljs/scale-type": "^3.5.2"
+    "@tonaljs/scale-type": "^3.5.3"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

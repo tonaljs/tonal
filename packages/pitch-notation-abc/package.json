@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/pitch-notation-abc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Parse note names in ABC notation",
   "keywords": [
@@ -11,9 +11,9 @@
     "ABC notation"
   ],
   "dependencies": {
-    "@tonaljs/pitch": "^1.0.0",
-    "@tonaljs/pitch-notation": "^1.0.0",
-    "@tonaljs/pitch-notation-scientific": "^1.0.0"
+    "@tonaljs/pitch": "^1.0.1",
+    "@tonaljs/pitch-notation": "^1.0.1",
+    "@tonaljs/pitch-notation-scientific": "^1.0.1"
   },
   "scripts": {
     "build": "rollup -c=../../rollup.config.js"

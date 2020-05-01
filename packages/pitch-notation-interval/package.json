@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/pitch-notation-interval",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Parse intervals in shorthand notation",
   "keywords": [
@@ -11,8 +11,8 @@
     "shorthand notation"
   ],
   "dependencies": {
-    "@tonaljs/pitch": "^1.0.0",
-    "@tonaljs/pitch-notation": "^1.0.0"
+    "@tonaljs/pitch": "^1.0.1",
+    "@tonaljs/pitch-notation": "^1.0.1"
   },
   "scripts": {
     "build": "rollup -c=../../rollup.config.js"

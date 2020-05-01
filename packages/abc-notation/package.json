@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/abc-notation",
-  "version": "3.5.2",
+  "version": "3.5.3",
   "description": "Parse musical notes in abc notation",
   "scripts": {
     "build": "rollup -c=../../rollup.config.js"
