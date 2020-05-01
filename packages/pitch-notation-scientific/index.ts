@@ -8,6 +8,7 @@ import {
   NotePitch,
   PitchClass,
   Pitch,
+  PitchCoordinates,
 } from "@tonaljs/pitch";
 import {
   parser,
@@ -15,7 +16,6 @@ import {
   toName,
   PitchTokens,
 } from "@tonaljs/pitch-notation";
-import { PitchCoordinates } from "../modules";
 
 // TOKENIZE
 type PitchScientificTokens = PitchTokens & {

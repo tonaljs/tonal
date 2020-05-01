@@ -158,23 +158,6 @@ export function getChord(
 
 export const chord = deprecate("Chord.chord", "Chord.get", get);
 
-function findChord(src: string | ChordNameTokens) {
-  if (!src || !src.length) {
-    return {};
-  }
-  const tokens = Array.isArray(src) ? src : tokenize(src);
-  const tonic = note(tokens[0]).name;
-  const type = getChordType(tokens[1]);
-
-  if (!type.empty) {
-    return { tonic, type };
-  } else if (tonic && typeof src === "string") {
-    return { tonic: "", type: getChordType(src) };
-  } else {
-    return {};
-  }
-}
-
 /**
  * Transpose a chord name
  *
