@@ -12,7 +12,7 @@
   "files": [
     "dist"
   ],
-  "types": "dist/index.dt.ts",
+  "types": "dist/index.d.ts",
   "author": "danigb@gmail.com",
   "license": "MIT",
   "publishConfig": {

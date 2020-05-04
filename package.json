@@ -6,7 +6,7 @@
   ],
   "main": "packages/tonal/dist/index.js",
   "module": "packages/tonal/dist/index.es.js",
-  "types": "packages/tonal/dist/index.dt.ts",
+  "types": "packages/tonal/dist/index.d.ts",
   "scripts": {
     "lerna": "lerna bootstrap",
     "lerna:publish": "yarn test:ci && lerna publish",

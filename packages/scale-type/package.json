@@ -14,7 +14,7 @@
   "files": [
     "dist"
   ],
-  "types": "dist/index.dt.ts",
+  "types": "dist/index.d.ts",
   "dependencies": {
     "@tonaljs/core": "^3.5.2",
     "@tonaljs/pcset": "^3.5.2"
