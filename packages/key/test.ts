@@ -64,6 +64,13 @@ describe("@tonal/key", () => {
     });
   });
 
+  test("octaves are discarded", () => {
+    expect(Key.majorKey("b4").scale.join(" ")).toEqual("B C# D# E F# G# A#");
+    expect(Key.majorKey("g4").chords.join(" ")).toEqual(
+      "Gmaj7 Am7 Bm7 Cmaj7 D7 Em7 F#m7b5"
+    );
+  });
+
   test("majorKey", () => {
     expect(Key.majorKey("C")).toMatchInlineSnapshot(`
       Object {

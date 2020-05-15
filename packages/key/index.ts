@@ -48,13 +48,14 @@ function keyScale(
   chordScalesLiteral: string
 ) {
   return (tonic: string): KeyScale => {
+    const pc = note(tonic).pc;
     const grades = gradesLiteral.split(" ");
     const intervals = grades.map((gr) => roman(gr).interval || "");
-    const scale = intervals.map((interval) => transpose(tonic, interval));
+    const scale = intervals.map((interval) => transpose(pc, interval));
     const map = mapToScale(scale);
 
     return {
-      tonic,
+      tonic: pc,
       grades,
       intervals,
       scale,
