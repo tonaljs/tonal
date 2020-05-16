@@ -170,7 +170,7 @@ export const chord = deprecate("Chord.chord", "Chord.get", get);
 export function transpose(chordName: string, interval: string): string {
   const [tonic, type] = tokenize(chordName);
   if (!tonic) {
-    return name;
+    return chordName;
   }
   return transposeNote(tonic, interval) + type;
 }
