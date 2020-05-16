@@ -69,6 +69,12 @@ describe("@tonal/key", () => {
     expect(Key.majorKey("g4").chords.join(" ")).toEqual(
       "Gmaj7 Am7 Bm7 Cmaj7 D7 Em7 F#m7b5"
     );
+    expect(Key.minorKey("C4").melodic.scale.join(" ")).toEqual(
+      "C D Eb F G A B"
+    );
+    expect(Key.minorKey("C4").melodic.chords.join(" ")).toEqual(
+      "Cm6 Dm7 Eb+maj7 F7 G7 Am7b5 Bm7b5"
+    );
   });
 
   test("majorKey", () => {
@@ -171,6 +177,16 @@ describe("@tonal/key", () => {
         "type": "major",
       }
     `);
+  });
+
+  test("empty major key ", () => {
+    expect(Key.majorKey("")).toMatchObject({
+      type: "major",
+      tonic: "",
+    });
+    expect(Object.keys(Key.majorKey("C")).sort()).toEqual(
+      Object.keys(Key.majorKey("")).sort()
+    );
   });
 
   test("minorKey", () => {
@@ -354,5 +370,15 @@ describe("@tonal/key", () => {
         "type": "minor",
       }
     `);
+  });
+
+  test("empty minor key ", () => {
+    expect(Key.minorKey("nothing")).toMatchObject({
+      type: "minor",
+      tonic: "",
+    });
+    expect(Object.keys(Key.minorKey("C")).sort()).toEqual(
+      Object.keys(Key.minorKey("nothing")).sort()
+    );
   });
 });
