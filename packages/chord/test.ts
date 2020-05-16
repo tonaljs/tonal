@@ -148,6 +148,7 @@ describe("tonal-chord", () => {
 
   it("transpose chord names", () => {
     expect(Chord.transpose("Eb7b9", "5P")).toEqual("Bb7b9");
+    expect(Chord.transpose("7b9", "5P")).toEqual("7b9");
   });
 
   test("extended", () => {

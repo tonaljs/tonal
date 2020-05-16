@@ -22,7 +22,7 @@ export { detect } from "@tonaljs/chord-detect";
 type ChordName = string;
 type ChordNameTokens = [string, string]; // [TONIC, SCALE TYPE]
 
-interface Chord extends ChordType {
+export interface Chord extends ChordType {
   tonic: string | null;
   type: string;
   root: string;
@@ -170,7 +170,7 @@ export const chord = deprecate("Chord.chord", "Chord.get", get);
 export function transpose(chordName: string, interval: string): string {
   const [tonic, type] = tokenize(chordName);
   if (!tonic) {
-    return name;
+    return chordName;
   }
   return transposeNote(tonic, interval) + type;
 }
