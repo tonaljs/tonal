@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/key",
-  "version": "3.5.5",
+  "version": "4.0.0",
   "description": "Functions to work with musical keys",
   "keywords": [
     "key",
