@@ -20,6 +20,13 @@ const { Key } = require("@tonaljs/tonal");
 
 ## API
 
+Tonics of any key are represented with pitch classes (octaves are discarded).
+
+```js
+Key.major("C4"); // is equal to
+Key.major("C");
+```
+
 #### `majorKey(tonic: string) => MajorKey`
 
 Major key properties for a given tonic. Example:

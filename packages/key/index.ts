@@ -2,41 +2,85 @@ import { accToAlt, altToAcc, note, transpose } from "@tonaljs/core";
 import { transposeFifths } from "@tonaljs/note";
 import { get as roman } from "@tonaljs/roman-numeral";
 
+const Empty: readonly string[] = Object.freeze([] as string[]);
+
 export interface Key {
-  type: "major" | "minor";
-  tonic: string;
-  alteration: number;
-  keySignature: string;
+  readonly type: "major" | "minor";
+  readonly tonic: string;
+  readonly alteration: number;
+  readonly keySignature: string;
 }
+
+const NoKey: Key = {
+  type: "major",
+  tonic: "",
+  alteration: 0,
+  keySignature: "",
+};
 
 interface KeyScale {
-  tonic: string;
-  grades: string[];
-  intervals: string[];
-  scale: string[];
-  chords: string[];
-  chordsHarmonicFunction: string[];
-  chordScales: string[];
+  readonly tonic: string;
+  readonly grades: readonly string[];
+  readonly intervals: readonly string[];
+  readonly scale: readonly string[];
+  readonly chords: readonly string[];
+  readonly chordsHarmonicFunction: readonly string[];
+  readonly chordScales: readonly string[];
 }
+
+const NoKeyScale: KeyScale = {
+  tonic: "",
+  grades: Empty,
+  intervals: Empty,
+  scale: Empty,
+  chords: Empty,
+  chordsHarmonicFunction: Empty,
+  chordScales: Empty,
+};
 
 export interface MajorKey extends Key, KeyScale {
-  type: "major";
-  minorRelative: string;
-  scale: string[];
-  secondaryDominants: string[];
-  secondaryDominantsMinorRelative: string[];
-  substituteDominants: string[];
-  substituteDominantsMinorRelative: string[];
-}
-export interface MinorKey extends Key {
-  type: "minor";
-  relativeMajor: string;
-  natural: KeyScale;
-  harmonic: KeyScale;
-  melodic: KeyScale;
+  readonly type: "major";
+  readonly minorRelative: string;
+  readonly scale: readonly string[];
+  readonly secondaryDominants: readonly string[];
+  readonly secondaryDominantsMinorRelative: readonly string[];
+  readonly substituteDominants: readonly string[];
+  readonly substituteDominantsMinorRelative: readonly string[];
 }
 
-const mapToScale = (scale: string[]) => (symbols: string[], sep = "") =>
+const NoMajorKey: MajorKey = {
+  ...NoKey,
+  ...NoKeyScale,
+  type: "major",
+  minorRelative: "",
+  scale: Empty,
+  secondaryDominants: Empty,
+  secondaryDominantsMinorRelative: Empty,
+  substituteDominants: Empty,
+  substituteDominantsMinorRelative: Empty,
+};
+
+export interface MinorKey extends Key {
+  readonly type: "minor";
+  readonly relativeMajor: string;
+  readonly natural: KeyScale;
+  readonly harmonic: KeyScale;
+  readonly melodic: KeyScale;
+}
+
+const NoMinorKey: MinorKey = {
+  ...NoKey,
+  type: "minor",
+  relativeMajor: "",
+  natural: NoKeyScale,
+  harmonic: NoKeyScale,
+  melodic: NoKeyScale,
+};
+
+const mapToScale = (scale: readonly string[]) => (
+  symbols: readonly string[],
+  sep = ""
+) =>
   symbols.map((symbol, index) =>
     symbol !== "-" ? scale[index] + sep + symbol : ""
   );
@@ -101,14 +145,17 @@ const MelodicScale = keyScale(
  * @param tonic
  */
 export function majorKey(tonic: string): MajorKey {
-  const keyScale = MajorScale(tonic);
-  const alteration = distInFifths("C", tonic);
+  const pc = note(tonic).pc;
+  if (!pc) return NoMajorKey;
+
+  const keyScale = MajorScale(pc);
+  const alteration = distInFifths("C", pc);
   const map = mapToScale(keyScale.scale);
 
   return {
     ...keyScale,
     type: "major",
-    minorRelative: transpose(tonic, "-3m"),
+    minorRelative: transpose(pc, "-3m"),
     alteration,
     keySignature: altToAcc(alteration),
     secondaryDominants: map("- VI7 VII7 I7 II7 III7 -".split(" ")),
@@ -126,17 +173,20 @@ export function majorKey(tonic: string): MajorKey {
  * Get minor key properties in a given tonic
  * @param tonic
  */
-export function minorKey(tonic: string): MinorKey {
-  const alteration = distInFifths("C", tonic) - 3;
+export function minorKey(tnc: string): MinorKey {
+  const pc = note(tnc).pc;
+  if (!pc) return NoMinorKey;
+
+  const alteration = distInFifths("C", pc) - 3;
   return {
     type: "minor",
-    tonic,
-    relativeMajor: transpose(tonic, "3m"),
+    tonic: pc,
+    relativeMajor: transpose(pc, "3m"),
     alteration,
     keySignature: altToAcc(alteration),
-    natural: NaturalScale(tonic),
-    harmonic: HarmonicScale(tonic),
-    melodic: MelodicScale(tonic),
+    natural: NaturalScale(pc),
+    harmonic: HarmonicScale(pc),
+    melodic: MelodicScale(pc),
   };
 }
 
