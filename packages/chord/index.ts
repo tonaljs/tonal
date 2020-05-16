@@ -22,7 +22,7 @@ export { detect } from "@tonaljs/chord-detect";
 type ChordName = string;
 type ChordNameTokens = [string, string]; // [TONIC, SCALE TYPE]
 
-interface Chord extends ChordType {
+export interface Chord extends ChordType {
   tonic: string | null;
   type: string;
   root: string;
