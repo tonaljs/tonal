@@ -2,6 +2,9 @@
   "name": "@tonaljs/chord-type",
   "version": "3.5.4",
   "description": "A dictionary of musical chords",
+  "scripts": {
+    "build": "rollup -c=../../rollup.config.js"
+  },
   "keywords": [
     "chord",
     "dictionary",

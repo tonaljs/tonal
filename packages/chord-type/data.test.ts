@@ -12,7 +12,7 @@ describe("chord-type data", () => {
 
   test("intervals should be in ascending order", () => {
     DATA.forEach((data) => {
-      const [list, name, aliases] = data;
+      const [list] = data;
       const intervals = list.split(" ").map((i) => interval(i).semitones || 0);
 
       try {
