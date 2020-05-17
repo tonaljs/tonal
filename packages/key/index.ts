@@ -77,34 +77,27 @@ const NoMinorKey: MinorKey = {
   melodic: NoKeyScale,
 };
 
-const mapToScale = (scale: readonly string[]) => (
-  symbols: readonly string[],
-  sep = ""
-) =>
-  symbols.map((symbol, index) =>
-    symbol !== "-" ? scale[index] + sep + symbol : ""
-  );
+const mapScaleToType = (scale: string[], list: string[], sep = "") =>
+  list.map((type, i) => `${scale[i]}${sep}${type}`);
 
 function keyScale(
-  gradesLiteral: string,
-  chordsLiteral: string,
-  hfLiteral: string,
-  chordScalesLiteral: string
+  grades: string[],
+  chords: string[],
+  harmonicFunctions: string[],
+  chordScales: string[]
 ) {
   return (tonic: string): KeyScale => {
-    const grades = gradesLiteral.split(" ");
     const intervals = grades.map((gr) => roman(gr).interval || "");
     const scale = intervals.map((interval) => transpose(tonic, interval));
-    const map = mapToScale(scale);
 
     return {
       tonic,
       grades,
       intervals,
       scale,
-      chords: map(chordsLiteral.split(" ")),
-      chordsHarmonicFunction: hfLiteral.split(" "),
-      chordScales: map(chordScalesLiteral.split(","), " "),
+      chords: mapScaleToType(scale, chords),
+      chordsHarmonicFunction: mapScaleToType(scale, harmonicFunctions),
+      chordScales: mapScaleToType(scale, chordScales, " "),
     };
   };
 }
@@ -116,28 +109,32 @@ const distInFifths = (from: string, to: string) => {
 };
 
 const MajorScale = keyScale(
-  "I II III IV V VI VII",
-  "maj7 m7 m7 maj7 7 m7 m7b5",
-  "T SD T SD D T D",
-  "major,dorian,phrygian,lydian,mixolydian,minor,locrian"
+  "I II III IV V VI VII".split(" "),
+  "maj7 m7 m7 maj7 7 m7 m7b5".split(" "),
+  "T SD T SD D T D".split(" "),
+  "major,dorian,phrygian,lydian,mixolydian,minor,locrian".split(",")
 );
 const NaturalScale = keyScale(
-  "I II bIII IV V bVI bVII",
-  "m7 m7b5 maj7 m7 m7 maj7 7",
-  "T SD T SD D SD SD",
-  "minor,locrian,major,dorian,phrygian,lydian,mixolydian"
+  "I II bIII IV V bVI bVII".split(" "),
+  "m7 m7b5 maj7 m7 m7 maj7 7".split(" "),
+  "T SD T SD D SD SD".split(" "),
+  "minor,locrian,major,dorian,phrygian,lydian,mixolydian".split(",")
 );
 const HarmonicScale = keyScale(
-  "I II bIII IV V bVI VII",
-  "mmaj7 m7b5 +maj7 m7 7 maj7 mo7",
-  "T SD T SD D SD D",
-  "harmonic minor,locrian 6,major augmented,lydian diminished,phrygian dominant,lydian #9,ultralocrian"
+  "I II bIII IV V bVI VII".split(" "),
+  "mMaj7 m7b5 +maj7 m7 7 maj7 o7".split(" "),
+  "T SD T SD D SD D".split(" "),
+  "harmonic minor,locrian 6,major augmented,lydian diminished,phrygian dominant,lydian #9,ultralocrian".split(
+    ","
+  )
 );
 const MelodicScale = keyScale(
-  "I II bIII IV V VI VII",
-  "m6 m7 +maj7 7 7 m7b5 m7b5",
-  "T SD T SD D - -",
-  "melodic minor,dorian b2,lydian augmented,lydian dominant,mixolydian b6,locrian #2,altered"
+  "I II bIII IV V VI VII".split(" "),
+  "m6 m7 +maj7 7 7 m7b5 m7b5".split(" "),
+  "T SD T SD D - -".split(" "),
+  "melodic minor,dorian b2,lydian augmented,lydian dominant,mixolydian b6,locrian #2,altered".split(
+    ","
+  )
 );
 
 /**
@@ -150,7 +147,12 @@ export function majorKey(tonic: string): MajorKey {
 
   const keyScale = MajorScale(pc);
   const alteration = distInFifths("C", pc);
-  const map = mapToScale(keyScale.scale);
+  const romanInTonic = (src: string) => {
+    const r = roman(src);
+    if (r.empty) return "";
+
+    return transpose(tonic, r.interval) + r.chordType;
+  };
 
   return {
     ...keyScale,
@@ -158,14 +160,16 @@ export function majorKey(tonic: string): MajorKey {
     minorRelative: transpose(pc, "-3m"),
     alteration,
     keySignature: altToAcc(alteration),
-    secondaryDominants: map("- VI7 VII7 I7 II7 III7 -".split(" ")),
-    secondaryDominantsMinorRelative: map(
-      "- IIIm7b5 IV#m7 Vm7 VIm7 VIIm7b5 -".split(" ")
-    ),
-    substituteDominants: map("- bIII7 IV7 bV7 bVI7 bVII7 -".split(" ")),
-    substituteDominantsMinorRelative: map(
-      "- IIIm7 Im7 IIbm7 VIm7 IVm7 -".split(" ")
-    ),
+    secondaryDominants: "- VI7 VII7 I7 II7 III7 -".split(" ").map(romanInTonic),
+    secondaryDominantsMinorRelative: "- IIIm7b5 IV#m7 Vm7 VIm7 VIIm7b5 -"
+      .split(" ")
+      .map(romanInTonic),
+    substituteDominants: "- bIII7 IV7 bV7 bVI7 bVII7 -"
+      .split(" ")
+      .map(romanInTonic),
+    substituteDominantsMinorRelative: "- IIIm7 Im7 IIbm7 VIm7 IVm7 -"
+      .split(" ")
+      .map(romanInTonic),
   };
 }
 

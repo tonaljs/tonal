@@ -18,7 +18,7 @@ const CHORDS: string[][] = [
   // '''Normal'''
   ["1P 3m 5P", "minor", "m min -"],
   ["1P 3m 5P 7m", "minor seventh", "m7 min7 mi7 -7"],
-  ["1P 3m 5P 7M", "minor/major seventh", "m/ma7 m/maj7 mM7 m/M7 -Δ7 mΔ"],
+  ["1P 3m 5P 7M", "minor/major seventh", "m/ma7 m/maj7 mM7 mMaj7 m/M7 -Δ7 mΔ"],
   ["1P 3m 5P 6M", "minor sixth", "m6"],
   ["1P 3m 5P 7m 9M", "minor ninth", "m9"],
   ["1P 3m 5P 7m 9M 11P", "minor eleventh", "m11"],
@@ -46,7 +46,7 @@ const CHORDS: string[][] = [
   // ==Other==
   ["1P 5P", "fifth", "5"],
   ["1P 3M 5A", "augmented", "aug + +5"],
-  ["1P 3M 5A 7M", "augmented seventh", "maj7#5 maj7+5"],
+  ["1P 3M 5A 7M", "augmented seventh", "maj7#5 maj7+5 +maj7"],
   ["1P 3M 5P 7M 9M 11A", "major sharp eleventh (lydian)", "maj9#11 Δ9#11"],
   // ==Legacy==
   ["1P 2M 4P 5P", "", "sus24 sus4add9"],

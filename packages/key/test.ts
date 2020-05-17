@@ -1,5 +1,7 @@
 // tslint:disable-next-line: no-implicit-dependencies
 import { get as scale } from "@tonaljs/scale";
+// tslint:disable-next-line: no-implicit-dependencies
+import { get as chord } from "@tonaljs/chord";
 import Key from "./index";
 
 describe("@tonal/key", () => {
@@ -50,6 +52,7 @@ describe("@tonal/key", () => {
         "B ultralocrian",
       ]);
     });
+
     test("melodic scales", () => {
       const chordScales = Key.minorKey("C").melodic.chordScales;
       expect(chordScales.map(scale).map((scale) => scale.name)).toEqual([
@@ -64,6 +67,18 @@ describe("@tonal/key", () => {
     });
   });
 
+  test("secondary dominants", () => {
+    expect(Key.majorKey("C").secondaryDominants).toEqual([
+      "",
+      "A7",
+      "B7",
+      "C7",
+      "D7",
+      "E7",
+      "",
+    ]);
+  });
+
   test("octaves are discarded", () => {
     expect(Key.majorKey("b4").scale.join(" ")).toEqual("B C# D# E F# G# A#");
     expect(Key.majorKey("g4").chords.join(" ")).toEqual(
@@ -75,6 +90,29 @@ describe("@tonal/key", () => {
     expect(Key.minorKey("C4").melodic.chords.join(" ")).toEqual(
       "Cm6 Dm7 Eb+maj7 F7 G7 Am7b5 Bm7b5"
     );
+  });
+
+  test("valid chord names", () => {
+    const major = Key.majorKey("C");
+    const minor = Key.minorKey("C");
+
+    [
+      major.chords,
+      major.secondaryDominants,
+      major.secondaryDominantsMinorRelative,
+      major.substituteDominants,
+      major.substituteDominantsMinorRelative,
+      minor.natural.chords,
+      minor.harmonic.chords,
+      minor.melodic.chords,
+    ].forEach((chords) => {
+      chords.forEach((name) => {
+        if (name !== "") {
+          if (chord(name).name === "") throw Error(`Invalid chord: ${name}`);
+          expect(chord(name).name).not.toBe("");
+        }
+      });
+    });
   });
 
   test("majorKey", () => {
@@ -100,13 +138,13 @@ describe("@tonal/key", () => {
           "Bm7b5",
         ],
         "chordsHarmonicFunction": Array [
-          "T",
-          "SD",
-          "T",
-          "SD",
-          "D",
-          "T",
-          "D",
+          "CT",
+          "DSD",
+          "ET",
+          "FSD",
+          "GD",
+          "AT",
+          "BD",
         ],
         "grades": Array [
           "I",
@@ -139,38 +177,38 @@ describe("@tonal/key", () => {
         ],
         "secondaryDominants": Array [
           "",
-          "DVI7",
-          "EVII7",
-          "FI7",
-          "GII7",
-          "AIII7",
+          "A7",
+          "B7",
+          "C7",
+          "D7",
+          "E7",
           "",
         ],
         "secondaryDominantsMinorRelative": Array [
           "",
-          "DIIIm7b5",
-          "EIV#m7",
-          "FVm7",
-          "GVIm7",
-          "AVIIm7b5",
+          "Em7b5",
+          "F#m7",
+          "Gm7",
+          "Am7",
+          "Bm7b5",
           "",
         ],
         "substituteDominants": Array [
           "",
-          "DbIII7",
-          "EIV7",
-          "FbV7",
-          "GbVI7",
-          "AbVII7",
+          "Eb7",
+          "F7",
+          "Gb7",
+          "Ab7",
+          "Bb7",
           "",
         ],
         "substituteDominantsMinorRelative": Array [
           "",
-          "DIIIm7",
-          "EIm7",
-          "FIIbm7",
-          "GVIm7",
-          "AIVm7",
+          "Em7",
+          "Cm7",
+          "Dbm7",
+          "Am7",
+          "Fm7",
           "",
         ],
         "tonic": "C",
@@ -204,22 +242,22 @@ describe("@tonal/key", () => {
             "B ultralocrian",
           ],
           "chords": Array [
-            "Cmmaj7",
+            "CmMaj7",
             "Dm7b5",
             "Eb+maj7",
             "Fm7",
             "G7",
             "Abmaj7",
-            "Bmo7",
+            "Bo7",
           ],
           "chordsHarmonicFunction": Array [
-            "T",
-            "SD",
-            "T",
-            "SD",
-            "D",
-            "SD",
-            "D",
+            "CT",
+            "DSD",
+            "EbT",
+            "FSD",
+            "GD",
+            "AbSD",
+            "BD",
           ],
           "grades": Array [
             "I",
@@ -271,13 +309,13 @@ describe("@tonal/key", () => {
             "Bm7b5",
           ],
           "chordsHarmonicFunction": Array [
-            "T",
-            "SD",
-            "T",
-            "SD",
-            "D",
-            "-",
-            "-",
+            "CT",
+            "DSD",
+            "EbT",
+            "FSD",
+            "GD",
+            "A-",
+            "B-",
           ],
           "grades": Array [
             "I",
@@ -328,13 +366,13 @@ describe("@tonal/key", () => {
             "Bb7",
           ],
           "chordsHarmonicFunction": Array [
-            "T",
-            "SD",
-            "T",
-            "SD",
-            "D",
-            "SD",
-            "SD",
+            "CT",
+            "DSD",
+            "EbT",
+            "FSD",
+            "GD",
+            "AbSD",
+            "BbSD",
           ],
           "grades": Array [
             "I",
