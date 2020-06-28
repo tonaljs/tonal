@@ -14,6 +14,7 @@ describe("midi", () => {
     expect(Midi.toMidi(-1)).toBe(null);
     expect(Midi.toMidi(128)).toBe(null);
     expect(Midi.toMidi("blah")).toBe(null);
+    expect(Midi.toMidi(NaN)).toBe(null);
   });
 
   test("freqToMidi", () => {
@@ -38,5 +39,9 @@ describe("midi", () => {
     expect(
       notes.map((n) => Midi.midiToNoteName(n, { pitchClass: true })).join(" ")
     ).toEqual("C Db D Eb E F Gb G Ab A Bb B C");
+
+    expect(Midi.midiToNoteName(NaN)).toEqual("");
+    expect(Midi.midiToNoteName(-Infinity)).toEqual("");
+    expect(Midi.midiToNoteName(Infinity)).toEqual("");
   });
 });

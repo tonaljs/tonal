@@ -116,4 +116,13 @@ describe("note", () => {
     );
     expect(flats).toEqual(["Bb", "Eb", "Ab", "Db", "Gb", "Cb", "Fb"]);
   });
+
+  test("fromFreq", () => {
+    expect(Note.fromFreq(440)).toEqual("A4");
+    expect(Note.fromFreq(444)).toEqual("A4");
+    expect(Note.fromFreq(470)).toEqual("Bb4");
+    expect(Note.fromFreqSharps(470)).toEqual("A#4");
+    expect(Note.fromFreq(0)).toEqual("");
+    expect(Note.fromFreq(NaN)).toEqual("");
+  });
 });
