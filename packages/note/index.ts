@@ -9,7 +9,7 @@ import {
   Pitch,
   transpose as _tr,
 } from "@tonaljs/core";
-import { midiToNoteName } from "@tonaljs/midi";
+import { midiToNoteName, freqToMidi } from "@tonaljs/midi";
 
 const NAMES = ["C", "D", "E", "F", "G", "A", "B"];
 
@@ -96,6 +96,19 @@ export const chroma = (note: NoteLiteral) => get(note).chroma;
  */
 export function fromMidi(midi: number) {
   return midiToNoteName(midi);
+}
+
+/**
+ * Given a midi number, returns a note name. Uses flats for altered notes.
+ */
+export function fromFreq(freq: number) {
+  return midiToNoteName(freqToMidi(freq));
+}
+/**
+ * Given a midi number, returns a note name. Uses flats for altered notes.
+ */
+export function fromFreqSharps(freq: number) {
+  return midiToNoteName(freqToMidi(freq), { sharps: true });
 }
 
 /**
@@ -244,6 +257,8 @@ export default {
   fromMidi,
   fromMidiSharps,
   freq,
+  fromFreq,
+  fromFreqSharps,
   chroma,
   transpose,
   tr,

@@ -88,6 +88,7 @@ const FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
  * midiToNoteName(61.7) // => "D4"
  */
 export function midiToNoteName(midi: number, options: ToNoteNameOptions = {}) {
+  if (isNaN(midi) || midi === -Infinity || midi === Infinity) return "";
   midi = Math.round(midi);
   const pcs = options.sharps === true ? SHARPS : FLATS;
   const pc = pcs[midi % 12];

@@ -69,6 +69,26 @@ There's also a `Note.fromMidiSharps` version:
 Note.fromMidiSharps(61); // => "C#4"
 ```
 
+#### `Note.fromFreq(freq: number) => string`
+
+Given a frequency in Hz, returns the note name.
+
+```js
+Note.fromFreq(440); // => "A4"
+```
+
+It rounds to the nearest name:
+
+```js
+[440, 550, 660].map(t.Note.fromFreq); // => [ 'A4', 'Db5', 'E5' ]
+```
+
+There's also a `Note.fromFreqSharps` version:
+
+```js
+[440, 550, 660].map(t.Note.fromFreqSharps); // => [ 'A4', 'C#5', 'E5' ]
+```
+
 ### Transposition and distances
 
 #### `transpose(note: string, interval: string) => string`
@@ -102,9 +122,9 @@ Transpose a note a given number of fifths:
 Note.transposeFifths("G4", 3); // => "E6"
 Note.transposeFifths("G", 3); // => "E"
 
-[0, 1, 2, 3, 4, 5, 6].map(n => transposeFifths("F#", n));
+[0, 1, 2, 3, 4, 5, 6].map((n) => transposeFifths("F#", n));
 // => ["F#", "C#", "G#", "D#", "A#", "E#", "B#"]
-[0, -1, -2, -3, -4, -5, -6].map(n => transposeFifths("Bb", n));
+[0, -1, -2, -3, -4, -5, -6].map((n) => transposeFifths("Bb", n));
 // => ["Bb", "Eb", "Ab", "Db", "Gb", "Cb", "Fb"]
 ```
 
