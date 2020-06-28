@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/core",
-  "version": "3.5.3",
+  "version": "3.5.4",
   "description": "Music theory library",
   "scripts": {
     "build": "rollup -c=../../rollup.config.js"
