@@ -41,6 +41,12 @@ describe("note", () => {
       expect(height("F9 G9 A9")).toEqual([125, 127, 129]);
       expect(height("C-4 D-4 E-4 F-4 G-4")).toEqual([-36, -34, -32, -31, -29]);
       expect(height("C D E F G")).toEqual([-1188, -1186, -1184, -1183, -1181]);
+      expect(height("Cb4 Cbb4 Cbbb4 B#4 B##4 B###4")).toEqual(
+        height("B3 Bb3 Bbb3 C5 C#5 C##5")
+      );
+      expect(height("Cb Cbb Cbbb B# B## B###")).toEqual(
+        height("B Bb Bbb C C# C##")
+      );
     });
 
     test("midi", () => {

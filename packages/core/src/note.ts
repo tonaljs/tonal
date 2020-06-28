@@ -78,6 +78,8 @@ export function coordToNote(noteCoord: PitchCoordinates): Note {
   return note(decode(noteCoord)) as Note;
 }
 
+const mod = (n: number, m: number) => ((n % m) + m) % m;
+
 const SEMI = [0, 2, 4, 5, 7, 9, 11];
 function parse(noteName: NoteName): Note | NoNote {
   const tokens = tokenizeNote(noteName);
@@ -97,8 +99,10 @@ function parse(noteName: NoteName): Note | NoNote {
   const name = letter + acc + octStr;
   const pc = letter + acc;
   const chroma = (SEMI[step] + alt + 120) % 12;
-  const o = oct === undefined ? -100 : oct;
-  const height = SEMI[step] + alt + 12 * (o + 1);
+  const height =
+    oct === undefined
+      ? mod(SEMI[step] + alt, 12) - 12 * 99
+      : SEMI[step] + alt + 12 * (oct + 1);
   const midi = height >= 0 && height <= 127 ? height : null;
   const freq = oct === undefined ? null : Math.pow(2, (height - 69) / 12) * 440;
 
