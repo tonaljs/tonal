@@ -78,7 +78,7 @@ Key.minorKey('C') // =>
     scale: ["C", "D", "Eb", "F", "G", "Ab", "B"],
     chords: ["Cmmaj7", "Dm7b5", "Eb+maj7", "Fm7", "G7", "Abmaj7", "Bmo7"],
     chordsHarmonicFunction: ["T", "SD", "T", "SD", "D", "SD", "D"],
-    chordScales: ["C harmonic minor", "D locrian 6", "Eb ionian #5", "F dorian #11", "G phrygian dominant", "Ab lydian #2", "B super locrian bb7",
+    chordScales: ["C harmonic minor", "D locrian 6", "Eb ionian #5", "F dorian #11", "G phrygian dominant", "Ab lydian #9", "B super locrian bb7",
     ],
 
   },
