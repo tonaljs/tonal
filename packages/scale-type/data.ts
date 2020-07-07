@@ -46,7 +46,7 @@ const SCALES: string[][] = [
   ["1P 2m 3M 4A 5P 6m 7M", "double harmonic lydian"],
   ["1P 2M 3m 4P 5P 6m 7M", "harmonic minor"],
   [
-    "1P 2m 3m 3M 5d 6m 7m",
+    "1P 2m 3m 4d 5d 6m 7m",
     "altered",
     "super locrian",
     "diminished whole tone",
@@ -121,7 +121,12 @@ const SCALES: string[][] = [
   ["1P 2M 3m 4P 5d 6m 6M 7M", "diminished", "whole-half diminished"],
   ["1P 2M 3M 4P 5d 5P 6M 7M", "ichikosucho"],
   ["1P 2M 3m 4P 5P 6m 6M 7M", "minor six diminished"],
-  ["1P 2m 3m 3M 4A 5P 6M 7m", "half-whole diminished", "dominant diminished", "messiaen's mode #2"],
+  [
+    "1P 2m 3m 3M 4A 5P 6M 7m",
+    "half-whole diminished",
+    "dominant diminished",
+    "messiaen's mode #2",
+  ],
   ["1P 3m 3M 4P 5P 6M 7m 7M", "kafi raga"],
   ["1P 2M 3M 4P 4A 5A 6A 7M", "messiaen's mode #6"],
 
