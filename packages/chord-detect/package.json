@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chord-detect",
-  "version": "3.5.6",
+  "version": "3.6.0",
   "description": "Detect chord name based on note names",
   "keywords": [
     "chord-detect",
@@ -15,7 +15,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord-type": "^3.5.6",
+    "@tonaljs/chord-type": "^3.6.0",
     "@tonaljs/core": "^3.5.4",
     "@tonaljs/pcset": "^3.5.4"
   },
