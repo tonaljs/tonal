@@ -10,6 +10,13 @@ describe("chord-type data", () => {
     }
   });
 
+  test("all chords must have abreviatures", () => {
+    DATA.forEach((data) => {
+      const abrrvs = data[2].trim();
+      expect(abrrvs.length).toBeGreaterThan(0);
+    });
+  });
+
   test("intervals should be in ascending order", () => {
     DATA.forEach((data) => {
       const [list] = data;

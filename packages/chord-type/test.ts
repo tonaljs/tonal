@@ -23,7 +23,7 @@ describe("@tonaljs/chord-type", () => {
     ]);
   });
 
-  test("all", () => {
+  test("all returns all chords", () => {
     expect(ChordType.all()).toHaveLength(107);
   });
 
@@ -34,7 +34,7 @@ describe("@tonaljs/chord-type", () => {
       name: "major",
       quality: "Major",
       intervals: ["1P", "3M", "5P"],
-      aliases: ["M", ""],
+      aliases: ["M", "^", ""],
       chroma: "100010010000",
       normalized: "100001000100",
     });
