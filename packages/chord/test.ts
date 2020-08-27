@@ -22,7 +22,25 @@ describe("tonal-chord", () => {
   });
 
   describe("getChord", () => {
-    test("Chord properties", () => {
+    test("Chord properites", () => {
+      expect(Chord.getChord("maj7", "G4", "G4")).toEqual({
+        empty: false,
+        name: "G major seventh",
+        symbol: "Gmaj7",
+        tonic: "G4",
+        root: "G4",
+        rootDegree: 1,
+        setNum: 2193,
+        type: "major seventh",
+        aliases: ["maj7", "Δ", "ma7", "M7", "Maj7", "^7"],
+        chroma: "100010010001",
+        intervals: ["1P", "3M", "5P", "7M"],
+        normalized: "100010010001",
+        notes: ["G4", "B4", "D5", "F#5"],
+        quality: "Major",
+      });
+    });
+    test("first inversion", () => {
       expect(Chord.getChord("maj7", "G4", "B4")).toEqual({
         empty: false,
         name: "G major seventh over B",
@@ -34,9 +52,45 @@ describe("tonal-chord", () => {
         type: "major seventh",
         aliases: ["maj7", "Δ", "ma7", "M7", "Maj7", "^7"],
         chroma: "100010010001",
-        intervals: ["1P", "3M", "5P", "7M"],
+        intervals: ["3M", "5P", "7M", "8P"],
         normalized: "100010010001",
-        notes: ["G4", "B4", "D5", "F#5"],
+        notes: ["B4", "D5", "F#5", "G5"],
+        quality: "Major",
+      });
+    });
+    test("first inversion without octave", () => {
+      expect(Chord.getChord("maj7", "G", "B")).toEqual({
+        empty: false,
+        name: "G major seventh over B",
+        symbol: "Gmaj7/B",
+        tonic: "G",
+        root: "B",
+        rootDegree: 2,
+        setNum: 2193,
+        type: "major seventh",
+        aliases: ["maj7", "Δ", "ma7", "M7", "Maj7", "^7"],
+        chroma: "100010010001",
+        intervals: ["3M", "5P", "7M", "8P"],
+        normalized: "100010010001",
+        notes: ["B", "D", "F#", "G"],
+        quality: "Major",
+      });
+    });
+    test("second inversion", () => {
+      expect(Chord.getChord("maj7", "G4", "D5")).toEqual({
+        empty: false,
+        name: "G major seventh over D",
+        symbol: "Gmaj7/D",
+        tonic: "G4",
+        root: "D5",
+        rootDegree: 3,
+        setNum: 2193,
+        type: "major seventh",
+        aliases: ["maj7", "Δ", "ma7", "M7", "Maj7", "^7"],
+        chroma: "100010010001",
+        intervals: ["5P", "7M", "8P", "10M"],
+        normalized: "100010010001",
+        notes: ["D5", "F#5", "G5", "B5"],
         quality: "Major",
       });
     });

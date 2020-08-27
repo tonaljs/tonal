@@ -134,15 +134,25 @@ export function getChord(
     return NoChord;
   }
 
+  const intervals = Array.from(type.intervals);
+
+  for (let i = 1; i < rootDegree; i++) {
+    const [num, quality] = intervals[0];
+    const newNum = parseInt(num, 10) + 7;
+    intervals.push(`${newNum}${quality}`);
+    intervals.shift();
+  }
+
   const notes = tonic.empty
     ? []
-    : type.intervals.map((i) => transposeNote(tonic, i));
+    : intervals.map((i) => transposeNote(tonic, i));
+
   typeName = type.aliases.indexOf(typeName) !== -1 ? typeName : type.aliases[0];
   const symbol = `${tonic.empty ? "" : tonic.pc}${typeName}${
-    root.empty ? "" : "/" + root.pc
+    root.empty || rootDegree <= 1 ? "" : "/" + root.pc
   }`;
   const name = `${optionalTonic ? tonic.pc + " " : ""}${type.name}${
-    optionalRoot ? " over " + root.pc : ""
+    rootDegree > 1 && optionalRoot ? " over " + root.pc : ""
   }`;
   return {
     ...type,
@@ -150,6 +160,7 @@ export function getChord(
     symbol,
     type: type.name,
     root: root.name,
+    intervals,
     rootDegree,
     tonic: tonic.name,
     notes,
