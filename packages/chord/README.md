@@ -43,9 +43,9 @@ Chord.getChord("maj7", "G4", "B4"); // =>
 //   type: "major seventh",
 //   aliases: ["maj7", "Δ", "ma7", "M7", "Maj7"],
 //   chroma: "100010010001",
-//   intervals: ["1P", "3M", "5P", "7M"],
+//   intervals: ["3M", "5P", "7M", "8P"],
 //   normalized: "100010010001",
-//   notes: ["G4", "B4", "D5", "F#5"],
+//   notes: ["B4", "D5", "F#5", "G5"],
 //   quality: "Major",
 // }
 ```
