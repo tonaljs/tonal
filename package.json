@@ -14,9 +14,10 @@
     "build:packages": "lerna exec --parallel  -- rollup -c=../../rollup.config.js",
     "build:browser": "cd packages/tonal && rollup -c=rollup.browser.config.js",
     "build:clean": "lerna exec --parallel -- rimraf dist/",
+    "format": "prettier --write packages/**/*.ts",
     "test": "jest --coverage",
     "lint": "tslint --fix --project tsconfig.json -t codeFrame 'packages/**/*.ts'",
-    "test:ci": "yarn lint && yarn build && yarn test -- --no-cache"
+    "test:ci": "yarn format && yarn lint && yarn build && yarn test -- --no-cache"
   },
   "husky": {
     "hooks": {
