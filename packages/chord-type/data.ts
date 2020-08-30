@@ -68,7 +68,6 @@ const CHORDS: string[][] = [
   ],
   // ==Legacy==
   ["1P 2M 4P 5P", "", "sus24 sus4add9"],
-  ["1P 3M 13m", "", "Mb6"],
   ["1P 3M 5A 7M 9M", "", "maj9#5 Maj9#5"],
   ["1P 3M 5A 7m", "", "7#5 +7 7+ 7aug aug7"],
   ["1P 3M 5A 7m 9A", "", "7#5#9 7#9#5 7alt"],
