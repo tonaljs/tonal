@@ -1,4 +1,4 @@
-import { get as chordType } from "@tonaljs/chord-type";
+import { all } from "@tonaljs/chord-type";
 import { note } from "@tonaljs/core";
 import { modes } from "@tonaljs/pcset";
 
@@ -6,8 +6,6 @@ interface FoundChord {
   readonly weight: number;
   readonly name: string;
 }
-
-const NotFound: FoundChord = { weight: 0, name: "" };
 
 const namedSet = (notes: string[]) => {
   const pcToName = notes.reduce<Record<number, string>>((record, n) => {
@@ -39,21 +37,29 @@ function findExactMatches(notes: string[], weight: number): FoundChord[] {
   const tonic = notes[0];
   const tonicChroma = note(tonic).chroma;
   const noteName = namedSet(notes);
+  // we need to test all chormas to get the correct baseNote
   const allModes = modes(notes, false);
 
-  const found: FoundChord[] = allModes.map((mode, chroma) => {
-    const chordName = chordType(mode).aliases[0];
-    if (!chordName) {
-      return NotFound;
-    }
-    const baseNote = noteName(chroma);
-    const isInversion = chroma !== tonicChroma;
-    if (isInversion) {
-      return { weight: 0.5 * weight, name: `${baseNote}${chordName}/${tonic}` };
-    } else {
-      return { weight: 1 * weight, name: `${baseNote}${chordName}` };
-    }
+  const found: FoundChord[] = [];
+  allModes.forEach((mode, index) => {
+    // some chords could have the same chroma but different interval spelling
+    const chordTypes = all().filter((chordType) => chordType.chroma === mode);
+
+    chordTypes.forEach((chordType) => {
+      const chordName = chordType.aliases[0];
+      const baseNote = noteName(index);
+      const isInversion = index !== tonicChroma;
+      if (isInversion) {
+        found.push({
+          weight: 0.5 * weight,
+          name: `${baseNote}${chordName}/${tonic}`,
+        });
+      } else {
+        found.push({ weight: 1 * weight, name: `${baseNote}${chordName}` });
+      }
+    });
   });
+
   return found;
 }
 
