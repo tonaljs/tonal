@@ -9,14 +9,7 @@ describe("@tonal/chord-detect", () => {
   });
 
   test("(regression) detect aug", () => {
-    expect(detect(["C", "E", "G#"])).toEqual([
-      "Caug",
-      "CMb6",
-      "Eaug/C",
-      "EMb6/C",
-      "G#aug/C",
-      "G#Mb6/C",
-    ]);
+    expect(detect(["C", "E", "G#"])).toEqual(["Caug", "Eaug/C", "G#aug/C"]);
   });
 
   test("edge cases", () => {
