@@ -137,7 +137,8 @@ export function getChord(
   const intervals = Array.from(type.intervals);
 
   for (let i = 1; i < rootDegree; i++) {
-    const [num, quality] = intervals[0];
+    const num = intervals[0][0];
+    const quality = intervals[0][1];
     const newNum = parseInt(num, 10) + 7;
     intervals.push(`${newNum}${quality}`);
     intervals.shift();
