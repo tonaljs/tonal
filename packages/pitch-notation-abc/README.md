@@ -25,4 +25,6 @@ AbcNotation.scientificToAbcNotation("C#4"); // => "^C"
 ## References
 
 - [ABC Notation in Wikipedia](https://en.wikipedia.org/wiki/ABC_notation)
+- [ABC Notation learning materials](https://abcnotation.com/learn)
+- [ABC Notation standard documentation (old and new)](https://abcnotation.com/wiki/abc:standard)
 - [ABC in BCN format](https://web.archive.org/web/20080309023424/http://www.norbeck.nu/abc/abcbnf.htm)
