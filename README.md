@@ -2,8 +2,8 @@
 
 [![npm version](https://img.shields.io/npm/v/@tonaljs/tonal.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/tonal)
 [![build status](https://img.shields.io/travis/tonaljs/tonal?style=flat-square)](http://travis-ci.org/tonaljs/tonal/)
-![minified size](https://img.shields.io/badge/minified-28.45kb-blue?style=flat-square)
-![gzipped size](https://img.shields.io/badge/gzipped-9.7kb-blue?style=flat-square)
+![minified size](https://img.shields.io/badge/minified-32.01kb-blue?style=flat-square)
+![gzipped size](https://img.shields.io/badge/gzipped-10.77kb-blue?style=flat-square)
 
 `tonal` is a music theory library. Contains functions to manipulate tonal elements of music (note, intervals, chords, scales, modes, keys). It deals with abstractions (not actual music or sound).
 
