@@ -102,3 +102,26 @@ Scale.modeNames("C pentatonic"); // => [
 //    ["A", "minor pentatonic"]
 //  ]
 ```
+
+### `Scale.rangeOf(scaleName: string) => (from: string, to: string) => string[]`
+
+`Scale.rangeOf` returns a function to create scale ranges:
+
+```js
+const range = Scale.rangeOf("C pentatonic");
+range("C4", "C5"); // => ["C4", "D4", "E4", "G4", "A4", "C5"]
+```
+
+Please note that the scale name _must_ have tonic:
+
+```js
+const range = Scale.rangeOf("pentatonic");
+range("C4", "C5"); // => []
+```
+
+This function also works with a collection of notes:
+
+```js
+const range = Scale.rangeOf("C", "Db", "G");
+range("C4", "C5"); // => ["C4", "Db4", "G4", "C5"]
+```

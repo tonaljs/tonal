@@ -4,7 +4,7 @@
  * @module scale
  */
 import { all as chordTypes } from "@tonaljs/chord-type";
-import { rotate } from "@tonaljs/collection";
+import { rotate, range as nums } from "@tonaljs/collection";
 import { deprecate, note, NoteName, transpose } from "@tonaljs/core";
 import { sortedUniqNames } from "@tonaljs/note";
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
@@ -200,6 +200,35 @@ export function modeNames(name: string): ScaleMode[] {
     .filter((x) => x[0]);
 }
 
+function getNoteNameOf(scale: string | string[]) {
+  const names = Array.isArray(scale) ? scaleNotes(scale) : get(scale).notes;
+  const chromas = names.map((name) => note(name).chroma);
+
+  return (noteOrMidi: string | number): string | undefined => {
+    const height =
+      typeof noteOrMidi === "number" ? noteOrMidi : note(noteOrMidi).height;
+    if (height === undefined) return undefined;
+    const chroma = height % 12;
+    const oct = Math.floor(height / 12) - 1;
+    const position = chromas.indexOf(chroma);
+    if (position === -1) return undefined;
+    return names[position] + oct;
+  };
+}
+
+export function rangeOf(scale: string | string[]) {
+  const getName = getNoteNameOf(scale);
+  return (fromNote: string, toNote: string) => {
+    const from = note(fromNote).height;
+    const to = note(toNote).height;
+    if (from === undefined || to === undefined) return [];
+
+    return nums(from, to)
+      .map(getName)
+      .filter((x) => x);
+  };
+}
+
 export default {
   get,
   names,
@@ -209,6 +238,7 @@ export default {
   scaleChords,
   scaleNotes,
   tokenize,
+  rangeOf,
   // deprecated
   scale,
 };
