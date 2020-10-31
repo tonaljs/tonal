@@ -5,7 +5,7 @@ import { midiToNoteName, toMidi, ToNoteNameOptions } from "@tonaljs/midi";
  * Create a numeric range. You supply a list of notes or numbers and it will
  * be connected to create complex ranges.
  *
- * @param {Array} array - the list of notes or numbers used
+ * @param {Array} notes - the list of notes or midi numbers used
  * @return {Array} an array of numbers or empty array if not valid parameters
  *
  * @example
@@ -35,13 +35,14 @@ export function numeric(notes: (string | number)[]): number[] {
  * Create a range of chromatic notes. The altered notes will use flats.
  *
  * @function
- * @param {String|Array} list - the list of notes or midi note numbers
+ * @param {Array} notes - the list of notes or midi note numbers to create a range from
+ * @param {Object} options - The same as `midiToNoteName` (`{ sharps: boolean, pitchClass: boolean }`)
  * @return {Array} an array of note names
  *
  * @example
- * Range.chromatic("C2 E2 D2") // => ["C2", "Db2", "D2", "Eb2", "E2", "Eb2", "D2"]
+ * Range.chromatic(["C2, "E2", "D2"]) // => ["C2", "Db2", "D2", "Eb2", "E2", "Eb2", "D2"]
  * // with sharps
- * Range.chromatic("C2 C3", true) // => [ "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", "C3" ]
+ * Range.chromatic(["C2", "C3"], { sharps: true }) // => [ "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", "C3" ]
  */
 export function chromatic(
   notes: (string | number)[],
