@@ -24,7 +24,7 @@ export interface Mode extends Pcset {
   readonly aliases: string[];
 }
 
-const NoMode = {
+const NoMode: Mode = {
   ...EmptyPcset,
   name: "",
   alt: 0,
