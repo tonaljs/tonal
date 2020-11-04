@@ -167,33 +167,16 @@ export const addTo = (interval: string) => (other: string) =>
  */
 export const substract = combinator((a, b) => [a[0] - b[0], a[1] - b[1]]);
 
-/**
- * Transpose an interval by a number of perfect fifths.
- *
- * @function
- * @param {string} interval - the interval name
- * @param {number} fifhts - the number of fifths
- * @return {string} the transposed interval name
- *
- * @example
- * import { transposeFifths } from "@tonaljs/interval"
- * transposeFifths("4P", 1) // => "8P"
- * [0, 1, 2, 3, 4].map(fifths => transposeFifths("1P", fifths)) // => ["C", "G", "D", "A", "E"]
- */
 export function transposeFifths(
   interval: IntervalName,
   fifths: number
 ): IntervalName {
   const ivl = get(interval);
-  if (ivl.empty) {
-    return "";
-  }
-  const [nFifths, nOcts, dir] = ivl.coord;
-  const transposed = coordToInterval([nFifths + fifths, nOcts, dir]);
+  if (ivl.empty) return "";
 
-  return transposed.name;
+  const [nFifths, nOcts, dir] = ivl.coord;
+  return coordToInterval([nFifths + fifths, nOcts, dir]).name;
 }
-export const trFifths = transposeFifths;
 
 export default {
   names,
