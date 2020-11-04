@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/pitch-notation",
-  "version": "1.0.2",
+  "version": "4.5.0",
   "private": true,
   "description": "Create different pitch notations",
   "keywords": [
@@ -12,7 +12,7 @@
     "build": "rollup -c=../../rollup.config.js"
   },
   "dependencies": {
-    "@tonaljs/pitch": "^1.0.2"
+    "@tonaljs/pitch": "^4.5.0"
   },
   "main": "dist/index.js",
   "module": "dist/index.es.js",

@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/mode",
-  "version": "3.5.4",
+  "version": "4.5.0",
   "description": "Functions to work with musical modes",
   "keywords": [
     "mode",
@@ -15,10 +15,10 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "^3.5.4",
-    "@tonaljs/interval": "^3.5.0",
-    "@tonaljs/collection": "^3.5.0",
-    "@tonaljs/pcset": "^3.5.4"
+    "@tonaljs/collection": "^4.5.0",
+    "@tonaljs/core": "^4.5.0",
+    "@tonaljs/interval": "^4.5.0",
+    "@tonaljs/pcset": "^4.5.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
