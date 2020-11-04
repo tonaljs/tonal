@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chord-detect",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "description": "Detect chord name based on note names",
   "keywords": [
     "chord-detect",
