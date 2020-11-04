@@ -2,6 +2,9 @@
   "name": "@tonaljs/interval",
   "version": "3.5.4",
   "description": "Parse and manipulate music intervals",
+  "scripts": {
+    "build": "rollup -c=../../rollup.config.js"
+  },
   "keywords": [
     "interval",
     "music",
