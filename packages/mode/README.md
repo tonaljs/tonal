@@ -65,7 +65,7 @@ Mode.all();
 
 ### `notes(modeName: string, tonic: string) => string[]`
 
-Find notes of a mode in a tonic:
+Find notes of a mode with tonic:
 
 ```js
 Mode.notes("ionian", "C");
@@ -78,7 +78,7 @@ Mode.notes("minor", "C");
 
 ### `triads(modeName: string, tonic: string) => string[]`
 
-Return the triads of a mode in a tonic:
+Return the triads of a mode with tonic:
 
 ```js
 Mode.triads("major", "C");
@@ -87,7 +87,7 @@ Mode.triads("major", "C");
 
 ### `seventhChords(modeName: string, tonic: string) => string[]`
 
-Return the seventh chords of a mode in a tonic:
+Return the seventh chords of a mode with tonic:
 
 ```js
 Mode.seventhChords("major", "C");
