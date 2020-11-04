@@ -63,6 +63,45 @@ Return a list of known modes
 Mode.all();
 ```
 
+### `notes(modeName: string, tonic: string) => string[]`
+
+Find notes of a mode with tonic:
+
+```js
+Mode.notes("ionian", "C");
+// => ["C", "D", "E", "F", "G", "A", "B"];
+Mode.notes("major", "C");
+// => ["C", "D", "E", "F", "G", "A", "B"];
+Mode.notes("minor", "C");
+// => ["C", "D", "Eb", "F", "G", "Ab", "Bb"];
+```
+
+### `triads(modeName: string, tonic: string) => string[]`
+
+Return the triads of a mode with tonic:
+
+```js
+Mode.triads("major", "C");
+// => ["C", "Dm", "Em", "F", "G", "Am", "Bdim"];
+```
+
+### `seventhChords(modeName: string, tonic: string) => string[]`
+
+Return the seventh chords of a mode with tonic:
+
+```js
+Mode.seventhChords("major", "C");
+// => ["CMaj7", "Dm7", "Em7", "FMaj7", "G7", "Am7", "B7b5"];
+```
+
+#### `relativeTonic(destination: string, source: string, tonic: string)`
+
+Find a relative tonic. For example, the "minor" relative tonic of "C major" is "A":
+
+```js
+Mode.relativeTonic("minor", "major", "C"); // => "A"
+```
+
 ## How to?
 
 #### Get notes from a mode?

@@ -115,4 +115,18 @@ describe("@tonaljs/interval", () => {
       $("5P 4P 3m 2M 1P -2m -3m")
     );
   });
+
+  test("transposeFifths", () => {
+    expect(Interval.transposeFifths("4P", 1)).toEqual("8P");
+    expect(
+      [0, 1, 2, 3, 4]
+        .map((fifths) => Interval.transposeFifths("1P", fifths))
+        .join(" ")
+    ).toEqual("1P 5P 9M 13M 17M");
+    expect(
+      [0, -1, -2, -3, -4]
+        .map((fifths) => Interval.transposeFifths("1P", fifths))
+        .join(" ")
+    ).toEqual("1P -5P -9M -13M -17M");
+  });
 });

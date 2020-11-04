@@ -59,4 +59,36 @@ describe("Mode", () => {
       "locrian",
     ]);
   });
+
+  test("notes", () => {
+    expect(Mode.notes("major", "C").join(" ")).toEqual("C D E F G A B");
+    expect(Mode.notes("dorian", "C").join(" ")).toEqual("C D Eb F G A Bb");
+    expect(Mode.notes("dorian", "F").join(" ")).toEqual("F G Ab Bb C D Eb");
+  });
+
+  test("triads", () => {
+    expect(Mode.triads("minor", "C").join(" ")).toEqual(
+      "Cm Ddim Eb Fm Gm Ab Bb"
+    );
+    expect(Mode.triads("mixolydian", "Bb").join(" ")).toEqual(
+      "Bb Cm Ddim Eb Fm Gm Ab"
+    );
+  });
+
+  test("seventhChords", () => {
+    expect(Mode.seventhChords("major", "C#").join(" ")).toEqual(
+      "C#Maj7 D#m7 E#m7 F#Maj7 G#7 A#m7 B#m7b5"
+    );
+
+    expect(Mode.seventhChords("dorian", "G").join(" ")).toEqual(
+      "Gm7 Am7 BbMaj7 C7 Dm7 Em7b5 FMaj7"
+    );
+  });
+
+  test("relativeTonic", () => {
+    expect(Mode.relativeTonic("major", "minor", "A")).toEqual("C");
+    expect(Mode.relativeTonic("major", "minor", "D")).toEqual("F");
+    expect(Mode.relativeTonic("minor", "dorian", "D")).toEqual("A");
+    expect(Mode.relativeTonic("nonsense", "dorian", "D")).toEqual("");
+  });
 });

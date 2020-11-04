@@ -167,6 +167,17 @@ export const addTo = (interval: string) => (other: string) =>
  */
 export const substract = combinator((a, b) => [a[0] - b[0], a[1] - b[1]]);
 
+export function transposeFifths(
+  interval: IntervalName,
+  fifths: number
+): IntervalName {
+  const ivl = get(interval);
+  if (ivl.empty) return "";
+
+  const [nFifths, nOcts, dir] = ivl.coord;
+  return coordToInterval([nFifths + fifths, nOcts, dir]).name;
+}
+
 export default {
   names,
   get,
@@ -181,6 +192,7 @@ export default {
   add,
   addTo,
   substract,
+  transposeFifths,
 };
 
 //// PRIVATE ////
