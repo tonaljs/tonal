@@ -9,7 +9,7 @@
   "types": "packages/tonal/dist/index.d.ts",
   "scripts": {
     "lerna": "lerna bootstrap",
-    "lerna:publish": "yarn test:ci && lerna publish",
+    "release": "yarn test:ci && lerna publish",
     "build": "yarn build:clean && yarn lerna && yarn build:packages && yarn build:browser",
     "build:packages": "lerna exec --parallel  -- rollup -c=../../rollup.config.js",
     "build:browser": "cd packages/tonal && rollup -c=rollup.browser.config.js",
