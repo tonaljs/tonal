@@ -3,6 +3,14 @@ import { VoicingDictionary } from './data';
 const { lefthand, triads } = VoicingDictionary;
 const { topNoteDiff } = VoiceLeading;
 
+describe('lookup', () => {
+  test('lookup', () => {
+    expect(Voicing.lookup('M', triads)).toEqual(['1P 3M 5P', '3M 5P 8P', '5P 8P 10M']);
+    expect(Voicing.lookup('', triads)).toEqual(['1P 3M 5P', '3M 5P 8P', '5P 8P 10M']);
+    expect(Voicing.lookup('minor', { minor: ['1P 3m 5P'] })).toEqual(['1P 3m 5P']);
+  });
+});
+
 describe('search', () => {
   test('C major triad inversions', () => {
     expect(Voicing.search('C', ['C3', 'C5'], triads)).toEqual([
