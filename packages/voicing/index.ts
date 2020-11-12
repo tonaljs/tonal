@@ -2,7 +2,9 @@ import Chord from '@tonaljs/chord';
 import Note from '@tonaljs/note';
 import Range from '@tonaljs/range';
 import Interval from '@tonaljs/interval';
-import { VoicingDictionary } from './data';
+import { VoicingDictionary as Dictionary } from './data';
+
+export const VoicingDictionary = Dictionary;
 
 // VoiceLeading
 

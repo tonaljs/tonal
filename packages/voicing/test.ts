@@ -1,5 +1,4 @@
-import { Voicing, VoiceLeading, enharmonicEquivalent } from './index';
-import { VoicingDictionary } from './data';
+import { Voicing, VoiceLeading, enharmonicEquivalent, VoicingDictionary } from './index';
 const { lefthand, triads } = VoicingDictionary;
 const { topNoteDiff } = VoiceLeading;
 
