@@ -174,7 +174,7 @@ Note.sortedNames(["c2", "c5", "c1", "c0", "c6", "c"], Note.descending);
 
 Sort notes ascending and remove duplicates.
 
-### Enharmonic
+### Enharmonics
 
 #### `simplify(noteName: string) => string`
 
@@ -196,7 +196,7 @@ Note.enharmonic("C##"); // => "D"
 Note.enharmonic("C###"); // => "Eb"
 ```
 
-The destination pitch class can be enforced:
+The destination pitch class can be enforced to calculate the octave:
 
 ```js
 Note.enharmonic("F2", "E#"); // => "E#2"
@@ -204,7 +204,7 @@ Note.enharmonic("B2", "Cb"); // => "Cb3"
 Note.enharmonic("C2", "B#"); // => "B#1"
 ```
 
-Of course, pitch class should have the same chroma as note, otherwise "" is return:
+Enforced pitch class must have the same chroma as the note, otherwise "" is returned:
 
 ```js
 Note.enharmonic("F2", "Eb"); // => ""
