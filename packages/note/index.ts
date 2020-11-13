@@ -10,7 +10,6 @@ import {
   transpose as _tr,
 } from "@tonaljs/core";
 import { midiToNoteName, freqToMidi } from "@tonaljs/midi";
-import { DESTRUCTION } from "dns";
 
 const NAMES = ["C", "D", "E", "F", "G", "A", "B"];
 
@@ -232,10 +231,12 @@ export const simplify = (noteName: NoteName | Pitch): string => {
  *
  * @function
  * @param {string} note
- * @return {string} the enharmonic note or '' if not valid note
+ * @param [string] - [optional] Destination pitch class
+ * @return {string} the enharmonic note name or '' if not valid note
  * @example
  * Note.enharmonic("Db") // => "C#"
  * Note.enharmonic("C") // => "C"
+ * Note.enharmonic("F2","E#") // => "E#2"
  */
 export function enharmonic(noteName: string, destName?: string) {
   const src = get(noteName);

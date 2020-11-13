@@ -105,6 +105,7 @@ describe("note", () => {
     expect(Note.enharmonic("F2", "E#")).toBe("E#2");
     expect(Note.enharmonic("B2", "Cb")).toBe("Cb3");
     expect(Note.enharmonic("C2", "B#")).toBe("B#1");
+    expect(Note.enharmonic("F2", "Eb")).toBe("");
   });
 
   test("transposeFifths", () => {

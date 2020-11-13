@@ -133,6 +133,7 @@ Note.transposeFifths("G", 3); // => "E"
 Find interval between notes:
 
 ```js
+
 ```
 
 ### Names collections
@@ -173,7 +174,7 @@ Note.sortedNames(["c2", "c5", "c1", "c0", "c6", "c"], Note.descending);
 
 Sort notes ascending and remove duplicates.
 
-### Enharmonics
+### Enharmonic
 
 #### `simplify(noteName: string) => string`
 
@@ -185,7 +186,7 @@ Note.simplify("C##"); // => "D"
 Note.simplify("C###"); // => "D#"
 ```
 
-#### `enharmonic(noteName: string) => string`
+#### `enharmonic(noteName: string, pitchClass?: string) => string`
 
 Given a note name, returns it enharmonic not (or "" if not valid note):
 
@@ -193,4 +194,18 @@ Given a note name, returns it enharmonic not (or "" if not valid note):
 Note.enharmonic("C#"); // => "Db"
 Note.enharmonic("C##"); // => "D"
 Note.enharmonic("C###"); // => "Eb"
+```
+
+The destination pitch class can be enforced:
+
+```js
+Note.enharmonic("F2", "E#"); // => "E#2"
+Note.enharmonic("B2", "Cb"); // => "Cb3"
+Note.enharmonic("C2", "B#"); // => "B#1"
+```
+
+Of course, pitch class should have the same chroma as note, otherwise "" is return:
+
+```js
+Note.enharmonic("F2", "Eb"); // => ""
 ```
