@@ -1,6 +1,6 @@
 # @tonaljs/voicing
 
-Contains function to generate voicings. If you're not sure what voicings are, [watch this video](https://www.youtube.com/watch?v=VR3o45Pwx9Y).
+Contains functions to generate voicings. If you're not sure what voicings are, [watch this video](https://www.youtube.com/watch?v=VR3o45Pwx9Y).
 
 ## Usage
 
