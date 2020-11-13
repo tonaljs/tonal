@@ -10,6 +10,7 @@ import {
   transpose as _tr,
 } from "@tonaljs/core";
 import { midiToNoteName, freqToMidi } from "@tonaljs/midi";
+import { DESTRUCTION } from "dns";
 
 const NAMES = ["C", "D", "E", "F", "G", "A", "B"];
 
@@ -216,8 +217,16 @@ export function sortedUniqNames(notes: any[]): string[] {
  * simplify("C###")
  * simplify("B#4") // => "C5"
  */
-export const simplify = nameBuilder(true);
-
+export const simplify = (noteName: NoteName | Pitch): string => {
+  const note = get(noteName);
+  if (note.empty) {
+    return "";
+  }
+  return midiToNoteName(note.midi || note.chroma, {
+    sharps: note.alt > 0,
+    pitchClass: note.midi === null,
+  });
+};
 /**
  * Get enharmonic of a note
  *
@@ -228,18 +237,37 @@ export const simplify = nameBuilder(true);
  * Note.enharmonic("Db") // => "C#"
  * Note.enharmonic("C") // => "C"
  */
-export const enharmonic = nameBuilder(false);
+export function enharmonic(noteName: string, destName?: string) {
+  const src = get(noteName);
+  if (src.empty) return "";
 
-function nameBuilder(sameAccidentals: boolean) {
-  return (noteName: NoteName | Pitch): string => {
-    const note = get(noteName);
-    if (note.empty) {
-      return "";
-    }
-    const sharps = sameAccidentals ? note.alt > 0 : note.alt < 0;
-    const pitchClass = note.midi === null;
-    return midiToNoteName(note.midi || note.chroma, { sharps, pitchClass });
-  };
+  // destination: use given or generate one
+  const dest = get(
+    destName ||
+      midiToNoteName(src.midi || src.chroma, {
+        sharps: src.alt < 0,
+        pitchClass: true,
+      })
+  );
+
+  // ensure destination is valid
+  if (dest.empty) return "";
+  if (dest.chroma !== src.chroma) return "";
+
+  // if src has no octave, return the dest pitch class
+  if (src.oct === undefined) return dest.pc;
+
+  // detect any octave overflow
+  const srcChroma = src.chroma - src.alt;
+  const destChroma = dest.chroma - dest.alt;
+  const destOctOffset =
+    srcChroma > 11 || destChroma < 0
+      ? -1
+      : srcChroma < 0 || destChroma > 11
+      ? +1
+      : 0;
+  const destOct = src.oct + destOctOffset;
+  return dest.pc + destOct;
 }
 
 export default {
