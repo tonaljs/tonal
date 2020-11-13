@@ -240,7 +240,9 @@ export const simplify = (noteName: NoteName | Pitch): string => {
  */
 export function enharmonic(noteName: string, destName?: string) {
   const src = get(noteName);
-  if (src.empty) return "";
+  if (src.empty) {
+    return "";
+  }
 
   // destination: use given or generate one
   const dest = get(
@@ -252,11 +254,14 @@ export function enharmonic(noteName: string, destName?: string) {
   );
 
   // ensure destination is valid
-  if (dest.empty) return "";
-  if (dest.chroma !== src.chroma) return "";
+  if (dest.empty || dest.chroma !== src.chroma) {
+    return "";
+  }
 
-  // if src has no octave, return the dest pitch class
-  if (src.oct === undefined) return dest.pc;
+  // if src has no octave, no need to calculate anything else
+  if (src.oct === undefined) {
+    return dest.pc;
+  }
 
   // detect any octave overflow
   const srcChroma = src.chroma - src.alt;
@@ -267,6 +272,7 @@ export function enharmonic(noteName: string, destName?: string) {
       : srcChroma < 0 || destChroma > 11
       ? +1
       : 0;
+  // calculate the new octave
   const destOct = src.oct + destOctOffset;
   return dest.pc + destOct;
 }
