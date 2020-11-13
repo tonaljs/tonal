@@ -1,7 +1,7 @@
 {
-  "name": "@tonaljs/voicing",
+  "name": "@tonaljs/voicing-dictionary",
   "version": "4.5.1",
-  "description": "Voicings and Voice Leading for Chords",
+  "description": "Collections of chord voicings",
   "keywords": [
     "chord",
     "voicing",
@@ -17,11 +17,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord": "^4.5.1",
     "@tonaljs/note": "^4.5.1",
-    "@tonaljs/range": "^4.5.1",
-    "@tonaljs/interval": "^4.5.1",
-    "@tonaljs/voicing-dictionary": "^4.5.1",
+    "@tonaljs/chord": "^4.5.1",
     "@tonaljs/voice-leading": "^4.5.1"
   },
   "author": "felix91@gmail.com",

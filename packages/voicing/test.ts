@@ -1,14 +1,7 @@
-import { Voicing, VoiceLeading, enharmonicEquivalent, VoicingDictionary } from './index';
-const { lefthand, triads } = VoicingDictionary;
-const { topNoteDiff } = VoiceLeading;
-
-describe('lookup', () => {
-  test('lookup', () => {
-    expect(Voicing.lookup('M', triads)).toEqual(['1P 3M 5P', '3M 5P 8P', '5P 8P 10M']);
-    expect(Voicing.lookup('', triads)).toEqual(['1P 3M 5P', '3M 5P 8P', '5P 8P 10M']);
-    expect(Voicing.lookup('minor', { minor: ['1P 3m 5P'] })).toEqual(['1P 3m 5P']);
-  });
-});
+import { lefthand, triads } from '../voicing-dictionary/data';
+import { topNoteDiff } from '../voice-leading/index';
+import _Note from './enharmonic';
+import Voicing from './index';
 
 describe('search', () => {
   test('C major triad inversions', () => {
@@ -69,55 +62,15 @@ describe('VoiceLeading', () => {
 });
 
 test('enharmonicEquivalent', () => {
-  expect(enharmonicEquivalent('F2', 'E#')).toBe('E#2');
-  expect(enharmonicEquivalent('B2', 'Cb')).toBe('Cb3');
-  expect(enharmonicEquivalent('C2', 'B#')).toBe('B#1');
+  expect(_Note.enharmonic('F2', 'E#')).toBe('E#2');
+  expect(_Note.enharmonic('B2', 'Cb')).toBe('Cb3');
+  expect(_Note.enharmonic('C2', 'B#')).toBe('B#1');
 });
 
 test('sequence', () => {
-  expect(Voicing.sequence(['C', 'F', 'G'], ['F3', 'A4'], triads, VoiceLeading.topNoteDiff)).toEqual([
+  expect(Voicing.sequence(['C', 'F', 'G'], ['F3', 'A4'], triads, topNoteDiff)).toEqual([
     ['C4', 'E4', 'G4'], // root position
     ['A3', 'C4', 'F4'], // first inversion (F4 closest to G4)
     ['B3', 'D4', 'G4'], // first inversion (G4 closest to F4)
   ]);
 });
-
-/*
-test('analyze', () => {
-  expect(Voicing.analyze(['C4', 'E4', 'G4', 'B4'])).toEqual({
-    topNote: 'B4',
-    bottomNote: 'C4',
-    midiAverage: 85.4, // did not check :)
-    // many more values possible
-  });
-})
-
-test('analyzeTransition', () => {
-  expect(Voicing.analyzeTransition(['C4', 'E4', 'G4', 'B4'], ['D4', 'F4', 'A4', 'C5'])).toEqual({
-    topNoteDiff: 1,
-    bottomNoteDiff: 2,
-    movement: 5
-  })
-})
-test('intervalSets', () => {
-  expect(Voicing.intervalSets('M7', lefthand)).toEqual([['3M 5P 7M 9M', '7M 9M 10M 12P']]);
-  // could also be used with chord symbol (ignore root)
-  expect(Voicing.intervalSets('CM7', lefthand)).toEqual([['3M 5P 7M 9M', '7M 9M 10M 12P']]);
-})
-
-test('searchSets', () => {
-  expect(
-    Voicing.searchSets(
-      [
-        ['1P', '3M', '5P'],
-        ['3M', '5P', '8P'],
-      ],
-      ['C3', 'G4'],
-      'C'
-    )
-  ).toEqual([
-    ['C3', 'E3', 'G3'],
-    ['E3', 'G3', 'C4'],
-    ['C4', 'E4', 'G4'],
-  ]);
-}) */

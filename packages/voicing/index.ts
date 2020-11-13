@@ -2,33 +2,13 @@ import Chord from '@tonaljs/chord';
 import Note from '@tonaljs/note';
 import Range from '@tonaljs/range';
 import Interval from '@tonaljs/interval';
-import { VoicingDictionary as Dictionary } from './data';
-
-export const VoicingDictionary = Dictionary;
-
-// VoiceLeading
-
-// A function that decides which of a set of voicings is picked as a follow up to lastVoicing.
-export declare type VoiceLeadingFunction = (voicings: string[][], lastVoicing: string[]) => string[];
-
-const topNoteDiff: VoiceLeadingFunction = (voicings, lastVoicing) => {
-  if (!lastVoicing || !lastVoicing.length) {
-    return voicings[0];
-  }
-  const topNoteMidi = (voicing: string[]) => Note.midi(voicing[voicing.length - 1]) || 0;
-  const diff = (voicing: string[]) => Math.abs(topNoteMidi(lastVoicing) - topNoteMidi(voicing));
-  return voicings.sort((a, b) => diff(a) - diff(b))[0];
-};
-
-export const VoiceLeading = {
-  topNoteDiff,
-};
-
-// Voicing
+import VoicingDictionary from '@tonaljs/voicing-dictionary';
+import VoiceLeading from '@tonaljs/voice-leading';
+import _Note from './enharmonic';
 
 const defaultRange = ['C3', 'C5'];
 const defaultDictionary = VoicingDictionary.all;
-const defaultVoiceLeading = topNoteDiff;
+const defaultVoiceLeading = VoiceLeading.topNoteDiff;
 
 function get(
   chord: string,
@@ -37,7 +17,7 @@ function get(
   voiceLeading = defaultVoiceLeading,
   lastVoicing?: string[]
 ) {
-  const voicings = Voicing.search(chord, range, dictionary);
+  const voicings = search(chord, range, dictionary);
   if (!lastVoicing || !lastVoicing.length) {
     // notes = voicings[Math.ceil(voicings.length / 2)]; // pick middle voicing..
     return voicings[0]; // pick lowest voicing..
@@ -50,7 +30,7 @@ function get(
 
 function search(chord: string, range = defaultRange, dictionary = VoicingDictionary.triads): string[][] {
   const [tonic, symbol] = Chord.tokenize(chord);
-  const sets = Voicing.lookup(symbol, dictionary);
+  const sets = VoicingDictionary.lookup(symbol, dictionary);
   // find equivalent symbol that is used as a key in dictionary:
   if (!sets) {
     return [];
@@ -74,7 +54,7 @@ function search(chord: string, range = defaultRange, dictionary = VoicingDiction
           (Note.midi(range[1]) || 0)
       )
       // replace Range.chromatic notes with the correct enharmonic equivalents
-      .map((note) => enharmonicEquivalent(note, bottomPitchClass));
+      .map((note) => _Note.enharmonic(note, bottomPitchClass));
     // render one voicing for each start note
     const notes = starts.map((start) => relativeIntervals.map((interval) => Note.transpose(start, interval)));
     return voiced.concat(notes);
@@ -90,7 +70,7 @@ function sequence(
 ) {
   const { voicings } = chords.reduce<{ voicings: string[][]; lastVoicing: string[] | undefined }>(
     ({ voicings, lastVoicing }, chord) => {
-      const voicing = Voicing.get(chord, range, dictionary, voiceLeading, lastVoicing);
+      const voicing = get(chord, range, dictionary, voiceLeading, lastVoicing);
       lastVoicing = voicing;
       voicings.push(voicing);
       return { voicings, lastVoicing };
@@ -100,41 +80,8 @@ function sequence(
   return voicings;
 }
 
-function lookup(symbol: string, dictionary = defaultDictionary) {
-  if (dictionary[symbol]) {
-    return dictionary[symbol];
-  }
-  const { aliases } = Chord.get('C' + symbol);
-  // TODO: find other way to get aliases of symbol
-  const match = Object.keys(dictionary).find((_symbol) => aliases.includes(_symbol)) || '';
-  if (match !== undefined) {
-    return dictionary[match];
-  }
-  return undefined;
-}
-
-export const Voicing = {
+export default {
   get,
   search,
-  lookup,
   sequence,
 };
-
-// helper
-// returns enharmonic equivalents of note for pitchClass.
-export function enharmonicEquivalent(note: string, pitchClass: string): string {
-  const { alt, letter } = Note.get(pitchClass);
-  if (!letter || alt === undefined) {
-    return '';
-  }
-  const chroma = Note.chroma(letter) || 0;
-  let { oct } = Note.get(note);
-  oct = oct !== undefined ? oct : 0;
-  const letterChroma = chroma + alt;
-  if (letterChroma > 11) {
-    oct--;
-  } else if (letterChroma < 0) {
-    oct++;
-  }
-  return pitchClass + oct;
-}
