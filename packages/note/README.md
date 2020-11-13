@@ -130,13 +130,15 @@ Note.transposeFifths("G", 3); // => "E"
 
 #### `Note.distance(from: string, to: string) => string`
 
-Find interval between notes:
+Find the interval between two notes:
 
 ```js
-
+Note.distance("C", "D").toEqual("2M");
+Note.distance("C3", "E3").toEqual("3M");
+Note.distance("C3", "E4").toEqual("10M");
 ```
 
-### Names collections
+### Named collections
 
 #### `names(array?: any[]) => string[]`
 
@@ -188,7 +190,7 @@ Note.simplify("C###"); // => "D#"
 
 #### `enharmonic(noteName: string, pitchClass?: string) => string`
 
-Given a note name, returns it enharmonic not (or "" if not valid note):
+Given a note name, returns its enharmonic (or "" if not valid note):
 
 ```js
 Note.enharmonic("C#"); // => "Db"
