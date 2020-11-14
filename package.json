@@ -19,6 +19,7 @@
     "lint": "tslint --fix --project tsconfig.json -t codeFrame 'packages/**/*.ts'",
     "test:ci": "yarn format && yarn lint && yarn build && yarn test -- --no-cache"
   },
+  "prettier": {},
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
