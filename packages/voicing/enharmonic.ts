@@ -1,11 +1,11 @@
-import Note from '@tonaljs/note';
+import Note from "@tonaljs/note";
 
 // helper
 // returns enharmonic equivalents of note for pitchClass.
 function enharmonic(note: string, pitchClass: string): string {
   const { alt, letter } = Note.get(pitchClass);
   if (!letter || alt === undefined) {
-    return '';
+    return "";
   }
   const chroma = Note.chroma(letter) || 0;
   let { oct } = Note.get(note);

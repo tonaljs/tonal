@@ -1,12 +1,12 @@
-import Chord from '@tonaljs/chord';
-import Note from '@tonaljs/note';
-import Range from '@tonaljs/range';
-import Interval from '@tonaljs/interval';
-import VoicingDictionary from '@tonaljs/voicing-dictionary';
-import VoiceLeading from '@tonaljs/voice-leading';
-import _Note from './enharmonic';
+import Chord from "@tonaljs/chord";
+import Note from "@tonaljs/note";
+import Range from "@tonaljs/range";
+import Interval from "@tonaljs/interval";
+import VoicingDictionary from "@tonaljs/voicing-dictionary";
+import VoiceLeading from "@tonaljs/voice-leading";
+import _Note from "./enharmonic";
 
-const defaultRange = ['C3', 'C5'];
+const defaultRange = ["C3", "C5"];
 const defaultDictionary = VoicingDictionary.all;
 const defaultVoiceLeading = VoiceLeading.topNoteDiff;
 
@@ -28,7 +28,11 @@ function get(
   }
 }
 
-function search(chord: string, range = defaultRange, dictionary = VoicingDictionary.triads): string[][] {
+function search(
+  chord: string,
+  range = defaultRange,
+  dictionary = VoicingDictionary.triads
+): string[][] {
   const [tonic, symbol] = Chord.tokenize(chord);
   const sets = VoicingDictionary.lookup(symbol, dictionary);
   // find equivalent symbol that is used as a key in dictionary:
@@ -36,11 +40,13 @@ function search(chord: string, range = defaultRange, dictionary = VoicingDiction
     return [];
   }
   // resolve array of interval arrays for the wanted symbol
-  const voicings = sets.map((intervals) => intervals.split(' '));
+  const voicings = sets.map((intervals) => intervals.split(" "));
   const notesInRange = Range.chromatic(range); // gives array of notes inside range
   return voicings.reduce((voiced: string[][], voicing: string[]) => {
     // transpose intervals relative to first interval (e.g. 3m 5P > 1P 3M)
-    const relativeIntervals = voicing.map((interval) => Interval.substract(interval, voicing[0]) || '');
+    const relativeIntervals = voicing.map(
+      (interval) => Interval.substract(interval, voicing[0]) || ""
+    );
     // get enharmonic correct pitch class the bottom note
     const bottomPitchClass = Note.transpose(tonic, voicing[0]);
     // get all possible start notes for voicing
@@ -50,13 +56,19 @@ function search(chord: string, range = defaultRange, dictionary = VoicingDiction
       // filter out start notes that will overshoot the top end of the range
       .filter(
         (note) =>
-          (Note.midi(Note.transpose(note, relativeIntervals[relativeIntervals.length - 1])) || 0) <=
-          (Note.midi(range[1]) || 0)
+          (Note.midi(
+            Note.transpose(
+              note,
+              relativeIntervals[relativeIntervals.length - 1]
+            )
+          ) || 0) <= (Note.midi(range[1]) || 0)
       )
       // replace Range.chromatic notes with the correct enharmonic equivalents
       .map((note) => _Note.enharmonic(note, bottomPitchClass));
     // render one voicing for each start note
-    const notes = starts.map((start) => relativeIntervals.map((interval) => Note.transpose(start, interval)));
+    const notes = starts.map((start) =>
+      relativeIntervals.map((interval) => Note.transpose(start, interval))
+    );
     return voiced.concat(notes);
   }, []);
 }
@@ -68,7 +80,10 @@ function sequence(
   voiceLeading = defaultVoiceLeading,
   lastVoicing?: string[]
 ) {
-  const { voicings } = chords.reduce<{ voicings: string[][]; lastVoicing: string[] | undefined }>(
+  const { voicings } = chords.reduce<{
+    voicings: string[][];
+    lastVoicing: string[] | undefined;
+  }>(
     ({ voicings, lastVoicing }, chord) => {
       const voicing = get(chord, range, dictionary, voiceLeading, lastVoicing);
       lastVoicing = voicing;
