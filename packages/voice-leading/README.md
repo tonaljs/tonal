@@ -45,11 +45,12 @@ Usage
 ```ts
 topNoteDiff(
   [
-    ['F3', 'A3', 'C4', 'E4'],
-    ['C4', 'E4', 'F4', 'A4'],
+    ['F3', 'A3', 'C4', 'E4'], // top note = E4
+    ['C4', 'E4', 'F4', 'A4'], // top note = A4
   ],
-  ['C4', 'E4', 'G4', 'B4']
+  ['C4', 'E4', 'G4', 'B4'] // top note = B4
 );
+// ['C4', 'E4', 'F4', 'A4'] // => A4 is closer to B4 than E4
 ```
 
 [show available voice leading functions](./index.ts).
