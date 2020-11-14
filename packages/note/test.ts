@@ -98,8 +98,14 @@ describe("note", () => {
     expect(Note.enharmonic("C###")).toEqual("Eb");
     expect(Note.enharmonic("B#4")).toEqual("C5");
     const notes = $("C## C### F##4 Gbbb5 B#4 Cbb4");
-    expect(notes.map(Note.enharmonic)).toEqual($("D Eb G4 E5 C5 A#3"));
+    expect(notes.map((n) => Note.enharmonic(n))).toEqual(
+      $("D Eb G4 E5 C5 A#3")
+    );
     expect(Note.enharmonic("x")).toEqual("");
+    expect(Note.enharmonic("F2", "E#")).toBe("E#2");
+    expect(Note.enharmonic("B2", "Cb")).toBe("Cb3");
+    expect(Note.enharmonic("C2", "B#")).toBe("B#1");
+    expect(Note.enharmonic("F2", "Eb")).toBe("");
   });
 
   test("transposeFifths", () => {
