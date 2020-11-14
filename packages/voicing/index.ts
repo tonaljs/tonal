@@ -4,7 +4,6 @@ import Range from "@tonaljs/range";
 import Interval from "@tonaljs/interval";
 import VoicingDictionary from "@tonaljs/voicing-dictionary";
 import VoiceLeading from "@tonaljs/voice-leading";
-import _Note from "./enharmonic";
 
 const defaultRange = ["C3", "C5"];
 const defaultDictionary = VoicingDictionary.all;
@@ -64,7 +63,7 @@ function search(
           ) || 0) <= (Note.midi(range[1]) || 0)
       )
       // replace Range.chromatic notes with the correct enharmonic equivalents
-      .map((note) => _Note.enharmonic(note, bottomPitchClass));
+      .map((note) => Note.enharmonic(note, bottomPitchClass));
     // render one voicing for each start note
     const notes = starts.map((start) =>
       relativeIntervals.map((interval) => Note.transpose(start, interval))

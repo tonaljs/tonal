@@ -1,7 +1,8 @@
-import { lefthand, triads } from "../voicing-dictionary/data";
-import { topNoteDiff } from "../voice-leading/index";
-import _Note from "./enharmonic";
+import VoicingDictionary from "@tonaljs/voicing-dictionary";
+import { topNoteDiff } from "@tonaljs/voice-leading";
 import Voicing from "./index";
+
+const { lefthand, triads } = VoicingDictionary;
 
 describe("search", () => {
   test("C major triad inversions", () => {
@@ -56,26 +57,6 @@ describe("get", () => {
       ])
     ).toEqual(["C4", "E4", "F4", "A4"]);
   });
-});
-
-describe("VoiceLeading", () => {
-  test("topNoteDiff", () => {
-    expect(
-      topNoteDiff(
-        [
-          ["F3", "A3", "C4", "E4"],
-          ["C4", "E4", "F4", "A4"],
-        ],
-        ["C4", "E4", "G4", "B4"]
-      )
-    ).toEqual(["C4", "E4", "F4", "A4"]);
-  });
-});
-
-test("enharmonicEquivalent", () => {
-  expect(_Note.enharmonic("F2", "E#")).toBe("E#2");
-  expect(_Note.enharmonic("B2", "Cb")).toBe("Cb3");
-  expect(_Note.enharmonic("C2", "B#")).toBe("B#1");
 });
 
 test("sequence", () => {
