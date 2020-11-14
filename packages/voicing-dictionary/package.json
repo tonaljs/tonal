@@ -2,6 +2,7 @@
   "name": "@tonaljs/voicing-dictionary",
   "version": "4.5.1",
   "description": "Collections of chord voicings",
+  "private": true,
   "keywords": [
     "chord",
     "voicing",

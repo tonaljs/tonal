@@ -2,6 +2,7 @@
   "name": "@tonaljs/voicing",
   "version": "4.5.1",
   "description": "Voicings and Voice Leading for Chords",
+  "private": true,
   "keywords": [
     "chord",
     "voicing",
