@@ -17,9 +17,6 @@ import RomanNumeral from "@tonaljs/roman-numeral";
 import Scale from "@tonaljs/scale";
 import ScaleType from "@tonaljs/scale-type";
 import TimeSignature from "@tonaljs/time-signature";
-import Voicing from "@tonaljs/voicing";
-import VoiceLeading from "@tonaljs/voice-leading";
-import VoicingDictionary from "@tonaljs/voicing-dictionary";
 
 export * from "@tonaljs/core";
 
