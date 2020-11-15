@@ -36,7 +36,10 @@
     "@tonaljs/roman-numeral": "^4.5.1",
     "@tonaljs/scale": "^4.5.1",
     "@tonaljs/scale-type": "^4.5.1",
-    "@tonaljs/time-signature": "^4.5.1"
+    "@tonaljs/time-signature": "^4.5.1",
+    "@tonaljs/voice-leading": "^4.5.1",
+    "@tonaljs/voicing-dictionary": "^4.5.1",
+    "@tonaljs/voicing": "^4.5.1"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
