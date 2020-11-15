@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/scale",
-  "version": "4.5.1",
+  "version": "4.6.0",
   "description": "Musical scales and its relations",
   "keywords": [
     "scale",
@@ -19,7 +19,7 @@
     "@tonaljs/chord-type": "^4.5.1",
     "@tonaljs/collection": "^4.5.1",
     "@tonaljs/core": "^4.5.1",
-    "@tonaljs/note": "^4.5.1",
+    "@tonaljs/note": "^4.6.0",
     "@tonaljs/pcset": "^4.5.1",
     "@tonaljs/scale-type": "^4.5.1"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/tonal",
-  "version": "4.5.1",
+  "version": "4.6.0",
   "description": "@tonaljs music theory full library",
   "keywords": [
     "music",
@@ -26,15 +26,15 @@
     "@tonaljs/core": "^4.5.1",
     "@tonaljs/duration-value": "^4.5.1",
     "@tonaljs/interval": "^4.5.1",
-    "@tonaljs/key": "^4.5.1",
+    "@tonaljs/key": "^4.6.0",
     "@tonaljs/midi": "^4.5.1",
     "@tonaljs/mode": "^4.5.1",
-    "@tonaljs/note": "^4.5.1",
+    "@tonaljs/note": "^4.6.0",
     "@tonaljs/pcset": "^4.5.1",
     "@tonaljs/progression": "^4.5.1",
     "@tonaljs/range": "^4.5.1",
     "@tonaljs/roman-numeral": "^4.5.1",
-    "@tonaljs/scale": "^4.5.1",
+    "@tonaljs/scale": "^4.6.0",
     "@tonaljs/scale-type": "^4.5.1",
     "@tonaljs/time-signature": "^4.5.1"
   },
