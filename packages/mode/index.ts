@@ -10,7 +10,7 @@ const MODES = [
   [3, 2741, -1, "lydian", "", "Maj7", "Maj9"],
   [4, 2774, 1, "mixolydian", "", "7", "9"],
   [5, 2906, 3, "aeolian", "m", "m7", "m9", "minor"],
-  [6, 3434, 5, "locrian", "dim", "m7b5", "M6#11", ""],
+  [6, 3434, 5, "locrian", "dim", "m7b5", "M6#11"],
 ] as const;
 
 type ModeDatum = typeof MODES[number];
