@@ -4,13 +4,13 @@ import { transposeFifths, simplify } from "@tonaljs/interval";
 import { chromaToIntervals, EmptyPcset, Pcset } from "@tonaljs/pcset";
 
 const MODES = [
-  [0, 2773, 0, "ionian", "", "Maj7", "major"],
-  [1, 2902, 2, "dorian", "m", "m7"],
-  [2, 3418, 4, "phrygian", "m", "m7"],
-  [3, 2741, -1, "lydian", "", "Maj7"],
-  [4, 2774, 1, "mixolydian", "", "7"],
-  [5, 2906, 3, "aeolian", "m", "m7", "minor"],
-  [6, 3434, 5, "locrian", "dim", "m7b5"],
+  [0, 2773, 0, "ionian", "", "Maj7", "Maj9", "major"],
+  [1, 2902, 2, "dorian", "m", "m7", "m9"],
+  [2, 3418, 4, "phrygian", "m", "m7", "m9"],
+  [3, 2741, -1, "lydian", "", "Maj7", "Maj9"],
+  [4, 2774, 1, "mixolydian", "", "7", "9"],
+  [5, 2906, 3, "aeolian", "m", "m7", "m9", "minor"],
+  [6, 3434, 5, "locrian", "dim", "m7b5", "M6#11", ""],
 ] as const;
 
 type ModeDatum = typeof MODES[number];
@@ -21,6 +21,7 @@ export interface Mode extends Pcset {
   readonly alt: number; // number of alterations === number of fiths
   readonly triad: string;
   readonly seventh: string;
+  readonly ninth: string;
   readonly aliases: string[];
 }
 
@@ -31,6 +32,7 @@ const NoMode: Mode = {
   modeNum: NaN,
   triad: "",
   seventh: "",
+  ninth: "",
   aliases: [],
 };
 
@@ -61,6 +63,7 @@ type ModeLiteral = string | Named;
  * //   alt: 2,
  * //   triad: 'm',
  * //   seventh: 'm7',
+ * //   ninth: 'm9',
  * //   aliases: []
  * // }
  */
@@ -90,7 +93,7 @@ export function names() {
 }
 
 function toMode(mode: ModeDatum): Mode {
-  const [modeNum, setNum, alt, name, triad, seventh, alias] = mode;
+  const [modeNum, setNum, alt, name, triad, seventh, ninth, alias] = mode;
   const aliases = alias ? [alias] : [];
   const chroma = Number(setNum).toString(2);
   const intervals = chromaToIntervals(chroma);
@@ -105,6 +108,7 @@ function toMode(mode: ModeDatum): Mode {
     alt,
     triad,
     seventh,
+    ninth,
     aliases,
   };
 }
@@ -125,6 +129,7 @@ function chords(chords: string[]) {
 
 export const triads = chords(MODES.map((x) => x[4]));
 export const seventhChords = chords(MODES.map((x) => x[5]));
+export const ninthChords = chords(MODES.map((x) => x[6]));
 
 export function distance(destination: ModeLiteral, source: ModeLiteral) {
   const from = get(source);
@@ -150,6 +155,7 @@ export default {
   notes,
   triads,
   seventhChords,
+  ninthChords,
   // deprecated
   entries,
   mode,
