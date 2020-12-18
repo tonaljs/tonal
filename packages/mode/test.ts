@@ -42,6 +42,10 @@ describe("Mode", () => {
       const sevenths = Mode.names().map((name) => Mode.get(name).seventh);
       expect(sevenths).toEqual(["Maj7", "m7", "m7", "Maj7", "7", "m7", "m7b5"]);
     });
+    test("ninth", () => {
+      const ninths = Mode.names().map((name) => Mode.get(name).ninth);
+      expect(ninths).toEqual(["Maj9", "m9", "m9", "Maj9", "9", "m9", "M6#11"]);
+    });
 
     test("aliases", () => {
       expect(Mode.get("major")).toEqual(Mode.get("ionian"));
