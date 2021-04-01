@@ -103,6 +103,7 @@ describe("tonal-chord", () => {
     });
     test("rootDegrees", () => {
       expect(Chord.getChord("maj7", "C", "C").rootDegree).toBe(1);
+      expect(Chord.getChord("maj", "A", "E").rootDegree).toBe(3);
       expect(Chord.getChord("maj7", "C", "D").empty).toBe(true);
     });
     test("without tonic nor root", () => {
