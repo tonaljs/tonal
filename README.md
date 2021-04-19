@@ -143,6 +143,7 @@ Showcase of projects that are using Tonal:
 - [Sonid](https://sonid.app/) ([play store](https://play.google.com/store/apps/details?id=org.stroopwafel.music.app), [apple store](https://apps.apple.com/us/app/sonid/id1490221762?ls=1)) by [martijnmichel](https://github.com/martijnmichel)
 - [Songcraft](https://songcraft.io/) by [Gabe G'Sell](https://github.com/gabergg)
 - [React Guitar](https://react-guitar.com/) by [4lejandrito](https://github.com/4lejandrito)
+- [Fretty.app](https://fretty.app/) by [tfeldmann](https://github.com/tfeldmann)
 
 Thank you all!
 
