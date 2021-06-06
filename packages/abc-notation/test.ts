@@ -27,4 +27,17 @@ describe("@tonaljs/abc-notation", () => {
     const ABC = ["__A,,", "_B,", "C", "d", "^e'", "^^f''", "^G,,", "_g''"];
     expect(SCIENTIFIC.map(AbcNotation.scientificToAbcNotation)).toEqual(ABC);
   });
+  test("toAbc Octave 0", () => {
+    const SCIENTIFIC = ["A0", "Bb0", "C0", "D0", "E#0", "F##0", "G#0"];
+    const ABC = [
+      "A,,,,",
+      "_B,,,,",
+      "C,,,,",
+      "D,,,,",
+      "^E,,,,",
+      "^^F,,,,",
+      "^G,,,,",
+    ];
+    expect(SCIENTIFIC.map(AbcNotation.scientificToAbcNotation)).toEqual(ABC);
+  });
 });
