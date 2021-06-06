@@ -49,7 +49,7 @@ export function abcToScientificNotation(str: string): string {
  */
 export function scientificToAbcNotation(str: string): string {
   const n = note(str);
-  if (n.empty || !n.oct) {
+  if (n.empty || (!n.oct && n.oct !== 0)) {
     return "";
   }
   const { letter, acc, oct } = n;
