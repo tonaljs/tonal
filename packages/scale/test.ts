@@ -132,6 +132,20 @@ describe("@tonaljs/scale", () => {
       expect(range("g3", "a2").join(" ")).toEqual("G3 E3 D3 C3 A2");
     });
 
+    test("range of a scale name with flat", () => {
+      const range = Scale.rangeOf("Cb major");
+      expect(range("Cb4", "Cb5").join(" ")).toEqual(
+        "Cb4 Db4 Eb4 Fb4 Gb4 Ab4 Bb4 Cb5"
+      );
+    });
+
+    test("range of a scale name with sharp", () => {
+      const range = Scale.rangeOf("C# major");
+      expect(range("C#4", "C#5").join(" ")).toEqual(
+        "C#4 D#4 E#4 F#4 G#4 A#4 B#4 C#5"
+      );
+    });
+
     test("range of a scale without tonic", () => {
       const range = Scale.rangeOf("pentatonic");
       expect(range("C4", "C5")).toEqual([]);
