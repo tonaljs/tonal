@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/midi",
-  "version": "4.5.1",
+  "version": "4.6.1",
   "description": "Functions to work with midi numbers",
   "keywords": [
     "note",
