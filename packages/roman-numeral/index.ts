@@ -78,7 +78,8 @@ function fromPitch(pitch: Pitch): RomanNumeral | NoRomanNumeral {
   return get(altToAcc(pitch.alt) + NAMES[pitch.step]);
 }
 
-const REGEX = /^(#{1,}|b{1,}|x{1,}|)(IV|I{1,3}|VI{0,2}|iv|i{1,3}|vi{0,2})([^IViv]*)$/;
+const REGEX =
+  /^(#{1,}|b{1,}|x{1,}|)(IV|I{1,3}|VI{0,2}|iv|i{1,3}|vi{0,2})([^IViv]*)$/;
 
 // [name, accidentals, romanNumeral, chordType]
 type RomanNumeralTokens = [string, string, string, string];

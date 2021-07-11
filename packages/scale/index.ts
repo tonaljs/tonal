@@ -191,12 +191,10 @@ export function modeNames(name: string): ScaleMode[] {
 
   const tonics = s.tonic ? s.notes : s.intervals;
   return modes(s.chroma)
-    .map(
-      (chroma: string, i: number): ScaleMode => {
-        const modeName = get(chroma).name;
-        return modeName ? [tonics[i], modeName] : ["", ""];
-      }
-    )
+    .map((chroma: string, i: number): ScaleMode => {
+      const modeName = get(chroma).name;
+      return modeName ? [tonics[i], modeName] : ["", ""];
+    })
     .filter((x) => x[0]);
 }
 
