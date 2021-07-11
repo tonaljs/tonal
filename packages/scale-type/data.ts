@@ -46,7 +46,7 @@ const SCALES: string[][] = [
   ["1P 2m 3M 4A 5P 6m 7M", "double harmonic lydian"],
   ["1P 2M 3m 4P 5P 6m 7M", "harmonic minor"],
   [
-    "1P 2m 3m 4d 5d 6m 7m",
+    "1P 2m 2A 3M 4A 6m 7m",
     "altered",
     "super locrian",
     "diminished whole tone",
