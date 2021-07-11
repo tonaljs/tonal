@@ -79,6 +79,6 @@
     "ts-jest": "^26.0.0",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^4.0.0"
+    "typescript": "^4.3.5"
   }
 }
