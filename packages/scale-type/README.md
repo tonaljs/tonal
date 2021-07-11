@@ -68,7 +68,7 @@ ScaleType.add(["1P", "5P"], null, ["5"]);
 
 ```js
 ScaleType.all()
-  .filter(scaleType => scaleType.length === 5)
+  .filter(scaleType => scaleType.intervals.length === 5)
   .map(scaleType => scaleType.name);
 ```
 
