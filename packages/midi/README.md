@@ -61,12 +61,12 @@ midiToNoteName(61.7); // => "D4"
 
 ### `freqToMidi(freq: number) => number`
 
-Get the midi number from a frequency in hertz. The midi number can have decimals (with two digits precission)
+Given a frequency in hertz, returns the midi number. The midi number can have decimals (with two digits precision)
 
 Examples:
 
 ```js
-freqToMidi(220)); //=> 57
-freqToMidi(261.62)); //=> 60
-freqToMidi(261)); //=> 59.96
+freqToMidi(220); //=> 57
+freqToMidi(261.62); //=> 60
+freqToMidi(261); //=> 59.96
 ```
