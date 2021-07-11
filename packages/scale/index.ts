@@ -6,7 +6,7 @@
 import { all as chordTypes } from "@tonaljs/chord-type";
 import { rotate, range as nums } from "@tonaljs/collection";
 import { deprecate, note, NoteName, transpose } from "@tonaljs/core";
-import { sortedUniqNames } from "@tonaljs/note";
+import { sortedUniqNames, fromMidi, enharmonic } from "@tonaljs/note";
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
 import {
   all as scaleTypes,
@@ -205,14 +205,17 @@ function getNoteNameOf(scale: string | string[]) {
   const chromas = names.map((name) => note(name).chroma);
 
   return (noteOrMidi: string | number): string | undefined => {
-    const height =
-      typeof noteOrMidi === "number" ? noteOrMidi : note(noteOrMidi).height;
+    const currNote =
+      typeof noteOrMidi === "number"
+        ? note(fromMidi(noteOrMidi))
+        : note(noteOrMidi);
+    const height = currNote.height;
+
     if (height === undefined) return undefined;
     const chroma = height % 12;
-    const oct = Math.floor(height / 12) - 1;
     const position = chromas.indexOf(chroma);
     if (position === -1) return undefined;
-    return names[position] + oct;
+    return enharmonic(currNote.name, names[position]);
   };
 }
 
