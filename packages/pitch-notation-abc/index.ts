@@ -92,7 +92,7 @@ export function abcToScientificNotation(str: string): string {
  */
 export function scientificToAbcNotation(input: string): string {
   const n = parseSci(input);
-  if (n.empty || !n.oct) {
+  if (n.empty || n.oct === undefined) {
     return "";
   }
   const { letter, acc, oct } = n;
