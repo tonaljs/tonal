@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/pitch-notation-scientific",
-  "version": "4.5.1",
+  "version": "4.6.2",
   "private": true,
   "description": "Parse note names in scientific notation",
   "keywords": [
@@ -10,8 +10,8 @@
     "@tonaljs/core"
   ],
   "dependencies": {
-    "@tonaljs/pitch": "^4.5.1",
-    "@tonaljs/pitch-notation": "^4.5.1"
+    "@tonaljs/pitch": "^4.6.2",
+    "@tonaljs/pitch-notation": "^4.6.2"
   },
   "scripts": {
     "build": "rollup -c=../../rollup.config.js"
