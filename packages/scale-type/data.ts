@@ -74,7 +74,7 @@ const SCALES: string[][] = [
     "1P 2m 3m 4d 5d 6m 7d",
     "ultralocrian",
     "superlocrian bb7",
-    "·superlocrian diminished",
+    "superlocrian diminished",
   ],
   ["1P 2m 3m 4P 5d 6M 7m", "locrian 6", "locrian natural 6", "locrian sharp 6"],
   ["1P 2A 3M 4P 5P 5A 7M", "augmented heptatonic"],
