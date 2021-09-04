@@ -1,7 +1,8 @@
 import { rotate } from "@tonaljs/collection";
 import { deprecate, isPitch, Named, NoteName, transpose } from "@tonaljs/core";
 import { transposeFifths, simplify } from "@tonaljs/interval";
-import { chromaToIntervals, EmptyPcset, Pcset } from "@tonaljs/pcset";
+import { EmptyPcset, Pcset } from "@tonaljs/pcset";
+import { Scale } from '@tonaljs/tonal';
 
 const MODES = [
   [0, 2773, 0, "ionian", "", "Maj7", "major"],
@@ -93,7 +94,7 @@ function toMode(mode: ModeDatum): Mode {
   const [modeNum, setNum, alt, name, triad, seventh, alias] = mode;
   const aliases = alias ? [alias] : [];
   const chroma = Number(setNum).toString(2);
-  const intervals = chromaToIntervals(chroma);
+  const intervals = Scale.get(name).intervals;
   return {
     empty: false,
     intervals,
