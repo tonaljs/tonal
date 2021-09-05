@@ -65,5 +65,12 @@ export function distance(
     fcoord.length === 2 && tcoord.length === 2
       ? tcoord[1] - fcoord[1]
       : -Math.floor((fifths * 7) / 12);
-  return coordToInterval([fifths, octs]).name;
+
+  // If it's unison and not pitch class, it can be descending interval (#243)
+  const forceDescending =
+    to.height === from.height &&
+    to.midi !== null &&
+    from.midi !== null &&
+    from.step > to.step;
+  return coordToInterval([fifths, octs], forceDescending).name;
 }

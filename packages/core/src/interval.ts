@@ -147,11 +147,17 @@ function parse(str?: string): Interval | NoInterval {
 
 /**
  * @private
+ *
+ * forceDescending is used in the case of unison (#243)
  */
-export function coordToInterval(coord: PitchCoordinates): Interval {
+export function coordToInterval(
+  coord: PitchCoordinates,
+  forceDescending?: boolean
+): Interval {
   const [f, o = 0] = coord;
   const isDescending = f * 7 + o * 12 < 0;
-  const ivl: IntervalCoordinates = isDescending ? [-f, -o, -1] : [f, o, 1];
+  const ivl: IntervalCoordinates =
+    forceDescending || isDescending ? [-f, -o, -1] : [f, o, 1];
   return interval(decode(ivl)) as Interval;
 }
 
@@ -174,7 +180,9 @@ function pitchName(props: Pitch): string {
   if (!dir) {
     return "";
   }
-  const num = step + 1 + 7 * oct;
+  const calcNum = step + 1 + 7 * oct;
+  // this is an edge case: descending pitch class unison (see #243)
+  const num = calcNum === 0 ? step + 1 : calcNum;
   const d = dir < 0 ? "-" : "";
   const type = TYPES[step] === "M" ? "majorable" : "perfectable";
   const name = d + num + altToQ(type, alt);
