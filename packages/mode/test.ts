@@ -64,6 +64,8 @@ describe("Mode", () => {
     expect(Mode.notes("major", "C").join(" ")).toEqual("C D E F G A B");
     expect(Mode.notes("dorian", "C").join(" ")).toEqual("C D Eb F G A Bb");
     expect(Mode.notes("dorian", "F").join(" ")).toEqual("F G Ab Bb C D Eb");
+    expect(Mode.notes("lydian", "F").join(" ")).toEqual("F G A B C D E");
+    expect(Mode.notes("anything", "F").join(" ")).toEqual("");
   });
 
   test("triads", () => {
