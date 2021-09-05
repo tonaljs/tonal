@@ -71,6 +71,6 @@ export function distance(
     to.midi !== null &&
     from.midi !== null &&
     to.midi - from.midi === 0 &&
-    to.step - from.step < 0;
+    from.step > to.step;
   return coordToInterval([fifths, octs], forceDescending).name;
 }

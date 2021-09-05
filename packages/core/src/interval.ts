@@ -156,7 +156,6 @@ export function coordToInterval(
 ): Interval {
   const [f, o = 0] = coord;
   const isDescending = f * 7 + o * 12 < 0;
-  // See: https://github.com/tonaljs/tonal/issues/243
   const ivl: IntervalCoordinates =
     forceDescending || isDescending ? [-f, -o, -1] : [f, o, 1];
   return interval(decode(ivl)) as Interval;
