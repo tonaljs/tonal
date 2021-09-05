@@ -60,13 +60,13 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^26.0.10",
-    "@types/node": "^14.0.0",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.10",
     "husky": "^4.2.5",
     "jest": "^27.0.6",
     "jest-config": "^27.0.6",
     "lerna": "^3.21.0",
-    "lint-staged": "^10.2.2",
+    "lint-staged": "^11.1.2",
     "lodash": "^4.17.15",
     "prettier": "^2.3.2",
     "rimraf": "^3.0.0",
