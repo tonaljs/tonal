@@ -18,7 +18,8 @@
     "@tonaljs/collection": "^4.6.2",
     "@tonaljs/core": "^4.6.2",
     "@tonaljs/interval": "^4.6.2",
-    "@tonaljs/pcset": "^4.6.2"
+    "@tonaljs/pcset": "^4.6.2",
+    "@tonaljs/scale-type": "^4.6.2"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
