@@ -63,6 +63,17 @@ describe("@tonaljs/scale", () => {
     expect(Scale.get(["no-note", "major"]).notes).toEqual([]);
   });
 
+  test("Ukrainian Dorian scale", () => {
+    // Source https://en.wikipedia.org/wiki/Ukrainian_Dorian_scale
+    expect(Scale.get("C romanian minor").notes).toEqual($("C D Eb F# G A Bb"));
+    expect(Scale.get("C ukrainian dorian").notes).toEqual(
+      $("C D Eb F# G A Bb")
+    );
+    expect(Scale.get("B romanian minor").notes).toEqual($("B C# D E# F# G# A"));
+    expect(Scale.get("B dorian #4").notes).toEqual($("B C# D E# F# G# A"));
+    expect(Scale.get("B altered dorian").notes).toEqual($("B C# D E# F# G# A"));
+  });
+
   test("chords: find all chords that fits into this scale", () => {
     expect(Scale.scaleChords("pentatonic")).toEqual($("5 M 6 sus2 Madd9"));
     expect(Scale.scaleChords("none")).toEqual([]);

@@ -78,8 +78,14 @@ const SCALES: string[][] = [
   ],
   ["1P 2m 3m 4P 5d 6M 7m", "locrian 6", "locrian natural 6", "locrian sharp 6"],
   ["1P 2A 3M 4P 5P 5A 7M", "augmented heptatonic"],
-  ["1P 2M 3m 5d 5P 6M 7m", "romanian minor"],
-  ["1P 2M 3m 4A 5P 6M 7m", "dorian #4"],
+  // Source https://en.wikipedia.org/wiki/Ukrainian_Dorian_scale
+  [
+    "1P 2M 3m 4A 5P 6M 7m",
+    "dorian #4",
+    "ukrainian dorian",
+    "romanian minor",
+    "altered dorian",
+  ],
   ["1P 2M 3m 4A 5P 6M 7M", "lydian diminished"],
   ["1P 2m 3m 4P 5P 6m 7m", "phrygian"],
   ["1P 2M 3M 4A 5A 7m 7M", "leading whole tone"],
