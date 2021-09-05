@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chord-type",
-  "version": "4.6.2",
+  "version": "4.6.5",
   "description": "A dictionary of musical chords",
   "scripts": {
     "build": "rollup -c=../../rollup.config.js"
@@ -20,8 +20,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "^4.6.2",
-    "@tonaljs/pcset": "^4.6.2"
+    "@tonaljs/core": "^4.6.5",
+    "@tonaljs/pcset": "^4.6.5"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
