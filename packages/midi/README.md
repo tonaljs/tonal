@@ -25,11 +25,11 @@ Given a note name or number, return the midi number. Midi numbers are always in 
 Examples:
 
 ```js
-toMidi("C4"); // => 60
-toMidi("#"); // => null
-toMidi(60); // => 60
-toMidi("60"); // => 60
-toMidi(-1); // => null
+Midi.toMidi("C4"); // => 60
+Midi.toMidi("#"); // => null
+Midi.toMidi(60); // => 60
+Midi.toMidi("60"); // => 60
+Midi.toMidi(-1); // => null
 ```
 
 ### `midiToFreq(midi: number, tuning = 440) => number`
@@ -39,9 +39,9 @@ Given a midi number, return the frequency:
 Examples:
 
 ```js
-midiToFreq(60); // => 261.6255653005986
-midiToFreq(69); // => 440
-midiToFreq(69, 443); // => 443
+Midi.midiToFreq(60); // => 261.6255653005986
+Midi.midiToFreq(69); // => 440
+Midi.midiToFreq(69, 443); // => 443
 ```
 
 ### `midiToNoteName(midi: number) => string`
@@ -51,10 +51,10 @@ Given a midi number, returns a note name. The altered notes will have flats unle
 Examples:
 
 ```js
-midiToNoteName(61); // => "Db4"
-midiToNoteName(61, { pitchClass: true }); // => "Db"
-midiToNoteName(61, { sharps: true }); // => "C#4"
-midiToNoteName(61, { pitchClass: true, sharps: true }); // => "C#"
+Midi.midiToNoteName(61); // => "Db4"
+Midi.midiToNoteName(61, { pitchClass: true }); // => "Db"
+Midi.midiToNoteName(61, { sharps: true }); // => "C#4"
+Midi.midiToNoteName(61, { pitchClass: true, sharps: true }); // => "C#"
 // it rounds to nearest note
 midiToNoteName(61.7); // => "D4"
 ```
@@ -66,7 +66,7 @@ Given a frequency in hertz, returns the midi number. The midi number can have de
 Examples:
 
 ```js
-freqToMidi(220); //=> 57
-freqToMidi(261.62); //=> 60
-freqToMidi(261); //=> 59.96
+Midi.freqToMidi(220); //=> 57
+Midi.freqToMidi(261.62); //=> 60
+Midi.freqToMidi(261); //=> 59.96
 ```
