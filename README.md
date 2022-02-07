@@ -1,7 +1,7 @@
 # tonal
 
 [![npm version](https://img.shields.io/npm/v/@tonaljs/tonal.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/tonal)
-[![build status](https://img.shields.io/travis/tonaljs/tonal?style=flat-square)](http://travis-ci.org/tonaljs/tonal/)
+[![build status](https://img.shields.io/github/workflow/status/tonaljs/tonal/tests?style=flat-square)](https://github.com/tonaljs/tonal/actions)
 ![minified size](https://img.shields.io/badge/minified-32.94kb-blue?style=flat-square)
 ![gzipped size](https://img.shields.io/badge/gzipped-11.01kb-blue?style=flat-square)
 
