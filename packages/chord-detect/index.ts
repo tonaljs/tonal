@@ -21,7 +21,7 @@ const namedSet = (notes: string[]) => {
 
 export function detect(source: string[]): string[] {
   const notes = source.map((n) => note(n).pc).filter((x) => x);
-  if (note.length === 0) {
+  if (notes.length === 0) {
     return [];
   }
 
