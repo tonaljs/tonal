@@ -170,7 +170,7 @@ Showcase of projects that are using Tonal:
 Thank you all!
 
 Add your project here by
-[editing this file](https://github.com/tonaljs/tonal/edit/master/README.md)
+[editing this file](https://github.com/tonaljs/tonal/edit/main/README.md)
 
 ## License
 
