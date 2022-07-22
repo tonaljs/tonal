@@ -165,6 +165,7 @@ Showcase of projects that are using Tonal:
   [4lejandrito](https://github.com/4lejandrito)
 - [Fretty.app](https://fretty.app/) by [tfeldmann](https://github.com/tfeldmann)
 - [Chordify](https://ashleymays.github.io/Chordify) by [ashleymays](https://github.com/ashleymays)
+- [Chordal](https://chordal.vercel.app) by [kad1kad](https://github.com/kad1kad)
 
 Thank you all!
 
