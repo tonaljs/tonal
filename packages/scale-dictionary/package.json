@@ -4,7 +4,7 @@
   "description": "A dictionary of musical scales",
   "keywords": [],
   "main": "dist/index.js",
-  "module": "dist/index.es.js",
+  "module": "dist/index.mjs",
   "files": [
     "dist"
   ],
@@ -16,5 +16,8 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "build": "tsup index.ts --sourcemap --dts --format esm,cjs"
   }
 }

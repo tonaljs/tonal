@@ -2,9 +2,6 @@
   "name": "@tonaljs/interval",
   "version": "4.6.5",
   "description": "Parse and manipulate music intervals",
-  "scripts": {
-    "build": "rollup -c=../../rollup.config.js"
-  },
   "keywords": [
     "interval",
     "music",
@@ -12,7 +9,7 @@
     "@tonaljs/core"
   ],
   "main": "dist/index.js",
-  "module": "dist/index.es.js",
+  "module": "dist/index.mjs",
   "files": [
     "dist"
   ],
@@ -24,5 +21,8 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "build": "tsup index.ts --sourcemap --dts --format esm,cjs"
   }
 }
