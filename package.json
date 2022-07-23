@@ -10,7 +10,7 @@
   "scripts": {
     "lerna": "lerna bootstrap",
     "release": "yarn test:ci && lerna publish",
-    "build:all": "yarn build:clean && yarn lerna && yarn build:packages",
+    "build:all": "yarn build:clean && yarn lerna && yarn build",
     "build": "turbo run build",
     "build:clean": "lerna exec --parallel -- rimraf dist/",
     "format": "prettier --write packages/**/*.ts packages/**/package.json",
