@@ -6,7 +6,7 @@
  */
 const CHORDS: string[][] = [
   // ==Major==
-  ["1P 3M 5P", "major", "M ^ "],
+  ["1P 3M 5P", "major", "M ^  maj"],
   ["1P 3M 5P 7M", "major seventh", "maj7 Δ ma7 M7 Maj7 ^7"],
   ["1P 3M 5P 7M 9M", "major ninth", "maj9 Δ9 ^9"],
   ["1P 3M 5P 7M 9M 13M", "major thirteenth", "maj13 Maj13 ^13"],
