@@ -8,9 +8,6 @@
     "music",
     "theory"
   ],
-  "scripts": {
-    "build": "rollup -c=../../rollup.config.js"
-  },
   "dependencies": {
     "@tonaljs/pitch": "^4.6.2"
   },

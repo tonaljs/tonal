@@ -8,9 +8,6 @@
     "music",
     "theory"
   ],
-  "scripts": {
-    "build": "rollup -c=../../rollup.config.js"
-  },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
