@@ -1,4 +1,4 @@
-import { VoicingDictionary } from ".";
+export type VoicingDictionary = { [symbol: string]: string[] };
 
 export const triads: VoicingDictionary = {
   M: ["1P 3M 5P", "3M 5P 8P", "5P 8P 10M"],

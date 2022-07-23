@@ -1,7 +1,5 @@
 import Chord from "@tonaljs/chord";
-import { lefthand, all, triads } from "./data";
-
-export declare type VoicingDictionary = { [symbol: string]: string[] };
+import { lefthand, VoicingDictionary, triads, all } from "./data";
 
 const defaultDictionary: VoicingDictionary = lefthand;
 

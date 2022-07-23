@@ -7,11 +7,8 @@
     "theory",
     "music-theory"
   ],
-  "scripts": {
-    "build": "rollup -c=../../rollup.config.js"
-  },
   "main": "dist/index.js",
-  "module": "dist/index.es.js",
+  "module": "dist/index.mjs",
   "files": [
     "dist",
     "browser"
@@ -42,5 +39,16 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "build": "npm run build:node && npm run build:browser",
+    "build:node": "tsup index.ts --sourcemap --dts --format esm,cjs",
+    "build:browser": "esbuild index.ts --bundle --minify --sourcemap --outfile=browser/tonal.min.js",
+    "test": "jest"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    }
   }
 }

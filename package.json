@@ -5,19 +5,18 @@
     "packages/*"
   ],
   "main": "packages/tonal/dist/index.js",
-  "module": "packages/tonal/dist/index.es.js",
+  "module": "packages/tonal/dist/index.mjs",
   "types": "packages/tonal/dist/index.d.ts",
   "scripts": {
     "lerna": "lerna bootstrap",
     "release": "yarn test:ci && lerna publish",
-    "build": "yarn build:clean && yarn lerna && yarn build:packages && yarn build:browser",
-    "build:packages": "lerna exec --parallel  -- rollup -c=../../rollup.config.js",
-    "build:browser": "cd packages/tonal && rollup -c=rollup.browser.config.js",
+    "build:all": "yarn build:clean && yarn lerna && yarn build",
+    "build": "turbo run build",
     "build:clean": "lerna exec --parallel -- rimraf dist/",
-    "format": "prettier --write packages/**/*.ts",
+    "format": "prettier --write packages/**/*.ts packages/**/package.json",
     "test": "jest --coverage",
     "lint": "tslint --fix --project tsconfig.json -t codeFrame 'packages/**/*.ts'",
-    "test:ci": "yarn format && yarn lint && yarn build && yarn test -- --no-cache"
+    "test:ci": "yarn format && yarn lint && yarn build:all && yarn test -- --no-cache"
   },
   "prettier": {},
   "husky": {
@@ -60,25 +59,22 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^27.0.1",
-    "@types/node": "^16.7.10",
+    "@types/jest": "^28.1.6",
+    "@types/node": "^18.0.6",
+    "esbuild": "^0.14.49",
     "husky": "^4.2.5",
-    "jest": "^27.0.6",
-    "jest-config": "^27.0.6",
+    "jest": "^28.1.3",
+    "jest-config": "^28.1.3",
     "lerna": "^3.21.0",
-    "lint-staged": "^11.1.2",
+    "lint-staged": "^13.0.3",
     "lodash": "^4.17.15",
-    "prettier": "^2.3.2",
+    "prettier": "^2.7.1",
     "rimraf": "^3.0.0",
-    "rollup": "^2.53.1",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-filesize": "^9.1.1",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^7.0.1",
-    "rollup-plugin-typescript2": "^0.30.0",
-    "ts-jest": "^27.0.3",
+    "ts-jest": "^28.0.7",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^4.3.5"
+    "tsup": "^6.1.3",
+    "turbo": "^1.3.4",
+    "typescript": "^4.7.4"
   }
 }
