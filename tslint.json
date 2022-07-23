@@ -1,10 +1,7 @@
 {
   "extends": ["tslint:recommended", "tslint-config-prettier"],
   "rules": {
-    // Add rules
     "no-implicit-dependencies": true,
-
-    // Disable recommended rules
     "interface-over-type-literal": false,
     "interface-name": false,
     "object-literal-sort-keys": false,
