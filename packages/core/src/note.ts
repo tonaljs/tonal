@@ -61,14 +61,15 @@ export function note(src: NoteLiteral): Note | NoNote {
 
 type NoteTokens = [string, string, string, string];
 
-const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
+const REGEX = /^([a-gA-G]?)([#♯]{1,}|[b♭]{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
 
 /**
  * @private
  */
 export function tokenizeNote(str: string): NoteTokens {
   const m = REGEX.exec(str) as string[];
-  return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]];
+  const acc = m[2].replace(/x/g, "##").replace(/♭/g, "b").replace(/♯/g, "#");
+  return [m[1].toUpperCase(), acc, m[3], m[4]];
 }
 
 /**

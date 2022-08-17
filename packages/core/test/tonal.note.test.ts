@@ -1,14 +1,23 @@
 import { note, tokenizeNote as tokenize } from "../index";
 
 describe("note", () => {
-  test("tokenize", () => {
-    expect(tokenize("Cbb5 major")).toEqual(["C", "bb", "5", "major"]);
-    expect(tokenize("Ax")).toEqual(["A", "##", "", ""]);
-    expect(tokenize("CM")).toEqual(["C", "", "", "M"]);
-    expect(tokenize("maj7")).toEqual(["", "", "", "maj7"]);
-    expect(tokenize("")).toEqual(["", "", "", ""]);
-    expect(tokenize("bb")).toEqual(["B", "b", "", ""]);
-    expect(tokenize("##")).toEqual(["", "##", "", ""]);
+  test.each([
+    ["Cbb5 major", ["C", "bb", "5", "major"]],
+    ["Ax", ["A", "##", "", ""]],
+    ["CM", ["C", "", "", "M"]],
+    ["Cm", ["C", "", "", "m"]],
+    ["maj7", ["", "", "", "maj7"]],
+    ["", ["", "", "", ""]],
+    ["bb", ["B", "b", "", ""]],
+    ["##", ["", "##", "", ""]],
+    ["A♭", ["A", "b", "", ""]],
+    ["A♭m", ["A", "b", "", "m"]],
+    ["F♯", ["F", "#", "", ""]],
+    ["F♯m", ["F", "#", "", "m"]],
+    ["b♭", ["B", "b", "", ""]],
+    ["b♭♭", ["B", "bb", "", ""]],
+  ])("tokenize(%p) should return %p", (str, tokens) => {
+    expect(tokenize(str)).toEqual(tokens);
   });
 
   describe("note properties from string", () => {
