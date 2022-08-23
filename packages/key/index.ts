@@ -18,7 +18,7 @@ const NoKey: Key = {
   keySignature: "",
 };
 
-interface KeyScale {
+export interface KeyScale {
   readonly tonic: string;
   readonly grades: readonly string[];
   readonly intervals: readonly string[];
