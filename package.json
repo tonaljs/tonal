@@ -8,7 +8,6 @@
   "module": "packages/tonal/dist/index.mjs",
   "types": "packages/tonal/dist/index.d.ts",
   "scripts": {
-    "lerna": "lerna bootstrap",
     "release": "yarn test:ci && lerna publish",
     "build:all": "yarn build:clean && yarn lerna && yarn build",
     "build": "turbo run build",
