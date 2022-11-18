@@ -42,3 +42,18 @@ To create a new module:
 - Add your functionality and tests
 - Ensure everything works: run `yarn test:ci` at root folder
 - Create a pull request
+
+## Release
+
+Releases are built using changesets: https://turbo.build/repo/docs/handbook/publishing-packages/versioning-and-publishing:
+
+```
+# Add a new changeset
+yarn changeset
+
+# Create new versions of packages
+yarn changeset version
+
+# Publish all changed packages to npm
+yarn changeset publish
+```
