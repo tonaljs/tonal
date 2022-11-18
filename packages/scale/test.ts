@@ -99,6 +99,17 @@ describe("@tonaljs/scale", () => {
     expect(Scale.reduced("none")).toEqual([]);
   });
 
+  describe("specific and problematic scales", () => {
+    test("whole note scale should use 6th", () => {
+      expect(Scale.get("C whole tone").notes.join(" ")).toEqual(
+        "C D E F# G# A#"
+      );
+      expect(Scale.get("Db whole tone").notes.join(" ")).toEqual(
+        "Db Eb F G A B"
+      );
+    });
+  });
+
   test("scaleNotes", () => {
     expect(Scale.scaleNotes($("C4 c3 C5 C4 c4"))).toEqual(["C"]);
     expect(Scale.scaleNotes($("C4 f3 c#10 b5 d4 cb4"))).toEqual(
