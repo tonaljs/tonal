@@ -1,5 +1,5 @@
 {
-  "name": "tonal-workspace",
+  "name": "workspace",
   "private": true,
   "workspaces": [
     "packages/*"
