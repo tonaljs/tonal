@@ -117,9 +117,9 @@ describe("@tonal/key", () => {
 
   test("majorKey", () => {
     expect(Key.majorKey("C")).toMatchInlineSnapshot(`
-      Object {
+      {
         "alteration": 0,
-        "chordScales": Array [
+        "chordScales": [
           "C major",
           "D dorian",
           "E phrygian",
@@ -128,7 +128,7 @@ describe("@tonal/key", () => {
           "A minor",
           "B locrian",
         ],
-        "chords": Array [
+        "chords": [
           "Cmaj7",
           "Dm7",
           "Em7",
@@ -137,7 +137,7 @@ describe("@tonal/key", () => {
           "Am7",
           "Bm7b5",
         ],
-        "chordsHarmonicFunction": Array [
+        "chordsHarmonicFunction": [
           "T",
           "SD",
           "T",
@@ -146,7 +146,7 @@ describe("@tonal/key", () => {
           "T",
           "D",
         ],
-        "grades": Array [
+        "grades": [
           "I",
           "II",
           "III",
@@ -155,7 +155,7 @@ describe("@tonal/key", () => {
           "VI",
           "VII",
         ],
-        "intervals": Array [
+        "intervals": [
           "1P",
           "2M",
           "3M",
@@ -166,7 +166,7 @@ describe("@tonal/key", () => {
         ],
         "keySignature": "",
         "minorRelative": "A",
-        "scale": Array [
+        "scale": [
           "C",
           "D",
           "E",
@@ -175,7 +175,7 @@ describe("@tonal/key", () => {
           "A",
           "B",
         ],
-        "secondaryDominants": Array [
+        "secondaryDominants": [
           "",
           "A7",
           "B7",
@@ -184,7 +184,7 @@ describe("@tonal/key", () => {
           "E7",
           "",
         ],
-        "secondaryDominantsMinorRelative": Array [
+        "secondaryDominantsMinorRelative": [
           "",
           "Em7b5",
           "F#m7",
@@ -193,7 +193,7 @@ describe("@tonal/key", () => {
           "Bm7b5",
           "",
         ],
-        "substituteDominants": Array [
+        "substituteDominants": [
           "",
           "Eb7",
           "F7",
@@ -202,7 +202,7 @@ describe("@tonal/key", () => {
           "Bb7",
           "",
         ],
-        "substituteDominantsMinorRelative": Array [
+        "substituteDominantsMinorRelative": [
           "",
           "Em7",
           "Cm7",
@@ -229,10 +229,10 @@ describe("@tonal/key", () => {
 
   test("minorKey", () => {
     expect(Key.minorKey("C")).toMatchInlineSnapshot(`
-      Object {
+      {
         "alteration": -3,
-        "harmonic": Object {
-          "chordScales": Array [
+        "harmonic": {
+          "chordScales": [
             "C harmonic minor",
             "D locrian 6",
             "Eb major augmented",
@@ -241,7 +241,7 @@ describe("@tonal/key", () => {
             "Ab lydian #9",
             "B ultralocrian",
           ],
-          "chords": Array [
+          "chords": [
             "CmMaj7",
             "Dm7b5",
             "Eb+maj7",
@@ -250,7 +250,7 @@ describe("@tonal/key", () => {
             "Abmaj7",
             "Bo7",
           ],
-          "chordsHarmonicFunction": Array [
+          "chordsHarmonicFunction": [
             "T",
             "SD",
             "T",
@@ -259,7 +259,7 @@ describe("@tonal/key", () => {
             "SD",
             "D",
           ],
-          "grades": Array [
+          "grades": [
             "I",
             "II",
             "bIII",
@@ -268,7 +268,7 @@ describe("@tonal/key", () => {
             "bVI",
             "VII",
           ],
-          "intervals": Array [
+          "intervals": [
             "1P",
             "2M",
             "3m",
@@ -277,7 +277,7 @@ describe("@tonal/key", () => {
             "6m",
             "7M",
           ],
-          "scale": Array [
+          "scale": [
             "C",
             "D",
             "Eb",
@@ -289,8 +289,8 @@ describe("@tonal/key", () => {
           "tonic": "C",
         },
         "keySignature": "bbb",
-        "melodic": Object {
-          "chordScales": Array [
+        "melodic": {
+          "chordScales": [
             "C melodic minor",
             "D dorian b2",
             "Eb lydian augmented",
@@ -299,7 +299,7 @@ describe("@tonal/key", () => {
             "A locrian #2",
             "B altered",
           ],
-          "chords": Array [
+          "chords": [
             "Cm6",
             "Dm7",
             "Eb+maj7",
@@ -308,7 +308,7 @@ describe("@tonal/key", () => {
             "Am7b5",
             "Bm7b5",
           ],
-          "chordsHarmonicFunction": Array [
+          "chordsHarmonicFunction": [
             "T",
             "SD",
             "T",
@@ -317,7 +317,7 @@ describe("@tonal/key", () => {
             "",
             "",
           ],
-          "grades": Array [
+          "grades": [
             "I",
             "II",
             "bIII",
@@ -326,7 +326,7 @@ describe("@tonal/key", () => {
             "VI",
             "VII",
           ],
-          "intervals": Array [
+          "intervals": [
             "1P",
             "2M",
             "3m",
@@ -335,7 +335,7 @@ describe("@tonal/key", () => {
             "6M",
             "7M",
           ],
-          "scale": Array [
+          "scale": [
             "C",
             "D",
             "Eb",
@@ -346,8 +346,8 @@ describe("@tonal/key", () => {
           ],
           "tonic": "C",
         },
-        "natural": Object {
-          "chordScales": Array [
+        "natural": {
+          "chordScales": [
             "C minor",
             "D locrian",
             "Eb major",
@@ -356,7 +356,7 @@ describe("@tonal/key", () => {
             "Ab lydian",
             "Bb mixolydian",
           ],
-          "chords": Array [
+          "chords": [
             "Cm7",
             "Dm7b5",
             "Ebmaj7",
@@ -365,7 +365,7 @@ describe("@tonal/key", () => {
             "Abmaj7",
             "Bb7",
           ],
-          "chordsHarmonicFunction": Array [
+          "chordsHarmonicFunction": [
             "T",
             "SD",
             "T",
@@ -374,7 +374,7 @@ describe("@tonal/key", () => {
             "SD",
             "SD",
           ],
-          "grades": Array [
+          "grades": [
             "I",
             "II",
             "bIII",
@@ -383,7 +383,7 @@ describe("@tonal/key", () => {
             "bVI",
             "bVII",
           ],
-          "intervals": Array [
+          "intervals": [
             "1P",
             "2M",
             "3m",
@@ -392,7 +392,7 @@ describe("@tonal/key", () => {
             "6m",
             "7m",
           ],
-          "scale": Array [
+          "scale": [
             "C",
             "D",
             "Eb",
