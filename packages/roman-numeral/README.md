@@ -9,13 +9,13 @@ A roman numeral symbol is a string like `"bVIImaj7"` that can be used to represe
 ES6:
 
 ```js
-import { RomanNumeral } from "@tonaljs/tonal";
+import { RomanNumeral } from "tonal";
 ```
 
 node:
 
 ```js
-const { RomanNumeral } = require("@tonaljs/tonal");
+const { RomanNumeral } = require("tonal");
 ```
 
 ## API
@@ -49,7 +49,7 @@ RomanNumeral.get("bVIIMaj7");
 `romanNumeral` function accepts a `Pitch` as argument:
 
 ```js
-import { Interval, RomanNumeral } from "@tonaljs/tonal";
+import { Interval, RomanNumeral } from "tonal";
 
 RomanNumeral.get(Interval.get("3m")).name; // => "bIII"
 ```

@@ -9,13 +9,13 @@ Get scale and chords of major and minor keys.
 ES6:
 
 ```js
-import { Key } from "@tonaljs/tonal";
+import { Key } from "tonal";
 ```
 
 nodejs:
 
 ```js
-const { Key } = require("@tonaljs/tonal");
+const { Key } = require("tonal");
 ```
 
 ## API

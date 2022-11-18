@@ -7,13 +7,13 @@
 ES6:
 
 ```js
-import { Collection } from "@tonaljs/tonal";
+import { Collection } from "tonal";
 ```
 
 node:
 
 ```js
-const { Collection } = require("@tonaljs/tonal");
+const { Collection } = require("tonal");
 ```
 
 ## API

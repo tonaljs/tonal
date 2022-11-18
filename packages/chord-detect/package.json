@@ -6,7 +6,7 @@
     "chord-detect",
     "music",
     "theory",
-    "@tonaljs/tonal"
+    "tonal"
   ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",

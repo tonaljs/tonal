@@ -9,13 +9,13 @@
 ES6:
 
 ```js
-import { ScaleType } from "@tonaljs/tonal";
+import { ScaleType } from "tonal";
 ```
 
 nodejs:
 
 ```js
-const { ScaleType } = require("@tonaljs/tonal");
+const { ScaleType } = require("tonal");
 ```
 
 ## API
@@ -68,8 +68,8 @@ ScaleType.add(["1P", "5P"], null, ["5"]);
 
 ```js
 ScaleType.all()
-  .filter(scaleType => scaleType.intervals.length === 5)
-  .map(scaleType => scaleType.name);
+  .filter((scaleType) => scaleType.intervals.length === 5)
+  .map((scaleType) => scaleType.name);
 ```
 
 #### How do to add a scale to the dictionary?
@@ -84,7 +84,7 @@ ScaleType.scale("quinta justa"); // => { name: "quinta", intervals: ... }
 
 Some sources explaining various scale systems:
 
-- [Modes](https://en.wikipedia.org/wiki/Mode_(music))
+- [Modes](<https://en.wikipedia.org/wiki/Mode_(music)>)
 - [Blues Scales](https://en.wikipedia.org/wiki/Blues_scale)
 - [Jazz Scales](https://en.wikipedia.org/wiki/Jazz_scale)
 - [Messiaen's "Modes of Limited Transposition" (wikipedia, en)](https://en.wikipedia.org/wiki/Mode_of_limited_transposition)

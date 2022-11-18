@@ -7,13 +7,13 @@
 ES6:
 
 ```js
-import { Interval } from "@tonaljs/tonal";
+import { Interval } from "tonal";
 ```
 
 nodejs:
 
 ```js
-const { Interval } = require("@tonaljs/tonal");
+const { Interval } = require("tonal");
 ```
 
 ## API

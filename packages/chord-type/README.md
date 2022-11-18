@@ -7,13 +7,13 @@
 ES6:
 
 ```js
-import { ChordType } from "@tonaljs/tonal";
+import { ChordType } from "tonal";
 ```
 
 node:
 
 ```js
-const { ChordType } = require("@tonaljs/tonal");
+const { ChordType } = require("tonal");
 ```
 
 ## API
@@ -71,8 +71,8 @@ add(["1P", "3M", "5P"], ["M"], "mayor");
 
 ```js
 ChordType.all()
-  .filter(get => get.length === 3)
-  .map(get => get.name);
+  .filter((get) => get.length === 3)
+  .map((get) => get.name);
 ```
 
 #### How to add a chord type to the dictionary?

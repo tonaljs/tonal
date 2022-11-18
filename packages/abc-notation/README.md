@@ -7,13 +7,13 @@
 ES6:
 
 ```js
-import { AbcNotation } from "@tonaljs/tonal";
+import { AbcNotation } from "tonal";
 ```
 
 nodejs:
 
 ```js
-const { AbcNotation } = require("@tonaljs/tonal");
+const { AbcNotation } = require("tonal");
 ```
 
 ## API

@@ -1,6 +1,6 @@
 # tonal
 
-[![npm version](https://img.shields.io/npm/v/@tonaljs/tonal.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/tonal)
+[![npm version](https://img.shields.io/npm/v/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
 [![build status](https://img.shields.io/github/workflow/status/tonaljs/tonal/tests?style=flat-square)](https://github.com/tonaljs/tonal/actions)
 ![minified size](https://img.shields.io/badge/minified-31.1kb-blue?style=flat-square)
 ![gzipped size](https://img.shields.io/badge/gzipped-11.01kb-blue?style=flat-square)
@@ -18,7 +18,7 @@ mutation, and entities are represented by data structures instead of objects.
 ## Example
 
 ```js
-import { Interval, Note, Scale } from "@tonaljs/tonal";
+import { Interval, Note, Scale } from "tonal";
 
 Note.midi("A4"); // => 60
 Note.freq("a4").freq; // => 440
@@ -34,7 +34,7 @@ Scale.get("C major").notes; // =>["C", "D", "E", "F", "G", "A", "B"];
 Install all packages at once:
 
 ```bash
-npm install --save @tonaljs/tonal
+npm install --save tonal
 ```
 
 ## Usage
@@ -44,13 +44,13 @@ Tonal is compatible with both ES5 and ES6 modules, and browser.
 #### ES6 `import`:
 
 ```js
-import { Note, Scale } from "@tonaljs/tonal";
+import { Note, Scale } from "tonal";
 ```
 
 #### ES5 `require`:
 
 ```js
-const { Note, Scale } = require("@tonaljs/tonal");
+const { Note, Scale } = require("tonal");
 ```
 
 #### Browser
@@ -58,7 +58,7 @@ const { Note, Scale } = require("@tonaljs/tonal");
 You can use the browser version from jsdelivr CDN directly in your html:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@tonaljs/tonal/browser/tonal.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tonal/browser/tonal.min.js"></script>
 <script>
   console.log(Tonal.Key.minorKey("Ab"));
 </script>
@@ -70,11 +70,13 @@ from the repository.
 
 #### Bundle size
 
-`@tonaljs/tonal` includes all published modules.
+`tonal` includes all published modules.
 
-Although the final bundle it is small (~10kb minified and gzipped), you can
+Although the final bundle it is small, you can
 reduce bundle sizes even more by installing the modules individually, and
-importing only the functions you need:
+importing only the functions you need.
+
+Note that individual modules are prefixed with `@tonaljs`. For example:
 
 ```bash
 npm i @tonaljs/note
@@ -87,11 +89,11 @@ transpose("A4", "P5");
 
 ## Documentation
 
-Generally, you just need to install:
+Generally, you just need to install `tonal` package (before it was called `@tonaljs/tonal`).
 
-- [@tonaljs/tonal](/packages/tonal): All modules bundled in one package
+- [tonal](/packages/tonal): All modules bundled in one package
 
-The API documentation lives inside README.md file of each module
+The API documentation is inside README.md of each module 👇
 
 #### Notes and intervals
 

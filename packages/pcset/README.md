@@ -9,13 +9,13 @@ A pitch class set is a set (no repeated) of pitch classes (notes without octaves
 ES6:
 
 ```js
-import { Pcset } from "@tonaljs/tonal";
+import { Pcset } from "tonal";
 ```
 
 nodejs:
 
 ```js
-const { Pcset } = require("@tonaljs/tonal");
+const { Pcset } = require("tonal");
 ```
 
 ## API
@@ -104,5 +104,5 @@ Take a look to [@tonal/scale-type]() or [@tonal/chord-type]() that are, in fact,
 import { chromas, pcset } from "@tonaljs/pcset";
 import { transposeFrom } from "@tonaljs/note";
 
-chromas().map(chroma => pcset(chroma).intervals.map(transposeFrom("C")));
+chromas().map((chroma) => pcset(chroma).intervals.map(transposeFrom("C")));
 ```

@@ -7,13 +7,13 @@
 ES6:
 
 ```js
-import { Progression } from "@tonaljs/tonal";
+import { Progression } from "tonal";
 ```
 
 node:
 
 ```js
-const { Progression } = require("@tonaljs/tonal");
+const { Progression } = require("tonal");
 ```
 
 ## API

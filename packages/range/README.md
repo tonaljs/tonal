@@ -7,13 +7,13 @@
 ES6:
 
 ```js
-import { Range } from "@tonaljs/tonal";
+import { Range } from "tonal";
 ```
 
 nodejs:
 
 ```js
-const { Range } = require("@tonaljs/tonal");
+const { Range } = require("tonal");
 ```
 
 Single module:
