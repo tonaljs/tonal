@@ -37,7 +37,7 @@ const SCALES: string[][] = [
   ["1P 2M 3M 4A 6M 7m", "prometheus"],
   ["1P 2m 3M 5d 6m 7m", "mystery #1"],
   ["1P 2m 3M 4P 5A 6M", "six tone symmetric"],
-  ["1P 2M 3M 4A 5A 7m", "whole tone", "messiaen's mode #1"],
+  ["1P 2M 3M 4A 5A 6A", "whole tone", "messiaen's mode #1"],
   ["1P 2m 4P 4A 5P 7M", "messiaen's mode #5"],
   ["1P 3m 4P 5d 5P 7m", "minor blues", "blues"],
 
