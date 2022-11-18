@@ -39,7 +39,6 @@ To create a new module:
 - Add a new folder inside packages: `packages/my-module`
 - Add a new package.json inside the folder (see any of them as an example)
 - Add required dependencies to "dependencies" inside package.json. Ensure correct dependency versions. For example, if your module needs to use `tonal/core` look at core's package.json to see what version to use
-- After adding your dependencies, use lerna to wire them up: run `yarn lerna` at root folder
 - Add your functionality and tests
 - Ensure everything works: run `yarn test:ci` at root folder
 - Create a pull request
