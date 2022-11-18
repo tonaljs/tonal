@@ -76,7 +76,7 @@ Although the final bundle it is small, you can
 reduce bundle sizes even more by installing the modules individually, and
 importing only the functions you need.
 
-Note that invidiual modules are prefixed with `@tonaljs` . For example:
+Note that individual modules are prefixed with `@tonaljs`. For example:
 
 ```bash
 npm i @tonaljs/note
