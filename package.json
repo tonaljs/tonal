@@ -13,7 +13,7 @@
     "format": "prettier --write packages/**/*.ts packages/**/package.json",
     "test": "jest --coverage",
     "lint": "tslint --fix --project tsconfig.json -t codeFrame 'packages/**/*.ts'",
-    "test:ci": "yarn format && yarn lint && yarn build:all && yarn test -- --no-cache",
+    "test:ci": "yarn format && yarn lint && yarn build && yarn test -- --no-cache",
     "prepare": "husky install"
   },
   "prettier": {},
