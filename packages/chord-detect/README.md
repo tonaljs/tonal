@@ -5,13 +5,13 @@
 With ES6 `import`:
 
 ```js
-import { ChordDetect } from "@tonaljs/tonal";
+import { Chord } from "@tonaljs/tonal";
 ```
 
 With ES5 `require`:
 
 ```js
-const { ChordDetect } = require("@tonaljs/tonal");
+const { Chord } = require("@tonaljs/tonal");
 ```
 
 Standalone:
@@ -22,15 +22,15 @@ import { detect } from "@tonaljs/chord-detect";
 
 ## API
 
-### `ChordDetect.detect(notes: string[]) => string[]`
+### `Chord.detect(notes: string[]) => string[]`
 
 Examples:
 
 ```js
-ChordDetect.detect(["D", "F#", "A", "C"]); // => ["D7"]
-ChordDetect.detect(["F#", "A", "C", "D"]); // => ["D7/F#"]
-ChordDetect.detect(["A", "C", "D", "F#"]); // => ["D7/A"]
-ChordDetect.detect(["E", "G#", "B", "C#"]); // => ["E6", "C#m7/E"]
+Chord.detect(["D", "F#", "A", "C"]); // => ["D7"]
+Chord.detect(["F#", "A", "C", "D"]); // => ["D7/F#"]
+Chord.detect(["A", "C", "D", "F#"]); // => ["D7/A"]
+Chord.detect(["E", "G#", "B", "C#"]); // => ["E6", "C#m7/E"]
 ```
 
 This function is also exposed in [`Chord`](/packages/chord) module.
