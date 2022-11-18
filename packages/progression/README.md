@@ -20,7 +20,7 @@ const { Progression } = require("@tonaljs/tonal");
 
 ### `Progression.fromRomanNumerals(keyTonic: string, chordProgression: string[]) => string[]`
 
-Given a tonic and a chord progression expressed in roman numeral analisys chords, returns the progression expressed in leadsheet chords.
+Given a tonic and a chord progression expressed in roman numeral analysis chords, returns the progression expressed in leadsheet chords.
 
 ```js
 Progression.fromRomanNumerals("C", ["IMaj7", "IIm7", "V7"]);
@@ -38,5 +38,5 @@ Progression.toRomanNumerals("C", ["CMaj7", "Dm7", "G7"]);
 
 ## Resources
 
-- [Roman numeral analisys](https://en.wikipedia.org/wiki/Roman_numeral_analysis)
+- [Roman numeral analysis](https://en.wikipedia.org/wiki/Roman_numeral_analysis)
 - [Leadsheet chord symbols](https://en.wikipedia.org/wiki/Lead_sheet)

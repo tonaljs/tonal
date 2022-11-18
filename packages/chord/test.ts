@@ -22,7 +22,7 @@ describe("tonal-chord", () => {
   });
 
   describe("getChord", () => {
-    test("Chord properites", () => {
+    test("Chord properties", () => {
       expect(Chord.getChord("maj7", "G4", "G4")).toEqual({
         empty: false,
         name: "G major seventh",

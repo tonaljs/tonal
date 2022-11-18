@@ -47,7 +47,7 @@ const L440 = Math.log(440);
 
 /**
  * Get the midi number from a frequency in hertz. The midi number can
- * contain decimals (with two digits precission)
+ * contain decimals (with two digits precision)
  *
  * @param {number} frequency
  * @return {number}
