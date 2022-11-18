@@ -76,7 +76,7 @@ Although the final bundle it is small, you can
 reduce bundle sizes even more by installing the modules individually, and
 importing only the functions you need.
 
-Note that individual modules are prefixed with `@tonaljs`. For example:
+Note that individual modules are prefixed with `@tonaljs/`. For example:
 
 ```bash
 npm i @tonaljs/note
@@ -90,8 +90,6 @@ transpose("A4", "P5");
 ## Documentation
 
 Generally, you just need to install `tonal` package (before it was called `@tonaljs/tonal`).
-
-- [tonal](/packages/tonal): All modules bundled in one package
 
 The API documentation is inside README.md of each module 👇
 
@@ -136,7 +134,12 @@ The API documentation is inside README.md of each module 👇
 
 ## Contributing
 
-Read [contributing document](/docs/CONTRIBUTING.md) for instructions
+Read [contributing document](/docs/CONTRIBUTING.md). To contribute open a PR and ensure:
+
+- If is a music theory change (like the name of a scale) link to reliable references.
+- If is a new feature, add documentation: changes to README of the affected module(s) are expected.
+- Ad tests: changes to the test.ts file of the affected module(s) are expected.
+- All tests are green
 
 ## Inspiration
 
