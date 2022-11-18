@@ -8,6 +8,7 @@
   "module": "packages/tonal/dist/index.mjs",
   "types": "packages/tonal/dist/index.d.ts",
   "scripts": {
+    "publish-packages": "yarn test:ci && changeset version && changeset publish",
     "build": "turbo run build",
     "format": "prettier --write packages/**/*.ts packages/**/package.json",
     "test": "jest --coverage",
@@ -67,5 +68,8 @@
     "tsup": "^6.5.0",
     "turbo": "^1.6.3",
     "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.25.2"
   }
 }
