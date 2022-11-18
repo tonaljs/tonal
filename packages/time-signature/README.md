@@ -7,13 +7,13 @@
 ES6:
 
 ```js
-import { TimeSignature } from "@tonaljs/tonal";
+import { TimeSignature } from "tonal";
 ```
 
 node:
 
 ```js
-const { TimeSignature } = require("@tonaljs/tonal");
+const { TimeSignature } = require("tonal");
 ```
 
 single module:

@@ -6,7 +6,7 @@ Adopt a fixed/locked mode with lerna. Before, each module has it's own version. 
 
 Deprecated modules:
 
-- @tonaljs/modules (use @tonaljs/tonal)
+- @tonaljs/modules (use tonal)
 - @tonaljs/array (use @tonaljs/collection)
 
 #### Releases

@@ -1,5 +1,5 @@
 {
-  "name": "@tonaljs/tonal",
+  "name": "tonal",
   "version": "4.6.10",
   "description": "@tonaljs music theory full library",
   "keywords": [

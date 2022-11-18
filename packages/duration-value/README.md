@@ -7,13 +7,13 @@
 ES6:
 
 ```js
-import { DurationValue } from "@tonaljs/tonal";
+import { DurationValue } from "tonal";
 ```
 
 node:
 
 ```js
-const { DurationValue } = require("@tonaljs/tonal");
+const { DurationValue } = require("tonal");
 ```
 
 single module:

@@ -1,7 +1,6 @@
-import { modeNames } from "@tonaljs/scale";
 import * as Tonal from "./index";
 
-describe("@tonaljs/tonal", () => {
+describe("tonal", () => {
   test("exported modules and functions", () => {
     const exportedNames = Object.keys(Tonal).sort();
     expect(exportedNames).toEqual([

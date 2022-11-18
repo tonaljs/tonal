@@ -1,4 +1,4 @@
-# @tonaljs/tonal
+# tonal
 
 ## 4.6.10
 

@@ -7,13 +7,13 @@
 ES6:
 
 ```js
-import { Midi } from "@tonaljs/tonal";
+import { Midi } from "tonal";
 ```
 
 nodejs:
 
 ```js
-const { Midi } = require("@tonaljs/tonal");
+const { Midi } = require("tonal");
 ```
 
 ## API

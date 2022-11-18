@@ -1,1 +1,1 @@
-export * from "@tonaljs/tonal";
+export * from "tonal";

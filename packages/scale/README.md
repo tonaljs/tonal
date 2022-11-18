@@ -9,13 +9,13 @@
 ES6:
 
 ```js
-import { Scale } from "@tonaljs/tonal";
+import { Scale } from "tonal";
 ```
 
 nodejs:
 
 ```js
-const { Scale } = require("@tonaljs/tonal");
+const { Scale } = require("tonal");
 ```
 
 Single module:

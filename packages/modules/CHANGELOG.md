@@ -6,4 +6,4 @@
 
 - Bug fixing
 - Updated dependencies
-  - @tonaljs/tonal@4.6.10
+  - tonal@4.6.10

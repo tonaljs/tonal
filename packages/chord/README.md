@@ -5,13 +5,13 @@
 ES6:
 
 ```js
-import { Chord } from "@tonaljs/tonal";
+import { Chord } from "tonal";
 ```
 
 Nodejs:
 
 ```js
-const { Chord } = require("@tonaljs/tonal");
+const { Chord } = require("tonal");
 ```
 
 ## API

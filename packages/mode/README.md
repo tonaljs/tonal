@@ -7,13 +7,13 @@
 ES6:
 
 ```js
-import { Mode } from "@tonaljs/tonal";
+import { Mode } from "tonal";
 ```
 
 node:
 
 ```js
-const { Mode } = require("@tonaljs/tonal");
+const { Mode } = require("tonal");
 ```
 
 ## API
@@ -109,7 +109,7 @@ Mode.relativeTonic("minor", "major", "C"); // => "A"
 For example, "A major" mode:
 
 ```js
-import { Mode, Note } from "@tonaljs/tonal";
+import { Mode, Note } from "tonal";
 
 Mode.get("major").intervals.map(Note.transposeFrom("A"));
 ["A", "B", "C#", "D", "E", "F#", "G#"];
