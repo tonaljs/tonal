@@ -1,7 +1,7 @@
 {
   "name": "@tonaljs/pitch",
   "private": true,
-  "version": "4.6.2",
+  "version": "4.6.3",
   "description": "Pitch in (western) music theory",
   "keywords": [
     "pitch",
