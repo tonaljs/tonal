@@ -8,14 +8,12 @@
   "module": "packages/tonal/dist/index.mjs",
   "types": "packages/tonal/dist/index.d.ts",
   "scripts": {
-    "release": "yarn test:ci && lerna publish",
-    "build:all": "yarn build:clean && yarn lerna && yarn build",
+    "publish-packages": "yarn test:ci && changeset version && changeset publish",
     "build": "turbo run build",
-    "build:clean": "lerna exec --parallel -- rimraf dist/",
     "format": "prettier --write packages/**/*.ts packages/**/package.json",
     "test": "jest --coverage",
     "lint": "tslint --fix --project tsconfig.json -t codeFrame 'packages/**/*.ts'",
-    "test:ci": "yarn format && yarn lint && yarn build:all && yarn test -- --no-cache",
+    "test:ci": "yarn format && yarn lint && yarn build && yarn test -- --no-cache",
     "prepare": "husky install"
   },
   "prettier": {},
@@ -60,7 +58,6 @@
     "husky": "^8.0.0",
     "jest": "^29.3.1",
     "jest-config": "^29.3.1",
-    "lerna": "^6.0.3",
     "lint-staged": "^13.0.3",
     "lodash": "^4.17.15",
     "prettier": "^2.7.1",
@@ -71,5 +68,8 @@
     "tsup": "^6.5.0",
     "turbo": "^1.6.3",
     "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.25.2"
   }
 }
