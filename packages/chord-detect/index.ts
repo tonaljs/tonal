@@ -22,7 +22,7 @@ const namedSet = (notes: string[]) => {
 type DetectOptions = {
   assumePerfectFifth: boolean
 }
-export function detect(source: string[], options: Partial<DetectOptions>): string[] {
+export function detect(source: string[], options: Partial<DetectOptions> = {}): string[] {
   const notes = source.map((n) => note(n).pc).filter((x) => x);
   if (note.length === 0) {
     return [];
@@ -36,7 +36,7 @@ export function detect(source: string[], options: Partial<DetectOptions>): strin
     .map((chord) => chord.name);
 }
 
-
+/* tslint:disable:no-bitwise */
 const BITMASK = {
   // 3m 000100000000
   // 3M 000010000000
@@ -66,6 +66,9 @@ function withPerfectFifth(chroma: string): string {
   ? chroma 
   : (chromaNumber | 16).toString(2)
 }
+
+/* tslint:enable:no-bitwise */
+
 type FindExactMatchesOptions = {
   assumePerfectFifth: boolean
 }
@@ -78,11 +81,11 @@ function findExactMatches(notes: string[], weight: number, options: Partial<Find
 
   const found: FoundChord[] = [];
   allModes.forEach((mode, index) => {
-    const assumedMode = withPerfectFifth(mode)
+    const modeWithPerfectFifth = options.assumePerfectFifth && withPerfectFifth(mode)
     // some chords could have the same chroma but different interval spelling
     const chordTypes = all().filter((chordType) => {
       if(options.assumePerfectFifth && hasAnyThirdAndPerfectFifthAndAnySeventh(chordType)) {
-        return chordType.chroma === assumedMode
+        return chordType.chroma === modeWithPerfectFifth
       }
       return chordType.chroma === mode
     });
