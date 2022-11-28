@@ -41,7 +41,7 @@ export function names() {
   return NAMES.slice();
 }
 
-const REGEX = /^(\d?\d(?:\+\d)*)\/(\d)$/;
+const REGEX = /^(\d?\d(?:\+\d)*)\/(\d+)$/;
 const CACHE = new Map<TimeSignatureLiteral, TimeSignature>();
 
 export function get(literal: TimeSignatureLiteral): TimeSignature {
