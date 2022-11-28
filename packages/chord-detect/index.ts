@@ -28,7 +28,7 @@ export function detect(source: string[], options: Partial<DetectOptions> = {}): 
     return [];
   }
 
-  const found: FoundChord[] = findExactMatches(notes, 1, options);
+  const found: FoundChord[] = findMatches(notes, 1, options);
 
   return found
     .filter((chord) => chord.weight)
@@ -69,10 +69,10 @@ function withPerfectFifth(chroma: string): string {
 
 /* tslint:enable:no-bitwise */
 
-type FindExactMatchesOptions = {
+type FindMatchesOptions = {
   assumePerfectFifth: boolean
 }
-function findExactMatches(notes: string[], weight: number, options: Partial<FindExactMatchesOptions>): FoundChord[] {
+function findMatches(notes: string[], weight: number, options: Partial<FindMatchesOptions>): FoundChord[] {
   const tonic = notes[0];
   const tonicChroma = note(tonic).chroma;
   const noteName = namedSet(notes);
