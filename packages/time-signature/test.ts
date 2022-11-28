@@ -34,15 +34,9 @@ describe("time-signature", () => {
     expect(TimeSignature.get("3+2+2/8").type).toEqual("irregular");
   });
 
-  test("get lower >= 10", () => {
-    expect(TimeSignature.get("12/10")).toEqual({
-      additive: [],
-      empty: false,
-      lower: 10,
-      name: "12/10",
-      type: "irregular",
-      upper: 12,
-    });
+  test("irrational", () => {
+    expect(TimeSignature.get("12/10").type).toEqual("irrational");
+    expect(TimeSignature.get("12/19").type).toEqual("irrational");
   });
 
   test("names", () => {
