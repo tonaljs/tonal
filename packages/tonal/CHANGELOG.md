@@ -1,5 +1,36 @@
 # tonal
 
+## 4.7.0
+
+### Minor Changes
+
+- b120fc42: Publish tonal in `tonal` package. So use `npm install tonal` instead of `npm install @tonaljs/tonal`
+
+### Patch Changes
+
+- fix memory leak
+- Updated dependencies
+- Updated dependencies [b120fc42]
+  - @tonaljs/abc-notation@4.7.0
+  - @tonaljs/array@4.6.11
+  - @tonaljs/chord@4.7.0
+  - @tonaljs/chord-type@4.7.0
+  - @tonaljs/collection@4.7.0
+  - @tonaljs/core@4.6.11
+  - @tonaljs/duration-value@4.7.0
+  - @tonaljs/interval@4.7.0
+  - @tonaljs/key@4.7.0
+  - @tonaljs/midi@4.7.0
+  - @tonaljs/mode@4.7.0
+  - @tonaljs/note@4.7.0
+  - @tonaljs/pcset@4.7.0
+  - @tonaljs/progression@4.7.0
+  - @tonaljs/range@4.7.0
+  - @tonaljs/roman-numeral@4.7.0
+  - @tonaljs/scale@4.7.0
+  - @tonaljs/scale-type@4.7.0
+  - @tonaljs/time-signature@4.7.0
+
 ## 4.6.10
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/roman-numeral",
-  "version": "4.6.10",
+  "version": "4.7.0",
   "description": "Parse and properties of roman numeral strings",
   "keywords": [
     "roman-numeral",
@@ -16,7 +16,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "^4.6.10"
+    "@tonaljs/core": "^4.6.11"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
