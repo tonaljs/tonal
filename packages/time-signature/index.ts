@@ -45,13 +45,14 @@ const REGEX = /^(\d?\d(?:\+\d)*)\/(\d)$/;
 const CACHE = new Map<TimeSignatureLiteral, TimeSignature>();
 
 export function get(literal: TimeSignatureLiteral): TimeSignature {
-  const cached = CACHE.get(literal);
+  const stringifiedLiteral = JSON.stringify(literal);
+  const cached = CACHE.get(stringifiedLiteral);
   if (cached) {
     return cached;
   }
 
   const ts = build(parse(literal));
-  CACHE.set(literal, ts);
+  CACHE.set(stringifiedLiteral, ts);
   return ts;
 }
 
