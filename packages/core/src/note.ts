@@ -42,7 +42,9 @@ export const accToAlt = (acc: string): number =>
  * note('Bb4') // => { name: "Bb4", midi: 70, chroma: 10, ... }
  */
 export function note(src: NoteLiteral): Note | NoNote {
-  const cached = cache.get(src);
+  const stringSrc = JSON.stringify(src);
+
+  const cached = cache.get(stringSrc);
   if (cached) {
     return cached;
   }
@@ -55,7 +57,7 @@ export function note(src: NoteLiteral): Note | NoNote {
       : isNamed(src)
       ? note(src.name)
       : NoNote;
-  cache.set(src, value);
+  cache.set(stringSrc, value);
   return value;
 }
 
