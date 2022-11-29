@@ -48,17 +48,28 @@ To create a new module:
 Releases are built using changesets: https://turbo.build/repo/docs/handbook/publishing-packages/versioning-and-publishing:
 
 ```
-# First select packages and which version (major, minor, bump)
+# Create a new branch
+git co -b release-4.7.4
+
+# Select packages and which version (major, minor, bump)
+
 npx changeset
 
 # Update version and CHANGELOG of each package
 npx changeset version
 
+# Create commit and PR
+git add .
+git commit -m "chore: bump version"
+
+# Build browser
+npm run build
+git add .
+git commit -m "chore: browser build"
+
+# Create PR
+git push
+
 # Publish all changed packages to npm
 npx changeset publish
-
-# Create commit and push
-git add .
-git commit -m
-push
 ```
