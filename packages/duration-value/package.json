@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/duration-value",
-  "version": "4.7.0",
+  "version": "4.7.2",
   "description": "Musical duration values",
   "keywords": [
     "duration-value",

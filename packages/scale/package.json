@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/scale",
-  "version": "4.7.0",
+  "version": "4.7.2",
   "description": "Musical scales and its relations",
   "keywords": [
     "scale",
@@ -16,12 +16,12 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord-type": "^4.7.0",
-    "@tonaljs/collection": "^4.7.0",
-    "@tonaljs/core": "^4.6.11",
-    "@tonaljs/note": "^4.7.0",
-    "@tonaljs/pcset": "^4.7.0",
-    "@tonaljs/scale-type": "^4.7.0"
+    "@tonaljs/chord-type": "^4.7.2",
+    "@tonaljs/collection": "^4.7.2",
+    "@tonaljs/core": "^4.7.2",
+    "@tonaljs/note": "^4.7.2",
+    "@tonaljs/pcset": "^4.7.2",
+    "@tonaljs/scale-type": "^4.7.2"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

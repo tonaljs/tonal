@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/pitch-notation",
-  "version": "4.6.4",
+  "version": "4.7.2",
   "private": true,
   "description": "Create different pitch notations",
   "keywords": [
@@ -9,7 +9,7 @@
     "theory"
   ],
   "dependencies": {
-    "@tonaljs/pitch": "^4.6.4"
+    "@tonaljs/pitch": "^4.7.2"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",

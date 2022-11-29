@@ -1,5 +1,31 @@
 # @tonaljs/voicing
 
+## 4.7.2
+
+### Patch Changes
+
+- Unify package versions
+- Updated dependencies
+  - @tonaljs/chord@4.7.2
+  - @tonaljs/interval@4.7.2
+  - @tonaljs/note@4.7.2
+  - @tonaljs/range@4.7.2
+  - @tonaljs/voice-leading@4.7.2
+  - @tonaljs/voicing-dictionary@4.7.2
+
+## 4.7.1
+
+### Patch Changes
+
+- fix npm publish problem
+- Updated dependencies
+  - @tonaljs/chord@4.7.1
+  - @tonaljs/interval@4.7.1
+  - @tonaljs/note@4.7.1
+  - @tonaljs/range@4.7.1
+  - @tonaljs/voice-leading@4.7.1
+  - @tonaljs/voicing-dictionary@4.7.1
+
 ## 4.7.0
 
 ### Minor Changes

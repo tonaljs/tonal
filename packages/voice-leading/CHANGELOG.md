@@ -1,5 +1,21 @@
 # @tonaljs/voice-leading
 
+## 4.7.2
+
+### Patch Changes
+
+- Unify package versions
+- Updated dependencies
+  - @tonaljs/note@4.7.2
+
+## 4.7.1
+
+### Patch Changes
+
+- fix npm publish problem
+- Updated dependencies
+  - @tonaljs/note@4.7.1
+
 ## 4.7.0
 
 ### Minor Changes

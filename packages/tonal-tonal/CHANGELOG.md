@@ -1,5 +1,57 @@
 # tonal
 
+## 4.7.2
+
+### Patch Changes
+
+- Unify package versions
+- Updated dependencies
+  - @tonaljs/array@4.7.2
+  - @tonaljs/core@4.7.2
+  - @tonaljs/abc-notation@4.7.2
+  - @tonaljs/chord@4.7.2
+  - @tonaljs/chord-type@4.7.2
+  - @tonaljs/collection@4.7.2
+  - @tonaljs/duration-value@4.7.2
+  - @tonaljs/interval@4.7.2
+  - @tonaljs/key@4.7.2
+  - @tonaljs/midi@4.7.2
+  - @tonaljs/mode@4.7.2
+  - @tonaljs/note@4.7.2
+  - @tonaljs/pcset@4.7.2
+  - @tonaljs/progression@4.7.2
+  - @tonaljs/range@4.7.2
+  - @tonaljs/roman-numeral@4.7.2
+  - @tonaljs/scale@4.7.2
+  - @tonaljs/scale-type@4.7.2
+  - @tonaljs/time-signature@4.7.2
+
+## 4.6.12
+
+### Patch Changes
+
+- fix npm publish problem
+- Updated dependencies
+  - @tonaljs/abc-notation@4.7.1
+  - @tonaljs/array@4.6.12
+  - @tonaljs/chord@4.7.1
+  - @tonaljs/chord-type@4.7.1
+  - @tonaljs/collection@4.7.1
+  - @tonaljs/core@4.6.12
+  - @tonaljs/duration-value@4.7.1
+  - @tonaljs/interval@4.7.1
+  - @tonaljs/key@4.7.1
+  - @tonaljs/midi@4.7.1
+  - @tonaljs/mode@4.7.1
+  - @tonaljs/note@4.7.1
+  - @tonaljs/pcset@4.7.1
+  - @tonaljs/progression@4.7.1
+  - @tonaljs/range@4.7.1
+  - @tonaljs/roman-numeral@4.7.1
+  - @tonaljs/scale@4.7.1
+  - @tonaljs/scale-type@4.7.1
+  - @tonaljs/time-signature@4.7.1
+
 ## 4.6.11
 
 ### Patch Changes

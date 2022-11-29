@@ -1,5 +1,23 @@
 # @tonaljs/scale-type
 
+## 4.7.2
+
+### Patch Changes
+
+- Unify package versions
+- Updated dependencies
+  - @tonaljs/core@4.7.2
+  - @tonaljs/pcset@4.7.2
+
+## 4.7.1
+
+### Patch Changes
+
+- fix npm publish problem
+- Updated dependencies
+  - @tonaljs/core@4.6.12
+  - @tonaljs/pcset@4.7.1
+
 ## 4.7.0
 
 ### Minor Changes

@@ -48,12 +48,17 @@ To create a new module:
 Releases are built using changesets: https://turbo.build/repo/docs/handbook/publishing-packages/versioning-and-publishing:
 
 ```
-# Add a new changeset
-yarn changeset
+# First select packages and which version (major, minor, bump)
+npx changeset
 
-# Create new versions of packages
-yarn changeset version
+# Update version and CHANGELOG of each package
+npx changeset version
 
 # Publish all changed packages to npm
-yarn changeset publish
+npx changeset publish
+
+# Create commit and push
+git add .
+git commit -m
+push
 ```
