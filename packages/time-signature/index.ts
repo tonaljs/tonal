@@ -8,7 +8,7 @@ export type ValidTimeSignature = {
   readonly name: string;
   readonly upper: number | number[];
   readonly lower: number;
-  readonly type: "simple" | "compound" | "irregular";
+  readonly type: "simple" | "compound" | "irregular" | "irrational";
   readonly additive: number[];
 };
 
@@ -41,7 +41,7 @@ export function names() {
   return NAMES.slice();
 }
 
-const REGEX = /^(\d?\d(?:\+\d)*)\/(\d)$/;
+const REGEX = /^(\d*\d(?:\+\d)*)\/(\d+)$/;
 const CACHE = new Map<TimeSignatureLiteral, TimeSignature>();
 
 export function get(literal: TimeSignatureLiteral): TimeSignature {
@@ -76,6 +76,8 @@ export default { names, parse, get };
 
 // PRIVATE
 
+const isPowerOfTwo = (x: number) => (Math.log(x) / Math.log(2)) % 1 === 0;
+
 function build([up, down]: ParsedTimeSignature): TimeSignature {
   const upper = Array.isArray(up) ? up.reduce((a, b) => a + b, 0) : up;
   const lower = down;
@@ -90,7 +92,9 @@ function build([up, down]: ParsedTimeSignature): TimeSignature {
       ? "simple"
       : lower === 8 && upper % 3 === 0
       ? "compound"
-      : "irregular";
+      : isPowerOfTwo(lower)
+      ? "irregular"
+      : "irrational";
 
   return {
     empty: false,

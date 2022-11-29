@@ -34,6 +34,11 @@ describe("time-signature", () => {
     expect(TimeSignature.get("3+2+2/8").type).toEqual("irregular");
   });
 
+  test("irrational", () => {
+    expect(TimeSignature.get("12/10").type).toEqual("irrational");
+    expect(TimeSignature.get("12/19").type).toEqual("irrational");
+  });
+
   test("names", () => {
     expect(TimeSignature.names()).toEqual([
       "4/4",

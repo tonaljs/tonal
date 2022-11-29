@@ -48,7 +48,7 @@ TimeSignature.get("3/4"); // =>
 // };
 ```
 
-`type` can be `simple`, `compound` or `regular`
+`type` can be `simple`, `compound`, `regular`, `irregular` or `irrational`
 
 Additive signatures are accepted:
 
@@ -61,6 +61,22 @@ TimeSignature.get("3+2+3/8"); // =>
 //   upper: 8,
 //   lower: 8,
 //   additive: [ 3, 2, 3 ]
+// }
+```
+
+Irrational signatures are also interpreted:
+
+```js
+
+```js
+TimeSignature.get("12/10"); // =>
+// {
+//   empty: false,
+//   name: '12/10',
+//   type: 'irrational',
+//   upper: 12,
+//   lower: 10,
+//   additive: []
 // }
 ```
 
