@@ -59,7 +59,14 @@ npx changeset version
 
 # Create commit and PR
 git add .
-git commit -m
+git commit -m "chore: bump version"
+
+# Build browser
+npm run build
+git add .
+git commit -m "chore: browser build"
+
+# Create PR
 git push
 
 # Publish all changed packages to npm
