@@ -1,5 +1,17 @@
 # @tonaljs/mode
 
+## 4.7.1
+
+### Patch Changes
+
+- fix npm publish problem
+- Updated dependencies
+  - @tonaljs/collection@4.7.1
+  - @tonaljs/core@4.6.12
+  - @tonaljs/interval@4.7.1
+  - @tonaljs/pcset@4.7.1
+  - @tonaljs/scale-type@4.7.1
+
 ## 4.7.0
 
 ### Minor Changes

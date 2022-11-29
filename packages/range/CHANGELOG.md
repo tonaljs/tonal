@@ -1,5 +1,14 @@
 # @tonaljs/range
 
+## 4.7.1
+
+### Patch Changes
+
+- fix npm publish problem
+- Updated dependencies
+  - @tonaljs/collection@4.7.1
+  - @tonaljs/midi@4.7.1
+
 ## 4.7.0
 
 ### Minor Changes

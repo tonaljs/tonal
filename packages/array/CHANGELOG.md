@@ -1,5 +1,13 @@
 # @tonaljs/array
 
+## 4.6.12
+
+### Patch Changes
+
+- fix npm publish problem
+- Updated dependencies
+  - @tonaljs/core@4.6.12
+
 ## 4.6.11
 
 ### Patch Changes

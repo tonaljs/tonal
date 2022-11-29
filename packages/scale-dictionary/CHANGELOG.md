@@ -1,5 +1,13 @@
 # @tonaljs/scale-dictionary
 
+## 4.6.12
+
+### Patch Changes
+
+- fix npm publish problem
+- Updated dependencies
+  - @tonaljs/scale-type@4.7.1
+
 ## 4.6.11
 
 ### Patch Changes

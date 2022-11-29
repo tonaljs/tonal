@@ -1,5 +1,13 @@
 # @tonaljs/modules
 
+## 4.7.1
+
+### Patch Changes
+
+- fix npm publish problem
+- Updated dependencies
+  - tonal@4.7.1
+
 ## 4.7.0
 
 ### Minor Changes

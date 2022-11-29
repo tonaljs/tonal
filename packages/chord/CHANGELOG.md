@@ -1,5 +1,18 @@
 # @tonaljs/chord
 
+## 4.7.1
+
+### Patch Changes
+
+- fix npm publish problem
+- Updated dependencies
+  - @tonaljs/chord-detect@4.7.1
+  - @tonaljs/chord-type@4.7.1
+  - @tonaljs/collection@4.7.1
+  - @tonaljs/core@4.6.12
+  - @tonaljs/pcset@4.7.1
+  - @tonaljs/scale-type@4.7.1
+
 ## 4.7.0
 
 ### Minor Changes

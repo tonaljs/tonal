@@ -1,5 +1,31 @@
 # tonal
 
+## 4.6.12
+
+### Patch Changes
+
+- fix npm publish problem
+- Updated dependencies
+  - @tonaljs/abc-notation@4.7.1
+  - @tonaljs/array@4.6.12
+  - @tonaljs/chord@4.7.1
+  - @tonaljs/chord-type@4.7.1
+  - @tonaljs/collection@4.7.1
+  - @tonaljs/core@4.6.12
+  - @tonaljs/duration-value@4.7.1
+  - @tonaljs/interval@4.7.1
+  - @tonaljs/key@4.7.1
+  - @tonaljs/midi@4.7.1
+  - @tonaljs/mode@4.7.1
+  - @tonaljs/note@4.7.1
+  - @tonaljs/pcset@4.7.1
+  - @tonaljs/progression@4.7.1
+  - @tonaljs/range@4.7.1
+  - @tonaljs/roman-numeral@4.7.1
+  - @tonaljs/scale@4.7.1
+  - @tonaljs/scale-type@4.7.1
+  - @tonaljs/time-signature@4.7.1
+
 ## 4.6.11
 
 ### Patch Changes

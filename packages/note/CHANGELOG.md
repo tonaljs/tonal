@@ -1,5 +1,14 @@
 # @tonaljs/note
 
+## 4.7.1
+
+### Patch Changes
+
+- fix npm publish problem
+- Updated dependencies
+  - @tonaljs/core@4.6.12
+  - @tonaljs/midi@4.7.1
+
 ## 4.7.0
 
 ### Minor Changes

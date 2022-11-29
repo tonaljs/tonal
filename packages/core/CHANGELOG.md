@@ -1,5 +1,11 @@
 # @tonaljs/core
 
+## 4.6.12
+
+### Patch Changes
+
+- fix npm publish problem
+
 ## 4.6.11
 
 ### Patch Changes
