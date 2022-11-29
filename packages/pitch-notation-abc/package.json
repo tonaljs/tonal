@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/pitch-notation-abc",
-  "version": "4.6.5",
+  "version": "4.7.1",
   "private": true,
   "description": "Parse note names in ABC notation",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/pitch-notation-scientific",
-  "version": "4.6.5",
+  "version": "4.7.1",
   "private": true,
   "description": "Parse note names in scientific notation",
   "keywords": [
