@@ -1,5 +1,36 @@
 # tonal
 
+## 4.8.0
+
+### Minor Changes
+
+- - fix time signature parsing
+  - add support for irrational time signatures
+  - add option `assumePerfectFifth` to `Chord.detect` function
+
+### Patch Changes
+
+- Updated dependencies
+  - @tonaljs/abc-notation@4.8.0
+  - @tonaljs/array@4.8.0
+  - @tonaljs/chord@4.8.0
+  - @tonaljs/chord-type@4.8.0
+  - @tonaljs/collection@4.8.0
+  - @tonaljs/core@4.8.0
+  - @tonaljs/duration-value@4.8.0
+  - @tonaljs/interval@4.8.0
+  - @tonaljs/key@4.8.0
+  - @tonaljs/midi@4.8.0
+  - @tonaljs/mode@4.8.0
+  - @tonaljs/note@4.8.0
+  - @tonaljs/pcset@4.8.0
+  - @tonaljs/progression@4.8.0
+  - @tonaljs/range@4.8.0
+  - @tonaljs/roman-numeral@4.8.0
+  - @tonaljs/scale@4.8.0
+  - @tonaljs/scale-type@4.8.0
+  - @tonaljs/time-signature@4.8.0
+
 ## 4.7.2
 
 ### Patch Changes
