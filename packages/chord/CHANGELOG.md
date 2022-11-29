@@ -1,5 +1,18 @@
 # @tonaljs/chord
 
+## 4.7.2
+
+### Patch Changes
+
+- Unify package versions
+- Updated dependencies
+  - @tonaljs/core@4.7.2
+  - @tonaljs/chord-detect@4.7.2
+  - @tonaljs/chord-type@4.7.2
+  - @tonaljs/collection@4.7.2
+  - @tonaljs/pcset@4.7.2
+  - @tonaljs/scale-type@4.7.2
+
 ## 4.7.1
 
 ### Patch Changes

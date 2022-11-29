@@ -1,5 +1,15 @@
 # @tonaljs/voicing-dictionary
 
+## 4.7.2
+
+### Patch Changes
+
+- Unify package versions
+- Updated dependencies
+  - @tonaljs/chord@4.7.2
+  - @tonaljs/note@4.7.2
+  - @tonaljs/voice-leading@4.7.2
+
 ## 4.7.1
 
 ### Patch Changes

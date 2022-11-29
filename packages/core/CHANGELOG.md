@@ -1,5 +1,11 @@
 # @tonaljs/core
 
+## 4.7.2
+
+### Patch Changes
+
+- Unify package versions
+
 ## 4.6.12
 
 ### Patch Changes

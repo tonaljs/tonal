@@ -1,5 +1,13 @@
 # @tonaljs/modules
 
+## 4.7.2
+
+### Patch Changes
+
+- Unify package versions
+- Updated dependencies
+  - tonal@4.7.2
+
 ## 4.7.1
 
 ### Patch Changes

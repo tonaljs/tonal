@@ -1,5 +1,13 @@
 # @tonaljs/interval
 
+## 4.7.2
+
+### Patch Changes
+
+- Unify package versions
+- Updated dependencies
+  - @tonaljs/core@4.7.2
+
 ## 4.7.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @tonaljs/duration-value
 
+## 4.7.2
+
+### Patch Changes
+
+- Unify package versions
+
 ## 4.7.1
 
 ### Patch Changes
