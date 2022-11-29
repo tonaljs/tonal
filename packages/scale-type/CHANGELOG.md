@@ -1,5 +1,15 @@
 # @tonaljs/scale-type
 
+## 4.7.3
+
+### Patch Changes
+
+- - fix signature parsing
+  - add support for irrational time signatures
+- Updated dependencies
+  - @tonaljs/core@4.7.3
+  - @tonaljs/pcset@4.7.3
+
 ## 4.7.2
 
 ### Patch Changes

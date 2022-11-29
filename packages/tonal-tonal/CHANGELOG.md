@@ -1,5 +1,32 @@
 # tonal
 
+## 4.7.3
+
+### Patch Changes
+
+- - fix signature parsing
+  - add support for irrational time signatures
+- Updated dependencies
+  - @tonaljs/abc-notation@4.7.3
+  - @tonaljs/array@4.7.3
+  - @tonaljs/chord@4.7.3
+  - @tonaljs/chord-type@4.7.3
+  - @tonaljs/collection@4.7.3
+  - @tonaljs/core@4.7.3
+  - @tonaljs/duration-value@4.7.3
+  - @tonaljs/interval@4.7.3
+  - @tonaljs/key@4.7.3
+  - @tonaljs/midi@4.7.3
+  - @tonaljs/mode@4.7.3
+  - @tonaljs/note@4.7.3
+  - @tonaljs/pcset@4.7.3
+  - @tonaljs/progression@4.7.3
+  - @tonaljs/range@4.7.3
+  - @tonaljs/roman-numeral@4.7.3
+  - @tonaljs/scale@4.7.3
+  - @tonaljs/scale-type@4.7.3
+  - @tonaljs/time-signature@4.7.3
+
 ## 4.7.2
 
 ### Patch Changes

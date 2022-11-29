@@ -1,5 +1,16 @@
 # @tonaljs/voicing-dictionary
 
+## 4.7.3
+
+### Patch Changes
+
+- - fix signature parsing
+  - add support for irrational time signatures
+- Updated dependencies
+  - @tonaljs/chord@4.7.3
+  - @tonaljs/note@4.7.3
+  - @tonaljs/voice-leading@4.7.3
+
 ## 4.7.2
 
 ### Patch Changes

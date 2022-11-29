@@ -1,5 +1,15 @@
 # @tonaljs/range
 
+## 4.7.3
+
+### Patch Changes
+
+- - fix signature parsing
+  - add support for irrational time signatures
+- Updated dependencies
+  - @tonaljs/collection@4.7.3
+  - @tonaljs/midi@4.7.3
+
 ## 4.7.2
 
 ### Patch Changes

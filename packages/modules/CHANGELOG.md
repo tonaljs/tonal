@@ -1,5 +1,14 @@
 # @tonaljs/modules
 
+## 4.7.3
+
+### Patch Changes
+
+- - fix signature parsing
+  - add support for irrational time signatures
+- Updated dependencies
+  - tonal@4.7.3
+
 ## 4.7.2
 
 ### Patch Changes

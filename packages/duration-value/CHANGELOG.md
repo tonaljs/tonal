@@ -1,5 +1,12 @@
 # @tonaljs/duration-value
 
+## 4.7.3
+
+### Patch Changes
+
+- - fix signature parsing
+  - add support for irrational time signatures
+
 ## 4.7.2
 
 ### Patch Changes
