@@ -1,5 +1,19 @@
 # @tonaljs/scale-type
 
+## 4.8.0
+
+### Minor Changes
+
+- - fix time signature parsing
+  - add support for irrational time signatures
+  - add option `assumePerfectFifth` to `Chord.detect` function
+
+### Patch Changes
+
+- Updated dependencies
+  - @tonaljs/core@4.8.0
+  - @tonaljs/pcset@4.8.0
+
 ## 4.7.2
 
 ### Patch Changes

@@ -75,7 +75,7 @@ Chord.detect(["D", "F#", "A", "C"]); // => ["D7"]
 Chord.detect(["F#", "A", "C", "D"]); // => ["D7/F#"]
 ```
 
-Alias of [chord-detect](/packages/chord-detect)
+Read more at [chord-detect](/packages/chord-detect)
 
 #### `Chord.transpose(chordName: string, intervalName: string) => string`
 

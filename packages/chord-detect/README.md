@@ -22,7 +22,7 @@ import { detect } from "@tonaljs/chord-detect";
 
 ## API
 
-### `Chord.detect(notes: string[]) => string[]`
+### `Chord.detect(notes: string[], options?: { assumePerfectFifth?: boolean }) => string[]`
 
 Examples:
 
@@ -34,3 +34,12 @@ Chord.detect(["E", "G#", "B", "C#"]); // => ["E6", "C#m7/E"]
 ```
 
 This function is also exposed in [`Chord`](/packages/chord) module.
+
+#### Options
+
+- `assumePerfectFitch`: assumes perfect fifth if no fifth is present
+
+```js
+detect(["D", "F", "C"], { assumePerfectFifth: true }); // => ["Dm7"]
+detect(["D", "F", "C"], { assumePerfectFifth: false }); // => []
+```
