@@ -1,5 +1,18 @@
 # tonal
 
+## 4.9.0
+
+### Minor Changes
+
+- 10056eff: Add triads to key.
+
+  For example: `Key.majorKey("C").triads` or `Key.minorKey("C").melodic.triads`
+
+### Patch Changes
+
+- Updated dependencies [10056eff]
+  - @tonaljs/key@4.9.0
+
 ## 4.8.1
 
 ### Patch Changes

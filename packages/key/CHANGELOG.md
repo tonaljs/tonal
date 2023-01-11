@@ -1,5 +1,13 @@
 # @tonaljs/key
 
+## 4.9.0
+
+### Minor Changes
+
+- 10056eff: Add triads to key.
+
+  For example: `Key.majorKey("C").triads` or `Key.minorKey("C").melodic.triads`
+
 ## 4.8.0
 
 ### Minor Changes
