@@ -9,7 +9,7 @@ import {
   Pitch,
   transpose as _tr,
 } from "@tonaljs/core";
-import { midiToNoteName, freqToMidi } from "@tonaljs/midi";
+import { freqToMidi, midiToNoteName } from "@tonaljs/midi";
 
 const NAMES = ["C", "D", "E", "F", "G", "A", "B"];
 
@@ -183,6 +183,24 @@ export function transposeFifths(noteName: NoteName, fifths: number): NoteName {
   return transposed.name;
 }
 export const trFifths = transposeFifths;
+
+// TODO: documentation
+export function transposeOctaves(
+  noteName: NoteName,
+  octaves: number
+): NoteName {
+  const note = get(noteName);
+  if (note.empty) {
+    return "";
+  }
+  const [nFifths, nOcts] = note.coord;
+  const transposed =
+    nOcts === undefined
+      ? coordToNote([nFifths])
+      : coordToNote([nFifths, nOcts + octaves]);
+
+  return transposed.name;
+}
 
 export type NoteComparator = (a: Note, b: Note) => number;
 
