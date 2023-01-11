@@ -173,6 +173,7 @@ Showcase of projects that are using Tonal:
 - [Chordal](https://chordal.vercel.app) by [kad1kad](https://github.com/kad1kad)
 - [muted.io](https://muted.io/) by [thisisseb](https://github.com/thisisseb)
 - [Midi Sandbox](https://midisandbox.com/) by [jdlee022](https://github.com/jdlee022)
+- [music, eternal](https://eternal.rob.computer) by [kousun12](https://github.com/kousun12)
 
 Thank you all!
 
