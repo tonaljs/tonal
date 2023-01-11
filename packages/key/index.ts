@@ -114,21 +114,21 @@ const distInFifths = (from: string, to: string) => {
 
 const MajorScale = keyScale(
   "I II III IV V VI VII".split(" "),
-  " m m  7 m dim".split(" "),
+  " m m   m dim".split(" "),
   "maj7 m7 m7 maj7 7 m7 m7b5".split(" "),
   "T SD T SD D T D".split(" "),
   "major,dorian,phrygian,lydian,mixolydian,minor,locrian".split(",")
 );
 const NaturalScale = keyScale(
   "I II bIII IV V bVI bVII".split(" "),
-  "m dim  m m  7".split(" "),
+  "m dim  m m  ".split(" "),
   "m7 m7b5 maj7 m7 m7 maj7 7".split(" "),
   "T SD T SD D SD SD".split(" "),
   "minor,locrian,major,dorian,phrygian,lydian,mixolydian".split(",")
 );
 const HarmonicScale = keyScale(
   "I II bIII IV V bVI VII".split(" "),
-  "m dim aug m 7  dim".split(" "),
+  "m dim aug m   dim".split(" "),
   "mMaj7 m7b5 +maj7 m7 7 maj7 o7".split(" "),
   "T SD T SD D SD D".split(" "),
   "harmonic minor,locrian 6,major augmented,lydian diminished,phrygian dominant,lydian #9,ultralocrian".split(
@@ -137,7 +137,7 @@ const HarmonicScale = keyScale(
 );
 const MelodicScale = keyScale(
   "I II bIII IV V VI VII".split(" "),
-  "m m aug 7 7 dim dim".split(" "),
+  "m m aug   dim dim".split(" "),
   "m6 m7 +maj7 7 7 m7b5 m7b5".split(" "),
   "T SD T SD D  ".split(" "),
   "melodic minor,dorian b2,lydian augmented,lydian dominant,mixolydian b6,locrian #2,altered".split(
