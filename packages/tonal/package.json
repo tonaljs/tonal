@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "4.8.0",
+  "version": "4.8.1",
   "description": "tonaljs music theory library",
   "keywords": [
     "music",
@@ -43,7 +43,7 @@
   "scripts": {
     "build": "npm run build:node && npm run build:browser",
     "build:node": "tsup index.ts --sourcemap --dts --format esm,cjs",
-    "build:browser": "esbuild index.ts --bundle --minify --sourcemap --outfile=browser/tonal.min.js",
+    "build:browser": "esbuild index.ts --format=iife --global-name=Tonal --bundle --minify --sourcemap --outfile=browser/tonal.min.js",
     "test": "jest"
   },
   "jest": {
