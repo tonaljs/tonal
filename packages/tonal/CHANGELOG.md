@@ -1,5 +1,11 @@
 # tonal
 
+## 4.8.1
+
+### Patch Changes
+
+- 3f4e78ee: Fix browser build
+
 ## 4.8.0
 
 ### Minor Changes
