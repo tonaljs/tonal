@@ -23,6 +23,7 @@ export interface KeyScale {
   readonly grades: readonly string[];
   readonly intervals: readonly string[];
   readonly scale: readonly string[];
+  readonly triads: readonly string[];
   readonly chords: readonly string[];
   readonly chordsHarmonicFunction: readonly string[];
   readonly chordScales: readonly string[];
@@ -33,6 +34,7 @@ const NoKeyScale: KeyScale = {
   grades: Empty,
   intervals: Empty,
   scale: Empty,
+  triads: Empty,
   chords: Empty,
   chordsHarmonicFunction: Empty,
   chordScales: Empty,
@@ -82,6 +84,7 @@ const mapScaleToType = (scale: string[], list: string[], sep = "") =>
 
 function keyScale(
   grades: string[],
+  triads: string[],
   chords: string[],
   harmonicFunctions: string[],
   chordScales: string[]
@@ -95,6 +98,7 @@ function keyScale(
       grades,
       intervals,
       scale,
+      triads: mapScaleToType(scale, triads),
       chords: mapScaleToType(scale, chords),
       chordsHarmonicFunction: harmonicFunctions.slice(),
       chordScales: mapScaleToType(scale, chordScales, " "),
@@ -110,18 +114,21 @@ const distInFifths = (from: string, to: string) => {
 
 const MajorScale = keyScale(
   "I II III IV V VI VII".split(" "),
+  " m m   m dim".split(" "),
   "maj7 m7 m7 maj7 7 m7 m7b5".split(" "),
   "T SD T SD D T D".split(" "),
   "major,dorian,phrygian,lydian,mixolydian,minor,locrian".split(",")
 );
 const NaturalScale = keyScale(
   "I II bIII IV V bVI bVII".split(" "),
+  "m dim  m m  ".split(" "),
   "m7 m7b5 maj7 m7 m7 maj7 7".split(" "),
   "T SD T SD D SD SD".split(" "),
   "minor,locrian,major,dorian,phrygian,lydian,mixolydian".split(",")
 );
 const HarmonicScale = keyScale(
   "I II bIII IV V bVI VII".split(" "),
+  "m dim aug m   dim".split(" "),
   "mMaj7 m7b5 +maj7 m7 7 maj7 o7".split(" "),
   "T SD T SD D SD D".split(" "),
   "harmonic minor,locrian 6,major augmented,lydian diminished,phrygian dominant,lydian #9,ultralocrian".split(
@@ -130,6 +137,7 @@ const HarmonicScale = keyScale(
 );
 const MelodicScale = keyScale(
   "I II bIII IV V VI VII".split(" "),
+  "m m aug   dim dim".split(" "),
   "m6 m7 +maj7 7 7 m7b5 m7b5".split(" "),
   "T SD T SD D  ".split(" "),
   "melodic minor,dorian b2,lydian augmented,lydian dominant,mixolydian b6,locrian #2,altered".split(

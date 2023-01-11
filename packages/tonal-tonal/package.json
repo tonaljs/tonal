@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/tonal",
-  "version": "4.8.0",
+  "version": "4.9.0",
   "description": "tonal music theory full library",
   "keywords": [
     "music",
@@ -23,7 +23,7 @@
     "@tonaljs/core": "^4.8.0",
     "@tonaljs/duration-value": "^4.8.0",
     "@tonaljs/interval": "^4.8.0",
-    "@tonaljs/key": "^4.8.0",
+    "@tonaljs/key": "^4.9.0",
     "@tonaljs/midi": "^4.8.0",
     "@tonaljs/mode": "^4.8.0",
     "@tonaljs/note": "^4.8.0",

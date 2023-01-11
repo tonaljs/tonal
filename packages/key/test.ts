@@ -212,6 +212,15 @@ describe("@tonal/key", () => {
           "",
         ],
         "tonic": "C",
+        "triads": [
+          "C",
+          "Dm",
+          "Em",
+          "F",
+          "G",
+          "Am",
+          "Bdim",
+        ],
         "type": "major",
       }
     `);
@@ -287,6 +296,15 @@ describe("@tonal/key", () => {
             "B",
           ],
           "tonic": "C",
+          "triads": [
+            "Cm",
+            "Ddim",
+            "Ebaug",
+            "Fm",
+            "G",
+            "Ab",
+            "Bdim",
+          ],
         },
         "keySignature": "bbb",
         "melodic": {
@@ -345,6 +363,15 @@ describe("@tonal/key", () => {
             "B",
           ],
           "tonic": "C",
+          "triads": [
+            "Cm",
+            "Dm",
+            "Ebaug",
+            "F",
+            "G",
+            "Adim",
+            "Bdim",
+          ],
         },
         "natural": {
           "chordScales": [
@@ -402,6 +429,15 @@ describe("@tonal/key", () => {
             "Bb",
           ],
           "tonic": "C",
+          "triads": [
+            "Cm",
+            "Ddim",
+            "Eb",
+            "Fm",
+            "Gm",
+            "Ab",
+            "Bb",
+          ],
         },
         "relativeMajor": "Eb",
         "tonic": "C",
