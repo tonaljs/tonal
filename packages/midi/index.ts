@@ -123,14 +123,12 @@ function pcsetFromMidi(midi: number[]): number[] {
  * @example
  *
  */
-export function pcset(pcsetChromaOrMidiNotes: string | number[]): number[] {
-  return Array.isArray(pcsetChromaOrMidiNotes)
-    ? pcsetFromMidi(pcsetChromaOrMidiNotes)
-    : pcsetFromChroma(pcsetChromaOrMidiNotes);
+export function pcset(notes: number[] | string): number[] {
+  return Array.isArray(notes) ? pcsetFromMidi(notes) : pcsetFromChroma(notes);
 }
 
-export function nearestInPcset(pcsetChromaOrMidiNotes: string | number[]) {
-  const set = pcset(pcsetChromaOrMidiNotes);
+export function pcsetNearest(notes: number[] | string) {
+  const set = pcset(notes);
   return (midi: number): number | undefined => {
     const ch = chroma(midi);
     for (let i = 0; i < 12; i++) {
@@ -141,19 +139,18 @@ export function nearestInPcset(pcsetChromaOrMidiNotes: string | number[]) {
   };
 }
 
-export function pcsetSteps(pcsetOrMidi: string | number[], tonic: number) {
-  const set = pcset(pcsetOrMidi);
+export function pcsetSteps(notes: number[] | string, tonic: number) {
+  const set = pcset(notes);
   const len = set.length;
-  return (normalized: number): number => {
-    const index =
-      normalized < 0 ? (len - (-normalized % len)) % len : normalized % len;
-    const octaves = Math.floor(normalized / len);
+  return (step: number): number => {
+    const index = step < 0 ? (len - (-step % len)) % len : step % len;
+    const octaves = Math.floor(step / len);
     return set[index] + octaves * 12 + tonic;
   };
 }
 
-export function pcsetDegrees(pcsetOrMidi: string | number[], tonic: number) {
-  const steps = pcsetSteps(pcsetOrMidi, tonic);
+export function pcsetDegrees(notes: number[] | string, tonic: number) {
+  const steps = pcsetSteps(notes, tonic);
   return (degree: number): number | undefined => {
     if (degree === 0) return undefined;
     return steps(degree > 0 ? degree - 1 : degree);
@@ -166,7 +163,7 @@ export default {
   isMidi,
   midiToFreq,
   midiToNoteName,
-  nearestInPcset,
+  pcsetNearest,
   pcset,
   pcsetDegrees,
   pcsetSteps,

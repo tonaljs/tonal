@@ -54,16 +54,16 @@ describe("midi", () => {
     });
   });
 
-  describe("Midi.nearestInPcset", () => {
+  describe("Midi.pcsetNearest", () => {
     test("find nearest upwards", () => {
-      const nearest = Midi.nearestInPcset([0, 5, 7]);
+      const nearest = Midi.pcsetNearest([0, 5, 7]);
       expect([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(nearest)).toEqual([
         0, 0, 0, 5, 5, 5, 7, 7, 7, 7, 7, 7, 12,
       ]);
     });
 
     test("empty pcsets returns the note", () => {
-      expect([10, 30, 40].map(Midi.nearestInPcset([]))).toEqual([]);
+      expect([10, 30, 40].map(Midi.pcsetNearest([]))).toEqual([]);
     });
   });
 
