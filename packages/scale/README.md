@@ -133,6 +133,8 @@ Because it returns a function, it's handy to be used with `map` (and similar fun
 
 Notice that it uses octaves if the scale tonic has an octave or pitch classes (_octaveless_ notes) otherwise.
 
+See `Chord.degrees`
+
 See https://en.wikipedia.org/wiki/Degree_(music)
 
 ### `Scale.rangeOf(scaleName: string) => (from: string, to: string) => string[]`
