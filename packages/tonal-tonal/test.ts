@@ -186,6 +186,7 @@ describe("tonal", () => {
         "transposeBy",
         "transposeFifths",
         "transposeFrom",
+        "transposeOctaves",
       ],
       PcSet: [
         "chroma",
