@@ -154,8 +154,10 @@ describe("tonal", () => {
         "isMidi",
         "midiToFreq",
         "midiToNoteName",
-        "nearestInPcSet",
+        "nearestInPcset",
         "pcset",
+        "pcsetDegrees",
+        "pcsetSteps",
         "toMidi",
       ],
       Mode: [

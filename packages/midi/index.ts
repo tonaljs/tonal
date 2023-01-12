@@ -129,7 +129,7 @@ export function pcset(pcsetChromaOrMidiNotes: string | number[]): number[] {
     : pcsetFromChroma(pcsetChromaOrMidiNotes);
 }
 
-export function nearestInPcSet(pcsetChromaOrMidiNotes: string | number[]) {
+export function nearestInPcset(pcsetChromaOrMidiNotes: string | number[]) {
   const set = pcset(pcsetChromaOrMidiNotes);
   return (midi: number): number | undefined => {
     const ch = chroma(midi);
@@ -141,13 +141,34 @@ export function nearestInPcSet(pcsetChromaOrMidiNotes: string | number[]) {
   };
 }
 
+export function pcsetSteps(pcsetOrMidi: string | number[], tonic: number) {
+  const set = pcset(pcsetOrMidi);
+  const len = set.length;
+  return (normalized: number): number => {
+    const index =
+      normalized < 0 ? (len - (-normalized % len)) % len : normalized % len;
+    const octaves = Math.floor(normalized / len);
+    return set[index] + octaves * 12 + tonic;
+  };
+}
+
+export function pcsetDegrees(pcsetOrMidi: string | number[], tonic: number) {
+  const steps = pcsetSteps(pcsetOrMidi, tonic);
+  return (degree: number): number | undefined => {
+    if (degree === 0) return undefined;
+    return steps(degree > 0 ? degree - 1 : degree);
+  };
+}
+
 export default {
   chroma,
   freqToMidi,
   isMidi,
   midiToFreq,
   midiToNoteName,
-  nearestInPcSet,
+  nearestInPcset,
   pcset,
+  pcsetDegrees,
+  pcsetSteps,
   toMidi,
 };
