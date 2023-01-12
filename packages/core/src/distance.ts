@@ -38,6 +38,23 @@ export function transpose(
   return coordToNote(tr).name;
 }
 
+// Private
+export function transposeIntervalSetByDegree(
+  intervals: string[],
+  tonic: string
+) {
+  const len = intervals.length;
+  return (degree: number) => {
+    if (!tonic || degree === 0) return "";
+    const normalized = degree < 0 ? degree : degree - 1;
+    const index =
+      normalized < 0 ? (len - (-normalized % len)) % len : normalized % len;
+    const octaves = Math.floor(normalized / len);
+    const root = transpose(tonic, [0, octaves]);
+    return transpose(root, intervals[index]);
+  };
+}
+
 /**
  * Find the interval distance between two notes or coord classes.
  *

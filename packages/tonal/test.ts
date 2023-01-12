@@ -44,6 +44,7 @@ describe("tonal", () => {
       "tokenizeInterval",
       "tokenizeNote",
       "transpose",
+      "transposeIntervalSetByDegree",
     ]);
   });
   test("Modules exports functions", () => {
@@ -126,6 +127,7 @@ describe("tonal", () => {
         "tokenizeInterval",
         "tokenizeNote",
         "transpose",
+        "transposeIntervalSetByDegree",
       ],
       DurationValue: ["fraction", "get", "names", "shorthands", "value"],
       Interval: [
@@ -271,6 +273,7 @@ describe("tonal", () => {
         "tokenizeInterval",
         "tokenizeNote",
         "transpose",
+        "transposeIntervalSetByDegree",
       ],
     });
   });
