@@ -26,7 +26,18 @@ Note.accidentals("c#2"); // => '#'
 Note.transpose("C4", "5P"); // => "G4"
 Interval.semitones("5P"); // => 7
 Interval.distance("C4", "G4"); // => "5P"
-Scale.get("C major").notes; // =>["C", "D", "E", "F", "G", "A", "B"];
+
+// Scales
+Scale.get("C major").notes; // => ["C", "D", "E", "F", "G", "A", "B"];
+[1, 3, 5, 7].map(Scale.degrees("C major")); // => ["C", "E", "G", "B"]
+
+Chord.get("Cmaj7").name; // => "C major seventh"
+
+// Chord inversions
+const triad = Chord.degrees("Cm");
+[1, 2, 3].map(triad); // => ["C", "Eb", "G"];
+[2, 3, 4].map(triad); // => ["Eb", "G", "C"];
+[3, 4, 5].map(triad); // => ["G", "C", "Eb"];
 ```
 
 ## Install
@@ -140,6 +151,8 @@ Read [contributing document](/docs/CONTRIBUTING.md). To contribute open a PR and
 - If is a new feature, add documentation: changes to README of the affected module(s) are expected.
 - Ad tests: changes to the test.ts file of the affected module(s) are expected.
 - All tests are green
+
+You can read [CHANGELOG here](https://github.com/tonaljs/tonal/blob/main/packages/tonal/CHANGELOG.md).
 
 ## Inspiration
 

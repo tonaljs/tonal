@@ -44,4 +44,43 @@ describe("midi", () => {
     expect(Midi.midiToNoteName(-Infinity)).toEqual("");
     expect(Midi.midiToNoteName(Infinity)).toEqual("");
   });
+
+  describe("Midi.pcset", () => {
+    test("from chroma", () => {
+      expect(Midi.pcset("100100100101")).toEqual([0, 3, 6, 9, 11]);
+    });
+    test("from midi", () => {
+      expect(Midi.pcset([62, 63, 60, 65, 70, 72])).toEqual([0, 2, 3, 5, 10]);
+    });
+  });
+
+  describe("Midi.pcsetNearest", () => {
+    test("find nearest upwards", () => {
+      const nearest = Midi.pcsetNearest([0, 5, 7]);
+      expect([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(nearest)).toEqual([
+        0, 0, 0, 5, 5, 5, 7, 7, 7, 7, 7, 7, 12,
+      ]);
+    });
+
+    test("empty pcsets returns the note", () => {
+      expect([10, 30, 40].map(Midi.pcsetNearest([]))).toEqual([]);
+    });
+  });
+
+  test("Midi.pcsetSteps", () => {
+    const scale = Midi.pcsetSteps("101010", 60);
+    expect([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(scale)).toEqual([
+      60, 62, 64, 72, 74, 76, 84, 86, 88, 96,
+    ]);
+    expect([0, -1, -2, -3, -4, -5, -6, -7, -8, -9].map(scale)).toEqual([
+      60, 52, 50, 48, 40, 38, 36, 28, 26, 24,
+    ]);
+  });
+
+  test("Midi.pcsetDegrees", () => {
+    const scale = Midi.pcsetDegrees("101010", 60);
+    expect([1, 2, 3, 4, 5].map(scale)).toEqual([60, 62, 64, 72, 74]);
+    expect([-1, -2, -3, 4, 5].map(scale)).toEqual([52, 50, 48, 72, 74]);
+    expect(scale(0)).toBe(undefined);
+  });
 });

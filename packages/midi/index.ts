@@ -99,4 +99,73 @@ export function midiToNoteName(midi: number, options: ToNoteNameOptions = {}) {
   return pc + o;
 }
 
-export default { isMidi, toMidi, midiToFreq, midiToNoteName, freqToMidi };
+export function chroma(midi: number): number {
+  return midi % 12;
+}
+
+function pcsetFromChroma(chroma: string): number[] {
+  return chroma.split("").reduce((pcset, val, index) => {
+    if (index < 12 && val === "1") pcset.push(index);
+    return pcset;
+  }, [] as number[]);
+}
+
+function pcsetFromMidi(midi: number[]): number[] {
+  return midi
+    .map(chroma)
+    .sort((a, b) => a - b)
+    .filter((n, i, a) => i === 0 || n !== a[i - 1]);
+}
+
+/**
+ * Given a list of midi numbers, returns the pitch class set (unique chroma numbers)
+ * @param midi
+ * @example
+ *
+ */
+export function pcset(notes: number[] | string): number[] {
+  return Array.isArray(notes) ? pcsetFromMidi(notes) : pcsetFromChroma(notes);
+}
+
+export function pcsetNearest(notes: number[] | string) {
+  const set = pcset(notes);
+  return (midi: number): number | undefined => {
+    const ch = chroma(midi);
+    for (let i = 0; i < 12; i++) {
+      if (set.includes(ch + i)) return midi + i;
+      if (set.includes(ch - i)) return midi - i;
+    }
+    return undefined;
+  };
+}
+
+export function pcsetSteps(notes: number[] | string, tonic: number) {
+  const set = pcset(notes);
+  const len = set.length;
+  return (step: number): number => {
+    const index = step < 0 ? (len - (-step % len)) % len : step % len;
+    const octaves = Math.floor(step / len);
+    return set[index] + octaves * 12 + tonic;
+  };
+}
+
+export function pcsetDegrees(notes: number[] | string, tonic: number) {
+  const steps = pcsetSteps(notes, tonic);
+  return (degree: number): number | undefined => {
+    if (degree === 0) return undefined;
+    return steps(degree > 0 ? degree - 1 : degree);
+  };
+}
+
+export default {
+  chroma,
+  freqToMidi,
+  isMidi,
+  midiToFreq,
+  midiToNoteName,
+  pcsetNearest,
+  pcset,
+  pcsetDegrees,
+  pcsetSteps,
+  toMidi,
+};
