@@ -196,6 +196,10 @@ describe("@tonaljs/scale", () => {
             .join(" ")
         ).toEqual("C4 D4 E4 G4 A4 C5 D5 E5 G5 A5 C6");
       });
+      test("invalid inputs", () => {
+        expect(Scale.degrees("C major")(0)).toBe("");
+        expect(Scale.degrees("C nonsense")(0)).toBe("");
+      });
     });
 
     test("negative scale degrees", () => {

@@ -235,13 +235,20 @@ export function rangeOf(scale: string | string[]) {
   };
 }
 
+/**
+ * Returns a function to get a note name from the scale degree.
+ *
+ * @example
+ * [1, 2, 3].map(Scale.degrees("C major")) => ["C", "D", "E"]
+ * [1, 2, 3].map(Scale.degrees("C4 major")) => ["C4", "D4", "E4"]
+ */
 export function degrees(scaleName: string | ScaleNameTokens) {
   const scale = get(scaleName);
   const intervals = scale.intervals;
   const len = intervals.length;
   const tonic = scale.tonic;
   return (degree: number) => {
-    if (!tonic || degree === 0) return undefined;
+    if (!tonic || degree === 0) return "";
     const normalized = degree > 0 ? degree - 1 : degree;
     const index =
       normalized < 0 ? (len - (-normalized % len)) % len : normalized % len;

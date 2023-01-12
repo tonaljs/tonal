@@ -103,6 +103,38 @@ Scale.modeNames("C pentatonic"); // => [
 //  ]
 ```
 
+### `Scale.degrees(scaleName: string) => (degree: number) => string`
+
+`Scale.degrees` returns a function to get a note name from a scale degree:
+
+```js
+const c4major = Scale.degrees("C4 major");
+c4major(1); // => "C4"
+c4major(2); // => "D4"
+c4major(8); // => "C5"
+c4major(-1); // => "B3"
+c4major(-3); // => "A3"
+c4major(-7); // => "C2"
+```
+
+Bear in mind that degree numbers starts with 1 and 0 returns an empty string:
+
+```js
+c4major(0); // => ""
+```
+
+Because it returns a function, it's handy to be used with `map` (and similar functions):
+
+```js
+[1, 2, 3].map(Scale.degrees("C major")) => ["C", "D", "E"]
+[1, 2, 3].map(Scale.degrees("C4 major")) => ["C4", "D4", "E4"]
+[-1, -2, -3].map(Scale.degrees("C major")) => ["B", "A", "G"]
+```
+
+Notice that it uses octaves if the scale tonic has an octave or pitch classes (_octaveless_ notes) otherwise.
+
+See https://en.wikipedia.org/wiki/Degree_(music)
+
 ### `Scale.rangeOf(scaleName: string) => (from: string, to: string) => string[]`
 
 `Scale.rangeOf` returns a function to create scale ranges:
