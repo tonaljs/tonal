@@ -4,9 +4,14 @@
  * @module scale
  */
 import { all as chordTypes } from "@tonaljs/chord-type";
-import { rotate, range as nums } from "@tonaljs/collection";
+import { range as nums, rotate } from "@tonaljs/collection";
 import { deprecate, note, NoteName, transpose } from "@tonaljs/core";
-import { sortedUniqNames, fromMidi, enharmonic } from "@tonaljs/note";
+import {
+  enharmonic,
+  fromMidi,
+  sortedUniqNames,
+  transposeOctaves,
+} from "@tonaljs/note";
 import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
 import {
   all as scaleTypes,
@@ -230,6 +235,29 @@ export function rangeOf(scale: string | string[]) {
   };
 }
 
+/**
+ * Returns a function to get a note name from the scale degree.
+ *
+ * @example
+ * [1, 2, 3].map(Scale.degrees("C major")) => ["C", "D", "E"]
+ * [1, 2, 3].map(Scale.degrees("C4 major")) => ["C4", "D4", "E4"]
+ */
+export function degrees(scaleName: string | ScaleNameTokens) {
+  const scale = get(scaleName);
+  const intervals = scale.intervals;
+  const len = intervals.length;
+  const tonic = scale.tonic;
+  return (degree: number) => {
+    if (!tonic || degree === 0) return "";
+    const normalized = degree > 0 ? degree - 1 : degree;
+    const index =
+      normalized < 0 ? (len - (-normalized % len)) % len : normalized % len;
+    const octaves = Math.floor(normalized / len);
+    const root = transposeOctaves(tonic, octaves);
+    return transpose(root, intervals[index]);
+  };
+}
+
 export default {
   get,
   names,
@@ -240,6 +268,7 @@ export default {
   scaleNotes,
   tokenize,
   rangeOf,
+  degrees,
   // deprecated
   scale,
 };

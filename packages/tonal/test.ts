@@ -219,6 +219,7 @@ describe("tonal", () => {
       Range: ["chromatic", "numeric"],
       RomanNumeral: ["get", "names", "romanNumeral"],
       Scale: [
+        "degrees",
         "extended",
         "get",
         "modeNames",

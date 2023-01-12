@@ -1,5 +1,18 @@
 # @tonaljs/scale
 
+## 4.9.0
+
+### Minor Changes
+
+- Scale.degrees new function
+
+  Example: `[1, 2, 3].map(Scale.degrees("C major")) => ["C", "D", "E"]`
+
+### Patch Changes
+
+- Updated dependencies
+  - @tonaljs/note@4.9.0
+
 ## 4.8.0
 
 ### Minor Changes

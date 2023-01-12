@@ -51,12 +51,11 @@ Releases are built using changesets: https://turbo.build/repo/docs/handbook/publ
 # Create a new branch
 git co -b release-4.7.4
 
-# Select packages and which version (major, minor, bump)
+# Create a changeset and update versions
 
-npx changeset
-
-# Update version and CHANGELOG of each package
-npx changeset version
+npx changeset # Select packages and which version (major, minor, bump)
+# (Optional: edit changeset. The header contains the affected packages.)
+npx changeset version # Updates version and CHANGELOG of each package
 
 # Create commit and PR
 git add .

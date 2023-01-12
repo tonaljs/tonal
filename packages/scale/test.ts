@@ -177,5 +177,47 @@ describe("@tonaljs/scale", () => {
       const range = Scale.rangeOf(["c4", "g4", "db3", "g"]);
       expect(range("c4", "c5").join(" ")).toEqual("C4 Db4 G4 C5");
     });
+
+    describe("degrees", () => {
+      test("positive scale degrees", () => {
+        expect(
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            .map(Scale.degrees("C major"))
+            .join(" ")
+        ).toEqual("C D E F G A B C D E");
+        expect(
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            .map(Scale.degrees("C4 major"))
+            .join(" ")
+        ).toEqual("C4 D4 E4 F4 G4 A4 B4 C5 D5 E5");
+        expect(
+          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+            .map(Scale.degrees("C4 pentatonic"))
+            .join(" ")
+        ).toEqual("C4 D4 E4 G4 A4 C5 D5 E5 G5 A5 C6");
+      });
+      test("invalid inputs", () => {
+        expect(Scale.degrees("C major")(0)).toBe("");
+        expect(Scale.degrees("C nonsense")(0)).toBe("");
+      });
+    });
+
+    test("negative scale degrees", () => {
+      expect(
+        [-1, -2, -3, -4, -5, -6, -7, -8, -9, -10]
+          .map(Scale.degrees("C major"))
+          .join(" ")
+      ).toEqual("B A G F E D C B A G");
+      expect(
+        [-1, -2, -3, -4, -5, -6, -7, -8, -9, -10]
+          .map(Scale.degrees("C4 major"))
+          .join(" ")
+      ).toEqual("B3 A3 G3 F3 E3 D3 C3 B2 A2 G2");
+      expect(
+        [-1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11]
+          .map(Scale.degrees("C4 pentatonic"))
+          .join(" ")
+      ).toEqual("A3 G3 E3 D3 C3 A2 G2 E2 D2 C2 A1");
+    });
   });
 });
