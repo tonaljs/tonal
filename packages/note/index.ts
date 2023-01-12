@@ -1,5 +1,4 @@
 import {
-  coordToNote,
   IntervalName,
   Named,
   Note,
@@ -170,17 +169,7 @@ export const trFrom = transposeFrom;
  * [0, 1, 2, 3, 4].map(fifths => transposeFifths("C", fifths)) // => ["C", "G", "D", "A", "E"]
  */
 export function transposeFifths(noteName: NoteName, fifths: number): NoteName {
-  const note = get(noteName);
-  if (note.empty) {
-    return "";
-  }
-  const [nFifths, nOcts] = note.coord;
-  const transposed =
-    nOcts === undefined
-      ? coordToNote([nFifths + fifths])
-      : coordToNote([nFifths + fifths, nOcts]);
-
-  return transposed.name;
+  return transpose(noteName, [fifths, 0]);
 }
 export const trFifths = transposeFifths;
 
@@ -189,17 +178,7 @@ export function transposeOctaves(
   noteName: NoteName,
   octaves: number
 ): NoteName {
-  const note = get(noteName);
-  if (note.empty) {
-    return "";
-  }
-  const [nFifths, nOcts] = note.coord;
-  const transposed =
-    nOcts === undefined
-      ? coordToNote([nFifths])
-      : coordToNote([nFifths, nOcts + octaves]);
-
-  return transposed.name;
+  return transpose(noteName, [0, octaves]);
 }
 
 export type NoteComparator = (a: Note, b: Note) => number;
@@ -320,6 +299,7 @@ export default {
   transposeFrom,
   trFrom,
   transposeFifths,
+  transposeOctaves,
   trFifths,
   simplify,
   enharmonic,

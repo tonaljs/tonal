@@ -123,6 +123,17 @@ describe("note", () => {
     expect(flats).toEqual(["Bb", "Eb", "Ab", "Db", "Gb", "Cb", "Fb"]);
   });
 
+  test("transposeOctaves", () => {
+    expect(
+      [0, 1, 2, 3, 4].map((oct) => Note.transposeOctaves("C4", oct)).join(" ")
+    ).toEqual("C4 C5 C6 C7 C8");
+    expect(
+      [-1, -2, -3, -4, -5]
+        .map((oct) => Note.transposeOctaves("C4", oct))
+        .join(" ")
+    ).toEqual("C3 C2 C1 C0 C-1");
+  });
+
   test("fromFreq", () => {
     expect(Note.fromFreq(440)).toEqual("A4");
     expect(Note.fromFreq(444)).toEqual("A4");
