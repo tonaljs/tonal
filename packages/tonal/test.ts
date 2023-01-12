@@ -78,6 +78,7 @@ describe("tonal", () => {
       Chord: [
         "chord",
         "chordScales",
+        "degrees",
         "detect",
         "extended",
         "get",

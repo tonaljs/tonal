@@ -245,9 +245,7 @@ export function rangeOf(scale: string | string[]) {
  */
 export function degrees(scaleName: string | ScaleNameTokens) {
   const scale = get(scaleName);
-  const intervals = scale.intervals;
-  const tonic = scale.tonic;
-  return transposeIntervalSetByDegree(intervals, tonic ?? "");
+  return transposeIntervalSetByDegree(scale.intervals, scale.tonic ?? "");
 }
 
 export default {
