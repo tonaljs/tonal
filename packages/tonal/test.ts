@@ -148,7 +148,16 @@ describe("tonal", () => {
         "transposeFifths",
       ],
       Key: ["majorKey", "majorTonicFromKeySignature", "minorKey"],
-      Midi: ["freqToMidi", "isMidi", "midiToFreq", "midiToNoteName", "toMidi"],
+      Midi: [
+        "chroma",
+        "freqToMidi",
+        "isMidi",
+        "midiToFreq",
+        "midiToNoteName",
+        "nearestInPcSet",
+        "pcset",
+        "toMidi",
+      ],
       Mode: [
         "all",
         "distance",
