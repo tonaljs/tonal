@@ -44,6 +44,7 @@ describe("tonal", () => {
       "tokenizeInterval",
       "tokenizeNote",
       "transpose",
+      "transposeIntervalSetByDegree",
     ]);
   });
   test("Modules exports functions", () => {
@@ -77,6 +78,7 @@ describe("tonal", () => {
       Chord: [
         "chord",
         "chordScales",
+        "degrees",
         "detect",
         "extended",
         "get",
@@ -126,6 +128,7 @@ describe("tonal", () => {
         "tokenizeInterval",
         "tokenizeNote",
         "transpose",
+        "transposeIntervalSetByDegree",
       ],
       DurationValue: ["fraction", "get", "names", "shorthands", "value"],
       Interval: [
@@ -186,6 +189,7 @@ describe("tonal", () => {
         "transposeBy",
         "transposeFifths",
         "transposeFrom",
+        "transposeOctaves",
       ],
       PcSet: [
         "chroma",
@@ -270,6 +274,7 @@ describe("tonal", () => {
         "tokenizeInterval",
         "tokenizeNote",
         "transpose",
+        "transposeIntervalSetByDegree",
       ],
     });
   });

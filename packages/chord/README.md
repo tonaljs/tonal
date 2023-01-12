@@ -66,6 +66,27 @@ Important: currently chord with roots are NOT allowed (will be implemented in ne
 Chord.get("Cmaj7/E"); // => { empty: true }
 ```
 
+### `Chord.degrees(chordName: string) => (degree: number) => string`
+
+`Scale.degrees` returns a function to get a note name from a scale degree:
+
+```js
+const c4m7 = Chord.degrees("C4m7");
+c4m7(1); // => "C4"
+c4m7(2); // => "Eb4"
+c4m7(3); // => "G4"
+c4m7(4); // => "Bb4"
+c4m7(1); // => "C5"
+```
+
+Bear in mind that degree numbers starts with 1 and 0 returns an empty string:
+
+```js
+c4m7(0); // => ""
+```
+
+See [`Scale.degrees`](https://github.com/tonaljs/tonal/tree/main/packages/scale#scaledegreesscalename-string--degree-number--string)
+
 #### `Chord.detect(notes: string[]) => string[]`
 
 Given a list of notes, get the possible chord names:

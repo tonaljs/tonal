@@ -21,20 +21,38 @@ import { PitchCoordinates } from "./pitch";
  */
 export function transpose(
   noteName: NoteLiteral,
-  intervalName: IntervalLiteral
+  intervalName: IntervalLiteral | [number, number]
 ): NoteName {
   const note = asNote(noteName);
-  const interval = asInterval(intervalName);
-  if (note.empty || interval.empty) {
+  const intervalCoord = Array.isArray(intervalName)
+    ? intervalName
+    : asInterval(intervalName).coord;
+  if (note.empty || !intervalCoord || intervalCoord.length < 2) {
     return "";
   }
   const noteCoord = note.coord;
-  const intervalCoord = interval.coord;
   const tr: PitchCoordinates =
     noteCoord.length === 1
       ? [noteCoord[0] + intervalCoord[0]]
       : [noteCoord[0] + intervalCoord[0], noteCoord[1] + intervalCoord[1]];
   return coordToNote(tr).name;
+}
+
+// Private
+export function transposeIntervalSetByDegree(
+  intervals: string[],
+  tonic: string
+) {
+  const len = intervals.length;
+  return (degree: number) => {
+    if (!tonic || degree === 0) return "";
+    const normalized = degree < 0 ? degree : degree - 1;
+    const index =
+      normalized < 0 ? (len - (-normalized % len)) % len : normalized % len;
+    const octaves = Math.floor(normalized / len);
+    const root = transpose(tonic, [0, octaves]);
+    return transpose(root, intervals[index]);
+  };
 }
 
 /**

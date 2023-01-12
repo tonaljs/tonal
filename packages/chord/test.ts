@@ -215,6 +215,24 @@ describe("tonal-chord", () => {
     expect(Chord.reduced("CMaj7")).toEqual(["C5", "CM"]);
   });
 
+  describe("Chord.degrees", () => {
+    test("ascending", () => {
+      expect([1, 2, 3, 4].map(Chord.degrees("C")).join(" ")).toEqual("C E G C");
+      expect([1, 2, 3, 4].map(Chord.degrees("C4M")).join(" ")).toEqual(
+        "C4 E4 G4 C5"
+      );
+      expect(
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(Chord.degrees("C4m6")).join(" ")
+      ).toEqual("C4 Eb4 G4 A4 C5 Eb5 G5 A5 C6 Eb6");
+    });
+    test("descending", () => {
+      expect([-1, -2, -3].map(Chord.degrees("C")).join(" ")).toEqual("G E C");
+      expect([-1, -2, -3].map(Chord.degrees("C4M")).join(" ")).toEqual(
+        "G3 E3 C3"
+      );
+    });
+  });
+
   /*
   test.skip("position", () => {
     expect(Chord.position("g2 c3 e4 b")).toEqual(2);
