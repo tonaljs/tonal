@@ -152,6 +152,8 @@ Read [contributing document](/docs/CONTRIBUTING.md). To contribute open a PR and
 - Ad tests: changes to the test.ts file of the affected module(s) are expected.
 - All tests are green
 
+You can read [CHANGELOG here](https://github.com/tonaljs/tonal/blob/main/packages/tonal/CHANGELOG.md).
+
 ## Inspiration
 
 This library takes inspiration from other music theory libraries:

@@ -1,5 +1,16 @@
 # @tonaljs/midi
 
+## 4.9.0
+
+### Minor Changes
+
+- New midi functions
+
+  - Midi.pcset
+  - Midi.pcsetSteps
+  - Midi.pcsetDegrees
+  - Midi.pcsetNearest
+
 ## 4.8.0
 
 ### Minor Changes
