@@ -44,4 +44,26 @@ describe("midi", () => {
     expect(Midi.midiToNoteName(-Infinity)).toEqual("");
     expect(Midi.midiToNoteName(Infinity)).toEqual("");
   });
+
+  describe("Midi.pcset", () => {
+    test("from chroma", () => {
+      expect(Midi.pcset("100100100101")).toEqual([0, 3, 6, 9, 11]);
+    });
+    test("from midi", () => {
+      expect(Midi.pcset([62, 63, 60, 65, 70, 72])).toEqual([0, 2, 3, 5, 10]);
+    });
+  });
+
+  describe("Midi.nearestInPcSet", () => {
+    test("find nearest upwards", () => {
+      const nearest = Midi.nearestInPcSet([0, 5, 7]);
+      expect([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(nearest)).toEqual([
+        0, 0, 0, 5, 5, 5, 7, 7, 7, 7, 7, 7, 12,
+      ]);
+    });
+
+    test("empty pcsets returns the note", () => {
+      expect([10, 30, 40].map(Midi.nearestInPcSet([]))).toEqual([]);
+    });
+  });
 });
