@@ -1,5 +1,11 @@
 # @tonaljs/core
 
+## 4.9.0
+
+### Minor Changes
+
+New internal function
+
 ## 4.8.0
 
 ### Minor Changes

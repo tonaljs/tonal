@@ -1,5 +1,16 @@
 # @tonaljs/note
 
+## 4.10.0
+
+### Minor Changes
+
+Refactor transposeFifths and transposeOctaves
+
+### Patch Changes
+
+- Updated dependencies
+  - @tonaljs/core@4.9.0
+
 ## 4.9.0
 
 ### Minor Changes

@@ -238,7 +238,7 @@ export function reduced(chordName: string): string[] {
  *
  * @example
  * [1, 2, 3, 4].map(Chord.degrees("C")) => ["C", "E", "G", "C"]
- * [1, 2, 3, 4].map(Chord.degrees("C4")) => ["C4", "D4", "E4", "C5"]
+ * [1, 2, 3, 4].map(Chord.degrees("C4")) => ["C4", "E4", "G4", "C5"]
  */
 export function degrees(scaleName: string) {
   const chord = get(scaleName);

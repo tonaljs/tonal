@@ -133,7 +133,7 @@ Because it returns a function, it's handy to be used with `map` (and similar fun
 
 Notice that it uses octaves if the scale tonic has an octave or pitch classes (_octaveless_ notes) otherwise.
 
-See `Chord.degrees`
+See [`Chord.degrees`](https://github.com/tonaljs/tonal/tree/main/packages/chord#chorddegreeschordname-string--degree-number--string)
 
 See https://en.wikipedia.org/wiki/Degree_(music)
 

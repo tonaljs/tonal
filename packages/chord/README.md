@@ -79,6 +79,15 @@ c4m7(4); // => "Bb4"
 c4m7(1); // => "C5"
 ```
 
+It can be used to find chord inversions:
+
+```js
+[1, 2, 3, 4].map(chord); // => ["C4", "Eb4", "G4", "Bb4"]
+[2, 3, 4, 5].map(chord); // => ["Eb4", "G4", "Bb4", "C5"]
+[3, 4, 5, 6].map(chord); // => ["G4", "Bb4", "C5", "Eb5"]
+[4, 5, 6, 7].map(chord); // => ["Bb4", "C5", "Eb5", "G5"]
+```
+
 Bear in mind that degree numbers starts with 1 and 0 returns an empty string:
 
 ```js

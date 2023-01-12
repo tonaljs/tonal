@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chord",
-  "version": "4.8.0",
+  "version": "4.9.0",
   "description": "Musical chords and its relations",
   "keywords": [
     "chord",
@@ -19,7 +19,7 @@
     "@tonaljs/chord-detect": "^4.8.0",
     "@tonaljs/chord-type": "^4.8.0",
     "@tonaljs/collection": "^4.8.0",
-    "@tonaljs/core": "^4.8.0",
+    "@tonaljs/core": "^4.9.0",
     "@tonaljs/pcset": "^4.8.0",
     "@tonaljs/scale-type": "^4.8.0"
   },

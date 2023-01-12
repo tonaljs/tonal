@@ -1,5 +1,20 @@
 # @tonaljs/chord
 
+## 4.9.0
+
+### Minor Changes
+
+- Chord.degrees
+
+  Example: `[1, 2, 3, 4].map(Chord.degrees("C4")) => ["C4", "E4", "G4", "C5"]`
+
+  Deprecation removal: `@tonal/tonal` won't receive any updates. Use `tonal` instead.
+
+### Patch Changes
+
+- Updated dependencies
+  - @tonaljs/core@4.9.0
+
 ## 4.8.0
 
 ### Minor Changes

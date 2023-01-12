@@ -1,5 +1,17 @@
 # @tonaljs/scale
 
+## 4.10.0
+
+### Minor Changes
+
+- Internal: Refactor Scale.degrees
+
+### Patch Changes
+
+- Updated dependencies
+  - @tonaljs/core@4.9.0
+  - @tonaljs/note@4.10.0
+
 ## 4.9.0
 
 ### Minor Changes
