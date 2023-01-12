@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "4.9.0",
+  "version": "4.10.0",
   "description": "tonaljs music theory library",
   "keywords": [
     "music",
@@ -26,12 +26,12 @@
     "@tonaljs/key": "^4.9.0",
     "@tonaljs/midi": "^4.8.0",
     "@tonaljs/mode": "^4.8.0",
-    "@tonaljs/note": "^4.8.0",
+    "@tonaljs/note": "^4.9.0",
     "@tonaljs/pcset": "^4.8.0",
     "@tonaljs/progression": "^4.8.0",
     "@tonaljs/range": "^4.8.0",
     "@tonaljs/roman-numeral": "^4.8.0",
-    "@tonaljs/scale": "^4.8.0",
+    "@tonaljs/scale": "^4.9.0",
     "@tonaljs/scale-type": "^4.8.0",
     "@tonaljs/time-signature": "^4.8.0"
   },
