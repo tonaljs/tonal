@@ -37,7 +37,7 @@ This function is also exposed in [`Chord`](/packages/chord) module.
 
 #### Options
 
-- `assumePerfectFitch`: assumes perfect fifth if no fifth is present
+- `assumePerfectFifth`: assumes perfect fifth if no fifth is present
 
 ```js
 detect(["D", "F", "C"], { assumePerfectFifth: true }); // => ["Dm7"]
