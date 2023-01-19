@@ -107,6 +107,18 @@ describe("@tonaljs/scale", () => {
         "Ab chromatic",
       ]);
     });
+
+    test("tonic will be added", () => {
+      expect(
+        Scale.detect(["c", "d", "e", "f", "g", "b"], { match: "exact" })
+      ).toEqual([]);
+      expect(
+        Scale.detect(["c", "d", "e", "f", "g", "b"], {
+          match: "exact",
+          tonic: "a",
+        })
+      ).toEqual(["A minor"]);
+    });
   });
 
   test("Ukrainian Dorian scale", () => {

@@ -121,10 +121,9 @@ export function detect(
     return [];
   }
 
-  const scaleChroma =
-    tonicChroma === 0
-      ? notesChroma
-      : rotate(tonicChroma, notesChroma.split("")).join("");
+  const pitchClasses = notesChroma.split("");
+  pitchClasses[tonicChroma] = "1";
+  const scaleChroma = rotate(tonicChroma, pitchClasses).join("");
   const match = all().find((scaleType) => scaleType.chroma === scaleChroma);
 
   const results: string[] = [];
