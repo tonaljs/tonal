@@ -36,8 +36,8 @@ Chord.get("Cmaj7").name; // => "C major seventh"
 // Chord inversions
 const triad = Chord.degrees("Cm");
 [1, 2, 3].map(triad); // => ["C", "Eb", "G"];
-[2, 3, 4].map(triad); // => ["Eb", "G", "C"];
-[3, 4, 5].map(triad); // => ["G", "C", "Eb"];
+[2, 3, 1].map(triad); // => ["Eb", "G", "C"];
+[3, 1, 2].map(triad); // => ["G", "C", "Eb"];
 ```
 
 ## Install
