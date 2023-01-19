@@ -13,8 +13,15 @@ import {
   transposeIntervalSetByDegree,
 } from "@tonaljs/core";
 import { enharmonic, fromMidi, sortedUniqNames } from "@tonaljs/note";
-import { isSubsetOf, isSupersetOf, modes } from "@tonaljs/pcset";
 import {
+  chroma,
+  isChroma,
+  isSubsetOf,
+  isSupersetOf,
+  modes,
+} from "@tonaljs/pcset";
+import {
+  all,
   all as scaleTypes,
   get as getScaleType,
   names as scaleTypeNames,
@@ -103,6 +110,37 @@ export function get(src: ScaleName | ScaleNameTokens): Scale {
 
 export const scale = deprecate("Scale.scale", "Scale.get", get);
 
+export function detect(
+  notes: string[],
+  options: { tonic?: string; match?: "exact" | "fit" } = {}
+): string[] {
+  const notesChroma = chroma(notes);
+  const tonic = note(options.tonic ?? notes[0] ?? "");
+  const tonicChroma = tonic.chroma;
+  if (tonicChroma === undefined) {
+    return [];
+  }
+
+  const pitchClasses = notesChroma.split("");
+  pitchClasses[tonicChroma] = "1";
+  const scaleChroma = rotate(tonicChroma, pitchClasses).join("");
+  const match = all().find((scaleType) => scaleType.chroma === scaleChroma);
+
+  const results: string[] = [];
+  if (match) {
+    results.push(tonic.name + " " + match.name);
+  }
+  if (options.match === "exact") {
+    return results;
+  }
+
+  extended(scaleChroma).forEach((scaleName) => {
+    results.push(tonic.name + " " + scaleName);
+  });
+
+  return results;
+}
+
 /**
  * Get all chords that fits a given scale
  *
@@ -131,8 +169,8 @@ export function scaleChords(name: string): string[] {
  * extended("major") // => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]
  */
 export function extended(name: string): string[] {
-  const s = get(name);
-  const isSuperset = isSupersetOf(s.chroma);
+  const chroma = isChroma(name) ? name : get(name).chroma;
+  const isSuperset = isSupersetOf(chroma);
   return scaleTypes()
     .filter((scale) => isSuperset(scale.chroma))
     .map((scale) => scale.name);
@@ -249,16 +287,18 @@ export function degrees(scaleName: string | ScaleNameTokens) {
 }
 
 export default {
-  get,
-  names,
+  degrees,
+  detect,
   extended,
+  get,
   modeNames,
+  names,
+  rangeOf,
   reduced,
   scaleChords,
   scaleNotes,
   tokenize,
-  rangeOf,
-  degrees,
+
   // deprecated
   scale,
 };

@@ -30,7 +30,7 @@ describe("@tonal/key", () => {
     test("natural scales", () => {
       const chordScales = Key.minorKey("C").natural.chordScales;
       expect(chordScales.map(scale).map((scale) => scale.name)).toEqual([
-        "C aeolian",
+        "C minor",
         "D locrian",
         "Eb major",
         "F dorian",

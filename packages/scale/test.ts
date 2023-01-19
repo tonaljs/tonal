@@ -63,6 +63,64 @@ describe("@tonaljs/scale", () => {
     expect(Scale.get(["no-note", "major"]).notes).toEqual([]);
   });
 
+  describe("Scale.detect", () => {
+    test("detect exact match", () => {
+      expect(
+        Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact" })
+      ).toEqual(["D major pentatonic"]);
+      expect(
+        Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact", tonic: "B" })
+      ).toEqual(["B minor pentatonic"]);
+      expect(
+        Scale.detect(["D", "F#", "B", "C", "C#"], { match: "exact" })
+      ).toEqual([]);
+      expect(
+        Scale.detect(["c", "d", "e", "f", "g", "a", "b"], { match: "exact" })
+      ).toEqual(["C major"]);
+      expect(
+        Scale.detect(["c2", "d6", "e3", "f1", "g7", "a6", "b5"], {
+          match: "exact",
+          tonic: "d",
+        })
+      ).toEqual(["D dorian"]);
+    });
+
+    test("detect fit match", () => {
+      expect(
+        Scale.detect(["C", "D", "E", "F", "G", "A", "B"], { match: "fit" })
+      ).toEqual([
+        "C major",
+        "C bebop",
+        "C bebop major",
+        "C ichikosucho",
+        "C chromatic",
+      ]);
+      expect(
+        Scale.detect(["D", "F#", "B", "C", "C#"], { match: "fit" })
+      ).toEqual(["D bebop", "D kafi raga", "D chromatic"]);
+      expect(Scale.detect(["Ab", "Bb", "C", "Db", "Eb", "G"])).toEqual([
+        "Ab major",
+        "Ab bebop",
+        "Ab harmonic major",
+        "Ab bebop major",
+        "Ab ichikosucho",
+        "Ab chromatic",
+      ]);
+    });
+
+    test("tonic will be added", () => {
+      expect(
+        Scale.detect(["c", "d", "e", "f", "g", "b"], { match: "exact" })
+      ).toEqual([]);
+      expect(
+        Scale.detect(["c", "d", "e", "f", "g", "b"], {
+          match: "exact",
+          tonic: "a",
+        })
+      ).toEqual(["A minor"]);
+    });
+  });
+
   test("Ukrainian Dorian scale", () => {
     // Source https://en.wikipedia.org/wiki/Ukrainian_Dorian_scale
     expect(Scale.get("C romanian minor").notes).toEqual($("C D Eb F# G A Bb"));

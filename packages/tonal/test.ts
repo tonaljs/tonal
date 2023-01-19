@@ -235,6 +235,7 @@ describe("tonal", () => {
       RomanNumeral: ["get", "names", "romanNumeral"],
       Scale: [
         "degrees",
+        "detect",
         "extended",
         "get",
         "modeNames",

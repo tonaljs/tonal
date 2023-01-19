@@ -48,7 +48,7 @@ export type PcsetNum = number;
 const setNumToChroma = (num: number): string => Number(num).toString(2);
 const chromaToNumber = (chroma: string): number => parseInt(chroma, 2);
 const REGEX = /^[01]{12}$/;
-function isChroma(set: any): set is PcsetChroma {
+export function isChroma(set: any): set is PcsetChroma {
   return REGEX.test(set);
 }
 const isPcsetNum = (set: any): set is PcsetNum =>
@@ -101,7 +101,7 @@ export const pcset = deprecate("Pcset.pcset", "Pcset.get", get);
  * @example
  * Pcset.chroma(["c", "d", "e"]); //=> "101010000000"
  */
-const chroma = (set: Set) => get(set).chroma;
+export const chroma = (set: Set) => get(set).chroma;
 
 /**
  * Get intervals (from C) of a set
