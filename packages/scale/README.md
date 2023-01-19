@@ -53,6 +53,33 @@ Scale.get("c5 pentatonic");
 // }
 ```
 
+### `Scale.detect(notes: string[], options: { tonic?: string, match?: "fit" | "exact" }) => string[]`
+
+Find all scales that first a collection of notes with a given tonic:
+
+```js
+Scale.detect(["C", "D", "E", "F", "G", "A", "B"]);
+// => ["C major", "C bebop", "C bebop major",
+//     "C ichikosucho",  "C chromatic"];
+```
+
+You can pass an optional tonic (otherwise first note will be used):
+
+```js
+Scale.detect(["C", "D", "E", "F", "G", "A", "B"], { tonic: "A" });
+// => [ 'A aeolian', 'A minor bebop', 'A chromatic' ]
+```
+
+You can ask just the exact match:
+
+````js
+Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact" });
+// => ["D major pentatonic"]
+Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact", tonic: "B" });
+// => ["B major pentatonic"]
+```
+
+
 ### `Scale.scaleChords(scale: string) => string[]`
 
 Get all chords that fits a given scale:
@@ -60,7 +87,7 @@ Get all chords that fits a given scale:
 ```js
 Scale.scaleChords("pentatonic");
 // => ["5", "64", "M", "M6", "Madd9", "Msus2"]
-```
+````
 
 ### `Scale.extended(scale: string) => string[]`
 
