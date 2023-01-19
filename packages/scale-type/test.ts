@@ -51,7 +51,7 @@ describe("gets dictionary", () => {
       "phrygian",
       "lydian",
       "mixolydian",
-      "aeolian",
+      "minor",
       "locrian",
     ]);
   });

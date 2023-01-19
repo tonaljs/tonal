@@ -4,7 +4,7 @@ const SCALES: string[][] = [
   // Basic scales
   ["1P 2M 3M 5P 6M", "major pentatonic", "pentatonic"],
   ["1P 2M 3M 4P 5P 6M 7M", "major", "ionian"],
-  ["1P 2M 3m 4P 5P 6m 7m", "aeolian", "minor"],
+  ["1P 2M 3m 4P 5P 6m 7m", "minor", "aeolian"],
 
   // Jazz common scales
   ["1P 2M 3m 3M 5P 6M", "major blues"],
