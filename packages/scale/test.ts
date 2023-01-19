@@ -78,7 +78,7 @@ describe("@tonaljs/scale", () => {
         Scale.detect(["c", "d", "e", "f", "g", "a", "b"], { match: "exact" })
       ).toEqual(["C major"]);
       expect(
-        Scale.detect(["c", "d", "e", "f", "g", "a", "b"], {
+        Scale.detect(["c2", "d6", "e3", "f1", "g7", "a6", "b5"], {
           match: "exact",
           tonic: "d",
         })
@@ -99,9 +99,9 @@ describe("@tonaljs/scale", () => {
         Scale.detect(["D", "F#", "B", "C", "C#"], { match: "fit" })
       ).toEqual(["D bebop", "D kafi raga", "D chromatic"]);
       expect(Scale.detect(["Ab", "Bb", "C", "Db", "Eb", "G"])).toEqual([
-        "Ab harmonic major",
         "Ab major",
         "Ab bebop",
+        "Ab harmonic major",
         "Ab bebop major",
         "Ab ichikosucho",
         "Ab chromatic",
