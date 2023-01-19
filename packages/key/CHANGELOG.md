@@ -1,5 +1,11 @@
 # @tonaljs/key
 
+## 4.9.1
+
+### Patch Changes
+
+- Fix test
+
 ## 4.9.0
 
 ### Minor Changes

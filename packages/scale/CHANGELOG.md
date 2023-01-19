@@ -1,5 +1,23 @@
 # @tonaljs/scale
 
+## 4.11.0
+
+### Minor Changes
+
+- Add Scale.detect function
+
+```js
+Scale.detect(["C", "D", "E", "F", "G", "A", "B"]);
+// => ["C major", "C bebop", "C bebop major",
+//     "C ichikosucho",  "C chromatic"];
+```
+
+### Patch Changes
+
+- Updated dependencies
+  - @tonaljs/scale-type@4.8.1
+  - @tonaljs/pcset@4.8.1
+
 ## 4.10.0
 
 ### Minor Changes

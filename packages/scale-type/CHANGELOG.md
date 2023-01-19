@@ -1,5 +1,13 @@
 # @tonaljs/scale-type
 
+## 4.8.1
+
+### Patch Changes
+
+- Fix order of scales to show most common first
+- Updated dependencies
+  - @tonaljs/pcset@4.8.1
+
 ## 4.8.0
 
 ### Minor Changes
