@@ -9,6 +9,7 @@ describe("tonal-range", () => {
       expect(numeric([])).toEqual([]);
       expect(numeric(["C4"])).toEqual([60]);
     });
+
     test("note in midi numbers", () => {
       expect(numeric([0, 10])).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
       expect(numeric([10, 0])).toEqual([10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]);
@@ -16,10 +17,14 @@ describe("tonal-range", () => {
       expect(numeric([10, 5])).toEqual([10, 9, 8, 7, 6, 5]);
     });
 
-    test("negative numbers are not allowed", () => {
-      expect(numeric([5, -5])).toEqual([]);
-      expect(numeric([5, -5, 0])).toEqual([]);
-      expect(numeric([-5, -10])).toEqual([]);
+    test("negative numbers are allowed", () => {
+      expect(numeric([-5, 5])).toEqual([-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]);
+      expect(numeric([5, -5])).toEqual([5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5]);
+      expect(numeric([5, -5, 0])).toEqual([
+        5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -4, -3, -2, -1, 0,
+      ]);
+      expect(numeric([-5, -10])).toEqual([-5, -6, -7, -8, -9, -10]);
+      expect(numeric([-10, -5])).toEqual([-10, -9, -8, -7, -6, -5]);
     });
 
     test("notes with names", () => {
