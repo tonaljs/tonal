@@ -164,6 +164,17 @@ See [`Chord.degrees`](https://github.com/tonaljs/tonal/tree/main/packages/chord#
 
 See https://en.wikipedia.org/wiki/Degree_(music)
 
+### `Scale.steps(scaleName: string) => (degree: number) => string`
+
+Same as `Scale.degree` but 0 is tonic. It plays better with ranges:
+
+```js
+import { Range, Scale } from "tonal";
+
+Range.numeric([-3, 3]).map(Scale.steps("C4 major"));
+// => ["G3", "A3", "B3", "C4", "D4", "E4", "F4"]
+```
+
 ### `Scale.rangeOf(scaleName: string) => (from: string, to: string) => string[]`
 
 `Scale.rangeOf` returns a function to create scale ranges:

@@ -9,8 +9,8 @@ import {
   deprecate,
   note,
   NoteName,
+  tonicIntervalsTransposer,
   transpose,
-  transposeIntervalSetByDegree,
 } from "@tonaljs/core";
 import { enharmonic, fromMidi, sortedUniqNames } from "@tonaljs/note";
 import {
@@ -282,8 +282,18 @@ export function rangeOf(scale: string | string[]) {
  * [1, 2, 3].map(Scale.degrees("C4 major")) => ["C4", "D4", "E4"]
  */
 export function degrees(scaleName: string | ScaleNameTokens) {
-  const scale = get(scaleName);
-  return transposeIntervalSetByDegree(scale.intervals, scale.tonic ?? "");
+  const { intervals, tonic } = get(scaleName);
+  const transpose = tonicIntervalsTransposer(intervals, tonic);
+  return (degree: number) =>
+    degree ? transpose(degree > 0 ? degree - 1 : degree) : "";
+}
+
+/**
+ * Sames as `degree` but with 0-based index
+ */
+export function steps(scaleName: string | ScaleNameTokens) {
+  const { intervals, tonic } = get(scaleName);
+  return tonicIntervalsTransposer(intervals, tonic);
 }
 
 export default {
@@ -297,6 +307,7 @@ export default {
   reduced,
   scaleChords,
   scaleNotes,
+  steps,
   tokenize,
 
   // deprecated

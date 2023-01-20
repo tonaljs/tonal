@@ -278,4 +278,15 @@ describe("@tonaljs/scale", () => {
       ).toEqual("A3 G3 E3 D3 C3 A2 G2 E2 D2 C2 A1");
     });
   });
+
+  test("Scale.steps", () => {
+    expect([-3, -2, -1, 0, 1, 2].map(Scale.steps("C4 major"))).toEqual([
+      "G3",
+      "A3",
+      "B3",
+      "C4",
+      "D4",
+      "E4",
+    ]);
+  });
 });
