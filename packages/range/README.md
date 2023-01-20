@@ -31,8 +31,9 @@ Create a numeric (midi) range. You supply a list of notes or numbers (peaks and 
 Arguments can be note names or midi numbers, ranges can be ascending or descending.
 
 ```js
-Range.numeric(["C5", "C4"]); // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
 Range.numeric([10, 5]); // => [ 10, 9, 8, 7, 6, 5 ]
+Range.numeric([-5, 5]); // => [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
+Range.numeric(["C5", "C4"]); // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
 Range.numeric(["C4", "E4", "Bb3"]); // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
 ```
 
