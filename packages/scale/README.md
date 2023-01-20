@@ -166,7 +166,7 @@ See https://en.wikipedia.org/wiki/Degree_(music)
 
 ### `Scale.steps(scaleName: string) => (degree: number) => string`
 
-Same as `Scale.degree` but 0 is tonic. It plays better with ranges:ç
+Same as `Scale.degree` but 0 is tonic. It plays better with ranges:
 
 ```js
 import { Range, Scale } from "tonal";
