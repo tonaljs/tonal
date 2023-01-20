@@ -288,6 +288,14 @@ export function degrees(scaleName: string | ScaleNameTokens) {
     degree ? transpose(degree > 0 ? degree - 1 : degree) : "";
 }
 
+/**
+ * Sames as `degree` but with 0-based index
+ */
+export function steps(scaleName: string | ScaleNameTokens) {
+  const { intervals, tonic } = get(scaleName);
+  return tonicIntervalsTransposer(intervals, tonic);
+}
+
 export default {
   degrees,
   detect,
@@ -299,6 +307,7 @@ export default {
   reduced,
   scaleChords,
   scaleNotes,
+  steps,
   tokenize,
 
   // deprecated
