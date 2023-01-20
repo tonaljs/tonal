@@ -84,6 +84,7 @@ describe("tonal", () => {
         "get",
         "getChord",
         "reduced",
+        "steps",
         "tokenize",
         "transpose",
       ],
@@ -245,6 +246,7 @@ describe("tonal", () => {
         "scale",
         "scaleChords",
         "scaleNotes",
+        "steps",
         "tokenize",
       ],
       ScaleDictionary: [
