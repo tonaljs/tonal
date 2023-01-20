@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/range",
-  "version": "4.8.0",
+  "version": "4.8.1",
   "description": "Create (musical) note ranges",
   "keywords": [
     "range",

@@ -1,5 +1,11 @@
 # @tonaljs/range
 
+## 4.8.1
+
+### Patch Changes
+
+- 52c5c9cc: Numeric ranges support negative numbers
+
 ## 4.8.0
 
 ### Minor Changes

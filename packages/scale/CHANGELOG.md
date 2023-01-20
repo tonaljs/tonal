@@ -1,5 +1,16 @@
 # @tonaljs/scale
 
+## 4.12.0
+
+### Minor Changes
+
+- 6fcd52db: Add Scale.steps and Chord.steps
+
+### Patch Changes
+
+- Updated dependencies [6fcd52db]
+  - @tonaljs/core@4.10.0
+
 ## 4.11.0
 
 ### Minor Changes
