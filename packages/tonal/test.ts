@@ -43,8 +43,8 @@ describe("tonal", () => {
       "stepToLetter",
       "tokenizeInterval",
       "tokenizeNote",
+      "tonicIntervalsTransposer",
       "transpose",
-      "transposeIntervalSetByDegree",
     ]);
   });
   test("Modules exports functions", () => {
@@ -127,8 +127,8 @@ describe("tonal", () => {
         "stepToLetter",
         "tokenizeInterval",
         "tokenizeNote",
+        "tonicIntervalsTransposer",
         "transpose",
-        "transposeIntervalSetByDegree",
       ],
       DurationValue: ["fraction", "get", "names", "shorthands", "value"],
       Interval: [
@@ -285,8 +285,8 @@ describe("tonal", () => {
         "stepToLetter",
         "tokenizeInterval",
         "tokenizeNote",
+        "tonicIntervalsTransposer",
         "transpose",
-        "transposeIntervalSetByDegree",
       ],
     });
   });

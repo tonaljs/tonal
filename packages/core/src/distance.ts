@@ -39,14 +39,13 @@ export function transpose(
 }
 
 // Private
-export function transposeIntervalSetByDegree(
+export function tonicIntervalsTransposer(
   intervals: string[],
-  tonic: string
+  tonic: string | undefined | null
 ) {
   const len = intervals.length;
-  return (degree: number) => {
-    if (!tonic || degree === 0) return "";
-    const normalized = degree < 0 ? degree : degree - 1;
+  return (normalized: number) => {
+    if (!tonic) return "";
     const index =
       normalized < 0 ? (len - (-normalized % len)) % len : normalized % len;
     const octaves = Math.floor(normalized / len);

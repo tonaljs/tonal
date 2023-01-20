@@ -4,7 +4,7 @@ import {
   ChordType,
   get as getChordType,
 } from "@tonaljs/chord-type";
-import { transposeIntervalSetByDegree } from "@tonaljs/core";
+import { tonicIntervalsTransposer } from "@tonaljs/core";
 
 import {
   deprecate,
@@ -241,8 +241,10 @@ export function reduced(chordName: string): string[] {
  * [1, 2, 3, 4].map(Chord.degrees("C4")) => ["C4", "E4", "G4", "C5"]
  */
 export function degrees(scaleName: string) {
-  const chord = get(scaleName);
-  return transposeIntervalSetByDegree(chord.intervals, chord.tonic ?? "");
+  const { intervals, tonic } = get(scaleName);
+  const transpose = tonicIntervalsTransposer(intervals, tonic);
+  return (degree: number) =>
+    degree ? transpose(degree > 0 ? degree - 1 : degree) : "";
 }
 
 export default {
