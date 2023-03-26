@@ -40,6 +40,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tonaljs/tonal.git",
+    "directory": "packages/tonal"
+  },
   "scripts": {
     "build": "npm run build:node && npm run build:browser",
     "build:node": "tsup index.ts --sourcemap --dts --format esm,cjs",
