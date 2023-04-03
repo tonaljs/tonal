@@ -10,6 +10,7 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "files": [
+    "README.md",
     "dist",
     "browser"
   ],
@@ -39,6 +40,11 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tonaljs/tonal.git",
+    "directory": "packages/tonal"
   },
   "scripts": {
     "build": "npm run build:node && npm run build:browser",
