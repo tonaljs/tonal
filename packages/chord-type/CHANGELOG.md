@@ -1,5 +1,11 @@
 # @tonaljs/chord-type
 
+## 4.8.1
+
+### Patch Changes
+
+- 96df1a19: Add 6add9 to chord types aliases. Rename to "sixth added ninth"
+
 ## 4.8.0
 
 ### Minor Changes

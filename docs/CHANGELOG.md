@@ -13,7 +13,7 @@ Range.numeric([-5, 5]); // => [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
 - 6fcd52db: Add Scale.steps and Chord.steps
 
 ```js
-import { Range, Scale, Chod } from "tonal";
+import { Range, Scale, Chord } from "tonal";
 
 Range.numeric([-3, 3]).map(Scale.steps("C4 major"));
 Range.numeric([-3, 3]).map(Chord.steps(["C4", "aug"]));
