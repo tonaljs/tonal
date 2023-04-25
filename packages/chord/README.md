@@ -50,28 +50,30 @@ Chord.getChord("maj7", "G4", "B4"); // =>
 // }
 ```
 
-#### `Chord.get(name: string) =>`
+#### `Chord.get(name: string | [string, string]) => Chord`
 
 An alias of `Chord.getChord` but accepts a chord symbol as parameter.
 
 ```js
 Chord.get("Cmaj7");
 // same as
+Chord.get(["C", "maj7"]);
+// same as
 Chord.getChord("maj7", "C");
 ```
 
-Important: currently chord with roots are NOT allowed (will be implemented in next version):
+Important: currently chord with bass are NOT allowed (will be implemented in next version):
 
 ```js
 Chord.get("Cmaj7/E"); // => { empty: true }
 ```
 
-### `Chord.degrees(chordName: string) => (degree: number) => string`
+### `Chord.degrees(chordName: string | [string, string]) => (degree: number) => string`
 
 `Scale.degrees` returns a function to get a note name from a scale degree:
 
 ```js
-const c4m7 = Chord.degrees("C4m7");
+const c4m7 = Chord.degrees(["C4", "m7");
 c4m7(1); // => "C4"
 c4m7(2); // => "Eb4"
 c4m7(3); // => "G4"
