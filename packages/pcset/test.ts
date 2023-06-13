@@ -19,6 +19,8 @@ describe("@tonaljs/pcset", () => {
     });
     test("from pcset number", () => {
       expect(Pcset.get(2048)).toEqual(Pcset.get(["C"]));
+      const set = Pcset.get(["D"]);
+      expect(Pcset.get(set.setNum)).toEqual(set);
     });
     test("num", () => {
       expect(Pcset.num("000000000001")).toBe(1);
