@@ -1,5 +1,12 @@
 # @tonaljs/chord-detect
 
+## 4.8.2
+
+### Patch Changes
+
+- Updated dependencies [b07a54c0]
+  - @tonaljs/chord-type@5.0.0
+
 ## 4.8.0
 
 ### Minor Changes
