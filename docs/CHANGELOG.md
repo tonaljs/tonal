@@ -1,5 +1,59 @@
 # CHANGELOG
 
+## 5.0.0
+
+### Major Changes
+
+Breaking change: `Chord.get` and `Chord.tokenize` assumes all numbers are part of the chord type, and never the tonic octave, when using with a single string parameter.
+
+Before, in v4.x:
+
+```js
+Chord.get("C4maj7"); // => { symbol: 'Cmaj7', tonic: 'C4' ... }
+```
+
+Now, in > 5.x:
+
+```js
+Chord.get("C4maj7"); // => { empty: true } <- there is no "4maj7" chord type, so no chord is returned
+```
+
+The old behaviour can be replicated by using an array as parameter.
+
+This works both in v4.x and v5.x:
+
+```js
+Chord.get(["C4", "maj7"]); // => { symbol: 'Cmaj7', tonic: 'C4' ... }
+```
+
+The reasons for this change are:
+
+1. Chord symbols never use octaves
+2. The old behavior is confusing and arbitrary
+
+### Patch Changes
+
+- Updated dependencies [b07a54c0]
+  - @tonaljs/chord-type@5.0.0
+  - @tonaljs/chord@5.0.0
+  - @tonaljs/scale@4.12.2
+  - @tonaljs/progression@4.8.1
+
+## 4.14.2
+
+### Patch Changes
+
+- pcset - Fix setNumToChroma: it must return a string of length in order to work correctly
+
+## 4.14.1
+
+### Patch Changes
+
+- 96df1a19: Add 6add9 to chord types aliases. Rename to "sixth added ninth"
+- Updated dependencies [96df1a19]
+  - @tonaljs/chord-type@4.8.1
+  - @tonaljs/chord@4.10.1
+
 ## 4.14.0
 
 ### Minor Changes
@@ -13,7 +67,7 @@ Range.numeric([-5, 5]); // => [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
 - 6fcd52db: Add Scale.steps and Chord.steps
 
 ```js
-import { Range, Scale, Chord } from "tonal";
+import { Range, Scale, Chod } from "tonal";
 
 Range.numeric([-3, 3]).map(Scale.steps("C4 major"));
 Range.numeric([-3, 3]).map(Chord.steps(["C4", "aug"]));

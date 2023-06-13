@@ -45,6 +45,8 @@ Install all packages at once:
 npm install --save tonal
 ```
 
+You can read [CHANGELOG here](https://github.com/tonaljs/tonal/blob/main/docs/CHANGELOG.md).
+
 ## Usage
 
 Tonal is compatible with both ES5 and ES6 modules, and browser.
@@ -148,8 +150,6 @@ Read [contributing document](/docs/CONTRIBUTING.md). To contribute open a PR and
 - If is a new feature, add documentation: changes to README of the affected module(s) are expected.
 - Ad tests: changes to the test.ts file of the affected module(s) are expected.
 - All tests are green
-
-You can read [CHANGELOG here](https://github.com/tonaljs/tonal/blob/main/docs/CHANGELOG.md).
 
 ## Inspiration
 
