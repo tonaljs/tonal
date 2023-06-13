@@ -45,7 +45,8 @@ export type PcsetChroma = string;
 export type PcsetNum = number;
 
 // UTILITIES
-const setNumToChroma = (num: number): string => Number(num).toString(2);
+const setNumToChroma = (num: number): string =>
+  Number(num).toString(2).padStart(12, "0");
 const chromaToNumber = (chroma: string): number => parseInt(chroma, 2);
 const REGEX = /^[01]{12}$/;
 export function isChroma(set: any): set is PcsetChroma {
