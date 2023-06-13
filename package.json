@@ -52,24 +52,21 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^29.2.3",
-    "@types/node": "^18.11.9",
-    "esbuild": "^0.16.17",
+    "@changesets/cli": "^2.26.1",
+    "@types/jest": "^29.5.2",
+    "@types/node": "^20.3.1",
+    "esbuild": "^0.18.2",
     "husky": "^8.0.0",
-    "jest": "^29.3.1",
-    "jest-config": "^29.3.1",
-    "lint-staged": "^13.0.3",
+    "jest-config": "^29.5.0",
+    "jest": "^29.5.0",
+    "lint-staged": "^13.2.2",
     "lodash": "^4.17.15",
-    "prettier": "^2.7.1",
-    "rimraf": "^3.0.0",
-    "ts-jest": "^29.0.3",
-    "tslint": "^6.1.2",
+    "prettier": "^2.8.8",
+    "ts-jest": "^29.1.0",
     "tslint-config-prettier": "^1.18.0",
-    "tsup": "^6.5.0",
-    "turbo": "^1.6.3",
-    "typescript": "^4.9.3"
-  },
-  "dependencies": {
-    "@changesets/cli": "^2.25.2"
+    "tslint": "^6.1.2",
+    "tsup": "^6.7.0",
+    "turbo": "^1.10.3",
+    "typescript": "^5.1.3"
   }
 }
