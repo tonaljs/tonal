@@ -1,5 +1,11 @@
 # @tonaljs/pcset
 
+## 4.8.2
+
+### Patch Changes
+
+- 3bec1d60: Fix setNumToChroma: it must return a string of length in order to work correctly
+
 ## 4.8.1
 
 ### Patch Changes

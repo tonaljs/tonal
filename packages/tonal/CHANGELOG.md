@@ -1,5 +1,11 @@
 # tonal
 
+## 4.14.2
+
+### Patch Changes
+
+- pcset - Fix setNumToChroma: it must return a string of length in order to work correctly
+
 ## 4.14.1
 
 ### Patch Changes
