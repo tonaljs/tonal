@@ -1,7 +1,7 @@
 import { detect } from "@tonaljs/chord-detect";
 import {
-  all as chordTypes,
   ChordType,
+  all as chordTypes,
   get as getChordType,
 } from "@tonaljs/chord-type";
 import { tonicIntervalsTransposer } from "@tonaljs/core";
@@ -77,16 +77,7 @@ export function tokenize(name: string): ChordNameTokens {
   if (letter === "A" && type === "ug") {
     return ["", "aug"];
   }
-  // see: https://github.com/tonaljs/tonal/issues/70
-  if (!type && (oct === "4" || oct === "5")) {
-    return [letter + acc, oct];
-  }
-
-  if (NUM_TYPES.test(oct)) {
-    return [letter + acc, oct + type];
-  } else {
-    return [letter + acc + oct, type];
-  }
+  return [letter + acc, oct + type];
 }
 
 /**

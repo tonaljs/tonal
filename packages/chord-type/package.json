@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chord-type",
-  "version": "4.8.2",
+  "version": "5.0.0",
   "description": "A dictionary of musical chords",
   "keywords": [
     "chord",

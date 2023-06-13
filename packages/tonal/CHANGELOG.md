@@ -1,5 +1,44 @@
 # tonal
 
+## 5.0.0
+
+### Major Changes
+
+- b07a54c0: Breaking change: `Chord.get` and `Chord.tokenize` assumes all numbers are part of the chord type, and never the tonic octave, when using with a single string parameter.
+
+  Before, in v4.x:
+
+  ```js
+  Chord.get("C4maj7"); // => { symbol: 'Cmaj7', tonic: 'C4' ... }
+  ```
+
+  Now, in > 5.x:
+
+  ```js
+  Chord.get("C4maj7"); // => { empty: true } <- there is no "4maj7" chord type, so no chord is returned
+  ```
+
+  The old behaviour can be replicated by using an array as parameter.
+
+  This works both in v4.x and v5.x:
+
+  ```js
+  Chord.get(["C4", "maj7"]); // => { symbol: 'Cmaj7', tonic: 'C4' ... }
+  ```
+
+  The reasons for this change are:
+
+  1. Chord symbols never use octaves
+  2. The old behavior is confusing and arbitrary
+
+### Patch Changes
+
+- Updated dependencies [b07a54c0]
+  - @tonaljs/chord-type@5.0.0
+  - @tonaljs/chord@5.0.0
+  - @tonaljs/scale@4.12.2
+  - @tonaljs/progression@4.8.1
+
 ## 4.14.2
 
 ### Patch Changes

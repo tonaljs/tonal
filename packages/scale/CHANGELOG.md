@@ -1,5 +1,12 @@
 # @tonaljs/scale
 
+## 4.12.2
+
+### Patch Changes
+
+- Updated dependencies [b07a54c0]
+  - @tonaljs/chord-type@5.0.0
+
 ## 4.12.0
 
 ### Minor Changes
