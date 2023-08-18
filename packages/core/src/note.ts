@@ -2,15 +2,16 @@ import { isNamed, Named } from "./named";
 import { decode, encode, isPitch, Pitch, PitchCoordinates } from "./pitch";
 import { fillStr } from "./utils";
 
-export type NoteWithOctave = string;
-export type PcName = string;
+export type Letter = "A" | "B" | "C" | "D" | "E" | "F" | "G";
+export type NoteWithOctave = `${Letter}${string}${number}`;
+export type PcName = `${Letter | ""}${string}`;
 export type NoteName = NoteWithOctave | PcName;
 export type NoteLiteral = NoteName | Pitch | Named;
 
 export interface Note extends Pitch, Named {
   readonly empty: boolean;
   readonly name: NoteName;
-  readonly letter: string;
+  readonly letter: Letter;
   readonly acc: string;
   readonly pc: PcName;
   readonly chroma: number;
@@ -61,16 +62,21 @@ export function note(src: NoteLiteral): Note | NoNote {
   return value;
 }
 
-type NoteTokens = [string, string, string, string];
+type NoteTokens = [Letter | "", string, number | undefined, string];
 
-const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
+const REGEX = /^([a-gA-G]?)(#+|b+|x+|)(-?\d*)\s*(.*)$/;
 
 /**
  * @private
  */
 export function tokenizeNote(str: string): NoteTokens {
   const m = REGEX.exec(str) as string[];
-  return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]];
+  return [
+    m[1].toUpperCase() as NoteTokens[0],
+    m[2].replaceAll("x", "##"),
+    m[3] === "" ? undefined : parseInt(m[3], 10),
+    m[4],
+  ];
 }
 
 /**
@@ -84,22 +90,17 @@ const mod = (n: number, m: number) => ((n % m) + m) % m;
 
 const SEMI = [0, 2, 4, 5, 7, 9, 11];
 function parse(noteName: NoteName): Note | NoNote {
-  const tokens = tokenizeNote(noteName);
-  if (tokens[0] === "" || tokens[3] !== "") {
+  const [letter, acc, oct, invalidStr] = tokenizeNote(noteName);
+  if (letter === "" || invalidStr !== "") {
     return NoNote;
   }
 
-  const letter = tokens[0];
-  const acc = tokens[1];
-  const octStr = tokens[2];
-
   const step = (letter.charCodeAt(0) + 3) % 7;
   const alt = accToAlt(acc);
-  const oct = octStr.length ? +octStr : undefined;
   const coord = encode({ step, alt, oct });
 
-  const name = letter + acc + octStr;
-  const pc = letter + acc;
+  const name = `${letter}${acc}${oct ?? ""}` as const;
+  const pc = `${letter}${acc}`;
   const chroma = (SEMI[step] + alt + 120) % 12;
   const height =
     oct === undefined

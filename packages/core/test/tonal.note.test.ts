@@ -2,13 +2,13 @@ import { note, tokenizeNote as tokenize } from "../index";
 
 describe("note", () => {
   test("tokenize", () => {
-    expect(tokenize("Cbb5 major")).toEqual(["C", "bb", "5", "major"]);
-    expect(tokenize("Ax")).toEqual(["A", "##", "", ""]);
-    expect(tokenize("CM")).toEqual(["C", "", "", "M"]);
-    expect(tokenize("maj7")).toEqual(["", "", "", "maj7"]);
-    expect(tokenize("")).toEqual(["", "", "", ""]);
-    expect(tokenize("bb")).toEqual(["B", "b", "", ""]);
-    expect(tokenize("##")).toEqual(["", "##", "", ""]);
+    expect(tokenize("Cbb5 major")).toEqual(["C", "bb", 5, "major"]);
+    expect(tokenize("Ax")).toEqual(["A", "##", undefined, ""]);
+    expect(tokenize("CM")).toEqual(["C", "", undefined, "M"]);
+    expect(tokenize("maj7")).toEqual(["", "", undefined, "maj7"]);
+    expect(tokenize("")).toEqual(["", "", undefined, ""]);
+    expect(tokenize("bb")).toEqual(["B", "b", undefined, ""]);
+    expect(tokenize("##")).toEqual(["", "##", undefined, ""]);
   });
 
   describe("note properties from string", () => {
