@@ -6,15 +6,33 @@ describe("midi", () => {
   });
 
   test("toMidi", () => {
-    expect(Midi.toMidi(100)).toBe(100);
     expect(Midi.toMidi("C4")).toBe(60);
-    expect(Midi.toMidi("60")).toBe(60);
-    expect(Midi.toMidi(0)).toBe(0);
-    expect(Midi.toMidi("0")).toBe(0);
-    expect(Midi.toMidi(-1)).toBe(null);
-    expect(Midi.toMidi(128)).toBe(null);
-    expect(Midi.toMidi("blah")).toBe(null);
-    expect(Midi.toMidi(NaN)).toBe(null);
+    expect(Midi.toMidi("D5")).toBe(74);
+    expect(Midi.toMidi("D#5")).toBe(75);
+    expect(Midi.toMidi("G#2")).toBe(44);
+    expect(Midi.toMidi("F#3")).toBe(54);
+    expect(Midi.toMidi("A#6")).toBe(94);
+    expect(Midi.toMidi("B1")).toBe(35);
+    expect(Midi.toMidi("E6")).toBe(88);
+    expect(Midi.toMidi("Cb2")).toBe(35);
+    expect(Midi.toMidi("D##4")).toBe(64);
+    expect(Midi.toMidi("Abb3")).toBe(55);
+    expect(Midi.toMidi("b0")).toBe(23);
+    expect(Midi.toMidi("f-1")).toBe(5);
+    expect(Midi.toMidi("gb-1")).toBe(6);
+    expect(Midi.toMidi("a##-1")).toBe(11);
+    expect(Midi.toMidi("g#9")).toBe(null);
+    expect(Midi.toMidi("a##9")).toBe(null);
+    expect(Midi.toMidi("gb#1")).toBe(null);
+    expect(Midi.toMidi("g##-2")).toBe(null);
+    expect(Midi.toMidi("cbb-1")).toBe(null);
+    expect(Midi.toMidi("CC")).toBe(null);
+    expect(Midi.toMidi("X5")).toBe(null);
+    expect(Midi.toMidi("G#")).toBe(null);
+    expect(Midi.toMidi("H5")).toBe(null);
+    expect(Midi.toMidi("G44")).toBe(null);
+    expect(Midi.toMidi("Hello World!")).toBe(null);
+    expect(Midi.toMidi("V7")).toBe(null);
   });
 
   test("freqToMidi", () => {
