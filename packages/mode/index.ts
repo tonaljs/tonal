@@ -14,7 +14,7 @@ const MODES = [
   [6, 3434, 5, "locrian", "dim", "m7b5"],
 ] as const;
 
-type ModeDatum = typeof MODES[number];
+type ModeDatum = (typeof MODES)[number];
 
 export interface Mode extends Pcset {
   readonly name: string;

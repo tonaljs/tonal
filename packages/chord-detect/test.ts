@@ -9,12 +9,21 @@ describe("@tonal/chord-detect", () => {
   });
 
   test("assume perfect 5th", () => {
-    expect(detect(["D", "F", "C"], { assumePerfectFifth: true })).toEqual(["Dm7"]);
+    expect(detect(["D", "F", "C"], { assumePerfectFifth: true })).toEqual([
+      "Dm7",
+    ]);
     expect(detect(["D", "F", "C"], { assumePerfectFifth: false })).toEqual([]);
-    expect(detect(["D", "F", "A", "C"], { assumePerfectFifth: true })).toEqual(["Dm7", "F6/D"]);
-    expect(detect(["D", "F", "A", "C"], { assumePerfectFifth: false })).toEqual(["Dm7", "F6/D"]);
-    expect(detect(["D", "F", "Ab", "C"], { assumePerfectFifth: true })).toEqual(["Dm7b5", "Fm6/D"]);
-  })
+    expect(detect(["D", "F", "A", "C"], { assumePerfectFifth: true })).toEqual([
+      "Dm7",
+      "F6/D",
+    ]);
+    expect(detect(["D", "F", "A", "C"], { assumePerfectFifth: false })).toEqual(
+      ["Dm7", "F6/D"]
+    );
+    expect(detect(["D", "F", "Ab", "C"], { assumePerfectFifth: true })).toEqual(
+      ["Dm7b5", "Fm6/D"]
+    );
+  });
 
   test("(regression) detect aug", () => {
     expect(detect(["C", "E", "G#"])).toEqual(["Caug", "Eaug/C", "G#aug/C"]);
