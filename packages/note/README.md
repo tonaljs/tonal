@@ -33,7 +33,7 @@ Given a note name, it returns an object with the following properties:
 - oct: the octave (or null if not present)
 - chroma: the note chroma (0..11)
 - midi: the note midi or null if octave is not present
-- freq: the note frequency in Hertzes, or null if the octave is note present
+- freq: the note frequency in Hertzes, or null if the octave is not present
 
 ```js
 Note.get("C4"); // => { name: "C4", midi: 60, ... }
