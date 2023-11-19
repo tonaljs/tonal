@@ -109,11 +109,13 @@ Scale.reduced("major");
 
 ### `Scale.scaleNotes(notes: string[]) => string[]`
 
-Given an array of notes, return the scale: a pitch class set starting from the first note
+Given an array of notes, return an array of sorted note names starting from the first note name of the input array.
 
 ```js
-Scale.scaleNotes(["C4", "c3", "C5", "C4", "c4"]); // => ["C"]
+// Always start with the first note of the input array
 Scale.scaleNotes(["D4", "c#5", "A5", "F#6"]); // => ["D", "F#", "A", "C#"]
+// Remove duplicates
+Scale.scaleNotes(["C4", "c3", "C5", "C4", "c4"]); // => ["C"]
 ```
 
 ### `Scale.modes(name: string) => string[][]`
