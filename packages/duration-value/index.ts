@@ -5,7 +5,7 @@ type Fraction = [number, number];
 const VALUES: DurationValue[] = [];
 
 DATA.forEach(([denominator, shorthand, names]) =>
-  add(denominator, shorthand, names)
+  add(denominator, shorthand, names),
 );
 
 export interface DurationValue {
@@ -44,7 +44,7 @@ const REGEX = /^([^.]+)(\.*)$/;
 export function get(name: string): DurationValue {
   const [_, simple, dots] = REGEX.exec(name) || [];
   const base = VALUES.find(
-    (dur) => dur.shorthand === simple || dur.names.includes(simple)
+    (dur) => dur.shorthand === simple || dur.names.includes(simple),
   );
   if (!base) {
     return NoDuration;

@@ -27,7 +27,7 @@ describe("search", () => {
     expect(
       Voicing.search("Cminor7", ["Eb3", "D5"], {
         minor7: ["3m 5P 7m 9M", "7m 9M 10m 12P"],
-      })
+      }),
     ).toEqual([
       ["Eb3", "G3", "Bb3", "D4"],
       ["Eb4", "G4", "Bb4", "D5"],
@@ -54,14 +54,14 @@ describe("get", () => {
         "E4",
         "G4",
         "B4",
-      ])
+      ]),
     ).toEqual(["C4", "E4", "F4", "A4"]);
   });
 });
 
 test("sequence", () => {
   expect(
-    Voicing.sequence(["C", "F", "G"], ["F3", "A4"], triads, topNoteDiff)
+    Voicing.sequence(["C", "F", "G"], ["F3", "A4"], triads, topNoteDiff),
   ).toEqual([
     ["C4", "E4", "G4"], // root position
     ["A3", "C4", "F4"], // first inversion (F4 closest to G4)

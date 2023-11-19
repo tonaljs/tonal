@@ -17,7 +17,7 @@ import { midiToNoteName, toMidi, ToNoteNameOptions } from "@tonaljs/midi";
  */
 export function numeric(notes: (string | number)[]): number[] {
   const midi: number[] = compact(
-    notes.map((note) => (typeof note === "number" ? note : toMidi(note)))
+    notes.map((note) => (typeof note === "number" ? note : toMidi(note))),
   );
   if (!notes.length || midi.length !== notes.length) {
     // there is no valid notes
@@ -29,7 +29,7 @@ export function numeric(notes: (string | number)[]): number[] {
       const last: number = result[result.length - 1];
       return result.concat(range(last, note).slice(1));
     },
-    [midi[0]]
+    [midi[0]],
   );
 }
 
@@ -48,7 +48,7 @@ export function numeric(notes: (string | number)[]): number[] {
  */
 export function chromatic(
   notes: (string | number)[],
-  options?: ToNoteNameOptions
+  options?: ToNoteNameOptions,
 ): string[] {
   return numeric(notes).map((midi) => midiToNoteName(midi, options));
 }

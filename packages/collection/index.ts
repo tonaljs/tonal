@@ -107,7 +107,7 @@ export function permutations(arr: any[]): any[] {
         const newPerm = perm.slice();
         newPerm.splice(pos, 0, arr[0]);
         return newPerm;
-      })
+      }),
     );
   }, []);
 }

@@ -220,26 +220,26 @@ describe("tonal-chord", () => {
   describe("Chord.degrees", () => {
     test("ascending", () => {
       expect([1, 2, 3, 4].map(Chord.degrees("C"))).toEqual(
-        "C E G C".split(" ")
+        "C E G C".split(" "),
       );
       expect([1, 2, 3, 4].map(Chord.degrees(["C4", "M"]))).toEqual(
-        "C4 E4 G4 C5".split(" ")
+        "C4 E4 G4 C5".split(" "),
       );
       expect(
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(Chord.degrees(["C4", "m6"]))
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(Chord.degrees(["C4", "m6"])),
       ).toEqual("C4 Eb4 G4 A4 C5 Eb5 G5 A5 C6 Eb6".split(" "));
     });
     test("descending", () => {
       expect([-1, -2, -3].map(Chord.degrees("C"))).toEqual("G E C".split(" "));
       expect([-1, -2, -3].map(Chord.degrees(["C4", "M"]))).toEqual(
-        "G3 E3 C3".split(" ")
+        "G3 E3 C3".split(" "),
       );
     });
   });
 
   test("Chord.steps", () => {
     expect([-1, -2, -3, 0, 1, 2, 3].map(Chord.steps(["C4", "aug"]))).toEqual(
-      "G#3 E3 C3 C4 E4 G#4 C5".split(" ")
+      "G#3 E3 C3 C4 E4 G#4 C5".split(" "),
     );
   });
 

@@ -50,7 +50,7 @@ export function get(type: ScaleTypeName): ScaleType {
 export const scaleType = deprecate(
   "ScaleDictionary.scaleType",
   "ScaleType.get",
-  get
+  get,
 );
 
 /**
@@ -63,7 +63,7 @@ export function all() {
 export const entries = deprecate(
   "ScaleDictionary.entries",
   "ScaleType.all",
-  all
+  all,
 );
 
 /**
@@ -90,7 +90,7 @@ export function removeAll() {
 export function add(
   intervals: string[],
   name: string,
-  aliases: string[] = []
+  aliases: string[] = [],
 ): ScaleType {
   const scale = { ...pcset(intervals), name, intervals, aliases };
   dictionary.push(scale);
@@ -106,7 +106,7 @@ export function addAlias(scale: ScaleType, alias: string) {
 }
 
 data.forEach(([ivls, name, ...aliases]: string[]) =>
-  add(ivls.split(" "), name, aliases)
+  add(ivls.split(" "), name, aliases),
 );
 
 export default {

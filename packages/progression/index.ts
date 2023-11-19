@@ -11,11 +11,11 @@ import { get as romanNumeral } from "@tonaljs/roman-numeral";
  */
 export function fromRomanNumerals(
   tonic: NoteLiteral,
-  chords: string[]
+  chords: string[],
 ): string[] {
   const romanNumerals = chords.map(romanNumeral);
   return romanNumerals.map(
-    (rn) => transpose(tonic, interval(rn)) + rn.chordType
+    (rn) => transpose(tonic, interval(rn)) + rn.chordType,
   );
 }
 
@@ -28,7 +28,7 @@ export function fromRomanNumerals(
  */
 export function toRomanNumerals(
   tonic: NoteLiteral,
-  chords: string[]
+  chords: string[],
 ): string[] {
   return chords.map((chord) => {
     const [note, chordType] = tokenize(chord);

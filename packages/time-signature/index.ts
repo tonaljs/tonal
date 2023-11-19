@@ -91,10 +91,10 @@ function build([up, down]: ParsedTimeSignature): TimeSignature {
     lower === 4 || lower === 2
       ? "simple"
       : lower === 8 && upper % 3 === 0
-      ? "compound"
-      : isPowerOfTwo(lower)
-      ? "irregular"
-      : "irrational";
+        ? "compound"
+        : isPowerOfTwo(lower)
+          ? "irregular"
+          : "irrational";
 
   return {
     empty: false,

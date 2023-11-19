@@ -106,7 +106,7 @@ export function get(src: ChordName | ChordNameTokens): Chord {
 export function getChord(
   typeName: string,
   optionalTonic?: string,
-  optionalRoot?: string
+  optionalRoot?: string,
 ): Chord {
   const type = getChordType(typeName);
   const tonic = note(optionalTonic || "");

@@ -46,18 +46,18 @@ export function get(src: any): RomanNumeral | NoRomanNumeral {
   return typeof src === "string"
     ? cache[src] || (cache[src] = parse(src))
     : typeof src === "number"
-    ? get(NAMES[src] || "")
-    : isPitch(src)
-    ? fromPitch(src)
-    : isNamed(src)
-    ? get(src.name)
-    : NoRomanNumeral;
+      ? get(NAMES[src] || "")
+      : isPitch(src)
+        ? fromPitch(src)
+        : isNamed(src)
+          ? get(src.name)
+          : NoRomanNumeral;
 }
 
 const romanNumeral = deprecate(
   "RomanNumeral.romanNumeral",
   "RomanNumeral.get",
-  get
+  get,
 );
 
 /**

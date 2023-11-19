@@ -52,11 +52,14 @@ describe("tonal", () => {
       .sort()
       .filter((name) => name[0] === name.toUpperCase()[0]);
 
-    const exportedFunctions = modNames.reduce((exported, modName) => {
-      const mod = (Tonal as any)[modName];
-      exported[modName] = Object.keys(mod).sort();
-      return exported;
-    }, {} as Record<string, string[]>);
+    const exportedFunctions = modNames.reduce(
+      (exported, modName) => {
+        const mod = (Tonal as any)[modName];
+        exported[modName] = Object.keys(mod).sort();
+        return exported;
+      },
+      {} as Record<string, string[]>,
+    );
 
     expect(exportedFunctions).toEqual({
       AbcNotation: [

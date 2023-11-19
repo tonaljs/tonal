@@ -77,8 +77,8 @@ export function abcToScientificNotation(str: string): string {
     acc[0] === "_"
       ? acc.replace(/_/g, "b")
       : acc[0] === "^"
-      ? acc.replace(/\^/g, "#")
-      : "";
+        ? acc.replace(/\^/g, "#")
+        : "";
   return letter.charCodeAt(0) > 96
     ? letter.toUpperCase() + a + (o + 1)
     : letter + a + o;

@@ -79,12 +79,12 @@ export function get(src: Set): Pcset {
   const chroma: PcsetChroma = isChroma(src)
     ? src
     : isPcsetNum(src)
-    ? setNumToChroma(src)
-    : Array.isArray(src)
-    ? listToChroma(src)
-    : isPcset(src)
-    ? src.chroma
-    : EmptyPcset.chroma;
+      ? setNumToChroma(src)
+      : Array.isArray(src)
+        ? listToChroma(src)
+        : isPcset(src)
+          ? src.chroma
+          : EmptyPcset.chroma;
 
   return (cache[chroma] = cache[chroma] || chromaToPcset(chroma));
 }
@@ -185,7 +185,7 @@ export function modes(set: Set, normalize = true): PcsetChroma[] {
     binary.map((_, i) => {
       const r = rotate(i, binary);
       return normalize && r[0] === "0" ? null : r.join("");
-    })
+    }),
   );
 }
 

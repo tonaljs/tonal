@@ -3,7 +3,7 @@ import Note from "@tonaljs/note";
 // A function that decides which of a set of voicings is picked as a follow up to lastVoicing.
 export declare type VoiceLeadingFunction = (
   voicings: string[][],
-  lastVoicing: string[]
+  lastVoicing: string[],
 ) => string[];
 
 export const topNoteDiff: VoiceLeadingFunction = (voicings, lastVoicing) => {
