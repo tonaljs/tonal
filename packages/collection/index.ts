@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // ascending range
 function ascR(b: number, n: number) {
   const a = [];

@@ -54,6 +54,7 @@ describe("tonal", () => {
 
     const exportedFunctions = modNames.reduce(
       (exported, modName) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const mod = (Tonal as any)[modName];
         exported[modName] = Object.keys(mod).sort();
         return exported;

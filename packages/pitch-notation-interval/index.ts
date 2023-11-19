@@ -1,16 +1,16 @@
 import {
-  PitchCoordinates,
-  height,
-  chroma,
-  coordinates,
   IntervalPitch,
   InvalidPitch,
+  PitchCoordinates,
+  chroma,
+  coordinates,
+  height,
 } from "@tonaljs/pitch";
 import {
-  parser,
-  tokenizer,
-  toName,
   PitchTokens,
+  parser,
+  toName,
+  tokenizer,
 } from "@tonaljs/pitch-notation";
 
 /* tslint:disable:variable-name */
@@ -84,7 +84,6 @@ type InvalidParsedInterval = InvalidPitch & {
 
 export type ParsedInterval = ValidParsedInterval | InvalidParsedInterval;
 
-const SIZES = [0, 2, 4, 5, 7, 9, 11];
 const TYPES = "PMMPPMM";
 
 export const parse = parser<ParsedInterval>((input) => {
@@ -136,7 +135,7 @@ function qToAlt(type: Type, q: string): number {
           : 0;
 }
 
-export const name = toName((pitch) => {
+export const name = toName(() => {
   return "";
 });
 

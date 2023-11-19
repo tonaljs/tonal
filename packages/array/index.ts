@@ -1,6 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { note, Note } from "@tonaljs/core";
-
-const isArray = Array.isArray;
 
 // ascending range
 function ascR(b: number, n: number) {

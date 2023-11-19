@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   IntervalName,
   Named,
   Note,
-  note as props,
   NoteLiteral,
   NoteName,
   Pitch,
   transpose as _tr,
+  note as props,
 } from "@tonaljs/core";
 import { freqToMidi, midiToNoteName } from "@tonaljs/midi";
 

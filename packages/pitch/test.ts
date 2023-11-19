@@ -1,11 +1,10 @@
 import {
+  IntervalPitch,
   chroma,
+  coordinates,
   height,
   midi,
-  freq,
-  coordinates,
   pitch,
-  IntervalPitch,
 } from "./index";
 
 // Pitch classes

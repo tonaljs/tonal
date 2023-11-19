@@ -58,6 +58,7 @@ export function get(literal: TimeSignatureLiteral): TimeSignature {
 
 export function parse(literal: TimeSignatureLiteral): ParsedTimeSignature {
   if (typeof literal === "string") {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_, up, low] = REGEX.exec(literal) || [];
     return parse([up, low]);
   }

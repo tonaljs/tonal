@@ -42,6 +42,7 @@ const cache: Record<string, RomanNumeral | NoRomanNumeral> = {};
  * @example
  * romanNumeral("VIIb5") // => { name: "VII", type: "b5", num: 7, major: true }
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function get(src: any): RomanNumeral | NoRomanNumeral {
   return typeof src === "string"
     ? cache[src] || (cache[src] = parse(src))

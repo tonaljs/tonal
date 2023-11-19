@@ -1,7 +1,8 @@
-import { note as props, NoteName } from "@tonaljs/core";
+import { NoteName, note as props } from "@tonaljs/core";
 
 type Midi = number;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isMidi(arg: any): arg is Midi {
   return +arg >= 0 && +arg <= 127;
 }

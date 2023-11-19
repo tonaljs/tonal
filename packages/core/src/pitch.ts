@@ -1,5 +1,3 @@
-import { Named } from "./named";
-
 type Fifths = number;
 type Octaves = number;
 export type Direction = 1 | -1;
@@ -27,10 +25,12 @@ export interface Pitch {
   readonly dir?: Direction; // undefined for notes
 }
 
-export function isPitch(pitch: any): pitch is Pitch {
+export function isPitch(pitch: unknown): pitch is Pitch {
   return pitch !== null &&
     typeof pitch === "object" &&
+    "step" in pitch &&
     typeof pitch.step === "number" &&
+    "alt" in pitch &&
     typeof pitch.alt === "number"
     ? true
     : false;
@@ -40,7 +40,7 @@ export function isPitch(pitch: any): pitch is Pitch {
 const FIFTHS = [0, 2, 4, -1, 1, 3, 5];
 // The number of octaves it span each step
 const STEPS_TO_OCTS = FIFTHS.map((fifths: number) =>
-  Math.floor((fifths * 7) / 12)
+  Math.floor((fifths * 7) / 12),
 );
 
 export function encode(pitch: Pitch): PitchCoordinates {

@@ -42,6 +42,7 @@ export function shorthands(): string[] {
 const REGEX = /^([^.]+)(\.*)$/;
 
 export function get(name: string): DurationValue {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, simple, dots] = REGEX.exec(name) || [];
   const base = VALUES.find(
     (dur) => dur.shorthand === simple || dur.names.includes(simple),

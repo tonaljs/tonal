@@ -1,11 +1,10 @@
 import {
-  coordToInterval,
-  distance as dist,
-  interval as props,
   IntervalCoordinates,
   IntervalName,
   NoteCoordinates,
-  tokenizeInterval as tokenize,
+  coordToInterval,
+  distance as dist,
+  interval as props,
 } from "@tonaljs/core";
 
 /**
