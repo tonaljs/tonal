@@ -33,7 +33,7 @@ export type Notation = {
 };
 
 export const tokenizer = <T extends PitchTokens>(
-  tokenize: (input: string) => T
+  tokenize: (input: string) => T,
 ) => memoize<T>(tokenize);
 
 export const parser = <T extends ParsedPitch>(parse: (input: string) => T) =>

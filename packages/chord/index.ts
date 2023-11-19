@@ -51,7 +51,7 @@ const NoChord: Chord = {
 
 // 6, 64, 7, 9, 11 and 13 are consider part of the chord
 // (see https://github.com/danigb/tonal/issues/55)
-const NUM_TYPES = /^(6|64|7|9|11|13)$/;
+//const NUM_TYPES = /^(6|64|7|9|11|13)$/;
 /**
  * Tokenize a chord name. It returns an array with the tonic and chord type
  * If not tonic is found, all the name is considered the chord name.
@@ -106,7 +106,7 @@ export function get(src: ChordName | ChordNameTokens): Chord {
 export function getChord(
   typeName: string,
   optionalTonic?: string,
-  optionalRoot?: string
+  optionalRoot?: string,
 ): Chord {
   const type = getChordType(typeName);
   const tonic = note(optionalTonic || "");

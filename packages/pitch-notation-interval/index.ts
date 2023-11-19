@@ -1,16 +1,16 @@
 import {
-  PitchCoordinates,
-  height,
-  chroma,
-  coordinates,
   IntervalPitch,
   InvalidPitch,
+  PitchCoordinates,
+  chroma,
+  coordinates,
+  height,
 } from "@tonaljs/pitch";
 import {
-  parser,
-  tokenizer,
-  toName,
   PitchTokens,
+  parser,
+  toName,
+  tokenizer,
 } from "@tonaljs/pitch-notation";
 
 /* tslint:disable:variable-name */
@@ -38,7 +38,7 @@ const INTERVAL_TONAL_REGEX = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
 // standard shorthand notation (with quality before number)
 const INTERVAL_SHORTHAND_REGEX = "(AA|A|P|M|m|d|dd)([-+]?\\d+)";
 const REGEX = new RegExp(
-  "^(?:" + INTERVAL_TONAL_REGEX + "|" + INTERVAL_SHORTHAND_REGEX + ")(.*)$"
+  "^(?:" + INTERVAL_TONAL_REGEX + "|" + INTERVAL_SHORTHAND_REGEX + ")(.*)$",
 );
 export const tokenize = tokenizer<PitchIntervalTokens>((input) => {
   const m = REGEX.exec(input) as string[];
@@ -84,7 +84,6 @@ type InvalidParsedInterval = InvalidPitch & {
 
 export type ParsedInterval = ValidParsedInterval | InvalidParsedInterval;
 
-const SIZES = [0, 2, 4, 5, 7, 9, 11];
 const TYPES = "PMMPPMM";
 
 export const parse = parser<ParsedInterval>((input) => {
@@ -128,15 +127,15 @@ function qToAlt(type: Type, q: string): number {
     (q === "P" && type === "perfectable")
     ? 0
     : q === "m" && type === "majorable"
-    ? -1
-    : /^A+$/.test(q)
-    ? q.length
-    : /^d+$/.test(q)
-    ? -1 * (type === "perfectable" ? q.length : q.length + 1)
-    : 0;
+      ? -1
+      : /^A+$/.test(q)
+        ? q.length
+        : /^d+$/.test(q)
+          ? -1 * (type === "perfectable" ? q.length : q.length + 1)
+          : 0;
 }
 
-export const name = toName((pitch) => {
+export const name = toName(() => {
   return "";
 });
 

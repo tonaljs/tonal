@@ -58,6 +58,7 @@ export function get(literal: TimeSignatureLiteral): TimeSignature {
 
 export function parse(literal: TimeSignatureLiteral): ParsedTimeSignature {
   if (typeof literal === "string") {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_, up, low] = REGEX.exec(literal) || [];
     return parse([up, low]);
   }
@@ -91,10 +92,10 @@ function build([up, down]: ParsedTimeSignature): TimeSignature {
     lower === 4 || lower === 2
       ? "simple"
       : lower === 8 && upper % 3 === 0
-      ? "compound"
-      : isPowerOfTwo(lower)
-      ? "irregular"
-      : "irrational";
+        ? "compound"
+        : isPowerOfTwo(lower)
+          ? "irregular"
+          : "irrational";
 
   return {
     empty: false,

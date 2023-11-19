@@ -37,7 +37,7 @@ describe("@tonaljs/pcset", () => {
         expect(Pcset.get([pc]).normalized).toBe(likeC);
       });
       expect(Pcset.get(["E", "F#"]).normalized).toBe(
-        Pcset.get(["C", "D"]).normalized
+        Pcset.get(["C", "D"]).normalized,
       );
     });
   });
@@ -48,7 +48,7 @@ describe("@tonaljs/pcset", () => {
     expect(Pcset.chroma($("c d e"))).toBe("101010000000");
     expect(Pcset.chroma($("g g#4 a bb5"))).toBe("000000011110");
     expect(Pcset.chroma($("P1 M2 M3 P4 P5 M6 M7"))).toBe(
-      Pcset.chroma($("c d e f g a b"))
+      Pcset.chroma($("c d e f g a b")),
     );
     expect(Pcset.chroma("101010101010")).toBe("101010101010");
     expect(Pcset.chroma(["one", "two"])).toBe("000000000000");

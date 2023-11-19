@@ -117,16 +117,16 @@ function getQuality(intervals: string[]): ChordQuality {
   return has("5A")
     ? "Augmented"
     : has("3M")
-    ? "Major"
-    : has("5d")
-    ? "Diminished"
-    : has("3m")
-    ? "Minor"
-    : "Unknown";
+      ? "Major"
+      : has("5d")
+        ? "Diminished"
+        : has("3m")
+          ? "Minor"
+          : "Unknown";
 }
 
 data.forEach(([ivls, fullName, names]: string[]) =>
-  add(ivls.split(" "), names.split(" "), fullName)
+  add(ivls.split(" "), names.split(" "), fullName),
 );
 dictionary.sort((a, b) => a.setNum - b.setNum);
 

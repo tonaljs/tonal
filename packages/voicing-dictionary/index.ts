@@ -5,7 +5,7 @@ const defaultDictionary: VoicingDictionary = lefthand;
 
 function lookup(
   symbol: string,
-  dictionary = defaultDictionary
+  dictionary = defaultDictionary,
 ): string[] | undefined {
   if (dictionary[symbol]) {
     return dictionary[symbol];

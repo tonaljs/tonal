@@ -52,13 +52,13 @@ describe("@tonaljs/duration-value", () => {
 
   test("shorthands", () => {
     expect(DurationValue.shorthands().join(",")).toEqual(
-      "dl,l,d,w,h,q,e,s,t,sf,h,th"
+      "dl,l,d,w,h,q,e,s,t,sf,h,th",
     );
   });
 
   test("names", () => {
     expect(DurationValue.names().join(",")).toEqual(
-      "large,duplex longa,maxima,octuple,octuple whole,long,longa,double whole,double,breve,whole,semibreve,half,minim,quarter,crotchet,eighth,quaver,sixteenth,semiquaver,thirty-second,demisemiquaver,sixty-fourth,hemidemisemiquaver,hundred twenty-eighth,two hundred fifty-sixth"
+      "large,duplex longa,maxima,octuple,octuple whole,long,longa,double whole,double,breve,whole,semibreve,half,minim,quarter,crotchet,eighth,quaver,sixteenth,semiquaver,thirty-second,demisemiquaver,sixty-fourth,hemidemisemiquaver,hundred twenty-eighth,two hundred fifty-sixth",
     );
   });
 });

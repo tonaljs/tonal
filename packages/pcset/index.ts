@@ -1,14 +1,14 @@
 import { compact, range, rotate } from "@tonaljs/collection";
 import {
-  deprecate,
   Interval,
-  interval,
   IntervalName,
   Named,
-  note,
+  NotFound,
   Note,
   NoteName,
-  NotFound,
+  deprecate,
+  interval,
+  note,
 } from "@tonaljs/core";
 
 /**
@@ -49,11 +49,17 @@ const setNumToChroma = (num: number): string =>
   Number(num).toString(2).padStart(12, "0");
 const chromaToNumber = (chroma: string): number => parseInt(chroma, 2);
 const REGEX = /^[01]{12}$/;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isChroma(set: any): set is PcsetChroma {
   return REGEX.test(set);
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isPcsetNum = (set: any): set is PcsetNum =>
   typeof set === "number" && set >= 0 && set <= 4095;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isPcset = (set: any): set is Pcset => set && isChroma(set.chroma);
 
 const cache: { [key in string]: Pcset } = { [EmptyPcset.chroma]: EmptyPcset };
@@ -79,12 +85,12 @@ export function get(src: Set): Pcset {
   const chroma: PcsetChroma = isChroma(src)
     ? src
     : isPcsetNum(src)
-    ? setNumToChroma(src)
-    : Array.isArray(src)
-    ? listToChroma(src)
-    : isPcset(src)
-    ? src.chroma
-    : EmptyPcset.chroma;
+      ? setNumToChroma(src)
+      : Array.isArray(src)
+        ? listToChroma(src)
+        : isPcset(src)
+          ? src.chroma
+          : EmptyPcset.chroma;
 
   return (cache[chroma] = cache[chroma] || chromaToPcset(chroma));
 }
@@ -185,7 +191,7 @@ export function modes(set: Set, normalize = true): PcsetChroma[] {
     binary.map((_, i) => {
       const r = rotate(i, binary);
       return normalize && r[0] === "0" ? null : r.join("");
-    })
+    }),
   );
 }
 
@@ -335,6 +341,7 @@ function chromaToPcset(chroma: PcsetChroma): Pcset {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function listToChroma(set: any[]): PcsetChroma {
   if (set.length === 0) {
     return EmptyPcset.chroma;

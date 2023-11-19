@@ -14,7 +14,7 @@ const MODES = [
   [6, 3434, 5, "locrian", "dim", "m7b5"],
 ] as const;
 
-type ModeDatum = typeof MODES[number];
+type ModeDatum = (typeof MODES)[number];
 
 export interface Mode extends Pcset {
   readonly name: string;
@@ -69,8 +69,8 @@ export function get(name: ModeLiteral): Mode {
   return typeof name === "string"
     ? index[name.toLowerCase()] || NoMode
     : name && name.name
-    ? get(name.name)
-    : NoMode;
+      ? get(name.name)
+      : NoMode;
 }
 
 export const mode = deprecate("Mode.mode", "Mode.get", get);
@@ -137,7 +137,7 @@ export function distance(destination: ModeLiteral, source: ModeLiteral) {
 export function relativeTonic(
   destination: ModeLiteral,
   source: ModeLiteral,
-  tonic: NoteName
+  tonic: NoteName,
 ) {
   return transpose(tonic, distance(destination, source));
 }

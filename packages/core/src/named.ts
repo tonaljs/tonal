@@ -11,8 +11,11 @@ export interface NotFound extends Named {
   readonly name: "";
 }
 
-export function isNamed(src: any): src is Named {
-  return src !== null && typeof src === "object" && typeof src.name === "string"
+export function isNamed(src: unknown): src is Named {
+  return src !== null &&
+    typeof src === "object" &&
+    "name" in src &&
+    typeof src.name === "string"
     ? true
     : false;
 }

@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   IntervalName,
   Named,
   Note,
-  note as props,
   NoteLiteral,
   NoteName,
   Pitch,
   transpose as _tr,
+  note as props,
 } from "@tonaljs/core";
 import { freqToMidi, midiToNoteName } from "@tonaljs/midi";
 
@@ -176,7 +177,7 @@ export const trFifths = transposeFifths;
 // TODO: documentation
 export function transposeOctaves(
   noteName: NoteName,
-  octaves: number
+  octaves: number,
 ): NoteName {
   return transpose(noteName, [0, octaves]);
 }
@@ -188,7 +189,7 @@ export const descending: NoteComparator = (a, b) => b.height - a.height;
 
 export function sortedNames(
   notes: any[],
-  comparator?: NoteComparator
+  comparator?: NoteComparator,
 ): string[] {
   comparator = comparator || ascending;
   return onlyNotes(notes).sort(comparator).map(toName);
@@ -196,7 +197,7 @@ export function sortedNames(
 
 export function sortedUniqNames(notes: any[]): string[] {
   return sortedNames(notes, ascending).filter(
-    (n, i, a) => i === 0 || n !== a[i - 1]
+    (n, i, a) => i === 0 || n !== a[i - 1],
   );
 }
 
@@ -247,7 +248,7 @@ export function enharmonic(noteName: string, destName?: string) {
       midiToNoteName(src.midi || src.chroma, {
         sharps: src.alt < 0,
         pitchClass: true,
-      })
+      }),
   );
 
   // ensure destination is valid
@@ -267,8 +268,8 @@ export function enharmonic(noteName: string, destName?: string) {
     srcChroma > 11 || destChroma < 0
       ? -1
       : srcChroma < 0 || destChroma > 11
-      ? +1
-      : 0;
+        ? +1
+        : 0;
   // calculate the new octave
   const destOct = src.oct + destOctOffset;
   return dest.pc + destOct;

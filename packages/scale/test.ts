@@ -66,28 +66,31 @@ describe("@tonaljs/scale", () => {
   describe("Scale.detect", () => {
     test("detect exact match", () => {
       expect(
-        Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact" })
+        Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact" }),
       ).toEqual(["D major pentatonic"]);
       expect(
-        Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact", tonic: "B" })
+        Scale.detect(["D", "E", "F#", "A", "B"], {
+          match: "exact",
+          tonic: "B",
+        }),
       ).toEqual(["B minor pentatonic"]);
       expect(
-        Scale.detect(["D", "F#", "B", "C", "C#"], { match: "exact" })
+        Scale.detect(["D", "F#", "B", "C", "C#"], { match: "exact" }),
       ).toEqual([]);
       expect(
-        Scale.detect(["c", "d", "e", "f", "g", "a", "b"], { match: "exact" })
+        Scale.detect(["c", "d", "e", "f", "g", "a", "b"], { match: "exact" }),
       ).toEqual(["C major"]);
       expect(
         Scale.detect(["c2", "d6", "e3", "f1", "g7", "a6", "b5"], {
           match: "exact",
           tonic: "d",
-        })
+        }),
       ).toEqual(["D dorian"]);
     });
 
     test("detect fit match", () => {
       expect(
-        Scale.detect(["C", "D", "E", "F", "G", "A", "B"], { match: "fit" })
+        Scale.detect(["C", "D", "E", "F", "G", "A", "B"], { match: "fit" }),
       ).toEqual([
         "C major",
         "C bebop",
@@ -96,7 +99,7 @@ describe("@tonaljs/scale", () => {
         "C chromatic",
       ]);
       expect(
-        Scale.detect(["D", "F#", "B", "C", "C#"], { match: "fit" })
+        Scale.detect(["D", "F#", "B", "C", "C#"], { match: "fit" }),
       ).toEqual(["D bebop", "D kafi raga", "D chromatic"]);
       expect(Scale.detect(["Ab", "Bb", "C", "Db", "Eb", "G"])).toEqual([
         "Ab major",
@@ -110,13 +113,13 @@ describe("@tonaljs/scale", () => {
 
     test("tonic will be added", () => {
       expect(
-        Scale.detect(["c", "d", "e", "f", "g", "b"], { match: "exact" })
+        Scale.detect(["c", "d", "e", "f", "g", "b"], { match: "exact" }),
       ).toEqual([]);
       expect(
         Scale.detect(["c", "d", "e", "f", "g", "b"], {
           match: "exact",
           tonic: "a",
-        })
+        }),
       ).toEqual(["A minor"]);
     });
   });
@@ -125,7 +128,7 @@ describe("@tonaljs/scale", () => {
     // Source https://en.wikipedia.org/wiki/Ukrainian_Dorian_scale
     expect(Scale.get("C romanian minor").notes).toEqual($("C D Eb F# G A Bb"));
     expect(Scale.get("C ukrainian dorian").notes).toEqual(
-      $("C D Eb F# G A Bb")
+      $("C D Eb F# G A Bb"),
     );
     expect(Scale.get("B romanian minor").notes).toEqual($("B C# D E# F# G# A"));
     expect(Scale.get("B dorian #4").notes).toEqual($("B C# D E# F# G# A"));
@@ -160,10 +163,10 @@ describe("@tonaljs/scale", () => {
   describe("specific and problematic scales", () => {
     test("whole note scale should use 6th", () => {
       expect(Scale.get("C whole tone").notes.join(" ")).toEqual(
-        "C D E F# G# A#"
+        "C D E F# G# A#",
       );
       expect(Scale.get("Db whole tone").notes.join(" ")).toEqual(
-        "Db Eb F G A B"
+        "Db Eb F G A B",
       );
     });
   });
@@ -171,7 +174,7 @@ describe("@tonaljs/scale", () => {
   test("scaleNotes", () => {
     expect(Scale.scaleNotes($("C4 c3 C5 C4 c4"))).toEqual(["C"]);
     expect(Scale.scaleNotes($("C4 f3 c#10 b5 d4 cb4"))).toEqual(
-      $("C C# D F B Cb")
+      $("C C# D F B Cb"),
     );
     expect(Scale.scaleNotes($("D4 c#5 A5 F#6"))).toEqual([
       "D",
@@ -215,14 +218,14 @@ describe("@tonaljs/scale", () => {
     test("range of a scale name with flat", () => {
       const range = Scale.rangeOf("Cb major");
       expect(range("Cb4", "Cb5").join(" ")).toEqual(
-        "Cb4 Db4 Eb4 Fb4 Gb4 Ab4 Bb4 Cb5"
+        "Cb4 Db4 Eb4 Fb4 Gb4 Ab4 Bb4 Cb5",
       );
     });
 
     test("range of a scale name with sharp", () => {
       const range = Scale.rangeOf("C# major");
       expect(range("C#4", "C#5").join(" ")).toEqual(
-        "C#4 D#4 E#4 F#4 G#4 A#4 B#4 C#5"
+        "C#4 D#4 E#4 F#4 G#4 A#4 B#4 C#5",
       );
     });
 
@@ -241,17 +244,17 @@ describe("@tonaljs/scale", () => {
         expect(
           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             .map(Scale.degrees("C major"))
-            .join(" ")
+            .join(" "),
         ).toEqual("C D E F G A B C D E");
         expect(
           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             .map(Scale.degrees("C4 major"))
-            .join(" ")
+            .join(" "),
         ).toEqual("C4 D4 E4 F4 G4 A4 B4 C5 D5 E5");
         expect(
           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
             .map(Scale.degrees("C4 pentatonic"))
-            .join(" ")
+            .join(" "),
         ).toEqual("C4 D4 E4 G4 A4 C5 D5 E5 G5 A5 C6");
       });
       test("invalid inputs", () => {
@@ -264,17 +267,17 @@ describe("@tonaljs/scale", () => {
       expect(
         [-1, -2, -3, -4, -5, -6, -7, -8, -9, -10]
           .map(Scale.degrees("C major"))
-          .join(" ")
+          .join(" "),
       ).toEqual("B A G F E D C B A G");
       expect(
         [-1, -2, -3, -4, -5, -6, -7, -8, -9, -10]
           .map(Scale.degrees("C4 major"))
-          .join(" ")
+          .join(" "),
       ).toEqual("B3 A3 G3 F3 E3 D3 C3 B2 A2 G2");
       expect(
         [-1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11]
           .map(Scale.degrees("C4 pentatonic"))
-          .join(" ")
+          .join(" "),
       ).toEqual("A3 G3 E3 D3 C3 A2 G2 E2 D2 C2 A1");
     });
   });

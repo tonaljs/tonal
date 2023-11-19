@@ -15,14 +15,14 @@ describe("@tonal/key", () => {
   test("major keySignature", () => {
     const tonics = "C D E F G A B".split(" ");
     expect(
-      tonics.map((tonic) => Key.majorKey(tonic).keySignature).join(" ")
+      tonics.map((tonic) => Key.majorKey(tonic).keySignature).join(" "),
     ).toEqual(" ## #### b # ### #####");
   });
 
   test("minor keySignature", () => {
     const tonics = "C D E F G A B".split(" ");
     expect(
-      tonics.map((tonic) => Key.minorKey(tonic).keySignature).join(" ")
+      tonics.map((tonic) => Key.minorKey(tonic).keySignature).join(" "),
     ).toEqual("bbb b # bbbb bb  ##");
   });
 
@@ -82,13 +82,13 @@ describe("@tonal/key", () => {
   test("octaves are discarded", () => {
     expect(Key.majorKey("b4").scale.join(" ")).toEqual("B C# D# E F# G# A#");
     expect(Key.majorKey("g4").chords.join(" ")).toEqual(
-      "Gmaj7 Am7 Bm7 Cmaj7 D7 Em7 F#m7b5"
+      "Gmaj7 Am7 Bm7 Cmaj7 D7 Em7 F#m7b5",
     );
     expect(Key.minorKey("C4").melodic.scale.join(" ")).toEqual(
-      "C D Eb F G A B"
+      "C D Eb F G A B",
     );
     expect(Key.minorKey("C4").melodic.chords.join(" ")).toEqual(
-      "Cm6 Dm7 Eb+maj7 F7 G7 Am7b5 Bm7b5"
+      "Cm6 Dm7 Eb+maj7 F7 G7 Am7b5 Bm7b5",
     );
   });
 
@@ -232,7 +232,7 @@ describe("@tonal/key", () => {
       tonic: "",
     });
     expect(Object.keys(Key.majorKey("C")).sort()).toEqual(
-      Object.keys(Key.majorKey("")).sort()
+      Object.keys(Key.majorKey("")).sort(),
     );
   });
 
@@ -452,7 +452,7 @@ describe("@tonal/key", () => {
       tonic: "",
     });
     expect(Object.keys(Key.minorKey("C")).sort()).toEqual(
-      Object.keys(Key.minorKey("nothing")).sort()
+      Object.keys(Key.minorKey("nothing")).sort(),
     );
   });
 });

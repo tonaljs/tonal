@@ -7,7 +7,8 @@
 export const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 
 export function deprecate<
-  ResultFn extends (this: any, ...newArgs: any[]) => ReturnType<ResultFn>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ResultFn extends (this: any, ...newArgs: any[]) => ReturnType<ResultFn>,
 >(original: string, alternative: string, fn: ResultFn) {
   return function (this: unknown, ...args: unknown[]): ReturnType<ResultFn> {
     // tslint:disable-next-line

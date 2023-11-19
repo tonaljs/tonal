@@ -46,22 +46,22 @@ describe("tonal-range", () => {
   describe("chromatic", () => {
     test("note names", () => {
       expect(chromatic(["A3", "A4"])).toEqual(
-        $("A3 Bb3 B3 C4 Db4 D4 Eb4 E4 F4 Gb4 G4 Ab4 A4")
+        $("A3 Bb3 B3 C4 Db4 D4 Eb4 E4 F4 Gb4 G4 Ab4 A4"),
       );
       expect(chromatic(["A4", "A3"])).toEqual(
-        $("A4 Ab4 G4 Gb4 F4 E4 Eb4 D4 Db4 C4 B3 Bb3 A3")
+        $("A4 Ab4 G4 Gb4 F4 E4 Eb4 D4 Db4 C4 B3 Bb3 A3"),
       );
       expect(chromatic($("C3 Eb3 A2"))).toEqual(
-        $("C3 Db3 D3 Eb3 D3 Db3 C3 B2 Bb2 A2")
+        $("C3 Db3 D3 Eb3 D3 Db3 C3 B2 Bb2 A2"),
       );
     });
 
     test("chromatic - use sharps", () => {
       expect(chromatic(["C2", "C3"], { sharps: true })).toEqual(
-        $("C2 C#2 D2 D#2 E2 F2 F#2 G2 G#2 A2 A#2 B2 C3")
+        $("C2 C#2 D2 D#2 E2 F2 F#2 G2 G#2 A2 A#2 B2 C3"),
       );
       expect(
-        chromatic(["C2", "C3"], { sharps: true, pitchClass: true })
+        chromatic(["C2", "C3"], { sharps: true, pitchClass: true }),
       ).toEqual($("C C# D D# E F F# G G# A A# B C"));
     });
   });

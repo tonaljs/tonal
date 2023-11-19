@@ -54,19 +54,19 @@ describe("note", () => {
   test("sortedNames", () => {
     expect(Note.sortedNames($("c f g a b h j"))).toEqual($("C F G A B"));
     expect(Note.sortedNames($("c f g a b h j j h b a g f c"))).toEqual(
-      $("C C F F G G A A B B")
+      $("C C F F G G A A B B"),
     );
     expect(Note.sortedNames($("c2 c5 c1 c0 c6 c"))).toEqual(
-      $("C C0 C1 C2 C5 C6")
+      $("C C0 C1 C2 C5 C6"),
     );
     expect(Note.sortedNames($("c2 c5 c1 c0 c6 c"), Note.descending)).toEqual(
-      $("C6 C5 C2 C1 C0 C")
+      $("C6 C5 C2 C1 C0 C"),
     );
   });
 
   test("sortedUniq", () => {
     expect(Note.sortedUniqNames($("a b c2 1p p2 c2 b c c3"))).toEqual(
-      $("C A B C2 C3")
+      $("C A B C2 C3"),
     );
   });
 
@@ -99,7 +99,7 @@ describe("note", () => {
     expect(Note.enharmonic("B#4")).toEqual("C5");
     const notes = $("C## C### F##4 Gbbb5 B#4 Cbb4");
     expect(notes.map((n) => Note.enharmonic(n))).toEqual(
-      $("D Eb G4 E5 C5 A#3")
+      $("D Eb G4 E5 C5 A#3"),
     );
     expect(Note.enharmonic("x")).toEqual("");
     expect(Note.enharmonic("F2", "E#")).toBe("E#2");
@@ -114,23 +114,23 @@ describe("note", () => {
     const ns = [0, 1, 2, 3, 4, 5].map((n) => Note.transposeFifths("C2", n));
     expect(ns).toEqual(["C2", "G2", "D3", "A3", "E4", "B4"]);
     const sharps = [0, 1, 2, 3, 4, 5, 6].map((n) =>
-      Note.transposeFifths("F#", n)
+      Note.transposeFifths("F#", n),
     );
     expect(sharps).toEqual(["F#", "C#", "G#", "D#", "A#", "E#", "B#"]);
     const flats = [0, -1, -2, -3, -4, -5, -6].map((n) =>
-      Note.transposeFifths("Bb", n)
+      Note.transposeFifths("Bb", n),
     );
     expect(flats).toEqual(["Bb", "Eb", "Ab", "Db", "Gb", "Cb", "Fb"]);
   });
 
   test("transposeOctaves", () => {
     expect(
-      [0, 1, 2, 3, 4].map((oct) => Note.transposeOctaves("C4", oct)).join(" ")
+      [0, 1, 2, 3, 4].map((oct) => Note.transposeOctaves("C4", oct)).join(" "),
     ).toEqual("C4 C5 C6 C7 C8");
     expect(
       [-1, -2, -3, -4, -5]
         .map((oct) => Note.transposeOctaves("C4", oct))
-        .join(" ")
+        .join(" "),
     ).toEqual("C3 C2 C1 C0 C-1");
   });
 
