@@ -25,7 +25,7 @@ const CHORDS: string[][] = [
   [
     "1P 3m 5P 7M",
     "minor/major seventh",
-    "m/ma7 m/maj7 mM7 mMaj7 m/M7 -Δ7 mΔ -^7",
+    "m/ma7 m/maj7 mM7 mMaj7 m/M7 -Δ7 mΔ -^7 -maj7",
   ],
   ["1P 3m 5P 6M", "minor sixth", "m6 -6"],
   ["1P 3m 5P 7m 9M", "minor ninth", "m9 -9"],
