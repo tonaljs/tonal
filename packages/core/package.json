@@ -17,6 +17,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "@tonaljs/pitch": "^4.8.0"
+  },
   "scripts": {
     "build": "tsup index.ts --sourcemap --dts --format esm,cjs"
   }
