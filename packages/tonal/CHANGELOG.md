@@ -1,5 +1,11 @@
 # tonal
 
+## 5.0.1
+
+- Add -maj7 chord alias
+- Updated dependencies
+  - @tonaljs/chord-type@5.0.2
+
 ## 5.0.0
 
 ### Major Changes
