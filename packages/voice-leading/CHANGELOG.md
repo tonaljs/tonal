@@ -1,5 +1,11 @@
 # @tonaljs/voice-leading
 
+## 5.0.0
+
+### Major Changes
+
+- 15017c0: First published version
+
 ## 4.8.0
 
 ### Minor Changes

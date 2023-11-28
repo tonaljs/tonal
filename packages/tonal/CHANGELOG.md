@@ -1,5 +1,20 @@
 # tonal
 
+## 5.1.0
+
+### Minor Changes
+
+- Publish voicing packages. Now there a three new namespaces:
+
+  ```ts
+  import { VoiceLeading, Voicing, VoicingDictionary } from "tonal";
+  ```
+
+- Updated dependencies [15017c0]
+  - @tonaljs/voicing-dictionary@5.0.0
+  - @tonaljs/voice-leading@5.0.0
+  - @tonaljs/voicing@5.0.0
+
 ## 5.0.1
 
 - Add -maj7 chord alias

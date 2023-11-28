@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/voice-leading",
-  "version": "4.8.0",
+  "version": "5.0.0",
   "description": "Voice leading logic for transitions between voicings",
   "keywords": [
     "chord",

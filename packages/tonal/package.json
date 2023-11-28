@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "5.0.1",
+  "version": "5.1.0",
   "description": "tonaljs music theory library",
   "keywords": [
     "music",
@@ -35,9 +35,9 @@
     "@tonaljs/scale-type": "^4.8.2",
     "@tonaljs/scale": "^4.12.2",
     "@tonaljs/time-signature": "^4.8.0",
-    "@tonaljs/voice-leading": "^4.8.1",
-    "@tonaljs/voicing-dictionary": "^4.8.1",
-    "@tonaljs/voicing": "^4.8.1"
+    "@tonaljs/voice-leading": "^5.0.0",
+    "@tonaljs/voicing-dictionary": "^5.0.0",
+    "@tonaljs/voicing": "^5.0.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
