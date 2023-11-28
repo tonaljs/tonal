@@ -18,8 +18,8 @@
   "dependencies": {
     "@tonaljs/abc-notation": "^4.8.0",
     "@tonaljs/array": "^4.8.0",
-    "@tonaljs/chord": "^5.0.0",
     "@tonaljs/chord-type": "^5.0.2",
+    "@tonaljs/chord": "^5.0.0",
     "@tonaljs/collection": "^4.8.0",
     "@tonaljs/core": "^4.10.0",
     "@tonaljs/duration-value": "^4.8.0",
@@ -32,9 +32,12 @@
     "@tonaljs/progression": "^4.8.1",
     "@tonaljs/range": "^4.8.1",
     "@tonaljs/roman-numeral": "^4.8.0",
-    "@tonaljs/scale": "^4.12.2",
     "@tonaljs/scale-type": "^4.8.2",
-    "@tonaljs/time-signature": "^4.8.0"
+    "@tonaljs/scale": "^4.12.2",
+    "@tonaljs/time-signature": "^4.8.0",
+    "@tonaljs/voice-leading": "^4.8.1",
+    "@tonaljs/voicing-dictionary": "^4.8.1",
+    "@tonaljs/voicing": "^4.8.1"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
