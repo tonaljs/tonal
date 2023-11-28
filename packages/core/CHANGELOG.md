@@ -1,5 +1,13 @@
 # @tonaljs/core
 
+## 4.10.1
+
+### Patch Changes
+
+- Restructure code to use new `@tonaljs/pitch`. No changes to functionality
+- Updated dependencies
+  - @tonaljs/pitch@5.0.0
+
 ## 4.10.0
 
 ### Minor Changes
