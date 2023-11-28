@@ -121,6 +121,12 @@ The API documentation is inside README.md of each module 👇
 - [@tonaljs/chord-detect](/packages/chord-detect): Detect chords from notes
 - [@tonaljs/pcset](/packages/pcset): Pitch class sets. Compare note groups.
 
+#### Voicings
+
+- [@tonaljs/voicing](/packages/voicing/): Voicings and voice leadings for chords
+- [@tonaljs/voice-leading](/packages/voice-leading/): Voice leading logic for transitions between voicings
+- [@tonaljs/voicing-dictionary](/packages/voicing-dictionary/): Collections of chord voicings
+
 #### Keys, chord progressions
 
 - [@tonaljs/key](/packages/key): Major and minor keys, it's scales and chords
