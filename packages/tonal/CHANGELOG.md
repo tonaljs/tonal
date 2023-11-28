@@ -1,5 +1,13 @@
 # tonal
 
+## 5.1.1
+
+### Patch Changes
+
+- Restructure code to use new `@tonaljs/pitch`. No changes to functionality
+- Updated dependencies
+  - @tonaljs/core@4.10.1
+
 ## 5.1.0
 
 ### Minor Changes

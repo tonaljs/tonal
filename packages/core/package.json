@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/core",
-  "version": "4.10.0",
+  "version": "4.10.1",
   "description": "Music theory library",
   "keywords": [
     "music",
@@ -16,6 +16,9 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@tonaljs/pitch": "^5.0.0"
   },
   "scripts": {
     "build": "tsup index.ts --sourcemap --dts --format esm,cjs"
