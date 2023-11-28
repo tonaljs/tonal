@@ -2,7 +2,6 @@ import { compact, range, rotate } from "@tonaljs/collection";
 import {
   Interval,
   IntervalName,
-  Named,
   NotFound,
   Note,
   NoteName,
@@ -24,7 +23,8 @@ import {
  * @param {IntervalName[]} intervals - the intervals of the pitch class set
  * *starting from C*
  */
-export interface Pcset extends Named {
+export interface Pcset {
+  readonly name: string;
   readonly empty: boolean;
   readonly setNum: number;
   readonly chroma: PcsetChroma;

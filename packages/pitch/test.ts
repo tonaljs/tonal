@@ -1,4 +1,12 @@
-import { Pitch, chroma, coordinates, height, midi, pitch } from "./index";
+import {
+  Pitch,
+  chroma,
+  coordinates,
+  height,
+  isNamedPitch,
+  midi,
+  pitch,
+} from "./index";
 
 // Pitch classes
 const C = { step: 0, alt: 0 };
@@ -16,6 +24,9 @@ const P5: Pitch = { step: 4, alt: 0, oct: 0, dir: 1 };
 const P_5: Pitch = { step: 4, alt: 0, oct: 0, dir: -1 };
 
 describe("@tonaljs/pitch", () => {
+  test("isNamedPitch", () => {
+    expect(isNamedPitch({ name: "C" })).toBe(true);
+  });
   test("height", () => {
     expect([C, Cs, Cb, A].map(height)).toEqual([-1200, -1199, -1201, -1191]);
     expect([C4, A4, Gs6].map(height)).toEqual([48, 57, 80]);

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   IntervalName,
-  Named,
   Note,
   NoteLiteral,
   NoteName,
@@ -13,7 +12,7 @@ import { freqToMidi, midiToNoteName } from "@tonaljs/midi";
 
 const NAMES = ["C", "D", "E", "F", "G", "A", "B"];
 
-const toName = (n: Named) => n.name;
+const toName = (n: Note) => n.name;
 const onlyNotes = (array: any[]) =>
   array.map(props).filter((n) => !n.empty) as Note[];
 

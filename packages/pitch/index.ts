@@ -1,3 +1,21 @@
+export interface NamedPitch {
+  readonly name: string;
+}
+
+export interface NotFound extends NamedPitch {
+  readonly empty: true;
+  readonly name: "";
+}
+
+export function isNamedPitch(src: unknown): src is NamedPitch {
+  return src !== null &&
+    typeof src === "object" &&
+    "name" in src &&
+    typeof src.name === "string"
+    ? true
+    : false;
+}
+
 type Fifths = number;
 type Octaves = number;
 export type Direction = 1 | -1;

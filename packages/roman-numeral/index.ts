@@ -5,11 +5,11 @@ import {
   interval,
   isNamed,
   isPitch,
-  Named,
   Pitch,
 } from "@tonaljs/core";
 
-export interface RomanNumeral extends Pitch, Named {
+export interface RomanNumeral extends Pitch {
+  readonly name: string;
   readonly empty: boolean;
   readonly roman: string;
   readonly interval: string;

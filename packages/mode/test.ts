@@ -18,7 +18,7 @@ describe("Mode", () => {
       });
       expect(Mode.get("major")).toEqual(Mode.get("ionian"));
     });
-    test("accept Named as parameter", () => {
+    test("accept NamedPitch as parameter", () => {
       expect(Mode.get(Mode.get("major"))).toEqual(Mode.get("major"));
       expect(Mode.get({ name: "Major" })).toEqual(Mode.get("major"));
     });

@@ -1,5 +1,5 @@
 import { rotate } from "@tonaljs/collection";
-import { deprecate, Named, NoteName, transpose } from "@tonaljs/core";
+import { deprecate, NamedPitch, NoteName, transpose } from "@tonaljs/core";
 import { simplify, transposeFifths } from "@tonaljs/interval";
 import { EmptyPcset, Pcset } from "@tonaljs/pcset";
 import { get as getType } from "@tonaljs/scale-type";
@@ -44,7 +44,7 @@ modes.forEach((mode) => {
   });
 });
 
-type ModeLiteral = string | Named;
+type ModeLiteral = string | NamedPitch;
 
 /**
  * Get a Mode by it's name
