@@ -1,6 +1,6 @@
 # @tonaljs/chord-type
 
-## 5.0.1
+## 5.0.2
 
 - Add missing -maj7 alias
 
