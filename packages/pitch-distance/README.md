@@ -1,4 +1,4 @@
-# @tonaljs/pitch-distance ![tonal](https://img.shields.io/badge/@tonaljs-pitch_notation_interval-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/pitch-distance.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/pitch-distance)
+# @tonaljs/pitch-distance ![tonal](https://img.shields.io/badge/@tonaljs-pitch_distance-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/pitch-distance.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/pitch-distance)
 
 > Pitch distance and transposition
 
