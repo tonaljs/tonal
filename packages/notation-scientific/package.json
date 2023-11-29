@@ -1,0 +1,27 @@
+{
+  "name": "@tonaljs/notation-scientific",
+  "version": "4.8.0",
+  "description": "Parse intervals in shorthand notation",
+  "keywords": [
+    "note",
+    "music",
+    "theory",
+    "interval",
+    "shorthand notation"
+  ],
+  "dependencies": {},
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup index.ts --sourcemap --dts --format esm,cjs"
+  }
+}
