@@ -20,6 +20,7 @@
   "dependencies": {
     "@tonaljs/pitch": "^5.0.0",
     "@tonaljs/pitch-interval": "^4.8.0",
+    "@tonaljs/pitch-distance": "^4.8.0",
     "@tonaljs/pitch-note": "^4.8.0"
   },
   "scripts": {
