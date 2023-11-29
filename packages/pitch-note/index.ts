@@ -1,19 +1,21 @@
 import {
   coordinates,
+  isNamedPitch,
   isPitch,
+  NamedPitch,
   Pitch,
   pitch,
   PitchCoordinates,
 } from "@tonaljs/pitch";
-import { isNamed, Named } from "./named";
-import { fillStr } from "./utils";
+
+const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 
 export type NoteWithOctave = string;
 export type PcName = string;
 export type NoteName = NoteWithOctave | PcName;
-export type NoteLiteral = NoteName | Pitch | Named;
+export type NoteLiteral = NoteName | Pitch | NamedPitch;
 
-export interface Note extends Pitch, Named {
+export interface Note extends Pitch, NamedPitch {
   readonly empty: boolean;
   readonly name: NoteName;
   readonly letter: string;
@@ -60,7 +62,7 @@ export function note(src: NoteLiteral): Note | NoNote {
       ? parse(src)
       : isPitch(src)
         ? note(pitchName(src))
-        : isNamed(src)
+        : isNamedPitch(src)
           ? note(src.name)
           : NoNote;
   cache.set(stringSrc, value);

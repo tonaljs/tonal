@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/core",
-  "version": "4.10.1",
+  "version": "4.10.2",
   "description": "Music theory library",
   "keywords": [
     "music",
@@ -18,7 +18,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@tonaljs/pitch": "^5.0.0"
+    "@tonaljs/pitch": "^5.0.0",
+    "@tonaljs/pitch-interval": "^5.0.0",
+    "@tonaljs/pitch-distance": "^5.0.0",
+    "@tonaljs/pitch-note": "^5.0.0"
   },
   "scripts": {
     "build": "tsup index.ts --sourcemap --dts --format esm,cjs"

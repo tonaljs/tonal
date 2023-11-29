@@ -1,0 +1,29 @@
+{
+  "name": "@tonaljs/pitch-interval",
+  "version": "5.0.0",
+  "description": "Parse intervals in shorthand notation",
+  "keywords": [
+    "note",
+    "music",
+    "theory",
+    "interval",
+    "shorthand notation"
+  ],
+  "dependencies": {
+    "@tonaljs/pitch": "^5.0.0"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup index.ts --sourcemap --dts --format esm,cjs"
+  }
+}

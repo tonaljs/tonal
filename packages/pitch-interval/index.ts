@@ -2,16 +2,18 @@ import {
   coordinates,
   Direction,
   IntervalCoordinates,
+  isNamedPitch,
   isPitch,
+  NamedPitch,
   Pitch,
   pitch,
   PitchCoordinates,
 } from "@tonaljs/pitch";
-import { isNamed, Named } from "./named";
-import { fillStr } from "./utils";
+
+const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 
 export type IntervalName = string;
-export type IntervalLiteral = IntervalName | Pitch | Named;
+export type IntervalLiteral = IntervalName | Pitch | NamedPitch;
 
 type Quality =
   | "dddd"
@@ -27,7 +29,7 @@ type Quality =
   | "AAAA";
 type Type = "perfectable" | "majorable";
 
-export interface Interval extends Pitch, Named {
+export interface Interval extends Pitch, NamedPitch {
   readonly empty: boolean;
   readonly name: IntervalName;
   readonly num: number;
@@ -99,7 +101,7 @@ export function interval(src: IntervalLiteral): Interval | NoInterval {
     ? cache[src] || (cache[src] = parse(src))
     : isPitch(src)
       ? interval(pitchName(src))
-      : isNamed(src)
+      : isNamedPitch(src)
         ? interval(src.name)
         : NoInterval;
 }
