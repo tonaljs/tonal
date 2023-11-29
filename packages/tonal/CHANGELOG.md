@@ -1,5 +1,13 @@
 # tonal
 
+## 5.1.2
+
+### Patch Changes
+
+- Move core into pitch modules
+- Updated dependencies
+  - @tonaljs/core@4.10.2
+
 ## 5.1.1
 
 ### Patch Changes

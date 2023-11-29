@@ -1,5 +1,15 @@
 # @tonaljs/core
 
+## 4.10.2
+
+### Patch Changes
+
+- Move core into pitch modules
+- Updated dependencies [4689b77]
+  - @tonaljs/pitch-distance@5.0.0
+  - @tonaljs/pitch-interval@5.0.0
+  - @tonaljs/pitch-note@5.0.0
+
 ## 4.10.1
 
 ### Patch Changes
