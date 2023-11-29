@@ -7,7 +7,8 @@ import {
   pitch,
   PitchCoordinates,
 } from "@tonaljs/pitch";
-import { fillStr } from "./utils";
+
+const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 
 export type NoteWithOctave = string;
 export type PcName = string;

@@ -1,26 +1,27 @@
 {
-  "name": "@tonaljs/core",
-  "version": "4.10.1",
-  "description": "Music theory library",
+  "name": "@tonaljs/pitch-note",
+  "version": "4.8.0",
+  "description": "Parse intervals in shorthand notation",
   "keywords": [
+    "note",
     "music",
-    "theory"
+    "theory",
+    "interval",
+    "shorthand notation"
   ],
+  "dependencies": {
+    "@tonaljs/pitch": "^5.0.0"
+  },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "types": "dist/index.d.ts",
   "author": "danigb@gmail.com",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "@tonaljs/pitch": "^5.0.0",
-    "@tonaljs/pitch-interval": "^4.8.0",
-    "@tonaljs/pitch-note": "^4.8.0"
   },
   "scripts": {
     "build": "tsup index.ts --sourcemap --dts --format esm,cjs"

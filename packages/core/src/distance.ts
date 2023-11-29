@@ -5,7 +5,12 @@ import {
   interval as asInterval,
   coordToInterval,
 } from "@tonaljs/pitch-interval";
-import { NoteLiteral, NoteName, note as asNote, coordToNote } from "./note";
+import {
+  NoteLiteral,
+  NoteName,
+  note as asNote,
+  coordToNote,
+} from "@tonaljs/pitch-note";
 
 /**
  * Transpose a note by an interval.
