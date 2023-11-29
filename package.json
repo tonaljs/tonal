@@ -15,6 +15,7 @@
     "lint": "eslint 'packages/**/*.ts'",
     "lint:fix": "eslint 'packages/**/*.ts' --fix",
     "test:ci": "yarn format && yarn lint && yarn build && yarn test -- --no-cache",
+    "doc": "yarn typedoc",
     "prepare": "husky install"
   },
   "prettier": {},
@@ -64,5 +65,8 @@
     "tsup": "^8.0.0",
     "turbo": "^1.10.3",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "typedoc": "^0.25.4"
   }
 }
