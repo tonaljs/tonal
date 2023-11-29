@@ -1,5 +1,5 @@
 {
-  "name": "@tonaljs/notation-interval",
+  "name": "@tonaljs/pitch-interval",
   "version": "4.8.0",
   "description": "Parse intervals in shorthand notation",
   "keywords": [

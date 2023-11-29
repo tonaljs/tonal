@@ -1,10 +1,10 @@
+import { PitchCoordinates } from "@tonaljs/pitch";
 import {
   IntervalLiteral,
   IntervalName,
   interval as asInterval,
   coordToInterval,
-} from "@tonaljs/notation-interval";
-import { PitchCoordinates } from "@tonaljs/pitch";
+} from "@tonaljs/pitch-interval";
 import { NoteLiteral, NoteName, note as asNote, coordToNote } from "./note";
 
 /**

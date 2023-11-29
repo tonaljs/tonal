@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@tonaljs/pitch": "^5.0.0",
-    "@tonaljs/notation-interval": "^4.8.0"
+    "@tonaljs/pitch-interval": "^4.8.0"
   },
   "scripts": {
     "build": "tsup index.ts --sourcemap --dts --format esm,cjs"
