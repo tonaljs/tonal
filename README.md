@@ -15,10 +15,10 @@ mutation, and entities are represented by data structures instead of objects.
 ## Example
 
 ```js
-import { Interval, Note, Scale } from "tonal";
+import { Chord, Interval, Note, Scale } from "tonal";
 
-Note.midi("A4"); // => 60
-Note.freq("a4").freq; // => 440
+Note.midi("C4"); // => 60
+Note.freq("a4"); // => 440
 Note.accidentals("c#2"); // => '#'
 Note.transpose("C4", "5P"); // => "G4"
 Interval.semitones("5P"); // => 7
