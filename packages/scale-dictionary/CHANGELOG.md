@@ -1,5 +1,13 @@
 # @tonaljs/scale-dictionary
 
+## 4.8.1
+
+### Patch Changes
+
+- Named type was renamed to NamedPitch. Add old export for backwards compatibility
+- Updated dependencies
+  - @tonaljs/scale-type@4.8.3
+
 ## 4.8.0
 
 ### Minor Changes

@@ -1,5 +1,17 @@
 # @tonaljs/mode
 
+## 4.8.2
+
+### Patch Changes
+
+- Named type was renamed to NamedPitch. Add old export for backwards compatibility
+- Updated dependencies
+  - @tonaljs/collection@4.8.1
+  - @tonaljs/core@4.10.3
+  - @tonaljs/interval@4.8.1
+  - @tonaljs/pcset@4.8.3
+  - @tonaljs/scale-type@4.8.3
+
 ## 4.8.0
 
 ### Minor Changes
