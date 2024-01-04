@@ -2,6 +2,11 @@ export interface NamedPitch {
   readonly name: string;
 }
 
+/*** @deprecated use NamedPitch */
+export interface Named {
+  readonly name: string;
+}
+
 export interface NotFound extends NamedPitch {
   readonly empty: true;
   readonly name: "";
