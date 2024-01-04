@@ -1,5 +1,34 @@
 # tonal
 
+## 5.1.3
+
+### Patch Changes
+
+- Named type was renamed to NamedPitch. Add old export for backwards compatibility
+- Updated dependencies
+  - @tonaljs/abc-notation@4.8.1
+  - @tonaljs/array@4.8.1
+  - @tonaljs/chord@5.0.1
+  - @tonaljs/chord-type@5.0.3
+  - @tonaljs/collection@4.8.1
+  - @tonaljs/core@4.10.3
+  - @tonaljs/duration-value@4.8.1
+  - @tonaljs/interval@4.8.1
+  - @tonaljs/key@4.9.2
+  - @tonaljs/midi@4.9.1
+  - @tonaljs/mode@4.8.2
+  - @tonaljs/note@4.10.1
+  - @tonaljs/pcset@4.8.3
+  - @tonaljs/progression@4.8.2
+  - @tonaljs/range@4.8.2
+  - @tonaljs/roman-numeral@4.8.1
+  - @tonaljs/scale@4.12.3
+  - @tonaljs/scale-type@4.8.3
+  - @tonaljs/time-signature@4.8.1
+  - @tonaljs/voice-leading@5.0.1
+  - @tonaljs/voicing@5.0.1
+  - @tonaljs/voicing-dictionary@5.0.1
+
 ## 5.1.2
 
 ### Patch Changes

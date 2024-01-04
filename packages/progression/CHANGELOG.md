@@ -1,5 +1,15 @@
 # @tonaljs/progression
 
+## 4.8.2
+
+### Patch Changes
+
+- Named type was renamed to NamedPitch. Add old export for backwards compatibility
+- Updated dependencies
+  - @tonaljs/chord@5.0.1
+  - @tonaljs/core@4.10.3
+  - @tonaljs/roman-numeral@4.8.1
+
 ## 4.8.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/notation-scientific",
-  "version": "4.8.0",
+  "version": "4.8.1",
   "private": true,
   "description": "Parse intervals in shorthand notation",
   "keywords": [

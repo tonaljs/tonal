@@ -1,5 +1,15 @@
 # @tonaljs/key
 
+## 4.9.2
+
+### Patch Changes
+
+- Named type was renamed to NamedPitch. Add old export for backwards compatibility
+- Updated dependencies
+  - @tonaljs/core@4.10.3
+  - @tonaljs/note@4.10.1
+  - @tonaljs/roman-numeral@4.8.1
+
 ## 4.9.1
 
 ### Patch Changes
