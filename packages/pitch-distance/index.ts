@@ -1,3 +1,4 @@
+import { isNamedPitch } from "@tonaljs/pitch";
 import { PitchCoordinates } from "@tonaljs/pitch";
 import {
   IntervalLiteral,
@@ -29,6 +30,12 @@ export function transpose(
   intervalName: IntervalLiteral | [number, number],
 ): NoteName {
   const note = asNote(noteName);
+  if (
+    intervalName === "" ||
+    (isNamedPitch(intervalName) && intervalName.name === "")
+  ) {
+    return "";
+  }
   const intervalCoord = Array.isArray(intervalName)
     ? intervalName
     : asInterval(intervalName).coord;

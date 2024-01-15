@@ -62,6 +62,7 @@ export const midi = (pitch: Pitch) => {
 export function isPitch(pitch: unknown): pitch is Pitch {
   return pitch !== null &&
     typeof pitch === "object" &&
+    ("empty" in pitch === false || pitch.empty === false) &&
     "step" in pitch &&
     typeof pitch.step === "number" &&
     "alt" in pitch &&

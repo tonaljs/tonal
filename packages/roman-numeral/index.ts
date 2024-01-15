@@ -19,14 +19,20 @@ export interface RomanNumeral extends Pitch {
   readonly dir: 1;
 }
 
-export interface NoRomanNumeral extends Partial<RomanNumeral> {
-  readonly empty: true;
-  readonly name: "";
-  readonly chordType: "";
-}
-const NoRomanNumeral: NoRomanNumeral = { empty: true, name: "", chordType: "" };
+const NoRomanNumeral: RomanNumeral = {
+  name: "",
+  empty: true,
+  roman: "",
+  interval: "",
+  acc: "",
+  chordType: "",
+  major: false,
+  dir: 1,
+  step: 0,
+  alt: 0,
+};
 
-const cache: Record<string, RomanNumeral | NoRomanNumeral> = {};
+const cache: Record<string, RomanNumeral> = {};
 
 /**
  * Get properties of a roman numeral string
@@ -43,7 +49,7 @@ const cache: Record<string, RomanNumeral | NoRomanNumeral> = {};
  * romanNumeral("VIIb5") // => { name: "VII", type: "b5", num: 7, major: true }
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function get(src: any): RomanNumeral | NoRomanNumeral {
+export function get(src: any): RomanNumeral {
   return typeof src === "string"
     ? cache[src] || (cache[src] = parse(src))
     : typeof src === "number"
@@ -75,7 +81,7 @@ export function names(major = true) {
   return (major ? NAMES : NAMES_MINOR).slice();
 }
 
-function fromPitch(pitch: Pitch): RomanNumeral | NoRomanNumeral {
+function fromPitch(pitch: Pitch): RomanNumeral {
   return get(altToAcc(pitch.alt) + NAMES[pitch.step]);
 }
 
@@ -92,7 +98,7 @@ const ROMANS = "I II III IV V VI VII";
 const NAMES = ROMANS.split(" ");
 const NAMES_MINOR = ROMANS.toLowerCase().split(" ");
 
-function parse(src: string): RomanNumeral | NoRomanNumeral {
+function parse(src: string): RomanNumeral {
   const [name, acc, roman, chordType] = tokenize(src);
   if (!roman) {
     return NoRomanNumeral;

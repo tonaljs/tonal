@@ -23,6 +23,36 @@ describe("interval", () => {
         simple: 4,
         step: 3,
       });
+      expect(interval("1P")).toEqual({
+        empty: false,
+        name: "1P",
+        num: 1,
+        q: "P",
+        type: "perfectable",
+        alt: 0,
+        chroma: 0,
+        dir: 1,
+        coord: [0, 0],
+        oct: 0,
+        semitones: 0,
+        simple: 1,
+        step: 0,
+      });
+      expect(interval("")).toEqual({
+        empty: true,
+        name: "",
+        num: 1,
+        q: "P",
+        type: "perfectable",
+        alt: 0,
+        chroma: 0,
+        dir: 1,
+        coord: [0, 0, 1],
+        oct: 0,
+        semitones: 0,
+        simple: 1,
+        step: 0,
+      });
     });
 
     test("accepts interval as parameter", () => {

@@ -45,13 +45,21 @@ export interface Interval extends Pitch, NamedPitch {
   readonly oct: number;
 }
 
-export interface NoInterval extends Partial<Interval> {
-  readonly empty: true;
-  readonly name: "";
-  readonly acc: "";
-}
-
-const NoInterval: NoInterval = { empty: true, name: "", acc: "" };
+const NoInterval: Interval = {
+  empty: true,
+  name: "",
+  num: 1,
+  q: "P",
+  type: "perfectable",
+  alt: 0,
+  chroma: 0,
+  dir: 1,
+  coord: [0, 0, 1],
+  oct: 0,
+  semitones: 0,
+  simple: 1,
+  step: 0,
+};
 
 // shorthand tonal notation (with quality after number)
 const INTERVAL_TONAL_REGEX = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
@@ -74,7 +82,7 @@ export function tokenizeInterval(str?: IntervalName): IntervalTokens {
   return m[1] ? [m[1], m[2]] : [m[4], m[3]];
 }
 
-const cache: { [key in string]: Interval | NoInterval } = {};
+const cache: { [key in string]: Interval } = {};
 
 /**
  * Get interval properties. It returns an object with:
@@ -96,7 +104,7 @@ const cache: { [key in string]: Interval | NoInterval } = {};
  * interval('P5').semitones // => 7
  * interval('m3').type // => 'majorable'
  */
-export function interval(src: IntervalLiteral): Interval | NoInterval {
+export function interval(src: IntervalLiteral): Interval {
   return typeof src === "string"
     ? cache[src] || (cache[src] = parse(src))
     : isPitch(src)
@@ -108,7 +116,7 @@ export function interval(src: IntervalLiteral): Interval | NoInterval {
 
 const SIZES = [0, 2, 4, 5, 7, 9, 11];
 const TYPES = "PMMPPMM";
-function parse(str?: string): Interval | NoInterval {
+function parse(str?: string): Interval {
   const tokens = tokenizeInterval(str);
   if (tokens[0] === "") {
     return NoInterval;

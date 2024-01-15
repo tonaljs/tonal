@@ -40,6 +40,18 @@ describe("tonal-roman-numeral", () => {
         oct: 0,
         dir: 1,
       });
+      expect(RomanNumeral.get("")).toEqual({
+        empty: true,
+        name: "",
+        roman: "",
+        interval: "",
+        acc: "",
+        chordType: "",
+        major: false,
+        step: 0,
+        alt: 0,
+        dir: 1,
+      });
     });
     test("RomanNumeral is compatible with Pitch", () => {
       const naturals = $("1P 2M 3M 4P 5P 6M 7M").map(interval);

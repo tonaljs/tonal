@@ -42,10 +42,10 @@ describe("note", () => {
       expect(height("C-4 D-4 E-4 F-4 G-4")).toEqual([-36, -34, -32, -31, -29]);
       expect(height("C D E F G")).toEqual([-1188, -1186, -1184, -1183, -1181]);
       expect(height("Cb4 Cbb4 Cbbb4 B#4 B##4 B###4")).toEqual(
-        height("B3 Bb3 Bbb3 C5 C#5 C##5")
+        height("B3 Bb3 Bbb3 C5 C#5 C##5"),
       );
       expect(height("Cb Cbb Cbbb B# B## B###")).toEqual(
-        height("B Bb Bbb C C# C##")
+        height("B Bb Bbb C C# C##"),
       );
     });
 
@@ -63,7 +63,7 @@ describe("note", () => {
       expect(note("F9").freq).toEqual(11175.303405856126);
       expect(note("C-4").freq).toEqual(1.0219748644554634);
       expect(note("C").freq).toEqual(null);
-      expect(note("x").freq).toEqual(undefined);
+      expect(note("x").freq).toEqual(null);
     });
   });
 

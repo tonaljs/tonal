@@ -28,6 +28,20 @@ describe("note", () => {
         midi: 69,
         freq: 440,
       });
+      expect(note("")).toEqual({
+        empty: true,
+        name: "",
+        letter: "",
+        acc: "",
+        pc: "",
+        step: 0,
+        alt: 0,
+        coord: [0],
+        height: 0,
+        chroma: 0,
+        midi: null,
+        freq: null,
+      });
     });
 
     test("it accepts a Note as param", () => {
@@ -63,7 +77,7 @@ describe("note", () => {
       expect(note("F9").freq).toEqual(11175.303405856126);
       expect(note("C-4").freq).toEqual(1.0219748644554634);
       expect(note("C").freq).toEqual(null);
-      expect(note("x").freq).toEqual(undefined);
+      expect(note("x").freq).toEqual(null);
     });
   });
 
