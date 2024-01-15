@@ -1,5 +1,16 @@
 # tonal
 
+## 5.2.0
+
+### Minor Changes
+
+- f21525b: Add `Pcset.notes()` function that returns the ordered pitch class notes of the given set
+
+### Patch Changes
+
+- Updated dependencies [f21525b]
+  - @tonaljs/pcset@4.9.0
+
 ## 5.1.3
 
 ### Patch Changes

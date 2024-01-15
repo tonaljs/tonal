@@ -1,5 +1,11 @@
 # @tonaljs/pcset
 
+## 4.9.0
+
+### Minor Changes
+
+- f21525b: Add `Pcset.notes()` function that returns the ordered pitch class notes of the given set
+
 ## 4.8.3
 
 ### Patch Changes
