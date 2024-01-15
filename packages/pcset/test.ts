@@ -121,6 +121,16 @@ describe("@tonaljs/pcset", () => {
     expect(Pcset.filter($("c"))($("c2 c#2 d2 c3 c#3 d3"))).toEqual($("c2 c3"));
   });
 
+  test("notes", () => {
+    expect(Pcset.notes($("c d e f g a b"))).toEqual($("C D E F G A B"));
+    expect(Pcset.notes($("b a g f e d c"))).toEqual($("C D E F G A B"));
+    expect(Pcset.notes($("D3 A3 Bb3 C4 D4 E4 F4 G4 A4"))).toEqual(
+      $("C D E F G A Bb"),
+    );
+    expect(Pcset.notes("101011010110")).toEqual($("C D E F G A Bb"));
+    expect(Pcset.notes(["blah", "x"])).toEqual([]);
+  });
+
   test("modes", () => {
     expect(Pcset.modes($("c d e f g a b"))).toEqual([
       "101011010101",

@@ -8,6 +8,7 @@ import {
   deprecate,
   interval,
   note,
+  transpose,
 } from "@tonaljs/core";
 
 /**
@@ -155,6 +156,10 @@ export function chromaToIntervals(chroma: PcsetChroma): IntervalName[] {
     if (chroma.charAt(i) === "1") intervals.push(IVLS[i]);
   }
   return intervals;
+}
+
+export function notes(set: Set): NoteName[] {
+  return get(set).intervals.map((ivl) => transpose("C", ivl));
 }
 
 /**
@@ -310,6 +315,7 @@ export default {
   isEqual,
   filter,
   modes,
+  notes,
   // deprecated
   pcset,
 };

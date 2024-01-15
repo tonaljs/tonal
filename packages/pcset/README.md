@@ -68,6 +68,15 @@ Pcset.intervals(["c", "d", "e"]); // => ["1P", "5P", "7M"]
 Pcset.intervals(["D", "F", "A"]); // => ["2M", "4P", "6M"]
 ```
 
+### `notes(pcset: string | number | string[]) => string[]`
+
+Given a pcset or a list of notes, it returns the sorted pitch class notes:
+
+```js
+Pcset.notes(["D3", "A3", "Bb3", "C4", "D4", "E4", "F4", "G4", "A4"]); // => ["C", "D", "E", "F", "G", "A", "Bb"]
+Pcset.notes("101011010110"); // => ["C", "D", "E", "F", "G", "A", "Bb"]
+```
+
 ### `isIncludedIn(parent: Set) => (note: string) => boolean`
 
 Test if a note is included in the given set. This function is currified:
