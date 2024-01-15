@@ -1,5 +1,14 @@
 # @tonaljs/note
 
+## 4.10.1
+
+### Patch Changes
+
+- Named type was renamed to NamedPitch. Add old export for backwards compatibility
+- Updated dependencies
+  - @tonaljs/core@4.10.3
+  - @tonaljs/midi@4.9.1
+
 ## 4.10.0
 
 ### Minor Changes

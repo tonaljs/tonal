@@ -1,5 +1,11 @@
 # @tonaljs/collection
 
+## 4.8.1
+
+### Patch Changes
+
+- Named type was renamed to NamedPitch. Add old export for backwards compatibility
+
 ## 4.8.0
 
 ### Minor Changes

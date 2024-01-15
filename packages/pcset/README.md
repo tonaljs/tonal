@@ -24,7 +24,7 @@ const { Pcset } = require("tonal");
 
 Given a collection of notes, a pitch class chroma string or a pitch class number, it returns a properties object with the following attributes:
 
-- num: the set number. Each pitch class set can be represented by an unique name between 0 and 4096. Those are the possible combinations of 12 different elements (pitch classesj)
+- num: the set number. Each pitch class set can be represented by an unique name between 0 and 4096. Those are the possible combinations of 12 different elements (pitch classes)
 - chroma: the set number as binary string
 - intervals: the list of intervals **starting from C**
 - length: the number of notes

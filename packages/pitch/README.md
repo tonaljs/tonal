@@ -4,4 +4,4 @@
 
 ## Usage
 
-This package is only required if you're planning to add support for more pitch notations.
+You probably don't need this package: is only required if you're planning to add support for more pitch notations.

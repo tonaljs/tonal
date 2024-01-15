@@ -18,7 +18,7 @@ describe("Mode", () => {
       });
       expect(Mode.get("major")).toEqual(Mode.get("ionian"));
     });
-    test("accept Named as parameter", () => {
+    test("accept NamedPitch as parameter", () => {
       expect(Mode.get(Mode.get("major"))).toEqual(Mode.get("major"));
       expect(Mode.get({ name: "Major" })).toEqual(Mode.get("major"));
     });
@@ -70,20 +70,20 @@ describe("Mode", () => {
 
   test("triads", () => {
     expect(Mode.triads("minor", "C").join(" ")).toEqual(
-      "Cm Ddim Eb Fm Gm Ab Bb"
+      "Cm Ddim Eb Fm Gm Ab Bb",
     );
     expect(Mode.triads("mixolydian", "Bb").join(" ")).toEqual(
-      "Bb Cm Ddim Eb Fm Gm Ab"
+      "Bb Cm Ddim Eb Fm Gm Ab",
     );
   });
 
   test("seventhChords", () => {
     expect(Mode.seventhChords("major", "C#").join(" ")).toEqual(
-      "C#Maj7 D#m7 E#m7 F#Maj7 G#7 A#m7 B#m7b5"
+      "C#Maj7 D#m7 E#m7 F#Maj7 G#7 A#m7 B#m7b5",
     );
 
     expect(Mode.seventhChords("dorian", "G").join(" ")).toEqual(
-      "Gm7 Am7 BbMaj7 C7 Dm7 Em7b5 FMaj7"
+      "Gm7 Am7 BbMaj7 C7 Dm7 Em7b5 FMaj7",
     );
   });
 

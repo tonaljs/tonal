@@ -1,11 +1,10 @@
 import {
-  coordToInterval,
-  distance as dist,
-  interval as props,
   IntervalCoordinates,
   IntervalName,
   NoteCoordinates,
-  tokenizeInterval as tokenize,
+  coordToInterval,
+  distance as dist,
+  interval as props,
 } from "@tonaljs/core";
 
 /**
@@ -169,7 +168,7 @@ export const substract = combinator((a, b) => [a[0] - b[0], a[1] - b[1]]);
 
 export function transposeFifths(
   interval: IntervalName,
-  fifths: number
+  fifths: number,
 ): IntervalName {
   const ivl = get(interval);
   if (ivl.empty) return "";
@@ -199,7 +198,7 @@ export default {
 
 type Operation = (
   a: IntervalCoordinates,
-  b: IntervalCoordinates
+  b: IntervalCoordinates,
 ) => NoteCoordinates;
 
 function combinator(fn: Operation) {

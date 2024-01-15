@@ -1,5 +1,13 @@
 # @tonaljs/chord-dictionary
 
+## 4.8.2
+
+### Patch Changes
+
+- Named type was renamed to NamedPitch. Add old export for backwards compatibility
+- Updated dependencies
+  - @tonaljs/chord-type@5.0.3
+
 ## 4.8.1
 
 ### Patch Changes

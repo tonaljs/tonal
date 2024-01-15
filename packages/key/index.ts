@@ -87,7 +87,7 @@ function keyScale(
   triads: string[],
   chords: string[],
   harmonicFunctions: string[],
-  chordScales: string[]
+  chordScales: string[],
 ) {
   return (tonic: string): KeyScale => {
     const intervals = grades.map((gr) => roman(gr).interval || "");
@@ -117,14 +117,14 @@ const MajorScale = keyScale(
   " m m   m dim".split(" "),
   "maj7 m7 m7 maj7 7 m7 m7b5".split(" "),
   "T SD T SD D T D".split(" "),
-  "major,dorian,phrygian,lydian,mixolydian,minor,locrian".split(",")
+  "major,dorian,phrygian,lydian,mixolydian,minor,locrian".split(","),
 );
 const NaturalScale = keyScale(
   "I II bIII IV V bVI bVII".split(" "),
   "m dim  m m  ".split(" "),
   "m7 m7b5 maj7 m7 m7 maj7 7".split(" "),
   "T SD T SD D SD SD".split(" "),
-  "minor,locrian,major,dorian,phrygian,lydian,mixolydian".split(",")
+  "minor,locrian,major,dorian,phrygian,lydian,mixolydian".split(","),
 );
 const HarmonicScale = keyScale(
   "I II bIII IV V bVI VII".split(" "),
@@ -132,8 +132,8 @@ const HarmonicScale = keyScale(
   "mMaj7 m7b5 +maj7 m7 7 maj7 o7".split(" "),
   "T SD T SD D SD D".split(" "),
   "harmonic minor,locrian 6,major augmented,lydian diminished,phrygian dominant,lydian #9,ultralocrian".split(
-    ","
-  )
+    ",",
+  ),
 );
 const MelodicScale = keyScale(
   "I II bIII IV V VI VII".split(" "),
@@ -141,8 +141,8 @@ const MelodicScale = keyScale(
   "m6 m7 +maj7 7 7 m7b5 m7b5".split(" "),
   "T SD T SD D  ".split(" "),
   "melodic minor,dorian b2,lydian augmented,lydian dominant,mixolydian b6,locrian #2,altered".split(
-    ","
-  )
+    ",",
+  ),
 );
 
 /**
@@ -209,7 +209,7 @@ export function minorKey(tnc: string): MinorKey {
  * majorTonicFromKeySignature('###') // => 'A'
  */
 export function majorTonicFromKeySignature(
-  sig: string | number
+  sig: string | number,
 ): string | null {
   if (typeof sig === "number") {
     return transposeFifths("C", sig);

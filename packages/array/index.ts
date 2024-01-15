@@ -1,6 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { note, Note } from "@tonaljs/core";
-
-const isArray = Array.isArray;
 
 // ascending range
 function ascR(b: number, n: number) {
@@ -145,7 +144,7 @@ export function permutations(arr: any[]): any[] {
         const newPerm = perm.slice();
         newPerm.splice(pos, 0, arr[0]);
         return newPerm;
-      })
+      }),
     );
   }, []);
 }

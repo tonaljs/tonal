@@ -1,13 +1,21 @@
-import { isNamed, Named } from "./named";
-import { decode, encode, isPitch, Pitch, PitchCoordinates } from "./pitch";
-import { fillStr } from "./utils";
+import {
+  coordinates,
+  isNamedPitch,
+  isPitch,
+  NamedPitch,
+  Pitch,
+  pitch,
+  PitchCoordinates,
+} from "@tonaljs/pitch";
+
+const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 
 export type NoteWithOctave = string;
 export type PcName = string;
 export type NoteName = NoteWithOctave | PcName;
-export type NoteLiteral = NoteName | Pitch | Named;
+export type NoteLiteral = NoteName | Pitch | NamedPitch;
 
-export interface Note extends Pitch, Named {
+export interface Note extends Pitch, NamedPitch {
   readonly empty: boolean;
   readonly name: NoteName;
   readonly letter: string;
@@ -53,10 +61,10 @@ export function note(src: NoteLiteral): Note | NoNote {
     typeof src === "string"
       ? parse(src)
       : isPitch(src)
-      ? note(pitchName(src))
-      : isNamed(src)
-      ? note(src.name)
-      : NoNote;
+        ? note(pitchName(src))
+        : isNamedPitch(src)
+          ? note(src.name)
+          : NoNote;
   cache.set(stringSrc, value);
   return value;
 }
@@ -77,7 +85,7 @@ export function tokenizeNote(str: string): NoteTokens {
  * @private
  */
 export function coordToNote(noteCoord: PitchCoordinates): Note {
-  return note(decode(noteCoord)) as Note;
+  return note(pitch(noteCoord)) as Note;
 }
 
 const mod = (n: number, m: number) => ((n % m) + m) % m;
@@ -96,7 +104,7 @@ function parse(noteName: NoteName): Note | NoNote {
   const step = (letter.charCodeAt(0) + 3) % 7;
   const alt = accToAlt(acc);
   const oct = octStr.length ? +octStr : undefined;
-  const coord = encode({ step, alt, oct });
+  const coord = coordinates({ step, alt, oct });
 
   const name = letter + acc + octStr;
   const pc = letter + acc;

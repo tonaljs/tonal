@@ -15,10 +15,10 @@ mutation, and entities are represented by data structures instead of objects.
 ## Example
 
 ```js
-import { Interval, Note, Scale } from "tonal";
+import { Chord, Interval, Note, Scale } from "tonal";
 
-Note.midi("A4"); // => 60
-Note.freq("a4").freq; // => 440
+Note.midi("C4"); // => 60
+Note.freq("a4"); // => 440
 Note.accidentals("c#2"); // => '#'
 Note.transpose("C4", "5P"); // => "G4"
 Interval.semitones("5P"); // => 7
@@ -120,6 +120,12 @@ The API documentation is inside README.md of each module 👇
 - [@tonaljs/chord-type](/packages/chord-type): A dictionary of chords
 - [@tonaljs/chord-detect](/packages/chord-detect): Detect chords from notes
 - [@tonaljs/pcset](/packages/pcset): Pitch class sets. Compare note groups.
+
+#### Voicings
+
+- [@tonaljs/voicing](/packages/voicing/): Voicings and voice leadings for chords
+- [@tonaljs/voice-leading](/packages/voice-leading/): Voice leading logic for transitions between voicings
+- [@tonaljs/voicing-dictionary](/packages/voicing-dictionary/): Collections of chord voicings
 
 #### Keys, chord progressions
 

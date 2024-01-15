@@ -1,15 +1,16 @@
 {
-  "name": "@tonaljs/pitch-notation",
-  "version": "4.8.0",
-  "private": true,
-  "description": "Create different pitch notations",
+  "name": "@tonaljs/pitch-note",
+  "version": "5.0.1",
+  "description": "Parse intervals in shorthand notation",
   "keywords": [
-    "pitch",
+    "note",
     "music",
-    "theory"
+    "theory",
+    "interval",
+    "shorthand notation"
   ],
   "dependencies": {
-    "@tonaljs/pitch": "^4.8.0"
+    "@tonaljs/pitch": "^5.0.1"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",

@@ -1,5 +1,15 @@
 # @tonaljs/chord-detect
 
+## 4.8.3
+
+### Patch Changes
+
+- Named type was renamed to NamedPitch. Add old export for backwards compatibility
+- Updated dependencies
+  - @tonaljs/chord-type@5.0.3
+  - @tonaljs/core@4.10.3
+  - @tonaljs/pcset@4.8.3
+
 ## 4.8.2
 
 ### Patch Changes

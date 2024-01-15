@@ -1,17 +1,19 @@
-import { isNamed, Named } from "./named";
 import {
-  decode,
+  coordinates,
   Direction,
-  encode,
   IntervalCoordinates,
+  isNamedPitch,
   isPitch,
+  NamedPitch,
   Pitch,
+  pitch,
   PitchCoordinates,
-} from "./pitch";
-import { fillStr } from "./utils";
+} from "@tonaljs/pitch";
+
+const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 
 export type IntervalName = string;
-export type IntervalLiteral = IntervalName | Pitch | Named;
+export type IntervalLiteral = IntervalName | Pitch | NamedPitch;
 
 type Quality =
   | "dddd"
@@ -27,7 +29,7 @@ type Quality =
   | "AAAA";
 type Type = "perfectable" | "majorable";
 
-export interface Interval extends Pitch, Named {
+export interface Interval extends Pitch, NamedPitch {
   readonly empty: boolean;
   readonly name: IntervalName;
   readonly num: number;
@@ -56,7 +58,7 @@ const INTERVAL_TONAL_REGEX = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
 // standard shorthand notation (with quality before number)
 const INTERVAL_SHORTHAND_REGEX = "(AA|A|P|M|m|d|dd)([-+]?\\d+)";
 const REGEX = new RegExp(
-  "^" + INTERVAL_TONAL_REGEX + "|" + INTERVAL_SHORTHAND_REGEX + "$"
+  "^" + INTERVAL_TONAL_REGEX + "|" + INTERVAL_SHORTHAND_REGEX + "$",
 );
 
 type IntervalTokens = [string, string];
@@ -98,10 +100,10 @@ export function interval(src: IntervalLiteral): Interval | NoInterval {
   return typeof src === "string"
     ? cache[src] || (cache[src] = parse(src))
     : isPitch(src)
-    ? interval(pitchName(src))
-    : isNamed(src)
-    ? interval(src.name)
-    : NoInterval;
+      ? interval(pitchName(src))
+      : isNamedPitch(src)
+        ? interval(src.name)
+        : NoInterval;
 }
 
 const SIZES = [0, 2, 4, 5, 7, 9, 11];
@@ -127,7 +129,7 @@ function parse(str?: string): Interval | NoInterval {
   const oct = Math.floor((Math.abs(num) - 1) / 7);
   const semitones = dir * (SIZES[step] + alt + 12 * oct);
   const chroma = (((dir * (SIZES[step] + alt)) % 12) + 12) % 12;
-  const coord = encode({ step, alt, oct, dir }) as IntervalCoordinates;
+  const coord = coordinates({ step, alt, oct, dir }) as IntervalCoordinates;
   return {
     empty: false,
     name,
@@ -152,13 +154,13 @@ function parse(str?: string): Interval | NoInterval {
  */
 export function coordToInterval(
   coord: PitchCoordinates,
-  forceDescending?: boolean
+  forceDescending?: boolean,
 ): Interval {
   const [f, o = 0] = coord;
   const isDescending = f * 7 + o * 12 < 0;
   const ivl: IntervalCoordinates =
     forceDescending || isDescending ? [-f, -o, -1] : [f, o, 1];
-  return interval(decode(ivl)) as Interval;
+  return interval(pitch(ivl)) as Interval;
 }
 
 function qToAlt(type: Type, q: string): number {
@@ -166,12 +168,12 @@ function qToAlt(type: Type, q: string): number {
     (q === "P" && type === "perfectable")
     ? 0
     : q === "m" && type === "majorable"
-    ? -1
-    : /^A+$/.test(q)
-    ? q.length
-    : /^d+$/.test(q)
-    ? -1 * (type === "perfectable" ? q.length : q.length + 1)
-    : 0;
+      ? -1
+      : /^A+$/.test(q)
+        ? q.length
+        : /^d+$/.test(q)
+          ? -1 * (type === "perfectable" ? q.length : q.length + 1)
+          : 0;
 }
 
 // return the interval name of a pitch

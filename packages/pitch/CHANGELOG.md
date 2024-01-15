@@ -1,33 +1,11 @@
 # @tonaljs/pitch
 
-## 4.8.0
-
-### Minor Changes
-
-- - fix time signature parsing
-  - add support for irrational time signatures
-  - add option `assumePerfectFifth` to `Chord.detect` function
-
-## 4.7.2
+## 5.0.1
 
 ### Patch Changes
 
-- Unify package versions
+- Named type was renamed to NamedPitch. Add old export for backwards compatibility
 
-## 4.6.5
+## 5.0.0
 
-### Patch Changes
-
-- fix npm publish problem
-
-## 4.6.4
-
-### Patch Changes
-
-- fix memory leak
-
-## 4.6.3
-
-### Patch Changes
-
-- Bug fixing
+First release

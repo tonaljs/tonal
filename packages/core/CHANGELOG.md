@@ -1,5 +1,34 @@
 # @tonaljs/core
 
+## 4.10.3
+
+### Patch Changes
+
+- Named type was renamed to NamedPitch. Add old export for backwards compatibility
+- Updated dependencies
+  - @tonaljs/pitch@5.0.1
+  - @tonaljs/pitch-distance@5.0.1
+  - @tonaljs/pitch-interval@5.0.1
+  - @tonaljs/pitch-note@5.0.1
+
+## 4.10.2
+
+### Patch Changes
+
+- Move core into pitch modules
+- Updated dependencies [4689b77]
+  - @tonaljs/pitch-distance@5.0.0
+  - @tonaljs/pitch-interval@5.0.0
+  - @tonaljs/pitch-note@5.0.0
+
+## 4.10.1
+
+### Patch Changes
+
+- Restructure code to use new `@tonaljs/pitch`. No changes to functionality
+- Updated dependencies
+  - @tonaljs/pitch@5.0.0
+
 ## 4.10.0
 
 ### Minor Changes

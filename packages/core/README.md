@@ -114,7 +114,7 @@ Examples:
 ```js
 transpose("d3", "3M"); // => "F#3"
 transpose("D", "3M"); // => "F#"
-["C", "D", "E", "F", "G"].map(pc => transpose(pc, "M3"));
+["C", "D", "E", "F", "G"].map((pc) => transpose(pc, "M3"));
 // => ["E", "F#", "G#", "A", "B"]
 ```
 

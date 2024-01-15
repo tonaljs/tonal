@@ -1,19 +1,16 @@
 {
-  "name": "@tonaljs/pitch-notation-abc",
-  "version": "4.8.0",
-  "private": true,
-  "description": "Parse note names in ABC notation",
+  "name": "@tonaljs/pitch-interval",
+  "version": "5.0.1",
+  "description": "Parse intervals in shorthand notation",
   "keywords": [
     "note",
     "music",
     "theory",
-    "notation",
-    "ABC notation"
+    "interval",
+    "shorthand notation"
   ],
   "dependencies": {
-    "@tonaljs/pitch": "^4.8.0",
-    "@tonaljs/pitch-notation": "^4.8.0",
-    "@tonaljs/pitch-notation-scientific": "^4.8.0"
+    "@tonaljs/pitch": "^5.0.1"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",

@@ -112,7 +112,7 @@ export const scale = deprecate("Scale.scale", "Scale.get", get);
 
 export function detect(
   notes: string[],
-  options: { tonic?: string; match?: "exact" | "fit" } = {}
+  options: { tonic?: string; match?: "exact" | "fit" } = {},
 ): string[] {
   const notesChroma = chroma(notes);
   const tonic = note(options.tonic ?? notes[0] ?? "");

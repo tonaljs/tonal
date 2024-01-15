@@ -1,11 +1,16 @@
+import { PitchCoordinates } from "@tonaljs/pitch";
 import {
-  coordToInterval,
-  interval as asInterval,
   IntervalLiteral,
   IntervalName,
-} from "./interval";
-import { coordToNote, note as asNote, NoteLiteral, NoteName } from "./note";
-import { PitchCoordinates } from "./pitch";
+  interval as asInterval,
+  coordToInterval,
+} from "@tonaljs/pitch-interval";
+import {
+  NoteLiteral,
+  NoteName,
+  note as asNote,
+  coordToNote,
+} from "@tonaljs/pitch-note";
 
 /**
  * Transpose a note by an interval.
@@ -14,14 +19,14 @@ import { PitchCoordinates } from "./pitch";
  * @param {string} interval - the interval or interval name
  * @return {string} the transposed note name or empty string if not valid notes
  * @example
- * import { tranpose } from "@tonaljs/core"
+ * import { transpose } from "@tonaljs/core"
  * transpose("d3", "3M") // => "F#3"
  * transpose("D", "3M") // => "F#"
  * ["C", "D", "E", "F", "G"].map(pc => transpose(pc, "M3)) // => ["E", "F#", "G#", "A", "B"]
  */
 export function transpose(
   noteName: NoteLiteral,
-  intervalName: IntervalLiteral | [number, number]
+  intervalName: IntervalLiteral | [number, number],
 ): NoteName {
   const note = asNote(noteName);
   const intervalCoord = Array.isArray(intervalName)
@@ -41,7 +46,7 @@ export function transpose(
 // Private
 export function tonicIntervalsTransposer(
   intervals: string[],
-  tonic: string | undefined | null
+  tonic: string | undefined | null,
 ) {
   const len = intervals.length;
   return (normalized: number) => {
@@ -67,7 +72,7 @@ export function tonicIntervalsTransposer(
  */
 export function distance(
   fromNote: NoteLiteral,
-  toNote: NoteLiteral
+  toNote: NoteLiteral,
 ): IntervalName {
   const from = asNote(fromNote);
   const to = asNote(toNote);

@@ -14,7 +14,7 @@ function get(
   range: string[] = defaultRange,
   dictionary = defaultDictionary,
   voiceLeading = defaultVoiceLeading,
-  lastVoicing?: string[]
+  lastVoicing?: string[],
 ) {
   const voicings = search(chord, range, dictionary);
   if (!lastVoicing || !lastVoicing.length) {
@@ -30,7 +30,7 @@ function get(
 function search(
   chord: string,
   range = defaultRange,
-  dictionary = VoicingDictionary.triads
+  dictionary = VoicingDictionary.triads,
 ): string[][] {
   const [tonic, symbol] = Chord.tokenize(chord);
   const sets = VoicingDictionary.lookup(symbol, dictionary);
@@ -44,7 +44,7 @@ function search(
   return voicings.reduce((voiced: string[][], voicing: string[]) => {
     // transpose intervals relative to first interval (e.g. 3m 5P > 1P 3M)
     const relativeIntervals = voicing.map(
-      (interval) => Interval.substract(interval, voicing[0]) || ""
+      (interval) => Interval.substract(interval, voicing[0]) || "",
     );
     // get enharmonic correct pitch class the bottom note
     const bottomPitchClass = Note.transpose(tonic, voicing[0]);
@@ -58,15 +58,15 @@ function search(
           (Note.midi(
             Note.transpose(
               note,
-              relativeIntervals[relativeIntervals.length - 1]
-            )
-          ) || 0) <= (Note.midi(range[1]) || 0)
+              relativeIntervals[relativeIntervals.length - 1],
+            ),
+          ) || 0) <= (Note.midi(range[1]) || 0),
       )
       // replace Range.chromatic notes with the correct enharmonic equivalents
       .map((note) => Note.enharmonic(note, bottomPitchClass));
     // render one voicing for each start note
     const notes = starts.map((start) =>
-      relativeIntervals.map((interval) => Note.transpose(start, interval))
+      relativeIntervals.map((interval) => Note.transpose(start, interval)),
     );
     return voiced.concat(notes);
   }, []);
@@ -77,7 +77,7 @@ function sequence(
   range = defaultRange,
   dictionary = defaultDictionary,
   voiceLeading = defaultVoiceLeading,
-  lastVoicing?: string[]
+  lastVoicing?: string[],
 ) {
   const { voicings } = chords.reduce<{
     voicings: string[][];
@@ -89,7 +89,7 @@ function sequence(
       voicings.push(voicing);
       return { voicings, lastVoicing };
     },
-    { voicings: [], lastVoicing }
+    { voicings: [], lastVoicing },
   );
   return voicings;
 }

@@ -85,7 +85,7 @@ describe("@tonal/chord-type data", () => {
         // tslint:disable-next-line
         console.error(
           `Invalid chord: intervals should be in ascending order`,
-          data
+          data,
         );
         throw e;
       }

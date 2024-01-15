@@ -17,6 +17,9 @@ import RomanNumeral from "@tonaljs/roman-numeral";
 import Scale from "@tonaljs/scale";
 import ScaleType from "@tonaljs/scale-type";
 import TimeSignature from "@tonaljs/time-signature";
+import VoiceLeading from "@tonaljs/voice-leading";
+import Voicing from "@tonaljs/voicing";
+import VoicingDictionary from "@tonaljs/voicing-dictionary";
 
 export * from "@tonaljs/core";
 
@@ -30,25 +33,27 @@ export {
   AbcNotation,
   Array,
   Chord,
+  ChordDictionary,
   ChordType,
   Collection,
   Core,
   DurationValue,
-  Note,
   Interval,
   Key,
   Midi,
   Mode,
+  Note,
+  PcSet,
   Pcset,
   Progression,
   Range,
   RomanNumeral,
   Scale,
+  ScaleDictionary,
   ScaleType,
   TimeSignature,
-  // backwards API compatibility (3.0)
   Tonal,
-  PcSet,
-  ChordDictionary,
-  ScaleDictionary,
+  VoiceLeading,
+  Voicing,
+  VoicingDictionary,
 };
