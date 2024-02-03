@@ -65,7 +65,7 @@ describe("note", () => {
       expect(note("F9").freq).toEqual(11175.303405856126);
       expect(note("C-4").freq).toEqual(1.0219748644554634);
       expect(note("C").freq).toEqual(null);
-      expect(note("x").freq).toEqual(undefined);
+      expect(note("x").freq).toEqual(null);
     });
   });
 

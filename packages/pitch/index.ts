@@ -65,7 +65,9 @@ export function isPitch(pitch: unknown): pitch is Pitch {
     "step" in pitch &&
     typeof pitch.step === "number" &&
     "alt" in pitch &&
-    typeof pitch.alt === "number"
+    typeof pitch.alt === "number" &&
+    !isNaN(pitch.step) &&
+    !isNaN(pitch.alt)
     ? true
     : false;
 }
