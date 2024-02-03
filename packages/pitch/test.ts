@@ -4,6 +4,7 @@ import {
   coordinates,
   height,
   isNamedPitch,
+  isPitch,
   midi,
   pitch,
 } from "./index";
@@ -59,5 +60,13 @@ describe("@tonaljs/pitch", () => {
   test("pitch", () => {
     expect(pitch([0])).toEqual(C);
     expect(pitch([7])).toEqual(Cs);
+  });
+
+  test("isPitch", () => {
+    expect(isPitch({ step: 0, alt: 0 })).toBe(true);
+    expect(isPitch({ step: 0, alt: NaN })).toBe(false);
+    expect(isPitch({ step: NaN, alt: 0 })).toBe(false);
+    expect(isPitch(undefined)).toBe(false);
+    expect(isPitch("")).toBe(false);
   });
 });

@@ -97,7 +97,7 @@ Lot of changes, but as a positive side effect, the library API surface is smalle
 Now functions falls in two catergories:
 
 - **Parsers**: takes a name of something (string) and return an object with properties. Examples of that functions are: note, interval, pcset, scaleType, chordType, scale, chord, mode. All of the returning objects has the properties `empty` (boolean) and name (string, "" indicating _no value_)
-- **Operations**: takes one or more names and return a new name. It always work with strings (no objects). Invalid results are represented with empty strings "". Examples: transpose, distance, substract
+- **Operations**: takes one or more names and return a new name. It always work with strings (no objects). Invalid results are represented with empty strings "". Examples: transpose, distance, subtract
 
 ### Utilility functions removed or made private
 

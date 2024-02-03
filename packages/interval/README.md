@@ -101,11 +101,11 @@ Add two intervals:
 Interval.add("3m", "5P"); // => "7m"
 ```
 
-#### `substract(min: string, sub: string) => string`
+#### `subtract(min: string, sub: string) => string`
 
 Substract two intervals:
 
 ```js
-substract("5P", "3M"); // => '3m'
-substract("3M", "5P"); // => '-3m'
+subtract("5P", "3M"); // => '3m'
+subtract("3M", "5P"); // => '-3m'
 ```

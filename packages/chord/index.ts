@@ -4,7 +4,7 @@ import {
   all as chordTypes,
   get as getChordType,
 } from "@tonaljs/chord-type";
-import { substract } from "@tonaljs/interval";
+import { subtract } from "@tonaljs/interval";
 import { isSubsetOf, isSupersetOf } from "@tonaljs/pcset";
 import {
   distance,
@@ -155,7 +155,7 @@ export function getChord(
       intervals.shift();
     }
   } else if (hasBass) {
-    const ivl = substract(distance(tonic.pc, bass.pc), "8P");
+    const ivl = subtract(distance(tonic.pc, bass.pc), "8P");
     if (ivl) intervals.unshift(ivl);
   }
 
