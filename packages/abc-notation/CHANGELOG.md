@@ -1,5 +1,13 @@
 # @tonaljs/abc-notation
 
+## 4.8.x
+
+### Patch Changes
+
+- Dependencies between packages are now fixed
+- Updated dependencies
+  - @tonaljs/core@4.10.4
+
 ## 4.8.1
 
 ### Patch Changes

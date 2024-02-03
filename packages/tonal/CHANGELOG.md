@@ -1,5 +1,31 @@
 # tonal
 
+## 5.2.1
+
+### Patch Changes
+
+- Dependencies between packages are now fixed
+- Updated dependencies
+  - @tonaljs/voicing-dictionary@5.0.2
+  - @tonaljs/roman-numeral@4.8.2
+  - @tonaljs/voice-leading@5.0.2
+  - @tonaljs/abc-notation@4.8.2
+  - @tonaljs/progression@4.8.3
+  - @tonaljs/chord-type@5.0.4
+  - @tonaljs/scale-type@4.8.4
+  - @tonaljs/interval@4.8.2
+  - @tonaljs/voicing@5.0.2
+  - @tonaljs/array@4.8.2
+  - @tonaljs/chord@5.0.3
+  - @tonaljs/pcset@4.9.1
+  - @tonaljs/range@4.8.3
+  - @tonaljs/scale@4.12.4
+  - @tonaljs/core@4.10.4
+  - @tonaljs/midi@4.9.2
+  - @tonaljs/mode@4.8.3
+  - @tonaljs/note@4.10.2
+  - @tonaljs/key@4.9.3
+
 ## 5.2.0
 
 ### Minor Changes

@@ -1,12 +1,12 @@
 {
   "name": "@tonaljs/array",
-  "version": "4.8.1",
+  "version": "4.8.2",
   "description": "Functions to work with arrays of tonal objects",
   "keywords": [
     "array",
     "music",
     "theory",
-    "@tonaljs/core"
+    "tonal"
   ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -15,14 +15,19 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "^4.10.3"
+    "@tonaljs/pitch-note": "5.0.1"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  },
   "scripts": {
-    "build": "tsup index.ts --sourcemap --dts --format esm,cjs"
+    "build": "tsup index.ts --sourcemap --dts --format esm,cjs",
+    "test": "jest --coverage"
   }
 }

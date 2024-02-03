@@ -1,5 +1,15 @@
 # @tonaljs/key
 
+## 4.9.3
+
+### Patch Changes
+
+- Dependencies between packages are now fixed
+- Updated dependencies
+  - @tonaljs/roman-numeral@4.8.2
+  - @tonaljs/core@4.10.4
+  - @tonaljs/note@4.10.2
+
 ## 4.9.2
 
 ### Patch Changes

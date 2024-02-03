@@ -1,12 +1,12 @@
 {
   "name": "@tonaljs/interval",
-  "version": "4.8.1",
+  "version": "4.8.2",
   "description": "Parse and manipulate music intervals",
   "keywords": [
     "interval",
     "music",
     "theory",
-    "@tonaljs/core"
+    "tonal"
   ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -15,14 +15,21 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "^4.10.3"
+    "@tonaljs/pitch": "^5.0.1",
+    "@tonaljs/pitch-distance": "^5.0.2",
+    "@tonaljs/pitch-interval": "^5.0.2"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  },
   "scripts": {
-    "build": "tsup index.ts --sourcemap --dts --format esm,cjs"
+    "build": "tsup index.ts --sourcemap --dts --format esm,cjs",
+    "test": "jest --coverage"
   }
 }

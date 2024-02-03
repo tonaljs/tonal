@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/abc-notation",
-  "version": "4.8.1",
+  "version": "4.8.2",
   "description": "Parse musical notes in abc notation",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -9,7 +9,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "^4.10.3"
+    "@tonaljs/pitch-distance": "5.0.2",
+    "@tonaljs/pitch-note": "5.0.1"
   },
   "keywords": [
     "note",
@@ -24,7 +25,12 @@
   "publishConfig": {
     "access": "public"
   },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  },
   "scripts": {
-    "build": "tsup index.ts --sourcemap --dts --format esm,cjs"
+    "build": "tsup index.ts --sourcemap --dts --format esm,cjs",
+    "test": "jest --coverage"
   }
 }

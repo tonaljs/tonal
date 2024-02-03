@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/voice-leading",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Voice leading logic for transitions between voicings",
   "keywords": [
     "chord",
@@ -17,7 +17,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/note": "^4.10.1"
+    "@tonaljs/note": "4.10.2"
   },
   "author": "felix91@gmail.com",
   "license": "MIT",
