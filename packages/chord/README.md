@@ -27,7 +27,7 @@ Chord properties is the the same object that `ChordType.get` but with additional
 - symbol: the chord symbol (a combination of the tonic, chord type shortname and root, if present). For example: `Cmaj7`, `Db7b5/F`. The symbol always uses pitch classes (note names without octaves) for both the tonic and root.
 - tonic: the tonic of the chord (or an empty string if not present)
 - bass: the bass of the chord (or an empty string if not present). The bass can be any pitch class.
-- root: the root of the chord (or an empty string if not present). If the bass is part of the chord, it will also appear as root.
+- root: the root of the chord (or an empty string if not present). The root is present if the bass not belongs to the chord. It could be chords with bass without root field, but not the opposite.
 - rootDegree: the degree of the root. NaN if root not present. A number greater than 0 if present, where 1 indicates the tonic, 2 the second note (normally the 3th), 2 the third note (normally the 5th), etc.
 - notes: an array of notes, or empty array if tonic is not present. The notes will be always pitch classes.
 
@@ -37,20 +37,20 @@ Example:
 Chord.get("Cmaj7/B"); // =>
 // {
 //   empty: false,
-//   name: "G major seventh over B",
-//   symbol: "Gmaj7/B",
-//   tonic: "G",
-//   root: "B",
-//   bass: "B",
-//   rootDegree: 2,
+//   name: 'C major seventh over B',
 //   setNum: 2193,
-//   type: "major seventh",
-//   aliases: ["maj7", "Δ", "ma7", "M7", "Maj7"],
-//   chroma: "100010010001",
-//   intervals: ["3M", "5P", "7M", "8P"],
-//   normalized: "100010010001",
-//   notes: ["B", "D", "F#", "G"],
-//   quality: "Major",
+//   chroma: '100010010001',
+//   normalized: '100010010001',
+//   intervals: [ '7M', '8P', '10M', '12P' ],
+//   quality: 'Major',
+//   aliases: [ 'maj7', 'Δ', 'ma7', 'M7', 'Maj7', '^7' ],
+//   symbol: 'Cmaj7/B',
+//   tonic: 'C',
+//   type: 'major seventh',
+//   root: 'B',
+//   bass: 'B',
+//   rootDegree: 4,
+//   notes: [ 'B', 'C', 'E', 'G' ]
 // }
 ```
 
@@ -62,7 +62,7 @@ import { chord } from "@tonaljs/chord";
 chord("C6add2");
 ```
 
-`Chord.getChord(chordType, tonic, bass)` is very similar but accepts the tokenized chord:
+`Chord.getChord(chordType, tonic, bass)` is very similar but with arguments for each chord part:
 
 ```js
 Chord.getChord("maj7", "C", "B") === Chord.get("Cmaj7/B");

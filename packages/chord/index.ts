@@ -103,17 +103,7 @@ function tokenizeBass(note: string, chord: string): ChordNameTokens {
  */
 export function get(src: ChordNameOrTokens): Chord {
   if (Array.isArray(src)) {
-    switch (src.length) {
-      // @ts-expect-error For js safety
-      case 0:
-        return NoChord;
-      case 1:
-        return getChord(src[0]);
-      case 2:
-        return getChord(src[1], src[0]);
-      default:
-        return getChord(src[1], src[0], src[2]);
-    }
+    return getChord(src[1] || "", src[0], src[2]);
   } else if (src === "") {
     return NoChord;
   } else {
@@ -210,11 +200,13 @@ export const chord = get;
  * transpose('Dm7', 'P4') // => 'Gm7
  */
 export function transpose(chordName: string, interval: string): string {
-  const [tonic, type] = tokenize(chordName);
+  const [tonic, type, bass] = tokenize(chordName);
   if (!tonic) {
     return chordName;
   }
-  return transposeNote(tonic, interval) + type;
+  const tr = transposeNote(bass, interval);
+  const slash = tr ? "/" + tr : "";
+  return transposeNote(tonic, interval) + type + slash;
 }
 
 /**
