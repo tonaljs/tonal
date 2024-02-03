@@ -1,11 +1,10 @@
+import { IntervalCoordinates, NoteCoordinates } from "@tonaljs/pitch";
+import { distance as dist } from "@tonaljs/pitch-distance";
 import {
-  IntervalCoordinates,
   IntervalName,
-  NoteCoordinates,
   coordToInterval,
-  distance as dist,
   interval as props,
-} from "@tonaljs/core";
+} from "@tonaljs/pitch-interval";
 
 /**
  * Get the natural list of names

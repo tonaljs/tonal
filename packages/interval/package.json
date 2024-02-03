@@ -6,7 +6,7 @@
     "interval",
     "music",
     "theory",
-    "@tonaljs/core"
+    "tonal"
   ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -15,14 +15,21 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "4.10.4"
+    "@tonaljs/pitch": "^5.0.1",
+    "@tonaljs/pitch-distance": "^5.0.2",
+    "@tonaljs/pitch-interval": "^5.0.2"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  },
   "scripts": {
-    "build": "tsup index.ts --sourcemap --dts --format esm,cjs"
+    "build": "tsup index.ts --sourcemap --dts --format esm,cjs",
+    "test": "jest --coverage"
   }
 }
