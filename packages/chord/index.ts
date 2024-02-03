@@ -4,6 +4,7 @@ import {
   all as chordTypes,
   get as getChordType,
 } from "@tonaljs/chord-type";
+import { substract } from "@tonaljs/interval";
 import { isSubsetOf, isSupersetOf } from "@tonaljs/pcset";
 import {
   distance,
@@ -14,17 +15,6 @@ import { NoteName, note, tokenizeNote } from "@tonaljs/pitch-note";
 import { all as scaleTypes } from "@tonaljs/scale-type";
 
 export { detect } from "@tonaljs/chord-detect";
-
-export function deprecate<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ResultFn extends (this: any, ...newArgs: any[]) => ReturnType<ResultFn>,
->(original: string, alternative: string, fn: ResultFn) {
-  return function (this: unknown, ...args: unknown[]): ReturnType<ResultFn> {
-    // tslint:disable-next-line
-    console.warn(`${original} is deprecated. Use ${alternative}.`);
-    return fn.apply(this, args);
-  };
-}
 
 type ChordNameOrTokens =
   | string // full name to be parsed
@@ -127,8 +117,8 @@ export function get(src: ChordNameOrTokens): Chord {
   } else if (src === "") {
     return NoChord;
   } else {
-    const [tonic, type] = tokenize(src);
-    const chord = getChord(type, tonic);
+    const [tonic, type, bass] = tokenize(src);
+    const chord = getChord(type, tonic, bass);
     return chord.empty ? getChord(src) : chord;
   }
 }
@@ -166,12 +156,17 @@ export function getChord(
 
   const intervals = Array.from(type.intervals);
 
-  for (let i = 1; i < rootDegree; i++) {
-    const num = intervals[0][0];
-    const quality = intervals[0][1];
-    const newNum = parseInt(num, 10) + 7;
-    intervals.push(`${newNum}${quality}`);
-    intervals.shift();
+  if (hasRoot) {
+    for (let i = 1; i < rootDegree; i++) {
+      const num = intervals[0][0];
+      const quality = intervals[0][1];
+      const newNum = parseInt(num, 10) + 7;
+      intervals.push(`${newNum}${quality}`);
+      intervals.shift();
+    }
+  } else if (hasBass) {
+    const ivl = substract(distance(tonic.pc, bass.pc), "8P");
+    if (ivl) intervals.unshift(ivl);
   }
 
   const notes = tonic.empty
@@ -203,7 +198,7 @@ export function getChord(
   };
 }
 
-export const chord = deprecate("Chord.chord", "Chord.get", get);
+export const chord = get;
 
 /**
  * Transpose a chord name
@@ -313,7 +308,5 @@ export default {
   degrees,
   steps,
   notes,
-
-  // deprecate
   chord,
 };

@@ -159,6 +159,24 @@ describe("tonal-chord", () => {
     expect(Chord.get("hello").empty).toBe(true);
     expect(Chord.get("").empty).toBe(true);
     expect(Chord.get("C").name).toEqual("C major");
+    // Chord with bass, without root
+    expect(Chord.chord("C/Bb")).toEqual({
+      aliases: ["M", "^", "", "maj"],
+      bass: "Bb",
+      chroma: "100010010000",
+      empty: false,
+      intervals: ["-2M", "1P", "3M", "5P"],
+      name: "C major over Bb",
+      normalized: "100001000100",
+      notes: ["Bb", "C", "E", "G"],
+      quality: "Major",
+      root: "",
+      rootDegree: NaN,
+      setNum: 2192,
+      symbol: "C/Bb",
+      tonic: "C",
+      type: "major",
+    });
   });
 
   test("chord without tonic", () => {
@@ -167,7 +185,7 @@ describe("tonal-chord", () => {
     expect(Chord.get("alt7")).toMatchObject({ name: "altered" });
   });
 
-  test("notes", () => {
+  test("notes property", () => {
     expect(Chord.get("Cmaj7").notes).toEqual(["C", "E", "G", "B"]);
     expect(Chord.get("Eb7add6").notes).toEqual(["Eb", "G", "Bb", "Db", "C"]);
     expect(Chord.get(["C4", "maj7"]).notes).toEqual(["C", "E", "G", "B"]);
@@ -208,6 +226,7 @@ describe("tonal-chord", () => {
     expect(Chord.notes("maj7", "C4")).toEqual(["C4", "E4", "G4", "B4"]);
     expect(Chord.notes("Cmaj7", "C4")).toEqual(["C4", "E4", "G4", "B4"]);
     expect(Chord.notes("Cmaj7", "D4")).toEqual(["D4", "F#4", "A4", "C#5"]);
+    expect(Chord.notes("C/Bb", "D4")).toEqual(["C4", "D4", "F#4", "A4"]);
   });
 
   test("existence", () => {
@@ -249,6 +268,9 @@ describe("tonal-chord", () => {
       expect(
         [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(Chord.degrees("Cm6", "C4")),
       ).toEqual("C4 Eb4 G4 A4 C5 Eb5 G5 A5 C6 Eb6".split(" "));
+      expect([1, 2, 3, 4].map(Chord.degrees("C/B"))).toEqual(
+        "B C E G".split(" "),
+      );
     });
     test("descending", () => {
       expect([-1, -2, -3].map(Chord.degrees("C"))).toEqual("G E C".split(" "));
