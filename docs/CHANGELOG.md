@@ -1,4 +1,122 @@
-# CHANGELOG
+# tonal
+
+## 6.0.0
+
+### Major Changes
+
+#### Breaking change: chord uses pitch classes, never notes with octaves
+
+Chords now uses only pitch classes. Before `Chord.getChord('M', 'C4')` would consider `C4` to be the tonic and now is `C``
+
+So **before**:
+
+```js
+Chord.get("M", "C4"); // =>
+// {
+//   name: 'C4 major',
+//   tonic: 'C4',
+//   notes: [ 'C4', 'E4', 'G4' ]
+// ...
+// }
+```
+
+**Now**:
+
+```js
+Chord.get("M", "C4"); // =>
+// {
+//   name: 'C major',
+//   tonic: 'C',
+//   notes: [ 'C', 'E', 'G' ]
+// }
+```
+
+#### Feature: slash chords
+
+- Chord now accepts a slash and a bass. The bass _must_ be a pitch class
+- Chord properties include `bass` that is a pitch class that could or could not belong to the chord itself.
+
+Example:
+
+```js
+Chord.get("Cmaj7/B");
+Chord.get("Eb/D");
+```
+
+#### Feature: chord `notes`
+
+Now `notes` property of a chord are always pitch classes, there's a new function to get the actual notes:
+
+```js
+Chord.notes("Cmaj7", "C4"); // => ['C4', 'E4', 'G4', 'B4']
+Chord.notes("maj7", "D5"); // => ['D5', 'F#5', 'A5', 'C#6']
+```
+
+- 48fecc4: Fix typo (breaking change): `substract` is now `subtract`
+- 48fecc4: Breaking change: remove `NoInterval` interface. Return `Interval` type (with `emtpy: true`) when parsing invalid intervals.
+- 48fecc4: Breaking change: `NoNote` interface is removed. Always return `Note` type (with `empty: true`) when parsing invalid notes.
+
+### Patch Changes
+
+Updated dependencies
+
+## 5.2.x
+
+Updated dependencies
+
+## 5.2.0
+
+### Minor Changes
+
+- Add `Pcset.notes()` function that returns the ordered pitch class notes of the given set
+
+### Patch Changes
+
+- Updated dependencies [f21525b]
+
+## 5.1.3
+
+### Patch Changes
+
+- Named type was renamed to NamedPitch. Add old export for backwards compatibility
+- Updated dependencies
+
+## 5.1.2
+
+### Patch Changes
+
+- Move core into pitch modules
+- Updated dependencies
+  - @tonaljs/core@4.10.2
+
+## 5.1.1
+
+### Patch Changes
+
+- Restructure code to use new `@tonaljs/pitch`. No changes to functionality
+- Updated dependencies
+  - @tonaljs/core@4.10.1
+
+## 5.1.0
+
+### Minor Changes
+
+- Publish voicing packages. Now there a three new namespaces:
+
+  ```ts
+  import { VoiceLeading, Voicing, VoicingDictionary } from "tonal";
+  ```
+
+- Updated dependencies [15017c0]
+  - @tonaljs/voicing-dictionary@5.0.0
+  - @tonaljs/voice-leading@5.0.0
+  - @tonaljs/voicing@5.0.0
+
+## 5.0.1
+
+- Add -maj7 chord alias
+- Updated dependencies
+  - @tonaljs/chord-type@5.0.2
 
 ## 5.0.0
 

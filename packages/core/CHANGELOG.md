@@ -1,5 +1,22 @@
 # @tonaljs/core
 
+## 5.0.0
+
+### Major Changes
+
+- 48fecc4: Breaking change: remove `NoInterval` interface. Return `Interval` type (with `emtpy: true`) when parsing invalid intervals.
+- 48fecc4: Breaking change: `NoNote` interface is removed. Always return `Note` type (with `empty: true`) when parsing invalid notes.
+
+### Patch Changes
+
+- Updated dependencies [48fecc4]
+- Updated dependencies [48fecc4]
+- Updated dependencies [48fecc4]
+  - @tonaljs/pitch-interval@6.0.0
+  - @tonaljs/pitch-note@6.0.0
+  - @tonaljs/pitch@5.0.2
+  - @tonaljs/pitch-distance@5.0.3
+
 ## 4.10.4
 
 ### Patch Changes

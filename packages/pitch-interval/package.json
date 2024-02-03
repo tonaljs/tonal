@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/pitch-interval",
-  "version": "5.0.2",
+  "version": "6.0.0",
   "description": "Parse intervals in shorthand notation",
   "keywords": [
     "note",
@@ -10,7 +10,7 @@
     "shorthand notation"
   ],
   "dependencies": {
-    "@tonaljs/pitch": "5.0.1"
+    "@tonaljs/pitch": "5.0.2"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",

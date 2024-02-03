@@ -1,5 +1,17 @@
 # @tonaljs/scale
 
+## 4.12.5
+
+### Patch Changes
+
+- Updated dependencies [48fecc4]
+- Updated dependencies [48fecc4]
+  - @tonaljs/core@5.0.0
+  - @tonaljs/chord-type@5.0.5
+  - @tonaljs/note@4.10.3
+  - @tonaljs/pcset@4.9.2
+  - @tonaljs/scale-type@4.8.5
+
 ## 4.12.4
 
 ### Patch Changes

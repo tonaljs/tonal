@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/interval",
-  "version": "4.8.2",
+  "version": "5.0.0",
   "description": "Parse and manipulate music intervals",
   "keywords": [
     "interval",
@@ -15,9 +15,9 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/pitch": "^5.0.1",
-    "@tonaljs/pitch-distance": "^5.0.2",
-    "@tonaljs/pitch-interval": "^5.0.2"
+    "@tonaljs/pitch": "^5.0.2",
+    "@tonaljs/pitch-distance": "^5.0.3",
+    "@tonaljs/pitch-interval": "^6.0.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

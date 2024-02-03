@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/note",
-  "version": "4.10.2",
+  "version": "4.10.3",
   "description": "Parse and manipulate music notes in scientific notation",
   "keywords": [
     "note",
@@ -15,8 +15,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "4.10.4",
-    "@tonaljs/midi": "4.9.2"
+    "@tonaljs/core": "5.0.0",
+    "@tonaljs/midi": "4.9.3"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

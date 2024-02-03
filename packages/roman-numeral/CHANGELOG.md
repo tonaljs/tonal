@@ -1,5 +1,13 @@
 # @tonaljs/roman-numeral
 
+## 4.8.3
+
+### Patch Changes
+
+- Updated dependencies [48fecc4]
+- Updated dependencies [48fecc4]
+  - @tonaljs/core@5.0.0
+
 ## 4.8.2
 
 ### Patch Changes
