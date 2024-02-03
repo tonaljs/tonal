@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/pitch-note",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Parse intervals in shorthand notation",
   "keywords": [
     "note",
