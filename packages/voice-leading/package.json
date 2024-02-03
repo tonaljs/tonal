@@ -17,7 +17,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/note": "^4.10.1"
+    "@tonaljs/note": "4.10.1"
   },
   "author": "felix91@gmail.com",
   "license": "MIT",

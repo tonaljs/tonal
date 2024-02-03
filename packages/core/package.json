@@ -18,10 +18,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@tonaljs/pitch": "^5.0.1",
-    "@tonaljs/pitch-interval": "^5.0.1",
-    "@tonaljs/pitch-distance": "^5.0.1",
-    "@tonaljs/pitch-note": "^5.0.1"
+    "@tonaljs/pitch": "5.0.1",
+    "@tonaljs/pitch-interval": "5.0.1",
+    "@tonaljs/pitch-distance": "5.0.1",
+    "@tonaljs/pitch-note": "5.0.1"
   },
   "scripts": {
     "build": "tsup index.ts --sourcemap --dts --format esm,cjs"

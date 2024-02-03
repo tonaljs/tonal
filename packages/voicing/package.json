@@ -17,12 +17,12 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord": "^5.0.1",
-    "@tonaljs/interval": "^4.8.1",
-    "@tonaljs/note": "^4.10.1",
-    "@tonaljs/range": "^4.8.2",
-    "@tonaljs/voice-leading": "^5.0.1",
-    "@tonaljs/voicing-dictionary": "^5.0.1"
+    "@tonaljs/chord": "5.0.1",
+    "@tonaljs/interval": "4.8.1",
+    "@tonaljs/note": "4.10.1",
+    "@tonaljs/range": "4.8.2",
+    "@tonaljs/voice-leading": "5.0.1",
+    "@tonaljs/voicing-dictionary": "5.0.1"
   },
   "author": "felix91@gmail.com",
   "license": "MIT",

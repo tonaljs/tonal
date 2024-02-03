@@ -16,7 +16,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "^4.10.3"
+    "@tonaljs/core": "4.10.3"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

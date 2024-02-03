@@ -15,8 +15,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/collection": "^4.8.1",
-    "@tonaljs/midi": "^4.9.1"
+    "@tonaljs/collection": "4.8.1",
+    "@tonaljs/midi": "4.9.1"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

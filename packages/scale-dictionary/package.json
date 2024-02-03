@@ -10,7 +10,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/scale-type": "^4.8.3"
+    "@tonaljs/scale-type": "4.8.3"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
