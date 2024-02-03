@@ -9,6 +9,8 @@ describe("note", () => {
     expect(tokenize("")).toEqual(["", "", "", ""]);
     expect(tokenize("bb")).toEqual(["B", "b", "", ""]);
     expect(tokenize("##")).toEqual(["", "##", "", ""]);
+    expect(tokenize("")).toEqual(["", "", "", ""]);
+    expect(tokenize(" |\n")).toEqual(["", "", "", ""]);
   });
 
   describe("note properties from string", () => {
