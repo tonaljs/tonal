@@ -1,4 +1,5 @@
-import { distance as dist, note, transpose as tr } from "@tonaljs/core";
+import { distance as dist, transpose as tr } from "@tonaljs/pitch-distance";
+import { note } from "@tonaljs/pitch-note";
 
 const fillStr = (character: string, times: number) =>
   Array(times + 1).join(character);
