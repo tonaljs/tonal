@@ -1,5 +1,16 @@
 # @tonaljs/progression
 
+## 4.8.4
+
+### Patch Changes
+
+- Updated dependencies [97f01d4]
+- Updated dependencies [48fecc4]
+- Updated dependencies [48fecc4]
+  - @tonaljs/chord@6.0.0
+  - @tonaljs/core@5.0.0
+  - @tonaljs/roman-numeral@4.8.3
+
 ## 4.8.3
 
 ### Patch Changes

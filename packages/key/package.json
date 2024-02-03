@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/key",
-  "version": "4.9.3",
+  "version": "4.9.4",
   "description": "Functions to work with musical keys",
   "keywords": [
     "key",
@@ -15,13 +15,13 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "4.10.4",
-    "@tonaljs/note": "4.10.2",
-    "@tonaljs/roman-numeral": "4.8.2"
+    "@tonaljs/core": "5.0.0",
+    "@tonaljs/note": "4.10.3",
+    "@tonaljs/roman-numeral": "4.8.3"
   },
   "devDependencies": {
-    "@tonaljs/chord": "5.0.3",
-    "@tonaljs/scale": "4.12.4"
+    "@tonaljs/chord": "6.0.0",
+    "@tonaljs/scale": "4.12.5"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

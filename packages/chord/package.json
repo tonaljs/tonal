@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chord",
-  "version": "5.0.3",
+  "version": "6.0.0",
   "description": "Musical chords and its relations",
   "keywords": [
     "chord",
@@ -16,14 +16,14 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord-detect": "4.8.4",
-    "@tonaljs/chord-type": "5.0.4",
+    "@tonaljs/chord-detect": "4.8.5",
+    "@tonaljs/chord-type": "5.0.5",
     "@tonaljs/collection": "4.8.1",
-    "@tonaljs/interval": "^4.8.2",
-    "@tonaljs/pcset": "4.9.1",
-    "@tonaljs/pitch-distance": "5.0.2",
-    "@tonaljs/pitch-note": "5.0.3",
-    "@tonaljs/scale-type": "4.8.4"
+    "@tonaljs/interval": "^5.0.0",
+    "@tonaljs/pcset": "4.9.2",
+    "@tonaljs/pitch-distance": "5.0.3",
+    "@tonaljs/pitch-note": "6.0.0",
+    "@tonaljs/scale-type": "4.8.5"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

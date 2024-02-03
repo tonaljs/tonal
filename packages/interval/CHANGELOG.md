@@ -1,5 +1,19 @@
 # @tonaljs/interval
 
+## 5.0.0
+
+### Major Changes
+
+- 48fecc4: Fix typo (breaking change): `substract` is now `subtract`
+
+### Patch Changes
+
+- Updated dependencies [48fecc4]
+- Updated dependencies [48fecc4]
+  - @tonaljs/pitch-interval@6.0.0
+  - @tonaljs/pitch@5.0.2
+  - @tonaljs/pitch-distance@5.0.3
+
 ## 4.8.2
 
 ### Patch Changes

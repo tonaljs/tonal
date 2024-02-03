@@ -1,41 +1,78 @@
 # tonal
 
-## 5.2.1
+## 6.0.0
+
+### Major Changes
+
+#### Breaking change: chord uses pitch classes, never notes with octaves
+
+Chords now uses only pitch classes. Before `Chord.getChord('M', 'C4')` would consider `C4` to be the tonic and now is `C``
+
+So **before**:
+
+```js
+Chord.get("M", "C4"); // =>
+// {
+//   name: 'C4 major',
+//   tonic: 'C4',
+//   notes: [ 'C4', 'E4', 'G4' ]
+// ...
+// }
+```
+
+**Now**:
+
+```js
+Chord.get("M", "C4"); // =>
+// {
+//   name: 'C major',
+//   tonic: 'C',
+//   notes: [ 'C', 'E', 'G' ]
+// }
+```
+
+#### Feature: slash chords
+
+- Chord now accepts a slash and a bass. The bass _must_ be a pitch class
+- Chord properties include `bass` that is a pitch class that could or could not belong to the chord itself.
+
+Example:
+
+```js
+Chord.get("Cmaj7/B");
+Chord.get("Eb/D");
+```
+
+#### Feature: chord `notes`
+
+Now `notes` property of a chord are always pitch classes, there's a new function to get the actual notes:
+
+```js
+Chord.notes("Cmaj7", "C4"); // => ['C4', 'E4', 'G4', 'B4']
+Chord.notes("maj7", "D5"); // => ['D5', 'F#5', 'A5', 'C#6']
+```
+
+- 48fecc4: Fix typo (breaking change): `substract` is now `subtract`
+- 48fecc4: Breaking change: remove `NoInterval` interface. Return `Interval` type (with `emtpy: true`) when parsing invalid intervals.
+- 48fecc4: Breaking change: `NoNote` interface is removed. Always return `Note` type (with `empty: true`) when parsing invalid notes.
 
 ### Patch Changes
 
-- Dependencies between packages are now fixed
-- Updated dependencies
-  - @tonaljs/voicing-dictionary@5.0.2
-  - @tonaljs/roman-numeral@4.8.2
-  - @tonaljs/voice-leading@5.0.2
-  - @tonaljs/abc-notation@4.8.2
-  - @tonaljs/progression@4.8.3
-  - @tonaljs/chord-type@5.0.4
-  - @tonaljs/scale-type@4.8.4
-  - @tonaljs/interval@4.8.2
-  - @tonaljs/voicing@5.0.2
-  - @tonaljs/array@4.8.2
-  - @tonaljs/chord@5.0.3
-  - @tonaljs/pcset@4.9.1
-  - @tonaljs/range@4.8.3
-  - @tonaljs/scale@4.12.4
-  - @tonaljs/core@4.10.4
-  - @tonaljs/midi@4.9.2
-  - @tonaljs/mode@4.8.3
-  - @tonaljs/note@4.10.2
-  - @tonaljs/key@4.9.3
+Updated dependencies
+
+## 5.2.x
+
+Updated dependencies
 
 ## 5.2.0
 
 ### Minor Changes
 
-- f21525b: Add `Pcset.notes()` function that returns the ordered pitch class notes of the given set
+- Add `Pcset.notes()` function that returns the ordered pitch class notes of the given set
 
 ### Patch Changes
 
 - Updated dependencies [f21525b]
-  - @tonaljs/pcset@4.9.0
 
 ## 5.1.3
 
@@ -43,28 +80,6 @@
 
 - Named type was renamed to NamedPitch. Add old export for backwards compatibility
 - Updated dependencies
-  - @tonaljs/abc-notation@4.8.1
-  - @tonaljs/array@4.8.1
-  - @tonaljs/chord@5.0.1
-  - @tonaljs/chord-type@5.0.3
-  - @tonaljs/collection@4.8.1
-  - @tonaljs/core@4.10.3
-  - @tonaljs/duration-value@4.8.1
-  - @tonaljs/interval@4.8.1
-  - @tonaljs/key@4.9.2
-  - @tonaljs/midi@4.9.1
-  - @tonaljs/mode@4.8.2
-  - @tonaljs/note@4.10.1
-  - @tonaljs/pcset@4.8.3
-  - @tonaljs/progression@4.8.2
-  - @tonaljs/range@4.8.2
-  - @tonaljs/roman-numeral@4.8.1
-  - @tonaljs/scale@4.12.3
-  - @tonaljs/scale-type@4.8.3
-  - @tonaljs/time-signature@4.8.1
-  - @tonaljs/voice-leading@5.0.1
-  - @tonaljs/voicing@5.0.1
-  - @tonaljs/voicing-dictionary@5.0.1
 
 ## 5.1.2
 
