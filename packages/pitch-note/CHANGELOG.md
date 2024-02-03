@@ -1,5 +1,11 @@
 # @tonaljs/pitch-note
 
+## 5.0.3
+
+### Patch Changes
+
+- Dependencies between packages are now fixed
+
 ## 5.0.2
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @tonaljs/voice-leading
 
+## 5.0.2
+
+### Patch Changes
+
+- Dependencies between packages are now fixed
+- Updated dependencies
+  - @tonaljs/note@4.10.2
+
 ## 5.0.1
 
 ### Patch Changes

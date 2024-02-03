@@ -1,5 +1,14 @@
 # @tonaljs/chord-type
 
+## 5.0.4
+
+### Patch Changes
+
+- Dependencies between packages are now fixed
+- Updated dependencies
+  - @tonaljs/pcset@4.9.1
+  - @tonaljs/core@4.10.4
+
 ## 5.0.3
 
 ### Patch Changes

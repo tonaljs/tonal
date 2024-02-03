@@ -1,5 +1,14 @@
 # @tonaljs/note
 
+## 4.10.2
+
+### Patch Changes
+
+- Dependencies between packages are now fixed
+- Updated dependencies
+  - @tonaljs/core@4.10.4
+  - @tonaljs/midi@4.9.2
+
 ## 4.10.1
 
 ### Patch Changes

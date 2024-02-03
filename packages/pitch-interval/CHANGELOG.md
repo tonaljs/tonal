@@ -1,5 +1,11 @@
 # @tonaljs/pitch-interval
 
+## 5.0.2
+
+### Patch Changes
+
+- Dependencies between packages are now fixed
+
 ## 5.0.1
 
 ### Patch Changes

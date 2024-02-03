@@ -1,5 +1,15 @@
 # @tonaljs/core
 
+## 4.10.4
+
+### Patch Changes
+
+- Dependencies between packages are now fixed
+- Updated dependencies
+  - @tonaljs/pitch-distance@5.0.2
+  - @tonaljs/pitch-interval@5.0.2
+  - @tonaljs/pitch-note@5.0.3
+
 ## 4.10.3
 
 ### Patch Changes

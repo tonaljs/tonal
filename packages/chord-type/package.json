@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chord-type",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "description": "A dictionary of musical chords",
   "keywords": [
     "chord",
@@ -17,8 +17,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "4.10.3",
-    "@tonaljs/pcset": "4.9.0"
+    "@tonaljs/core": "4.10.4",
+    "@tonaljs/pcset": "4.9.1"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

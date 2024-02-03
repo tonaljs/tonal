@@ -1,5 +1,18 @@
 # @tonaljs/chord
 
+## 5.0.3
+
+### Patch Changes
+
+- Dependencies between packages are now fixed
+- Updated dependencies
+  - @tonaljs/pitch-distance@5.0.2
+  - @tonaljs/chord-detect@4.8.4
+  - @tonaljs/chord-type@5.0.4
+  - @tonaljs/pitch-note@5.0.3
+  - @tonaljs/scale-type@4.8.4
+  - @tonaljs/pcset@4.9.1
+
 ## 5.0.x
 
 - Update dependencies to fix an exception. See #407

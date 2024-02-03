@@ -1,5 +1,13 @@
 # @tonaljs/range
 
+## 4.8.3
+
+### Patch Changes
+
+- Dependencies between packages are now fixed
+- Updated dependencies
+  - @tonaljs/midi@4.9.2
+
 ## 4.8.2
 
 ### Patch Changes

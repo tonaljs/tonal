@@ -1,5 +1,13 @@
 # @tonaljs/pcset
 
+## 4.9.1
+
+### Patch Changes
+
+- Dependencies between packages are now fixed
+- Updated dependencies
+  - @tonaljs/core@4.10.4
+
 ## 4.9.0
 
 ### Minor Changes
