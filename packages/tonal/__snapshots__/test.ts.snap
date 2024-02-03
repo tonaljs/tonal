@@ -105,7 +105,7 @@ exports[`tonal Modules exports functions 1`] = `
     "quality",
     "semitones",
     "simplify",
-    "substract",
+    "subtract",
     "transposeFifths",
   ],
   "Key": [

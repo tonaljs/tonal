@@ -108,10 +108,10 @@ describe("@tonaljs/interval", () => {
     );
   });
 
-  test("substract", () => {
-    expect(Interval.substract("5P", "3M")).toEqual("3m");
-    expect(Interval.substract("3M", "5P")).toEqual("-3m");
-    expect(Interval.names().map((n) => Interval.substract("5P", n))).toEqual(
+  test("subtract", () => {
+    expect(Interval.subtract("5P", "3M")).toEqual("3m");
+    expect(Interval.subtract("3M", "5P")).toEqual("-3m");
+    expect(Interval.names().map((n) => Interval.subtract("5P", n))).toEqual(
       $("5P 4P 3m 2M 1P -2m -3m"),
     );
   });

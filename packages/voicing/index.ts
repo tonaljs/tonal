@@ -1,9 +1,9 @@
 import Chord from "@tonaljs/chord";
+import Interval from "@tonaljs/interval";
 import Note from "@tonaljs/note";
 import Range from "@tonaljs/range";
-import Interval from "@tonaljs/interval";
-import VoicingDictionary from "@tonaljs/voicing-dictionary";
 import VoiceLeading from "@tonaljs/voice-leading";
+import VoicingDictionary from "@tonaljs/voicing-dictionary";
 
 const defaultRange = ["C3", "C5"];
 const defaultDictionary = VoicingDictionary.all;
@@ -44,7 +44,7 @@ function search(
   return voicings.reduce((voiced: string[][], voicing: string[]) => {
     // transpose intervals relative to first interval (e.g. 3m 5P > 1P 3M)
     const relativeIntervals = voicing.map(
-      (interval) => Interval.substract(interval, voicing[0]) || "",
+      (interval) => Interval.subtract(interval, voicing[0]) || "",
     );
     // get enharmonic correct pitch class the bottom note
     const bottomPitchClass = Note.transpose(tonic, voicing[0]);

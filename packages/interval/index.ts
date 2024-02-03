@@ -158,12 +158,12 @@ export const addTo = (interval: string) => (other: string) =>
  * @function
  * @param {string} minuendInterval
  * @param {string} subtrahendInterval
- * @return {string} the substracted interval name
+ * @return {string} the subtracted interval name
  * @example
- * Interval.substract('5P', '3M') // => '3m'
- * Interval.substract('3M', '5P') // => '-3m'
+ * Interval.subtract('5P', '3M') // => '3m'
+ * Interval.subtract('3M', '5P') // => '-3m'
  */
-export const substract = combinator((a, b) => [a[0] - b[0], a[1] - b[1]]);
+export const subtract = combinator((a, b) => [a[0] - b[0], a[1] - b[1]]);
 
 export function transposeFifths(
   interval: IntervalName,
@@ -189,7 +189,7 @@ export default {
   simplify,
   add,
   addTo,
-  substract,
+  subtract,
   transposeFifths,
 };
 
