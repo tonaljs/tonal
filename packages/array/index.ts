@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { note, Note } from "@tonaljs/core";
+import { note, Note } from "@tonaljs/pitch-note";
 
 // ascending range
 function ascR(b: number, n: number) {
