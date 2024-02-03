@@ -19,7 +19,7 @@
     "@tonaljs/abc-notation": "4.8.1",
     "@tonaljs/array": "4.8.1",
     "@tonaljs/chord-type": "5.0.3",
-    "@tonaljs/chord": "5.0.1",
+    "@tonaljs/chord": "5.0.2",
     "@tonaljs/collection": "4.8.1",
     "@tonaljs/core": "4.10.3",
     "@tonaljs/duration-value": "4.8.1",

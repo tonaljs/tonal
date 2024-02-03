@@ -17,7 +17,7 @@
   "dependencies": {
     "@tonaljs/chord-type": "5.0.3",
     "@tonaljs/core": "4.10.3",
-    "@tonaljs/pcset": "4.8.3"
+    "@tonaljs/pcset": "4.9.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

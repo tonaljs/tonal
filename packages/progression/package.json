@@ -16,7 +16,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord": "5.0.1",
+    "@tonaljs/chord": "5.0.2",
     "@tonaljs/core": "4.10.3",
     "@tonaljs/roman-numeral": "4.8.1"
   },

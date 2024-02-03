@@ -20,7 +20,7 @@
     "@tonaljs/roman-numeral": "4.8.1"
   },
   "devDependencies": {
-    "@tonaljs/chord": "5.0.1",
+    "@tonaljs/chord": "5.0.2",
     "@tonaljs/scale": "4.12.3"
   },
   "author": "danigb@gmail.com",

@@ -20,7 +20,7 @@
     "@tonaljs/collection": "4.8.1",
     "@tonaljs/core": "4.10.3",
     "@tonaljs/note": "4.10.1",
-    "@tonaljs/pcset": "4.8.3",
+    "@tonaljs/pcset": "4.9.0",
     "@tonaljs/scale-type": "4.8.3"
   },
   "author": "danigb@gmail.com",

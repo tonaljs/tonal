@@ -17,7 +17,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord": "5.0.1",
+    "@tonaljs/chord": "5.0.2",
     "@tonaljs/interval": "4.8.1",
     "@tonaljs/note": "4.10.1",
     "@tonaljs/range": "4.8.2",

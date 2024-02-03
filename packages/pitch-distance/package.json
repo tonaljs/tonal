@@ -12,7 +12,7 @@
   "dependencies": {
     "@tonaljs/pitch": "5.0.1",
     "@tonaljs/pitch-interval": "5.0.1",
-    "@tonaljs/pitch-note": "5.0.1"
+    "@tonaljs/pitch-note": "5.0.2"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
