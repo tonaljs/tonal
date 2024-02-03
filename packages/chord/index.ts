@@ -37,6 +37,7 @@ export interface Chord extends ChordType {
   tonic: string | null;
   type: string;
   root: string;
+  bass: string;
   rootDegree: number;
   symbol: string;
   notes: NoteName[];
@@ -47,6 +48,7 @@ const NoChord: Chord = {
   name: "",
   symbol: "",
   root: "",
+  bass: "",
   rootDegree: 0,
   type: "",
   tonic: null,
@@ -141,25 +143,26 @@ export function get(src: ChordNameOrTokens): Chord {
 export function getChord(
   typeName: string,
   optionalTonic?: string,
-  optionalRoot?: string,
+  optionalBass?: string,
 ): Chord {
   const type = getChordType(typeName);
   const tonic = note(optionalTonic || "");
-  const root = note(optionalRoot || "");
+  const bass = note(optionalBass || "");
 
   if (
     type.empty ||
     (optionalTonic && tonic.empty) ||
-    (optionalRoot && root.empty)
+    (optionalBass && bass.empty)
   ) {
     return NoChord;
   }
 
-  const rootInterval = distance(tonic.pc, root.pc);
-  const rootDegree = type.intervals.indexOf(rootInterval) + 1;
-  if (!root.empty && !rootDegree) {
-    return NoChord;
-  }
+  const bassInterval = distance(tonic.pc, bass.pc);
+  const bassIndex = type.intervals.indexOf(bassInterval);
+  const hasRoot = bassIndex >= 0;
+  const root = hasRoot ? bass : note("");
+  const rootDegree = bassIndex === -1 ? NaN : bassIndex + 1;
+  const hasBass = bass.pc && bass.pc !== tonic.pc;
 
   const intervals = Array.from(type.intervals);
 
@@ -173,24 +176,29 @@ export function getChord(
 
   const notes = tonic.empty
     ? []
-    : intervals.map((i) => transposeNote(tonic, i));
+    : intervals.map((i) => transposeNote(tonic.pc, i));
 
   typeName = type.aliases.indexOf(typeName) !== -1 ? typeName : type.aliases[0];
   const symbol = `${tonic.empty ? "" : tonic.pc}${typeName}${
-    root.empty || rootDegree <= 1 ? "" : "/" + root.pc
+    hasRoot && rootDegree > 1 ? "/" + root.pc : hasBass ? "/" + bass.pc : ""
   }`;
   const name = `${optionalTonic ? tonic.pc + " " : ""}${type.name}${
-    rootDegree > 1 && optionalRoot ? " over " + root.pc : ""
+    hasRoot && rootDegree > 1
+      ? " over " + root.pc
+      : hasBass
+        ? " over " + bass.pc
+        : ""
   }`;
   return {
     ...type,
     name,
     symbol,
+    tonic: tonic.pc,
     type: type.name,
-    root: root.name,
+    root: root.pc,
+    bass: hasBass ? bass.pc : "",
     intervals,
     rootDegree,
-    tonic: tonic.name,
     notes,
   };
 }
@@ -260,15 +268,26 @@ export function reduced(chordName: string): string[] {
 }
 
 /**
+ * Return the chord notes
+ */
+export function notes(chordName: ChordNameOrTokens, tonic?: string): string[] {
+  const chord = get(chordName);
+  const note = tonic || chord.tonic;
+  if (!note || chord.empty) return [];
+  return chord.intervals.map((ivl) => transposeNote(note, ivl));
+}
+
+/**
  * Returns a function to get a note name from the scale degree.
  *
  * @example
  * [1, 2, 3, 4].map(Chord.degrees("C")) => ["C", "E", "G", "C"]
  * [1, 2, 3, 4].map(Chord.degrees("C4")) => ["C4", "E4", "G4", "C5"]
  */
-export function degrees(chordName: ChordNameOrTokens) {
-  const { intervals, tonic } = get(chordName);
-  const transpose = tonicIntervalsTransposer(intervals, tonic);
+export function degrees(chordName: ChordNameOrTokens, tonic?: string) {
+  const chord = get(chordName);
+  const note = tonic || chord.tonic;
+  const transpose = tonicIntervalsTransposer(chord.intervals, note);
   return (degree: number) =>
     degree ? transpose(degree > 0 ? degree - 1 : degree) : "";
 }
@@ -276,9 +295,10 @@ export function degrees(chordName: ChordNameOrTokens) {
 /**
  * Sames as `degree` but with 0-based index
  */
-export function steps(chordName: ChordNameOrTokens) {
-  const { intervals, tonic } = get(chordName);
-  return tonicIntervalsTransposer(intervals, tonic);
+export function steps(chordName: ChordNameOrTokens, tonic?: string) {
+  const chord = get(chordName);
+  const note = tonic || chord.tonic;
+  return tonicIntervalsTransposer(chord.intervals, note);
 }
 
 export default {
@@ -292,6 +312,7 @@ export default {
   transpose,
   degrees,
   steps,
+  notes,
 
   // deprecate
   chord,

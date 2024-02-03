@@ -35,8 +35,9 @@ describe("tonal-chord", () => {
         empty: false,
         name: "G major seventh",
         symbol: "Gmaj7",
-        tonic: "G4",
-        root: "G4",
+        tonic: "G",
+        root: "G",
+        bass: "",
         rootDegree: 1,
         setNum: 2193,
         type: "major seventh",
@@ -44,7 +45,7 @@ describe("tonal-chord", () => {
         chroma: "100010010001",
         intervals: ["1P", "3M", "5P", "7M"],
         normalized: "100010010001",
-        notes: ["G4", "B4", "D5", "F#5"],
+        notes: ["G", "B", "D", "F#"],
         quality: "Major",
       });
     });
@@ -53,8 +54,9 @@ describe("tonal-chord", () => {
         empty: false,
         name: "G major seventh over B",
         symbol: "Gmaj7/B",
-        tonic: "G4",
-        root: "B4",
+        tonic: "G",
+        root: "B",
+        bass: "B",
         rootDegree: 2,
         setNum: 2193,
         type: "major seventh",
@@ -62,7 +64,7 @@ describe("tonal-chord", () => {
         chroma: "100010010001",
         intervals: ["3M", "5P", "7M", "8P"],
         normalized: "100010010001",
-        notes: ["B4", "D5", "F#5", "G5"],
+        notes: ["B", "D", "F#", "G"],
         quality: "Major",
       });
     });
@@ -73,6 +75,7 @@ describe("tonal-chord", () => {
         symbol: "Gmaj7/B",
         tonic: "G",
         root: "B",
+        bass: "B",
         rootDegree: 2,
         setNum: 2193,
         type: "major seventh",
@@ -89,8 +92,9 @@ describe("tonal-chord", () => {
         empty: false,
         name: "G major seventh over D",
         symbol: "Gmaj7/D",
-        tonic: "G4",
-        root: "D5",
+        tonic: "G",
+        root: "D",
+        bass: "D",
         rootDegree: 3,
         setNum: 2193,
         type: "major seventh",
@@ -98,7 +102,7 @@ describe("tonal-chord", () => {
         chroma: "100010010001",
         intervals: ["5P", "7M", "8P", "10M"],
         normalized: "100010010001",
-        notes: ["D5", "F#5", "G5", "B5"],
+        notes: ["D", "F#", "G", "B"],
         quality: "Major",
       });
     });
@@ -111,7 +115,7 @@ describe("tonal-chord", () => {
     });
     test("rootDegrees", () => {
       expect(Chord.getChord("maj7", "C", "C").rootDegree).toBe(1);
-      expect(Chord.getChord("maj7", "C", "D").empty).toBe(true);
+      expect(Chord.getChord("maj7", "C", "D").rootDegree).toBe(NaN);
     });
     test("without tonic nor root", () => {
       expect(Chord.getChord("dim")).toEqual({
@@ -119,7 +123,8 @@ describe("tonal-chord", () => {
         name: "diminished",
         tonic: "",
         root: "",
-        rootDegree: 0,
+        bass: "",
+        rootDegree: NaN,
         type: "diminished",
         aliases: ["dim", "°", "o"],
         chroma: "100100100000",
@@ -140,7 +145,8 @@ describe("tonal-chord", () => {
       name: "C major seventh",
       tonic: "C",
       root: "",
-      rootDegree: 0,
+      bass: "",
+      rootDegree: NaN,
       setNum: 2193,
       type: "major seventh",
       aliases: ["maj7", "Δ", "ma7", "M7", "Maj7", "^7"],
@@ -164,7 +170,7 @@ describe("tonal-chord", () => {
   test("notes", () => {
     expect(Chord.get("Cmaj7").notes).toEqual(["C", "E", "G", "B"]);
     expect(Chord.get("Eb7add6").notes).toEqual(["Eb", "G", "Bb", "Db", "C"]);
-    expect(Chord.get(["C4", "maj7"]).notes).toEqual(["C4", "E4", "G4", "B4"]);
+    expect(Chord.get(["C4", "maj7"]).notes).toEqual(["C", "E", "G", "B"]);
     expect(Chord.get("C7").notes).toEqual(["C", "E", "G", "Bb"]);
     expect(Chord.get("Cmaj7#5").notes).toEqual(["C", "E", "G#", "B"]);
     expect(Chord.get("blah").notes).toEqual([]);
@@ -173,7 +179,7 @@ describe("tonal-chord", () => {
   test("notes with two params", () => {
     expect(Chord.get(["C", "maj7"]).notes).toEqual(["C", "E", "G", "B"]);
     // see: https://github.com/danigb/tonal/issues/82
-    expect(Chord.get(["C6", "maj7"]).notes).toEqual(["C6", "E6", "G6", "B6"]);
+    expect(Chord.get(["C6", "maj7"]).notes).toEqual(["C", "E", "G", "B"]);
   });
 
   // see: https://github.com/danigb/tonal/issues/52
@@ -194,6 +200,14 @@ describe("tonal-chord", () => {
       "13M",
     ]);
     expect(Chord.get("major").intervals).toEqual(["1P", "3M", "5P"]);
+  });
+
+  test("notes", () => {
+    expect(Chord.notes("Cmaj7")).toEqual(["C", "E", "G", "B"]);
+    expect(Chord.notes("maj7")).toEqual([]);
+    expect(Chord.notes("maj7", "C4")).toEqual(["C4", "E4", "G4", "B4"]);
+    expect(Chord.notes("Cmaj7", "C4")).toEqual(["C4", "E4", "G4", "B4"]);
+    expect(Chord.notes("Cmaj7", "D4")).toEqual(["D4", "F#4", "A4", "C#5"]);
   });
 
   test("existence", () => {
@@ -229,23 +243,23 @@ describe("tonal-chord", () => {
       expect([1, 2, 3, 4].map(Chord.degrees("C"))).toEqual(
         "C E G C".split(" "),
       );
-      expect([1, 2, 3, 4].map(Chord.degrees(["C4", "M"]))).toEqual(
+      expect([1, 2, 3, 4].map(Chord.degrees("CM", "C4"))).toEqual(
         "C4 E4 G4 C5".split(" "),
       );
       expect(
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(Chord.degrees(["C4", "m6"])),
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(Chord.degrees("Cm6", "C4")),
       ).toEqual("C4 Eb4 G4 A4 C5 Eb5 G5 A5 C6 Eb6".split(" "));
     });
     test("descending", () => {
       expect([-1, -2, -3].map(Chord.degrees("C"))).toEqual("G E C".split(" "));
-      expect([-1, -2, -3].map(Chord.degrees(["C4", "M"]))).toEqual(
+      expect([-1, -2, -3].map(Chord.degrees("CM", "C4"))).toEqual(
         "G3 E3 C3".split(" "),
       );
     });
   });
 
   test("Chord.steps", () => {
-    expect([-1, -2, -3, 0, 1, 2, 3].map(Chord.steps(["C4", "aug"]))).toEqual(
+    expect([-1, -2, -3, 0, 1, 2, 3].map(Chord.steps("Caug", "C4"))).toEqual(
       "G#3 E3 C3 C4 E4 G#4 C5".split(" "),
     );
   });
