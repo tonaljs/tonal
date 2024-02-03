@@ -15,8 +15,7 @@
     "lint": "eslint 'packages/**/*.ts'",
     "lint:fix": "eslint 'packages/**/*.ts' --fix",
     "test:ci": "yarn format && yarn lint && yarn build && yarn test -- --no-cache",
-    "doc": "yarn typedoc",
-    "prepare": "husky install"
+    "doc": "yarn typedoc"
   },
   "prettier": {},
   "eslintConfig": {
@@ -55,7 +54,6 @@
     "@typescript-eslint/parser": "^6.11.0",
     "esbuild": "^0.19.6",
     "eslint": "^8.54.0",
-    "husky": "^8.0.0",
     "jest": "^29.5.0",
     "jest-config": "^29.5.0",
     "lint-staged": "^15.1.0",

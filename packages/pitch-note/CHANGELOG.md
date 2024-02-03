@@ -1,5 +1,11 @@
 # @tonaljs/pitch-note
 
+## 5.0.2
+
+### Patch Changes
+
+- 859494b: Fix a possible exception on noteTokenizer
+
 ## 5.0.1
 
 ### Patch Changes

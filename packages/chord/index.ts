@@ -4,21 +4,27 @@ import {
   all as chordTypes,
   get as getChordType,
 } from "@tonaljs/chord-type";
-import { tonicIntervalsTransposer } from "@tonaljs/core";
-
-import {
-  deprecate,
-  distance,
-  note,
-  NoteName,
-  tokenizeNote,
-  transpose as transposeNote,
-} from "@tonaljs/core";
-
 import { isSubsetOf, isSupersetOf } from "@tonaljs/pcset";
-
+import {
+  distance,
+  tonicIntervalsTransposer,
+  transpose as transposeNote,
+} from "@tonaljs/pitch-distance";
+import { NoteName, note, tokenizeNote } from "@tonaljs/pitch-note";
 import { all as scaleTypes } from "@tonaljs/scale-type";
+
 export { detect } from "@tonaljs/chord-detect";
+
+export function deprecate<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ResultFn extends (this: any, ...newArgs: any[]) => ReturnType<ResultFn>,
+>(original: string, alternative: string, fn: ResultFn) {
+  return function (this: unknown, ...args: unknown[]): ReturnType<ResultFn> {
+    // tslint:disable-next-line
+    console.warn(`${original} is deprecated. Use ${alternative}.`);
+    return fn.apply(this, args);
+  };
+}
 
 type ChordName = string;
 type ChordNameTokens = [string, string]; // [TONIC, SCALE TYPE]
