@@ -4,24 +4,29 @@ const $ = (str: string) => str.split(" ");
 
 describe("tonal-chord", () => {
   test("tokenize", () => {
-    expect(Chord.tokenize("Cmaj7")).toEqual(["C", "maj7"]);
-    expect(Chord.tokenize("c7")).toEqual(["C", "7"]);
-    expect(Chord.tokenize("maj7")).toEqual(["", "maj7"]);
-    expect(Chord.tokenize("c#4 m7b5")).toEqual(["C#", "4m7b5"]);
-    expect(Chord.tokenize("c#4m7b5")).toEqual(["C#", "4m7b5"]);
-    expect(Chord.tokenize("Cb7b5")).toEqual(["Cb", "7b5"]);
-    expect(Chord.tokenize("Eb7add6")).toEqual(["Eb", "7add6"]);
-    expect(Chord.tokenize("Bb6b5")).toEqual(["Bb", "6b5"]);
-    expect(Chord.tokenize("aug")).toEqual(["", "aug"]);
-    expect(Chord.tokenize("C11")).toEqual(["C", "11"]);
-    expect(Chord.tokenize("C13no5")).toEqual(["C", "13no5"]);
-    expect(Chord.tokenize("C64")).toEqual(["C", "64"]);
-    expect(Chord.tokenize("C9")).toEqual(["C", "9"]);
+    expect(Chord.tokenize("Cmaj7")).toEqual(["C", "maj7", ""]);
+    expect(Chord.tokenize("c7")).toEqual(["C", "7", ""]);
+    expect(Chord.tokenize("maj7")).toEqual(["", "maj7", ""]);
+    expect(Chord.tokenize("c#4 m7b5")).toEqual(["C#", "4m7b5", ""]);
+    expect(Chord.tokenize("c#4m7b5")).toEqual(["C#", "4m7b5", ""]);
+    expect(Chord.tokenize("Cb7b5")).toEqual(["Cb", "7b5", ""]);
+    expect(Chord.tokenize("Eb7add6")).toEqual(["Eb", "7add6", ""]);
+    expect(Chord.tokenize("Bb6b5")).toEqual(["Bb", "6b5", ""]);
+    expect(Chord.tokenize("aug")).toEqual(["", "aug", ""]);
+    expect(Chord.tokenize("C11")).toEqual(["C", "11", ""]);
+    expect(Chord.tokenize("C13no5")).toEqual(["C", "13no5", ""]);
+    expect(Chord.tokenize("C64")).toEqual(["C", "64", ""]);
+    expect(Chord.tokenize("C9")).toEqual(["C", "9", ""]);
     // see: https://github.com/tonaljs/tonal/issues/70
-    expect(Chord.tokenize("C5")).toEqual(["C", "5"]);
-    expect(Chord.tokenize("C4")).toEqual(["C", "4"]);
+    expect(Chord.tokenize("C5")).toEqual(["C", "5", ""]);
+    expect(Chord.tokenize("C4")).toEqual(["C", "4", ""]);
     // https://github.com/tonaljs/tonal/issues/407
-    expect(Chord.tokenize("C4|\n")).toEqual(["", "C4|\n"]);
+    expect(Chord.tokenize("C4|\n")).toEqual(["", "C4|\n", ""]);
+
+    // With bass
+    expect(Chord.tokenize("Cmaj7/G")).toEqual(["C", "maj7", "G"]);
+    expect(Chord.tokenize("bb6/a##")).toEqual(["Bb", "6", "A##"]);
+    expect(Chord.tokenize("bb6/a##5")).toEqual(["Bb", "6/a##5", ""]);
   });
 
   describe("getChord", () => {

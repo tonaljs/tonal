@@ -26,8 +26,12 @@ export function deprecate<
   };
 }
 
-type ChordName = string;
-type ChordNameTokens = [string, string]; // [TONIC, SCALE TYPE]
+type ChordNameOrTokens =
+  | string // full name to be parsed
+  | [string] // only the name
+  | [string, string] // tonic, name
+  | [string, string, string]; // tonic, name, bass
+type ChordNameTokens = [string, string, string]; // [TONIC, SCALE TYPE, BASS]
 
 export interface Chord extends ChordType {
   tonic: string | null;
@@ -59,15 +63,18 @@ const NoChord: Chord = {
 // (see https://github.com/danigb/tonal/issues/55)
 //const NUM_TYPES = /^(6|64|7|9|11|13)$/;
 /**
- * Tokenize a chord name. It returns an array with the tonic and chord type
+ * Tokenize a chord name. It returns an array with the tonic, chord type and bass
  * If not tonic is found, all the name is considered the chord name.
  *
  * This function does NOT check if the chord type exists or not. It only tries
  * to split the tonic and chord type.
  *
+ * This function does NOT check if the bass is part of the chord or not but it
+ * only accepts a pitch class as bass
+ *
  * @function
  * @param {string} name - the chord name
- * @return {Array} an array with [tonic, type]
+ * @return {Array} an array with [tonic, type, bass]
  * @example
  * tokenize("Cmaj7") // => [ "C", "maj7" ]
  * tokenize("C7") // => [ "C", "7" ]
@@ -77,24 +84,46 @@ const NoChord: Chord = {
 export function tokenize(name: string): ChordNameTokens {
   const [letter, acc, oct, type] = tokenizeNote(name);
   if (letter === "") {
-    return ["", name];
+    return tokenizeBass("", name);
+  } else if (letter === "A" && type === "ug") {
+    return tokenizeBass("", "aug");
+  } else {
+    return tokenizeBass(letter + acc, oct + type);
   }
-  // aug is augmented (see https://github.com/danigb/tonal/issues/55)
-  if (letter === "A" && type === "ug") {
-    return ["", "aug"];
+}
+
+function tokenizeBass(note: string, chord: string): ChordNameTokens {
+  const split = chord.split("/");
+  if (split.length === 1) {
+    return [note, split[0], ""];
   }
-  return [letter + acc, oct + type];
+  const [letter, acc, oct, type] = tokenizeNote(split[1]);
+  // Only a pitch class is accepted as bass note
+  if (letter !== "" && oct === "" && type === "") {
+    return [note, split[0], letter + acc];
+  } else {
+    return [note, chord, ""];
+  }
 }
 
 /**
  * Get a Chord from a chord name.
  */
-export function get(src: ChordName | ChordNameTokens): Chord {
-  if (src === "") {
+export function get(src: ChordNameOrTokens): Chord {
+  if (Array.isArray(src)) {
+    switch (src.length) {
+      // @ts-expect-error For js safety
+      case 0:
+        return NoChord;
+      case 1:
+        return getChord(src[0]);
+      case 2:
+        return getChord(src[1], src[0]);
+      default:
+        return getChord(src[1], src[0], src[2]);
+    }
+  } else if (src === "") {
     return NoChord;
-  }
-  if (Array.isArray(src) && src.length === 2) {
-    return getChord(src[1], src[0]);
   } else {
     const [tonic, type] = tokenize(src);
     const chord = getChord(type, tonic);
@@ -237,7 +266,7 @@ export function reduced(chordName: string): string[] {
  * [1, 2, 3, 4].map(Chord.degrees("C")) => ["C", "E", "G", "C"]
  * [1, 2, 3, 4].map(Chord.degrees("C4")) => ["C4", "E4", "G4", "C5"]
  */
-export function degrees(chordName: string | ChordNameTokens) {
+export function degrees(chordName: ChordNameOrTokens) {
   const { intervals, tonic } = get(chordName);
   const transpose = tonicIntervalsTransposer(intervals, tonic);
   return (degree: number) =>
@@ -247,7 +276,7 @@ export function degrees(chordName: string | ChordNameTokens) {
 /**
  * Sames as `degree` but with 0-based index
  */
-export function steps(chordName: string | ChordNameTokens) {
+export function steps(chordName: ChordNameOrTokens) {
   const { intervals, tonic } = get(chordName);
   return tonicIntervalsTransposer(intervals, tonic);
 }
