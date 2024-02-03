@@ -4,6 +4,7 @@ import {
   all as chordTypes,
   get as getChordType,
 } from "@tonaljs/chord-type";
+import { substract } from "@tonaljs/interval";
 import { isSubsetOf, isSupersetOf } from "@tonaljs/pcset";
 import {
   distance,
@@ -15,24 +16,18 @@ import { all as scaleTypes } from "@tonaljs/scale-type";
 
 export { detect } from "@tonaljs/chord-detect";
 
-export function deprecate<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ResultFn extends (this: any, ...newArgs: any[]) => ReturnType<ResultFn>,
->(original: string, alternative: string, fn: ResultFn) {
-  return function (this: unknown, ...args: unknown[]): ReturnType<ResultFn> {
-    // tslint:disable-next-line
-    console.warn(`${original} is deprecated. Use ${alternative}.`);
-    return fn.apply(this, args);
-  };
-}
-
-type ChordName = string;
-type ChordNameTokens = [string, string]; // [TONIC, SCALE TYPE]
+type ChordNameOrTokens =
+  | string // full name to be parsed
+  | [string] // only the name
+  | [string, string] // tonic, name
+  | [string, string, string]; // tonic, name, bass
+type ChordNameTokens = [string, string, string]; // [TONIC, SCALE TYPE, BASS]
 
 export interface Chord extends ChordType {
   tonic: string | null;
   type: string;
   root: string;
+  bass: string;
   rootDegree: number;
   symbol: string;
   notes: NoteName[];
@@ -43,6 +38,7 @@ const NoChord: Chord = {
   name: "",
   symbol: "",
   root: "",
+  bass: "",
   rootDegree: 0,
   type: "",
   tonic: null,
@@ -59,15 +55,18 @@ const NoChord: Chord = {
 // (see https://github.com/danigb/tonal/issues/55)
 //const NUM_TYPES = /^(6|64|7|9|11|13)$/;
 /**
- * Tokenize a chord name. It returns an array with the tonic and chord type
+ * Tokenize a chord name. It returns an array with the tonic, chord type and bass
  * If not tonic is found, all the name is considered the chord name.
  *
  * This function does NOT check if the chord type exists or not. It only tries
  * to split the tonic and chord type.
  *
+ * This function does NOT check if the bass is part of the chord or not but it
+ * only accepts a pitch class as bass
+ *
  * @function
  * @param {string} name - the chord name
- * @return {Array} an array with [tonic, type]
+ * @return {Array} an array with [tonic, type, bass]
  * @example
  * tokenize("Cmaj7") // => [ "C", "maj7" ]
  * tokenize("C7") // => [ "C", "7" ]
@@ -77,27 +76,39 @@ const NoChord: Chord = {
 export function tokenize(name: string): ChordNameTokens {
   const [letter, acc, oct, type] = tokenizeNote(name);
   if (letter === "") {
-    return ["", name];
+    return tokenizeBass("", name);
+  } else if (letter === "A" && type === "ug") {
+    return tokenizeBass("", "aug");
+  } else {
+    return tokenizeBass(letter + acc, oct + type);
   }
-  // aug is augmented (see https://github.com/danigb/tonal/issues/55)
-  if (letter === "A" && type === "ug") {
-    return ["", "aug"];
+}
+
+function tokenizeBass(note: string, chord: string): ChordNameTokens {
+  const split = chord.split("/");
+  if (split.length === 1) {
+    return [note, split[0], ""];
   }
-  return [letter + acc, oct + type];
+  const [letter, acc, oct, type] = tokenizeNote(split[1]);
+  // Only a pitch class is accepted as bass note
+  if (letter !== "" && oct === "" && type === "") {
+    return [note, split[0], letter + acc];
+  } else {
+    return [note, chord, ""];
+  }
 }
 
 /**
  * Get a Chord from a chord name.
  */
-export function get(src: ChordName | ChordNameTokens): Chord {
-  if (src === "") {
+export function get(src: ChordNameOrTokens): Chord {
+  if (Array.isArray(src)) {
+    return getChord(src[1] || "", src[0], src[2]);
+  } else if (src === "") {
     return NoChord;
-  }
-  if (Array.isArray(src) && src.length === 2) {
-    return getChord(src[1], src[0]);
   } else {
-    const [tonic, type] = tokenize(src);
-    const chord = getChord(type, tonic);
+    const [tonic, type, bass] = tokenize(src);
+    const chord = getChord(type, tonic, bass);
     return chord.empty ? getChord(src) : chord;
   }
 }
@@ -112,61 +123,72 @@ export function get(src: ChordName | ChordNameTokens): Chord {
 export function getChord(
   typeName: string,
   optionalTonic?: string,
-  optionalRoot?: string,
+  optionalBass?: string,
 ): Chord {
   const type = getChordType(typeName);
   const tonic = note(optionalTonic || "");
-  const root = note(optionalRoot || "");
+  const bass = note(optionalBass || "");
 
   if (
     type.empty ||
     (optionalTonic && tonic.empty) ||
-    (optionalRoot && root.empty)
+    (optionalBass && bass.empty)
   ) {
     return NoChord;
   }
 
-  const rootInterval = distance(tonic.pc, root.pc);
-  const rootDegree = type.intervals.indexOf(rootInterval) + 1;
-  if (!root.empty && !rootDegree) {
-    return NoChord;
-  }
+  const bassInterval = distance(tonic.pc, bass.pc);
+  const bassIndex = type.intervals.indexOf(bassInterval);
+  const hasRoot = bassIndex >= 0;
+  const root = hasRoot ? bass : note("");
+  const rootDegree = bassIndex === -1 ? NaN : bassIndex + 1;
+  const hasBass = bass.pc && bass.pc !== tonic.pc;
 
   const intervals = Array.from(type.intervals);
 
-  for (let i = 1; i < rootDegree; i++) {
-    const num = intervals[0][0];
-    const quality = intervals[0][1];
-    const newNum = parseInt(num, 10) + 7;
-    intervals.push(`${newNum}${quality}`);
-    intervals.shift();
+  if (hasRoot) {
+    for (let i = 1; i < rootDegree; i++) {
+      const num = intervals[0][0];
+      const quality = intervals[0][1];
+      const newNum = parseInt(num, 10) + 7;
+      intervals.push(`${newNum}${quality}`);
+      intervals.shift();
+    }
+  } else if (hasBass) {
+    const ivl = substract(distance(tonic.pc, bass.pc), "8P");
+    if (ivl) intervals.unshift(ivl);
   }
 
   const notes = tonic.empty
     ? []
-    : intervals.map((i) => transposeNote(tonic, i));
+    : intervals.map((i) => transposeNote(tonic.pc, i));
 
   typeName = type.aliases.indexOf(typeName) !== -1 ? typeName : type.aliases[0];
   const symbol = `${tonic.empty ? "" : tonic.pc}${typeName}${
-    root.empty || rootDegree <= 1 ? "" : "/" + root.pc
+    hasRoot && rootDegree > 1 ? "/" + root.pc : hasBass ? "/" + bass.pc : ""
   }`;
   const name = `${optionalTonic ? tonic.pc + " " : ""}${type.name}${
-    rootDegree > 1 && optionalRoot ? " over " + root.pc : ""
+    hasRoot && rootDegree > 1
+      ? " over " + root.pc
+      : hasBass
+        ? " over " + bass.pc
+        : ""
   }`;
   return {
     ...type,
     name,
     symbol,
+    tonic: tonic.pc,
     type: type.name,
-    root: root.name,
+    root: root.pc,
+    bass: hasBass ? bass.pc : "",
     intervals,
     rootDegree,
-    tonic: tonic.name,
     notes,
   };
 }
 
-export const chord = deprecate("Chord.chord", "Chord.get", get);
+export const chord = get;
 
 /**
  * Transpose a chord name
@@ -178,11 +200,13 @@ export const chord = deprecate("Chord.chord", "Chord.get", get);
  * transpose('Dm7', 'P4') // => 'Gm7
  */
 export function transpose(chordName: string, interval: string): string {
-  const [tonic, type] = tokenize(chordName);
+  const [tonic, type, bass] = tokenize(chordName);
   if (!tonic) {
     return chordName;
   }
-  return transposeNote(tonic, interval) + type;
+  const tr = transposeNote(bass, interval);
+  const slash = tr ? "/" + tr : "";
+  return transposeNote(tonic, interval) + type + slash;
 }
 
 /**
@@ -231,15 +255,26 @@ export function reduced(chordName: string): string[] {
 }
 
 /**
+ * Return the chord notes
+ */
+export function notes(chordName: ChordNameOrTokens, tonic?: string): string[] {
+  const chord = get(chordName);
+  const note = tonic || chord.tonic;
+  if (!note || chord.empty) return [];
+  return chord.intervals.map((ivl) => transposeNote(note, ivl));
+}
+
+/**
  * Returns a function to get a note name from the scale degree.
  *
  * @example
  * [1, 2, 3, 4].map(Chord.degrees("C")) => ["C", "E", "G", "C"]
  * [1, 2, 3, 4].map(Chord.degrees("C4")) => ["C4", "E4", "G4", "C5"]
  */
-export function degrees(chordName: string | ChordNameTokens) {
-  const { intervals, tonic } = get(chordName);
-  const transpose = tonicIntervalsTransposer(intervals, tonic);
+export function degrees(chordName: ChordNameOrTokens, tonic?: string) {
+  const chord = get(chordName);
+  const note = tonic || chord.tonic;
+  const transpose = tonicIntervalsTransposer(chord.intervals, note);
   return (degree: number) =>
     degree ? transpose(degree > 0 ? degree - 1 : degree) : "";
 }
@@ -247,9 +282,10 @@ export function degrees(chordName: string | ChordNameTokens) {
 /**
  * Sames as `degree` but with 0-based index
  */
-export function steps(chordName: string | ChordNameTokens) {
-  const { intervals, tonic } = get(chordName);
-  return tonicIntervalsTransposer(intervals, tonic);
+export function steps(chordName: ChordNameOrTokens, tonic?: string) {
+  const chord = get(chordName);
+  const note = tonic || chord.tonic;
+  return tonicIntervalsTransposer(chord.intervals, note);
 }
 
 export default {
@@ -263,7 +299,6 @@ export default {
   transpose,
   degrees,
   steps,
-
-  // deprecate
+  notes,
   chord,
 };

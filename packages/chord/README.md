@@ -18,62 +18,70 @@ const { Chord } = require("tonal");
 
 #### `Chord.getChord(type: string, tonic?: string, root?: string) => Chord`
 
-Get the chord properties from a chord type and an (optional) tonic and (optional) root. Notice that the tonic must be present if the root is present. Also the root must be part of the chord notes.
+#### `Chord.get(name: string | [string, string] | [string, string, string]) => Chord`
 
-It returns the same object that `ChordType.get` but with additional properties:
+Given a chord symbol or tokens, it returns the chord properties.
 
-- symbol: the chord symbol (a combiation of the tonic, chord type shortname and root, if present). For example: `Cmaj7`, `Db7b5/F`. The symbol always uses pitch classes (note names without octaves) for both the tonic and root.
+Chord properties is the the same object that `ChordType.get` but with additional fields:
+
+- symbol: the chord symbol (a combination of the tonic, chord type shortname and root, if present). For example: `Cmaj7`, `Db7b5/F`. The symbol always uses pitch classes (note names without octaves) for both the tonic and root.
 - tonic: the tonic of the chord (or an empty string if not present)
-- root: the root of the chord (or an empty string if not present)
-- rootDegree: the degree of the root. 0 if root not present. A number greater than 0 if present, where 1 indicates the tonic, 2 the second note (normally the 3th), 2 the third note (normally the 5th), etc.
-- notes: an array of notes, or empty array if tonic is not present. If the root is pres
+- bass: the bass of the chord (or an empty string if not present). The bass can be any pitch class.
+- root: the root of the chord (or an empty string if not present). The root is present if the bass not belongs to the chord. It could be chords with bass without root field, but not the opposite.
+- rootDegree: the degree of the root. NaN if root not present. A number greater than 0 if present, where 1 indicates the tonic, 2 the second note (normally the 3th), 2 the third note (normally the 5th), etc.
+- notes: an array of notes, or empty array if tonic is not present. The notes will be always pitch classes.
 
 Example:
 
 ```js
-Chord.getChord("maj7", "G4", "B4"); // =>
+Chord.get("Cmaj7/B"); // =>
 // {
 //   empty: false,
-//   name: "G major seventh over B",
-//   symbol: "Gmaj7/B",
-//   tonic: "G4",
-//   root: "B4",
-//   rootDegree: 2,
+//   name: 'C major seventh over B',
 //   setNum: 2193,
-//   type: "major seventh",
-//   aliases: ["maj7", "Δ", "ma7", "M7", "Maj7"],
-//   chroma: "100010010001",
-//   intervals: ["3M", "5P", "7M", "8P"],
-//   normalized: "100010010001",
-//   notes: ["B4", "D5", "F#5", "G5"],
-//   quality: "Major",
+//   chroma: '100010010001',
+//   normalized: '100010010001',
+//   intervals: [ '7M', '8P', '10M', '12P' ],
+//   quality: 'Major',
+//   aliases: [ 'maj7', 'Δ', 'ma7', 'M7', 'Maj7', '^7' ],
+//   symbol: 'Cmaj7/B',
+//   tonic: 'C',
+//   type: 'major seventh',
+//   root: 'B',
+//   bass: 'B',
+//   rootDegree: 4,
+//   notes: [ 'B', 'C', 'E', 'G' ]
 // }
 ```
 
-#### `Chord.get(name: string | [string, string]) => Chord`
-
-An alias of `Chord.getChord` but accepts a chord symbol as parameter.
+`Chord.chord` is an alias that is handy if using the `@tonaljs/chord` directly:
 
 ```js
-Chord.get("Cmaj7");
-// same as
-Chord.get(["C", "maj7"]);
-// same as
-Chord.getChord("maj7", "C");
+import { chord } from "@tonaljs/chord";
+
+chord("C6add2");
 ```
 
-Important: currently chord with bass are NOT allowed (will be implemented in next version):
+`Chord.getChord(chordType, tonic, bass)` is very similar but with arguments for each chord part:
 
 ```js
-Chord.get("Cmaj7/E"); // => { empty: true }
+Chord.getChord("maj7", "C", "B") === Chord.get("Cmaj7/B");
 ```
 
-### `Chord.degrees(chordName: string | [string, string]) => (degree: number) => string`
+### `Chord.notes(chordType: string, tonic?: string) => string[]`
+
+Print the notes of the given chord at the given tonic:
+
+```js
+Chord.notes("maj4", "C4"); // => ["C4", "E4", "G4", "B4"]
+```
+
+### `Chord.degrees(chordType: string, tonic?: string) => (degree: number) => string`
 
 `Scale.degrees` returns a function to get a note name from a scale degree:
 
 ```js
-const c4m7 = Chord.degrees(["C4", "m7");
+const c4m7 = Chord.degrees("m7", "C4");
 c4m7(1); // => "C4"
 c4m7(2); // => "Eb4"
 c4m7(3); // => "G4"
@@ -81,13 +89,13 @@ c4m7(4); // => "Bb4"
 c4m7(1); // => "C5"
 ```
 
-It can be used to find chord inversions:
+It can be used, for example, to get the notes of chord inversions:
 
 ```js
-[1, 2, 3, 4].map(chord); // => ["C4", "Eb4", "G4", "Bb4"]
-[2, 3, 4, 5].map(chord); // => ["Eb4", "G4", "Bb4", "C5"]
-[3, 4, 5, 6].map(chord); // => ["G4", "Bb4", "C5", "Eb5"]
-[4, 5, 6, 7].map(chord); // => ["Bb4", "C5", "Eb5", "G5"]
+[1, 2, 3, 4].map(c4m7); // => ["C4", "Eb4", "G4", "Bb4"]
+[2, 3, 4, 5].map(c4m7); // => ["Eb4", "G4", "Bb4", "C5"]
+[3, 4, 5, 6].map(c4m7); // => ["G4", "Bb4", "C5", "Eb5"]
+[4, 5, 6, 7].map(c4m7); // => ["Bb4", "C5", "Eb5", "G5"]
 ```
 
 Bear in mind that degree numbers starts with 1 and 0 returns an empty string:
