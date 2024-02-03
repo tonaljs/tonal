@@ -26,6 +26,7 @@ exports[`tonal Modules exports functions 1`] = `
     "extended",
     "get",
     "getChord",
+    "notes",
     "reduced",
     "steps",
     "tokenize",
