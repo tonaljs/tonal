@@ -59,7 +59,7 @@ Note.chroma("D"); // => 2
 
 #### `fromMidi(midi: number) => string`
 
-Given a midi number, returns the note name. This function is the same as `midiToNoteName` from [@tonaljs/midi](/packages/midi)
+Given a midi number, returns the note name. This function is the same as `midiToNoteName` from [@tonaljs/midi](notation/midi)
 
 ```js
 Note.fromMidi(61); // => "Db4"

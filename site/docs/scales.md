@@ -16,7 +16,7 @@ import { Scale } from "tonal";
 
 #### `get(name: string): Scale`
 
-Get a scale from a scale name. `Scale.get` accepts tonics in the scale name and returns a [scale type](/packages/scale-type) with two more properties: `tonic` and `notes`:
+Get a scale from a scale name. `Scale.get` accepts tonics in the scale name and returns a [scale type](collections/scale-types) with two more properties: `tonic` and `notes`:
 
 ```js
 Scale.get("c5 pentatonic");
@@ -132,7 +132,7 @@ range("C4", "C5"); // => ["C4", "Db4", "G4", "C5"]
 
 List all known scale names. Same as `ScaleType.names()`
 
-See [scale-type](/package/scale-type)
+See [scale-type](collections/scale-types)
 
 ### `Scale.detect`
 

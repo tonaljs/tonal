@@ -5,7 +5,7 @@ sidebar_position: 2
 
 `@tonaljs/voice-leading`
 
-Contains a collection functions to find optimal transitions between chord voicings. Used by [@tonaljs/voicings](../voicings).
+Contains a collection functions to find optimal transitions between chord voicings.
 
 ## Usage
 
@@ -62,7 +62,3 @@ topNoteDiff(
 );
 // ['C4', 'E4', 'F4', 'A4'] // => A4 is closer to B4 than E4
 ```
-
-[show available voice leading functions](./index.ts).
-
-See [@tonaljs/voicings](../voicings) for usage examples.

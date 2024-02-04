@@ -44,6 +44,4 @@ const lefthand = {
 };
 ```
 
-[show available dictionaries](./data.ts).
-
 See [@tonaljs/voicings](../voicings) for usage examples.

@@ -40,7 +40,7 @@ Voicing.search("C^7", ["E3", "D5"], { "^7": ["3M 5P 7M 9M", "7M 9M 10M 12P"] });
 ] */
 ```
 
-The VoicingDictionary param uses the format of [@tonaljs/voicing-dictionary](../voicing-dictionary). Instead of defining your own, you could also use an existing dictionary from there:
+The VoicingDictionary param uses the format of [@tonaljs/voicing-dictionary](./dictionary). Instead of defining your own, you could also use an existing dictionary from there:
 
 ```ts
 import { VoicingDictionary } from "@tonaljs/voicing-dictionary";
@@ -52,7 +52,7 @@ Voicing.search("C^7", ["E3", "D5"], VoicingDictionary.lefthand);
 ] */
 ```
 
-If no range and/or dictionary is given, there is a fallback to [default values](./index.ts) (look for defaultRange / defaultDictionary):
+If no range and/or dictionary is given, there is a fallback to default values:
 
 ```ts
 Voicing.search("C^7");
