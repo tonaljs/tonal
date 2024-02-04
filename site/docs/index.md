@@ -1,5 +1,5 @@
 ---
-title: About
+title: Usage
 sidebar_position: 1
 ---
 
