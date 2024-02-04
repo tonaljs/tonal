@@ -3,6 +3,8 @@ title: Collections
 sidebar_position: 10
 ---
 
+@tonaljs/collections
+
 ![tonal](https://img.shields.io/badge/@tonaljs-collection-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/collection.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/collection)
 
 This package contains a collection of utility functions to manipulate abstract collections

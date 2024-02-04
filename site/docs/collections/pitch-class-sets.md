@@ -1,7 +1,9 @@
 ---
 title: Pitch Class Sets
-sidebar_position: 1
+sidebar_position: 2
 ---
+
+`@tonaljs/pcset`
 
 ![tonal](https://img.shields.io/badge/@tonaljs-pcset-yellow.svg?style=flat-square)
 [![npm version](https://img.shields.io/npm/v/@tonaljs/pcset.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/pcset)
