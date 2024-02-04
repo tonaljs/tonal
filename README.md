@@ -109,7 +109,7 @@ The API documentation is inside README.md of each module 👇
 - [@tonaljs/midi](/packages/midi): Midi number conversions
 - [@tonaljs/interval](/packages/interval): Interval operations (add, simplify,
   invert)
-- [@tonaljs/pitch-notation-abc](/packages/pitch-notation-abc): Parse ABC
+- [@tonaljs/abc-notation](/packages/abc-notation): Parse ABC
   notation notes
 
 #### Scales and chords

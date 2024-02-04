@@ -6,8 +6,5 @@
     "interface-name": false,
     "object-literal-sort-keys": false,
     "no-shadowed-variable": false
-  },
-  "linterOptions": {
-    "exclude": ["node_modules/**", "site/**"]
   }
 }
