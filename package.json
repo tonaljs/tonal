@@ -8,14 +8,14 @@
   "module": "packages/tonal/dist/index.mjs",
   "types": "packages/tonal/dist/index.d.ts",
   "scripts": {
-    "publish-packages": "yarn test:ci && changeset version && changeset publish",
+    "publish-packages": "npm test:ci && changeset version && changeset publish",
     "build": "turbo run build",
     "format": "prettier --write packages/**/*.ts packages/**/package.json",
     "test": "jest --coverage",
     "lint": "eslint 'packages/**/*.ts'",
     "lint:fix": "eslint 'packages/**/*.ts' --fix",
-    "test:ci": "yarn format && yarn lint && yarn build && yarn test -- --no-cache",
-    "doc": "yarn typedoc"
+    "test:ci": "npm format && npm lint && npm build && npm test -- --no-cache",
+    "doc": "npm typedoc"
   },
   "prettier": {},
   "eslintConfig": {
