@@ -14,7 +14,7 @@
     "test": "jest --coverage",
     "lint": "eslint 'packages/**/*.ts'",
     "lint:fix": "eslint 'packages/**/*.ts' --fix",
-    "test:ci": "npm format && npm lint && npm build && npm test -- --no-cache",
+    "test:ci": "npm run format && npm run lint && npm run build && npm run test -- --no-cache",
     "doc": "npm typedoc"
   },
   "prettier": {},
