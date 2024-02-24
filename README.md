@@ -191,6 +191,7 @@ Showcase of projects that are using Tonal:
 - [Midi Sandbox](https://midisandbox.com/) by [jdlee022](https://github.com/jdlee022)
 - [music, eternal](https://eternal.rob.computer) by [kousun12](https://github.com/kousun12)
 - [Chromatone.center](https://chromatone.center) by [davay42](https://github.com/davay42)
+- [Super Oscillator](https://github.com/lukehorvat/super-oscillator) by [lukehorvat](https://github.com/lukehorvat)
 
 Thank you all!
 
