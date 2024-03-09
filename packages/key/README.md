@@ -23,8 +23,8 @@ const { Key } = require("tonal");
 Tonics of any key are represented with pitch classes (octaves are discarded).
 
 ```js
-Key.major("C4"); // is equal to
-Key.major("C");
+Key.majorKey("C4"); // is equal to
+Key.majorKey("C");
 ```
 
 #### `majorKey(tonic: string) => MajorKey`
