@@ -33,6 +33,25 @@ export function names(array?: any[]): string[] {
 }
 
 /**
+ * Return the note names of a given array without their octaves
+ * @function
+ * @param array - the array of note names
+ * @example
+ * Note.namesNoOctaves(["C2", "C#3", "Db4")]; // => ["C", "C#", "Db"]
+ * @example
+ * Note.namesNoOctaves(); // => ["C", "D", "E", "F", "G", "A", "B"]
+ */
+export function namesNoOctave(array?: any[]): string[] {
+  if (array === undefined) {
+    return NAMES.slice();
+  } else if (!Array.isArray(array)) {
+    return [];
+  } else {
+    return onlyNotes(array).map((note) => `${note.letter}${note.acc}`);
+  }
+}
+
+/**
  * Get a note from a note name
  *
  * @function
@@ -278,6 +297,7 @@ export default {
   names,
   get,
   name,
+  namesNoOctave,
   pitchClass,
   accidentals,
   octave,

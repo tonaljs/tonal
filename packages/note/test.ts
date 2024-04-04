@@ -51,6 +51,13 @@ describe("note", () => {
       "Bb",
     ]);
   });
+
+  test("namesNoOctave", () => {
+    expect(
+      Note.namesNoOctave(["C2", "C#3", "Db4", 12, "nothing", {}, null]),
+    ).toEqual(["C", "C#", "Db"]);
+  });
+
   test("sortedNames", () => {
     expect(Note.sortedNames($("c f g a b h j"))).toEqual($("C F G A B"));
     expect(Note.sortedNames($("c f g a b h j j h b a g f c"))).toEqual(
