@@ -44,7 +44,7 @@ It has several shorthands to retrieve properties easily:
 ```js
 Note.name("fx4"); // => "F##4"
 Note.pitchClass("Ab5"); // => "Ab"
-Note.accidentals("Eb"); // => 'Eb'
+Note.accidentals("Eb"); // => 'b'
 Note.octave("C4"); // => 4
 Note.midi("A4"); // => 69
 Note.freq("A4"); // => 440
