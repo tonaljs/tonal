@@ -145,13 +145,21 @@ Note.distance("C3", "E4").toEqual("10M");
 Get note names of an array of anything. Notice that names are normalized:
 
 ```js
-Note.names(["fx", "bb", 12, "nothing", {}, null])) // => ["F##", "Bb"];
+Note.names(["fx", "bb", 12, "nothing", {}, null]); // => ["F##", "Bb"];
 ```
 
 Without parameters, it returns a list of natural pitch classes:
 
 ```js
-Note.names(); // =>["C", "D", "E", "F", "G", "A", "B"]
+Note.names(); // => ["C", "D", "E", "F", "G", "A", "B"]
+```
+
+#### `namesNoOctave(array?: any[]) => string[]`
+
+Get note names of an array of anything, without octaves.
+
+```js
+Note.namesNoOctave(["C2", "C#3", "Db4", 12, "nothing", {}, null]); // => ["C", "C#", "Db"]
 ```
 
 #### `sortedNames(array?: any[], comparator?: NoteComparator) => string[]`
