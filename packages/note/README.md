@@ -154,6 +154,12 @@ Without parameters, it returns a list of natural pitch classes:
 Note.names(); // => ["C", "D", "E", "F", "G", "A", "B"]
 ```
 
+You may be in a situation where you have note names with octaves, but don't want them, remove them like this:
+
+```js
+Note.names(["C2", "C#3", "Db4", 12, "nothing", {}, null]).map(Note.pitchClass); // => ['C', 'C#', 'Db']
+```
+
 #### `sortedNames(array?: any[], comparator?: NoteComparator) => string[]`
 
 Sort an array of note names in ascending order. Pitch classes are listed before notes. Anything that is not a note is removed:
