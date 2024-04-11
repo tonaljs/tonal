@@ -29,6 +29,7 @@ describe("@tonaljs/scale", () => {
       normalized: "100101001010",
     });
     expect(Scale.get("C4 major")).toEqual(Scale.get(["C4", "major"]));
+    expect(Scale.get("C4 Major")).toEqual(Scale.get("C4 major"));
   });
 
   test("tokenize", () => {
