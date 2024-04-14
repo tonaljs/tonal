@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@tonaljs/chord": "6.0.0",
-    "@tonaljs/scale": "4.12.5"
+    "@tonaljs/scale": "4.12.6"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

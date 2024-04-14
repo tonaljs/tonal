@@ -1,5 +1,21 @@
 # tonal
 
+## 6.0.1
+
+### Patch Changes
+
+- 9d8c41d: Scale.get ignores case.
+
+  Now both calls returns the same scale:
+
+  ```js
+  Scale.get("C Major");
+  Scale.get("c major");
+  ```
+
+- Updated dependencies [9d8c41d]
+  - @tonaljs/scale@4.12.6
+
 ## 6.0.0
 
 ### Major Changes
