@@ -202,6 +202,15 @@ Given a note name, returns its enharmonic (or "" if not valid note):
 Note.enharmonic("C#"); // => "Db"
 Note.enharmonic("C##"); // => "D"
 Note.enharmonic("C###"); // => "Eb"
+
+Note.eharmoinic("C##b"); // => ""
+```
+
+Using eharmonic on a natural will return the same value passed in:
+
+```js
+Note.eharmonic("C"); // => "C"
+Note.eharmonic("C4"); // => "C4"
 ```
 
 The destination pitch class can be enforced to calculate the octave:

@@ -234,6 +234,7 @@ export const simplify = (noteName: NoteName | Pitch): string => {
  * Note.enharmonic("Db") // => "C#"
  * Note.enharmonic("C") // => "C"
  * Note.enharmonic("F2","E#") // => "E#2"
+ * Note.eharmoinic("C##b"); // => ""
  */
 export function enharmonic(noteName: string, destName?: string) {
   const src = get(noteName);
