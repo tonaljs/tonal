@@ -1,0 +1,25 @@
+{
+  "name": "@tonaljs/rhythm-pattern",
+  "version": "1.0.0",
+  "description": "A rhythm pattern generator functions",
+  "keywords": [
+    "rhythm",
+    "pattern",
+    "music",
+    "theory"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup index.ts --sourcemap --dts --format esm,cjs"
+  }
+}
