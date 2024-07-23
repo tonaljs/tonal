@@ -141,7 +141,6 @@ exports[`tonal Modules exports functions 1`] = `
     "accidentals",
     "ascending",
     "chroma",
-    "default",
     "descending",
     "distance",
     "enharmonic",
