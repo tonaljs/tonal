@@ -1,5 +1,25 @@
 # @tonaljs/time-signature
 
+## 4.9.0
+
+### Minor Changes
+
+#### `default` export is deprecated for @tonaljs modules
+
+Using default exports for single packages are deprecated, so instead of:
+
+```js
+import TimeSignature from "@tonaljs/time-signature";
+```
+
+You should do this:
+
+```js
+import * as TimeSignature from "@tonaljs/time-signature";
+```
+
+The same for all modules.
+
 ## 4.8.1
 
 ### Patch Changes

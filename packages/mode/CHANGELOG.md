@@ -1,5 +1,52 @@
 # @tonaljs/mode
 
+## 4.9.0
+
+### Minor Changes
+
+- b113754: #### `default` export is deprecated for @tonaljs modules
+
+  Using default exports for single packages are deprecated, so instead of:
+
+  ```js
+  import Note from "@tonaljs/note";
+  ```
+
+  You should do this:
+
+  ```js
+  import * as Note from "@tonaljs/note";
+  ```
+
+  The same for all modules.
+
+- 56d89f7: #### `default` export is deprecated for @tonaljs modules
+
+  Using default exports for single packages are deprecated, so instead of:
+
+  ```js
+  import Note from "@tonaljs/note";
+  ```
+
+  You should do this:
+
+  ```js
+  import * as Note from "@tonaljs/note";
+  ```
+
+  The same for all modules.
+
+### Patch Changes
+
+- Updated dependencies [b113754]
+- Updated dependencies [4e05792]
+- Updated dependencies [56d89f7]
+  - @tonaljs/scale-type@4.9.0
+  - @tonaljs/pcset@4.10.0
+  - @tonaljs/pitch-distance@5.0.4
+  - @tonaljs/collection@4.9.0
+  - @tonaljs/interval@5.1.0
+
 ## 4.8.4
 
 ### Patch Changes

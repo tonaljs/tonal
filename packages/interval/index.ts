@@ -176,6 +176,7 @@ export function transposeFifths(
   return coordToInterval([nFifths + fifths, nOcts, dir]).name;
 }
 
+/** @deprecated */
 export default {
   names,
   get,

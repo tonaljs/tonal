@@ -1,5 +1,30 @@
 # @tonaljs/interval
 
+## 5.1.0
+
+### Minor Changes
+
+- 56d89f7: #### `default` export is deprecated for @tonaljs modules
+
+  Using default exports for single packages are deprecated, so instead of:
+
+  ```js
+  import Note from "@tonaljs/note";
+  ```
+
+  You should do this:
+
+  ```js
+  import * as Note from "@tonaljs/note";
+  ```
+
+  The same for all modules.
+
+### Patch Changes
+
+- Updated dependencies [4e05792]
+  - @tonaljs/pitch-distance@5.0.4
+
 ## 5.0.0
 
 ### Major Changes

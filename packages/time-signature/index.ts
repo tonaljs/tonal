@@ -73,6 +73,7 @@ export function parse(literal: TimeSignatureLiteral): ParsedTimeSignature {
   return list.length === 1 ? [list[0], denominator] : [list, denominator];
 }
 
+/** @deprecated */
 export default { names, parse, get };
 
 // PRIVATE

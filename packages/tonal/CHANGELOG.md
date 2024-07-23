@@ -1,5 +1,40 @@
 # tonal
 
+## 6.2.0
+
+### Minor Changes
+
+#### `default` export is deprecated for @tonaljs modules
+
+Using default exports for single packages are deprecated, so instead of:
+
+```js
+import Note from "@tonaljs/note";
+```
+
+You should do this:
+
+```js
+import * as Note from "@tonaljs/note";
+```
+
+The same for all modules.
+
+### Patch Changes
+
+#### Fix: add `Note.distance` back
+
+The documentation said `Note.distance` was available, but was not.
+
+Now you can do:
+
+```js
+import { Note } from "tonal";
+Note.distance("c4", "e7"); // => "24M"
+```
+
+#### Fix a bug finding distance between notes when they are in adjacent octaves (see #428)
+
 ## 6.1.0
 
 New `rhythm-pattern` package:

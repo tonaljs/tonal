@@ -1,5 +1,67 @@
 # tonal
 
+## 6.2.0
+
+### Minor Changes
+
+#### `default` export is deprecated for @tonaljs modules
+
+Using default exports for single packages are deprecated, so instead of:
+
+```js
+import Note from "@tonaljs/note";
+```
+
+You should do this:
+
+```js
+import * as Note from "@tonaljs/note";
+```
+
+The same for all modules.
+
+### Patch Changes
+
+#### Fix: add `Note.distance` back
+
+The documentation said `Note.distance` was available, but was not.
+
+Now you can do:
+
+```js
+import { Note } from "tonal";
+Note.distance("c4", "e7"); // => "24M"
+```
+
+#### Fix a bug finding distance between notes when they are in adjacent octaves (see #428)
+
+## 6.1.0
+
+New `rhythm-pattern` package:
+
+```ts
+import { RhythmPattern } from "tonal";
+
+RhythmPattern.euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
+RhythmPattern.binary(12, 13); // => [1, 1, 0, 0, 1, 1, 0, 1]
+RhythmPattern.hex("8f"); // => [1, 0, 0, 0, 1, 1, 1, 1]
+RhythmPattern.onsets(1, 2, 2, 1); // => [1, 0, 1, 0, 0, 1, 0, 0, 1, 0]
+RhythmPattern.random(4); // => [1, 0, 0, 1]
+RhythmPattern.probability([0.6, 0, 0.2, 0.5]); // => [0, 0, 0, 1]
+RhythmPattern.rotate([1, 0, 0, 1], 2); // => [0, 1, 1, 0]
+```
+
+## 6.0.1
+
+Scale.get ignores case.
+
+Now both calls returns the same scale:
+
+```js
+Scale.get("C Major");
+Scale.get("c major");
+```
+
 ## 6.0.0
 
 ### Major Changes

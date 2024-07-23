@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chord-detect",
-  "version": "4.8.5",
+  "version": "4.9.0",
   "description": "Detect chord name based on note names",
   "keywords": [
     "chord-detect",
@@ -16,9 +16,9 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord-type": "5.0.5",
+    "@tonaljs/chord-type": "5.1.0",
     "@tonaljs/pitch-note": "6.0.0",
-    "@tonaljs/pcset": "4.9.2"
+    "@tonaljs/pcset": "4.10.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

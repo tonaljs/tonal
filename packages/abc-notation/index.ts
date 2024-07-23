@@ -69,6 +69,7 @@ export function distance(from: string, to: string): string {
   return dist(abcToScientificNotation(from), abcToScientificNotation(to));
 }
 
+/** @deprecated */
 export default {
   abcToScientificNotation,
   scientificToAbcNotation,

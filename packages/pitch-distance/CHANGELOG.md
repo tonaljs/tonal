@@ -1,5 +1,11 @@
 # @tonaljs/pitch-distance
 
+## 5.0.4
+
+### Patch Changes
+
+- 4e05792: Fix a bug finding distance between notes when they are in adjacent octaves (see #428)
+
 ## 5.0.3
 
 ### Patch Changes
