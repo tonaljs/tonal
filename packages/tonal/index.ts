@@ -6,7 +6,7 @@ import Collection from "@tonaljs/collection";
 import * as Core from "@tonaljs/core";
 import DurationValue from "@tonaljs/duration-value";
 import Interval from "@tonaljs/interval";
-import Key from "@tonaljs/key";
+import * as Key from "@tonaljs/key";
 import * as Midi from "@tonaljs/midi";
 import Mode from "@tonaljs/mode";
 import * as Note from "@tonaljs/note";

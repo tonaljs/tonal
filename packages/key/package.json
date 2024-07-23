@@ -6,7 +6,7 @@
     "key",
     "music",
     "theory",
-    "@tonaljs/core"
+    "music-theory"
   ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -15,7 +15,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "5.0.0",
+    "@tonaljs/pitch-note": "6.0.0",
     "@tonaljs/note": "4.10.3",
     "@tonaljs/roman-numeral": "4.8.3"
   },
