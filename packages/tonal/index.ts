@@ -1,14 +1,14 @@
 import AbcNotation from "@tonaljs/abc-notation";
 import * as Array from "@tonaljs/array";
 import Chord from "@tonaljs/chord";
-import ChordType from "@tonaljs/chord-type";
+import * as ChordType from "@tonaljs/chord-type";
 import Collection from "@tonaljs/collection";
 import * as Core from "@tonaljs/core";
 import DurationValue from "@tonaljs/duration-value";
 import Interval from "@tonaljs/interval";
 import * as Key from "@tonaljs/key";
 import * as Midi from "@tonaljs/midi";
-import Mode from "@tonaljs/mode";
+import * as Mode from "@tonaljs/mode";
 import * as Note from "@tonaljs/note";
 import Pcset from "@tonaljs/pcset";
 import Progression from "@tonaljs/progression";

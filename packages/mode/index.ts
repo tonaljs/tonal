@@ -1,7 +1,8 @@
 import { rotate } from "@tonaljs/collection";
-import { deprecate, NamedPitch, NoteName, transpose } from "@tonaljs/core";
 import { simplify, transposeFifths } from "@tonaljs/interval";
 import { EmptyPcset, Pcset } from "@tonaljs/pcset";
+import { transpose } from "@tonaljs/pitch-distance";
+import { NoteName } from "@tonaljs/pitch-note";
 import { get as getType } from "@tonaljs/scale-type";
 
 const MODES = [
@@ -44,7 +45,7 @@ modes.forEach((mode) => {
   });
 });
 
-type ModeLiteral = string | NamedPitch;
+type ModeLiteral = string | { name: string };
 
 /**
  * Get a Mode by it's name
@@ -73,7 +74,8 @@ export function get(name: ModeLiteral): Mode {
       : NoMode;
 }
 
-export const mode = deprecate("Mode.mode", "Mode.get", get);
+/** @deprecated */
+export const mode = get;
 
 /**
  * Get a list of all modes
@@ -81,7 +83,9 @@ export const mode = deprecate("Mode.mode", "Mode.get", get);
 export function all() {
   return modes.slice();
 }
-export const entries = deprecate("Mode.mode", "Mode.all", all);
+
+/** @deprecated */
+export const entries = all;
 
 /**
  * Get a list of all mode names

@@ -34,6 +34,7 @@ exports[`tonal Modules exports functions 1`] = `
   ],
   "ChordDictionary": [
     "add",
+    "addAlias",
     "all",
     "chordType",
     "entries",
@@ -45,6 +46,7 @@ exports[`tonal Modules exports functions 1`] = `
   ],
   "ChordType": [
     "add",
+    "addAlias",
     "all",
     "chordType",
     "entries",

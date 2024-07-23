@@ -3,6 +3,7 @@
 "@tonaljs/midi": patch
 "@tonaljs/key": patch
 "@tonaljs/chord-type": patch
+"@tonaljs/mode": patch
 ---
 
 #### `default` export is deprecated
