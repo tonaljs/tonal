@@ -16,6 +16,12 @@ nodejs:
 const { Note } = require("tonal");
 ```
 
+single module:
+
+```js
+import { get } from "@tonaljs/note";
+```
+
 ## API
 
 ### Note properties

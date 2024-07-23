@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freqToMidi, midiToNoteName } from "@tonaljs/midi";
 import { Pitch } from "@tonaljs/pitch";
-import { transpose as _tr } from "@tonaljs/pitch-distance";
+import { distance as _dist, transpose as _tr } from "@tonaljs/pitch-distance";
 import { IntervalName } from "@tonaljs/pitch-interval";
 import {
   Note,
@@ -123,6 +123,8 @@ export function fromFreqSharps(freq: number) {
 export function fromMidiSharps(midi: number) {
   return midiToNoteName(midi, { sharps: true });
 }
+
+export const distance = _dist;
 
 /**
  * Transpose a note by an interval
@@ -275,6 +277,7 @@ export function enharmonic(noteName: string, destName?: string) {
   return dest.pc + destOct;
 }
 
+/** @deprecated */
 export default {
   names,
   get,
@@ -285,6 +288,7 @@ export default {
   midi,
   ascending,
   descending,
+  distance,
   sortedNames,
   sortedUniqNames,
   fromMidi,

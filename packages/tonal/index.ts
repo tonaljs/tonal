@@ -9,7 +9,7 @@ import Interval from "@tonaljs/interval";
 import Key from "@tonaljs/key";
 import Midi from "@tonaljs/midi";
 import Mode from "@tonaljs/mode";
-import Note from "@tonaljs/note";
+import * as Note from "@tonaljs/note";
 import Pcset from "@tonaljs/pcset";
 import Progression from "@tonaljs/progression";
 import Range from "@tonaljs/range";
