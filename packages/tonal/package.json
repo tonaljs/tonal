@@ -31,6 +31,7 @@
     "@tonaljs/pcset": "4.9.2",
     "@tonaljs/progression": "4.8.4",
     "@tonaljs/range": "4.8.4",
+    "@tonaljs/rhythm-pattern": "1.0.0",
     "@tonaljs/roman-numeral": "4.8.3",
     "@tonaljs/scale-type": "4.8.5",
     "@tonaljs/scale": "4.12.6",
