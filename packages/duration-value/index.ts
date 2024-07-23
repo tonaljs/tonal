@@ -60,6 +60,7 @@ export function get(name: string): DurationValue {
 export const value = (name: string) => get(name).value;
 export const fraction = (name: string) => get(name).fraction;
 
+/** @deprecated */
 export default { names, shorthands, get, value, fraction };
 
 //// PRIVATE ////

@@ -146,6 +146,7 @@ export function relativeTonic(
   return transpose(tonic, distance(destination, source));
 }
 
+/** @deprecated */
 export default {
   get,
   names,

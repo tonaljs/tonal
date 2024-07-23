@@ -9,7 +9,7 @@ const defaultRange = ["C3", "C5"];
 const defaultDictionary = VoicingDictionary.all;
 const defaultVoiceLeading = VoiceLeading.topNoteDiff;
 
-function get(
+export function get(
   chord: string,
   range: string[] = defaultRange,
   dictionary = defaultDictionary,
@@ -27,7 +27,7 @@ function get(
   }
 }
 
-function search(
+export function search(
   chord: string,
   range = defaultRange,
   dictionary = VoicingDictionary.triads,
@@ -72,7 +72,7 @@ function search(
   }, []);
 }
 
-function sequence(
+export function sequence(
   chords: string[],
   range = defaultRange,
   dictionary = defaultDictionary,
@@ -94,6 +94,7 @@ function sequence(
   return voicings;
 }
 
+/** @deprecated */
 export default {
   get,
   search,

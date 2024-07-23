@@ -288,6 +288,7 @@ export function steps(chordName: ChordNameOrTokens, tonic?: string) {
   return tonicIntervalsTransposer(chord.intervals, note);
 }
 
+/** @deprecated */
 export default {
   getChord,
   get,

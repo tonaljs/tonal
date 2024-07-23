@@ -1,9 +1,10 @@
 import Chord from "@tonaljs/chord";
-import { lefthand, VoicingDictionary, triads, all } from "./data";
+import { all, lefthand, triads, VoicingDictionary } from "./data";
+export { all, lefthand, triads } from "./data";
 
-const defaultDictionary: VoicingDictionary = lefthand;
+export const defaultDictionary: VoicingDictionary = lefthand;
 
-function lookup(
+export function lookup(
   symbol: string,
   dictionary = defaultDictionary,
 ): string[] | undefined {
@@ -20,6 +21,7 @@ function lookup(
   return undefined;
 }
 
+/** @deprecated */
 export default {
   lookup,
   lefthand,

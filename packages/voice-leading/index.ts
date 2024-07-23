@@ -17,6 +17,7 @@ export const topNoteDiff: VoiceLeadingFunction = (voicings, lastVoicing) => {
   return voicings.sort((a, b) => diff(a) - diff(b))[0];
 };
 
+/** @deprecated */
 export default {
   topNoteDiff,
 };

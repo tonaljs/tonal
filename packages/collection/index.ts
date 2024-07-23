@@ -113,6 +113,7 @@ export function permutations(arr: any[]): any[] {
   }, []);
 }
 
+/** @deprecated */
 export default {
   compact,
   permutations,

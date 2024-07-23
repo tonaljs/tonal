@@ -53,4 +53,5 @@ export function chromatic(
   return numeric(notes).map((midi) => midiToNoteName(midi, options));
 }
 
+/** @deprecated */
 export default { numeric, chromatic };
