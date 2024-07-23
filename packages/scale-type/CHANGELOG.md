@@ -1,5 +1,30 @@
 # @tonaljs/scale-type
 
+## 4.9.0
+
+### Minor Changes
+
+- b113754: #### `default` export is deprecated for @tonaljs modules
+
+  Using default exports for single packages are deprecated, so instead of:
+
+  ```js
+  import Note from "@tonaljs/note";
+  ```
+
+  You should do this:
+
+  ```js
+  import * as Note from "@tonaljs/note";
+  ```
+
+  The same for all modules.
+
+### Patch Changes
+
+- Updated dependencies [b113754]
+  - @tonaljs/pcset@4.10.0
+
 ## 4.8.5
 
 ### Patch Changes

@@ -1,5 +1,37 @@
 # @tonaljs/voicing
 
+## 5.1.0
+
+### Minor Changes
+
+- 56d89f7: #### `default` export is deprecated for @tonaljs modules
+
+  Using default exports for single packages are deprecated, so instead of:
+
+  ```js
+  import Note from "@tonaljs/note";
+  ```
+
+  You should do this:
+
+  ```js
+  import * as Note from "@tonaljs/note";
+  ```
+
+  The same for all modules.
+
+### Patch Changes
+
+- Updated dependencies [b113754]
+- Updated dependencies [3cd5f16]
+- Updated dependencies [56d89f7]
+  - @tonaljs/range@4.9.0
+  - @tonaljs/note@4.11.0
+  - @tonaljs/voicing-dictionary@5.1.0
+  - @tonaljs/voice-leading@5.1.0
+  - @tonaljs/interval@5.1.0
+  - @tonaljs/chord@6.1.0
+
 ## 5.0.3
 
 ### Patch Changes

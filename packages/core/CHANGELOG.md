@@ -1,5 +1,12 @@
 # @tonaljs/core
 
+## 5.0.1
+
+### Patch Changes
+
+- Updated dependencies [4e05792]
+  - @tonaljs/pitch-distance@5.0.4
+
 ## 5.0.0
 
 ### Major Changes

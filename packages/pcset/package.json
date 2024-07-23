@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/pcset",
-  "version": "4.9.2",
+  "version": "4.10.0",
   "description": "Functions to work with midi numbers",
   "keywords": [
     "note",
@@ -16,9 +16,9 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/collection": "4.8.1",
+    "@tonaljs/collection": "4.9.0",
     "@tonaljs/pitch": "5.0.2",
-    "@tonaljs/pitch-distance": "5.0.3",
+    "@tonaljs/pitch-distance": "5.0.4",
     "@tonaljs/pitch-interval": "6.0.0",
     "@tonaljs/pitch-note": "6.0.0"
   },

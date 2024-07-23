@@ -1,5 +1,25 @@
 # @tonaljs/duration-value
 
+## 4.9.0
+
+### Minor Changes
+
+- 56d89f7: #### `default` export is deprecated for @tonaljs modules
+
+  Using default exports for single packages are deprecated, so instead of:
+
+  ```js
+  import Note from "@tonaljs/note";
+  ```
+
+  You should do this:
+
+  ```js
+  import * as Note from "@tonaljs/note";
+  ```
+
+  The same for all modules.
+
 ## 4.8.1
 
 ### Patch Changes
