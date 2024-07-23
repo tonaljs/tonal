@@ -81,7 +81,7 @@ export function probability(
  * @param rotations the number of steps to rotate
  * @returns the rotated pattern (an array of 0s and 1s)
  * @example
- * R.rotate([1, 0, 0, 1], 2); // => [0, 1, 1, 0]
+ * rotate([1, 0, 0, 1], 2); // => [0, 1, 1, 0]
  *
  */
 export function rotate(
@@ -101,7 +101,9 @@ export function rotate(
  * Generates an euclidean rhythm pattern
  * @param steps The length of the pattern
  * @param beats The number of beats
- * @returns
+ * @returns an array with 0s and 1s representing the rhythmic pattern
+ * @example
+ * euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
  */
 export function euclid(steps: number, beats: number): RhythmPattern {
   const pattern: RhythmPattern = [];

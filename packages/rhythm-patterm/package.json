@@ -1,7 +1,7 @@
 {
   "name": "@tonaljs/rhythm-pattern",
   "version": "1.0.0",
-  "description": "A rhythm pattern generator functions",
+  "description": "Generate and manipulate rhythmic patterns",
   "keywords": [
     "rhythm",
     "pattern",
