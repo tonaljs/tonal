@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { freqToMidi, midiToNoteName } from "@tonaljs/midi";
+import { Pitch } from "@tonaljs/pitch";
+import { transpose as _tr } from "@tonaljs/pitch-distance";
+import { IntervalName } from "@tonaljs/pitch-interval";
 import {
-  IntervalName,
   Note,
   NoteLiteral,
   NoteName,
-  Pitch,
-  transpose as _tr,
   note as props,
-} from "@tonaljs/core";
-import { freqToMidi, midiToNoteName } from "@tonaljs/midi";
+} from "@tonaljs/pitch-note";
 
 const NAMES = ["C", "D", "E", "F", "G", "A", "B"];
 
