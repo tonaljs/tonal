@@ -7,7 +7,7 @@
     "music",
     "analysis",
     "theory",
-    "@tonaljs/core"
+    "music-theory"
   ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -16,7 +16,9 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "5.0.0"
+    "@tonaljs/pitch": "5.0.2",
+    "@tonaljs/pitch-interval": "6.0.0",
+    "@tonaljs/pitch-note": "6.0.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

@@ -6,7 +6,8 @@
     "chord-detect",
     "music",
     "theory",
-    "tonal"
+    "tonal",
+    "music-theory"
   ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -16,7 +17,7 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "@tonaljs/chord-type": "5.0.5",
-    "@tonaljs/core": "5.0.0",
+    "@tonaljs/pitch-note": "6.0.0",
     "@tonaljs/pcset": "4.9.2"
   },
   "author": "danigb@gmail.com",

@@ -1,12 +1,6 @@
-import {
-  accToAlt,
-  altToAcc,
-  deprecate,
-  interval,
-  isNamed,
-  isPitch,
-  Pitch,
-} from "@tonaljs/core";
+import { isNamedPitch, isPitch, Pitch } from "@tonaljs/pitch";
+import { interval } from "@tonaljs/pitch-interval";
+import { accToAlt, altToAcc } from "@tonaljs/pitch-note";
 
 export interface RomanNumeral extends Pitch {
   readonly name: string;
@@ -50,16 +44,16 @@ export function get(src: any): RomanNumeral | NoRomanNumeral {
       ? get(NAMES[src] || "")
       : isPitch(src)
         ? fromPitch(src)
-        : isNamed(src)
+        : isNamedPitch(src)
           ? get(src.name)
           : NoRomanNumeral;
 }
 
-const romanNumeral = deprecate(
-  "RomanNumeral.romanNumeral",
-  "RomanNumeral.get",
-  get,
-);
+/**
+ * @deprecated
+ * @use RomanNumeral.get
+ */
+export const romanNumeral = get;
 
 /**
  * Get roman numeral names
@@ -117,6 +111,7 @@ function parse(src: string): RomanNumeral | NoRomanNumeral {
   };
 }
 
+/** @deprecated */
 export default {
   names,
   get,

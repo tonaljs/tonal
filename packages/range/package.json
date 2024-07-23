@@ -6,7 +6,7 @@
     "range",
     "music",
     "theory",
-    "@tonaljs/core"
+    "music-theory"
   ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",

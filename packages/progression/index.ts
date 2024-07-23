@@ -1,5 +1,7 @@
 import { tokenize } from "@tonaljs/chord";
-import { distance, interval, NoteLiteral, transpose } from "@tonaljs/core";
+import { distance, transpose } from "@tonaljs/pitch-distance";
+import { interval } from "@tonaljs/pitch-interval";
+import { NoteLiteral } from "@tonaljs/pitch-note";
 import { get as romanNumeral } from "@tonaljs/roman-numeral";
 
 /**
@@ -38,4 +40,5 @@ export function toRomanNumerals(
   });
 }
 
+/** @deprecated */
 export default { fromRomanNumerals, toRomanNumerals };

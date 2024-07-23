@@ -18,7 +18,8 @@
   "dependencies": {
     "@tonaljs/chord-type": "5.0.5",
     "@tonaljs/collection": "4.8.1",
-    "@tonaljs/core": "5.0.0",
+    "@tonaljs/pitch-distance": "5.0.3",
+    "@tonaljs/pitch-note": "6.0.0",
     "@tonaljs/note": "4.10.3",
     "@tonaljs/pcset": "4.9.2",
     "@tonaljs/scale-type": "4.8.5"

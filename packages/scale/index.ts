@@ -5,13 +5,6 @@
  */
 import { all as chordTypes } from "@tonaljs/chord-type";
 import { range as nums, rotate } from "@tonaljs/collection";
-import {
-  deprecate,
-  note,
-  NoteName,
-  tonicIntervalsTransposer,
-  transpose,
-} from "@tonaljs/core";
 import { enharmonic, fromMidi, sortedUniqNames } from "@tonaljs/note";
 import {
   chroma,
@@ -20,12 +13,14 @@ import {
   isSupersetOf,
   modes,
 } from "@tonaljs/pcset";
+import { tonicIntervalsTransposer, transpose } from "@tonaljs/pitch-distance";
+import { note, NoteName } from "@tonaljs/pitch-note";
 import {
   all,
-  all as scaleTypes,
   get as getScaleType,
-  names as scaleTypeNames,
   ScaleType,
+  names as scaleTypeNames,
+  all as scaleTypes,
 } from "@tonaljs/scale-type";
 
 type ScaleName = string;
@@ -108,7 +103,11 @@ export function get(src: ScaleName | ScaleNameTokens): Scale {
   return { ...st, name, type, tonic, notes };
 }
 
-export const scale = deprecate("Scale.scale", "Scale.get", get);
+/**
+ * @deprecated
+ * @use Scale.get
+ */
+export const scale = get;
 
 export function detect(
   notes: string[],
@@ -296,6 +295,7 @@ export function steps(scaleName: string | ScaleNameTokens) {
   return tonicIntervalsTransposer(intervals, tonic);
 }
 
+/** @deprecated */
 export default {
   degrees,
   detect,

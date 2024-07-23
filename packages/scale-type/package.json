@@ -7,7 +7,7 @@
     "dictionary",
     "music",
     "theory",
-    "@tonaljs/core"
+    "music-theory"
   ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -16,7 +16,6 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/core": "5.0.0",
     "@tonaljs/pcset": "4.9.2"
   },
   "author": "danigb@gmail.com",
