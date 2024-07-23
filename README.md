@@ -137,6 +137,7 @@ The API documentation is inside README.md of each module 👇
 
 #### Time, rhythm
 
+- [@tonaljs/rhythm-pattern](/packages/rhythm-pattern): Generate and manipulate rhythmic patterns
 - [@tonaljs/time-signature](/packages/time-signature): Parse time signatures
 - [@tonaljs/duration-value](/packages/duration-value): Note duration values
 

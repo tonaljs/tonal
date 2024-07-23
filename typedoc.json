@@ -1,10 +1,11 @@
 {
-  "entryPoints": ["packages/*"],
+  "entryPoints": ["packages/**/index.ts"],
   "out": "./typedoc",
   "name": "Tonal",
-  "entryPointStrategy": "packages",
-  "includeVersion": false
+  //  "entryPointStrategy": "packages",
+  "includeVersion": false,
+  "plugin": ["typedoc-plugin-markdown"],
 
   // Potentially useful for debugging
-  // "logLevel": "Verbose"
+  "logLevel": "Verbose"
 }

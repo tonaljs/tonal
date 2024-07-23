@@ -1,20 +1,31 @@
 # tonal
 
+## 6.1.0
+
+New `rhythm-pattern` package:
+
+```ts
+import { RhythmPattern } from "tonal";
+
+RhythmPattern.euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
+RhythmPattern.binary(12, 13); // => [1, 1, 0, 0, 1, 1, 0, 1]
+RhythmPattern.hex("8f"); // => [1, 0, 0, 0, 1, 1, 1, 1]
+RhythmPattern.onsets(1, 2, 2, 1); // => [1, 0, 1, 0, 0, 1, 0, 0, 1, 0]
+RhythmPattern.random(4); // => [1, 0, 0, 1]
+RhythmPattern.probability([0.6, 0, 0.2, 0.5]); // => [0, 0, 0, 1]
+RhythmPattern.rotate([1, 0, 0, 1], 2); // => [0, 1, 1, 0]
+```
+
 ## 6.0.1
 
-### Patch Changes
+Scale.get ignores case.
 
-- 9d8c41d: Scale.get ignores case.
+Now both calls returns the same scale:
 
-  Now both calls returns the same scale:
-
-  ```js
-  Scale.get("C Major");
-  Scale.get("c major");
-  ```
-
-- Updated dependencies [9d8c41d]
-  - @tonaljs/scale@4.12.6
+```js
+Scale.get("C Major");
+Scale.get("c major");
+```
 
 ## 6.0.0
 

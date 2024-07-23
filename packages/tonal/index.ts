@@ -13,6 +13,7 @@ import Note from "@tonaljs/note";
 import Pcset from "@tonaljs/pcset";
 import Progression from "@tonaljs/progression";
 import Range from "@tonaljs/range";
+import * as RhythmPattern from "@tonaljs/rhythm-pattern";
 import RomanNumeral from "@tonaljs/roman-numeral";
 import Scale from "@tonaljs/scale";
 import ScaleType from "@tonaljs/scale-type";
@@ -47,6 +48,7 @@ export {
   Pcset,
   Progression,
   Range,
+  RhythmPattern,
   RomanNumeral,
   Scale,
   ScaleDictionary,

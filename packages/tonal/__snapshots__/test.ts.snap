@@ -205,6 +205,15 @@ exports[`tonal Modules exports functions 1`] = `
     "chromatic",
     "numeric",
   ],
+  "RhythmPattern": [
+    "binary",
+    "euclid",
+    "hex",
+    "onsets",
+    "probability",
+    "random",
+    "rotate",
+  ],
   "RomanNumeral": [
     "get",
     "names",
@@ -311,6 +320,7 @@ exports[`tonal exported modules and functions 1`] = `
   "Pcset",
   "Progression",
   "Range",
+  "RhythmPattern",
   "RomanNumeral",
   "Scale",
   "ScaleDictionary",
