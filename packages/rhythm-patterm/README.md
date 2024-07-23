@@ -43,6 +43,24 @@ binary(13); // => [1, 1, 0, 1]
 binary(12, 13); // => [1, 1, 0, 0, 1, 1, 0, 1]
 ```
 
+<a name="hex"></a>
+
+## hex(hexNumber) ⇒ number[]
+
+Create a rhythmic pattern using an hexadecimal numbers
+
+**Returns**: an array of 0s and 1s representing the rhythm pattern
+
+| Param     | Description                        |
+| --------- | ---------------------------------- |
+| hexNumber | string with the hexadecimal number |
+
+**Example**
+
+```js
+hex("8f"); // => [1, 0, 0, 0, 1, 1, 1, 1]
+```
+
 <a name="onsets"></a>
 
 ## onsets(numbers) ⇒ number[]

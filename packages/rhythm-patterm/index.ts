@@ -23,6 +23,25 @@ export function binary(...numbers: number[]): RhythmPattern {
 }
 
 /**
+ * Create a rhythmic pattern using an hexadecimal numbers
+ * @param hexNumber string with the hexadecimal number
+ * @returns an array of 0s and 1s representing the rhythm pattern
+ * @example
+ * R.hex("8f"); // => [1, 0, 0, 0, 1, 1, 1, 1]
+ */
+export function hex(hexNumber: string): RhythmPattern {
+  const pattern: RhythmPattern = [];
+  for (let i = 0; i < hexNumber.length; i++) {
+    const digit = parseInt("0x" + hexNumber[i]);
+    const binary = isNaN(digit) ? "0000" : digit.toString(2).padStart(4, "0");
+    binary.split("").forEach((digit: string) => {
+      pattern.push(digit === "1" ? 1 : 0);
+    });
+  }
+  return pattern;
+}
+
+/**
  * Create a rhythm pattern from the onsets
  * @param numbers the onsets sizes
  * @returns an array of 0s and 1s representing the rhythm pattern

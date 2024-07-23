@@ -11,6 +11,10 @@ describe("rhythm-pattern", () => {
     expect(R.binary(12, 13)).toEqual([1, 1, 0, 0, 1, 1, 0, 1]);
   });
 
+  it("generates hexadecimal patterns", () => {
+    expect(R.hex("8f")).toEqual([1, 0, 0, 0, 1, 1, 1, 1]);
+  });
+
   it("generates rhythms from onset spaces", () => {
     expect(R.onsets(1, 2, 2, 1)).toEqual([1, 0, 1, 0, 0, 1, 0, 0, 1, 0]);
   });
