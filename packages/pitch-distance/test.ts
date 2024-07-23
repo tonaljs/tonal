@@ -7,36 +7,42 @@ const allIntervalsFrom = (from: string) => (str: string) =>
     .join(" ");
 
 describe("distance", () => {
-  describe("find intervals between notes", () => {
-    test("interval between notes", () => {
-      const fromC3 = allIntervalsFrom("C3");
-      expect(fromC3("C3 e3 e4 c2 e2")).toEqual("1P 3M 10M -8P -6m");
-    });
+  test("interval between notes", () => {
+    const fromC3 = allIntervalsFrom("C3");
+    expect(fromC3("C3 e3 e4 c2 e2")).toEqual("1P 3M 10M -8P -6m");
+  });
 
-    test("unison interval edge case #243", () => {
-      expect(distance("Db4", "C#5")).toEqual("7A");
-      expect(distance("Db4", "C#4")).toEqual("-2d");
-      expect(distance("Db", "C#")).toEqual("7A");
-      expect(distance("C#", "Db")).toEqual("2d");
-    });
+  test("unison interval edge case #243", () => {
+    expect(distance("Db4", "C#5")).toEqual("7A");
+    expect(distance("Db4", "C#4")).toEqual("-2d");
+    expect(distance("Db", "C#")).toEqual("7A");
+    expect(distance("C#", "Db")).toEqual("2d");
+  });
 
-    test("intervals between pitch classes are always ascending", () => {
-      expect(distance("C", "D")).toEqual("2M");
+  test("adjacent octaves #428", () => {
+    expect(distance("B#4", "C4")).toBe("-7A");
+    expect(distance("B#4", "C6")).toBe("9d");
+    expect(distance("B#4", "C5")).toBe("2d");
+    expect(distance("B##4", "C#5")).toBe("2d");
+    expect(distance("B#5", "C6")).toBe("2d");
+  });
 
-      const fromC = allIntervalsFrom("C");
-      expect(fromC("c d e f g a b")).toEqual("1P 2M 3M 4P 5P 6M 7M");
+  test("intervals between pitch classes are always ascending", () => {
+    expect(distance("C", "D")).toEqual("2M");
 
-      const fromG = allIntervalsFrom("G");
-      expect(fromG("c d e f g a b")).toEqual("4P 5P 6M 7m 1P 2M 3M");
-    });
+    const fromC = allIntervalsFrom("C");
+    expect(fromC("c d e f g a b")).toEqual("1P 2M 3M 4P 5P 6M 7M");
 
-    test("if a note is a pitch class, the distance is between pitch classes", () => {
-      expect(distance("C", "C2")).toBe("1P");
-      expect(distance("C2", "C")).toBe("1P");
-    });
+    const fromG = allIntervalsFrom("G");
+    expect(fromG("c d e f g a b")).toEqual("4P 5P 6M 7m 1P 2M 3M");
+  });
 
-    test("notes must be valid", () => {
-      expect(distance("one", "two")).toBe("");
-    });
+  test("if a note is a pitch class, the distance is between pitch classes", () => {
+    expect(distance("C", "C2")).toBe("1P");
+    expect(distance("C2", "C")).toBe("1P");
+  });
+
+  test("notes must be valid", () => {
+    expect(distance("one", "two")).toBe("");
   });
 });
