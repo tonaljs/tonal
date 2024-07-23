@@ -208,6 +208,7 @@ exports[`tonal Modules exports functions 1`] = `
   "RhythmPattern": [
     "binary",
     "euclid",
+    "hex",
     "onsets",
     "probability",
     "random",
