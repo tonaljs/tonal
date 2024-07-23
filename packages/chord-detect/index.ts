@@ -1,6 +1,6 @@
 import { all, ChordType } from "@tonaljs/chord-type";
-import { note } from "@tonaljs/core";
 import { modes } from "@tonaljs/pcset";
+import { note } from "@tonaljs/pitch-note";
 
 interface FoundChord {
   readonly weight: number;
@@ -124,4 +124,5 @@ function findMatches(
   return found;
 }
 
+/** @deprecated */
 export default { detect };

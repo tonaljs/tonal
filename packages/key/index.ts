@@ -1,5 +1,5 @@
-import { accToAlt, altToAcc, note, transpose } from "@tonaljs/core";
-import { transposeFifths } from "@tonaljs/note";
+import { transpose, transposeFifths } from "@tonaljs/note";
+import { accToAlt, altToAcc, note } from "@tonaljs/pitch-note";
 import { get as roman } from "@tonaljs/roman-numeral";
 
 const Empty: readonly string[] = Object.freeze([] as string[]);
@@ -219,4 +219,5 @@ export function majorTonicFromKeySignature(
   return null;
 }
 
+/** @deprecated */
 export default { majorKey, majorTonicFromKeySignature, minorKey };

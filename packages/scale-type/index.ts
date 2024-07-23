@@ -1,4 +1,3 @@
-import { deprecate } from "@tonaljs/core";
 import {
   EmptyPcset,
   get as pcset,
@@ -47,11 +46,11 @@ export function get(type: ScaleTypeName): ScaleType {
   return index[type] || NoScaleType;
 }
 
-export const scaleType = deprecate(
-  "ScaleDictionary.scaleType",
-  "ScaleType.get",
-  get,
-);
+/**
+ * @deprecated
+ * @use ScaleType.get
+ */
+export const scaleType = get;
 
 /**
  * Return a list of all scale types
@@ -60,11 +59,11 @@ export function all() {
   return dictionary.slice();
 }
 
-export const entries = deprecate(
-  "ScaleDictionary.entries",
-  "ScaleType.all",
-  all,
-);
+/**
+ * @deprecated
+ * @use ScaleType.all
+ */
+export const entries = all;
 
 /**
  * Keys used to reference scale types
@@ -109,6 +108,7 @@ data.forEach(([ivls, name, ...aliases]: string[]) =>
   add(ivls.split(" "), name, aliases),
 );
 
+/** @deprecated */
 export default {
   names,
   get,

@@ -14,7 +14,9 @@ describe("tonal", () => {
       (exported, modName) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const mod = (Tonal as any)[modName];
-        exported[modName] = Object.keys(mod).sort();
+        exported[modName] = Object.keys(mod)
+          .filter((x) => x !== "default")
+          .sort();
         return exported;
       },
       {} as Record<string, string[]>,

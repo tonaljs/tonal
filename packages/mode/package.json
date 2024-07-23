@@ -6,7 +6,7 @@
     "mode",
     "music",
     "theory",
-    "@tonaljs/core"
+    "music-theory"
   ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -16,7 +16,8 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "@tonaljs/collection": "4.8.1",
-    "@tonaljs/core": "5.0.0",
+    "@tonaljs/pitch-note": "6.0.0",
+    "@tonaljs/pitch-distance": "5.0.3",
     "@tonaljs/interval": "5.0.0",
     "@tonaljs/pcset": "4.9.2",
     "@tonaljs/scale-type": "4.8.5"

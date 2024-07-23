@@ -1,4 +1,3 @@
-import { deprecate } from "@tonaljs/core";
 import {
   EmptyPcset,
   get as pcset,
@@ -44,7 +43,8 @@ export function get(type: ChordTypeName): ChordType {
   return index[type] || NoChordType;
 }
 
-export const chordType = deprecate("ChordType.chordType", "ChordType.get", get);
+/** @deprecated */
+export const chordType = get;
 
 /**
  * Get all chord (long) names
@@ -74,7 +74,8 @@ export function all(): ChordType[] {
   return dictionary.slice();
 }
 
-export const entries = deprecate("ChordType.entries", "ChordType.all", all);
+/** @deprecated */
+export const entries = all;
 
 /**
  * Clear the dictionary
@@ -130,6 +131,7 @@ data.forEach(([ivls, fullName, names]: string[]) =>
 );
 dictionary.sort((a, b) => a.setNum - b.setNum);
 
+/** @deprecated */
 export default {
   names,
   symbols,

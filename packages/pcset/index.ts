@@ -1,15 +1,8 @@
 import { compact, range, rotate } from "@tonaljs/collection";
-import {
-  Interval,
-  IntervalName,
-  NotFound,
-  Note,
-  NoteName,
-  deprecate,
-  interval,
-  note,
-  transpose,
-} from "@tonaljs/core";
+import { NotFound } from "@tonaljs/pitch";
+import { transpose } from "@tonaljs/pitch-distance";
+import { Interval, IntervalName, interval } from "@tonaljs/pitch-interval";
+import { Note, NoteName, note } from "@tonaljs/pitch-note";
 
 /**
  * The properties of a pitch class set
@@ -97,11 +90,10 @@ export function get(src: Set): Pcset {
 }
 
 /**
- * Use Pcset.properties
- * @function
+ * @use Pcset.get
  * @deprecated
  */
-export const pcset = deprecate("Pcset.pcset", "Pcset.get", get);
+export const pcset = get;
 
 /**
  * Get pitch class set chroma
@@ -117,7 +109,7 @@ export const chroma = (set: Set) => get(set).chroma;
  * @example
  * Pcset.intervals(["c", "d", "e"]); //=>
  */
-const intervals = (set: Set) => get(set).intervals;
+export const intervals = (set: Set) => get(set).intervals;
 
 /**
  * Get pitch class set number
@@ -125,7 +117,7 @@ const intervals = (set: Set) => get(set).intervals;
  * @example
  * Pcset.num(["c", "d", "e"]); //=> 2192
  */
-const num = (set: Set) => get(set).setNum;
+export const num = (set: Set) => get(set).setNum;
 
 const IVLS = [
   "1P",
@@ -143,13 +135,13 @@ const IVLS = [
 ];
 
 /**
- * @private
  * Get the intervals of a pcset *starting from C*
+ * @private
  * @param {Set} set - the pitch class set
  * @return {IntervalName[]} an array of interval names or an empty array
  * if not a valid pitch class set
  */
-export function chromaToIntervals(chroma: PcsetChroma): IntervalName[] {
+function chromaToIntervals(chroma: PcsetChroma): IntervalName[] {
   const intervals = [];
   for (let i = 0; i < 12; i++) {
     // tslint:disable-next-line:curly
@@ -201,7 +193,7 @@ export function modes(set: Set, normalize = true): PcsetChroma[] {
 }
 
 /**
- * Test if two pitch class sets are numentical
+ * Test if two pitch class sets are equal
  *
  * @param {Array|string} set1 - one of the pitch class sets
  * @param {Array|string} set2 - the other pitch class set
@@ -303,6 +295,7 @@ export function filter(set: Set) {
   };
 }
 
+/** @deprecated */
 export default {
   get,
   chroma,

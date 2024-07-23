@@ -1,4 +1,4 @@
-import { NoteName, note as props } from "@tonaljs/core";
+import { NoteName, note as props } from "@tonaljs/pitch-note";
 
 type Midi = number;
 
@@ -158,6 +158,7 @@ export function pcsetDegrees(notes: number[] | string, tonic: number) {
   };
 }
 
+/** @deprecated */
 export default {
   chroma,
   freqToMidi,
