@@ -193,6 +193,7 @@ Showcase of projects that are using Tonal:
 - [music, eternal](https://eternal.rob.computer) by [kousun12](https://github.com/kousun12)
 - [Chromatone.center](https://chromatone.center) by [davay42](https://github.com/davay42)
 - [Super Oscillator](https://github.com/lukehorvat/super-oscillator) by [lukehorvat](https://github.com/lukehorvat)
+  [StringScales](https://stringscales.com/) by [Ambewas](https://github.com/ambewas)
 
 Thank you all!
 
