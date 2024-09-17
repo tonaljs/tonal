@@ -34,10 +34,8 @@ const CHORDS: string[][] = [
   ["1P 3m 5P 7m 9M 13M", "minor thirteenth", "m13 -13"],
   // '''Diminished'''
   ["1P 3m 5d", "diminished", "dim ° o"],
-  ["1P 3m 5d 7d", "diminished seventh", "dim7 °7 o7 07"],
+  ["1P 3m 5d 7d", "diminished seventh", "dim7 °7 o7"],
   ["1P 3m 5d 7m", "half-diminished", "m7b5 ø -7b5 h7 h"],
-  ["1P 3m 5A", "minor augmented", "m#5 -#5 m+ maug"],
-
   // ==Dominant/Seventh==
   // '''Normal'''
   ["1P 3M 5P 7m", "dominant seventh", "7 dom"],
