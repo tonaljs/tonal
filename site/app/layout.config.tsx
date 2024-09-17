@@ -17,5 +17,9 @@ export const baseOptions: HomeLayoutProps = {
       url: "/docs",
       active: "nested-url",
     },
+    {
+      text: "Repository",
+      url: "https://github.com/tonaljs/tonal",
+    },
   ],
 };

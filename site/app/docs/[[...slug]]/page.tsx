@@ -1,13 +1,13 @@
-import { source } from '@/app/source';
-import type { Metadata } from 'next';
+import { source } from "@/app/source";
+import defaultMdxComponents from "fumadocs-ui/mdx";
 import {
-  DocsPage,
   DocsBody,
   DocsDescription,
+  DocsPage,
   DocsTitle,
-} from 'fumadocs-ui/page';
-import { notFound } from 'next/navigation';
-import defaultMdxComponents from 'fumadocs-ui/mdx';
+} from "fumadocs-ui/page";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export default async function Page({
   params,
@@ -22,6 +22,14 @@ export default async function Page({
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
       <DocsTitle>{page.data.title}</DocsTitle>
+      {page.data.package ? (
+        <a href={`https://www.npmjs.com/package/@tonaljs/${page.data.package}`}>
+          <img
+            className="rounded-lg"
+            src={`https://img.shields.io/badge/@tonaljs-${page.data.package.replace("-", "--")}-yellow.svg?style=flat-square`}
+          />
+        </a>
+      ) : null}
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
         <MDX components={{ ...defaultMdxComponents }} />

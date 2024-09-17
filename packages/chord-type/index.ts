@@ -36,15 +36,11 @@ let index: Record<ChordTypeName, ChordType> = {};
  * Given a chord name or chroma, return the chord properties
  * @param {string} source - chord name or pitch class set chroma
  * @example
- * import { get } from 'tonaljs/chord-type'
- * get('major') // => { name: 'major', ... }
+ * ChordType.get('major') // => { name: 'major', ... }
  */
 export function get(type: ChordTypeName): ChordType {
   return index[type] || NoChordType;
 }
-
-/** @deprecated */
-export const chordType = get;
 
 /**
  * Get all chord (long) names
@@ -140,7 +136,9 @@ export default {
   add,
   removeAll,
   keys,
-  // deprecated
-  entries,
-  chordType,
+
+  /** @deprecated */
+  entries: all,
+  /** @deprecated */
+  chordType: get,
 };
