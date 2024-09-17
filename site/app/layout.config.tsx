@@ -1,4 +1,5 @@
 import { type HomeLayoutProps } from "fumadocs-ui/home-layout";
+import { BookIcon, GithubIcon } from "lucide-react";
 
 /**
  * Shared layout configurations
@@ -14,11 +15,13 @@ export const baseOptions: HomeLayoutProps = {
   links: [
     {
       text: "Documentation",
+      icon: <BookIcon />,
       url: "/docs",
       active: "nested-url",
     },
     {
       text: "Repository",
+      icon: <GithubIcon />,
       url: "https://github.com/tonaljs/tonal",
     },
   ],

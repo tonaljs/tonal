@@ -23,12 +23,16 @@ export default async function Page({
     <DocsPage toc={page.data.toc} full={page.data.full}>
       <DocsTitle>{page.data.title}</DocsTitle>
       {page.data.package ? (
-        <a href={`https://www.npmjs.com/package/@tonaljs/${page.data.package}`}>
-          <img
-            className="rounded-lg"
-            src={`https://img.shields.io/badge/@tonaljs-${page.data.package.replace("-", "--")}-yellow.svg?style=flat-square`}
-          />
-        </a>
+        <div className="flex">
+          <a
+            href={`https://www.npmjs.com/package/@tonaljs/${page.data.package}`}
+          >
+            <img
+              className="rounded-lg"
+              src={`https://img.shields.io/badge/@tonaljs-${page.data.package.replace("-", "--")}-yellow.svg?style=flat-square`}
+            />
+          </a>
+        </div>
       ) : null}
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>

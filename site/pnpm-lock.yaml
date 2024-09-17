@@ -20,6 +20,9 @@ importers:
       gh-pages:
         specifier: ^6.1.1
         version: 6.1.1
+      lucide-react:
+        specifier: ^0.441.0
+        version: 0.441.0(react@18.3.1)
       next:
         specifier: ^14.2.8
         version: 14.2.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1412,6 +1415,11 @@ packages:
 
   lucide-react@0.438.0:
     resolution: {integrity: sha512-uq6yCB+IzVfgIPMK8ibkecXSWTTSOMs9UjUgZigfrDCVqgdwkpIgYg1fSYnf0XXF2AoSyCJZhoZXQwzoai7VGw==, tarball: https://registry.npmjs.org/lucide-react/-/lucide-react-0.438.0.tgz}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
+
+  lucide-react@0.441.0:
+    resolution: {integrity: sha512-0vfExYtvSDhkC2lqg0zYVW1Uu9GsI4knuV9GP9by5z0Xhc4Zi5RejTxfz9LsjRmCyWVzHCJvxGKZWcRyvQCWVg==, tarball: https://registry.npmjs.org/lucide-react/-/lucide-react-0.441.0.tgz}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
 
@@ -3514,6 +3522,10 @@ snapshots:
   lru-cache@10.4.3: {}
 
   lucide-react@0.438.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+
+  lucide-react@0.441.0(react@18.3.1):
     dependencies:
       react: 18.3.1
 

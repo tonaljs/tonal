@@ -17,6 +17,7 @@
     "fumadocs-mdx": "10.0.2",
     "fumadocs-ui": "13.4.10",
     "gh-pages": "^6.1.1",
+    "lucide-react": "^0.441.0",
     "next": "^14.2.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

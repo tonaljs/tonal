@@ -1,16 +1,19 @@
 ---
 title: Intervals
-description: Parse and manipulate notes
+description: Calculate and manipulate intervals
 package: interval
 ---
+
+`Intervals` module allow to do distance calculations between notes using intervals, obtain information and do calculations:
 
 ```js
 import { Interval } from "tonal";
 
+Interval.distance("C4", "G4"); // => "5P"
 Interval.invert("2M"); // => "7m"
 Interval.simplify("9M"); // => "2M"
-Interval.semitones("P4"); // => 5
-Interval.distance("C4", "G4"); // => "5P"
+Interval.semitones("4P"); // => 5
+Interval.add("4P", "2M"); // => "5P"
 ```
 
 ## Interval properties

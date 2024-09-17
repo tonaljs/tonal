@@ -1,9 +1,12 @@
 ---
 title: Pitch Class Sets
 package: pcset
+description: Compare collections of notes
 ---
 
-A pitch class set is a set (no repeated) of pitch classes (notes without octaves). Pitch classes are useful to identify musical structures (if two chords are related, for example)
+A pitch class set is a no repeated collection (set) of notes without octaves (pitch classes).
+
+Pitch classes are useful to identify musical structures (if two chords are related, for example)
 
 ```js
 import { Pcset } from "tonal";
@@ -83,7 +86,7 @@ Pcset.notes("101011010110"); // => ["C", "D", "E", "F", "G", "A", "Bb"]
 Test if a note is included in the given set. This function is currified:
 
 ```js
-const isInCTriad = isNoteIncludedIn(["C", "E", "G"]);
+const isInCTriad = isIncludedIn(["C", "E", "G"]);
 isInCTriad("C4"); // => true
 isInCTriad("C#4"); // => false
 ```
