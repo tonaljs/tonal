@@ -7,6 +7,7 @@ export const { docs, meta } = defineDocs({
       z.object({
         title: z.string(),
         description: z.string().optional(),
+        full: z.boolean().optional(),
         package: z.string().optional(),
       }),
   },

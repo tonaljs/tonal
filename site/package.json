@@ -6,12 +6,17 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
-    "postinstall": "fumadocs-mdx"
+    "postinstall": "fumadocs-mdx",
+    "deploy": "npm run deploy:build && npm run deploy:fix && npm run deploy:github",
+    "deploy:github": "gh-pages -d out/ -t true",
+    "deploy:build": "DEPLOY=true next build",
+    "deploy:fix": "cp out/docs.html out/docs/index.html"
   },
   "dependencies": {
     "fumadocs-core": "13.4.10",
     "fumadocs-mdx": "10.0.2",
     "fumadocs-ui": "13.4.10",
+    "gh-pages": "^6.1.1",
     "next": "^14.2.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
