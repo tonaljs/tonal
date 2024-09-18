@@ -1,5 +1,7 @@
 # tonal docs
 
-```
-npm run deploy
+Run development server:
+
+```bash
+pnpm dev
 ```
