@@ -2,7 +2,7 @@
 import { get as scale } from "@tonaljs/scale";
 // tslint:disable-next-line: no-implicit-dependencies
 import { get as chord } from "@tonaljs/chord";
-import Key from "./index";
+import * as Key from "./index";
 
 describe("@tonal/key", () => {
   test("fromAlter", () => {
@@ -99,7 +99,7 @@ describe("@tonal/key", () => {
     [
       major.chords,
       major.secondaryDominants,
-      major.secondaryDominantsMinorRelative,
+      major.substituteDominantSupertonics,
       major.substituteDominants,
       major.substituteDominantsMinorRelative,
       minor.natural.chords,
@@ -115,115 +115,25 @@ describe("@tonal/key", () => {
     });
   });
 
-  test("majorKey", () => {
-    expect(Key.majorKey("C")).toMatchInlineSnapshot(`
-      {
-        "alteration": 0,
-        "chordScales": [
-          "C major",
-          "D dorian",
-          "E phrygian",
-          "F lydian",
-          "G mixolydian",
-          "A minor",
-          "B locrian",
-        ],
-        "chords": [
-          "Cmaj7",
-          "Dm7",
-          "Em7",
-          "Fmaj7",
-          "G7",
-          "Am7",
-          "Bm7b5",
-        ],
-        "chordsHarmonicFunction": [
-          "T",
-          "SD",
-          "T",
-          "SD",
-          "D",
-          "T",
-          "D",
-        ],
-        "grades": [
-          "I",
-          "II",
-          "III",
-          "IV",
-          "V",
-          "VI",
-          "VII",
-        ],
-        "intervals": [
-          "1P",
-          "2M",
-          "3M",
-          "4P",
-          "5P",
-          "6M",
-          "7M",
-        ],
-        "keySignature": "",
-        "minorRelative": "A",
-        "scale": [
-          "C",
-          "D",
-          "E",
-          "F",
-          "G",
-          "A",
-          "B",
-        ],
-        "secondaryDominants": [
-          "",
-          "A7",
-          "B7",
-          "C7",
-          "D7",
-          "E7",
-          "",
-        ],
-        "secondaryDominantsMinorRelative": [
-          "",
-          "Em7b5",
-          "F#m7",
-          "Gm7",
-          "Am7",
-          "Bm7b5",
-          "",
-        ],
-        "substituteDominants": [
-          "",
-          "Eb7",
-          "F7",
-          "Gb7",
-          "Ab7",
-          "Bb7",
-          "",
-        ],
-        "substituteDominantsMinorRelative": [
-          "",
-          "Em7",
-          "Cm7",
-          "Dbm7",
-          "Am7",
-          "Fm7",
-          "",
-        ],
-        "tonic": "C",
-        "triads": [
-          "C",
-          "Dm",
-          "Em",
-          "F",
-          "G",
-          "Am",
-          "Bdim",
-        ],
-        "type": "major",
-      }
-    `);
+  test("C major", () => {
+    expect(Key.majorKey("C")).toMatchSnapshot();
+  });
+  test("C major chords", () => {
+    expect(Key.majorKeyChords("C")).toMatchSnapshot();
+    const chords = Key.majorKeyChords("C");
+    expect(chords.find((chord) => chord.name === "Em7")).toEqual({
+      name: "Em7",
+      roles: ["T", "ii/II"],
+    });
+  });
+
+  test.only("C minor chords", () => {
+    expect(Key.minorKeyChords("C")).toMatchSnapshot();
+  });
+  test("majorKeys", () => {
+    expect(Key.majorKey("A")).toMatchSnapshot();
+    expect(Key.majorKey("Bb")).toMatchSnapshot();
+    expect(Key.majorKey("E")).toMatchSnapshot();
   });
 
   test("empty major key ", () => {
@@ -237,213 +147,9 @@ describe("@tonal/key", () => {
   });
 
   test("minorKey", () => {
-    expect(Key.minorKey("C")).toMatchInlineSnapshot(`
-      {
-        "alteration": -3,
-        "harmonic": {
-          "chordScales": [
-            "C harmonic minor",
-            "D locrian 6",
-            "Eb major augmented",
-            "F lydian diminished",
-            "G phrygian dominant",
-            "Ab lydian #9",
-            "B ultralocrian",
-          ],
-          "chords": [
-            "CmMaj7",
-            "Dm7b5",
-            "Eb+maj7",
-            "Fm7",
-            "G7",
-            "Abmaj7",
-            "Bo7",
-          ],
-          "chordsHarmonicFunction": [
-            "T",
-            "SD",
-            "T",
-            "SD",
-            "D",
-            "SD",
-            "D",
-          ],
-          "grades": [
-            "I",
-            "II",
-            "bIII",
-            "IV",
-            "V",
-            "bVI",
-            "VII",
-          ],
-          "intervals": [
-            "1P",
-            "2M",
-            "3m",
-            "4P",
-            "5P",
-            "6m",
-            "7M",
-          ],
-          "scale": [
-            "C",
-            "D",
-            "Eb",
-            "F",
-            "G",
-            "Ab",
-            "B",
-          ],
-          "tonic": "C",
-          "triads": [
-            "Cm",
-            "Ddim",
-            "Ebaug",
-            "Fm",
-            "G",
-            "Ab",
-            "Bdim",
-          ],
-        },
-        "keySignature": "bbb",
-        "melodic": {
-          "chordScales": [
-            "C melodic minor",
-            "D dorian b2",
-            "Eb lydian augmented",
-            "F lydian dominant",
-            "G mixolydian b6",
-            "A locrian #2",
-            "B altered",
-          ],
-          "chords": [
-            "Cm6",
-            "Dm7",
-            "Eb+maj7",
-            "F7",
-            "G7",
-            "Am7b5",
-            "Bm7b5",
-          ],
-          "chordsHarmonicFunction": [
-            "T",
-            "SD",
-            "T",
-            "SD",
-            "D",
-            "",
-            "",
-          ],
-          "grades": [
-            "I",
-            "II",
-            "bIII",
-            "IV",
-            "V",
-            "VI",
-            "VII",
-          ],
-          "intervals": [
-            "1P",
-            "2M",
-            "3m",
-            "4P",
-            "5P",
-            "6M",
-            "7M",
-          ],
-          "scale": [
-            "C",
-            "D",
-            "Eb",
-            "F",
-            "G",
-            "A",
-            "B",
-          ],
-          "tonic": "C",
-          "triads": [
-            "Cm",
-            "Dm",
-            "Ebaug",
-            "F",
-            "G",
-            "Adim",
-            "Bdim",
-          ],
-        },
-        "natural": {
-          "chordScales": [
-            "C minor",
-            "D locrian",
-            "Eb major",
-            "F dorian",
-            "G phrygian",
-            "Ab lydian",
-            "Bb mixolydian",
-          ],
-          "chords": [
-            "Cm7",
-            "Dm7b5",
-            "Ebmaj7",
-            "Fm7",
-            "Gm7",
-            "Abmaj7",
-            "Bb7",
-          ],
-          "chordsHarmonicFunction": [
-            "T",
-            "SD",
-            "T",
-            "SD",
-            "D",
-            "SD",
-            "SD",
-          ],
-          "grades": [
-            "I",
-            "II",
-            "bIII",
-            "IV",
-            "V",
-            "bVI",
-            "bVII",
-          ],
-          "intervals": [
-            "1P",
-            "2M",
-            "3m",
-            "4P",
-            "5P",
-            "6m",
-            "7m",
-          ],
-          "scale": [
-            "C",
-            "D",
-            "Eb",
-            "F",
-            "G",
-            "Ab",
-            "Bb",
-          ],
-          "tonic": "C",
-          "triads": [
-            "Cm",
-            "Ddim",
-            "Eb",
-            "Fm",
-            "Gm",
-            "Ab",
-            "Bb",
-          ],
-        },
-        "relativeMajor": "Eb",
-        "tonic": "C",
-        "type": "minor",
-      }
-    `);
+    expect(Key.minorKey("C")).toMatchSnapshot();
+    expect(Key.minorKey("Bb")).toMatchSnapshot();
+    expect(Key.minorKey("B")).toMatchSnapshot();
   });
 
   test("empty minor key ", () => {

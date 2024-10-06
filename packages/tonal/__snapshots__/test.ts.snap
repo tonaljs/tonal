@@ -112,8 +112,10 @@ exports[`tonal Modules exports functions 1`] = `
   ],
   "Key": [
     "majorKey",
+    "majorKeyChords",
     "majorTonicFromKeySignature",
     "minorKey",
+    "minorKeyChords",
   ],
   "Midi": [
     "chroma",

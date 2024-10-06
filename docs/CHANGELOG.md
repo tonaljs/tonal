@@ -1,5 +1,17 @@
 # tonal
 
+## 6.3.0
+
+- New `Key.majorKeyChords` and `Key.minorKeyChords` functions.
+
+```js
+import * as Key from "tonal";
+
+Key.majorKeyChords("C").find((chord) => chord.name === "Em"); // => { name: "Em", roles: ["T", "ii/II"] }
+```
+
+- Renamed fields of key results. `secondaryDominantsMinorRelative` is now `secondaryDominantSupertonics` and `substituteDominantsMinorRelative` is now `substituteDominantSupertonics`. Previous names are kept for compatibility as deprecated (will be removed in next major version)
+
 ## 6.2.0
 
 ### Minor Changes
