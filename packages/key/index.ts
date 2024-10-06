@@ -27,6 +27,15 @@ export interface KeyScale {
   readonly chords: readonly string[];
   readonly chordsHarmonicFunction: readonly string[];
   readonly chordScales: readonly string[];
+  readonly secondaryDominants: readonly string[];
+  readonly secondaryDominantSupertonics: readonly string[];
+  readonly substituteDominants: readonly string[];
+  readonly substituteDominantSupertonics: readonly string[];
+
+  // @deprecated use secondaryDominantsSupertonic
+  readonly secondaryDominantsMinorRelative: readonly string[];
+  // @deprecated use substituteDominantSupertonics
+  readonly substituteDominantsMinorRelative: readonly string[];
 }
 
 const NoKeyScale: KeyScale = {
@@ -38,15 +47,21 @@ const NoKeyScale: KeyScale = {
   chords: Empty,
   chordsHarmonicFunction: Empty,
   chordScales: Empty,
+  secondaryDominants: Empty,
+  secondaryDominantSupertonics: Empty,
+  substituteDominantsMinorRelative: Empty,
+  substituteDominants: Empty,
+  substituteDominantSupertonics: Empty,
+  secondaryDominantsMinorRelative: Empty,
 };
 
 export interface MajorKey extends Key, KeyScale {
   readonly type: "major";
   readonly minorRelative: string;
   readonly scale: readonly string[];
-  readonly secondaryDominants: readonly string[];
-  readonly secondaryDominantsMinorRelative: readonly string[];
   readonly substituteDominants: readonly string[];
+  readonly secondaryDominantSupertonics: readonly string[];
+  // @deprecated use secondaryDominantsSupertonic
   readonly substituteDominantsMinorRelative: readonly string[];
 }
 
@@ -56,9 +71,8 @@ const NoMajorKey: MajorKey = {
   type: "major",
   minorRelative: "",
   scale: Empty,
-  secondaryDominants: Empty,
-  secondaryDominantsMinorRelative: Empty,
   substituteDominants: Empty,
+  secondaryDominantSupertonics: Empty,
   substituteDominantsMinorRelative: Empty,
 };
 
@@ -79,19 +93,48 @@ const NoMinorKey: MinorKey = {
   melodic: NoKeyScale,
 };
 
+export type KeyChord = {
+  name: string;
+  roles: string[];
+};
+
 const mapScaleToType = (scale: string[], list: string[], sep = "") =>
   list.map((type, i) => `${scale[i]}${sep}${type}`);
 
 function keyScale(
   grades: string[],
   triads: string[],
-  chords: string[],
+  chordTypes: string[],
   harmonicFunctions: string[],
   chordScales: string[],
 ) {
   return (tonic: string): KeyScale => {
     const intervals = grades.map((gr) => roman(gr).interval || "");
     const scale = intervals.map((interval) => transpose(tonic, interval));
+    const chords = mapScaleToType(scale, chordTypes);
+    const secondaryDominants = scale
+      .map((note) => transpose(note, "5P"))
+      .map((note) =>
+        // A secondary dominant is a V chord which:
+        // 1. is not diatonic to the key,
+        // 2. it must have a diatonic root.
+        scale.includes(note) && !chords.includes(note + "7") ? note + "7" : "",
+      );
+
+    const secondaryDominantSupertonics = supertonics(
+      secondaryDominants,
+      triads,
+    );
+    const substituteDominants = secondaryDominants.map((chord) => {
+      if (!chord) return "";
+      const domRoot = chord.slice(0, -1);
+      const subRoot = transpose(domRoot, "5d");
+      return subRoot + "7";
+    });
+    const substituteDominantSupertonics = supertonics(
+      substituteDominants,
+      triads,
+    );
 
     return {
       tonic,
@@ -99,12 +142,32 @@ function keyScale(
       intervals,
       scale,
       triads: mapScaleToType(scale, triads),
-      chords: mapScaleToType(scale, chords),
+      chords,
       chordsHarmonicFunction: harmonicFunctions.slice(),
       chordScales: mapScaleToType(scale, chordScales, " "),
+      secondaryDominants,
+      secondaryDominantSupertonics,
+      substituteDominants,
+      substituteDominantSupertonics,
+
+      // @deprecated use secondaryDominantsSupertonic
+      secondaryDominantsMinorRelative: secondaryDominantSupertonics,
+      // @deprecated use secondaryDominantsSupertonic
+      substituteDominantsMinorRelative: substituteDominantSupertonics,
     };
   };
 }
+
+const supertonics = (dominants: string[], targetTriads: string[]) => {
+  return dominants.map((chord, index) => {
+    if (!chord) return "";
+    const domRoot = chord.slice(0, -1);
+    const minorRoot = transpose(domRoot, "5P");
+    const target = targetTriads[index];
+    const isMinor = target.endsWith("m");
+    return isMinor ? minorRoot + "m7" : minorRoot + "m7b5";
+  });
+};
 
 const distInFifths = (from: string, to: string) => {
   const f = note(from);
@@ -155,12 +218,6 @@ export function majorKey(tonic: string): MajorKey {
 
   const keyScale = MajorScale(pc);
   const alteration = distInFifths("C", pc);
-  const romanInTonic = (src: string) => {
-    const r = roman(src);
-    if (r.empty) return "";
-
-    return transpose(tonic, r.interval) + r.chordType;
-  };
 
   return {
     ...keyScale,
@@ -168,17 +225,63 @@ export function majorKey(tonic: string): MajorKey {
     minorRelative: transpose(pc, "-3m"),
     alteration,
     keySignature: altToAcc(alteration),
-    secondaryDominants: "- VI7 VII7 I7 II7 III7 -".split(" ").map(romanInTonic),
-    secondaryDominantsMinorRelative: "- IIIm7b5 IV#m7 Vm7 VIm7 VIIm7b5 -"
-      .split(" ")
-      .map(romanInTonic),
-    substituteDominants: "- bIII7 IV7 bV7 bVI7 bVII7 -"
-      .split(" ")
-      .map(romanInTonic),
-    substituteDominantsMinorRelative: "- IIIm7 Im7 IIbm7 VIm7 IVm7 -"
-      .split(" ")
-      .map(romanInTonic),
   };
+}
+
+/**
+ * Get a list of available chords for a given major key
+ * @param tonic
+ * @returns array of { name: string, roles: string[] }
+ */
+export function majorKeyChords(tonic: string): KeyChord[] {
+  const key = majorKey(tonic);
+  const chords: KeyChord[] = [];
+  keyChordsOf(key, chords);
+  return chords;
+}
+
+/**
+ * Get a list of available chords for a given major key
+ * @param tonic
+ * @returns array of { name: string, roles: string[] }
+ */
+export function minorKeyChords(tonic: string): KeyChord[] {
+  const key = minorKey(tonic);
+  const chords: KeyChord[] = [];
+  keyChordsOf(key.natural, chords);
+  keyChordsOf(key.harmonic, chords);
+  keyChordsOf(key.melodic, chords);
+  return chords;
+}
+
+function keyChordsOf(key: KeyScale, chords: KeyChord[]) {
+  const updateChord = (name: string, newRole: string) => {
+    if (!name) return;
+    let keyChord = chords.find((chord) => chord.name === name);
+    if (!keyChord) {
+      keyChord = { name, roles: [] };
+      chords.push(keyChord);
+    }
+    if (newRole && !keyChord.roles.includes(newRole)) {
+      keyChord.roles.push(newRole);
+    }
+  };
+
+  key.chords.forEach((chordName, index) =>
+    updateChord(chordName, key.chordsHarmonicFunction[index]),
+  );
+  key.secondaryDominants.forEach((chordName, index) =>
+    updateChord(chordName, `V/${key.grades[index]}`),
+  );
+  key.secondaryDominantSupertonics.forEach((chordName, index) =>
+    updateChord(chordName, `ii/${key.grades[index]}`),
+  );
+  key.substituteDominants.forEach((chordName, index) =>
+    updateChord(chordName, `subV/${key.grades[index]}`),
+  );
+  key.substituteDominantSupertonics.forEach((chordName, index) =>
+    updateChord(chordName, `subii/${key.grades[index]}`),
+  );
 }
 
 /**
