@@ -20,7 +20,7 @@ type ModeDatum = (typeof MODES)[number];
 export interface Mode extends Pcset {
   readonly name: string;
   readonly modeNum: number;
-  readonly alt: number; // number of alterations === number of fiths
+  readonly alt: number; // number of alterations === number of fifths
   readonly triad: string;
   readonly seventh: string;
   readonly aliases: string[];

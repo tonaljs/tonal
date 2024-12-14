@@ -32,7 +32,7 @@ export function range(from: number, to: number): number[] {
 }
 
 /**
- * Rotates a list a number of times. It"s completly agnostic about the
+ * Rotates a list a number of times. It's completely agnostic about the
  * contents of the list.
  *
  * @param {Integer} times - the number of rotations

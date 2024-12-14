@@ -44,7 +44,7 @@ Create a range of chromatic notes. The same as `numeric` but the result will be 
 The optional `options` object defines how note names are built:
 
 - sharps: if `true` sharps will be used in altered notes. Default is `false`
-- pitchClass: if `true` octaves are omited. Default is `false`
+- pitchClass: if `true` octaves are omitted. Default is `false`
 
 ```js
 Range.chromatic(["C2", "E2", "D2"]);

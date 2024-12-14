@@ -79,7 +79,7 @@ Pcset.notes("101011010110"); // => ["C", "D", "E", "F", "G", "A", "Bb"]
 
 ### `isIncludedIn(parent: Set) => (note: string) => boolean`
 
-Test if a note is included in the given set. This function is currified:
+Test if a note is included in the given set. This function is curried:
 
 ```js
 const isInCTriad = isNoteIncludedIn(["C", "E", "G"]);
@@ -95,11 +95,11 @@ isInCTriad("Fb"); // => true
 
 #### `isSubsetOf(parent: Set) => (subset: Set) => boolean`
 
-Test if a set is a subset of another. This function is currified
+Test if a set is a subset of another. This function is curried
 
 #### `isSupersetOf(subset: Set) => (parent: Set) => boolean`
 
-Test if a set is a superset of another. This function is currified
+Test if a set is a superset of another. This function is curried
 
 ## Want more?
 

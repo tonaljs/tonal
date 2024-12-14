@@ -307,7 +307,7 @@ export function minorKey(tnc: string): MinorKey {
 
 /**
  * Given a key signature, returns the tonic of the major key
- * @param sigature
+ * @param signature
  * @example
  * majorTonicFromKeySignature('###') // => 'A'
  */

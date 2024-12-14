@@ -17,7 +17,7 @@ describe("Transpose", () => {
       expect(fromBb2("P1 M3 P5 M7")).toEqual(["Bb2", "D3", "F3", "A3"]);
     });
 
-    test("tranpose note by descending intervas", () => {
+    test("transpose note by descending intervals", () => {
       const fromBb = transposeAllFrom("Bb");
       expect(fromBb("P-1 M-3 P-5 M-7")).toEqual(["Bb", "Gb", "Eb", "Cb"]);
     });

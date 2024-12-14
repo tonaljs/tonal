@@ -7,7 +7,7 @@ import { Note, NoteName, note } from "@tonaljs/pitch-note";
 /**
  * The properties of a pitch class set
  * @param {number} num - a number between 1 and 4095 (both included) that
- * uniquely identifies the set. It's the decimal number of the chrom.
+ * uniquely identifies the set. It's the decimal number of the chroma.
  * @param {string} chroma - a string representation of the set: a 12-char string
  * with either "1" or "0" as characters, representing a pitch class or not
  * for the given position in the octave. For example, a "1" at index 0 means 'C',
@@ -209,7 +209,7 @@ export function isEqual(s1: Set, s2: Set) {
  * Create a function that test if a collection of notes is a
  * subset of a given set
  *
- * The function is curryfied.
+ * The function is curried.
  *
  * @param {PcsetChroma|NoteName[]} set - the superset to test against (chroma or
  * list of notes)

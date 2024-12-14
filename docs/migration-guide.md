@@ -94,12 +94,12 @@ TODO: diagram of tonal modules
 
 Lot of changes, but as a positive side effect, the library API surface is smaller so code and documentation are easier to write and maintain.
 
-Now functions falls in two catergories:
+Now functions falls in two categories:
 
 - **Parsers**: takes a name of something (string) and return an object with properties. Examples of that functions are: note, interval, pcset, scaleType, chordType, scale, chord, mode. All of the returning objects has the properties `empty` (boolean) and name (string, "" indicating _no value_)
 - **Operations**: takes one or more names and return a new name. It always work with strings (no objects). Invalid results are represented with empty strings "". Examples: transpose, distance, subtract
 
-### Utilility functions removed or made private
+### Utility functions removed or made private
 
 First of all, lot of functions are gone, like `oct`, `accToAlt`, and other utility functions (some still exists, but are considered private)
 
@@ -118,7 +118,7 @@ This optional partial application made code unnecessarily complex and, with Type
 
 For this reason **optional** partial application are not possible in v3. Most of the functions needs all parameters to execute.
 
-However, there are some execptions to make the API easier to use. In that cases, partial application is obligatory:
+However, there are some exceptions to make the API easier to use. In that cases, partial application is obligatory:
 
 ```js
 // valid in v2 and v3

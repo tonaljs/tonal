@@ -123,7 +123,7 @@ Interval.add("3m", "5P"); // => "7m"
 
 `subtract(min: string, sub: string) => string`
 
-Substract two intervals:
+Subtract two intervals:
 
 ```js
 subtract("5P", "3M"); // => '3m'
