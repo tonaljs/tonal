@@ -74,7 +74,7 @@ Chord.getChord("maj7", "C", "B") === Chord.get("Cmaj7/B");
 Print the notes of the given chord at the given tonic:
 
 ```js
-Chord.notes("maj4", "C4"); // => ["C4", "E4", "G4", "B4"]
+Chord.notes("maj7", "C4"); // => ["C4", "E4", "G4", "B4"]
 ```
 
 ### `Chord.degrees`
