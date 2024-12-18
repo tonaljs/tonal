@@ -2,7 +2,7 @@
 
 > Functions to parse roman numeral strings (like the ones used for chord analysis)
 
-A roman numeral symbol is a string like `"bVIImaj7"` that can be used to represent chords in an abstract tonallity.
+A roman numeral symbol is a string like `"bVIImaj7"` that can be used to represent chords in an abstract tonality.
 
 ## Usage
 

@@ -108,7 +108,7 @@ Note.transpose("d3", "3M"); // => "F#3"
 Note.transpose("D", "3M"); // => "F#"
 ```
 
-`transposeBy` and `transposeFrom` are currified versions of this function to make easy work with arrays:
+`transposeBy` and `transposeFrom` are curried versions of this function to make easy work with arrays:
 
 ```js
 ["C", "D", "E"].map(Note.transposeBy("5P"));
@@ -209,14 +209,14 @@ Note.enharmonic("C#"); // => "Db"
 Note.enharmonic("C##"); // => "D"
 Note.enharmonic("C###"); // => "Eb"
 
-Note.eharmoinic("C##b"); // => ""
+Note.enharmonic("C##b"); // => ""
 ```
 
-Using eharmonic on a natural will return the same value passed in:
+Using enharmonic on a natural will return the same value passed in:
 
 ```js
-Note.eharmonic("C"); // => "C"
-Note.eharmonic("C4"); // => "C4"
+Note.enharmonic("C"); // => "C"
+Note.enharmonic("C4"); // => "C4"
 ```
 
 The destination pitch class can be enforced to calculate the octave:

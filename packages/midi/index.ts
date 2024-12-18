@@ -30,7 +30,7 @@ export function toMidi(note: NoteName | number): number | null {
 }
 
 /**
- * Get the frequency in hertzs from midi number
+ * Get the frequency in hertz from midi number
  *
  * @param {number} midi - the note midi number
  * @param {number} [tuning = 440] - A4 tuning frequency in Hz (440 by default)

@@ -108,7 +108,7 @@ Note.transpose("d3", "3M"); // => "F#3"
 Note.transpose("D", "3M"); // => "F#"
 ```
 
-`transposeBy` and `transposeFrom` are currified versions of this function to make easy work with arrays:
+`transposeBy` and `transposeFrom` are curried versions of this function to make easy work with arrays:
 
 ```js
 ["C", "D", "E"].map(Note.transposeBy("5P"));

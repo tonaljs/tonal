@@ -162,7 +162,7 @@ export const trFrom = transposeFrom;
  *
  * @function
  * @param {string} note - the note name
- * @param {number} fifhts - the number of fifths
+ * @param {number} fifths - the number of fifths
  * @return {string} the transposed note name
  *
  * @example
@@ -236,7 +236,7 @@ export const simplify = (noteName: NoteName | Pitch): string => {
  * Note.enharmonic("Db") // => "C#"
  * Note.enharmonic("C") // => "C"
  * Note.enharmonic("F2","E#") // => "E#2"
- * Note.eharmoinic("C##b"); // => ""
+ * Note.enharmonic("C##b"); // => ""
  */
 export function enharmonic(noteName: string, destName?: string) {
   const src = get(noteName);

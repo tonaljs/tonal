@@ -11,7 +11,7 @@ abstractions (not actual music or sound).
 `tonal` is implemented in Typescript and published as a collection of Javascript
 npm packages.
 
-It uses a functional programing style: all functions are pure, there is no data
+It uses a functional programming style: all functions are pure, there is no data
 mutation, and entities are represented by data structures instead of objects.
 
 ## Example
