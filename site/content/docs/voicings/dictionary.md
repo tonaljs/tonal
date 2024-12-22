@@ -4,7 +4,7 @@ title: Voicing dictionary
 
 `@tonaljs/voicing-dictionary`
 
-Contains dictionaries for many chord voicings. Used by [@tonaljs/voicings](../voicings).
+Contains dictionaries for many chord voicings. Used by [@tonaljs/voicing](../voicing).
 
 ## Usage
 
@@ -43,4 +43,4 @@ const lefthand = {
 };
 ```
 
-See [@tonaljs/voicings](../voicings) for usage examples.
+See [@tonaljs/voicing](../voicing) for usage examples.

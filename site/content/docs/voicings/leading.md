@@ -4,7 +4,7 @@ title: Voice leading
 
 `@tonaljs/voice-leading`
 
-Contains a collection functions to find optimal transitions between chord voicings.
+Contains a collection of functions to find optimal transitions between chord voicings.
 
 ## Usage
 

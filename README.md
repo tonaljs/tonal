@@ -165,9 +165,10 @@ This library takes inspiration from other music theory libraries:
 - Teoria: https://github.com/saebekassebil/teoria
 - Impro-Visor: https://www.cs.hmc.edu/~keller/jazz/improvisor/
 - MusicKit: https://github.com/benzguo/MusicKit
-- Music21: http://web.mit.edu/music21/doc/index.html
+- Music21: https://www.music21.org/music21docs/
 - Sharp11: https://github.com/jsrmath/sharp11
 - python-mingus: https://github.com/bspaans/python-mingus
+- Open Music Theory: https://viva.pressbooks.pub/openmusictheory/
 
 ## Projects using tonal
 

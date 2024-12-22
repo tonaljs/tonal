@@ -1,6 +1,6 @@
 # @tonaljs/voice-leading
 
-Contains a collection functions to find optimal transitions between chord voicings. Used by [@tonaljs/voicings](../voicings).
+Contains a collection of functions to find optimal transitions between chord voicings. Used by [@tonaljs/voicing](../voicing).
 
 ## Usage
 
@@ -60,4 +60,4 @@ topNoteDiff(
 
 [show available voice leading functions](./index.ts).
 
-See [@tonaljs/voicings](../voicings) for usage examples.
+See [@tonaljs/voicing](../voicing) for usage examples.
