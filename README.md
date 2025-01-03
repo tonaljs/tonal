@@ -165,9 +165,10 @@ This library takes inspiration from other music theory libraries:
 - Teoria: https://github.com/saebekassebil/teoria
 - Impro-Visor: https://www.cs.hmc.edu/~keller/jazz/improvisor/
 - MusicKit: https://github.com/benzguo/MusicKit
-- Music21: http://web.mit.edu/music21/doc/index.html
+- Music21: https://www.music21.org/music21docs/
 - Sharp11: https://github.com/jsrmath/sharp11
 - python-mingus: https://github.com/bspaans/python-mingus
+- Open Music Theory: https://viva.pressbooks.pub/openmusictheory/
 
 ## Projects using tonal
 
@@ -193,7 +194,8 @@ Showcase of projects that are using Tonal:
 - [music, eternal](https://eternal.rob.computer) by [kousun12](https://github.com/kousun12)
 - [Chromatone.center](https://chromatone.center) by [davay42](https://github.com/davay42)
 - [Super Oscillator](https://github.com/lukehorvat/super-oscillator) by [lukehorvat](https://github.com/lukehorvat)
-  [StringScales](https://stringscales.com/) by [Ambewas](https://github.com/ambewas)
+- [StringScales](https://stringscales.com/) by [Ambewas](https://github.com/ambewas)
+- [Polychron](https://github.com/PolychronMidi/Polychron) by [i1li](https://github.com/i1li)
 
 Thank you all!
 
