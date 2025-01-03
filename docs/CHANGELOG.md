@@ -10,7 +10,7 @@ Typescript types `NoteType` and `IntervalType` are now exported:
 import { Interval, IntervalType, Note, NoteType } from "tonal";
 
 const note: NoteType = Note.get("C4");
-const interval: IntervalType = Interval.get("P4");
+const interval: IntervalType = Interval.get("4P");
 ```
 
 ## 6.3.0
