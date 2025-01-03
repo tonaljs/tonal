@@ -28,6 +28,8 @@ export interface Note extends Pitch, NamedPitch {
   readonly freq: number | null;
 }
 
+export type NoteType = Note;
+
 const NoNote: Note = Object.freeze({
   empty: true,
   name: "",

@@ -1,5 +1,42 @@
 # tonal
 
+## 6.4.0
+
+### Minor Changes
+
+- b791283: ### Export `NoteType` and `IntervalType` types
+
+  Typescript types `NoteType` and `IntervalType` are now exported:
+
+  ```ts
+  import { Interval, IntervalType, Note, NoteType } from "tonal";
+
+  const note: NoteType = Note.get("C4");
+  const interval: IntervalType = Interval.get("P4");
+  ```
+
+### Patch Changes
+
+- Updated dependencies [b791283]
+  - @tonaljs/note@4.12.0
+  - @tonaljs/core@5.0.2
+  - @tonaljs/pcset@4.10.1
+  - @tonaljs/progression@4.9.1
+  - @tonaljs/roman-numeral@4.9.1
+  - @tonaljs/abc-notation@4.9.1
+  - @tonaljs/array@4.8.4
+  - @tonaljs/chord@6.1.1
+  - @tonaljs/key@4.11.1
+  - @tonaljs/midi@4.10.1
+  - @tonaljs/mode@4.9.1
+  - @tonaljs/scale@4.13.1
+  - @tonaljs/voice-leading@5.1.1
+  - @tonaljs/voicing@5.1.1
+  - @tonaljs/voicing-dictionary@5.1.1
+  - @tonaljs/chord-type@5.1.1
+  - @tonaljs/scale-type@4.9.1
+  - @tonaljs/range@4.9.1
+
 ## 6.2.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/midi",
-  "version": "4.10.0",
+  "version": "4.10.1",
   "description": "Functions to work with midi numbers",
   "keywords": [
     "note",
@@ -16,7 +16,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/pitch-note": "6.0.0"
+    "@tonaljs/pitch-note": "6.1.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

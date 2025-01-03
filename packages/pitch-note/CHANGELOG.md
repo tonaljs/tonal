@@ -1,5 +1,20 @@
 # @tonaljs/pitch-note
 
+## 6.1.0
+
+### Minor Changes
+
+- b791283: ### Export `NoteType` and `IntervalType` types
+
+  Typescript types `NoteType` and `IntervalType` are now exported:
+
+  ```ts
+  import { Interval, IntervalType, Note, NoteType } from "tonal";
+
+  const note: NoteType = Note.get("C4");
+  const interval: IntervalType = Interval.get("P4");
+  ```
+
 ## 6.0.0
 
 ### Major Changes

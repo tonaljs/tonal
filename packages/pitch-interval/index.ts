@@ -45,6 +45,8 @@ export interface Interval extends Pitch, NamedPitch {
   readonly oct: number;
 }
 
+export type IntervalType = Interval;
+
 const NoInterval: Interval = Object.freeze({
   empty: true,
   name: "",

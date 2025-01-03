@@ -1,5 +1,14 @@
 # @tonaljs/key
 
+## 4.11.1
+
+### Patch Changes
+
+- Updated dependencies [b791283]
+  - @tonaljs/pitch-note@6.1.0
+  - @tonaljs/note@4.12.0
+  - @tonaljs/roman-numeral@4.9.1
+
 ## 4.11.0
 
 - New `Key.majorKeyChords` and `Key.minorKeyChords` functions.

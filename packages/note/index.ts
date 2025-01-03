@@ -10,6 +10,8 @@ import {
   note as props,
 } from "@tonaljs/pitch-note";
 
+export type { NoteType } from "@tonaljs/pitch-note";
+
 const NAMES = ["C", "D", "E", "F", "G", "A", "B"];
 
 const toName = (n: Note) => n.name;
