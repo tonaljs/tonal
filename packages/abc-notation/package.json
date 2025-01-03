@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/abc-notation",
-  "version": "4.9.0",
+  "version": "4.9.1",
   "description": "Parse musical notes in abc notation",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -9,8 +9,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/pitch-distance": "5.0.4",
-    "@tonaljs/pitch-note": "6.0.0"
+    "@tonaljs/pitch-distance": "5.0.5",
+    "@tonaljs/pitch-note": "6.1.0"
   },
   "keywords": [
     "note",

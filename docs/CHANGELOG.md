@@ -1,5 +1,18 @@
 # tonal
 
+## 6.4.0
+
+### Export `NoteType` and `IntervalType` types
+
+Typescript types `NoteType` and `IntervalType` are now exported:
+
+```ts
+import { Interval, IntervalType, Note, NoteType } from "tonal";
+
+const note: NoteType = Note.get("C4");
+const interval: IntervalType = Interval.get("P4");
+```
+
 ## 6.3.0
 
 - New `Key.majorKeyChords` and `Key.minorKeyChords` functions.

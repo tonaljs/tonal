@@ -1,5 +1,12 @@
 # @tonaljs/modules
 
+## 4.8.9
+
+### Patch Changes
+
+- Updated dependencies [b791283]
+  - tonal@6.4.0
+
 ## 4.8.8
 
 ### Patch Changes

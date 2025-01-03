@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/scale-type",
-  "version": "4.9.0",
+  "version": "4.9.1",
   "description": "A dictionary of musical scales",
   "keywords": [
     "scale",
@@ -16,7 +16,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/pcset": "4.10.0"
+    "@tonaljs/pcset": "4.10.1"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

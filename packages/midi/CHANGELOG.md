@@ -1,5 +1,12 @@
 # @tonaljs/midi
 
+## 4.10.1
+
+### Patch Changes
+
+- Updated dependencies [b791283]
+  - @tonaljs/pitch-note@6.1.0
+
 ## 4.10.0
 
 ### Minor Changes

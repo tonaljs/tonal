@@ -1,5 +1,11 @@
 # @tonaljs/chord-type
 
+## 5.1.1
+
+### Patch Changes
+
+- @tonaljs/pcset@4.10.1
+
 ## 5.1.0
 
 ### Minor Changes
