@@ -72,13 +72,12 @@ Scale.detect(["C", "D", "E", "F", "G", "A", "B"], { tonic: "A" });
 
 You can ask just the exact match:
 
-````js
+```js
 Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact" });
 // => ["D major pentatonic"]
 Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact", tonic: "B" });
 // => ["B major pentatonic"]
 ```
-
 
 ### `Scale.scaleChords(scale: string) => string[]`
 
