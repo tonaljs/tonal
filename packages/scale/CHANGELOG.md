@@ -1,5 +1,11 @@
 # @tonaljs/scale
 
+## 4.13.2
+
+### Patch Changes
+
+- 72de4e4: Fix a bug where `Scale.tokenize` didn't lowercase scale type when tonic is not preset
+
 ## 4.13.1
 
 ### Patch Changes

@@ -1,9 +1,9 @@
-import Scale from "./index";
+import * as Scale from "./index";
 
 const $ = (s: string) => s.split(" ");
 
 describe("@tonaljs/scale", () => {
-  test("scale", () => {
+  test("get", () => {
     expect(Scale.get("major")).toEqual({
       empty: false,
       tonic: "",
@@ -46,6 +46,15 @@ describe("@tonaljs/scale", () => {
     expect(Scale.get("hello").empty).toBe(true);
     expect(Scale.get("").empty).toBe(true);
     expect(Scale.get("Maj7").empty).toBe(true);
+  });
+
+  test("Scale.get with mixed cases", () => {
+    expect(Scale.get("C lydian #5P PENTATONIC")).toEqual(
+      Scale.get("C lydian #5P pentatonic"),
+    );
+    expect(Scale.get("lydian #5P PENTATONIC")).toEqual(
+      Scale.get("lydian #5P pentatonic"),
+    );
   });
 
   test("intervals", () => {

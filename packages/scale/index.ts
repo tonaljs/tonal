@@ -69,7 +69,7 @@ export function tokenize(name: ScaleName): ScaleNameTokens {
   const tonic = note(name.substring(0, i));
   if (tonic.empty) {
     const n = note(name);
-    return n.empty ? ["", name] : [n.name, ""];
+    return n.empty ? ["", name.toLowerCase()] : [n.name, ""];
   }
 
   const type = name.substring(tonic.name.length + 1).toLowerCase();

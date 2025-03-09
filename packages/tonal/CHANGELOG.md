@@ -1,6 +1,8 @@
 # tonal
 
-## 6.4.0
+## 6.4.x
+
+- 72de4e4: Fix a bug where `Scale.tokenize` didn't lowercase scale type when tonic is not preset
 
 ### Minor Changes
 
