@@ -135,6 +135,15 @@ Chord.detect(["D", "F#", "A", "C"]); // => ["D7"]
 Chord.detect(["F#", "A", "C", "D"]); // => ["D7/F#"]
 ```
 
+You can add new chords to the dictionary using `ChordType` module:
+
+```ts
+import { Chord, ChordType } from "tonal";
+
+ChordType.add(["1P", "5P", "7M"], ["5maj7", "5add7"]);
+Chord.detect(["C3", "G3", "B3"]); // => ["C5maj7"]
+```
+
 `Chord.transpose(chordName: string, intervalName: string) => string`
 
 Transpose a chord symbol by an interval:

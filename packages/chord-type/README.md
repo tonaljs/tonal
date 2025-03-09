@@ -65,6 +65,15 @@ Add a chord type to dictionary:
 add(["1P", "3M", "5P"], ["M"], "mayor");
 ```
 
+You can add new chords to the dictionary using `ChordType` module:
+
+```ts
+import { Chord, ChordType } from "tonal";
+
+ChordType.add(["1P", "5P", "7M"], ["5maj7", "5add7"]);
+Chord.detect(["C3", "G3", "B3"]); // => ["C5maj7"]
+```
+
 ## HOW TO
 
 #### How to get triad chord names?
