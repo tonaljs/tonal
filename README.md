@@ -99,9 +99,7 @@ transpose("A4", "P5");
 
 ## Documentation
 
-Generally, you just need to install `tonal` package (before it was called `@tonaljs/tonal`).
-
-The API documentation is inside README.md of each module 👇
+Visit the [documentation site](https://tonaljs.github.io/tonal/docs) or the README.md of each module 👇
 
 #### Notes and intervals
 

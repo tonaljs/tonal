@@ -1,6 +1,7 @@
 ---
 title: Keys
 description: Key scales and chords
+package: Key
 ---
 
 Obtain information of a key's scales and chords:

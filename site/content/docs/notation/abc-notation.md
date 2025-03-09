@@ -1,6 +1,7 @@
 ---
 title: ABC Notation
 description: Convert note names between scientific and abc notation
+package: AbcNotation
 ---
 
 ```js
