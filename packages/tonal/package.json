@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "6.4.0",
+  "version": "6.4.1",
   "description": "tonaljs music theory library",
   "keywords": [
     "music",
@@ -34,7 +34,7 @@
     "@tonaljs/rhythm-pattern": "1.0.0",
     "@tonaljs/roman-numeral": "4.9.1",
     "@tonaljs/scale-type": "4.9.1",
-    "@tonaljs/scale": "4.13.1",
+    "@tonaljs/scale": "4.13.2",
     "@tonaljs/time-signature": "4.9.0",
     "@tonaljs/voice-leading": "5.1.1",
     "@tonaljs/voicing-dictionary": "5.1.1",
