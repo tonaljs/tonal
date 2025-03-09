@@ -1,8 +1,8 @@
 ---
 title: Scale dictionary
+description: A dictionary of musical scales.
+package: ScaleType
 ---
-
-A dictionary of musical scales.
 
 ```js
 import { ScaleType } from "tonal";

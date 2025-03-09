@@ -1,6 +1,7 @@
 ---
 title: Progressions
 description: Parse and create harmonic progressions
+package: Progression
 ---
 
 ```js

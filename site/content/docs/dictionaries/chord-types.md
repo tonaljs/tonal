@@ -1,6 +1,7 @@
 ---
 title: Chord dictionary
 description: A dictionary of musical chords.
+package: ChordType
 ---
 
 ```js
