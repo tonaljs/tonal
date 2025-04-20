@@ -103,7 +103,7 @@ Test if a set is a superset of another. This function is curried
 
 ## Want more?
 
-Take a look to [@tonal/scale-type]() or [@tonal/chord-type]() that are, in fact, dictionaries of pitch class sets.
+Take a look to [@tonal/scale-type](https://github.com/tonaljs/tonal/tree/main/packages/scale-type) or [@tonal/chord-type](https://github.com/tonaljs/tonal/tree/main/packages/chord-type) that are, in fact, dictionaries of pitch class sets.
 
 ## FAQ
 
