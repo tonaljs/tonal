@@ -4,7 +4,7 @@ export const triads: VoicingDictionary = {
   M: ["1P 3M 5P", "3M 5P 8P", "5P 8P 10M"],
   m: ["1P 3m 5P", "3m 5P 8P", "5P 8P 10m"],
   o: ["1P 3m 5d", "3m 5d 8P", "5d 8P 10m"],
-  aug: ["1P 3m 5A", "3m 5A 8P", "5A 8P 10m"],
+  aug: ["1P 3M 5A", "3M 5A 8P", "5A 8P 10M"],
 };
 export const lefthand: VoicingDictionary = {
   m7: ["3m 5P 7m 9M", "7m 9M 10m 12P"],
@@ -24,7 +24,7 @@ export const all: VoicingDictionary = {
   M: ["1P 3M 5P", "3M 5P 8P", "5P 8P 10M"],
   m: ["1P 3m 5P", "3m 5P 8P", "5P 8P 10m"],
   o: ["1P 3m 5d", "3m 5d 8P", "5d 8P 10m"],
-  aug: ["1P 3m 5A", "3m 5A 8P", "5A 8P 10m"],
+  aug: ["1P 3M 5A", "3M 5A 8P", "5A 8P 10M"],
   m7: ["3m 5P 7m 9M", "7m 9M 10m 12P"],
   "7": ["3M 6M 7m 9M", "7m 9M 10M 13M"],
   "^7": ["3M 5P 7M 9M", "7M 9M 10M 12P"],
