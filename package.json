@@ -8,7 +8,7 @@
   "module": "packages/tonal/dist/index.mjs",
   "types": "packages/tonal/dist/index.d.ts",
   "scripts": {
-    "publish-packages": "npm test:ci && changeset version && changeset publish",
+    "publish-packages": "npm run test:ci && changeset version && changeset publish",
     "build": "turbo run build",
     "format": "prettier --write packages/**/*.ts packages/**/package.json",
     "test": "jest --coverage",
