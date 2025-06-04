@@ -58,9 +58,23 @@ describe("midi", () => {
     test("find nearest upwards", () => {
       const nearest = Midi.pcsetNearest([0, 5, 7]);
       expect([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(nearest)).toEqual([
-        0, 0, 0, 5, 5, 5, 7, 7, 7, 7, 7, 7, 12,
+        0, 0, 0, 5, 5, 5, 7, 7, 7, 7, 12, 12, 12,
       ]);
     });
+
+    test("chromatic to nearest C minor pentatonic", () => {
+      const nearest = Midi.pcsetNearest("100101010010");
+      expect([36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47].map(nearest)).toEqual([
+        36, 36, 39, 39, 41, 41, 43, 43, 43, 46, 46, 48
+      ]);
+    });
+
+    test("chromatic to nearest half octave", () => {
+      const nearest = Midi.pcsetNearest("100000100000");
+      expect([36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47].map(nearest)).toEqual([
+        36, 36, 36, 42, 42, 42, 42, 42, 42, 48, 48, 48
+      ]);
+    })
 
     test("empty pcsets returns the note", () => {
       expect([10, 30, 40].map(Midi.pcsetNearest([]))).toEqual([]);

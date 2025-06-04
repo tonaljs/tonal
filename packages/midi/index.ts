@@ -133,8 +133,10 @@ export function pcsetNearest(notes: number[] | string) {
   return (midi: number): number | undefined => {
     const ch = chroma(midi);
     for (let i = 0; i < 12; i++) {
-      if (set.includes(ch + i)) return midi + i;
-      if (set.includes(ch - i)) return midi - i;
+      const chUp = (ch + i) % 12;
+      const chDown = (ch - i + 12) % 12;
+      if (set.includes(chUp)) return midi + i;
+      if (set.includes(chDown)) return midi - i;
     }
     return undefined;
   };
