@@ -1,4 +1,4 @@
-import Midi from "./index";
+import * as Midi from "./index";
 
 describe("midi", () => {
   test("isMidi", () => {
@@ -64,17 +64,17 @@ describe("midi", () => {
 
     test("chromatic to nearest C minor pentatonic", () => {
       const nearest = Midi.pcsetNearest("100101010010");
-      expect([36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47].map(nearest)).toEqual([
-        36, 36, 39, 39, 41, 41, 43, 43, 43, 46, 46, 48
-      ]);
+      expect(
+        [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47].map(nearest),
+      ).toEqual([36, 36, 39, 39, 41, 41, 43, 43, 43, 46, 46, 48]);
     });
 
     test("chromatic to nearest half octave", () => {
       const nearest = Midi.pcsetNearest("100000100000");
-      expect([36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47].map(nearest)).toEqual([
-        36, 36, 36, 42, 42, 42, 42, 42, 42, 48, 48, 48
-      ]);
-    })
+      expect(
+        [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47].map(nearest),
+      ).toEqual([36, 36, 36, 42, 42, 42, 42, 42, 42, 48, 48, 48]);
+    });
 
     test("empty pcsets returns the note", () => {
       expect([10, 30, 40].map(Midi.pcsetNearest([]))).toEqual([]);
