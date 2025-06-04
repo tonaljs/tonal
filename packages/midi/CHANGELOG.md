@@ -1,5 +1,11 @@
 # @tonaljs/midi
 
+## 4.10.2
+
+### Patch Changes
+
+- 3c89703: Fix octave displacement of Midi.pcsetNearest
+
 ## 4.10.1
 
 ### Patch Changes

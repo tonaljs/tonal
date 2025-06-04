@@ -1,5 +1,21 @@
 # tonal
 
+## 6.4.2
+
+### Patch Changes
+
+- 3c89703: Fix octave displacement of Midi.pcsetNearest
+
+- Updated dependencies [3c89703]
+  - @tonaljs/midi@4.10.2
+  - @tonaljs/note@4.12.1
+  - @tonaljs/range@4.9.2
+  - @tonaljs/key@4.11.2
+  - @tonaljs/scale@4.13.3
+  - @tonaljs/voice-leading@5.1.2
+  - @tonaljs/voicing@5.1.2
+  - @tonaljs/voicing-dictionary@5.1.2
+
 ## 6.4.x
 
 - 72de4e4: Fix a bug where `Scale.tokenize` didn't lowercase scale type when tonic is not preset

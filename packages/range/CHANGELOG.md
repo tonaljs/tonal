@@ -1,5 +1,12 @@
 # @tonaljs/range
 
+## 4.9.2
+
+### Patch Changes
+
+- Updated dependencies [3c89703]
+  - @tonaljs/midi@4.10.2
+
 ## 4.9.1
 
 ### Patch Changes
