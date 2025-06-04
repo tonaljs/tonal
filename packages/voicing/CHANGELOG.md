@@ -1,5 +1,14 @@
 # @tonaljs/voicing
 
+## 5.1.2
+
+### Patch Changes
+
+- @tonaljs/note@4.12.1
+- @tonaljs/range@4.9.2
+- @tonaljs/voice-leading@5.1.2
+- @tonaljs/voicing-dictionary@5.1.2
+
 ## 5.1.1
 
 ### Patch Changes

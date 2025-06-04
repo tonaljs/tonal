@@ -128,6 +128,14 @@ export function pcset(notes: number[] | string): number[] {
   return Array.isArray(notes) ? pcsetFromMidi(notes) : pcsetFromChroma(notes);
 }
 
+/**
+ * Returns a function that finds the nearest midi note of a pitch class set.
+ * Can be used to constrain a note to a scale.
+ * @param notes - a list of midi numbers or a chroma string (e.g. "100100100101")
+ * @example
+ * const nearest = Midi.pcsetNearest(Scale.get("D dorian").chroma);
+ * [60, 61, 62, 63, 64, 65, 66].map(nearest); // => [60, 62, 62, 63, 65, 65, 67]
+ */
 export function pcsetNearest(notes: number[] | string) {
   const set = pcset(notes);
   return (midi: number): number | undefined => {
@@ -142,6 +150,13 @@ export function pcsetNearest(notes: number[] | string) {
   };
 }
 
+/**
+ * Returns a function to map a pitch class set over any note.
+ * Given a tonic a pitch class set, step 0 means the first note, step 1 the second, and so on.
+ * @example
+ * const steps = Midi.pcsetSteps(Scale.get("D dorian").chroma, 60);
+ * [-2, -1, 0, 1, 2, 3].map(steps); // => [ 57, 58, 60, 62, 63, 65 ]
+ */
 export function pcsetSteps(notes: number[] | string, tonic: number) {
   const set = pcset(notes);
   const len = set.length;
@@ -152,6 +167,10 @@ export function pcsetSteps(notes: number[] | string, tonic: number) {
   };
 }
 
+/**
+ * Returns a function to map a pitch class set over any note.
+ * Same as pcsetSteps, but returns 1 for the first step
+ */
 export function pcsetDegrees(notes: number[] | string, tonic: number) {
   const steps = pcsetSteps(notes, tonic);
   return (degree: number): number | undefined => {

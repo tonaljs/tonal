@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/voicing-dictionary",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "description": "Collections of chord voicings",
   "keywords": [
     "chord",
@@ -18,8 +18,8 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "@tonaljs/chord": "6.1.1",
-    "@tonaljs/note": "4.12.0",
-    "@tonaljs/voice-leading": "5.1.1"
+    "@tonaljs/note": "4.12.1",
+    "@tonaljs/voice-leading": "5.1.2"
   },
   "author": "felix91@gmail.com",
   "license": "MIT",

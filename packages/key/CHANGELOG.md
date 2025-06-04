@@ -1,5 +1,11 @@
 # @tonaljs/key
 
+## 4.11.2
+
+### Patch Changes
+
+- @tonaljs/note@4.12.1
+
 ## 4.11.1
 
 ### Patch Changes

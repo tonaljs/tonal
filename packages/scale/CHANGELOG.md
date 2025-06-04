@@ -1,5 +1,11 @@
 # @tonaljs/scale
 
+## 4.13.3
+
+### Patch Changes
+
+- @tonaljs/note@4.12.1
+
 ## 4.13.2
 
 ### Patch Changes
