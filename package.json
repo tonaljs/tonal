@@ -12,10 +12,9 @@
     "build": "turbo run build",
     "format": "prettier --write packages/**/*.ts packages/**/package.json",
     "test": "vitest",
-    "test:ci": "vitest run",
     "lint": "eslint 'packages/**/*.ts'",
     "lint:fix": "eslint 'packages/**/*.ts' --fix",
-    "ci": "npm run format && npm run lint && npm run build && npm run test:ci -- --no-cache"
+    "test:all": "npm run format && npm run lint && npm run build && vitest run"
   },
   "prettier": {},
   "eslintConfig": {
