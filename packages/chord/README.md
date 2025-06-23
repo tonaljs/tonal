@@ -106,15 +106,15 @@ c4m7(0); // => ""
 
 See [`Scale.degrees`](https://github.com/tonaljs/tonal/tree/main/packages/scale#scaledegreesscalename-string--degree-number--string)
 
-### `Chord.steps(chordName: string) => (degree: number) => string`
+### `Chord.steps(chordType: string, tonic?: string) => (degree: number) => string`
 
 Same as `Chord.degrees` but 0 is the tonic. Plays better with numeric ranges:
 
 ```js
 import { Range, Chord } from "tonal";
 
-Range.numeric([-3, 3]).map(Chord.steps(["C4", "aug"]));
-// => ["G#3", "E3", "C3", "C4", "E4", "G#4", "C5"]
+Range.numeric([-3, 3]).map(Chord.steps("aug", "C4"));
+// => ["C3", "E3", "G#3", "C4", "E4", "G#4", "C5"]
 ```
 
 #### `Chord.detect(notes: string[]) => string[]`

@@ -283,8 +283,8 @@ describe("tonal-chord", () => {
   });
 
   test("Chord.steps", () => {
-    expect([-1, -2, -3, 0, 1, 2, 3].map(Chord.steps("Caug", "C4"))).toEqual(
-      "G#3 E3 C3 C4 E4 G#4 C5".split(" "),
+    expect([-3, -2, -1, 0, 1, 2, 3].map(Chord.steps("aug", "C4"))).toEqual(
+      "C3 E3 G#3 C4 E4 G#4 C5".split(" "),
     );
   });
 
