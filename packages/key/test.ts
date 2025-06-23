@@ -129,7 +129,7 @@ describe("@tonal/key", () => {
     });
   });
 
-  test.only("C minor chords", () => {
+  test("C minor chords", () => {
     expect(Key.minorKeyChords("C")).toMatchSnapshot();
   });
   test("majorKeys", () => {
