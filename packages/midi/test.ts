@@ -78,7 +78,11 @@ describe("midi", () => {
     });
 
     test("empty pcsets returns the note", () => {
-      expect([10, 30, 40].map(Midi.pcsetNearest([]))).toEqual([undefined, undefined, undefined]);
+      expect([10, 30, 40].map(Midi.pcsetNearest([]))).toEqual([
+        undefined,
+        undefined,
+        undefined,
+      ]);
     });
   });
 

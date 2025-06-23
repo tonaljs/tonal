@@ -1,4 +1,4 @@
-import { describe, expect, test , it} from "vitest";
+import { describe, expect, test, it } from "vitest";
 import {
   compact,
   permutations,
