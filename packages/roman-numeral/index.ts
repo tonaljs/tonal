@@ -18,7 +18,11 @@ export interface NoRomanNumeral extends Partial<RomanNumeral> {
   readonly name: "";
   readonly chordType: "";
 }
-const NoRomanNumeral: NoRomanNumeral = { empty: true, name: "", chordType: "" };
+const NO_ROMAN_NUMERAL: NoRomanNumeral = {
+  empty: true,
+  name: "",
+  chordType: "",
+};
 
 const cache: Record<string, RomanNumeral | NoRomanNumeral> = {};
 
@@ -46,7 +50,7 @@ export function get(src: any): RomanNumeral | NoRomanNumeral {
         ? fromPitch(src)
         : isNamedPitch(src)
           ? get(src.name)
-          : NoRomanNumeral;
+          : NO_ROMAN_NUMERAL;
 }
 
 /**
@@ -89,7 +93,7 @@ const NAMES_MINOR = ROMANS.toLowerCase().split(" ");
 function parse(src: string): RomanNumeral | NoRomanNumeral {
   const [name, acc, roman, chordType] = tokenize(src);
   if (!roman) {
-    return NoRomanNumeral;
+    return NO_ROMAN_NUMERAL;
   }
 
   const upperRoman = roman.toUpperCase();
