@@ -113,7 +113,7 @@ Same as `Chord.degrees` but 0 is the tonic. Plays better with numeric ranges:
 ```js
 import { Range, Chord } from "tonal";
 
-Range.numeric([-3, 3]).map(Chord.steps("Caug", "C4"));
+Range.numeric([-3, 3]).map(Chord.steps("aug", "C4"));
 // => ["C3", "E3", "G#3", "C4", "E4", "G#4", "C5"]
 ```
 
