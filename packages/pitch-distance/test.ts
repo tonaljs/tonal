@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import { distance } from "./index";
 
 const allIntervalsFrom = (from: string) => (str: string) =>

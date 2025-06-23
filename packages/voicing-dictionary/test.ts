@@ -1,4 +1,5 @@
-import VoicingDictionary from "./index";
+import { describe, expect, test } from "vitest";
+import * as VoicingDictionary from "./index";
 
 describe("lookup", () => {
   test("lookup", () => {

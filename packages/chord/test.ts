@@ -1,4 +1,5 @@
-import Chord from "./index";
+import { describe, expect, it, test } from "vitest";
+import * as Chord from "./index";
 
 const $ = (str: string) => str.split(" ");
 

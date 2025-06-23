@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import * as Midi from "./index";
 
 describe("midi", () => {
@@ -77,7 +78,11 @@ describe("midi", () => {
     });
 
     test("empty pcsets returns the note", () => {
-      expect([10, 30, 40].map(Midi.pcsetNearest([]))).toEqual([]);
+      expect([10, 30, 40].map(Midi.pcsetNearest([]))).toEqual([
+        undefined,
+        undefined,
+        undefined,
+      ]);
     });
   });
 

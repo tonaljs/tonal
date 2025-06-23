@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import ScaleDictionary from "./index";
 import ScaleType from "@tonaljs/scale-type";
 

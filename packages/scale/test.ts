@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import * as Scale from "./index";
 
 const $ = (s: string) => s.split(" ");

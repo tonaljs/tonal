@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`@tonal/key C major 1`] = `
+exports[`@tonal/key > C major 1`] = `
 {
   "alteration": 0,
   "chordScales": [
@@ -127,7 +127,7 @@ exports[`@tonal/key C major 1`] = `
 }
 `;
 
-exports[`@tonal/key C major chords 1`] = `
+exports[`@tonal/key > C major chords 1`] = `
 [
   {
     "name": "Cmaj7",
@@ -289,7 +289,7 @@ exports[`@tonal/key C major chords 1`] = `
 ]
 `;
 
-exports[`@tonal/key C minor chords 1`] = `
+exports[`@tonal/key > C minor chords 1`] = `
 [
   {
     "name": "Cm7",
@@ -525,7 +525,7 @@ exports[`@tonal/key C minor chords 1`] = `
 ]
 `;
 
-exports[`@tonal/key majorKeys 1`] = `
+exports[`@tonal/key > majorKeys 1`] = `
 {
   "alteration": 3,
   "chordScales": [
@@ -652,7 +652,7 @@ exports[`@tonal/key majorKeys 1`] = `
 }
 `;
 
-exports[`@tonal/key majorKeys 2`] = `
+exports[`@tonal/key > majorKeys 2`] = `
 {
   "alteration": -2,
   "chordScales": [
@@ -779,7 +779,7 @@ exports[`@tonal/key majorKeys 2`] = `
 }
 `;
 
-exports[`@tonal/key majorKeys 3`] = `
+exports[`@tonal/key > majorKeys 3`] = `
 {
   "alteration": 4,
   "chordScales": [
@@ -906,7 +906,7 @@ exports[`@tonal/key majorKeys 3`] = `
 }
 `;
 
-exports[`@tonal/key minorKey 1`] = `
+exports[`@tonal/key > minorKey 1`] = `
 {
   "alteration": -3,
   "harmonic": {
@@ -1276,7 +1276,7 @@ exports[`@tonal/key minorKey 1`] = `
 }
 `;
 
-exports[`@tonal/key minorKey 2`] = `
+exports[`@tonal/key > minorKey 2`] = `
 {
   "alteration": -5,
   "harmonic": {
@@ -1646,7 +1646,7 @@ exports[`@tonal/key minorKey 2`] = `
 }
 `;
 
-exports[`@tonal/key minorKey 3`] = `
+exports[`@tonal/key > minorKey 3`] = `
 {
   "alteration": 2,
   "harmonic": {

@@ -8,14 +8,15 @@
   "module": "packages/tonal/dist/index.mjs",
   "types": "packages/tonal/dist/index.d.ts",
   "scripts": {
-    "publish-packages": "npm run test:ci && changeset version && changeset publish",
+    "publish-packages": "npm run test:all && changeset version && changeset publish",
     "build": "turbo run build",
     "format": "prettier --write packages/**/*.ts packages/**/package.json",
-    "test": "jest --coverage",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint 'packages/**/*.ts'",
     "lint:fix": "eslint 'packages/**/*.ts' --fix",
-    "test:ci": "npm run format && npm run lint && npm run build && npm run test -- --no-cache",
-    "doc": "typedoc"
+    "test:all": "npm run format && npm run lint && npm run build && npm run test:run"
   },
   "prettier": {},
   "eslintConfig": {
@@ -36,35 +37,20 @@
       "packages/**/dist/*"
     ]
   },
-  "lint-staged": {
-    "packages/**/*.ts": [
-      "prettier --write",
-      "eslint 'packages/**/*.ts'"
-    ]
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node"
-  },
   "devDependencies": {
     "@changesets/cli": "^2.27.11",
-    "@types/jest": "^29.5.14",
-    "@types/node": "^22.10.2",
+    "@types/node": "^24.0.3",
     "@typescript-eslint/eslint-plugin": "^8.18.1",
     "@typescript-eslint/parser": "^8.18.1",
+    "@vitest/coverage-v8": "^3.2.4",
     "esbuild": "^0.25.0",
-    "eslint": "^8",
-    "jest": "^29.7.0",
-    "jest-config": "^29.7.0",
-    "lint-staged": "^15.2.11",
+    "eslint": "^9.29.0",
     "lodash": "^4.17.21",
     "prettier": "^3.4.2",
-    "ts-jest": "^29.2.5",
     "tsup": "^8.3.5",
     "turbo": "^2.3.3",
-    "typedoc": "^0.27.5",
-    "typedoc-plugin-markdown": "^4.3.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vitest": "^3.2.4"
   },
   "packageManager": "npm@11.0.0"
 }

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`tonal Modules exports functions 1`] = `
+exports[`tonal > Modules exports functions 1`] = `
 {
   "AbcNotation": [
     "abcToScientificNotation",
@@ -317,7 +317,7 @@ exports[`tonal Modules exports functions 1`] = `
 }
 `;
 
-exports[`tonal exported modules and functions 1`] = `
+exports[`tonal > exported modules and functions 1`] = `
 [
   "AbcNotation",
   "Array",

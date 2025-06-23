@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import VoicingDictionary from "@tonaljs/voicing-dictionary";
 import { topNoteDiff } from "@tonaljs/voice-leading";
 import Voicing from "./index";

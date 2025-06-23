@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import { modes } from "@tonaljs/pcset";
 import ScaleType from "./index";
 

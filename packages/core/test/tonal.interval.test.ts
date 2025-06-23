@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import { interval, tokenizeInterval as tokenize } from "../index";
 
 describe("interval", () => {
@@ -73,7 +74,7 @@ describe("interval", () => {
   });
 
   describe("interval from pitch props", () => {
-    it("requires step, alt and dir", () => {
+    test("requires step, alt and dir", () => {
       expect(interval({ step: 0, alt: 0, dir: 1 }).name).toBe("1P");
       expect(interval({ step: 0, alt: -2, dir: 1 }).name).toBe("1dd");
       expect(interval({ step: 1, alt: 1, dir: 1 }).name).toBe("2A");
@@ -82,7 +83,7 @@ describe("interval", () => {
       expect(interval({ step: 1000, alt: 0 }).empty).toBe(true);
     });
 
-    it("accepts octave", () => {
+   test("accepts octave", () => {
       expect(interval({ step: 0, alt: 0, oct: 0, dir: 1 }).name).toBe("1P");
       expect(interval({ step: 0, alt: -1, oct: 1, dir: -1 }).name).toBe("-8d");
       expect(interval({ step: 0, alt: 1, oct: 2, dir: -1 }).name).toBe("-15A");
