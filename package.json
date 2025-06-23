@@ -8,13 +8,15 @@
   "module": "packages/tonal/dist/index.mjs",
   "types": "packages/tonal/dist/index.d.ts",
   "scripts": {
-    "publish-packages": "npm run test:ci && changeset version && changeset publish",
+    "publish-packages": "npm run test:all && changeset version && changeset publish",
     "build": "turbo run build",
     "format": "prettier --write packages/**/*.ts packages/**/package.json",
     "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint 'packages/**/*.ts'",
     "lint:fix": "eslint 'packages/**/*.ts' --fix",
-    "test:all": "npm run format && npm run lint && npm run build && vitest run"
+    "test:all": "npm run format && npm run lint && npm run build && npm run test:run"
   },
   "prettier": {},
   "eslintConfig": {
@@ -54,10 +56,8 @@
     "prettier": "^3.4.2",
     "tsup": "^8.3.5",
     "turbo": "^2.3.3",
-    "typescript": "^5.7.2"
-  },
-  "packageManager": "npm@11.0.0",
-  "dependencies": {
+    "typescript": "^5.7.2",
     "vitest": "^3.2.4"
-  }
+  },
+  "packageManager": "npm@11.0.0"
 }
