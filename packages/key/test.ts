@@ -1,4 +1,6 @@
 // tslint:disable-next-line: no-implicit-dependencies
+import { describe, expect, test } from "vitest";
+
 import { get as scale } from "@tonaljs/scale";
 // tslint:disable-next-line: no-implicit-dependencies
 import { get as chord } from "@tonaljs/chord";

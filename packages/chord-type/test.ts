@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import ChordType from "./index";
 import { interval } from "@tonaljs/core";
 import DATA from "./data";

@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import Pcset from "./index";
 
 const $ = (str: string) => str.split(" ");

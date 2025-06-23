@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import { name, parse, tokenize } from "./index";
 
 describe("Scientific Notation", () => {

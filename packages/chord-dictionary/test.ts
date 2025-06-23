@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import ChordDictionary from "./index";
 import ChordType from "@tonaljs/chord-type";
 

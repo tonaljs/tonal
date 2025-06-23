@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import { topNoteDiff } from ".";
 
 describe("VoiceLeading", () => {

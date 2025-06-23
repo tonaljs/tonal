@@ -1,4 +1,240 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`@tonal/key > C minor chords 1`] = `
+[
+  {
+    "name": "Cm7",
+    "roles": [
+      "T",
+    ],
+  },
+  {
+    "name": "Dm7b5",
+    "roles": [
+      "SD",
+    ],
+  },
+  {
+    "name": "Ebmaj7",
+    "roles": [
+      "T",
+    ],
+  },
+  {
+    "name": "Fm7",
+    "roles": [
+      "SD",
+    ],
+  },
+  {
+    "name": "Gm7",
+    "roles": [
+      "D",
+      "ii/IV",
+    ],
+  },
+  {
+    "name": "Abmaj7",
+    "roles": [
+      "SD",
+    ],
+  },
+  {
+    "name": "Bb7",
+    "roles": [
+      "SD",
+    ],
+  },
+  {
+    "name": "G7",
+    "roles": [
+      "V/I",
+      "D",
+    ],
+  },
+  {
+    "name": "C7",
+    "roles": [
+      "V/IV",
+    ],
+  },
+  {
+    "name": "D7",
+    "roles": [
+      "V/V",
+    ],
+  },
+  {
+    "name": "Eb7",
+    "roles": [
+      "V/bVI",
+      "subV/II",
+    ],
+  },
+  {
+    "name": "F7",
+    "roles": [
+      "V/bVII",
+      "SD",
+    ],
+  },
+  {
+    "name": "Dm7",
+    "roles": [
+      "ii/I",
+      "SD",
+    ],
+  },
+  {
+    "name": "Am7",
+    "roles": [
+      "ii/V",
+    ],
+  },
+  {
+    "name": "Bbm7b5",
+    "roles": [
+      "ii/bVI",
+    ],
+  },
+  {
+    "name": "Cm7b5",
+    "roles": [
+      "ii/bVII",
+    ],
+  },
+  {
+    "name": "Db7",
+    "roles": [
+      "subV/I",
+    ],
+  },
+  {
+    "name": "Gb7",
+    "roles": [
+      "subV/IV",
+    ],
+  },
+  {
+    "name": "Ab7",
+    "roles": [
+      "subV/V",
+    ],
+  },
+  {
+    "name": "Bbb7",
+    "roles": [
+      "subV/bVI",
+    ],
+  },
+  {
+    "name": "Cb7",
+    "roles": [
+      "subV/bVII",
+    ],
+  },
+  {
+    "name": "Abm7",
+    "roles": [
+      "subii/I",
+    ],
+  },
+  {
+    "name": "Dbm7",
+    "roles": [
+      "subii/IV",
+    ],
+  },
+  {
+    "name": "Ebm7",
+    "roles": [
+      "subii/V",
+    ],
+  },
+  {
+    "name": "Fbm7b5",
+    "roles": [
+      "subii/bVI",
+    ],
+  },
+  {
+    "name": "Gbm7b5",
+    "roles": [
+      "subii/bVII",
+    ],
+  },
+  {
+    "name": "CmMaj7",
+    "roles": [
+      "T",
+    ],
+  },
+  {
+    "name": "Eb+maj7",
+    "roles": [
+      "T",
+    ],
+  },
+  {
+    "name": "Bo7",
+    "roles": [
+      "D",
+    ],
+  },
+  {
+    "name": "Am7b5",
+    "roles": [
+      "ii/V",
+    ],
+  },
+  {
+    "name": "Ebm7b5",
+    "roles": [
+      "subii/V",
+    ],
+  },
+  {
+    "name": "Cm6",
+    "roles": [
+      "T",
+    ],
+  },
+  {
+    "name": "Bm7b5",
+    "roles": [],
+  },
+  {
+    "name": "A7",
+    "roles": [
+      "V/II",
+    ],
+  },
+  {
+    "name": "Em7",
+    "roles": [
+      "ii/II",
+    ],
+  },
+  {
+    "name": "Gm7b5",
+    "roles": [
+      "ii/IV",
+    ],
+  },
+  {
+    "name": "Bbm7",
+    "roles": [
+      "subii/II",
+    ],
+  },
+  {
+    "name": "Dbm7b5",
+    "roles": [
+      "subii/IV",
+    ],
+  },
+]
+`;
 
 exports[`@tonal/key C major 1`] = `
 {

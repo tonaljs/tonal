@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import { interval, isPitch, note } from "../index";
 
 describe("@tonal/tonal", () => {

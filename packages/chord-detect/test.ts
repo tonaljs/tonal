@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import { detect } from "./index";
 
 describe("@tonal/chord-detect", () => {

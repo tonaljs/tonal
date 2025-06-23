@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import { interval, isNamedPitch, note } from "../index";
 
 describe("@tonaljs/core", () => {

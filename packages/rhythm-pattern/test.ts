@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import * as R from "./index";
 
 const sequential = (start: number, step: number) => {

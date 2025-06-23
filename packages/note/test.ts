@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import Note from "./index";
 
 const $ = (str: string) => str.split(" ");

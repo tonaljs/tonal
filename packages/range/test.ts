@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import Range from "./index";
 const { numeric, chromatic } = Range;
 

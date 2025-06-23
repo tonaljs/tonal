@@ -1,4 +1,5 @@
-import AbcNotation from "./index";
+import { describe, expect, test } from "vitest";
+import * as AbcNotation from "./index";
 
 describe("@tonaljs/abc-notation", () => {
   test("tokenize", () => {

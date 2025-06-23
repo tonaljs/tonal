@@ -1,3 +1,4 @@
+import { describe, expect, it, test } from "vitest";
 import Collection from "./index";
 
 const $ = (arr: string) => arr.split(" ");
