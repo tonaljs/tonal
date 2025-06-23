@@ -37,12 +37,6 @@
       "packages/**/dist/*"
     ]
   },
-  "lint-staged": {
-    "packages/**/*.ts": [
-      "prettier --write",
-      "eslint 'packages/**/*.ts'"
-    ]
-  },
   "devDependencies": {
     "@changesets/cli": "^2.27.11",
     "@types/node": "^24.0.3",
@@ -51,7 +45,6 @@
     "@vitest/coverage-v8": "^3.2.4",
     "esbuild": "^0.25.0",
     "eslint": "^9.29.0",
-    "lint-staged": "^16.1.2",
     "lodash": "^4.17.21",
     "prettier": "^3.4.2",
     "tsup": "^8.3.5",
