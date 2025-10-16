@@ -26,7 +26,8 @@ const SCALES: string[][] = [
   ["1P 3M 4P 5P 7m", "mixolydian pentatonic", "indian"],
   ["1P 2M 4P 5P 6M", "ritusen"],
   ["1P 2M 4P 5P 7m", "egyptian"],
-  ["1P 3M 4P 5d 7m", "neopolitan major pentatonic"],
+  // Source: https://en.wikipedia.org/wiki/Neapolitan_scale
+  ["1P 3M 4P 5d 7m", "neapolitan major pentatonic"],
   ["1P 3m 4P 5P 6m", "vietnamese 1"],
   ["1P 2m 3m 5P 6m", "pelog"],
   ["1P 2m 4P 5P 6m", "kumoijoshi"],
@@ -51,7 +52,8 @@ const SCALES: string[][] = [
   ["1P 2M 3m 4P 5P 7M", "minor hexatonic"],
   ["1P 2A 3M 5P 5A 7M", "augmented"],
   ["1P 2M 4P 5P 6M 7m", "piongio"],
-  ["1P 2m 3M 4A 6M 7m", "prometheus neopolitan"],
+  // Source: https://en.wikipedia.org/wiki/Neapolitan_scale
+  ["1P 2m 3M 4A 6M 7m", "prometheus neapolitan"],
   ["1P 2M 3M 4A 6M 7m", "prometheus"],
   ["1P 2m 3M 5d 6m 7m", "mystery #1"],
   ["1P 2m 3M 4P 5A 6M", "six tone symmetric"],
@@ -104,7 +106,8 @@ const SCALES: string[][] = [
   ["1P 2M 3M 4A 5P 6m 7m", "lydian minor"],
   ["1P 2m 3M 4P 5P 6m 7m", "phrygian dominant", "spanish", "phrygian major"],
   ["1P 2m 3m 4P 5P 6m 7M", "balinese"],
-  ["1P 2m 3m 4P 5P 6M 7M", "neopolitan major"],
+  // Source: https://en.wikipedia.org/wiki/Neapolitan_scale
+  ["1P 2m 3m 4P 5P 6M 7M", "neapolitan major"],
   ["1P 2M 3M 4P 5P 6m 7M", "harmonic major"],
   ["1P 2m 3M 4P 5P 6m 7M", "double harmonic major", "gypsy"],
   ["1P 2M 3m 4A 5P 6m 7M", "hungarian minor"],
