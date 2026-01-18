@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/modules",
-  "version": "4.8.11",
+  "version": "4.8.12",
   "description": "deprecated",
   "keywords": [],
   "main": "dist/index.js",
@@ -10,7 +10,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "tonal": "6.4.2"
+    "tonal": "6.4.3"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

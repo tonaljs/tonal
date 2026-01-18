@@ -1,5 +1,12 @@
 # @tonaljs/mode
 
+## 4.9.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @tonaljs/scale-type@4.9.2
+
 ## 4.9.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @tonaljs/progression
 
+## 4.9.2
+
+### Patch Changes
+
+- @tonaljs/chord@6.1.2
+
 ## 4.9.1
 
 ### Patch Changes
