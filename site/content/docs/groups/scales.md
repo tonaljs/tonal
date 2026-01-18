@@ -159,7 +159,7 @@ You can ask just the exact match:
 Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact" });
 // => ["D major pentatonic"]
 Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact", tonic: "B" });
-// => ["B major pentatonic"]
+// => ["B minor pentatonic"]
 ```
 
 ## Relationships
