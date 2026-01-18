@@ -1,5 +1,11 @@
 # @tonaljs/voicing-dictionary
 
+## 5.1.3
+
+### Patch Changes
+
+- @tonaljs/chord@6.1.2
+
 ## 5.1.2
 
 ### Patch Changes

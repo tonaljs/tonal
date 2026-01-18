@@ -1,6 +1,11 @@
 # tonal
 
-## 6.4.0
+## 6.4.x
+
+### Bug fixes
+
+- Fix neapolitan spelling (#480)
+- Fix scale uppercase problem (#482)
 
 ### Export `NoteType` and `IntervalType` types
 
@@ -296,7 +301,6 @@ Scale.detect(["C", "D", "E", "F", "G", "A", "B"]);
 ### Minor Changes
 
 - New midi functions
-
   - Midi.pcset
   - Midi.pcsetSteps
   - Midi.pcsetDegrees

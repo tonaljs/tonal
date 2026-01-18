@@ -1,5 +1,12 @@
 # @tonaljs/chord
 
+## 6.1.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @tonaljs/scale-type@4.9.2
+
 ## 6.1.1
 
 ### Patch Changes
@@ -50,7 +57,6 @@
 ### Major Changes
 
 - 97f01d4: #### Breaking change: chord uses pitch classes, never notes with octaves
-
   - Breaking change: chords uses only pitch classes. Before `Chord.getChord('M', 'C4')` would consider `C4` to be the tonic and now is `C``
 
   So **before**:
@@ -77,7 +83,6 @@
   ```
 
   ### Feature: slash chords
-
   - Chord now accepts a slash and a bass. The bass _must_ be a pitch class
   - Chord properties include `bass` that is a pitch class that could or could not belong to the chord itself.
 
@@ -154,7 +159,6 @@
   ```
 
   The reasons for this change are:
-
   1. Chord symbols never use octaves
   2. The old behavior is confusing and arbitrary
 

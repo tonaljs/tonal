@@ -1,5 +1,14 @@
 # @tonaljs/scale
 
+## 4.13.4
+
+### Patch Changes
+
+- - Fix neapolitan spelling (#480)
+  - Fix scale uppercase problem (#482)
+- Updated dependencies
+  - @tonaljs/scale-type@4.9.2
+
 ## 4.13.3
 
 ### Patch Changes

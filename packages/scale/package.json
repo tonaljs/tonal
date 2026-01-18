@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/scale",
-  "version": "4.13.3",
+  "version": "4.13.4",
   "description": "Musical scales and its relations",
   "keywords": [
     "scale",
@@ -22,7 +22,7 @@
     "@tonaljs/pitch-note": "6.1.0",
     "@tonaljs/note": "4.12.1",
     "@tonaljs/pcset": "4.10.1",
-    "@tonaljs/scale-type": "4.9.1"
+    "@tonaljs/scale-type": "4.9.2"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

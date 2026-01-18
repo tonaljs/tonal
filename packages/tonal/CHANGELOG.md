@@ -1,5 +1,20 @@
 # tonal
 
+## 6.4.3
+
+### Patch Changes
+
+- - Fix neapolitan spelling (#480)
+  - Fix scale uppercase problem (#482)
+- Updated dependencies
+  - @tonaljs/scale-type@4.9.2
+  - @tonaljs/scale@4.13.4
+  - @tonaljs/chord@6.1.2
+  - @tonaljs/mode@4.9.2
+  - @tonaljs/progression@4.9.2
+  - @tonaljs/voicing@5.1.3
+  - @tonaljs/voicing-dictionary@5.1.3
+
 ## 6.4.2
 
 ### Patch Changes
@@ -326,7 +341,6 @@ Scale.detect(["C", "D", "E", "F", "G", "A", "B"]);
 ### Minor Changes
 
 - New midi functions
-
   - Midi.pcset
   - Midi.pcsetSteps
   - Midi.pcsetDegrees
