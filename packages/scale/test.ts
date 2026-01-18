@@ -50,12 +50,26 @@ describe("@tonaljs/scale", () => {
   });
 
   test("Scale.get with mixed cases", () => {
-    expect(Scale.get("C lydian #5P PENTATONIC")).toEqual(
-      Scale.get("C lydian #5P pentatonic"),
+    expect(Scale.get("C lydian #5P pentatonic")).toEqual(
+      Scale.get("C lydian #5p pentatonic"),
     );
-    expect(Scale.get("lydian #5P PENTATONIC")).toEqual(
+    expect(Scale.get("lydian #5p PENTATONIC")).toEqual(
       Scale.get("lydian #5P pentatonic"),
     );
+  });
+
+  // Regression test for https://github.com/tonaljs/tonal/issues/482
+  test("Scale.get works with scales containing interval qualifiers in name (#482)", () => {
+    // These scales have interval qualifiers (#5p, #7m) in their names
+    const lydian5p = Scale.get("C lydian #5p pentatonic");
+    expect(lydian5p.empty).toBe(false);
+    expect(lydian5p.name).toBe("C lydian #5p pentatonic");
+    expect(lydian5p.notes).toEqual(["C", "E", "F#", "G#", "B"]);
+
+    const minor7m = Scale.get("C minor #7m pentatonic");
+    expect(minor7m.empty).toBe(false);
+    expect(minor7m.name).toBe("C minor #7m pentatonic");
+    expect(minor7m.notes).toEqual(["C", "Eb", "F", "G", "B"]);
   });
 
   test("intervals", () => {

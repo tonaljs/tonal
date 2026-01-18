@@ -43,9 +43,9 @@ const SCALES: string[][] = [
   ["1P 2M 3M 5P 6m", "flat six pentatonic"],
   ["1P 2m 3M 5P 6M", "scriabin"],
   ["1P 3M 5d 6m 7m", "whole tone pentatonic"],
-  ["1P 3M 4A 5A 7M", "lydian #5P pentatonic"],
+  ["1P 3M 4A 5A 7M", "lydian #5p pentatonic"],
   ["1P 3M 4A 5P 7m", "lydian dominant pentatonic"],
-  ["1P 3m 4P 5P 7M", "minor #7M pentatonic"],
+  ["1P 3m 4P 5P 7M", "minor #7m pentatonic"],
   ["1P 3m 4d 5d 7m", "super locrian pentatonic"],
 
   // 6-note scales
