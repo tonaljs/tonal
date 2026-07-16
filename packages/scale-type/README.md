@@ -76,8 +76,8 @@ ScaleType.all()
 
 ```js
 ScaleType.add(["1P", "5P"], "quinta", ["quinta justa", "diapente"]);
-ScaleType.scale("quinta"); // => { name: "quinta", intervals: ...}
-ScaleType.scale("quinta justa"); // => { name: "quinta", intervals: ... }
+ScaleType.get("quinta"); // => { name: "quinta", intervals: ...}
+ScaleType.get("quinta justa"); // => { name: "quinta", intervals: ... }
 ```
 
 #### References
