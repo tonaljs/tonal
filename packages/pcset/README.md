@@ -54,17 +54,17 @@ Several shorthands (`num`, `chroma`, intervals`) are provided:
 
 ```js
 Pcset.chroma(["c", "d", "e"]); //=> "101010000000"
-Pcset.num(["c", "d", "e"]); //=> 2192
+Pcset.num(["c", "d", "e"]); //=> 2688
 
 // several set representations are accepted
-Pcset.chroma(2192); //=> "101010000000"
-Pcset.num("101010000000"); // => 2192
+Pcset.chroma(2688); //=> "101010000000"
+Pcset.num("101010000000"); // => 2688
 ```
 
 Intervals are always calculated from `C`:
 
 ```js
-Pcset.intervals(["c", "d", "e"]); // => ["1P", "5P", "7M"]
+Pcset.intervals(["c", "d", "e"]); // => ["1P", "2M", "3M"]
 Pcset.intervals(["D", "F", "A"]); // => ["2M", "4P", "6M"]
 ```
 
