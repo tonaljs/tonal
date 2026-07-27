@@ -16,17 +16,7 @@ export type IntervalName = string;
 export type IntervalLiteral = IntervalName | Pitch | NamedPitch;
 
 type Quality =
-  | "dddd"
-  | "ddd"
-  | "dd"
-  | "d"
-  | "m"
-  | "M"
-  | "P"
-  | "A"
-  | "AA"
-  | "AAA"
-  | "AAAA";
+  "dddd" | "ddd" | "dd" | "d" | "m" | "M" | "P" | "A" | "AA" | "AAA" | "AAAA";
 type Type = "perfectable" | "majorable";
 
 export interface Interval extends Pitch, NamedPitch {

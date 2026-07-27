@@ -24,6 +24,6 @@
     "@tonaljs/pitch-note": "6.1.0"
   },
   "scripts": {
-    "build": "tsup index.ts --sourcemap --dts --format esm,cjs"
+    "build": "tsdown index.ts --sourcemap --dts --format esm,cjs"
   }
 }

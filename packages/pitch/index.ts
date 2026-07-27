@@ -29,9 +29,7 @@ export type PitchClassCoordinates = [Fifths];
 export type NoteCoordinates = [Fifths, Octaves];
 export type IntervalCoordinates = [Fifths, Octaves, Direction];
 export type PitchCoordinates =
-  | PitchClassCoordinates
-  | NoteCoordinates
-  | IntervalCoordinates;
+  PitchClassCoordinates | NoteCoordinates | IntervalCoordinates;
 
 /**
  * Pitch properties

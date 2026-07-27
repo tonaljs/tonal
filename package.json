@@ -49,7 +49,7 @@
     "globals": "^17.7.0",
     "lodash": "^4.18.1",
     "prettier": "^3.9.6",
-    "tsup": "^8.5.1",
+    "tsdown": "^0.22.14",
     "turbo": "^2.10.5",
     "typescript": "^5.9.3",
     "vitest": "^4.1.10"
