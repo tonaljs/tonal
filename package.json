@@ -51,7 +51,7 @@
     "prettier": "^3.9.6",
     "tsdown": "^0.22.14",
     "turbo": "^2.10.5",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "vitest": "^4.1.10"
   },
   "packageManager": "npm@11.0.0"
