@@ -35,7 +35,7 @@
     "testEnvironment": "node"
   },
   "scripts": {
-    "build": "tsup index.ts --sourcemap --dts --format esm,cjs",
+    "build": "tsdown index.ts --sourcemap --dts --format esm,cjs",
     "test": "jest --coverage"
   }
 }

@@ -66,11 +66,7 @@ const cache: { [key in string]: Pcset } = { [EmptyPcset.chroma]: EmptyPcset };
  * - An array of interval names
  */
 export type Set =
-  | Partial<Pcset>
-  | PcsetChroma
-  | PcsetNum
-  | NoteName[]
-  | IntervalName[];
+  Partial<Pcset> | PcsetChroma | PcsetNum | NoteName[] | IntervalName[];
 
 /**
  * Get the pitch class set of a collection of notes or set number or chroma

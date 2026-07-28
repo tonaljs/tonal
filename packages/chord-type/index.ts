@@ -8,11 +8,7 @@ import {
 import data from "./data";
 
 export type ChordQuality =
-  | "Major"
-  | "Minor"
-  | "Augmented"
-  | "Diminished"
-  | "Unknown";
+  "Major" | "Minor" | "Augmented" | "Diminished" | "Unknown";
 
 export interface ChordType extends Pcset {
   name: string;
