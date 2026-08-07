@@ -311,17 +311,26 @@ export default {
 
 //// PRIVATE ////
 
-function chromaRotations(chroma: string): string[] {
-  const binary = chroma.split("");
-  return binary.map((_, i) => rotate(i, binary).join(""));
+// rotate chroma using its set number only with bit shifting operations
+function rotateChroma(v: number): number {
+  return ((v << 1) | (v >>> 11)) & 0xfff;
 }
 
 function chromaToPcset(chroma: PcsetChroma): Pcset {
   const setNum = chromaToNumber(chroma);
-  const normalizedNum = chromaRotations(chroma)
-    .map(chromaToNumber)
-    .filter((n) => n >= 2048)
-    .sort()[0];
+
+  if (setNum === 0) {
+    return EmptyPcset;
+  }
+
+  let normalizedNum = Infinity;
+  let r = setNum;
+
+  for (let i = 0; i < 12; i++) {
+    if (r >= 2048 && r < normalizedNum) normalizedNum = r;
+    r = rotateChroma(r);
+  }
+
   const normalized = setNumToChroma(normalizedNum);
 
   const intervals = chromaToIntervals(chroma);
