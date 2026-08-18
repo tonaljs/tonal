@@ -69,6 +69,13 @@ export function parse(literal: TimeSignatureLiteral): ParsedTimeSignature {
     return [up, denominator];
   }
 
+  // Guard against input that does not match REGEX (e.g. "C"): the exec above
+  // yields an undefined `up`, so `up.split` would throw. Return a zeroed parse
+  // that `build` maps to the NONE signature, matching invalid inputs like "0/0".
+  if (typeof up !== "string") {
+    return [0, 0];
+  }
+
   const list = up.split("+").map((n) => +n);
   return list.length === 1 ? [list[0], denominator] : [list, denominator];
 }
