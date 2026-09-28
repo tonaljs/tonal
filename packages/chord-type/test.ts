@@ -27,7 +27,7 @@ describe("@tonaljs/chord-type", () => {
   });
 
   test("all returns all chords", () => {
-    expect(ChordType.all()).toHaveLength(106);
+    expect(ChordType.all()).toHaveLength(107);
   });
 
   test("get ", () => {
@@ -91,5 +91,18 @@ describe("@tonal/chord-type data", () => {
         throw e;
       }
     });
+  });
+});
+
+describe("chord type input safety", () => {
+  test("Object.prototype keys are not chord types", () => {
+    for (const key of [
+      "constructor",
+      "toString",
+      "__proto__",
+      "hasOwnProperty",
+    ]) {
+      expect(ChordType.get(key).empty).toBe(true);
+    }
   });
 });

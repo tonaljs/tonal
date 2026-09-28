@@ -26,7 +26,7 @@ const NoChordType: ChordType = {
 type ChordTypeName = string | PcsetChroma | PcsetNum;
 
 let dictionary: ChordType[] = [];
-let index: Record<ChordTypeName, ChordType> = {};
+let index: Record<ChordTypeName, ChordType> = Object.create(null);
 
 /**
  * Given a chord name or chroma, return the chord properties
@@ -78,7 +78,7 @@ export const entries = all;
  */
 export function removeAll() {
   dictionary = [];
-  index = {};
+  index = Object.create(null);
 }
 
 /**

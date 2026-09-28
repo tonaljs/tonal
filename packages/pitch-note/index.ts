@@ -74,7 +74,8 @@ export function note(src: NoteLiteral): Note {
         : isNamedPitch(src)
           ? note(src.name)
           : NoNote;
-  cache.set(stringSrc, value);
+  // Only valid notes are cached, so arbitrary input can't grow the cache
+  if (!value.empty) cache.set(stringSrc, value);
   return value;
 }
 

@@ -103,3 +103,16 @@ describe("interval", () => {
     });
   });
 });
+
+describe("interval input safety", () => {
+  test("Object.prototype keys are not intervals", () => {
+    for (const key of [
+      "constructor",
+      "toString",
+      "__proto__",
+      "hasOwnProperty",
+    ]) {
+      expect(interval(key).empty).toBe(true);
+    }
+  });
+});
