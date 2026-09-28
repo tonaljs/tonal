@@ -18,15 +18,23 @@ describe("time-signature", () => {
   });
 
   test("does not throw on input that is not a time signature", () => {
-    // Regression for #490: "C" (common time) and other non-matching input
+    // Regression for #490: non-matching input
     // used to throw "Cannot read properties of undefined (reading 'split')".
-    for (const input of ["C", "", "x", "4", "/", "abc"]) {
+    for (const input of ["", "x", "4", "/", "abc", "constructor"]) {
       expect(() => TimeSignature.get(input)).not.toThrow();
       expect(TimeSignature.get(input).empty).toBe(true);
     }
     // A valid signature still parses correctly.
     expect(TimeSignature.get("4/4").empty).toBe(false);
     expect(TimeSignature.get("4/4").name).toBe("4/4");
+  });
+
+  test("common time and cut time symbols", () => {
+    expect(TimeSignature.get("C").name).toEqual("4/4");
+    expect(TimeSignature.get("c").name).toEqual("4/4");
+    expect(TimeSignature.get("C|").name).toEqual("2/2");
+    expect(TimeSignature.get("¢").name).toEqual("2/2");
+    expect(TimeSignature.parse("C")).toEqual([4, 4]);
   });
 
   test("simple", () => {

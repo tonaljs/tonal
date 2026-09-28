@@ -50,6 +50,13 @@ TimeSignature.get("3/4"); // =>
 
 `type` can be `simple`, `compound`, `regular`, `irregular` or `irrational`
 
+Common time (`C`) and cut time (`C|` or `¢`) symbols are accepted:
+
+```js
+TimeSignature.get("C").name; // => "4/4"
+TimeSignature.get("¢").name; // => "2/2"
+```
+
 Additive signatures are accepted:
 
 ```js
