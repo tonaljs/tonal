@@ -38,10 +38,10 @@ describe("interval", () => {
       expect(names("1P 2M 3M 4P 5P 6M 7M")).toEqual("1P 2M 3M 4P 5P 6M 7M");
       expect(names("P1 M2 M3 P4 P5 M6 M7")).toEqual("1P 2M 3M 4P 5P 6M 7M");
       expect(names("-1P -2M -3M -4P -5P -6M -7M")).toEqual(
-        "-1P -2M -3M -4P -5P -6M -7M"
+        "-1P -2M -3M -4P -5P -6M -7M",
       );
       expect(names("P-1 M-2 M-3 P-4 P-5 M-6 M-7")).toEqual(
-        "-1P -2M -3M -4P -5P -6M -7M"
+        "-1P -2M -3M -4P -5P -6M -7M",
       );
       expect(interval("not-an-interval").empty).toEqual(true);
       expect(interval("2P").empty).toBe(true);
@@ -83,7 +83,7 @@ describe("interval", () => {
       expect(interval({ step: 1000, alt: 0 }).empty).toBe(true);
     });
 
-   test("accepts octave", () => {
+    test("accepts octave", () => {
       expect(interval({ step: 0, alt: 0, oct: 0, dir: 1 }).name).toBe("1P");
       expect(interval({ step: 0, alt: -1, oct: 1, dir: -1 }).name).toBe("-8d");
       expect(interval({ step: 0, alt: 1, oct: 2, dir: -1 }).name).toBe("-15A");
