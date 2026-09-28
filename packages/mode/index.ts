@@ -37,7 +37,7 @@ const NoMode: Mode = {
 };
 
 const modes: Mode[] = MODES.map(toMode);
-const index: Record<string, Mode> = {};
+const index: Record<string, Mode> = Object.create(null);
 modes.forEach((mode) => {
   index[mode.name] = mode;
   mode.aliases.forEach((alias) => {

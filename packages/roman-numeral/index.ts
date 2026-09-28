@@ -24,7 +24,7 @@ const NO_ROMAN_NUMERAL: NoRomanNumeral = {
   chordType: "",
 };
 
-const cache: Record<string, RomanNumeral | NoRomanNumeral> = {};
+const cache = new Map<string, RomanNumeral | NoRomanNumeral>();
 
 /**
  * Get properties of a roman numeral string
@@ -43,7 +43,7 @@ const cache: Record<string, RomanNumeral | NoRomanNumeral> = {};
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function get(src: any): RomanNumeral | NoRomanNumeral {
   return typeof src === "string"
-    ? cache[src] || (cache[src] = parse(src))
+    ? cached(src)
     : typeof src === "number"
       ? get(NAMES[src] || "")
       : isPitch(src)
@@ -51,6 +51,16 @@ export function get(src: any): RomanNumeral | NoRomanNumeral {
         : isNamedPitch(src)
           ? get(src.name)
           : NO_ROMAN_NUMERAL;
+}
+
+// Only valid roman numerals are cached, so arbitrary input can't grow the cache
+function cached(src: string): RomanNumeral | NoRomanNumeral {
+  let value = cache.get(src);
+  if (!value) {
+    value = parse(src);
+    if (!value.empty) cache.set(src, value);
+  }
+  return value;
 }
 
 /**

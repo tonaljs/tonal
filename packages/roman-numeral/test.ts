@@ -85,3 +85,16 @@ describe("tonal-roman-numeral", () => {
     ).toEqual(RomanNumeral.names());
   });
 });
+
+describe("roman numeral input safety", () => {
+  test("Object.prototype keys are not roman numerals", () => {
+    for (const key of [
+      "constructor",
+      "toString",
+      "__proto__",
+      "hasOwnProperty",
+    ]) {
+      expect(RomanNumeral.get(key).empty).toBe(true);
+    }
+  });
+});

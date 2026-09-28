@@ -79,3 +79,11 @@ describe("note", () => {
     expect(note({ step: 8, alt: 0 }).name).toBe("");
   });
 });
+
+describe("note input safety", () => {
+  test("invalid input still returns an empty note", () => {
+    expect(note("nonsense").empty).toBe(true);
+    expect(note("nonsense").empty).toBe(true);
+    expect(note("C4").name).toBe("C4");
+  });
+});
