@@ -89,3 +89,16 @@ describe("gets dictionary", () => {
     expect(ScaleType.keys()).toEqual([]);
   });
 });
+
+describe("scale type input safety", () => {
+  test("Object.prototype keys are not scale types", () => {
+    for (const key of [
+      "constructor",
+      "toString",
+      "__proto__",
+      "hasOwnProperty",
+    ]) {
+      expect(ScaleType.get(key).empty).toBe(true);
+    }
+  });
+});

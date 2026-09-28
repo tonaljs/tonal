@@ -28,7 +28,7 @@ export const NoScaleType: ScaleType = {
 type ScaleTypeName = string | PcsetChroma | PcsetNum;
 
 let dictionary: ScaleType[] = [];
-let index: Record<ScaleTypeName, ScaleType> = {};
+let index: Record<ScaleTypeName, ScaleType> = Object.create(null);
 
 export function names() {
   return dictionary.map((scale) => scale.name);
@@ -77,7 +77,7 @@ export function keys() {
  */
 export function removeAll() {
   dictionary = [];
-  index = {};
+  index = Object.create(null);
 }
 
 /**

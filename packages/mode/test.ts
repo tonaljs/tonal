@@ -95,3 +95,11 @@ describe("Mode", () => {
     expect(Mode.relativeTonic("nonsense", "dorian", "D")).toEqual("");
   });
 });
+
+describe("mode input safety", () => {
+  test("Object.prototype keys are not modes", () => {
+    for (const key of ["constructor", "tostring", "__proto__"]) {
+      expect(Mode.get(key).empty).toBe(true);
+    }
+  });
+});

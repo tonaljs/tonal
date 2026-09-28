@@ -74,7 +74,7 @@ export function tokenizeInterval(str?: IntervalName): IntervalTokens {
   return m[1] ? [m[1], m[2]] : [m[4], m[3]];
 }
 
-const cache: { [key in string]: Interval } = {};
+const cache = new Map<string, Interval>();
 
 /**
  * Get interval properties. It returns an object with:
@@ -98,12 +98,22 @@ const cache: { [key in string]: Interval } = {};
  */
 export function interval(src: IntervalLiteral): Interval {
   return typeof src === "string"
-    ? cache[src] || (cache[src] = parse(src))
+    ? cached(src)
     : isPitch(src)
       ? interval(pitchName(src))
       : isNamedPitch(src)
         ? interval(src.name)
         : NoInterval;
+}
+
+// Only valid intervals are cached, so arbitrary input can't grow the cache
+function cached(src: string): Interval {
+  let value = cache.get(src);
+  if (!value) {
+    value = parse(src);
+    if (!value.empty) cache.set(src, value);
+  }
+  return value;
 }
 
 const SIZES = [0, 2, 4, 5, 7, 9, 11];

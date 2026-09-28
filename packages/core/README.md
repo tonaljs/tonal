@@ -38,8 +38,9 @@ Given a note name, it returns an object with the following properties:
 - alt: the accidental number (..., -1 = 'b', 0 = '', 1 = '#', ...)
 - oct: the octave (or null if not present)
 - chroma: the note chroma (0..11)
+- height: a number to compare and sort notes by pitch. Equals the midi number when the note has an octave (even outside the 0..127 midi range). Pitch classes get a large negative value, so they sort before any note with octave
 - midi: the note midi or null if octave is not present
-- freq: the note frequency in Hertzes, or null if the octave is note present
+- freq: the note frequency in Hertzes, or null if the octave is not present
 
 Example:
 

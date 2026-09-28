@@ -42,6 +42,13 @@ export function names() {
 }
 
 const REGEX = /^(\d*\d(?:\+\d)*)\/(\d+)$/;
+// Common time and cut time symbols
+const ALIASES = new Map([
+  ["C", "4/4"],
+  ["c", "4/4"],
+  ["C|", "2/2"],
+  ["¢", "2/2"],
+]);
 const CACHE = new Map<TimeSignatureLiteral, TimeSignature>();
 
 export function get(literal: TimeSignatureLiteral): TimeSignature {
@@ -52,14 +59,15 @@ export function get(literal: TimeSignatureLiteral): TimeSignature {
   }
 
   const ts = build(parse(literal));
-  CACHE.set(stringifiedLiteral, ts);
+  // Only valid signatures are cached, so arbitrary input can't grow the cache
+  if (!ts.empty) CACHE.set(stringifiedLiteral, ts);
   return ts;
 }
 
 export function parse(literal: TimeSignatureLiteral): ParsedTimeSignature {
   if (typeof literal === "string") {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_, up, low] = REGEX.exec(literal) || [];
+    const [_, up, low] = REGEX.exec(ALIASES.get(literal) ?? literal) || [];
     return parse([up, low]);
   }
 

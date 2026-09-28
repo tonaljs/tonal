@@ -273,7 +273,7 @@ export function notes(chordName: ChordNameOrTokens, tonic?: string): string[] {
  */
 export function degrees(chordName: ChordNameOrTokens, tonic?: string) {
   const chord = get(chordName);
-  const note = tonic || chord.tonic;
+  const note = tonic || tonicOf(chordName) || chord.tonic;
   const transpose = tonicIntervalsTransposer(chord.intervals, note);
   return (degree: number) =>
     degree ? transpose(degree > 0 ? degree - 1 : degree) : "";
@@ -284,8 +284,15 @@ export function degrees(chordName: ChordNameOrTokens, tonic?: string) {
  */
 export function steps(chordName: ChordNameOrTokens, tonic?: string) {
   const chord = get(chordName);
-  const note = tonic || chord.tonic;
+  const note = tonic || tonicOf(chordName) || chord.tonic;
   return tonicIntervalsTransposer(chord.intervals, note);
+}
+
+// When the chord is given as tokens, keep the tonic as written (with octave)
+function tonicOf(chordName: ChordNameOrTokens): string | undefined {
+  return Array.isArray(chordName) && chordName.length > 1
+    ? chordName[0]
+    : undefined;
 }
 
 /** @deprecated */
