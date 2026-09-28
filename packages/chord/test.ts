@@ -251,7 +251,7 @@ describe("tonal-chord", () => {
 
   test("extended", () => {
     const chords =
-      "Cmaj#4 Cmaj7#9#11 Cmaj9 CM7add13 Cmaj13 Cmaj9#11 CM13#11 CM7b9";
+      "Cmaj#4 Cmaj7#9#11 Cmaj9 Cmaj11 CM7add13 Cmaj13 Cmaj9#11 CM13#11 CM7b9";
     expect(Chord.extended("CMaj7").sort()).toEqual($(chords).sort());
   });
 
@@ -286,6 +286,19 @@ describe("tonal-chord", () => {
     expect([-3, -2, -1, 0, 1, 2, 3].map(Chord.steps("aug", "C4"))).toEqual(
       "C3 E3 G#3 C4 E4 G#4 C5".split(" "),
     );
+    // tonic with octave in chord tokens
+    expect([-3, -2, -1, 0, 1, 2, 3].map(Chord.steps(["C4", "aug"]))).toEqual(
+      "C3 E3 G#3 C4 E4 G#4 C5".split(" "),
+    );
+    expect([1, 2, 3, 4].map(Chord.degrees(["C4", "M"]))).toEqual(
+      "C4 E4 G4 C5".split(" "),
+    );
+  });
+
+  test("seventh augmented fifth and major eleventh", () => {
+    expect(Chord.get("Caug7").type).toEqual("seventh augmented fifth");
+    expect(Chord.get("Cmaj11").notes).toEqual(["C", "E", "G", "B", "D", "F"]);
+    expect(Chord.get("CM11").type).toEqual("major eleventh");
   });
 
   /*
