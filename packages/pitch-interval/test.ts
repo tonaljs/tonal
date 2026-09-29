@@ -57,6 +57,15 @@ describe("interval", () => {
       expect(tokenize("garbageP5")).toEqual(["", ""]);
       expect(tokenize("5Pgarbage")).toEqual(["", ""]);
     });
+
+    test("rejects interval number 0", () => {
+      expect(interval("0P").empty).toBe(true);
+      expect(interval("0M").empty).toBe(true);
+      expect(interval("-0A").empty).toBe(true);
+      expect(interval("P0").empty).toBe(true);
+      expect(interval("1P").empty).toBe(false);
+      expect(interval("-1P").empty).toBe(false);
+    });
     test("q", () => {
       const q = (str: string) => str.split(" ").map((i) => interval(i).q);
       expect(q("1dd 1d 1P 1A 1AA")).toEqual(["dd", "d", "P", "A", "AA"]);

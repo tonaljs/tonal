@@ -124,6 +124,9 @@ function parse(str?: string): Interval {
     return NoInterval;
   }
   const num = +tokens[0];
+  if (num === 0) {
+    return NoInterval;
+  }
   const q = tokens[1] as Quality;
   const step = (Math.abs(num) - 1) % 7;
   const t = TYPES[step];
