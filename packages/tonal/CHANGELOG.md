@@ -1,5 +1,35 @@
 # tonal
 
+## 6.5.1
+
+### Patch Changes
+
+- 4694a12: - Build `dist/index.js` and `dist/index.d.ts` again, so the `main` and `types` entries of every package resolve. Since the tsdown migration the build wrote `index.cjs` and `index.d.cts` instead, and `require("tonal")` or `import "tonal"` in Node failed with "Cannot find module".
+- Updated dependencies [4694a12]
+  - @tonaljs/abc-notation@4.9.3
+  - @tonaljs/array@4.8.6
+  - @tonaljs/chord@6.2.1
+  - @tonaljs/chord-type@5.2.1
+  - @tonaljs/collection@4.9.1
+  - @tonaljs/core@5.0.4
+  - @tonaljs/duration-value@4.9.1
+  - @tonaljs/interval@5.1.1
+  - @tonaljs/key@4.11.4
+  - @tonaljs/midi@4.10.4
+  - @tonaljs/mode@4.9.4
+  - @tonaljs/note@4.12.3
+  - @tonaljs/pcset@4.10.3
+  - @tonaljs/progression@4.9.4
+  - @tonaljs/range@4.9.4
+  - @tonaljs/rhythm-pattern@1.0.1
+  - @tonaljs/roman-numeral@4.9.3
+  - @tonaljs/scale@4.13.6
+  - @tonaljs/scale-type@4.9.4
+  - @tonaljs/time-signature@4.10.1
+  - @tonaljs/voice-leading@5.1.4
+  - @tonaljs/voicing@5.1.5
+  - @tonaljs/voicing-dictionary@5.1.5
+
 ## 6.5.0
 
 ### Minor Changes
