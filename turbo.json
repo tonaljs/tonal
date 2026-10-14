@@ -1,5 +1,8 @@
 {
   "$schema": "https://turborepo.org/schema.json",
+  "globalDependencies": [
+    "tsdown.config.mts"
+  ],
   "tasks": {
     "build": {
       "dependsOn": [
