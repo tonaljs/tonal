@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/progression",
-  "version": "4.9.2",
+  "version": "4.9.3",
   "description": "Build musical chord progressions",
   "keywords": [
     "chord",
@@ -17,11 +17,11 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord": "6.1.2",
-    "@tonaljs/pitch-distance": "5.0.5",
-    "@tonaljs/pitch-interval": "6.1.0",
-    "@tonaljs/pitch-note": "6.1.0",
-    "@tonaljs/roman-numeral": "4.9.1"
+    "@tonaljs/chord": "6.2.0",
+    "@tonaljs/pitch-distance": "5.0.6",
+    "@tonaljs/pitch-interval": "6.1.1",
+    "@tonaljs/pitch-note": "6.1.1",
+    "@tonaljs/roman-numeral": "4.9.2"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

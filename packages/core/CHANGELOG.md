@@ -1,5 +1,14 @@
 # @tonaljs/core
 
+## 5.0.3
+
+### Patch Changes
+
+- Updated dependencies [9aeb912]
+  - @tonaljs/pitch-interval@6.1.1
+  - @tonaljs/pitch-note@6.1.1
+  - @tonaljs/pitch-distance@5.0.6
+
 ## 5.0.2
 
 ### Patch Changes

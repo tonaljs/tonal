@@ -1,5 +1,15 @@
 # @tonaljs/note
 
+## 4.12.2
+
+### Patch Changes
+
+- Updated dependencies [9aeb912]
+  - @tonaljs/pitch-interval@6.1.1
+  - @tonaljs/pitch-note@6.1.1
+  - @tonaljs/pitch-distance@5.0.6
+  - @tonaljs/midi@4.10.3
+
 ## 4.12.1
 
 ### Patch Changes

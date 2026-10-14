@@ -1,5 +1,17 @@
 # @tonaljs/scale
 
+## 4.13.5
+
+### Patch Changes
+
+- Updated dependencies [9aeb912]
+  - @tonaljs/chord-type@5.2.0
+  - @tonaljs/pitch-note@6.1.1
+  - @tonaljs/pcset@4.10.2
+  - @tonaljs/scale-type@4.9.3
+  - @tonaljs/note@4.12.2
+  - @tonaljs/pitch-distance@5.0.6
+
 ## 4.13.4
 
 ### Patch Changes

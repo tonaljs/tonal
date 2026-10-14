@@ -1,5 +1,12 @@
 # @tonaljs/array
 
+## 4.8.5
+
+### Patch Changes
+
+- Updated dependencies [9aeb912]
+  - @tonaljs/pitch-note@6.1.1
+
 ## 4.8.4
 
 ### Patch Changes

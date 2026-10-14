@@ -1,5 +1,11 @@
 # @tonaljs/range
 
+## 4.9.3
+
+### Patch Changes
+
+- @tonaljs/midi@4.10.3
+
 ## 4.9.2
 
 ### Patch Changes

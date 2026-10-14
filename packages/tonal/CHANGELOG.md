@@ -1,5 +1,41 @@
 # tonal
 
+## 6.5.0
+
+### Minor Changes
+
+- 9aeb912: - Add `maj11` chord type (major eleventh) (#476)
+  - Name `aug7` chord type as "seventh augmented fifth", so `Chord.get("Caug7").type` is no longer empty (#500)
+  - `Chord.steps` and `Chord.degrees` keep the tonic octave when the chord is given as tokens: `Chord.steps(["C4", "aug"])` (#497)
+  - `TimeSignature.get` accepts common time (`C`) and cut time (`C|`, `¢`) symbols, and no longer throws on invalid input (#490)
+  - `Interval.get` rejects malformed intervals like `ddd5` or `5Pgarbage` (#494)
+  - Faster pitch class set normalization (#499)
+  - Invalid input is no longer cached, so caches can't grow without limit (#498)
+  - `Object.prototype` keys like `"constructor"` no longer return built-in functions from `Interval.get`, `RomanNumeral.get`, `ChordType.get`, `ScaleType.get` and `Mode.get`
+
+### Patch Changes
+
+- Updated dependencies [9aeb912]
+  - @tonaljs/chord-type@5.2.0
+  - @tonaljs/chord@6.2.0
+  - @tonaljs/time-signature@4.10.0
+  - @tonaljs/pcset@4.10.2
+  - @tonaljs/roman-numeral@4.9.2
+  - @tonaljs/scale-type@4.9.3
+  - @tonaljs/mode@4.9.3
+  - @tonaljs/scale@4.13.5
+  - @tonaljs/key@4.11.3
+  - @tonaljs/progression@4.9.3
+  - @tonaljs/voicing@5.1.4
+  - @tonaljs/voicing-dictionary@5.1.4
+  - @tonaljs/core@5.0.3
+  - @tonaljs/note@4.12.2
+  - @tonaljs/abc-notation@4.9.2
+  - @tonaljs/array@4.8.5
+  - @tonaljs/midi@4.10.3
+  - @tonaljs/voice-leading@5.1.3
+  - @tonaljs/range@4.9.3
+
 ## 6.4.3
 
 ### Patch Changes

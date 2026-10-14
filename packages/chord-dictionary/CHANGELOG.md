@@ -1,5 +1,12 @@
 # @tonaljs/chord-dictionary
 
+## 4.8.7
+
+### Patch Changes
+
+- Updated dependencies [9aeb912]
+  - @tonaljs/chord-type@5.2.0
+
 ## 4.8.6
 
 ### Patch Changes
