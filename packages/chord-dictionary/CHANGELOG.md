@@ -1,5 +1,11 @@
 # @tonaljs/chord-dictionary
 
+## 4.8.9
+
+### Patch Changes
+
+- 14a1f7e: Restore the named exports of the CommonJS build. Since the tsdown migration, `require("@tonaljs/chord-dictionary")` returned only the default export, without `addAlias` or `default` (and `require("@tonaljs/scale-dictionary")` also lost `NoScaleType`).
+
 ## 4.8.8
 
 ### Patch Changes
