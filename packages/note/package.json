@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/note",
-  "version": "4.12.1",
+  "version": "4.12.3",
   "description": "Parse and manipulate music notes in scientific notation",
   "keywords": [
     "note",
@@ -15,11 +15,11 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/pitch": "5.0.2",
-    "@tonaljs/pitch-interval": "6.1.0",
-    "@tonaljs/pitch-distance": "5.0.5",
-    "@tonaljs/pitch-note": "6.1.0",
-    "@tonaljs/midi": "4.10.2"
+    "@tonaljs/pitch": "5.0.3",
+    "@tonaljs/pitch-interval": "6.1.2",
+    "@tonaljs/pitch-distance": "5.0.7",
+    "@tonaljs/pitch-note": "6.1.2",
+    "@tonaljs/midi": "4.10.4"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

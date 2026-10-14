@@ -1,5 +1,20 @@
 # @tonaljs/midi
 
+## 4.10.4
+
+### Patch Changes
+
+- 4694a12: - Build `dist/index.js` and `dist/index.d.ts` again, so the `main` and `types` entries of every package resolve. Since the tsdown migration the build wrote `index.cjs` and `index.d.cts` instead, and `require("tonal")` or `import "tonal"` in Node failed with "Cannot find module".
+- Updated dependencies [4694a12]
+  - @tonaljs/pitch-note@6.1.2
+
+## 4.10.3
+
+### Patch Changes
+
+- Updated dependencies [9aeb912]
+  - @tonaljs/pitch-note@6.1.1
+
 ## 4.10.2
 
 ### Patch Changes

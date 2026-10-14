@@ -1,5 +1,20 @@
 # @tonaljs/scale-dictionary
 
+## 4.8.8
+
+### Patch Changes
+
+- 4694a12: - Build `dist/index.js` and `dist/index.d.ts` again, so the `main` and `types` entries of every package resolve. Since the tsdown migration the build wrote `index.cjs` and `index.d.cts` instead, and `require("tonal")` or `import "tonal"` in Node failed with "Cannot find module".
+- Updated dependencies [4694a12]
+  - @tonaljs/scale-type@4.9.4
+
+## 4.8.7
+
+### Patch Changes
+
+- Updated dependencies [9aeb912]
+  - @tonaljs/scale-type@4.9.3
+
 ## 4.8.6
 
 ### Patch Changes

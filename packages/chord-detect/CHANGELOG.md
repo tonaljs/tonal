@@ -1,5 +1,24 @@
 # @tonaljs/chord-detect
 
+## 4.9.3
+
+### Patch Changes
+
+- 4694a12: - Build `dist/index.js` and `dist/index.d.ts` again, so the `main` and `types` entries of every package resolve. Since the tsdown migration the build wrote `index.cjs` and `index.d.cts` instead, and `require("tonal")` or `import "tonal"` in Node failed with "Cannot find module".
+- Updated dependencies [4694a12]
+  - @tonaljs/chord-type@5.2.1
+  - @tonaljs/pcset@4.10.3
+  - @tonaljs/pitch-note@6.1.2
+
+## 4.9.2
+
+### Patch Changes
+
+- Updated dependencies [9aeb912]
+  - @tonaljs/chord-type@5.2.0
+  - @tonaljs/pitch-note@6.1.1
+  - @tonaljs/pcset@4.10.2
+
 ## 4.9.1
 
 ### Patch Changes

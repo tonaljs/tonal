@@ -1,5 +1,24 @@
 # @tonaljs/key
 
+## 4.11.4
+
+### Patch Changes
+
+- 4694a12: - Build `dist/index.js` and `dist/index.d.ts` again, so the `main` and `types` entries of every package resolve. Since the tsdown migration the build wrote `index.cjs` and `index.d.cts` instead, and `require("tonal")` or `import "tonal"` in Node failed with "Cannot find module".
+- Updated dependencies [4694a12]
+  - @tonaljs/note@4.12.3
+  - @tonaljs/pitch-note@6.1.2
+  - @tonaljs/roman-numeral@4.9.3
+
+## 4.11.3
+
+### Patch Changes
+
+- Updated dependencies [9aeb912]
+  - @tonaljs/pitch-note@6.1.1
+  - @tonaljs/roman-numeral@4.9.2
+  - @tonaljs/note@4.12.2
+
 ## 4.11.2
 
 ### Patch Changes
