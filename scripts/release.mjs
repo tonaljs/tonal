@@ -40,5 +40,6 @@ if (pending.length)
 run("npm", "run", "build");
 run("npm", "run", "test:run");
 run("npm", "run", "test:dist");
+run("npm", "run", "test:types");
 run("npx", "changeset", "publish");
 run("git", "push", "origin", "--tags");

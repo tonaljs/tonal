@@ -16,8 +16,9 @@
     "test:coverage": "vitest run --coverage",
     "lint": "eslint 'packages/**/*.ts'",
     "lint:fix": "eslint 'packages/**/*.ts' --fix",
-    "test:all": "npm run format && npm run lint && npm run build && npm run test:run && npm run test:dist",
-    "test:dist": "node scripts/check-dist.mjs"
+    "test:all": "npm run format && npm run lint && npm run build && npm run test:run && npm run test:dist && npm run test:types",
+    "test:dist": "node scripts/check-dist.mjs",
+    "test:types": "node scripts/check-types.mjs"
   },
   "prettier": {},
   "eslintConfig": {
@@ -39,6 +40,7 @@
     ]
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@changesets/cli": "^2.31.1",
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.1.1",
