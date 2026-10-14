@@ -8,7 +8,7 @@
   "module": "packages/tonal/dist/index.mjs",
   "types": "packages/tonal/dist/index.d.ts",
   "scripts": {
-    "publish-packages": "npm run test:all && changeset version && changeset publish",
+    "release": "node scripts/release.mjs",
     "build": "turbo run build",
     "format": "prettier --write packages/**/*.ts packages/**/package.json",
     "test": "vitest",

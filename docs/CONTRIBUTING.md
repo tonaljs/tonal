@@ -44,30 +44,27 @@ To create a new module:
 
 ## Release
 
-Releases are built using changesets: https://turbo.build/repo/docs/handbook/publishing-packages/versioning-and-publishing:
+Releases are built using [changesets](https://github.com/changesets/changesets). Pull requests that change a package include a changeset, created with `npx changeset` (select the packages and the bump: major, minor or patch).
 
-```
-# Create a new branch
-git co -b release-4.7.4
+A release takes two steps. Versions are bumped in a pull request first and published after it is merged, so npm never gets a version that isn't on `main`.
 
-# Create a changeset and update versions
+**1. Version pull request**
 
-npx changeset # Select packages and which version (major, minor, bump)
-# (Optional: edit changeset. The header contains the affected packages.)
+```bash
+git switch -c release-x.y.z
 npx changeset version # Updates version and CHANGELOG of each package
-
-# Create commit and PR
+npm run build         # Updates the browser build in packages/tonal/browser
 git add .
-git commit -m "chore: bump version"
-
-# Build browser
-npm run build
-git add .
-git commit -m "chore: browser build"
-
-# Create PR
-git push
-
-# Publish all changed packages to npm
-npx changeset publish
+git commit -m "Version packages (x.y.z)"
+git push              # Then open a pull request and merge it
 ```
+
+**2. Publish**
+
+```bash
+git switch main && git pull
+npm ci
+npm run release
+```
+
+`npm run release` only runs on a clean `main` that matches `origin/main` and has no unreleased changesets. It builds, runs the tests, publishes the new versions with `changeset publish` and pushes their git tags.
