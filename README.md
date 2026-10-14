@@ -196,6 +196,7 @@ Showcase of projects that are using Tonal:
 - [Polychron](https://github.com/PolychronMidi/Polychron) by [i1li](https://github.com/i1li)
 - [MusicTrainer](https://musictrainer.barnman.cc) by [zilongliu](https://github.com/Zilong-L)
 - [RiffScore](https://riffscore.netlify.app/) by [joekotvas](https://github.com/joekotvas/)
+- [tonal_rs](https://github.com/TvrtkoM/tonal_rs) rust port by [TvrtkoM](https://github.com/TvrtkoM/)
 
 Thank you all!
 
