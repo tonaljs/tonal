@@ -16,7 +16,8 @@
     "test:coverage": "vitest run --coverage",
     "lint": "eslint 'packages/**/*.ts'",
     "lint:fix": "eslint 'packages/**/*.ts' --fix",
-    "test:all": "npm run format && npm run lint && npm run build && npm run test:run"
+    "test:all": "npm run format && npm run lint && npm run build && npm run test:run && npm run test:dist",
+    "test:dist": "node scripts/check-dist.mjs"
   },
   "prettier": {},
   "eslintConfig": {

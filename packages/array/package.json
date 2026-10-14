@@ -27,7 +27,7 @@
     "testEnvironment": "node"
   },
   "scripts": {
-    "build": "tsdown index.ts --sourcemap --dts --format esm,cjs --no-fixed-extension",
+    "build": "tsdown",
     "test": "jest --coverage"
   }
 }
