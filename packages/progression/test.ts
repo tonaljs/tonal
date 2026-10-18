@@ -18,6 +18,28 @@ describe("@tonaljs/progression", () => {
     );
   });
 
+  test("lowercase numerals are minor chords", () => {
+    const inC = (chords: string[]) =>
+      Progression.fromRomanNumerals("C", chords);
+    expect(inC($("i ii iii iv v vi vii"))).toEqual($("Cm Dm Em Fm Gm Am Bm"));
+    expect(inC($("ii7 iii9 vi6 iiadd9 iMaj7"))).toEqual(
+      $("Dm7 Em9 Am6 Dmadd9 CmMaj7"),
+    );
+    expect(inC($("bvi #iv7"))).toEqual($("Abm F#m7"));
+    expect(Progression.fromRomanNumerals("A", $("i iv v"))).toEqual(
+      $("Am Dm Em"),
+    );
+  });
+
+  test("lowercase numerals keep a chord type with its own quality", () => {
+    const inC = (chords: string[]) =>
+      Progression.fromRomanNumerals("C", chords);
+    expect(inC($("iim7 viio viio7 viim7b5 viiø iim"))).toEqual(
+      $("Dm7 Bo Bo7 Bm7b5 Bø Dm"),
+    );
+    expect(inC($("iisus4 ii+"))).toEqual($("Dsus4 D+"));
+  });
+
   test("abstract", () => {
     const roman = Progression.toRomanNumerals("C", ["Cmaj7", "Dm7", "G7"]);
     expect(roman).toEqual(["Imaj7", "IIm7", "V7"]);
