@@ -23,6 +23,13 @@ Progression.fromRomanNumerals("C", ["IMaj7", "IIm7", "V7"]);
 // => ["CMaj7", "Dm7", "G7"]
 ```
 
+A lowercase roman numeral is a minor chord, unless its chord type already has a quality (like `viio` or `iim7`):
+
+```js
+Progression.fromRomanNumerals("C", ["I", "vi", "ii7", "V7", "viio"]);
+// => ["C", "Am", "Dm7", "G7", "Bo"]
+```
+
 ### `Progression.toRomanNumerals`
 
 `toRomanNumerals(keyTonic: string, chordProgression: string[]) => string[]`
