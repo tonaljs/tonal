@@ -22,7 +22,7 @@ import {
  * import { transpose } from "@tonaljs/core"
  * transpose("d3", "3M") // => "F#3"
  * transpose("D", "3M") // => "F#"
- * ["C", "D", "E", "F", "G"].map(pc => transpose(pc, "M3)) // => ["E", "F#", "G#", "A", "B"]
+ * ["C", "D", "E", "F", "G"].map(pc => transpose(pc, "M3")) // => ["E", "F#", "G#", "A", "B"]
  */
 export function transpose(
   noteName: NoteLiteral,
