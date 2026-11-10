@@ -19,7 +19,7 @@ parse("cb4"); // => { step: 0, oct: 4, alt: -1 }
 Given a note name in [scientific notation] it returns an array with the different parts:
 
 ```js
-tokenize("Abb4 major"); // => ["", "A", "bb", "4", "major"]
+tokenize("Abb4 major"); // => ["A", "bb", "4", "major"]
 ```
 
 ### `parse(name: string) => { step, alt, oct? } | undefined`
@@ -35,5 +35,5 @@ Given a note name, it returns an object with the following properties:
 Given the result of `parse` it returns the name.
 
 ```js
-name({ step: 1, oct: 2, alt: 1 }); // => "D#1"
+name({ step: 1, oct: 2, alt: 1 }); // => "D#2"
 ```

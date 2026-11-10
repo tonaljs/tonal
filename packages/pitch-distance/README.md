@@ -66,7 +66,7 @@ Take a look to [@tonaljs/note](/packages/note) or [@tonaljs/interval](/packages/
 #### How do I get the note frequency and midi number?
 
 ```js
-note("C4").octave; // => 4
+note("C4").oct; // => 4
 note("C4").midi; // => 60
 ```
 

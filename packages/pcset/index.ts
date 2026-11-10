@@ -111,7 +111,7 @@ export const intervals = (set: Set) => get(set).intervals;
  * Get pitch class set number
  * @function
  * @example
- * Pcset.num(["c", "d", "e"]); //=> 2192
+ * Pcset.num(["c", "d", "e"]); //=> 2688
  */
 export const num = (set: Set) => get(set).setNum;
 

@@ -38,7 +38,7 @@ const cache = new Map<string, RomanNumeral | NoRomanNumeral>();
  * @param {boolean} major - major or not
  *
  * @example
- * romanNumeral("VIIb5") // => { name: "VII", type: "b5", num: 7, major: true }
+ * RomanNumeral.get("VIIb5") // => { name: "VIIb5", roman: "VII", chordType: "b5", step: 6, major: true, ... }
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function get(src: any): RomanNumeral | NoRomanNumeral {

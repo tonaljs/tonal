@@ -68,10 +68,10 @@ const NoChord: Chord = {
  * @param {string} name - the chord name
  * @return {Array} an array with [tonic, type, bass]
  * @example
- * tokenize("Cmaj7") // => [ "C", "maj7" ]
- * tokenize("C7") // => [ "C", "7" ]
- * tokenize("mMaj7") // => [ null, "mMaj7" ]
- * tokenize("Cnonsense") // => [ null, "nonsense" ]
+ * tokenize("Cmaj7") // => [ "C", "maj7", "" ]
+ * tokenize("C7") // => [ "C", "7", "" ]
+ * tokenize("mMaj7") // => [ "", "mMaj7", "" ]
+ * tokenize("Cnonsense") // => [ "C", "nonsense", "" ]
  */
 export function tokenize(name: string): ChordNameTokens {
   const [letter, acc, oct, type] = tokenizeNote(name);

@@ -54,9 +54,9 @@ const L440 = Math.log(440);
  * @return {number}
  * @example
  * import { freqToMidi} from '@tonaljs/midi'
- * freqToMidi(220)); //=> 57
- * freqToMidi(261.62)); //=> 60
- * freqToMidi(261)); //=> 59.96
+ * freqToMidi(220); //=> 57
+ * freqToMidi(261.62); //=> 60
+ * freqToMidi(261); //=> 59.96
  */
 export function freqToMidi(freq: number): number {
   const v = (12 * (Math.log(freq) - L440)) / L2 + 69;
