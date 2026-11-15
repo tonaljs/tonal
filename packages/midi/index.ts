@@ -4,7 +4,14 @@ type Midi = number;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isMidi(arg: any): arg is Midi {
-  return +arg >= 0 && +arg <= 127;
+  // only numbers and numeric strings: `+""`, `+null` or `+[]` would give 0
+  const n =
+    typeof arg === "string" && arg.trim() !== ""
+      ? +arg
+      : typeof arg === "number"
+        ? arg
+        : NaN;
+  return n >= 0 && n <= 127;
 }
 
 /**
