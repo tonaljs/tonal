@@ -11,6 +11,12 @@ describe("tonal-range", () => {
       expect(numeric(["C4"])).toEqual([60]);
     });
 
+    test("empty note names are not valid", () => {
+      expect(numeric(["C4", ""])).toEqual([]);
+      expect(numeric(["C4", " ", "E4"])).toEqual([]);
+      expect(chromatic(["C4", ""])).toEqual([]);
+    });
+
     test("note in midi numbers", () => {
       expect(numeric([0, 10])).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
       expect(numeric([10, 0])).toEqual([10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]);

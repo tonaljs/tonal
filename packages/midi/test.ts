@@ -4,6 +4,14 @@ import * as Midi from "./index";
 describe("midi", () => {
   test("isMidi", () => {
     expect(Midi.isMidi(100)).toBe(true);
+    expect(Midi.isMidi("100")).toBe(true);
+    expect(Midi.isMidi(0)).toBe(true);
+    expect(Midi.isMidi("")).toBe(false);
+    expect(Midi.isMidi(" ")).toBe(false);
+    expect(Midi.isMidi(null)).toBe(false);
+    expect(Midi.isMidi(undefined)).toBe(false);
+    expect(Midi.isMidi([])).toBe(false);
+    expect(Midi.isMidi(true)).toBe(false);
   });
 
   test("toMidi", () => {
@@ -16,6 +24,8 @@ describe("midi", () => {
     expect(Midi.toMidi(128)).toBe(null);
     expect(Midi.toMidi("blah")).toBe(null);
     expect(Midi.toMidi(NaN)).toBe(null);
+    expect(Midi.toMidi("")).toBe(null);
+    expect(Midi.toMidi(" ")).toBe(null);
   });
 
   test("freqToMidi", () => {
