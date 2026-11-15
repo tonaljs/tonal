@@ -1,0 +1,7 @@
+:HL["/tonal/_next/static/chunks/3ctgvcna308-w.css","style"]
+:HL["/tonal/_next/static/media/07c7676b89ed2778-s.p.2bn3s6zvc0dyp.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["https://img.shields.io/badge/@tonaljs-duration--value-yellow.svg?style=flat-square","image"]
+3:[["children",{"s":"__PAGE__","h":160}]]
+2:[["children",{"s":{"n":"slug","t":"oc","k":"time/duration","s":[]},"h":96,"c":"$Q3"}]]
+1:[["children",{"s":"docs","h":96,"c":"$Q2"}]]
+0:{"b":"hbwSf9R9rcOZ-V0CF9NkT","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
