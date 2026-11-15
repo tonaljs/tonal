@@ -1,5 +1,12 @@
 # @tonaljs/chord-detect
 
+## 4.9.4
+
+### Patch Changes
+
+- @tonaljs/pcset@4.10.4
+- @tonaljs/chord-type@5.2.2
+
 ## 4.9.3
 
 ### Patch Changes

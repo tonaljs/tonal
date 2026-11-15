@@ -1,5 +1,11 @@
 # @tonaljs/scale-dictionary
 
+## 4.8.10
+
+### Patch Changes
+
+- @tonaljs/scale-type@4.9.5
+
 ## 4.8.9
 
 ### Patch Changes

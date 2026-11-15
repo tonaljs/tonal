@@ -1,5 +1,11 @@
 # @tonaljs/scale-type
 
+## 4.9.5
+
+### Patch Changes
+
+- @tonaljs/pcset@4.10.4
+
 ## 4.9.4
 
 ### Patch Changes

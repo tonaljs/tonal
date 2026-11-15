@@ -1,5 +1,12 @@
 # @tonaljs/midi
 
+## 4.10.5
+
+### Patch Changes
+
+- f3b53a4: Fix `Note.simplify` dropping the octave of notes outside the midi range (`simplify("C10")` was `"C"`), and `Midi.midiToNoteName` returning `NaN` for negative numbers (`midiToNoteName(-1)` is now `"B-2"`)
+- 80a12e3: Fix `isMidi` and `toMidi`: empty or blank strings, `null`, arrays and booleans are not midi numbers anymore (`toMidi("")` was `0`) (see #519)
+
 ## 4.10.4
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @tonaljs/range
 
+## 4.9.5
+
+### Patch Changes
+
+- 80a12e3: Fix `isMidi` and `toMidi`: empty or blank strings, `null`, arrays and booleans are not midi numbers anymore (`toMidi("")` was `0`) (see #519)
+- Updated dependencies [f3b53a4]
+- Updated dependencies [80a12e3]
+  - @tonaljs/midi@4.10.5
+
 ## 4.9.4
 
 ### Patch Changes

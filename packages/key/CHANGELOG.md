@@ -1,5 +1,14 @@
 # @tonaljs/key
 
+## 4.11.5
+
+### Patch Changes
+
+- 012c2f2: Fix `majorTonicFromKeySignature`: only strings made of all `b` or all `#` are read as a key signature (`"F#"` and `"b#"` now give `null`), and `""` gives `"C"` (see #517)
+- Updated dependencies [f3b53a4]
+  - @tonaljs/note@4.12.4
+  - @tonaljs/roman-numeral@4.9.4
+
 ## 4.11.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @tonaljs/chord-dictionary
 
+## 4.8.10
+
+### Patch Changes
+
+- @tonaljs/chord-type@5.2.2
+
 ## 4.8.9
 
 ### Patch Changes

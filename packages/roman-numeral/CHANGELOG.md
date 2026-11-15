@@ -1,5 +1,12 @@
 # @tonaljs/roman-numeral
 
+## 4.9.4
+
+### Patch Changes
+
+- Updated dependencies [875f1b7]
+  - @tonaljs/pitch-interval@6.2.0
+
 ## 4.9.3
 
 ### Patch Changes
