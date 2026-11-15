@@ -1,8 +1,9 @@
-import { IntervalCoordinates, PitchCoordinates, pitch } from "@tonaljs/pitch";
+import { PitchCoordinates, pitch } from "@tonaljs/pitch";
 import {
   IntervalLiteral,
   IntervalName,
   interval as asInterval,
+  coordToInterval,
 } from "@tonaljs/pitch-interval";
 import {
   NoteLiteral,
@@ -86,20 +87,12 @@ export function distance(
   const fcoord = from.coord;
   const tcoord = to.coord;
   const fifths = tcoord[0] - fcoord[0];
-  const isPitchClass = fcoord.length !== 2 || tcoord.length !== 2;
+  if (fcoord.length === 2 && tcoord.length === 2) {
+    return coordToInterval([fifths, tcoord[1] - fcoord[1]]).name;
+  }
   // Between pitch classes, choose the octaves that keep the letter steps
-  // ascending and within an octave (0 to 6)
-  const octs = isPitchClass
-    ? -Math.floor((fifths * 4) / 7)
-    : tcoord[1] - fcoord[1];
-
-  // A fifth is 4 letter steps and 7 semitones, an octave 7 and 12
-  const steps = fifths * 4 + octs * 7;
-  const semitones = fifths * 7 + octs * 12;
-  const descending =
-    !isPitchClass && (steps < 0 || (steps === 0 && semitones < 0));
-  const coord: IntervalCoordinates = descending
-    ? [-fifths, -octs, -1]
-    : [fifths, octs, 1];
-  return asInterval(pitch(coord)).name;
+  // ascending and within an octave (0 to 6), and keep the interval ascending
+  // even when it sounds lower, like a diminished unison
+  const octs = -Math.floor((fifths * 4) / 7);
+  return asInterval(pitch([fifths, octs, 1])).name;
 }
