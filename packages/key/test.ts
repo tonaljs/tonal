@@ -13,6 +13,24 @@ describe("@tonal/key", () => {
     expect(Key.majorTonicFromKeySignature("b")).toEqual("F");
     expect(Key.majorTonicFromKeySignature("bb")).toEqual("Bb");
     expect(Key.majorTonicFromKeySignature("other")).toEqual(null);
+    expect(Key.majorTonicFromKeySignature("")).toEqual("C");
+    expect(Key.majorTonicFromKeySignature(0)).toEqual("C");
+  });
+  test("fromAlter rejects mixed or non accidental signatures", () => {
+    expect(Key.majorTonicFromKeySignature("F#")).toEqual(null);
+    expect(Key.majorTonicFromKeySignature("Bb")).toEqual(null);
+    expect(Key.majorTonicFromKeySignature("b#")).toEqual(null);
+    expect(Key.majorTonicFromKeySignature("bb#")).toEqual(null);
+    expect(Key.majorTonicFromKeySignature("bx")).toEqual(null);
+    expect(Key.majorTonicFromKeySignature("x#")).toEqual(null);
+  });
+  test("fromAlter reads back majorKey keySignature", () => {
+    const tonics = "Cb Gb Db Ab Eb Bb F C G D A E B F# C#".split(" ");
+    expect(
+      tonics.map((tonic) =>
+        Key.majorTonicFromKeySignature(Key.majorKey(tonic).keySignature),
+      ),
+    ).toEqual(tonics);
   });
   test("major keySignature", () => {
     const tonics = "C D E F G A B".split(" ");
