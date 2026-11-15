@@ -1,3 +1,4 @@
+import { all as allChordTypes, get as getChordType } from "@tonaljs/chord-type";
 import { describe, expect, test } from "vitest";
 import Progression from "./index";
 
@@ -38,6 +39,54 @@ describe("@tonaljs/progression", () => {
       $("Dm7 Bo Bo7 Bm7b5 Bø Dm"),
     );
     expect(inC($("iisus4 ii+"))).toEqual($("Dsus4 D+"));
+  });
+
+  test("lowercase numerals give the same chord for every spelling", () => {
+    const inC = (chords: string[]) =>
+      Progression.fromRomanNumerals("C", chords);
+    expect(inC($("iiMaj7 iiM7 iiΔ iimaj7 iima7 ii^7"))).toEqual(
+      $("DmMaj7 DmM7 DmΔ Dm/ma7 Dm/ma7 Dm/ma7"),
+    );
+    expect(inC($("ii69 ii6/9 ii6add9 iiM69"))).toEqual(
+      $("Dm69 Dm69 Dm69 Dm69"),
+    );
+    expect(inC($("iiadd9 iiMadd9 iiadd2 ii2"))).toEqual(
+      $("Dmadd9 Dmadd9 Dmadd9 Dmadd9"),
+    );
+    expect(inC($("iimaj9 iiΔ9 ii^9"))).toEqual($("DmM9 DmM9 DmM9"));
+    expect(inC($("ii6 iiM6 iiadd6"))).toEqual($("Dm6 Dm6 Dm6"));
+  });
+
+  test("lowercase numerals keep augmented chord types", () => {
+    const inC = (chords: string[]) =>
+      Progression.fromRomanNumerals("C", chords);
+    expect(inC($("ii+ iiaug ii7#5 ii+7 ii9#5 ii9+"))).toEqual(
+      $("D+ Daug D7#5 D+7 D9#5 D9+"),
+    );
+  });
+
+  test("lowercase numerals keep chord types without a minor form", () => {
+    const inC = (chords: string[]) =>
+      Progression.fromRomanNumerals("C", chords);
+    // the minor form of 7b5 is half-diminished, not minor
+    expect(inC($("ii7b5 ii7b9 ii13#11"))).toEqual($("D7b5 D7b9 D13#11"));
+    // the 11 chord has no third, so it falls back to its minor name
+    expect(inC($("ii11"))).toEqual($("Dm11"));
+  });
+
+  test("every spelling of each chord type gives the same chord", () => {
+    const failed: string[] = [];
+    for (const type of allChordTypes()) {
+      const chords = type.aliases
+        .map((alias) => Progression.fromRomanNumerals("C", ["ii" + alias])[0])
+        // some chord types can't be written as roman numerals yet ("iidim")
+        .filter((chord) => chord !== "");
+      const intervals = new Set(
+        chords.map((chord) => getChordType(chord.slice(1)).intervals.join(" ")),
+      );
+      if (intervals.size > 1) failed.push(chords.join(" "));
+    }
+    expect(failed).toEqual([]);
   });
 
   test("abstract", () => {
