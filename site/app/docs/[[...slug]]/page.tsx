@@ -1,19 +1,17 @@
-import { source } from "@/app/source";
-import defaultMdxComponents from "fumadocs-ui/mdx";
 import {
   DocsBody,
   DocsDescription,
   DocsPage,
   DocsTitle,
-} from "fumadocs-ui/page";
+} from "fumadocs-ui/layouts/docs/page";
+import { createRelativeLink } from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { getMDXComponents } from "@/components/mdx";
+import { source } from "@/lib/source";
 
-export default async function Page({
-  params,
-}: {
-  params: { slug?: string[] };
-}) {
+export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
+  const params = await props.params;
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
@@ -29,6 +27,7 @@ export default async function Page({
           >
             <img
               className="rounded-lg"
+              alt={`@tonaljs/${page.data.package} on npm`}
               src={`https://img.shields.io/badge/@tonaljs-${page.data.package.replace("-", "--")}-yellow.svg?style=flat-square`}
             />
           </a>
@@ -36,7 +35,12 @@ export default async function Page({
       ) : null}
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
-        <MDX components={{ ...defaultMdxComponents }} />
+        <MDX
+          components={getMDXComponents({
+            // links to other pages can use relative file paths
+            a: createRelativeLink(source, page),
+          })}
+        />
       </DocsBody>
     </DocsPage>
   );
@@ -46,12 +50,15 @@ export async function generateStaticParams() {
   return source.generateParams();
 }
 
-export function generateMetadata({ params }: { params: { slug?: string[] } }) {
+export async function generateMetadata(
+  props: PageProps<"/docs/[[...slug]]">,
+): Promise<Metadata> {
+  const params = await props.params;
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
   return {
     title: page.data.title,
     description: page.data.description,
-  } satisfies Metadata;
+  };
 }
