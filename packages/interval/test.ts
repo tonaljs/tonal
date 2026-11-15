@@ -80,6 +80,51 @@ describe("@tonaljs/interval", () => {
       $("8P 14m 13m 12P 11P 10m 9m"),
     );
   });
+  test("pitchClass", () => {
+    expect($("1P 3M 8P 10M 15P 17M").map(Interval.pitchClass)).toEqual(
+      $("1P 3M 1P 3M 1P 3M"),
+    );
+    expect($("-2M -3M -5P -8P -10m").map(Interval.pitchClass)).toEqual(
+      $("7m 6m 4P 1P 6M"),
+    );
+    // ascending by letter, like the distance between pitch classes
+    expect($("1A 1d -1A 8d 2dd").map(Interval.pitchClass)).toEqual(
+      $("1A 1d 1d 1d 2dd"),
+    );
+    expect(Interval.pitchClass("x")).toEqual("");
+  });
+
+  test("negate", () => {
+    expect($("1P 3M -3M 9m -15P").map(Interval.negate)).toEqual(
+      $("1P -3M 3M -9m 15P"),
+    );
+    // a unison is named in the direction of the sound
+    expect($("1A -1A 1d").map(Interval.negate)).toEqual($("-1A 1A 1A"));
+    expect(Interval.negate("x")).toEqual("");
+  });
+
+  test("abs", () => {
+    expect($("1P 3M -3M -9m 2dd").map(Interval.abs)).toEqual(
+      $("1P 3M 3M 9m 2dd"),
+    );
+    // "1d" is one semitone down, like "-1A"
+    expect($("1A -1A 1d").map(Interval.abs)).toEqual($("1A 1A 1A"));
+    expect(Interval.abs("x")).toEqual("");
+  });
+
+  test("multiply", () => {
+    const fifths = [0, 1, 2, 3, 4].map((n) => Interval.multiply("5P", n));
+    expect(fifths).toEqual($("1P 5P 9M 13M 17M"));
+    expect(Interval.multiply("2M", 3)).toEqual("4A");
+    expect(Interval.multiply("3M", 3)).toEqual("7A");
+    expect(Interval.multiply("3m", 4)).toEqual("9d");
+    expect(Interval.multiply("3M", -2)).toEqual("-5A");
+    expect(Interval.multiply("-3M", -2)).toEqual("5A");
+    expect(Interval.multiply("1A", 5)).toEqual("1AAAAA");
+    expect(Interval.multiply("x", 2)).toEqual("");
+    expect(Interval.multiply("3M", 1.5)).toEqual("");
+  });
+
   test("any number of augmented or diminished", () => {
     expect(Interval.get("4AAAAA").semitones).toEqual(10);
     expect(Interval.get("AAAAA4").name).toEqual("4AAAAA");

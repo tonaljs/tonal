@@ -1,4 +1,4 @@
-import { IntervalCoordinates, NoteCoordinates } from "@tonaljs/pitch";
+import { IntervalCoordinates, NoteCoordinates, pitch } from "@tonaljs/pitch";
 import { distance as dist } from "@tonaljs/pitch-distance";
 import {
   IntervalName,
@@ -99,6 +99,94 @@ export function invert(name: IntervalName): IntervalName {
   return props({ step, alt, oct: i.oct, dir: i.dir }).name;
 }
 
+/**
+ * Get the pitch class of an interval: the interval within an octave, and
+ * ascending by letter, that leads to the same pitch class. It ignores
+ * octaves and direction, like the distance between two pitch classes.
+ *
+ * @function
+ * @param {string} interval - the interval
+ * @return {string} the pitch class of the interval
+ *
+ * @example
+ * Interval.pitchClass("10M") // => "3M"
+ * Interval.pitchClass("-3M") // => "6m"
+ * Interval.pitchClass("8P") // => "1P"
+ * Interval.pitchClass("-1A") // => "1d"
+ */
+export function pitchClass(name: IntervalName): IntervalName {
+  const i = props(name);
+  if (i.empty) {
+    return "";
+  }
+  const fifths = i.coord[0];
+  // the octaves that keep the letter steps from 0 to 6 (see distance)
+  const octs = -Math.floor((fifths * 4) / 7);
+  return props(pitch([fifths, octs, 1])).name;
+}
+
+/**
+ * Get the same interval in the opposite direction.
+ *
+ * @function
+ * @param {string} interval - the interval
+ * @return {string} the negated interval
+ *
+ * @example
+ * Interval.negate("3M") // => "-3M"
+ * Interval.negate("-5P") // => "5P"
+ * Interval.negate("1A") // => "-1A"
+ */
+export function negate(name: IntervalName): IntervalName {
+  return multiply(name, -1);
+}
+
+/**
+ * Get the ascending version of an interval: the interval itself if it
+ * ascends, and its negation if it descends.
+ *
+ * @function
+ * @param {string} interval - the interval
+ * @return {string} the ascending interval
+ *
+ * @example
+ * Interval.abs("-3M") // => "3M"
+ * Interval.abs("3M") // => "3M"
+ * Interval.abs("1d") // => "1A" (one semitone down, like "-1A")
+ */
+export function abs(name: IntervalName): IntervalName {
+  const i = props(name);
+  if (i.empty) {
+    return "";
+  }
+  const named = coordToInterval(i.coord);
+  return named.dir < 0 ? negate(named.name) : named.name;
+}
+
+/**
+ * Multiply an interval by an integer: stack it that many times. A negative
+ * number stacks it in the opposite direction, and zero gives a unison.
+ *
+ * @function
+ * @param {string} interval - the interval
+ * @param {number} times - an integer
+ * @return {string} the multiplied interval, or "" if times is not an integer
+ *
+ * @example
+ * Interval.multiply("5P", 3) // => "13M"
+ * Interval.multiply("2M", 3) // => "4A"
+ * Interval.multiply("3M", -2) // => "-5A"
+ * Interval.multiply("3m", 0) // => "1P"
+ */
+export function multiply(name: IntervalName, times: number): IntervalName {
+  const i = props(name);
+  if (i.empty || !Number.isInteger(times)) {
+    return "";
+  }
+  const [fifths, octs] = i.coord;
+  return coordToInterval([fifths * times, octs * times]).name;
+}
+
 // interval numbers
 const IN = [1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 7, 7];
 // interval qualities
@@ -188,6 +276,10 @@ export default {
   distance,
   invert,
   simplify,
+  pitchClass,
+  negate,
+  abs,
+  multiply,
   add,
   addTo,
   subtract,

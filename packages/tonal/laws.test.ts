@@ -233,3 +233,77 @@ describe("interval arithmetic", () => {
     l.expectNoFailures();
   });
 });
+
+describe("pitch class, negate, abs and multiply", () => {
+  test("the pitch class of an interval is the distance between pitch classes", () => {
+    const l = law();
+    for (const a of NOTES) {
+      for (const i of INTERVALS) {
+        const b = Note.transpose(a, i);
+        const d = Note.distance(pitchClass(a), pitchClass(b));
+        const pc = Interval.pitchClass(i);
+        l.check(
+          d === pc,
+          () =>
+            `${pitchClass(a)} to ${pitchClass(b)} is ${d}, not ${pc} (${i})`,
+        );
+      }
+    }
+    l.expectNoFailures();
+  });
+
+  test("an interval plus its negation is a unison", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const neg = Interval.negate(i);
+      const sum = Interval.add(i, neg);
+      l.check(
+        coord(sum) === coord("1P") &&
+          neg === Interval.subtract("1P", i) &&
+          coord(Interval.negate(neg)) === coord(i),
+        () => `${i} + ${neg} = ${sum}`,
+      );
+    }
+    l.expectNoFailures();
+  });
+
+  test("abs is the interval or its negation, whichever ascends", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const a = Interval.abs(i);
+      const isOneOf =
+        coord(a) === coord(i) || coord(a) === coord(Interval.negate(i));
+      l.check(
+        isOneOf &&
+          Interval.get(a).dir === 1 &&
+          a === Interval.abs(Interval.negate(i)) &&
+          a === Interval.abs(a),
+        () => `abs of ${i} is ${a}`,
+      );
+    }
+    l.expectNoFailures();
+  });
+
+  test("multiplying is adding the interval that many times", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      l.check(Interval.multiply(i, 0) === "1P", () => `${i} * 0`);
+      l.check(
+        Interval.multiply(i, -1) === Interval.negate(i),
+        () => `${i} * -1 is ${Interval.multiply(i, -1)}`,
+      );
+      for (let n = -4; n <= 4; n++) {
+        const next = Interval.multiply(i, n + 1);
+        const sum = Interval.add(Interval.multiply(i, n), i);
+        const semitones = Interval.semitones(next);
+        l.check(
+          coord(next) === coord(sum) &&
+            semitones === (n + 1) * Interval.semitones(i),
+          () =>
+            `${i} * ${n + 1} is ${next} (${semitones}), but adding gives ${sum}`,
+        );
+      }
+    }
+    l.expectNoFailures();
+  });
+});

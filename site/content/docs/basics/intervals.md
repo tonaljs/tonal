@@ -99,6 +99,52 @@ Interval.invert("3m"); // => "6M"
 Interval.invert("2M"); // => "7m"
 ```
 
+### `Interval.pitchClass`
+
+`pitchClass(interval: string) => string`
+
+Get the pitch class of an interval: the interval within an octave, ascending by letter, that leads to the same pitch class. It ignores octaves and direction, like the distance between two pitch classes:
+
+```js
+Interval.pitchClass("10M"); // => "3M"
+Interval.pitchClass("-3M"); // => "6m"
+Interval.pitchClass("8P"); // => "1P"
+```
+
+### `Interval.negate`
+
+`negate(interval: string) => string`
+
+Get the same interval in the opposite direction:
+
+```js
+Interval.negate("3M"); // => "-3M"
+Interval.negate("-5P"); // => "5P"
+```
+
+### `Interval.abs`
+
+`abs(interval: string) => string`
+
+Get the ascending version of an interval:
+
+```js
+Interval.abs("-3M"); // => "3M"
+Interval.abs("3M"); // => "3M"
+```
+
+### `Interval.multiply`
+
+`multiply(interval: string, times: number) => string`
+
+Stack an interval a number of times. A negative number stacks it downwards, and zero gives a unison:
+
+```js
+Interval.multiply("5P", 3); // => "13M"
+Interval.multiply("2M", 3); // => "4A"
+Interval.multiply("3M", -2); // => "-5A"
+```
+
 ### `Interval.distance`
 
 `distance(from: string, to: string) => string`
