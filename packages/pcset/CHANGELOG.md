@@ -1,5 +1,15 @@
 # @tonaljs/pcset
 
+## 4.10.4
+
+### Patch Changes
+
+- Updated dependencies [61dedc5]
+- Updated dependencies [875f1b7]
+- Updated dependencies [875f1b7]
+  - @tonaljs/pitch-distance@5.1.0
+  - @tonaljs/pitch-interval@6.2.0
+
 ## 4.10.3
 
 ### Patch Changes

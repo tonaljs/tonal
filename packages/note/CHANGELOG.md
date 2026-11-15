@@ -1,5 +1,19 @@
 # @tonaljs/note
 
+## 4.12.4
+
+### Patch Changes
+
+- f3b53a4: Fix `Note.simplify` dropping the octave of notes outside the midi range (`simplify("C10")` was `"C"`), and `Midi.midiToNoteName` returning `NaN` for negative numbers (`midiToNoteName(-1)` is now `"B-2"`)
+- Updated dependencies [61dedc5]
+- Updated dependencies [875f1b7]
+- Updated dependencies [875f1b7]
+- Updated dependencies [f3b53a4]
+- Updated dependencies [80a12e3]
+  - @tonaljs/pitch-distance@5.1.0
+  - @tonaljs/pitch-interval@6.2.0
+  - @tonaljs/midi@4.10.5
+
 ## 4.12.3
 
 ### Patch Changes

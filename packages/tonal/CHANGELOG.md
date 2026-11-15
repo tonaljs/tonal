@@ -1,5 +1,49 @@
 # tonal
 
+## 6.6.0
+
+### Minor Changes
+
+- 875f1b7: **Behavior change:** `distance` between pitch classes (when either note has no octave) now always returns a simple interval, ascending by letter, even when it sounds lower. Some results that led to the right note before are now named differently: `C` to `Cb` is `1d` (was `8d`), and `C#` to `Dbb` is `2dd` (was `9dd`).
+
+  Fix `distance` results that led to the wrong note. The written letters now decide the interval: between notes with octaves, the direction comes from the letters, and only a unison takes it from the sound. `C4` to `B##3` is `-2dd` (was `7AA`), `B#3` to `Cb4` is `2dd` (was `-7AA`), and `C10` to `B#9` is `-2d` (was `7A`). `C4` to `Cb4` is still `-1A`. Between pitch classes, `Cbb` to `A#` is `6AAA` (was `-1AAA`).
+
+- 875f1b7: Fix `Interval.add`, `Interval.subtract` and `Interval.transposeFifths` results that led to the wrong note. The letter steps now decide the direction of the result, even when the sound goes the other way: `subtract("2d", "1A")` is `2dd` (was `-7AA`) and `subtract("2m", "1AA")` is `2dd` (was `-7AA`). A unison still takes its direction from the sound: `subtract("1P", "1A")` is `-1A`.
+
+  **Deprecated:** the `forceDescending` parameter of `coordToInterval`, since the letter steps already give the direction.
+
+- b757383: `Progression.fromRomanNumerals` reads a lowercase roman numeral as a minor chord: `fromRomanNumerals("C", ["ii", "ii7"])` returns `["Dm", "Dm7"]` instead of `["D", "D7"]`. Every spelling of a chord type gives the same chord (`iimaj7` and `iiMaj7` are both minor-major sevenths, `ii6/9` and `ii69` are both `Dm69`). A chord type with its own quality (`viio`, `iim7`, `viim7b5`, `ii+`, `ii7#5`) is kept as written, and so is one without a minor form (`ii7b9`) (#457)
+
+### Patch Changes
+
+- 61dedc5: Fix `distance` for a descending diminished second written across the octave line, e.g. `C4` to `B#3` is now `-2d` (see #514)
+- 012c2f2: Fix `majorTonicFromKeySignature`: only strings made of all `b` or all `#` are read as a key signature (`"F#"` and `"b#"` now give `null`), and `""` gives `"C"` (see #517)
+- f3b53a4: Fix `Note.simplify` dropping the octave of notes outside the midi range (`simplify("C10")` was `"C"`), and `Midi.midiToNoteName` returning `NaN` for negative numbers (`midiToNoteName(-1)` is now `"B-2"`)
+- 80a12e3: Fix `isMidi` and `toMidi`: empty or blank strings, `null`, arrays and booleans are not midi numbers anymore (`toMidi("")` was `0`) (see #519)
+- Updated dependencies [875f1b7]
+- Updated dependencies [012c2f2]
+- Updated dependencies [b757383]
+- Updated dependencies [f3b53a4]
+- Updated dependencies [80a12e3]
+  - @tonaljs/interval@5.1.2
+  - @tonaljs/key@4.11.5
+  - @tonaljs/progression@4.10.0
+  - @tonaljs/midi@4.10.5
+  - @tonaljs/note@4.12.4
+  - @tonaljs/range@4.9.5
+  - @tonaljs/abc-notation@4.9.4
+  - @tonaljs/chord@6.2.2
+  - @tonaljs/core@5.0.5
+  - @tonaljs/mode@4.9.5
+  - @tonaljs/pcset@4.10.4
+  - @tonaljs/scale@4.13.7
+  - @tonaljs/roman-numeral@4.9.4
+  - @tonaljs/voicing@5.1.6
+  - @tonaljs/voice-leading@5.1.5
+  - @tonaljs/voicing-dictionary@5.1.6
+  - @tonaljs/chord-type@5.2.2
+  - @tonaljs/scale-type@4.9.5
+
 ## 6.5.1
 
 ### Patch Changes
@@ -135,6 +179,18 @@
   - @tonaljs/chord-type@5.1.1
   - @tonaljs/scale-type@4.9.1
   - @tonaljs/range@4.9.1
+
+## 6.3.0
+
+- New `Key.majorKeyChords` and `Key.minorKeyChords` functions.
+
+```js
+import * as Key from "tonal";
+
+Key.majorKeyChords("C").find((chord) => chord.name === "Em"); // => { name: "Em", roles: ["T", "ii/II"] }
+```
+
+- Renamed fields of key results. `secondaryDominantsMinorRelative` is now `secondaryDominantSupertonics` and `substituteDominantsMinorRelative` is now `substituteDominantSupertonics`. Previous names are kept for compatibility as deprecated (will be removed in next major version)
 
 ## 6.2.0
 
