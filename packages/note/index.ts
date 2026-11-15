@@ -222,9 +222,10 @@ export const simplify = (noteName: NoteName | Pitch): string => {
   if (note.empty) {
     return "";
   }
-  return midiToNoteName(note.midi || note.chroma, {
+  const hasOctave = note.oct !== undefined;
+  return midiToNoteName(hasOctave ? note.height : note.chroma, {
     sharps: note.alt > 0,
-    pitchClass: note.midi === null,
+    pitchClass: !hasOctave,
   });
 };
 /**
