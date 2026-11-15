@@ -56,6 +56,14 @@ describe("midi", () => {
     expect(Midi.midiToNoteName(Infinity)).toEqual("");
   });
 
+  test("midiToNoteName with negative numbers", () => {
+    expect(Midi.midiToNoteName(-1)).toEqual("B-2");
+    expect(Midi.midiToNoteName(-1, { sharps: true })).toEqual("B-2");
+    expect(Midi.midiToNoteName(-4, { pitchClass: true })).toEqual("Ab");
+    expect(Midi.midiToNoteName(-12)).toEqual("C-2");
+    expect(Midi.midiToNoteName(-13)).toEqual("B-3");
+  });
+
   describe("Midi.pcset", () => {
     test("from chroma", () => {
       expect(Midi.pcset("100100100101")).toEqual([0, 3, 6, 9, 11]);

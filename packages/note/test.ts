@@ -39,6 +39,15 @@ describe("note", () => {
     expect(Note.simplify("x")).toEqual("");
   });
 
+  test("simplify keeps the octave outside the midi range", () => {
+    expect(Note.simplify("C10")).toEqual("C10");
+    expect(Note.simplify("B#9")).toEqual("C10");
+    expect(Note.simplify("G#9")).toEqual("G#9");
+    expect(Note.simplify("Fb10")).toEqual("E10");
+    expect(Note.simplify("Cb-1")).toEqual("B-2");
+    expect(Note.simplify("Ab-2")).toEqual("Ab-2");
+  });
+
   test("from midi", () => {
     expect(Note.fromMidi(70)).toEqual("Bb4");
     expect([60, 61, 62].map(Note.fromMidi)).toEqual(["C4", "Db4", "D4"]);

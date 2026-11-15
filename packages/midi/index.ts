@@ -99,7 +99,7 @@ export function midiToNoteName(midi: number, options: ToNoteNameOptions = {}) {
   if (isNaN(midi) || midi === -Infinity || midi === Infinity) return "";
   midi = Math.round(midi);
   const pcs = options.sharps === true ? SHARPS : FLATS;
-  const pc = pcs[midi % 12];
+  const pc = pcs[((midi % 12) + 12) % 12];
   if (options.pitchClass) {
     return pc;
   }
