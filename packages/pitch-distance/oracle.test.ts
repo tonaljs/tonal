@@ -23,15 +23,12 @@ import { distance, transpose } from "./index";
  *   from 0 to 6, whatever the semitones. So C# to Dbb is "2dd" (not "9dd")
  *   and C to Cb is "1d" (not "8d"). This is how pitchtypes embeds a spelled
  *   interval class as an interval (`SpelledIntervalClass.embed`).
- * - An interval that needs more than four augmented or diminished has no
- *   name in tonal, so it is "".
  */
 const LETTERS = "CDEFGAB";
 // Semitones of each letter above C, which are also the semitones of the
 // perfect or major interval with the same number (1P 2M 3M 4P 5P 6M 7M)
 const SEMITONES = [0, 2, 4, 5, 7, 9, 11];
 const PERFECTABLE = [true, false, false, true, true, false, false];
-const MAX_QUALITY_LENGTH = 4;
 
 type SpelledNote = { letter: number; alt: number; oct?: number };
 
@@ -84,9 +81,7 @@ function oracleDistance(fromName: string, toName: string): string {
   const simple = size % 7;
   const octaves = Math.floor(size / 7);
   const alt = semitones * dir - (SEMITONES[simple] + 12 * octaves);
-  const q = quality(simple, alt);
-  if (q.length > MAX_QUALITY_LENGTH) return "";
-  return (dir < 0 ? "-" : "") + (size + 1) + q;
+  return (dir < 0 ? "-" : "") + (size + 1) + quality(simple, alt);
 }
 
 const hasOctave = (name: string) => parse(name).oct !== undefined;
@@ -117,10 +112,8 @@ describe("distance over every pair of notes", () => {
       const pcs = !hasOctave(from) || !hasOctave(to);
       const source = pcs ? pitchClassOf(from) : from;
       const target = pcs ? pitchClassOf(to) : to;
-      // the oracle tells which intervals tonal can't name
-      if (oracleDistance(from, to) === "") continue;
       const ivl = distance(from, to);
-      const result = ivl === "" ? "" : transpose(source, ivl);
+      const result = transpose(source, ivl);
       if (result !== target) {
         failed.push(`${from} to ${to} is ${ivl}, but leads to ${result}`);
       }
@@ -192,8 +185,8 @@ describe("distance oracle", () => {
     ["C#", "Dbb", "2dd"],
     ["C", "Cb", "1d"],
     ["C#", "C", "1d"],
-    // beyond four augmented, tonal has no name
-    ["Fbb4", "B##4", ""],
+    // any number of augmented or diminished has a name
+    ["Fbb4", "B##4", "4AAAAA"],
   ])("convention: %s to %s is %j", (from, to, expected) => {
     expect(oracleDistance(from, to)).toBe(expected);
   });
@@ -204,7 +197,6 @@ describe("distance oracle", () => {
       // with a pitch class, transpose can't give back the octave
       if (hasOctave(from) !== hasOctave(to)) continue;
       const ivl = oracleDistance(from, to);
-      if (ivl === "") continue;
       const result = transpose(from, ivl);
       if (result !== to) failed.push(`${from} + ${ivl} = ${result}, not ${to}`);
     }

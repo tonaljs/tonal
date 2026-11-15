@@ -48,12 +48,12 @@ describe("interval", () => {
     });
 
     test("rejects malformed intervals", () => {
-      expect(interval("ddd5").empty).toBe(true);
-      expect(interval("AAA5").empty).toBe(true);
+      expect(interval("Pdd5").empty).toBe(true);
+      expect(interval("MAA5").empty).toBe(true);
       expect(interval("garbageP5").empty).toBe(true);
       expect(interval("5Pgarbage").empty).toBe(true);
-      expect(tokenize("ddd5")).toEqual(["", ""]);
-      expect(tokenize("AAA5")).toEqual(["", ""]);
+      expect(tokenize("Pdd5")).toEqual(["", ""]);
+      expect(tokenize("MAA5")).toEqual(["", ""]);
       expect(tokenize("garbageP5")).toEqual(["", ""]);
       expect(tokenize("5Pgarbage")).toEqual(["", ""]);
     });
@@ -69,6 +69,7 @@ describe("interval", () => {
     test("q", () => {
       const q = (str: string) => str.split(" ").map((i) => interval(i).q);
       expect(q("1dd 1d 1P 1A 1AA")).toEqual(["dd", "d", "P", "A", "AA"]);
+      expect(q("4AAAAA ddddd5 AAA5")).toEqual(["AAAAA", "ddddd", "AAA"]);
       expect(q("2dd 2d 2m 2M 2A 2AA")).toEqual([
         "dd",
         "d",

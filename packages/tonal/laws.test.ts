@@ -11,9 +11,6 @@ import { Interval, Note } from "./index";
  * combination of a set of notes and intervals. They need no reference
  * implementation and no naming convention: when a law fails, at least one
  * of the functions involved gives a wrong result.
- *
- * The sets are chosen so every result has a name (tonal names intervals with
- * up to four augmented or diminished), so no case is skipped.
  */
 
 const LETTERS = "CDEFGAB".split("");
@@ -32,8 +29,8 @@ const intervals = (max: number, all: boolean) =>
   );
 // Up to two octaves and a half, diminished to augmented
 const INTERVALS = intervals(15, true);
-// Within an octave and without augmented or diminished, so that the sum of
-// three of them still has a name
+// Within an octave and without augmented or diminished, to keep the number
+// of triples small
 const SIMPLE = intervals(8, false);
 
 const pairs = <T>(xs: T[]) => xs.flatMap((a) => xs.map((b) => [a, b] as const));

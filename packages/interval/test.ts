@@ -80,6 +80,14 @@ describe("@tonaljs/interval", () => {
       $("8P 14m 13m 12P 11P 10m 9m"),
     );
   });
+  test("any number of augmented or diminished", () => {
+    expect(Interval.get("4AAAAA").semitones).toEqual(10);
+    expect(Interval.get("AAAAA4").name).toEqual("4AAAAA");
+    expect(Interval.get("ddd5").name).toEqual("5ddd");
+    expect(Interval.get("-5ddddd").semitones).toEqual(-2);
+    expect(Interval.add("4AAAA", "1A")).toEqual("4AAAAA");
+  });
+
   test("fromSemitones", () => {
     let semis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     expect(semis.map(Interval.fromSemitones)).toEqual(

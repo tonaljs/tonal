@@ -15,8 +15,8 @@ const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 export type IntervalName = string;
 export type IntervalLiteral = IntervalName | Pitch | NamedPitch;
 
-type Quality =
-  "dddd" | "ddd" | "dd" | "d" | "m" | "M" | "P" | "A" | "AA" | "AAA" | "AAAA";
+// Any number of augmented or diminished: "A", "AA", "d", "ddddd"...
+type Quality = "m" | "M" | "P" | `A${string}` | `d${string}`;
 type Type = "perfectable" | "majorable";
 
 export interface Interval extends Pitch, NamedPitch {
@@ -54,9 +54,9 @@ const NoInterval: Interval = Object.freeze({
 });
 
 // shorthand tonal notation (with quality after number)
-const INTERVAL_TONAL_REGEX = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
+const INTERVAL_TONAL_REGEX = "([-+]?\\d+)(d+|m|M|P|A+)";
 // standard shorthand notation (with quality before number)
-const INTERVAL_SHORTHAND_REGEX = "(AA|A|P|M|m|d|dd)([-+]?\\d+)";
+const INTERVAL_SHORTHAND_REGEX = "(A+|P|M|m|d+)([-+]?\\d+)";
 const REGEX = new RegExp(
   "^(?:" + INTERVAL_TONAL_REGEX + "|" + INTERVAL_SHORTHAND_REGEX + ")$",
 );

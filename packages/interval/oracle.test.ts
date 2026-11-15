@@ -16,14 +16,11 @@ import { add, subtract } from "./index";
  *   "2d" minus "1A" is "2dd", one letter step up and one semitone down.
  * - A unison goes in the direction of the sound: "1P" minus "1A" is "-1A".
  *   So "1d" and "-1A" are the same interval, named "-1A".
- * - An interval that needs more than four augmented or diminished has no
- *   name in tonal, so it is "".
  */
 
 // Semitones of the perfect or major interval of each simple number
 const SEMITONES = [0, 2, 4, 5, 7, 9, 11];
 const PERFECTABLE = [true, false, false, true, true, false, false];
-const MAX_QUALITY_LENGTH = 4;
 
 type Displacement = { steps: number; semitones: number };
 
@@ -66,9 +63,7 @@ function name({ steps, semitones }: Displacement): string {
   const size = steps * dir;
   const simple = size % 7;
   const alt = semitones * dir - (SEMITONES[simple] + 12 * Math.floor(size / 7));
-  const q = quality(simple, alt);
-  if (q.length > MAX_QUALITY_LENGTH) return "";
-  return (dir < 0 ? "-" : "") + (size + 1) + q;
+  return (dir < 0 ? "-" : "") + (size + 1) + quality(simple, alt);
 }
 
 function oracleAdd(a: string, b: string): string {
@@ -112,11 +107,9 @@ describe("interval arithmetic over every pair of intervals", () => {
   test("transposing by add(a, b) is transposing by a, then by b", () => {
     const failed: string[] = [];
     for (const [a, b] of PAIRS) {
-      // the oracle tells which intervals tonal can't name
-      if (oracleAdd(a, b) === "") continue;
       const ivl = add(a, b) ?? "";
       const expected = transpose(transpose(FROM, a), b);
-      const actual = ivl === "" ? "" : transpose(FROM, ivl);
+      const actual = transpose(FROM, ivl);
       if (actual !== expected) {
         failed.push(
           `${a} + ${b} is ${ivl}, leads to ${actual}, not ${expected}`,
@@ -129,10 +122,9 @@ describe("interval arithmetic over every pair of intervals", () => {
   test("transposing by subtract(a, b), then by b, is transposing by a", () => {
     const failed: string[] = [];
     for (const [a, b] of PAIRS) {
-      if (oracleSubtract(a, b) === "") continue;
       const ivl = subtract(a, b) ?? "";
       const expected = transpose(FROM, a);
-      const actual = ivl === "" ? "" : transpose(transpose(FROM, ivl), b);
+      const actual = transpose(transpose(FROM, ivl), b);
       if (actual !== expected) {
         failed.push(
           `${a} - ${b} is ${ivl}, leads to ${actual}, not ${expected}`,
@@ -205,8 +197,8 @@ describe("interval oracle", () => {
     ["1P", "1A", "-1A"],
     ["2m", "2M", "-1A"],
     ["1P", "1d", "1A"],
-    // beyond four augmented, tonal has no name
-    ["4AAAA", "-1A", ""],
+    // any number of augmented or diminished has a name
+    ["4AAAA", "-1A", "4AAAAA"],
   ])("convention: %s - %s is %j", (a, b, expected) => {
     expect(oracleSubtract(a, b)).toBe(expected);
   });
@@ -227,7 +219,6 @@ describe("interval oracle", () => {
     const failed: string[] = [];
     for (const [a, b] of PAIRS) {
       const ivl = oracleAdd(a, b);
-      if (ivl === "") continue;
       const expected = transpose(transpose(FROM, a), b);
       const actual = transpose(FROM, ivl);
       if (actual !== expected) {
