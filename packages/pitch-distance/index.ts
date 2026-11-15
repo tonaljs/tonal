@@ -1,9 +1,8 @@
-import { PitchCoordinates } from "@tonaljs/pitch";
+import { IntervalCoordinates, PitchCoordinates, pitch } from "@tonaljs/pitch";
 import {
   IntervalLiteral,
   IntervalName,
   interval as asInterval,
-  coordToInterval,
 } from "@tonaljs/pitch-interval";
 import {
   NoteLiteral,
@@ -60,10 +59,14 @@ export function tonicIntervalsTransposer(
 }
 
 /**
- * Find the interval distance between two notes or coord classes.
+ * Find the interval distance between two notes or pitch classes.
  *
- * To find distance between coord classes, both notes must be coord classes and
- * the interval is always ascending
+ * The written letters decide the interval number and its direction, even
+ * when the sound goes the other way: C4 to B#3 is "-2d" and B#3 to Cb4 is
+ * "2dd". Only a unison takes its direction from the sound: C4 to Cb4 is "-1A".
+ *
+ * If either note is a pitch class, the distance is between pitch classes:
+ * a simple interval, ascending by letter (C# to Dbb is "2dd", C to Cb is "1d").
  *
  * @param {Note|string} from - the note or note name to calculate distance from
  * @param {Note|string} to - the note or note name to calculate distance to
@@ -83,18 +86,20 @@ export function distance(
   const fcoord = from.coord;
   const tcoord = to.coord;
   const fifths = tcoord[0] - fcoord[0];
-  const octs =
-    fcoord.length === 2 && tcoord.length === 2
-      ? tcoord[1] - fcoord[1]
-      : -Math.floor((fifths * 7) / 12);
+  const isPitchClass = fcoord.length !== 2 || tcoord.length !== 2;
+  // Between pitch classes, choose the octaves that keep the letter steps
+  // ascending and within an octave (0 to 6)
+  const octs = isPitchClass
+    ? -Math.floor((fifths * 4) / 7)
+    : tcoord[1] - fcoord[1];
 
-  // If it's unison and not pitch class, it can be descending interval
-  // when the second note is written with a lower letter (see #243, #428 & #514)
-  const forceDescending =
-    to.height === from.height &&
-    to.midi !== null &&
-    from.oct !== undefined &&
-    to.oct !== undefined &&
-    from.oct * 7 + from.step > to.oct * 7 + to.step;
-  return coordToInterval([fifths, octs], forceDescending).name;
+  // A fifth is 4 letter steps and 7 semitones, an octave 7 and 12
+  const steps = fifths * 4 + octs * 7;
+  const semitones = fifths * 7 + octs * 12;
+  const descending =
+    !isPitchClass && (steps < 0 || (steps === 0 && semitones < 0));
+  const coord: IntervalCoordinates = descending
+    ? [-fifths, -octs, -1]
+    : [fifths, octs, 1];
+  return asInterval(pitch(coord)).name;
 }
