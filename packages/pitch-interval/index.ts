@@ -163,14 +163,21 @@ function parse(str?: string): Interval {
 /**
  * @private
  *
- * forceDescending is used in the case of unison (#243)
+ * The letter steps decide the direction of the interval, even when the sound
+ * goes the other way: one letter step up and one semitone down is "2dd". Only
+ * a unison takes its direction from the semitones: one semitone down is "-1A".
+ *
+ * @param forceDescending - deprecated, no longer needed: the letter steps
+ * already give the direction (it was used for #243)
  */
 export function coordToInterval(
   coord: PitchCoordinates,
   forceDescending?: boolean,
 ): Interval {
   const [f, o = 0] = coord;
-  const isDescending = f * 7 + o * 12 < 0;
+  // A fifth is 4 letter steps and 7 semitones, an octave 7 and 12
+  const steps = f * 4 + o * 7;
+  const isDescending = steps < 0 || (steps === 0 && f * 7 + o * 12 < 0);
   const ivl: IntervalCoordinates =
     forceDescending || isDescending ? [-f, -o, -1] : [f, o, 1];
   return interval(pitch(ivl)) as Interval;

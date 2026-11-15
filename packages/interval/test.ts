@@ -117,6 +117,18 @@ describe("@tonaljs/interval", () => {
     );
   });
 
+  test("the letters decide the direction, even against the sound", () => {
+    expect(Interval.subtract("2d", "1A")).toEqual("2dd");
+    expect(Interval.subtract("2m", "1AA")).toEqual("2dd");
+    expect(Interval.subtract("-2d", "-1A")).toEqual("-2dd");
+    expect(Interval.add("2d", "-1A")).toEqual("2dd");
+  });
+
+  test("a unison takes its direction from the sound", () => {
+    expect(Interval.subtract("1P", "1A")).toEqual("-1A");
+    expect(Interval.subtract("2m", "2M")).toEqual("-1A");
+  });
+
   test("transposeFifths", () => {
     expect(Interval.transposeFifths("4P", 1)).toEqual("8P");
     expect(

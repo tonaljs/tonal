@@ -1,4 +1,4 @@
-import { PitchCoordinates } from "@tonaljs/pitch";
+import { PitchCoordinates, pitch } from "@tonaljs/pitch";
 import {
   IntervalLiteral,
   IntervalName,
@@ -60,10 +60,14 @@ export function tonicIntervalsTransposer(
 }
 
 /**
- * Find the interval distance between two notes or coord classes.
+ * Find the interval distance between two notes or pitch classes.
  *
- * To find distance between coord classes, both notes must be coord classes and
- * the interval is always ascending
+ * The written letters decide the interval number and its direction, even
+ * when the sound goes the other way: C4 to B#3 is "-2d" and B#3 to Cb4 is
+ * "2dd". Only a unison takes its direction from the sound: C4 to Cb4 is "-1A".
+ *
+ * If either note is a pitch class, the distance is between pitch classes:
+ * a simple interval, ascending by letter (C# to Dbb is "2dd", C to Cb is "1d").
  *
  * @param {Note|string} from - the note or note name to calculate distance from
  * @param {Note|string} to - the note or note name to calculate distance to
@@ -83,18 +87,12 @@ export function distance(
   const fcoord = from.coord;
   const tcoord = to.coord;
   const fifths = tcoord[0] - fcoord[0];
-  const octs =
-    fcoord.length === 2 && tcoord.length === 2
-      ? tcoord[1] - fcoord[1]
-      : -Math.floor((fifths * 7) / 12);
-
-  // If it's unison and not pitch class, it can be descending interval
-  // when the second note is written with a lower letter (see #243, #428 & #514)
-  const forceDescending =
-    to.height === from.height &&
-    to.midi !== null &&
-    from.oct !== undefined &&
-    to.oct !== undefined &&
-    from.oct * 7 + from.step > to.oct * 7 + to.step;
-  return coordToInterval([fifths, octs], forceDescending).name;
+  if (fcoord.length === 2 && tcoord.length === 2) {
+    return coordToInterval([fifths, tcoord[1] - fcoord[1]]).name;
+  }
+  // Between pitch classes, choose the octaves that keep the letter steps
+  // ascending and within an octave (0 to 6), and keep the interval ascending
+  // even when it sounds lower, like a diminished unison
+  const octs = -Math.floor((fifths * 4) / 7);
+  return asInterval(pitch([fifths, octs, 1])).name;
 }

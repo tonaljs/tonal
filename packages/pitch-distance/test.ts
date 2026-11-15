@@ -37,6 +37,20 @@ describe("distance", () => {
     expect(transpose("C4", distance("C4", "B#3"))).toBe("B#3");
   });
 
+  test("the letters decide the direction, even against the sound", () => {
+    expect(distance("C4", "B##3")).toBe("-2dd");
+    expect(distance("Cb4", "B#3")).toBe("-2dd");
+    expect(distance("B#3", "Cb4")).toBe("2dd");
+    expect(distance("C#4", "Dbb4")).toBe("2dd");
+    expect(distance("C10", "B#9")).toBe("-2d");
+    expect(distance("Cb-1", "B-2")).toBe("-2d");
+  });
+
+  test("a unison takes its direction from the sound", () => {
+    expect(distance("C4", "C#4")).toBe("1A");
+    expect(distance("C4", "Cb4")).toBe("-1A");
+  });
+
   test("intervals between pitch classes are always ascending", () => {
     expect(distance("C", "D")).toEqual("2M");
 
@@ -45,6 +59,13 @@ describe("distance", () => {
 
     const fromG = allIntervalsFrom("G");
     expect(fromG("c d e f g a b")).toEqual("4P 5P 6M 7m 1P 2M 3M");
+  });
+
+  test("intervals between pitch classes are simple, ascending by letter", () => {
+    expect(distance("C#", "Dbb")).toEqual("2dd");
+    expect(distance("Cbb", "A#")).toEqual("6AAA");
+    expect(distance("C", "Cb")).toEqual("1d");
+    expect(distance("C#", "C")).toEqual("1d");
   });
 
   test("if a note is a pitch class, the distance is between pitch classes", () => {
