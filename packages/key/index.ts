@@ -310,13 +310,14 @@ export function minorKey(tnc: string): MinorKey {
  * @param signature
  * @example
  * majorTonicFromKeySignature('###') // => 'A'
+ * majorTonicFromKeySignature('') // => 'C'
  */
 export function majorTonicFromKeySignature(
   sig: string | number,
 ): string | null {
   if (typeof sig === "number") {
     return transposeFifths("C", sig);
-  } else if (typeof sig === "string" && /^b+|#+$/.test(sig)) {
+  } else if (typeof sig === "string" && /^(b*|#*)$/.test(sig)) {
     return transposeFifths("C", accToAlt(sig));
   }
   return null;
