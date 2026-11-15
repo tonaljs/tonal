@@ -53,7 +53,7 @@ describe("@tonaljs/interval", () => {
       $("8P 2M 3M 4P 5P 6M 7M"),
     );
     expect($("1d 1P 1A 8d 8P 8A 15d 15P 15A").map(Interval.simplify)).toEqual(
-      $("1d 1P 1A 8d 8P 8A 1d 1P 1A"),
+      $("1d 1P 1A 8d 8P 8A 8d 8P 8A"),
     );
     expect($("-1P -2M -3M -4P -5P -6M -7M").map(Interval.simplify)).toEqual(
       $("-1P -2M -3M -4P -5P -6M -7M"),
@@ -61,25 +61,87 @@ describe("@tonaljs/interval", () => {
     expect(
       $("-8P -9M -10M -11P -12P -13M -14M").map(Interval.simplify),
     ).toEqual($("-8P -2M -3M -4P -5P -6M -7M"));
+    // an octave stays an octave, however many octaves it spans
+    expect($("15P 22P 29P -15P -22P").map(Interval.simplify)).toEqual(
+      $("8P 8P 8P -8P -8P"),
+    );
+    expect(Interval.simplify("x")).toEqual("");
   });
 
   test("invert intervals", () => {
-    expect($("1P 2M 3M 4P 5P 6M 7M").map(Interval.invert)).toEqual(
-      $("1P 7m 6m 5P 4P 3m 2m"),
+    expect($("1P 2M 3M 4P 5P 6M 7M 8P").map(Interval.invert)).toEqual(
+      $("8P 7m 6m 5P 4P 3m 2m 1P"),
     );
-    expect($("1d 2m 3m 4d 5d 6m 7m").map(Interval.invert)).toEqual(
-      $("1A 7M 6M 5A 4A 3M 2M"),
+    expect($("1d 2m 3m 4d 5d 6m 7m 8d").map(Interval.invert)).toEqual(
+      $("8A 7M 6M 5A 4A 3M 2M 1A"),
     );
-    expect($("1A 2A 3A 4A 5A 6A 7A").map(Interval.invert)).toEqual(
-      $("1d 7d 6d 5d 4d 3d 2d"),
+    expect($("1A 2A 3A 4A 5A 6A 7A 8A").map(Interval.invert)).toEqual(
+      $("8d 7d 6d 5d 4d 3d 2d 1d"),
     );
-    expect($("-1P -2M -3M -4P -5P -6M -7M").map(Interval.invert)).toEqual(
-      $("-1P -7m -6m -5P -4P -3m -2m"),
+    expect($("-1P -2M -3M -4P -5P -6M -7M -8P").map(Interval.invert)).toEqual(
+      $("-8P -7m -6m -5P -4P -3m -2m -1P"),
     );
-    expect($("8P 9M 10M 11P 12P 13M 14M").map(Interval.invert)).toEqual(
-      $("8P 14m 13m 12P 11P 10m 9m"),
+    // compound intervals are simplified first
+    expect($("9M 10M 11P 12P 13M 14M 15P").map(Interval.invert)).toEqual(
+      $("7m 6m 5P 4P 3m 2m 1P"),
     );
+    expect($("-9M -10m 16A").map(Interval.invert)).toEqual($("-7m -6M 7d"));
+    expect(Interval.invert("x")).toEqual("");
   });
+
+  test("pitchClass", () => {
+    expect($("1P 3M 8P 10M 15P 17M").map(Interval.pitchClass)).toEqual(
+      $("1P 3M 1P 3M 1P 3M"),
+    );
+    expect($("-2M -3M -5P -8P -10m").map(Interval.pitchClass)).toEqual(
+      $("7m 6m 4P 1P 6M"),
+    );
+    // ascending by letter, like the distance between pitch classes
+    expect($("1A 1d -1A 8d 2dd").map(Interval.pitchClass)).toEqual(
+      $("1A 1d 1d 1d 2dd"),
+    );
+    expect(Interval.pitchClass("x")).toEqual("");
+  });
+
+  test("negate", () => {
+    expect($("1P 3M -3M 9m -15P").map(Interval.negate)).toEqual(
+      $("1P -3M 3M -9m 15P"),
+    );
+    // a unison is named in the direction of the sound
+    expect($("1A -1A 1d").map(Interval.negate)).toEqual($("-1A 1A 1A"));
+    expect(Interval.negate("x")).toEqual("");
+  });
+
+  test("abs", () => {
+    expect($("1P 3M -3M -9m 2dd").map(Interval.abs)).toEqual(
+      $("1P 3M 3M 9m 2dd"),
+    );
+    // "1d" is one semitone down, like "-1A"
+    expect($("1A -1A 1d").map(Interval.abs)).toEqual($("1A 1A 1A"));
+    expect(Interval.abs("x")).toEqual("");
+  });
+
+  test("multiply", () => {
+    const fifths = [0, 1, 2, 3, 4].map((n) => Interval.multiply("5P", n));
+    expect(fifths).toEqual($("1P 5P 9M 13M 17M"));
+    expect(Interval.multiply("2M", 3)).toEqual("4A");
+    expect(Interval.multiply("3M", 3)).toEqual("7A");
+    expect(Interval.multiply("3m", 4)).toEqual("9d");
+    expect(Interval.multiply("3M", -2)).toEqual("-5A");
+    expect(Interval.multiply("-3M", -2)).toEqual("5A");
+    expect(Interval.multiply("1A", 5)).toEqual("1AAAAA");
+    expect(Interval.multiply("x", 2)).toEqual("");
+    expect(Interval.multiply("3M", 1.5)).toEqual("");
+  });
+
+  test("any number of augmented or diminished", () => {
+    expect(Interval.get("4AAAAA").semitones).toEqual(10);
+    expect(Interval.get("AAAAA4").name).toEqual("4AAAAA");
+    expect(Interval.get("ddd5").name).toEqual("5ddd");
+    expect(Interval.get("-5ddddd").semitones).toEqual(-2);
+    expect(Interval.add("4AAAA", "1A")).toEqual("4AAAAA");
+  });
+
   test("fromSemitones", () => {
     let semis = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     expect(semis.map(Interval.fromSemitones)).toEqual(

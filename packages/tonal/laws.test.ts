@@ -11,9 +11,6 @@ import { Interval, Note } from "./index";
  * combination of a set of notes and intervals. They need no reference
  * implementation and no naming convention: when a law fails, at least one
  * of the functions involved gives a wrong result.
- *
- * The sets are chosen so every result has a name (tonal names intervals with
- * up to four augmented or diminished), so no case is skipped.
  */
 
 const LETTERS = "CDEFGAB".split("");
@@ -32,8 +29,8 @@ const intervals = (max: number, all: boolean) =>
   );
 // Up to two octaves and a half, diminished to augmented
 const INTERVALS = intervals(15, true);
-// Within an octave and without augmented or diminished, so that the sum of
-// three of them still has a name
+// Within an octave and without augmented or diminished, to keep the number
+// of triples small
 const SIMPLE = intervals(8, false);
 
 const pairs = <T>(xs: T[]) => xs.flatMap((a) => xs.map((b) => [a, b] as const));
@@ -232,6 +229,145 @@ describe("interval arithmetic", () => {
         semitones === expected,
         () => `${i} + ${j} = ${sum} (${semitones} semitones), not ${expected}`,
       );
+    }
+    l.expectNoFailures();
+  });
+});
+
+describe("simplify, invert, pitch class, negate and multiply", () => {
+  const octave = (i: string) => (Interval.get(i).dir < 0 ? "-8P" : "8P");
+
+  test("simplifying keeps the pitch class and the direction", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const s = Interval.simplify(i);
+      const n = Math.abs(Interval.num(s));
+      l.check(
+        Interval.pitchClass(s) === Interval.pitchClass(i) &&
+          Interval.get(s).dir === Interval.get(i).dir &&
+          n >= 1 &&
+          n <= 8 &&
+          Interval.simplify(s) === s,
+        () => `${i} simplifies to ${s}`,
+      );
+    }
+    l.expectNoFailures();
+  });
+
+  test("only a unison simplifies to a unison", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const s = Interval.simplify(i);
+      const isUnison = Math.abs(Interval.num(i)) === 1;
+      l.check(
+        (Math.abs(Interval.num(s)) === 1) === isUnison,
+        () => `${i} simplifies to ${s}`,
+      );
+    }
+    l.expectNoFailures();
+  });
+
+  test("an interval and its inversion make an octave", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const inv = Interval.invert(i);
+      const sum = Interval.add(Interval.simplify(i), inv);
+      l.check(
+        coord(sum) === coord(octave(i)),
+        () => `${Interval.simplify(i)} + (inversion of ${i} = ${inv}) = ${sum}`,
+      );
+    }
+    l.expectNoFailures();
+  });
+
+  test("inverting twice is simplifying", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const twice = Interval.invert(Interval.invert(i));
+      const s = Interval.simplify(i);
+      l.check(twice === s, () => `${i} inverted twice is ${twice}, not ${s}`);
+    }
+    l.expectNoFailures();
+  });
+
+  test("the pitch class of an interval is the distance between pitch classes", () => {
+    const l = law();
+    for (const a of NOTES) {
+      for (const i of INTERVALS) {
+        const b = Note.transpose(a, i);
+        const d = Note.distance(pitchClass(a), pitchClass(b));
+        const pc = Interval.pitchClass(i);
+        l.check(
+          d === pc,
+          () =>
+            `${pitchClass(a)} to ${pitchClass(b)} is ${d}, not ${pc} (${i})`,
+        );
+      }
+    }
+    l.expectNoFailures();
+  });
+
+  test("inverting and negating give the same pitch class", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const inv = Interval.pitchClass(Interval.invert(i));
+      const neg = Interval.pitchClass(Interval.negate(i));
+      l.check(inv === neg, () => `${i}: inverted ${inv}, negated ${neg}`);
+    }
+    l.expectNoFailures();
+  });
+
+  test("an interval plus its negation is a unison", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const neg = Interval.negate(i);
+      const sum = Interval.add(i, neg);
+      l.check(
+        coord(sum) === coord("1P") &&
+          neg === Interval.subtract("1P", i) &&
+          coord(Interval.negate(neg)) === coord(i),
+        () => `${i} + ${neg} = ${sum}`,
+      );
+    }
+    l.expectNoFailures();
+  });
+
+  test("abs is the interval or its negation, whichever ascends", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const a = Interval.abs(i);
+      const isOneOf =
+        coord(a) === coord(i) || coord(a) === coord(Interval.negate(i));
+      l.check(
+        isOneOf &&
+          Interval.get(a).dir === 1 &&
+          a === Interval.abs(Interval.negate(i)) &&
+          a === Interval.abs(a),
+        () => `abs of ${i} is ${a}`,
+      );
+    }
+    l.expectNoFailures();
+  });
+
+  test("multiplying is adding the interval that many times", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      l.check(Interval.multiply(i, 0) === "1P", () => `${i} * 0`);
+      l.check(
+        Interval.multiply(i, -1) === Interval.negate(i),
+        () => `${i} * -1 is ${Interval.multiply(i, -1)}`,
+      );
+      for (let n = -4; n <= 4; n++) {
+        const next = Interval.multiply(i, n + 1);
+        const sum = Interval.add(Interval.multiply(i, n), i);
+        const semitones = Interval.semitones(next);
+        l.check(
+          coord(next) === coord(sum) &&
+            semitones === (n + 1) * Interval.semitones(i),
+          () =>
+            `${i} * ${n + 1} is ${next} (${semitones}), but adding gives ${sum}`,
+        );
+      }
     }
     l.expectNoFailures();
   });

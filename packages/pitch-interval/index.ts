@@ -15,8 +15,8 @@ const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 export type IntervalName = string;
 export type IntervalLiteral = IntervalName | Pitch | NamedPitch;
 
-type Quality =
-  "dddd" | "ddd" | "dd" | "d" | "m" | "M" | "P" | "A" | "AA" | "AAA" | "AAAA";
+// Any number of augmented or diminished: "A", "AA", "d", "ddddd"...
+type Quality = "m" | "M" | "P" | `A${string}` | `d${string}`;
 type Type = "perfectable" | "majorable";
 
 export interface Interval extends Pitch, NamedPitch {
@@ -54,9 +54,9 @@ const NoInterval: Interval = Object.freeze({
 });
 
 // shorthand tonal notation (with quality after number)
-const INTERVAL_TONAL_REGEX = "([-+]?\\d+)(d{1,4}|m|M|P|A{1,4})";
+const INTERVAL_TONAL_REGEX = "([-+]?\\d+)(d+|m|M|P|A+)";
 // standard shorthand notation (with quality before number)
-const INTERVAL_SHORTHAND_REGEX = "(AA|A|P|M|m|d|dd)([-+]?\\d+)";
+const INTERVAL_SHORTHAND_REGEX = "(A+|P|M|m|d+)([-+]?\\d+)";
 const REGEX = new RegExp(
   "^(?:" + INTERVAL_TONAL_REGEX + "|" + INTERVAL_SHORTHAND_REGEX + ")$",
 );
@@ -84,7 +84,8 @@ const cache = new Map<string, Interval>();
  * - type: 'perfectable' or 'majorable'
  * - q: the interval quality (d, m, M, A)
  * - dir: interval direction (1 ascending, -1 descending)
- * - simple: the simplified number
+ * - simple: the number reduced to an octave or less, keeping the octave
+ *   (8, 15 and 22 are 8, 9 is 2) and the direction
  * - semitones: the size in semitones
  * - chroma: the interval chroma
  *
@@ -137,7 +138,8 @@ function parse(str?: string): Interval {
 
   const name = "" + num + q;
   const dir = num < 0 ? -1 : 1;
-  const simple = num === 8 || num === -8 ? num : dir * (step + 1);
+  // Like music21's semi-simple: 15 and 22 reduce to 8, only a unison is 1
+  const simple = dir * (step === 0 && Math.abs(num) > 1 ? 8 : step + 1);
   const alt = qToAlt(type, q);
   const oct = Math.floor((Math.abs(num) - 1) / 7);
   const semitones = dir * (SIZES[step] + alt + 12 * oct);

@@ -74,23 +74,64 @@ Interval.fromSemitones(-7); // => "-5P"
 
 #### `simplify(interval: string) => string`
 
-Simplify an interval:
+Simplify an interval: keep its quality and direction, and reduce its number to an octave or less. An octave stays an octave, so only a unison simplifies to a unison:
 
 ```js
 Interval.simplify("9M"); // => "2M"
 Interval.simplify("2M"); // => "2M"
 Interval.simplify("-2M"); // => "-2M"
 ["8P", "9M", "10M", "11P", "12P", "13M", "14M", "15P"].map(Interval.simplify);
-// => [ "8P", "2M", "3M", "4P", "5P", "6M", "7M", "1P" ]
+// => [ "8P", "2M", "3M", "4P", "5P", "6M", "7M", "8P" ]
 ```
 
 #### `invert(interval: string) => string`
 
-Get the interval inversion:
+Get the interval inversion: the interval that completes the simplified interval to an octave. A unison and an octave invert to each other, compound intervals are simplified first, and the direction is kept:
 
 ```js
 Interval.invert("3m"); // => "6M"
 Interval.invert("2M"); // => "7m"
+Interval.invert("1P"); // => "8P"
+Interval.invert("9M"); // => "7m"
+Interval.invert("-3M"); // => "-6m"
+```
+
+#### `pitchClass(interval: string) => string`
+
+Get the pitch class of an interval: the interval within an octave, ascending by letter, that leads to the same pitch class. It ignores octaves and direction, like the distance between two pitch classes:
+
+```js
+Interval.pitchClass("10M"); // => "3M"
+Interval.pitchClass("-3M"); // => "6m"
+Interval.pitchClass("8P"); // => "1P"
+```
+
+#### `negate(interval: string) => string`
+
+Get the same interval in the opposite direction:
+
+```js
+Interval.negate("3M"); // => "-3M"
+Interval.negate("-5P"); // => "5P"
+```
+
+#### `abs(interval: string) => string`
+
+Get the ascending version of an interval:
+
+```js
+Interval.abs("-3M"); // => "3M"
+Interval.abs("3M"); // => "3M"
+```
+
+#### `multiply(interval: string, times: number) => string`
+
+Stack an interval a number of times. A negative number stacks it downwards, and zero gives a unison:
+
+```js
+Interval.multiply("5P", 3); // => "13M"
+Interval.multiply("2M", 3); // => "4A"
+Interval.multiply("3M", -2); // => "-5A"
 ```
 
 #### `add(a: string, b: string) => string`
