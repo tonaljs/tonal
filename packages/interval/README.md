@@ -79,7 +79,7 @@ Simplify an interval:
 ```js
 Interval.simplify("9M"); // => "2M"
 Interval.simplify("2M"); // => "2M"
-Interval.simplify("-2M"); // => "7m"
+Interval.simplify("-2M"); // => "-2M"
 ["8P", "9M", "10M", "11P", "12P", "13M", "14M", "15P"].map(Interval.simplify);
 // => [ "8P", "2M", "3M", "4P", "5P", "6M", "7M", "1P" ]
 ```

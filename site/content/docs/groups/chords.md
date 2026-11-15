@@ -7,7 +7,7 @@ package: chord
 ```js
 import { Chord } from "tonal";
 
-Chord.get("Cmaj7").notes; // => ["C", "E", "E", "G"]
+Chord.get("Cmaj7").notes; // => ["C", "E", "G", "B"]
 Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
 ```
 

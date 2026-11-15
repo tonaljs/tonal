@@ -42,7 +42,7 @@ Key.majorKey("C") // =>
   grades: ["I", "II", "III", "IV", "V", "VI", "VII"],
   intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
   scale: ["C", "D", "E", "F", "G", "A", "B"],
-  triads: ["C", "Dm", "Em", "F", "G" "Am", "Bdim"],
+  triads: ["C", "Dm", "Em", "F", "G", "Am", "Bdim"],
   chords: ["Cmaj7", "Dm7", "Em7", "Fmaj7", "G7" "Am7", "Bm7b5"],
   chordsHarmonicFunction: ["T", "SD", "T", "SD", "D", "T", "D"],
   chordScales: ["C major", "D dorian", "E phrygian", "F lydian", "G mixolydian", "A minor", "B locrian"],
@@ -114,5 +114,5 @@ Key.majorTonicFromKeySignature("bbb"); // => Eb
 ##### How to get minor tonic from key signature
 
 ```js
-majorKey(majorTonicFromKeySignature("###")).relativeMinor; // => "F#"
+majorKey(majorTonicFromKeySignature("###")).minorRelative; // => "F#"
 ```

@@ -44,7 +44,7 @@ It has several shorthands to retrieve properties easily:
 ```js
 Note.name("fx4"); // => "F##4"
 Note.pitchClass("Ab5"); // => "Ab"
-Note.accidentals("Eb"); // => 'Eb'
+Note.accidentals("Eb"); // => 'b'
 Note.octave("C4"); // => 4
 Note.midi("A4"); // => 69
 Note.freq("A4"); // => 440
@@ -157,7 +157,7 @@ Note.distance("C3", "E4").toEqual("10M");
 Get note names of an array of anything. Notice that names are normalized:
 
 ```js
-Note.names(["fx", "bb", 12, "nothing", {}, null])) // => ["F##", "Bb"];
+Note.names(["fx", "bb", 12, "nothing", {}, null]); // => ["F##", "Bb"]
 ```
 
 Without parameters, it returns a list of natural pitch classes:

@@ -148,7 +148,7 @@ export function detect(
  * @return {Array<string>} - the chord names
  *
  * @example
- * scaleChords("pentatonic") // => ["5", "64", "M", "M6", "Madd9", "Msus2"]
+ * scaleChords("pentatonic") // => ["5", "M", "6", "sus2", "Madd9"]
  */
 export function scaleChords(name: string): string[] {
   const s = get(name);
@@ -165,7 +165,7 @@ export function scaleChords(name: string): string[] {
  * @param {string} name
  * @return {Array} a list of scale names
  * @example
- * extended("major") // => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]
+ * extended("major") // => ["bebop", "bebop major", "ichikosucho", "chromatic"]
  */
 export function extended(name: string): string[] {
   const chroma = isChroma(name) ? name : get(name).chroma;
@@ -184,7 +184,7 @@ export function extended(name: string): string[] {
  * @return {Array} a list of scale names
  *
  * @example
- * reduced("major") // => ["ionian pentatonic", "major pentatonic", "ritusen"]
+ * reduced("major") // => ["major pentatonic", "ionian pentatonic", "ritusen"]
  */
 export function reduced(name: string): string[] {
   const isSubset = isSubsetOf(get(name).chroma);

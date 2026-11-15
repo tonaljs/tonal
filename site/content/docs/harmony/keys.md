@@ -9,8 +9,8 @@ Obtain information of a key's scales and chords:
 ```js
 import * as Key from "tonal";
 
-Key.majorKey("C").triads; // => ["C", "Dm", "Em", "F", "G" "Am", "Bdim"],
-Key.majorKeyChords("C").find((chord) => chord.name === "Em"); // => { name: "Em", roles: ["T", "ii/II"] }
+Key.majorKey("C").triads; // => ["C", "Dm", "Em", "F", "G", "Am", "Bdim"],
+Key.majorKeyChords("C").find((chord) => chord.name === "Em7"); // => { name: "Em7", roles: ["T", "ii/II"] }
 ```
 
 ## API
@@ -39,7 +39,7 @@ Key.majorKey("C") // =>
   grades: ["I", "II", "III", "IV", "V", "VI", "VII"],
   intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
   scale: ["C", "D", "E", "F", "G", "A", "B"],
-  triads: ["C", "Dm", "Em", "F", "G" "Am", "Bdim"],
+  triads: ["C", "Dm", "Em", "F", "G", "Am", "Bdim"],
   chords: ["Cmaj7", "Dm7", "Em7", "Fmaj7", "G7" "Am7", "Bm7b5"],
   chordsHarmonicFunction: ["T", "SD", "T", "SD", "D", "T", "D"],
   chordScales: ["C major", "D dorian", "E phrygian", "F lydian", "G mixolydian", "A minor", "B locrian"],

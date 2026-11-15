@@ -169,7 +169,7 @@ export const trFrom = transposeFrom;
  *
  * @example
  * import { transposeFifths } from "@tonaljs/note"
- * transposeFifths("G4", 1) // => "D"
+ * transposeFifths("G4", 1) // => "D5"
  * [0, 1, 2, 3, 4].map(fifths => transposeFifths("C", fifths)) // => ["C", "G", "D", "A", "E"]
  */
 export function transposeFifths(noteName: NoteName, fifths: number): NoteName {
