@@ -88,12 +88,13 @@ export function distance(
       ? tcoord[1] - fcoord[1]
       : -Math.floor((fifths * 7) / 12);
 
-  // If it's unison, not pitch class, and in the same octave
-  // it can be descending interval (see #243 & #428)
+  // If it's unison and not pitch class, it can be descending interval
+  // when the second note is written with a lower letter (see #243, #428 & #514)
   const forceDescending =
     to.height === from.height &&
     to.midi !== null &&
-    from.oct === to.oct &&
-    from.step > to.step;
+    from.oct !== undefined &&
+    to.oct !== undefined &&
+    from.oct * 7 + from.step > to.oct * 7 + to.step;
   return coordToInterval([fifths, octs], forceDescending).name;
 }

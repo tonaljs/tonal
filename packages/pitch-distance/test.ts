@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { distance } from "./index";
+import { distance, transpose } from "./index";
 
 const allIntervalsFrom = (from: string) => (str: string) =>
   str
@@ -26,6 +26,15 @@ describe("distance", () => {
     expect(distance("B#4", "C5")).toBe("2d");
     expect(distance("B##4", "C#5")).toBe("2d");
     expect(distance("B#5", "C6")).toBe("2d");
+  });
+
+  test("descending across the octave line #514", () => {
+    expect(distance("C4", "B#3")).toBe("-2d");
+    expect(distance("Cb4", "B3")).toBe("-2d");
+    expect(distance("Cbb4", "A#3")).toBe("-3ddd");
+    expect(distance("B#3", "C4")).toBe("2d");
+    expect(distance("C4", "B#4")).toBe("7A");
+    expect(transpose("C4", distance("C4", "B#3"))).toBe("B#3");
   });
 
   test("intervals between pitch classes are always ascending", () => {
