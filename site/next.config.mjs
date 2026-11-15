@@ -5,20 +5,13 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 const config = {
   basePath: "/tonal",
-  reactStrictMode: true,
   output: "export",
+  // write every page as a folder with an index.html, which GitHub Pages serves
+  // at the same url (next to the page .html, export also writes a folder)
+  trailingSlash: true,
   reactStrictMode: true,
   images: {
     unoptimized: true,
-    dangerouslyAllowSVG: true,
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "img.shields.io",
-        port: "",
-        pathname: "/**",
-      },
-    ],
   },
 };
 
