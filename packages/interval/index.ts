@@ -58,7 +58,9 @@ export const quality = (name: string) => props(name).q;
 export const num = (name: string) => props(name).num;
 
 /**
- * Get the simplified version of an interval.
+ * Get the simplified version of an interval: the same quality and direction,
+ * with the number reduced to an octave or less. An octave stays an octave,
+ * so only a unison simplifies to a unison.
  *
  * @function
  * @param {string} interval - the interval to simplify
@@ -69,7 +71,7 @@ export const num = (name: string) => props(name).num;
  * Interval.simplify("2M") // => "2M"
  * Interval.simplify("-2M") // => "-2M"
  * ["8P", "9M", "10M", "11P", "12P", "13M", "14M", "15P"].map(Interval.simplify)
- * // => [ "8P", "2M", "3M", "4P", "5P", "6M", "7M", "1P" ]
+ * // => [ "8P", "2M", "3M", "4P", "5P", "6M", "7M", "8P" ]
  */
 export function simplify(name: IntervalName): IntervalName {
   const i = props(name);
@@ -78,7 +80,9 @@ export function simplify(name: IntervalName): IntervalName {
 
 /**
  * Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals)
- * of an interval.
+ * of an interval: the interval that completes its simplified version to an
+ * octave. A unison and an octave invert to each other, compound intervals
+ * are simplified first, and the direction is kept.
  *
  * @function
  * @param {string} interval - the interval to invert in interval shorthand
@@ -88,15 +92,21 @@ export function simplify(name: IntervalName): IntervalName {
  * @example
  * Interval.invert("3m") // => "6M"
  * Interval.invert("2M") // => "7m"
+ * Interval.invert("1P") // => "8P"
+ * Interval.invert("9M") // => "7m"
+ * Interval.invert("-3M") // => "-6m"
  */
 export function invert(name: IntervalName): IntervalName {
   const i = props(name);
   if (i.empty) {
     return "";
   }
-  const step = (7 - i.step) % 7;
+  // the simplified number goes from 1 to 8, so its inversion too
+  const inverted = 9 - Math.abs(i.simple);
+  const step = inverted === 8 ? 0 : inverted - 1;
+  const oct = inverted === 8 ? 1 : 0;
   const alt = i.type === "perfectable" ? -i.alt : -(i.alt + 1);
-  return props({ step, alt, oct: i.oct, dir: i.dir }).name;
+  return props({ step, alt, oct, dir: i.dir }).name;
 }
 
 /**

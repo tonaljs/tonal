@@ -84,7 +84,8 @@ const cache = new Map<string, Interval>();
  * - type: 'perfectable' or 'majorable'
  * - q: the interval quality (d, m, M, A)
  * - dir: interval direction (1 ascending, -1 descending)
- * - simple: the simplified number
+ * - simple: the number reduced to an octave or less, keeping the octave
+ *   (8, 15 and 22 are 8, 9 is 2) and the direction
  * - semitones: the size in semitones
  * - chroma: the interval chroma
  *
@@ -137,7 +138,8 @@ function parse(str?: string): Interval {
 
   const name = "" + num + q;
   const dir = num < 0 ? -1 : 1;
-  const simple = num === 8 || num === -8 ? num : dir * (step + 1);
+  // Like music21's semi-simple: 15 and 22 reduce to 8, only a unison is 1
+  const simple = dir * (step === 0 && Math.abs(num) > 1 ? 8 : step + 1);
   const alt = qToAlt(type, q);
   const oct = Math.floor((Math.abs(num) - 1) / 7);
   const semitones = dir * (SIZES[step] + alt + 12 * oct);

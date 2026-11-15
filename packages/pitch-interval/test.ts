@@ -91,6 +91,7 @@ describe("interval", () => {
       expect(simple("1P 2M 3M 4P")).toEqual([1, 2, 3, 4]);
       expect(simple("8P 9M 10M 11P")).toEqual([8, 2, 3, 4]);
       expect(simple("-8P -9M -10M -11P")).toEqual([-8, -2, -3, -4]);
+      expect(simple("1A 15P 22d -15P 16M")).toEqual([1, 8, 8, -8, 2]);
     });
   });
 

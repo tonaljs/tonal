@@ -78,7 +78,7 @@ Interval.fromSemitones(-7); // => "-5P"
 
 `simplify(interval: string) => string`
 
-Simplify an interval:
+Simplify an interval: keep its quality and direction, and reduce its number to an octave or less. An octave stays an octave, so only a unison simplifies to a unison:
 
 ```js
 Interval.simplify("9M"); // => "2M"
@@ -92,11 +92,14 @@ Interval.simplify("-2M"); // => "-2M"
 
 `invert(interval: string) => string`
 
-Get the interval inversion:
+Get the interval inversion: the interval that completes the simplified interval to an octave. A unison and an octave invert to each other, compound intervals are simplified first, and the direction is kept:
 
 ```js
 Interval.invert("3m"); // => "6M"
 Interval.invert("2M"); // => "7m"
+Interval.invert("1P"); // => "8P"
+Interval.invert("9M"); // => "7m"
+Interval.invert("-3M"); // => "-6m"
 ```
 
 ### `Interval.pitchClass`

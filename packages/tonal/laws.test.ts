@@ -234,7 +234,62 @@ describe("interval arithmetic", () => {
   });
 });
 
-describe("pitch class, negate, abs and multiply", () => {
+describe("simplify, invert, pitch class, negate and multiply", () => {
+  const octave = (i: string) => (Interval.get(i).dir < 0 ? "-8P" : "8P");
+
+  test("simplifying keeps the pitch class and the direction", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const s = Interval.simplify(i);
+      const n = Math.abs(Interval.num(s));
+      l.check(
+        Interval.pitchClass(s) === Interval.pitchClass(i) &&
+          Interval.get(s).dir === Interval.get(i).dir &&
+          n >= 1 &&
+          n <= 8 &&
+          Interval.simplify(s) === s,
+        () => `${i} simplifies to ${s}`,
+      );
+    }
+    l.expectNoFailures();
+  });
+
+  test("only a unison simplifies to a unison", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const s = Interval.simplify(i);
+      const isUnison = Math.abs(Interval.num(i)) === 1;
+      l.check(
+        (Math.abs(Interval.num(s)) === 1) === isUnison,
+        () => `${i} simplifies to ${s}`,
+      );
+    }
+    l.expectNoFailures();
+  });
+
+  test("an interval and its inversion make an octave", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const inv = Interval.invert(i);
+      const sum = Interval.add(Interval.simplify(i), inv);
+      l.check(
+        coord(sum) === coord(octave(i)),
+        () => `${Interval.simplify(i)} + (inversion of ${i} = ${inv}) = ${sum}`,
+      );
+    }
+    l.expectNoFailures();
+  });
+
+  test("inverting twice is simplifying", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const twice = Interval.invert(Interval.invert(i));
+      const s = Interval.simplify(i);
+      l.check(twice === s, () => `${i} inverted twice is ${twice}, not ${s}`);
+    }
+    l.expectNoFailures();
+  });
+
   test("the pitch class of an interval is the distance between pitch classes", () => {
     const l = law();
     for (const a of NOTES) {
@@ -248,6 +303,16 @@ describe("pitch class, negate, abs and multiply", () => {
             `${pitchClass(a)} to ${pitchClass(b)} is ${d}, not ${pc} (${i})`,
         );
       }
+    }
+    l.expectNoFailures();
+  });
+
+  test("inverting and negating give the same pitch class", () => {
+    const l = law();
+    for (const i of INTERVALS) {
+      const inv = Interval.pitchClass(Interval.invert(i));
+      const neg = Interval.pitchClass(Interval.negate(i));
+      l.check(inv === neg, () => `${i}: inverted ${inv}, negated ${neg}`);
     }
     l.expectNoFailures();
   });
