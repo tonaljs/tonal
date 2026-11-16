@@ -52,12 +52,14 @@ A release takes two steps. Versions are bumped in a pull request first and publi
 
 ```bash
 git switch -c release-x.y.z
-npx changeset version # Updates version and CHANGELOG of each package
-npm run build         # Updates the browser build in packages/tonal/browser
+npx changeset version    # Updates version and CHANGELOG of each package
+npm run build -- --force # Rebuilds the browser build in packages/tonal/browser
 git add .
 git commit -m "Version packages (x.y.z)"
-git push              # Then open a pull request and merge it
+git push                 # Then open a pull request and merge it
 ```
+
+`--force` skips the turbo cache, so the committed browser build is always a real rebuild of the current source.
 
 **2. Publish**
 

@@ -8,8 +8,15 @@
       "dependsOn": [
         "^build"
       ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!browser/tonal.min.js",
+        "!browser/tonal.min.js.map"
+      ],
       "outputs": [
-        "dist/**"
+        "dist/**",
+        "browser/tonal.min.js",
+        "browser/tonal.min.js.map"
       ]
     },
     "test": {
