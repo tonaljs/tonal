@@ -81,7 +81,7 @@ export function note(src: NoteLiteral): Note {
 
 type NoteTokens = [string, string, string, string];
 
-const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
+const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d+|)\s*(.*)$/;
 
 /**
  * @private
@@ -115,10 +115,12 @@ function parse(noteName: NoteName): Note {
 
   const step = (letter.charCodeAt(0) + 3) % 7;
   const alt = accToAlt(acc);
-  const oct = octStr.length ? +octStr : undefined;
+  // "|| 0" turns the -0 of "C-0" into 0
+  const oct = octStr.length ? Number(octStr) || 0 : undefined;
   const coord = coordinates({ step, alt, oct });
 
-  const name = letter + acc + octStr;
+  // "C04" and "C-0" are named "C4" and "C0"
+  const name = letter + acc + (oct === undefined ? "" : oct);
   const pc = letter + acc;
   const chroma = (SEMI[step] + alt + 120) % 12;
   const height =
