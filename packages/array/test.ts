@@ -15,6 +15,16 @@ describe("@tonaljs/array", () => {
   test("range", () => {
     expect(range(-2, 2)).toEqual([-2, -1, 0, 1, 2]);
     expect(range(2, -2)).toEqual([2, 1, 0, -1, -2]);
+    expect(range(3, 3)).toEqual([3]);
+  });
+
+  test("range with fractional or infinite bounds", () => {
+    expect(range(1.5, 4)).toEqual([1.5, 2.5, 3.5]);
+    expect(range(4, 1.5)).toEqual([4, 3, 2]);
+    expect(range(0, 0.5)).toEqual([0]);
+    expect(range(0, Infinity)).toEqual([]);
+    expect(range(-Infinity, 0)).toEqual([]);
+    expect(range(NaN, 2)).toEqual([]);
   });
 
   test("rotate", () => {

@@ -17,7 +17,9 @@ import { midiToNoteName, toMidi, ToNoteNameOptions } from "@tonaljs/midi";
  */
 export function numeric(notes: (string | number)[]): number[] {
   const midi: number[] = compact(
-    notes.map((note) => (typeof note === "number" ? note : toMidi(note))),
+    notes.map((note) =>
+      typeof note === "number" ? (isFinite(note) ? note : null) : toMidi(note),
+    ),
   );
   if (!notes.length || midi.length !== notes.length) {
     // there is no valid notes
