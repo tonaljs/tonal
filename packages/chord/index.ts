@@ -203,7 +203,12 @@ export function getChord(
   const symbol = `${tonic.empty ? "" : tonic.pc}${typeName}${
     hasRoot && rootDegree > 1 ? "/" + root.pc : hasBass ? "/" + bass.pc : ""
   }`;
-  const name = `${optionalTonic ? tonic.pc + " " : ""}${type.name}${
+  // A type without a long name (like "add9") is named by its symbol
+  const tonicName = optionalTonic ? tonic.pc : "";
+  const typeLabel = type.name
+    ? `${tonicName ? tonicName + " " : ""}${type.name}`
+    : tonicName + typeName;
+  const name = `${typeLabel}${
     hasRoot && rootDegree > 1
       ? " over " + root.pc
       : hasBass

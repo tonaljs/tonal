@@ -468,12 +468,6 @@ exports[`@tonal/key > C minor chords 1`] = `
     ],
   },
   {
-    "name": "Cm6",
-    "roles": [
-      "T",
-    ],
-  },
-  {
     "name": "Dm7",
     "roles": [
       "SD",
@@ -1014,7 +1008,7 @@ exports[`@tonal/key > minorKey 1`] = `
       "B altered",
     ],
     "chords": [
-      "Cm6",
+      "CmMaj7",
       "Dm7",
       "Eb+maj7",
       "F7",
@@ -1384,7 +1378,7 @@ exports[`@tonal/key > minorKey 2`] = `
       "A altered",
     ],
     "chords": [
-      "Bbm6",
+      "BbmMaj7",
       "Cm7",
       "Db+maj7",
       "Eb7",
@@ -1754,7 +1748,7 @@ exports[`@tonal/key > minorKey 3`] = `
       "A# altered",
     ],
     "chords": [
-      "Bm6",
+      "BmMaj7",
       "C#m7",
       "D+maj7",
       "E7",

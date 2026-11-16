@@ -117,7 +117,7 @@ Key.minorKey("C"); // =>
     intervals: ["1P", "2M", "3m", "4P", "5P", "6M", "7M"],
     scale: ["C", "D", "Eb", "F", "G", "A", "B"],
     triads: ["Cm", "Dm", "Ebaug", "F", "G", "Adim", "Bdim"],
-    chords: ["Cm6", "Dm7", "Eb+maj7", "F7", "G7", "Am7b5", "Bm7b5"],
+    chords: ["CmMaj7", "Dm7", "Eb+maj7", "F7", "G7", "Am7b5", "Bm7b5"],
     chordsHarmonicFunction: ["T", "SD", "T", "SD", "D", "", ""],
     chordScales: ["C melodic minor", "D dorian b2", "Eb lydian augmented", "F lydian dominant", "G mixolydian b6", "A locrian #2", "B altered"],
     secondaryDominants: ["", "A7", "", "C7", "D7", "", ""],
@@ -164,7 +164,7 @@ Return a list of all available chords for a given minor key:
 Key.minorKeyChords("C")
   .map((chord) => chord.name)
   .join(", ");
-// => "Cm7, Dm7b5, Ebmaj7, Fm7, Gm7, Abmaj7, Bb7, G7, C7, D7, Eb7, F7, Gm7b5, Am7b5, Bbm7, Db7, Gb7, Ab7, Bbb7, Cb7, Abm7, Dbm7, Ebm7, Fbm7, Gbm7, CmMaj7, Eb+maj7, Bo7, Am7, Cm6, Dm7, Bm7b5, A7, Em7b5"
+// => "Cm7, Dm7b5, Ebmaj7, Fm7, Gm7, Abmaj7, Bb7, G7, C7, D7, Eb7, F7, Gm7b5, Am7b5, Bbm7, Db7, Gb7, Ab7, Bbb7, Cb7, Abm7, Dbm7, Ebm7, Fbm7, Gbm7, CmMaj7, Eb+maj7, Bo7, Am7, Dm7, Bm7b5, A7, Em7b5"
 ```
 
 ## How to...

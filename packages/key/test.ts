@@ -103,6 +103,17 @@ describe("@tonal/key", () => {
     ]);
   });
 
+  test("melodic minor chords stack thirds", () => {
+    const tonics = "CDEFGAB".split("").flatMap((l) => [l + "b", l, l + "#"]);
+    for (const tonic of tonics) {
+      const { scale: notes, chords } = Key.minorKey(tonic).melodic;
+      chords.forEach((name, i) => {
+        const stacked = [0, 2, 4, 6].map((step) => notes[(i + step) % 7]);
+        expect([name, chord(name).notes]).toEqual([name, stacked]);
+      });
+    }
+  });
+
   test("octaves are discarded", () => {
     expect(Key.majorKey("b4").scale.join(" ")).toEqual("B C# D# E F# G# A#");
     expect(Key.majorKey("g4").chords.join(" ")).toEqual(
@@ -112,7 +123,7 @@ describe("@tonal/key", () => {
       "C D Eb F G A B",
     );
     expect(Key.minorKey("C4").melodic.chords.join(" ")).toEqual(
-      "Cm6 Dm7 Eb+maj7 F7 G7 Am7b5 Bm7b5",
+      "CmMaj7 Dm7 Eb+maj7 F7 G7 Am7b5 Bm7b5",
     );
   });
 
