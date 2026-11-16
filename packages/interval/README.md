@@ -212,3 +212,62 @@ Subtract two intervals:
 Interval.subtract("5P", "3M"); // => "3m"
 Interval.subtract("3M", "5P"); // => "-3m"
 ```
+
+## Consonance
+
+### `Interval.consonance`
+
+`consonance(interval: string, options?: { consonantFourth?: boolean }) => "perfect" | "imperfect" | "dissonant" | ""`
+
+Classify an interval as a perfect consonance, an imperfect consonance or a dissonance:
+
+| Consonance | Intervals |
+| --- | --- |
+| `"perfect"` | unison, fifth and octave (`1P 5P 8P`) |
+| `"imperfect"` | major and minor thirds and sixths (`3m 3M 6m 6M`) |
+| `"dissonant"` | seconds, sevenths, the perfect fourth, and every augmented or diminished interval |
+
+```js
+Interval.consonance("5P"); // => "perfect"
+Interval.consonance("6m"); // => "imperfect"
+Interval.consonance("7m"); // => "dissonant"
+Interval.consonance("blah"); // => ""
+```
+
+Direction and octaves don't change the consonance:
+
+```js
+Interval.consonance("-5P"); // => "perfect"
+Interval.consonance("10m"); // => "imperfect"
+Interval.consonance("-9M"); // => "dissonant"
+```
+
+The spelling decides, not the sound. A diminished fourth sounds like a major third, and an augmented fifth like a minor sixth, but they're dissonances:
+
+```js
+Interval.consonance("4d"); // => "dissonant"
+Interval.consonance("3M"); // => "imperfect"
+Interval.consonance("5A"); // => "dissonant"
+```
+
+The perfect fourth is a dissonance by default, as it is against the bass in common practice harmony. Pass `consonantFourth: true` to count it as a perfect consonance, as between upper voices or in early counterpoint:
+
+```js
+Interval.consonance("4P"); // => "dissonant"
+Interval.consonance("4P", { consonantFourth: true }); // => "perfect"
+Interval.consonance("4A", { consonantFourth: true }); // => "dissonant"
+```
+
+### `Interval.isConsonant`
+
+`isConsonant(interval: string, options?: { consonantFourth?: boolean }) => boolean`
+
+Is the interval a perfect or imperfect consonance? It takes the same options as `Interval.consonance`, and invalid intervals are `false`:
+
+```js
+Interval.isConsonant("6M"); // => true
+Interval.isConsonant("-12P"); // => true
+Interval.isConsonant("2M"); // => false
+Interval.isConsonant("4P"); // => false
+Interval.isConsonant("4P", { consonantFourth: true }); // => true
+```

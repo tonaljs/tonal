@@ -274,6 +274,91 @@ export function transposeFifths(
   return coordToInterval([nFifths + fifths, nOcts, dir]).name;
 }
 
+/**
+ * The consonance of an interval: a perfect consonance, an imperfect
+ * consonance, or a dissonance
+ */
+export type Consonance = "perfect" | "imperfect" | "dissonant";
+
+export interface ConsonanceOptions {
+  /**
+   * Count the perfect fourth as a perfect consonance, as between upper voices
+   * or in early counterpoint. By default it's a dissonance, as against the
+   * bass in common practice harmony.
+   */
+  consonantFourth?: boolean;
+}
+
+/**
+ * Classify an interval as a perfect consonance (unison, fifth and octave), an
+ * imperfect consonance (thirds and sixths) or a dissonance (seconds, sevenths,
+ * the fourth, and every augmented or diminished interval).
+ *
+ * The spelling decides, not the sound: a diminished fourth sounds like a
+ * major third, but it's a dissonance. Direction and octaves don't change the
+ * consonance. Invalid intervals give an empty string.
+ *
+ * @function
+ * @param {string} interval - the interval
+ * @param {ConsonanceOptions} options - `consonantFourth: true` makes the
+ * perfect fourth a perfect consonance
+ * @return {string} "perfect", "imperfect", "dissonant" or ""
+ *
+ * @example
+ * Interval.consonance("5P") // => "perfect"
+ * Interval.consonance("10m") // => "imperfect"
+ * Interval.consonance("-6M") // => "imperfect"
+ * Interval.consonance("7m") // => "dissonant"
+ * Interval.consonance("4d") // => "dissonant"
+ * Interval.consonance("4P") // => "dissonant"
+ * Interval.consonance("4P", { consonantFourth: true }) // => "perfect"
+ */
+export function consonance(
+  name: IntervalName,
+  options: ConsonanceOptions = {},
+): Consonance | "" {
+  const i = props(name);
+  if (i.empty) {
+    return "";
+  }
+  // the interval number within an octave, from 1 to 7, in either direction
+  const simple = ((Math.abs(i.num) - 1) % 7) + 1;
+  if (i.q === "P") {
+    if (simple === 1 || simple === 5) return "perfect";
+    if (simple === 4 && options.consonantFourth) return "perfect";
+    return "dissonant";
+  }
+  if ((i.q === "M" || i.q === "m") && (simple === 3 || simple === 6)) {
+    return "imperfect";
+  }
+  return "dissonant";
+}
+
+/**
+ * Is the interval a perfect or an imperfect consonance? See `consonance`.
+ *
+ * @function
+ * @param {string} interval - the interval
+ * @param {ConsonanceOptions} options - `consonantFourth: true` makes the
+ * perfect fourth a consonance
+ * @return {boolean} true if the interval is consonant, false if it's
+ * dissonant or invalid
+ *
+ * @example
+ * Interval.isConsonant("6M") // => true
+ * Interval.isConsonant("-12P") // => true
+ * Interval.isConsonant("2M") // => false
+ * Interval.isConsonant("4P") // => false
+ * Interval.isConsonant("4P", { consonantFourth: true }) // => true
+ */
+export function isConsonant(
+  name: IntervalName,
+  options: ConsonanceOptions = {},
+): boolean {
+  const c = consonance(name, options);
+  return c === "perfect" || c === "imperfect";
+}
+
 /** @deprecated */
 export default {
   names,
@@ -294,6 +379,8 @@ export default {
   addTo,
   subtract,
   transposeFifths,
+  consonance,
+  isConsonant,
 };
 
 //// PRIVATE ////
