@@ -632,6 +632,25 @@ describe("tonal-chord", () => {
     }
   });
 
+  test("detect puts only unusual types after other readings", () => {
+    // In root position, a chord type loses first place only when its reading
+    // is unusual (see @tonaljs/chord-detect). A change to the chord types
+    // or to the rule that changes this list should be deliberate.
+    const tonics = "CDEFGAB".split("").flatMap((l) => [l + "b", l, l + "#"]);
+    const demoted = ChordType.all()
+      .map((type) => type.aliases[0])
+      .filter((alias) =>
+        tonics.some((tonic) => {
+          const notes = Chord.getChord(alias, tonic).notes;
+          const first = Chord.get(Chord.detect(notes)[0] ?? "");
+          return first.tonic !== tonic || first.bass !== "";
+        }),
+      );
+    expect(demoted.sort()).toEqual(
+      $("m#5 m11A m7#5 m7b6 m9b6 mMaj7b6 mMaj9b6 mb6 mb6b9 o7M7 quartal"),
+    );
+  });
+
   describe("degrees by name", () => {
     const TONICS = $("C C# Db D Eb E F F# Gb G Ab A Bb B");
     const NOTES = $("C C# D Eb E F F# G Ab A Bb B");
