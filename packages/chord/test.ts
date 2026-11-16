@@ -625,22 +625,24 @@ describe("tonal-chord", () => {
       expect(Chord.noteOf("C", "b#3")).toBe("");
       expect(Chord.noteOf("Cnonsense", "3")).toBe("");
       expect(Chord.noteOf("N.C.", "1")).toBe("");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect(Chord.noteOf("C", 3 as any)).toBe("");
     });
 
-    test("degreeNames", () => {
-      expect(Chord.degreeNames("Cm7")).toEqual($("1 b3 5 b7"));
-      expect(Chord.degreeNames("dim7")).toEqual($("1 b3 b5 bb7"));
-      expect(Chord.degreeNames("C6")).toEqual($("1 3 5 6"));
-      expect(Chord.degreeNames("C13")).toEqual($("1 3 5 b7 9 13"));
-      expect(Chord.degreeNames("Csus4")).toEqual($("1 4 5"));
-      expect(Chord.degreeNames("C11")).toEqual($("1 5 b7 9 11"));
-      expect(Chord.degreeNames("C4")).toEqual($("1 4 b7 b3"));
-      expect(Chord.degreeNames("C7b9#11")).toEqual($("1 3 5 b7 b9 #11"));
-      expect(Chord.degreeNames("C13/E")).toEqual($("1 3 5 b7 9 13"));
-      expect(Chord.degreeNames("Csus2/G")).toEqual($("1 2 5"));
-      expect(Chord.degreeNames("Cmaj7/B")).toEqual($("1 3 5 7"));
-      expect(Chord.degreeNames("C/D")).toEqual($("1 3 5"));
-      expect(Chord.degreeNames("Cnonsense")).toEqual([]);
+    test("formula", () => {
+      expect(Chord.formula("Cm7")).toEqual($("1 b3 5 b7"));
+      expect(Chord.formula("dim7")).toEqual($("1 b3 b5 bb7"));
+      expect(Chord.formula("C6")).toEqual($("1 3 5 6"));
+      expect(Chord.formula("C13")).toEqual($("1 3 5 b7 9 13"));
+      expect(Chord.formula("Csus4")).toEqual($("1 4 5"));
+      expect(Chord.formula("C11")).toEqual($("1 5 b7 9 11"));
+      expect(Chord.formula("C4")).toEqual($("1 4 b7 b3"));
+      expect(Chord.formula("C7b9#11")).toEqual($("1 3 5 b7 b9 #11"));
+      expect(Chord.formula("C13/E")).toEqual($("1 3 5 b7 9 13"));
+      expect(Chord.formula("Csus2/G")).toEqual($("1 2 5"));
+      expect(Chord.formula("Cmaj7/B")).toEqual($("1 3 5 7"));
+      expect(Chord.formula("C/D")).toEqual($("1 3 5"));
+      expect(Chord.formula("Cnonsense")).toEqual([]);
     });
 
     test("every chord tone has its degree, and back", () => {
@@ -649,7 +651,7 @@ describe("tonal-chord", () => {
           const chord: [string, string] = [tonic, type.aliases[0]];
           const notes = Chord.notes(chord);
           const degrees = notes.map((n) => Chord.degreeOf(chord, n));
-          expect(degrees).toEqual(Chord.degreeNames(chord));
+          expect(degrees).toEqual(Chord.formula(chord));
           expect(new Set(degrees).size).toBe(notes.length);
           expect(degrees.map((d) => Chord.noteOf(chord, d))).toEqual(notes);
         }
@@ -671,42 +673,46 @@ describe("tonal-chord", () => {
       }
     });
 
-    test("importance", () => {
-      expect(Chord.importance("C")).toEqual($("3 1 5"));
-      expect(Chord.importance("Cm")).toEqual($("b3 1 5"));
-      expect(Chord.importance("Cdim")).toEqual($("b3 b5 1"));
-      expect(Chord.importance("Caug")).toEqual($("3 #5 1"));
-      expect(Chord.importance("C5")).toEqual($("1 5"));
-      expect(Chord.importance("C6")).toEqual($("3 6 1 5"));
-      expect(Chord.importance("m6")).toEqual($("b3 6 1 5"));
-      expect(Chord.importance("C6/9")).toEqual($("3 6 9 1 5"));
-      expect(Chord.importance("Csus4")).toEqual($("4 1 5"));
-      expect(Chord.importance("Csus2")).toEqual($("2 1 5"));
-      expect(Chord.importance("C7sus4")).toEqual($("4 b7 1 5"));
-      expect(Chord.importance("C9sus4")).toEqual($("4 b7 9 1 5"));
-      expect(Chord.importance("C11")).toEqual($("11 b7 9 1 5"));
-      expect(Chord.importance("Cmaj7")).toEqual($("3 7 1 5"));
-      expect(Chord.importance("C7")).toEqual($("3 b7 1 5"));
-      expect(Chord.importance("Cm7b5")).toEqual($("b3 b5 b7 1"));
-      expect(Chord.importance("Cdim7")).toEqual($("b3 b5 bb7 1"));
-      expect(Chord.importance("C7#5")).toEqual($("3 #5 b7 1"));
-      expect(Chord.importance("C7b9")).toEqual($("3 b7 b9 1 5"));
-      expect(Chord.importance("C7#5#9")).toEqual($("3 #5 b7 #9 1"));
-      expect(Chord.importance("Calt7")).toEqual($("3 b7 b9 1"));
-      expect(Chord.importance("C7b9b13")).toEqual($("3 b7 b9 1 5 b13"));
-      expect(Chord.importance("C13")).toEqual($("3 b7 9 1 5 13"));
-      expect(Chord.importance("Cm11")).toEqual($("b3 b7 9 1 5 11"));
-      expect(Chord.importance("C13#11")).toEqual($("3 b7 9 1 5 #11 13"));
-      expect(Chord.importance("C7(no3)")).toEqual($("b7 1 5"));
-      expect(Chord.importance("C7/E")).toEqual($("3 b7 1 5"));
-      expect(Chord.importance("Cnonsense")).toEqual([]);
+    test("degreesByImportance", () => {
+      expect(Chord.degreesByImportance("C")).toEqual($("3 1 5"));
+      expect(Chord.degreesByImportance("Cm")).toEqual($("b3 1 5"));
+      expect(Chord.degreesByImportance("Cdim")).toEqual($("b3 b5 1"));
+      expect(Chord.degreesByImportance("Caug")).toEqual($("3 #5 1"));
+      expect(Chord.degreesByImportance("C5")).toEqual($("1 5"));
+      expect(Chord.degreesByImportance("C6")).toEqual($("3 6 1 5"));
+      expect(Chord.degreesByImportance("m6")).toEqual($("b3 6 1 5"));
+      expect(Chord.degreesByImportance("C6/9")).toEqual($("3 6 9 1 5"));
+      expect(Chord.degreesByImportance("Csus4")).toEqual($("4 1 5"));
+      expect(Chord.degreesByImportance("Csus2")).toEqual($("2 1 5"));
+      expect(Chord.degreesByImportance("C7sus4")).toEqual($("4 b7 1 5"));
+      expect(Chord.degreesByImportance("C9sus4")).toEqual($("4 b7 9 1 5"));
+      expect(Chord.degreesByImportance("C11")).toEqual($("11 b7 9 1 5"));
+      expect(Chord.degreesByImportance("Cmaj7")).toEqual($("3 7 1 5"));
+      expect(Chord.degreesByImportance("C7")).toEqual($("3 b7 1 5"));
+      expect(Chord.degreesByImportance("Cm7b5")).toEqual($("b3 b5 b7 1"));
+      expect(Chord.degreesByImportance("Cdim7")).toEqual($("b3 b5 bb7 1"));
+      expect(Chord.degreesByImportance("C7#5")).toEqual($("3 #5 b7 1"));
+      expect(Chord.degreesByImportance("C7b9")).toEqual($("3 b7 b9 1 5"));
+      expect(Chord.degreesByImportance("C7#5#9")).toEqual($("3 #5 b7 #9 1"));
+      expect(Chord.degreesByImportance("Calt7")).toEqual($("3 b7 b9 1"));
+      expect(Chord.degreesByImportance("C7b9b13")).toEqual(
+        $("3 b7 b9 1 5 b13"),
+      );
+      expect(Chord.degreesByImportance("C13")).toEqual($("3 b7 9 1 5 13"));
+      expect(Chord.degreesByImportance("Cm11")).toEqual($("b3 b7 9 1 5 11"));
+      expect(Chord.degreesByImportance("C13#11")).toEqual(
+        $("3 b7 9 1 5 #11 13"),
+      );
+      expect(Chord.degreesByImportance("C7(no3)")).toEqual($("b7 1 5"));
+      expect(Chord.degreesByImportance("C7/E")).toEqual($("3 b7 1 5"));
+      expect(Chord.degreesByImportance("Cnonsense")).toEqual([]);
     });
 
-    test("importance lists every degree of every chord type once", () => {
+    test("degreesByImportance lists every degree of every chord type once", () => {
       for (const type of ChordType.all()) {
         const chord: [string, string] = ["C", type.aliases[0]];
-        const degrees = Chord.degreeNames(chord);
-        const sorted = Chord.importance(chord);
+        const degrees = Chord.formula(chord);
+        const sorted = Chord.degreesByImportance(chord);
         expect([...sorted].sort()).toEqual([...degrees].sort());
         const third = degrees.find((d) => /^(b*|#*)3$/.test(d));
         if (third) expect(sorted[0]).toBe(third);

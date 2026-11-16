@@ -153,43 +153,31 @@ Print the notes of the given chord at the given tonic:
 Chord.notes("maj7", "C4"); // => ["C4", "E4", "G4", "B4"]
 ```
 
-### `Chord.degrees`
+### `Chord.steps`
 
-`degrees(chordType: string, tonic?: string) => (degree: number) => string`
+`steps(chordType: string, tonic?: string) => (step: number) => string`
 
-`Chord.degrees` returns a function to get a note name from a chord degree:
+`Chord.steps` returns a function to get the notes of a chord by their position, 0 being the tonic. Negative steps go down:
 
 ```js
-const c4m7 = Chord.degrees("m7", "C4");
-c4m7(1); // => "C4"
-c4m7(2); // => "Eb4"
-c4m7(3); // => "G4"
-c4m7(4); // => "Bb4"
-c4m7(5); // => "C5"
+const c4m7 = Chord.steps("m7", "C4");
+c4m7(0); // => "C4"
+c4m7(1); // => "Eb4"
+c4m7(2); // => "G4"
+c4m7(3); // => "Bb4"
+c4m7(4); // => "C5"
 ```
 
 It can be used, for example, to get the notes of chord inversions:
 
 ```js
-[1, 2, 3, 4].map(c4m7); // => ["C4", "Eb4", "G4", "Bb4"]
-[2, 3, 4, 5].map(c4m7); // => ["Eb4", "G4", "Bb4", "C5"]
-[3, 4, 5, 6].map(c4m7); // => ["G4", "Bb4", "C5", "Eb5"]
-[4, 5, 6, 7].map(c4m7); // => ["Bb4", "C5", "Eb5", "G5"]
+[0, 1, 2, 3].map(c4m7); // => ["C4", "Eb4", "G4", "Bb4"]
+[1, 2, 3, 4].map(c4m7); // => ["Eb4", "G4", "Bb4", "C5"]
+[2, 3, 4, 5].map(c4m7); // => ["G4", "Bb4", "C5", "Eb5"]
+[3, 4, 5, 6].map(c4m7); // => ["Bb4", "C5", "Eb5", "G5"]
 ```
 
-Bear in mind that degree numbers starts with 1 and 0 returns an empty string:
-
-```js
-c4m7(0); // => ""
-```
-
-See [`Scale.degrees`](https://tonaljs.github.io/tonal/docs/groups/scales#scaledegrees)
-
-### `Chord.steps`
-
-`steps(chordType: string, tonic?: string) => (degree: number) => string`
-
-Same as `Chord.degrees` but 0 is the tonic. Plays better with numeric ranges:
+It plays well with numeric ranges:
 
 ```js
 import { Range, Chord } from "tonal";
@@ -198,22 +186,30 @@ Range.numeric([-3, 3]).map(Chord.steps("aug", "C4"));
 // => ["C3", "E3", "G#3", "C4", "E4", "G#4", "C5"]
 ```
 
+### `Chord.degrees`
+
+`degrees(chordType: string, tonic?: string) => (position: number) => string`
+
+**Deprecated:** use `Chord.steps`. `Chord.degrees(chord)(n)` is `Chord.steps(chord)(n - 1)` for positive numbers, and the same for negative ones (0 returns `""`).
+
+Its numbers count the notes of the chord in order, so `Chord.degrees("C")(3)` is `"G"`. They are not the degrees of the chord: in theory the 3 of C major is `E`, which is what `Chord.noteOf("C", "3")` returns (see [chord degrees by name](#chord-degrees-by-name)). In the next major version, `Chord.degrees` will return the chord formula, as `Chord.formula` does.
+
 ## Chord degrees by name
 
 The degrees of a chord are named as in chord formulas, counted from the major scale of the root: `1`, `b3`, `3`, `4`, `b5`, `5`, `#5`, `6`, `bb7`, `b7`, `7`, `b9`, `9`, `#9`, `11`, `#11`, `b13`, `13`. So the third of a minor chord is `b3`, and `3` is always a major third.
 
 The 2nd, 4th and 6th are different degrees from the 9th, 11th and 13th: a chord tone is named after its interval in the chord type, so the 6th of `C6` is `6` and the 13th of `C13` is `13`. The bass of a slash chord doesn't change the degrees.
 
-### `Chord.degreeNames`
+### `Chord.formula`
 
-`degreeNames(chord: string) => string[]`
+`formula(chord: string) => string[]`
 
-The degrees of a chord, in the order of its intervals (its formula):
+The degrees of a chord, in the order of its intervals:
 
 ```js
-Chord.degreeNames("Cm7"); // => ["1", "b3", "5", "b7"]
-Chord.degreeNames("dim7"); // => ["1", "b3", "b5", "bb7"]
-Chord.degreeNames("C13/E"); // => ["1", "3", "5", "b7", "9", "13"]
+Chord.formula("Cm7"); // => ["1", "b3", "5", "b7"]
+Chord.formula("dim7"); // => ["1", "b3", "b5", "bb7"]
+Chord.formula("C13/E"); // => ["1", "3", "5", "b7", "9", "13"]
 ```
 
 ### `Chord.degreeOf`
@@ -263,11 +259,11 @@ Chord.noteOf("Cm7", "b3"); // => "Eb"
 Chord.noteOf("Cm7", "3"); // => "E"
 ```
 
-It returns `""` if the chord has no tonic or the degree isn't valid.
+It returns `""` if the chord has no tonic or the degree isn't a degree name (a number like `3` isn't one: it's not the same as `"3"`).
 
-### `Chord.importance`
+### `Chord.degreesByImportance`
 
-`importance(chord: string) => string[]`
+`degreesByImportance(chord: string) => string[]`
 
 The degrees of a chord sorted by how much they define it, to choose which ones to keep when there are fewer voices than chord tones:
 
@@ -280,10 +276,10 @@ The degrees of a chord sorted by how much they define it, to choose which ones t
 7. the other extensions
 
 ```js
-Chord.importance("C13"); // => ["3", "b7", "9", "1", "5", "13"]
-Chord.importance("C7#5"); // => ["3", "#5", "b7", "1"]
-Chord.importance("Csus4"); // => ["4", "1", "5"]
-Chord.importance("Cm6"); // => ["b3", "6", "1", "5"]
+Chord.degreesByImportance("C13"); // => ["3", "b7", "9", "1", "5", "13"]
+Chord.degreesByImportance("C7#5"); // => ["3", "#5", "b7", "1"]
+Chord.degreesByImportance("Csus4"); // => ["4", "1", "5"]
+Chord.degreesByImportance("Cm6"); // => ["b3", "6", "1", "5"]
 ```
 
 ## Finding chords

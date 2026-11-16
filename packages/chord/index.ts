@@ -301,7 +301,14 @@ export function notes(chordName: ChordNameOrTokens, tonic?: string): string[] {
 }
 
 /**
- * Returns a function to get a note name from the scale degree.
+ * Returns a function to get the notes of a chord by their position, 1 being
+ * the tonic.
+ *
+ * @deprecated Use `Chord.steps`: `Chord.degrees(chord)(n)` is
+ * `Chord.steps(chord)(n - 1)` for positive numbers. These numbers count the
+ * chord notes, and are not the degrees of the chord (`Chord.degrees("C")(3)`
+ * is "G", while the 3 of C is "E", see `Chord.noteOf`). In the next major
+ * version, `Chord.degrees` will return the chord formula (`Chord.formula`).
  *
  * @example
  * [1, 2, 3, 4].map(Chord.degrees("C")) => ["C", "E", "G", "C"]
@@ -316,7 +323,12 @@ export function degrees(chordName: ChordNameOrTokens, tonic?: string) {
 }
 
 /**
- * Sames as `degree` but with 0-based index
+ * Returns a function to get the notes of a chord by their position, 0 being
+ * the tonic. Negative steps go down.
+ *
+ * @example
+ * [0, 1, 2, 3].map(Chord.steps("C")) => ["C", "E", "G", "C"]
+ * [-1, 0, 1].map(Chord.steps(["C4", "M"])) => ["G3", "C4", "E4"]
  */
 export function steps(chordName: ChordNameOrTokens, tonic?: string) {
   const chord = get(chordName);
@@ -345,11 +357,11 @@ function typeIntervals(chord: Chord): string[] {
  * the 6th of C6 is "6" and the 13th of C13 is "13".
  *
  * @example
- * Chord.degreeNames("Cm7"); // => ["1", "b3", "5", "b7"]
- * Chord.degreeNames("dim7"); // => ["1", "b3", "b5", "bb7"]
- * Chord.degreeNames("C13/E"); // => ["1", "3", "5", "b7", "9", "13"]
+ * Chord.formula("Cm7"); // => ["1", "b3", "5", "b7"]
+ * Chord.formula("dim7"); // => ["1", "b3", "b5", "bb7"]
+ * Chord.formula("C13/E"); // => ["1", "3", "5", "b7", "9", "13"]
  */
-export function degreeNames(chordName: ChordNameOrTokens): ChordDegreeName[] {
+export function formula(chordName: ChordNameOrTokens): ChordDegreeName[] {
   const chord = get(chordName);
   return chord.empty ? [] : typeIntervals(chord).map(intervalToDegree);
 }
@@ -401,7 +413,8 @@ export function degreeOf(
  * root. The degree is counted from the major scale of the root, as in chord
  * formulas: the third of Cm7 is "b3", and its "3" is "E".
  *
- * It returns "" if the chord has no tonic or the degree isn't valid.
+ * It returns "" if the chord has no tonic or the degree isn't a degree name
+ * (a number like 3 isn't one).
  *
  * @example
  * Chord.noteOf("C7b9", "b9"); // => "Db"
@@ -414,7 +427,8 @@ export function noteOf(
   degree: ChordDegreeName,
 ): NoteName {
   const chord = get(chordName);
-  const ivl = degreeToInterval(degree);
+  // A number is a position (see `steps`), not a degree name
+  const ivl = typeof degree === "string" ? degreeToInterval(degree) : "";
   return chord.empty || !chord.tonic || !ivl
     ? ""
     : transposeNote(chord.tonic, ivl);
@@ -434,13 +448,15 @@ export function noteOf(
  * 7. the other extensions
  *
  * @example
- * Chord.importance("C13"); // => ["3", "b7", "9", "1", "5", "13"]
- * Chord.importance("C7#5"); // => ["3", "#5", "b7", "1"]
- * Chord.importance("Csus4"); // => ["4", "1", "5"]
- * Chord.importance("m6"); // => ["b3", "6", "1", "5"]
+ * Chord.degreesByImportance("C13"); // => ["3", "b7", "9", "1", "5", "13"]
+ * Chord.degreesByImportance("C7#5"); // => ["3", "#5", "b7", "1"]
+ * Chord.degreesByImportance("Csus4"); // => ["4", "1", "5"]
+ * Chord.degreesByImportance("m6"); // => ["b3", "6", "1", "5"]
  */
-export function importance(chordName: ChordNameOrTokens): ChordDegreeName[] {
-  return sortByImportance(degreeNames(chordName));
+export function degreesByImportance(
+  chordName: ChordNameOrTokens,
+): ChordDegreeName[] {
+  return sortByImportance(formula(chordName));
 }
 
 // When the chord is given as tokens, keep the tonic as written (with octave)
@@ -464,8 +480,8 @@ export default {
   steps,
   notes,
   chord,
-  degreeNames,
+  formula,
   degreeOf,
   noteOf,
-  importance,
+  degreesByImportance,
 };
