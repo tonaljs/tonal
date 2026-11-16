@@ -295,14 +295,18 @@ Chord.degreesByImportance("Cm6"); // => ["b3", "6", "1", "5"]
 
 ### `Chord.detect`
 
-`detect(notes: string[]) => string[]`
+`detect(notes: string[], options?: { assumePerfectFifth?: boolean, exclude?: string[] }) => string[]`
 
-Given a list of notes, get the possible chord names:
+Given a list of notes, get the possible chord names, most likely first. The bass is the first note, or the lowest one when every note has an octave:
 
 ```js
 Chord.detect(["D", "F#", "A", "C"]); // => ["D7"]
 Chord.detect(["F#", "A", "C", "D"]); // => ["D7/F#"]
+Chord.detect(["E4", "G4", "C5"]); // => ["CM/E", "Em#5"]
+Chord.detect(["A3", "C4", "F3"]); // => ["FM", "Am#5/F"]
 ```
+
+See [`@tonaljs/chord-detect`](/packages/chord-detect) for the ranking and the options.
 
 You can add new chords to the dictionary using `ChordType` module:
 

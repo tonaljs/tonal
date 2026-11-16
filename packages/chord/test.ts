@@ -611,6 +611,27 @@ describe("tonal-chord", () => {
     });
   });
 
+  test("every name detect finds parses back to its notes and bass", () => {
+    const tonics = "CDEFGAB".split("").flatMap((l) => [l + "b", l, l + "#"]);
+    const chroma = (notes: string[]) =>
+      [...new Set(notes.map((n) => note(n).chroma))].sort((a, b) => a - b);
+    for (const type of ChordType.all()) {
+      for (const tonic of tonics) {
+        const notes = Chord.getChord(type.aliases[0], tonic).notes;
+        notes.forEach((_, i) => {
+          const inversion = [...notes.slice(i), ...notes.slice(0, i)];
+          for (const name of Chord.detect(inversion)) {
+            const chord = Chord.get(name);
+            expect(chroma(chord.notes)).toEqual(chroma(inversion));
+            expect(note(chord.bass || chord.tonic!).chroma).toBe(
+              note(inversion[0]).chroma,
+            );
+          }
+        });
+      }
+    }
+  });
+
   describe("degrees by name", () => {
     const TONICS = $("C C# Db D Eb E F F# Gb G Ab A Bb B");
     const NOTES = $("C C# D Eb E F F# G Ab A Bb B");

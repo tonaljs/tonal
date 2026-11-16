@@ -46,7 +46,7 @@ describe("@tonaljs/progression", () => {
     const inC = (chords: string[]) =>
       Progression.fromRomanNumerals("C", chords);
     expect(inC($("iiMaj7 iiM7 iiΔ iimaj7 iima7 ii^7"))).toEqual(
-      $("DmMaj7 DmM7 DmΔ Dm/ma7 Dm/ma7 Dm/ma7"),
+      $("DmMaj7 DmM7 DmΔ DmMaj7 DmMaj7 DmMaj7"),
     );
     expect(inC($("ii69 ii6/9 ii6add9 iiM69"))).toEqual(
       $("Dm69 Dm69 Dm69 Dm69"),

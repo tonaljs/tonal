@@ -17,6 +17,8 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "@tonaljs/chord-type": "5.2.2",
+    "@tonaljs/pitch-distance": "5.1.0",
+    "@tonaljs/pitch-interval": "6.2.0",
     "@tonaljs/pitch-note": "6.1.2",
     "@tonaljs/pcset": "4.10.4"
   },
