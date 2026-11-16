@@ -3,13 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "docs": "node scripts/docs-from-readmes.mjs",
+    "prebuild": "node scripts/docs-from-readmes.mjs",
     "build": "next build",
+    "predev": "node scripts/docs-from-readmes.mjs",
     "dev": "next dev",
     "start": "serve out",
     "types:check": "next typegen && tsc --noEmit",
     "deploy": "npm run deploy:build && npm run deploy:github",
     "deploy:github": "gh-pages -d out/ -t",
-    "deploy:build": "next build"
+    "deploy:build": "npm run build"
   },
   "dependencies": {
     "fumadocs-core": "16.19.3",

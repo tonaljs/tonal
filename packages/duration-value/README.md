@@ -2,6 +2,12 @@
 
 > Functions to parse and manipulate time duration values
 
+```js
+import { DurationValue } from "tonal";
+
+DurationValue.get("quarter").value; // => 0.25
+```
+
 ## Usage
 
 ES6:
@@ -22,25 +28,11 @@ single module:
 import DurationValue from "@tonaljs/duration-value";
 ```
 
-## API
+## Properties
 
-#### `DurationValue.names() => string[]`
+### `DurationValue.get`
 
-Return all duration names
-
-```js
-DurationValue.names(); // => ["large", "duplex longa", ...]
-```
-
-#### `DurationValue.shorthands() => string[]`
-
-Return all duration value shorthands
-
-```js
-DurationValue.shorthands(); // => ["dl", "l", "d", "w", "h", "q", "e", "s", "t", "sf", "h", "th"]
-```
-
-#### `DurationValue.get(name: string) // => object`
+`get(name: string) => DurationValue`
 
 Get a duration value object from name:
 
@@ -48,7 +40,7 @@ Get a duration value object from name:
 DurationValue.get("quarter"); // =>
 // {
 //   empty: false,
-//   name: 'q',
+//   name: 'quarter',
 //   value: 0.25,
 //   fraction: [ 1, 4 ],
 //   shorthand: 'q',
@@ -63,7 +55,7 @@ The name accepts an arbitrary number of dots:
 DurationValue.get("quarter.."); // =>
 // {
 //   empty: false,
-//   name: 'q..',
+//   name: 'quarter..',
 //   value: 0.4375,
 //   fraction: [ 7, 16 ],
 //   shorthand: 'q',
@@ -75,9 +67,9 @@ DurationValue.get("quarter.."); // =>
 Short names are accepted:
 
 ```js
-DurationValue.get("q") == DurationValue.get("quarter");
-DurationValue.get("q.") == DurationValue.get("quarter.");
-DurationValue.get("q..") == DurationValue.get("quarter..");
+DurationValue.get("q").value; // => 0.25
+DurationValue.get("q.").value; // => 0.375
+DurationValue.get("q..").value; // => 0.4375
 ```
 
 Some aliases (`value` and `fraction`) are provided:
@@ -85,6 +77,28 @@ Some aliases (`value` and `fraction`) are provided:
 ```js
 DurationValue.value("q.."); // => 0.4375
 DurationValue.fraction("q.."); // => [ 7, 16 ]
+```
+
+## List durations
+
+### `DurationValue.names`
+
+`names() => string[]`
+
+Return all duration names
+
+```js
+DurationValue.names(); // => ["large", "duplex longa", ...]
+```
+
+### `DurationValue.shorthands`
+
+`shorthands() => string[]`
+
+Return all duration value shorthands
+
+```js
+DurationValue.shorthands(); // => ["dl", "l", "d", "w", "h", "q", "e", "s", "t", "sf", "h", "th"]
 ```
 
 ## References

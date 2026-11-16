@@ -24,7 +24,9 @@ import Range from "@tonaljs/range";
 
 ## API
 
-### `Range.numeric(notes: Array<string|number>) => number[]`
+### `Range.numeric`
+
+`numeric(notes: Array<string | number>) => number[]`
 
 Create a numeric (midi) range. You supply a list of notes or numbers (peaks and valleys) and they will be connected to create complex ranges.
 
@@ -37,7 +39,9 @@ Range.numeric(["C5", "C4"]); // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62,
 Range.numeric(["C4", "E4", "Bb3"]); // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
 ```
 
-### `Range.chromatic(notes: Array<string|number>, options) => string[]`
+### `Range.chromatic`
+
+`chromatic(notes: Array<string | number>, options?: { sharps?: boolean, pitchClass?: boolean }) => string[]`
 
 Create a range of chromatic notes. The same as `numeric` but the result will be note names instead of midi numbers.
 

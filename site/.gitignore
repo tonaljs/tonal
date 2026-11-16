@@ -26,3 +26,22 @@ yarn-error.log*
 .env*.local
 .vercel
 next-env.d.ts
+# generated from the package READMEs by scripts/docs-from-readmes.mjs
+/content/docs/basics/intervals.md
+/content/docs/basics/midi.md
+/content/docs/basics/notes.md
+/content/docs/dictionaries/chord-types.md
+/content/docs/dictionaries/scale-types.md
+/content/docs/groups/chords.md
+/content/docs/groups/pitch-class-sets.md
+/content/docs/groups/scales.md
+/content/docs/harmony/keys.md
+/content/docs/harmony/modes.md
+/content/docs/harmony/progressions.md
+/content/docs/notation/abc-notation.md
+/content/docs/notation/roman-numerals.md
+/content/docs/time/duration.md
+/content/docs/time/patterns.md
+/content/docs/time/signatures.md
+/content/docs/utils/collections.md
+/content/docs/utils/ranges.md

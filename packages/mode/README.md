@@ -2,6 +2,11 @@
 
 `@tonaljs/mode` greek modes dictionary
 
+```js
+import { Mode } from "tonal";
+Mode.names(); // => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"];
+```
+
 ## Usage
 
 ES6:
@@ -18,14 +23,17 @@ const { Mode } = require("tonal");
 
 ## API
 
-#### `get(name: string) => object`
+### `Mode.get`
+
+`get(name: string) => Mode`
 
 Given a mode name, returns a Mode object with the following fields:
 
 - name: the mode name
 - aliases: alternative mode names
-- modeNum: the mode number (0...7)
-- mode: the mode number
+- modeNum: the mode number (0...6)
+- setNum, chroma and normalized: the mode as a pitch class set
+- intervals: the mode intervals
 - alt: the alterations
 - triad: the triad chord type
 - seventh: the seventh chord type
@@ -33,20 +41,25 @@ Given a mode name, returns a Mode object with the following fields:
 Example:
 
 ```js
-Mode.get("major");
+Mode.get("major"); // =>
 // {
+//   empty: false,
 //   name: "ionian",
-//   aliases: ["major"]
-//   intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"]
+//   aliases: ["major"],
+//   intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
 //   modeNum: 0,
-//   mode: 2773,
+//   setNum: 2773,
+//   chroma: "101011010101",
+//   normalized: "101011010101",
 //   alt: 0,
 //   triad: "",
 //   seventh: "Maj7",
 // }
 ```
 
-#### `names() => string[]`
+### `Mode.names`
+
+`names() => string[]`
 
 Get a list of all mode names.
 
@@ -55,7 +68,9 @@ Mode.names();
 // => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"];
 ```
 
-#### `all() => object[]`
+### `Mode.all`
+
+`all() => object[]`
 
 Return a list of known modes
 
@@ -63,7 +78,9 @@ Return a list of known modes
 Mode.all();
 ```
 
-### `notes(modeName: string, tonic: string) => string[]`
+### `Mode.notes`
+
+`notes(modeName: string, tonic: string) => string[]`
 
 Find notes of a mode with tonic:
 
@@ -76,7 +93,9 @@ Mode.notes("minor", "C");
 // => ["C", "D", "Eb", "F", "G", "Ab", "Bb"];
 ```
 
-### `triads(modeName: string, tonic: string) => string[]`
+### `Mode.triads`
+
+`triads(modeName: string, tonic: string) => string[]`
 
 Return the triads of a mode with tonic:
 
@@ -85,16 +104,34 @@ Mode.triads("major", "C");
 // => ["C", "Dm", "Em", "F", "G", "Am", "Bdim"];
 ```
 
-### `seventhChords(modeName: string, tonic: string) => string[]`
+### `Mode.seventhChords`
+
+`seventhChords(modeName: string, tonic: string) => string[]`
 
 Return the seventh chords of a mode with tonic:
 
 ```js
 Mode.seventhChords("major", "C");
-// => ["CMaj7", "Dm7", "Em7", "FMaj7", "G7", "Am7", "B7b5"];
+// => ["CMaj7", "Dm7", "Em7", "FMaj7", "G7", "Am7", "Bm7b5"];
 ```
 
-#### `relativeTonic(destination: string, source: string, tonic: string)`
+### `Mode.distance`
+
+`distance(destination: string, source: string) => string`
+
+Get the interval from the tonic of the source mode to the tonic of the destination mode that has the same key signature (the same notes):
+
+```js
+Mode.distance("dorian", "ionian"); // => "2M"
+Mode.distance("aeolian", "major"); // => "6M"
+Mode.distance("major", "minor"); // => "-6M"
+```
+
+`Mode.relativeTonic` uses it to find the tonic of the relative mode.
+
+### `Mode.relativeTonic`
+
+`relativeTonic(destination: string, source: string, tonic: string)`
 
 Find a relative tonic. For example, the "minor" relative tonic of "C major" is "A":
 
@@ -102,9 +139,9 @@ Find a relative tonic. For example, the "minor" relative tonic of "C major" is "
 Mode.relativeTonic("minor", "major", "C"); // => "A"
 ```
 
-## How to?
+## How to...
 
-#### Get notes from a mode?
+### How to get notes from a mode?
 
 For example, "A major" mode:
 
@@ -112,9 +149,9 @@ For example, "A major" mode:
 import { Mode, Note } from "tonal";
 
 Mode.get("major").intervals.map(Note.transposeFrom("A"));
-["A", "B", "C#", "D", "E", "F#", "G#"];
+// => ["A", "B", "C#", "D", "E", "F#", "G#"]
 ```
 
 ## Want more?
 
-Take a look to [@tonal/key](/packages/key)
+Take a look to [@tonaljs/key](https://tonaljs.github.io/tonal/docs/harmony/keys)

@@ -2,6 +2,18 @@
 
 > A collection of functions to create and manipulate music intervals
 
+`Intervals` module allow to do distance calculations between notes using intervals, obtain information and do calculations:
+
+```js
+import { Interval } from "tonal";
+
+Interval.distance("C4", "G4"); // => "5P"
+Interval.invert("2M"); // => "7m"
+Interval.simplify("9M"); // => "2M"
+Interval.semitones("4P"); // => 5
+Interval.add("4P", "2M"); // => "5P"
+```
+
 ## Usage
 
 ES6:
@@ -16,9 +28,11 @@ nodejs:
 const { Interval } = require("tonal");
 ```
 
-## API
+## Interval properties
 
-#### `Interval.get(name: string)`
+### `Interval.get`
+
+`get(name: string) => Interval`
 
 Get properties of an interval:
 
@@ -45,15 +59,11 @@ Interval.quality("5P"); // => "P"
 Interval.semitones("P4"); // => 5
 ```
 
-#### `distance(from: string, to: string) => string`
+## Collections and conversion
 
-Find the interval between two notes.
+### `Interval.names`
 
-```js
-Interval.distance("C4", "G4"); // => "5P"
-```
-
-#### `names() => string[]`
+`names() => string[]`
 
 Return a list of (natural) interval names:
 
@@ -61,7 +71,9 @@ Return a list of (natural) interval names:
 Interval.names(); // => ["1P", "2M", "3M", "4P", "5P", "6m", "7m"]
 ```
 
-#### `fromSemitones(semitones: number) => string`
+### `Interval.fromSemitones`
+
+`fromSemitones(semitones: number) => string`
 
 Given a number of semitones, returns the interval name:
 
@@ -72,7 +84,11 @@ Interval.fromSemitones(-7); // => "-5P"
 [0, 1, 2, 3, 4].map(Interval.fromSemitones);
 ```
 
-#### `simplify(interval: string) => string`
+## Operations
+
+### `Interval.simplify`
+
+`simplify(interval: string) => string`
 
 Simplify an interval: keep its quality and direction, and reduce its number to an octave or less. An octave stays an octave, so only a unison simplifies to a unison:
 
@@ -84,7 +100,9 @@ Interval.simplify("-2M"); // => "-2M"
 // => [ "8P", "2M", "3M", "4P", "5P", "6M", "7M", "8P" ]
 ```
 
-#### `invert(interval: string) => string`
+### `Interval.invert`
+
+`invert(interval: string) => string`
 
 Get the interval inversion: the interval that completes the simplified interval to an octave. A unison and an octave invert to each other, compound intervals are simplified first, and the direction is kept:
 
@@ -96,7 +114,9 @@ Interval.invert("9M"); // => "7m"
 Interval.invert("-3M"); // => "-6m"
 ```
 
-#### `pitchClass(interval: string) => string`
+### `Interval.pitchClass`
+
+`pitchClass(interval: string) => string`
 
 Get the pitch class of an interval: the interval within an octave, ascending by letter, that leads to the same pitch class. It ignores octaves and direction, like the distance between two pitch classes:
 
@@ -106,7 +126,9 @@ Interval.pitchClass("-3M"); // => "6m"
 Interval.pitchClass("8P"); // => "1P"
 ```
 
-#### `negate(interval: string) => string`
+### `Interval.negate`
+
+`negate(interval: string) => string`
 
 Get the same interval in the opposite direction:
 
@@ -115,7 +137,9 @@ Interval.negate("3M"); // => "-3M"
 Interval.negate("-5P"); // => "5P"
 ```
 
-#### `abs(interval: string) => string`
+### `Interval.abs`
+
+`abs(interval: string) => string`
 
 Get the ascending version of an interval:
 
@@ -124,7 +148,9 @@ Interval.abs("-3M"); // => "3M"
 Interval.abs("3M"); // => "3M"
 ```
 
-#### `multiply(interval: string, times: number) => string`
+### `Interval.multiply`
+
+`multiply(interval: string, times: number) => string`
 
 Stack an interval a number of times. A negative number stacks it downwards, and zero gives a unison:
 
@@ -134,7 +160,31 @@ Interval.multiply("2M", 3); // => "4A"
 Interval.multiply("3M", -2); // => "-5A"
 ```
 
-#### `add(a: string, b: string) => string`
+### `Interval.transposeFifths`
+
+`transposeFifths(interval: string, fifths: number) => string`
+
+Add a number of perfect fifths to an interval. The fifths are stacked (the result is not reduced to an octave), and a negative number subtracts them:
+
+```js
+Interval.transposeFifths("4P", 1); // => "8P"
+[0, 1, 2, 3, 4].map((fifths) => Interval.transposeFifths("1P", fifths)); // => ["1P", "5P", "9M", "13M", "17M"]
+[0, -1, -2].map((fifths) => Interval.transposeFifths("1P", fifths)); // => ["1P", "-5P", "-9M"]
+```
+
+### `Interval.distance`
+
+`distance(from: string, to: string) => string`
+
+Find the interval between two notes.
+
+```js
+Interval.distance("C4", "G4"); // => "5P"
+```
+
+### `Interval.add`
+
+`add(a: string, b: string) => string`
 
 Add two intervals:
 
@@ -142,11 +192,23 @@ Add two intervals:
 Interval.add("3m", "5P"); // => "7m"
 ```
 
-#### `subtract(min: string, sub: string) => string`
+### `Interval.addTo`
+
+`addTo(interval: string) => (other: string) => string`
+
+A curried version of `Interval.add`, handy with arrays:
+
+```js
+["1P", "2M", "3M"].map(Interval.addTo("5P")); // => ["5P", "6M", "7M"]
+```
+
+### `Interval.subtract`
+
+`subtract(min: string, sub: string) => string`
 
 Subtract two intervals:
 
 ```js
-subtract("5P", "3M"); // => '3m'
-subtract("3M", "5P"); // => '-3m'
+Interval.subtract("5P", "3M"); // => "3m"
+Interval.subtract("3M", "5P"); // => "-3m"
 ```

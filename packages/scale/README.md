@@ -1,8 +1,12 @@
-# @tonaljs/scale [![npm version](https://img.shields.io/npm/v/@tonaljs/scale.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/scale)
-
-[![tonal](https://img.shields.io/badge/@tonaljs-scale-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
+# @tonaljs/scale ![tonal](https://img.shields.io/badge/@tonaljs-scale-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/scale.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/scale)
 
 `@tonaljs/scale` is a collection of functions to create and manipulate musical scales
+
+```js
+import { Scale } from "tonal";
+
+Scale.get("c5 pentatonic").notes; // => ["C5", "D5", "E5", "G5", "A5"]
+```
 
 ## Usage
 
@@ -24,24 +28,20 @@ Single module:
 import Scale from "@tonaljs/scale";
 ```
 
-## API
+## Scale properties
 
-### `Scale.names()`
+### `Scale.get`
 
-List all known scale names. Same as `ScaleType.names()`
+`get(name: string) => Scale`
 
-See [scale-type](/package/scale-type)
-
-### `Scale.get(name: string) => Scale`
-
-Get a scale from a scale name. `Scale.get` accepts tonics in the scale name and returns a [scale type](/packages/scale-type) with two more properties: `tonic` and `notes`:
+Get a scale from a scale name. `Scale.get` accepts tonics in the scale name and returns a [scale type](https://tonaljs.github.io/tonal/docs/dictionaries/scale-types) with two more properties: `tonic` and `notes`:
 
 ```js
 Scale.get("c5 pentatonic");
 // =>
 // {
 //   empty: false,
-//   name: "C5 pentatonic",
+//   name: "C5 major pentatonic",
 //   type: "major pentatonic",
 //   tonic: "C5",
 //   notes: ["C5", "D5", "E5", "G5", "A5"],
@@ -49,89 +49,27 @@ Scale.get("c5 pentatonic");
 //   aliases: ["pentatonic"],
 //   setNum: 2708,
 //   chroma: "101010010100",
-//   normalized: "101010010100"
+//   normalized: "100101001010"
 // }
 ```
 
-### `Scale.detect(notes: string[], options: { tonic?: string, match?: "fit" | "exact" }) => string[]`
+### `Scale.tokenize`
 
-Find all scales that first a collection of notes with a given tonic:
+`tokenize(name: string) => [string, string]`
+
+Split a scale name into its tonic and scale type. It doesn't check that the scale type exists:
 
 ```js
-Scale.detect(["C", "D", "E", "F", "G", "A", "B"]);
-// => ["C major", "C bebop", "C bebop major",
-//     "C ichikosucho",  "C chromatic"];
+Scale.tokenize("C mixolydian"); // => ["C", "mixolydian"]
+Scale.tokenize("C4 major"); // => ["C4", "major"]
+Scale.tokenize("anything is valid"); // => ["", "anything is valid"]
 ```
 
-You can pass an optional tonic (otherwise first note will be used):
+## Scale notes
 
-```js
-Scale.detect(["C", "D", "E", "F", "G", "A", "B"], { tonic: "A" });
-// => [ 'A aeolian', 'A minor bebop', 'A chromatic' ]
-```
+### `Scale.degrees`
 
-You can ask just the exact match:
-
-```js
-Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact" });
-// => ["D major pentatonic"]
-Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact", tonic: "B" });
-// => ["B major pentatonic"]
-```
-
-### `Scale.scaleChords(scale: string) => string[]`
-
-Get all chords that fits a given scale:
-
-```js
-Scale.scaleChords("pentatonic");
-// => ["5", "64", "M", "M6", "Madd9", "Msus2"]
-````
-
-### `Scale.extended(scale: string) => string[]`
-
-Get all scales names that has the same notes and at least one more:
-
-```js
-Scale.extended("major");
-// => ["bebop", "bebop dominant", "bebop major", "chromatic", "ichikosucho"]
-```
-
-### `Scale.reduced(scale: string) => string[]`
-
-Find all scales names that are a subset of the given one (less notes but all from the given scale)
-
-```js
-Scale.reduced("major");
-// => ["ionian pentatonic", "major pentatonic", "ritusen"]
-```
-
-### `Scale.scaleNotes(notes: string[]) => string[]`
-
-Given an array of notes, return an array of sorted note names starting from the first note name of the input array.
-
-```js
-// Always start with the first note of the input array
-Scale.scaleNotes(["D4", "c#5", "A5", "F#6"]); // => ["D", "F#", "A", "C#"]
-// Remove duplicates
-Scale.scaleNotes(["C4", "c3", "C5", "C4", "c4"]); // => ["C"]
-```
-
-### `Scale.modes(name: string) => string[][]`
-
-Find mode names (if any) of a given scale:
-
-```js
-Scale.modeNames("C pentatonic"); // => [
-//    ["C", "major pentatonic"],
-//    ["D", "egyptian"],
-//    ["E", "malkos raga"],
-//    ["G", "ritusen"],
-//    ["A", "minor pentatonic"]
-//  ]
-```
-
-### `Scale.degrees(scaleName: string) => (degree: number) => string`
+`degrees(scaleName: string) => (degree: number) => string`
 
 `Scale.degrees` returns a function to get a note name from a scale degree:
 
@@ -141,8 +79,8 @@ c4major(1); // => "C4"
 c4major(2); // => "D4"
 c4major(8); // => "C5"
 c4major(-1); // => "B3"
-c4major(-3); // => "A3"
-c4major(-7); // => "C2"
+c4major(-3); // => "G3"
+c4major(-7); // => "C3"
 ```
 
 Bear in mind that degree numbers starts with 1 and 0 returns an empty string:
@@ -154,20 +92,22 @@ c4major(0); // => ""
 Because it returns a function, it's handy to be used with `map` (and similar functions):
 
 ```js
-[1, 2, 3].map(Scale.degrees("C major")) => ["C", "D", "E"]
-[1, 2, 3].map(Scale.degrees("C4 major")) => ["C4", "D4", "E4"]
-[-1, -2, -3].map(Scale.degrees("C major")) => ["B", "A", "G"]
+[1, 2, 3].map(Scale.degrees("C major")); // => ["C", "D", "E"]
+[1, 2, 3].map(Scale.degrees("C4 major")); // => ["C4", "D4", "E4"]
+[-1, -2, -3].map(Scale.degrees("C major")); // => ["B", "A", "G"]
 ```
 
 Notice that it uses octaves if the scale tonic has an octave or pitch classes (_octaveless_ notes) otherwise.
 
-See [`Chord.degrees`](https://github.com/tonaljs/tonal/tree/main/packages/chord#chorddegreeschordname-string--degree-number--string)
+See [`Chord.degrees`](https://tonaljs.github.io/tonal/docs/groups/chords#chorddegrees)
 
 See https://en.wikipedia.org/wiki/Degree_(music)
 
-### `Scale.steps(scaleName: string) => (degree: number) => string`
+### `Scale.steps`
 
-Same as `Scale.degree` but 0 is tonic. It plays better with ranges:
+`steps(scaleName: string) => (degree: number) => string`
+
+Same as `Scale.degrees` but 0 is tonic. It plays better with ranges:
 
 ```js
 import { Range, Scale } from "tonal";
@@ -176,7 +116,22 @@ Range.numeric([-3, 3]).map(Scale.steps("C4 major"));
 // => ["G3", "A3", "B3", "C4", "D4", "E4", "F4"]
 ```
 
-### `Scale.rangeOf(scaleName: string) => (from: string, to: string) => string[]`
+### `Scale.scaleNotes`
+
+`scaleNotes(notes: string[]) => string[]`
+
+Given an array of notes, return an array of sorted note names starting from the first note name of the input array.
+
+```js
+// Always start with the first note of the input array
+Scale.scaleNotes(["D4", "c#5", "A5", "F#6"]); // => ["D", "F#", "A", "C#"]
+// Remove duplicates
+Scale.scaleNotes(["C4", "c3", "C5", "C4", "c4"]); // => ["C"]
+```
+
+### `Scale.rangeOf`
+
+`rangeOf(scale: string | string[]) => (from: string, to: string) => string[]`
 
 `Scale.rangeOf` returns a function to create scale ranges:
 
@@ -195,6 +150,95 @@ range("C4", "C5"); // => []
 This function also works with a collection of notes:
 
 ```js
-const range = Scale.rangeOf("C", "Db", "G");
+const range = Scale.rangeOf(["C", "Db", "G"]);
 range("C4", "C5"); // => ["C4", "Db4", "G4", "C5"]
+```
+
+## Finding scales
+
+### `Scale.names`
+
+`names() => string[]`
+
+List all known scale names. Same as `ScaleType.names()`
+
+See [scale-type](https://tonaljs.github.io/tonal/docs/dictionaries/scale-types)
+
+### `Scale.detect`
+
+`detect(notes: string[], options: { tonic?: string, match?: "fit" | "exact" }) => string[]`
+
+Find all scales that first a collection of notes with a given tonic:
+
+```js
+Scale.detect(["C", "D", "E", "F", "G", "A", "B"]);
+// => ["C major", "C bebop", "C bebop major",
+//     "C ichikosucho",  "C chromatic"];
+```
+
+You can pass an optional tonic (otherwise first note will be used):
+
+```js
+Scale.detect(["C", "D", "E", "F", "G", "A", "B"], { tonic: "A" });
+// => [ 'A minor', 'A minor bebop', 'A chromatic' ]
+```
+
+You can ask just the exact match:
+
+```js
+Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact" });
+// => ["D major pentatonic"]
+Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact", tonic: "B" });
+// => ["B minor pentatonic"]
+```
+
+## Relationships
+
+### `Scale.scaleChords`
+
+`scaleChords(scale: string) => string[]`
+
+Get all chords that fits a given scale:
+
+```js
+Scale.scaleChords("pentatonic");
+// => ["5", "M", "6", "sus2", "Madd9"]
+```
+
+### `Scale.extended`
+
+`extended(scale: string) => string[]`
+
+Get all scales names that has the same notes and at least one more:
+
+```js
+Scale.extended("major");
+// => ["bebop", "bebop major", "ichikosucho", "chromatic"]
+```
+
+### `Scale.reduced`
+
+`reduced(scale: string) => string[]`
+
+Find all scales names that are a subset of the given one (less notes but all from the given scale)
+
+```js
+Scale.reduced("major");
+// => ["major pentatonic", "ionian pentatonic", "ritusen"]
+```
+
+### `Scale.modeNames`
+
+`modeNames(name: string) => [string, string][]`
+
+Find mode names (if any) of a given scale:
+
+```js
+Scale.modeNames("C pentatonic"); // => [
+//    ["C", "major pentatonic"],
+//    ["D", "egyptian"],
+//    ["E", "malkos raga"],
+//    ["G", "ritusen"],
+//    ["A", "minor pentatonic"]
+//  ]
 ```

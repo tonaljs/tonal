@@ -24,7 +24,9 @@ import TimeSignature from "@tonaljs/time-signature";
 
 ## API
 
-#### `TimeSignature.names() => string[]`
+### `TimeSignature.names`
+
+`names() => string[]`
 
 Return a list of most most frequently-used time signatures:
 
@@ -32,7 +34,9 @@ Return a list of most most frequently-used time signatures:
 TimeSignature.names();
 ```
 
-#### `TimeSignature.get(name: string | [number, number]) // => object`
+### `TimeSignature.get`
+
+`get(name: string | [number, number] | [string, string]) => TimeSignature`
 
 Get a time signature:
 
@@ -74,8 +78,6 @@ TimeSignature.get("3+2+3/8"); // =>
 Irrational signatures are also interpreted:
 
 ```js
-
-```js
 TimeSignature.get("12/10"); // =>
 // {
 //   empty: false,
@@ -93,6 +95,19 @@ Arrays can be passed as arguments:
 TimeSignature.get([3, 4]);
 TimeSignature.get(["3", "4"]);
 TimeSignature.get(["3+2+3", "8"]);
+```
+
+### `TimeSignature.parse`
+
+`parse(name: string | [number, number] | [string, string]) => [number | number[], number]`
+
+Parse a time signature into its upper and lower numbers, without building the time signature object. An additive upper number is an array. Invalid signatures give `[0, 0]`:
+
+```js
+TimeSignature.parse("3/4"); // => [3, 4]
+TimeSignature.parse("3+2+3/8"); // => [[3, 2, 3], 8]
+TimeSignature.parse("C"); // => [4, 4]
+TimeSignature.parse("x"); // => [0, 0]
 ```
 
 ## References

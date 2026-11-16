@@ -20,7 +20,9 @@ const { RomanNumeral } = require("tonal");
 
 ## API
 
-### `RomanNumeral.get(src: string | Pitch): => RomanNumeral`
+### `RomanNumeral.get`
+
+`get(src: string | Pitch) => RomanNumeral`
 
 Get the properties of a roman numeral:
 
@@ -33,20 +35,45 @@ RomanNumeral.get("bVIIMaj7");
 //   empty: false,
 //   name: "bVIIMaj7",
 //   roman: "VII",
+//   interval: "7m",
 //   acc: "b",
 //   chordType: "Maj7",
 //   alt: -1,
 //   step: 6,
 //   major: true,
-//   oct: 0
+//   oct: 0,
+//   dir: 1
 // }
+```
+
+### `RomanNumeral.names`
+
+`names(major?: boolean) => string[]`
+
+Get the roman numerals of the seven degrees, in upper case (major, the default) or lower case (minor):
+
+```js
+RomanNumeral.names(); // => ["I", "II", "III", "IV", "V", "VI", "VII"]
+RomanNumeral.names(false); // => ["i", "ii", "iii", "iv", "v", "vi", "vii"]
+```
+
+### `RomanNumeral.tokenize`
+
+`tokenize(name: string) => [string, string, string, string]`
+
+Split a roman numeral symbol into the whole match, its accidentals, the roman numeral and the chord type. Invalid symbols give empty strings:
+
+```js
+RomanNumeral.tokenize("bVIIMaj7"); // => ["bVIIMaj7", "b", "VII", "Maj7"]
+RomanNumeral.tokenize("#iv"); // => ["#iv", "#", "iv", ""]
+RomanNumeral.tokenize("C"); // => ["", "", "", ""]
 ```
 
 ## FAQ
 
-#### How do I get a roman numeral from an interval
+### How do I get a roman numeral from an interval
 
-`romanNumeral` function accepts a `Pitch` as argument:
+`RomanNumeral.get` accepts a `Pitch` as argument:
 
 ```js
 import { Interval, RomanNumeral } from "tonal";
@@ -56,4 +83,4 @@ RomanNumeral.get(Interval.get("3m")).name; // => "bIII"
 
 ## Want more?
 
-Take a look to [@tonal/progression](https://github.com/tonaljs/tonal/tree/master/packages/progression) or [@tonal/key](https://github.com/tonaljs/tonal/tree/master/packages/key)
+Take a look to [@tonaljs/progression](https://tonaljs.github.io/tonal/docs/harmony/progressions) or [@tonaljs/key](https://tonaljs.github.io/tonal/docs/harmony/keys)

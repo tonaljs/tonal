@@ -28,7 +28,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
             <img
               className="rounded-lg"
               alt={`@tonaljs/${page.data.package} on npm`}
-              src={`https://img.shields.io/badge/@tonaljs-${page.data.package.replace("-", "--")}-yellow.svg?style=flat-square`}
+              src={`https://img.shields.io/badge/@tonaljs-${page.data.package.replaceAll("-", "--")}-yellow.svg?style=flat-square`}
             />
           </a>
         </div>
