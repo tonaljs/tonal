@@ -48,6 +48,25 @@ describe("time-signature", () => {
     expect(TimeSignature.get("6/8").type).toEqual("compound");
     expect(TimeSignature.get("9/8").type).toEqual("compound");
     expect(TimeSignature.get("12/8").type).toEqual("compound");
+    expect(TimeSignature.get("6/16").type).toEqual("compound");
+    expect(TimeSignature.get("9/16").type).toEqual("compound");
+    expect(TimeSignature.get("12/16").type).toEqual("compound");
+    expect(TimeSignature.get("6/32").type).toEqual("compound");
+  });
+
+  test("get invalid numbers", () => {
+    for (const input of [
+      [4, NaN],
+      ["4", "x"],
+      [-3, 4],
+      [3, -4],
+      [3.5, 4],
+      [3, 4.5],
+    ] as [number, number][]) {
+      expect(TimeSignature.get(input).empty).toBe(true);
+    }
+    expect(TimeSignature.get([3, 4]).name).toEqual("3/4");
+    expect(TimeSignature.get(["6", "8"]).name).toEqual("6/8");
   });
 
   test("irregular", () => {

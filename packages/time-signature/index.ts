@@ -94,20 +94,22 @@ export default { names, parse, get };
 // PRIVATE
 
 const isPowerOfTwo = (x: number) => (Math.log(x) / Math.log(2)) % 1 === 0;
+const isPositiveInteger = (x: number) => Number.isInteger(x) && x > 0;
 
 function build([up, down]: ParsedTimeSignature): TimeSignature {
-  const upper = Array.isArray(up) ? up.reduce((a, b) => a + b, 0) : up;
-  const lower = down;
-  if (upper === 0 || lower === 0) {
+  const parts = Array.isArray(up) ? up : [up];
+  if (!parts.every(isPositiveInteger) || !isPositiveInteger(down)) {
     return NONE;
   }
+  const upper = parts.reduce((a, b) => a + b, 0);
+  const lower = down;
 
   const name = Array.isArray(up) ? `${up.join("+")}/${down}` : `${up}/${down}`;
   const additive = Array.isArray(up) ? up : [];
   const type =
     lower === 4 || lower === 2
       ? "simple"
-      : lower === 8 && upper % 3 === 0
+      : lower >= 8 && isPowerOfTwo(lower) && upper % 3 === 0
         ? "compound"
         : isPowerOfTwo(lower)
           ? "irregular"
