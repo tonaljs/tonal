@@ -22,7 +22,7 @@ const pages = JSON.parse(
 const NPM_ONLY_SECTIONS = /^(usage|install|installation)$/i;
 
 function pageFromReadme(readme, page) {
-  const { readme: folder, title, description, package: pkg } = page;
+  const { readme: folder, title, description } = page;
   const body = [];
   let skipping = false;
   let inCode = false;
@@ -54,7 +54,8 @@ function pageFromReadme(readme, page) {
     `title: ${title}`,
   ];
   if (description) frontmatter.push(`description: ${description}`);
-  frontmatter.push(`package: ${pkg}`, "---");
+  // the npm badge of the page: the package is the README folder
+  frontmatter.push(`package: ${folder}`, "---");
   return `${frontmatter.join("\n")}\n\n${body.join("\n").trim()}\n`;
 }
 

@@ -46,6 +46,29 @@ RomanNumeral.get("bVIIMaj7");
 // }
 ```
 
+### `RomanNumeral.names`
+
+`names(major?: boolean) => string[]`
+
+Get the roman numerals of the seven degrees, in upper case (major, the default) or lower case (minor):
+
+```js
+RomanNumeral.names(); // => ["I", "II", "III", "IV", "V", "VI", "VII"]
+RomanNumeral.names(false); // => ["i", "ii", "iii", "iv", "v", "vi", "vii"]
+```
+
+### `RomanNumeral.tokenize`
+
+`tokenize(name: string) => [string, string, string, string]`
+
+Split a roman numeral symbol into the whole match, its accidentals, the roman numeral and the chord type. Invalid symbols give empty strings:
+
+```js
+RomanNumeral.tokenize("bVIIMaj7"); // => ["bVIIMaj7", "b", "VII", "Maj7"]
+RomanNumeral.tokenize("#iv"); // => ["#iv", "#", "iv", ""]
+RomanNumeral.tokenize("C"); // => ["", "", "", ""]
+```
+
 ## FAQ
 
 ### How do I get a roman numeral from an interval

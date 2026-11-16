@@ -66,3 +66,14 @@ Collection.permutations(["a", "b", "c"]); // =>
 //   ["c", "b", "a"]
 // ]
 ```
+
+### `Collection.compact`
+
+`compact(collection: any[]) => any[]`
+
+Get a copy of the collection without the empty values (`null`, `undefined`, `false`, `""` and `NaN`), but keeping zeros:
+
+```js
+Collection.compact(["a", "b", null, "c"]); // => ["a", "b", "c"]
+Collection.compact([0, 1, undefined, false, 2]); // => [0, 1, 2]
+```

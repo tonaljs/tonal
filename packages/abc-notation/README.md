@@ -60,6 +60,18 @@ Find the interval between two notes in abc notation:
 AbcNotation.distance("=C", "g"); // => "12P"
 ```
 
+### `AbcNotation.tokenize`
+
+`tokenize(note: string) => [string, string, string]`
+
+Split a note in abc notation into its accidentals, letter and octave marks. Invalid notes give empty strings:
+
+```js
+AbcNotation.tokenize("^c'"); // => ["^", "c", "'"]
+AbcNotation.tokenize("_B,,"); // => ["_", "B", ",,"]
+AbcNotation.tokenize("x"); // => ["", "", ""]
+```
+
 ## References
 
 - [ABC Notation](https://en.wikipedia.org/wiki/ABC_notation)

@@ -79,6 +79,18 @@ Very similar to `Chord.get`, but with arguments for each chord part:
 Chord.getChord("maj7", "C", "B") === Chord.get("Cmaj7/B");
 ```
 
+### `Chord.tokenize`
+
+`tokenize(name: string) => [string, string, string]`
+
+Split a chord name into its tonic, chord type and bass. It doesn't check that the chord type exists:
+
+```js
+Chord.tokenize("Cmaj7"); // => ["C", "maj7", ""]
+Chord.tokenize("Eb7b9/G"); // => ["Eb", "7b9", "G"]
+Chord.tokenize("mMaj7"); // => ["", "mMaj7", ""]
+```
+
 ## Chord notes
 
 ### `Chord.notes`

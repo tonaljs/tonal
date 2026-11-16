@@ -97,6 +97,19 @@ TimeSignature.get(["3", "4"]);
 TimeSignature.get(["3+2+3", "8"]);
 ```
 
+### `TimeSignature.parse`
+
+`parse(name: string | [number, number] | [string, string]) => [number | number[], number]`
+
+Parse a time signature into its upper and lower numbers, without building the time signature object. An additive upper number is an array. Invalid signatures give `[0, 0]`:
+
+```js
+TimeSignature.parse("3/4"); // => [3, 4]
+TimeSignature.parse("3+2+3/8"); // => [[3, 2, 3], 8]
+TimeSignature.parse("C"); // => [4, 4]
+TimeSignature.parse("x"); // => [0, 0]
+```
+
 ## References
 
 - https://en.wikipedia.org/wiki/Time_signature

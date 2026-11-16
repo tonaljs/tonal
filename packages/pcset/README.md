@@ -4,10 +4,6 @@
 
 A pitch class set is a set (no repeated) of pitch classes (notes without octaves). Pitch classes are useful to identify musical structures (if two chords are related, for example)
 
-A pitch class set is a no repeated collection (set) of notes without octaves (pitch classes).
-
-Pitch classes are useful to identify musical structures (if two chords are related, for example)
-
 ## Usage
 
 ES6:
@@ -78,6 +74,17 @@ Pcset.intervals(["c", "d", "e"]); // => ["1P", "2M", "3M"]
 Pcset.intervals(["D", "F", "A"]); // => ["2M", "4P", "6M"]
 ```
 
+### `Pcset.isChroma`
+
+`isChroma(value: any) => boolean`
+
+Test if the value is a pitch class set chroma (a string of 12 ones or zeros):
+
+```js
+Pcset.isChroma("101010000000"); // => true
+Pcset.isChroma("1010"); // => false
+```
+
 ## Notes and intervals
 
 ### `Pcset.notes`
@@ -89,6 +96,28 @@ Given a pcset or a list of notes, it returns the sorted pitch class notes:
 ```js
 Pcset.notes(["D3", "A3", "Bb3", "C4", "D4", "E4", "F4", "G4", "A4"]); // => ["C", "D", "E", "F", "G", "A", "Bb"]
 Pcset.notes("101011010110"); // => ["C", "D", "E", "F", "G", "A", "Bb"]
+```
+
+### `Pcset.modes`
+
+`modes(set: Set, normalize?: boolean) => string[]`
+
+Get the rotations of a set, as chromas. This is used, for example, to get the modes of a scale. By default it removes the rotations that don't start with a note (`normalize = false` keeps them):
+
+```js
+Pcset.modes(["C", "D", "E"]); // => ["101010000000", "101000000010", "100000001010"]
+Pcset.modes(["C", "D", "E"]).map(Pcset.intervals); // => [["1P", "2M", "3M"], ["1P", "2M", "7m"], ["1P", "6m", "7m"]]
+```
+
+### `Pcset.chromas`
+
+`chromas() => string[]`
+
+Get the chromas of all the 2048 possible pitch class sets that include C:
+
+```js
+Pcset.chromas().length; // => 2048
+Pcset.chromas()[0]; // => "100000000000"
 ```
 
 ## Querying
@@ -122,6 +151,28 @@ Test if a set is a subset of another. This function is curried
 `isSupersetOf(subset: Set) => (parent: Set) => boolean`
 
 Test if a set is a superset of another. This function is curried
+
+### `Pcset.isEqual`
+
+`isEqual(set1: Set, set2: Set) => boolean`
+
+Test if two sets have the same pitch classes:
+
+```js
+Pcset.isEqual(["c2", "d3"], ["c5", "d2"]); // => true
+Pcset.isEqual(["C", "E"], ["C", "Eb"]); // => false
+```
+
+### `Pcset.filter`
+
+`filter(set: Set) => (notes: string[]) => string[]`
+
+Returns a function that keeps the notes included in the set (with any octave). This function is curried:
+
+```js
+Pcset.filter(["C", "D", "E"])(["c2", "c#2", "d2", "c3", "c#3", "d3"]); // => ["c2", "d2", "c3", "d3"]
+Pcset.filter(["C2"])(["c2", "c#2", "d2", "c3", "c#3", "d3"]); // => ["c2", "c3"]
+```
 
 ## Want more?
 

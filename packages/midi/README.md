@@ -40,6 +40,19 @@ Midi.toMidi("60"); // => 60
 Midi.toMidi(-1); // => null
 ```
 
+### `Midi.isMidi`
+
+`isMidi(value: any) => boolean`
+
+Test if the value is a midi number (a number or a numeric string between 0 and 127):
+
+```js
+Midi.isMidi(60); // => true
+Midi.isMidi("60"); // => true
+Midi.isMidi(128); // => false
+Midi.isMidi("C4"); // => false
+```
+
 ### `Midi.midiToFreq`
 
 `midiToFreq(midi: number, tuning = 440) => number`
@@ -85,6 +98,17 @@ Midi.freqToMidi(261.62); //=> 60
 Midi.freqToMidi(261); //=> 59.96
 ```
 
+### `Midi.chroma`
+
+`chroma(midi: number) => number`
+
+Get the pitch class (0 to 11) of a midi number:
+
+```js
+Midi.chroma(61); // => 1
+Midi.chroma(72); // => 0
+```
+
 ### `Midi.pcset`
 
 `pcset(set: number[] | string) => number[]`
@@ -127,3 +151,15 @@ const steps = Midi.pcsetSteps(Scale.get("D dorian").chroma, 60);
 ```
 
 A similar function called `pcsetDegrees` exists that just uses 1 as first note instead of 0 (more common in music theory books). See `Scale.degrees` and `Chord.degrees` for more information.
+
+### `Midi.pcsetDegrees`
+
+`pcsetDegrees(set: number[] | string, tonic: number) => (degree: number) => number | undefined`
+
+Same as `Midi.pcsetSteps`, but degrees start at 1 (the tonic), negative degrees go down from the tonic and degree 0 returns `undefined`:
+
+```js
+const degrees = Midi.pcsetDegrees(Scale.get("D dorian").chroma, 60);
+[1, 2, 3, -1].map(degrees); // => [60, 62, 63, 58]
+degrees(0); // => undefined
+```

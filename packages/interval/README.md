@@ -160,6 +160,18 @@ Interval.multiply("2M", 3); // => "4A"
 Interval.multiply("3M", -2); // => "-5A"
 ```
 
+### `Interval.transposeFifths`
+
+`transposeFifths(interval: string, fifths: number) => string`
+
+Add a number of perfect fifths to an interval. The fifths are stacked (the result is not reduced to an octave), and a negative number subtracts them:
+
+```js
+Interval.transposeFifths("4P", 1); // => "8P"
+[0, 1, 2, 3, 4].map((fifths) => Interval.transposeFifths("1P", fifths)); // => ["1P", "5P", "9M", "13M", "17M"]
+[0, -1, -2].map((fifths) => Interval.transposeFifths("1P", fifths)); // => ["1P", "-5P", "-9M"]
+```
+
 ### `Interval.distance`
 
 `distance(from: string, to: string) => string`
@@ -178,6 +190,16 @@ Add two intervals:
 
 ```js
 Interval.add("3m", "5P"); // => "7m"
+```
+
+### `Interval.addTo`
+
+`addTo(interval: string) => (other: string) => string`
+
+A curried version of `Interval.add`, handy with arrays:
+
+```js
+["1P", "2M", "3M"].map(Interval.addTo("5P")); // => ["5P", "6M", "7M"]
 ```
 
 ### `Interval.subtract`

@@ -75,13 +75,40 @@ Return a list of all available chord types.
 
 ### `ChordType.add`
 
-`add(intervals: string[], names: string[], fullName?: string) => ChordType`
+`add(intervals: string[], names: string[], fullName?: string) => void`
 
 Add a chord type to dictionary:
 
 ```js
 ChordType.add(["1P", "3M", "5P"], ["M"], "mayor");
 ```
+
+### `ChordType.addAlias`
+
+`addAlias(chordType: ChordType, alias: string) => void`
+
+Add an alias to get a chord type from the dictionary. The alias is only used to find it (it's not added to its `aliases`):
+
+```js
+ChordType.addAlias(ChordType.get("major"), "dur");
+ChordType.get("dur").name; // => "major"
+```
+
+### `ChordType.keys`
+
+`keys() => string[]`
+
+List every key that finds a chord type: names, aliases, set numbers and chromas:
+
+```js
+ChordType.keys().includes("maj7"); // => true
+```
+
+### `ChordType.removeAll`
+
+`removeAll() => void`
+
+Remove every chord type from the dictionary. Other modules that use it (`Chord`, `Scale.scaleChords`...) won't find any chord afterwards.
 
 ## How to...
 

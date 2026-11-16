@@ -115,6 +115,20 @@ Mode.seventhChords("major", "C");
 // => ["CMaj7", "Dm7", "Em7", "FMaj7", "G7", "Am7", "Bm7b5"];
 ```
 
+### `Mode.distance`
+
+`distance(destination: string, source: string) => string`
+
+Get the interval from the tonic of the source mode to the tonic of the destination mode that has the same key signature (the same notes):
+
+```js
+Mode.distance("dorian", "ionian"); // => "2M"
+Mode.distance("aeolian", "major"); // => "6M"
+Mode.distance("major", "minor"); // => "-6M"
+```
+
+`Mode.relativeTonic` uses it to find the tonic of the relative mode.
+
 ### `Mode.relativeTonic`
 
 `relativeTonic(destination: string, source: string, tonic: string)`

@@ -53,6 +53,18 @@ Scale.get("c5 pentatonic");
 // }
 ```
 
+### `Scale.tokenize`
+
+`tokenize(name: string) => [string, string]`
+
+Split a scale name into its tonic and scale type. It doesn't check that the scale type exists:
+
+```js
+Scale.tokenize("C mixolydian"); // => ["C", "mixolydian"]
+Scale.tokenize("C4 major"); // => ["C4", "major"]
+Scale.tokenize("anything is valid"); // => ["", "anything is valid"]
+```
+
 ## Scale notes
 
 ### `Scale.degrees`

@@ -139,6 +139,8 @@ Note.transpose("D", "3M"); // => "F#"
 // => ["C", "E", "G"]
 ```
 
+`Note.tr`, `Note.trBy` and `Note.trFrom` are short aliases of `Note.transpose`, `Note.transposeBy` and `Note.transposeFrom` (and `Note.trFifths` of `Note.transposeFifths`).
+
 ### `Note.transposeFifths`
 
 `transposeFifths(noteName: string, fifths: number) => string`
@@ -149,10 +151,22 @@ Transpose a note a given number of fifths:
 Note.transposeFifths("G4", 3); // => "E6"
 Note.transposeFifths("G", 3); // => "E"
 
-[0, 1, 2, 3, 4, 5, 6].map((n) => transposeFifths("F#", n));
+[0, 1, 2, 3, 4, 5, 6].map((n) => Note.transposeFifths("F#", n));
 // => ["F#", "C#", "G#", "D#", "A#", "E#", "B#"]
-[0, -1, -2, -3, -4, -5, -6].map((n) => transposeFifths("Bb", n));
+[0, -1, -2, -3, -4, -5, -6].map((n) => Note.transposeFifths("Bb", n));
 // => ["Bb", "Eb", "Ab", "Db", "Gb", "Cb", "Fb"]
+```
+
+### `Note.transposeOctaves`
+
+`transposeOctaves(noteName: string, octaves: number) => string`
+
+Transpose a note a given number of octaves. Pitch classes (notes without octave) stay the same:
+
+```js
+Note.transposeOctaves("C4", 2); // => "C6"
+Note.transposeOctaves("C4", -1); // => "C3"
+Note.transposeOctaves("C", 1); // => "C"
 ```
 
 ### `Note.distance`
@@ -204,7 +218,7 @@ Note.sortedNames(["c", "F", "G", "a", "b", "h", "J"]);
 // => ['C', 'F', 'G', 'A', 'B']
 ```
 
-An optional comparator can be passed as a second argument:
+An optional comparator can be passed as a second argument. `Note.ascending` (the default) and `Note.descending` are provided:
 
 ```js
 Note.sortedNames(["c2", "c5", "c1", "c0", "c6", "c"], Note.descending);

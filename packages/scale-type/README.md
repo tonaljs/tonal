@@ -61,13 +61,40 @@ Return a list of all scale types
 
 ### `ScaleType.add`
 
-`add(intervals: string[], name?: string, aliases?: string[]) => ScaleType`
+`add(intervals: string[], name: string, aliases?: string[]) => ScaleType`
 
 Add a scale type to dictionary:
 
 ```js
-ScaleType.add(["1P", "5P"], null, ["5"]);
+ScaleType.add(["1P", "5P"], "fifth", ["5"]);
 ```
+
+### `ScaleType.addAlias`
+
+`addAlias(scaleType: ScaleType, alias: string) => void`
+
+Add an alias to get a scale type from the dictionary. The alias is only used to find it (it's not added to its `aliases`):
+
+```js
+ScaleType.addAlias(ScaleType.get("major"), "dur");
+ScaleType.get("dur").name; // => "major"
+```
+
+### `ScaleType.keys`
+
+`keys() => string[]`
+
+List every key that finds a scale type: names, aliases, set numbers and chromas:
+
+```js
+ScaleType.keys().includes("ionian"); // => true
+```
+
+### `ScaleType.removeAll`
+
+`removeAll() => void`
+
+Remove every scale type from the dictionary. Other modules that use it (`Scale`, `Chord.chordScales`...) won't find any scale afterwards.
 
 ## How to...
 

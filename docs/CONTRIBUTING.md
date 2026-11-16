@@ -44,7 +44,7 @@ To create a new module:
 
 ## Documentation
 
-Each package is documented in its README (`packages/<name>/README.md`), which npm and GitHub show. **Edit the docs of a package in its README only.** The docs site (`site/`) generates its package pages from the READMEs every time it builds (`site/scripts/docs-from-readmes.mjs`, run by `npm run build` and `npm run dev` in `site/`), so those pages are not in git. `site/scripts/docs-from-readmes.json` maps each site page to its package and sets its title, description and npm badge.
+Each package is documented in its README (`packages/<name>/README.md`), which npm and GitHub show. **Edit the docs of a package in its README only.** The docs site (`site/`) generates its package pages from the READMEs every time it builds (`site/scripts/docs-from-readmes.mjs`, run by `npm run build` and `npm run dev` in `site/`), so those pages are not in git. `site/scripts/docs-from-readmes.json` maps each site page to its package folder (which is also its npm badge) and sets its title and description.
 
 When the site builds a page, it removes the README title line (with the badges), the `@tonaljs/<name>` line, the leading `> ` tagline when the page has a description, and the `## Usage` section.
 
