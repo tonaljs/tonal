@@ -52,7 +52,7 @@ describe("@tonaljs/progression", () => {
       $("Dm69 Dm69 Dm69 Dm69"),
     );
     expect(inC($("iiadd9 iiMadd9 iiadd2 ii2"))).toEqual(
-      $("Dmadd9 Dmadd9 Dmadd9 Dmadd9"),
+      $("Dmadd9 Dmadd9 Dmadd2 Dmadd9"),
     );
     expect(inC($("iimaj9 iiΔ9 ii^9"))).toEqual($("DmM9 DmM9 DmM9"));
     expect(inC($("ii6 iiM6 iiadd6"))).toEqual($("Dm6 Dm6 Dm6"));

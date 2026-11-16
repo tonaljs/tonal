@@ -13,6 +13,7 @@ import {
 } from "@tonaljs/pitch-distance";
 import { NoteName, note, tokenizeNote } from "@tonaljs/pitch-note";
 import { all as scaleTypes } from "@tonaljs/scale-type";
+import { composeChordType } from "./compose";
 
 export { detect } from "@tonaljs/chord-detect";
 
@@ -50,6 +51,21 @@ const NoChord: Chord = {
   notes: [],
   intervals: [],
 };
+
+/**
+ * "No chord", as `N.C.` is written in charts. Unlike an unknown symbol it
+ * isn't empty, but it has no notes.
+ */
+const NoChordSymbol: Chord = {
+  ...NoChord,
+  empty: false,
+  name: "no chord",
+  symbol: "N.C.",
+  type: "no chord",
+  aliases: ["N.C.", "NC"],
+};
+
+const isNoChord = (name: string) => /^N\.?C\.?$/i.test(name);
 
 // 6, 64, 7, 9, 11 and 13 are consider part of the chord
 // (see https://github.com/danigb/tonal/issues/55)
@@ -125,7 +141,13 @@ export function getChord(
   optionalTonic?: string,
   optionalBass?: string,
 ): Chord {
-  const type = getChordType(typeName);
+  if (!optionalTonic && !optionalBass && isNoChord(typeName)) {
+    return NoChordSymbol;
+  }
+  const listed = getChordType(typeName);
+  // Symbols that aren't listed can be a listed type plus alterations
+  const composed = listed.empty ? composeChordType(typeName) : undefined;
+  const type = composed || listed;
   const tonic = note(optionalTonic || "");
   const bass = note(optionalBass || "");
 
@@ -163,7 +185,11 @@ export function getChord(
     ? []
     : intervals.map((i) => transposeNote(tonic.pc, i));
 
-  typeName = type.aliases.indexOf(typeName) !== -1 ? typeName : type.aliases[0];
+  // A composed symbol is kept as written
+  typeName =
+    composed || type.aliases.indexOf(typeName) !== -1
+      ? typeName
+      : type.aliases[0];
   const symbol = `${tonic.empty ? "" : tonic.pc}${typeName}${
     hasRoot && rootDegree > 1 ? "/" + root.pc : hasBass ? "/" + bass.pc : ""
   }`;

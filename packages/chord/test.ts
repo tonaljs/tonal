@@ -251,7 +251,7 @@ describe("tonal-chord", () => {
 
   test("extended", () => {
     const chords =
-      "Cmaj#4 Cmaj7#9#11 Cmaj9 Cmaj11 CM7add13 Cmaj13 Cmaj9#11 CM13#11 CM7b9";
+      "Cmaj#4 Cmaj7#9 Cmaj7#9#11 Cmaj9 Cmaj11 CM7add13 Cmaj13 Cmaj9#11 CM13#11 CM7b9";
     expect(Chord.extended("CMaj7").sort()).toEqual($(chords).sort());
   });
 
@@ -299,6 +299,228 @@ describe("tonal-chord", () => {
     expect(Chord.get("Caug7").type).toEqual("seventh augmented fifth");
     expect(Chord.get("Cmaj11").notes).toEqual(["C", "E", "G", "B", "D", "F"]);
     expect(Chord.get("CM11").type).toEqual("major eleventh");
+  });
+
+  describe("chord symbols as written in charts", () => {
+    const notes = (symbol: string) => Chord.get(symbol).notes.join(" ");
+
+    test("chart qualities", () => {
+      const qualities =
+        "+ - -11 -13 -6 -69 -7 -7b6 -9b6 -9 -add2 -add4 -^11 -^13 -^7 -^9 -b6 -#5 13 13#11 13#9 13b9 13sus sus2 5 6 69 7 7#11 7#5 7#9 7#9#11 7#9#5 7add13 7alt 7susb9b13 7b9 7b9#11 7b9#9 7b9b13 7susb9 7sus 7susadd3 9 9#11 9#5 9sus ^13 ^13#11 ^7 ^7#11 ^7#9 ^7b5 ^7#5 ^9 ^9#11 add2 add4 h7 h9 maj o o7 o^7 sus4";
+      const unknown = $(qualities).filter((q) => Chord.get("C" + q).empty);
+      expect(unknown).toEqual([]);
+    });
+
+    test("minor, major seventh and half-diminished qualities", () => {
+      expect(notes("C-7b6")).toEqual("C Eb G Ab Bb");
+      expect(notes("C-9b6")).toEqual("C Eb G Ab Bb D");
+      expect(notes("C-^11")).toEqual("C Eb G B D F");
+      expect(notes("C-^13")).toEqual("C Eb G B D A");
+      expect(notes("C-add2")).toEqual("C Eb G D");
+      expect(notes("C-add4")).toEqual("C Eb F G");
+      expect(notes("C-b6")).toEqual("C Eb G Ab");
+      expect(notes("C7susadd3")).toEqual("C E F G Bb");
+      expect(notes("C7susb9")).toEqual("C F G Bb Db");
+      expect(notes("C7susb9b13")).toEqual("C F G Bb Db Ab");
+      expect(notes("C^13#11")).toEqual("C E G B D F# A");
+      expect(notes("C^7#9")).toEqual("C E G B D#");
+      expect(notes("C^7b5")).toEqual("C E Gb B");
+      expect(notes("Cadd4")).toEqual("C E F G");
+      expect(notes("Ch9")).toEqual("C Eb Gb Bb D");
+      expect(notes("Co^7")).toEqual("C Eb Gb B");
+    });
+
+    test("alteration tokens after a listed type", () => {
+      expect(notes("Cm7b5b9")).toEqual("C Eb Gb Bb Db");
+      expect(notes("Cm11b5")).toEqual("C Eb Gb Bb D F");
+      expect(notes("C7b9#9#11b13")).toEqual("C E G Bb Db D# F# Ab");
+      expect(notes("Cmaj7b9")).toEqual("C E G B Db");
+      expect(notes("C7sus4b9")).toEqual("C F G Bb Db");
+      expect(notes("C7+5")).toEqual("C E G# Bb");
+      expect(notes("C9#4")).toEqual("C E G Bb D F#");
+      expect(notes("Cmb6")).toEqual("C Eb G Ab");
+      expect(notes("Cmaddb9")).toEqual("C Eb G Db");
+      expect(notes("C7add11")).toEqual("C E G Bb F");
+    });
+
+    test("an altered tone replaces the natural one", () => {
+      expect(notes("C13b9")).toEqual("C E G Bb Db A");
+      expect(notes("C9b9")).toEqual("C E G Bb Db");
+      expect(notes("C9#9")).toEqual("C E G Bb D#");
+      expect(notes("Cm11#11")).toEqual("C Eb G Bb D F#");
+      expect(notes("C13b13")).toEqual("C E G Bb D Ab");
+      expect(notes("Cmb5")).toEqual("C Eb Gb");
+      expect(notes("C7#5b9")).toEqual("C E G# Bb Db");
+      // b13 and b6 keep the fifth
+      expect(notes("Cm9b13")).toEqual("C Eb G Bb D Ab");
+    });
+
+    test("tokens in parentheses", () => {
+      expect(notes("C7(b9,#9)")).toEqual("C E G Bb Db D#");
+      expect(notes("C7(b9, #9)")).toEqual("C E G Bb Db D#");
+      expect(notes("C7(b9 #9)")).toEqual("C E G Bb Db D#");
+      expect(notes("C7(b9#9)")).toEqual("C E G Bb Db D#");
+      expect(notes("C7(b9)(#11)")).toEqual("C E G Bb Db F#");
+      expect(notes("Cmaj7 (#11)")).toEqual("C E G B F#");
+      expect(notes("C7(9,13)")).toEqual("C E G Bb D A");
+      expect(notes("Cm7(11)")).toEqual("C Eb G Bb F");
+      expect(notes("C7(13)")).toEqual("C E G Bb A");
+      expect(notes("C6(9)")).toEqual("C E G A D");
+    });
+
+    test("a symbol without base is a major triad", () => {
+      expect(notes("C(add9)")).toEqual("C E G D");
+      expect(notes("C(b5)")).toEqual("C E Gb");
+      expect(notes("C(#5)")).toEqual("C E G#");
+      expect(notes("C(no3)")).toEqual("C G");
+      expect(notes("C(maj7)")).toEqual("C E G B");
+    });
+
+    test("omissions", () => {
+      expect(notes("C7(no3)")).toEqual("C G Bb");
+      expect(notes("Cmaj7(no3)")).toEqual("C G B");
+      expect(notes("C9(no5)")).toEqual("C E Bb D");
+      expect(notes("Cm7no5")).toEqual("C Eb Bb");
+      expect(notes("C7#5no3")).toEqual("C G# Bb");
+    });
+
+    test("major seventh token", () => {
+      expect(notes("Cdim(maj7)")).toEqual("C Eb Gb B");
+      expect(notes("Cm(maj7)")).toEqual("C Eb G B");
+      expect(notes("Caug(maj7)")).toEqual("C E G# B");
+      expect(notes("Cm9(^7)")).toEqual("C Eb G B D");
+      expect(notes("Cdim7(maj7)")).toEqual("C Eb Gb B");
+    });
+
+    test("composed chord properties", () => {
+      expect(Chord.get("Cm7b5b9")).toEqual({
+        empty: false,
+        name: "C ",
+        symbol: "Cm7b5b9",
+        tonic: "C",
+        type: "",
+        root: "",
+        bass: "",
+        rootDegree: NaN,
+        setNum: 3362,
+        chroma: "110100100010",
+        normalized: "100010110100",
+        quality: "Diminished",
+        aliases: [],
+        intervals: ["1P", "3m", "5d", "7m", "9m"],
+        notes: ["C", "Eb", "Gb", "Bb", "Db"],
+      });
+      expect(Chord.get("m7b5b9")).toMatchObject({
+        empty: false,
+        tonic: "",
+        symbol: "m7b5b9",
+        intervals: ["1P", "3m", "5d", "7m", "9m"],
+        notes: [],
+      });
+      expect(Chord.get("C7(no3)").quality).toEqual("Unknown");
+      expect(Chord.get("C7b9#9#11b13").quality).toEqual("Major");
+    });
+
+    test("a composed listed type keeps the symbol as written", () => {
+      expect(Chord.get("Cm(maj7)")).toMatchObject({
+        symbol: "Cm(maj7)",
+        type: "minor/major seventh",
+        aliases: Chord.get("CmMaj7").aliases,
+        intervals: ["1P", "3m", "5P", "7M"],
+      });
+      expect(Chord.get("C7(9,13)")).toMatchObject({
+        symbol: "C7(9,13)",
+        type: "dominant thirteenth",
+      });
+      expect(Chord.get("C7(b9,#9)").symbol).toEqual("C7(b9,#9)");
+    });
+
+    test("composed chords with bass", () => {
+      expect(Chord.get("C7(b9,#9)/E")).toMatchObject({
+        symbol: "C7(b9,#9)/E",
+        bass: "E",
+        root: "E",
+        rootDegree: 2,
+        notes: ["E", "G", "Bb", "Db", "D#", "C"],
+      });
+      expect(Chord.get("Cm7b5b9/D")).toMatchObject({
+        symbol: "Cm7b5b9/D",
+        bass: "D",
+        root: "",
+        notes: ["D", "C", "Eb", "Gb", "Bb", "Db"],
+      });
+    });
+
+    test("composed chords work with the rest of the module", () => {
+      expect(Chord.transpose("C7(b9,#9)", "P5")).toEqual("G7(b9,#9)");
+      expect(Chord.notes("m7b5b9", "D4")).toEqual($("D4 F4 Ab4 C5 Eb5"));
+      expect(Chord.getChord("m7b5b9", "D").notes).toEqual($("D F Ab C Eb"));
+      expect(Chord.get(["D", "7(no3)"]).notes).toEqual($("D A C"));
+      expect(Chord.degrees("7(no3)", "C4")(3)).toEqual("Bb4");
+      expect(Chord.chordScales("Cm7b5b9")).toContain("locrian");
+    });
+
+    test("symbols that aren't a base plus tokens", () => {
+      for (const symbol of [
+        "C7(b9",
+        "C7b9)",
+        "C7()",
+        "C7(foo)",
+        "C79",
+        "C7 9",
+        "C7(b11)",
+        "C7(#13)",
+        "C7(b2)",
+        "Cadd#5",
+        "C7addmaj7",
+        "C7(no4)",
+        "C7(alt)",
+        "Cmaj7alt",
+        "C(5)",
+        "Cnonsense",
+        "C(b9,)x",
+      ]) {
+        expect(Chord.get(symbol).empty, symbol).toBe(true);
+      }
+      expect(Chord.get("#11").empty).toBe(true);
+    });
+
+    test("alt is 7#5#9", () => {
+      expect(notes("C7alt")).toEqual("C E G# Bb D#");
+    });
+
+    test("no chord", () => {
+      const noChord = {
+        empty: false,
+        name: "no chord",
+        symbol: "N.C.",
+        type: "no chord",
+        tonic: null,
+        root: "",
+        bass: "",
+        rootDegree: 0,
+        setNum: NaN,
+        chroma: "",
+        normalized: "",
+        quality: "Unknown",
+        aliases: ["N.C.", "NC"],
+        intervals: [],
+        notes: [],
+      };
+      expect(Chord.get("N.C.")).toEqual(noChord);
+      expect(Chord.get("NC")).toEqual(noChord);
+      expect(Chord.get("n.c.")).toEqual(noChord);
+      expect(Chord.get(["", "N.C."])).toEqual(noChord);
+      expect(Chord.getChord("NC")).toEqual(noChord);
+      expect(Chord.get("CN.C.").empty).toBe(true);
+      expect(Chord.get("N.C./E").empty).toBe(true);
+      expect(Chord.getChord("NC", "C").empty).toBe(true);
+      expect(Chord.notes("N.C.")).toEqual([]);
+      expect(Chord.transpose("N.C.", "P5")).toEqual("N.C.");
+      expect(Chord.chordScales("N.C.")).toEqual([]);
+      expect(Chord.extended("N.C.")).toEqual([]);
+      expect(Chord.reduced("N.C.")).toEqual([]);
+    });
   });
 
   /*
