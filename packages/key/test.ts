@@ -103,14 +103,20 @@ describe("@tonal/key", () => {
     ]);
   });
 
-  test("melodic minor chords stack thirds", () => {
+  test("minor key chords stack thirds, but the melodic tonic is m6", () => {
     const tonics = "CDEFGAB".split("").flatMap((l) => [l + "b", l, l + "#"]);
     for (const tonic of tonics) {
-      const { scale: notes, chords } = Key.minorKey(tonic).melodic;
-      chords.forEach((name, i) => {
-        const stacked = [0, 2, 4, 6].map((step) => notes[(i + step) % 7]);
-        expect([name, chord(name).notes]).toEqual([name, stacked]);
-      });
+      const { natural, harmonic, melodic } = Key.minorKey(tonic);
+      for (const { scale: notes, chords } of [natural, harmonic, melodic]) {
+        chords.forEach((name, i) => {
+          if (chords === melodic.chords && i === 0) {
+            expect(name).toEqual(tonic + "m6");
+            return;
+          }
+          const stacked = [0, 2, 4, 6].map((step) => notes[(i + step) % 7]);
+          expect([name, chord(name).notes]).toEqual([name, stacked]);
+        });
+      }
     }
   });
 
@@ -123,7 +129,7 @@ describe("@tonal/key", () => {
       "C D Eb F G A B",
     );
     expect(Key.minorKey("C4").melodic.chords.join(" ")).toEqual(
-      "CmMaj7 Dm7 Eb+maj7 F7 G7 Am7b5 Bm7b5",
+      "Cm6 Dm7 Eb+maj7 F7 G7 Am7b5 Bm7b5",
     );
   });
 

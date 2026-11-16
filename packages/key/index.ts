@@ -207,7 +207,7 @@ const HarmonicScale = keyScale(
 const MelodicScale = keyScale(
   "I II bIII IV V VI VII".split(" "),
   "m m aug   dim dim".split(" "),
-  "mMaj7 m7 +maj7 7 7 m7b5 m7b5".split(" "),
+  "m6 m7 +maj7 7 7 m7b5 m7b5".split(" "),
   "T SD T SD D  ".split(" "),
   "melodic minor,dorian b2,lydian augmented,lydian dominant,mixolydian b6,locrian #2,altered".split(
     ",",
