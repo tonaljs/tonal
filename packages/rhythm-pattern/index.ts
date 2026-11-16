@@ -130,7 +130,7 @@ export function euclid(steps: number, beats: number): RhythmPattern {
 
   for (let i = 0; i < steps; i++) {
     const v = Math.floor(i * (beats / steps));
-    pattern[i] = v !== d ? 1 : 0;
+    pattern[i] = beats > 0 && v !== d ? 1 : 0;
     d = v;
   }
   return pattern;
