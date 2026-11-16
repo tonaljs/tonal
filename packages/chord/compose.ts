@@ -2,6 +2,7 @@ import {
   ChordQuality,
   ChordType,
   all as chordTypes,
+  family,
   get as getChordType,
 } from "@tonaljs/chord-type";
 import { semitones } from "@tonaljs/interval";
@@ -144,6 +145,7 @@ function chordTypeOf(intervals: string[]): ChordType {
     ...pcset(intervals),
     name: "",
     quality: qualityOf(intervals),
+    family: family(intervals),
     intervals,
     aliases: [],
   };

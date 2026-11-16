@@ -48,6 +48,7 @@ describe("tonal-chord", () => {
         normalized: "100010010001",
         notes: ["G", "B", "D", "F#"],
         quality: "Major",
+        family: "major",
       });
     });
     test("first inversion", () => {
@@ -67,6 +68,7 @@ describe("tonal-chord", () => {
         normalized: "100010010001",
         notes: ["B", "D", "F#", "G"],
         quality: "Major",
+        family: "major",
       });
     });
     test("first inversion without octave", () => {
@@ -86,6 +88,7 @@ describe("tonal-chord", () => {
         normalized: "100010010001",
         notes: ["B", "D", "F#", "G"],
         quality: "Major",
+        family: "major",
       });
     });
     test("second inversion", () => {
@@ -105,6 +108,7 @@ describe("tonal-chord", () => {
         normalized: "100010010001",
         notes: ["D", "F#", "G", "B"],
         quality: "Major",
+        family: "major",
       });
     });
     test("without root", () => {
@@ -134,6 +138,7 @@ describe("tonal-chord", () => {
         normalized: "100000100100",
         notes: [],
         quality: "Diminished",
+        family: "diminished",
         setNum: 2336,
       });
     });
@@ -156,6 +161,7 @@ describe("tonal-chord", () => {
       normalized: "100010010001",
       notes: ["C", "E", "G", "B"],
       quality: "Major",
+      family: "major",
     });
     expect(Chord.get("hello").empty).toBe(true);
     expect(Chord.get("").empty).toBe(true);
@@ -171,6 +177,7 @@ describe("tonal-chord", () => {
       normalized: "100001000100",
       notes: ["Bb", "C", "E", "G"],
       quality: "Major",
+      family: "major",
       root: "",
       rootDegree: NaN,
       setNum: 2192,
@@ -406,6 +413,7 @@ describe("tonal-chord", () => {
         chroma: "110100100010",
         normalized: "100010110100",
         quality: "Diminished",
+        family: "half-diminished",
         aliases: [],
         intervals: ["1P", "3m", "5d", "7m", "9m"],
         notes: ["C", "Eb", "Gb", "Bb", "Db"],
@@ -485,6 +493,20 @@ describe("tonal-chord", () => {
       expect(Chord.get("#11").empty).toBe(true);
     });
 
+    test("family", () => {
+      const family = (symbol: string) => Chord.get(symbol).family;
+      expect(family("Cmaj7/B")).toEqual("major");
+      expect(family("C7b9/E")).toEqual("dominant");
+      expect(family("Dm7b5")).toEqual("half-diminished");
+      expect(family("Cm7b5b9")).toEqual("half-diminished");
+      expect(family("C7(b9,#9)")).toEqual("dominant");
+      expect(family("C7(no3)")).toEqual("dominant");
+      expect(family("C(no3)")).toEqual("power");
+      expect(family("Cdim(maj7)")).toEqual("diminished");
+      expect(family("C7sus4b9")).toEqual("suspended");
+      expect(family("Cnonsense")).toEqual("");
+    });
+
     test("alt is 7#5#9", () => {
       expect(notes("C7alt")).toEqual("C E G# Bb D#");
     });
@@ -503,6 +525,7 @@ describe("tonal-chord", () => {
         chroma: "",
         normalized: "",
         quality: "Unknown",
+        family: "",
         aliases: ["N.C.", "NC"],
         intervals: [],
         notes: [],

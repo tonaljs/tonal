@@ -38,6 +38,13 @@ Chord properties is the the same object that `ChordType.get` but with additional
 - rootDegree: the degree of the root. NaN if root not present. A number greater than 0 if present, where 1 indicates the tonic, 2 the second note (normally the 3th), 2 the third note (normally the 5th), etc.
 - notes: an array of notes, or empty array if tonic is not present. The notes will be always pitch classes.
 
+The `family` property (from `ChordType`) classifies the chord as major, minor, dominant, half-diminished, diminished, augmented, suspended or power (see [`ChordType.family`](https://tonaljs.github.io/tonal/docs/dictionaries/chord-types#chordtypefamily)):
+
+```js
+Chord.get("C7b9").family; // => "dominant"
+Chord.get("Cm7b5b9").family; // => "half-diminished"
+```
+
 Example:
 
 ```js
@@ -50,6 +57,7 @@ Chord.get("Cmaj7/B"); // =>
 //   normalized: '100010010001',
 //   intervals: [ '7M', '8P', '10M', '12P' ],
 //   quality: 'Major',
+//   family: 'major',
 //   aliases: [ 'maj7', 'Δ', 'ma7', 'M7', 'Maj7', '^7' ],
 //   symbol: 'Cmaj7/B',
 //   tonic: 'C',

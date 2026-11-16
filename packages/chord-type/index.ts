@@ -10,15 +10,32 @@ import data from "./data";
 export type ChordQuality =
   "Major" | "Minor" | "Augmented" | "Diminished" | "Unknown";
 
+/**
+ * A coarse classification of chord types, for choices that depend on the kind
+ * of chord (a bass line or a comping pattern). It's empty for an empty type.
+ */
+export type ChordFamily =
+  | "major"
+  | "minor"
+  | "dominant"
+  | "half-diminished"
+  | "diminished"
+  | "augmented"
+  | "suspended"
+  | "power"
+  | "";
+
 export interface ChordType extends Pcset {
   name: string;
   quality: ChordQuality;
+  family: ChordFamily;
   aliases: string[];
 }
 const NoChordType: ChordType = {
   ...EmptyPcset,
   name: "",
   quality: "Unknown",
+  family: "",
   intervals: [],
   aliases: [],
 };
@@ -93,6 +110,7 @@ export function add(intervals: string[], aliases: string[], fullName?: string) {
     ...pcset(intervals),
     name: fullName || "",
     quality,
+    family: family(intervals),
     intervals,
     aliases,
   };
@@ -122,6 +140,50 @@ function getQuality(intervals: string[]): ChordQuality {
           : "Unknown";
 }
 
+/**
+ * Get the family of a chord from its intervals. It looks at the third, then
+ * the fifth and the seventh:
+ *
+ * - a major third and a minor seventh is "dominant", whatever the fifth
+ * - a major third and an augmented fifth (without minor seventh) is "augmented"
+ * - any other major third is "major"
+ * - a minor third and a diminished fifth is "half-diminished" with a minor
+ *   seventh, and "diminished" otherwise
+ * - any other minor third is "minor"
+ * - without third, a second or a fourth is "suspended"
+ * - without third nor second or fourth, the seventh decides ("dominant" or
+ *   "major"), then the fifth ("diminished" or "augmented"), and otherwise
+ *   it's "power"
+ *
+ * @example
+ * family(["1P", "3M", "5P", "7m"]) // => "dominant"
+ * family(["1P", "4P", "5P", "7m"]) // => "suspended"
+ */
+export function family(intervals: string[]): ChordFamily {
+  if (!intervals.length) return "";
+  const find = (...nums: number[]) =>
+    intervals.find((ivl) => nums.includes(parseInt(ivl, 10)));
+  const third = find(3, 10)?.slice(-1);
+  const fifth = find(5)?.slice(-1);
+  const seventh = find(7)?.slice(-1);
+  if (third === "M") {
+    return seventh === "m" ? "dominant" : fifth === "A" ? "augmented" : "major";
+  }
+  if (third === "m") {
+    return fifth !== "d"
+      ? "minor"
+      : seventh === "m"
+        ? "half-diminished"
+        : "diminished";
+  }
+  if (find(2, 4, 11)) return "suspended";
+  if (seventh === "m") return "dominant";
+  if (seventh === "M") return "major";
+  if (fifth === "d") return "diminished";
+  if (fifth === "A") return "augmented";
+  return "power";
+}
+
 data.forEach(([ivls, fullName, names]: string[]) =>
   add(ivls.split(" "), names.split(" "), fullName),
 );
@@ -134,6 +196,7 @@ export default {
   get,
   all,
   add,
+  family,
   removeAll,
   keys,
   // deprecated
