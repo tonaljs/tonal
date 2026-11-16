@@ -24,6 +24,17 @@ describe("tonal-range", () => {
       expect(numeric([10, 5])).toEqual([10, 9, 8, 7, 6, 5]);
     });
 
+    test("fractional midi numbers do not hang", () => {
+      expect(numeric([60, 62.5])).toEqual([60, 61, 62]);
+      expect(numeric([62.5, 60])).toEqual([62.5, 61.5, 60.5]);
+      expect(chromatic([59.96, 62])).toEqual(["C4", "Db4", "D4"]);
+    });
+
+    test("infinite numbers are not valid", () => {
+      expect(numeric([Infinity, 60])).toEqual([]);
+      expect(numeric([60, -Infinity])).toEqual([]);
+    });
+
     test("negative numbers are allowed", () => {
       expect(numeric([-5, 5])).toEqual([-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]);
       expect(numeric([5, -5])).toEqual([5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5]);

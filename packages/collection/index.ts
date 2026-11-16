@@ -24,9 +24,13 @@ function descR(b: number, n: number) {
  * @example
  * range(-2, 2) // => [-2, -1, 0, 1, 2]
  * range(2, -2) // => [2, 1, 0, -1, -2]
+ * range(1.5, 4) // => [1.5, 2.5, 3.5]
  */
 export function range(from: number, to: number): number[] {
-  return from < to ? ascR(from, to - from + 1) : descR(from, from - to + 1);
+  if (!isFinite(from) || !isFinite(to)) return [];
+  // the loops count down to 0, so the length must be an integer
+  const n = Math.floor(Math.abs(to - from)) + 1;
+  return from < to ? ascR(from, n) : descR(from, n);
 }
 
 /**
