@@ -51,7 +51,7 @@ export function isChroma(set: any): set is PcsetChroma {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isPcsetNum = (set: any): set is PcsetNum =>
-  typeof set === "number" && set >= 0 && set <= 4095;
+  Number.isInteger(set) && set >= 0 && set <= 4095;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isPcset = (set: any): set is Pcset => set && isChroma(set.chroma);
