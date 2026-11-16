@@ -15,22 +15,25 @@ export function get(
   dictionary = defaultDictionary,
   voiceLeading = defaultVoiceLeading,
   lastVoicing?: string[],
-) {
+): string[] {
   const voicings = search(chord, range, dictionary);
+  if (!voicings.length) {
+    return [];
+  }
   if (!lastVoicing || !lastVoicing.length) {
     // notes = voicings[Math.ceil(voicings.length / 2)]; // pick middle voicing..
     return voicings[0]; // pick lowest voicing..
   } else {
     // calculates the distance between the last note and the given voicings top note
     // sort voicings with differ
-    return voiceLeading(voicings, lastVoicing);
+    return voiceLeading(voicings, lastVoicing) ?? [];
   }
 }
 
 export function search(
   chord: string,
   range = defaultRange,
-  dictionary = VoicingDictionary.triads,
+  dictionary = defaultDictionary,
 ): string[][] {
   const [tonic, symbol] = Chord.tokenize(chord);
   const sets = VoicingDictionary.lookup(symbol, dictionary);
@@ -78,14 +81,18 @@ export function sequence(
   dictionary = defaultDictionary,
   voiceLeading = defaultVoiceLeading,
   lastVoicing?: string[],
-) {
+): string[][] {
   const { voicings } = chords.reduce<{
     voicings: string[][];
     lastVoicing: string[] | undefined;
   }>(
     ({ voicings, lastVoicing }, chord) => {
       const voicing = get(chord, range, dictionary, voiceLeading, lastVoicing);
-      lastVoicing = voicing;
+      // a chord without voicing gives [] and keeps its position, but the next
+      // chord is still voice-led from the last chord that had a voicing
+      if (voicing.length) {
+        lastVoicing = voicing;
+      }
       voicings.push(voicing);
       return { voicings, lastVoicing };
     },

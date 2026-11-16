@@ -22,6 +22,8 @@ const { Voicing } = require("tonal");
 
 ## API
 
+> **Migration (tonal 6.7):** `get` now returns `[]` when no voicing is found; check `voicing.length === 0` instead of `!voicing` or `??`. `search` without a dictionary now searches `VoicingDictionary.all` (it was `VoicingDictionary.triads`), so it returns more results.
+
 ### Voicing.search
 
 ```ts
@@ -51,15 +53,20 @@ Voicing.search("C^7", ["E3", "D5"], VoicingDictionary.lefthand);
 ] */
 ```
 
-If no range and/or dictionary is given, there is a fallback to default values:
+If no range and/or dictionary is given, the range is `["C3", "C5"]` and the dictionary is `VoicingDictionary.all` (the same defaults as `Voicing.get`):
 
 ```ts
 Voicing.search("C^7");
 /* => [
   ['E3', 'G3', 'B3', 'D4'],
-  ['E4', 'G4', 'B4', 'D5'],
   ['B3', 'D4', 'E4', 'G4'],
 ] */
+```
+
+If the dictionary has no voicing for the chord, it returns an empty array:
+
+```ts
+Voicing.search("C13"); // => []
 ```
 
 ### Voicing.get
@@ -84,6 +91,41 @@ Voicing.get("Dm7", ["F3", "A4"], lefthand, topNoteDiff);
 const last = ["C4", "E4", "G4", "B4"];
 Voicing.get("Dm7", ["F3", "A4"], lefthand, topNoteDiff, last);
 /* ['C4', 'E4', 'F4', 'A4']; */ // => A4 is closest to B4
+```
+
+If no voicing is found, it returns an empty array (before 6.7 it returned `undefined`), so check `voicing.length === 0` instead of `!voicing` or `??`:
+
+```ts
+Voicing.get("C13"); // => []
+```
+
+### Voicing.sequence
+
+```ts
+Voicing.sequence(
+  chords: string[],
+  range?: [string, string],
+  dictionary?: VoicingDictionary,
+  voiceLeading?: VoiceLeading,
+  lastVoicing?: string[]
+) => string[][];
+```
+
+Returns one voicing for each chord, each one picked with **voiceLeading** from the previous one (calls `Voicing.get` for each chord). A chord without voicing gives an empty array at its position, and the next chord is voice-led from the last chord that had a voicing:
+
+```ts
+Voicing.sequence(["C", "F", "G"], ["F3", "A4"], triads, topNoteDiff);
+/* => [
+  ['C4', 'E4', 'G4'],
+  ['A3', 'C4', 'F4'],
+  ['B3', 'D4', 'G4'],
+] */
+Voicing.sequence(["C", "C13", "F"], ["F3", "A4"], triads);
+/* => [
+  ['C4', 'E4', 'G4'],
+  [],
+  ['A3', 'C4', 'F4'],
+] */
 ```
 
 ### Voicing.analyze
