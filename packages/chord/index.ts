@@ -45,6 +45,7 @@ const NoChord: Chord = {
   tonic: null,
   setNum: NaN,
   quality: "Unknown",
+  family: "",
   chroma: "",
   normalized: "",
   aliases: [],
