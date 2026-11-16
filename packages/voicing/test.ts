@@ -69,3 +69,59 @@ test("sequence", () => {
     ["B3", "D4", "G4"], // first inversion (G4 closest to F4)
   ]);
 });
+
+describe("defaults", () => {
+  const { all } = VoicingDictionary;
+
+  test("search and get use the same default dictionary", () => {
+    for (const symbol of Object.keys(all)) {
+      const chord = "C" + symbol;
+      const voicings = Voicing.search(chord);
+      expect(voicings).toEqual(Voicing.search(chord, ["C3", "C5"], all));
+      expect(voicings.length).toBeGreaterThan(0);
+      expect(Voicing.get(chord)).toEqual(voicings[0]);
+    }
+  });
+
+  test("search without dictionary finds seventh chords", () => {
+    expect(Voicing.search("Cmaj7")).toEqual([
+      ["E3", "G3", "B3", "D4"],
+      ["B3", "D4", "E4", "G4"],
+    ]);
+  });
+
+  test("no voicing gives an empty array", () => {
+    expect(Voicing.search("C13")).toEqual([]);
+    expect(Voicing.get("C13")).toEqual([]);
+    expect(
+      Voicing.get("C13", undefined, undefined, topNoteDiff, ["C4", "E4", "G4"]),
+    ).toEqual([]);
+    expect(Voicing.get("")).toEqual([]);
+    expect(Voicing.get("nope")).toEqual([]);
+    expect(Voicing.get("maj7")).toEqual([]);
+    expect(Voicing.get("C", ["C3", "C5"], {})).toEqual([]);
+    expect(Voicing.get("C", ["C4", "D4"])).toEqual([]);
+  });
+});
+
+describe("sequence", () => {
+  test("keeps an empty voicing for chords without one", () => {
+    expect(Voicing.sequence(["C", "C13", "F"], ["F3", "A4"], triads)).toEqual([
+      ["C4", "E4", "G4"],
+      [],
+      ["A3", "C4", "F4"], // voice-led from C, the last chord with a voicing
+    ]);
+  });
+
+  test("all chords without voicing", () => {
+    expect(Voicing.sequence(["C13", "nope"])).toEqual([[], []]);
+    expect(Voicing.sequence([])).toEqual([]);
+  });
+
+  test("leading empty voicing", () => {
+    expect(Voicing.sequence(["C13", "C"], ["F3", "A4"], triads)).toEqual([
+      [],
+      ["C4", "E4", "G4"], // same as the first chord of a sequence
+    ]);
+  });
+});
