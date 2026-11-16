@@ -135,15 +135,40 @@ describe("@tonal/key", () => {
     });
   });
 
+  test("supertonics are m7b5 before a minor target and m7 before a major one", () => {
+    const major = Key.majorKey("C");
+    // A7 → Dm, B7 → Em, C7 → F, D7 → G, E7 → Am
+    expect(major.secondaryDominantSupertonics.join(" ")).toEqual(
+      " Em7b5 F#m7b5 Gm7 Am7 Bm7b5 ",
+    );
+    expect(major.secondaryDominantsMinorRelative).toEqual(
+      major.secondaryDominantSupertonics,
+    );
+    // Eb7 → Dm, F7 → Em, Gb7 → F, Ab7 → G, Bb7 → Am
+    expect(major.substituteDominantSupertonics.join(" ")).toEqual(
+      " Bbm7b5 Cm7b5 Dbm7 Ebm7 Fm7b5 ",
+    );
+
+    const minor = Key.minorKey("C");
+    // G7 → Cm, C7 → Fm, D7 → Gm, Eb7 → Ab, F7 → Bb
+    expect(minor.natural.secondaryDominantSupertonics.join(" ")).toEqual(
+      "Dm7b5   Gm7b5 Am7b5 Bbm7 Cm7",
+    );
+  });
+
   test("C major", () => {
     expect(Key.majorKey("C")).toMatchSnapshot();
   });
   test("C major chords", () => {
     expect(Key.majorKeyChords("C")).toMatchSnapshot();
     const chords = Key.majorKeyChords("C");
-    expect(chords.find((chord) => chord.name === "Em7")).toEqual({
-      name: "Em7",
-      roles: ["T", "ii/II"],
+    expect(chords.find((chord) => chord.name === "Am7")).toEqual({
+      name: "Am7",
+      roles: ["T", "ii/V"],
+    });
+    expect(chords.find((chord) => chord.name === "Em7b5")).toEqual({
+      name: "Em7b5",
+      roles: ["ii/II"],
     });
   });
 

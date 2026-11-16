@@ -164,8 +164,10 @@ const supertonics = (dominants: string[], targetTriads: string[]) => {
     const domRoot = chord.slice(0, -1);
     const minorRoot = transpose(domRoot, "5P");
     const target = targetTriads[index];
+    // ii-V into a minor (or diminished) chord uses a half-diminished ii,
+    // ii-V into a major chord uses a minor seventh ii
     const isMinor = target.endsWith("m");
-    return isMinor ? minorRoot + "m7" : minorRoot + "m7b5";
+    return isMinor ? minorRoot + "m7b5" : minorRoot + "m7";
   });
 };
 

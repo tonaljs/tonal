@@ -56,9 +56,9 @@ Key.majorKey("C"); // =>
   chordsHarmonicFunction: ["T", "SD", "T", "SD", "D", "T", "D"],
   chordScales: ["C major", "D dorian", "E phrygian", "F lydian", "G mixolydian", "A minor", "B locrian"],
   secondaryDominants: ["", "A7", "B7", "C7", "D7", "E7", ""],
-  secondaryDominantSupertonics: ["", "Em7", "F#m7", "Gm7b5", "Am7b5", "Bm7", ""],
+  secondaryDominantSupertonics: ["", "Em7b5", "F#m7b5", "Gm7", "Am7", "Bm7b5", ""],
   substituteDominants: ["", "Eb7", "F7", "Gb7", "Ab7", "Bb7", ""],
-  substituteDominantSupertonics: ["", "Bbm7", "Cm7", "Dbm7b5", "Ebm7b5", "Fm7", ""],
+  substituteDominantSupertonics: ["", "Bbm7b5", "Cm7b5", "Dbm7", "Ebm7", "Fm7b5", ""],
 }
 ```
 
@@ -88,9 +88,9 @@ Key.minorKey("C"); // =>
     chordsHarmonicFunction: ["T", "SD", "T", "SD", "D", "SD", "SD"],
     chordScales: ["C minor", "D locrian", "Eb major", "F dorian", "G phrygian", "Ab lydian", "Bb mixolydian"],
     secondaryDominants: ["G7", "", "", "C7", "D7", "Eb7", "F7"],
-    secondaryDominantSupertonics: ["Dm7", "", "", "Gm7", "Am7", "Bbm7b5", "Cm7b5"],
+    secondaryDominantSupertonics: ["Dm7b5", "", "", "Gm7b5", "Am7b5", "Bbm7", "Cm7"],
     substituteDominants: ["Db7", "", "", "Gb7", "Ab7", "Bbb7", "Cb7"],
-    substituteDominantSupertonics: ["Abm7", "", "", "Dbm7", "Ebm7", "Fbm7b5", "Gbm7b5"],
+    substituteDominantSupertonics: ["Abm7b5", "", "", "Dbm7b5", "Ebm7b5", "Fbm7", "Gbm7"],
   },
   harmonic: {
     tonic: "C",
@@ -102,9 +102,9 @@ Key.minorKey("C"); // =>
     chordsHarmonicFunction: ["T", "SD", "T", "SD", "D", "SD", "D"],
     chordScales: ["C harmonic minor", "D locrian 6", "Eb major augmented", "F lydian diminished", "G phrygian dominant", "Ab lydian #9", "B ultralocrian"],
     secondaryDominants: ["", "", "", "C7", "D7", "Eb7", ""],
-    secondaryDominantSupertonics: ["", "", "", "Gm7", "Am7b5", "Bbm7b5", ""],
+    secondaryDominantSupertonics: ["", "", "", "Gm7b5", "Am7", "Bbm7", ""],
     substituteDominants: ["", "", "", "Gb7", "Ab7", "Bbb7", ""],
-    substituteDominantSupertonics: ["", "", "", "Dbm7", "Ebm7b5", "Fbm7b5", ""],
+    substituteDominantSupertonics: ["", "", "", "Dbm7b5", "Ebm7", "Fbm7", ""],
   },
   melodic: {
     tonic: "C",
@@ -116,9 +116,9 @@ Key.minorKey("C"); // =>
     chordsHarmonicFunction: ["T", "SD", "T", "SD", "D", "", ""],
     chordScales: ["C melodic minor", "D dorian b2", "Eb lydian augmented", "F lydian dominant", "G mixolydian b6", "A locrian #2", "B altered"],
     secondaryDominants: ["", "A7", "", "C7", "D7", "", ""],
-    secondaryDominantSupertonics: ["", "Em7", "", "Gm7b5", "Am7b5", "", ""],
+    secondaryDominantSupertonics: ["", "Em7b5", "", "Gm7", "Am7", "", ""],
     substituteDominants: ["", "Eb7", "", "Gb7", "Ab7", "", ""],
-    substituteDominantSupertonics: ["", "Bbm7", "", "Dbm7b5", "Ebm7b5", "", ""],
+    substituteDominantSupertonics: ["", "Bbm7b5", "", "Dbm7", "Ebm7", "", ""],
   },
 }
 ```
