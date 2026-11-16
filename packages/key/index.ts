@@ -32,9 +32,9 @@ export interface KeyScale {
   readonly substituteDominants: readonly string[];
   readonly substituteDominantSupertonics: readonly string[];
 
-  // @deprecated use secondaryDominantsSupertonic
+  /** @deprecated use secondaryDominantSupertonics */
   readonly secondaryDominantsMinorRelative: readonly string[];
-  // @deprecated use substituteDominantSupertonics
+  /** @deprecated use substituteDominantSupertonics */
   readonly substituteDominantsMinorRelative: readonly string[];
 }
 
@@ -61,7 +61,7 @@ export interface MajorKey extends Key, KeyScale {
   readonly scale: readonly string[];
   readonly substituteDominants: readonly string[];
   readonly secondaryDominantSupertonics: readonly string[];
-  // @deprecated use secondaryDominantsSupertonic
+  /** @deprecated use substituteDominantSupertonics */
   readonly substituteDominantsMinorRelative: readonly string[];
 }
 
@@ -131,10 +131,8 @@ function keyScale(
       const subRoot = transpose(domRoot, "5d");
       return subRoot + "7";
     });
-    const substituteDominantSupertonics = supertonics(
-      substituteDominants,
-      triads,
-    );
+    const substituteDominantSupertonics =
+      substituteSupertonics(substituteDominants);
 
     return {
       tonic,
@@ -150,26 +148,32 @@ function keyScale(
       substituteDominants,
       substituteDominantSupertonics,
 
-      // @deprecated use secondaryDominantsSupertonic
+      // deprecated aliases
       secondaryDominantsMinorRelative: secondaryDominantSupertonics,
-      // @deprecated use secondaryDominantsSupertonic
       substituteDominantsMinorRelative: substituteDominantSupertonics,
     };
   };
 }
 
-const supertonics = (dominants: string[], targetTriads: string[]) => {
-  return dominants.map((chord, index) => {
+// The root of the ii chord of a dominant: a fifth above its root
+const supertonicRoot = (dominant: string) =>
+  transpose(dominant.slice(0, -1), "5P");
+
+// The ii of a secondary dominant takes its quality from the target: a ii-V
+// into a minor or diminished chord uses a half-diminished ii (Em7b5 A7 Dm),
+// and into a major or augmented chord a minor seventh ii (Gm7 C7 F)
+const supertonics = (dominants: string[], targetTriads: string[]) =>
+  dominants.map((chord, index) => {
     if (!chord) return "";
-    const domRoot = chord.slice(0, -1);
-    const minorRoot = transpose(domRoot, "5P");
     const target = targetTriads[index];
-    // ii-V into a minor (or diminished) chord uses a half-diminished ii,
-    // ii-V into a major chord uses a minor seventh ii
-    const isMinor = target.endsWith("m");
-    return isMinor ? minorRoot + "m7b5" : minorRoot + "m7";
+    const isMinor = target === "m" || target === "dim";
+    return supertonicRoot(chord) + (isMinor ? "m7b5" : "m7");
   });
-};
+
+// A substitute dominant doesn't resolve to the key it points to (Eb7 resolves
+// to Dm, not Ab), so its ii is always a minor seventh: Bbm7 Eb7 Dm
+const substituteSupertonics = (dominants: string[]) =>
+  dominants.map((chord) => (chord ? supertonicRoot(chord) + "m7" : ""));
 
 const distInFifths = (from: string, to: string) => {
   const f = note(from);

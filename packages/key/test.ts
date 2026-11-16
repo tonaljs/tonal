@@ -6,6 +6,10 @@ import { get as scale } from "@tonaljs/scale";
 import { get as chord } from "@tonaljs/chord";
 import * as Key from "./index";
 
+// A list of chord names, with "-" for an empty one
+const $ = (names: string) =>
+  names.split(" ").map((name) => (name === "-" ? "" : name));
+
 describe("@tonal/key", () => {
   test("fromAlter", () => {
     expect(Key.majorTonicFromKeySignature("###")).toEqual("A");
@@ -119,12 +123,16 @@ describe("@tonal/key", () => {
     [
       major.chords,
       major.secondaryDominants,
-      major.substituteDominantSupertonics,
+      major.secondaryDominantSupertonics,
       major.substituteDominants,
-      major.substituteDominantsMinorRelative,
-      minor.natural.chords,
-      minor.harmonic.chords,
-      minor.melodic.chords,
+      major.substituteDominantSupertonics,
+      ...[minor.natural, minor.harmonic, minor.melodic].flatMap((scale) => [
+        scale.chords,
+        scale.secondaryDominants,
+        scale.secondaryDominantSupertonics,
+        scale.substituteDominants,
+        scale.substituteDominantSupertonics,
+      ]),
     ].forEach((chords) => {
       chords.forEach((name) => {
         if (name !== "") {
@@ -135,25 +143,55 @@ describe("@tonal/key", () => {
     });
   });
 
-  test("supertonics are m7b5 before a minor target and m7 before a major one", () => {
+  describe("supertonics", () => {
     const major = Key.majorKey("C");
-    // A7 → Dm, B7 → Em, C7 → F, D7 → G, E7 → Am
-    expect(major.secondaryDominantSupertonics.join(" ")).toEqual(
-      " Em7b5 F#m7b5 Gm7 Am7 Bm7b5 ",
-    );
-    expect(major.secondaryDominantsMinorRelative).toEqual(
-      major.secondaryDominantSupertonics,
-    );
-    // Eb7 → Dm, F7 → Em, Gb7 → F, Ab7 → G, Bb7 → Am
-    expect(major.substituteDominantSupertonics.join(" ")).toEqual(
-      " Bbm7b5 Cm7b5 Dbm7 Ebm7 Fm7b5 ",
-    );
+    const { natural, harmonic, melodic } = Key.minorKey("C");
 
-    const minor = Key.minorKey("C");
-    // G7 → Cm, C7 → Fm, D7 → Gm, Eb7 → Ab, F7 → Bb
-    expect(minor.natural.secondaryDominantSupertonics.join(" ")).toEqual(
-      "Dm7b5   Gm7b5 Am7b5 Bbm7 Cm7",
-    );
+    test("the ii of a secondary dominant is m7b5 before a minor target and m7 before a major one", () => {
+      // A7 → Dm, B7 → Em, C7 → F, D7 → G, E7 → Am
+      expect(major.secondaryDominantSupertonics).toEqual(
+        $("- Em7b5 F#m7b5 Gm7 Am7 Bm7b5 -"),
+      );
+      // G7 → Cm, C7 → Fm, D7 → Gm, Eb7 → Ab, F7 → Bb
+      expect(natural.secondaryDominantSupertonics).toEqual(
+        $("Dm7b5 - - Gm7b5 Am7b5 Bbm7 Cm7"),
+      );
+      // C7 → Fm, D7 → G, Eb7 → Ab
+      expect(harmonic.secondaryDominantSupertonics).toEqual(
+        $("- - - Gm7b5 Am7 Bbm7 -"),
+      );
+      // A7 → Dm, C7 → F, D7 → G
+      expect(melodic.secondaryDominantSupertonics).toEqual(
+        $("- Em7b5 - Gm7 Am7 - -"),
+      );
+    });
+
+    test("the ii of a substitute dominant is always m7", () => {
+      // Eb7 → Dm, F7 → Em, Gb7 → F, Ab7 → G, Bb7 → Am
+      expect(major.substituteDominantSupertonics).toEqual(
+        $("- Bbm7 Cm7 Dbm7 Ebm7 Fm7 -"),
+      );
+      expect(natural.substituteDominantSupertonics).toEqual(
+        $("Abm7 - - Dbm7 Ebm7 Fbm7 Gbm7"),
+      );
+      expect(harmonic.substituteDominantSupertonics).toEqual(
+        $("- - - Dbm7 Ebm7 Fbm7 -"),
+      );
+      expect(melodic.substituteDominantSupertonics).toEqual(
+        $("- Bbm7 - Dbm7 Ebm7 - -"),
+      );
+    });
+
+    test("deprecated aliases", () => {
+      for (const key of [major, natural, harmonic, melodic]) {
+        expect(key.secondaryDominantsMinorRelative).toEqual(
+          key.secondaryDominantSupertonics,
+        );
+        expect(key.substituteDominantsMinorRelative).toEqual(
+          key.substituteDominantSupertonics,
+        );
+      }
+    });
   });
 
   test("C major", () => {
