@@ -52,3 +52,10 @@ This function always returns an object:
 ```js
 interval("hello"); // => { empty: true, name: "" }
 ```
+
+A unison, fourth, fifth or octave can't be major or minor, and a second, third, sixth or seventh can't be perfect, so those names give the empty interval too:
+
+```js
+interval("5m").empty; // => true
+interval("2P").empty; // => true
+```

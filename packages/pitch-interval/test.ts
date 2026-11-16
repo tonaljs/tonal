@@ -47,6 +47,16 @@ describe("interval", () => {
       expect(interval("2P").empty).toBe(true);
     });
 
+    test("rejects major and minor unisons, fourths, fifths and octaves", () => {
+      const invalid = "1M 1m 4M 4m 5M 5m 8M 8m 11m 12M -5m M4 m5 m-8";
+      for (const name of invalid.split(" ")) {
+        expect(interval(name).empty).toBe(true);
+      }
+      expect(interval("5P").semitones).toBe(7);
+      expect(interval("4A").semitones).toBe(6);
+      expect(interval("5d").semitones).toBe(6);
+    });
+
     test("rejects malformed intervals", () => {
       expect(interval("Pdd5").empty).toBe(true);
       expect(interval("MAA5").empty).toBe(true);

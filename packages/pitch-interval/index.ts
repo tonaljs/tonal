@@ -131,7 +131,8 @@ function parse(str?: string): Interval {
   const q = tokens[1] as Quality;
   const step = (Math.abs(num) - 1) % 7;
   const t = TYPES[step];
-  if (t === "M" && q === "P") {
+  // 2, 3, 6 and 7 can't be perfect; 1, 4, 5 and 8 can't be major or minor
+  if (t === "M" ? q === "P" : q === "M" || q === "m") {
     return NoInterval;
   }
   const type = t === "M" ? "majorable" : "perfectable";
