@@ -44,4 +44,12 @@ describe("rhythm-pattern", () => {
   it("generates euclidian patterns", () => {
     expect(R.euclid(8, 3)).toEqual([1, 0, 0, 1, 0, 0, 1, 0]);
   });
+
+  it("generates euclidian patterns without beats", () => {
+    expect(R.euclid(4, 0)).toEqual([0, 0, 0, 0]);
+    expect(R.euclid(8, 0)).toEqual([0, 0, 0, 0, 0, 0, 0, 0]);
+    expect(R.euclid(4, -1)).toEqual([0, 0, 0, 0]);
+    expect(R.euclid(4, 4)).toEqual([1, 1, 1, 1]);
+    expect(R.euclid(0, 0)).toEqual([]);
+  });
 });
