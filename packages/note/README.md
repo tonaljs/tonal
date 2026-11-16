@@ -229,7 +229,11 @@ Note.sortedNames(["c2", "c5", "c1", "c0", "c6", "c"], Note.descending);
 
 `sortedUniqNames(array?: any[]) => string[]`
 
-Sort notes ascending and remove duplicates.
+Sort notes ascending and remove duplicates. Enharmonic notes are different names, so both are kept:
+
+```js
+Note.sortedUniqNames(["C4", "c4", "B#3", "C4"]); // => ["C4", "B#3"]
+```
 
 ## Enharmonics
 

@@ -199,9 +199,9 @@ export function sortedNames(
 }
 
 export function sortedUniqNames(notes: any[]): string[] {
-  return sortedNames(notes, ascending).filter(
-    (n, i, a) => i === 0 || n !== a[i - 1],
-  );
+  // Enharmonic notes (C4, B#3) have the same height, so the copies of a name
+  // are not always next to each other after sorting.
+  return Array.from(new Set(sortedNames(notes, ascending)));
 }
 
 /**
