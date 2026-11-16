@@ -274,12 +274,15 @@ export function rangeOf(scale: string | string[]) {
 }
 
 /**
- * A scale degree or step: a whole number, or a string with the number and
- * optional accidentals in front, like `"b7"`, `"#4"` or `"-b2"`
+ * A scale degree or step: a whole number, or a string with the number
+ * followed by accidentals, like `"7b"`, `"4#"` or `"-2b"`. The number counts
+ * scale notes, so `"7b"` is the 7th scale note lowered. A string with the
+ * accidentals in front, like `"b7"`, is an interval name (as in
+ * `Chord.noteOf`), not a scale step.
  */
 export type ScaleStep = number | string;
 
-const STEP_REGEX = /^(-?)(#+|b+|)(\d+)$/;
+const STEP_REGEX = /^(-?\d+)(#+|b+|)$/;
 
 // [number, alteration] of a scale degree or step, or undefined if not valid
 function parseStep(step: ScaleStep): [number, number] | undefined {
@@ -289,7 +292,7 @@ function parseStep(step: ScaleStep): [number, number] | undefined {
   const m = typeof step === "string" ? STEP_REGEX.exec(step) : null;
   if (!m) return undefined;
   const alt = m[2][0] === "b" ? -m[2].length : m[2].length;
-  return [Number(m[1] + m[3]), alt];
+  return [Number(m[1]), alt];
 }
 
 // Raise or lower a note by chromatic semitones, keeping its letter
@@ -301,14 +304,14 @@ function alter(noteName: string, alt: number): string {
  * Returns a function to get a note name from the scale degree.
  *
  * Degrees start at 1, and negative degrees go down from the tonic. A degree
- * can be a string with accidentals in front (`"b7"`, `"#4"`, `"-b2"`): the
- * scale degree raised or lowered, keeping its letter.
+ * can be a string with accidentals after the number (`"7b"`, `"4#"`, `"-2b"`):
+ * the scale degree raised or lowered, keeping its letter.
  *
  * @example
  * [1, 2, 3].map(Scale.degrees("C major")) => ["C", "D", "E"]
  * [1, 2, 3].map(Scale.degrees("C4 major")) => ["C4", "D4", "E4"]
- * Scale.degrees("C major")("b7") => "Bb"
- * Scale.degrees("A major")("b7") => "G"
+ * Scale.degrees("C major")("7b") => "Bb"
+ * Scale.degrees("A major")("7b") => "G"
  */
 export function degrees(scaleName: string | ScaleNameTokens) {
   const { intervals, tonic } = get(scaleName);
@@ -326,7 +329,7 @@ export function degrees(scaleName: string | ScaleNameTokens) {
  *
  * @example
  * [-1, 0, 1].map(Scale.steps("C4 major")) => ["B3", "C4", "D4"]
- * Scale.steps("C major")("b6") => "Bb"
+ * Scale.steps("C major")("6b") => "Bb"
  */
 export function steps(scaleName: string | ScaleNameTokens) {
   const { intervals, tonic } = get(scaleName);

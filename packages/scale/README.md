@@ -99,15 +99,17 @@ Because it returns a function, it's handy to be used with `map` (and similar fun
 
 Notice that it uses octaves if the scale tonic has an octave or pitch classes (_octaveless_ notes) otherwise.
 
-A degree can also be a string with accidentals in front, to get notes outside the scale. The note keeps the letter of the scale degree, so it's spelled by interval:
+A degree can also be a string with accidentals after the number, to get notes outside the scale. The note keeps the letter of the scale degree, so it's spelled by interval:
 
 ```js
 const cMajor = Scale.degrees("C major");
-cMajor("b7"); // => "Bb"
-cMajor("#4"); // => "F#"
-cMajor("-b2"); // => "Ab" (the flattened 2nd below the tonic)
-Scale.degrees("A major")("b7"); // => "G" (not F##)
+cMajor("7b"); // => "Bb"
+cMajor("4#"); // => "F#"
+cMajor("-2b"); // => "Ab" (the 2nd degree below the tonic, lowered)
+Scale.degrees("A major")("7b"); // => "G" (not F##)
 ```
+
+The number counts scale notes, so `"7b"` is the 7th note of the scale, lowered. In a scale that isn't major it's not a minor seventh: `Scale.degrees("D dorian")("3#")` is `"F#"`, and in C major pentatonic the 7th note is `D`, so `"7b"` is `"Db"`. The accidentals go after the number so that a scale step can't be mixed up with an interval name like `"b7"` (the minor seventh, as in [`Chord.noteOf`](https://tonaljs.github.io/tonal/docs/groups/chords#chordnoteof)): `cMajor("b7")` is `""`.
 
 See [`Chord.degrees`](https://tonaljs.github.io/tonal/docs/groups/chords#chorddegrees)
 
@@ -126,12 +128,12 @@ Range.numeric([-3, 3]).map(Scale.steps("C4 major"));
 // => ["G3", "A3", "B3", "C4", "D4", "E4", "F4"]
 ```
 
-Steps take accidentals too: `Scale.steps("C4 major")("b6")` is `"Bb4"`.
+Steps take accidentals too: `Scale.steps("C4 major")("6b")` is `"Bb4"`.
 
 A melody written as scale steps can be played in any scale:
 
 ```js
-const melody = [0, 2, 4, "#3", 4, 7, 6, 4];
+const melody = [0, 2, 4, "3#", 4, 7, 6, 4];
 melody.map(Scale.steps("C4 major"));
 // => ["C4", "E4", "G4", "F#4", "G4", "C5", "B4", "G4"]
 melody.map(Scale.steps("D4 dorian"));

@@ -313,37 +313,47 @@ describe("@tonaljs/scale", () => {
   describe("altered degrees and steps", () => {
     test("degrees with accidentals", () => {
       const cMajor = Scale.degrees("C major");
-      expect(["b7", "#4", "b3", "bb7", "##1", "7"].map(cMajor)).toEqual(
+      expect(["7b", "4#", "3b", "7bb", "1##", "7"].map(cMajor)).toEqual(
         $("Bb F# Eb Bbb C## B"),
       );
-      expect(Scale.degrees("C4 major")("b7")).toBe("Bb4");
-      expect(Scale.degrees("C4 major")("#11")).toBe("F#5");
-      expect(Scale.degrees("C4 major")("-b2")).toBe("Ab3");
+      expect(Scale.degrees("C4 major")("7b")).toBe("Bb4");
+      expect(Scale.degrees("C4 major")("11#")).toBe("F#5");
+      expect(Scale.degrees("C4 major")("-2b")).toBe("Ab3");
       expect(Scale.degrees("C4 major")("-1")).toBe("B3");
     });
     test("keeps the letter of the degree", () => {
-      expect(Scale.degrees("A major")("b7")).toBe("G");
-      expect(Scale.degrees("Eb major")("#4")).toBe("A");
-      expect(Scale.degrees("F# major")("b3")).toBe("A");
-      expect(Scale.degrees("D dorian")("#3")).toBe("F#");
+      expect(Scale.degrees("A major")("7b")).toBe("G");
+      expect(Scale.degrees("Eb major")("4#")).toBe("A");
+      expect(Scale.degrees("F# major")("3b")).toBe("A");
+      expect(Scale.degrees("D dorian")("3#")).toBe("F#");
     });
     test("steps with accidentals", () => {
       const steps = Scale.steps("C4 major");
-      expect(["b6", "#3", "0", "-b1", "b7"].map(steps)).toEqual(
+      expect(["6b", "3#", "0", "-1b", "7b"].map(steps)).toEqual(
         $("Bb4 F#4 C4 Bb3 Cb5"),
       );
     });
     test("invalid degrees and steps", () => {
       const degrees = Scale.degrees("C major");
       const steps = Scale.steps("C major");
-      for (const invalid of ["", "b", "7b", "x7", "b-7", "1.5", "#b2"]) {
+      for (const invalid of [
+        "",
+        "b",
+        "b7",
+        "#4",
+        "-b2",
+        "7x",
+        "1.5",
+        "2#b",
+        "7 b",
+      ]) {
         expect(degrees(invalid)).toBe("");
         expect(steps(invalid)).toBe("");
       }
-      expect(degrees("b0")).toBe("");
+      expect(degrees("0b")).toBe("");
       expect(degrees(1.5)).toBe("");
       expect(steps(1.5)).toBe("");
-      expect(Scale.degrees("major")("b7")).toBe("");
+      expect(Scale.degrees("major")("7b")).toBe("");
       expect(Scale.steps("major")(1)).toBe("");
     });
   });

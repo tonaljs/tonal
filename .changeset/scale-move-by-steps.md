@@ -9,4 +9,4 @@ Move within a scale: `Scale.transposeBySteps`, `Scale.nearest`, and altered degr
 
 `Scale.nearest("C major", "F#4")` is `"G4"`: the scale note closest to a note, by pitch. A note halfway between two scale notes goes up, so `Gb4` gives `G4` too.
 
-`Scale.degrees` and `Scale.steps` accept a string with accidentals in front: `Scale.degrees("C major")("b7")` is `"Bb"`, `Scale.degrees("A major")("b7")` is `"G"` (spelled by interval), and `Scale.steps("C4 major")("-b1")` is `"Bb3"`.
+`Scale.degrees` and `Scale.steps` accept a string with accidentals after the number: `Scale.degrees("C major")("7b")` is `"Bb"`, `Scale.degrees("A major")("7b")` is `"G"` (spelled by interval), and `Scale.steps("C4 major")("-1b")` is `"Bb3"`. The number counts scale notes, so `"7b"` is the 7th scale note lowered. A string with the accidentals in front, like `"b7"`, is an interval name (as in `Chord.noteOf`) and gives `""`.
