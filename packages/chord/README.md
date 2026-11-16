@@ -38,6 +38,8 @@ Chord properties is the the same object that `ChordType.get` but with additional
 - rootDegree: the degree of the root. NaN if root not present. A number greater than 0 if present, where 1 indicates the tonic, 2 the second note (normally the 3th), 2 the third note (normally the 5th), etc.
 - notes: an array of notes, or empty array if tonic is not present. The notes will be always pitch classes.
 
+The `name` is the tonic and the chord type's long name (`"C major seventh"`, `"C major over E"`). Many chord types have no long name, because the symbol says it all; those chords are named by their symbol: `Chord.get("Cadd9").name` is `"Cadd9"`, and `Chord.get("C7b9b13").name` is `"C7b9b13"`.
+
 The `family` property (from `ChordType`) classifies the chord as major, minor, dominant, half-diminished, diminished, augmented, suspended or power (see [`ChordType.family`](https://tonaljs.github.io/tonal/docs/dictionaries/chord-types#chordtypefamily)):
 
 ```js
@@ -79,6 +81,8 @@ Chord.get("C7(b9,#9)").notes; // => ["C", "E", "G", "Bb", "Db", "D#"]
 Chord.get("C7(no3)").notes; // => ["C", "G", "Bb"]
 Chord.get("Cdim(maj7)").notes; // => ["C", "Eb", "Gb", "B"]
 Chord.get("C(add9)").notes; // => ["C", "E", "G", "D"]
+Chord.get("Cmaj7sus4").notes; // => ["C", "F", "G", "B"]
+Chord.get("C7sus2").notes; // => ["C", "D", "G", "Bb"]
 ```
 
 The tokens are:
@@ -88,6 +92,7 @@ The tokens are:
 - `add` followed by a tone adds it: `add9` (or `add2`), `add11`, `add4`, `add13`, `add6`, and altered ones such as `addb9`.
 - `9`, `11`, `13` and `6` without `add` only inside parentheses: `C7(9,13)`, `Cm7(11)`.
 - `no3` and `no5` remove the third or the fifth.
+- `sus4` (or `sus`) and `sus2` replace the third with a 4th or a 2nd: `Cmaj7sus4`, `C7sus2`, `C6sus4`. The minor third is replaced too, so `Cm7sus4` is the same chord as `C7sus4`.
 - `maj7` (or `M7`, `^7`, `Δ7`) makes the seventh major: `Cm(maj7)`, `Caug(maj7)`.
 
 Without a type before the tokens, the base is a major triad: `C(add9)`, `C(no3)`.

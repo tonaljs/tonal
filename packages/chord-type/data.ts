@@ -73,7 +73,7 @@ const CHORDS: string[][] = [
     "major sharp eleventh (lydian)",
     "maj9#11 Δ9#11 ^9#11",
   ],
-  // ==Legacy==
+  // ==Types without a long name==
   ["1P 2M 4P 5P", "", "sus24 sus4add9"],
   ["1P 3M 5A 7M 9M", "", "maj9#5 Maj9#5"],
   ["1P 3M 5A 7m", "seventh augmented fifth", "7#5 +7 7+ 7aug aug7"],

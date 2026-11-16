@@ -393,6 +393,42 @@ describe("tonal-chord", () => {
       expect(notes("C7#5no3")).toEqual("C G# Bb");
     });
 
+    test("suspensions replace the third", () => {
+      expect(notes("Cmaj7sus4")).toEqual("C F G B");
+      expect(notes("Cmaj9sus4")).toEqual("C F G B D");
+      expect(notes("Cmaj7sus2")).toEqual("C D G B");
+      expect(notes("CM7sus2")).toEqual("C D G B");
+      expect(notes("C7sus2")).toEqual("C D G Bb");
+      expect(notes("C9sus2")).toEqual("C D G Bb D");
+      expect(notes("C6sus4")).toEqual("C F G A");
+      expect(notes("C6sus2")).toEqual("C D G A");
+      expect(notes("Cmaj7sus")).toEqual("C F G B");
+      expect(notes("C7(sus4)")).toEqual("C F G Bb");
+      expect(notes("C7sus2b9")).toEqual("C D G Bb Db");
+      expect(notes("Ebmaj7sus2/Bb")).toEqual("Bb D Eb F");
+      // the minor third is replaced too: the same chord as C7sus4
+      expect(notes("Cm7sus4")).toEqual("C F G Bb");
+      expect(Chord.get("Cm7sus4").intervals).toEqual(
+        Chord.get("C7sus4").intervals,
+      );
+    });
+
+    test("suspensions name listed types", () => {
+      expect(Chord.get("Cmaj7sus4").aliases).toEqual(
+        ChordType.get("M7sus4").aliases,
+      );
+      expect(Chord.get("Cmaj7sus4").symbol).toEqual("Cmaj7sus4");
+      expect(Chord.get("Cmaj7sus4").name).toEqual("Cmaj7sus4");
+      expect(Chord.get("C7sus2").type).toEqual("");
+      expect(Chord.get("C7sus2").quality).toEqual("Unknown");
+    });
+
+    test("invalid suspensions", () => {
+      for (const symbol of ["C7addsus4", "C7sus3", "C7sus9", "Cmaj7sus5"]) {
+        expect(Chord.get(symbol).empty).toBe(true);
+      }
+    });
+
     test("major seventh token", () => {
       expect(notes("Cdim(maj7)")).toEqual("C Eb Gb B");
       expect(notes("Cm(maj7)")).toEqual("C Eb G B");
@@ -404,7 +440,7 @@ describe("tonal-chord", () => {
     test("composed chord properties", () => {
       expect(Chord.get("Cm7b5b9")).toEqual({
         empty: false,
-        name: "C ",
+        name: "Cm7b5b9",
         symbol: "Cm7b5b9",
         tonic: "C",
         type: "",
@@ -545,6 +581,33 @@ describe("tonal-chord", () => {
       expect(Chord.chordScales("N.C.")).toEqual([]);
       expect(Chord.extended("N.C.")).toEqual([]);
       expect(Chord.reduced("N.C.")).toEqual([]);
+    });
+  });
+
+  describe("names", () => {
+    test("types without a long name are named by their symbol", () => {
+      expect(Chord.get("Cadd9").name).toEqual("Cadd9");
+      expect(Chord.get("C2").name).toEqual("C2");
+      expect(Chord.get("C4").name).toEqual("C4");
+      expect(Chord.get("Cadd9/E").name).toEqual("Cadd9 over E");
+      expect(Chord.get("C7b9#9").name).toEqual("C7b9#9");
+      expect(Chord.get("add9").name).toEqual("add9");
+      expect(Chord.get("Cmaj7").name).toEqual("C major seventh");
+      expect(Chord.get("C/E").name).toEqual("C major over E");
+      expect(Chord.get("maj7").name).toEqual("major seventh");
+    });
+
+    test("no name has a leading or trailing space", () => {
+      const tonics = "CDEFGAB".split("").flatMap((l) => [l + "b", l, l + "#"]);
+      for (const type of ChordType.all()) {
+        for (const tonic of ["", ...tonics]) {
+          for (const alias of type.aliases) {
+            const chord = Chord.get([tonic, alias]);
+            expect(chord.name).toEqual(chord.name.trim());
+            if (!type.name) expect(chord.name).toEqual(tonic + alias);
+          }
+        }
+      }
     });
   });
 

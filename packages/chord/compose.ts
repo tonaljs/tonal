@@ -37,12 +37,12 @@ const FIFTHS = ["5d", "5A"];
 const BARE = ["6", "9", "11", "13"];
 const MAJOR_SEVENTH = ["maj7", "Maj7", "ma7", "M7", "Δ7", "^7"];
 
-const TOKEN = /^(add)?([b#+]?\d+|no[35]|maj7|Maj7|ma7|M7|Δ7|\^7)/;
+const TOKEN = /^(add)?([b#+]?\d+|no[35]|sus[24]?|maj7|Maj7|ma7|M7|Δ7|\^7)/;
 
 /**
  * Get the chord type of a symbol that isn't in the dictionary, written as a
  * listed type followed by alteration tokens: `7b9#11`, `m7b5b9`, `7(b9,#9)`,
- * `7(no3)`, `dim(maj7)`.
+ * `7(no3)`, `dim(maj7)`, `maj7sus4`, `7sus2`.
  *
  * It returns undefined when the symbol can't be read that way. When the
  * resulting intervals are a listed type, it returns that type.
@@ -100,6 +100,11 @@ function changeOf(
 ): Change | undefined {
   if (token === "no3") return without(["3m", "3M"]);
   if (token === "no5") return without(["5P", "5d", "5A"]);
+  // A suspension replaces the third (major or minor) with a 2nd or a 4th
+  if (token.startsWith("sus")) {
+    const sus = token === "sus2" ? "2M" : "4P";
+    return add ? undefined : (ivls) => [...without(["3m", "3M"])(ivls), sus];
+  }
   if (MAJOR_SEVENTH.includes(token)) {
     return add ? undefined : (ivls) => [...without(["7m", "7d"])(ivls), "7M"];
   }

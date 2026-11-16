@@ -130,6 +130,8 @@ Key.minorKey("C"); // =>
 
 Each of `natural`, `harmonic` and `melodic` also has the deprecated `secondaryDominantsMinorRelative` and `substituteDominantsMinorRelative`.
 
+The chords are the ones used in each key, so they follow jazz practice. They're the scale's thirds stacked on each degree, except the tonic chord of melodic minor, which is `m6` (`Cm6`, C Eb G A) rather than the stacked `mMaj7` (`CmMaj7`, C Eb G B).
+
 ### `Key.majorTonicFromKeySignature`
 
 `majorTonicFromKeySignature(keySignature: string | number) => string | null`
