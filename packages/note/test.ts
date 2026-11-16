@@ -80,6 +80,11 @@ describe("note", () => {
     );
   });
 
+  test("sortedUniq with enharmonic notes in between", () => {
+    expect(Note.sortedUniqNames($("C4 B#3 C4 Dbb4"))).toEqual($("C4 B#3 Dbb4"));
+    expect(Note.sortedUniqNames($("Dbb4 C4 B#3 C4"))).toEqual($("Dbb4 C4 B#3"));
+  });
+
   test("transpose", () => {
     expect(Note.transpose("A4", "3M")).toEqual("C#5");
     expect(Note.tr("A4", "3M")).toEqual("C#5");

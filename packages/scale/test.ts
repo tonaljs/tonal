@@ -207,6 +207,7 @@ describe("@tonaljs/scale", () => {
       "A",
       "C#",
     ]);
+    expect(Scale.scaleNotes($("C4 B#3 C5 E4"))).toEqual($("C B# E"));
   });
 
   test("mode names", () => {
