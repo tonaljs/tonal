@@ -4,7 +4,7 @@ import {
   all as chordTypes,
   get as getChordType,
 } from "@tonaljs/chord-type";
-import { subtract } from "@tonaljs/interval";
+import { semitones, subtract } from "@tonaljs/interval";
 import { isSubsetOf, isSupersetOf } from "@tonaljs/pcset";
 import {
   distance,
@@ -14,6 +14,15 @@ import {
 import { NoteName, note, tokenizeNote } from "@tonaljs/pitch-note";
 import { all as scaleTypes } from "@tonaljs/scale-type";
 import { composeChordType } from "./compose";
+import {
+  ChordDegreeName,
+  degreeToInterval,
+  intervalToDegree,
+  probableDegree,
+  sortByImportance,
+} from "./degrees";
+
+export type { ChordDegreeName } from "./degrees";
 
 export { detect } from "@tonaljs/chord-detect";
 
@@ -315,6 +324,125 @@ export function steps(chordName: ChordNameOrTokens, tonic?: string) {
   return tonicIntervalsTransposer(chord.intervals, note);
 }
 
+// The intervals of the chord type, before the bass rotates or extends them
+function typeIntervals(chord: Chord): string[] {
+  const ivls = chord.intervals;
+  if (chord.rootDegree > 1) {
+    const moved = ivls.length - (chord.rootDegree - 1);
+    const lowered = ivls.slice(moved).map((ivl) => {
+      const [, num, quality] = /^(\d+)(.*)$/.exec(ivl) || [];
+      return `${+num - 7}${quality}`;
+    });
+    return [...lowered, ...ivls.slice(0, moved)];
+  }
+  return chord.bass ? ivls.slice(1) : ivls;
+}
+
+/**
+ * Get the degrees of a chord, in the order of its intervals: its formula,
+ * counted from the major scale of the root. The bass of a slash chord doesn't
+ * change it. A chord tone is named after its interval in the chord type, so
+ * the 6th of C6 is "6" and the 13th of C13 is "13".
+ *
+ * @example
+ * Chord.degreeNames("Cm7"); // => ["1", "b3", "5", "b7"]
+ * Chord.degreeNames("dim7"); // => ["1", "b3", "b5", "bb7"]
+ * Chord.degreeNames("C13/E"); // => ["1", "3", "5", "b7", "9", "13"]
+ */
+export function degreeNames(chordName: ChordNameOrTokens): ChordDegreeName[] {
+  const chord = get(chordName);
+  return chord.empty ? [] : typeIntervals(chord).map(intervalToDegree);
+}
+
+/**
+ * Get the degree a note plays in a chord, counted from the major scale of the
+ * root (the bass of a slash chord doesn't change it).
+ *
+ * A chord tone gets its degree in the chord, whatever its spelling. Any other
+ * note gets its most probable degree:
+ *
+ * - a minor second is "b9" and a major second "9"
+ * - a minor third is "#9" over a major third, and "b3" otherwise
+ * - a major third is "3"
+ * - a fourth is "4" in a chord without third, and "11" otherwise
+ * - an augmented fourth is "#11", a fifth "5" and a minor sixth "b13"
+ * - a major sixth is "6" in a chord without seventh, and "13" otherwise
+ * - a minor seventh is "b7" and a major seventh "7"
+ *
+ * `noteOf` gives the note back, spelled from the root. It returns "" if the
+ * chord has no tonic or the note isn't valid.
+ *
+ * @example
+ * Chord.degreeOf("C7b9", "Db"); // => "b9"
+ * Chord.degreeOf("C7b9", "C#4"); // => "b9"
+ * Chord.degreeOf("Cm", "Eb"); // => "b3"
+ * Chord.degreeOf("C", "Eb"); // => "#9"
+ * Chord.degreeOf("C7", "F"); // => "11"
+ * Chord.degreeOf("C", "A"); // => "6"
+ * Chord.degreeOf("C7", "A"); // => "13"
+ */
+export function degreeOf(
+  chordName: ChordNameOrTokens,
+  noteName: NoteName,
+): ChordDegreeName {
+  const chord = get(chordName);
+  const tonic = note(chord.tonic || "");
+  const n = note(noteName);
+  if (chord.empty || tonic.empty || n.empty) return "";
+  const dist = (n.chroma - tonic.chroma + 12) % 12;
+  const ivls = typeIntervals(chord);
+  const degrees = ivls.map(intervalToDegree);
+  const index = ivls.findIndex((ivl) => semitones(ivl) % 12 === dist);
+  return index !== -1 ? degrees[index] : probableDegree(dist, degrees);
+}
+
+/**
+ * Get the note of a chord degree as a pitch class, spelled by transposing the
+ * root. The degree is counted from the major scale of the root, as in chord
+ * formulas: the third of Cm7 is "b3", and its "3" is "E".
+ *
+ * It returns "" if the chord has no tonic or the degree isn't valid.
+ *
+ * @example
+ * Chord.noteOf("C7b9", "b9"); // => "Db"
+ * Chord.noteOf("C#7", "b9"); // => "D"
+ * Chord.noteOf("Cm7", "b3"); // => "Eb"
+ * Chord.noteOf("Cdim7", "bb7"); // => "Bbb"
+ */
+export function noteOf(
+  chordName: ChordNameOrTokens,
+  degree: ChordDegreeName,
+): NoteName {
+  const chord = get(chordName);
+  const ivl = degreeToInterval(degree);
+  return chord.empty || !chord.tonic || !ivl
+    ? ""
+    : transposeNote(chord.tonic, ivl);
+}
+
+/**
+ * Get the degrees of a chord sorted by how much they define it, to choose
+ * which ones to keep when there are fewer voices than chord tones:
+ *
+ * 1. the third, or for chords without third the 4th, 2nd or 11th that
+ *    replaces it
+ * 2. the fifth, if it's altered
+ * 3. the seventh, or the 6th for chords without seventh
+ * 4. the first extension (the first degree not listed here)
+ * 5. the root
+ * 6. the fifth, if it's natural
+ * 7. the other extensions
+ *
+ * @example
+ * Chord.importance("C13"); // => ["3", "b7", "9", "1", "5", "13"]
+ * Chord.importance("C7#5"); // => ["3", "#5", "b7", "1"]
+ * Chord.importance("Csus4"); // => ["4", "1", "5"]
+ * Chord.importance("m6"); // => ["b3", "6", "1", "5"]
+ */
+export function importance(chordName: ChordNameOrTokens): ChordDegreeName[] {
+  return sortByImportance(degreeNames(chordName));
+}
+
 // When the chord is given as tokens, keep the tonic as written (with octave)
 function tonicOf(chordName: ChordNameOrTokens): string | undefined {
   return Array.isArray(chordName) && chordName.length > 1
@@ -336,4 +464,8 @@ export default {
   steps,
   notes,
   chord,
+  degreeNames,
+  degreeOf,
+  noteOf,
+  importance,
 };

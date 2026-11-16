@@ -198,6 +198,94 @@ Range.numeric([-3, 3]).map(Chord.steps("aug", "C4"));
 // => ["C3", "E3", "G#3", "C4", "E4", "G#4", "C5"]
 ```
 
+## Chord degrees by name
+
+The degrees of a chord are named as in chord formulas, counted from the major scale of the root: `1`, `b3`, `3`, `4`, `b5`, `5`, `#5`, `6`, `bb7`, `b7`, `7`, `b9`, `9`, `#9`, `11`, `#11`, `b13`, `13`. So the third of a minor chord is `b3`, and `3` is always a major third.
+
+The 2nd, 4th and 6th are different degrees from the 9th, 11th and 13th: a chord tone is named after its interval in the chord type, so the 6th of `C6` is `6` and the 13th of `C13` is `13`. The bass of a slash chord doesn't change the degrees.
+
+### `Chord.degreeNames`
+
+`degreeNames(chord: string) => string[]`
+
+The degrees of a chord, in the order of its intervals (its formula):
+
+```js
+Chord.degreeNames("Cm7"); // => ["1", "b3", "5", "b7"]
+Chord.degreeNames("dim7"); // => ["1", "b3", "b5", "bb7"]
+Chord.degreeNames("C13/E"); // => ["1", "3", "5", "b7", "9", "13"]
+```
+
+### `Chord.degreeOf`
+
+`degreeOf(chord: string, note: string) => string`
+
+The degree a note plays in a chord. A chord tone gets its degree in the chord, whatever its spelling:
+
+```js
+Chord.degreeOf("C7b9", "Db"); // => "b9"
+Chord.degreeOf("C7b9", "C#4"); // => "b9"
+Chord.degreeOf("Cm7", "Eb"); // => "b3"
+```
+
+Any other note gets its most probable degree:
+
+| Semitones from the root | Degree                                         |
+| ----------------------- | ---------------------------------------------- |
+| 1, 2                    | `b9`, `9`                                      |
+| 3                       | `#9` over a major third, `b3` otherwise        |
+| 4                       | `3`                                            |
+| 5                       | `4` in a chord without third, `11` otherwise   |
+| 6, 7, 8                 | `#11`, `5`, `b13`                              |
+| 9                       | `6` in a chord without seventh, `13` otherwise |
+| 10, 11                  | `b7`, `7`                                      |
+
+```js
+Chord.degreeOf("C", "Eb"); // => "#9"
+Chord.degreeOf("C7", "F"); // => "11"
+Chord.degreeOf("C7sus4", "D"); // => "9"
+Chord.degreeOf("C", "A"); // => "6"
+Chord.degreeOf("C7", "A"); // => "13"
+```
+
+It returns `""` if the chord has no tonic or the note isn't valid.
+
+### `Chord.noteOf`
+
+`noteOf(chord: string, degree: string) => string`
+
+The note of a degree, as a pitch class spelled from the root. It undoes `degreeOf`: chord tones come back as they are spelled in the chord, and other notes as the same pitch class.
+
+```js
+Chord.noteOf("C7b9", "b9"); // => "Db"
+Chord.noteOf("C#7", "b9"); // => "D"
+Chord.noteOf("Cm7", "b3"); // => "Eb"
+Chord.noteOf("Cm7", "3"); // => "E"
+```
+
+It returns `""` if the chord has no tonic or the degree isn't valid.
+
+### `Chord.importance`
+
+`importance(chord: string) => string[]`
+
+The degrees of a chord sorted by how much they define it, to choose which ones to keep when there are fewer voices than chord tones:
+
+1. the third, or in a chord without third the 4th, 2nd or 11th that replaces it
+2. the fifth, if it's altered
+3. the seventh, or the 6th in a chord without seventh
+4. the first extension (the first degree not listed here)
+5. the root
+6. the fifth, if it's natural
+7. the other extensions
+
+```js
+Chord.importance("C13"); // => ["3", "b7", "9", "1", "5", "13"]
+Chord.importance("C7#5"); // => ["3", "#5", "b7", "1"]
+Chord.importance("Csus4"); // => ["4", "1", "5"]
+Chord.importance("Cm6"); // => ["b3", "6", "1", "5"]
+```
+
 ## Finding chords
 
 ### `Chord.detect`
