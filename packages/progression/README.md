@@ -42,6 +42,22 @@ Progression.fromRomanNumerals("C", ["I", "vi", "ii7", "V7", "viio"]);
 // => ["C", "Am", "Dm7", "G7", "Bo"]
 ```
 
+An applied (secondary) chord, like `V7/V`, is a chord on a degree of another degree's major scale. Applied chords can nest:
+
+```js
+Progression.fromRomanNumerals("C", ["I", "V7/ii", "ii", "V7/V", "V7", "I"]);
+// => ["C", "A7", "Dm", "D7", "G7", "C"]
+Progression.fromRomanNumerals("C", ["viio7/V", "V/V/V"]);
+// => ["F#o7", "A"]
+```
+
+A note after a slash is the bass: `I/E` is `C/E`. A numeral whose chord type isn't a known chord type gives an empty string:
+
+```js
+Progression.fromRomanNumerals("C", ["I/E", "V65", "It6"]);
+// => ["C/E", "", ""]
+```
+
 ### `Progression.toRomanNumerals`
 
 `toRomanNumerals(keyTonic: string, chordProgression: string[]) => string[]`

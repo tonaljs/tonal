@@ -1,6 +1,6 @@
 import { describe, expect, it, test } from "vitest";
 import { interval } from "@tonaljs/core";
-import RomanNumeral from "./index";
+import RomanNumeral, { tokenize } from "./index";
 
 const $ = (str: string) => str.split(" ");
 
@@ -35,6 +35,7 @@ describe("tonal-roman-numeral", () => {
         interval: "7A",
         acc: "#",
         chordType: "b5",
+        of: "",
         major: true,
         step: 6,
         alt: 1,
@@ -71,12 +72,67 @@ describe("tonal-roman-numeral", () => {
       expect(RomanNumeral.get("iI").name).toEqual("");
     });
 
+    test("applied chords", () => {
+      expect(RomanNumeral.get("V7/V")).toEqual({
+        empty: false,
+        name: "V7/V",
+        roman: "V",
+        interval: "2M",
+        acc: "",
+        chordType: "7",
+        of: "V",
+        major: true,
+        step: 1,
+        alt: 0,
+        oct: 0,
+        dir: 1,
+      });
+      const ivl = (x: string) => RomanNumeral.get(x).interval;
+      expect($("V/I V/ii V/iii V/IV V/V V/vi").map(ivl)).toEqual(
+        $("5P 6M 7M 1P 2M 3M"),
+      );
+      expect($("IV/IV viio7/V V/bVI V/#IV bII/V").map(ivl)).toEqual(
+        $("7m 4A 3m 1A 6m"),
+      );
+      // nested: V of (V of V)
+      expect(RomanNumeral.get("V/V/V").interval).toEqual("6M");
+      expect(RomanNumeral.get("V/V/V").of).toEqual("V/V");
+      expect(RomanNumeral.get("viio7/V").major).toBe(false);
+    });
+
+    test("applied chords are pitches", () => {
+      const applied = RomanNumeral.get("V7/V");
+      expect(interval(applied).name).toEqual("2M");
+      expect(RomanNumeral.get(applied).name).toEqual("II");
+    });
+
+    test("invalid applied chords", () => {
+      for (const name of ["V/VIII", "V7/ii7", "V//V", "I/E/V", "V/V7"]) {
+        expect(RomanNumeral.get(name).empty).toBe(true);
+      }
+    });
+
     it("roman", () => {
       expect(RomanNumeral.get("IIIMaj7").roman).toEqual("III");
       expect(RomanNumeral.names().map((x) => RomanNumeral.get(x).name)).toEqual(
         RomanNumeral.names(),
       );
     });
+  });
+
+  test("tokenize", () => {
+    expect(tokenize("bVIIMaj7")).toEqual(["bVIIMaj7", "b", "VII", "Maj7", ""]);
+    expect(tokenize("V7/V")).toEqual(["V7/V", "", "V", "7", "V"]);
+    expect(tokenize("viio7/bVI/ii")).toEqual([
+      "viio7/bVI/ii",
+      "",
+      "vii",
+      "o7",
+      "bVI/ii",
+    ]);
+    // a slash not followed by a degree stays in the chord type
+    expect(tokenize("I/E")).toEqual(["I/E", "", "I", "/E", ""]);
+    expect(tokenize("C")).toEqual(["", "", "", "", ""]);
   });
 
   it("create from degrees", () => {

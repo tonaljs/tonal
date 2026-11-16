@@ -1,4 +1,5 @@
 import { all as allChordTypes, get as getChordType } from "@tonaljs/chord-type";
+import { majorKey } from "@tonaljs/key";
 import { describe, expect, test } from "vitest";
 import Progression from "./index";
 
@@ -87,6 +88,57 @@ describe("@tonaljs/progression", () => {
       if (intervals.size > 1) failed.push(chords.join(" "));
     }
     expect(failed).toEqual([]);
+  });
+
+  test("applied chords", () => {
+    const inC = (chords: string[]) =>
+      Progression.fromRomanNumerals("C", chords);
+    expect(inC($("V7/V V/ii V7/iii V7/IV V7/vi"))).toEqual($("D7 A B7 C7 E7"));
+    expect(inC($("viio7/V vii/V ii/V IV/IV V/bVI"))).toEqual(
+      $("F#o7 F#m Am Bb Eb"),
+    );
+    // nested
+    expect(inC($("V/V/V V7/V/ii"))).toEqual($("A E7"));
+    expect(Progression.fromRomanNumerals("Eb", $("I V7/ii ii V7 I"))).toEqual(
+      $("Eb C7 Fm Bb7 Eb"),
+    );
+  });
+
+  test("applied dominants are the key's secondary dominants", () => {
+    const tonics = $("C G D A E B F# C# F Bb Eb Ab Db Gb Cb");
+    for (const tonic of tonics) {
+      const applied = Progression.fromRomanNumerals(
+        tonic,
+        $("V7/I V7/ii V7/iii V7/IV V7/V V7/vi V7/vii"),
+      );
+      const expected = majorKey(tonic).secondaryDominants;
+      // the key leaves out the dominant of I (it's V7) and of viio
+      expect(applied.slice(1, 6)).toEqual(expected.slice(1, 6));
+    }
+  });
+
+  test("unknown chord types give an empty chord", () => {
+    const inC = (chords: string[]) =>
+      Progression.fromRomanNumerals("C", chords);
+    expect(inC($("V65 It6 N6 Cad64 VIIb5 bIIImaj4 I/b3 V7/"))).toEqual([
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+    ]);
+    // the leadsheet meaning of I6 is kept: it's an added-sixth chord
+    expect(inC($("I6"))).toEqual($("C6"));
+    expect(Progression.fromRomanNumerals("", $("V7"))).toEqual([""]);
+  });
+
+  test("a bass note after a slash", () => {
+    const inC = (chords: string[]) =>
+      Progression.fromRomanNumerals("C", chords);
+    expect(inC($("I/E V7/B i/Eb vi7/G"))).toEqual($("C/E G7/B Cm/Eb Am7/G"));
   });
 
   test("abstract", () => {

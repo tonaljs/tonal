@@ -38,6 +38,7 @@ RomanNumeral.get("bVIIMaj7");
 //   interval: "7m",
 //   acc: "b",
 //   chordType: "Maj7",
+//   of: "",
 //   alt: -1,
 //   step: 6,
 //   major: true,
@@ -45,6 +46,17 @@ RomanNumeral.get("bVIIMaj7");
 //   dir: 1
 // }
 ```
+
+An applied (secondary) chord, like `V7/V`, is a chord on a degree of another degree's major scale. `of` is the degree it's applied to, and `interval`, `step` and `alt` locate the chord's root from the tonic: the root of `V7/V` is the second degree (`D` in C). Applied chords can nest (`V/V/V`):
+
+```js
+RomanNumeral.get("V7/V");
+// => { name: "V7/V", roman: "V", chordType: "7", of: "V", interval: "2M", step: 1, alt: 0, ... }
+RomanNumeral.get("viio7/V").interval; // => "4A"
+RomanNumeral.get("V/V/V").interval; // => "6M"
+```
+
+The degrees are counted on the major scale of the degree the chord is applied to, as everywhere else in tonal: `VI/ii` is `B` in C. Write `bVI/ii` for `Bb`. This differs from classical analysis and music21, where a lowercase target is a minor key: there `VI/ii` is `Bb` and `bVI/ii` is `Bbb`. The two agree on the usual applied chords (`V`, `V7` and `viio7` of any degree).
 
 ### `RomanNumeral.names`
 
@@ -59,14 +71,15 @@ RomanNumeral.names(false); // => ["i", "ii", "iii", "iv", "v", "vi", "vii"]
 
 ### `RomanNumeral.tokenize`
 
-`tokenize(name: string) => [string, string, string, string]`
+`tokenize(name: string) => [string, string, string, string, string]`
 
-Split a roman numeral symbol into the whole match, its accidentals, the roman numeral and the chord type. Invalid symbols give empty strings:
+Split a roman numeral symbol into the whole match, its accidentals, the roman numeral, the chord type and the degree it's applied to. Invalid symbols give empty strings:
 
 ```js
-RomanNumeral.tokenize("bVIIMaj7"); // => ["bVIIMaj7", "b", "VII", "Maj7"]
-RomanNumeral.tokenize("#iv"); // => ["#iv", "#", "iv", ""]
-RomanNumeral.tokenize("C"); // => ["", "", "", ""]
+RomanNumeral.tokenize("bVIIMaj7"); // => ["bVIIMaj7", "b", "VII", "Maj7", ""]
+RomanNumeral.tokenize("#iv"); // => ["#iv", "#", "iv", "", ""]
+RomanNumeral.tokenize("V7/V"); // => ["V7/V", "", "V", "7", "V"]
+RomanNumeral.tokenize("C"); // => ["", "", "", "", ""]
 ```
 
 ## FAQ
