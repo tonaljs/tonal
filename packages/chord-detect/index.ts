@@ -1,5 +1,7 @@
 import { all, ChordType } from "@tonaljs/chord-type";
 import { modes } from "@tonaljs/pcset";
+import { transpose } from "@tonaljs/pitch-distance";
+import { interval } from "@tonaljs/pitch-interval";
 import { note } from "@tonaljs/pitch-note";
 
 interface FoundChord {
@@ -19,17 +21,75 @@ const namedSet = (notes: string[]) => {
   return (chroma: number) => pcToName[chroma];
 };
 
+// The intervals of a chord type within an octave ("13m" is "6m")
+const simpleIntervals = (chordType: ChordType): string[] =>
+  chordType.intervals.map((name) => {
+    const ivl = interval(name);
+    return `${((ivl.simple - 1) % 7) + 1}${ivl.q}`;
+  });
+
+/**
+ * A chord type that is rarely the name of its notes, adapted from sharp11's
+ * "reasonable" test:
+ *
+ * - No perfect fifth, unless the name states an altered one (a diminished
+ *   fifth with a minor third or a seventh, an augmented fifth without a minor
+ *   third) or it's a dominant chord without its fifth (C7no5, C7b13).
+ *   E G C is C/E, not Em#5; C F Bb Eb is F7sus4/C, not Cquartal.
+ * - A fifth, a minor third and a minor sixth: E G B C is Cmaj7/E, not Emb6.
+ * - A sixth with an added fourth and no seventh.
+ * - A diminished seventh with a major seventh: C Eb Gb A B is B7b9/C, not
+ *   Co7M7.
+ */
+const isUnusual = (chordType: ChordType): boolean => {
+  const ivls = simpleIntervals(chordType);
+  const has = (ivl: string) => ivls.includes(ivl);
+  const third = has("3M") || has("3m");
+  const seventh = has("7M") || has("7m");
+  const alteredFifth =
+    (has("5d") && (has("3m") || seventh)) || (has("5A") && !has("3m"));
+  const dominant = has("3M") && has("7m");
+  return (
+    (!has("5P") && !alteredFifth && !dominant) ||
+    ((has("5P") || has("5d")) && has("3m") && has("6m")) ||
+    (third && !seventh && has("6M") && has("4P")) ||
+    (has("5d") && has("6M") && has("7M"))
+  );
+};
+
 type DetectOptions = {
   assumePerfectFifth: boolean;
+  /** Chord types to leave out, by name or alias: `["quartal", "m#5"]` */
+  exclude: string[];
 };
+/**
+ * Find the chord names of a list of notes.
+ *
+ * The first note is the bass, or the lowest note if every note has an octave.
+ * Names over the bass come first, then inversions, then unusual readings
+ * (Em#5 for E G C). Among names with the same notes and root, the one whose
+ * intervals spell the given notes comes first.
+ *
+ * @example
+ * detect(["E4", "G4", "C5"]); // => ["CM/E", "Em#5"]
+ * detect(["C", "F", "Bb", "Eb"], { exclude: ["quartal"] }); // => ["F7sus4/C", "Bbsus24/C"]
+ */
 export function detect(
   source: string[],
   options: Partial<DetectOptions> = {},
 ): string[] {
-  const notes = source.map((n) => note(n).pc).filter((x) => x);
-  if (note.length === 0) {
+  const valid = source.map((n) => note(n)).filter((n) => !n.empty);
+  if (valid.length === 0) {
     return [];
   }
+  // With octaves, the lowest note is the bass, whatever the order
+  const withOctaves = valid.every((n) => n.oct !== undefined);
+  const lowest = withOctaves
+    ? valid.reduce((low, n, i) => (n.height < valid[low].height ? i : low), 0)
+    : 0;
+  const notes = [valid[lowest], ...valid.filter((_, i) => i !== lowest)].map(
+    (n) => n.pc,
+  );
 
   const found: FoundChord[] = findMatches(notes, 1, options);
 
@@ -77,9 +137,7 @@ function withPerfectFifth(chroma: string): string {
 
 /* tslint:enable:no-bitwise */
 
-type FindMatchesOptions = {
-  assumePerfectFifth: boolean;
-};
+type FindMatchesOptions = DetectOptions;
 function findMatches(
   notes: string[],
   weight: number,
@@ -91,12 +149,17 @@ function findMatches(
   // we need to test all chromas to get the correct baseNote
   const allModes = modes(notes, false);
 
+  const exclude = options.exclude ?? [];
+  const isExcluded = (chordType: ChordType) =>
+    exclude.some((t) => t === chordType.name || chordType.aliases.includes(t));
+
   const found: FoundChord[] = [];
   allModes.forEach((mode, index) => {
     const modeWithPerfectFifth =
       options.assumePerfectFifth && withPerfectFifth(mode);
     // some chords could have the same chroma but different interval spelling
     const chordTypes = all().filter((chordType) => {
+      if (isExcluded(chordType)) return false;
       if (
         options.assumePerfectFifth &&
         hasAnyThirdAndPerfectFifthAndAnySeventh(chordType)
@@ -106,17 +169,32 @@ function findMatches(
       return chordType.chroma === mode;
     });
 
+    // Types with the same notes but other spellings: the type that spells
+    // more of the given notes goes first (Eb G B D is Ebmaj7#5, not EbM7b6)
+    const baseNote = noteName(index);
+    const spelled = (chordType: ChordType) =>
+      chordType.intervals.filter((ivl) =>
+        notes.includes(transpose(baseNote, ivl)),
+      ).length;
+    chordTypes.sort((a, b) => spelled(b) - spelled(a));
+
+    // Unusual readings go after the others, inversions included, unless the
+    // same notes over the same root have a usual name too
+    const rarity = chordTypes.every(isUnusual) ? 0.1 : 1;
+
     chordTypes.forEach((chordType) => {
       const chordName = chordType.aliases[0];
-      const baseNote = noteName(index);
       const isInversion = index !== tonicChroma;
       if (isInversion) {
         found.push({
-          weight: 0.5 * weight,
+          weight: 0.5 * rarity * weight,
           name: `${baseNote}${chordName}/${tonic}`,
         });
       } else {
-        found.push({ weight: 1 * weight, name: `${baseNote}${chordName}` });
+        found.push({
+          weight: rarity * weight,
+          name: `${baseNote}${chordName}`,
+        });
       }
     });
   });

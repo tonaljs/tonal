@@ -27,7 +27,7 @@ const CHORDS: string[][] = [
   [
     "1P 3m 5P 7M",
     "minor/major seventh",
-    "m/ma7 m/maj7 mM7 mMaj7 m/M7 -Δ7 mΔ -^7 -maj7",
+    "mMaj7 m/ma7 m/maj7 mM7 m/M7 -Δ7 mΔ -^7 -maj7",
   ],
   ["1P 3m 5P 6M", "minor sixth", "m6 -6"],
   ["1P 3m 5P 7m 9M", "minor ninth", "m9 -9"],
@@ -61,7 +61,7 @@ const CHORDS: string[][] = [
   [
     "1P 4P 5P 7m 9m",
     "suspended fourth flat ninth",
-    "b9sus phryg 7b9sus 7b9sus4 7susb9",
+    "7b9sus4 b9sus phryg 7b9sus 7susb9",
   ],
   // ==Other==
   ["1P 5P", "fifth", "5"],
@@ -144,7 +144,7 @@ const CHORDS: string[][] = [
   ["1P 4P 5P 7m 9M", "", "9sus4 9sus"],
   ["1P 4P 5P 7m 9M 13M", "", "13sus4 13sus"],
   ["1P 4P 5P 7m 9m 13m", "", "7sus4b9b13 7b9b13sus4 7susb9b13"],
-  ["1P 4P 7m 10m", "", "4 quartal"],
+  ["1P 4P 7m 10m", "", "quartal 4"],
   ["1P 5P 7m 9m 11P", "", "11b9"],
 ];
 
