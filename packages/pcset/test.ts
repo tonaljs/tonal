@@ -23,6 +23,14 @@ describe("@tonaljs/pcset", () => {
       const set = Pcset.get(["D"]);
       expect(Pcset.get(set.setNum)).toEqual(set);
     });
+    test("from a number that is not a pcset number", () => {
+      expect(Pcset.get(2.5).empty).toBe(true);
+      expect(Pcset.get(2048.5).empty).toBe(true);
+      expect(Pcset.chroma(2.5)).toBe("000000000000");
+      expect(Pcset.notes(2.5)).toEqual([]);
+      expect(Pcset.get(4096).empty).toBe(true);
+      expect(Pcset.get(-1).empty).toBe(true);
+    });
     test("num", () => {
       expect(Pcset.num("000000000001")).toBe(1);
       expect(Pcset.num(["B"])).toBe(1);

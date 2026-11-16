@@ -56,6 +56,12 @@ Pcset.get(2688);
 Pcset.get("101010000000");
 ```
 
+A set number must be a whole number from 0 to 4095. Any other number gives the empty set:
+
+```js
+Pcset.get(2.5).empty; // => true
+```
+
 Several shorthands (`num`, `chroma`, `intervals`) are provided:
 
 ```js
