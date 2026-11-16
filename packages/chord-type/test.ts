@@ -27,7 +27,7 @@ describe("@tonaljs/chord-type", () => {
   });
 
   test("all returns all chords", () => {
-    expect(ChordType.all()).toHaveLength(107);
+    expect(ChordType.all()).toHaveLength(115);
   });
 
   test("get ", () => {
@@ -41,6 +41,26 @@ describe("@tonaljs/chord-type", () => {
       chroma: "100010010000",
       normalized: "100001000100",
     });
+  });
+
+  test("chart qualities", () => {
+    const intervals = (name: string) => ChordType.get(name).intervals.join(" ");
+    expect(intervals("-b6")).toEqual("1P 3m 5P 6m");
+    expect(intervals("-7b6")).toEqual("1P 3m 5P 6m 7m");
+    expect(intervals("-9b6")).toEqual("1P 3m 5P 6m 7m 9M");
+    expect(intervals("-^11")).toEqual("1P 3m 5P 7M 9M 11P");
+    expect(intervals("-^13")).toEqual("1P 3m 5P 7M 9M 13M");
+    expect(intervals("-add2")).toEqual("1P 3m 5P 9M");
+    expect(intervals("-add4")).toEqual("1P 3m 4P 5P");
+    expect(intervals("add4")).toEqual("1P 3M 4P 5P");
+    expect(intervals("7susadd3")).toEqual("1P 3M 4P 5P 7m");
+    expect(intervals("7susb9")).toEqual("1P 4P 5P 7m 9m");
+    expect(intervals("7susb9b13")).toEqual("1P 4P 5P 7m 9m 13m");
+    expect(intervals("^7#9")).toEqual("1P 3M 5P 7M 9A");
+    expect(intervals("^7b5")).toEqual("1P 3M 5d 7M");
+    expect(intervals("^13#11")).toEqual("1P 3M 5P 7M 9M 11A 13M");
+    expect(intervals("h9")).toEqual("1P 3m 5d 7m 9M");
+    expect(intervals("o^7")).toEqual("1P 3m 5d 7M");
   });
 
   test("add a chord", () => {

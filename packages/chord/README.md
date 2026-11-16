@@ -61,6 +61,48 @@ Chord.get("Cmaj7/B"); // =>
 // }
 ```
 
+#### Alterations
+
+A symbol that isn't a listed chord type can be a listed type followed by alterations. The alterations are tokens, written one after another or in parentheses separated by commas or spaces:
+
+```js
+Chord.get("Cm7b5b9").notes; // => ["C", "Eb", "Gb", "Bb", "Db"]
+Chord.get("C7(b9,#9)").notes; // => ["C", "E", "G", "Bb", "Db", "D#"]
+Chord.get("C7(no3)").notes; // => ["C", "G", "Bb"]
+Chord.get("Cdim(maj7)").notes; // => ["C", "Eb", "Gb", "B"]
+Chord.get("C(add9)").notes; // => ["C", "E", "G", "D"]
+```
+
+The tokens are:
+
+- `b5`, `#5` and `+5` replace the fifth.
+- `b9`, `#9`, `#11` (or `#4`), `b13` and `b6` add an altered tone, which replaces the natural one: `C13b9` has a b9 and no 9. `b13` and `b6` keep the fifth.
+- `add` followed by a tone adds it: `add9` (or `add2`), `add11`, `add4`, `add13`, `add6`, and altered ones such as `addb9`.
+- `9`, `11`, `13` and `6` without `add` only inside parentheses: `C7(9,13)`, `Cm7(11)`.
+- `no3` and `no5` remove the third or the fifth.
+- `maj7` (or `M7`, `^7`, `Δ7`) makes the seventh major: `Cm(maj7)`, `Caug(maj7)`.
+
+Without a type before the tokens, the base is a major triad: `C(add9)`, `C(no3)`.
+
+The result keeps the symbol as written. When its intervals are a listed type, it has that type's name and aliases. Otherwise `type` is empty and `aliases` is an empty list:
+
+```js
+Chord.get("Cm(maj7)").type; // => "minor/major seventh"
+Chord.get("Cm(maj7)").symbol; // => "Cm(maj7)"
+Chord.get("Cm7b5b9").type; // => ""
+```
+
+`alt` isn't a token. `7alt` is a listed type with a sharp fifth and a sharp ninth (`7#5#9`). Write the other altered tones to get them: `C7b9#9#11b13`.
+
+#### No chord
+
+`N.C.` (or `NC`) is "no chord", as written in charts. Unlike a symbol that can't be read, it isn't empty, but it has no notes:
+
+```js
+Chord.get("N.C."); // => { empty: false, symbol: "N.C.", type: "no chord", notes: [], ... }
+Chord.get("Cnonsense").empty; // => true
+```
+
 `Chord.chord` is an alias that is handy if using the `@tonaljs/chord` directly:
 
 ```js
