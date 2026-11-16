@@ -191,6 +191,104 @@ describe("@tonaljs/interval", () => {
     expect(Interval.subtract("2m", "2M")).toEqual("-1A");
   });
 
+  describe("consonance", () => {
+    // every interval up to two octaves, with qualities from dd to AA
+    const perfectable = [1, 4, 5, 8, 11, 12, 15];
+    const ascending = Array.from({ length: 15 }, (_, i) => i + 1).flatMap(
+      (num) =>
+        (perfectable.includes(num)
+          ? ["dd", "d", "P", "A", "AA"]
+          : ["dd", "d", "m", "M", "A", "AA"]
+        ).map((q) => num + q),
+    );
+    const all = [...ascending, ...ascending.map((i) => "-" + i)];
+    const perfect = $("1P 5P 8P 12P 15P");
+    const imperfect = $("3m 3M 6m 6M 10m 10M 13m 13M");
+    const fourths = $("4P 11P");
+    const unsigned = (i: string) => i.replace("-", "");
+
+    test("textbook categories", () => {
+      for (const i of all) {
+        const name = unsigned(i);
+        const expected = perfect.includes(name)
+          ? "perfect"
+          : imperfect.includes(name)
+            ? "imperfect"
+            : "dissonant";
+        expect([i, Interval.consonance(i)]).toEqual([i, expected]);
+        expect(Interval.isConsonant(i)).toBe(expected !== "dissonant");
+      }
+    });
+
+    test("the fourth as a consonance", () => {
+      const options = { consonantFourth: true };
+      expect(Interval.consonance("4P")).toBe("dissonant");
+      expect(Interval.consonance("4P", options)).toBe("perfect");
+      expect(Interval.consonance("-11P", options)).toBe("perfect");
+      expect(Interval.isConsonant("4P", options)).toBe(true);
+      expect(Interval.consonance("4A", options)).toBe("dissonant");
+      expect(Interval.consonance("4d", options)).toBe("dissonant");
+      for (const i of all) {
+        const isFourth = fourths.includes(unsigned(i));
+        expect(Interval.consonance(i, options)).toBe(
+          isFourth ? "perfect" : Interval.consonance(i),
+        );
+      }
+    });
+
+    test("spelling decides, not sound", () => {
+      expect(Interval.consonance("4d")).toBe("dissonant");
+      expect(Interval.consonance("3M")).toBe("imperfect");
+      expect(Interval.consonance("5A")).toBe("dissonant");
+      expect(Interval.consonance("6m")).toBe("imperfect");
+      expect(Interval.consonance("2A")).toBe("dissonant");
+      expect(Interval.consonance("3m")).toBe("imperfect");
+      expect(Interval.consonance("7d")).toBe("dissonant");
+      expect(Interval.consonance("6M")).toBe("imperfect");
+      expect(Interval.consonance("8d")).toBe("dissonant");
+      expect(Interval.consonance("1A")).toBe("dissonant");
+    });
+
+    test("other notations", () => {
+      expect(Interval.consonance("P5")).toBe("perfect");
+      expect(Interval.consonance("M10")).toBe("imperfect");
+      expect(Interval.consonance("22P")).toBe("perfect");
+      expect(Interval.consonance("17M")).toBe("imperfect");
+      expect(Interval.consonance(Interval.distance("C4", "F3"))).toBe(
+        "perfect",
+      );
+    });
+
+    test("invalid intervals", () => {
+      for (const i of ["", "blah", "4M", "3P", "5m"]) {
+        expect(Interval.consonance(i)).toBe("");
+        expect(Interval.isConsonant(i)).toBe(false);
+      }
+    });
+
+    test("laws", () => {
+      for (const options of [{}, { consonantFourth: true }]) {
+        const c = (i: string) => Interval.consonance(i, options);
+        for (const i of all) {
+          expect(c(i)).not.toBe("");
+          expect(c(Interval.negate(i))).toBe(c(i));
+          expect(c(Interval.add(i, i.startsWith("-") ? "-8P" : "8P"))).toBe(
+            c(i),
+          );
+          // a fourth inverts to a fifth: they only agree if the fourth is a
+          // consonance
+          const pc = Interval.pitchClass(Interval.abs(i));
+          const fourthOrFifth = pc === "4P" || pc === "5P";
+          if (options.consonantFourth || !fourthOrFifth) {
+            expect(c(Interval.invert(i))).toBe(c(i));
+          } else {
+            expect(c(Interval.invert(i))).not.toBe(c(i));
+          }
+        }
+      }
+    });
+  });
+
   test("transposeFifths", () => {
     expect(Interval.transposeFifths("4P", 1)).toEqual("8P");
     expect(
