@@ -2,6 +2,12 @@
 
 > A dictionary of musical chords.
 
+```js
+import { ChordType } from "tonal";
+
+ChordType.get("major").intervals; // => ["1P", "3M", "5P"]
+```
+
 ## Usage
 
 ES6:
@@ -18,16 +24,19 @@ const { ChordType } = require("tonal");
 
 ## API
 
-#### `ChordType.get(name: string) => object`
+### `ChordType.get`
+
+`get(name: string) => ChordType`
 
 Given a chord type name, return an object with the following properties:
 
+- empty: true if the chord type is not found
 - name: the chord type name
 - aliases: a list of alternative names
 - quality: Major | Minor | Augmented | Diminished | Unknown
-- num: the pcset number
+- setNum: the pcset number
 - chroma: the pcset chroma
-- length: the number of notes
+- normalized: the pcset chroma rotated to start with its first note
 - intervals: the interval list
 
 Example:
@@ -35,56 +44,56 @@ Example:
 ```js
 ChordType.get("major"); // =>
 // {
+//   empty: false,
 //   name: "major",
-//   aliases: ["M", ""],
-//   quality: "Major",
-//   intervals: ["1P", "3M", "5P"],
-//   num: 2192,
+//   setNum: 2192,
 //   chroma: "100010010000",
-//   length: 3
-// });
+//   normalized: "100001000100",
+//   intervals: ["1P", "3M", "5P"],
+//   quality: "Major",
+//   aliases: ["M", "^", "", "maj"],
+// }
 ```
 
-#### `ChordType.names() => string[]`
+### `ChordType.names`
+
+`names() => string[]`
 
 List all chord type (long) names in the dictionary
 
-#### `ChordType.symbols() => string[]`
+### `ChordType.symbols`
+
+`symbols() => string[]`
 
 List all chord type (long) names in the dictionary
 
-#### `ChordType.all() => object[]`
+### `ChordType.all`
+
+`all() => object[]`
 
 Return a list of all available chord types.
 
-#### `ChordType.add(intervals: string[], names: string[], fullName?: string) => ChordType`
+### `ChordType.add`
+
+`add(intervals: string[], names: string[], fullName?: string) => ChordType`
 
 Add a chord type to dictionary:
 
 ```js
-add(["1P", "3M", "5P"], ["M"], "mayor");
+ChordType.add(["1P", "3M", "5P"], ["M"], "mayor");
 ```
 
-You can add new chords to the dictionary using `ChordType` module:
+## How to...
 
-```ts
-import { Chord, ChordType } from "tonal";
-
-ChordType.add(["1P", "5P", "7M"], ["5maj7", "5add7"]);
-Chord.detect(["C3", "G3", "B3"]); // => ["C5maj7"]
-```
-
-## HOW TO
-
-#### How to get triad chord names?
+### How to get triad chord names?
 
 ```js
 ChordType.all()
-  .filter((get) => get.length === 3)
-  .map((get) => get.name);
+  .filter((chordType) => chordType.intervals.length === 3)
+  .map((chordType) => chordType.name);
 ```
 
-#### How to add a chord type to the dictionary?
+### How to add a chord type to the dictionary?
 
 ```js
 ChordType.add(["1P", "3M", "5P"], ["M", "may"], "mayor");

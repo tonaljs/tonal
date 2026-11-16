@@ -1,5 +1,12 @@
 # @tonaljs/chord ![tonal](https://img.shields.io/badge/@tonaljs-chord-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/chord.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/chord)
 
+```js
+import { Chord } from "tonal";
+
+Chord.get("Cmaj7").notes; // => ["C", "E", "G", "B"]
+Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
+```
+
 ## Usage
 
 ES6:
@@ -14,11 +21,11 @@ Nodejs:
 const { Chord } = require("tonal");
 ```
 
-## API
+## Chord properties
 
-#### `Chord.getChord(type: string, tonic?: string, root?: string) => Chord`
+### `Chord.get`
 
-#### `Chord.get(name: string | [string, string] | [string, string, string]) => Chord`
+`get(name: string | [string, string] | [string, string, string]) => Chord`
 
 Given a chord symbol or tokens, it returns the chord properties.
 
@@ -62,13 +69,21 @@ import { chord } from "@tonaljs/chord";
 chord("C6add2");
 ```
 
-`Chord.getChord(chordType, tonic, bass)` is very similar but with arguments for each chord part:
+### `Chord.getChord`
+
+`getChord(type: string, tonic?: string, bass?: string) => Chord`
+
+Very similar to `Chord.get`, but with arguments for each chord part:
 
 ```js
 Chord.getChord("maj7", "C", "B") === Chord.get("Cmaj7/B");
 ```
 
-### `Chord.notes(chordType: string, tonic?: string) => string[]`
+## Chord notes
+
+### `Chord.notes`
+
+`notes(chordType: string, tonic?: string) => string[]`
 
 Print the notes of the given chord at the given tonic:
 
@@ -76,9 +91,11 @@ Print the notes of the given chord at the given tonic:
 Chord.notes("maj7", "C4"); // => ["C4", "E4", "G4", "B4"]
 ```
 
-### `Chord.degrees(chordType: string, tonic?: string) => (degree: number) => string`
+### `Chord.degrees`
 
-`Scale.degrees` returns a function to get a note name from a scale degree:
+`degrees(chordType: string, tonic?: string) => (degree: number) => string`
+
+`Chord.degrees` returns a function to get a note name from a chord degree:
 
 ```js
 const c4m7 = Chord.degrees("m7", "C4");
@@ -86,7 +103,7 @@ c4m7(1); // => "C4"
 c4m7(2); // => "Eb4"
 c4m7(3); // => "G4"
 c4m7(4); // => "Bb4"
-c4m7(1); // => "C5"
+c4m7(5); // => "C5"
 ```
 
 It can be used, for example, to get the notes of chord inversions:
@@ -104,9 +121,11 @@ Bear in mind that degree numbers starts with 1 and 0 returns an empty string:
 c4m7(0); // => ""
 ```
 
-See [`Scale.degrees`](https://github.com/tonaljs/tonal/tree/main/packages/scale#scaledegreesscalename-string--degree-number--string)
+See [`Scale.degrees`](https://tonaljs.github.io/tonal/docs/groups/scales#scaledegrees)
 
-### `Chord.steps(chordType: string, tonic?: string) => (degree: number) => string`
+### `Chord.steps`
+
+`steps(chordType: string, tonic?: string) => (degree: number) => string`
 
 Same as `Chord.degrees` but 0 is the tonic. Plays better with numeric ranges:
 
@@ -117,7 +136,11 @@ Range.numeric([-3, 3]).map(Chord.steps("aug", "C4"));
 // => ["C3", "E3", "G#3", "C4", "E4", "G#4", "C5"]
 ```
 
-#### `Chord.detect(notes: string[]) => string[]`
+## Finding chords
+
+### `Chord.detect`
+
+`detect(notes: string[]) => string[]`
 
 Given a list of notes, get the possible chord names:
 
@@ -126,9 +149,20 @@ Chord.detect(["D", "F#", "A", "C"]); // => ["D7"]
 Chord.detect(["F#", "A", "C", "D"]); // => ["D7/F#"]
 ```
 
-Read more at [chord-detect](/packages/chord-detect)
+You can add new chords to the dictionary using `ChordType` module:
 
-#### `Chord.transpose(chordName: string, intervalName: string) => string`
+```ts
+import { Chord, ChordType } from "tonal";
+
+ChordType.add(["1P", "5P", "7M"], ["5maj7", "5add7"]);
+Chord.detect(["C3", "G3", "B3"]); // => ["C5maj7"]
+```
+
+## Transposition
+
+### `Chord.transpose`
+
+`transpose(chordName: string, intervalName: string) => string`
 
 Transpose a chord symbol by an interval:
 
@@ -136,25 +170,32 @@ Transpose a chord symbol by an interval:
 Chord.transpose("Eb7b9", "5P"); // => "Bb7b9"
 ```
 
-#### `Chord.chordScales(chordName: string) => string[]`
+## Relationships
+
+### `Chord.chordScales`
+
+`chordScales(chordName: string) => string[]`
 
 Get all scales where the given chord fits:
 
 ```js
-Chord.chordScales("C7b9");
-// => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
+Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
 ```
 
-#### `Chord.extended(chord: string) => string[]`
+### `Chord.extended`
+
+`extended(chord: string) => string[]`
 
 Get all chords names that are a superset of the given one (has the same notes and at least one more)
 
 ```js
 Chord.extended("Cmaj7");
-// => [ 'Cmaj#4', 'Cmaj7#9#11', 'Cmaj9', 'CM7add13', 'Cmaj13', 'Cmaj9#11', 'CM13#11', 'CM7b9' ]
+// => [ 'Cmaj#4', 'Cmaj7#9#11', 'Cmaj9', 'Cmaj13', 'CM7add13', 'Cmaj9#11', 'CM13#11', 'Cmaj11', 'CM7b9' ]
 ```
 
-#### `Chord.reduced(chord: string) => string[]`
+### `Chord.reduced`
+
+`reduced(chord: string) => string[]`
 
 Find all chords names that are a subset of the given one (less notes but all from the given chord)
 

@@ -42,6 +42,21 @@ To create a new module:
 - Ensure everything works: run `npm run test:all` at root folder
 - Create a pull request
 
+## Documentation
+
+Each package is documented in its README (`packages/<name>/README.md`), which npm and GitHub show. **Edit the docs of a package in its README only.** The docs site (`site/`) generates its package pages from the READMEs every time it builds (`site/scripts/docs-from-readmes.mjs`, run by `npm run build` and `npm run dev` in `site/`), so those pages are not in git. `site/scripts/docs-from-readmes.json` maps each site page to its package and sets its title, description and npm badge.
+
+When the site builds a page, it removes the README title line (with the badges), the `@tonaljs/<name>` line, the leading `> ` tagline when the page has a description, and the `## Usage` section.
+
+README conventions:
+
+- Group the functions in `##` sections (`## API` if there's only one group)
+- Each function has a ``### `Namespace.name` `` heading, followed by its signature in backticks: `` `name(param: type) => type` ``
+- Examples show the result in a comment: `Note.get("C4").midi; // => 60`
+- Link other packages to their site page (`https://tonaljs.github.io/tonal/docs/...`), which works on npm, GitHub and the site
+
+The pages without a package (`site/content/docs/index.md` and `site/content/docs/voicings/*`) are written in `site/` directly.
+
 ## Release
 
 Releases are built using [changesets](https://github.com/changesets/changesets). Pull requests that change a package include a changeset, created with `npx changeset` (select the packages and the bump: major, minor or patch).

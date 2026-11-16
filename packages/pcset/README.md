@@ -4,6 +4,10 @@
 
 A pitch class set is a set (no repeated) of pitch classes (notes without octaves). Pitch classes are useful to identify musical structures (if two chords are related, for example)
 
+A pitch class set is a no repeated collection (set) of notes without octaves (pitch classes).
+
+Pitch classes are useful to identify musical structures (if two chords are related, for example)
+
 ## Usage
 
 ES6:
@@ -18,16 +22,20 @@ nodejs:
 const { Pcset } = require("tonal");
 ```
 
-## API
+## Properties
 
-#### `get(src: note[] | string | number)`
+### `Pcset.get`
+
+`get(src: note[] | string | number) => Pcset`
 
 Given a collection of notes, a pitch class chroma string or a pitch class number, it returns a properties object with the following attributes:
 
-- num: the set number. Each pitch class set can be represented by an unique name between 0 and 4096. Those are the possible combinations of 12 different elements (pitch classes)
+- empty: true if the set is not valid
+- name: the set name (empty for sets that are not scales or chords)
+- setNum: the set number. Each pitch class set can be represented by an unique number between 0 and 4095. Those are the possible combinations of 12 different elements (pitch classes)
 - chroma: the set number as binary string
+- normalized: the chroma rotated to start with its first note
 - intervals: the list of intervals **starting from C**
-- length: the number of notes
 
 Example:
 
@@ -35,10 +43,12 @@ Example:
 Pcset.get(["c", "d", "e"]);
 // =>
 // {
-//   num: 2688,
+//   empty: false,
+//   name: "",
+//   setNum: 2688,
 //   chroma: "101010000000",
+//   normalized: "100000001010",
 //   intervals: ["1P", "2M", "3M"],
-//   length: 3
 // }
 ```
 
@@ -50,7 +60,7 @@ Pcset.get(2688);
 Pcset.get("101010000000");
 ```
 
-Several shorthands (`num`, `chroma`, intervals`) are provided:
+Several shorthands (`num`, `chroma`, `intervals`) are provided:
 
 ```js
 Pcset.chroma(["c", "d", "e"]); //=> "101010000000"
@@ -68,7 +78,11 @@ Pcset.intervals(["c", "d", "e"]); // => ["1P", "2M", "3M"]
 Pcset.intervals(["D", "F", "A"]); // => ["2M", "4P", "6M"]
 ```
 
-### `notes(pcset: string | number | string[]) => string[]`
+## Notes and intervals
+
+### `Pcset.notes`
+
+`notes(pcset: string | number | string[]) => string[]`
 
 Given a pcset or a list of notes, it returns the sorted pitch class notes:
 
@@ -77,12 +91,16 @@ Pcset.notes(["D3", "A3", "Bb3", "C4", "D4", "E4", "F4", "G4", "A4"]); // => ["C"
 Pcset.notes("101011010110"); // => ["C", "D", "E", "F", "G", "A", "Bb"]
 ```
 
-### `isIncludedIn(parent: Set) => (note: string) => boolean`
+## Querying
+
+### `Pcset.isNoteIncludedIn`
+
+`isNoteIncludedIn(parent: Set) => (note: string) => boolean`
 
 Test if a note is included in the given set. This function is curried:
 
 ```js
-const isInCTriad = isNoteIncludedIn(["C", "E", "G"]);
+const isInCTriad = Pcset.isNoteIncludedIn(["C", "E", "G"]);
 isInCTriad("C4"); // => true
 isInCTriad("C#4"); // => false
 ```
@@ -93,21 +111,25 @@ Keep in mind that enharmonics are included:
 isInCTriad("Fb"); // => true
 ```
 
-#### `isSubsetOf(parent: Set) => (subset: Set) => boolean`
+### `Pcset.isSubsetOf`
+
+`isSubsetOf(parent: Set) => (subset: Set) => boolean`
 
 Test if a set is a subset of another. This function is curried
 
-#### `isSupersetOf(subset: Set) => (parent: Set) => boolean`
+### `Pcset.isSupersetOf`
+
+`isSupersetOf(subset: Set) => (parent: Set) => boolean`
 
 Test if a set is a superset of another. This function is curried
 
 ## Want more?
 
-Take a look to [@tonal/scale-type](https://github.com/tonaljs/tonal/tree/main/packages/scale-type) or [@tonal/chord-type](https://github.com/tonaljs/tonal/tree/main/packages/chord-type) that are, in fact, dictionaries of pitch class sets.
+Take a look to [@tonaljs/scale-type](https://tonaljs.github.io/tonal/docs/dictionaries/scale-types) or [@tonaljs/chord-type](https://tonaljs.github.io/tonal/docs/dictionaries/chord-types) that are, in fact, dictionaries of pitch class sets.
 
 ## FAQ
 
-##### How do I get a list of all possible music scales?
+### How do I get a list of all possible music scales?
 
 ```js
 import { chromas, pcset } from "@tonaljs/pcset";

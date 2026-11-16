@@ -2,6 +2,12 @@
 
 > Convert note names between scientific and abc notation
 
+```js
+import { AbcNotation } from "tonal";
+
+AbcNotation.abcToScientificNotation("c"); // => "C5"
+```
+
 ## Usage
 
 ES6:
@@ -18,19 +24,25 @@ const { AbcNotation } = require("tonal");
 
 ## API
 
-#### `abcToScientificNotation(noteNameInAbc: string) => string`
+### `AbcNotation.abcToScientificNotation`
+
+`abcToScientificNotation(noteNameInAbc: string) => string`
 
 ```js
 AbcNotation.abcToScientificNotation("c"); // => "C5"
 ```
 
-#### `scientificToAbcNotation(noteNameInScientific: string) => string`
+### `AbcNotation.scientificToAbcNotation`
+
+`scientificToAbcNotation(noteNameInScientific: string) => string`
 
 ```js
 AbcNotation.scientificToAbcNotation("C#4"); // => "^C"
 ```
 
-#### `transpose(note: string, interval: string) => string`
+### `AbcNotation.transpose`
+
+`transpose(note: string, interval: string) => string`
 
 Transpose an note in abc notation:
 
@@ -38,7 +50,9 @@ Transpose an note in abc notation:
 AbcNotation.transpose("=C", "P19"); // => "g'"
 ```
 
-#### `distance(from: string, to: string) => string`
+### `AbcNotation.distance`
+
+`distance(from: string, to: string) => string`
 
 Find the interval between two notes in abc notation:
 

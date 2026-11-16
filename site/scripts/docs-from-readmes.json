@@ -1,0 +1,124 @@
+[
+  {
+    "page": "basics/intervals.md",
+    "readme": "interval",
+    "title": "Intervals",
+    "description": "Calculate and manipulate intervals",
+    "package": "interval"
+  },
+  {
+    "page": "basics/midi.md",
+    "readme": "midi",
+    "title": "Midi",
+    "description": "Manipulate midi notes",
+    "package": "midi"
+  },
+  {
+    "page": "basics/notes.md",
+    "readme": "note",
+    "title": "Notes",
+    "description": "Parse and manipulate notes",
+    "package": "note"
+  },
+  {
+    "page": "dictionaries/chord-types.md",
+    "readme": "chord-type",
+    "title": "Chord dictionary",
+    "description": "A dictionary of musical chords.",
+    "package": "ChordType"
+  },
+  {
+    "page": "dictionaries/scale-types.md",
+    "readme": "scale-type",
+    "title": "Scale dictionary",
+    "description": "A dictionary of musical scales.",
+    "package": "ScaleType"
+  },
+  {
+    "page": "groups/chords.md",
+    "readme": "chord",
+    "title": "Chords",
+    "description": "Get and manipulate chords",
+    "package": "chord"
+  },
+  {
+    "page": "groups/pitch-class-sets.md",
+    "readme": "pcset",
+    "title": "Pitch Class Sets",
+    "description": "Compare collections of notes",
+    "package": "pcset"
+  },
+  {
+    "page": "groups/scales.md",
+    "readme": "scale",
+    "title": "Scales",
+    "description": "Work with scales",
+    "package": "scale"
+  },
+  {
+    "page": "harmony/keys.md",
+    "readme": "key",
+    "title": "Keys",
+    "description": "Key scales and chords",
+    "package": "Key"
+  },
+  {
+    "page": "harmony/modes.md",
+    "readme": "mode",
+    "title": "Modes",
+    "description": "Greek modes dictionary",
+    "package": "mode"
+  },
+  {
+    "page": "harmony/progressions.md",
+    "readme": "progression",
+    "title": "Progressions",
+    "description": "Parse and create harmonic progressions",
+    "package": "Progression"
+  },
+  {
+    "page": "notation/abc-notation.md",
+    "readme": "abc-notation",
+    "title": "ABC Notation",
+    "description": "Convert note names between scientific and abc notation",
+    "package": "AbcNotation"
+  },
+  {
+    "page": "notation/roman-numerals.md",
+    "readme": "roman-numeral",
+    "title": "Roman Numerals",
+    "description": "Functions to parse roman numerals",
+    "package": "RomanNumeral"
+  },
+  {
+    "page": "time/duration.md",
+    "readme": "duration-value",
+    "title": "Time duration",
+    "package": "duration-value"
+  },
+  {
+    "page": "time/patterns.md",
+    "readme": "rhythm-pattern",
+    "title": "Rhythm Patterns",
+    "description": "Generate and manipulate rhythmic patterns",
+    "package": "rhythm-pattern"
+  },
+  {
+    "page": "time/signatures.md",
+    "readme": "time-signature",
+    "title": "Time signatures",
+    "package": "time-signature"
+  },
+  {
+    "page": "utils/collections.md",
+    "readme": "collection",
+    "title": "Collections",
+    "package": "collections"
+  },
+  {
+    "page": "utils/ranges.md",
+    "readme": "range",
+    "title": "Ranges",
+    "package": "ranges"
+  }
+]

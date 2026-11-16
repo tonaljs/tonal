@@ -1,6 +1,14 @@
-# @tonaljs/rhythm-pattern ![tonal](https://img.shields.io/badge/@tonaljs-duration_value-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/rhythm-pattern.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/rhythm-pattern)
+# @tonaljs/rhythm-pattern ![tonal](https://img.shields.io/badge/@tonaljs-rhythm_pattern-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/rhythm-pattern.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/rhythm-pattern)
 
 > Generate and manipulate rhythmic patterns
+
+A rhythmic pattern is an array of `1` and `0` indicating beats or rests (respectively). They are dimension-less:
+
+```js
+import { RhythmPattern } from "tonal";
+
+RhythmPattern.euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
+```
 
 ## Usage
 
@@ -22,70 +30,44 @@ single module:
 import { binary, euclid } from "@tonaljs/rhythm-pattern";
 ```
 
-## Functions
+## Generate patterns
 
-<a name="binary"></a>
+### `RhythmPattern.binary`
 
-### binary(numbers) ⇒ number[]
+`binary(...numbers: number[]) => number[]`
 
-Create a rhythm pattern from a number or concatenation of numbers in binary form
-
-**Returns**: an array of 0s and 1s representing the rhythm pattern
-
-| Param   | Description        |
-| ------- | ------------------ |
-| numbers | one or more number |
-
-**Example**
+Create a rhythm pattern from a number or concatenation of numbers in binary form: first the numbers are converted to binary, and the result is concatenated:
 
 ```js
-binary(13); // => [1, 1, 0, 1]
-binary(12, 13); // => [1, 1, 0, 0, 1, 1, 0, 1]
+RhythmPattern.binary(13); // => [1, 1, 0, 1]
+RhythmPattern.binary(12, 13); // => [1, 1, 0, 0, 1, 1, 0, 1]
 ```
 
-<a name="hex"></a>
+### `RhythmPattern.hex`
 
-## hex(hexNumber) ⇒ number[]
+`hex(hexNumber: string) => number[]`
 
-Create a rhythmic pattern using an hexadecimal numbers
-
-**Returns**: an array of 0s and 1s representing the rhythm pattern
-
-| Param     | Description                        |
-| --------- | ---------------------------------- |
-| hexNumber | string with the hexadecimal number |
-
-**Example**
+Create a rhythmic pattern using an hexadecimal numbers. Same as before, but using hexadecimal numbers:
 
 ```js
-hex("8f"); // => [1, 0, 0, 0, 1, 1, 1, 1]
+RhythmPattern.hex("8f"); // => [1, 0, 0, 0, 1, 1, 1, 1]
 ```
 
-<a name="onsets"></a>
+### `RhythmPattern.onsets`
 
-## onsets(numbers) ⇒ number[]
+`onsets(...numbers: number[]) => number[]`
 
-Create a rhythm pattern from the onsets
-
-**Returns**: an array of 0s and 1s representing the rhythm pattern
-
-| Param   | Description      |
-| ------- | ---------------- |
-| numbers | the onsets sizes |
-
-**Example**
+Create a rhythm pattern from the onsets. The onsets is the space between beats:
 
 ```js
-onsets(1, 2, 2, 1); // => [1, 0, 1, 0, 0, 1, 0, 0, 1, 0]
+RhythmPattern.onsets(1, 2, 2, 1); // => [1, 0, 1, 0, 0, 1, 0, 0, 1, 0]
 ```
 
-<a name="random"></a>
+### `RhythmPattern.random`
 
-## random(length, probability, rnd) ⇒ number[]
+`random(length: number, probability = 0.5, rnd = Math.random) => number[]`
 
 Create a random rhythm pattern with a specified length
-
-**Returns**: an array of 0s and 1s representing the rhythm pattern
 
 | Param       | Description                                                          |
 | ----------- | -------------------------------------------------------------------- |
@@ -93,67 +75,55 @@ Create a random rhythm pattern with a specified length
 | probability | Threshold where random number is considered a beat (defaults to 0.5) |
 | rnd         | A random function (Math.random by default)                           |
 
-**Example**
-
 ```js
-random(4); // => [1, 0, 0, 1]
+RhythmPattern.random(4); // => for example [1, 0, 0, 1]
 ```
 
-<a name="probability"></a>
+### `RhythmPattern.probability`
 
-## probability(probabilities, rnd) ⇒ number[]
+`probability(probabilities: number[], rnd = Math.random) => number[]`
 
 Create a rhythm pattern based on the given probability thresholds
-
-**Returns**: an array of 0s and 1s representing the rhythm pattern
 
 | Param         | Description                                             |
 | ------------- | ------------------------------------------------------- |
 | probabilities | An array with the probability of each step to be a beat |
 | rnd           | A random function (Math.random by default)              |
 
-**Example**
-
 ```js
-probability([0.6, 0, 0.2, 0.5]); // => [0, 0, 0, 1]
+RhythmPattern.probability([0.6, 0, 0.2, 0.5]); // => for example [0, 0, 0, 1]
 ```
 
-<a name="rotate"></a>
+### `RhythmPattern.euclid`
 
-### rotate(pattern, rotations) ⇒ number[]
-
-Rotate a pattern right
-
-**Returns**: the rotated pattern (an array of 0s and 1s)
-
-| Param     | Description                   |
-| --------- | ----------------------------- |
-| pattern   | the pattern to rotate         |
-| rotations | the number of steps to rotate |
-
-**Example**
-
-```ts
-rotate([1, 0, 0, 1], 2); // => [0, 1, 1, 0]
-```
-
-<a name="euclid"></a>
-
-### euclid(steps, beats) ⇒ number[]
+`euclid(steps: number, beats: number) => number[]`
 
 Generates an euclidean rhythm pattern
-
-**Returns**: an array with 0s and 1s representing the rhythmic pattern
 
 | Param | Description               |
 | ----- | ------------------------- |
 | steps | The length of the pattern |
 | beats | The number of beats       |
 
-**Example**
+```js
+RhythmPattern.euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
+```
 
-```ts
-euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
+## Manipulate
+
+### `RhythmPattern.rotate`
+
+`rotate(pattern: number[], rotations: number) => number[]`
+
+Rotate a pattern to the right:
+
+| Param     | Description                   |
+| --------- | ----------------------------- |
+| pattern   | the pattern to rotate         |
+| rotations | the number of steps to rotate |
+
+```js
+RhythmPattern.rotate([1, 0, 0, 1], 2); // => [0, 1, 1, 0]
 ```
 
 ## References

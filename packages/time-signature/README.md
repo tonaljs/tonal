@@ -24,7 +24,9 @@ import TimeSignature from "@tonaljs/time-signature";
 
 ## API
 
-#### `TimeSignature.names() => string[]`
+### `TimeSignature.names`
+
+`names() => string[]`
 
 Return a list of most most frequently-used time signatures:
 
@@ -32,7 +34,9 @@ Return a list of most most frequently-used time signatures:
 TimeSignature.names();
 ```
 
-#### `TimeSignature.get(name: string | [number, number]) // => object`
+### `TimeSignature.get`
+
+`get(name: string | [number, number] | [string, string]) => TimeSignature`
 
 Get a time signature:
 
@@ -72,8 +76,6 @@ TimeSignature.get("3+2+3/8"); // =>
 ```
 
 Irrational signatures are also interpreted:
-
-```js
 
 ```js
 TimeSignature.get("12/10"); // =>

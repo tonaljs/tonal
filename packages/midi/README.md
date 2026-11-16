@@ -2,6 +2,12 @@
 
 > A collection of functions to work with midi numbers.
 
+```js
+import { Midi } from "tonal";
+
+Midi.toMidi("C4"); // => 60
+```
+
 ## Usage
 
 ES6:
@@ -18,7 +24,9 @@ const { Midi } = require("tonal");
 
 ## API
 
-### `toMidi(note: string | number) => number | null`
+### `Midi.toMidi`
+
+`toMidi(note: string | number) => number | null`
 
 Given a note name or number, return the midi number. Midi numbers are always in range 0..127
 
@@ -32,7 +40,9 @@ Midi.toMidi("60"); // => 60
 Midi.toMidi(-1); // => null
 ```
 
-### `midiToFreq(midi: number, tuning = 440) => number`
+### `Midi.midiToFreq`
+
+`midiToFreq(midi: number, tuning = 440) => number`
 
 Given a midi number, return the frequency:
 
@@ -44,9 +54,11 @@ Midi.midiToFreq(69); // => 440
 Midi.midiToFreq(69, 443); // => 443
 ```
 
-### `midiToNoteName(midi: number) => string`
+### `Midi.midiToNoteName`
 
-Given a midi number, returns a note name. The altered notes will have flats unless explicitly set with the optional `useSharps` parameter.
+`midiToNoteName(midi: number, options?: { pitchClass?: boolean, sharps?: boolean }) => string`
+
+Given a midi number, returns a note name. The altered notes will have flats unless the `sharps` option is set, and the `pitchClass` option returns the note without octave.
 
 Examples:
 
@@ -56,10 +68,12 @@ Midi.midiToNoteName(61, { pitchClass: true }); // => "Db"
 Midi.midiToNoteName(61, { sharps: true }); // => "C#4"
 Midi.midiToNoteName(61, { pitchClass: true, sharps: true }); // => "C#"
 // it rounds to nearest note
-midiToNoteName(61.7); // => "D4"
+Midi.midiToNoteName(61.7); // => "D4"
 ```
 
-### `freqToMidi(freq: number) => number`
+### `Midi.freqToMidi`
+
+`freqToMidi(freq: number) => number`
 
 Given a frequency in hertz, returns the midi number. The midi number can have decimals (with two digits precision)
 
@@ -71,7 +85,9 @@ Midi.freqToMidi(261.62); //=> 60
 Midi.freqToMidi(261); //=> 59.96
 ```
 
-### `pcset(set: number[] | string) => number[]`
+### `Midi.pcset`
+
+`pcset(set: number[] | string) => number[]`
 
 Return the pitch class set from a number of midi note numbers or pcset chroma.
 
@@ -88,7 +104,9 @@ You can read more about pitch classes on `Note` module.
 
 The string is a pitch class chroma, a string with a binary representation of a set. Read more about pitch class chroma in `Pcset` module documentation.
 
-### `pcsetNearest(set: number[] | string) => (midi: number) => number | undefined`
+### `Midi.pcsetNearest`
+
+`pcsetNearest(set: number[] | string) => (midi: number) => number | undefined`
 
 Returns a function that finds the nearest midi note of a pitch class set. Can be used to constrain a note to a scale, for example:
 
@@ -97,7 +115,9 @@ const nearest = Midi.pcsetNearest(Scale.get("D dorian").chroma);
 [60, 61, 62, 63, 64, 65, 66].map(nearest); // => [60, 62, 62, 63, 65, 65, 67]
 ```
 
-### `pcsetSteps(set: number[] | string, tonic: number) => (index: number) => number`
+### `Midi.pcsetSteps`
+
+`pcsetSteps(set: number[] | string, tonic: number) => (index: number) => number`
 
 Returns a function to map a pitch class set over any note. Given a tonic a pitch class set, step 0 means the first note, step 1 the second, and so on:
 

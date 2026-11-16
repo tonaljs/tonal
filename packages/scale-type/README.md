@@ -1,6 +1,4 @@
-# @tonaljs/scale-type [![npm version](https://img.shields.io/npm/v/@tonaljs/scale-type.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/scale-type)
-
-[![tonal](https://img.shields.io/badge/@tonaljs-scale_dictionary-yellow.svg?style=flat-square)](https://www.npmjs.com/browse/keyword/tonal)
+# @tonaljs/scale-type ![tonal](https://img.shields.io/badge/@tonaljs-scale_type-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/scale-type.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/scale-type)
 
 `@tonaljs/scale-type` is a dictionary of musical scales.
 
@@ -20,16 +18,18 @@ const { ScaleType } = require("tonal");
 
 ## API
 
-#### `get(name: string) => ScaleType`
+### `ScaleType.get`
+
+`get(name: string) => ScaleType`
 
 Given a scale type name, return a ScaleType object with the following properties:
 
+- empty: true if the scale type is not found
 - name: the scale type name
 - aliases: a list of alternative names
-- quality: Major | Minor | Augmented | Diminished | Unknown
-- num: the pcset number
+- setNum: the pcset number
 - chroma: the pcset chroma
-- length: the number of notes
+- normalized: the pcset chroma rotated to start with its first note
 - intervals: the interval list
 
 Example:
@@ -37,24 +37,31 @@ Example:
 ```js
 ScaleType.get("major"); // =>
 // {
-// name: "major",
-// aliases: ["ionian"],
-// num: 2773,
-// chroma: "101011010101",
-// length: 7
-// intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
-// });
+//   empty: false,
+//   name: "major",
+//   setNum: 2773,
+//   chroma: "101011010101",
+//   normalized: "101010110101",
+//   intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
+//   aliases: ["ionian"],
+// }
 ```
 
-#### `names() => string[]`
+### `ScaleType.names`
+
+`names() => string[]`
 
 Return a list of all scale names
 
-#### `all() => object[]`
+### `ScaleType.all`
+
+`all() => object[]`
 
 Return a list of all scale types
 
-#### `add(intervals: string[], name?: string, aliases?: string[]) => ScaleType`
+### `ScaleType.add`
+
+`add(intervals: string[], name?: string, aliases?: string[]) => ScaleType`
 
 Add a scale type to dictionary:
 
@@ -62,9 +69,9 @@ Add a scale type to dictionary:
 ScaleType.add(["1P", "5P"], null, ["5"]);
 ```
 
-## HOW TO
+## How to...
 
-#### How to get all pentatonics names?
+### How to get all pentatonics names?
 
 ```js
 ScaleType.all()
@@ -72,7 +79,7 @@ ScaleType.all()
   .map((scaleType) => scaleType.name);
 ```
 
-#### How do to add a scale to the dictionary?
+### How to add a scale to the dictionary?
 
 ```js
 ScaleType.add(["1P", "5P"], "quinta", ["quinta justa", "diapente"]);
@@ -80,7 +87,7 @@ ScaleType.get("quinta"); // => { name: "quinta", intervals: ...}
 ScaleType.get("quinta justa"); // => { name: "quinta", intervals: ... }
 ```
 
-#### References
+## References
 
 Some sources explaining various scale systems:
 
