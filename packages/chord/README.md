@@ -153,31 +153,43 @@ Print the notes of the given chord at the given tonic:
 Chord.notes("maj7", "C4"); // => ["C4", "E4", "G4", "B4"]
 ```
 
-### `Chord.steps`
+### `Chord.degrees`
 
-`steps(chordType: string, tonic?: string) => (step: number) => string`
+`degrees(chordType: string, tonic?: string) => (degree: number) => string`
 
-`Chord.steps` returns a function to get the notes of a chord by their position, 0 being the tonic. Negative steps go down:
+`Chord.degrees` returns a function to get a note name from a chord degree:
 
 ```js
-const c4m7 = Chord.steps("m7", "C4");
-c4m7(0); // => "C4"
-c4m7(1); // => "Eb4"
-c4m7(2); // => "G4"
-c4m7(3); // => "Bb4"
-c4m7(4); // => "C5"
+const c4m7 = Chord.degrees("m7", "C4");
+c4m7(1); // => "C4"
+c4m7(2); // => "Eb4"
+c4m7(3); // => "G4"
+c4m7(4); // => "Bb4"
+c4m7(5); // => "C5"
 ```
 
 It can be used, for example, to get the notes of chord inversions:
 
 ```js
-[0, 1, 2, 3].map(c4m7); // => ["C4", "Eb4", "G4", "Bb4"]
-[1, 2, 3, 4].map(c4m7); // => ["Eb4", "G4", "Bb4", "C5"]
-[2, 3, 4, 5].map(c4m7); // => ["G4", "Bb4", "C5", "Eb5"]
-[3, 4, 5, 6].map(c4m7); // => ["Bb4", "C5", "Eb5", "G5"]
+[1, 2, 3, 4].map(c4m7); // => ["C4", "Eb4", "G4", "Bb4"]
+[2, 3, 4, 5].map(c4m7); // => ["Eb4", "G4", "Bb4", "C5"]
+[3, 4, 5, 6].map(c4m7); // => ["G4", "Bb4", "C5", "Eb5"]
+[4, 5, 6, 7].map(c4m7); // => ["Bb4", "C5", "Eb5", "G5"]
 ```
 
-It plays well with numeric ranges:
+Bear in mind that degree numbers starts with 1 and 0 returns an empty string:
+
+```js
+c4m7(0); // => ""
+```
+
+Its numbers count the notes of the chord in order, as [`Scale.degrees`](https://tonaljs.github.io/tonal/docs/groups/scales#scaledegrees) does for a scale: `Chord.degrees("C")(3)` is `"G"`. For the degree named 3 (`"E"`), use [`Chord.noteOf`](#chordnoteof).
+
+### `Chord.steps`
+
+`steps(chordType: string, tonic?: string) => (degree: number) => string`
+
+Same as `Chord.degrees` but 0 is the tonic. Plays better with numeric ranges:
 
 ```js
 import { Range, Chord } from "tonal";
@@ -185,14 +197,6 @@ import { Range, Chord } from "tonal";
 Range.numeric([-3, 3]).map(Chord.steps("aug", "C4"));
 // => ["C3", "E3", "G#3", "C4", "E4", "G#4", "C5"]
 ```
-
-### `Chord.degrees`
-
-`degrees(chordType: string, tonic?: string) => (position: number) => string`
-
-**Deprecated:** use `Chord.steps`. `Chord.degrees(chord)(n)` is `Chord.steps(chord)(n - 1)` for positive numbers, and the same for negative ones (0 returns `""`).
-
-Its numbers count the notes of the chord in order, so `Chord.degrees("C")(3)` is `"G"`. They are not the degrees of the chord: in theory the 3 of C major is `E`, which is what `Chord.noteOf("C", "3")` returns (see [chord degrees by name](#chord-degrees-by-name)). In the next major version, `Chord.degrees` will return the chord formula, as `Chord.formula` does.
 
 ## Chord degrees by name
 

@@ -302,13 +302,8 @@ export function notes(chordName: ChordNameOrTokens, tonic?: string): string[] {
 
 /**
  * Returns a function to get the notes of a chord by their position, 1 being
- * the tonic.
- *
- * @deprecated Use `Chord.steps`: `Chord.degrees(chord)(n)` is
- * `Chord.steps(chord)(n - 1)` for positive numbers. These numbers count the
- * chord notes, and are not the degrees of the chord (`Chord.degrees("C")(3)`
- * is "G", while the 3 of C is "E", see `Chord.noteOf`). In the next major
- * version, `Chord.degrees` will return the chord formula (`Chord.formula`).
+ * the tonic. The numbers count the chord notes, so `Chord.degrees("C")(3)` is
+ * "G". For the degree named "3" ("E"), see `Chord.noteOf`.
  *
  * @example
  * [1, 2, 3, 4].map(Chord.degrees("C")) => ["C", "E", "G", "C"]
