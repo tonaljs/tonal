@@ -1,4 +1,6 @@
 import { describe, expect, test } from "vitest";
+import { all as scaleTypes } from "@tonaljs/scale-type";
+import { note } from "@tonaljs/pitch-note";
 import * as Scale from "./index";
 
 const $ = (s: string) => s.split(" ");
@@ -308,6 +310,156 @@ describe("@tonaljs/scale", () => {
     });
   });
 
+  describe("altered degrees and steps", () => {
+    test("degrees with accidentals", () => {
+      const cMajor = Scale.degrees("C major");
+      expect(["7b", "4#", "3b", "7bb", "1##", "7"].map(cMajor)).toEqual(
+        $("Bb F# Eb Bbb C## B"),
+      );
+      expect(Scale.degrees("C4 major")("7b")).toBe("Bb4");
+      expect(Scale.degrees("C4 major")("11#")).toBe("F#5");
+      expect(Scale.degrees("C4 major")("-2b")).toBe("Ab3");
+      expect(Scale.degrees("C4 major")("-1")).toBe("B3");
+    });
+    test("keeps the letter of the degree", () => {
+      expect(Scale.degrees("A major")("7b")).toBe("G");
+      expect(Scale.degrees("Eb major")("4#")).toBe("A");
+      expect(Scale.degrees("F# major")("3b")).toBe("A");
+      expect(Scale.degrees("D dorian")("3#")).toBe("F#");
+    });
+    test("steps with accidentals", () => {
+      const steps = Scale.steps("C4 major");
+      expect(["6b", "3#", "0", "-1b", "7b"].map(steps)).toEqual(
+        $("Bb4 F#4 C4 Bb3 Cb5"),
+      );
+    });
+    test("invalid degrees and steps", () => {
+      const degrees = Scale.degrees("C major");
+      const steps = Scale.steps("C major");
+      for (const invalid of [
+        "",
+        "b",
+        "b7",
+        "#4",
+        "-b2",
+        "7x",
+        "1.5",
+        "2#b",
+        "7 b",
+      ]) {
+        expect(degrees(invalid)).toBe("");
+        expect(steps(invalid)).toBe("");
+      }
+      expect(degrees("0b")).toBe("");
+      expect(degrees(1.5)).toBe("");
+      expect(steps(1.5)).toBe("");
+      expect(Scale.degrees("major")("7b")).toBe("");
+      expect(Scale.steps("major")(1)).toBe("");
+    });
+  });
+
+  describe("transposeBySteps", () => {
+    test("by scale steps", () => {
+      expect(Scale.transposeBySteps("C major", "E4", 2)).toBe("G4");
+      expect(Scale.transposeBySteps("C major", "E4", -3)).toBe("B3");
+      expect(Scale.transposeBySteps("C major", "E4", 0)).toBe("E4");
+      expect(Scale.transposeBySteps("C major", "B3", 1)).toBe("C4");
+      expect(Scale.transposeBySteps("C major", "C4", -1)).toBe("B3");
+      expect(Scale.transposeBySteps("C major", "E4", 14)).toBe("E6");
+      expect(Scale.transposeBySteps("C4 major", "E2", 2)).toBe("G2");
+      expect(Scale.transposeBySteps("D dorian", "C5", 3)).toBe("F5");
+      expect(Scale.transposeBySteps("C minor pentatonic", "Bb3", 2)).toBe(
+        "Eb4",
+      );
+      expect(Scale.transposeBySteps("C bebop", "A4", 2)).toBe("B4");
+    });
+    test("pitch classes", () => {
+      expect(Scale.transposeBySteps("C major", "E", 2)).toBe("G");
+      expect(Scale.transposeBySteps("C4 major", "B", 1)).toBe("C");
+      expect(Scale.transposeBySteps("Gb major", "Cb", -1)).toBe("Bb");
+    });
+    test("spelled as in the scale", () => {
+      expect(Scale.transposeBySteps("C major", "B#3", 1)).toBe("D4");
+      expect(Scale.transposeBySteps("C major", "Fb4", 0)).toBe("E4");
+      expect(Scale.transposeBySteps("Cb major", "B3", 1)).toBe("Db4");
+      expect(Scale.transposeBySteps("Cb major", "Bb4", 1)).toBe("Cb5");
+      expect(Scale.transposeBySteps("C# major", "B#3", 1)).toBe("C#4");
+    });
+    test("notes outside the scale and invalid input", () => {
+      expect(Scale.transposeBySteps("C major", "F#4", 1)).toBe("");
+      expect(Scale.transposeBySteps("C major", "F#", 1)).toBe("");
+      expect(Scale.transposeBySteps("major", "E4", 1)).toBe("");
+      expect(Scale.transposeBySteps("C nonsense", "E4", 1)).toBe("");
+      expect(Scale.transposeBySteps("C major", "blah", 1)).toBe("");
+      expect(Scale.transposeBySteps("C major", "E4", 1.5)).toBe("");
+      expect(Scale.transposeBySteps("C major", "E4", NaN)).toBe("");
+    });
+  });
+
+  describe("nearest", () => {
+    test("nearest scale note", () => {
+      expect(Scale.nearest("C major", "F#4")).toBe("G4");
+      expect(Scale.nearest("C major", "Gb4")).toBe("G4");
+      expect(Scale.nearest("C major", "C#4")).toBe("D4");
+      expect(Scale.nearest("C major", "E4")).toBe("E4");
+      expect(Scale.nearest("C major", "B#3")).toBe("C4");
+      expect(Scale.nearest("C major", "Cb4")).toBe("B3");
+      expect(Scale.nearest("C minor pentatonic", "D4")).toBe("Eb4");
+      expect(Scale.nearest("C minor pentatonic", "A4")).toBe("Bb4");
+      expect(Scale.nearest("C minor pentatonic", "Ab4")).toBe("G4");
+      expect(Scale.nearest("C major pentatonic", "B3")).toBe("C4");
+      expect(Scale.nearest("C4 major", "F#1")).toBe("G1");
+    });
+    test("pitch classes", () => {
+      expect(Scale.nearest("C major", "Eb")).toBe("E");
+      expect(Scale.nearest("C major", "B")).toBe("B");
+      expect(Scale.nearest("Cb major", "C")).toBe("Db");
+      expect(Scale.nearest("C4 major", "F#")).toBe("G");
+    });
+    test("invalid input", () => {
+      expect(Scale.nearest("major", "E4")).toBe("");
+      expect(Scale.nearest("C nonsense", "E4")).toBe("");
+      expect(Scale.nearest("C major", "blah")).toBe("");
+    });
+  });
+
+  describe("laws for every scale type and tonic", () => {
+    const tonics = "CDEFGAB".split("").flatMap((l) => [l + "b", l, l + "#"]);
+    const height = (n: string) => note(n).height;
+    const midis = Array.from({ length: 15 }, (_, i) => 59 + i);
+    const spellings = midis.map(enharmonics);
+
+    test.each(scaleTypes().map((t) => t.name))("%s", (type) => {
+      for (const tonic of tonics) {
+        const scale = tonic + " " + type;
+        const steps = Scale.steps(tonic + "4 " + type);
+        const len = Scale.get(scale).intervals.length;
+        for (let i = -len; i < len; i++) {
+          const n = steps(i);
+          expect(Scale.nearest(scale, n)).toBe(n);
+          expect(Scale.transposeBySteps(scale, n, len)).toBe(steps(i + len));
+          expect(height(steps(i + len))).toBe(height(n) + 12);
+          for (const by of [-len - 1, -1, 2]) {
+            const moved = Scale.transposeBySteps(scale, n, by);
+            expect(moved).toBe(steps(i + by));
+            expect(Scale.transposeBySteps(scale, moved, -by)).toBe(n);
+          }
+        }
+        // every note goes to a scale note at the smallest distance, and
+        // enharmonic spellings go to the same scale note
+        midis.forEach((midi, m) => {
+          const candidates = Array.from({ length: 5 * len }, (_, k) =>
+            height(steps(k - 2 * len)),
+          );
+          const best = Math.min(...candidates.map((h) => Math.abs(h - midi)));
+          const near = spellings[m].map((n) => Scale.nearest(scale, n));
+          expect(Math.abs(height(near[0]) - midi)).toBe(best);
+          expect(new Set(near).size).toBe(1);
+        });
+      }
+    });
+  });
+
   test("Scale.steps", () => {
     expect([-3, -2, -1, 0, 1, 2].map(Scale.steps("C4 major"))).toEqual([
       "G3",
@@ -319,3 +471,17 @@ describe("@tonaljs/scale", () => {
     ]);
   });
 });
+
+// Every spelling of a midi number, up to double accidentals
+function enharmonics(midi: number): string[] {
+  const names = ["C", "D", "E", "F", "G", "A", "B"].flatMap((l) =>
+    ["bb", "b", "", "#", "##"].map((acc) => l + acc),
+  );
+  const result: string[] = [];
+  for (const pc of names) {
+    for (let oct = 2; oct <= 6; oct++) {
+      if (note(pc + oct).height === midi) result.push(pc + oct);
+    }
+  }
+  return result;
+}

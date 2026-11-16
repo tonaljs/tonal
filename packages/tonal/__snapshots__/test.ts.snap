@@ -248,6 +248,7 @@ exports[`tonal > Modules exports functions 1`] = `
     "get",
     "modeNames",
     "names",
+    "nearest",
     "rangeOf",
     "reduced",
     "scale",
@@ -255,6 +256,7 @@ exports[`tonal > Modules exports functions 1`] = `
     "scaleNotes",
     "steps",
     "tokenize",
+    "transposeBySteps",
   ],
   "ScaleDictionary": [
     "NoScaleType",

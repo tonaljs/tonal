@@ -274,25 +274,158 @@ export function rangeOf(scale: string | string[]) {
 }
 
 /**
+ * A scale degree or step: a whole number, or a string with the number
+ * followed by accidentals, like `"7b"`, `"4#"` or `"-2b"`. The number counts
+ * scale notes, so `"7b"` is the 7th scale note lowered. A string with the
+ * accidentals in front, like `"b7"`, is an interval name (as in
+ * `Chord.noteOf`), not a scale step.
+ */
+export type ScaleStep = number | string;
+
+const STEP_REGEX = /^(-?\d+)(#+|b+|)$/;
+
+// [number, alteration] of a scale degree or step, or undefined if not valid
+function parseStep(step: ScaleStep): [number, number] | undefined {
+  if (typeof step === "number") {
+    return Number.isInteger(step) ? [step, 0] : undefined;
+  }
+  const m = typeof step === "string" ? STEP_REGEX.exec(step) : null;
+  if (!m) return undefined;
+  const alt = m[2][0] === "b" ? -m[2].length : m[2].length;
+  return [Number(m[1]), alt];
+}
+
+// Raise or lower a note by chromatic semitones, keeping its letter
+function alter(noteName: string, alt: number): string {
+  return alt === 0 ? noteName : transpose(noteName, [7 * alt, -4 * alt]);
+}
+
+/**
  * Returns a function to get a note name from the scale degree.
+ *
+ * Degrees start at 1, and negative degrees go down from the tonic. A degree
+ * can be a string with accidentals after the number (`"7b"`, `"4#"`, `"-2b"`):
+ * the scale degree raised or lowered, keeping its letter.
  *
  * @example
  * [1, 2, 3].map(Scale.degrees("C major")) => ["C", "D", "E"]
  * [1, 2, 3].map(Scale.degrees("C4 major")) => ["C4", "D4", "E4"]
+ * Scale.degrees("C major")("7b") => "Bb"
+ * Scale.degrees("A major")("7b") => "G"
  */
 export function degrees(scaleName: string | ScaleNameTokens) {
   const { intervals, tonic } = get(scaleName);
   const transpose = tonicIntervalsTransposer(intervals, tonic);
-  return (degree: number) =>
-    degree ? transpose(degree > 0 ? degree - 1 : degree) : "";
+  return (degree: ScaleStep): string => {
+    const step = parseStep(degree);
+    if (!step || step[0] === 0) return "";
+    const [num, alt] = step;
+    return alter(transpose(num > 0 ? num - 1 : num), alt);
+  };
 }
 
 /**
  * Sames as `degree` but with 0-based index
+ *
+ * @example
+ * [-1, 0, 1].map(Scale.steps("C4 major")) => ["B3", "C4", "D4"]
+ * Scale.steps("C major")("6b") => "Bb"
  */
 export function steps(scaleName: string | ScaleNameTokens) {
   const { intervals, tonic } = get(scaleName);
-  return tonicIntervalsTransposer(intervals, tonic);
+  const transpose = tonicIntervalsTransposer(intervals, tonic);
+  return (step: ScaleStep): string => {
+    const parsed = parseStep(step);
+    return parsed ? alter(transpose(parsed[0]), parsed[1]) : "";
+  };
+}
+
+// The steps of a scale counted from its tonic in octave 4, and a function to
+// find the step closest to a note height (ties go up) with its distance
+function scaleStepper(scaleName: string | ScaleNameTokens) {
+  const { intervals, tonic } = get(scaleName);
+  const pc = note(tonic ?? "").pc;
+  if (!pc || !intervals.length) return undefined;
+  const ref = pc + "4";
+  const refHeight = note(ref).height;
+  const len = intervals.length;
+  const stepName = tonicIntervalsTransposer(intervals, ref);
+
+  const closest = (height: number): [step: number, distance: number] => {
+    const base = Math.floor((height - refHeight) / 12) * len;
+    let best = base;
+    let dist = Infinity;
+    for (let step = base - 1; step <= base + len; step++) {
+      const d = note(stepName(step)).height - height;
+      if (Math.abs(d) < Math.abs(dist) || (d === -dist && d > 0)) {
+        best = step;
+        dist = d;
+      }
+    }
+    return [best, dist];
+  };
+  return { stepName, closest };
+}
+
+// The height of a note: pitch classes are placed in octave 4
+function heightOf(n: { pc: string; oct?: number; height: number }) {
+  return n.oct === undefined ? note(n.pc + "4").height : n.height;
+}
+
+/**
+ * Transpose a note of the scale by a number of scale steps.
+ *
+ * The note can be a pitch class or have an octave, and the result is the same.
+ * Enharmonic notes are the same note (`B#3` is the `C4` of C major), and the
+ * result is spelled as in the scale. A note that isn't in the scale, or a
+ * scale without tonic, gives an empty string: use `Scale.nearest` to move a
+ * note into the scale first.
+ *
+ * @example
+ * Scale.transposeBySteps("C major", "E4", 2); // => "G4"
+ * Scale.transposeBySteps("C major", "E4", -3); // => "B3"
+ * Scale.transposeBySteps("C major", "E", 2); // => "G"
+ * Scale.transposeBySteps("C major", "F#4", 1); // => ""
+ */
+export function transposeBySteps(
+  scaleName: string | ScaleNameTokens,
+  noteName: string,
+  steps: number,
+): string {
+  const n = note(noteName);
+  const stepper = scaleStepper(scaleName);
+  if (n.empty || !stepper || !Number.isInteger(steps)) return "";
+  const [step, dist] = stepper.closest(heightOf(n));
+  if (dist !== 0) return "";
+  const name = stepper.stepName(step + steps);
+  return n.oct === undefined ? note(name).pc : name;
+}
+
+/**
+ * Find the scale note closest to a note, by pitch.
+ *
+ * A note halfway between two scale notes goes up, so `F#4` and `Gb4` both
+ * give `G4` in C major. The result is spelled as in the scale, and it's a
+ * pitch class if the note is a pitch class. A scale without tonic gives an
+ * empty string.
+ *
+ * @example
+ * Scale.nearest("C major", "F#4"); // => "G4"
+ * Scale.nearest("C major", "Gb4"); // => "G4"
+ * Scale.nearest("C major", "Eb"); // => "E"
+ * Scale.nearest("C major", "B#3"); // => "C4"
+ * Scale.nearest("C minor pentatonic", "D4"); // => "Eb4"
+ */
+export function nearest(
+  scaleName: string | ScaleNameTokens,
+  noteName: string,
+): string {
+  const n = note(noteName);
+  const stepper = scaleStepper(scaleName);
+  if (n.empty || !stepper) return "";
+  const [step] = stepper.closest(heightOf(n));
+  const name = stepper.stepName(step);
+  return n.oct === undefined ? note(name).pc : name;
 }
 
 /** @deprecated */
@@ -303,12 +436,14 @@ export default {
   get,
   modeNames,
   names,
+  nearest,
   rangeOf,
   reduced,
   scaleChords,
   scaleNotes,
   steps,
   tokenize,
+  transposeBySteps,
 
   // deprecated
   scale,
