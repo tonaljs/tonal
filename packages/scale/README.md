@@ -69,7 +69,7 @@ Scale.tokenize("anything is valid"); // => ["", "anything is valid"]
 
 ### `Scale.degrees`
 
-`degrees(scaleName: string) => (degree: number) => string`
+`degrees(scaleName: string) => (degree: number | string) => string`
 
 `Scale.degrees` returns a function to get a note name from a scale degree:
 
@@ -99,13 +99,23 @@ Because it returns a function, it's handy to be used with `map` (and similar fun
 
 Notice that it uses octaves if the scale tonic has an octave or pitch classes (_octaveless_ notes) otherwise.
 
+A degree can also be a string with accidentals in front, to get notes outside the scale. The note keeps the letter of the scale degree, so it's spelled by interval:
+
+```js
+const cMajor = Scale.degrees("C major");
+cMajor("b7"); // => "Bb"
+cMajor("#4"); // => "F#"
+cMajor("-b2"); // => "Ab" (the flattened 2nd below the tonic)
+Scale.degrees("A major")("b7"); // => "G" (not F##)
+```
+
 See [`Chord.degrees`](https://tonaljs.github.io/tonal/docs/groups/chords#chorddegrees)
 
 See https://en.wikipedia.org/wiki/Degree_(music)
 
 ### `Scale.steps`
 
-`steps(scaleName: string) => (degree: number) => string`
+`steps(scaleName: string) => (step: number | string) => string`
 
 Same as `Scale.degrees` but 0 is tonic. It plays better with ranges:
 
@@ -115,6 +125,59 @@ import { Range, Scale } from "tonal";
 Range.numeric([-3, 3]).map(Scale.steps("C4 major"));
 // => ["G3", "A3", "B3", "C4", "D4", "E4", "F4"]
 ```
+
+Steps take accidentals too: `Scale.steps("C4 major")("b6")` is `"Bb4"`.
+
+A melody written as scale steps can be played in any scale:
+
+```js
+const melody = [0, 2, 4, "#3", 4, 7, 6, 4];
+melody.map(Scale.steps("C4 major"));
+// => ["C4", "E4", "G4", "F#4", "G4", "C5", "B4", "G4"]
+melody.map(Scale.steps("D4 dorian"));
+// => ["D4", "F4", "A4", "G#4", "A4", "D5", "C5", "A4"]
+```
+
+### `Scale.transposeBySteps`
+
+`transposeBySteps(scaleName: string, note: string, steps: number) => string`
+
+Transpose a note of the scale by a number of scale steps (up, or down if negative):
+
+```js
+Scale.transposeBySteps("C major", "E4", 2); // => "G4"
+Scale.transposeBySteps("C major", "E4", -3); // => "B3"
+Scale.transposeBySteps("C major", "E4", 7); // => "E5"
+Scale.transposeBySteps("C major", "E", 2); // => "G" (pitch classes work too)
+```
+
+The note is compared by pitch, so an enharmonic spelling works, and the result is spelled as in the scale:
+
+```js
+Scale.transposeBySteps("C major", "B#3", 1); // => "D4"
+```
+
+A note that isn't in the scale gives an empty string. Use `Scale.nearest` to move it into the scale first:
+
+```js
+Scale.transposeBySteps("C major", "F#4", 1); // => ""
+Scale.transposeBySteps("C major", Scale.nearest("C major", "F#4"), 1); // => "A4"
+```
+
+### `Scale.nearest`
+
+`nearest(scaleName: string, note: string) => string`
+
+Find the scale note closest to a note, by pitch. A note halfway between two scale notes goes up, whatever its spelling, as in `Midi.pcsetNearest`:
+
+```js
+Scale.nearest("C major", "F#4"); // => "G4"
+Scale.nearest("C major", "Gb4"); // => "G4"
+Scale.nearest("C minor pentatonic", "D4"); // => "Eb4"
+Scale.nearest("C major", "Eb"); // => "E"
+```
+
+The result is spelled as in the scale (`Scale.nearest("C major", "Cb4")` is `"B3"`), and a scale note gives itself back.
 
 ### `Scale.scaleNotes`
 
