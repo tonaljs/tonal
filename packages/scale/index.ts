@@ -3,7 +3,8 @@
  * - https://www.researchgate.net/publication/327567188_An_Algorithm_for_Spelling_the_Pitches_of_Any_Musical_Scale
  * @module scale
  */
-import { all as chordTypes } from "@tonaljs/chord-type";
+import { detect as detectChord } from "@tonaljs/chord-detect";
+import { all as chordTypes, get as getChordType } from "@tonaljs/chord-type";
 import { range as nums, rotate } from "@tonaljs/collection";
 import { enharmonic, fromMidi, sortedUniqNames } from "@tonaljs/note";
 import {
@@ -428,8 +429,74 @@ export function nearest(
   return n.oct === undefined ? note(name).pc : name;
 }
 
+/**
+ * A chord built on a scale degree: its notes, stacked from the scale, and its
+ * chord symbol.
+ */
+export interface ScaleChord {
+  /** The scale degree of the root, from 1 */
+  degree: number;
+  /** The notes, with octaves if the scale tonic has one */
+  notes: string[];
+  /** The chord symbol, or `""` when no chord type has these notes */
+  symbol: string;
+}
+
+export type ScaleChordsOptions = {
+  /** Notes per chord (3 by default: triads) */
+  size: number;
+  /** Scale steps between chord notes: 2 (thirds, the default), 3 (fourths) or 1 (seconds) */
+  step: number;
+};
+
+/**
+ * Get the chord built on each degree of a scale, by stacking scale notes.
+ *
+ * The symbol is the chord type whose intervals spell the notes (Eb G B D is
+ * `Ebmaj7#5`, not `EbM7b6`). When no type spells them, it's a type with the
+ * same notes over the same root, which can spell a note differently: the
+ * diminished scale's Eb Gb A is `Ebdim`. A major triad is written without
+ * quality (`C`), as in `Key`. A scale without tonic gives an empty list.
+ *
+ * It stacks the scale notes, so the melodic minor tonic is `CmMaj7`, while
+ * `Key.minorKey("C").melodic.chords` lists the `Cm6` used in jazz.
+ *
+ * @example
+ * Scale.chords("C major").map((c) => c.symbol); // => ["C", "Dm", "Em", "F", "G", "Am", "Bdim"]
+ * Scale.chords("C major", { size: 4 })[6]; // => { degree: 7, notes: ["B", "D", "F", "A"], symbol: "Bm7b5" }
+ * Scale.chords("C4 major")[4].notes; // => ["G4", "B4", "D5"]
+ * Scale.chords("C major", { size: 4, step: 3 })[1].notes; // => ["D", "G", "C", "F"]
+ */
+export function chords(
+  scaleName: string | ScaleNameTokens,
+  options: Partial<ScaleChordsOptions> = {},
+): ScaleChord[] {
+  const { size = 3, step = 2 } = options;
+  const { intervals, tonic, empty } = get(scaleName);
+  if (empty || !tonic || !isCount(size) || !isCount(step)) return [];
+  const stepName = steps(scaleName);
+
+  return intervals.map((_, index) => {
+    const notes = nums(0, size - 1).map((i) => stepName(index + i * step));
+    return { degree: index + 1, notes, symbol: chordSymbol(notes) };
+  });
+}
+
+const isCount = (n: number) => Number.isInteger(n) && n > 0;
+
+// The best name of the notes over their first note, without the "M" of a
+// major triad
+function chordSymbol(notes: string[]): string {
+  const root = note(notes[0]).pc;
+  const symbol = detectChord(notes).find((name) => !name.includes("/"));
+  if (!symbol) return "";
+  const type = symbol.slice(root.length);
+  return getChordType(type).name === "major" ? root : symbol;
+}
+
 /** @deprecated */
 export default {
+  chords,
   degrees,
   detect,
   extended,

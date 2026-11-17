@@ -1,6 +1,8 @@
 import { describe, expect, test } from "vitest";
-import { all as scaleTypes } from "@tonaljs/scale-type";
+import { get as chordType } from "@tonaljs/chord-type";
+import { transpose } from "@tonaljs/pitch-distance";
 import { note } from "@tonaljs/pitch-note";
+import { all as scaleTypes } from "@tonaljs/scale-type";
 import * as Scale from "./index";
 
 const $ = (s: string) => s.split(" ");
@@ -420,6 +422,123 @@ describe("@tonaljs/scale", () => {
       expect(Scale.nearest("major", "E4")).toBe("");
       expect(Scale.nearest("C nonsense", "E4")).toBe("");
       expect(Scale.nearest("C major", "blah")).toBe("");
+    });
+  });
+
+  describe("chords", () => {
+    const symbols = (scale: string, options = {}) =>
+      Scale.chords(scale, options).map((chord) => chord.symbol);
+    const notes = (scale: string, options = {}) =>
+      Scale.chords(scale, options).map((chord) => chord.notes.join(" "));
+
+    test("triads and seventh chords", () => {
+      expect(symbols("C major")).toEqual($("C Dm Em F G Am Bdim"));
+      expect(symbols("C major", { size: 4 })).toEqual(
+        $("Cmaj7 Dm7 Em7 Fmaj7 G7 Am7 Bm7b5"),
+      );
+      expect(symbols("A minor")).toEqual($("Am Bdim C Dm Em F G"));
+      expect(symbols("C melodic minor", { size: 4 })).toEqual(
+        $("CmMaj7 Dm7 Ebmaj7#5 F7 G7 Am7b5 Bm7b5"),
+      );
+      expect(symbols("C harmonic minor", { size: 4 })).toEqual(
+        $("CmMaj7 Dm7b5 Ebmaj7#5 Fm7 G7 Abmaj7 Bdim7"),
+      );
+      expect(symbols("C harmonic major", { size: 4 })).toEqual(
+        $("Cmaj7 Dm7b5 Em7 FmMaj7 G7 Abmaj7#5 Bdim7"),
+      );
+      expect(symbols("F# major")).toEqual($("F# G#m A#m B C# D#m E#dim"));
+      expect(symbols("C major", { size: 5 })[0]).toEqual("Cmaj9");
+    });
+
+    test("chord objects", () => {
+      expect(Scale.chords("C major", { size: 4 })[6]).toEqual({
+        degree: 7,
+        notes: $("B D F A"),
+        symbol: "Bm7b5",
+      });
+      expect(Scale.chords(["C", "major"])[0].symbol).toEqual("C");
+    });
+
+    test("with octaves", () => {
+      expect(notes("C4 major")).toEqual([
+        "C4 E4 G4",
+        "D4 F4 A4",
+        "E4 G4 B4",
+        "F4 A4 C5",
+        "G4 B4 D5",
+        "A4 C5 E5",
+        "B4 D5 F5",
+      ]);
+      expect(symbols("C4 major")).toEqual(symbols("C major"));
+    });
+
+    test("fourths and seconds", () => {
+      expect(notes("C major", { step: 3 })).toEqual([
+        "C F B",
+        "D G C",
+        "E A D",
+        "F B E",
+        "G C F",
+        "A D G",
+        "B E A",
+      ]);
+      expect(symbols("C major", { step: 3 })).toEqual($("      "));
+      expect(symbols("C major", { size: 4, step: 3 })[1]).toEqual("Dquartal");
+      expect(notes("C major", { step: 1 })[0]).toEqual("C D E");
+    });
+
+    test("names spell the notes when a chord type does", () => {
+      // B, not Cb: maj7#5, not M7b6
+      expect(Scale.chords("C melodic minor", { size: 4 })[2]).toEqual({
+        degree: 3,
+        notes: $("Eb G B D"),
+        symbol: "Ebmaj7#5",
+      });
+      // no chord type spells Eb Gb A (Bbb): a type with the same notes
+      expect(symbols("C diminished")).toEqual(
+        $("Cdim Ddim Ebdim Fdim Gbdim Abdim Adim Bdim"),
+      );
+      // no chord type has these notes
+      expect(symbols("C major pentatonic")).toEqual($("    "));
+    });
+
+    test("invalid", () => {
+      expect(Scale.chords("major")).toEqual([]);
+      expect(Scale.chords("C nonsense")).toEqual([]);
+      expect(Scale.chords("C major", { size: 0 })).toEqual([]);
+      expect(Scale.chords("C major", { size: 1.5 })).toEqual([]);
+      expect(Scale.chords("C major", { step: 0 })).toEqual([]);
+      expect(Scale.chords("C major", { step: -1 })).toEqual([]);
+    });
+
+    test("every scale type and tonic: one chord per degree", () => {
+      const tonics = "CDEFGAB".split("").flatMap((l) => [l + "b", l, l + "#"]);
+      const chroma = (pcs: string[]) =>
+        [...new Set(pcs.map((n) => note(n).chroma))].sort((a, b) => a - b);
+      for (const type of scaleTypes()) {
+        for (const tonic of tonics) {
+          for (const size of [3, 4]) {
+            const scale = tonic + " " + type.name;
+            const steps = Scale.steps(scale);
+            const chords = Scale.chords(scale, { size });
+            expect(chords.length).toBe(type.intervals.length);
+            chords.forEach((chord, i) => {
+              expect(chord.degree).toBe(i + 1);
+              expect(chord.notes).toEqual(
+                Array.from({ length: size }, (_, k) => steps(i + 2 * k)),
+              );
+              if (!chord.symbol) return;
+              // the symbol is the root and a type with the same notes
+              const root = note(chord.notes[0]).pc;
+              expect(chord.symbol.startsWith(root)).toBe(true);
+              const ivls = chordType(chord.symbol.slice(root.length)).intervals;
+              expect(chroma(ivls.map((ivl) => transpose(root, ivl)))).toEqual(
+                chroma(chord.notes),
+              );
+            });
+          }
+        }
+      }
     });
   });
 
