@@ -11,7 +11,9 @@ import { RomanNumeral, get as romanNumeral } from "@tonaljs/roman-numeral";
  *
  * A lowercase roman numeral is a minor chord: "ii" is "Dm" and "ii7" is "Dm7"
  * in C. A chord type that already has its own quality, like "viio", "iim7" or
- * "ii+", is kept as written.
+ * "ii+", is kept as written. A chord type with alterations is minor too
+ * ("ii7b9" is "Dm7b9"), unless its minor form isn't a minor chord ("ii7b5"
+ * stays "D7b5").
  *
  * An applied chord, like "V7/V", is a chord on a degree of another degree's
  * major scale: "V7/V" is "D7" in C. Applied chords can nest ("V/V/V" is "A").
@@ -66,7 +68,8 @@ function chordType(name: string) {
 
 const isChordType = (name: string) => name === "" || !chordType(name).empty;
 
-// A lowercase numeral makes the chord type minor when the minor form exists.
+// A lowercase numeral makes the chord type minor when the minor form exists,
+// listed ("m7") or composed ("m7(b9)").
 // The minor form is found by intervals, so every spelling of a chord type
 // gives the same chord ("iimaj7" and "iiMaj7" are both minor-major sevenths).
 // An augmented chord type keeps its spelling, like a diminished one.
@@ -74,13 +77,12 @@ function chordTypeOf(major: boolean, name: string): string {
   if (major) return name;
   const type = chordType(name);
   if (type.quality === "Augmented") return name;
+  const intervals = minorIntervals(type.intervals);
+  if (!intervals) return name;
 
   if (type.quality === "Major") {
-    const intervals = type.intervals
-      .map((ivl) => (ivl === "3M" ? "3m" : ivl))
-      .join(" ");
     const minor = allChordTypes().find(
-      (t) => t.quality === "Minor" && t.intervals.join(" ") === intervals,
+      (t) => t.quality === "Minor" && sameIntervals(t.intervals, intervals),
     );
     if (minor) {
       // keep the spelling of the chord type when it has a minor name, or
@@ -89,15 +91,37 @@ function chordTypeOf(major: boolean, name: string): string {
       const keep =
         minor.aliases.includes(spelled) ||
         (getChordType(name).empty &&
-          chordType(spelled).intervals.join(" ") === intervals);
+          sameIntervals(chordType(spelled).intervals, intervals));
       return keep ? spelled : minor.aliases[0];
     }
   }
 
-  // a chord type without a third, like "11"
-  const minor = "m" + name;
-  return getChordType(minor).quality === "Minor" ? minor : name;
+  // A minor form that isn't listed ("m7b9", "m7(b9)"), or the minor form of
+  // a chord type without a third ("m11"): "m" + a spelling of the chord type,
+  // the one written if it works
+  const spellings = [name, ...type.aliases].map((spelling) => "m" + spelling);
+  const minor = spellings.find((spelling) => {
+    const t = chordType(spelling);
+    return t.quality === "Minor" && sameIntervals(t.intervals, intervals);
+  });
+  return minor ?? name;
 }
+
+// The intervals of the minor form of a chord type: the major third made
+// minor, or a minor third added to a chord type without a third. Undefined
+// when there's no minor form: the chord type already has a minor third, or
+// the minor third would double another note (the #9 of "7#9").
+function minorIntervals(intervals: string[]): string[] | undefined {
+  if (intervals.includes("3m")) return undefined;
+  const minor = intervals.includes("3M")
+    ? intervals.map((ivl) => (ivl === "3M" ? "3m" : ivl))
+    : [...intervals, "3m"];
+  const chromas = new Set(minor.map((ivl) => interval(ivl).chroma));
+  return chromas.size === minor.length ? minor : undefined;
+}
+
+const sameIntervals = (a: string[], b: string[]) =>
+  a.length === b.length && a.every((ivl) => b.includes(ivl));
 
 /**
  * Given a tonic and a chord list with leadsheet symbols notation,

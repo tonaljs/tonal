@@ -1,3 +1,4 @@
+import { get as getChord } from "@tonaljs/chord";
 import { all as allChordTypes, get as getChordType } from "@tonaljs/chord-type";
 import { majorKey } from "@tonaljs/key";
 import { describe, expect, test } from "vitest";
@@ -70,9 +71,34 @@ describe("@tonaljs/progression", () => {
     const inC = (chords: string[]) =>
       Progression.fromRomanNumerals("C", chords);
     // the minor form of 7b5 is half-diminished, not minor
-    expect(inC($("ii7b5 ii7b9 ii13#11"))).toEqual($("D7b5 D7b9 D13#11"));
+    expect(inC($("ii7b5 ii7(b5)"))).toEqual($("D7b5 D7(b5)"));
+    // a minor third would be the same note as the #9
+    expect(inC($("ii7#9 ii7(#9) ii7alt"))).toEqual($("D7#9 D7(#9) D7alt"));
+    // no third to make minor
+    expect(inC($("ii5 ii7sus4 ii(no3) ii7(no3)"))).toEqual(
+      $("D5 D7sus4 D(no3) D7(no3)"),
+    );
     // the 11 chord has no third, so it falls back to its minor name
     expect(inC($("ii11"))).toEqual($("Dm11"));
+  });
+
+  test("lowercase numerals with alterations are minor", () => {
+    const inC = (chords: string[]) =>
+      Progression.fromRomanNumerals("C", chords);
+    expect(inC($("ii7b9 ii13#11 ii9#11 iiM7b9 ii11b9"))).toEqual(
+      $("Dm7b9 Dm13#11 Dm9#11 DmM7b9 Dm11b9"),
+    );
+    expect(inC($("ii7(b9) ii11(b9) ii(b9) ii13(b9) iimaj7(#11)"))).toEqual(
+      $("Dm7(b9) Dm11(b9) Dm(b9) Dm13(b9) Dmmaj7(#11)"),
+    );
+    // "m6b5" would be half-diminished, so another spelling of 6#11 is used
+    expect(inC($("ii6b5 ii6#11"))).toEqual($("Dm6#11 Dm6#11"));
+    // a listed and a composed spelling of the same chord give the same chord
+    const intervals = (chord: string) => getChord(chord).intervals.join(" ");
+    expect(inC($("ii7b9 ii7(b9)")).map(intervals)).toEqual([
+      "1P 3m 5P 7m 9m",
+      "1P 3m 5P 7m 9m",
+    ]);
   });
 
   test("composed chord types", () => {
