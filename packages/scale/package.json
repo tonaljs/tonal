@@ -16,6 +16,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
+    "@tonaljs/chord-detect": "4.9.4",
     "@tonaljs/chord-type": "5.2.2",
     "@tonaljs/collection": "4.9.1",
     "@tonaljs/pitch-distance": "5.1.0",

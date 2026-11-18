@@ -259,6 +259,42 @@ Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact", tonic: "B" });
 
 ## Relationships
 
+### `Scale.chords`
+
+`chords(scale: string, options?: { size?: number, step?: number }) => { degree: number, notes: string[], symbol: string }[]`
+
+Get the chord built on each degree of a scale, by stacking scale notes. `size` is the number of notes (3 by default: triads) and `step` the scale steps between them (2 by default: thirds; 3 for fourths, 1 for seconds). It works for any scale with a tonic:
+
+```js
+Scale.chords("C major").map((c) => c.symbol);
+// => ["C", "Dm", "Em", "F", "G", "Am", "Bdim"]
+Scale.chords("C major", { size: 4 })[6];
+// => { degree: 7, notes: ["B", "D", "F", "A"], symbol: "Bm7b5" }
+Scale.chords("C melodic minor", { size: 4 }).map((c) => c.symbol);
+// => ["CmMaj7", "Dm7", "Ebmaj7#5", "F7", "G7", "Am7b5", "Bm7b5"]
+```
+
+With an octave in the tonic, the notes have octaves:
+
+```js
+Scale.chords("C4 major").map((c) => c.notes);
+// => [["C4", "E4", "G4"], ["D4", "F4", "A4"], ["E4", "G4", "B4"], ["F4", "A4", "C5"],
+//     ["G4", "B4", "D5"], ["A4", "C5", "E5"], ["B4", "D5", "F5"]]
+```
+
+The symbol is the chord type whose intervals spell the notes: Eb G B D is `Ebmaj7#5`, not `EbM7b6`. When no type spells them, it's a type with the same notes over the same root, which can spell a note differently (the diminished scale's Eb Gb A is `Ebdim`). When no chord type has those notes, the symbol is `""` and the notes are still there:
+
+```js
+Scale.chords("C major", { step: 3 }).map((c) => c.notes);
+// => [["C", "F", "B"], ["D", "G", "C"], ...]   (symbols are "")
+Scale.chords("C major", { size: 4, step: 3 })[1];
+// => { degree: 2, notes: ["D", "G", "C", "F"], symbol: "Dquartal" }
+```
+
+A major triad is written without quality (`"C"`), as in `Key`. The chords of major and minor scales are the ones in [`Key`](/packages/key) and [`Mode`](/packages/mode), except the melodic minor tonic: `Scale.chords` stacks thirds (`CmMaj7`), while `Key.minorKey("C").melodic.chords` lists `Cm6`, as used in jazz.
+
+Scales with more than seven notes (bebop, octatonic) or fewer (pentatonic) give stacks that may have no name. To get every chord type that fits a scale, see `Scale.scaleChords`.
+
 ### `Scale.scaleChords`
 
 `scaleChords(scale: string) => string[]`
