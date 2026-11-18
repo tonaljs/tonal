@@ -102,7 +102,7 @@ Midi.freqToMidi(261); //=> 59.96
 
 `chroma(midi: number) => number`
 
-Get the pitch class (0 to 11) of a midi number:
+Get the pitch class of a midi number, from 0 up to (not including) 12:
 
 ```js
 Midi.chroma(61); // => 1
@@ -110,19 +110,22 @@ Midi.chroma(72); // => 0
 Midi.chroma(-1); // => 11
 ```
 
+A decimal midi number keeps its fraction, so `Midi.chroma(61.5)` is `1.5`. `Midi.pcset` rounds to the nearest note instead.
+
 ### `Midi.pcset`
 
 `pcset(set: number[] | string) => number[]`
 
 Return the pitch class set from a number of midi note numbers or pcset chroma.
 
-A pitch class set in this `Midi` package refers to a unique sorted collection of notes between 0 and 11 (that represents the pitch class of the note.
+A pitch class set in this `Midi` package is a unique, sorted list of whole numbers from 0 to 11 (the pitch classes of the notes). Decimal midi numbers, such as the ones `Midi.freqToMidi` returns, are rounded to the nearest note first (a half goes up), and numbers that aren't finite are ignored.
 
 Example:
 
 ```js
 Midi.pcset([62, 63, 60, 65, 70, 72]); // => [0, 2, 3, 5, 10]
 Midi.pcset("100100100101"); // => [0, 3, 6, 9, 11]
+Midi.pcset([60.4, 64, 67.6]); // => [0, 4, 8]
 ```
 
 You can read more about pitch classes on `Note` module.
