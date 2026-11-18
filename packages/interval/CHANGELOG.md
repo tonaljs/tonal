@@ -1,5 +1,37 @@
 # @tonaljs/interval
 
+## 5.2.0
+
+### Minor Changes
+
+- f2cecb3: Add `Interval.pitchClass`, `Interval.negate`, `Interval.abs` and `Interval.multiply`. `pitchClass` drops octaves and direction, like the distance between pitch classes (`pitchClass("-3M")` is `"6m"`), `negate` turns the direction around (`negate("3M")` is `"-3M"`), `abs` gives the ascending interval (`abs("-3M")` is `"3M"`), and `multiply` stacks an interval a number of times (`multiply("5P", 3)` is `"13M"`)
+- d81d784: Interval consonance: `Interval.consonance` and `Interval.isConsonant`.
+
+  `Interval.consonance` classifies an interval as `"perfect"` (unison, fifth and octave), `"imperfect"` (major and minor thirds and sixths) or `"dissonant"` (seconds, sevenths, the perfect fourth, and every augmented or diminished interval), and gives `""` for an invalid interval. Direction and octaves don't change it (`Interval.consonance("-12P")` is `"perfect"`), and the spelling decides, not the sound: `Interval.consonance("4d")` is `"dissonant"`. The perfect fourth is a dissonance unless you pass `{ consonantFourth: true }`.
+
+  `Interval.isConsonant("6M")` is `true`: the interval is a perfect or imperfect consonance.
+
+- f2cecb3: **Behaviour change.** `Interval.simplify` keeps the octave, however many octaves an interval spans, and `Interval.invert` gives the interval that completes the simplified interval to an octave. Before, `simplify` kept `8P` but turned `15P` into `1P`, and `invert` kept compound intervals compound and left unisons and octaves as they were. The new results follow music21's semi-simple intervals and complements:
+
+  |                    | before  | now     |
+  | ------------------ | ------- | ------- |
+  | `simplify("15P")`  | `"1P"`  | `"8P"`  |
+  | `simplify("-22P")` | `"-1P"` | `"-8P"` |
+  | `invert("1P")`     | `"1P"`  | `"8P"`  |
+  | `invert("8P")`     | `"8P"`  | `"1P"`  |
+  | `invert("1A")`     | `"1d"`  | `"8d"`  |
+  | `invert("9M")`     | `"14m"` | `"7m"`  |
+
+  Other simple intervals are unchanged, and the direction is kept (`invert("-3M")` is still `"-6m"`). `Interval.get(i).simple` follows `simplify`: it's `8` for `"15P"`
+
+### Patch Changes
+
+- Updated dependencies [f2cecb3]
+- Updated dependencies [e6cd704]
+- Updated dependencies [f2cecb3]
+  - @tonaljs/pitch-interval@6.3.0
+  - @tonaljs/pitch-distance@5.1.1
+
 ## 5.1.2
 
 ### Patch Changes

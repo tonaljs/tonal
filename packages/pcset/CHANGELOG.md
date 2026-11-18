@@ -1,5 +1,20 @@
 # @tonaljs/pcset
 
+## 4.10.5
+
+### Patch Changes
+
+- 223f729: `Pcset.get` only reads whole numbers from 0 to 4095 as pcset numbers. A number like `2.5` used to give a non-empty set with the chroma `"0000000010.1"` (and `Pcset.notes(2.5)` gave `["Ab", "B"]`); now it gives the empty set.
+- Updated dependencies [f2cecb3]
+- Updated dependencies [e6cd704]
+- Updated dependencies [66f551a]
+- Updated dependencies [99ee8a1]
+- Updated dependencies [f2cecb3]
+  - @tonaljs/pitch-interval@6.3.0
+  - @tonaljs/pitch-note@6.1.3
+  - @tonaljs/collection@4.9.2
+  - @tonaljs/pitch-distance@5.1.1
+
 ## 4.10.4
 
 ### Patch Changes

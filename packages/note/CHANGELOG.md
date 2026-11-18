@@ -1,5 +1,19 @@
 # @tonaljs/note
 
+## 4.12.5
+
+### Patch Changes
+
+- 6c44917: `Note.sortedUniqNames` (and so `Scale.scaleNotes`) removes every duplicate, even when an enharmonic note sorts between two copies: `Note.sortedUniqNames(["C4", "B#3", "C4"])` is now `["C4", "B#3"]` instead of `["C4", "B#3", "C4"]`.
+- Updated dependencies [f2cecb3]
+- Updated dependencies [e6cd704]
+- Updated dependencies [66f551a]
+- Updated dependencies [f2cecb3]
+  - @tonaljs/pitch-interval@6.3.0
+  - @tonaljs/pitch-note@6.1.3
+  - @tonaljs/pitch-distance@5.1.1
+  - @tonaljs/midi@4.10.6
+
 ## 4.12.4
 
 ### Patch Changes

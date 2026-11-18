@@ -1,5 +1,37 @@
 # @tonaljs/voicing
 
+## 5.2.0
+
+### Minor Changes
+
+- b2c7821: **Behaviour change.** `Voicing.get` now returns `[]` when no voicing is found (it was `undefined`); check `voicing.length === 0` instead of `!voicing` or `??`, because `[]` is truthy. `Voicing.search` without a dictionary now searches `VoicingDictionary.all` (it was `VoicingDictionary.triads`), the same default as `Voicing.get`, so it returns more results:
+
+  |                           | before      | now          |
+  | ------------------------- | ----------- | ------------ |
+  | `Voicing.search("Cmaj7")` | `[]`        | two voicings |
+  | `Voicing.get("C13")`      | `undefined` | `[]`         |
+
+  `Voicing.sequence` keeps `[]` at the position of chords without voicing, and voice-leads the next chord from the last chord that had a voicing
+
+### Patch Changes
+
+- Updated dependencies [1f86506]
+- Updated dependencies [3d5530d]
+- Updated dependencies [09043d6]
+- Updated dependencies [d880522]
+- Updated dependencies [f2cecb3]
+- Updated dependencies [d81d784]
+- Updated dependencies [99ee8a1]
+- Updated dependencies [f2cecb3]
+- Updated dependencies [bb8889d]
+- Updated dependencies [6c44917]
+  - @tonaljs/chord@6.3.0
+  - @tonaljs/interval@5.2.0
+  - @tonaljs/range@4.9.6
+  - @tonaljs/note@4.12.5
+  - @tonaljs/voicing-dictionary@5.1.7
+  - @tonaljs/voice-leading@5.1.6
+
 ## 5.1.6
 
 ### Patch Changes
