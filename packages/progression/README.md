@@ -42,7 +42,7 @@ Progression.fromRomanNumerals("C", ["I", "vi", "ii7", "V7", "viio"]);
 // => ["C", "Am", "Dm7", "G7", "Bo"]
 ```
 
-A chord type with alterations is minor too (`ii7b9` is `Dm7b9`), but not when the minor form isn't a minor chord: `ii7b5` stays `D7b5`, since `m7b5` is half-diminished, and `ii7#9` stays `D7#9`, since its minor third would be the same note as the `#9`.
+With alterations, the third becomes minor and the rest of the chord type is kept: `ii7b9` is `Dm7b9`, and `ii7b5` is `Dm7b5` (half-diminished). A chord type with a `#9` stays as written (`ii7#9` is `D7#9`), since its minor third would be the same note as the `#9`.
 
 An applied (secondary) chord, like `V7/V`, is a chord on a degree of another degree's major scale. Applied chords can nest:
 
