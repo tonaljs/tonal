@@ -33,6 +33,7 @@ next-env.d.ts
 /content/docs/dictionaries/chord-types.md
 /content/docs/dictionaries/scale-types.md
 /content/docs/groups/chords.md
+/content/docs/groups/chord-detection.md
 /content/docs/groups/pitch-class-sets.md
 /content/docs/groups/scales.md
 /content/docs/harmony/keys.md
@@ -45,3 +46,6 @@ next-env.d.ts
 /content/docs/time/signatures.md
 /content/docs/utils/collections.md
 /content/docs/utils/ranges.md
+/content/docs/voicings/dictionary.md
+/content/docs/voicings/leading.md
+/content/docs/voicings/voicings.md

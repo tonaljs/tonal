@@ -1,0 +1,11 @@
+[
+  {
+    "slug": "chord-finder",
+    "title": "Chord finder",
+    "description": "Play or type some notes to get the chord name, or type a chord symbol to get its notes.",
+    "docs": [
+      { "title": "Chords", "url": "/docs/groups/chords" },
+      { "title": "Chord detection", "url": "/docs/groups/chord-detection" }
+    ]
+  }
+]

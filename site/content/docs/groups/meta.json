@@ -1,5 +1,5 @@
 {
   "title": "Chord and scales",
   "defaultOpen": true,
-  "pages": ["chords", "scales", "pitch-class-sets"]
+  "pages": ["chords", "chord-detection", "scales", "pitch-class-sets"]
 }
