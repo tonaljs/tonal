@@ -120,7 +120,7 @@ function parse(noteName: NoteName): Note {
   const coord = coordinates({ step, alt, oct });
 
   // "C04" and "C-0" are named "C4" and "C0"
-  const name = letter + acc + (oct === undefined ? "" : oct);
+  const name = pitchName({ step, alt, oct });
   const pc = letter + acc;
   const chroma = (SEMI[step] + alt + 120) % 12;
   const height =

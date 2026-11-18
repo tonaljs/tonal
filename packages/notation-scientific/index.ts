@@ -17,14 +17,16 @@ const altToAcc = (alt: number): string =>
 
 type NoteTokens = [string, string, string, string];
 
-const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d*)\s*(.*)$/;
+const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d+|)\s*(.*)$/;
 
 /**
  * @private
  */
 export function tokenize(str: string): NoteTokens {
   const m = REGEX.exec(str) as string[];
-  return [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]];
+  return m
+    ? [m[1].toUpperCase(), m[2].replace(/x/g, "##"), m[3], m[4]]
+    : ["", "", "", ""];
 }
 
 export function parse(noteName: string): ScientificPitch | null {
@@ -39,7 +41,8 @@ export function parse(noteName: string): ScientificPitch | null {
 
   const step = (letter.charCodeAt(0) + 3) % 7;
   const alt = acc[0] === "b" ? -acc.length : acc.length;
-  const oct = octStr.length ? +octStr : undefined;
+  // "|| 0" turns the -0 of "C-0" into 0
+  const oct = octStr.length ? Number(octStr) || 0 : undefined;
 
   return {
     alt,

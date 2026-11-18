@@ -42,6 +42,7 @@ describe("@tonaljs/scale", () => {
     expect(Scale.tokenize("cb3 major")).toEqual(["Cb3", "major"]);
     expect(Scale.tokenize("Cx major")).toEqual(["C##", "major"]);
     expect(Scale.tokenize("fx4 dorian")).toEqual(["F##4", "dorian"]);
+    expect(Scale.tokenize("Cx")).toEqual(["C##", ""]);
     expect(Scale.tokenize("melodic minor")).toEqual(["", "melodic minor"]);
     expect(Scale.tokenize("dorian")).toEqual(["", "dorian"]);
     expect(Scale.tokenize("c")).toEqual(["C", ""]);
