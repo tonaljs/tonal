@@ -55,10 +55,13 @@ function leadsheetType(rn: RomanNumeral): string | undefined {
   return chordTypeOf(rn.major, type) + "/" + bass.pc;
 }
 
-// A listed chord type, or a listed type plus alterations, like "7(b9)"
+// A listed chord type, or a listed type plus alterations, like "7(b9)".
+// "N.C." (no chord) is a chord symbol, not a chord type.
 function chordType(name: string) {
   const listed = getChordType(name);
-  return listed.empty ? getChord(name) : listed;
+  if (!listed.empty) return listed;
+  const chord = getChord(name);
+  return chord.type === "no chord" ? listed : chord;
 }
 
 const isChordType = (name: string) => name === "" || !chordType(name).empty;
