@@ -7,5 +7,14 @@
       { "title": "Chords", "url": "/docs/groups/chords" },
       { "title": "Chord detection", "url": "/docs/groups/chord-detection" }
     ]
+  },
+  {
+    "slug": "scale-chords",
+    "title": "Scale chords",
+    "description": "Pick a tonic and any of 92 scales to see the chord on each degree: triads, sevenths, or chords stacked in fourths or seconds.",
+    "docs": [
+      { "title": "Scales", "url": "/docs/groups/scales" },
+      { "title": "Scale dictionary", "url": "/docs/dictionaries/scale-types" }
+    ]
   }
 ]

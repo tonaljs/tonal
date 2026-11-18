@@ -37,6 +37,26 @@ export type PlayOptions = {
   arpeggio?: boolean;
 };
 
+/** Play chords one after the other, `gap` seconds apart. */
+export async function playChords(
+  chords: (string | number)[][],
+  gap = 0.9,
+): Promise<void> {
+  const piano = await loadPiano();
+  const now = context!.currentTime;
+  piano.stop();
+  chords.forEach((notes, i) => {
+    notes.forEach((note, j) => {
+      piano.start({
+        note,
+        velocity: 76,
+        time: now + i * gap + j * 0.012,
+        duration: gap * 1.1,
+      });
+    });
+  });
+}
+
 /** Play note names (with octave) or midi numbers. Resolves once they start. */
 export async function playNotes(
   notes: (string | number)[],

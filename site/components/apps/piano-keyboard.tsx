@@ -10,6 +10,21 @@ const WHITE_HEIGHT = 112;
 const BLACK_WIDTH = 15;
 const BLACK_HEIGHT = 70;
 
+/**
+ * The keys to draw: from `from` to `to` (C3 to B5 by default), widened to the
+ * C below the lowest note and the B above the highest, within a piano.
+ */
+export function keyboardRange(
+  heights: number[],
+  from = 48,
+  to = 83,
+): [number, number] {
+  return [
+    Math.max(21, Math.min(from, ...heights.map((h) => h - (h % 12)))),
+    Math.min(108, Math.max(to, ...heights.map((h) => h + 11 - (h % 12)))),
+  ];
+}
+
 export type PianoKeyboardProps = {
   /** The midi number of the first key (a white key) */
   from: number;
@@ -17,6 +32,8 @@ export type PianoKeyboardProps = {
   to: number;
   /** The pressed keys: midi number to the label shown on the key */
   active: Map<number, string>;
+  /** Keys shown lighter than the pressed ones, such as the notes of a scale */
+  shaded?: Map<number, string>;
   /** A pressed key to mark, such as the bass of a chord */
   marked?: number;
   /** The accessible name of each key */
@@ -29,6 +46,7 @@ export function PianoKeyboard({
   from,
   to,
   active,
+  shaded,
   marked,
   keyName,
   onKey,
@@ -70,8 +88,9 @@ export function PianoKeyboard({
       aria-label="Piano keyboard"
     >
       {ordered.map(({ midi, x, black }) => {
-        const label = active.get(midi);
-        const pressed = label !== undefined;
+        const pressed = active.has(midi);
+        const shade = !pressed && shaded?.has(midi);
+        const label = pressed ? active.get(midi) : shaded?.get(midi);
         const w = black ? BLACK_WIDTH : WHITE_WIDTH;
         const h = black ? BLACK_HEIGHT : WHITE_HEIGHT;
         // a color of its own: the theme's primary is near white in dark mode
@@ -79,9 +98,11 @@ export function PianoKeyboard({
           ? midi === marked
             ? "fill-sky-700"
             : "fill-sky-500"
-          : black
-            ? "fill-neutral-800 dark:fill-neutral-950"
-            : "fill-white dark:fill-neutral-200";
+          : shade
+            ? "fill-sky-200 dark:fill-sky-300"
+            : black
+              ? "fill-neutral-800 dark:fill-neutral-950"
+              : "fill-white dark:fill-neutral-200";
         return (
           <g
             key={midi}
@@ -106,7 +127,9 @@ export function PianoKeyboard({
                 x={x + 0.5 + w / 2}
                 y={h - (black ? 8 : 10)}
                 textAnchor="middle"
-                className="pointer-events-none fill-white font-semibold"
+                className={`pointer-events-none font-semibold ${
+                  shade ? "fill-sky-900" : "fill-white"
+                }`}
                 style={{ fontSize: black ? 8 : 9 }}
               >
                 {label}
