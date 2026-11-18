@@ -122,6 +122,15 @@ describe("@tonal/chord-type data", () => {
     }
   });
 
+  test("a b5 in a symbol is a diminished fifth", () => {
+    // "7b5b9" isn't "7b9#11": a b5 replaces the fifth, a #11 is added to it
+    for (const [intervals, , aliases] of DATA) {
+      if (aliases.split(" ").some((alias) => alias.includes("b5"))) {
+        expect(intervals.split(" ")).toContain("5d");
+      }
+    }
+  });
+
   test("all chords must have abreviatures", () => {
     DATA.forEach((data) => {
       const abrrvs = data[2].trim();
