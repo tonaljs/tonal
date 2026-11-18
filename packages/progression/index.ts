@@ -1,4 +1,4 @@
-import { tokenize } from "@tonaljs/chord";
+import { getChord, tokenize } from "@tonaljs/chord";
 import { all as allChordTypes, get as getChordType } from "@tonaljs/chord-type";
 import { distance, transpose } from "@tonaljs/pitch-distance";
 import { interval } from "@tonaljs/pitch-interval";
@@ -55,7 +55,13 @@ function leadsheetType(rn: RomanNumeral): string | undefined {
   return chordTypeOf(rn.major, type) + "/" + bass.pc;
 }
 
-const isChordType = (name: string) => name === "" || !getChordType(name).empty;
+// A listed chord type, or a listed type plus alterations, like "7(b9)"
+function chordType(name: string) {
+  const listed = getChordType(name);
+  return listed.empty ? getChord(name) : listed;
+}
+
+const isChordType = (name: string) => name === "" || !chordType(name).empty;
 
 // A lowercase numeral makes the chord type minor when the minor form exists.
 // The minor form is found by intervals, so every spelling of a chord type
@@ -63,7 +69,7 @@ const isChordType = (name: string) => name === "" || !getChordType(name).empty;
 // An augmented chord type keeps its spelling, like a diminished one.
 function chordTypeOf(major: boolean, name: string): string {
   if (major) return name;
-  const type = getChordType(name);
+  const type = chordType(name);
   if (type.quality === "Augmented") return name;
 
   if (type.quality === "Major") {
@@ -74,8 +80,14 @@ function chordTypeOf(major: boolean, name: string): string {
       (t) => t.quality === "Minor" && t.intervals.join(" ") === intervals,
     );
     if (minor) {
-      // keep the spelling of the chord type when it has a minor name
-      return minor.aliases.includes("m" + name) ? "m" + name : minor.aliases[0];
+      // keep the spelling of the chord type when it has a minor name, or
+      // when it's composed and "m" + name is that chord ("m(add9)")
+      const spelled = "m" + name;
+      const keep =
+        minor.aliases.includes(spelled) ||
+        (getChordType(name).empty &&
+          chordType(spelled).intervals.join(" ") === intervals);
+      return keep ? spelled : minor.aliases[0];
     }
   }
 
