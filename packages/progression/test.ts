@@ -86,6 +86,12 @@ describe("@tonaljs/progression", () => {
     );
   });
 
+  test("no chord isn't a chord type", () => {
+    const inC = (chords: string[]) =>
+      Progression.fromRomanNumerals("C", chords);
+    expect(inC($("INC IN.C. Vnc iNC VNC/E"))).toEqual(["", "", "", "", ""]);
+  });
+
   test("toRomanNumerals with composed chord types reads back", () => {
     const chords = $("G7(b9) Cmaj7(no3) F(add9) Dm7(b5) A7(b9,#11)");
     const romans = Progression.toRomanNumerals("C", chords);
