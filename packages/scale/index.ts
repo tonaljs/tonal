@@ -73,7 +73,9 @@ export function tokenize(name: ScaleName): ScaleNameTokens {
     return n.empty ? ["", name.toLowerCase()] : [n.name, ""];
   }
 
-  const type = name.substring(tonic.name.length + 1).toLowerCase();
+  // the type starts after the space: the tonic name can be longer than the
+  // text it was read from ("Cx" is "C##")
+  const type = name.substring(i + 1).toLowerCase();
   return [tonic.name, type.length ? type : ""];
 }
 

@@ -40,6 +40,8 @@ describe("@tonaljs/scale", () => {
   test("tokenize", () => {
     expect(Scale.tokenize("c major")).toEqual(["C", "major"]);
     expect(Scale.tokenize("cb3 major")).toEqual(["Cb3", "major"]);
+    expect(Scale.tokenize("Cx major")).toEqual(["C##", "major"]);
+    expect(Scale.tokenize("fx4 dorian")).toEqual(["F##4", "dorian"]);
     expect(Scale.tokenize("melodic minor")).toEqual(["", "melodic minor"]);
     expect(Scale.tokenize("dorian")).toEqual(["", "dorian"]);
     expect(Scale.tokenize("c")).toEqual(["C", ""]);
@@ -51,6 +53,13 @@ describe("@tonaljs/scale", () => {
     expect(Scale.get("hello").empty).toBe(true);
     expect(Scale.get("").empty).toBe(true);
     expect(Scale.get("Maj7").empty).toBe(true);
+  });
+
+  test("get with a double sharp written as x", () => {
+    expect(Scale.get("Cx major")).toEqual(Scale.get("C## major"));
+    expect(Scale.get("Fx4 minor").notes).toEqual(
+      $("F##4 G##4 A#4 B#4 C##5 D#5 E#5"),
+    );
   });
 
   test("Scale.get with mixed cases", () => {
