@@ -107,6 +107,10 @@ export function midiToNoteName(midi: number, options: ToNoteNameOptions = {}) {
   return pc + o;
 }
 
+/**
+ * Get the pitch class of a midi number, from 0 up to (not including) 12.
+ * A decimal midi number keeps its fraction: `chroma(61.5)` is `1.5`.
+ */
 export function chroma(midi: number): number {
   return ((midi % 12) + 12) % 12;
 }
@@ -120,16 +124,21 @@ function pcsetFromChroma(chroma: string): number[] {
 
 function pcsetFromMidi(midi: number[]): number[] {
   return midi
-    .map(chroma)
+    .filter((n) => Number.isFinite(n))
+    .map((n) => chroma(Math.round(n)))
     .sort((a, b) => a - b)
     .filter((n, i, a) => i === 0 || n !== a[i - 1]);
 }
 
 /**
- * Given a list of midi numbers, returns the pitch class set (unique chroma numbers)
- * @param midi
+ * Given a list of midi numbers, returns the pitch class set: the unique
+ * pitch classes (whole numbers from 0 to 11), sorted.
+ * Decimal midi numbers are rounded to the nearest note first, and numbers that
+ * aren't finite are ignored.
+ * @param notes - a list of midi numbers or a chroma string (e.g. "100100100101")
  * @example
- *
+ * Midi.pcset([62, 63, 60, 65, 70, 72]); // => [0, 2, 3, 5, 10]
+ * Midi.pcset([60.4, 64, 67.6]); // => [0, 4, 8]
  */
 export function pcset(notes: number[] | string): number[] {
   return Array.isArray(notes) ? pcsetFromMidi(notes) : pcsetFromChroma(notes);

@@ -67,6 +67,7 @@ describe("midi", () => {
   test("chroma", () => {
     expect([60, 61, 72, 0, 11].map(Midi.chroma)).toEqual([0, 1, 0, 0, 11]);
     expect([-1, -4, -12, -13].map(Midi.chroma)).toEqual([11, 8, 0, 11]);
+    expect([61.5, 71.75, -0.5].map(Midi.chroma)).toEqual([1.5, 11.75, 11.5]);
   });
 
   describe("Midi.pcset", () => {
@@ -78,6 +79,16 @@ describe("midi", () => {
     });
     test("from negative midi", () => {
       expect(Midi.pcset([-1, -12, -8, 4])).toEqual([0, 4, 11]);
+    });
+    test("from decimal midi", () => {
+      expect(Midi.pcset([60.4, 64, 67.6])).toEqual([0, 4, 8]);
+      expect(Midi.pcset([59.5, 60.49, -0.5])).toEqual([0]);
+      expect(Midi.pcset([61.4, 73.4, 85.4])).toEqual([1]);
+      expect(Midi.pcset([Midi.freqToMidi(261), 64.02])).toEqual([0, 4]);
+    });
+    test("ignores numbers that aren't finite", () => {
+      expect(Midi.pcset([NaN, 60, Infinity, -Infinity])).toEqual([0]);
+      expect(Midi.pcset([NaN])).toEqual([]);
     });
   });
 
@@ -123,6 +134,11 @@ describe("midi", () => {
       expect(Midi.pcsetNearest([0, 2])(61)).toEqual(62);
     });
 
+    test("decimal midi numbers in the set", () => {
+      const nearest = Midi.pcsetNearest([60.4, 64, 67.6]);
+      expect([60, 66, 67, 72.3].map(nearest)).toEqual([60, 68, 68, 72]);
+    });
+
     test("not a number", () => {
       const nearest = Midi.pcsetNearest([0, 4, 7]);
       expect([NaN, Infinity, -Infinity].map(nearest)).toEqual([
@@ -139,6 +155,11 @@ describe("midi", () => {
         undefined,
       ]);
     });
+  });
+
+  test("Midi.pcsetSteps with decimal midi numbers in the set", () => {
+    const steps = Midi.pcsetSteps([0.3, 4.2, 6.8], 60);
+    expect([0, 1, 2, 3].map(steps)).toEqual([60, 64, 67, 72]);
   });
 
   test("Midi.pcsetSteps", () => {
