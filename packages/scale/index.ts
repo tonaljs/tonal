@@ -50,15 +50,17 @@ const NoScale: Scale = {
  * Given a string with a scale name and (optionally) a tonic, split
  * that components.
  *
- * It returns an array with the form [ name, tonic ] where tonic can be a
- * note name or null and name can be any arbitrary string
- * (this function doesn't check if that scale name exists)
+ * It returns an array with the form [tonic, type] where tonic is a note
+ * name (or "" if there is no tonic) and type can be any arbitrary string
+ * (this function doesn't check if that scale type exists). The tonic is
+ * normalized, so "Cx" is returned as "C##".
  *
  * @function
  * @param {string} name - the scale name
- * @return {Array} an array [tonic, name]
+ * @return {Array} an array [tonic, type]
  * @example
  * tokenize("C mixolydian") // => ["C", "mixolydian"]
+ * tokenize("Cx major") // => ["C##", "major"]
  * tokenize("anything is valid") // => ["", "anything is valid"]
  * tokenize() // => ["", ""]
  */

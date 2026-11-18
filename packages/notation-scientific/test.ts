@@ -10,6 +10,9 @@ describe("Scientific Notation", () => {
     expect(tokenize("")).toEqual(["", "", "", ""]);
     expect(tokenize("bb")).toEqual(["B", "b", "", ""]);
     expect(tokenize("##")).toEqual(["", "##", "", ""]);
+    expect(tokenize(" |\n")).toEqual(["", "", "", ""]);
+    expect(tokenize("C-")).toEqual(["C", "", "", "-"]);
+    expect(tokenize("C-1")).toEqual(["C", "", "-1", ""]);
   });
 
   test("parse", () => {
@@ -24,6 +27,11 @@ describe("Scientific Notation", () => {
     expect(parse("ebbb-3")).toEqual({ alt: -3, oct: -3, step: 2 });
     expect(parse("ebbbbbb-3")).toEqual({ alt: -6, oct: -3, step: 2 });
     expect(parse("bb")).toEqual(parse("Bb"));
+    expect(parse("C04")).toEqual(parse("C4"));
+    expect(parse("C-0")).toEqual(parse("C0"));
+    expect(Object.is(parse("C-0")?.oct, 0)).toBe(true);
+    expect(parse("C-")).toBe(null);
+    expect(parse("Bb-")).toBe(null);
   });
 
   test("name", () => {
