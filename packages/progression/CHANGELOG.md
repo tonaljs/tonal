@@ -1,5 +1,18 @@
 # @tonaljs/progression
 
+## 4.11.1
+
+### Patch Changes
+
+- 9cac7a4: `Progression.fromRomanNumerals` reads composed chord types, like `Chord.get` does: `fromRomanNumerals("C", ["V7(b9)", "Imaj7(no3)"])` gave `["", ""]` (now `["G7(b9)", "Cmaj7(no3)"]`). So `toRomanNumerals("C", ["G7(b9)"])`, which gives `"V7(b9)"`, now reads back as `"G7(b9)"`.
+- 5519908: `Progression.fromRomanNumerals` makes the third of a lowercase numeral minor and keeps the rest of the chord type, alterations included: `fromRomanNumerals("C", ["ii7b9", "ii13#11", "ii7(b9)"])` gave `["D7b9", "D13#11", "D7(b9)"]` (now `["Dm7b9", "Dm13#11", "Dm7(b9)"]`). A flat fifth gives a half-diminished chord: `ii7b5` was `D7b5` and is now `Dm7b5`, and `ii7b5b9` is `Dm7b5b9`. A chord type with a `#9` stays as written (`ii7#9` is `D7#9`), since its minor third would be the same note as the `#9`.
+- 6c10671: Roman numerals read chord types with an `i` or a `v` in them: `RomanNumeral.get("viidim7")` and `"iimin7"` were empty, so `Progression.fromRomanNumerals("C", ["viidim7", "iimin7"])` gave `["", ""]` (now `["Bdim7", "Dmin7"]`). `Progression.toRomanNumerals("C", ["Bdim7"])` gives `"VIIdim7"`, which now reads back as `"Bdim7"`.
+- Updated dependencies [a328946]
+- Updated dependencies [6c10671]
+  - @tonaljs/chord-type@5.3.1
+  - @tonaljs/chord@6.3.1
+  - @tonaljs/roman-numeral@4.10.1
+
 ## 4.11.0
 
 ### Minor Changes

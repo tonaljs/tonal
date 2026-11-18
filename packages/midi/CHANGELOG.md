@@ -1,5 +1,12 @@
 # @tonaljs/midi
 
+## 4.10.7
+
+### Patch Changes
+
+- 9b041bb: `Midi.chroma` returns a pitch class from 0 to 11 for midi numbers below 0 too (`Midi.chroma(-1)` was `-1`, now `11`), so `Midi.pcset([-1])` is `[11]`. `Midi.pcsetNearest` finds the nearest note below midi 0 (`pcsetNearest([2])(-11)` was `undefined`, now `-10`) and for decimal midi numbers like the ones from `freqToMidi` (`pcsetNearest(Scale.get("C major").chroma)(59.96)` was `undefined`, now `60`). Whole midi numbers from 0 to 127 give the same results as before.
+- 4162dde: `Midi.pcset` rounds decimal midi numbers to the nearest note and ignores numbers that aren't finite, so a pitch class set is always whole numbers from 0 to 11, and `pcsetNearest`, `pcsetSteps` and `pcsetDegrees` return whole midi numbers for a set built from decimal midi. `Midi.chroma` keeps the fraction of a decimal midi number, which is now documented.
+
 ## 4.10.6
 
 ### Patch Changes
