@@ -1,12 +1,13 @@
 "use client";
 
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Chord, Note } from "tonal";
 import { PianoKeyboard } from "./piano-keyboard";
+import { useMidiInput } from "./use-midi";
 import { usePiano } from "./use-piano";
 
-// C3 to B5
+// C3 to B5, wider when the notes are outside
 const FROM = 48;
 const TO = 83;
 
@@ -78,6 +79,22 @@ export function ChordFinder() {
   const [linkRead, setLinkRead] = useState(false);
   const { status, play } = usePiano();
 
+  // a MIDI keyboard: the held keys are the chord. When they are released the
+  // chord stays, and the next key starts a new one.
+  const held = useRef(new Set<number>());
+  const midi = useMidiInput({
+    noteOn(note) {
+      held.current.add(note);
+      const next = [...held.current].sort((a, b) => a - b).map(spell);
+      setKeys(next);
+      setText(next.join(" "));
+      setSelected(null);
+    },
+    noteOff(note) {
+      held.current.delete(note);
+    },
+  });
+
   // read the chord or the notes of a shared link
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -136,8 +153,22 @@ export function ChordFinder() {
     ? Note.get([...notes].sort(byHeight)[0]).height
     : undefined;
 
-  const spell = (midi: number) =>
-    spelling === "flat" ? Note.fromMidi(midi) : Note.fromMidiSharps(midi);
+  function spell(midi: number) {
+    return spelling === "flat"
+      ? Note.fromMidi(midi)
+      : Note.fromMidiSharps(midi);
+  }
+
+  // from the C below the lowest note to the B above the highest
+  const heights = notes.map((note) => Note.get(note).height);
+  const from = Math.max(
+    21,
+    Math.min(FROM, ...heights.map((h) => h - (h % 12))),
+  );
+  const to = Math.min(
+    108,
+    Math.max(TO, ...heights.map((h) => h + 11 - (h % 12))),
+  );
 
   function toggleKey(midi: number) {
     const existing = notes.find((note) => Note.get(note).height === midi);
@@ -163,8 +194,8 @@ export function ChordFinder() {
         <div className="overflow-x-auto">
           <div className="min-w-[600px]">
             <PianoKeyboard
-              from={FROM}
-              to={TO}
+              from={from}
+              to={to}
               active={active}
               marked={bass}
               keyName={spell}
@@ -210,6 +241,7 @@ export function ChordFinder() {
             Clear
           </button>
         </div>
+        <MidiControl {...midi} />
       </div>
 
       <div className="flex flex-col gap-2">
@@ -391,6 +423,41 @@ function ChordDetails({
         </div>
       ) : null}
     </section>
+  );
+}
+
+function MidiControl({
+  status,
+  inputs,
+  connect,
+}: ReturnType<typeof useMidiInput>) {
+  if (status === "unsupported") return null;
+  return (
+    <div className="flex flex-wrap items-center gap-2 text-sm">
+      {status === "on" ? (
+        <span className="text-fd-muted-foreground">
+          {inputs.length
+            ? `MIDI: ${inputs.join(", ")}. Play a chord on it.`
+            : "No MIDI keyboard found. Plug one in."}
+        </span>
+      ) : (
+        <>
+          <button
+            type="button"
+            className="rounded-md border border-fd-border px-2 py-0.5 hover:bg-fd-accent"
+            disabled={status === "connecting"}
+            onClick={connect}
+          >
+            Use a MIDI keyboard
+          </button>
+          {status === "denied" ? (
+            <span className="text-fd-muted-foreground">
+              The browser didn't allow MIDI access.
+            </span>
+          ) : null}
+        </>
+      )}
+    </div>
   );
 }
 
