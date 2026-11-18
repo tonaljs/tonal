@@ -1,5 +1,27 @@
 # @tonaljs/pitch-interval
 
+## 6.3.0
+
+### Minor Changes
+
+- f2cecb3: Intervals can have any number of augmented or diminished: `Interval.get("4AAAAA").semitones` is `10`, and `Interval.add`, `Interval.subtract` and `Interval.distance` give a name for every pair (`Interval.add("4AAAA", "1A")` was `""`, now it's `"4AAAAA"`)
+- f2cecb3: **Behaviour change.** `Interval.simplify` keeps the octave, however many octaves an interval spans, and `Interval.invert` gives the interval that completes the simplified interval to an octave. Before, `simplify` kept `8P` but turned `15P` into `1P`, and `invert` kept compound intervals compound and left unisons and octaves as they were. The new results follow music21's semi-simple intervals and complements:
+
+  |                    | before  | now     |
+  | ------------------ | ------- | ------- |
+  | `simplify("15P")`  | `"1P"`  | `"8P"`  |
+  | `simplify("-22P")` | `"-1P"` | `"-8P"` |
+  | `invert("1P")`     | `"1P"`  | `"8P"`  |
+  | `invert("8P")`     | `"8P"`  | `"1P"`  |
+  | `invert("1A")`     | `"1d"`  | `"8d"`  |
+  | `invert("9M")`     | `"14m"` | `"7m"`  |
+
+  Other simple intervals are unchanged, and the direction is kept (`invert("-3M")` is still `"-6m"`). `Interval.get(i).simple` follows `simplify`: it's `8` for `"15P"`
+
+### Patch Changes
+
+- e6cd704: A unison, fourth, fifth or octave with a major or minor quality is not an interval anymore: `Interval.get("5m")` used to be a perfect fifth (`semitones: 7`) and `Note.transpose("C4", "5m")` gave `"G4"`; now they give the empty interval and `""`, like `"2P"` already did.
+
 ## 6.2.0
 
 ### Minor Changes

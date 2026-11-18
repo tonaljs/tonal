@@ -1,5 +1,14 @@
 # @tonaljs/range
 
+## 4.9.6
+
+### Patch Changes
+
+- 99ee8a1: `Collection.range` (and `Range.numeric` / `Range.chromatic`) no longer hang when a bound is not a whole number, like `Range.numeric([Midi.freqToMidi(261), 72])`. Non-finite bounds give an empty range.
+- Updated dependencies [99ee8a1]
+  - @tonaljs/collection@4.9.2
+  - @tonaljs/midi@4.10.6
+
 ## 4.9.5
 
 ### Patch Changes

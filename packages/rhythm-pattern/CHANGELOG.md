@@ -1,5 +1,11 @@
 # @tonaljs/rhythm-pattern
 
+## 1.0.2
+
+### Patch Changes
+
+- 7aa10aa: `RhythmPattern.euclid(steps, 0)` now returns only rests. It returned a beat on the first step.
+
 ## 1.0.1
 
 ### Patch Changes
