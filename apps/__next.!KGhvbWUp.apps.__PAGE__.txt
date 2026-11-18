@@ -1,0 +1,42 @@
+1:"$Sreact.fragment"
+2:"/tonal/_next/static/chunks/0myynhjo34679.js"
+3:"/tonal/_next/static/chunks/3-rf6ymu273iv.js"
+4:I[45447,["$2","$3"],"RootProvider"]
+5:I[36532,["$2","$3"],"default"]
+6:I[9019,["$2","$3"],"default"]
+a:"/tonal/_next/static/chunks/3x6li4_-f1feq.js"
+b:"/tonal/_next/static/chunks/1i_2af-ek2mqs.js"
+c:"/tonal/_next/static/chunks/41wg_9xmmx0g2.js"
+d:"/tonal/_next/static/chunks/458zjwmbq7lh_.js"
+e:I[31683,["$2","$3","$a","$b","$c","$d"],"HomeLayout"]
+f:I[66370,["$2","$3","$a","$b","$c","$d"],"default"]
+15:I[17223,["$2","$3","$a","$b","$c","$d"],"default"]
+1c:"ViewportBoundary"
+1d:I[68188,["$2","$3"],"$1c"]
+1e:"MetadataBoundary"
+1f:I[68188,["$2","$3"],"$1e"]
+20:"$Sreact.suspense"
+:HL["/tonal/_next/static/chunks/3xnv1vj0fnuwk.css","style"]
+8:X
+13:X
+13:C
+14:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$1","c",{"children":[["$","main",null,{"className":"mx-auto w-full max-w-(--fd-layout-width) px-4 py-8 md:py-12","children":[["$","h1",null,{"className":"mb-2 text-3xl font-bold","children":"Apps"}],["$","p",null,{"className":"mb-8 text-fd-muted-foreground","children":"Small music theory apps built with tonal. Each one shows the tonal code behind what you see, and links to its docs."}],["$","div",null,{"children":[["$","$L15","chord-finder",{"href":"/apps/chord-finder/","data-card":true,"className":"block rounded-xl border bg-fd-card p-4 text-fd-card-foreground transition-colors @max-lg:col-span-full hover:bg-fd-accent/80","children":[null,"$L16","$L17","$L18"]}],"$L19"],"className":"grid grid-cols-2 gap-3 @container"}]]}],null,"$L1a"]}],"p":"$@1b","v":null,"s":"$8"}}]]
+11:[["children",{"s":"apps","h":96,"d":{"r":["$","$1","c",{"children":[null,["$","$L5",null,{"parallelRouterKey":"children","template":["$","$L6",null,{}]}]]}],"p":"$@12","v":"$13","s":"$8"},"c":"$Q14"}]]
+9:[["children",{"s":"(home)","h":96,"d":{"r":["$","$1","c",{"children":[[["$","script","script-0",{"src":"/tonal/_next/static/chunks/3x6li4_-f1feq.js","async":true}],["$","script","script-1",{"src":"/tonal/_next/static/chunks/1i_2af-ek2mqs.js","async":true}],["$","script","script-2",{"src":"/tonal/_next/static/chunks/41wg_9xmmx0g2.js","async":true}],["$","script","script-3",{"src":"/tonal/_next/static/chunks/458zjwmbq7lh_.js","async":true}]],["$","$Le",null,{"nav":{"title":"Tonal"},"links":[{"text":"Documentation","icon":["$","$Lf",null,{"icon":{"name":"book","size":24,"node":[["path",{"d":"M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20","key":"k3hazp"}]]}}],"url":"/docs","active":"nested-url"},{"text":"Apps","icon":["$","$Lf",null,{"icon":{"name":"keyboard-music","size":24,"node":[["rect",{"width":"20","height":"16","x":"2","y":"4","rx":"2","key":"18n3k1"}],["path",{"d":"M6 8h4","key":"utf9t1"}],["path",{"d":"M14 8h.01","key":"1primd"}],["path",{"d":"M18 8h.01","key":"emo2bl"}],["path",{"d":"M2 12h20","key":"9i4pu4"}],["path",{"d":"M6 12v4","key":"dy92yo"}],["path",{"d":"M10 12v4","key":"1fxnav"}],["path",{"d":"M14 12v4","key":"1hft58"}],["path",{"d":"M18 12v4","key":"tjjnbz"}]]}}],"url":"/apps","active":"nested-url"}],"githubUrl":"https://github.com/tonaljs/tonal","children":["$","$L5",null,{"parallelRouterKey":"children","template":["$","$L6",null,{}],"notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":"$0:t:t:d:r:props:children:1:props:children:props:children:props:children:props:notFound:0:1:props:style","children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":"$0:t:t:d:r:props:children:1:props:children:props:children:props:children:props:notFound:0:1:props:children:props:children:1:props:style","children":404}],["$","div",null,{"style":"$0:t:t:d:r:props:children:1:props:children:props:children:props:children:props:notFound:0:1:props:children:props:children:2:props:style","children":["$","h2",null,{"style":"$0:t:t:d:r:props:children:1:props:children:props:children:props:children:props:notFound:0:1:props:children:props:children:2:props:children:props:style","children":"This page could not be found."}]}]]}]}]],[]]}]}]]}],"p":"$@10","v":null,"s":"$8"},"c":"$Q11"}]]
+0:{"t":{"t":{"s":"","h":80,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/tonal/_next/static/chunks/3xnv1vj0fnuwk.css","precedence":"next"}],["$","script","script-0",{"src":"/tonal/_next/static/chunks/0myynhjo34679.js","async":true}],["$","script","script-1",{"src":"/tonal/_next/static/chunks/3-rf6ymu273iv.js","async":true}]],["$","html",null,{"lang":"en","className":"OU16Qa_className","suppressHydrationWarning":true,"children":["$","body",null,{"className":"flex flex-col min-h-screen","children":["$","$L4",null,{"search":{"enabled":false},"children":["$","$L5",null,{"parallelRouterKey":"children","template":["$","$L6",null,{}],"notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]]}]}]}]}]]}],"p":"$@7","v":null,"s":"$8"},"c":"$Q9"},"h":{"r":["$","$1","h",{"children":[null,["$","$L1d",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L1f",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$20",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Apps · tonal"}],["$","meta","1",{"name":"description","content":"Small music theory apps built with tonal."}]]}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":"$@21","v":null,"s":"$8"}},"a":"$@22","u":"$@23","b":"idyPsh8BUxUzn7uujanNE"}
+24:I[68188,["$2","$3"],"OutletBoundary"]
+16:["$","h3",null,{"className":"not-prose mb-1 text-sm font-medium","children":"Chord finder"}]
+17:["$","p",null,{"className":"my-0! text-sm text-fd-muted-foreground","children":"Play or type some notes to get the chord name, or type a chord symbol to get its notes."}]
+18:["$","div",null,{"className":"text-sm text-fd-muted-foreground prose-no-margin empty:hidden"}]
+19:["$","$L15","scale-chords",{"href":"/apps/scale-chords/","data-card":true,"className":"block rounded-xl border bg-fd-card p-4 text-fd-card-foreground transition-colors @max-lg:col-span-full hover:bg-fd-accent/80","children":[null,["$","h3",null,{"className":"not-prose mb-1 text-sm font-medium","children":"Scale chords"}],["$","p",null,{"className":"my-0! text-sm text-fd-muted-foreground","children":"Pick a tonic and any of 92 scales to see the chord on each degree: triads, sevenths, or chords stacked in fourths or seconds."}],["$","div",null,{"className":"text-sm text-fd-muted-foreground prose-no-margin empty:hidden"}]]}]
+1a:["$","$L24",null,{"children":["$","$20",null,{"name":"Next.MetadataOutlet","children":"$@25"}]}]
+8:300
+25:null
+23:true
+8:C
+22:0
+12:"$undefined"
+10:"$undefined"
+7:"$undefined"
+21:"$undefined"
+1b:"$undefined"

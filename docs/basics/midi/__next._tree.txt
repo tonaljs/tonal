@@ -1,7 +1,7 @@
-:HL["/tonal/_next/static/chunks/1oj011-h_0wqi.css","style"]
+:HL["/tonal/_next/static/chunks/3xnv1vj0fnuwk.css","style"]
 :HL["/tonal/_next/static/media/07c7676b89ed2778-s.p.2bn3s6zvc0dyp.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["https://img.shields.io/badge/@tonaljs-midi-yellow.svg?style=flat-square","image"]
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"slug","t":"oc","k":"basics/midi","s":[]},"h":96,"c":"$Q3"}]]
 1:[["children",{"s":"docs","h":96,"c":"$Q2"}]]
-0:{"b":"DEvS17xhBg_fZaksYH_0V","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"idyPsh8BUxUzn7uujanNE","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
