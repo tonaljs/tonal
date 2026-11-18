@@ -75,6 +75,26 @@ describe("@tonaljs/progression", () => {
     expect(inC($("ii11"))).toEqual($("Dm11"));
   });
 
+  test("composed chord types", () => {
+    const inC = (chords: string[]) =>
+      Progression.fromRomanNumerals("C", chords);
+    expect(inC($("V7(b9) Imaj7(no3) IV(add9) V7(b9,#11) bVII7(#11)"))).toEqual(
+      $("G7(b9) Cmaj7(no3) F(add9) G7(b9,#11) Bb7(#11)"),
+    );
+    expect(inC($("V7(b9)/V I(add9)/E ii(add9)"))).toEqual(
+      $("D7(b9) C(add9)/E Dm(add9)"),
+    );
+  });
+
+  test("toRomanNumerals with composed chord types reads back", () => {
+    const chords = $("G7(b9) Cmaj7(no3) F(add9) Dm7(b5) A7(b9,#11)");
+    const romans = Progression.toRomanNumerals("C", chords);
+    expect(romans).toEqual(
+      $("V7(b9) Imaj7(no3) IV(add9) IIm7(b5) VI7(b9,#11)"),
+    );
+    expect(Progression.fromRomanNumerals("C", romans)).toEqual(chords);
+  });
+
   test("every spelling of each chord type gives the same chord", () => {
     const failed: string[] = [];
     for (const type of allChordTypes()) {

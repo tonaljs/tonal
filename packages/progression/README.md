@@ -51,6 +51,13 @@ Progression.fromRomanNumerals("C", ["viio7/V", "V/V/V"]);
 // => ["F#o7", "A"]
 ```
 
+A chord type can also be a listed type plus alterations, like in `Chord.get`:
+
+```js
+Progression.fromRomanNumerals("C", ["V7(b9)", "IV(add9)", "ii(add9)"]);
+// => ["G7(b9)", "F(add9)", "Dm(add9)"]
+```
+
 A note after a slash is the bass: `I/E` is `C/E`. A numeral whose chord type isn't a known chord type gives an empty string:
 
 ```js
