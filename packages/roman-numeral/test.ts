@@ -135,6 +135,30 @@ describe("tonal-roman-numeral", () => {
     expect(tokenize("C")).toEqual(["", "", "", "", ""]);
   });
 
+  test("tokenize chord types with i or v", () => {
+    expect(tokenize("viidim7")).toEqual(["viidim7", "", "vii", "dim7", ""]);
+    expect(tokenize("iimin7")).toEqual(["iimin7", "", "ii", "min7", ""]);
+    expect(tokenize("IVdim")).toEqual(["IVdim", "", "IV", "dim", ""]);
+    expect(tokenize("#ivmi7")).toEqual(["#ivmi7", "#", "iv", "mi7", ""]);
+    expect(tokenize("viidim7/V")).toEqual([
+      "viidim7/V",
+      "",
+      "vii",
+      "dim7",
+      "V",
+    ]);
+    expect(tokenize("Idim/E")).toEqual(["Idim/E", "", "I", "dim/E", ""]);
+    expect(RomanNumeral.get("VIIdim7")).toMatchObject({
+      step: 6,
+      alt: 0,
+      chordType: "dim7",
+    });
+    // the roman numeral still takes as many letters as it can
+    expect(tokenize("VII")).toEqual(["VII", "", "VII", "", ""]);
+    expect(tokenize("viii")).toEqual(["", "", "", "", ""]);
+    expect(tokenize("V/v/E")).toEqual(["", "", "", "", ""]);
+  });
+
   it("create from degrees", () => {
     expect(
       [1, 2, 3, 4, 5, 6, 7].map((i) => RomanNumeral.get(i - 1).name),

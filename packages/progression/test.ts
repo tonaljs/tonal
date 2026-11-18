@@ -78,10 +78,10 @@ describe("@tonaljs/progression", () => {
   test("every spelling of each chord type gives the same chord", () => {
     const failed: string[] = [];
     for (const type of allChordTypes()) {
-      const chords = type.aliases
-        .map((alias) => Progression.fromRomanNumerals("C", ["ii" + alias])[0])
-        // some chord types can't be written as roman numerals yet ("iidim")
-        .filter((chord) => chord !== "");
+      const chords = type.aliases.map(
+        (alias) => Progression.fromRomanNumerals("C", ["ii" + alias])[0],
+      );
+      if (chords.includes("")) failed.push(type.aliases.join(" "));
       const intervals = new Set(
         chords.map((chord) => getChordType(chord.slice(1)).intervals.join(" ")),
       );
@@ -141,8 +141,25 @@ describe("@tonaljs/progression", () => {
     expect(inC($("I/E V7/B i/Eb vi7/G"))).toEqual($("C/E G7/B Cm/Eb Am7/G"));
   });
 
+  test("chord types with an i or a v", () => {
+    const inC = (chords: string[]) =>
+      Progression.fromRomanNumerals("C", chords);
+    expect(inC($("viidim7 VIIdim iimin7 Imi7 IVdim viidim7/V Idim/E"))).toEqual(
+      $("Bdim7 Bdim Dmin7 Cmi7 Fdim F#dim7 Cdim/E"),
+    );
+  });
+
   test("abstract", () => {
     const roman = Progression.toRomanNumerals("C", ["Cmaj7", "Dm7", "G7"]);
     expect(roman).toEqual(["Imaj7", "IIm7", "V7"]);
+  });
+
+  test("toRomanNumerals and back", () => {
+    const chords = $("Bdim7 Bdim Cmin7 Dmi7 Fdim C#dim7 Cmaj7 Bm7b5 G7");
+    const roman = Progression.toRomanNumerals("C", chords);
+    expect(roman).toEqual(
+      $("VIIdim7 VIIdim Imin7 IImi7 IVdim #Idim7 Imaj7 VIIm7b5 V7"),
+    );
+    expect(Progression.fromRomanNumerals("C", roman)).toEqual(chords);
   });
 });

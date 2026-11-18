@@ -35,7 +35,7 @@ Progression.fromRomanNumerals("C", ["IMaj7", "IIm7", "V7"]);
 // => ["CMaj7", "Dm7", "G7"]
 ```
 
-A lowercase roman numeral is a minor chord, unless its chord type already has a quality (like `viio`, `iim7` or `ii+`). Every spelling of a chord type gives the same chord (`iimaj7` and `iiMaj7` are both minor-major sevenths):
+A lowercase roman numeral is a minor chord, unless its chord type already has a quality (like `viio`, `viidim7`, `iim7` or `ii+`). Every spelling of a chord type gives the same chord (`iimaj7` and `iiMaj7` are both minor-major sevenths, and `viio7` and `viidim7` are both diminished sevenths):
 
 ```js
 Progression.fromRomanNumerals("C", ["I", "vi", "ii7", "V7", "viio"]);

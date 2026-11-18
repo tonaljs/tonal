@@ -100,8 +100,11 @@ const ROMAN = "IV|I{1,3}|VI{0,2}|iv|i{1,3}|vi{0,2}";
 // ("/V", "/V/ii"). The chord type is lazy, so a trailing "/<degree>" is read
 // as an applied chord, and anything else after a slash (like the bass in
 // "I/E") stays in the chord type.
+// The chord type can't start with a roman numeral letter, but an "i" or a "v"
+// can follow another letter of it, as in "dim7" or "min7" ("viidim7").
+const CHORD_TYPE = "(?:[^IViv/][iv]?|/)*?";
 const REGEX = new RegExp(
-  `^(${ACC})(${ROMAN})([^IViv]*?)((?:/(?:${ACC})(?:${ROMAN}))*)$`,
+  `^(${ACC})(${ROMAN})(${CHORD_TYPE})((?:/(?:${ACC})(?:${ROMAN}))*)$`,
 );
 
 // [name, accidentals, romanNumeral, chordType, of]
