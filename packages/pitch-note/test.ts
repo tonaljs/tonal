@@ -12,6 +12,8 @@ describe("note", () => {
     expect(tokenize("##")).toEqual(["", "##", "", ""]);
     expect(tokenize("")).toEqual(["", "", "", ""]);
     expect(tokenize(" |\n")).toEqual(["", "", "", ""]);
+    expect(tokenize("C-")).toEqual(["C", "", "", "-"]);
+    expect(tokenize("C-1")).toEqual(["C", "", "-1", ""]);
   });
 
   describe("note properties from string", () => {
@@ -31,6 +33,26 @@ describe("note", () => {
         midi: 69,
         freq: 440,
       });
+    });
+
+    test("the name has the octave as a number", () => {
+      const names = (str: string) => str.split(" ").map((n) => note(n).name);
+      expect(names("C04 Eb004 F#09 C-0 B-00 C-01")).toEqual([
+        "C4",
+        "Eb4",
+        "F#9",
+        "C0",
+        "B0",
+        "C-1",
+      ]);
+      expect(note("C04")).toEqual(note("C4"));
+      expect(note("C-0")).toEqual(note("C0"));
+    });
+
+    test("a minus sign without octave is not a note", () => {
+      expect(note("C-").empty).toBe(true);
+      expect(note("Bb-").empty).toBe(true);
+      expect(note("C-4").name).toBe("C-4");
     });
 
     test("it accepts a Note as param", () => {
