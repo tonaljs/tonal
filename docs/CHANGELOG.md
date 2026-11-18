@@ -1,5 +1,34 @@
 # tonal
 
+## 6.7.1
+
+### Patch Changes
+
+- a328946: A `b5` in a chord symbol lowers the fifth. Six chord types listed a `b5` spelling as another name of a `#11` chord, which keeps the fifth, so `Chord.get("C7b5b9").notes` was `["C", "E", "G", "Bb", "Db", "F#"]` (now `["C", "E", "Gb", "Bb", "Db"]`, like `C7b5` and `Cm7b5b9`). The spellings were `7b5b9`, `7b9b5`, `7b5#9`, `7#9b5`, `7b5b13`, `9b5b13`, `7b5b9b13`, `6b5` and `M6b5`. They aren't listed types any more: `Chord.get` reads them as a listed type plus alterations, and `ChordType.get("7b5b9")` is empty. `7b9#11`, `7#9#11`, `6#11` and the other `#11` spellings are unchanged, and so is `Chord.detect`.
+- 9b041bb: `Midi.chroma` returns a pitch class from 0 to 11 for midi numbers below 0 too (`Midi.chroma(-1)` was `-1`, now `11`), so `Midi.pcset([-1])` is `[11]`. `Midi.pcsetNearest` finds the nearest note below midi 0 (`pcsetNearest([2])(-11)` was `undefined`, now `-10`) and for decimal midi numbers like the ones from `freqToMidi` (`pcsetNearest(Scale.get("C major").chroma)(59.96)` was `undefined`, now `60`). Whole midi numbers from 0 to 127 give the same results as before.
+- 4162dde: `Midi.pcset` rounds decimal midi numbers to the nearest note and ignores numbers that aren't finite, so a pitch class set is always whole numbers from 0 to 11, and `pcsetNearest`, `pcsetSteps` and `pcsetDegrees` return whole midi numbers for a set built from decimal midi. `Midi.chroma` keeps the fraction of a decimal midi number, which is now documented.
+- 9cac7a4: `Progression.fromRomanNumerals` reads composed chord types, like `Chord.get` does: `fromRomanNumerals("C", ["V7(b9)", "Imaj7(no3)"])` gave `["", ""]` (now `["G7(b9)", "Cmaj7(no3)"]`). So `toRomanNumerals("C", ["G7(b9)"])`, which gives `"V7(b9)"`, now reads back as `"G7(b9)"`.
+- 5519908: `Progression.fromRomanNumerals` makes the third of a lowercase numeral minor and keeps the rest of the chord type, alterations included: `fromRomanNumerals("C", ["ii7b9", "ii13#11", "ii7(b9)"])` gave `["D7b9", "D13#11", "D7(b9)"]` (now `["Dm7b9", "Dm13#11", "Dm7(b9)"]`). A flat fifth gives a half-diminished chord: `ii7b5` was `D7b5` and is now `Dm7b5`, and `ii7b5b9` is `Dm7b5b9`. A chord type with a `#9` stays as written (`ii7#9` is `D7#9`), since its minor third would be the same note as the `#9`.
+- 6c10671: Roman numerals read chord types with an `i` or a `v` in them: `RomanNumeral.get("viidim7")` and `"iimin7"` were empty, so `Progression.fromRomanNumerals("C", ["viidim7", "iimin7"])` gave `["", ""]` (now `["Bdim7", "Dmin7"]`). `Progression.toRomanNumerals("C", ["Bdim7"])` gives `"VIIdim7"`, which now reads back as `"Bdim7"`.
+- Updated dependencies [a328946]
+- Updated dependencies [9b041bb]
+- Updated dependencies [4162dde]
+- Updated dependencies [9cac7a4]
+- Updated dependencies [5519908]
+- Updated dependencies [6c10671]
+  - @tonaljs/chord-type@5.3.1
+  - @tonaljs/chord@6.3.1
+  - @tonaljs/midi@4.10.7
+  - @tonaljs/progression@4.11.1
+  - @tonaljs/roman-numeral@4.10.1
+  - @tonaljs/scale@4.14.1
+  - @tonaljs/key@4.11.7
+  - @tonaljs/voicing@5.2.1
+  - @tonaljs/voicing-dictionary@5.1.8
+  - @tonaljs/note@4.12.6
+  - @tonaljs/range@4.9.7
+  - @tonaljs/voice-leading@5.1.7
+
 ## 6.7.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @tonaljs/voice-leading
 
+## 5.1.7
+
+### Patch Changes
+
+- @tonaljs/note@4.12.6
+
 ## 5.1.6
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @tonaljs/voicing
 
+## 5.2.1
+
+### Patch Changes
+
+- Updated dependencies [a328946]
+  - @tonaljs/chord@6.3.1
+  - @tonaljs/voicing-dictionary@5.1.8
+  - @tonaljs/note@4.12.6
+  - @tonaljs/range@4.9.7
+  - @tonaljs/voice-leading@5.1.7
+
 ## 5.2.0
 
 ### Minor Changes

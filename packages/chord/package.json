@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chord",
-  "version": "6.3.0",
+  "version": "6.3.1",
   "description": "Musical chords and its relations",
   "keywords": [
     "chord",
@@ -16,8 +16,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord-detect": "4.10.0",
-    "@tonaljs/chord-type": "5.3.0",
+    "@tonaljs/chord-detect": "4.10.1",
+    "@tonaljs/chord-type": "5.3.1",
     "@tonaljs/collection": "4.9.2",
     "@tonaljs/interval": "^5.2.0",
     "@tonaljs/pcset": "4.10.5",

@@ -1,5 +1,13 @@
 # @tonaljs/key
 
+## 4.11.7
+
+### Patch Changes
+
+- Updated dependencies [6c10671]
+  - @tonaljs/roman-numeral@4.10.1
+  - @tonaljs/note@4.12.6
+
 ## 4.11.6
 
 ### Patch Changes
