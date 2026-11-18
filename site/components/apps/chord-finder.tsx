@@ -3,13 +3,9 @@
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Chord, Note } from "tonal";
-import { PianoKeyboard } from "./piano-keyboard";
+import { keyboardRange, PianoKeyboard } from "./piano-keyboard";
 import { useMidiInput } from "./use-midi";
 import { usePiano } from "./use-piano";
-
-// C3 to B5, wider when the notes are outside
-const FROM = 48;
-const TO = 83;
 
 const DEFAULT_NOTES = ["C4", "E4", "G4", "B4"];
 
@@ -160,16 +156,7 @@ export function ChordFinder() {
       : Note.fromMidiSharps(midi);
   }
 
-  // from the C below the lowest note to the B above the highest
-  const heights = notes.map((note) => Note.get(note).height);
-  const from = Math.max(
-    21,
-    Math.min(FROM, ...heights.map((h) => h - (h % 12))),
-  );
-  const to = Math.min(
-    108,
-    Math.max(TO, ...heights.map((h) => h + 11 - (h % 12))),
-  );
+  const [from, to] = keyboardRange(notes.map((note) => Note.get(note).height));
 
   function toggleKey(midi: number) {
     const existing = notes.find((note) => Note.get(note).height === midi);

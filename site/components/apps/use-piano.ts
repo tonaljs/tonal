@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { type PlayOptions, playNotes } from "@/lib/piano";
+import { type PlayOptions, playChords, playNotes } from "@/lib/piano";
 
 export type PianoStatus = "idle" | "loading" | "ready" | "error";
 
@@ -9,17 +9,27 @@ export type PianoStatus = "idle" | "loading" | "ready" | "error";
 export function usePiano() {
   const [status, setStatus] = useState<PianoStatus>("idle");
 
+  const track = useCallback((playing: Promise<void>) => {
+    setStatus((status) => (status === "ready" ? status : "loading"));
+    playing.then(
+      () => setStatus("ready"),
+      () => setStatus("error"),
+    );
+  }, []);
+
   const play = useCallback(
     (notes: (string | number)[], options?: PlayOptions) => {
-      if (!notes.length) return;
-      setStatus((status) => (status === "ready" ? status : "loading"));
-      playNotes(notes, options).then(
-        () => setStatus("ready"),
-        () => setStatus("error"),
-      );
+      if (notes.length) track(playNotes(notes, options));
     },
-    [],
+    [track],
   );
 
-  return { status, play };
+  const playSequence = useCallback(
+    (chords: (string | number)[][], gap?: number) => {
+      if (chords.length) track(playChords(chords, gap));
+    },
+    [track],
+  );
+
+  return { status, play, playSequence };
 }

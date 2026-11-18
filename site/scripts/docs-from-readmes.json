@@ -53,7 +53,8 @@
     "page": "groups/scales.md",
     "readme": "scale",
     "title": "Scales",
-    "description": "Work with scales"
+    "description": "Work with scales",
+    "apps": ["scale-chords"]
   },
   {
     "page": "harmony/keys.md",
