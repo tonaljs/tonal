@@ -79,6 +79,7 @@ Split a roman numeral symbol into the whole match, its accidentals, the roman nu
 RomanNumeral.tokenize("bVIIMaj7"); // => ["bVIIMaj7", "b", "VII", "Maj7", ""]
 RomanNumeral.tokenize("#iv"); // => ["#iv", "#", "iv", "", ""]
 RomanNumeral.tokenize("V7/V"); // => ["V7/V", "", "V", "7", "V"]
+RomanNumeral.tokenize("viidim7"); // => ["viidim7", "", "vii", "dim7", ""]
 RomanNumeral.tokenize("C"); // => ["", "", "", "", ""]
 ```
 
