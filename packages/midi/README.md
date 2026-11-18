@@ -107,6 +107,7 @@ Get the pitch class (0 to 11) of a midi number:
 ```js
 Midi.chroma(61); // => 1
 Midi.chroma(72); // => 0
+Midi.chroma(-1); // => 11
 ```
 
 ### `Midi.pcset`
@@ -137,6 +138,14 @@ Returns a function that finds the nearest midi note of a pitch class set. Can be
 ```js
 const nearest = Midi.pcsetNearest(Scale.get("D dorian").chroma);
 [60, 61, 62, 63, 64, 65, 66].map(nearest); // => [60, 62, 62, 63, 65, 65, 67]
+```
+
+It also works with decimal midi numbers, like the ones from `freqToMidi`:
+
+```js
+const nearest = Midi.pcsetNearest(Scale.get("C major").chroma);
+nearest(Midi.freqToMidi(261)); // => 60
+nearest(61.4); // => 62
 ```
 
 ### `Midi.pcsetSteps`
