@@ -64,12 +64,20 @@ describe("midi", () => {
     expect(Midi.midiToNoteName(-13)).toEqual("B-3");
   });
 
+  test("chroma", () => {
+    expect([60, 61, 72, 0, 11].map(Midi.chroma)).toEqual([0, 1, 0, 0, 11]);
+    expect([-1, -4, -12, -13].map(Midi.chroma)).toEqual([11, 8, 0, 11]);
+  });
+
   describe("Midi.pcset", () => {
     test("from chroma", () => {
       expect(Midi.pcset("100100100101")).toEqual([0, 3, 6, 9, 11]);
     });
     test("from midi", () => {
       expect(Midi.pcset([62, 63, 60, 65, 70, 72])).toEqual([0, 2, 3, 5, 10]);
+    });
+    test("from negative midi", () => {
+      expect(Midi.pcset([-1, -12, -8, 4])).toEqual([0, 4, 11]);
     });
   });
 
@@ -93,6 +101,35 @@ describe("midi", () => {
       expect(
         [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47].map(nearest),
       ).toEqual([36, 36, 36, 42, 42, 42, 42, 42, 42, 48, 48, 48]);
+    });
+
+    test("below midi 0", () => {
+      const nearest = Midi.pcsetNearest([2]);
+      expect([-1, -10, -11, -12, -13].map(nearest)).toEqual([
+        2, -10, -10, -10, -10,
+      ]);
+      expect(
+        [-12, -11, -10, -9, -8, -7].map(Midi.pcsetNearest([0, 7])),
+      ).toEqual([-12, -12, -12, -12, -5, -5]);
+    });
+
+    test("decimal midi numbers", () => {
+      const nearest = Midi.pcsetNearest([0, 2, 4, 5, 7, 9, 11]);
+      expect([59.96, 60.4, 60.6, 61.4, 63.5, 65.5].map(nearest)).toEqual([
+        60, 60, 60, 62, 64, 65,
+      ]);
+      expect(nearest(Midi.freqToMidi(261))).toEqual(60);
+      expect(Midi.pcsetNearest([0, 2])(60.6)).toEqual(60);
+      expect(Midi.pcsetNearest([0, 2])(61)).toEqual(62);
+    });
+
+    test("not a number", () => {
+      const nearest = Midi.pcsetNearest([0, 4, 7]);
+      expect([NaN, Infinity, -Infinity].map(nearest)).toEqual([
+        undefined,
+        undefined,
+        undefined,
+      ]);
     });
 
     test("empty pcsets returns the note", () => {

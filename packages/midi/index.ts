@@ -108,7 +108,7 @@ export function midiToNoteName(midi: number, options: ToNoteNameOptions = {}) {
 }
 
 export function chroma(midi: number): number {
-  return midi % 12;
+  return ((midi % 12) + 12) % 12;
 }
 
 function pcsetFromChroma(chroma: string): number[] {
@@ -146,14 +146,20 @@ export function pcset(notes: number[] | string): number[] {
 export function pcsetNearest(notes: number[] | string) {
   const set = pcset(notes);
   return (midi: number): number | undefined => {
-    const ch = chroma(midi);
-    for (let i = 0; i < 12; i++) {
-      const chUp = (ch + i) % 12;
-      const chDown = (ch - i + 12) % 12;
-      if (set.includes(chUp)) return midi + i;
-      if (set.includes(chDown)) return midi - i;
+    if (!isFinite(midi)) return undefined;
+    let nearest: number | undefined;
+    for (const pc of set) {
+      // the closest midi note with this pitch class (6 semitones away goes up)
+      const note = pc + 12 * Math.round((midi - pc) / 12);
+      if (
+        nearest === undefined ||
+        Math.abs(note - midi) < Math.abs(nearest - midi) ||
+        (Math.abs(note - midi) === Math.abs(nearest - midi) && note > nearest)
+      ) {
+        nearest = note;
+      }
     }
-    return undefined;
+    return nearest;
   };
 }
 
