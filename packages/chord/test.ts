@@ -339,6 +339,21 @@ describe("tonal-chord", () => {
       expect(notes("Co^7")).toEqual("C Eb Gb B");
     });
 
+    test("a b5 lowers the fifth, a #11 keeps it", () => {
+      expect(notes("C7b5b9")).toEqual("C E Gb Bb Db");
+      expect(notes("C7b9b5")).toEqual("C E Gb Bb Db");
+      expect(notes("C7b9#11")).toEqual("C E G Bb Db F#");
+      expect(notes("C7b5#9")).toEqual("C E Gb Bb D#");
+      expect(notes("C7#9b5")).toEqual("C E Gb Bb D#");
+      expect(notes("C7#9#11")).toEqual("C E G Bb D# F#");
+      expect(notes("C7b5b13")).toEqual("C E Gb Bb Ab");
+      expect(notes("C9b5b13")).toEqual("C E Gb Bb D Ab");
+      expect(notes("C7b5b9b13")).toEqual("C E Gb Bb Db Ab");
+      expect(notes("C6b5")).toEqual("C E Gb A");
+      expect(notes("CM6b5")).toEqual("C E Gb A");
+      expect(notes("C6#11")).toEqual("C E G A F#");
+    });
+
     test("alteration tokens after a listed type", () => {
       expect(notes("Cm7b5b9")).toEqual("C Eb Gb Bb Db");
       expect(notes("Cm11b5")).toEqual("C Eb Gb Bb D F");

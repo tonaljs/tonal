@@ -59,7 +59,9 @@ ChordType.get("major"); // =>
 
 The dictionary includes the shorthand often written in charts: `-` for minor, `^` for major seventh, `h` for half-diminished and `o` for diminished, so `-7b6`, `^7#9`, `h9` and `o^7` are listed types.
 
-`ChordType.get` only finds listed types. `Chord.get` also reads a listed type followed by alterations, such as `7(b9,#9)` or `m7b5b9` (see [`Chord.get`](https://tonaljs.github.io/tonal/docs/groups/chords#chordget)).
+`ChordType.get` only finds listed types. `Chord.get` also reads a listed type followed by alterations, such as `7(b9,#9)`, `m7b5b9` or `7b5b9` (see [`Chord.get`](https://tonaljs.github.io/tonal/docs/groups/chords#chordget)).
+
+A `b5` lowers the fifth and a `#11` is added above it, so `7b5b9` (C E Gb Bb Db) and `7b9#11` (C E G Bb Db F#) are different chords.
 
 ### `ChordType.family`
 
