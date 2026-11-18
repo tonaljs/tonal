@@ -116,7 +116,8 @@ export function ChordFinder() {
     if (!linkRead) return;
     const params = keys
       ? keys.length
-        ? `?notes=${keys.join(",")}`
+        ? // "#" must be escaped, or the rest of the link is a fragment
+          `?notes=${keys.map(encodeURIComponent).join(",")}`
         : ""
       : text.trim()
         ? `?chord=${encodeURIComponent(text.trim())}`
