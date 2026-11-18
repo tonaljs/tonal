@@ -33,7 +33,15 @@
     "page": "groups/chords.md",
     "readme": "chord",
     "title": "Chords",
-    "description": "Get and manipulate chords"
+    "description": "Get and manipulate chords",
+    "apps": ["chord-finder"]
+  },
+  {
+    "page": "groups/chord-detection.md",
+    "readme": "chord-detect",
+    "title": "Chord detection",
+    "description": "Find the chord names of a list of notes",
+    "apps": ["chord-finder"]
   },
   {
     "page": "groups/pitch-class-sets.md",
@@ -45,7 +53,8 @@
     "page": "groups/scales.md",
     "readme": "scale",
     "title": "Scales",
-    "description": "Work with scales"
+    "description": "Work with scales",
+    "apps": ["scale-chords"]
   },
   {
     "page": "harmony/keys.md",
@@ -102,5 +111,23 @@
     "page": "utils/ranges.md",
     "readme": "range",
     "title": "Ranges"
+  },
+  {
+    "page": "voicings/voicings.md",
+    "readme": "voicing",
+    "title": "Chord Voicings",
+    "description": "Generate chord voicings"
+  },
+  {
+    "page": "voicings/dictionary.md",
+    "readme": "voicing-dictionary",
+    "title": "Voicing dictionary",
+    "description": "Dictionaries of chord voicings"
+  },
+  {
+    "page": "voicings/leading.md",
+    "readme": "voice-leading",
+    "title": "Voice leading",
+    "description": "Choose the smoothest transition between voicings"
   }
 ]

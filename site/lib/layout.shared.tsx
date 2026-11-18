@@ -1,5 +1,5 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
-import { BookIcon } from "lucide-react";
+import { BookIcon, KeyboardMusicIcon } from "lucide-react";
 
 export function baseOptions(): BaseLayoutProps {
   return {
@@ -11,6 +11,12 @@ export function baseOptions(): BaseLayoutProps {
         text: "Documentation",
         icon: <BookIcon />,
         url: "/docs",
+        active: "nested-url",
+      },
+      {
+        text: "Apps",
+        icon: <KeyboardMusicIcon />,
+        url: "/apps",
         active: "nested-url",
       },
     ],
