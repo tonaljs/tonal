@@ -93,7 +93,9 @@ The tokens are:
 - `9`, `11`, `13` and `6` without `add` only inside parentheses: `C7(9,13)`, `Cm7(11)`.
 - `no3` and `no5` remove the third or the fifth.
 - `sus4` (or `sus`) and `sus2` replace the third with a 4th or a 2nd: `Cmaj7sus4`, `C7sus2`, `C6sus4`. The minor third is replaced too, so `Cm7sus4` is the same chord as `C7sus4`.
-- `maj7` (or `M7`, `^7`, `Δ7`) makes the seventh major: `Cm(maj7)`, `Caug(maj7)`.
+- `maj7` (or `M7`, `^7`, `Δ7`) makes the seventh major: `Cm(maj7)`, `Caug(maj7)`. It replaces a minor or diminished seventh only inside parentheses, as in `Cm9(^7)` or `Cdim7(maj7)`: `C7maj7` is not a chord. Neither is `C4maj7`, so an octave written inside a chord name gives an empty chord instead of a wrong one.
+
+A token can't double an interval: `Cmaj7(maj7)` and `Csus4sus4` are not chords.
 
 Without a type before the tokens, the base is a major triad: `C(add9)`, `C(no3)`.
 

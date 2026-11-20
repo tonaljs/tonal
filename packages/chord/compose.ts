@@ -8,8 +8,12 @@ import {
 import { semitones } from "@tonaljs/interval";
 import { get as pcset } from "@tonaljs/pcset";
 
-// A change applied to the intervals of a base chord type
-type Change = (intervals: string[]) => string[];
+// A change applied to the intervals of a base chord type, or undefined if it
+// can't apply to them
+type Change = (intervals: string[]) => string[] | undefined;
+type Edit = (intervals: string[]) => string[];
+
+const SEVENTHS = ["7m", "7M", "7d"];
 
 // The tones a token can name, and the interval each one adds
 const TONES: Record<string, string> = {
@@ -44,8 +48,9 @@ const TOKEN = /^(add)?([b#+]?\d+|no[35]|sus[24]?|maj7|Maj7|ma7|M7|Δ7|\^7)/;
  * listed type followed by alteration tokens: `7b9#11`, `m7b5b9`, `7(b9,#9)`,
  * `7(no3)`, `dim(maj7)`, `maj7sus4`, `7sus2`.
  *
- * It returns undefined when the symbol can't be read that way. When the
- * resulting intervals are a listed type, it returns that type.
+ * It returns undefined when the symbol can't be read that way, or when a token
+ * would double an interval (`maj7maj7`, `sus4sus4`). When the resulting
+ * intervals are a listed type, it returns that type.
  */
 export function composeChordType(symbol: string): ChordType | undefined {
   // Prefer the longest base: "m7b5b9" is "m7b5" plus "b9"
@@ -57,10 +62,12 @@ export function composeChordType(symbol: string): ChordType | undefined {
     if (base.empty) continue;
     const changes = parseChanges(rest);
     if (!changes) continue;
-    const intervals = changes.reduce(
-      (ivls, change) => change(ivls),
-      base.intervals,
-    );
+    let intervals: string[] | undefined = base.intervals;
+    for (const change of changes) {
+      intervals = change(intervals);
+      if (!intervals) break;
+    }
+    if (!intervals || new Set(intervals).size !== intervals.length) continue;
     return chordTypeOf(sortIntervals(intervals));
   }
   return undefined;
@@ -105,8 +112,15 @@ function changeOf(
     const sus = token === "sus2" ? "2M" : "4P";
     return add ? undefined : (ivls) => [...without(["3m", "3M"])(ivls), sus];
   }
+  // A major seventh replaces a minor or diminished one only in parentheses, as
+  // in "m9(^7)": written bare after a chord with a seventh ("7maj7", or
+  // "4maj7", an octave inside a chord name) it's not a chord
   if (MAJOR_SEVENTH.includes(token)) {
-    return add ? undefined : (ivls) => [...without(["7m", "7d"])(ivls), "7M"];
+    if (add) return undefined;
+    return (ivls) =>
+      !inParens && ivls.some((ivl) => SEVENTHS.includes(ivl))
+        ? undefined
+        : [...without(["7m", "7d"])(ivls), "7M"];
   }
   const interval = TONES[token];
   if (!interval) return undefined;
@@ -118,16 +132,16 @@ function changeOf(
   return natural ? withInterval(interval) : altered(interval);
 }
 
-function without(remove: string[]): Change {
+function without(remove: string[]): Edit {
   return (ivls) => ivls.filter((ivl) => !remove.includes(ivl));
 }
 
-function withInterval(interval: string): Change {
+function withInterval(interval: string): Edit {
   return (ivls) => (ivls.includes(interval) ? ivls : [...ivls, interval]);
 }
 
 // An altered tone replaces the natural one: b9 replaces 9, #5 replaces 5
-function altered(interval: string): Change {
+function altered(interval: string): Edit {
   const num = interval.slice(0, -1);
   const natural = num + (["4", "5", "11"].includes(num) ? "P" : "M");
   return (ivls) => withInterval(interval)(without([natural])(ivls));
