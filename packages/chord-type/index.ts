@@ -46,52 +46,77 @@ let dictionary: ChordType[] = [];
 let index: Record<ChordTypeName, ChordType> = Object.create(null);
 
 /**
- * Given a chord name or chroma, return the chord properties
- * @param {string} source - chord name or pitch class set chroma
+ * Get a chord type (a chord without tonic) by its name, alias, chroma or set
+ * number. It returns an empty chord type (`{ empty: true, ... }`) if it's not
+ * in the dictionary. The type has `name`, `aliases`, `intervals`, `quality`
+ * and `family`. To get a chord with notes, use `Chord.get`.
+ *
+ * @param {string | number} type - chord type name or alias, pitch class set
+ * chroma or set number
  * @example
- * import { get } from 'tonaljs/chord-type'
- * get('major') // => { name: 'major', ... }
+ * ChordType.get("major").name; // => "major"
+ * ChordType.get("maj7").intervals; // => ["1P", "3M", "5P", "7M"]
+ * ChordType.get("M").aliases; // => ["M", "^", "", "maj"]
+ * ChordType.get("100010010000").name; // => "major"
+ * ChordType.get("nonsense").empty; // => true
  */
 export function get(type: ChordTypeName): ChordType {
   return index[type] || NoChordType;
 }
 
-/** @deprecated */
+/** @deprecated Use ChordType.get instead. */
 export const chordType = get;
 
 /**
- * Get all chord (long) names
+ * Get the long names of all the chord types in the dictionary, in the
+ * dictionary order. Types without long name are left out.
+ *
+ * @example
+ * ChordType.names().slice(0, 4); // => ["fifth", "suspended fourth", "suspended fourth seventh", "augmented"]
  */
 export function names() {
   return dictionary.map((chord) => chord.name).filter((x) => x);
 }
 
 /**
- * Get all chord symbols
+ * Get the main symbol (the first alias) of every chord type in the
+ * dictionary, in the dictionary order.
+ *
+ * @example
+ * ChordType.symbols().slice(0, 4); // => ["5", "M7#5sus4", "7#5sus4", "sus4"]
  */
 export function symbols() {
   return dictionary.map((chord) => chord.aliases[0]).filter((x) => x);
 }
 
 /**
- * Keys used to reference chord types
+ * Get every key that `ChordType.get` accepts: names, aliases, chromas and set
+ * numbers (as strings).
+ *
+ * @example
+ * ChordType.keys().slice(0, 6); // => ["2", "4", "5", "6", "7", "9"]
  */
 export function keys() {
   return Object.keys(index);
 }
 
 /**
- * Return a list of all chord types
+ * Get a copy of the list of all chord types in the dictionary.
+ *
+ * @example
+ * ChordType.all().length; // => 115
+ * ChordType.all()[0].name; // => "fifth"
  */
 export function all(): ChordType[] {
   return dictionary.slice();
 }
 
-/** @deprecated */
+/** @deprecated Use ChordType.all instead. */
 export const entries = all;
 
 /**
- * Clear the dictionary
+ * Remove every chord type from the dictionary, to define your own with
+ * `ChordType.add`. It changes the dictionary for the whole program.
  */
 export function removeAll() {
   dictionary = [];
@@ -99,10 +124,16 @@ export function removeAll() {
 }
 
 /**
- * Add a chord to the dictionary.
- * @param intervals
- * @param aliases
- * @param [fullName]
+ * Add a chord type to the dictionary, so `ChordType.get` and `Chord.get`
+ * know it. It changes the dictionary for the whole program.
+ *
+ * @param intervals - the interval names, like `["1P", "3M", "5P"]`
+ * @param aliases - the symbols for the chord type, the first is the main one
+ * @param [fullName] - the long name of the chord type
+ *
+ * @example
+ * ChordType.add(["1P", "5P", "7m"], ["7no3"], "dominant seventh no third");
+ * Chord.get("C7no3").notes; // => ["C", "G", "Bb"]
  */
 export function add(intervals: string[], aliases: string[], fullName?: string) {
   const quality = getQuality(intervals);
@@ -123,6 +154,18 @@ export function add(intervals: string[], aliases: string[], fullName?: string) {
   chord.aliases.forEach((alias) => addAlias(chord, alias));
 }
 
+/**
+ * Add an alias (another symbol) to a chord type of the dictionary, so
+ * `ChordType.get` and `Chord.get` accept it. It changes the dictionary for the
+ * whole program.
+ *
+ * @param chord - a chord type, as returned by `ChordType.get`
+ * @param alias - the new symbol
+ *
+ * @example
+ * ChordType.addAlias(ChordType.get("maj7"), "Δ7");
+ * Chord.get("CΔ7").notes; // => ["C", "E", "G", "B"]
+ */
 export function addAlias(chord: ChordType, alias: string) {
   index[alias] = chord;
 }
@@ -141,7 +184,10 @@ function getQuality(intervals: string[]): ChordQuality {
 }
 
 /**
- * Get the family of a chord from its intervals. It looks at the third, then
+ * Get the family of a chord type from its interval names (`ChordType.get(name).family`
+ * has it for listed types). It returns `""` for no intervals.
+ *
+ * The family is found from its intervals. It looks at the third, then
  * the fifth and the seventh:
  *
  * - a major third and a minor seventh is "dominant", whatever the fifth
@@ -156,8 +202,8 @@ function getQuality(intervals: string[]): ChordQuality {
  *   it's "power"
  *
  * @example
- * family(["1P", "3M", "5P", "7m"]) // => "dominant"
- * family(["1P", "4P", "5P", "7m"]) // => "suspended"
+ * ChordType.family(["1P", "3M", "5P", "7m"]); // => "dominant"
+ * ChordType.family(["1P", "4P", "5P", "7m"]); // => "suspended"
  */
 export function family(intervals: string[]): ChordFamily {
   if (!intervals.length) return "";

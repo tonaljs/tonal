@@ -2,6 +2,16 @@ import { NoteName, note as props } from "@tonaljs/pitch-note";
 
 type Midi = number;
 
+/**
+ * Check if a value is a valid midi number: a number, or a numeric string, from
+ * 0 to 127. Note names are not midi numbers.
+ *
+ * @example
+ * Midi.isMidi(60) // => true
+ * Midi.isMidi("60") // => true
+ * Midi.isMidi(128) // => false
+ * Midi.isMidi("C4") // => false
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isMidi(arg: any): arg is Midi {
   // only numbers and numeric strings: `+""`, `+null` or `+[]` would give 0
@@ -15,18 +25,17 @@ export function isMidi(arg: any): arg is Midi {
 }
 
 /**
- * Get the note midi number (a number between 0 and 127)
- *
- * It returns undefined if not valid note name
+ * Get the midi number (0 to 127) of a note name or midi number. It returns
+ * null if the note is not valid, has no octave or is out of range.
  *
  * @function
  * @param {string|number} note - the note name or midi number
- * @return {Integer} the midi number or undefined if not valid note
+ * @return {Integer|null} the midi number or null if not valid note
  * @example
- * import { toMidi } from '@tonaljs/midi'
- * toMidi("C4") // => 60
- * toMidi(60) // => 60
- * toMidi('60') // => 60
+ * Midi.toMidi("C4") // => 60
+ * Midi.toMidi(60) // => 60
+ * Midi.toMidi("60") // => 60
+ * Midi.toMidi("x") // => null
  */
 export function toMidi(note: NoteName | number): number | null {
   if (isMidi(note)) {
@@ -37,14 +46,14 @@ export function toMidi(note: NoteName | number): number | null {
 }
 
 /**
- * Get the frequency in hertz from midi number
+ * Get the frequency in hertz of a midi number.
  *
  * @param {number} midi - the note midi number
  * @param {number} [tuning = 440] - A4 tuning frequency in Hz (440 by default)
- * @return {number} the frequency or null if not valid note midi
+ * @return {number} the frequency in hertz
  * @example
- * import { midiToFreq} from '@tonaljs/midi'
- * midiToFreq(69) // => 440
+ * Midi.midiToFreq(69) // => 440
+ * Midi.midiToFreq(69, 432) // => 432
  */
 export function midiToFreq(midi: number, tuning = 440): number {
   return Math.pow(2, (midi - 69) / 12) * tuning;
@@ -54,16 +63,15 @@ const L2 = Math.log(2);
 const L440 = Math.log(440);
 
 /**
- * Get the midi number from a frequency in hertz. The midi number can
- * contain decimals (with two digits precision)
+ * Get the midi number of a frequency in hertz. The midi number can
+ * contain decimals (rounded to two digits).
  *
  * @param {number} frequency
  * @return {number}
  * @example
- * import { freqToMidi} from '@tonaljs/midi'
- * freqToMidi(220); //=> 57
- * freqToMidi(261.62); //=> 60
- * freqToMidi(261); //=> 59.96
+ * Midi.freqToMidi(220) // => 57
+ * Midi.freqToMidi(261.62) // => 60
+ * Midi.freqToMidi(261) // => 59.96
  */
 export function freqToMidi(freq: number): number {
   const v = (12 * (Math.log(freq) - L440)) / L2 + 69;
@@ -78,22 +86,19 @@ export interface ToNoteNameOptions {
 const SHARPS = "C C# D D# E F F# G G# A A# B".split(" ");
 const FLATS = "C Db D Eb E F Gb G Ab A Bb B".split(" ");
 /**
- * Given a midi number, returns a note name. The altered notes will have
- * flats unless explicitly set with the optional `useSharps` parameter.
+ * Get the note name of a midi number. Altered notes use flats unless
+ * `sharps: true`, and `pitchClass: true` drops the octave. Decimals are
+ * rounded to the nearest note, and NaN or infinite numbers give "".
  *
  * @function
  * @param {number} midi - the midi note number
- * @param {Object} options = default: `{ sharps: false, pitchClass: false }`
- * @param {boolean} useSharps - (Optional) set to true to use sharps instead of flats
+ * @param {Object} options - `{ sharps: false, pitchClass: false }` by default
  * @return {string} the note name
  * @example
- * import { midiToNoteName } from '@tonaljs/midi'
- * midiToNoteName(61) // => "Db4"
- * midiToNoteName(61, { pitchClass: true }) // => "Db"
- * midiToNoteName(61, { sharps: true }) // => "C#4"
- * midiToNoteName(61, { pitchClass: true, sharps: true }) // => "C#"
- * // it rounds to nearest note
- * midiToNoteName(61.7) // => "D4"
+ * Midi.midiToNoteName(61) // => "Db4"
+ * Midi.midiToNoteName(61, { pitchClass: true }) // => "Db"
+ * Midi.midiToNoteName(61, { sharps: true }) // => "C#4"
+ * Midi.midiToNoteName(61.7) // => "D4"
  */
 export function midiToNoteName(midi: number, options: ToNoteNameOptions = {}) {
   if (isNaN(midi) || midi === -Infinity || midi === Infinity) return "";
@@ -109,7 +114,12 @@ export function midiToNoteName(midi: number, options: ToNoteNameOptions = {}) {
 
 /**
  * Get the pitch class of a midi number, from 0 up to (not including) 12.
- * A decimal midi number keeps its fraction: `chroma(61.5)` is `1.5`.
+ * A decimal midi number keeps its fraction.
+ *
+ * @example
+ * Midi.chroma(61) // => 1
+ * Midi.chroma(61.5) // => 1.5
+ * Midi.chroma(-1) // => 11
  */
 export function chroma(midi: number): number {
   return ((midi % 12) + 12) % 12;
@@ -137,20 +147,22 @@ function pcsetFromMidi(midi: number[]): number[] {
  * aren't finite are ignored.
  * @param notes - a list of midi numbers or a chroma string (e.g. "100100100101")
  * @example
- * Midi.pcset([62, 63, 60, 65, 70, 72]); // => [0, 2, 3, 5, 10]
- * Midi.pcset([60.4, 64, 67.6]); // => [0, 4, 8]
+ * Midi.pcset([62, 63, 60, 65, 70, 72]) // => [0, 2, 3, 5, 10]
+ * Midi.pcset([60.4, 64, 67.6]) // => [0, 4, 8]
+ * Midi.pcset("100100100101") // => [0, 3, 6, 9, 11]
  */
 export function pcset(notes: number[] | string): number[] {
   return Array.isArray(notes) ? pcsetFromMidi(notes) : pcsetFromChroma(notes);
 }
 
 /**
- * Returns a function that finds the nearest midi note of a pitch class set.
- * Can be used to constrain a note to a scale.
+ * Get a function that maps a midi number to the nearest midi number whose
+ * pitch class is in the set (a tie goes up). Can be used to constrain a note
+ * to a scale. The function returns undefined if the number is not finite.
  * @param notes - a list of midi numbers or a chroma string (e.g. "100100100101")
  * @example
  * const nearest = Midi.pcsetNearest(Scale.get("D dorian").chroma);
- * [60, 61, 62, 63, 64, 65, 66].map(nearest); // => [60, 62, 62, 63, 65, 65, 67]
+ * [60, 61, 62, 63, 64, 65, 66].map(nearest) // => [60, 62, 62, 63, 65, 65, 67]
  */
 export function pcsetNearest(notes: number[] | string) {
   const set = pcset(notes);
@@ -173,11 +185,14 @@ export function pcsetNearest(notes: number[] | string) {
 }
 
 /**
- * Returns a function to map a pitch class set over any note.
- * Given a tonic a pitch class set, step 0 means the first note, step 1 the second, and so on.
+ * Get a function that maps a step number to a midi number: step 0 is the
+ * tonic (the first pitch class of the set above it), step 1 the second, and so
+ * on, going up an octave every time the set wraps. Negative steps go down.
+ * @param notes - a list of midi numbers or a chroma string
+ * @param tonic - the midi number of step 0
  * @example
  * const steps = Midi.pcsetSteps(Scale.get("D dorian").chroma, 60);
- * [-2, -1, 0, 1, 2, 3].map(steps); // => [ 57, 58, 60, 62, 63, 65 ]
+ * [-2, -1, 0, 1, 2, 3].map(steps) // => [57, 58, 60, 62, 63, 65]
  */
 export function pcsetSteps(notes: number[] | string, tonic: number) {
   const set = pcset(notes);
@@ -190,8 +205,12 @@ export function pcsetSteps(notes: number[] | string, tonic: number) {
 }
 
 /**
- * Returns a function to map a pitch class set over any note.
- * Same as pcsetSteps, but returns 1 for the first step
+ * Same as pcsetSteps, but degrees start at 1 (the tonic) and go down to -1
+ * (the note below the tonic). The function returns undefined for degree 0.
+ *
+ * @example
+ * const degrees = Midi.pcsetDegrees([0, 2, 4], 60);
+ * [-1, 1, 2, 3, 4].map(degrees) // => [52, 60, 62, 64, 72]
  */
 export function pcsetDegrees(notes: number[] | string, tonic: number) {
   const steps = pcsetSteps(notes, tonic);

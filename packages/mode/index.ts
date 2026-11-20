@@ -48,23 +48,19 @@ modes.forEach((mode) => {
 type ModeLiteral = string | { name: string };
 
 /**
- * Get a Mode by it's name
+ * Get one of the seven diatonic modes by its name (case insensitive) or by an
+ * object with a `name`. It returns an empty mode (`{ empty: true, ... }`) for
+ * anything else. The mode has `name`, `intervals`, `modeNum` (0 for ionian),
+ * `alt` (the flats it adds to the ionian mode on the same tonic, negative
+ * for sharps), `triad`, `seventh` (chord types of its tonic) and `aliases`
+ * ("major" and "minor" are aliases of ionian and aeolian).
  *
  * @example
- * get('dorian')
- * // =>
- * // {
- * //   intervals: [ '1P', '2M', '3m', '4P', '5P', '6M', '7m' ],
- * //   modeNum: 1,
- * //   chroma: '101101010110',
- * //   normalized: '101101010110',
- * //   name: 'dorian',
- * //   setNum: 2902,
- * //   alt: 2,
- * //   triad: 'm',
- * //   seventh: 'm7',
- * //   aliases: []
- * // }
+ * Mode.get("dorian").intervals; // => ["1P", "2M", "3m", "4P", "5P", "6M", "7m"]
+ * Mode.get("dorian").seventh; // => "m7"
+ * Mode.get("major").name; // => "ionian"
+ * Mode.get("DORIAN").modeNum; // => 1
+ * Mode.get("nonsense").empty; // => true
  */
 export function get(name: ModeLiteral): Mode {
   return typeof name === "string"
@@ -74,21 +70,27 @@ export function get(name: ModeLiteral): Mode {
       : NoMode;
 }
 
-/** @deprecated */
+/** @deprecated Use Mode.get instead. */
 export const mode = get;
 
 /**
- * Get a list of all modes
+ * Get a list of the seven modes, from ionian to locrian.
+ *
+ * @example
+ * Mode.all().map((m) => m.name); // => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"]
  */
 export function all() {
   return modes.slice();
 }
 
-/** @deprecated */
+/** @deprecated Use Mode.all instead. */
 export const entries = all;
 
 /**
- * Get a list of all mode names
+ * Get the names of the seven modes, from ionian to locrian.
+ *
+ * @example
+ * Mode.names(); // => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"]
  */
 export function names() {
   return modes.map((mode) => mode.name);
@@ -114,6 +116,16 @@ function toMode(mode: ModeDatum): Mode {
   };
 }
 
+/**
+ * Get the notes of a mode on a tonic, as pitch classes if the tonic has no
+ * octave. It returns `[]` for an invalid mode. (An invalid tonic gives a list
+ * of `""`.)
+ *
+ * @example
+ * Mode.notes("ionian", "C"); // => ["C", "D", "E", "F", "G", "A", "B"]
+ * Mode.notes("dorian", "D"); // => ["D", "E", "F", "G", "A", "B", "C"]
+ * Mode.notes("nonsense", "C"); // => []
+ */
 export function notes(modeName: ModeLiteral, tonic: NoteName) {
   return get(modeName).intervals.map((ivl) => transpose(tonic, ivl));
 }
@@ -128,9 +140,35 @@ function chords(chords: string[]) {
   };
 }
 
+/**
+ * Get the triad chord symbols built on each degree of a mode on a tonic. It
+ * returns `[]` for an invalid mode.
+ *
+ * @example
+ * Mode.triads("dorian", "D"); // => ["Dm", "Em", "F", "G", "Am", "Bdim", "C"]
+ * Mode.triads("major", "C"); // => ["C", "Dm", "Em", "F", "G", "Am", "Bdim"]
+ */
 export const triads = chords(MODES.map((x) => x[4]));
+
+/**
+ * Get the seventh chord symbols built on each degree of a mode on a tonic. It
+ * returns `[]` for an invalid mode.
+ *
+ * @example
+ * Mode.seventhChords("dorian", "D"); // => ["Dm7", "Em7", "FMaj7", "G7", "Am7", "Bm7b5", "CMaj7"]
+ */
 export const seventhChords = chords(MODES.map((x) => x[5]));
 
+/**
+ * Get the interval from the tonic of a source mode to the tonic of a
+ * destination mode that has the same notes (the interval is negative when it
+ * goes down). It returns `""` if a mode is invalid.
+ *
+ * @example
+ * Mode.distance("dorian", "major"); // => "2M"
+ * Mode.distance("lydian", "ionian"); // => "-5P"
+ * Mode.distance("nonsense", "ionian"); // => ""
+ */
 export function distance(destination: ModeLiteral, source: ModeLiteral) {
   const from = get(source);
   const to = get(destination);
@@ -138,6 +176,16 @@ export function distance(destination: ModeLiteral, source: ModeLiteral) {
   return simplify(transposeFifths("1P", to.alt - from.alt));
 }
 
+/**
+ * Get the tonic of a destination mode that has the same notes as a source
+ * mode on a tonic: D dorian and C ionian share notes, so the relative dorian
+ * tonic of C ionian is D. It returns `""` if a mode is invalid.
+ *
+ * @example
+ * Mode.relativeTonic("dorian", "major", "C"); // => "D"
+ * Mode.relativeTonic("major", "dorian", "D"); // => "C"
+ * Mode.relativeTonic("nonsense", "major", "C"); // => ""
+ */
 export function relativeTonic(
   destination: ModeLiteral,
   source: ModeLiteral,

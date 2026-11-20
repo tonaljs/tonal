@@ -1,11 +1,13 @@
 export type VoicingDictionary = { [symbol: string]: string[] };
 
+/** Voicings of triads ("M", "m", "o", "aug"), as intervals from the root. */
 export const triads: VoicingDictionary = {
   M: ["1P 3M 5P", "3M 5P 8P", "5P 8P 10M"],
   m: ["1P 3m 5P", "3m 5P 8P", "5P 8P 10m"],
   o: ["1P 3m 5d", "3m 5d 8P", "5d 8P 10m"],
   aug: ["1P 3M 5A", "3M 5A 8P", "5A 8P 10M"],
 };
+/** Left hand voicings of seventh and extended chords ("m7", "7", "maj7"...), as intervals from the root. The default dictionary of `lookup`. */
 export const lefthand: VoicingDictionary = {
   m7: ["3m 5P 7m 9M", "7m 9M 10m 12P"],
   "7": ["3M 6M 7m 9M", "7m 9M 10M 13M"],
@@ -20,6 +22,7 @@ export const lefthand: VoicingDictionary = {
   mM7: ["3m 5P 7M 9M", "7M 9M 10m 12P"],
   m6: ["3m 5P 6M 9M", "6M 9M 10m 12P"],
 };
+/** The `triads` and `lefthand` dictionaries merged. The default of `Voicing`. */
 export const all: VoicingDictionary = {
   ...triads,
   ...lefthand,

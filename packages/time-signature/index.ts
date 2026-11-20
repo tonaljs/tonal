@@ -37,6 +37,12 @@ const NAMES = ["4/4", "3/4", "2/4", "2/2", "12/8", "9/8", "6/8", "3/8"];
 
 // PUBLIC API
 
+/**
+ * Get the names of the most common time signatures.
+ *
+ * @example
+ * TimeSignature.names() // => ["4/4", "3/4", "2/4", "2/2", "12/8", "9/8", "6/8", "3/8"]
+ */
 export function names() {
   return NAMES.slice();
 }
@@ -51,6 +57,19 @@ const ALIASES = new Map([
 ]);
 const CACHE = new Map<TimeSignatureLiteral, TimeSignature>();
 
+/**
+ * Get the TimeSignature object of a name ("3/4", "3+2/8", or the symbols "C"
+ * and "C|"), or of a `[upper, lower]` pair. `type` is "simple", "compound",
+ * "irregular" or "irrational". Invalid input gives an object with
+ * `empty: true` and `name: ""`.
+ *
+ * @example
+ * TimeSignature.get("3/4") // => { empty: false, name: "3/4", type: "simple", upper: 3, lower: 4, additive: [] }
+ * TimeSignature.get("C").name // => "4/4"
+ * TimeSignature.get("6/8").type // => "compound"
+ * TimeSignature.get("3+2/8").additive // => [3, 2]
+ * TimeSignature.get("x").empty // => true
+ */
 export function get(literal: TimeSignatureLiteral): TimeSignature {
   const stringifiedLiteral = JSON.stringify(literal);
   const cached = CACHE.get(stringifiedLiteral);
@@ -64,6 +83,16 @@ export function get(literal: TimeSignatureLiteral): TimeSignature {
   return ts;
 }
 
+/**
+ * Parse a time signature into `[upper, lower]`: the upper is a number, or a
+ * list of numbers for an additive signature. Invalid input gives `[0, 0]`.
+ * Use `TimeSignature.get` to get a validated object.
+ *
+ * @example
+ * TimeSignature.parse("3/4") // => [3, 4]
+ * TimeSignature.parse("3+2/8") // => [[3, 2], 8]
+ * TimeSignature.parse("x") // => [0, 0]
+ */
 export function parse(literal: TimeSignatureLiteral): ParsedTimeSignature {
   if (typeof literal === "string") {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

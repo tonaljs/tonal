@@ -1,0 +1,1580 @@
+# tonal 6.7.1 API
+
+Every public function of the `tonal` npm package, generated from its
+TypeScript source. One entry per function: the signature, then a one-line
+description, then an example when there is one. The types that functions
+return are listed after the functions of each module.
+
+Conventions:
+- All functions are pure. Nothing mutates its arguments.
+- Invalid input does not throw: functions return an object with
+  `empty: true`, an empty string `""`, an empty array, or null/undefined
+  (see each signature). Check for it.
+- Notes are strings like "C4", "Eb5", "F#" (a note without octave is a pitch
+  class). Intervals are strings like "3M", "5P", "-2m" ("M3" and "P5" are also
+  accepted).
+- Functions marked [deprecated] still work but must not be used in new code.
+
+Guide for agents: https://tonaljs.github.io/tonal/docs/agents.md
+Index: https://tonaljs.github.io/tonal/llms.txt
+
+## Top-level functions
+
+import { note, interval, transpose, distance } from "tonal";
+
+accToAlt(acc: string): number
+  Get the alteration number of an accidentals string.
+  accToAlt("##") // => 2
+  accToAlt("bb") // => -2
+  accToAlt("") // => 0
+
+altToAcc(alt: number): string
+  Get the accidentals string of an alteration number.
+  altToAcc(2) // => "##"
+  altToAcc(-1) // => "b"
+  altToAcc(0) // => ""
+
+chroma({ step, alt }: Pitch): number
+  Get the chroma (pitch class number, from 0 to 11) of a pitch.
+  chroma({ step: 0, alt: 1 }) // => 1
+
+coordinates(pitch: Pitch): PitchCoordinates
+  Get the coordinates of a pitch object: `[fifths]` for a pitch class and `[fifths, octaves]` for a note or an interval (the direction is applied to both numbers).
+  coordinates({ step: 4, alt: 0, oct: 4 }) // => [1, 4]
+  coordinates({ step: 4, alt: 0 }) // => [1]
+
+coordToInterval(coord: PitchCoordinates, forceDescending?: boolean): Interval
+  Get the Interval object from its coordinates (`[fifths, octaves]`).
+  coordToInterval([1, 0]).name // => "5P"
+  coordToInterval([-1, 0]).name // => "-5P"
+
+coordToNote(noteCoord: PitchCoordinates): Note
+  Get the Note object from its coordinates: `[fifths]` for a pitch class or `[fifths, octaves]` for a note.
+  coordToNote([1, 0]).name // => "G0"
+  coordToNote([0, 4]).name // => "C4"
+
+distance(fromNote: NoteLiteral, toNote: NoteLiteral): IntervalName
+  Get the interval name between two notes or pitch classes, or "" if either is not valid.
+  distance("C4", "G4") // => "5P"
+  distance("C", "E") // => "3M"
+  distance("G4", "C4") // => "-5P"
+
+height({ step, alt, oct, dir }: Pitch): number
+  Get the height of a pitch: its distance in semitones from C0 (so it is the midi number minus 12). A descending interval has a negative height, and a pitch without octave gets a number far below any note.
+  height({ step: 0, alt: 0, oct: 4 }) // => 48
+  height({ step: 0, alt: 0 }) // => -1200
+
+interval(src: IntervalLiteral): Interval
+  Get the Interval object of an interval name ("5P" or "P5"), a pitch object or an object with a `name`. Invalid input returns an object with `empty: true` and `name: ""`.
+  interval("5P").semitones // => 7
+  interval("P5").name // => "5P"
+  interval("m3").type // => "majorable"
+
+isNamed(this: unknown, ...args: unknown[]): boolean
+  [deprecated] Use isNamedPitch instead.
+
+isNamedPitch(src: unknown): src is NamedPitch
+  Check if a value is an object with a string `name` property.
+  isNamedPitch({ name: "C4" }) // => true
+  isNamedPitch("C4") // => false
+
+isPitch(pitch: unknown): pitch is Pitch
+  Check if a value is an object with numeric `step` and `alt` properties.
+  isPitch({ step: 0, alt: 0 }) // => true
+  isPitch({ name: "C" }) // => false
+
+midi(pitch: Pitch): number | null
+  Get the midi number of a pitch, or `null` if the pitch has no octave or is outside the midi range (0 to 127).
+  midi({ step: 0, alt: 0, oct: 4 }) // => 60
+  midi({ step: 0, alt: 0 }) // => null
+
+note(src: NoteLiteral): Note
+  Get the Note object of a note literal (a note name, a pitch object or an object with a `name`). Pitch classes ("Bb") and notes with octave ("Bb4") are valid. Invalid input returns an object with `empty: true` and `name: ""`.
+  note("Bb4") // => { name: "Bb4", pc: "Bb", midi: 70, chroma: 10, ... }
+  note("Bb4").freq // => 466.1637615180899
+  note("x").empty // => true
+
+pitch(coord: PitchCoordinates): Pitch
+  Get the pitch object from its coordinates (the inverse of `coordinates`).
+  pitch([1]) // => { step: 4, alt: 0 }
+  pitch([1, 0]) // => { step: 4, alt: 0, oct: 0 }
+
+stepToLetter(step: number): string
+  Get the note letter of a step (0 is C, 6 is B), or "" if the step is not valid.
+  stepToLetter(0) // => "C"
+  stepToLetter(6) // => "B"
+
+tokenizeInterval(str?: IntervalName): IntervalTokens
+  Split an interval name into `[number, quality]` (both strings). It accepts the number first ("3M") or the quality first ("M3"). Anything that doesn't match gives `["", ""]`.
+  tokenizeInterval("3M") // => ["3", "M"]
+  tokenizeInterval("M3") // => ["3", "M"]
+  tokenizeInterval("-5P") // => ["-5", "P"]
+
+tokenizeNote(str: string): NoteTokens
+  Split a note name into `[letter, accidentals, octave, rest]` (all strings, the letter in uppercase). Anything that doesn't match gives empty strings.
+  tokenizeNote("Bb4") // => ["B", "b", "4", ""]
+  tokenizeNote("C# major") // => ["C", "#", "", "major"]
+
+tonicIntervalsTransposer(intervals: string[], tonic: string | undefined | null): (normalized: number) => string
+  Create a function that, given a (possibly negative) scale degree index, returns the note of that degree: the intervals are cycled and the octave goes up (or down) every time they wrap. It returns "" for every degree if there is no tonic.
+  const degree = tonicIntervalsTransposer(["1P", "3M", "5P"], "C");
+  [0, 1, 2, 3, -1].map(degree) // => ["C", "E", "G", "C", "G"]
+
+transpose(noteName: NoteLiteral, intervalName: IntervalLiteral | [number, number]): NoteName
+  Transpose a note by an interval.
+  transpose("C4", "5P") // => "G4"
+  transpose("D", "3M") // => "F#"
+  transpose("x", "3M") // => ""
+
+Types:
+
+type Direction = 1 | -1
+
+type Interval = {
+  empty: boolean;
+  name: string;
+  num: number;
+  q: Quality;
+  type: Type;
+  step: number;
+  alt: number;
+  dir: Direction;
+  simple: number;
+  semitones: number;
+  chroma: number;
+  coord: IntervalCoordinates;
+  oct: number;
+}
+
+type IntervalLiteral = string | Pitch | NamedPitch
+
+type NamedPitch = {
+  name: string;
+}
+
+type Note = {
+  empty: boolean;
+  name: string;
+  letter: string;
+  acc: string;
+  pc: string;
+  chroma: number;
+  height: number;
+  coord: PitchCoordinates;
+  midi: number | null;
+  freq: number | null;
+  step: number;
+  alt: number;
+  oct?: number | undefined;
+  dir?: Direction | undefined;
+}
+
+type NoteLiteral = string | Pitch | NamedPitch
+
+type Pitch = {
+  step: number;
+  alt: number;
+  oct?: number | undefined;
+  dir?: Direction | undefined;
+}
+
+type PitchCoordinates = PitchClassCoordinates | NoteCoordinates | IntervalCoordinates
+
+type Quality = 'm' | 'M' | 'P' | `A${string}` | `d${string}`
+
+type Type = 'perfectable' | 'majorable'
+
+## AbcNotation
+
+import { AbcNotation } from "tonal"; // or: import * as AbcNotation from "@tonaljs/abc-notation";
+
+AbcNotation.abcToScientificNotation(str: string): string
+  Convert a note in ABC notation into a note in scientific notation. It returns "" if not valid.
+  AbcNotation.abcToScientificNotation("c") // => "C5"
+  AbcNotation.abcToScientificNotation("_B,") // => "Bb3"
+
+AbcNotation.distance(from: string, to: string): string
+  Get the interval name between two ABC notes, or "" if either is not valid.
+  AbcNotation.distance("C", "G") // => "5P"
+  AbcNotation.distance("C", "c") // => "8P"
+
+AbcNotation.scientificToAbcNotation(str: string): string
+  Convert a note in scientific notation into a note in ABC notation. It returns "" if not valid or if the note has no octave.
+  AbcNotation.scientificToAbcNotation("C#4") // => "^C"
+  AbcNotation.scientificToAbcNotation("Bb3") // => "_B,"
+
+AbcNotation.tokenize(str: string): AbcTokens
+  Split an ABC note into `[accidentals, letter, octave marks]`. Anything that is not an ABC note gives `["", "", ""]`.
+  AbcNotation.tokenize("^c'") // => ["^", "c", "'"]
+  AbcNotation.tokenize("x") // => ["", "", ""]
+
+AbcNotation.transpose(note: string, interval: string): string
+  Transpose an ABC note by an interval. It returns an ABC note, or "" if not valid.
+  AbcNotation.transpose("C", "5P") // => "G"
+  AbcNotation.transpose("c", "3M") // => "e"
+
+## Array
+
+import { Array } from "tonal"; // or: import * as Array from "@tonaljs/array";
+
+Array.compact(arr: any[]): any[]
+  Get a copy of the array without the falsy values, except 0 (so null, undefined, "", false and NaN are removed).
+  Array.compact(["a", null, "b", 0, undefined]) // => ["a", "b", 0]
+
+Array.permutations(arr: any[]): any[]
+  Get all the permutations of an array (n! arrays).
+  Array.permutations(["a", "b"]) // => [["a", "b"], ["b", "a"]]
+  Array.permutations(["a", "b", "c"]) // =>
+  [
+
+Array.range(from: number, to: number): number[]
+  Create a list of numbers from `from` to `to`, both included, in steps of one (descending if `to` is lower). It returns [] if either is not finite.
+  Array.range(-2, 2) // => [-2, -1, 0, 1, 2]
+  Array.range(2, -2) // => [2, 1, 0, -1, -2]
+  Array.range(1.5, 4) // => [1.5, 2.5, 3.5]
+
+Array.rotate<T>(times: number, arr: T[]): T[]
+  Rotate a list: move the first `times` items to the end (a negative number rotates the other way). It returns a new array.
+  Array.rotate(1, [1, 2, 3]) // => [2, 3, 1]
+  Array.rotate(-1, [1, 2, 3]) // => [3, 1, 2]
+
+Array.shuffle(arr: any[], rnd?: () => number): any[]
+  Shuffle the array in place (Fisher–Yates) and return it. Pass a `rnd` function (returning numbers from 0 to 1) to make it deterministic; `Math.random` by default.
+  Array.shuffle(["C", "D", "E", "F"], () => 0.5) // => ["C", "F", "D", "E"]
+
+Array.sortedNoteNames(notes: string[]): string[]
+  Get the names of the valid notes sorted from lowest to highest. Pitch classes are listed before notes, and anything that is not a note is removed.
+  Array.sortedNoteNames(["c2", "c5", "c1", "c0", "c6", "c"])
+  Array.sortedNoteNames(["c", "F", "G", "a", "b", "h", "J"])
+
+Array.sortedUniqNoteNames(arr: string[]): string[]
+  Same as sortedNoteNames, but with repeated names removed.
+  Array.sortedUniqNoteNames(["a", "b", "c2", "1p", "p2", "c2", "b", "c", "c3"])
+
+## Chord
+
+import { Chord } from "tonal"; // or: import * as Chord from "@tonaljs/chord";
+
+Chord.chord(src: ChordNameOrTokens): Chord
+  An alias of `Chord.get`, handy when importing from `@tonaljs/chord`.
+  Chord.chord("Dm7").symbol; // => "Dm7"
+
+Chord.chordScales(name: string): string[]
+  Get the names of the scale types that contain all the notes of a chord, as type names without tonic. It returns `[]` if the chord isn't valid.
+  Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
+
+Chord.degreeOf(chordName: ChordNameOrTokens, noteName: NoteName): ChordDegreeName
+  Get the degree name that a note plays in a chord, counted from the major scale of the root (the bass of a slash chord doesn't change it). The opposite of `Chord.noteOf`.
+  Chord.degreeOf("C7b9", "Db"); // => "b9"
+  Chord.degreeOf("C7b9", "C#4"); // => "b9"
+  Chord.degreeOf("Cm", "Eb"); // => "b3"
+
+Chord.degrees(chordName: ChordNameOrTokens, tonic?: string): (degree: number) => string
+  Get a function that returns the note of a chord by its position, 1 being the tonic. The position counts the chord notes, so the 3rd note of C is "G" and the 4th is "C" an octave up. For the note of the degree named "3", see `Chord.noteOf`; for positions starting at 0, `Chord.steps`.
+  [1, 2, 3, 4].map(Chord.degrees("C")); // => ["C", "E", "G", "C"]
+  [1, 2, 3, 4].map(Chord.degrees(["C4", "M"])); // => ["C4", "E4", "G4", "C5"]
+  Chord.degrees("Cmaj7")(4); // => "B"
+
+Chord.degreesByImportance(chordName: ChordNameOrTokens): ChordDegreeName[]
+  Get the degree names of a chord (as in `Chord.formula`) sorted by how much they define it, to choose which ones to keep when there are fewer voices than chord tones. It returns `[]` if the chord isn't valid.
+  Chord.degreesByImportance("C13"); // => ["3", "b7", "9", "1", "5", "13"]
+  Chord.degreesByImportance("C7#5"); // => ["3", "#5", "b7", "1"]
+  Chord.degreesByImportance("Csus4"); // => ["4", "1", "5"]
+
+Chord.detect(source: string[], options?: Partial<DetectOptions>): string[]
+  Find the chord symbols that have the notes of a list, best first. It returns `[]` if no chord matches or no note is valid.
+  Chord.detect(["D", "F#", "A", "C"]); // => ["D7"]
+  Chord.detect(["E4", "G4", "C5"]); // => ["CM/E", "Em#5"]
+  Chord.detect(["C", "E", "B"], { assumePerfectFifth: true }); // => ["Cmaj7"]
+
+Chord.extended(chordName: string): string[]
+  Get the symbols of the chords that have all the notes of a chord and at least one more, on the same tonic. It returns `[]` if the chord isn't valid. The opposite of `Chord.reduced`.
+  Chord.extended("Cmaj7"); // => ["Cmaj#4", "Cmaj7#9", "Cmaj7#9#11", "Cmaj9", "Cmaj13", "CM7add13", "Cmaj9#11", "CM13#11", "Cmaj11", "CM7b9"]
+
+Chord.formula(chordName: ChordNameOrTokens): ChordDegreeName[]
+  Get the formula of a chord: its degree names, in the order of its intervals, counted from the major scale of the root. It returns `[]` if the chord isn't valid.
+  Chord.formula("Cm7"); // => ["1", "b3", "5", "b7"]
+  Chord.formula("dim7"); // => ["1", "b3", "b5", "bb7"]
+  Chord.formula("C13/E"); // => ["1", "3", "5", "b7", "9", "13"]
+
+Chord.get(src: ChordNameOrTokens): Chord
+  Get a chord from its symbol, as an object with `notes`, `intervals`, `symbol`, `name`, `tonic`, `bass`, `quality` and more. The symbol can have a tonic and a bass (`"C7/E"`), and the chord can be given as tokens `[tonic, type, bass]`. Without a tonic, the chord has intervals but no notes. It returns `{ empty: true, ... }` if the symbol isn't valid.
+  Chord.get("Cmaj7").notes; // => ["C", "E", "G", "B"]
+  Chord.get("C7/E").notes; // => ["E", "G", "Bb", "C"]
+  Chord.get(["C", "maj7"]).symbol; // => "Cmaj7"
+
+Chord.getChord(typeName: string, optionalTonic?: string, optionalBass?: string): Chord
+  Get a chord from a chord type name, an optional tonic and an optional bass. It returns the same object as `Chord.get`, and `{ empty: true, ... }` if the type, the tonic or the bass isn't valid. Unlike `Chord.get`, the type isn't parsed from a symbol: `Chord.getChord("maj7", "C")` is `Chord.get("Cmaj7")`.
+  Chord.getChord("maj7", "C").notes; // => ["C", "E", "G", "B"]
+  Chord.getChord("maj7", "C", "E").notes; // => ["E", "G", "B", "C"]
+  Chord.getChord("maj7", "C", "E").symbol; // => "Cmaj7/E"
+
+Chord.noteOf(chordName: ChordNameOrTokens, degree: ChordDegreeName): NoteName
+  Get the note of a chord degree name as a pitch class, spelled by transposing the root. The opposite of `Chord.degreeOf`. The degree is counted from the major scale of the root, as in chord formulas: the third of Cm7 is "b3", and its "3" is "E".
+  Chord.noteOf("C7b9", "b9"); // => "Db"
+  Chord.noteOf("C#7", "b9"); // => "D"
+  Chord.noteOf("Cm7", "b3"); // => "Eb"
+
+Chord.notes(chordName: ChordNameOrTokens, tonic?: string): string[]
+  Get the notes of a chord, the same as `Chord.get(name).notes` (a slash chord starts at its bass). The optional `tonic` replaces the chord's own tonic, so a chord type name alone works, and a tonic with an octave gives notes with octaves. It returns `[]` if the chord isn't valid or has no tonic.
+  Chord.notes("Cmaj7"); // => ["C", "E", "G", "B"]
+  Chord.notes("Cmaj7", "C4"); // => ["C4", "E4", "G4", "B4"]
+  Chord.notes("maj7", "D"); // => ["D", "F#", "A", "C#"]
+
+Chord.reduced(chordName: string): string[]
+  Get the symbols of the chords whose notes are all in a chord and are fewer, on the same tonic. It returns `[]` if the chord isn't valid. The opposite of `Chord.extended`.
+  Chord.reduced("Cmaj7"); // => ["C5", "CM"]
+  Chord.reduced("Cmaj9"); // => ["C5", "CM", "Cmaj7", "Csus2", "CMadd9"]
+
+Chord.steps(chordName: ChordNameOrTokens, tonic?: string): (normalized: number) => string
+  Get a function that returns the note of a chord by its position, 0 being the tonic (like `Chord.degrees` but 0-based). Negative steps go down. The function returns `""` if the chord isn't valid.
+  [0, 1, 2, 3].map(Chord.steps("C")); // => ["C", "E", "G", "C"]
+  [-1, 0, 1].map(Chord.steps(["C4", "M"])); // => ["G3", "C4", "E4"]
+
+Chord.tokenize(name: string): ChordNameTokens
+  Split a chord name into `[tonic, type, bass]`. Each part is a string that is `""` when missing, and a name without tonic is all type. It never throws.
+  Chord.tokenize("Cmaj7"); // => ["C", "maj7", ""]
+  Chord.tokenize("Cmaj7/E"); // => ["C", "maj7", "E"]
+  Chord.tokenize("mMaj7"); // => ["", "mMaj7", ""]
+
+Chord.transpose(chordName: string, interval: string): string
+  Transpose a chord symbol by an interval, keeping its type and transposing its tonic and bass. It returns the symbol as is if it has no tonic (or isn't a chord), so it doesn't check that the type is valid.
+  Chord.transpose("Dm7", "P4"); // => "Gm7"
+  Chord.transpose("C/E", "M2"); // => "D/F#"
+  Chord.transpose("nonsense", "P4"); // => "nonsense"
+
+Types:
+
+type Chord = {
+  tonic: string | null;
+  type: string;
+  root: string;
+  bass: string;
+  rootDegree: number;
+  symbol: string;
+  notes: string[];
+  name: string;
+  quality: ChordQuality;
+  family: ChordFamily;
+  aliases: string[];
+  empty: boolean;
+  setNum: number;
+  chroma: string;
+  normalized: string;
+  intervals: string[];
+}
+
+type ChordFamily = '' | 'major' | 'minor' | 'dominant' | 'half-diminished' | 'diminished' | 'augmented' | 'suspended' | 'power'
+
+type ChordNameOrTokens = string | [string] | [string, string] | [string, string, string]
+
+type ChordQuality = 'Major' | 'Minor' | 'Augmented' | 'Diminished' | 'Unknown'
+
+## ChordType
+
+import { ChordType } from "tonal"; // or: import * as ChordType from "@tonaljs/chord-type";
+
+ChordType.add(intervals: string[], aliases: string[], fullName?: string): void
+  Add a chord type to the dictionary, so `ChordType.get` and `Chord.get` know it. It changes the dictionary for the whole program.
+  ChordType.add(["1P", "5P", "7m"], ["7no3"], "dominant seventh no third");
+  Chord.get("C7no3").notes; // => ["C", "G", "Bb"]
+
+ChordType.addAlias(chord: ChordType, alias: string): void
+  Add an alias (another symbol) to a chord type of the dictionary, so `ChordType.get` and `Chord.get` accept it. It changes the dictionary for the whole program.
+  ChordType.addAlias(ChordType.get("maj7"), "Δ7");
+  Chord.get("CΔ7").notes; // => ["C", "E", "G", "B"]
+
+ChordType.all(): ChordType[]
+  Get a copy of the list of all chord types in the dictionary.
+  ChordType.all().length; // => 115
+  ChordType.all()[0].name; // => "fifth"
+
+ChordType.chordType(type: ChordTypeName): ChordType
+  [deprecated] Use ChordType.get instead.
+
+ChordType.entries(): ChordType[]
+  [deprecated] Use ChordType.all instead.
+
+ChordType.family(intervals: string[]): ChordFamily
+  Get the family of a chord type from its interval names (`ChordType.get(name).family` has it for listed types). It returns `""` for no intervals.
+  ChordType.family(["1P", "3M", "5P", "7m"]); // => "dominant"
+  ChordType.family(["1P", "4P", "5P", "7m"]); // => "suspended"
+
+ChordType.get(type: ChordTypeName): ChordType
+  Get a chord type (a chord without tonic) by its name, alias, chroma or set number. It returns an empty chord type (`{ empty: true, ... }`) if it's not in the dictionary. The type has `name`, `aliases`, `intervals`, `quality` and `family`. To get a chord with notes, use `Chord.get`.
+  ChordType.get("major").name; // => "major"
+  ChordType.get("maj7").intervals; // => ["1P", "3M", "5P", "7M"]
+  ChordType.get("M").aliases; // => ["M", "^", "", "maj"]
+
+ChordType.keys(): string[]
+  Get every key that `ChordType.get` accepts: names, aliases, chromas and set numbers (as strings).
+  ChordType.keys().slice(0, 6); // => ["2", "4", "5", "6", "7", "9"]
+
+ChordType.names(): string[]
+  Get the long names of all the chord types in the dictionary, in the dictionary order. Types without long name are left out.
+  ChordType.names().slice(0, 4); // => ["fifth", "suspended fourth", "suspended fourth seventh", "augmented"]
+
+ChordType.removeAll(): void
+  Remove every chord type from the dictionary, to define your own with `ChordType.add`. It changes the dictionary for the whole program.
+
+ChordType.symbols(): string[]
+  Get the main symbol (the first alias) of every chord type in the dictionary, in the dictionary order.
+  ChordType.symbols().slice(0, 4); // => ["5", "M7#5sus4", "7#5sus4", "sus4"]
+
+Types:
+
+type ChordFamily = '' | 'major' | 'minor' | 'dominant' | 'half-diminished' | 'diminished' | 'augmented' | 'suspended' | 'power'
+
+type ChordQuality = 'Major' | 'Minor' | 'Augmented' | 'Diminished' | 'Unknown'
+
+type ChordType = {
+  name: string;
+  quality: ChordQuality;
+  family: ChordFamily;
+  aliases: string[];
+  empty: boolean;
+  setNum: number;
+  chroma: string;
+  normalized: string;
+  intervals: string[];
+}
+
+type ChordTypeName = string | number
+
+## Collection
+
+import { Collection } from "tonal"; // or: import * as Collection from "@tonaljs/collection";
+
+Collection.compact(arr: any[]): any[]
+  Get a copy of the collection without the falsy values, except 0 (so null, undefined, "", false and NaN are removed).
+  Collection.compact(["a", null, "b", 0, undefined]) // => ["a", "b", 0]
+
+Collection.permutations(arr: any[]): any[]
+  Get all the permutations of a collection (n! arrays).
+  Collection.permutations(["a", "b"]) // => [["a", "b"], ["b", "a"]]
+  Collection.permutations(["a", "b", "c"]) // =>
+  [
+
+Collection.range(from: number, to: number): number[]
+  Create a list of numbers from `from` to `to`, both included, in steps of one (descending if `to` is lower). It returns [] if either is not finite.
+  Collection.range(-2, 2) // => [-2, -1, 0, 1, 2]
+  Collection.range(2, -2) // => [2, 1, 0, -1, -2]
+  Collection.range(1.5, 4) // => [1.5, 2.5, 3.5]
+
+Collection.rotate<T>(times: number, arr: T[]): T[]
+  Rotate a list: move the first `times` items to the end (a negative number rotates the other way). It returns a new array.
+  Collection.rotate(1, [1, 2, 3]) // => [2, 3, 1]
+  Collection.rotate(-1, [1, 2, 3]) // => [3, 1, 2]
+
+Collection.shuffle(arr: any[], rnd?: () => number): any[]
+  Shuffle the collection in place (Fisher–Yates) and return it. Pass a `rnd` function (returning numbers from 0 to 1) to make it deterministic; `Math.random` by default.
+  Collection.shuffle(["C", "D", "E", "F"], () => 0.5) // => ["C", "F", "D", "E"]
+
+## DurationValue
+
+import { DurationValue } from "tonal"; // or: import * as DurationValue from "@tonaljs/duration-value";
+
+DurationValue.fraction(name: string): Fraction
+  Get the value of a duration (with optional dots) as a `[numerator, denominator]` fraction of a whole note, or `[0, 0]` if not valid.
+  DurationValue.fraction("q") // => [1, 4]
+  DurationValue.fraction("q..") // => [7, 16]
+
+DurationValue.get(name: string): DurationValue
+  Get the DurationValue object (value, fraction, shorthand, names...) of a duration name or shorthand, with optional trailing dots ("q", "quarter", "q."). The value is the fraction of a whole note. Unknown names give an object with `empty: true` and `value: 0`.
+  DurationValue.get("q").value // => 0.25
+  DurationValue.get("quarter.").fraction // => [3, 8]
+  DurationValue.get("x").empty // => true
+
+DurationValue.names(): string[]
+  Get all the duration names ("quarter", "crotchet", "eighth"...) that `DurationValue.get` accepts, in a flat list from the longest to the shortest.
+  DurationValue.names().slice(0, 4) // => ["large", "duplex longa", "maxima", "octuple"]
+
+DurationValue.shorthands(): string[]
+  Get the shorthand of every duration value ("w" whole, "h" half, "q" quarter, "e" eighth...), from the longest to the shortest.
+  DurationValue.shorthands() // => ["dl", "l", "d", "w", "h", "q", "e", "s", "t", "sf", "h", "th"]
+
+DurationValue.value(name: string): number
+  Get the value of a duration (with optional dots) as a fraction of a whole note, or 0 if not valid.
+  DurationValue.value("e") // => 0.125
+  DurationValue.value("q.") // => 0.375
+
+Types:
+
+type DurationValue = {
+  empty: boolean;
+  value: number;
+  name: string;
+  fraction: Fraction;
+  shorthand: string;
+  dots: string;
+  names: string[];
+}
+
+## Interval
+
+import { Interval } from "tonal"; // or: import * as Interval from "@tonaljs/interval";
+
+Interval.abs(name: IntervalName): IntervalName
+  Get the ascending version of an interval: the interval itself if it ascends, and its negation if it descends.
+  Interval.abs("-3M") // => "3M"
+  Interval.abs("3M") // => "3M"
+  Interval.abs("1d") // => "1A" (one semitone down, like "-1A")
+
+Interval.add(a: IntervalName, b: IntervalName): IntervalName | undefined
+  Add two intervals. It returns the interval name, or "" if either interval is not valid.
+  Interval.add("3m", "5P") // => "7m"
+  Interval.add("3M", "3M") // => "5A"
+
+Interval.addTo(interval: string): (other: string) => string | undefined
+  Get a function that adds the given interval to another interval.
+  ["1P", "2M", "3M"].map(Interval.addTo("5P")) // => ["5P", "6M", "7M"]
+
+Interval.consonance(name: IntervalName, options?: ConsonanceOptions): Consonance | ''
+  Classify an interval as a perfect consonance (unison, fifth and octave), an imperfect consonance (thirds and sixths) or a dissonance (seconds, sevenths, the fourth, and every augmented or diminished interval).
+  Interval.consonance("5P") // => "perfect"
+  Interval.consonance("10m") // => "imperfect"
+  Interval.consonance("-6M") // => "imperfect"
+
+Interval.distance(fromNote: NoteLiteral, toNote: NoteLiteral): IntervalName
+  Get the interval name between two notes or pitch classes, or "" if either is not valid.
+  Interval.distance("C4", "G4") // => "5P"
+  Interval.distance("G4", "C4") // => "-5P"
+  Interval.distance("C", "E") // => "3M"
+
+Interval.fromSemitones(semitones: number): IntervalName
+  Get interval name from semitones number. Since there are several interval names for the same number, the name it's arbitrary, but deterministic.
+  Interval.fromSemitones(7) // => "5P"
+  Interval.fromSemitones(-7) // => "-5P"
+
+Interval.get(src: IntervalLiteral): Interval
+  Get the Interval object (name, number, quality, semitones...) of an interval name ("4P" or "P4"). Invalid input gives an object with `empty: true` and `name: ""`.
+  Interval.get("x").empty // => true
+  Interval.get("P4").semitones // => 5
+  Interval.get("P4").name // => "4P"
+
+Interval.invert(name: IntervalName): IntervalName
+  Get the inversion (https://en.wikipedia.org/wiki/Inversion_(music)#Intervals) of an interval: the interval that completes its simplified version to an octave. A unison and an octave invert to each other, compound intervals are simplified first, and the direction is kept.
+  Interval.invert("3m") // => "6M"
+  Interval.invert("2M") // => "7m"
+  Interval.invert("1P") // => "8P"
+
+Interval.isConsonant(name: IntervalName, options?: ConsonanceOptions): boolean
+  Is the interval a perfect or an imperfect consonance? See `consonance`.
+  Interval.isConsonant("6M") // => true
+  Interval.isConsonant("-12P") // => true
+  Interval.isConsonant("2M") // => false
+
+Interval.multiply(name: IntervalName, times: number): IntervalName
+  Multiply an interval by an integer: stack it that many times. A negative number stacks it in the opposite direction, and zero gives a unison.
+  Interval.multiply("5P", 3) // => "13M"
+  Interval.multiply("2M", 3) // => "4A"
+  Interval.multiply("3M", -2) // => "-5A"
+
+Interval.name(name: string): string
+  Get the normalized name of an interval (number first), or "" if not valid.
+  Interval.name("4P") // => "4P"
+  Interval.name("P4") // => "4P"
+  Interval.name("C4") // => ""
+
+Interval.names(): IntervalName[]
+  Get the names of the natural intervals: unison, major second and third, perfect fourth and fifth, and minor sixth and seventh.
+  Interval.names() // => ["1P", "2M", "3M", "4P", "5P", "6m", "7m"]
+
+Interval.negate(name: IntervalName): IntervalName
+  Get the same interval in the opposite direction.
+  Interval.negate("3M") // => "-3M"
+  Interval.negate("-5P") // => "5P"
+  Interval.negate("1A") // => "-1A"
+
+Interval.num(name: string): number
+  Get the number of an interval (4 for a fourth; negative if descending), or NaN if not valid.
+  Interval.num("P4") // => 4
+  Interval.num("-9M") // => -9
+
+Interval.pitchClass(name: IntervalName): IntervalName
+  Get the pitch class of an interval: the interval within an octave, and ascending by letter, that leads to the same pitch class. It ignores octaves and direction, like the distance between two pitch classes.
+  Interval.pitchClass("10M") // => "3M"
+  Interval.pitchClass("-3M") // => "6m"
+  Interval.pitchClass("8P") // => "1P"
+
+Interval.quality(name: string): 'm' | 'M' | 'P' | `A${string}` | `d${string}`
+  Get the quality of an interval: "P", "M", "m", "A" (or "AA"...), "d" (or "dd"...). It is "" if not valid.
+  Interval.quality("P4") // => "P"
+  Interval.quality("3m") // => "m"
+
+Interval.semitones(name: string): number
+  Get the size of an interval in semitones (negative if descending), or NaN if not valid.
+  Interval.semitones("P4") // => 5
+  Interval.semitones("-3M") // => -4
+
+Interval.simplify(name: IntervalName): IntervalName
+  Get the simplified version of an interval: the same quality and direction, with the number reduced to an octave or less. An octave stays an octave, so only a unison simplifies to a unison.
+  Interval.simplify("9M") // => "2M"
+  Interval.simplify("2M") // => "2M"
+  Interval.simplify("-2M") // => "-2M"
+
+Interval.subtract(a: IntervalName, b: IntervalName): IntervalName | undefined
+  Subtract the second interval from the first. It returns the interval name, or "" if either interval is not valid.
+  Interval.subtract('5P', '3M') // => '3m'
+  Interval.subtract('3M', '5P') // => '-3m'
+
+Interval.transposeFifths(interval: IntervalName, fifths: number): IntervalName
+  Move an interval a number of perfect fifths up (or down, if negative), keeping its octave. It returns "" if the interval is not valid.
+  Interval.transposeFifths("3M", 1) // => "7M"
+  Interval.transposeFifths("5P", -1) // => "1P"
+
+Types:
+
+type ConsonanceOptions = {
+  consonantFourth?: boolean | undefined;
+}
+
+type Direction = 1 | -1
+
+type Interval = {
+  empty: boolean;
+  name: string;
+  num: number;
+  q: Quality;
+  type: Type;
+  step: number;
+  alt: number;
+  dir: Direction;
+  simple: number;
+  semitones: number;
+  chroma: number;
+  coord: IntervalCoordinates;
+  oct: number;
+}
+
+type IntervalLiteral = string | Pitch | NamedPitch
+
+type NamedPitch = {
+  name: string;
+}
+
+type NoteLiteral = string | Pitch | NamedPitch
+
+type Pitch = {
+  step: number;
+  alt: number;
+  oct?: number | undefined;
+  dir?: Direction | undefined;
+}
+
+type Quality = 'm' | 'M' | 'P' | `A${string}` | `d${string}`
+
+type Type = 'perfectable' | 'majorable'
+
+## Key
+
+import { Key } from "tonal"; // or: import * as Key from "@tonaljs/key";
+
+Key.majorKey(tonic: string): MajorKey
+  Get a major key: its signature, scale, triads, seventh chords, harmonic functions and secondary and substitute dominants. For an invalid tonic it returns a key with empty strings and arrays.
+  Key.majorKey("F").scale; // => ["F", "G", "A", "Bb", "C", "D", "E"]
+  Key.majorKey("F").chords; // => ["Fmaj7", "Gm7", "Am7", "Bbmaj7", "C7", "Dm7", "Em7b5"]
+  Key.majorKey("F").keySignature; // => "b"
+
+Key.majorKeyChords(tonic: string): KeyChord[]
+  Get the chords available in a major key, each with the roles it plays: diatonic chords ("T", "SD", "D") and secondary and substitute dominants with their supertonics ("V/II", "ii/V", "subV/II"...). Returns an empty array for an invalid tonic.
+  Key.majorKeyChords("C").slice(0, 3); // => [{ name: "Cmaj7", roles: ["T"] }, { name: "Dm7", roles: ["SD"] }, { name: "Em7", roles: ["T"] }]
+
+Key.majorTonicFromKeySignature(sig: string | number): string | null
+  Get the tonic of the major key with the given key signature, or null if the signature is not valid.
+  Key.majorTonicFromKeySignature("###"); // => "A"
+  Key.majorTonicFromKeySignature(-2); // => "Bb"
+  Key.majorTonicFromKeySignature(""); // => "C"
+
+Key.minorKey(tnc: string): MinorKey
+  Get a minor key: its signature, relative major and the scale, chords and dominants of its natural, harmonic and melodic forms. For an invalid tonic it returns a key with empty strings and arrays.
+  Key.minorKey("A").relativeMajor; // => "C"
+  Key.minorKey("A").harmonic.scale; // => ["A", "B", "C", "D", "E", "F", "G#"]
+  Key.minorKey("A").natural.chords; // => ["Am7", "Bm7b5", "Cmaj7", "Dm7", "Em7", "Fmaj7", "G7"]
+
+Key.minorKeyChords(tonic: string): KeyChord[]
+  Get the chords available in a minor key, each with the roles it plays. It merges the chords of the natural, harmonic and melodic scales, so a chord that appears in several scales has all its roles. Returns an empty array for an invalid tonic.
+  Key.minorKeyChords("A").slice(0, 2); // => [{ name: "Am7", roles: ["T", "ii/bVII"] }, { name: "Bm7b5", roles: ["SD", "ii/I"] }]
+
+Types:
+
+type KeyChord = {
+  name: string;
+  roles: string[];
+}
+
+type KeyScale = {
+  tonic: string;
+  grades: readonly string[];
+  intervals: readonly string[];
+  scale: readonly string[];
+  triads: readonly string[];
+  chords: readonly string[];
+  chordsHarmonicFunction: readonly string[];
+  chordScales: readonly string[];
+  secondaryDominants: readonly string[];
+  secondaryDominantSupertonics: readonly string[];
+  substituteDominants: readonly string[];
+  substituteDominantSupertonics: readonly string[];
+  secondaryDominantsMinorRelative: readonly string[]; // deprecated
+  substituteDominantsMinorRelative: readonly string[]; // deprecated
+}
+
+type MajorKey = {
+  type: 'major';
+  minorRelative: string;
+  scale: readonly string[];
+  substituteDominants: readonly string[];
+  secondaryDominantSupertonics: readonly string[];
+  substituteDominantsMinorRelative: readonly string[]; // deprecated
+  tonic: string;
+  alteration: number;
+  keySignature: string;
+  grades: readonly string[];
+  intervals: readonly string[];
+  triads: readonly string[];
+  chords: readonly string[];
+  chordsHarmonicFunction: readonly string[];
+  chordScales: readonly string[];
+  secondaryDominants: readonly string[];
+  substituteDominantSupertonics: readonly string[];
+  secondaryDominantsMinorRelative: readonly string[]; // deprecated
+}
+
+type MinorKey = {
+  type: 'minor';
+  relativeMajor: string;
+  natural: KeyScale;
+  harmonic: KeyScale;
+  melodic: KeyScale;
+  tonic: string;
+  alteration: number;
+  keySignature: string;
+}
+
+## Midi
+
+import { Midi } from "tonal"; // or: import * as Midi from "@tonaljs/midi";
+
+Midi.chroma(midi: number): number
+  Get the pitch class of a midi number, from 0 up to (not including) 12. A decimal midi number keeps its fraction.
+  Midi.chroma(61) // => 1
+  Midi.chroma(61.5) // => 1.5
+  Midi.chroma(-1) // => 11
+
+Midi.freqToMidi(freq: number): number
+  Get the midi number of a frequency in hertz. The midi number can contain decimals (rounded to two digits).
+  Midi.freqToMidi(220) // => 57
+  Midi.freqToMidi(261.62) // => 60
+  Midi.freqToMidi(261) // => 59.96
+
+Midi.isMidi(arg: any): arg is Midi
+  Check if a value is a valid midi number: a number, or a numeric string, from 0 to 127. Note names are not midi numbers.
+  Midi.isMidi(60) // => true
+  Midi.isMidi("60") // => true
+  Midi.isMidi(128) // => false
+
+Midi.midiToFreq(midi: number, tuning?: number): number
+  Get the frequency in hertz of a midi number.
+  Midi.midiToFreq(69) // => 440
+  Midi.midiToFreq(69, 432) // => 432
+
+Midi.midiToNoteName(midi: number, options?: ToNoteNameOptions): string
+  Get the note name of a midi number. Altered notes use flats unless `sharps: true`, and `pitchClass: true` drops the octave. Decimals are rounded to the nearest note, and NaN or infinite numbers give "".
+  Midi.midiToNoteName(61) // => "Db4"
+  Midi.midiToNoteName(61, { pitchClass: true }) // => "Db"
+  Midi.midiToNoteName(61, { sharps: true }) // => "C#4"
+
+Midi.pcset(notes: number[] | string): number[]
+  Given a list of midi numbers, returns the pitch class set: the unique pitch classes (whole numbers from 0 to 11), sorted. Decimal midi numbers are rounded to the nearest note first, and numbers that aren't finite are ignored.
+  Midi.pcset([62, 63, 60, 65, 70, 72]) // => [0, 2, 3, 5, 10]
+  Midi.pcset([60.4, 64, 67.6]) // => [0, 4, 8]
+  Midi.pcset("100100100101") // => [0, 3, 6, 9, 11]
+
+Midi.pcsetDegrees(notes: number[] | string, tonic: number): (degree: number) => number | undefined
+  Same as pcsetSteps, but degrees start at 1 (the tonic) and go down to -1 (the note below the tonic). The function returns undefined for degree 0.
+  const degrees = Midi.pcsetDegrees([0, 2, 4], 60);
+  [-1, 1, 2, 3, 4].map(degrees) // => [52, 60, 62, 64, 72]
+
+Midi.pcsetNearest(notes: number[] | string): (midi: number) => number | undefined
+  Get a function that maps a midi number to the nearest midi number whose pitch class is in the set (a tie goes up). Can be used to constrain a note to a scale. The function returns undefined if the number is not finite.
+  const nearest = Midi.pcsetNearest(Scale.get("D dorian").chroma);
+  [60, 61, 62, 63, 64, 65, 66].map(nearest) // => [60, 62, 62, 63, 65, 65, 67]
+
+Midi.pcsetSteps(notes: number[] | string, tonic: number): (step: number) => number
+  Get a function that maps a step number to a midi number: step 0 is the tonic (the first pitch class of the set above it), step 1 the second, and so on, going up an octave every time the set wraps. Negative steps go down.
+  const steps = Midi.pcsetSteps(Scale.get("D dorian").chroma, 60);
+  [-2, -1, 0, 1, 2, 3].map(steps) // => [57, 58, 60, 62, 63, 65]
+
+Midi.toMidi(note: NoteName | number): number | null
+  Get the midi number (0 to 127) of a note name or midi number. It returns null if the note is not valid, has no octave or is out of range.
+  Midi.toMidi("C4") // => 60
+  Midi.toMidi(60) // => 60
+  Midi.toMidi("60") // => 60
+
+Types:
+
+type ToNoteNameOptions = {
+  pitchClass?: boolean | undefined;
+  sharps?: boolean | undefined;
+}
+
+## Mode
+
+import { Mode } from "tonal"; // or: import * as Mode from "@tonaljs/mode";
+
+Mode.all(): Mode[]
+  Get a list of the seven modes, from ionian to locrian.
+  Mode.all().map((m) => m.name); // => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"]
+
+Mode.distance(destination: ModeLiteral, source: ModeLiteral): string
+  Get the interval from the tonic of a source mode to the tonic of a destination mode that has the same notes (the interval is negative when it goes down). It returns `""` if a mode is invalid.
+  Mode.distance("dorian", "major"); // => "2M"
+  Mode.distance("lydian", "ionian"); // => "-5P"
+  Mode.distance("nonsense", "ionian"); // => ""
+
+Mode.entries(): Mode[]
+  [deprecated] Use Mode.all instead.
+
+Mode.get(name: ModeLiteral): Mode
+  Get one of the seven diatonic modes by its name (case insensitive) or by an object with a `name`. It returns an empty mode (`{ empty: true, ... }`) for anything else. The mode has `name`, `intervals`, `modeNum` (0 for ionian), `alt` (the flats it adds to the ionian mode on the same tonic, negative for sharps), `triad`, `seventh` (chord types of its tonic) and `aliases` ("major" and "minor" are aliases of ionian and aeolian).
+  Mode.get("dorian").intervals; // => ["1P", "2M", "3m", "4P", "5P", "6M", "7m"]
+  Mode.get("dorian").seventh; // => "m7"
+  Mode.get("major").name; // => "ionian"
+
+Mode.mode(name: ModeLiteral): Mode
+  [deprecated] Use Mode.get instead.
+
+Mode.names(): string[]
+  Get the names of the seven modes, from ionian to locrian.
+  Mode.names(); // => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"]
+
+Mode.notes(modeName: ModeLiteral, tonic: NoteName): string[]
+  Get the notes of a mode on a tonic, as pitch classes if the tonic has no octave. It returns `[]` for an invalid mode. (An invalid tonic gives a list of `""`.)
+  Mode.notes("ionian", "C"); // => ["C", "D", "E", "F", "G", "A", "B"]
+  Mode.notes("dorian", "D"); // => ["D", "E", "F", "G", "A", "B", "C"]
+  Mode.notes("nonsense", "C"); // => []
+
+Mode.relativeTonic(destination: ModeLiteral, source: ModeLiteral, tonic: NoteName): string
+  Get the tonic of a destination mode that has the same notes as a source mode on a tonic: D dorian and C ionian share notes, so the relative dorian tonic of C ionian is D. It returns `""` if a mode is invalid.
+  Mode.relativeTonic("dorian", "major", "C"); // => "D"
+  Mode.relativeTonic("major", "dorian", "D"); // => "C"
+  Mode.relativeTonic("nonsense", "major", "C"); // => ""
+
+Mode.seventhChords(modeName: ModeLiteral, tonic: NoteName): string[]
+  Get the seventh chord symbols built on each degree of a mode on a tonic. It returns `[]` for an invalid mode.
+  Mode.seventhChords("dorian", "D"); // => ["Dm7", "Em7", "FMaj7", "G7", "Am7", "Bm7b5", "CMaj7"]
+
+Mode.triads(modeName: ModeLiteral, tonic: NoteName): string[]
+  Get the triad chord symbols built on each degree of a mode on a tonic. It returns `[]` for an invalid mode.
+  Mode.triads("dorian", "D"); // => ["Dm", "Em", "F", "G", "Am", "Bdim", "C"]
+  Mode.triads("major", "C"); // => ["C", "Dm", "Em", "F", "G", "Am", "Bdim"]
+
+Types:
+
+type Mode = {
+  name: string;
+  modeNum: number;
+  alt: number;
+  triad: string;
+  seventh: string;
+  aliases: string[];
+  empty: boolean;
+  setNum: number;
+  chroma: string;
+  normalized: string;
+  intervals: string[];
+}
+
+type ModeLiteral = string | { name: string; }
+
+## Note
+
+import { Note } from "tonal"; // or: import * as Note from "@tonaljs/note";
+
+Note.accidentals(note: NoteLiteral): string
+  Get the accidentals of a note ("#", "b", "##"...), or "" if it has none or is not valid.
+  Note.accidentals("Db4") // => "b"
+  Note.accidentals("C4") // => ""
+
+Note.ascending(a: Note, b: Note): number
+  A comparator to sort Note objects (as returned by Note.get) from lowest to highest.
+  ["D4", "C4", "B3"].map(Note.get).sort(Note.ascending).map(n => n.name) // => ["B3", "C4", "D4"]
+
+Note.chroma(note: NoteLiteral): number
+  Get the chroma of a note: its pitch class number from 0 (C) to 11 (B), or NaN if not valid.
+  Note.chroma("D") // => 2
+  Note.chroma("C#4") // => 1
+
+Note.descending(a: Note, b: Note): number
+  A comparator to sort Note objects (as returned by Note.get) from highest to lowest.
+  ["D4", "C4", "B3"].map(Note.get).sort(Note.descending).map(n => n.name) // => ["D4", "C4", "B3"]
+
+Note.distance(fromNote: NoteLiteral, toNote: NoteLiteral): IntervalName
+  Get the interval name between two notes or pitch classes, or "" if either is not valid.
+  Note.distance("C4", "G4") // => "5P"
+  Note.distance("C", "E") // => "3M"
+
+Note.enharmonic(noteName: string, destName?: string): string
+  Get an enharmonic spelling of a note (the same sound, written differently): by default the one with the opposite accidental type, or the one with the given destination pitch class. Returns "" if the note is not valid or the destination is not enharmonic to it.
+  Note.enharmonic("Db") // => "C#"
+  Note.enharmonic("C") // => "C"
+  Note.enharmonic("F2", "E#") // => "E#2"
+
+Note.freq(note: NoteLiteral): number | null
+  Get the frequency in hertz of a note (A4 is 440), or null if the note has no octave or is not valid.
+  Note.freq("A4") // => 440
+  Note.freq("C") // => null
+
+Note.fromFreq(freq: number): string
+  Get the note name (with flats for altered notes) nearest to a frequency in hertz.
+  Note.fromFreq(440) // => "A4"
+  Note.fromFreq(466.16) // => "Bb4"
+
+Note.fromFreqSharps(freq: number): string
+  Get the note name (with sharps for altered notes) nearest to a frequency in hertz.
+  Note.fromFreqSharps(466.16) // => "A#4"
+
+Note.fromMidi(midi: number): string
+  Get the note name of a midi number, using flats for altered notes. Decimals are rounded to the nearest note, and a non-numeric value gives "".
+  Note.fromMidi(61) // => "Db4"
+  Note.fromMidi(61.7) // => "D4"
+
+Note.fromMidiSharps(midi: number): string
+  Get the note name of a midi number, using sharps for altered notes. Decimals are rounded to the nearest note, and a non-numeric value gives "".
+  Note.fromMidiSharps(61) // => "C#4"
+
+Note.get(src: NoteLiteral): Note
+  Get the Note object of a note name (or pitch object). Invalid input gives an object with `empty: true` and `name: ""`.
+  Note.get("Bb4") // => { name: "Bb4", pc: "Bb", midi: 70, chroma: 10, freq: 466.16..., ... }
+  Note.get("x").empty // => true
+
+Note.midi(note: NoteLiteral): number | null
+  Get the midi number (0 to 127) of a note, or null if the note has no octave, is out of range or is not valid.
+  Note.midi("C4") // => 60
+  Note.midi("C") // => null
+
+Note.name(note: NoteLiteral): string
+  Get the normalized note name, or "" if not valid.
+  Note.name("db4") // => "Db4"
+  Note.name("x") // => ""
+
+Note.names(array?: any[]): string[]
+  Get the natural note names without octave. If an array is given, get the names of the valid notes in it (invalid ones are removed; a non-array gives `[]`).
+  Note.names() // => ["C", "D", "E", "F", "G", "A", "B"]
+  Note.names(["c", "d4", "x"]) // => ["C", "D4"]
+
+Note.octave(note: NoteLiteral): number | undefined
+  Get the octave number of a note, or undefined if it has no octave or is not valid.
+  Note.octave("C4") // => 4
+  Note.octave("C") // => undefined
+
+Note.pitchClass(note: NoteLiteral): string
+  Get the pitch class name (the note name without octave), or "" if not valid.
+  Note.pitchClass("Db4") // => "Db"
+
+Note.simplify(noteName: NoteName | Pitch): string
+  Get the simplest spelling of a note: at most one accidental, keeping sharps if the note has sharps and flats otherwise. Returns "" if not valid.
+  Note.simplify("C##") // => "D"
+  Note.simplify("C###") // => "D#"
+  Note.simplify("B#4") // => "C5"
+
+Note.sortedNames(notes: any[], comparator?: NoteComparator): string[]
+  Get the names of the valid notes sorted from lowest to highest (or with the given comparator, see Note.descending). Invalid notes are removed.
+  Note.sortedNames(["D4", "C4", "x", "B3"]) // => ["B3", "C4", "D4"]
+  Note.sortedNames(["D4", "C4", "B3"], Note.descending) // => ["D4", "C4", "B3"]
+
+Note.sortedUniqNames(notes: any[]): string[]
+  Get the names of the valid notes sorted from lowest to highest, with repeated names removed (enharmonic notes like C4 and B#3 are kept). Invalid notes are removed.
+  Note.sortedUniqNames(["C4", "B#3", "D4", "C4", "x"]) // => ["C4", "B#3", "D4"]
+
+Note.tr(noteName: NoteLiteral, intervalName: IntervalLiteral | [number, number]): NoteName
+  Alias of Note.transpose.
+
+Note.transpose(noteName: NoteLiteral, intervalName: IntervalLiteral | [number, number]): NoteName
+  Transpose a note by an interval. It returns the transposed note name, or "" if the note or the interval are not valid.
+  Note.transpose("C4", "5P") // => "G4"
+  Note.transpose("D", "3M") // => "F#"
+  Note.transpose("x", "3M") // => ""
+
+Note.transposeBy(interval: IntervalName): (note: NoteName) => string
+  Get a function that transposes a note by the given interval.
+  ["C", "D", "E"].map(Note.transposeBy("5P")) // => ["G", "A", "B"]
+
+Note.transposeFifths(noteName: NoteName, fifths: number): NoteName
+  Transpose a note by a number of perfect fifths.
+  Note.transposeFifths("G4", 1) // => "D5"
+  [0, 1, 2, 3, 4].map(fifths => Note.transposeFifths("C", fifths)) // => ["C", "G", "D", "A", "E"]
+
+Note.transposeFrom(note: NoteName): (interval: IntervalName) => string
+  Get a function that transposes the given note by an interval.
+  ["1P", "3M", "5P"].map(Note.transposeFrom("C")) // => ["C", "E", "G"]
+
+Note.transposeOctaves(noteName: NoteName, octaves: number): NoteName
+  Transpose a note by a number of octaves (can be negative). It returns the transposed note name, or "" if not valid.
+  Note.transposeOctaves("C4", 1) // => "C5"
+  Note.transposeOctaves("C4", -2) // => "C2"
+
+Note.trBy(interval: IntervalName): (note: NoteName) => string
+  Alias of Note.transposeBy.
+
+Note.trFifths(noteName: NoteName, fifths: number): NoteName
+  Alias of Note.transposeFifths.
+
+Note.trFrom(note: NoteName): (interval: IntervalName) => string
+  Alias of Note.transposeFrom.
+
+Types:
+
+type Direction = 1 | -1
+
+type NamedPitch = {
+  name: string;
+}
+
+type Note = {
+  empty: boolean;
+  name: string;
+  letter: string;
+  acc: string;
+  pc: string;
+  chroma: number;
+  height: number;
+  coord: PitchCoordinates;
+  midi: number | null;
+  freq: number | null;
+  step: number;
+  alt: number;
+  oct?: number | undefined;
+  dir?: Direction | undefined;
+}
+
+type NoteComparator = (a: Note, b: Note) => number
+
+type NoteLiteral = string | Pitch | NamedPitch
+
+type Pitch = {
+  step: number;
+  alt: number;
+  oct?: number | undefined;
+  dir?: Direction | undefined;
+}
+
+type PitchCoordinates = PitchClassCoordinates | NoteCoordinates | IntervalCoordinates
+
+## Pcset
+
+import { Pcset } from "tonal"; // or: import * as Pcset from "@tonaljs/pcset";
+
+Pcset.chroma(set: Set): string
+  Get the chroma of a pitch class set: a 12-character string of "0" and "1", one per pitch class starting from C. It's `"000000000000"` for an invalid set.
+  Pcset.chroma(["c", "d", "e"]); //=> "101010000000"
+
+Pcset.chromas(): PcsetChroma[]
+  Get all the possible pitch class sets that contain C, as chromas: the 2048 chromas from `"100000000000"` to `"111111111111"`. To have them on another note you have to rotate them.
+  Pcset.chromas().length; // => 2048
+  Pcset.chromas().slice(0, 2); // => ["100000000000", "100000000001"]
+
+Pcset.filter(set: Set): (notes: NoteName[]) => string[]
+  Get a function that keeps the notes of a list that belong to a pitch class set, ignoring octaves. The notes are returned as they were given.
+  Pcset.filter(["C", "D", "E"])(["c2", "c#2", "d2", "c3", "c#3", "d3"]); // => ["c2", "d2", "c3", "d3"]
+  Pcset.filter(["C2"])(["c2", "c#2", "d2", "c3", "c#3", "d3"]); // => ["c2", "c3"]
+
+Pcset.get(src: Set): Pcset
+  Get a pitch class set (the notes of an octave, ignoring octave and order) from a list of note names or interval names, a chroma or a set number. The result has `chroma`, `setNum`, `normalized` and `intervals` (from C). It returns an empty set (`{ empty: true, ... }`) for anything else, and invalid items of a list are ignored.
+  Pcset.get(["c", "d", "e"]).chroma; // => "101010000000"
+  Pcset.get(["c", "d", "e"]).intervals; // => ["1P", "2M", "3M"]
+  Pcset.get("101010000000").intervals; // => ["1P", "2M", "3M"]
+
+Pcset.includes(set: Set): (noteName: NoteName) => boolean
+  [deprecated] Use Pcset.isNoteIncludedIn instead.
+
+Pcset.intervals(set: Set): string[]
+  Get the interval names of a pitch class set, measured from C and ordered by pitch class. It returns `[]` for an invalid set.
+  Pcset.intervals(["c", "d", "e"]); // => ["1P", "2M", "3M"]
+  Pcset.intervals(["D", "F#"]); // => ["2M", "5d"]
+
+Pcset.isChroma(set: any): set is PcsetChroma
+  Test if a value is a pitch class set chroma: a string of 12 characters, each "0" or "1".
+  Pcset.isChroma("101010000000"); // => true
+  Pcset.isChroma("10101"); // => false
+
+Pcset.isEqual(s1: Set, s2: Set): boolean
+  Test if two pitch class sets have the same pitch classes, whatever their octaves and order.
+  Pcset.isEqual(["c2", "d3"], ["c5", "d2"]); // => true
+  Pcset.isEqual(["C", "E"], ["C", "D"]); // => false
+
+Pcset.isNoteIncludedIn(set: Set): (noteName: NoteName) => boolean
+  Get a function that tests if a note belongs to a pitch class set, ignoring its octave. It returns false for an invalid note.
+  Pcset.isNoteIncludedIn(["C", "E", "G"])("C4"); // => true
+  Pcset.isNoteIncludedIn(["C", "E", "G"])("C#4"); // => false
+
+Pcset.isSubsetOf(set: Set): (notes: Set | Pcset) => boolean | 0
+  Get a function that tests if a collection of notes is a proper subset of a given set (all its pitch classes are in the set, and the set has more). The same set is not a subset of itself.
+  Pcset.isSubsetOf(["C", "E", "G"])(["e6", "c4"]); // => true
+  Pcset.isSubsetOf(["C", "E", "G"])(["e6", "c4", "d3"]); // => false
+  Pcset.isSubsetOf(["C", "E", "G"])(["C", "E", "G"]); // => false
+
+Pcset.isSupersetOf(set: Set): (notes: Set) => boolean | 0
+  Get a function that tests if a collection of notes is a proper superset of a given set (it contains all its pitch classes and at least one more).
+  Pcset.isSupersetOf(["C", "E", "G"])(["e6", "a", "c4", "g2"]); // => true
+  Pcset.isSupersetOf(["C", "E", "G"])(["c6", "e4", "g3"]); // => false
+
+Pcset.modes(set: Set, normalize?: boolean): PcsetChroma[]
+  Get the rotations of the chroma of a pitch class set, each one a chroma having one of its notes as C. By default the rotations that start with "0" (not a note of the set) are left out, so there is one per note of the set.
+  Pcset.modes(["C", "D", "E"]); // => ["101010000000", "101000000010", "100000001010"]
+  Pcset.modes(["C", "D", "E"]).map(Pcset.intervals); // => [["1P", "2M", "3M"], ["1P", "2M", "7m"], ["1P", "6m", "7m"]]
+  Pcset.modes(["C", "D", "E"], false).length; // => 12
+
+Pcset.notes(set: Set): NoteName[]
+  Get the note names of a pitch class set, spelled as intervals from C. It returns `[]` for an invalid set. To spell them from another tonic, use `Scale.get` or `Chord.get`.
+  Pcset.notes(["c", "d", "e"]); // => ["C", "D", "E"]
+  Pcset.notes(["D", "F#"]); // => ["D", "Gb"]
+
+Pcset.num(set: Set): number
+  Get the number of a pitch class set: its chroma read as a binary number (from 1 to 4095), or 0 for an invalid set.
+  Pcset.num(["c", "d", "e"]); //=> 2688
+
+Pcset.pcset(src: Set): Pcset
+  [deprecated] Use Pcset.get instead.
+
+Constants:
+
+Pcset.EmptyPcset: Pcset
+
+Types:
+
+type Pcset = {
+  name: string;
+  empty: boolean;
+  setNum: number;
+  chroma: string;
+  normalized: string;
+  intervals: string[];
+}
+
+type Set = string | number | Partial<Pcset> | string[] | string[]
+
+## Progression
+
+import { Progression } from "tonal"; // or: import * as Progression from "@tonaljs/progression";
+
+Progression.fromRomanNumerals(tonic: NoteLiteral, chords: string[]): string[]
+  Convert a list of roman numeral chords to chord symbols in the given tonic. Returns one chord symbol per numeral, and "" for a numeral that is not valid or has an unknown chord type.
+  Progression.fromRomanNumerals("C", ["I", "IIm7", "V7"]); // => ["C", "Dm7", "G7"]
+  Progression.fromRomanNumerals("C", ["I", "vi", "ii7", "V7"]); // => ["C", "Am", "Dm7", "G7"]
+  Progression.fromRomanNumerals("C", ["I", "V7/ii", "ii", "V7"]); // => ["C", "A7", "Dm", "G7"]
+
+Progression.toRomanNumerals(tonic: NoteLiteral, chords: string[]): string[]
+  Convert a list of chord symbols to roman numerals relative to the given tonic. The chord type is kept as written, and the numeral is always uppercase ("IIm7", not "ii7"). A chord that can't be parsed is returned unchanged.
+  Progression.toRomanNumerals("C", ["CMaj7", "Dm7", "G7"]); // => ["IMaj7", "IIm7", "V7"]
+  Progression.toRomanNumerals("C", ["Am", "Bb7"]); // => ["VIm", "bVII7"]
+
+Types:
+
+type NamedPitch = {
+  name: string;
+}
+
+type NoteLiteral = string | Pitch | NamedPitch
+
+type Pitch = {
+  step: number;
+  alt: number;
+  oct?: number | undefined;
+  dir?: Direction | undefined;
+}
+
+## Range
+
+import { Range } from "tonal"; // or: import * as Range from "@tonaljs/range";
+
+Range.chromatic(notes: (string | number)[], options?: ToNoteNameOptions): string[]
+  Create a list of note names connecting the given notes (names or midi numbers) chromatically, going up or down between each pair. Altered notes use flats unless `sharps: true`. It returns [] if the list is empty or any item is not valid.
+  Range.chromatic(["C2", "E2", "D2"]) // => ["C2", "Db2", "D2", "Eb2", "E2", "Eb2", "D2"]
+  Range.chromatic(["C2", "E2"], { sharps: true }) // => ["C2", "C#2", "D2", "D#2", "E2"]
+  Range.chromatic(["C4", "E4"], { pitchClass: true }) // => ["C", "Db", "D", "Eb", "E"]
+
+Range.numeric(notes: (string | number)[]): number[]
+  Create a list of midi numbers connecting the given notes (names or midi numbers), going up or down between each pair. It returns [] if the list is empty or any item is not valid.
+  Range.numeric(["C4", "E4"]) // => [60, 61, 62, 63, 64]
+  Range.numeric(["C5", "C4"]).length // => 13
+  Range.numeric([10, 5]) // => [10, 9, 8, 7, 6, 5]
+
+Types:
+
+type ToNoteNameOptions = {
+  pitchClass?: boolean | undefined;
+  sharps?: boolean | undefined;
+}
+
+## RhythmPattern
+
+import { RhythmPattern } from "tonal"; // or: import * as RhythmPattern from "@tonaljs/rhythm-pattern";
+
+RhythmPattern.binary(...numbers: number[]): RhythmPattern
+  Create a rhythm pattern (an array of 0s and 1s) from the binary digits of one or more numbers, concatenated.
+  RhythmPattern.binary(13) // => [1, 1, 0, 1]
+  RhythmPattern.binary(12, 13) // => [1, 1, 0, 0, 1, 1, 0, 1]
+
+RhythmPattern.euclid(steps: number, beats: number): RhythmPattern
+  Create a Euclidean rhythm pattern: the given number of beats spread as evenly as possible over the steps.
+  RhythmPattern.euclid(8, 3) // => [1, 0, 0, 1, 0, 0, 1, 0]
+
+RhythmPattern.hex(hexNumber: string): RhythmPattern
+  Create a rhythm pattern from a hexadecimal string: each digit gives four steps (non-hex digits give four 0s).
+  RhythmPattern.hex("8f"); // => [1, 0, 0, 0, 1, 1, 1, 1]
+
+RhythmPattern.onsets(...numbers: number[]): RhythmPattern
+  Create a rhythm pattern from the gaps between onsets: each number is how many 0s follow a 1.
+  RhythmPattern.onsets(1, 2, 2, 1) // => [1, 0, 1, 0, 0, 1, 0, 0, 1, 0]
+
+RhythmPattern.probability(probabilities: number[], rnd?: () => number): RhythmPattern
+  Create a rhythm pattern with one step per probability: a step is 1 when `rnd()` is at most its probability. Pass `rnd` to make it deterministic.
+  RhythmPattern.probability([0.6, 0, 0.2, 0.5], () => 0.5) // => [1, 0, 0, 1]
+
+RhythmPattern.random(length: number, probability?: number, rnd?: () => number): RhythmPattern
+  Create a random rhythm pattern of the given length: each step is 1 when `rnd()` is at least `probability`. Pass `rnd` to make it deterministic.
+  RhythmPattern.random(4, 0.5, () => 0.7) // => [1, 1, 1, 1]
+
+RhythmPattern.rotate(pattern: RhythmPattern, rotations: number): RhythmPattern
+  Rotate a pattern to the right (a negative number rotates to the left). It returns a new pattern.
+  RhythmPattern.rotate([1, 0, 0, 1], 2) // => [0, 1, 1, 0]
+  RhythmPattern.rotate([1, 0, 0, 1], -1) // => [0, 0, 1, 1]
+
+Types:
+
+type RhythmPatternValue = 0 | 1
+
+## RomanNumeral
+
+import { RomanNumeral } from "tonal"; // or: import * as RomanNumeral from "@tonaljs/roman-numeral";
+
+RomanNumeral.get(src: any): RomanNumeral | NoRomanNumeral
+  Get the properties of a roman numeral: its parts (accidentals, numeral, chord type), the interval from the tonic and whether it is uppercase. It also accepts a degree index (0 is "I"), a pitch or an object with a name. Returns `{ empty: true, name: "", chordType: "" }` if it's not a valid roman numeral.
+  RomanNumeral.get("bVIIMaj7"); // => { name: "bVIIMaj7", roman: "VII", acc: "b", chordType: "Maj7", interval: "7m", major: true, ... }
+  RomanNumeral.get("vi").interval; // => "6M"
+  RomanNumeral.get("V7/V"); // => { name: "V7/V", roman: "V", chordType: "7", of: "V", interval: "2M", step: 1, ... }
+
+RomanNumeral.names(major?: boolean): string[]
+  Get the names of the seven roman numerals, uppercase by default or lowercase if `major` is false.
+  RomanNumeral.names(); // => ["I", "II", "III", "IV", "V", "VI", "VII"]
+  RomanNumeral.names(false); // => ["i", "ii", "iii", "iv", "v", "vi", "vii"]
+
+RomanNumeral.romanNumeral(src: any): RomanNumeral | NoRomanNumeral
+  [deprecated] Use RomanNumeral.get instead.
+
+RomanNumeral.tokenize(str: string): RomanNumeralTokens
+  Split a roman numeral into `[name, accidentals, numeral, chordType, of]`. Returns five empty strings if it's not a valid roman numeral.
+  RomanNumeral.tokenize("#ivm7"); // => ["#ivm7", "#", "iv", "m7", ""]
+  RomanNumeral.tokenize("V7/V"); // => ["V7/V", "", "V", "7", "V"]
+  RomanNumeral.tokenize("x"); // => ["", "", "", "", ""]
+
+Types:
+
+type NoRomanNumeral = {
+  empty: true;
+  name: '';
+  chordType: '';
+  roman?: string | undefined;
+  interval?: string | undefined;
+  acc?: string | undefined;
+  of?: string | undefined;
+  major?: boolean | undefined;
+  dir?: 1 | undefined;
+  step?: number | undefined;
+  alt?: number | undefined;
+  oct?: number | undefined;
+}
+
+type RomanNumeral = {
+  name: string;
+  empty: boolean;
+  roman: string;
+  interval: string;
+  acc: string;
+  chordType: string;
+  of: string;
+  major: boolean;
+  dir: 1;
+  step: number;
+  alt: number;
+  oct?: number | undefined;
+}
+
+## Scale
+
+import { Scale } from "tonal"; // or: import * as Scale from "@tonaljs/scale";
+
+Scale.chords(scaleName: string | ScaleNameTokens, options?: Partial<ScaleChordsOptions>): ScaleChord[]
+  Get the chord built on each degree of a scale, by stacking scale notes.
+  Scale.chords("C major").map((c) => c.symbol); // => ["C", "Dm", "Em", "F", "G", "Am", "Bdim"]
+  Scale.chords("C major", { size: 4 })[6]; // => { degree: 7, notes: ["B", "D", "F", "A"], symbol: "Bm7b5" }
+  Scale.chords("C4 major")[4].notes; // => ["G4", "B4", "D5"]
+
+Scale.degrees(scaleName: string | ScaleNameTokens): (degree: ScaleStep) => string
+  Get a function that returns the note of a scale by its degree, 1 being the tonic (use `Scale.steps` for 0-based). The function returns `""` for degree 0, an invalid degree or a scale without tonic.
+  [1, 2, 3].map(Scale.degrees("C major")); // => ["C", "D", "E"]
+  [1, 2, 3].map(Scale.degrees("C4 major")); // => ["C4", "D4", "E4"]
+  Scale.degrees("C major")("7b"); // => "Bb"
+
+Scale.detect(notes: string[], options?: { tonic?: string; match?: 'exact' | 'fit'; }): string[]
+  Find the names of the scales that contain a list of notes, best first. The tonic is the first note, or `options.tonic`. A scale that has exactly the notes comes first. With `match: "exact"` it's the only result (and the list is empty if there is none); by default it's followed by the scales that have the notes and more. It returns `[]` for no valid tonic.
+  Scale.detect(["D", "E", "F", "G", "A", "B", "C"], { match: "exact" }); // => ["D dorian"]
+  Scale.detect(["C", "D", "E", "F", "G", "A", "B"], { tonic: "D", match: "exact" }); // => ["D dorian"]
+  Scale.detect(["C", "D", "E", "G", "A"], { match: "exact" }); // => ["C major pentatonic"]
+
+Scale.extended(name: string): string[]
+  Get the names of the scale types that have all the notes of a scale and at least one more (the tonic is ignored). It returns `[]` if the scale isn't valid. The opposite of `Scale.reduced`.
+  Scale.extended("major"); // => ["bebop", "bebop major", "ichikosucho", "chromatic"]
+
+Scale.get(src: ScaleName | ScaleNameTokens): Scale
+  Get a scale from its name, as an object with `notes`, `intervals`, `name`, `tonic`, `type`, `aliases` and `chroma`. The name is a tonic (with an optional octave) followed by a scale type name or alias, or the tokens `[tonic, type]`. Without a tonic the scale has intervals but no notes. It returns `{ empty: true, ... }` if the scale type isn't in the dictionary.
+  Scale.get("C major").notes; // => ["C", "D", "E", "F", "G", "A", "B"]
+  Scale.get("C4 major").notes; // => ["C4", "D4", "E4", "F4", "G4", "A4", "B4"]
+  Scale.get(["D", "dorian"]).name; // => "D dorian"
+
+Scale.modeNames(name: string): ScaleMode[]
+  Get the modes of a scale (its rotations) that have a name in the dictionary, as `[tonic, scale type name]` pairs. The tonics are note names, or intervals if the scale has no tonic. It returns `[]` if the scale isn't valid.
+  Scale.modeNames("C pentatonic"); // => [["C", "major pentatonic"], ["D", "egyptian"], ["E", "malkos raga"], ["G", "ritusen"], ["A", "minor pentatonic"]]
+
+Scale.names(): string[]
+  Get the names of all the scale types in the dictionary. An alias of `ScaleType.names`.
+  Scale.names().slice(0, 3); // => ["major pentatonic", "major", "minor"]
+
+Scale.nearest(scaleName: string | ScaleNameTokens, noteName: string): string
+  Find the scale note closest to a note, by pitch.
+  Scale.nearest("C major", "F#4"); // => "G4"
+  Scale.nearest("C major", "Gb4"); // => "G4"
+  Scale.nearest("C major", "Eb"); // => "E"
+
+Scale.rangeOf(scale: string | string[]): (fromNote: string, toNote: string) => (string | undefined)[]
+  Get a function that lists the scale notes between two notes, both included. The notes are spelled as in the scale. The function takes two note names with octave and returns `[]` if one isn't valid. The scale is a name or a list of notes.
+  Scale.rangeOf("C pentatonic")("C4", "C5"); // => ["C4", "D4", "E4", "G4", "A4", "C5"]
+  Scale.rangeOf(["C", "D", "E"])("C4", "E5"); // => ["C4", "D4", "E4", "C5", "D5", "E5"]
+  Scale.rangeOf("C major")("C4", "x"); // => []
+
+Scale.reduced(name: string): string[]
+  Get the names of the scale types whose notes are all in a scale and are fewer (the tonic is ignored). It returns `[]` if the scale isn't valid. The opposite of `Scale.extended`.
+  Scale.reduced("major"); // => ["major pentatonic", "ionian pentatonic", "ritusen"]
+
+Scale.scale(src: ScaleName | ScaleNameTokens): Scale
+  [deprecated] Use Scale.get instead.
+
+Scale.scaleChords(name: string): string[]
+  Get the chord type symbols whose notes are all in a scale, without tonic. It returns `[]` if the scale isn't valid. To get the chord built on each degree, use `Scale.chords`.
+  Scale.scaleChords("pentatonic"); // => ["5", "M", "6", "sus2", "Madd9"]
+
+Scale.scaleNotes(notes: NoteName[]): string[]
+  Turn a list of notes into a scale: its unique pitch classes sorted from the first note, which is the tonic. Octaves and repetitions are dropped, and invalid notes are ignored.
+  Scale.scaleNotes(["C4", "c3", "C5", "C4", "c4"]); // => ["C"]
+  Scale.scaleNotes(["D4", "c#5", "A5", "F#6"]); // => ["D", "F#", "A", "C#"]
+
+Scale.steps(scaleName: string | ScaleNameTokens): (step: ScaleStep) => string
+  Get a function that returns the note of a scale by its step, 0 being the tonic. It's `Scale.degrees` with 0-based index: negative steps go down, and the accidental syntax is the same. The function returns `""` for an invalid step or a scale without tonic.
+  [-1, 0, 1].map(Scale.steps("C4 major")); // => ["B3", "C4", "D4"]
+  Scale.steps("C major")("6b"); // => "Bb"
+
+Scale.tokenize(name: ScaleName): ScaleNameTokens
+  Split a scale name into `[tonic, type]`. The tonic is a normalized note name (or `""` if there is no tonic) and the type is the rest of the name in lower case, which can be any string: this function doesn't check that the scale type exists. It never throws.
+  Scale.tokenize("C mixolydian"); // => ["C", "mixolydian"]
+  Scale.tokenize("Cx major"); // => ["C##", "major"]
+  Scale.tokenize("anything is valid"); // => ["", "anything is valid"]
+
+Scale.transposeBySteps(scaleName: string | ScaleNameTokens, noteName: string, steps: number): string
+  Transpose a note of the scale by a number of scale steps.
+  Scale.transposeBySteps("C major", "E4", 2); // => "G4"
+  Scale.transposeBySteps("C major", "E4", -3); // => "B3"
+  Scale.transposeBySteps("C major", "E", 2); // => "G"
+
+Types:
+
+type Scale = {
+  tonic: string | null;
+  type: string;
+  notes: string[];
+  name: string;
+  aliases: string[];
+  empty: boolean;
+  setNum: number;
+  chroma: string;
+  normalized: string;
+  intervals: string[];
+}
+
+type ScaleChord = {
+  degree: number;
+  notes: string[];
+  symbol: string;
+}
+
+## ScaleType
+
+import { ScaleType } from "tonal"; // or: import * as ScaleType from "@tonaljs/scale-type";
+
+ScaleType.add(intervals: string[], name: string, aliases?: string[]): ScaleType
+  Add a scale type to the dictionary, so `ScaleType.get` and `Scale.get` know it, and return it. It changes the dictionary for the whole program.
+  ScaleType.add(["1P", "2M", "3M", "5P"], "my tetra", ["tetra"]).name; // => "my tetra"
+  Scale.get("C tetra").notes; // => ["C", "D", "E", "G"]
+
+ScaleType.addAlias(scale: ScaleType, alias: string): void
+  Add an alias (another name) to a scale type of the dictionary, so `ScaleType.get` and `Scale.get` accept it. It changes the dictionary for the whole program.
+  ScaleType.addAlias(ScaleType.get("major"), "ionian mode");
+  Scale.get("C ionian mode").notes; // => ["C", "D", "E", "F", "G", "A", "B"]
+
+ScaleType.all(): ScaleType[]
+  Get a copy of the list of all scale types in the dictionary.
+  ScaleType.all().length; // => 92
+  ScaleType.all()[0].name; // => "major pentatonic"
+
+ScaleType.entries(): ScaleType[]
+  [deprecated] Use ScaleType.all instead.
+
+ScaleType.get(type: ScaleTypeName): ScaleType
+  Get a scale type (a scale without tonic) by its name, alias, chroma or set number. It returns an empty scale type (`{ empty: true, ... }`) if it's not in the dictionary. The type has `name`, `aliases` and `intervals`. To get a scale with notes, use `Scale.get`.
+  ScaleType.get("major").name; // => "major"
+  ScaleType.get("ionian").name; // => "major"
+  ScaleType.get("dorian").intervals; // => ["1P", "2M", "3m", "4P", "5P", "6M", "7m"]
+
+ScaleType.keys(): string[]
+  Get every key that `ScaleType.get` accepts: names, aliases, chromas and set numbers (as strings).
+  ScaleType.keys().slice(0, 3); // => ["2217", "2218", "2225"]
+
+ScaleType.names(): string[]
+  Get the names of all the scale types in the dictionary, in the dictionary order.
+  ScaleType.names().slice(0, 3); // => ["major pentatonic", "major", "minor"]
+
+ScaleType.removeAll(): void
+  Remove every scale type from the dictionary, to define your own with `ScaleType.add`. It changes the dictionary for the whole program.
+
+ScaleType.scaleType(type: ScaleTypeName): ScaleType
+  [deprecated] Use ScaleType.get instead.
+
+Constants:
+
+ScaleType.NoScaleType: ScaleType
+
+Types:
+
+type ScaleType = {
+  name: string;
+  aliases: string[];
+  empty: boolean;
+  setNum: number;
+  chroma: string;
+  normalized: string;
+  intervals: string[];
+}
+
+type ScaleTypeName = string | number
+
+## TimeSignature
+
+import { TimeSignature } from "tonal"; // or: import * as TimeSignature from "@tonaljs/time-signature";
+
+TimeSignature.get(literal: TimeSignatureLiteral): TimeSignature
+  Get the TimeSignature object of a name ("3/4", "3+2/8", or the symbols "C" and "C|"), or of a `[upper, lower]` pair. `type` is "simple", "compound", "irregular" or "irrational". Invalid input gives an object with `empty: true` and `name: ""`.
+  TimeSignature.get("3/4") // => { empty: false, name: "3/4", type: "simple", upper: 3, lower: 4, additive: [] }
+  TimeSignature.get("C").name // => "4/4"
+  TimeSignature.get("6/8").type // => "compound"
+
+TimeSignature.names(): string[]
+  Get the names of the most common time signatures.
+  TimeSignature.names() // => ["4/4", "3/4", "2/4", "2/2", "12/8", "9/8", "6/8", "3/8"]
+
+TimeSignature.parse(literal: TimeSignatureLiteral): ParsedTimeSignature
+  Parse a time signature into `[upper, lower]`: the upper is a number, or a list of numbers for an additive signature. Invalid input gives `[0, 0]`. Use `TimeSignature.get` to get a validated object.
+  TimeSignature.parse("3/4") // => [3, 4]
+  TimeSignature.parse("3+2/8") // => [[3, 2], 8]
+  TimeSignature.parse("x") // => [0, 0]
+
+Types:
+
+type InvalidTimeSignature = {
+  empty: true;
+  name: '';
+  upper: undefined;
+  lower: undefined;
+  type: undefined;
+  additive: [];
+}
+
+type TimeSignature = ValidTimeSignature | InvalidTimeSignature
+
+type TimeSignatureLiteral = string | [number, number] | [string, string]
+
+type ValidTimeSignature = {
+  empty: false;
+  name: string;
+  upper: number | number[];
+  lower: number;
+  type: 'simple' | 'compound' | 'irregular' | 'irrational';
+  additive: number[];
+}
+
+## VoiceLeading
+
+import { VoiceLeading } from "tonal"; // or: import * as VoiceLeading from "@tonaljs/voice-leading";
+
+VoiceLeading.topNoteDiff(voicings: string[][], lastVoicing: string[]): string[]
+  Pick the voicing whose top note is closest to the top note of the last voicing. If there is no last voicing, it picks the first one. It sorts the given voicings in place and returns undefined if there are none.
+  VoiceLeading.topNoteDiff([["C4", "E4", "G4"], ["E4", "G4", "C5"], ["G4", "C5", "E5"]], ["D4", "F4", "A4"]); // => ["C4", "E4", "G4"]
+
+## Voicing
+
+import { Voicing } from "tonal"; // or: import * as Voicing from "@tonaljs/voicing";
+
+Voicing.get(chord: string, range?: string[], dictionary?: VoicingDictionary, voiceLeading?: VoiceLeadingFunction, lastVoicing?: string[]): string[]
+  Get a voicing (a list of notes with octaves) of a chord symbol inside a range. Without `lastVoicing` it picks the lowest voicing; with it, the `voiceLeading` function picks the voicing that follows it best. Returns `[]` if the chord is unknown or no voicing fits the range.
+  Voicing.get("Cmaj7"); // => ["E3", "G3", "B3", "D4"]
+  Voicing.get("Dm7", ["C3", "C5"], undefined, undefined, ["C4", "E4", "G4", "B4"]); // => ["C4", "E4", "F4", "A4"]
+  Voicing.get("xx"); // => []
+
+Voicing.search(chord: string, range?: string[], dictionary?: VoicingDictionary): string[][]
+  Get all the voicings of a chord symbol that fit inside a range: each voicing of the dictionary, at every position in the range. Returns `[]` if the chord is not in the dictionary.
+  Voicing.search("C", ["C3", "C5"], VoicingDictionary.triads).slice(0, 3); // => [["C3", "E3", "G3"], ["C4", "E4", "G4"], ["E3", "G3", "C4"]]
+
+Voicing.sequence(chords: string[], range?: string[], dictionary?: VoicingDictionary, voiceLeading?: VoiceLeadingFunction, lastVoicing?: string[]): string[][]
+  Get a voicing for each chord of a list, each one voice-led from the previous. A chord without voicing gives `[]` and the next chord is led from the last chord that had one.
+  Voicing.sequence(["Dm7", "G7", "Cmaj7"]); // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
+
+Types:
+
+type VoiceLeadingFunction = (voicings: string[][], lastVoicing: string[]) => string[]
+
+type VoicingDictionary = { [symbol: string]: string[]; }
+
+## VoicingDictionary
+
+import { VoicingDictionary } from "tonal"; // or: import * as VoicingDictionary from "@tonaljs/voicing-dictionary";
+
+VoicingDictionary.lookup(symbol: string, dictionary?: VoicingDictionary): string[] | undefined
+  Get the voicings of a chord type in a dictionary, each one a string of intervals like "3M 5P 7M 9M". The symbol can be any alias of a chord type in the dictionary. Returns undefined if it's not found.
+  VoicingDictionary.lookup("maj7"); // => ["3M 5P 7M 9M", "7M 9M 10M 12P"]
+  VoicingDictionary.lookup("M7"); // => ["3M 5P 7M 9M", "7M 9M 10M 12P"]
+  VoicingDictionary.lookup("zz"); // => undefined
+
+Constants:
+
+VoicingDictionary.all: VoicingDictionary
+  The `triads` and `lefthand` dictionaries merged. The default of `Voicing`.
+
+VoicingDictionary.defaultDictionary: VoicingDictionary
+  The dictionary used by default in `lookup`: the same as `lefthand`.
+
+VoicingDictionary.lefthand: VoicingDictionary
+  Left hand voicings of seventh and extended chords ("m7", "7", "maj7"...), as intervals from the root. The default dictionary of `lookup`.
+
+VoicingDictionary.triads: VoicingDictionary
+  Voicings of triads ("M", "m", "o", "aug"), as intervals from the root.
+
+Types:
+
+type VoicingDictionary = { [symbol: string]: string[]; }
+
+## Deprecated namespaces
+
+- ChordDictionary: use ChordType
+- PcSet: use Pcset
+- ScaleDictionary: use ScaleType
+- Tonal: use the top-level functions

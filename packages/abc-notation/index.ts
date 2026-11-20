@@ -8,6 +8,14 @@ const REGEX = /^(_{1,}|=|\^{1,}|)([abcdefgABCDEFG])([,']*)$/;
 
 type AbcTokens = [string, string, string];
 
+/**
+ * Split an ABC note into `[accidentals, letter, octave marks]`. Anything that
+ * is not an ABC note gives `["", "", ""]`.
+ *
+ * @example
+ * AbcNotation.tokenize("^c'") // => ["^", "c", "'"]
+ * AbcNotation.tokenize("x") // => ["", "", ""]
+ */
 export function tokenize(str: string): AbcTokens {
   const m = REGEX.exec(str);
   if (!m) {
@@ -17,10 +25,12 @@ export function tokenize(str: string): AbcTokens {
 }
 
 /**
- * Convert a (string) note in ABC notation into a (string) note in scientific notation
+ * Convert a note in ABC notation into a note in scientific notation. It
+ * returns "" if not valid.
  *
  * @example
- * abcToScientificNotation("c") // => "C5"
+ * AbcNotation.abcToScientificNotation("c") // => "C5"
+ * AbcNotation.abcToScientificNotation("_B,") // => "Bb3"
  */
 export function abcToScientificNotation(str: string): string {
   const [acc, letter, oct] = tokenize(str);
@@ -43,10 +53,12 @@ export function abcToScientificNotation(str: string): string {
 }
 
 /**
- * Convert a (string) note in scientific notation into a (string) note in ABC notation
+ * Convert a note in scientific notation into a note in ABC notation. It
+ * returns "" if not valid or if the note has no octave.
  *
  * @example
- * scientificToAbcNotation("C#4") // => "^C"
+ * AbcNotation.scientificToAbcNotation("C#4") // => "^C"
+ * AbcNotation.scientificToAbcNotation("Bb3") // => "_B,"
  */
 export function scientificToAbcNotation(str: string): string {
   const n = note(str);
@@ -61,10 +73,25 @@ export function scientificToAbcNotation(str: string): string {
   return a + l + o;
 }
 
+/**
+ * Transpose an ABC note by an interval. It returns an ABC note, or "" if not
+ * valid.
+ *
+ * @example
+ * AbcNotation.transpose("C", "5P") // => "G"
+ * AbcNotation.transpose("c", "3M") // => "e"
+ */
 export function transpose(note: string, interval: string): string {
   return scientificToAbcNotation(tr(abcToScientificNotation(note), interval));
 }
 
+/**
+ * Get the interval name between two ABC notes, or "" if either is not valid.
+ *
+ * @example
+ * AbcNotation.distance("C", "G") // => "5P"
+ * AbcNotation.distance("C", "c") // => "8P"
+ */
 export function distance(from: string, to: string): string {
   return dist(abcToScientificNotation(from), abcToScientificNotation(to));
 }

@@ -2,18 +2,19 @@ import { compact, range } from "@tonaljs/collection";
 import { midiToNoteName, toMidi, ToNoteNameOptions } from "@tonaljs/midi";
 
 /**
- * Create a numeric range. You supply a list of notes or numbers and it will
- * be connected to create complex ranges.
+ * Create a list of midi numbers connecting the given notes (names or midi
+ * numbers), going up or down between each pair. It returns [] if the list is
+ * empty or any item is not valid.
  *
  * @param {Array} notes - the list of notes or midi numbers used
  * @return {Array} an array of numbers or empty array if not valid parameters
  *
  * @example
- * numeric(["C5", "C4"]) // => [ 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60 ]
- * // it works midi notes
- * numeric([10, 5]) // => [ 10, 9, 8, 7, 6, 5 ]
- * // complex range
- * numeric(["C4", "E4", "Bb3"]) // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
+ * Range.numeric(["C4", "E4"]) // => [60, 61, 62, 63, 64]
+ * Range.numeric(["C5", "C4"]).length // => 13
+ * Range.numeric([10, 5]) // => [10, 9, 8, 7, 6, 5]
+ * Range.numeric(["C4", "E4", "Bb3"]) // => [60, 61, 62, 63, 64, 63, 62, 61, 60, 59, 58]
+ * Range.numeric(["x"]) // => []
  */
 export function numeric(notes: (string | number)[]): number[] {
   const midi: number[] = compact(
@@ -36,7 +37,10 @@ export function numeric(notes: (string | number)[]): number[] {
 }
 
 /**
- * Create a range of chromatic notes. The altered notes will use flats.
+ * Create a list of note names connecting the given notes (names or midi
+ * numbers) chromatically, going up or down between each pair. Altered notes
+ * use flats unless `sharps: true`. It returns [] if the list is empty or any
+ * item is not valid.
  *
  * @function
  * @param {Array} notes - the list of notes or midi note numbers to create a range from
@@ -46,7 +50,8 @@ export function numeric(notes: (string | number)[]): number[] {
  * @example
  * Range.chromatic(["C2", "E2", "D2"]) // => ["C2", "Db2", "D2", "Eb2", "E2", "Eb2", "D2"]
  * // with sharps
- * Range.chromatic(["C2", "C3"], { sharps: true }) // => [ "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2", "C3" ]
+ * Range.chromatic(["C2", "E2"], { sharps: true }) // => ["C2", "C#2", "D2", "D#2", "E2"]
+ * Range.chromatic(["C4", "E4"], { pitchClass: true }) // => ["C", "Db", "D", "Eb", "E"]
  */
 export function chromatic(
   notes: (string | number)[],

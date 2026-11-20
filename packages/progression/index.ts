@@ -6,8 +6,9 @@ import { note, NoteLiteral } from "@tonaljs/pitch-note";
 import { RomanNumeral, get as romanNumeral } from "@tonaljs/roman-numeral";
 
 /**
- * Given a tonic and a chord list expressed with roman numeral notation
- * returns the progression expressed with leadsheet chords symbols notation
+ * Convert a list of roman numeral chords to chord symbols in the given tonic.
+ * Returns one chord symbol per numeral, and "" for a numeral that is not
+ * valid or has an unknown chord type.
  *
  * A lowercase roman numeral is a minor chord: "ii" is "Dm" and "ii7" is "Dm7"
  * in C. A chord type that already has its own quality, like "viio", "iim7" or
@@ -17,15 +18,13 @@ import { RomanNumeral, get as romanNumeral } from "@tonaljs/roman-numeral";
  * An applied chord, like "V7/V", is a chord on a degree of another degree's
  * major scale: "V7/V" is "D7" in C. Applied chords can nest ("V/V/V" is "A").
  *
- * A numeral whose chord type isn't a known chord type gives "".
- *
+ * @param tonic - the tonic of the key, like "C"
+ * @param chords - roman numeral chords, like ["I", "ii7", "V7"]
  * @example
- * fromRomanNumerals("C", ["I", "IIm7", "V7"]);
- * // => ["C", "Dm7", "G7"]
- * fromRomanNumerals("C", ["I", "vi", "ii7", "V7"]);
- * // => ["C", "Am", "Dm7", "G7"]
- * fromRomanNumerals("C", ["I", "V7/ii", "ii", "V7"]);
- * // => ["C", "A7", "Dm", "G7"]
+ * Progression.fromRomanNumerals("C", ["I", "IIm7", "V7"]); // => ["C", "Dm7", "G7"]
+ * Progression.fromRomanNumerals("C", ["I", "vi", "ii7", "V7"]); // => ["C", "Am", "Dm7", "G7"]
+ * Progression.fromRomanNumerals("C", ["I", "V7/ii", "ii", "V7"]); // => ["C", "A7", "Dm", "G7"]
+ * Progression.fromRomanNumerals("C", ["I", "V7/V", "x"]); // => ["C", "D7", ""]
  */
 export function fromRomanNumerals(
   tonic: NoteLiteral,
@@ -122,11 +121,16 @@ const sameIntervals = (a: string[], b: string[]) =>
   a.length === b.length && a.every((ivl) => b.includes(ivl));
 
 /**
- * Given a tonic and a chord list with leadsheet symbols notation,
- * return the chord list with roman numeral notation
+ * Convert a list of chord symbols to roman numerals relative to the given
+ * tonic. The chord type is kept as written, and the numeral is always
+ * uppercase ("IIm7", not "ii7"). A chord that can't be parsed is returned
+ * unchanged.
+ *
+ * @param tonic - the tonic of the key, like "C"
+ * @param chords - chord symbols, like ["Dm7", "G7"]
  * @example
- * toRomanNumerals("C", ["CMaj7", "Dm7", "G7"]);
- * // => ["IMaj7", "IIm7", "V7"]
+ * Progression.toRomanNumerals("C", ["CMaj7", "Dm7", "G7"]); // => ["IMaj7", "IIm7", "V7"]
+ * Progression.toRomanNumerals("C", ["Am", "Bb7"]); // => ["VIm", "bVII7"]
  */
 export function toRomanNumerals(
   tonic: NoteLiteral,
@@ -140,5 +144,5 @@ export function toRomanNumerals(
   });
 }
 
-/** @deprecated */
+/** @deprecated Use the named exports instead. */
 export default { fromRomanNumerals, toRomanNumerals };

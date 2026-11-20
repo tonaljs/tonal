@@ -9,6 +9,22 @@ const defaultRange = ["C3", "C5"];
 const defaultDictionary = VoicingDictionary.all;
 const defaultVoiceLeading = VoiceLeading.topNoteDiff;
 
+/**
+ * Get a voicing (a list of notes with octaves) of a chord symbol inside a
+ * range. Without `lastVoicing` it picks the lowest voicing; with it, the
+ * `voiceLeading` function picks the voicing that follows it best. Returns
+ * `[]` if the chord is unknown or no voicing fits the range.
+ *
+ * @param chord - chord symbol, like "Cmaj7"
+ * @param range - lowest and highest note, default ["C3", "C5"]
+ * @param dictionary - voicing dictionary, default VoicingDictionary.all
+ * @param voiceLeading - picks a voicing after lastVoicing, default VoiceLeading.topNoteDiff
+ * @param lastVoicing - the previous voicing, if any
+ * @example
+ * Voicing.get("Cmaj7"); // => ["E3", "G3", "B3", "D4"]
+ * Voicing.get("Dm7", ["C3", "C5"], undefined, undefined, ["C4", "E4", "G4", "B4"]); // => ["C4", "E4", "F4", "A4"]
+ * Voicing.get("xx"); // => []
+ */
 export function get(
   chord: string,
   range: string[] = defaultRange,
@@ -30,6 +46,16 @@ export function get(
   }
 }
 
+/**
+ * Get all the voicings of a chord symbol that fit inside a range: each
+ * voicing of the dictionary, at every position in the range. Returns `[]` if the chord is not in the dictionary.
+ *
+ * @param chord - chord symbol, like "C"
+ * @param range - lowest and highest note, default ["C3", "C5"]
+ * @param dictionary - voicing dictionary, default VoicingDictionary.all
+ * @example
+ * Voicing.search("C", ["C3", "C5"], VoicingDictionary.triads).slice(0, 3); // => [["C3", "E3", "G3"], ["C4", "E4", "G4"], ["E3", "G3", "C4"]]
+ */
 export function search(
   chord: string,
   range = defaultRange,
@@ -75,6 +101,19 @@ export function search(
   }, []);
 }
 
+/**
+ * Get a voicing for each chord of a list, each one voice-led from the
+ * previous. A chord without voicing gives `[]` and the next chord is led from
+ * the last chord that had one.
+ *
+ * @param chords - chord symbols, like ["Dm7", "G7", "Cmaj7"]
+ * @param range - lowest and highest note, default ["C3", "C5"]
+ * @param dictionary - voicing dictionary, default VoicingDictionary.all
+ * @param voiceLeading - picks each voicing, default VoiceLeading.topNoteDiff
+ * @param lastVoicing - the voicing before the first chord, if any
+ * @example
+ * Voicing.sequence(["Dm7", "G7", "Cmaj7"]); // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
+ */
 export function sequence(
   chords: string[],
   range = defaultRange,
@@ -101,7 +140,7 @@ export function sequence(
   return voicings;
 }
 
-/** @deprecated */
+/** @deprecated Use the named exports instead. */
 export default {
   get,
   search,

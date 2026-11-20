@@ -7,53 +7,70 @@ import {
 } from "@tonaljs/pitch-interval";
 
 /**
- * Get the natural list of names
+ * Get the names of the natural intervals: unison, major second and third,
+ * perfect fourth and fifth, and minor sixth and seventh.
+ *
+ * @example
+ * Interval.names() // => ["1P", "2M", "3M", "4P", "5P", "6m", "7m"]
  */
 export function names(): IntervalName[] {
   return "1P 2M 3M 4P 5P 6m 7m".split(" ");
 }
 
 /**
- * Get properties of an interval
+ * Get the Interval object (name, number, quality, semitones...) of an
+ * interval name ("4P" or "P4"). Invalid input gives an object with
+ * `empty: true` and `name: ""`.
  *
  * @function
  * @example
- * Interval.get('P4') // => {"alt": 0,  "dir": 1,  "name": "4P", "num": 4, "oct": 0, "q": "P", "semitones": 5, "simple": 4, "step": 3, "type": "perfectable"}
+ * Interval.get("x").empty // => true
+ * Interval.get("P4").semitones // => 5
+ * Interval.get("P4").name // => "4P"
  */
 export const get = props;
 
 /**
- * Get name of an interval
+ * Get the normalized name of an interval (number first), or "" if not valid.
  *
  * @function
  * @example
- * Interval.name('4P') // => "4P"
- * Interval.name('P4') // => "4P"
- * Interval.name('C4') // => ""
+ * Interval.name("4P") // => "4P"
+ * Interval.name("P4") // => "4P"
+ * Interval.name("C4") // => ""
  */
 export const name = (name: string) => props(name).name;
 
 /**
- * Get semitones of an interval
+ * Get the size of an interval in semitones (negative if descending), or NaN
+ * if not valid.
+ *
  * @function
  * @example
- * Interval.semitones('P4') // => 5
+ * Interval.semitones("P4") // => 5
+ * Interval.semitones("-3M") // => -4
  */
 export const semitones = (name: string) => props(name).semitones;
 
 /**
- * Get quality of an interval
+ * Get the quality of an interval: "P", "M", "m", "A" (or "AA"...), "d" (or
+ * "dd"...). It is "" if not valid.
+ *
  * @function
  * @example
- * Interval.quality('P4') // => "P"
+ * Interval.quality("P4") // => "P"
+ * Interval.quality("3m") // => "m"
  */
 export const quality = (name: string) => props(name).q;
 
 /**
- * Get number of an interval
+ * Get the number of an interval (4 for a fourth; negative if descending), or
+ * NaN if not valid.
+ *
  * @function
  * @example
- * Interval.num('P4') // => 4
+ * Interval.num("P4") // => 4
+ * Interval.num("-9M") // => -9
  */
 export const num = (name: string) => props(name).num;
 
@@ -221,15 +238,19 @@ export function fromSemitones(semitones: number): IntervalName {
 }
 
 /**
- * Find interval between two notes
+ * Get the interval name between two notes or pitch classes, or "" if either
+ * is not valid.
  *
  * @example
- * Interval.distance("C4", "G4"); // => "5P"
+ * Interval.distance("C4", "G4") // => "5P"
+ * Interval.distance("G4", "C4") // => "-5P"
+ * Interval.distance("C", "E") // => "3M"
  */
 export const distance = dist;
 
 /**
- * Adds two intervals
+ * Add two intervals. It returns the interval name, or "" if either interval
+ * is not valid.
  *
  * @function
  * @param {string} interval1
@@ -237,21 +258,23 @@ export const distance = dist;
  * @return {string} the added interval name
  * @example
  * Interval.add("3m", "5P") // => "7m"
+ * Interval.add("3M", "3M") // => "5A"
  */
 export const add = combinator((a, b) => [a[0] + b[0], a[1] + b[1]]);
 
 /**
- * Returns a function that adds an interval
+ * Get a function that adds the given interval to another interval.
  *
  * @function
  * @example
- * ['1P', '2M', '3M'].map(Interval.addTo('5P')) // => ["5P", "6M", "7M"]
+ * ["1P", "2M", "3M"].map(Interval.addTo("5P")) // => ["5P", "6M", "7M"]
  */
 export const addTo = (interval: string) => (other: string) =>
   add(interval, other);
 
 /**
- * Subtracts two intervals
+ * Subtract the second interval from the first. It returns the interval name,
+ * or "" if either interval is not valid.
  *
  * @function
  * @param {string} minuendInterval
@@ -263,6 +286,14 @@ export const addTo = (interval: string) => (other: string) =>
  */
 export const subtract = combinator((a, b) => [a[0] - b[0], a[1] - b[1]]);
 
+/**
+ * Move an interval a number of perfect fifths up (or down, if negative),
+ * keeping its octave. It returns "" if the interval is not valid.
+ *
+ * @example
+ * Interval.transposeFifths("3M", 1) // => "7M"
+ * Interval.transposeFifths("5P", -1) // => "1P"
+ */
 export function transposeFifths(
   interval: IntervalName,
   fifths: number,

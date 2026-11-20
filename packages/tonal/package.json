@@ -11,6 +11,7 @@
   "module": "dist/index.mjs",
   "files": [
     "README.md",
+    "llms-api.txt",
     "dist",
     "browser"
   ],
