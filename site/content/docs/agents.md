@@ -136,10 +136,10 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   Chord.degreesByImportance("G13"); // => ["3", "b7", "9", "1", "5", "13"]
   ```
 
-- `Chord.get(name).complexity` (or `ChordType.get(type).complexity`) is 0
-  for triads, 1 for sevenths and sixths, and adds 1 for each extension and 3
-  for each altered tone (`7b9#11` is 7). Sort by it to list common chords
-  first.
+- `Chord.get(name).complexity` (or `ChordType.get(type).complexity`) is the
+  number of notes added to a triad plus two for each chromatic note (outside
+  the major scale that holds most of the chord, as spelled): `m` is 0, `m7`
+  1, `dim7` 3, `7b9#11` 7. Sort by it to list common chords first.
 
 - `Chord.degrees` and `Chord.steps` are different: they count chord notes by
   position (1 or 0 is the root), not degrees by name. `Chord.degrees("C")(3)`

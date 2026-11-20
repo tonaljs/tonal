@@ -497,7 +497,7 @@ describe("tonal-chord", () => {
         normalized: "100010110100",
         quality: "Diminished",
         family: "half-diminished",
-        complexity: 4,
+        complexity: 2,
         aliases: [],
         intervals: ["1P", "3m", "5d", "7m", "9m"],
         notes: ["C", "Eb", "Gb", "Bb", "Db"],

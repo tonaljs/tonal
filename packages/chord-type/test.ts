@@ -9,42 +9,53 @@ describe("ChordType.complexity", () => {
   const of = (symbols: string) =>
     symbols.split(" ").map((s) => ChordType.get(s).complexity);
 
-  test("triads and power chords are 0", () => {
-    expect(of("M m dim aug 5")).toEqual([0, 0, 0, 0, 0]);
+  test("diatonic triads are 0", () => {
+    expect(of("M m dim sus4 sus2 5")).toEqual([0, 0, 0, 0, 0, 0]);
   });
 
-  test("sevenths, sixths and suspensions are 1", () => {
-    expect(of("maj7 7 m7 mMaj7 m7b5 dim7 maj7#5 6 m6 sus4 sus2 add9")).toEqual([
-      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  test("diatonic sevenths and sixths are 1", () => {
+    expect(of("maj7 7 m7 m7b5 6 m6 add9 7sus4")).toEqual([
+      1, 1, 1, 1, 1, 1, 1, 1,
     ]);
   });
 
-  test("extended and altered types", () => {
+  test("each chromatic note counts 2", () => {
     const table: [string, number][] = [
-      ["maj9", 2],
-      ["m9", 2],
-      ["6add9", 2],
-      ["13", 3],
-      ["m11", 3],
-      ["m9b5", 2],
+      ["aug", 2],
+      ["Mb5", 2],
+      ["m#5", 2],
+      ["dim7", 3],
+      ["mMaj7", 3],
+      ["maj7#5", 3],
+      ["7#5", 3],
       ["7b9", 4],
       ["7#9", 4],
       ["7#11", 4],
-      ["7#5", 4],
-      ["7b5", 4],
-      ["Mb5", 3],
-      ["m#5", 3],
-      ["mb6", 3],
+      ["7#5#9", 6],
       ["7b9#11", 7],
-      ["7#5#9", 7],
       ["13b9#11", 8],
+      ["7#9#11b13", 10],
     ];
     expect(table.map(([s]) => [s, ChordType.get(s).complexity])).toEqual(table);
   });
 
+  test("diatonic extensions count 1", () => {
+    expect(of("maj9 9 m9 69 maj#4 13 maj13 m11")).toEqual([
+      2, 2, 2, 2, 2, 3, 3, 3,
+    ]);
+  });
+
+  test("the spelling matters, not only the pitch classes", () => {
+    // C E Gb has a chromatic note; C E F# is in G major
+    expect(ChordType.complexity(["1P", "3M", "5d"])).toEqual(2);
+    expect(ChordType.complexity(["1P", "3M", "4A"])).toEqual(0);
+  });
+
   test("from intervals", () => {
     expect(ChordType.complexity(["1P", "3M", "5P", "7M", "9M"])).toEqual(2);
-    expect(ChordType.complexity(["1P", "3m", "5d", "7d"])).toEqual(1);
+    expect(ChordType.complexity(["1P", "3m", "5d", "7d"])).toEqual(3);
+    expect(ChordType.complexity(["1P", "3M", "5P", "8P"])).toEqual(0);
+    expect(ChordType.complexity(["1P", "x"])).toEqual(0);
     expect(ChordType.complexity([])).toEqual(0);
     expect(ChordType.get("nonsense").complexity).toEqual(0);
   });
@@ -52,21 +63,15 @@ describe("ChordType.complexity", () => {
   test("sorting by complexity puts triads first, then sevenths", () => {
     const sorted = ChordType.all().sort((a, b) => a.complexity - b.complexity);
     const names = (c: number) =>
-      sorted.filter((t) => t.complexity === c).map((t) => t.name);
-    expect(sorted.slice(0, 5).map((t) => t.name)).toEqual(names(0));
-    expect(names(0).sort()).toEqual(
-      ["augmented", "diminished", "fifth", "major", "minor"].sort(),
+      sorted.filter((t) => t.complexity === c).map((t) => t.aliases[0]);
+    expect(sorted.slice(0, 7).map((t) => t.aliases[0])).toEqual(names(0));
+    expect(names(0)).toEqual(
+      expect.arrayContaining(["M", "m", "dim", "sus4", "sus2", "5"]),
     );
     expect(names(1)).toEqual(
-      expect.arrayContaining([
-        "major seventh",
-        "minor seventh",
-        "dominant seventh",
-        "half-diminished",
-        "diminished seventh",
-      ]),
+      expect.arrayContaining(["maj7", "7", "m7", "m7b5", "6", "m6"]),
     );
-    expect(sorted.at(-1)?.complexity).toBeGreaterThanOrEqual(7);
+    expect(sorted.at(-1)?.complexity).toEqual(10);
   });
 });
 

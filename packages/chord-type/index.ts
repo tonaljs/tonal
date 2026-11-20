@@ -237,41 +237,40 @@ export function family(intervals: string[]): ChordFamily {
 /**
  * Get how complex a chord type is from its interval names
  * (`ChordType.get(name).complexity` has it for listed types), to sort chord
- * lists from the plainest to the most colourful. It's the sum of a weight
- * for each interval:
+ * lists from the plainest to the most colourful. It's the number of notes
+ * added to a triad, plus two for each chromatic note:
  *
- * - 0 for the root, the third and the perfect fifth. The diminished fifth of
- *   a diminished or half-diminished chord and the augmented fifth of an
- *   augmented chord also count 0: they are part of the basic triad.
- * - 1 for a seventh, and for a natural (major or perfect) second, fourth,
- *   sixth, ninth, eleventh or thirteenth.
- * - 3 for an altered tone: a b5 or #5 that isn't part of the triad, b9, #9,
- *   #11, b13 (or b6) and any other altered interval.
+ * - Added notes: the distinct pitch classes beyond three. A triad adds 0, a
+ *   seventh chord 1, a ninth chord 2.
+ * - Chromatic notes: the notes, as spelled, that don't fit in the major scale
+ *   that holds most of them (a major scale is seven consecutive notes on the
+ *   line of fifths, so its modes and the natural minor count as well).
  *
- * Triads are 0, sevenths and sixths 1, and each extension adds 1 or 3.
+ * Triads that fit a major scale (major, minor, diminished, suspended) are 0,
+ * and diatonic sevenths 1. A chord that needs the harmonic or melodic minor
+ * (`aug`, `dim7`, `mMaj7`) and altered dominants count more. The spelling
+ * matters: `Mb5` (C E Gb) has a chromatic note, though C E F# is in G major.
  *
  * @example
  * ChordType.complexity(["1P", "3M", "5P", "7M", "9M"]); // => 2
- * ChordType.get("maj9").complexity; // => 2
- * ChordType.get("dim7").complexity; // => 1
+ * ChordType.get("m7b5").complexity; // => 1
+ * ChordType.get("dim7").complexity; // => 3
  * ChordType.get("7b9#11").complexity; // => 7
  */
 export function complexity(intervals: string[]): number {
-  const fam = family(intervals);
-  return intervals.reduce((total, name) => {
-    const { empty, step, alt } = interval(name);
-    if (empty || step === 0) return total;
-    if (step === 6) return total + 1;
-    if (step === 2) return total + (alt === 0 || alt === -1 ? 0 : 3);
-    if (step === 4) {
-      const inTriad =
-        alt === 0 ||
-        (alt === -1 && (fam === "diminished" || fam === "half-diminished")) ||
-        (alt === 1 && fam === "augmented");
-      return total + (inTriad ? 0 : 3);
-    }
-    return total + (alt === 0 ? 1 : 3);
-  }, 0);
+  const ivls = intervals.map((name) => interval(name)).filter((i) => !i.empty);
+  const added = Math.max(0, new Set(ivls.map((i) => i.chroma)).size - 3);
+  const fifths = [...new Set(ivls.map((i) => i.coord[0]))];
+  return added + 2 * outsideMajorScale(fifths);
+}
+
+// The number of positions on the line of fifths outside the window of seven
+// consecutive fifths (a major scale) that holds most of them
+function outsideMajorScale(fifths: number[]): number {
+  const inside = fifths.map(
+    (low) => fifths.filter((f) => f >= low && f <= low + 6).length,
+  );
+  return fifths.length - Math.max(0, ...inside);
 }
 
 data.forEach(([ivls, fullName, names]: string[]) =>

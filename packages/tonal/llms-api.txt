@@ -394,10 +394,10 @@ ChordType.chordType(type: ChordTypeName): ChordType
   [deprecated] Use ChordType.get instead.
 
 ChordType.complexity(intervals: string[]): number
-  Get how complex a chord type is from its interval names (`ChordType.get(name).complexity` has it for listed types), to sort chord lists from the plainest to the most colourful. It's the sum of a weight for each interval:
+  Get how complex a chord type is from its interval names (`ChordType.get(name).complexity` has it for listed types), to sort chord lists from the plainest to the most colourful. It's the number of notes added to a triad, plus two for each chromatic note:
   ChordType.complexity(["1P", "3M", "5P", "7M", "9M"]); // => 2
-  ChordType.get("maj9").complexity; // => 2
-  ChordType.get("dim7").complexity; // => 1
+  ChordType.get("m7b5").complexity; // => 1
+  ChordType.get("dim7").complexity; // => 3
 
 ChordType.entries(): ChordType[]
   [deprecated] Use ChordType.all instead.
