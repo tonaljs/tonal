@@ -53,8 +53,15 @@ describe("@tonaljs/duration-value", () => {
 
   test("shorthands", () => {
     expect(DurationValue.shorthands().join(",")).toEqual(
-      "dl,l,d,w,h,q,e,s,t,sf,h,th",
+      "dl,l,d,w,h,q,e,s,t,sf,ht,th",
     );
+  });
+
+  test("shorthands are unique", () => {
+    const shorthands = DurationValue.shorthands();
+    expect(new Set(shorthands).size).toEqual(shorthands.length);
+    expect(DurationValue.get("h").names).toEqual(["half", "minim"]);
+    expect(DurationValue.get("ht").names).toEqual(["hundred twenty-eighth"]);
   });
 
   test("names", () => {

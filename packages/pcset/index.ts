@@ -258,10 +258,10 @@ export function isEqual(s1: Set, s2: Set) {
 export function isSubsetOf(set: Set) {
   const s = get(set).setNum;
 
-  return (notes: Set | Pcset) => {
+  return (notes: Set | Pcset): boolean => {
     const o = get(notes).setNum;
     // tslint:disable-next-line: no-bitwise
-    return s && s !== o && (o & s) === o;
+    return s !== 0 && s !== o && (o & s) === o;
   };
 }
 
@@ -278,10 +278,10 @@ export function isSubsetOf(set: Set) {
  */
 export function isSupersetOf(set: Set) {
   const s = get(set).setNum;
-  return (notes: Set) => {
+  return (notes: Set): boolean => {
     const o = get(notes).setNum;
     // tslint:disable-next-line: no-bitwise
-    return s && s !== o && (o | s) === o;
+    return s !== 0 && s !== o && (o | s) === o;
   };
 }
 
