@@ -4,7 +4,9 @@ type Midi = number;
 
 /**
  * Check if a value is a valid midi number: a number, or a numeric string, from
- * 0 to 127. Note names are not midi numbers.
+ * 0 to 127. Note names are not midi numbers. A numeric string stays a
+ * string: convert it with `Midi.toMidi` (or `+value`) before using it as a
+ * number.
  *
  * @example
  * Midi.isMidi(60) // => true
@@ -13,7 +15,7 @@ type Midi = number;
  * Midi.isMidi("C4") // => false
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isMidi(arg: any): arg is Midi {
+export function isMidi(arg: any): arg is Midi | `${number}` {
   // only numbers and numeric strings: `+""`, `+null` or `+[]` would give 0
   const n =
     typeof arg === "string" && arg.trim() !== ""
