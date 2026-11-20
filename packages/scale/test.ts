@@ -1,5 +1,7 @@
 import { describe, expect, test } from "vitest";
-import { get as chordType } from "@tonaljs/chord-type";
+import * as Chord from "@tonaljs/chord";
+import { all as chordTypes, get as chordType } from "@tonaljs/chord-type";
+import { chroma as pcsetChroma, isSubsetOf } from "@tonaljs/pcset";
 import { transpose } from "@tonaljs/pitch-distance";
 import { note } from "@tonaljs/pitch-note";
 import { all as scaleTypes } from "@tonaljs/scale-type";
@@ -177,6 +179,73 @@ describe("@tonaljs/scale", () => {
   test("chords: find all chords that fits into this scale", () => {
     expect(Scale.scaleChords("pentatonic")).toEqual($("5 M 6 sus2 Madd9"));
     expect(Scale.scaleChords("none")).toEqual([]);
+  });
+
+  describe("Scale.outside", () => {
+    const TONICS = $("C Db D Eb E F F# G Ab A Bb B");
+
+    test("diatonic chords fit in every key", () => {
+      for (const tonic of TONICS) {
+        for (const size of [3, 4]) {
+          for (const chord of Scale.chords(tonic + " major", { size })) {
+            expect(Scale.outside(tonic + " major", chord.notes)).toEqual([]);
+            expect(Scale.outside(tonic + " major", chord.symbol)).toEqual([]);
+          }
+        }
+      }
+    });
+
+    test("borrowed chords in a major key, spelled as in the chord", () => {
+      expect(Scale.outside("C major", "Bb7")).toEqual(["Bb", "Ab"]);
+      expect(Scale.outside("C major", "Bb")).toEqual(["Bb"]);
+      expect(Scale.outside("C major", "Fm")).toEqual(["Ab"]);
+      expect(Scale.outside("C major", "Ab")).toEqual(["Ab", "Eb"]);
+      expect(Scale.outside("E major", "D")).toEqual(["D"]);
+      expect(Scale.outside("E major", "Am")).toEqual(["C"]);
+      expect(Scale.outside("E major", "C")).toEqual(["C", "G"]);
+    });
+
+    test("enharmonic notes are in the scale", () => {
+      expect(Scale.outside("D major", "Gb")).toEqual(["Bb"]);
+      expect(Scale.outside("C major", ["B#", "E", "G"])).toEqual([]);
+    });
+
+    test("note lists, octaves and repeated notes", () => {
+      expect(Scale.outside("A minor", ["E4", "G#4", "B4"])).toEqual(["G#"]);
+      expect(Scale.outside("C major", ["C#4", "Db5", "E4"])).toEqual(["C#"]);
+      expect(Scale.outside($("C D E G A"), "F")).toEqual(["F"]);
+      expect(Scale.outside($("C D E G A"), $("C E G"))).toEqual([]);
+    });
+
+    test("composed and slash chords", () => {
+      expect(Scale.outside("C major", "G7(b9)")).toEqual(["Ab"]);
+      expect(Scale.outside("C major", "D7/F#")).toEqual(["F#"]);
+    });
+
+    test("invalid scales and chords", () => {
+      expect(Scale.outside("major", "C")).toEqual([]);
+      expect(Scale.outside("C nonsense", "C")).toEqual([]);
+      expect(Scale.outside("C major", "nonsense")).toEqual([]);
+      expect(Scale.outside([], "C")).toEqual([]);
+    });
+
+    test("agrees with Pcset.isSubsetOf", () => {
+      const scales = $("major minor dorian lydian").map((t) => "D " + t);
+      for (const scale of scales) {
+        // isSubsetOf is a proper subset: a chord with the scale notes fits too
+        const scaleChroma = pcsetChroma(Scale.get(scale).notes);
+        const proper = isSubsetOf(scaleChroma);
+        const inScale = (chroma: string) =>
+          chroma === scaleChroma || proper(chroma);
+        for (const type of chordTypes()) {
+          for (const tonic of $("C D E F# Bb")) {
+            const chord = tonic + type.aliases[0];
+            const fits = inScale(pcsetChroma(Chord.get(chord).notes));
+            expect(Scale.outside(scale, chord).length === 0).toBe(fits);
+          }
+        }
+      }
+    });
   });
 
   test("extended: find all scales that extends this one", () => {

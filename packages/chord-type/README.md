@@ -35,6 +35,7 @@ Given a chord type name, return an object with the following properties:
 - aliases: a list of alternative names
 - quality: Major | Minor | Augmented | Diminished | Unknown
 - family: major | minor | dominant | half-diminished | diminished | augmented | suspended | power (see [`ChordType.family`](#chordtypefamily))
+- complexity: a number, 0 for triads, 1 for sevenths, more for extended and altered chords (see [`ChordType.complexity`](#chordtypecomplexity))
 - setNum: the pcset number
 - chroma: the pcset chroma
 - normalized: the pcset chroma rotated to start with its first note
@@ -53,6 +54,7 @@ ChordType.get("major"); // =>
 //   intervals: ["1P", "3M", "5P"],
 //   quality: "Major",
 //   family: "major",
+//   complexity: 0,
 //   aliases: ["M", "^", "", "maj"],
 // }
 ```
@@ -100,6 +102,43 @@ Some choices to bear in mind:
 - The quartal chord (`1P 4P 7m 10m`) is spelled with a minor third (`10m`), so it's `minor`.
 
 The family of an empty chord type is an empty string.
+
+### `ChordType.complexity`
+
+`complexity(intervals: string[]) => number`
+
+How complex a chord type is, to sort long lists of chords from the plainest to the most colourful. Every chord type has a `complexity` property computed with this function:
+
+```js
+ChordType.get("m").complexity; // => 0
+ChordType.get("m7").complexity; // => 1
+ChordType.get("maj9").complexity; // => 2
+ChordType.get("7b9#11").complexity; // => 7
+ChordType.complexity(["1P", "3M", "5P", "7M", "9M"]); // => 2
+```
+
+It's the sum of a weight for each interval:
+
+| Weight | Intervals                                                                     |
+| ------ | ----------------------------------------------------------------------------- |
+| 0      | root, minor or major third, perfect fifth                                     |
+| 0      | the diminished fifth of a diminished or half-diminished chord                 |
+| 0      | the augmented fifth of an augmented chord                                     |
+| 1      | any seventh                                                                   |
+| 1      | a major or perfect second, fourth, sixth, ninth, eleventh or thirteenth       |
+| 3      | any other: `b9`, `#9`, `#11`, `b13`, `b6`, and a `b5` or `#5` that's an alteration |
+
+So triads and power chords are 0, sevenths and sixths 1 (`dim7` and `m7b5` too), and each extension adds 1, or 3 if it's altered: `maj7#5` is 1 (an augmented chord with a seventh), but `7#5` is 4 (a dominant with an altered fifth). Sorting by complexity puts the common types first:
+
+```js
+ChordType.all()
+  .sort((a, b) => a.complexity - b.complexity)
+  .map((t) => t.aliases[0])
+  .slice(0, 5);
+// => ["5", "aug", "M", "m", "dim"]
+```
+
+The complexity of an empty chord type is 0.
 
 ### `ChordType.names`
 

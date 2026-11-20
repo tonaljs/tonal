@@ -306,6 +306,39 @@ Scale.scaleChords("pentatonic");
 // => ["5", "M", "6", "sus2", "Madd9"]
 ```
 
+### `Scale.outside`
+
+`outside(scale: string | string[], chord: string | string[]) => string[]`
+
+Get the notes of a chord that aren't in a scale: the borrowed or chromatic notes. They're pitch classes spelled as in the chord, each listed once, in the chord order. The list is empty exactly when the chord fits the scale:
+
+```js
+Scale.outside("C major", "Bb7"); // => ["Bb", "Ab"]
+Scale.outside("C major", "Fm"); // => ["Ab"]
+Scale.outside("C major", "Dm7"); // => []
+```
+
+The scale is a name with tonic or a list of notes, and the chord a chord symbol or a list of notes. Enharmonic notes are the same note:
+
+```js
+Scale.outside("A minor", ["E4", "G#4", "B4"]); // => ["G#"]
+Scale.outside(["C", "D", "E", "G", "A"], "F"); // => ["F"]
+Scale.outside("D major", "Gb"); // => ["Bb"]
+```
+
+The number of notes outside, with [`ChordType.complexity`](/packages/chord-type#chordtypecomplexity), can order chords for a key: the ones that fit first, then the ones with one note outside, sorted by complexity:
+
+```js
+const key = "C major";
+const chords = ["Ab", "G7", "Fm", "Db7", "Dm7", "Bb"];
+const outside = (chord) => Scale.outside(key, chord).length;
+const complexity = (chord) => Chord.get(chord).complexity;
+chords.sort((a, b) => outside(a) - outside(b) || complexity(a) - complexity(b));
+// => ["G7", "Dm7", "Fm", "Bb", "Ab", "Db7"]
+```
+
+It returns `[]` if the scale (or its tonic) or the chord isn't valid.
+
 ### `Scale.extended`
 
 `extended(scale: string) => string[]`
