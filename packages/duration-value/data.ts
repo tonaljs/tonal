@@ -14,7 +14,7 @@ const DATA: [number, string, string[]][] = [
   [16, "s", ["sixteenth", "semiquaver"]],
   [32, "t", ["thirty-second", "demisemiquaver"]],
   [64, "sf", ["sixty-fourth", "hemidemisemiquaver"]],
-  [128, "h", ["hundred twenty-eighth"]],
+  [128, "ht", ["hundred twenty-eighth"]],
   [256, "th", ["two hundred fifty-sixth"]],
 ];
 

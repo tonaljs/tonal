@@ -48,7 +48,7 @@ export function names(): string[] {
  * quarter, "e" eighth...), from the longest to the shortest.
  *
  * @example
- * DurationValue.shorthands() // => ["dl", "l", "d", "w", "h", "q", "e", "s", "t", "sf", "h", "th"]
+ * DurationValue.shorthands() // => ["dl", "l", "d", "w", "h", "q", "e", "s", "t", "sf", "ht", "th"]
  */
 export function shorthands(): string[] {
   return VALUES.map((dur) => dur.shorthand);
