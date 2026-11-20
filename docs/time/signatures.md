@@ -1,0 +1,96 @@
+# Time signatures
+
+Functions to parse time signatures
+
+## API
+
+### `TimeSignature.names`
+
+`names() => string[]`
+
+Return a list of most most frequently-used time signatures:
+
+```js
+TimeSignature.names();
+```
+
+### `TimeSignature.get`
+
+`get(name: string | [number, number] | [string, string]) => TimeSignature`
+
+Get a time signature:
+
+```js
+TimeSignature.get("3/4"); // =>
+// {
+//   empty: false,
+//   name: "3/4",
+//   upper: 3,
+//   lower: 4,
+//   type: "simple",
+//   additive: []
+// };
+```
+
+`type` can be `simple`, `compound`, `regular`, `irregular` or `irrational`
+
+Common time (`C`) and cut time (`C|` or `¢`) symbols are accepted:
+
+```js
+TimeSignature.get("C").name; // => "4/4"
+TimeSignature.get("¢").name; // => "2/2"
+```
+
+Additive signatures are accepted:
+
+```js
+TimeSignature.get("3+2+3/8"); // =>
+// {
+//   empty: false,
+//   name: '3+2+3/8',
+//   type: 'irregular',
+//   upper: 8,
+//   lower: 8,
+//   additive: [ 3, 2, 3 ]
+// }
+```
+
+Irrational signatures are also interpreted:
+
+```js
+TimeSignature.get("12/10"); // =>
+// {
+//   empty: false,
+//   name: '12/10',
+//   type: 'irrational',
+//   upper: 12,
+//   lower: 10,
+//   additive: []
+// }
+```
+
+Arrays can be passed as arguments:
+
+```js
+TimeSignature.get([3, 4]);
+TimeSignature.get(["3", "4"]);
+TimeSignature.get(["3+2+3", "8"]);
+```
+
+### `TimeSignature.parse`
+
+`parse(name: string | [number, number] | [string, string]) => [number | number[], number]`
+
+Parse a time signature into its upper and lower numbers, without building the time signature object. An additive upper number is an array. Invalid signatures give `[0, 0]`:
+
+```js
+TimeSignature.parse("3/4"); // => [3, 4]
+TimeSignature.parse("3+2+3/8"); // => [[3, 2, 3], 8]
+TimeSignature.parse("C"); // => [4, 4]
+TimeSignature.parse("x"); // => [0, 0]
+```
+
+## References
+
+- https://en.wikipedia.org/wiki/Time_signature
+- https://en.wikipedia.org/wiki/Metre_(music)

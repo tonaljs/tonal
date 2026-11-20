@@ -1,0 +1,74 @@
+# tonal
+
+> tonal is a functional music theory library for JavaScript and TypeScript:
+> notes, intervals, chords, scales, modes, keys, Roman numerals, voicings and
+> more. It works with musical abstractions (note names, not audio). All
+> functions are pure and invalid input returns empty values instead of
+> throwing.
+
+Install with `npm install tonal` and import namespaces from it:
+`import { Note, Chord, Scale, Key } from "tonal"`. Each namespace is also
+published on its own as `@tonaljs/<name>`.
+
+Before writing code with tonal, read the agent guide, then look up the functions
+you need in the API list instead of guessing their names.
+
+## Start here
+
+- [Agent guide](https://tonaljs.github.io/tonal/docs/agents.md): how tonal works, mistakes to avoid,
+  which function to use for common tasks
+- [API](https://tonaljs.github.io/tonal/llms-api.txt): every public function with its signature,
+  return type and a one-line description. It's also in the npm package at
+  `node_modules/tonal/llms-api.txt`, matching the installed version
+- [Getting started](https://tonaljs.github.io/tonal/docs/index.md)
+
+## Basics
+
+- [Notes](https://tonaljs.github.io/tonal/docs/basics/notes.md): Parse and manipulate notes
+- [Intervals](https://tonaljs.github.io/tonal/docs/basics/intervals.md): Calculate and manipulate intervals
+- [Midi](https://tonaljs.github.io/tonal/docs/basics/midi.md): Manipulate midi notes
+
+## Chord and scales
+
+- [Chords](https://tonaljs.github.io/tonal/docs/groups/chords.md): Get and manipulate chords
+- [Chord detection](https://tonaljs.github.io/tonal/docs/groups/chord-detection.md): Find the chord names of a list of notes
+- [Scales](https://tonaljs.github.io/tonal/docs/groups/scales.md): Work with scales
+- [Pitch Class Sets](https://tonaljs.github.io/tonal/docs/groups/pitch-class-sets.md): Compare collections of notes
+
+## Harmony
+
+- [Keys](https://tonaljs.github.io/tonal/docs/harmony/keys.md): Key scales and chords
+- [Modes](https://tonaljs.github.io/tonal/docs/harmony/modes.md): Greek modes dictionary
+- [Progressions](https://tonaljs.github.io/tonal/docs/harmony/progressions.md): Parse and create harmonic progressions
+
+## Voicings
+
+- [Chord Voicings](https://tonaljs.github.io/tonal/docs/voicings/voicings.md): Generate chord voicings
+- [Voicing dictionary](https://tonaljs.github.io/tonal/docs/voicings/dictionary.md): Dictionaries of chord voicings
+- [Voice leading](https://tonaljs.github.io/tonal/docs/voicings/leading.md): Choose the smoothest transition between voicings
+
+## Notation
+
+- [ABC Notation](https://tonaljs.github.io/tonal/docs/notation/abc-notation.md): Convert note names between scientific and abc notation
+- [Roman Numerals](https://tonaljs.github.io/tonal/docs/notation/roman-numerals.md): Functions to parse roman numerals
+
+## Time and Rhythm
+
+- [Time duration](https://tonaljs.github.io/tonal/docs/time/duration.md)
+- [Rhythm Patterns](https://tonaljs.github.io/tonal/docs/time/patterns.md): Generate and manipulate rhythmic patterns
+- [Time signatures](https://tonaljs.github.io/tonal/docs/time/signatures.md)
+
+## Dictionaries
+
+- [Chord dictionary](https://tonaljs.github.io/tonal/docs/dictionaries/chord-types.md): A dictionary of musical chords.
+- [Scale dictionary](https://tonaljs.github.io/tonal/docs/dictionaries/scale-types.md): A dictionary of musical scales.
+
+## Utils
+
+- [Collections](https://tonaljs.github.io/tonal/docs/utils/collections.md)
+- [Ranges](https://tonaljs.github.io/tonal/docs/utils/ranges.md)
+
+## Optional
+
+- [Source code](https://github.com/tonaljs/tonal)
+- [Changelog](https://github.com/tonaljs/tonal/blob/main/docs/CHANGELOG.md)
