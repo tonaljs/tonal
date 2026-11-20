@@ -6,8 +6,11 @@ const Empty: readonly string[] = Object.freeze([] as string[]);
 
 export interface Key {
   readonly type: "major" | "minor";
+  /** The tonic pitch class, like "F". Empty for an invalid key. */
   readonly tonic: string;
+  /** Number of accidentals in the key signature: positive for sharps, negative for flats. */
   readonly alteration: number;
+  /** The key signature as accidentals: "" (none), "bb" (two flats), "###" (three sharps). */
   readonly keySignature: string;
 }
 
@@ -20,16 +23,27 @@ const NoKey: Key = {
 
 export interface KeyScale {
   readonly tonic: string;
+  /** Roman numeral of each degree, like ["I", "II", "bIII", ...]. */
   readonly grades: readonly string[];
+  /** Interval from the tonic to each degree, like ["1P", "2M", "3M", ...]. */
   readonly intervals: readonly string[];
+  /** Notes of the scale, one per degree. */
   readonly scale: readonly string[];
+  /** Triad of each degree, like ["F", "Gm", "Am", ...]. */
   readonly triads: readonly string[];
+  /** Seventh chord of each degree, like ["Fmaj7", "Gm7", ...]. */
   readonly chords: readonly string[];
+  /** Harmonic function of each chord: "T" (tonic), "SD" (subdominant) or "D" (dominant). Empty string if none. */
   readonly chordsHarmonicFunction: readonly string[];
+  /** Scale that fits each chord, like ["F major", "G dorian", ...]. */
   readonly chordScales: readonly string[];
+  /** Dominant seventh chord that resolves to each degree ("" if the degree has none), like ["", "D7", "E7", ...] for F major. */
   readonly secondaryDominants: readonly string[];
+  /** The ii chord that precedes each secondary dominant ("" if none): a minor seventh, or a half-diminished chord when the target is minor. */
   readonly secondaryDominantSupertonics: readonly string[];
+  /** Tritone substitution of each secondary dominant ("" if none): the dominant seventh a tritone away. */
   readonly substituteDominants: readonly string[];
+  /** The minor seventh ii chord that precedes each substitute dominant ("" if none). */
   readonly substituteDominantSupertonics: readonly string[];
 
   /** @deprecated use secondaryDominantSupertonics */
@@ -57,6 +71,7 @@ const NoKeyScale: KeyScale = {
 
 export interface MajorKey extends Key, KeyScale {
   readonly type: "major";
+  /** Tonic of the relative minor key, like "D" for "F". */
   readonly minorRelative: string;
   readonly scale: readonly string[];
   readonly substituteDominants: readonly string[];
@@ -78,9 +93,13 @@ const NoMajorKey: MajorKey = {
 
 export interface MinorKey extends Key {
   readonly type: "minor";
+  /** Tonic of the relative major key, like "C" for "A". */
   readonly relativeMajor: string;
+  /** Natural minor (aeolian) scale and its chords. */
   readonly natural: KeyScale;
+  /** Harmonic minor scale and its chords. */
   readonly harmonic: KeyScale;
+  /** Melodic minor (ascending) scale and its chords. */
   readonly melodic: KeyScale;
 }
 
@@ -94,7 +113,9 @@ const NoMinorKey: MinorKey = {
 };
 
 export type KeyChord = {
+  /** Chord symbol, like "Dm7". */
   name: string;
+  /** Functions the chord plays in the key: "T", "SD", "D", or "V/II", "ii/V", "subV/II", "subii/II" for secondary and substitute dominants. */
   roles: string[];
 };
 
@@ -215,8 +236,15 @@ const MelodicScale = keyScale(
 );
 
 /**
- * Get a major key properties in a given tonic
- * @param tonic
+ * Get a major key: its signature, scale, triads, seventh chords, harmonic
+ * functions and secondary and substitute dominants. For an invalid tonic
+ * it returns a key with empty strings and arrays.
+ *
+ * @param tonic - the tonic note or pitch class, like "F" or "Bb"
+ * @example
+ * Key.majorKey("F").scale; // => ["F", "G", "A", "Bb", "C", "D", "E"]
+ * Key.majorKey("F").chords; // => ["Fmaj7", "Gm7", "Am7", "Bbmaj7", "C7", "Dm7", "Em7b5"]
+ * Key.majorKey("F").keySignature; // => "b"
  */
 export function majorKey(tonic: string): MajorKey {
   const pc = note(tonic).pc;
@@ -235,9 +263,15 @@ export function majorKey(tonic: string): MajorKey {
 }
 
 /**
- * Get a list of available chords for a given major key
- * @param tonic
+ * Get the chords available in a major key, each with the roles it plays:
+ * diatonic chords ("T", "SD", "D") and secondary and substitute dominants
+ * with their supertonics ("V/II", "ii/V", "subV/II"...). Returns an empty
+ * array for an invalid tonic.
+ *
+ * @param tonic - the tonic note or pitch class, like "C"
  * @returns array of { name: string, roles: string[] }
+ * @example
+ * Key.majorKeyChords("C").slice(0, 3); // => [{ name: "Cmaj7", roles: ["T"] }, { name: "Dm7", roles: ["SD"] }, { name: "Em7", roles: ["T"] }]
  */
 export function majorKeyChords(tonic: string): KeyChord[] {
   const key = majorKey(tonic);
@@ -247,9 +281,15 @@ export function majorKeyChords(tonic: string): KeyChord[] {
 }
 
 /**
- * Get a list of available chords for a given major key
- * @param tonic
+ * Get the chords available in a minor key, each with the roles it plays. It
+ * merges the chords of the natural, harmonic and melodic scales, so a chord
+ * that appears in several scales has all its roles. Returns an empty array
+ * for an invalid tonic.
+ *
+ * @param tonic - the tonic note or pitch class, like "A"
  * @returns array of { name: string, roles: string[] }
+ * @example
+ * Key.minorKeyChords("A").slice(0, 2); // => [{ name: "Am7", roles: ["T", "ii/bVII"] }, { name: "Bm7b5", roles: ["SD", "ii/I"] }]
  */
 export function minorKeyChords(tonic: string): KeyChord[] {
   const key = minorKey(tonic);
@@ -291,8 +331,15 @@ function keyChordsOf(key: KeyScale, chords: KeyChord[]) {
 }
 
 /**
- * Get minor key properties in a given tonic
- * @param tonic
+ * Get a minor key: its signature, relative major and the scale, chords and
+ * dominants of its natural, harmonic and melodic forms. For an invalid tonic
+ * it returns a key with empty strings and arrays.
+ *
+ * @param tnc - the tonic note or pitch class, like "A"
+ * @example
+ * Key.minorKey("A").relativeMajor; // => "C"
+ * Key.minorKey("A").harmonic.scale; // => ["A", "B", "C", "D", "E", "F", "G#"]
+ * Key.minorKey("A").natural.chords; // => ["Am7", "Bm7b5", "Cmaj7", "Dm7", "Em7", "Fmaj7", "G7"]
  */
 export function minorKey(tnc: string): MinorKey {
   const pc = note(tnc).pc;
@@ -312,11 +359,14 @@ export function minorKey(tnc: string): MinorKey {
 }
 
 /**
- * Given a key signature, returns the tonic of the major key
- * @param signature
+ * Get the tonic of the major key with the given key signature, or null if
+ * the signature is not valid.
+ *
+ * @param sig - accidentals ("", "bb", "###") or a number of fifths (positive for sharps, negative for flats)
  * @example
- * majorTonicFromKeySignature('###') // => 'A'
- * majorTonicFromKeySignature('') // => 'C'
+ * Key.majorTonicFromKeySignature("###"); // => "A"
+ * Key.majorTonicFromKeySignature(-2); // => "Bb"
+ * Key.majorTonicFromKeySignature(""); // => "C"
  */
 export function majorTonicFromKeySignature(
   sig: string | number,
@@ -329,5 +379,5 @@ export function majorTonicFromKeySignature(
   return null;
 }
 
-/** @deprecated */
+/** @deprecated Use the named exports instead. */
 export default { majorKey, majorTonicFromKeySignature, minorKey };

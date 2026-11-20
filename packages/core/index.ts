@@ -5,8 +5,18 @@ export * from "@tonaljs/pitch-distance";
 export * from "@tonaljs/pitch-interval";
 export * from "@tonaljs/pitch-note";
 
+/**
+ * Repeat a string the absolute value of `n` times.
+ *
+ * @example
+ * fillStr("#", 3) // => "###"
+ */
 export const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 
+/**
+ * Wrap a function so it logs a deprecation warning (naming the alternative)
+ * each time it is called, and then behaves as the original.
+ */
 export function deprecate<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ResultFn extends (this: any, ...newArgs: any[]) => ReturnType<ResultFn>,
@@ -18,4 +28,5 @@ export function deprecate<
   };
 }
 
+/** @deprecated Use isNamedPitch instead. */
 export const isNamed = deprecate("isNamed", "isNamedPitch", isNamedPitch);

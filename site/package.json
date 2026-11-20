@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "docs": "node scripts/docs-from-readmes.mjs",
-    "prebuild": "node scripts/docs-from-readmes.mjs",
+    "docs": "node scripts/docs-from-readmes.mjs && node scripts/llms.mjs",
+    "prebuild": "npm run docs",
     "build": "next build",
-    "predev": "node scripts/docs-from-readmes.mjs",
+    "predev": "npm run docs",
     "dev": "next dev",
     "start": "serve out",
     "types:check": "next typegen && tsc --noEmit",

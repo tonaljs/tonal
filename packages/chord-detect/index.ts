@@ -63,16 +63,22 @@ type DetectOptions = {
   exclude: string[];
 };
 /**
- * Find the chord names of a list of notes.
+ * Find the chord symbols that have the notes of a list, best first. It
+ * returns `[]` if no chord matches or no note is valid.
  *
  * The first note is the bass, or the lowest note if every note has an octave.
- * Names over the bass come first, then inversions, then unusual readings
- * (Em#5 for E G C). Among names with the same notes and root, the one whose
- * intervals spell the given notes comes first.
+ * Names over the bass come first, then inversions (`"CM/E"`), then unusual
+ * readings (Em#5 for E G C). Among names with the same notes and root, the one
+ * whose intervals spell the given notes comes first.
+ *
+ * Options: `assumePerfectFifth` finds chords whose fifth is missing from the
+ * notes, and `exclude` is a list of chord type names or symbols to leave out.
  *
  * @example
- * detect(["E4", "G4", "C5"]); // => ["CM/E", "Em#5"]
- * detect(["C", "F", "Bb", "Eb"], { exclude: ["quartal"] }); // => ["F7sus4/C", "Bbsus24/C"]
+ * Chord.detect(["D", "F#", "A", "C"]); // => ["D7"]
+ * Chord.detect(["E4", "G4", "C5"]); // => ["CM/E", "Em#5"]
+ * Chord.detect(["C", "E", "B"], { assumePerfectFifth: true }); // => ["Cmaj7"]
+ * Chord.detect(["C", "F", "Bb", "Eb"], { exclude: ["quartal"] }); // => ["F7sus4/C", "Bbsus24/C"]
  */
 export function detect(
   source: string[],

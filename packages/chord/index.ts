@@ -81,23 +81,20 @@ const isNoChord = (name: string) => /^N\.?C\.?$/i.test(name);
 // (see https://github.com/danigb/tonal/issues/55)
 //const NUM_TYPES = /^(6|64|7|9|11|13)$/;
 /**
- * Tokenize a chord name. It returns an array with the tonic, chord type and bass
- * If not tonic is found, all the name is considered the chord name.
+ * Split a chord name into `[tonic, type, bass]`. Each part is a string that is
+ * `""` when missing, and a name without tonic is all type. It never throws.
  *
- * This function does NOT check if the chord type exists or not. It only tries
- * to split the tonic and chord type.
- *
- * This function does NOT check if the bass is part of the chord or not but it
- * only accepts a pitch class as bass
+ * It only splits the name: it doesn't check that the chord type exists, nor
+ * that the bass is a chord note. The bass is only accepted as a pitch class.
  *
  * @function
  * @param {string} name - the chord name
  * @return {Array} an array with [tonic, type, bass]
  * @example
- * tokenize("Cmaj7") // => [ "C", "maj7", "" ]
- * tokenize("C7") // => [ "C", "7", "" ]
- * tokenize("mMaj7") // => [ "", "mMaj7", "" ]
- * tokenize("Cnonsense") // => [ "C", "nonsense", "" ]
+ * Chord.tokenize("Cmaj7"); // => ["C", "maj7", ""]
+ * Chord.tokenize("Cmaj7/E"); // => ["C", "maj7", "E"]
+ * Chord.tokenize("mMaj7"); // => ["", "mMaj7", ""]
+ * Chord.tokenize("Cnonsense"); // => ["C", "nonsense", ""]
  */
 export function tokenize(name: string): ChordNameTokens {
   const [letter, acc, oct, type] = tokenizeNote(name);
@@ -125,7 +122,21 @@ function tokenizeBass(note: string, chord: string): ChordNameTokens {
 }
 
 /**
- * Get a Chord from a chord name.
+ * Get a chord from its symbol, as an object with `notes`, `intervals`,
+ * `symbol`, `name`, `tonic`, `bass`, `quality` and more. The symbol can have a
+ * tonic and a bass (`"C7/E"`), and the chord can be given as tokens
+ * `[tonic, type, bass]`. Without a tonic, the chord has intervals but no notes.
+ * It returns `{ empty: true, ... }` if the symbol isn't valid.
+ *
+ * `"N.C."` ("no chord") isn't empty but has no notes.
+ *
+ * Use `Chord.getChord` when the type, tonic and bass are already separated.
+ *
+ * @example
+ * Chord.get("Cmaj7").notes; // => ["C", "E", "G", "B"]
+ * Chord.get("C7/E").notes; // => ["E", "G", "Bb", "C"]
+ * Chord.get(["C", "maj7"]).symbol; // => "Cmaj7"
+ * Chord.get("nonsense").empty; // => true
  */
 export function get(src: ChordNameOrTokens): Chord {
   if (Array.isArray(src)) {
@@ -140,11 +151,20 @@ export function get(src: ChordNameOrTokens): Chord {
 }
 
 /**
- * Get chord properties
+ * Get a chord from a chord type name, an optional tonic and an optional bass.
+ * It returns the same object as `Chord.get`, and `{ empty: true, ... }` if the
+ * type, the tonic or the bass isn't valid. Unlike `Chord.get`, the type isn't
+ * parsed from a symbol: `Chord.getChord("maj7", "C")` is `Chord.get("Cmaj7")`.
  *
- * @param typeName - the chord type name
- * @param [tonic] - Optional tonic
- * @param [root]  - Optional root (requires a tonic)
+ * @param typeName - the chord type name or alias, like "maj7"
+ * @param [optionalTonic] - the tonic: without it the chord has no notes
+ * @param [optionalBass] - the bass note, a pitch class (requires a tonic)
+ *
+ * @example
+ * Chord.getChord("maj7", "C").notes; // => ["C", "E", "G", "B"]
+ * Chord.getChord("maj7", "C", "E").notes; // => ["E", "G", "B", "C"]
+ * Chord.getChord("maj7", "C", "E").symbol; // => "Cmaj7/E"
+ * Chord.getChord("maj7").intervals; // => ["1P", "3M", "5P", "7M"]
  */
 export function getChord(
   typeName: string,
@@ -229,16 +249,27 @@ export function getChord(
   };
 }
 
+/**
+ * An alias of `Chord.get`, handy when importing from `@tonaljs/chord`.
+ *
+ * @example
+ * Chord.chord("Dm7").symbol; // => "Dm7"
+ */
 export const chord = get;
 
 /**
- * Transpose a chord name
+ * Transpose a chord symbol by an interval, keeping its type and transposing
+ * its tonic and bass. It returns the symbol as is if it has no tonic (or isn't
+ * a chord), so it doesn't check that the type is valid.
  *
- * @param {string} chordName - the chord name
- * @return {string} the transposed chord
+ * @param {string} chordName - the chord symbol
+ * @param {string} interval - the interval name, like "P4"
+ * @return {string} the transposed chord symbol
  *
  * @example
- * transpose('Dm7', 'P4') // => 'Gm7
+ * Chord.transpose("Dm7", "P4"); // => "Gm7"
+ * Chord.transpose("C/E", "M2"); // => "D/F#"
+ * Chord.transpose("nonsense", "P4"); // => "nonsense"
  */
 export function transpose(chordName: string, interval: string): string {
   const [tonic, type, bass] = tokenize(chordName);
@@ -251,11 +282,11 @@ export function transpose(chordName: string, interval: string): string {
 }
 
 /**
- * Get all scales where the given chord fits
+ * Get the names of the scale types that contain all the notes of a chord, as
+ * type names without tonic. It returns `[]` if the chord isn't valid.
  *
  * @example
- * chordScales('C7b9')
- * // => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
+ * Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
  */
 export function chordScales(name: string): string[] {
   const s = get(name);
@@ -265,13 +296,13 @@ export function chordScales(name: string): string[] {
     .map((scale) => scale.name);
 }
 /**
- * Get all chords names that are a superset of the given one
- * (has the same notes and at least one more)
+ * Get the symbols of the chords that have all the notes of a chord and at
+ * least one more, on the same tonic. It returns `[]` if the chord isn't valid.
+ * The opposite of `Chord.reduced`.
  *
  * @function
  * @example
- * extended("CMaj7")
- * // => [ 'Cmaj#4', 'Cmaj7#9#11', 'Cmaj9', 'CM7add13', 'Cmaj13', 'Cmaj9#11', 'CM13#11', 'CM7b9' ]
+ * Chord.extended("Cmaj7"); // => ["Cmaj#4", "Cmaj7#9", "Cmaj7#9#11", "Cmaj9", "Cmaj13", "CM7add13", "Cmaj9#11", "CM13#11", "Cmaj11", "CM7b9"]
  */
 export function extended(chordName: string): string[] {
   const s = get(chordName);
@@ -282,10 +313,13 @@ export function extended(chordName: string): string[] {
 }
 
 /**
- * Find all chords names that are a subset of the given one
- * (has less notes but all from the given chord)
+ * Get the symbols of the chords whose notes are all in a chord and are fewer,
+ * on the same tonic. It returns `[]` if the chord isn't valid. The opposite
+ * of `Chord.extended`.
  *
  * @example
+ * Chord.reduced("Cmaj7"); // => ["C5", "CM"]
+ * Chord.reduced("Cmaj9"); // => ["C5", "CM", "Cmaj7", "Csus2", "CMadd9"]
  */
 export function reduced(chordName: string): string[] {
   const s = get(chordName);
@@ -296,7 +330,17 @@ export function reduced(chordName: string): string[] {
 }
 
 /**
- * Return the chord notes
+ * Get the notes of a chord, the same as `Chord.get(name).notes` (a slash
+ * chord starts at its bass). The optional `tonic` replaces the chord's own
+ * tonic, so a chord type name alone works, and a tonic with an octave gives
+ * notes with octaves. It returns `[]` if the chord isn't valid or has no tonic.
+ *
+ * @example
+ * Chord.notes("Cmaj7"); // => ["C", "E", "G", "B"]
+ * Chord.notes("Cmaj7", "C4"); // => ["C4", "E4", "G4", "B4"]
+ * Chord.notes("maj7", "D"); // => ["D", "F#", "A", "C#"]
+ * Chord.notes("C/E"); // => ["E", "G", "C"]
+ * Chord.notes("nonsense"); // => []
  */
 export function notes(chordName: ChordNameOrTokens, tonic?: string): string[] {
   const chord = get(chordName);
@@ -306,13 +350,18 @@ export function notes(chordName: ChordNameOrTokens, tonic?: string): string[] {
 }
 
 /**
- * Returns a function to get the notes of a chord by their position, 1 being
- * the tonic. The numbers count the chord notes, so `Chord.degrees("C")(3)` is
- * "G". For the degree named "3" ("E"), see `Chord.noteOf`.
+ * Get a function that returns the note of a chord by its position, 1 being
+ * the tonic. The position counts the chord notes, so the 3rd note of C is "G"
+ * and the 4th is "C" an octave up. For the note of the degree named "3", see
+ * `Chord.noteOf`; for positions starting at 0, `Chord.steps`.
+ *
+ * To get octaves, give the chord as tokens with the tonic octave. The
+ * function returns `""` for 0 or if the chord isn't valid.
  *
  * @example
- * [1, 2, 3, 4].map(Chord.degrees("C")) => ["C", "E", "G", "C"]
- * [1, 2, 3, 4].map(Chord.degrees("C4")) => ["C4", "E4", "G4", "C5"]
+ * [1, 2, 3, 4].map(Chord.degrees("C")); // => ["C", "E", "G", "C"]
+ * [1, 2, 3, 4].map(Chord.degrees(["C4", "M"])); // => ["C4", "E4", "G4", "C5"]
+ * Chord.degrees("Cmaj7")(4); // => "B"
  */
 export function degrees(chordName: ChordNameOrTokens, tonic?: string) {
   const chord = get(chordName);
@@ -323,12 +372,15 @@ export function degrees(chordName: ChordNameOrTokens, tonic?: string) {
 }
 
 /**
- * Returns a function to get the notes of a chord by their position, 0 being
- * the tonic. Negative steps go down.
+ * Get a function that returns the note of a chord by its position, 0 being the
+ * tonic (like `Chord.degrees` but 0-based). Negative steps go down. The
+ * function returns `""` if the chord isn't valid.
+ *
+ * To get octaves, give the chord as tokens with the tonic octave.
  *
  * @example
- * [0, 1, 2, 3].map(Chord.steps("C")) => ["C", "E", "G", "C"]
- * [-1, 0, 1].map(Chord.steps(["C4", "M"])) => ["G3", "C4", "E4"]
+ * [0, 1, 2, 3].map(Chord.steps("C")); // => ["C", "E", "G", "C"]
+ * [-1, 0, 1].map(Chord.steps(["C4", "M"])); // => ["G3", "C4", "E4"]
  */
 export function steps(chordName: ChordNameOrTokens, tonic?: string) {
   const chord = get(chordName);
@@ -351,9 +403,11 @@ function typeIntervals(chord: Chord): string[] {
 }
 
 /**
- * Get the degrees of a chord, in the order of its intervals: its formula,
- * counted from the major scale of the root. The bass of a slash chord doesn't
- * change it. A chord tone is named after its interval in the chord type, so
+ * Get the formula of a chord: its degree names, in the order of its intervals,
+ * counted from the major scale of the root. It returns `[]` if the chord isn't
+ * valid.
+ *
+ * The bass of a slash chord doesn't change it. A chord tone is named after its interval in the chord type, so
  * the 6th of C6 is "6" and the 13th of C13 is "13".
  *
  * @example
@@ -367,8 +421,9 @@ export function formula(chordName: ChordNameOrTokens): ChordDegreeName[] {
 }
 
 /**
- * Get the degree a note plays in a chord, counted from the major scale of the
- * root (the bass of a slash chord doesn't change it).
+ * Get the degree name that a note plays in a chord, counted from the major
+ * scale of the root (the bass of a slash chord doesn't change it). The
+ * opposite of `Chord.noteOf`.
  *
  * A chord tone gets its degree in the chord, whatever its spelling. Any other
  * note gets its most probable degree:
@@ -409,8 +464,8 @@ export function degreeOf(
 }
 
 /**
- * Get the note of a chord degree as a pitch class, spelled by transposing the
- * root. The degree is counted from the major scale of the root, as in chord
+ * Get the note of a chord degree name as a pitch class, spelled by transposing
+ * the root. The opposite of `Chord.degreeOf`. The degree is counted from the major scale of the root, as in chord
  * formulas: the third of Cm7 is "b3", and its "3" is "E".
  *
  * It returns "" if the chord has no tonic or the degree isn't a degree name
@@ -435,8 +490,11 @@ export function noteOf(
 }
 
 /**
- * Get the degrees of a chord sorted by how much they define it, to choose
- * which ones to keep when there are fewer voices than chord tones:
+ * Get the degree names of a chord (as in `Chord.formula`) sorted by how much
+ * they define it, to choose which ones to keep when there are fewer voices
+ * than chord tones. It returns `[]` if the chord isn't valid.
+ *
+ * The order is:
  *
  * 1. the third, or for chords without third the 4th, 2nd or 11th that
  *    replaces it

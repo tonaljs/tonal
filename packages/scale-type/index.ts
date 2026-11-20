@@ -30,50 +30,71 @@ type ScaleTypeName = string | PcsetChroma | PcsetNum;
 let dictionary: ScaleType[] = [];
 let index: Record<ScaleTypeName, ScaleType> = Object.create(null);
 
+/**
+ * Get the names of all the scale types in the dictionary, in the dictionary
+ * order.
+ *
+ * @example
+ * ScaleType.names().slice(0, 3); // => ["major pentatonic", "major", "minor"]
+ */
 export function names() {
   return dictionary.map((scale) => scale.name);
 }
 
 /**
- * Given a scale name or chroma, return the scale properties
+ * Get a scale type (a scale without tonic) by its name, alias, chroma or set
+ * number. It returns an empty scale type (`{ empty: true, ... }`) if it's not in
+ * the dictionary. The type has `name`, `aliases` and `intervals`. To get a
+ * scale with notes, use `Scale.get`.
  *
- * @param {string} type - scale name or pitch class set chroma
+ * @param {string | number} type - scale type name or alias, pitch class set
+ * chroma or set number
  * @example
- * import { get } from 'tonaljs/scale-type'
- * get('major') // => { name: 'major', ... }
+ * ScaleType.get("major").name; // => "major"
+ * ScaleType.get("ionian").name; // => "major"
+ * ScaleType.get("dorian").intervals; // => ["1P", "2M", "3m", "4P", "5P", "6M", "7m"]
+ * ScaleType.get("101010110101").name; // => "lydian"
+ * ScaleType.get("nonsense").empty; // => true
  */
 export function get(type: ScaleTypeName): ScaleType {
   return index[type] || NoScaleType;
 }
 
 /**
- * @deprecated
- * @use ScaleType.get
+ * @deprecated Use ScaleType.get instead.
  */
 export const scaleType = get;
 
 /**
- * Return a list of all scale types
+ * Get a copy of the list of all scale types in the dictionary.
+ *
+ * @example
+ * ScaleType.all().length; // => 92
+ * ScaleType.all()[0].name; // => "major pentatonic"
  */
 export function all() {
   return dictionary.slice();
 }
 
 /**
- * @deprecated
- * @use ScaleType.all
+ * @deprecated Use ScaleType.all instead.
  */
 export const entries = all;
 
 /**
- * Keys used to reference scale types
+ * Get every key that `ScaleType.get` accepts: names, aliases, chromas and set
+ * numbers (as strings).
+ *
+ * @example
+ * ScaleType.keys().slice(0, 3); // => ["2217", "2218", "2225"]
  */
 export function keys() {
   return Object.keys(index);
 }
 
 /**
- * Clear the dictionary
+ * Remove every scale type from the dictionary, to define your own with
+ * `ScaleType.add`. It changes the dictionary for the whole program.
  */
 export function removeAll() {
   dictionary = [];
@@ -81,10 +102,16 @@ export function removeAll() {
 }
 
 /**
- * Add a scale into dictionary
- * @param intervals
- * @param name
- * @param aliases
+ * Add a scale type to the dictionary, so `ScaleType.get` and `Scale.get` know
+ * it, and return it. It changes the dictionary for the whole program.
+ *
+ * @param intervals - the interval names, like `["1P", "2M", "3M"]`
+ * @param name - the scale type name
+ * @param aliases - other names for the scale type
+ *
+ * @example
+ * ScaleType.add(["1P", "2M", "3M", "5P"], "my tetra", ["tetra"]).name; // => "my tetra"
+ * Scale.get("C tetra").notes; // => ["C", "D", "E", "G"]
  */
 export function add(
   intervals: string[],
@@ -100,6 +127,18 @@ export function add(
   return scale;
 }
 
+/**
+ * Add an alias (another name) to a scale type of the dictionary, so
+ * `ScaleType.get` and `Scale.get` accept it. It changes the dictionary for the
+ * whole program.
+ *
+ * @param scale - a scale type, as returned by `ScaleType.get`
+ * @param alias - the new name
+ *
+ * @example
+ * ScaleType.addAlias(ScaleType.get("major"), "ionian mode");
+ * Scale.get("C ionian mode").notes; // => ["C", "D", "E", "F", "G", "A", "B"]
+ */
 export function addAlias(scale: ScaleType, alias: string) {
   index[alias] = scale;
 }

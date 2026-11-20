@@ -16,9 +16,11 @@
     "test:coverage": "vitest run --coverage",
     "lint": "eslint 'packages/**/*.ts'",
     "lint:fix": "eslint 'packages/**/*.ts' --fix",
-    "test:all": "npm run format && npm run lint && npm run build && npm run test:run && npm run test:dist && npm run test:types",
+    "test:all": "npm run format && npm run lint && npm run test:api && npm run build && npm run test:run && npm run test:dist && npm run test:types",
     "test:dist": "node scripts/check-dist.mjs",
-    "test:types": "node scripts/check-types.mjs"
+    "test:types": "node scripts/check-types.mjs",
+    "docs:api": "node scripts/llms-api.mjs",
+    "test:api": "node scripts/llms-api.mjs --check"
   },
   "prettier": {},
   "eslintConfig": {

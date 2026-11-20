@@ -44,6 +44,14 @@ const setNumToChroma = (num: number): string =>
 const chromaToNumber = (chroma: string): number => parseInt(chroma, 2);
 const REGEX = /^[01]{12}$/;
 
+/**
+ * Test if a value is a pitch class set chroma: a string of 12 characters, each
+ * "0" or "1".
+ *
+ * @example
+ * Pcset.isChroma("101010000000"); // => true
+ * Pcset.isChroma("10101"); // => false
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isChroma(set: any): set is PcsetChroma {
   return REGEX.test(set);
@@ -69,7 +77,18 @@ export type Set =
   Partial<Pcset> | PcsetChroma | PcsetNum | NoteName[] | IntervalName[];
 
 /**
- * Get the pitch class set of a collection of notes or set number or chroma
+ * Get a pitch class set (the notes of an octave, ignoring octave and order)
+ * from a list of note names or interval names, a chroma or a set number. The
+ * result has `chroma`, `setNum`, `normalized` and `intervals` (from C). It
+ * returns an empty set (`{ empty: true, ... }`) for anything else, and invalid
+ * items of a list are ignored.
+ *
+ * @example
+ * Pcset.get(["c", "d", "e"]).chroma; // => "101010000000"
+ * Pcset.get(["c", "d", "e"]).intervals; // => ["1P", "2M", "3M"]
+ * Pcset.get("101010000000").intervals; // => ["1P", "2M", "3M"]
+ * Pcset.get(2688).setNum; // => 2688
+ * Pcset.get("x").empty; // => true
  */
 export function get(src: Set): Pcset {
   const chroma: PcsetChroma = isChroma(src)
@@ -86,13 +105,14 @@ export function get(src: Set): Pcset {
 }
 
 /**
- * @use Pcset.get
- * @deprecated
+ * @deprecated Use Pcset.get instead.
  */
 export const pcset = get;
 
 /**
- * Get pitch class set chroma
+ * Get the chroma of a pitch class set: a 12-character string of "0" and "1",
+ * one per pitch class starting from C. It's `"000000000000"` for an invalid
+ * set.
  * @function
  * @example
  * Pcset.chroma(["c", "d", "e"]); //=> "101010000000"
@@ -100,15 +120,18 @@ export const pcset = get;
 export const chroma = (set: Set) => get(set).chroma;
 
 /**
- * Get intervals (from C) of a set
+ * Get the interval names of a pitch class set, measured from C and ordered
+ * by pitch class. It returns `[]` for an invalid set.
  * @function
  * @example
- * Pcset.intervals(["c", "d", "e"]); //=>
+ * Pcset.intervals(["c", "d", "e"]); // => ["1P", "2M", "3M"]
+ * Pcset.intervals(["D", "F#"]); // => ["2M", "5d"]
  */
 export const intervals = (set: Set) => get(set).intervals;
 
 /**
- * Get pitch class set number
+ * Get the number of a pitch class set: its chroma read as a binary number
+ * (from 1 to 4095), or 0 for an invalid set.
  * @function
  * @example
  * Pcset.num(["c", "d", "e"]); //=> 2688
@@ -146,35 +169,50 @@ function chromaToIntervals(chroma: PcsetChroma): IntervalName[] {
   return intervals;
 }
 
+/**
+ * Get the note names of a pitch class set, spelled as intervals from C. It
+ * returns `[]` for an invalid set. To spell them from another tonic, use
+ * `Scale.get` or `Chord.get`.
+ *
+ * @example
+ * Pcset.notes(["c", "d", "e"]); // => ["C", "D", "E"]
+ * Pcset.notes(["D", "F#"]); // => ["D", "Gb"]
+ */
 export function notes(set: Set): NoteName[] {
   return get(set).intervals.map((ivl) => transpose("C", ivl));
 }
 
 /**
- * Get a list of all possible pitch class sets (all possible chromas) *having
- * C as root*. There are 2048 different chromas. If you want them with another
- * note you have to transpose it
+ * Get all the possible pitch class sets that contain C, as chromas: the 2048
+ * chromas from `"100000000000"` to `"111111111111"`. To have them on another
+ * note you have to rotate them.
  *
  * @see http://allthescales.org/
- * @return {Array<PcsetChroma>} an array of possible chromas from '10000000000' to '11111111111'
+ * @return {Array<PcsetChroma>} an array of chromas
+ * @example
+ * Pcset.chromas().length; // => 2048
+ * Pcset.chromas().slice(0, 2); // => ["100000000000", "100000000001"]
  */
 export function chromas(): PcsetChroma[] {
   return range(2048, 4095).map(setNumToChroma);
 }
 
 /**
- * Given a a list of notes or a pcset chroma, produce the rotations
- * of the chroma discarding the ones that starts with "0"
+ * Get the rotations of the chroma of a pitch class set, each one a chroma
+ * having one of its notes as C. By default the rotations that start with "0"
+ * (not a note of the set) are left out, so there is one per note of the set.
  *
  * This is used, for example, to get all the modes of a scale.
  *
- * @param {Array|string} set - the list of notes or pitchChr of the set
+ * @param {Array|string} set - the list of notes or chroma of the set
  * @param {boolean} normalize - (Optional, true by default) remove all
  * the rotations that starts with "0"
  * @return {Array<string>} an array with all the modes of the chroma
  *
  * @example
- * Pcset.modes(["C", "D", "E"]).map(Pcset.intervals)
+ * Pcset.modes(["C", "D", "E"]); // => ["101010000000", "101000000010", "100000001010"]
+ * Pcset.modes(["C", "D", "E"]).map(Pcset.intervals); // => [["1P", "2M", "3M"], ["1P", "2M", "7m"], ["1P", "6m", "7m"]]
+ * Pcset.modes(["C", "D", "E"], false).length; // => 12
  */
 export function modes(set: Set, normalize = true): PcsetChroma[] {
   const pcs = get(set);
@@ -189,32 +227,33 @@ export function modes(set: Set, normalize = true): PcsetChroma[] {
 }
 
 /**
- * Test if two pitch class sets are equal
+ * Test if two pitch class sets have the same pitch classes, whatever their
+ * octaves and order.
  *
  * @param {Array|string} set1 - one of the pitch class sets
  * @param {Array|string} set2 - the other pitch class set
  * @return {boolean} true if they are equal
  * @example
- * Pcset.isEqual(["c2", "d3"], ["c5", "d2"]) // => true
+ * Pcset.isEqual(["c2", "d3"], ["c5", "d2"]); // => true
+ * Pcset.isEqual(["C", "E"], ["C", "D"]); // => false
  */
 export function isEqual(s1: Set, s2: Set) {
   return get(s1).setNum === get(s2).setNum;
 }
 
 /**
- * Create a function that test if a collection of notes is a
- * subset of a given set
- *
- * The function is curried.
+ * Get a function that tests if a collection of notes is a proper subset of a
+ * given set (all its pitch classes are in the set, and the set has more). The
+ * same set is not a subset of itself.
  *
  * @param {PcsetChroma|NoteName[]} set - the superset to test against (chroma or
  * list of notes)
  * @return{function(PcsetChroma|NoteNames[]): boolean} a function accepting a set
- * to test against (chroma or list of notes)
+ * to test (chroma or list of notes)
  * @example
- * const inCMajor = Pcset.isSubsetOf(["C", "E", "G"])
- * inCMajor(["e6", "c4"]) // => true
- * inCMajor(["e6", "c4", "d3"]) // => false
+ * Pcset.isSubsetOf(["C", "E", "G"])(["e6", "c4"]); // => true
+ * Pcset.isSubsetOf(["C", "E", "G"])(["e6", "c4", "d3"]); // => false
+ * Pcset.isSubsetOf(["C", "E", "G"])(["C", "E", "G"]); // => false
  */
 export function isSubsetOf(set: Set) {
   const s = get(set).setNum;
@@ -227,16 +266,15 @@ export function isSubsetOf(set: Set) {
 }
 
 /**
- * Create a function that test if a collection of notes is a
- * superset of a given set (it contains all notes and at least one more)
+ * Get a function that tests if a collection of notes is a proper superset of a
+ * given set (it contains all its pitch classes and at least one more).
  *
  * @param {Set} set - an array of notes or a chroma set string to test against
  * @return {(subset: Set): boolean} a function that given a set
- * returns true if is a subset of the first one
+ * returns true if it is a superset of the first one
  * @example
- * const extendsCMajor = Pcset.isSupersetOf(["C", "E", "G"])
- * extendsCMajor(["e6", "a", "c4", "g2"]) // => true
- * extendsCMajor(["c6", "e4", "g3"]) // => false
+ * Pcset.isSupersetOf(["C", "E", "G"])(["e6", "a", "c4", "g2"]); // => true
+ * Pcset.isSupersetOf(["C", "E", "G"])(["c6", "e4", "g3"]); // => false
  */
 export function isSupersetOf(set: Set) {
   const s = get(set).setNum;
@@ -248,18 +286,15 @@ export function isSupersetOf(set: Set) {
 }
 
 /**
- * Test if a given pitch class set includes a note
+ * Get a function that tests if a note belongs to a pitch class set, ignoring
+ * its octave. It returns false for an invalid note.
  *
  * @param {Array<string>} set - the base set to test against
- * @param {string} note - the note to test
- * @return {boolean} true if the note is included in the pcset
- *
- * Can be partially applied
+ * @return {(note: string) => boolean} true if the note is included in the pcset
  *
  * @example
- * const isNoteInCMajor = isNoteIncludedIn(['C', 'E', 'G'])
- * isNoteInCMajor('C4') // => true
- * isNoteInCMajor('C#4') // => false
+ * Pcset.isNoteIncludedIn(["C", "E", "G"])("C4"); // => true
+ * Pcset.isNoteIncludedIn(["C", "E", "G"])("C#4"); // => false
  */
 export function isNoteIncludedIn(set: Set) {
   const s = get(set);
@@ -270,19 +305,19 @@ export function isNoteIncludedIn(set: Set) {
   };
 }
 
-/** @deprecated use: isNoteIncludedIn */
+/** @deprecated Use Pcset.isNoteIncludedIn instead. */
 export const includes = isNoteIncludedIn;
 
 /**
- * Filter a list with a pitch class set
+ * Get a function that keeps the notes of a list that belong to a pitch class
+ * set, ignoring octaves. The notes are returned as they were given.
  *
  * @param {Array|string} set - the pitch class set notes
- * @param {Array|string} notes - the note list to be filtered
- * @return {Array} the filtered notes
+ * @return {(notes: string[]) => string[]} a function that filters a note list
  *
  * @example
- * Pcset.filter(["C", "D", "E"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ "c2", "d2", "c3", "d3" ])
- * Pcset.filter(["C2"], ["c2", "c#2", "d2", "c3", "c#3", "d3"]) // => [ "c2", "c3" ])
+ * Pcset.filter(["C", "D", "E"])(["c2", "c#2", "d2", "c3", "c#3", "d3"]); // => ["c2", "d2", "c3", "d3"]
+ * Pcset.filter(["C2"])(["c2", "c#2", "d2", "c3", "c#3", "d3"]); // => ["c2", "c3"]
  */
 export function filter(set: Set) {
   const isIncluded = isNoteIncludedIn(set);

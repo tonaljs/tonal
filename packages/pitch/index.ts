@@ -2,7 +2,7 @@ export interface NamedPitch {
   readonly name: string;
 }
 
-/*** @deprecated use NamedPitch */
+/** @deprecated Use NamedPitch instead. */
 export interface Named {
   readonly name: string;
 }
@@ -12,6 +12,13 @@ export interface NotFound extends NamedPitch {
   readonly name: "";
 }
 
+/**
+ * Check if a value is an object with a string `name` property.
+ *
+ * @example
+ * isNamedPitch({ name: "C4" }) // => true
+ * isNamedPitch("C4") // => false
+ */
 export function isNamedPitch(src: unknown): src is NamedPitch {
   return src !== null &&
     typeof src === "object" &&
@@ -47,16 +54,46 @@ export interface Pitch {
 }
 
 const SIZES = [0, 2, 4, 5, 7, 9, 11];
+/**
+ * Get the chroma (pitch class number, from 0 to 11) of a pitch.
+ *
+ * @example
+ * chroma({ step: 0, alt: 1 }) // => 1
+ */
 export const chroma = ({ step, alt }: Pitch) => (SIZES[step] + alt + 120) % 12;
 
+/**
+ * Get the height of a pitch: its distance in semitones from C0 (so it is the
+ * midi number minus 12). A descending interval has a negative height, and a
+ * pitch without octave gets a number far below any note.
+ *
+ * @example
+ * height({ step: 0, alt: 0, oct: 4 }) // => 48
+ * height({ step: 0, alt: 0 }) // => -1200
+ */
 export const height = ({ step, alt, oct, dir = 1 }: Pitch) =>
   dir * (SIZES[step] + alt + 12 * (oct === undefined ? -100 : oct));
 
+/**
+ * Get the midi number of a pitch, or `null` if the pitch has no octave or is
+ * outside the midi range (0 to 127).
+ *
+ * @example
+ * midi({ step: 0, alt: 0, oct: 4 }) // => 60
+ * midi({ step: 0, alt: 0 }) // => null
+ */
 export const midi = (pitch: Pitch) => {
   const h = height(pitch);
   return pitch.oct !== undefined && h >= -12 && h <= 115 ? h + 12 : null;
 };
 
+/**
+ * Check if a value is an object with numeric `step` and `alt` properties.
+ *
+ * @example
+ * isPitch({ step: 0, alt: 0 }) // => true
+ * isPitch({ name: "C" }) // => false
+ */
 export function isPitch(pitch: unknown): pitch is Pitch {
   return pitch !== null &&
     typeof pitch === "object" &&
@@ -78,7 +115,13 @@ const STEPS_TO_OCTS = FIFTHS.map((fifths: number) =>
 );
 
 /**
- * Get coordinates from pitch object
+ * Get the coordinates of a pitch object: `[fifths]` for a pitch class and
+ * `[fifths, octaves]` for a note or an interval (the direction is applied to
+ * both numbers).
+ *
+ * @example
+ * coordinates({ step: 4, alt: 0, oct: 4 }) // => [1, 4]
+ * coordinates({ step: 4, alt: 0 }) // => [1]
  */
 export function coordinates(pitch: Pitch): PitchCoordinates {
   const { step, alt, oct, dir = 1 } = pitch;
@@ -97,7 +140,11 @@ export function coordinates(pitch: Pitch): PitchCoordinates {
 const FIFTHS_TO_STEPS = [3, 0, 4, 1, 5, 2, 6];
 
 /**
- * Get pitch from coordinate objects
+ * Get the pitch object from its coordinates (the inverse of `coordinates`).
+ *
+ * @example
+ * pitch([1]) // => { step: 4, alt: 0 }
+ * pitch([1, 0]) // => { step: 4, alt: 0, oct: 0 }
  */
 export function pitch(coord: PitchCoordinates): Pitch {
   const [f, o, dir] = coord;

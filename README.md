@@ -101,6 +101,8 @@ transpose("A4", "P5");
 
 Visit the [documentation site](https://tonaljs.github.io/tonal/docs) or the README.md of each module 👇
 
+Using a coding agent? Point it to [llms.txt](https://tonaljs.github.io/tonal/llms.txt): it links to a [guide for agents](https://tonaljs.github.io/tonal/docs/agents/) and to [every function with its signature](https://tonaljs.github.io/tonal/llms-api.txt), which is also in the npm package as `node_modules/tonal/llms-api.txt`.
+
 #### Notes and intervals
 
 - [@tonaljs/note](/packages/note): Note operations (simplify, transposeBy )

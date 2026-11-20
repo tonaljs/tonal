@@ -19,10 +19,10 @@ import {
  * @param {string} interval - the interval or interval name
  * @return {string} the transposed note name or empty string if not valid notes
  * @example
- * import { transpose } from "@tonaljs/core"
- * transpose("d3", "3M") // => "F#3"
+ * transpose("C4", "5P") // => "G4"
  * transpose("D", "3M") // => "F#"
- * ["C", "D", "E", "F", "G"].map(pc => transpose(pc, "M3")) // => ["E", "F#", "G#", "A", "B"]
+ * transpose("x", "3M") // => ""
+ * ["C", "D", "E"].map(pc => transpose(pc, "M3")) // => ["E", "F#", "G#"]
  */
 export function transpose(
   noteName: NoteLiteral,
@@ -43,7 +43,16 @@ export function transpose(
   return coordToNote(tr).name;
 }
 
-// Private
+/**
+ * Create a function that, given a (possibly negative) scale degree index,
+ * returns the note of that degree: the intervals are cycled and the octave
+ * goes up (or down) every time they wrap. It returns "" for every degree if
+ * there is no tonic.
+ *
+ * @example
+ * const degree = tonicIntervalsTransposer(["1P", "3M", "5P"], "C");
+ * [0, 1, 2, 3, -1].map(degree) // => ["C", "E", "G", "C", "G"]
+ */
 export function tonicIntervalsTransposer(
   intervals: string[],
   tonic: string | undefined | null,
@@ -60,7 +69,8 @@ export function tonicIntervalsTransposer(
 }
 
 /**
- * Find the interval distance between two notes or pitch classes.
+ * Get the interval name between two notes or pitch classes, or "" if either
+ * is not valid.
  *
  * The written letters decide the interval number and its direction, even
  * when the sound goes the other way: C4 to B#3 is "-2d" and B#3 to Cb4 is
@@ -73,6 +83,11 @@ export function tonicIntervalsTransposer(
  * @param {Note|string} to - the note or note name to calculate distance to
  * @return {string} the interval name or empty string if not valid notes
  *
+ * @example
+ * distance("C4", "G4") // => "5P"
+ * distance("C", "E") // => "3M"
+ * distance("G4", "C4") // => "-5P"
+ * distance("C", "x") // => ""
  */
 export function distance(
   fromNote: NoteLiteral,

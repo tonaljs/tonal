@@ -47,16 +47,45 @@ const NoNote: Note = Object.freeze({
 
 const cache: Map<NoteLiteral | undefined, Note> = new Map();
 
+/**
+ * Get the note letter of a step (0 is C, 6 is B), or "" if the step is not
+ * valid.
+ *
+ * @example
+ * stepToLetter(0) // => "C"
+ * stepToLetter(6) // => "B"
+ */
 export const stepToLetter = (step: number) => "CDEFGAB".charAt(step);
+/**
+ * Get the accidentals string of an alteration number.
+ *
+ * @example
+ * altToAcc(2) // => "##"
+ * altToAcc(-1) // => "b"
+ * altToAcc(0) // => ""
+ */
 export const altToAcc = (alt: number): string =>
   alt < 0 ? fillStr("b", -alt) : fillStr("#", alt);
+/**
+ * Get the alteration number of an accidentals string.
+ *
+ * @example
+ * accToAlt("##") // => 2
+ * accToAlt("bb") // => -2
+ * accToAlt("") // => 0
+ */
 export const accToAlt = (acc: string): number =>
   acc[0] === "b" ? -acc.length : acc.length;
 
 /**
- * Given a note literal (a note name or a note object), returns the Note object
+ * Get the Note object of a note literal (a note name, a pitch object or an
+ * object with a `name`). Pitch classes ("Bb") and notes with octave ("Bb4")
+ * are valid. Invalid input returns an object with `empty: true` and `name: ""`.
+ *
  * @example
- * note('Bb4') // => { name: "Bb4", midi: 70, chroma: 10, ... }
+ * note("Bb4") // => { name: "Bb4", pc: "Bb", midi: 70, chroma: 10, ... }
+ * note("Bb4").freq // => 466.1637615180899
+ * note("x").empty // => true
  */
 export function note(src: NoteLiteral): Note {
   const stringSrc = JSON.stringify(src);
@@ -84,7 +113,12 @@ type NoteTokens = [string, string, string, string];
 const REGEX = /^([a-gA-G]?)(#{1,}|b{1,}|x{1,}|)(-?\d+|)\s*(.*)$/;
 
 /**
- * @private
+ * Split a note name into `[letter, accidentals, octave, rest]` (all strings,
+ * the letter in uppercase). Anything that doesn't match gives empty strings.
+ *
+ * @example
+ * tokenizeNote("Bb4") // => ["B", "b", "4", ""]
+ * tokenizeNote("C# major") // => ["C", "#", "", "major"]
  */
 export function tokenizeNote(str: string): NoteTokens {
   const m = REGEX.exec(str) as string[];
@@ -94,7 +128,12 @@ export function tokenizeNote(str: string): NoteTokens {
 }
 
 /**
- * @private
+ * Get the Note object from its coordinates: `[fifths]` for a pitch class or
+ * `[fifths, octaves]` for a note.
+ *
+ * @example
+ * coordToNote([1, 0]).name // => "G0"
+ * coordToNote([0, 4]).name // => "C4"
  */
 export function coordToNote(noteCoord: PitchCoordinates): Note {
   return note(pitch(noteCoord)) as Note;

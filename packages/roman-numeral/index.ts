@@ -3,14 +3,20 @@ import { interval } from "@tonaljs/pitch-interval";
 import { accToAlt, altToAcc } from "@tonaljs/pitch-note";
 
 export interface RomanNumeral extends Pitch {
+  /** The roman numeral as written, like "bVIIMaj7". */
   readonly name: string;
   readonly empty: boolean;
+  /** The numeral alone, without accidentals or chord type, like "VII". Lowercase for minor. */
   readonly roman: string;
+  /** Interval from the tonic to the chord root, like "7m". */
   readonly interval: string;
+  /** The accidentals before the numeral, like "b". */
   readonly acc: string;
+  /** What follows the numeral, like "Maj7" ("" if none). */
   readonly chordType: string;
   /** the degree an applied chord is built on, like "V" in "V7/V" ("" if none) */
   readonly of: string;
+  /** True for an uppercase numeral ("V"), false for a lowercase one ("v"). */
   readonly major: boolean;
   readonly dir: 1;
 }
@@ -29,23 +35,22 @@ const NO_ROMAN_NUMERAL: NoRomanNumeral = {
 const cache = new Map<string, RomanNumeral | NoRomanNumeral>();
 
 /**
- * Get properties of a roman numeral string
+ * Get the properties of a roman numeral: its parts (accidentals, numeral,
+ * chord type), the interval from the tonic and whether it is uppercase. It
+ * also accepts a degree index (0 is "I"), a pitch or an object with a name.
+ * Returns `{ empty: true, name: "", chordType: "" }` if it's not a valid
+ * roman numeral.
  *
- * @function
- * @param {string} - the roman numeral string (can have type, like: Imaj7)
- * @return {Object} - the roman numeral properties
- * @param {string} name - the roman numeral (tonic)
- * @param {string} type - the chord type
- * @param {string} num - the number (1 = I, 2 = II...)
- * @param {boolean} major - major or not
- *
+ * @param src - a roman numeral string like "bVIIMaj7" (the chord type is optional)
  * An applied chord, like "V7/V", is a chord on a degree of another degree's
  * major scale. Its `interval`, `step` and `alt` locate the chord's root from
  * the tonic, and `of` is the degree it's applied to.
  *
  * @example
- * RomanNumeral.get("VIIb5") // => { name: "VIIb5", roman: "VII", chordType: "b5", step: 6, major: true, ... }
- * RomanNumeral.get("V7/V") // => { name: "V7/V", roman: "V", chordType: "7", of: "V", interval: "2M", step: 1, ... }
+ * RomanNumeral.get("bVIIMaj7"); // => { name: "bVIIMaj7", roman: "VII", acc: "b", chordType: "Maj7", interval: "7m", major: true, ... }
+ * RomanNumeral.get("vi").interval; // => "6M"
+ * RomanNumeral.get("V7/V"); // => { name: "V7/V", roman: "V", chordType: "7", of: "V", interval: "2M", step: 1, ... }
+ * RomanNumeral.get("x").empty; // => true
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function get(src: any): RomanNumeral | NoRomanNumeral {
@@ -71,20 +76,18 @@ function cached(src: string): RomanNumeral | NoRomanNumeral {
 }
 
 /**
- * @deprecated
- * @use RomanNumeral.get
+ * @deprecated Use RomanNumeral.get instead.
  */
 export const romanNumeral = get;
 
 /**
- * Get roman numeral names
+ * Get the names of the seven roman numerals, uppercase by default or
+ * lowercase if `major` is false.
  *
- * @function
- * @param {boolean} [isMajor=true]
- * @return {Array<String>}
- *
+ * @param major - true for uppercase (default), false for lowercase
  * @example
- * names() // => ["I", "II", "III", "IV", "V", "VI", "VII"]
+ * RomanNumeral.names(); // => ["I", "II", "III", "IV", "V", "VI", "VII"]
+ * RomanNumeral.names(false); // => ["i", "ii", "iii", "iv", "v", "vi", "vii"]
  */
 export function names(major = true) {
   return (major ? NAMES : NAMES_MINOR).slice();
@@ -109,6 +112,16 @@ const REGEX = new RegExp(
 
 // [name, accidentals, romanNumeral, chordType, of]
 type RomanNumeralTokens = [string, string, string, string, string];
+
+/**
+ * Split a roman numeral into `[name, accidentals, numeral, chordType, of]`.
+ * Returns five empty strings if it's not a valid roman numeral.
+ *
+ * @example
+ * RomanNumeral.tokenize("#ivm7"); // => ["#ivm7", "#", "iv", "m7", ""]
+ * RomanNumeral.tokenize("V7/V"); // => ["V7/V", "", "V", "7", "V"]
+ * RomanNumeral.tokenize("x"); // => ["", "", "", "", ""]
+ */
 export function tokenize(str: string): RomanNumeralTokens {
   const m = REGEX.exec(str);
   return m ? [m[0], m[1], m[2], m[3], m[4].slice(1)] : ["", "", "", "", ""];
@@ -160,7 +173,7 @@ function applied(
   return { step, alt };
 }
 
-/** @deprecated */
+/** @deprecated Use the named exports instead. */
 export default {
   names,
   get,

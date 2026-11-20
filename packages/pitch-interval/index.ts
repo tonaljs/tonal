@@ -64,7 +64,14 @@ const REGEX = new RegExp(
 type IntervalTokens = [string, string];
 
 /**
- * @private
+ * Split an interval name into `[number, quality]` (both strings). It accepts
+ * the number first ("3M") or the quality first ("M3"). Anything that doesn't
+ * match gives `["", ""]`.
+ *
+ * @example
+ * tokenizeInterval("3M") // => ["3", "M"]
+ * tokenizeInterval("M3") // => ["3", "M"]
+ * tokenizeInterval("-5P") // => ["-5", "P"]
  */
 export function tokenizeInterval(str?: IntervalName): IntervalTokens {
   const m = REGEX.exec(`${str}`);
@@ -77,7 +84,11 @@ export function tokenizeInterval(str?: IntervalName): IntervalTokens {
 const cache = new Map<string, Interval>();
 
 /**
- * Get interval properties. It returns an object with:
+ * Get the Interval object of an interval name ("5P" or "P5"), a pitch object
+ * or an object with a `name`. Invalid input returns an object with
+ * `empty: true` and `name: ""`.
+ *
+ * The properties are:
  *
  * - name: the interval name
  * - num: the interval number
@@ -93,9 +104,10 @@ const cache = new Map<string, Interval>();
  * @return {Object} the interval properties
  *
  * @example
- * import { interval } from '@tonaljs/core'
- * interval('P5').semitones // => 7
- * interval('m3').type // => 'majorable'
+ * interval("5P").semitones // => 7
+ * interval("P5").name // => "5P"
+ * interval("m3").type // => "majorable"
+ * interval("x").empty // => true
  */
 export function interval(src: IntervalLiteral): Interval {
   return typeof src === "string"
@@ -164,7 +176,7 @@ function parse(str?: string): Interval {
 }
 
 /**
- * @private
+ * Get the Interval object from its coordinates (`[fifths, octaves]`).
  *
  * The letter steps decide the direction of the interval, even when the sound
  * goes the other way: one letter step up and one semitone down is "2dd". Only
@@ -172,6 +184,10 @@ function parse(str?: string): Interval {
  *
  * @param forceDescending - deprecated, no longer needed: the letter steps
  * already give the direction (it was used for #243)
+ *
+ * @example
+ * coordToInterval([1, 0]).name // => "5P"
+ * coordToInterval([-1, 0]).name // => "-5P"
  */
 export function coordToInterval(
   coord: PitchCoordinates,

@@ -47,22 +47,19 @@ const NoScale: Scale = {
 };
 
 /**
- * Given a string with a scale name and (optionally) a tonic, split
- * that components.
- *
- * It returns an array with the form [tonic, type] where tonic is a note
- * name (or "" if there is no tonic) and type can be any arbitrary string
- * (this function doesn't check if that scale type exists). The tonic is
- * normalized, so "Cx" is returned as "C##".
+ * Split a scale name into `[tonic, type]`. The tonic is a normalized note name
+ * (or `""` if there is no tonic) and the type is the rest of the name in
+ * lower case, which can be any string: this function doesn't check that the
+ * scale type exists. It never throws.
  *
  * @function
  * @param {string} name - the scale name
  * @return {Array} an array [tonic, type]
  * @example
- * tokenize("C mixolydian") // => ["C", "mixolydian"]
- * tokenize("Cx major") // => ["C##", "major"]
- * tokenize("anything is valid") // => ["", "anything is valid"]
- * tokenize() // => ["", ""]
+ * Scale.tokenize("C mixolydian"); // => ["C", "mixolydian"]
+ * Scale.tokenize("Cx major"); // => ["C##", "major"]
+ * Scale.tokenize("anything is valid"); // => ["", "anything is valid"]
+ * Scale.tokenize("C"); // => ["C", ""]
  */
 export function tokenize(name: ScaleName): ScaleNameTokens {
   if (typeof name !== "string") {
@@ -82,13 +79,27 @@ export function tokenize(name: ScaleName): ScaleNameTokens {
 }
 
 /**
- * Get all scale names
+ * Get the names of all the scale types in the dictionary. An alias of
+ * `ScaleType.names`.
  * @function
+ * @example
+ * Scale.names().slice(0, 3); // => ["major pentatonic", "major", "minor"]
  */
 export const names = scaleTypeNames;
 
 /**
- * Get a Scale from a scale name.
+ * Get a scale from its name, as an object with `notes`, `intervals`, `name`,
+ * `tonic`, `type`, `aliases` and `chroma`. The name is a tonic (with an
+ * optional octave) followed by a scale type name or alias, or the tokens
+ * `[tonic, type]`. Without a tonic the scale has intervals but no notes. It
+ * returns `{ empty: true, ... }` if the scale type isn't in the dictionary.
+ *
+ * @example
+ * Scale.get("C major").notes; // => ["C", "D", "E", "F", "G", "A", "B"]
+ * Scale.get("C4 major").notes; // => ["C4", "D4", "E4", "F4", "G4", "A4", "B4"]
+ * Scale.get(["D", "dorian"]).name; // => "D dorian"
+ * Scale.get("major").intervals; // => ["1P", "2M", "3M", "4P", "5P", "6M", "7M"]
+ * Scale.get("C nonsense").empty; // => true
  */
 export function get(src: ScaleName | ScaleNameTokens): Scale {
   const tokens = Array.isArray(src) ? src : tokenize(src);
@@ -109,11 +120,27 @@ export function get(src: ScaleName | ScaleNameTokens): Scale {
 }
 
 /**
- * @deprecated
- * @use Scale.get
+ * @deprecated Use Scale.get instead.
  */
 export const scale = get;
 
+/**
+ * Find the names of the scales that contain a list of notes, best first. The
+ * tonic is the first note, or `options.tonic`. A scale that has exactly the
+ * notes comes first. With `match: "exact"` it's the only result (and the list
+ * is empty if there is none); by default it's followed by the scales that
+ * have the notes and more. It returns `[]` for no valid tonic.
+ *
+ * @param notes - the note names
+ * @param options - `tonic` to use instead of the first note, and `match`
+ * ("exact" or "fit", the default)
+ *
+ * @example
+ * Scale.detect(["D", "E", "F", "G", "A", "B", "C"], { match: "exact" }); // => ["D dorian"]
+ * Scale.detect(["C", "D", "E", "F", "G", "A", "B"], { tonic: "D", match: "exact" }); // => ["D dorian"]
+ * Scale.detect(["C", "D", "E", "G", "A"], { match: "exact" }); // => ["C major pentatonic"]
+ * Scale.detect(["C", "D", "E", "G"], { match: "exact" }); // => []
+ */
 export function detect(
   notes: string[],
   options: { tonic?: string; match?: "exact" | "fit" } = {},
@@ -146,14 +173,16 @@ export function detect(
 }
 
 /**
- * Get all chords that fits a given scale
+ * Get the chord type symbols whose notes are all in a scale, without tonic.
+ * It returns `[]` if the scale isn't valid. To get the chord built on each
+ * degree, use `Scale.chords`.
  *
  * @function
  * @param {string} name - the scale name
- * @return {Array<string>} - the chord names
+ * @return {Array<string>} - the chord type symbols
  *
  * @example
- * scaleChords("pentatonic") // => ["5", "M", "6", "sus2", "Madd9"]
+ * Scale.scaleChords("pentatonic"); // => ["5", "M", "6", "sus2", "Madd9"]
  */
 export function scaleChords(name: string): string[] {
   const s = get(name);
@@ -163,14 +192,15 @@ export function scaleChords(name: string): string[] {
     .map((chord) => chord.aliases[0]);
 }
 /**
- * Get all scales names that are a superset of the given one
- * (has the same notes and at least one more)
+ * Get the names of the scale types that have all the notes of a scale and at
+ * least one more (the tonic is ignored). It returns `[]` if the scale isn't
+ * valid. The opposite of `Scale.reduced`.
  *
  * @function
- * @param {string} name
- * @return {Array} a list of scale names
+ * @param {string} name - the scale name, or a chroma
+ * @return {Array} a list of scale type names
  * @example
- * extended("major") // => ["bebop", "bebop major", "ichikosucho", "chromatic"]
+ * Scale.extended("major"); // => ["bebop", "bebop major", "ichikosucho", "chromatic"]
  */
 export function extended(name: string): string[] {
   const chroma = isChroma(name) ? name : get(name).chroma;
@@ -181,15 +211,16 @@ export function extended(name: string): string[] {
 }
 
 /**
- * Find all scales names that are a subset of the given one
- * (has less notes but all from the given scale)
+ * Get the names of the scale types whose notes are all in a scale and are
+ * fewer (the tonic is ignored). It returns `[]` if the scale isn't valid. The
+ * opposite of `Scale.extended`.
  *
  * @function
- * @param {string} name
- * @return {Array} a list of scale names
+ * @param {string} name - the scale name
+ * @return {Array} a list of scale type names
  *
  * @example
- * reduced("major") // => ["major pentatonic", "ionian pentatonic", "ritusen"]
+ * Scale.reduced("major"); // => ["major pentatonic", "ionian pentatonic", "ritusen"]
  */
 export function reduced(name: string): string[] {
   const isSubset = isSubsetOf(get(name).chroma);
@@ -199,15 +230,16 @@ export function reduced(name: string): string[] {
 }
 
 /**
- * Given an array of notes, return the scale: a pitch class set starting from
- * the first note of the array
+ * Turn a list of notes into a scale: its unique pitch classes sorted from the
+ * first note, which is the tonic. Octaves and repetitions are dropped, and
+ * invalid notes are ignored.
  *
  * @function
  * @param {string[]} notes
  * @return {string[]} pitch classes with same tonic
  * @example
- * scaleNotes(['C4', 'c3', 'C5', 'C4', 'c4']) // => ["C"]
- * scaleNotes(['D4', 'c#5', 'A5', 'F#6']) // => ["D", "F#", "A", "C#"]
+ * Scale.scaleNotes(["C4", "c3", "C5", "C4", "c4"]); // => ["C"]
+ * Scale.scaleNotes(["D4", "c#5", "A5", "F#6"]); // => ["D", "F#", "A", "C#"]
  */
 export function scaleNotes(notes: NoteName[]) {
   const pcset: string[] = notes.map((n) => note(n).pc).filter((x) => x);
@@ -218,18 +250,14 @@ export function scaleNotes(notes: NoteName[]) {
 
 type ScaleMode = [string, string];
 /**
- * Find mode names of a scale
+ * Get the modes of a scale (its rotations) that have a name in the dictionary,
+ * as `[tonic, scale type name]` pairs. The tonics are note names, or intervals
+ * if the scale has no tonic. It returns `[]` if the scale isn't valid.
  *
  * @function
  * @param {string} name - scale name
  * @example
- * modeNames("C pentatonic") // => [
- *   ["C", "major pentatonic"],
- *   ["D", "egyptian"],
- *   ["E", "malkos raga"],
- *   ["G", "ritusen"],
- *   ["A", "minor pentatonic"]
- * ]
+ * Scale.modeNames("C pentatonic"); // => [["C", "major pentatonic"], ["D", "egyptian"], ["E", "malkos raga"], ["G", "ritusen"], ["A", "minor pentatonic"]]
  */
 export function modeNames(name: string): ScaleMode[] {
   const s = get(name);
@@ -265,6 +293,17 @@ function getNoteNameOf(scale: string | string[]) {
   };
 }
 
+/**
+ * Get a function that lists the scale notes between two notes, both included.
+ * The notes are spelled as in the scale. The function takes two note names
+ * with octave and returns `[]` if one isn't valid. The scale
+ * is a name or a list of notes.
+ *
+ * @example
+ * Scale.rangeOf("C pentatonic")("C4", "C5"); // => ["C4", "D4", "E4", "G4", "A4", "C5"]
+ * Scale.rangeOf(["C", "D", "E"])("C4", "E5"); // => ["C4", "D4", "E4", "C5", "D5", "E5"]
+ * Scale.rangeOf("C major")("C4", "x"); // => []
+ */
 export function rangeOf(scale: string | string[]) {
   const getName = getNoteNameOf(scale);
   return (fromNote: string, toNote: string) => {
@@ -306,17 +345,19 @@ function alter(noteName: string, alt: number): string {
 }
 
 /**
- * Returns a function to get a note name from the scale degree.
+ * Get a function that returns the note of a scale by its degree, 1 being the
+ * tonic (use `Scale.steps` for 0-based). The function returns `""` for degree
+ * 0, an invalid degree or a scale without tonic.
  *
  * Degrees start at 1, and negative degrees go down from the tonic. A degree
  * can be a string with accidentals after the number (`"7b"`, `"4#"`, `"-2b"`):
  * the scale degree raised or lowered, keeping its letter.
  *
  * @example
- * [1, 2, 3].map(Scale.degrees("C major")) => ["C", "D", "E"]
- * [1, 2, 3].map(Scale.degrees("C4 major")) => ["C4", "D4", "E4"]
- * Scale.degrees("C major")("7b") => "Bb"
- * Scale.degrees("A major")("7b") => "G"
+ * [1, 2, 3].map(Scale.degrees("C major")); // => ["C", "D", "E"]
+ * [1, 2, 3].map(Scale.degrees("C4 major")); // => ["C4", "D4", "E4"]
+ * Scale.degrees("C major")("7b"); // => "Bb"
+ * Scale.degrees("A major")("7b"); // => "G"
  */
 export function degrees(scaleName: string | ScaleNameTokens) {
   const { intervals, tonic } = get(scaleName);
@@ -330,11 +371,14 @@ export function degrees(scaleName: string | ScaleNameTokens) {
 }
 
 /**
- * Sames as `degree` but with 0-based index
+ * Get a function that returns the note of a scale by its step, 0 being the
+ * tonic. It's `Scale.degrees` with 0-based index: negative steps go down, and
+ * the accidental syntax is the same. The function returns `""` for an invalid
+ * step or a scale without tonic.
  *
  * @example
- * [-1, 0, 1].map(Scale.steps("C4 major")) => ["B3", "C4", "D4"]
- * Scale.steps("C major")("6b") => "Bb"
+ * [-1, 0, 1].map(Scale.steps("C4 major")); // => ["B3", "C4", "D4"]
+ * Scale.steps("C major")("6b"); // => "Bb"
  */
 export function steps(scaleName: string | ScaleNameTokens) {
   const { intervals, tonic } = get(scaleName);

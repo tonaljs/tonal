@@ -49,3 +49,8 @@ next-env.d.ts
 /content/docs/voicings/dictionary.md
 /content/docs/voicings/leading.md
 /content/docs/voicings/voicings.md
+
+# generated for coding agents by scripts/llms.mjs
+/public/llms.txt
+/public/llms-api.txt
+/public/docs/
