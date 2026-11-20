@@ -113,6 +113,15 @@ describe("@tonaljs/pcset", () => {
     expect(isSuperset("110010101010")).toBe(false);
   });
 
+  test("isSubsetOf and isSupersetOf always return a boolean", () => {
+    expect(Pcset.isSubsetOf([])(["C"])).toBe(false);
+    expect(Pcset.isSupersetOf([])(["C"])).toBe(false);
+    expect(Pcset.isSubsetOf(["C", "E"])([])).toBe(true);
+    expect(Pcset.isSupersetOf(["C", "E"])([])).toBe(false);
+    expect(Pcset.isSubsetOf(["C", "E"])(["C", "E"])).toBe(false);
+    expect(Pcset.isSupersetOf(["C", "E"])(["C", "E"])).toBe(false);
+  });
+
   test("isEqual", () => {
     expect(Pcset.isEqual($("c2 d3 e7 f5"), $("c4 c d5 e6 f1"))).toBeTruthy();
     expect(Pcset.isEqual($("c f"), $("c4 c f1"))).toBeTruthy();

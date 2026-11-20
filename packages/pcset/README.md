@@ -150,13 +150,13 @@ isInCTriad("Fb"); // => true
 
 `isSubsetOf(parent: Set) => (subset: Set) => boolean`
 
-Test if a set is a subset of another. This function is curried
+Test if a set is a proper subset of another: all its notes are in the other set, which has more (a set is not a subset of itself). This function is curried
 
 ### `Pcset.isSupersetOf`
 
 `isSupersetOf(subset: Set) => (parent: Set) => boolean`
 
-Test if a set is a superset of another. This function is curried
+Test if a set is a proper superset of another: it has all the notes of the other set and more (a set is not a superset of itself). This function is curried
 
 ### `Pcset.isEqual`
 
