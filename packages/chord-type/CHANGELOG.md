@@ -1,5 +1,12 @@
 # @tonaljs/chord-type
 
+## 5.3.2
+
+### Patch Changes
+
+- Updated dependencies [1cf932e]
+  - @tonaljs/pcset@4.10.6
+
 ## 5.3.1
 
 ### Patch Changes

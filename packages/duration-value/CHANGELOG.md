@@ -1,5 +1,11 @@
 # @tonaljs/duration-value
 
+## 4.9.2
+
+### Patch Changes
+
+- 1cf932e: The hundred twenty-eighth note has its own shorthand, `"ht"`: it was `"h"`, the half note's, so `DurationValue.get` could never return it by shorthand.
+
 ## 4.9.1
 
 ### Patch Changes

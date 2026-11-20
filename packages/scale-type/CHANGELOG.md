@@ -1,5 +1,12 @@
 # @tonaljs/scale-type
 
+## 4.9.7
+
+### Patch Changes
+
+- Updated dependencies [1cf932e]
+  - @tonaljs/pcset@4.10.6
+
 ## 4.9.6
 
 ### Patch Changes

@@ -1,5 +1,35 @@
 # tonal
 
+## 6.8.0
+
+### Minor Changes
+
+- `Midi.isMidi` narrows to a number or a numeric string (it said `number`). TypeScript code that passes a value checked with `Midi.isMidi` to a function that only takes numbers needs `+v` or `Midi.toMidi(v)`. See `@tonaljs/midi`'s changelog.
+
+### Patch Changes
+
+- 7d6ca63: Ship `llms-api.txt`, a list of every public function with its signature, return type and a one-line description, for coding agents. It's generated from the source (`npm run docs:api`) and also published on the docs site, next to `llms.txt` and an agent guide.
+- Updated dependencies [aa4ab10]
+- Updated dependencies [1cf932e]
+- Updated dependencies [1cf932e]
+- Updated dependencies [1cf932e]
+- Updated dependencies [1cf932e]
+  - @tonaljs/chord@6.3.2
+  - @tonaljs/duration-value@4.9.2
+  - @tonaljs/midi@4.11.0
+  - @tonaljs/pcset@4.10.6
+  - @tonaljs/voice-leading@5.1.8
+  - @tonaljs/key@4.11.8
+  - @tonaljs/progression@4.11.2
+  - @tonaljs/voicing@5.2.2
+  - @tonaljs/voicing-dictionary@5.1.9
+  - @tonaljs/note@4.12.7
+  - @tonaljs/range@4.9.8
+  - @tonaljs/chord-type@5.3.2
+  - @tonaljs/mode@4.9.7
+  - @tonaljs/scale@4.14.2
+  - @tonaljs/scale-type@4.9.7
+
 ## 6.7.1
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @tonaljs/voice-leading
 
+## 5.1.8
+
+### Patch Changes
+
+- 1cf932e: `VoiceLeading.topNoteDiff` no longer sorts the voicings it's given, and returns `[]` (not `undefined`) when there are none.
+  - @tonaljs/note@4.12.7
+
 ## 5.1.7
 
 ### Patch Changes
