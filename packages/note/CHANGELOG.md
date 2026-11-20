@@ -1,5 +1,12 @@
 # @tonaljs/note
 
+## 4.12.7
+
+### Patch Changes
+
+- Updated dependencies [1cf932e]
+  - @tonaljs/midi@4.11.0
+
 ## 4.12.6
 
 ### Patch Changes

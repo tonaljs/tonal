@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/pcset",
-  "version": "4.10.5",
+  "version": "4.10.6",
   "description": "Functions to work with midi numbers",
   "keywords": [
     "note",
