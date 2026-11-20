@@ -51,6 +51,7 @@ describe("tonal-chord", () => {
         notes: ["G", "B", "D", "F#"],
         quality: "Major",
         family: "major",
+        complexity: 1,
       });
     });
     test("first inversion", () => {
@@ -71,6 +72,7 @@ describe("tonal-chord", () => {
         notes: ["B", "D", "F#", "G"],
         quality: "Major",
         family: "major",
+        complexity: 1,
       });
     });
     test("first inversion without octave", () => {
@@ -91,6 +93,7 @@ describe("tonal-chord", () => {
         notes: ["B", "D", "F#", "G"],
         quality: "Major",
         family: "major",
+        complexity: 1,
       });
     });
     test("second inversion", () => {
@@ -111,6 +114,7 @@ describe("tonal-chord", () => {
         notes: ["D", "F#", "G", "B"],
         quality: "Major",
         family: "major",
+        complexity: 1,
       });
     });
     test("without root", () => {
@@ -141,6 +145,7 @@ describe("tonal-chord", () => {
         notes: [],
         quality: "Diminished",
         family: "diminished",
+        complexity: 0,
         setNum: 2336,
       });
     });
@@ -164,6 +169,7 @@ describe("tonal-chord", () => {
       notes: ["C", "E", "G", "B"],
       quality: "Major",
       family: "major",
+      complexity: 1,
     });
     expect(Chord.get("hello").empty).toBe(true);
     expect(Chord.get("").empty).toBe(true);
@@ -180,6 +186,7 @@ describe("tonal-chord", () => {
       notes: ["Bb", "C", "E", "G"],
       quality: "Major",
       family: "major",
+      complexity: 0,
       root: "",
       rootDegree: NaN,
       setNum: 2192,
@@ -490,6 +497,7 @@ describe("tonal-chord", () => {
         normalized: "100010110100",
         quality: "Diminished",
         family: "half-diminished",
+        complexity: 2,
         aliases: [],
         intervals: ["1P", "3m", "5d", "7m", "9m"],
         notes: ["C", "Eb", "Gb", "Bb", "Db"],
@@ -602,6 +610,7 @@ describe("tonal-chord", () => {
         normalized: "",
         quality: "Unknown",
         family: "",
+        complexity: 0,
         aliases: ["N.C.", "NC"],
         intervals: [],
         notes: [],

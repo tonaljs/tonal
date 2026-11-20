@@ -136,6 +136,11 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   Chord.degreesByImportance("G13"); // => ["3", "b7", "9", "1", "5", "13"]
   ```
 
+- `Chord.get(name).complexity` (or `ChordType.get(type).complexity`) is the
+  number of notes added to a triad plus two for each chromatic note (outside
+  the major scale that holds most of the chord, as spelled): `m` is 0, `m7`
+  1, `dim7` 3, `7b9#11` 7. Sort by it to list common chords first.
+
 - `Chord.degrees` and `Chord.steps` are different: they count chord notes by
   position (1 or 0 is the root), not degrees by name. `Chord.degrees("C")(3)`
   is `"G"`, the third note of the chord.
@@ -159,6 +164,11 @@ Key.minorKey("A").harmonic.chords; // => ["AmMaj7", "Bm7b5", "C+maj7", "Dm7", "E
   and substitute dominants). A minor key has three scales: `natural`,
   `harmonic` and `melodic`. In `secondaryDominants` and similar lists, `""`
   means the degree has none.
+- `Scale.outside(scale, chord)` lists the chord notes that aren't in the
+  scale, spelled as in the chord: `Scale.outside("C major", "Bb7")` is
+  `["Bb", "Ab"]`, and `[]` when the chord fits. To list the chord types that
+  fit a scale, use `Scale.scaleChords`; for the chord on each degree,
+  `Scale.chords`.
 - `Mode` is about the seven Greek modes (`Mode.names()`); for other scales
   use `Scale`.
 

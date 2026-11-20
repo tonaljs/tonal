@@ -35,6 +35,7 @@ Given a chord type name, return an object with the following properties:
 - aliases: a list of alternative names
 - quality: Major | Minor | Augmented | Diminished | Unknown
 - family: major | minor | dominant | half-diminished | diminished | augmented | suspended | power (see [`ChordType.family`](#chordtypefamily))
+- complexity: a number, the notes added to a triad plus two for each chromatic note: 0 for `m`, 1 for `m7`, 4 for `7b9` (see [`ChordType.complexity`](#chordtypecomplexity))
 - setNum: the pcset number
 - chroma: the pcset chroma
 - normalized: the pcset chroma rotated to start with its first note
@@ -53,6 +54,7 @@ ChordType.get("major"); // =>
 //   intervals: ["1P", "3M", "5P"],
 //   quality: "Major",
 //   family: "major",
+//   complexity: 0,
 //   aliases: ["M", "^", "", "maj"],
 // }
 ```
@@ -100,6 +102,58 @@ Some choices to bear in mind:
 - The quartal chord (`1P 4P 7m 10m`) is spelled with a minor third (`10m`), so it's `minor`.
 
 The family of an empty chord type is an empty string.
+
+### `ChordType.complexity`
+
+`complexity(intervals: string[]) => number`
+
+How complex a chord type is, to sort long lists of chords from the plainest to the most colourful. Every chord type has a `complexity` property computed with this function:
+
+```js
+ChordType.get("m").complexity; // => 0
+ChordType.get("m7b5").complexity; // => 1
+ChordType.get("maj9").complexity; // => 2
+ChordType.get("dim7").complexity; // => 3
+ChordType.get("7b9#11").complexity; // => 7
+ChordType.complexity(["1P", "3M", "5P", "7M", "9M"]); // => 2
+```
+
+It's the number of notes added to a triad, plus two for each chromatic note:
+
+- **Added notes**: the distinct pitch classes beyond three. A triad adds 0, a seventh chord 1, a ninth chord 2.
+- **Chromatic notes**: the notes, as spelled, that don't fit in the major scale that holds most of them. A major scale is seven consecutive notes on the line of fifths (F C G D A E B), so its modes, like the natural minor, count as well.
+
+| Type      | Notes            | Added | Chromatic        | Complexity |
+| --------- | ---------------- | ----- | ---------------- | ---------- |
+| `m`       | C Eb G           | 0     | 0                | 0          |
+| `m7b5`    | C Eb Gb Bb       | 1     | 0                | 1          |
+| `13`      | C E G Bb D A     | 3     | 0                | 3          |
+| `aug`     | C E G#           | 0     | 1 (G# or C)      | 2          |
+| `dim7`    | C Eb Gb Bbb      | 1     | 1                | 3          |
+| `7b9`     | C E G Bb Db      | 2     | 1                | 4          |
+| `7b9#11`  | C E G Bb Db F#   | 3     | 2                | 7          |
+
+So the triads of a major scale (major, minor, diminished, suspended) are 0 and its seventh chords 1. Chords that need the harmonic or melodic minor (`aug`, `dim7`, `mMaj7`, `7#5`) come after them, and altered dominants last. A chromatic note counts double so that alterations weigh more than extensions: `13` (3) is plainer than `7b9` (4).
+
+The notes are taken as spelled: `Mb5` (C E Gb) has a chromatic note, though C E F# is in G major. But a type spelled with diatonic intervals is diatonic: `m7#5` is written C Eb Ab Bb (`1P 3m 6m 7m`), the notes of Ab major, so it's 1.
+
+Sorting by complexity puts the common types first:
+
+```js
+ChordType.all()
+  .sort((a, b) => a.complexity - b.complexity)
+  .map((t) => t.aliases[0])
+  .slice(0, 7);
+// => ["5", "sus4", "7no5", "M", "m", "dim", "sus2"]
+```
+
+The complexity of an empty chord type is 0.
+
+The measure is tonal's own, built on standard ideas of diatonic theory:
+
+- John Clough and Gerald Myerson, "Variety and Multiplicity in Diatonic Systems", _Journal of Music Theory_ 29 (1985), 249–270: the structure of the diatonic scale, the reference collection the chromatic notes are counted against.
+- David Temperley, "The Line of Fifths", _Music Analysis_ 19 (2000): the line of fifths, which tells apart enharmonic spellings (G# and Ab) that the circle of fifths merges.
+- Dmitri Tymoczko, _A Geometry of Music_ (Oxford University Press, 2011): the macroharmony, the scale that governs the notes of a passage and that chords are heard against.
 
 ### `ChordType.names`
 

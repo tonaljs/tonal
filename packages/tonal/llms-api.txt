@@ -356,6 +356,7 @@ type Chord = {
   name: string;
   quality: ChordQuality;
   family: ChordFamily;
+  complexity: number;
   aliases: string[];
   empty: boolean;
   setNum: number;
@@ -391,6 +392,12 @@ ChordType.all(): ChordType[]
 
 ChordType.chordType(type: ChordTypeName): ChordType
   [deprecated] Use ChordType.get instead.
+
+ChordType.complexity(intervals: string[]): number
+  Get how complex a chord type is from its interval names (`ChordType.get(name).complexity` has it for listed types), to sort chord lists from the plainest to the most colourful. It's the number of notes added to a triad, plus two for each chromatic note:
+  ChordType.complexity(["1P", "3M", "5P", "7M", "9M"]); // => 2
+  ChordType.get("m7b5").complexity; // => 1
+  ChordType.get("dim7").complexity; // => 3
 
 ChordType.entries(): ChordType[]
   [deprecated] Use ChordType.all instead.
@@ -431,6 +438,7 @@ type ChordType = {
   name: string;
   quality: ChordQuality;
   family: ChordFamily;
+  complexity: number;
   aliases: string[];
   empty: boolean;
   setNum: number;
@@ -1347,6 +1355,12 @@ Scale.nearest(scaleName: string | ScaleNameTokens, noteName: string): string
   Scale.nearest("C major", "F#4"); // => "G4"
   Scale.nearest("C major", "Gb4"); // => "G4"
   Scale.nearest("C major", "Eb"); // => "E"
+
+Scale.outside(scale: string | string[], chord: string | string[]): string[]
+  Get the notes of a chord that aren't in a scale: the borrowed or chromatic notes. Each is a pitch class spelled as in the chord, listed once, in the chord order. The result is empty exactly when the chord fits the scale.
+  Scale.outside("C major", "Bb7"); // => ["Bb", "Ab"]
+  Scale.outside("C major", "Fm"); // => ["Ab"]
+  Scale.outside("C major", "Dm7"); // => []
 
 Scale.rangeOf(scale: string | string[]): (fromNote: string, toNote: string) => (string | undefined)[]
   Get a function that lists the scale notes between two notes, both included. The notes are spelled as in the scale. The function takes two note names with octave and returns `[]` if one isn't valid. The scale is a name or a list of notes.

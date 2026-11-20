@@ -2,6 +2,7 @@ import {
   ChordQuality,
   ChordType,
   all as chordTypes,
+  complexity,
   family,
   get as getChordType,
 } from "@tonaljs/chord-type";
@@ -165,6 +166,7 @@ function chordTypeOf(intervals: string[]): ChordType {
     name: "",
     quality: qualityOf(intervals),
     family: family(intervals),
+    complexity: complexity(intervals),
     intervals,
     aliases: [],
   };

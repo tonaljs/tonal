@@ -3,6 +3,7 @@
  * - https://www.researchgate.net/publication/327567188_An_Algorithm_for_Spelling_the_Pitches_of_Any_Musical_Scale
  * @module scale
  */
+import { get as getChord } from "@tonaljs/chord";
 import { detect as detectChord } from "@tonaljs/chord-detect";
 import { all as chordTypes, get as getChordType } from "@tonaljs/chord-type";
 import { range as nums, rotate } from "@tonaljs/collection";
@@ -191,6 +192,42 @@ export function scaleChords(name: string): string[] {
     .filter((chord) => inScale(chord.chroma))
     .map((chord) => chord.aliases[0]);
 }
+/**
+ * Get the notes of a chord that aren't in a scale: the borrowed or chromatic
+ * notes. Each is a pitch class spelled as in the chord, listed once, in the
+ * chord order. The result is empty exactly when the chord fits the scale.
+ *
+ * The scale is a scale name with tonic or a list of notes, and the chord a
+ * chord symbol or a list of notes. Enharmonic notes are the same note (`Gb`
+ * is in a scale with `F#`). It returns `[]` if the scale or the chord isn't
+ * valid.
+ *
+ * @example
+ * Scale.outside("C major", "Bb7"); // => ["Bb", "Ab"]
+ * Scale.outside("C major", "Fm"); // => ["Ab"]
+ * Scale.outside("C major", "Dm7"); // => []
+ * Scale.outside("A minor", ["E4", "G#4", "B4"]); // => ["G#"]
+ * Scale.outside(["C", "D", "E", "G", "A"], "F"); // => ["F"]
+ */
+export function outside(
+  scale: string | string[],
+  chord: string | string[],
+): string[] {
+  const scaleNotes = Array.isArray(scale) ? scale : get(scale).notes;
+  const chordNotes = Array.isArray(chord) ? chord : getChord(chord).notes;
+  const inScale = chroma(scaleNotes);
+  if (!inScale.includes("1")) return [];
+  const seen = new Set<number>();
+  return chordNotes
+    .map((name) => note(name))
+    .filter(({ empty, chroma }) => {
+      if (empty || seen.has(chroma)) return false;
+      seen.add(chroma);
+      return inScale[chroma] === "0";
+    })
+    .map(({ pc }) => pc);
+}
+
 /**
  * Get the names of the scale types that have all the notes of a scale and at
  * least one more (the tonic is ignored). It returns `[]` if the scale isn't
@@ -552,6 +589,7 @@ export default {
   modeNames,
   names,
   nearest,
+  outside,
   rangeOf,
   reduced,
   scaleChords,

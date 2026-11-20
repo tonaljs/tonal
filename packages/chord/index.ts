@@ -55,6 +55,7 @@ const NoChord: Chord = {
   setNum: NaN,
   quality: "Unknown",
   family: "",
+  complexity: 0,
   chroma: "",
   normalized: "",
   aliases: [],

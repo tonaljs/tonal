@@ -5,6 +5,7 @@ import {
   PcsetChroma,
   PcsetNum,
 } from "@tonaljs/pcset";
+import { interval } from "@tonaljs/pitch-interval";
 import data from "./data";
 
 export type ChordQuality =
@@ -29,6 +30,7 @@ export interface ChordType extends Pcset {
   name: string;
   quality: ChordQuality;
   family: ChordFamily;
+  complexity: number;
   aliases: string[];
 }
 const NoChordType: ChordType = {
@@ -36,6 +38,7 @@ const NoChordType: ChordType = {
   name: "",
   quality: "Unknown",
   family: "",
+  complexity: 0,
   intervals: [],
   aliases: [],
 };
@@ -142,6 +145,7 @@ export function add(intervals: string[], aliases: string[], fullName?: string) {
     name: fullName || "",
     quality,
     family: family(intervals),
+    complexity: complexity(intervals),
     intervals,
     aliases,
   };
@@ -230,6 +234,45 @@ export function family(intervals: string[]): ChordFamily {
   return "power";
 }
 
+/**
+ * Get how complex a chord type is from its interval names
+ * (`ChordType.get(name).complexity` has it for listed types), to sort chord
+ * lists from the plainest to the most colourful. It's the number of notes
+ * added to a triad, plus two for each chromatic note:
+ *
+ * - Added notes: the distinct pitch classes beyond three. A triad adds 0, a
+ *   seventh chord 1, a ninth chord 2.
+ * - Chromatic notes: the notes, as spelled, that don't fit in the major scale
+ *   that holds most of them (a major scale is seven consecutive notes on the
+ *   line of fifths, so its modes and the natural minor count as well).
+ *
+ * Triads that fit a major scale (major, minor, diminished, suspended) are 0,
+ * and diatonic sevenths 1. A chord that needs the harmonic or melodic minor
+ * (`aug`, `dim7`, `mMaj7`) and altered dominants count more. The spelling
+ * matters: `Mb5` (C E Gb) has a chromatic note, though C E F# is in G major.
+ *
+ * @example
+ * ChordType.complexity(["1P", "3M", "5P", "7M", "9M"]); // => 2
+ * ChordType.get("m7b5").complexity; // => 1
+ * ChordType.get("dim7").complexity; // => 3
+ * ChordType.get("7b9#11").complexity; // => 7
+ */
+export function complexity(intervals: string[]): number {
+  const ivls = intervals.map((name) => interval(name)).filter((i) => !i.empty);
+  const added = Math.max(0, new Set(ivls.map((i) => i.chroma)).size - 3);
+  const fifths = [...new Set(ivls.map((i) => i.coord[0]))];
+  return added + 2 * outsideMajorScale(fifths);
+}
+
+// The number of positions on the line of fifths outside the window of seven
+// consecutive fifths (a major scale) that holds most of them
+function outsideMajorScale(fifths: number[]): number {
+  const inside = fifths.map(
+    (low) => fifths.filter((f) => f >= low && f <= low + 6).length,
+  );
+  return fifths.length - Math.max(0, ...inside);
+}
+
 data.forEach(([ivls, fullName, names]: string[]) =>
   add(ivls.split(" "), names.split(" "), fullName),
 );
@@ -243,6 +286,7 @@ export default {
   all,
   add,
   family,
+  complexity,
   removeAll,
   keys,
   // deprecated
