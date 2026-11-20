@@ -450,6 +450,29 @@ describe("tonal-chord", () => {
       expect(notes("Caug(maj7)")).toEqual("C E G# B");
       expect(notes("Cm9(^7)")).toEqual("C Eb G B D");
       expect(notes("Cdim7(maj7)")).toEqual("C Eb Gb B");
+      expect(notes("C7(maj7)")).toEqual("C E G B");
+      expect(notes("Cmaj7sus4")).toEqual("C F G B");
+      expect(notes("C6maj7")).toEqual("C E G A B");
+    });
+
+    test("a bare major seventh token can't replace a seventh", () => {
+      // "C4maj7" is an octave written inside a chord name, not quartal + maj7
+      for (const symbol of ["C7maj7", "C4maj7", "Cm7maj7", "C7^7", "C7M7"]) {
+        expect(Chord.get(symbol).empty).toBe(true);
+      }
+    });
+
+    test("tokens can't double an interval", () => {
+      for (const symbol of [
+        "Cmaj7maj7",
+        "Cmaj7(maj7)",
+        "Csus4sus4",
+        "Csus2sus2",
+        "C7sus4sus4",
+      ]) {
+        expect(Chord.get(symbol).empty).toBe(true);
+      }
+      expect(notes("Csus2sus4")).toEqual("C D F G");
     });
 
     test("composed chord properties", () => {
