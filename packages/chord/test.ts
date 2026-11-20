@@ -248,7 +248,7 @@ describe("tonal-chord", () => {
 
   test("chordScales", () => {
     const names =
-      "phrygian dominant,flamenco,spanish heptatonic,half-whole diminished,chromatic";
+      "phrygian dominant,flamenco,phrygian b4,mixolydian b2,spanish heptatonic,half-whole diminished,chromatic";
     expect(Chord.chordScales("C7b9")).toEqual(names.split(","));
   });
 
