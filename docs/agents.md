@@ -109,9 +109,10 @@ Chord.notes("Cmaj7", "C4"); // => ["C4", "E4", "G4", "B4"]
 Chord.transpose("Dm7", "4P"); // => "Gm7"
 ```
 
-- **Don't put an octave in a chord name.** `Chord.get("C4maj7")` doesn't mean C
-  major seventh at octave 4. For notes with octaves, pass the tonic separately:
-  `Chord.notes("Cmaj7", "C4")` or `Chord.notes("maj7", "C4")`.
+- **Don't put an octave in a chord name.** `Chord.get("C4maj7")` is empty, and
+  `Chord.get("C4")` is not C at octave 4 but C quartal (`["C", "F", "Bb", "Eb"]`,
+  `"4"` is an alias of the quartal chord). For notes with octaves, pass the
+  tonic separately: `Chord.notes("Cmaj7", "C4")` or `Chord.notes("maj7", "C4")`.
 - Chord names accept the usual symbols and aliases (`"CM7"`, `"CΔ"`, `"C^7"`,
   `"C-7"`, `"Cø"`, `"Cm7b5"`, `"C7(b9,#9)"`). Check `.empty` for symbols you
   aren't sure of. `ChordType.get("maj7").aliases` lists the aliases of a type.

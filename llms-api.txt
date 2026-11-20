@@ -1,4 +1,4 @@
-# tonal 6.7.1 API
+# tonal 6.8.0 API
 
 Every public function of the `tonal` npm package, generated from its
 TypeScript source. One entry per function: the signature, then a one-line
@@ -491,7 +491,7 @@ DurationValue.names(): string[]
 
 DurationValue.shorthands(): string[]
   Get the shorthand of every duration value ("w" whole, "h" half, "q" quarter, "e" eighth...), from the longest to the shortest.
-  DurationValue.shorthands() // => ["dl", "l", "d", "w", "h", "q", "e", "s", "t", "sf", "h", "th"]
+  DurationValue.shorthands() // => ["dl", "l", "d", "w", "h", "q", "e", "s", "t", "sf", "ht", "th"]
 
 DurationValue.value(name: string): number
   Get the value of a duration (with optional dots) as a fraction of a whole note, or 0 if not valid.
@@ -768,8 +768,8 @@ Midi.freqToMidi(freq: number): number
   Midi.freqToMidi(261.62) // => 60
   Midi.freqToMidi(261) // => 59.96
 
-Midi.isMidi(arg: any): arg is Midi
-  Check if a value is a valid midi number: a number, or a numeric string, from 0 to 127. Note names are not midi numbers.
+Midi.isMidi(arg: any): arg is Midi | `${number}`
+  Check if a value is a valid midi number: a number, or a numeric string, from 0 to 127. Note names are not midi numbers. A numeric string stays a string: convert it with `Midi.toMidi` (or `+value`) before using it as a number.
   Midi.isMidi(60) // => true
   Midi.isMidi("60") // => true
   Midi.isMidi(128) // => false
@@ -1109,13 +1109,13 @@ Pcset.isNoteIncludedIn(set: Set): (noteName: NoteName) => boolean
   Pcset.isNoteIncludedIn(["C", "E", "G"])("C4"); // => true
   Pcset.isNoteIncludedIn(["C", "E", "G"])("C#4"); // => false
 
-Pcset.isSubsetOf(set: Set): (notes: Set | Pcset) => boolean | 0
+Pcset.isSubsetOf(set: Set): (notes: Set | Pcset) => boolean
   Get a function that tests if a collection of notes is a proper subset of a given set (all its pitch classes are in the set, and the set has more). The same set is not a subset of itself.
   Pcset.isSubsetOf(["C", "E", "G"])(["e6", "c4"]); // => true
   Pcset.isSubsetOf(["C", "E", "G"])(["e6", "c4", "d3"]); // => false
   Pcset.isSubsetOf(["C", "E", "G"])(["C", "E", "G"]); // => false
 
-Pcset.isSupersetOf(set: Set): (notes: Set) => boolean | 0
+Pcset.isSupersetOf(set: Set): (notes: Set) => boolean
   Get a function that tests if a collection of notes is a proper superset of a given set (it contains all its pitch classes and at least one more).
   Pcset.isSupersetOf(["C", "E", "G"])(["e6", "a", "c4", "g2"]); // => true
   Pcset.isSupersetOf(["C", "E", "G"])(["c6", "e4", "g3"]); // => false
@@ -1517,7 +1517,7 @@ type ValidTimeSignature = {
 import { VoiceLeading } from "tonal"; // or: import * as VoiceLeading from "@tonaljs/voice-leading";
 
 VoiceLeading.topNoteDiff(voicings: string[][], lastVoicing: string[]): string[]
-  Pick the voicing whose top note is closest to the top note of the last voicing. If there is no last voicing, it picks the first one. It sorts the given voicings in place and returns undefined if there are none.
+  Pick the voicing whose top note is closest to the top note of the last voicing (the first of them on a tie). If there is no last voicing, it picks the first one. It returns `[]` if there are no voicings, and doesn't change the given list.
   VoiceLeading.topNoteDiff([["C4", "E4", "G4"], ["E4", "G4", "C5"], ["G4", "C5", "E5"]], ["D4", "F4", "A4"]); // => ["C4", "E4", "G4"]
 
 ## Voicing

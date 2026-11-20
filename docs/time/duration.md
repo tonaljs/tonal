@@ -78,7 +78,7 @@ DurationValue.names(); // => ["large", "duplex longa", ...]
 Return all duration value shorthands
 
 ```js
-DurationValue.shorthands(); // => ["dl", "l", "d", "w", "h", "q", "e", "s", "t", "sf", "h", "th"]
+DurationValue.shorthands(); // => ["dl", "l", "d", "w", "h", "q", "e", "s", "t", "sf", "ht", "th"]
 ```
 
 ## References
