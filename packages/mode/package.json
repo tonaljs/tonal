@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/mode",
-  "version": "4.9.7",
+  "version": "4.9.8",
   "description": "Functions to work with musical modes",
   "keywords": [
     "mode",
@@ -20,7 +20,7 @@
     "@tonaljs/pitch-distance": "5.1.1",
     "@tonaljs/interval": "5.2.0",
     "@tonaljs/pcset": "4.10.6",
-    "@tonaljs/scale-type": "4.9.7"
+    "@tonaljs/scale-type": "4.10.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
