@@ -285,7 +285,7 @@ Chord.detect(source: string[], options?: Partial<DetectOptions>): string[]
   Find the chord symbols that have the notes of a list, best first. It returns `[]` if no chord matches or no note is valid.
   Chord.detect(["D", "F#", "A", "C"]); // => ["D7"]
   Chord.detect(["E4", "G4", "C5"]); // => ["CM/E", "Em#5"]
-  Chord.detect(["C", "E", "B"], { assumePerfectFifth: true }); // => ["Cmaj7"]
+  Chord.detect(["C", "E", "B"]); // => ["Cmaj7no5"]
 
 Chord.extended(chordName: string): string[]
   Get the symbols of the chords that have all the notes of a chord and at least one more, on the same tonic. It returns `[]` if the chord isn't valid. The opposite of `Chord.reduced`.

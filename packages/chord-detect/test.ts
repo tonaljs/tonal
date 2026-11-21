@@ -13,7 +13,9 @@ describe("@tonal/chord-detect", () => {
     expect(detect(["D", "F", "C"], { assumePerfectFifth: true })).toEqual([
       "Dm7",
     ]);
-    expect(detect(["D", "F", "C"], { assumePerfectFifth: false })).toEqual([]);
+    expect(detect(["D", "F", "C"], { assumePerfectFifth: false })).toEqual([
+      "Dm7no5",
+    ]);
     expect(detect(["D", "F", "A", "C"], { assumePerfectFifth: true })).toEqual([
       "Dm7",
       "F6/D",
@@ -24,6 +26,40 @@ describe("@tonal/chord-detect", () => {
     expect(detect(["D", "F", "Ab", "C"], { assumePerfectFifth: true })).toEqual(
       ["Dm7b5", "Fm6/D"],
     );
+  });
+
+  test("chords without their fifth", () => {
+    expect(detect(["C", "E", "B"])).toEqual(["Cmaj7no5"]);
+    expect(detect(["C", "Eb", "Bb"])).toEqual(["Cm7no5"]);
+    expect(detect(["C", "Eb", "Bb", "D"])).toEqual(["Cm9no5"]);
+    expect(detect(["C", "E", "B", "D"])).toEqual(["Cmaj9no5"]);
+    expect(detect(["C", "Eb", "B"])).toEqual(["CmMaj7no5"]);
+    expect(detect(["E", "C", "B"])).toEqual(["Cmaj7no5/E"]);
+    // listed types without fifth keep their name
+    expect(detect(["C", "E", "Bb"])).toEqual(["C7no5"]);
+    expect(detect(["C", "E", "Bb", "D"])).toEqual(["C9no5"]);
+    // notes with a name of their own over a root don't get one without fifth
+    expect(detect(["C", "E", "G#", "Bb"])).toEqual([
+      "C7#5",
+      "C7b13",
+      "G#M#5add9/C",
+    ]);
+    // they go after inversions with every note
+    expect(detect(["C", "F", "Bb", "Eb"], { exclude: ["quartal"] })).toEqual([
+      "F7sus4/C",
+      "Bbsus24/C",
+      "Cm7add11no5",
+    ]);
+    // triads and chords without seventh need their fifth
+    expect(detect(["C", "E"])).toEqual([]);
+    expect(detect(["C", "E", "D"])).toEqual([]);
+  });
+
+  test("missingFifth: false only names listed types", () => {
+    expect(detect(["C", "E", "B"], { missingFifth: false })).toEqual([]);
+    expect(detect(["C", "E", "Bb"], { missingFifth: false })).toEqual([
+      "C7no5",
+    ]);
   });
 
   test("(regression) detect aug", () => {
@@ -80,14 +116,15 @@ describe("@tonal/chord-detect", () => {
   });
 
   test("exclude chord types", () => {
-    expect(detect(["C", "F", "Bb", "Eb"], { exclude: ["quartal"] })).toEqual([
-      "F7sus4/C",
-      "Bbsus24/C",
-    ]);
-    expect(detect(["C", "F", "Bb", "Eb"], { exclude: ["4"] })).toEqual([
-      "F7sus4/C",
-      "Bbsus24/C",
-    ]);
+    expect(
+      detect(["C", "F", "Bb", "Eb"], {
+        exclude: ["quartal"],
+        missingFifth: false,
+      }),
+    ).toEqual(["F7sus4/C", "Bbsus24/C"]);
+    expect(
+      detect(["C", "F", "Bb", "Eb"], { exclude: ["4"], missingFifth: false }),
+    ).toEqual(["F7sus4/C", "Bbsus24/C"]);
     expect(detect(["E", "G", "C"], { exclude: ["minor augmented"] })).toEqual([
       "CM/E",
     ]);

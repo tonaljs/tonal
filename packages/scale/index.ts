@@ -575,7 +575,9 @@ const isCount = (n: number) => Number.isInteger(n) && n > 0;
 // major triad
 function chordSymbol(notes: string[]): string {
   const root = note(notes[0]).pc;
-  const symbol = detectChord(notes).find((name) => !name.includes("/"));
+  const symbol = detectChord(notes, { missingFifth: false }).find(
+    (name) => !name.includes("/"),
+  );
   if (!symbol) return "";
   const type = symbol.slice(root.length);
   return getChordType(type).name === "major" ? root : symbol;

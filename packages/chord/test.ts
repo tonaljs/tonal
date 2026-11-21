@@ -482,6 +482,57 @@ describe("tonal-chord", () => {
       expect(notes("Csus2sus4")).toEqual("C D F G");
     });
 
+    test("diminished ninth and eleventh", () => {
+      expect(notes("Cdim9")).toEqual("C Eb Gb Bbb D");
+      expect(notes("Co9")).toEqual("C Eb Gb Bbb D");
+      expect(notes("C°9")).toEqual("C Eb Gb Bbb D");
+      expect(notes("Cdim11")).toEqual("C Eb Gb Bbb D F");
+      expect(notes("Co11")).toEqual("C Eb Gb Bbb D F");
+      expect(Chord.get("Co9").intervals).toEqual(Chord.get("Co7(9)").intervals);
+      expect(Chord.get("Co11").intervals).toEqual(
+        Chord.get("Co7(9,11)").intervals,
+      );
+      expect(Chord.formula("Co11")).toEqual($("1 b3 b5 bb7 9 11"));
+      expect(Chord.get("Co9")).toMatchObject({
+        symbol: "Co9",
+        name: "Co9",
+        type: "",
+        quality: "Diminished",
+        family: "diminished",
+      });
+      // more tokens can follow, and a bass
+      expect(notes("Co9b13")).toEqual("C Eb Gb Bbb D Ab");
+      expect(notes("Co11/Eb")).toEqual("Eb Gb Bbb D F C");
+      // without a number, or in parentheses, the 9 is added to the triad
+      expect(notes("Co(9)")).toEqual("C Eb Gb D");
+      expect(notes("Cdimadd9")).toEqual("C Eb Gb D");
+    });
+
+    test("a diminished thirteenth is not a chord", () => {
+      // its 13th would be the diminished seventh
+      for (const symbol of ["Cdim13", "Co13", "C°13", "Co9(foo)", "Co91"]) {
+        expect(Chord.get(symbol).empty, symbol).toBe(true);
+      }
+    });
+
+    test("qualifiers separated by spaces", () => {
+      expect(Chord.get("Cm7 b9").symbol).toEqual("Cm7b9");
+      expect(notes("Cm7 b9")).toEqual(notes("Cm7b9"));
+      expect(notes("Cmin maj7")).toEqual("C Eb G B");
+      expect(Chord.get("Cmin maj7").type).toEqual("minor/major seventh");
+      expect(notes("Cmaj add 9")).toEqual("C E G D");
+      expect(notes("C7(#5) b9")).toEqual("C E G# Bb Db");
+      expect(notes("Co7 add11")).toEqual("C Eb Gb Bbb F");
+      expect(Chord.get("Cm7 b9/G").symbol).toEqual("Cm7b9/G");
+      expect(Chord.getChord("m7 b9", "D").symbol).toEqual("Dm7b9");
+      // names with spaces still work
+      expect(Chord.get("C major seventh").symbol).toEqual("Cmaj7");
+      // and removing spaces doesn't make a chord of what isn't one
+      for (const symbol of ["C7 maj7", "C7 9", "Cm7 foo"]) {
+        expect(Chord.get(symbol).empty, symbol).toBe(true);
+      }
+    });
+
     test("composed chord properties", () => {
       expect(Chord.get("Cm7b5b9")).toEqual({
         empty: false,
@@ -677,6 +728,35 @@ describe("tonal-chord", () => {
         });
       }
     }
+  });
+
+  test("every chord without its fifth is detected, and parses back", () => {
+    const tonics = "CDEFGAB".split("").flatMap((l) => [l + "b", l, l + "#"]);
+    const chroma = (notes: string[]) =>
+      [...new Set(notes.map((n) => note(n).chroma))].sort((a, b) => a - b);
+    const types = ChordType.all().filter(
+      ({ intervals }) =>
+        intervals.includes("5P") &&
+        intervals.some((ivl) => ["3m", "3M"].includes(ivl)) &&
+        intervals.some((ivl) => ["7m", "7M"].includes(ivl)),
+    );
+    for (const type of types) {
+      for (const tonic of tonics) {
+        const notes = Chord.getChord(type.aliases[0], tonic).notes;
+        const withoutFifth = notes.filter((_, i) => type.intervals[i] !== "5P");
+        const names = Chord.detect(withoutFifth);
+        expect(names.length, tonic + type.aliases[0]).toBeGreaterThan(0);
+        for (const name of names) {
+          const chord = Chord.get(name);
+          expect(chroma(chord.notes), name).toEqual(chroma(withoutFifth));
+          expect(note(chord.bass || chord.tonic!).chroma).toBe(
+            note(tonic).chroma,
+          );
+        }
+      }
+    }
+    expect(Chord.detect(["C", "Eb", "Bb", "D"])).toEqual(["Cm9no5"]);
+    expect(Chord.get("Cm9no5").notes).toEqual($("C Eb Bb D"));
   });
 
   test("detect puts only unusual types after other readings", () => {
