@@ -42,6 +42,14 @@ const FIFTHS = ["5d", "5A"];
 const BARE = ["6", "9", "11", "13"];
 const MAJOR_SEVENTH = ["maj7", "Maj7", "ma7", "M7", "Δ7", "^7"];
 
+// A diminished chord with an extension has the diminished seventh. Its 13th
+// would be the same note as the diminished seventh, so "dim13" isn't a chord
+const DIMINISHED_EXTENSION = /^(dim|o|°)(9|11)(?!\d)/;
+const EXTENSIONS: Record<string, string[]> = {
+  "9": ["9M"],
+  "11": ["9M", "11P"],
+};
+
 const TOKEN = /^(add)?([b#+]?\d+|no[35]|sus[24]?|maj7|Maj7|ma7|M7|Δ7|\^7)/;
 
 /**
@@ -49,11 +57,22 @@ const TOKEN = /^(add)?([b#+]?\d+|no[35]|sus[24]?|maj7|Maj7|ma7|M7|Δ7|\^7)/;
  * listed type followed by alteration tokens: `7b9#11`, `m7b5b9`, `7(b9,#9)`,
  * `7(no3)`, `dim(maj7)`, `maj7sus4`, `7sus2`.
  *
+ * A diminished chord with a ninth or an eleventh has the diminished seventh:
+ * `dim9` (or `o9`, `°9`) is `dim7(9)` and `dim11` is `dim7(9,11)`, and more
+ * tokens can follow (`o9b13`).
+ *
  * It returns undefined when the symbol can't be read that way, or when a token
  * would double an interval (`maj7maj7`, `sus4sus4`). When the resulting
  * intervals are a listed type, it returns that type.
  */
 export function composeChordType(symbol: string): ChordType | undefined {
+  const dim = DIMINISHED_EXTENSION.exec(symbol);
+  if (dim) {
+    const rest = symbol.slice(dim[0].length);
+    const changes = rest ? parseChanges(rest) : [];
+    const dim7 = getChordType("dim7").intervals;
+    return changes && compose([...dim7, ...EXTENSIONS[dim[2]]], changes);
+  }
   // Prefer the longest base: "m7b5b9" is "m7b5" plus "b9"
   for (let cut = symbol.length - 1; cut >= 0; cut--) {
     const rest = symbol.slice(cut);
@@ -62,16 +81,23 @@ export function composeChordType(symbol: string): ChordType | undefined {
     const base = getChordType(symbol.slice(0, cut));
     if (base.empty) continue;
     const changes = parseChanges(rest);
-    if (!changes) continue;
-    let intervals: string[] | undefined = base.intervals;
-    for (const change of changes) {
-      intervals = change(intervals);
-      if (!intervals) break;
-    }
-    if (!intervals || new Set(intervals).size !== intervals.length) continue;
-    return chordTypeOf(sortIntervals(intervals));
+    const composed = changes && compose(base.intervals, changes);
+    if (composed) return composed;
   }
   return undefined;
+}
+
+// Apply the changes to the intervals, or undefined if one can't apply or the
+// result doubles an interval
+function compose(base: string[], changes: Change[]): ChordType | undefined {
+  let intervals: string[] | undefined = base;
+  for (const change of changes) {
+    intervals = change(intervals);
+    if (!intervals) return undefined;
+  }
+  return new Set(intervals).size === intervals.length
+    ? chordTypeOf(sortIntervals(intervals))
+    : undefined;
 }
 
 // Parse the tokens after the base, bare or in parentheses separated by commas

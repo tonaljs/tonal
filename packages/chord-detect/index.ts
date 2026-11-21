@@ -58,7 +58,13 @@ const isUnusual = (chordType: ChordType): boolean => {
 };
 
 type DetectOptions = {
+  /** Name chords whose fifth is missing as if they had it, without `no5` */
   assumePerfectFifth: boolean;
+  /**
+   * Find chords with a third and a seventh whose perfect fifth is missing,
+   * named with `no5` (C E B is `Cmaj7no5`). `true` by default.
+   */
+  missingFifth: boolean;
   /** Chord types to leave out, by name or alias: `["quartal", "m#5"]` */
   exclude: string[];
 };
@@ -67,18 +73,25 @@ type DetectOptions = {
  * returns `[]` if no chord matches or no note is valid.
  *
  * The first note is the bass, or the lowest note if every note has an octave.
- * Names over the bass come first, then inversions (`"CM/E"`), then unusual
- * readings (Em#5 for E G C). Among names with the same notes and root, the one
- * whose intervals spell the given notes comes first.
+ * Names over the bass come first, then inversions (`"CM/E"`), then chords
+ * without their fifth (`"Cmaj7no5"`), then unusual readings (Em#5 for E G C).
+ * Among names with the same notes and root, the one whose intervals spell the
+ * given notes comes first.
  *
- * Options: `assumePerfectFifth` finds chords whose fifth is missing from the
- * notes, and `exclude` is a list of chord type names or symbols to leave out.
+ * A chord with a third and a seventh can miss its perfect fifth: when the
+ * notes over a root have no name of their own, they're named after the chord
+ * with the fifth added, with `no5`. Every name parses back with `Chord.get`.
+ *
+ * Options: `assumePerfectFifth` names those chords without `no5`,
+ * `missingFifth: false` leaves them out, and `exclude` is a list of chord type
+ * names or symbols to leave out.
  *
  * @example
  * Chord.detect(["D", "F#", "A", "C"]); // => ["D7"]
  * Chord.detect(["E4", "G4", "C5"]); // => ["CM/E", "Em#5"]
+ * Chord.detect(["C", "E", "B"]); // => ["Cmaj7no5"]
  * Chord.detect(["C", "E", "B"], { assumePerfectFifth: true }); // => ["Cmaj7"]
- * Chord.detect(["C", "F", "Bb", "Eb"], { exclude: ["quartal"] }); // => ["F7sus4/C", "Bbsus24/C"]
+ * Chord.detect(["C", "F", "Bb", "Eb"], { exclude: ["quartal"] }); // => ["F7sus4/C", "Bbsus24/C", "Cm7add11no5"]
  */
 export function detect(
   source: string[],
@@ -141,7 +154,15 @@ function withPerfectFifth(chroma: string): string {
     : (chromaNumber | 16).toString(2);
 }
 
+function addPerfectFifth(chroma: string): string {
+  return (parseInt(chroma, 2) | 16).toString(2);
+}
+
 /* tslint:enable:no-bitwise */
+
+// A reading without its perfect fifth goes after the inversions that have
+// every note, and before the unusual readings
+const NO_FIFTH = 0.4;
 
 type FindMatchesOptions = DetectOptions;
 function findMatches(
@@ -160,6 +181,42 @@ function findMatches(
     exclude.some((t) => t === chordType.name || chordType.aliases.includes(t));
 
   const found: FoundChord[] = [];
+  const add = (
+    chordTypes: ChordType[],
+    index: number,
+    readingWeight: number,
+    suffix = "",
+  ) => {
+    // Types with the same notes but other spellings: the type that spells
+    // more of the given notes goes first (Eb G B D is Ebmaj7#5, not EbM7b6)
+    const baseNote = noteName(index);
+    const spelled = (chordType: ChordType) =>
+      chordType.intervals.filter((ivl) =>
+        notes.includes(transpose(baseNote, ivl)),
+      ).length;
+    chordTypes.sort((a, b) => spelled(b) - spelled(a));
+
+    // Unusual readings go after the others, inversions included, unless the
+    // same notes over the same root have a usual name too
+    const rarity = chordTypes.every(isUnusual) ? 0.1 : 1;
+
+    chordTypes.forEach((chordType) => {
+      const chordName = chordType.aliases[0] + suffix;
+      const isInversion = index !== tonicChroma;
+      if (isInversion) {
+        found.push({
+          weight: 0.5 * rarity * readingWeight,
+          name: `${baseNote}${chordName}/${tonic}`,
+        });
+      } else {
+        found.push({
+          weight: rarity * readingWeight,
+          name: `${baseNote}${chordName}`,
+        });
+      }
+    });
+  };
+
   allModes.forEach((mode, index) => {
     const modeWithPerfectFifth =
       options.assumePerfectFifth && withPerfectFifth(mode);
@@ -175,34 +232,24 @@ function findMatches(
       return chordType.chroma === mode;
     });
 
-    // Types with the same notes but other spellings: the type that spells
-    // more of the given notes goes first (Eb G B D is Ebmaj7#5, not EbM7b6)
-    const baseNote = noteName(index);
-    const spelled = (chordType: ChordType) =>
-      chordType.intervals.filter((ivl) =>
-        notes.includes(transpose(baseNote, ivl)),
-      ).length;
-    chordTypes.sort((a, b) => spelled(b) - spelled(a));
+    add(chordTypes, index, weight);
 
-    // Unusual readings go after the others, inversions included, unless the
-    // same notes over the same root have a usual name too
-    const rarity = chordTypes.every(isUnusual) ? 0.1 : 1;
-
-    chordTypes.forEach((chordType) => {
-      const chordName = chordType.aliases[0];
-      const isInversion = index !== tonicChroma;
-      if (isInversion) {
-        found.push({
-          weight: 0.5 * rarity * weight,
-          name: `${baseNote}${chordName}/${tonic}`,
-        });
-      } else {
-        found.push({
-          weight: rarity * weight,
-          name: `${baseNote}${chordName}`,
-        });
-      }
-    });
+    // A chord with a third and a seventh is often played without its perfect
+    // fifth: C E B is Cmaj7no5. Notes with a name of their own keep it
+    if (
+      options.missingFifth !== false &&
+      !options.assumePerfectFifth &&
+      chordTypes.length === 0
+    ) {
+      const fifth = addPerfectFifth(mode);
+      const withoutFifth = all().filter(
+        (chordType) =>
+          !isExcluded(chordType) &&
+          hasAnyThirdAndPerfectFifthAndAnySeventh(chordType) &&
+          chordType.chroma === fifth,
+      );
+      add(withoutFifth, index, NO_FIFTH * weight, "no5");
+    }
   });
 
   return found;

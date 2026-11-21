@@ -129,7 +129,10 @@ function tokenizeBass(note: string, chord: string): ChordNameTokens {
  * `[tonic, type, bass]`. Without a tonic, the chord has intervals but no notes.
  * It returns `{ empty: true, ... }` if the symbol isn't valid.
  *
- * `"N.C."` ("no chord") isn't empty but has no notes.
+ * A symbol that isn't listed can be a listed type with alterations
+ * (`"Cm7b5b9"`, `"C7(b9,#9)"`, `"Co9"`), with or without spaces between them
+ * (`"Cm7 b9"` is `"Cm7b9"`). `"N.C."` ("no chord") isn't empty but has no
+ * notes.
  *
  * Use `Chord.getChord` when the type, tonic and bass are already separated.
  *
@@ -137,6 +140,8 @@ function tokenizeBass(note: string, chord: string): ChordNameTokens {
  * Chord.get("Cmaj7").notes; // => ["C", "E", "G", "B"]
  * Chord.get("C7/E").notes; // => ["E", "G", "Bb", "C"]
  * Chord.get(["C", "maj7"]).symbol; // => "Cmaj7"
+ * Chord.get("Cm7 b9").symbol; // => "Cm7b9"
+ * Chord.get("Co9").notes; // => ["C", "Eb", "Gb", "Bbb", "D"]
  * Chord.get("nonsense").empty; // => true
  */
 export function get(src: ChordNameOrTokens): Chord {
@@ -175,9 +180,16 @@ export function getChord(
   if (!optionalTonic && !optionalBass && isNoChord(typeName)) {
     return NoChordSymbol;
   }
-  const listed = getChordType(typeName);
+  let listed = getChordType(typeName);
   // Symbols that aren't listed can be a listed type plus alterations
-  const composed = listed.empty ? composeChordType(typeName) : undefined;
+  let composed = listed.empty ? composeChordType(typeName) : undefined;
+  // Qualifiers can be separated by spaces, as in "m7 b9" or "min maj7"
+  const compact = typeName.replace(/\s+/g, "");
+  if (listed.empty && !composed && compact !== typeName) {
+    typeName = compact;
+    listed = getChordType(typeName);
+    composed = listed.empty ? composeChordType(typeName) : undefined;
+  }
   const type = composed || listed;
   const tonic = note(optionalTonic || "");
   const bass = note(optionalBass || "");

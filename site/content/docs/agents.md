@@ -115,8 +115,9 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   `"4"` is an alias of the quartal chord). For notes with octaves, pass the
   tonic separately: `Chord.notes("Cmaj7", "C4")` or `Chord.notes("maj7", "C4")`.
 - Chord names accept the usual symbols and aliases (`"CM7"`, `"CΔ"`, `"C^7"`,
-  `"C-7"`, `"Cø"`, `"Cm7b5"`, `"C7(b9,#9)"`). Check `.empty` for symbols you
-  aren't sure of. `ChordType.get("maj7").aliases` lists the aliases of a type.
+  `"C-7"`, `"Cø"`, `"Cm7b5"`, `"C7(b9,#9)"`, `"Co9"`, and spaced qualifiers
+  like `"Cm7 b9"`, which is `"Cm7b9"`). Check `.empty` for symbols you aren't
+  sure of. `ChordType.get("maj7").aliases` lists the aliases of a type.
 - `Chord.detect` returns names, best match first, and the lowest note is the
   bass. A major triad is named `"CM"`, not `"C"`:
 
@@ -124,6 +125,11 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   Chord.detect(["E4", "G4", "C5"]); // => ["CM/E", "Em#5"]
   Chord.detect(["C", "Eb", "G", "Bb"]); // => ["Cm7", "Eb6/C"]
   ```
+
+  Chords played without their fifth are named with `no5`
+  (`Chord.detect(["C", "E", "B"])` is `["Cmaj7no5"]`). Pass
+  `{ missingFifth: false }` for names of listed chord types only, or
+  `{ assumePerfectFifth: true }` to get `"Cmaj7"`.
 
 - Chord degrees by name (counted from the major scale of the root, as in chord
   symbols): `Chord.formula`, `Chord.noteOf`, `Chord.degreeOf`.
