@@ -1409,6 +1409,8 @@ type Scale = {
   notes: string[];
   name: string;
   aliases: string[];
+  family: string;
+  degree: number;
   empty: boolean;
   setNum: number;
   chroma: string;
@@ -1438,14 +1440,14 @@ ScaleType.addAlias(scale: ScaleType, alias: string): void
 
 ScaleType.all(): ScaleType[]
   Get a copy of the list of all scale types in the dictionary.
-  ScaleType.all().length; // => 92
+  ScaleType.all().length; // => 110
   ScaleType.all()[0].name; // => "major pentatonic"
 
 ScaleType.entries(): ScaleType[]
   [deprecated] Use ScaleType.all instead.
 
 ScaleType.get(type: ScaleTypeName): ScaleType
-  Get a scale type (a scale without tonic) by its name, alias, chroma or set number. It returns an empty scale type (`{ empty: true, ... }`) if it's not in the dictionary. The type has `name`, `aliases` and `intervals`. To get a scale with notes, use `Scale.get`.
+  Get a scale type (a scale without tonic) by its name, alias, chroma or set number. It returns an empty scale type (`{ empty: true, ... }`) if it's not in the dictionary. The type has `name`, `aliases` and `intervals`, and `family` and `degree` when it's a mode of a parent scale like "harmonic major". To get a scale with notes, use `Scale.get`.
   ScaleType.get("major").name; // => "major"
   ScaleType.get("ionian").name; // => "major"
   ScaleType.get("dorian").intervals; // => ["1P", "2M", "3m", "4P", "5P", "6M", "7m"]
@@ -1473,6 +1475,8 @@ Types:
 type ScaleType = {
   name: string;
   aliases: string[];
+  family: string;
+  degree: number;
   empty: boolean;
   setNum: number;
   chroma: string;

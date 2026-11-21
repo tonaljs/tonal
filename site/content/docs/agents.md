@@ -170,7 +170,9 @@ Key.minorKey("A").harmonic.chords; // => ["AmMaj7", "Bm7b5", "C+maj7", "Dm7", "E
   fit a scale, use `Scale.scaleChords`; for the chord on each degree,
   `Scale.chords`.
 - `Mode` is about the seven Greek modes (`Mode.names()`); for other scales
-  use `Scale`.
+  use `Scale`. `Scale.modeNames("C harmonic major")` names the modes of any
+  scale, and a scale type that is a mode of a parent scale has `family` and
+  `degree`: `ScaleType.get("dorian b5")` is degree 2 of `"harmonic major"`.
 
 ## Roman numerals and progressions
 

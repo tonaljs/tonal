@@ -1,11 +1,12 @@
 import {
   EmptyPcset,
+  modes,
   get as pcset,
   Pcset,
   PcsetChroma,
   PcsetNum,
 } from "@tonaljs/pcset";
-import data from "./data";
+import data, { FAMILIES } from "./data";
 
 /**
  * Properties for a scale in the scale dictionary. It's a pitch class set
@@ -13,17 +14,36 @@ import data from "./data";
  * - name: the scale name
  * - aliases: alternative list of names
  * - intervals: an array of interval names
+ * - family: the parent scale it's a mode of ("" if it's not a mode of one of
+ *   tonal's families: major, melodic minor, harmonic minor, harmonic major,
+ *   neapolitan major, neapolitan minor, double harmonic major and major
+ *   pentatonic)
+ * - degree: the degree of the parent scale the mode starts on, from 1 (0 if it
+ *   has no family)
  */
 export interface ScaleType extends Pcset {
   readonly name: string;
   readonly aliases: string[];
+  readonly family: string;
+  readonly degree: number;
 }
 
 export const NoScaleType: ScaleType = {
   ...EmptyPcset,
   intervals: [],
   aliases: [],
+  family: "",
+  degree: 0,
 };
+
+type Family = { family: string; degree: number };
+const NoFamily: Family = { family: "", degree: 0 };
+const families: Record<PcsetChroma, Family> = Object.create(null);
+FAMILIES.forEach(([ivls, family]) => {
+  modes(ivls.split(" ")).forEach((chroma, i) => {
+    families[chroma] = { family, degree: i + 1 };
+  });
+});
 
 type ScaleTypeName = string | PcsetChroma | PcsetNum;
 
@@ -44,8 +64,9 @@ export function names() {
 /**
  * Get a scale type (a scale without tonic) by its name, alias, chroma or set
  * number. It returns an empty scale type (`{ empty: true, ... }`) if it's not in
- * the dictionary. The type has `name`, `aliases` and `intervals`. To get a
- * scale with notes, use `Scale.get`.
+ * the dictionary. The type has `name`, `aliases` and `intervals`, and `family`
+ * and `degree` when it's a mode of a parent scale like "harmonic major".
+ * To get a scale with notes, use `Scale.get`.
  *
  * @param {string | number} type - scale type name or alias, pitch class set
  * chroma or set number
@@ -54,6 +75,8 @@ export function names() {
  * ScaleType.get("ionian").name; // => "major"
  * ScaleType.get("dorian").intervals; // => ["1P", "2M", "3m", "4P", "5P", "6M", "7m"]
  * ScaleType.get("101010110101").name; // => "lydian"
+ * ScaleType.get("dorian b5").family; // => "harmonic major"
+ * ScaleType.get("dorian b5").degree; // => 2
  * ScaleType.get("nonsense").empty; // => true
  */
 export function get(type: ScaleTypeName): ScaleType {
@@ -69,7 +92,7 @@ export const scaleType = get;
  * Get a copy of the list of all scale types in the dictionary.
  *
  * @example
- * ScaleType.all().length; // => 92
+ * ScaleType.all().length; // => 110
  * ScaleType.all()[0].name; // => "major pentatonic"
  */
 export function all() {
@@ -118,7 +141,9 @@ export function add(
   name: string,
   aliases: string[] = [],
 ): ScaleType {
-  const scale = { ...pcset(intervals), name, intervals, aliases };
+  const set = pcset(intervals);
+  const family = families[set.chroma] || NoFamily;
+  const scale = { ...set, name, intervals, aliases, ...family };
   dictionary.push(scale);
   index[scale.name] = scale;
   index[scale.setNum] = scale;

@@ -19,6 +19,8 @@ describe("@tonaljs/scale", () => {
       name: "major",
       intervals: ["1P", "2M", "3M", "4P", "5P", "6M", "7M"],
       aliases: ["ionian"],
+      family: "major",
+      degree: 1,
       setNum: 2773,
       chroma: "101011010101",
       normalized: "101010110101",
@@ -31,6 +33,8 @@ describe("@tonaljs/scale", () => {
       notes: ["C5", "D5", "E5", "G5", "A5"],
       intervals: ["1P", "2M", "3M", "5P", "6M"],
       aliases: ["pentatonic"],
+      family: "major pentatonic",
+      degree: 1,
       setNum: 2708,
       chroma: "101010010100",
       normalized: "100101001010",
@@ -313,6 +317,58 @@ describe("@tonaljs/scale", () => {
     ]);
     expect(Scale.modeNames("C whole tone pentatonic")).toEqual([
       ["C", "whole tone pentatonic"],
+    ]);
+    expect(Scale.modeNames("C harmonic major")).toEqual([
+      ["C", "harmonic major"],
+      ["D", "dorian b5"],
+      ["E", "phrygian b4"],
+      ["F", "lydian diminished"],
+      ["G", "mixolydian b2"],
+      ["Ab", "lydian augmented #2"],
+      ["B", "locrian bb7"],
+    ]);
+  });
+
+  test("modeNames of every seven-note family", () => {
+    for (const family of [
+      "major",
+      "melodic minor",
+      "harmonic minor",
+      "harmonic major",
+      "neapolitan major",
+      "neapolitan minor",
+      "double harmonic major",
+    ]) {
+      expect(Scale.modeNames(family)).toHaveLength(7);
+    }
+  });
+
+  test("balinese is an alias of neapolitan minor", () => {
+    expect(Scale.get("C balinese")).toMatchObject({
+      name: "C neapolitan minor",
+      type: "neapolitan minor",
+      notes: ["C", "Db", "Eb", "F", "G", "Ab", "B"],
+    });
+  });
+
+  test("the notes of a new mode", () => {
+    expect(Scale.get("D dorian b5").notes).toEqual([
+      "D",
+      "E",
+      "F",
+      "G",
+      "Ab",
+      "B",
+      "C",
+    ]);
+    expect(Scale.get("B altered bb3").notes).toEqual([
+      "B",
+      "C",
+      "Db",
+      "Eb",
+      "F",
+      "G",
+      "A",
     ]);
   });
 

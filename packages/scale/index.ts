@@ -45,6 +45,8 @@ const NoScale: Scale = {
   aliases: [],
   notes: [],
   intervals: [],
+  family: "",
+  degree: 0,
 };
 
 /**
