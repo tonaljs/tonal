@@ -299,7 +299,7 @@ export function transpose(chordName: string, interval: string): string {
  * type names without tonic. It returns `[]` if the chord isn't valid.
  *
  * @example
- * Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
+ * Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "phrygian b4", "mixolydian b2", "spanish heptatonic", "half-whole diminished", "chromatic"]
  */
 export function chordScales(name: string): string[] {
   const s = get(name);
