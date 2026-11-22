@@ -1,5 +1,12 @@
 # @tonaljs/scale-dictionary
 
+## 4.8.13
+
+### Patch Changes
+
+- Updated dependencies [3456e6c]
+  - @tonaljs/scale-type@4.10.0
+
 ## 4.8.12
 
 ### Patch Changes

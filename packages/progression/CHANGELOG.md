@@ -1,5 +1,14 @@
 # @tonaljs/progression
 
+## 4.11.3
+
+### Patch Changes
+
+- Updated dependencies [a13e397]
+- Updated dependencies [94b2e44]
+  - @tonaljs/chord-type@5.4.0
+  - @tonaljs/chord@6.4.0
+
 ## 4.11.2
 
 ### Patch Changes

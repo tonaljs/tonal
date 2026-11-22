@@ -1,5 +1,41 @@
 # tonal
 
+## 6.9.0
+
+### Minor Changes
+
+- a13e397: `ChordType.complexity(intervals)`, and a `complexity` property on every chord type and chord: the number of notes added to a triad, plus two for each chromatic note (a note, as spelled, outside the major scale that holds most of the chord). `m` is 0, `m7b5` 1, `maj9` 2, `dim7` 3, `7b9#11` 7. Sorting by it lists the common chord types first.
+
+  `Scale.outside(scale, chord)` returns the notes of a chord that aren't in a scale, spelled as in the chord: `Scale.outside("C major", "Bb7")` is `["Bb", "Ab"]`, and `[]` when the chord fits. The scale and the chord can also be note lists.
+
+- 3456e6c: Every mode of the harmonic major, neapolitan major, neapolitan minor and double harmonic major scales has a name now. 18 new scale types: dorian b5, phrygian b4, mixolydian b2, lydian augmented #2, locrian bb7 (harmonic major); lydian augmented dominant, locrian #2 b4, altered bb3 (neapolitan major); lydian #6, mixolydian augmented, aeolian #4, locrian dominant, ionian #2, ultralocrian bb3 (neapolitan minor); lydian #2 #6, ultraphrygian, ionian augmented #2, locrian bb3 bb7 (double harmonic major). So `Scale.modeNames("C harmonic major")` names all seven modes.
+
+  Scale types (and scales) have `family` and `degree`: the parent scale they're a mode of and the degree they start on, or `""` and `0`. The families are major, melodic minor, harmonic minor, harmonic major, neapolitan major, neapolitan minor, double harmonic major and major pentatonic: `ScaleType.get("dorian b5")` is degree 2 of "harmonic major".
+
+  "balinese" is now named "neapolitan minor", its usual name and its family's name; "balinese" stays as an alias, so `Scale.get("C balinese")` still works, but its `name` and `type` are "C neapolitan minor" and "neapolitan minor", and `Scale.names()`, `Scale.detect` and `Scale.modeNames` give the new name.
+
+  New aliases: "lydian b3" (lydian diminished), "lydian augmented #6" (leading whole tone), "byzantine" and "gypsy major" (double harmonic major), "freygish" and "spanish gypsy" (phrygian dominant). The other names and aliases are unchanged. More scales also means more results from functions that search the dictionary: `Chord.chordScales("C7b9")` now includes mixolydian b2 and phrygian b4.
+
+- 94b2e44: Diminished ninth and eleventh chords: `Chord.get("Co9")` (or `Cdim9`, `C°9`) is the diminished seventh with a 9th, `["C", "Eb", "Gb", "Bbb", "D"]`, and `Co11` adds the 11th too. More tokens can follow (`Co9b13`). `Cdim13` stays empty: its 13th would be the same note as the diminished seventh.
+
+  Chord symbols can have spaces between their qualifiers: `Chord.get("Cm7 b9")` is `Cm7b9`, and `Cmin maj7`, `Cmaj add 9` and `C7(#5) b9` work too. The spaces are removed only when the symbol with them isn't a chord, so names like `"C major seventh"` are unchanged, and the symbol is written without them.
+
+  `Chord.detect` finds chords played without their fifth. When the notes over a root have no name of their own but a chord with a third, a perfect fifth and a seventh has them plus the fifth, it's named with `no5`: `Chord.detect(["C", "E", "B"])` is `["Cmaj7no5"]` (it was `[]`), and C Eb Bb D is `Cm9no5`. These names go after the inversions with every note and before unusual readings, and parse back with `Chord.get`. Listed types without fifth keep their name (`C7no5`, `C9no5`). The new `missingFifth: false` option leaves them out; `assumePerfectFifth` works as before. `Scale.chords` only names listed chord types, as before.
+
+### Patch Changes
+
+- Updated dependencies [a13e397]
+- Updated dependencies [3456e6c]
+- Updated dependencies [94b2e44]
+  - @tonaljs/chord-type@5.4.0
+  - @tonaljs/chord@6.4.0
+  - @tonaljs/scale@4.15.0
+  - @tonaljs/scale-type@4.10.0
+  - @tonaljs/progression@4.11.3
+  - @tonaljs/voicing@5.2.3
+  - @tonaljs/voicing-dictionary@5.1.10
+  - @tonaljs/mode@4.9.8
+
 ## 6.8.0
 
 ### Minor Changes
