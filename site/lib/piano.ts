@@ -57,6 +57,32 @@ export async function playChords(
   });
 }
 
+export type TimedNotes = {
+  /** Notes played together (none is a rest) */
+  notes: (string | number)[];
+  /** Seconds until the next ones */
+  duration: number;
+};
+
+/** Play groups of notes one after the other, each for its own duration. */
+export async function playTimeline(steps: TimedNotes[]): Promise<void> {
+  const piano = await loadPiano();
+  const now = context!.currentTime;
+  piano.stop();
+  let time = now;
+  for (const { notes, duration } of steps) {
+    notes.forEach((note, j) => {
+      piano.start({
+        note,
+        velocity: 76,
+        time: time + j * 0.012,
+        duration: duration * 1.1,
+      });
+    });
+    time += duration;
+  }
+}
+
 /** Play note names (with octave) or midi numbers. Resolves once they start. */
 export async function playNotes(
   notes: (string | number)[],

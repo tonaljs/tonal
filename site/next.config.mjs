@@ -10,6 +10,8 @@ const config = {
   // at the same url (next to the page .html, export also writes a folder)
   trailingSlash: true,
   reactStrictMode: true,
+  // don't write AGENTS.md on every `next dev`
+  agentRules: false,
   images: {
     unoptimized: true,
   },
