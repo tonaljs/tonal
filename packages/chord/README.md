@@ -4,7 +4,7 @@
 import { Chord } from "tonal";
 
 Chord.get("Cmaj7").notes; // => ["C", "E", "G", "B"]
-Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
+Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "phrygian b4", "mixolydian b2", "spanish heptatonic", "half-whole diminished", "chromatic"]
 ```
 
 ## Usage
@@ -351,7 +351,7 @@ Chord.transpose("Eb7b9", "5P"); // => "Bb7b9"
 Get all scales where the given chord fits:
 
 ```js
-Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
+Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "phrygian b4", "mixolydian b2", "spanish heptatonic", "half-whole diminished", "chromatic"]
 ```
 
 ### `Chord.extended`

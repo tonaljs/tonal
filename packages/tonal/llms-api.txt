@@ -261,7 +261,7 @@ Chord.chord(src: ChordNameOrTokens): Chord
 
 Chord.chordScales(name: string): string[]
   Get the names of the scale types that contain all the notes of a chord, as type names without tonic. It returns `[]` if the chord isn't valid.
-  Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
+  Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "phrygian b4", "mixolydian b2", "spanish heptatonic", "half-whole diminished", "chromatic"]
 
 Chord.degreeOf(chordName: ChordNameOrTokens, noteName: NoteName): ChordDegreeName
   Get the degree name that a note plays in a chord, counted from the major scale of the root (the bass of a slash chord doesn't change it). The opposite of `Chord.noteOf`.
