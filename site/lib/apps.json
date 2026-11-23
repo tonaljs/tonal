@@ -4,8 +4,14 @@
     "title": "Chord finder",
     "description": "Play or type some notes to get the chord name, or type a chord symbol to get its notes.",
     "docs": [
-      { "title": "Chords", "url": "/docs/groups/chords" },
-      { "title": "Chord detection", "url": "/docs/groups/chord-detection" }
+      {
+        "title": "Chords",
+        "url": "/docs/groups/chords"
+      },
+      {
+        "title": "Chord detection",
+        "url": "/docs/groups/chord-detection"
+      }
     ]
   },
   {
@@ -13,8 +19,63 @@
     "title": "Scale chords",
     "description": "Pick a tonic and any of 92 scales to see the chord on each degree: triads, sevenths, or chords stacked in fourths or seconds.",
     "docs": [
-      { "title": "Scales", "url": "/docs/groups/scales" },
-      { "title": "Scale dictionary", "url": "/docs/dictionaries/scale-types" }
+      {
+        "title": "Scales",
+        "url": "/docs/groups/scales"
+      },
+      {
+        "title": "Scale dictionary",
+        "url": "/docs/dictionaries/scale-types"
+      }
+    ]
+  },
+  {
+    "slug": "chart-reader",
+    "title": "Chart reader",
+    "description": "Paste a chord chart to read every symbol: notes, family, complexity and roman numerals in a key, with applied dominants. Transpose it and play it.",
+    "docs": [
+      {
+        "title": "Chords",
+        "url": "/docs/groups/chords"
+      },
+      {
+        "title": "Progressions",
+        "url": "/docs/harmony/progressions"
+      },
+      {
+        "title": "Roman numerals",
+        "url": "/docs/notation/roman-numerals"
+      }
+    ]
+  },
+  {
+    "slug": "scale-families",
+    "title": "Scale families",
+    "description": "The seven modes of the major, melodic minor, harmonic minor and other scale families, side by side, and which of them fit a chord.",
+    "docs": [
+      {
+        "title": "Scale dictionary",
+        "url": "/docs/dictionaries/scale-types"
+      },
+      {
+        "title": "Scales",
+        "url": "/docs/groups/scales"
+      }
+    ]
+  },
+  {
+    "slug": "scale-harmonizer",
+    "title": "Scale harmonizer",
+    "description": "Add voices in thirds, sixths or tenths that stay in a scale to a melody, and see how consonant each interval is.",
+    "docs": [
+      {
+        "title": "Scales",
+        "url": "/docs/groups/scales"
+      },
+      {
+        "title": "Intervals",
+        "url": "/docs/basics/intervals"
+      }
     ]
   }
 ]

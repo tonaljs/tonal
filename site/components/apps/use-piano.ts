@@ -1,7 +1,13 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { type PlayOptions, playChords, playNotes } from "@/lib/piano";
+import {
+  type PlayOptions,
+  playChords,
+  playNotes,
+  playTimeline,
+  type TimedNotes,
+} from "@/lib/piano";
 
 export type PianoStatus = "idle" | "loading" | "ready" | "error";
 
@@ -31,5 +37,12 @@ export function usePiano() {
     [track],
   );
 
-  return { status, play, playSequence };
+  const playSteps = useCallback(
+    (steps: TimedNotes[]) => {
+      if (steps.length) track(playTimeline(steps));
+    },
+    [track],
+  );
+
+  return { status, play, playSequence, playSteps };
 }

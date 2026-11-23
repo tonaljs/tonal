@@ -3,7 +3,8 @@
     "page": "basics/intervals.md",
     "readme": "interval",
     "title": "Intervals",
-    "description": "Calculate and manipulate intervals"
+    "description": "Calculate and manipulate intervals",
+    "apps": ["scale-harmonizer"]
   },
   {
     "page": "basics/midi.md",
@@ -27,14 +28,15 @@
     "page": "dictionaries/scale-types.md",
     "readme": "scale-type",
     "title": "Scale dictionary",
-    "description": "A dictionary of musical scales."
+    "description": "A dictionary of musical scales.",
+    "apps": ["scale-families"]
   },
   {
     "page": "groups/chords.md",
     "readme": "chord",
     "title": "Chords",
     "description": "Get and manipulate chords",
-    "apps": ["chord-finder"]
+    "apps": ["chord-finder", "chart-reader"]
   },
   {
     "page": "groups/chord-detection.md",
@@ -54,7 +56,7 @@
     "readme": "scale",
     "title": "Scales",
     "description": "Work with scales",
-    "apps": ["scale-chords"]
+    "apps": ["scale-chords", "scale-families", "scale-harmonizer"]
   },
   {
     "page": "harmony/keys.md",
@@ -72,7 +74,8 @@
     "page": "harmony/progressions.md",
     "readme": "progression",
     "title": "Progressions",
-    "description": "Parse and create harmonic progressions"
+    "description": "Parse and create harmonic progressions",
+    "apps": ["chart-reader"]
   },
   {
     "page": "notation/abc-notation.md",
@@ -84,7 +87,8 @@
     "page": "notation/roman-numerals.md",
     "readme": "roman-numeral",
     "title": "Roman Numerals",
-    "description": "Functions to parse roman numerals"
+    "description": "Functions to parse roman numerals",
+    "apps": ["chart-reader"]
   },
   {
     "page": "time/duration.md",

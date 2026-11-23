@@ -3,6 +3,7 @@
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Chord, Note } from "tonal";
+import { voice } from "@/lib/voice";
 import { keyboardRange, PianoKeyboard } from "./piano-keyboard";
 import { useMidiInput } from "./use-midi";
 import { usePiano } from "./use-piano";
@@ -12,11 +13,14 @@ const DEFAULT_NOTES = ["C4", "E4", "G4", "B4"];
 const EXAMPLES = [
   "E3 G3 C4",
   "C E G Bb D",
+  "C E B",
   "F# A C Eb",
   "C D G",
   "Cm7b5/Gb",
   "Ab13",
   "C7#9",
+  "Co9",
+  "Cm7 b9",
 ];
 
 type Spelling = "flat" | "sharp";
@@ -24,23 +28,6 @@ type Labels = "degrees" | "notes";
 
 // What the chord finder looks at: notes, and the chord symbol if one was typed
 type Query = { notes: string[]; chord?: string };
-
-// Give an octave to the notes without one, each above the previous note, so
-// the first note is the bass.
-function voice(names: string[]): string[] {
-  let previous = -Infinity;
-  return names.map((name) => {
-    const note = Note.get(name);
-    if (note.oct !== undefined) {
-      previous = note.height;
-      return note.name;
-    }
-    let oct = 3;
-    while (oct < 9 && Note.get(note.pc + oct).height <= previous) oct++;
-    previous = Note.get(note.pc + oct).height;
-    return note.pc + oct;
-  });
-}
 
 // Several notes ("C E G", "C4,E4,G4") or one chord symbol ("Cmaj7", "C/E")
 function parseText(text: string): Query | null {
@@ -270,10 +257,7 @@ export function ChordFinder() {
         </p>
       ) : !chord ? (
         <p className="text-fd-muted-foreground">
-          No chord has exactly these notes.{" "}
-          {notes.length > 2 && !assumePerfectFifth
-            ? "Without a fifth, try “Assume a perfect fifth”."
-            : null}
+          No chord has exactly these notes.
         </p>
       ) : (
         <ChordDetails
@@ -325,6 +309,8 @@ function ChordDetails({
   const scales = Chord.chordScales(current);
   const symbol = (alias: string) =>
     (chord.tonic ?? "") + alias + (chord.bass ? `/${chord.bass}` : "");
+  // a chord played without its fifth: the same name without "no5"
+  const withFifth = withoutFifthOf(current);
 
   return (
     <section className="flex flex-col gap-4 rounded-xl border border-fd-border bg-fd-card p-4 md:p-6">
@@ -381,6 +367,21 @@ function ChordDetails({
         </div>
       ) : null}
 
+      {withFifth ? (
+        <p className="text-sm">
+          <span className="text-fd-muted-foreground">
+            Played without its fifth. With it, it's{" "}
+          </span>
+          <button
+            type="button"
+            className="rounded-md bg-fd-secondary px-2 py-0.5 font-mono hover:bg-fd-accent"
+            onClick={() => onChord(withFifth)}
+          >
+            {withFifth}
+          </button>
+        </p>
+      ) : null}
+
       <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-sm">
         <Row term="Notes">{notes.join(" ")}</Row>
         <Row term="Chord notes">{chord.notes.join(" ")}</Row>
@@ -389,6 +390,7 @@ function ChordDetails({
         <Row term="Most important">
           {Chord.degreesByImportance(current).join(" ")}
         </Row>
+        <Row term="Complexity">{chord.complexity}</Row>
         <Row term="Also written">
           {chord.aliases
             .map(symbol)
@@ -412,6 +414,15 @@ function ChordDetails({
       ) : null}
     </section>
   );
+}
+
+// "Cmaj7no5/E" is "Cmaj7/E" without its fifth
+function withoutFifthOf(name: string): string | null {
+  const [tonic, type, bass] = Chord.tokenize(name);
+  if (!type.endsWith("no5")) return null;
+  const full = `${tonic}${type.slice(0, -3)}${bass ? `/${bass}` : ""}`;
+  const chord = Chord.get(full);
+  return chord.empty || !chord.intervals.includes("5P") ? null : full;
 }
 
 function MidiControl({
@@ -547,6 +558,7 @@ function code(
       `chord.name; // => ${show(chord.name)}`,
       `chord.intervals; // => ${show(chord.intervals)}`,
       `chord.family; // => ${show(chord.family)}`,
+      `chord.complexity; // => ${chord.complexity}`,
       `Chord.formula(${name}); // => ${show(Chord.formula(current))}`,
       `Chord.degreesByImportance(${name}); // => ${show(Chord.degreesByImportance(current))}`,
       `Chord.degreeOf(${name}, ${show(query.notes[0])}); // => ${show(Chord.degreeOf(current, query.notes[0]))}`,
