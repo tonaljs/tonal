@@ -2,6 +2,8 @@
 
 > Parse and create harmonic progressions
 
+> **Try it:** [Chart reader](https://tonaljs.github.io/tonal/apps/chart-reader/). Paste a chord chart to read every symbol: notes, family, complexity and roman numerals in a key, with applied dominants. Transpose it and play it.
+
 ```js
 import { Progression } from "tonal";
 

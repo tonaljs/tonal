@@ -114,8 +114,9 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   `"4"` is an alias of the quartal chord). For notes with octaves, pass the
   tonic separately: `Chord.notes("Cmaj7", "C4")` or `Chord.notes("maj7", "C4")`.
 - Chord names accept the usual symbols and aliases (`"CM7"`, `"CΔ"`, `"C^7"`,
-  `"C-7"`, `"Cø"`, `"Cm7b5"`, `"C7(b9,#9)"`). Check `.empty` for symbols you
-  aren't sure of. `ChordType.get("maj7").aliases` lists the aliases of a type.
+  `"C-7"`, `"Cø"`, `"Cm7b5"`, `"C7(b9,#9)"`, `"Co9"`, and spaced qualifiers
+  like `"Cm7 b9"`, which is `"Cm7b9"`). Check `.empty` for symbols you aren't
+  sure of. `ChordType.get("maj7").aliases` lists the aliases of a type.
 - `Chord.detect` returns names, best match first, and the lowest note is the
   bass. A major triad is named `"CM"`, not `"C"`:
 
@@ -123,6 +124,11 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   Chord.detect(["E4", "G4", "C5"]); // => ["CM/E", "Em#5"]
   Chord.detect(["C", "Eb", "G", "Bb"]); // => ["Cm7", "Eb6/C"]
   ```
+
+  Chords played without their fifth are named with `no5`
+  (`Chord.detect(["C", "E", "B"])` is `["Cmaj7no5"]`). Pass
+  `{ missingFifth: false }` for names of listed chord types only, or
+  `{ assumePerfectFifth: true }` to get `"Cmaj7"`.
 
 - Chord degrees by name (counted from the major scale of the root, as in chord
   symbols): `Chord.formula`, `Chord.noteOf`, `Chord.degreeOf`.
@@ -134,6 +140,11 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   Chord.noteOf("G13", "3"); // => "B"
   Chord.degreesByImportance("G13"); // => ["3", "b7", "9", "1", "5", "13"]
   ```
+
+- `Chord.get(name).complexity` (or `ChordType.get(type).complexity`) is the
+  number of notes added to a triad plus two for each chromatic note (outside
+  the major scale that holds most of the chord, as spelled): `m` is 0, `m7`
+  1, `dim7` 3, `7b9#11` 7. Sort by it to list common chords first.
 
 - `Chord.degrees` and `Chord.steps` are different: they count chord notes by
   position (1 or 0 is the root), not degrees by name. `Chord.degrees("C")(3)`
@@ -158,8 +169,15 @@ Key.minorKey("A").harmonic.chords; // => ["AmMaj7", "Bm7b5", "C+maj7", "Dm7", "E
   and substitute dominants). A minor key has three scales: `natural`,
   `harmonic` and `melodic`. In `secondaryDominants` and similar lists, `""`
   means the degree has none.
+- `Scale.outside(scale, chord)` lists the chord notes that aren't in the
+  scale, spelled as in the chord: `Scale.outside("C major", "Bb7")` is
+  `["Bb", "Ab"]`, and `[]` when the chord fits. To list the chord types that
+  fit a scale, use `Scale.scaleChords`; for the chord on each degree,
+  `Scale.chords`.
 - `Mode` is about the seven Greek modes (`Mode.names()`); for other scales
-  use `Scale`.
+  use `Scale`. `Scale.modeNames("C harmonic major")` names the modes of any
+  scale, and a scale type that is a mode of a parent scale has `family` and
+  `degree`: `ScaleType.get("dorian b5")` is degree 2 of `"harmonic major"`.
 
 ## Roman numerals and progressions
 

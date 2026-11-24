@@ -3,12 +3,13 @@
 > Get and manipulate chords
 
 > **Try it:** [Chord finder](https://tonaljs.github.io/tonal/apps/chord-finder/). Play or type some notes to get the chord name, or type a chord symbol to get its notes.
+> **Try it:** [Chart reader](https://tonaljs.github.io/tonal/apps/chart-reader/). Paste a chord chart to read every symbol: notes, family, complexity and roman numerals in a key, with applied dominants. Transpose it and play it.
 
 ```js
 import { Chord } from "tonal";
 
 Chord.get("Cmaj7").notes; // => ["C", "E", "G", "B"]
-Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
+Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "phrygian b4", "mixolydian b2", "spanish heptatonic", "half-whole diminished", "chromatic"]
 ```
 
 ## Chord properties
@@ -63,7 +64,7 @@ Chord.get("Cmaj7/B"); // =>
 
 #### Alterations
 
-A symbol that isn't a listed chord type can be a listed type followed by alterations. The alterations are tokens, written one after another or in parentheses separated by commas or spaces:
+A symbol that isn't a listed chord type can be a listed type followed by alterations. The alterations are tokens, written one after another (with or without spaces between them) or in parentheses separated by commas or spaces:
 
 ```js
 Chord.get("Cm7b5b9").notes; // => ["C", "Eb", "Gb", "Bb", "Db"]
@@ -73,6 +74,7 @@ Chord.get("Cdim(maj7)").notes; // => ["C", "Eb", "Gb", "B"]
 Chord.get("C(add9)").notes; // => ["C", "E", "G", "D"]
 Chord.get("Cmaj7sus4").notes; // => ["C", "F", "G", "B"]
 Chord.get("C7sus2").notes; // => ["C", "D", "G", "Bb"]
+Chord.get("Cm7 b9").symbol; // => "Cm7b9"
 ```
 
 The tokens are:
@@ -88,6 +90,16 @@ The tokens are:
 A token can't double an interval: `Cmaj7(maj7)` and `Csus4sus4` are not chords.
 
 Without a type before the tokens, the base is a major triad: `C(add9)`, `C(no3)`.
+
+A diminished chord with a ninth or an eleventh has the diminished seventh: `Cdim9` (or `Co9`, `C°9`) is `Cdim7(9)`, and `Cdim11` is `Cdim7(9,11)`. More tokens can follow: `Co9b13`. `Cdim13` is not a chord, because its 13th would be the same note as the diminished seventh (A and Bbb). As with the other types, `Co(9)` or `Cdimadd9` adds the 9 to the triad, without seventh:
+
+```js
+Chord.get("Co9").notes; // => ["C", "Eb", "Gb", "Bbb", "D"]
+Chord.get("Cdim11").notes; // => ["C", "Eb", "Gb", "Bbb", "D", "F"]
+Chord.get("Cdimadd9").notes; // => ["C", "Eb", "Gb", "D"]
+```
+
+Spaces between the type and the tokens, or between tokens, are removed when the symbol with spaces isn't a chord: `Cm7 b9` is `Cm7b9`, `Cmin maj7` is `Cminmaj7` (a minor/major seventh) and `C7(#5) b9` is `C7(#5)b9`. The symbol is written without the spaces. A symbol that isn't a chord without spaces isn't one with them: `C7 maj7` is empty, like `C7maj7`.
 
 The result keeps the symbol as written. When its intervals are a listed type, it has that type's name and aliases. Otherwise `type` is empty and `aliases` is an empty list:
 
@@ -330,7 +342,7 @@ Chord.transpose("Eb7b9", "5P"); // => "Bb7b9"
 Get all scales where the given chord fits:
 
 ```js
-Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "spanish heptatonic", "half-whole diminished", "chromatic"]
+Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "phrygian b4", "mixolydian b2", "spanish heptatonic", "half-whole diminished", "chromatic"]
 ```
 
 ### `Chord.extended`

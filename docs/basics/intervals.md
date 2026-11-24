@@ -2,6 +2,8 @@
 
 > Calculate and manipulate intervals
 
+> **Try it:** [Scale harmonizer](https://tonaljs.github.io/tonal/apps/scale-harmonizer/). Add voices in thirds, sixths or tenths that stay in a scale to a melody, and see how consonant each interval is.
+
 `Intervals` module allow to do distance calculations between notes using intervals, obtain information and do calculations:
 
 ```js
