@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest";
+import * as VoiceLeading from "@tonaljs/voice-leading";
 import Chord from "@tonaljs/chord";
 import ChordType from "@tonaljs/chord-type";
 import Note from "@tonaljs/note";
@@ -115,7 +116,7 @@ describe("sequence", () => {
   });
 
   test("all chords without voicing", () => {
-    expect(Voicing.sequence(["C13", "nope"])).toEqual([[], []]);
+    expect(Voicing.sequence(["C13", "nope"], ["C3", "C5"])).toEqual([[], []]);
     expect(Voicing.sequence([])).toEqual([]);
   });
 
@@ -311,5 +312,96 @@ describe("Voicing.get and search with options", () => {
     expect(Voicing.get("C", { voices: 0 })).toEqual([]);
     expect(Voicing.get("C", { range: ["x", "y"] })).toEqual([]);
     expect(Voicing.search("C", { range: ["C4", "D4"] })).toEqual([]);
+  });
+});
+
+describe("Voicing.sequence with options", () => {
+  const jazz = {
+    voices: 4,
+    extensions: "available" as const,
+    bass: "external" as const,
+  };
+
+  test("pop progression: root position first, then the smoothest inversions", () => {
+    expect(Voicing.sequence(["C", "Am", "F", "G"])).toEqual([
+      ["C4", "E4", "G4"],
+      ["C4", "E4", "A4"],
+      ["C4", "F4", "A4"],
+      ["B3", "D4", "G4"],
+    ]);
+  });
+
+  test("rootless ii-V-I", () => {
+    expect(Voicing.sequence(["Dm7", "G7", "Cmaj7"], jazz)).toEqual([
+      ["F3", "A3", "C4", "E4"],
+      ["F3", "A3", "B3", "E4"],
+      ["E3", "G3", "B3", "D4"],
+    ]);
+  });
+
+  test("a bass part with three voices (shell + one tension)", () => {
+    expect(
+      Voicing.sequence(["Dm7", "G7", "Cmaj7"], {
+        voices: 3,
+        bass: "root",
+        extensions: "available",
+      }),
+    ).toEqual([
+      ["D2", "F3", "C4", "E4"],
+      ["G2", "F3", "B3", "E4"],
+      ["C3", "E3", "B3", "D4"],
+    ]);
+  });
+
+  test("every voicing is one of the chord's voicings with the same options", () => {
+    const chords = ["Cmaj7", "Am7", "Dm7", "G7", "Em7", "A7", "Dm7", "G7"];
+    for (const options of [
+      {},
+      jazz,
+      { voices: 3 },
+      { bass: "root" as const },
+    ]) {
+      const result = Voicing.sequence(chords, options);
+      result.forEach((voicing, i) => {
+        expect(Voicing.search(chords[i], options)).toContainEqual(voicing);
+      });
+    }
+  });
+
+  test("each chord can have its own options", () => {
+    const result = Voicing.sequence(
+      ["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"],
+      { voices: 4 },
+    );
+    expect(result.map((v) => v.length)).toEqual([4, 5, 4]);
+  });
+
+  test("previous", () => {
+    const result = Voicing.sequence(["G7", "Cmaj7"], {
+      ...jazz,
+      previous: ["F3", "A3", "C4", "E4"],
+    });
+    expect(result[0]).toEqual(["F3", "A3", "B3", "E4"]);
+  });
+
+  test("maxLeap", () => {
+    const result = Voicing.sequence(["C", "F", "G", "C"], { maxLeap: 2 });
+    for (let i = 1; i < result.length; i++) {
+      const { moves } = VoiceLeading.get(result[i - 1], result[i]);
+      for (const [from, to] of moves) {
+        expect(Math.abs(Note.midi(to)! - Note.midi(from)!)).toBeLessThanOrEqual(
+          2,
+        );
+      }
+    }
+  });
+
+  test("chords without voicings keep their place", () => {
+    expect(Voicing.sequence(["C", "xx", "F"])).toEqual([
+      ["C4", "E4", "G4"],
+      [],
+      ["C4", "F4", "A4"],
+    ]);
+    expect(Voicing.sequence([])).toEqual([]);
   });
 });

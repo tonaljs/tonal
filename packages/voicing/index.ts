@@ -1,4 +1,4 @@
-/* eslint-disable no-redeclare -- TypeScript overloads keep the legacy signatures of get and search until tonal 7 */
+/* eslint-disable no-redeclare -- TypeScript overloads keep the legacy signatures of get, search and sequence until tonal 7 */
 import Chord from "@tonaljs/chord";
 import Interval from "@tonaljs/interval";
 import Note from "@tonaljs/note";
@@ -6,6 +6,7 @@ import Range from "@tonaljs/range";
 import VoiceLeading, {
   VoiceLeadingFunction,
   VoiceLeadingMetric,
+  path as voiceLeadingPath,
 } from "@tonaljs/voice-leading";
 import Dictionary, { VoicingDictionary } from "@tonaljs/voicing-dictionary";
 import {
@@ -75,10 +76,14 @@ export type VoicingOptions = {
 const DEFAULT_RANGE: NoteRange = ["C3", "C5"];
 const DEFAULT_BASS_RANGE: NoteRange = ["C2", "C3"];
 
-function searchVoicings(
+type Ranked = { notes: string[]; cost: number };
+
+// The voicings of a chord with their cost, best first
+function rankVoicings(
   chord: string,
   options: VoicingOptions = {},
-): string[][] {
+  rootPosition = true,
+): Ranked[] {
   const info = chordInfo(chord);
   if (!info) return [];
   const ranges = Array.isArray(options.voices) ? options.voices : undefined;
@@ -108,6 +113,7 @@ function searchVoicings(
     metric: options.metric,
     anchor: options.anchor,
     mode: options.mode,
+    rootPosition,
   };
   const candidates = tones
     .flatMap((t) => withBass(arrangements(t.notes, t.degrees, place), place))
@@ -132,7 +138,49 @@ function searchVoicings(
       seen.add(key);
       return true;
     })
-    .map((r) => r.notes);
+    .map(({ notes, cost }) => ({ notes, cost }));
+}
+
+function searchVoicings(chord: string, options: VoicingOptions = {}) {
+  return rankVoicings(chord, options).map((r) => r.notes);
+}
+
+/** A chord of a sequence with its own options. */
+export type VoicingChord = { chord: string } & VoicingOptions;
+
+/** The options of `Voicing.sequence`. */
+export type SequenceOptions = VoicingOptions & {
+  /**
+   * The largest move of a voice between two chords, in semitones. A voicing
+   * that needs a larger move is skipped, unless every voicing of its chord
+   * does.
+   */
+  maxLeap?: number;
+};
+
+function sequenceVoicings(
+  chords: (string | VoicingChord)[],
+  options: SequenceOptions = {},
+): string[][] {
+  if (!Array.isArray(chords)) return [];
+  const { previous, maxLeap, metric, ...shared } = options;
+  const lists = chords.map((item, i) => {
+    const { chord, ...own } =
+      typeof item === "string" ? { chord: item } : (item ?? { chord: "" });
+    const merged: VoicingOptions = { ...shared, ...own, previous: undefined };
+    // root position only matters for the first chord without context
+    const rootPosition = i === 0 && !previous?.length;
+    return rankVoicings(chord ?? "", merged, rootPosition);
+  });
+  return voiceLeadingPath(
+    lists.map((list) => list.map((r) => r.notes)),
+    {
+      metric,
+      previous,
+      maxLeap,
+      costs: lists.map((list) => list.map((r) => r.cost)),
+    },
+  ).voicings;
 }
 
 // The 3rd (or the 4th, 2nd or 11th that replaces it) and the 7th (or 6th)
@@ -359,19 +407,62 @@ function legacySearch(
 }
 
 /**
- * Get a voicing for each chord of a list, each one voice-led from the
- * previous. A chord without voicing gives `[]` and the next chord is led from
- * the last chord that had one.
+ * Get a voicing for each chord of a list: the smoothest path through the
+ * voicings `Voicing.search` gives for each chord, so that the voices move as
+ * little as possible over the whole progression (an exact path, not a
+ * greedy one). The options are the ones of `Voicing.get`, for every chord, and
+ * each chord can be an object with its own (`{ chord: "G7", voices: 5 }`). A
+ * chord without voicings gives `[]`, and the next one is led from the last.
  *
- * @param chords - chord symbols, like ["Dm7", "G7", "Cmaj7"]
- * @param range - lowest and highest note, default ["C3", "C5"]
- * @param dictionary - voicing dictionary, default VoicingDictionary.all
- * @param voiceLeading - picks each voicing, default VoiceLeading.topNoteDiff
- * @param lastVoicing - the voicing before the first chord, if any
+ * Each step costs the voice-leading distance from the voicing before (see
+ * `VoiceLeading.path`) plus the voicing's own cost in `Voicing.search`
+ * (register, spacing), so the progression doesn't drift away from the range.
+ * Only the first chord prefers root position, when there's no `previous`.
+ * `maxLeap` limits the move of each voice.
+ *
+ * (Called with a range array as the second argument, it uses the old
+ * dictionary voicings, which are deprecated: see the README.)
+ *
+ * Sources: Dmitri Tymoczko, *A Geometry of Music* (2011), §2.8: efficient
+ * voice leading as a short path between chords; see `Voicing.search` and
+ * `VoiceLeading.path` for the rest.
+ *
+ * @param chords - chord symbols, or objects with a chord and its own options
+ * @param options - the options of `Voicing.get` for every chord, plus `maxLeap`
  * @example
- * Voicing.sequence(["Dm7", "G7", "Cmaj7"]); // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
+ * Voicing.sequence(["C", "Am", "F", "G"]); // => [["C4", "E4", "G4"], ["C4", "E4", "A4"], ["C4", "F4", "A4"], ["B3", "D4", "G4"]]
+ * Voicing.sequence(["Dm7", "G7", "Cmaj7"], { voices: 4, extensions: "available", bass: "external" }); // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
+ * Voicing.sequence(["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"], { voices: 4 }).map((v) => v.length); // => [4, 5, 4]
  */
 export function sequence(
+  chords: (string | VoicingChord)[],
+  options?: SequenceOptions,
+): string[][];
+export function sequence(
+  chords: string[],
+  range?: string[],
+  dictionary?: VoicingDictionary,
+  voiceLeading?: VoiceLeadingFunction,
+  lastVoicing?: string[],
+): string[][];
+export function sequence(
+  chords: (string | VoicingChord)[],
+  options?: SequenceOptions | string[],
+  ...legacy: unknown[]
+): string[][] {
+  if (Array.isArray(options) || legacy.length > 0) {
+    return legacySequence(
+      chords as string[],
+      (options as string[]) ?? defaultRange,
+      (legacy[0] as VoicingDictionary) ?? defaultDictionary,
+      (legacy[1] as VoiceLeadingFunction) ?? defaultVoiceLeading,
+      legacy[2] as string[] | undefined,
+    );
+  }
+  return sequenceVoicings(chords, options);
+}
+
+function legacySequence(
   chords: string[],
   range = defaultRange,
   dictionary = defaultDictionary,

@@ -73,6 +73,8 @@ export type PlaceOptions = {
   metric?: VoiceLeadingMetric;
   anchor?: string;
   mode?: AnchorMode;
+  /** Prefer the chord's bass at the bottom (no context). Default true. */
+  rootPosition?: boolean;
 };
 
 const midiOf = (note: string) => getNote(note).midi ?? NaN;
@@ -272,6 +274,7 @@ export function cost(candidate: Candidate, options: PlaceOptions): number {
     total += 0.25 * Math.abs(centroid - (low + high) / 2);
     // root position without context
     if (
+      options.rootPosition !== false &&
       options.bass === "none" &&
       options.bassNote !== undefined &&
       pitches[0].chroma !== noteChroma(options.bassNote)

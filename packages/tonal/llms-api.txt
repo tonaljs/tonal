@@ -1595,9 +1595,12 @@ Voicing.search(chord: string, range?: string[], dictionary?: VoicingDictionary):
   Voicing.search("C7", { voices: 3 })[0]; // => ["C4", "E4", "Bb4"]
   Voicing.search("C7", { bass: "root", voices: 3 })[0]; // => ["C2", "Bb3", "E4", "G4"]
 
+Voicing.sequence(chords: (string | VoicingChord)[], options?: SequenceOptions): string[][]
 Voicing.sequence(chords: string[], range?: string[], dictionary?: VoicingDictionary, voiceLeading?: VoiceLeadingFunction, lastVoicing?: string[]): string[][]
-  Get a voicing for each chord of a list, each one voice-led from the previous. A chord without voicing gives `[]` and the next chord is led from the last chord that had one.
-  Voicing.sequence(["Dm7", "G7", "Cmaj7"]); // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
+  Get a voicing for each chord of a list: the smoothest path through the voicings `Voicing.search` gives for each chord, so that the voices move as little as possible over the whole progression (an exact path, not a greedy one). The options are the ones of `Voicing.get`, for every chord, and each chord can be an object with its own (`{ chord: "G7", voices: 5 }`). A chord without voicings gives `[]`, and the next one is led from the last.
+  Voicing.sequence(["C", "Am", "F", "G"]); // => [["C4", "E4", "G4"], ["C4", "E4", "A4"], ["C4", "F4", "A4"], ["B3", "D4", "G4"]]
+  Voicing.sequence(["Dm7", "G7", "Cmaj7"], { voices: 4, extensions: "available", bass: "external" }); // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
+  Voicing.sequence(["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"], { voices: 4 }).map((v) => v.length); // => [4, 5, 4]
 
 Types:
 
