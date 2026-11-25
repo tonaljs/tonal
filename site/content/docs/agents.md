@@ -194,14 +194,47 @@ into its parts.
 ## Voicings
 
 ```js
-Voicing.get("Dm7"); // => ["F3", "A3", "C4", "E4"]
-Voicing.search("Cmaj7", ["E3", "D5"]); // every voicing in the range
-Voicing.sequence(["Dm7", "G7", "Cmaj7"], ["E3", "G4"]); // one voicing per chord, smooth voice leading
+Voicing.get("C7"); // => ["C4", "E4", "G4", "Bb4"] (the symbol's notes, root position)
+Voicing.get("C13", { voices: 4 }); // => ["C4", "E4", "A4", "Bb4"] (3rd, 7th and 13th kept)
+Voicing.get("Dm7", { voices: 4, extensions: "available", bass: "external" }); // => ["F3", "A3", "C4", "E4"] (rootless)
+Voicing.get("G7", {
+  voices: 4,
+  extensions: "available",
+  bass: "external",
+  previous: ["F3", "A3", "C4", "E4"],
+}); // => ["F3", "A3", "B3", "E4"]
+Voicing.search("C"); // every voicing that fits, best first
 ```
 
-Voicings come from a dictionary of voicings for common chord types
-(`VoicingDictionary`), within a range of notes. This module is being
-extended: check the API list for its current functions.
+The chord symbol says which notes the chord has; the options say how to play
+them: `voices` (a number, or a range per voice), `extensions` (`"available"` or
+a list of degrees), `bass` (`"none"`, `"root"` for a bass part, `"external"` for
+a bass player), `range`, `top` (a melody note), `previous`, `anchor`. The rules
+are in the API list. `[]` means the chord isn't valid or no voicing fits.
+
+Calling `Voicing.get`, `search` or `sequence` with a range array as the second
+argument uses the old dictionary voicings (`VoicingDictionary`), which are
+deprecated. `Voicing.sequence` still works only that way for now.
+
+`VoiceLeading` measures how far the voices move between two voicings (notes
+with octave) and finds the smoothest path through candidate voicings. It works
+with any voicings, including ones you build yourself:
+
+```js
+VoiceLeading.distance(["C4", "E4", "G4"], ["B3", "D4", "G4"]); // => 3 (semitones in total)
+VoiceLeading.pcDistance(Chord.notes("C"), Chord.notes("Am")); // => 2 (pitch classes, no octaves)
+VoiceLeading.path([
+  [["C4", "E4", "G4"]],
+  [
+    ["F4", "A4", "C5"],
+    ["C4", "F4", "A4"],
+  ],
+]).voicings;
+// => [["C4", "E4", "G4"], ["C4", "F4", "A4"]]
+```
+
+`distance` and `pcDistance` return `null`, not a number, for an empty voicing
+or a note without octave.
 
 `VoiceLeading` measures how far the voices move between two voicings (notes
 with octave) and finds the smoothest path through candidate voicings. It works

@@ -1581,15 +1581,19 @@ type VoiceLeadingPath = {
 
 import { Voicing } from "tonal"; // or: import * as Voicing from "@tonaljs/voicing";
 
+Voicing.get(chord: string, options?: VoicingOptions): string[]
 Voicing.get(chord: string, range?: string[], dictionary?: VoicingDictionary, voiceLeading?: VoiceLeadingFunction, lastVoicing?: string[]): string[]
-  Get a voicing (a list of notes with octaves) of a chord symbol inside a range. Without `lastVoicing` it picks the lowest voicing; with it, the `voiceLeading` function picks the voicing that follows it best. Returns `[]` if the chord is unknown or no voicing fits the range.
-  Voicing.get("Cmaj7"); // => ["E3", "G3", "B3", "D4"]
-  Voicing.get("Dm7", ["C3", "C5"], undefined, undefined, ["C4", "E4", "G4", "B4"]); // => ["C4", "E4", "F4", "A4"]
-  Voicing.get("xx"); // => []
+  Get a voicing of a chord: a list of notes with octave, from the bottom. By default it has the notes of the symbol, in root position, near the middle of the range ["C3", "C5"]: `Voicing.get("C7")` is C, E, G and Bb. Options choose the number of voices, the tensions, who plays the bass, the range, the top note, and lead from a previous voicing. It returns `[]` if the chord is not valid or no voicing fits.
+  Voicing.get("C7"); // => ["C4", "E4", "G4", "Bb4"]
+  Voicing.get("Dm7", { voices: 4, extensions: "available", bass: "external" }); // => ["F3", "A3", "C4", "E4"]
+  Voicing.get("G7", { voices: 4, extensions: "available", bass: "external", previous: ["F3", "A3", "C4", "E4"] }); // => ["F3", "A3", "B3", "E4"]
 
+Voicing.search(chord: string, options?: VoicingOptions): string[][]
 Voicing.search(chord: string, range?: string[], dictionary?: VoicingDictionary): string[][]
-  Get all the voicings of a chord symbol that fit inside a range: each voicing of the dictionary, at every position in the range. Returns `[]` if the chord is not in the dictionary.
-  Voicing.search("C", ["C3", "C5"], VoicingDictionary.triads).slice(0, 3); // => [["C3", "E3", "G3"], ["C4", "E4", "G4"], ["E3", "G3", "C4"]]
+  Get every voicing of a chord that fits the options, best first. Each voicing is a list of notes with octave, from the bottom. It returns `[]` if the chord is not valid or no voicing fits.
+  Voicing.search("C").slice(0, 2); // => [["C4", "E4", "G4"], ["C3", "E3", "G3"]]
+  Voicing.search("C7", { voices: 3 })[0]; // => ["C4", "E4", "Bb4"]
+  Voicing.search("C7", { bass: "root", voices: 3 })[0]; // => ["C2", "Bb3", "E4", "G4"]
 
 Voicing.sequence(chords: string[], range?: string[], dictionary?: VoicingDictionary, voiceLeading?: VoiceLeadingFunction, lastVoicing?: string[]): string[][]
   Get a voicing for each chord of a list, each one voice-led from the previous. A chord without voicing gives `[]` and the next chord is led from the last chord that had one.
@@ -1600,6 +1604,21 @@ Types:
 type VoiceLeadingFunction = (voicings: string[][], lastVoicing: string[]) => string[]
 
 type VoicingDictionary = { [symbol: string]: string[]; }
+
+type VoicingOptions = {
+  voices?: number | NoteRange[] | undefined;
+  extensions?: string[] | 'available' | undefined;
+  bass?: VoicingBass | undefined;
+  range?: NoteRange | undefined;
+  bassRange?: NoteRange | undefined;
+  top?: string | NoteRange | undefined;
+  degrees?: string[] | undefined;
+  anchor?: string | undefined;
+  mode?: AnchorMode | undefined;
+  previous?: string[] | undefined;
+  metric?: VoiceLeadingMetric | undefined;
+  lowIntervals?: boolean | undefined;
+}
 
 ## VoicingDictionary
 
