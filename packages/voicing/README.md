@@ -48,6 +48,7 @@ Options, for one chord or (in `Voicing.sequence`) a whole progression:
 | `anchor`, `mode` |                    | Place the voicing against a note, without context: `"below"` (top note at or below it), `"duck"` (below it, without it), `"above"` (bottom note at or above it), `"root"` (the root at the bottom, at or above it) |
 | `lowIntervals`   | `true`             | Skip voicings below the low interval limits                                                                                                                                                                        |
 | `spacing`        |                    | Only voicings with this spacing: `"close"`, `"open"`, `"drop2"`, `"drop3"`, `"drop24"`, `"spread"`, `"block"`, or the chord steps between neighbour voices (`[2, 1, 2]`). See [Spacing](#spacing)                  |
+| `template`       |                    | A voicing template: a name of the catalogue (`"rootless"`, `"so-what"`…) or chord degrees from the bottom, with `                                                                                                  | ` between the hands (`"R \| 3-7-9"`). See [Templates](#templates) |
 
 ```js
 Voicing.get("C7", { voices: 3 }); // => ["C4", "E4", "Bb4"]
@@ -130,6 +131,33 @@ Voicing.get("Cmaj7", { spacing: "drop2" }); // => ["C3", "G3", "B3", "E4"]
 Voicing.sequence(["Dm7", "G7", "Cmaj7"], { spacing: "drop2" });
 // => [["D3", "A3", "C4", "F4"], ["D3", "G3", "B3", "F4"], ["C3", "G3", "B3", "E4"]]
 ```
+
+### Templates
+
+A template fixes the order of a voicing's notes as chord degrees, from the bottom; each note is the nearest pitch above the one below (after a `|`, the right hand can also start an octave higher). A plain number is the chord's own degree with that number (`3` is the b3 of a minor chord; `7` is the 6th of a sixth chord); `R` is the root. A form whose plain degrees from 1 to 7 the chord doesn't have doesn't apply (no `rootless` voicing of a triad). With `voices`, only the forms with that many notes; otherwise the largest forms that fit in the range. Several forms (the "A" and "B" forms) are ranked like any voicing, and in a sequence the voice leading chooses between them.
+
+```js
+Voicing.get("Dm7", { template: "rootless" }); // => ["F3", "A3", "C4", "E4"]
+Voicing.get("Dm7", { template: "so-what" }); // => ["D3", "G3", "C4", "F4", "A4"]
+Voicing.sequence(["Dm7", "G7", "Cmaj7"], { template: "rootless" });
+// => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
+Voicing.get("Dm7", { template: "R | 3-7-9", range: ["C2", "C5"] }); // => ["D3", "F3", "C4", "E4"]
+```
+
+`Voicing.templates()` lists the names. The catalogue has only templates found in two or more independent jazz piano books:
+
+| Template                                                 | Forms                                                                                                                                                                                                                             | Sources                                                                                                                |
+| -------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `shell`                                                  | `R-3`, `R-7`, `R-3-7`, `R-7-3`                                                                                                                                                                                                    | DeGreg ch. 1; _Jazzology_ p. 67; Richards vol. 1 p. 153; Siskind, _Playing Solo Jazz Piano_                            |
+| `guide-tones`                                            | `R \| 3-7`, `R \| 7-3`                                                                                                                                                                                                            | Levine ch. 3; DeGreg ch. 2; _Jazzology_ ch. 4                                                                          |
+| `rootless`                                               | major and minor `3-7-9`, `7-3-5`, `3-5-7-9`, `7-9-3-5`; dominant `3-7-9`, `7-3-13`, `3-13-7-9`, `7-9-3-13`; altered `3-#5-7-b9`, `7-b9-3-#5`…; sus `7-9-11-13`, `11-13-7-9`; half-diminished and diminished `3-5-7-R`, `7-R-3-5`… | Levine ch. 7; DeGreg chs. 4 and 6; _Jazzology_ pp. 67–69; Haerle skills 40–45; Richards vol. 2 ch. 7                   |
+| `rootless-spread`                                        | `3-7 \| 9-5`, `7-3 \| 5-9` (dominant with 13)                                                                                                                                                                                     | Siskind, _Jazz Band Pianist_ ch. 10; DeGreg ch. 7; Richards vol. 2 fig. 9.16                                           |
+| `so-what`                                                | minor `R-11-7 \| 3-5`; major `3-13-9 \| 5-7`, `13-9-5 \| R-3`; sus `5-R-11 \| 7-9`                                                                                                                                                | Levine ch. 12; Haerle skills 48–49; DeGreg ch. 9; _Jazzology_ ch. 6; Richards vol. 2 fig. 6.47                         |
+| `fourths`                                                | major `3-13-9`, `3-13-9-5-R`, `7-3-13-9-5`…; minor `R-11-7`, `5-R-11-7-3`…; dominant `7-3-13`, `7-3-13-9-5`, `3-7-9-5-R`; sus `R-11-7`, `5-R-11`                                                                                  | Levine ch. 13; Mantooth ch. 2; DeGreg ch. 8; _Jazzology_ ch. 6; Richards vol. 2 ch. 6                                  |
+| `upper-structure` (`-II`, `-bIII`, `-bV`, `-bVI`, `-VI`) | dominants: a major triad on that degree, in any position, over `R-3-7` (`R-3` or `R-7` when the triad has the 7th or the 3rd)                                                                                                     | Levine ch. 14; Haerle skills 109–113; DeGreg p. 216; Mantooth ch. 6; Richards vol. 2 chs. 8–10                         |
+| `triad-over-root`                                        | `R \| R-3-5`, `R \| 3-5-7`, `R \| 5-7-9`; sus `R \| 7-9-11`                                                                                                                                                                       | Harrison, _The Pop Piano Book_ ch. 5 and _R&B Keyboard_ ch. 3; DeGreg pp. 217–219; Siskind, _Jazz Band Pianist_ ch. 15 |
+
+Books: Mark Levine, _The Jazz Piano Book_ (1989); Phil DeGreg, _Jazz Keyboard Harmony_ (1994); Rawlins & Bahha, _Jazzology_ (2005); Dan Haerle, _Jazz Piano Voicing Skills_; Tim Richards, _Exploring Jazz Piano_; Frank Mantooth, _Voicings for Jazz Keyboard_; Jeremy Siskind, _Playing Solo Jazz Piano_ and _Jazz Band Pianist_; Mark Harrison, _The Pop Piano Book_ and _R&B Keyboard_.
 
 ## Working with voicings
 

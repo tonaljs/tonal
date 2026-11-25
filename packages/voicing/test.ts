@@ -580,3 +580,122 @@ describe("Voicing.invert and drop", () => {
     expect(Voicing.analyze(Voicing.drop(close, [2, 4])).spacing).toBe("drop24");
   });
 });
+
+describe("templates", () => {
+  const pcs = (v: string[]) => v.map((n) => Note.pitchClass(n));
+
+  test("the catalogue", () => {
+    expect(Voicing.templates()).toEqual(
+      expect.arrayContaining([
+        "shell",
+        "guide-tones",
+        "rootless",
+        "rootless-spread",
+        "so-what",
+        "fourths",
+        "upper-structure",
+        "triad-over-root",
+      ]),
+    );
+  });
+
+  test("rootless: 3rd or 7th at the bottom, by family", () => {
+    expect(Voicing.get("Dm7", { template: "rootless" })).toEqual([
+      "F3",
+      "A3",
+      "C4",
+      "E4",
+    ]);
+    expect(pcs(Voicing.get("C6", { template: "rootless" }))).toEqual([
+      "A",
+      "D",
+      "E",
+      "G",
+    ]);
+    expect(pcs(Voicing.get("Cm7b5", { template: "rootless" }))).toEqual([
+      "Bb",
+      "C",
+      "Eb",
+      "Gb",
+    ]);
+    expect(
+      Voicing.search("G7", { template: "rootless", voices: 3 }).map(pcs),
+    ).toEqual(
+      expect.arrayContaining([
+        ["F", "B", "E"],
+        ["B", "F", "A"],
+      ]),
+    );
+    // a triad has no 7th: the template doesn't apply
+    expect(Voicing.get("C", { template: "rootless" })).toEqual([]);
+  });
+
+  test("the ii-V-I with a template", () => {
+    expect(
+      Voicing.sequence(["Dm7", "G7", "Cmaj7"], { template: "rootless" }),
+    ).toEqual([
+      ["F3", "A3", "C4", "E4"],
+      ["F3", "A3", "B3", "E4"],
+      ["E3", "G3", "B3", "D4"],
+    ]);
+  });
+
+  test("so what, fourths, shells, guide tones", () => {
+    expect(Voicing.get("Dm7", { template: "so-what" })).toEqual([
+      "D3",
+      "G3",
+      "C4",
+      "F4",
+      "A4",
+    ]);
+    expect(Voicing.get("C6/9", { template: "fourths" })).toEqual([
+      "E3",
+      "A3",
+      "D4",
+      "G4",
+      "C5",
+    ]);
+    expect(pcs(Voicing.get("C7", { template: "shell" }))).toEqual([
+      "C",
+      "E",
+      "Bb",
+    ]);
+    expect(
+      Voicing.search("Cmaj7", { template: "guide-tones", range: ["C2", "C5"] }),
+    ).toContainEqual(["C3", "B3", "E4"]);
+  });
+
+  test("upper structures only on dominants", () => {
+    const v = Voicing.get("C7", {
+      template: "upper-structure-bVI",
+      range: ["C3", "C6"],
+    });
+    expect(pcs(v).slice(0, 3)).toEqual(["C", "E", "Bb"]);
+    expect([...pcs(v).slice(3)].sort()).toEqual(["Ab", "C", "D#"]);
+    expect(Voicing.get("Cmaj7", { template: "upper-structure" })).toEqual([]);
+  });
+
+  test("custom templates: degrees, with | between the hands", () => {
+    expect(
+      Voicing.get("Dm7", { template: "R | 3-7-9", range: ["C2", "C5"] }),
+    ).toEqual(["D3", "F3", "C4", "E4"]);
+    expect(
+      Voicing.get("Dm7", { template: ["3-5-7-9"], range: ["C3", "C5"] }),
+    ).toEqual(["F3", "A3", "C4", "E4"]);
+  });
+
+  test("every template note is the nearest above the one below (one hand)", () => {
+    for (const chord of ["Cmaj7", "Dm7", "G7", "Bbm7b5", "Ebo7", "F7sus4"]) {
+      for (const v of Voicing.search(chord, { template: "rootless" })) {
+        const midis = v.map((n) => Note.midi(n)!);
+        for (let i = 1; i < midis.length; i++) {
+          expect(midis[i] - midis[i - 1]).toBeLessThan(12);
+        }
+      }
+    }
+  });
+
+  test("unknown templates give []", () => {
+    expect(Voicing.get("C7", { template: "nope" })).toEqual([]);
+  });
+});

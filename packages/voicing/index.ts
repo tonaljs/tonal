@@ -13,12 +13,14 @@ import {
   AnchorMode,
   arrangements,
   cost,
+  fits,
   NoteRange,
   passesAnchor,
   PlaceOptions,
   withBass,
 } from "./place";
 import { VoicingSpacing } from "./spacing";
+import { placeForm, resolveForm, TEMPLATES, templateForms } from "./templates";
 import { chordInfo, chooseTones, VoicingBass } from "./tones";
 
 const defaultRange = ["C3", "C5"];
@@ -76,6 +78,14 @@ export type VoicingOptions = {
   /** Skip voicings below the low interval limits. Default `true`. */
   lowIntervals?: boolean;
   /**
+   * A voicing template: a name of tonal's catalogue (`Voicing.templates()`:
+   * "rootless", "shell", "so-what", "upper-structure"…) or chord degrees from
+   * the bottom, with `|` between the hands (`"R | 3-7-9"`). Each note is the
+   * nearest pitch above the one below. With `voices`, only the forms with
+   * that many notes; otherwise the largest forms that fit in the range.
+   */
+  template?: string | string[];
+  /**
    * Only voicings with this spacing: `"close"`, `"open"`, `"drop2"`,
    * `"drop3"`, `"drop24"`, `"spread"`, `"block"` (close under the top note,
    * doubled an octave below), or the chord steps between neighbour voices
@@ -127,9 +137,12 @@ function rankVoicings(
     mode: options.mode,
     rootPosition,
   };
-  const candidates = tones
-    .flatMap((t) => withBass(arrangements(t.notes, t.degrees, place), place))
-    .filter((c) => passesAnchor(c, place));
+  const upper = options.template
+    ? templateArrangements(chord, options.template, info.family, voices, place)
+    : tones.flatMap((t) => arrangements(t.notes, t.degrees, place));
+  const candidates = upper.length
+    ? withBass(upper, place).filter((c) => passesAnchor(c, place))
+    : [];
   const ranked = candidates.map((c) => ({
     notes: c.notes,
     cost: cost(c, place),
@@ -213,6 +226,55 @@ function guideDegrees(degrees: string[]): string[] {
   const find = (...nums: number[]) =>
     nums.map((n) => degrees.find((d) => num(d) === n)).find((d) => !!d);
   return [find(3, 4, 2, 11), find(7, 6)].filter((d): d is string => !!d);
+}
+
+// The arrangements of a voicing template for a chord
+function templateArrangements(
+  chord: string,
+  template: string | string[],
+  family: string,
+  voices: number | undefined,
+  place: PlaceOptions,
+) {
+  const forms = templateForms(template, family)
+    .map((form) => resolveForm(chord, form))
+    .filter((f): f is NonNullable<typeof f> => !!f);
+  if (!forms.length) return [];
+  const ranges = place.ranges;
+  const low = Note.midi(ranges ? ranges[0][0] : place.range[0]);
+  const high = Note.midi(
+    ranges ? ranges[ranges.length - 1][1] : place.range[1],
+  );
+  if (low === null || high === null) return [];
+  // a template sets its own gaps (a root far below the right hand)
+  const rules = { ...place, gaps: false };
+  const placed = (size: number) =>
+    forms
+      .filter((f) => f.length === size)
+      .flatMap((f) => placeForm(f, low, high))
+      .filter((p) => fits(p, rules));
+  if (voices !== undefined) return placed(voices);
+  // without voices: the largest forms that fit
+  const sizes = [...new Set(forms.map((f) => f.length))].sort((a, b) => b - a);
+  for (const size of sizes) {
+    const result = placed(size);
+    if (result.length) return result;
+  }
+  return [];
+}
+
+/**
+ * Get the names of tonal's voicing templates, for the `template` option:
+ * shell, guide-tones, rootless, rootless-spread, so-what, fourths,
+ * upper-structure (and upper-structure-II, -bIII, -bV, -bVI, -VI) and
+ * triad-over-root. Each one is in two or more jazz piano books (see the
+ * README).
+ *
+ * @example
+ * Voicing.templates().includes("rootless"); // => true
+ */
+export function templates(): string[] {
+  return Object.keys(TEMPLATES);
 }
 
 function compareMidis(a: number[], b: number[]): number {

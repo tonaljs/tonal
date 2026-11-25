@@ -210,6 +210,7 @@ Voicing.sequence(["Dm7", "G7", "Cmaj7"], {
   bass: "external",
 }); // the smoothest path over the whole progression
 Voicing.sequence(["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"], { voices: 4 }); // options per chord
+Voicing.get("Dm7", { template: "rootless" }); // => ["F3", "A3", "C4", "E4"] (Voicing.templates() lists the catalogue)
 Voicing.get("Cmaj7", { spacing: "drop2" }); // => ["C3", "G3", "B3", "E4"] (close, open, drop2, drop3, drop24, spread, block)
 Voicing.analyze(["G3", "C4", "E4", "B4"], "Cmaj7").spacing; // => "drop2"
 Voicing.invert(["C4", "E4", "G4"], 1); // => ["E4", "G4", "C5"]

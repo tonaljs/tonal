@@ -1620,6 +1620,10 @@ Voicing.sequence(chords: string[], range?: string[], dictionary?: VoicingDiction
   Voicing.sequence(["Dm7", "G7", "Cmaj7"], { voices: 4, extensions: "available", bass: "external" }); // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
   Voicing.sequence(["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"], { voices: 4 }).map((v) => v.length); // => [4, 5, 4]
 
+Voicing.templates(): string[]
+  Get the names of tonal's voicing templates, for the `template` option: shell, guide-tones, rootless, rootless-spread, so-what, fourths, upper-structure (and upper-structure-II, -bIII, -bV, -bVI, -VI) and triad-over-root. Each one is in two or more jazz piano books (see the README).
+  Voicing.templates().includes("rootless"); // => true
+
 Types:
 
 type VoiceLeadingFunction = (voicings: string[][], lastVoicing: string[]) => string[]
@@ -1650,6 +1654,7 @@ type VoicingOptions = {
   previous?: string[] | undefined;
   metric?: VoiceLeadingMetric | undefined;
   lowIntervals?: boolean | undefined;
+  template?: string | string[] | undefined;
   spacing?: VoicingSpacing | undefined;
 }
 
