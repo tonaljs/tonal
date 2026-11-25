@@ -62,6 +62,8 @@ Key.majorKey("C"); // =>
 }
 ```
 
+A substitute dominant is spelled a diminished fifth above its secondary dominant (`Gb7` for `C7`), unless that needs a double flat or sharp: then it takes the simplest name, as a lead sheet writes it. So in Eb major the substitute of `Eb7` is `A7`, not `Bbb7`.
+
 The supertonics are the ii chords of the ii-V into each degree:
 
 - A secondary dominant's ii takes its quality from the target. Into a minor or diminished chord it's half-diminished (`Em7b5 A7 Dm`), and into a major or augmented chord it's a minor seventh (`Gm7 C7 F`).
@@ -94,8 +96,8 @@ Key.minorKey("C"); // =>
     chordScales: ["C minor", "D locrian", "Eb major", "F dorian", "G phrygian", "Ab lydian", "Bb mixolydian"],
     secondaryDominants: ["G7", "", "", "C7", "D7", "Eb7", "F7"],
     secondaryDominantSupertonics: ["Dm7b5", "", "", "Gm7b5", "Am7b5", "Bbm7", "Cm7"],
-    substituteDominants: ["Db7", "", "", "Gb7", "Ab7", "Bbb7", "Cb7"],
-    substituteDominantSupertonics: ["Abm7", "", "", "Dbm7", "Ebm7", "Fbm7", "Gbm7"],
+    substituteDominants: ["Db7", "", "", "Gb7", "Ab7", "A7", "Cb7"],
+    substituteDominantSupertonics: ["Abm7", "", "", "Dbm7", "Ebm7", "Em7", "Gbm7"],
   },
   harmonic: {
     tonic: "C",
@@ -105,11 +107,11 @@ Key.minorKey("C"); // =>
     triads: ["Cm", "Ddim", "Ebaug", "Fm", "G", "Ab", "Bdim"],
     chords: ["CmMaj7", "Dm7b5", "Eb+maj7", "Fm7", "G7", "Abmaj7", "Bo7"],
     chordsHarmonicFunction: ["T", "SD", "T", "SD", "D", "SD", "D"],
-    chordScales: ["C harmonic minor", "D locrian 6", "Eb major augmented", "F lydian diminished", "G phrygian dominant", "Ab lydian #9", "B ultralocrian"],
+    chordScales: ["C harmonic minor", "D locrian 6", "Eb major augmented", "F dorian #4", "G phrygian dominant", "Ab lydian #9", "B ultralocrian"],
     secondaryDominants: ["", "", "", "C7", "D7", "Eb7", ""],
     secondaryDominantSupertonics: ["", "", "", "Gm7b5", "Am7", "Bbm7", ""],
-    substituteDominants: ["", "", "", "Gb7", "Ab7", "Bbb7", ""],
-    substituteDominantSupertonics: ["", "", "", "Dbm7", "Ebm7", "Fbm7", ""],
+    substituteDominants: ["", "", "", "Gb7", "Ab7", "A7", ""],
+    substituteDominantSupertonics: ["", "", "", "Dbm7", "Ebm7", "Em7", ""],
   },
   melodic: {
     tonic: "C",
@@ -166,7 +168,7 @@ Return a list of all available chords for a given minor key:
 Key.minorKeyChords("C")
   .map((chord) => chord.name)
   .join(", ");
-// => "Cm7, Dm7b5, Ebmaj7, Fm7, Gm7, Abmaj7, Bb7, G7, C7, D7, Eb7, F7, Gm7b5, Am7b5, Bbm7, Db7, Gb7, Ab7, Bbb7, Cb7, Abm7, Dbm7, Ebm7, Fbm7, Gbm7, CmMaj7, Eb+maj7, Bo7, Am7, Cm6, Dm7, Bm7b5, A7, Em7b5"
+// => "Cm7, Dm7b5, Ebmaj7, Fm7, Gm7, Abmaj7, Bb7, G7, C7, D7, Eb7, F7, Gm7b5, Am7b5, Bbm7, Db7, Gb7, Ab7, A7, Cb7, Abm7, Dbm7, Ebm7, Em7, Gbm7, CmMaj7, Eb+maj7, Bo7, Am7, Cm6, Dm7, Bm7b5, Em7b5"
 ```
 
 ## How to...

@@ -4,6 +4,7 @@ import { describe, expect, test } from "vitest";
 import { get as scale } from "@tonaljs/scale";
 // tslint:disable-next-line: no-implicit-dependencies
 import { get as chord } from "@tonaljs/chord";
+import { note } from "@tonaljs/pitch-note";
 import * as Key from "./index";
 
 // A list of chord names, with "-" for an empty one
@@ -70,7 +71,7 @@ describe("@tonal/key", () => {
         "C harmonic minor",
         "D locrian 6",
         "Eb major augmented",
-        "F lydian diminished",
+        "F dorian #4",
         "G phrygian dominant",
         "Ab lydian #9",
         "B ultralocrian",
@@ -189,10 +190,10 @@ describe("@tonal/key", () => {
         $("- Bbm7 Cm7 Dbm7 Ebm7 Fm7 -"),
       );
       expect(natural.substituteDominantSupertonics).toEqual(
-        $("Abm7 - - Dbm7 Ebm7 Fbm7 Gbm7"),
+        $("Abm7 - - Dbm7 Ebm7 Em7 Gbm7"),
       );
       expect(harmonic.substituteDominantSupertonics).toEqual(
-        $("- - - Dbm7 Ebm7 Fbm7 -"),
+        $("- - - Dbm7 Ebm7 Em7 -"),
       );
       expect(melodic.substituteDominantSupertonics).toEqual(
         $("- Bbm7 - Dbm7 Ebm7 - -"),
@@ -260,5 +261,49 @@ describe("@tonal/key", () => {
     expect(Object.keys(Key.minorKey("C")).sort()).toEqual(
       Object.keys(Key.minorKey("nothing")).sort(),
     );
+  });
+
+  // every key from 7 flats to 7 sharps, major and the three minor scales
+  const allKeyScales = () =>
+    Array.from({ length: 15 }, (_, i) => i - 7).flatMap((sig) => {
+      const major = Key.majorKey(Key.majorTonicFromKeySignature(sig) ?? "");
+      const minor = Key.minorKey(major.minorRelative);
+      return [major, minor.natural, minor.harmonic, minor.melodic];
+    });
+
+  test("substitute dominants are spelled without double accidentals", () => {
+    expect(Key.majorKey("Eb").substituteDominants).toEqual(
+      $("- Gb7 Ab7 A7 Cb7 Db7 -"),
+    );
+    expect(Key.majorKey("Eb").substituteDominantSupertonics).toEqual(
+      $("- Dbm7 Ebm7 Em7 Gbm7 Abm7 -"),
+    );
+    expect(Key.majorKey("Gb").substituteDominants).toEqual(
+      $("- A7 Cb7 C7 D7 Fb7 -"),
+    );
+    expect(Key.minorKey("C").natural.substituteDominants).toEqual(
+      $("Db7 - - Gb7 Ab7 A7 Cb7"),
+    );
+    const doubled = allKeyScales()
+      .flatMap((s) => [
+        ...s.substituteDominants,
+        ...s.substituteDominantSupertonics,
+      ])
+      .filter((name) => /^[A-G](bb|##)/.test(name));
+    expect(doubled).toEqual([]);
+  });
+
+  test("every chord scale has only the notes of its key", () => {
+    // compared as pitch classes: some scales are spelled their own way
+    // (G altered is G Ab A# B C# Eb F, the key has Bb Cb Db)
+    const chromas = (notes: readonly string[]) =>
+      notes.map((n) => note(n).chroma).sort((a, b) => a - b);
+    for (const keyScale of allKeyScales()) {
+      keyScale.chordScales.forEach((name, i) => {
+        const notes = scale(name).notes;
+        expect(chromas(notes), name).toEqual(chromas(keyScale.scale));
+        expect(notes[0], name).toBe(keyScale.scale[i]);
+      });
+    }
   });
 });
