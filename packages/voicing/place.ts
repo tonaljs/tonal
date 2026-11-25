@@ -78,6 +78,8 @@ export type PlaceOptions = {
   rootPosition?: boolean;
   /** A named spacing or the chord steps between neighbour voices. */
   spacing?: VoicingSpacing;
+  /** Check the gaps between neighbour voices. Default true. */
+  gaps?: boolean;
 };
 
 const midiOf = (note: string) => getNote(note).midi ?? NaN;
@@ -143,7 +145,8 @@ export function arrangements(
   return result;
 }
 
-function fits(voicing: Pitch[], options: PlaceOptions): boolean {
+/** Does an arrangement pass the constraints? @private */
+export function fits(voicing: Pitch[], options: PlaceOptions): boolean {
   const midis = voicing.map((p) => p.midi);
   if (
     options.spacing &&
@@ -180,10 +183,13 @@ function fits(voicing: Pitch[], options: PlaceOptions): boolean {
   }
   // gaps: neighbour voices at most an octave apart, the lowest two at most a
   // major 10th (Gary Lindsay, Jazz Arranging Techniques, ch. 16)
-  for (let i = 1; i < midis.length; i++) {
-    const gap = midis[i] - midis[i - 1];
-    if (gap > (i === 1 ? 16 : 12)) return false;
+  if (options.gaps !== false) {
+    for (let i = 1; i < midis.length; i++) {
+      const gap = midis[i] - midis[i - 1];
+      if (gap > (i === 1 ? 16 : 12)) return false;
+    }
   }
+
   if (
     options.lowIntervals &&
     options.bass !== "root" &&

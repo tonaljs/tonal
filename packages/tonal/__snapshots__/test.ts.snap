@@ -331,6 +331,7 @@ exports[`tonal > Modules exports functions 1`] = `
     "invert",
     "search",
     "sequence",
+    "templates",
   ],
   "VoicingDictionary": [
     "all",
