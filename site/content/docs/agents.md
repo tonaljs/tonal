@@ -203,6 +203,20 @@ Voicings come from a dictionary of voicings for common chord types
 (`VoicingDictionary`), within a range of notes. This module is being
 extended: check the API list for its current functions.
 
+`VoiceLeading` measures how far the voices move between two voicings (notes
+with octave) and finds the smoothest path through candidate voicings. It works
+with any voicings, including ones you build yourself:
+
+```js
+VoiceLeading.distance(["C4", "E4", "G4"], ["B3", "D4", "G4"]); // => 3 (semitones in total)
+VoiceLeading.pcDistance(Chord.notes("C"), Chord.notes("Am")); // => 2 (pitch classes, no octaves)
+VoiceLeading.path([[["C4", "E4", "G4"]], [["F4", "A4", "C5"], ["C4", "F4", "A4"]]]).voicings;
+// => [["C4", "E4", "G4"], ["C4", "F4", "A4"]]
+```
+
+`distance` and `pcDistance` return `null`, not a number, for an empty voicing
+or a note without octave.
+
 ## Time
 
 tonal describes where things are in musical time, never when they play: there
