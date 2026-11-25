@@ -204,6 +204,12 @@ Voicing.get("G7", {
   previous: ["F3", "A3", "C4", "E4"],
 }); // => ["F3", "A3", "B3", "E4"]
 Voicing.search("C"); // every voicing that fits, best first
+Voicing.sequence(["Dm7", "G7", "Cmaj7"], {
+  voices: 4,
+  extensions: "available",
+  bass: "external",
+}); // the smoothest path over the whole progression
+Voicing.sequence(["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"], { voices: 4 }); // options per chord
 ```
 
 The chord symbol says which notes the chord has; the options say how to play
@@ -214,7 +220,7 @@ are in the API list. `[]` means the chord isn't valid or no voicing fits.
 
 Calling `Voicing.get`, `search` or `sequence` with a range array as the second
 argument uses the old dictionary voicings (`VoicingDictionary`), which are
-deprecated. `Voicing.sequence` still works only that way for now.
+deprecated.
 
 `VoiceLeading` measures how far the voices move between two voicings (notes
 with octave) and finds the smoothest path through candidate voicings. It works
@@ -243,7 +249,13 @@ with any voicings, including ones you build yourself:
 ```js
 VoiceLeading.distance(["C4", "E4", "G4"], ["B3", "D4", "G4"]); // => 3 (semitones in total)
 VoiceLeading.pcDistance(Chord.notes("C"), Chord.notes("Am")); // => 2 (pitch classes, no octaves)
-VoiceLeading.path([[["C4", "E4", "G4"]], [["F4", "A4", "C5"], ["C4", "F4", "A4"]]]).voicings;
+VoiceLeading.path([
+  [["C4", "E4", "G4"]],
+  [
+    ["F4", "A4", "C5"],
+    ["C4", "F4", "A4"],
+  ],
+]).voicings;
 // => [["C4", "E4", "G4"], ["C4", "F4", "A4"]]
 ```
 

@@ -76,6 +76,40 @@ Every voicing that fits the options, best first. `Voicing.get` is its first resu
 Voicing.search("C").slice(0, 2); // => [["C4", "E4", "G4"], ["C3", "E3", "G3"]]
 ```
 
+### `Voicing.sequence`
+
+`sequence(chords: (string | { chord: string, ...options })[], options?: VoicingOptions & { maxLeap?: number }) => string[][]`
+
+A voicing for each chord of a progression: the smoothest path through the voicings `Voicing.search` gives for each chord, so the voices move as little as possible over the whole progression. It's an exact path, not a greedy one: a choice that would force large moves later is avoided.
+
+```js
+Voicing.sequence(["C", "Am", "F", "G"]);
+// => [["C4", "E4", "G4"], ["C4", "E4", "A4"], ["C4", "F4", "A4"], ["B3", "D4", "G4"]]
+Voicing.sequence(["Dm7", "G7", "Cmaj7"], {
+  voices: 4,
+  extensions: "available",
+  bass: "external",
+});
+// => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
+Voicing.sequence(["Dm7", "G7", "Cmaj7"], {
+  voices: 3,
+  bass: "root",
+  extensions: "available",
+});
+// => [["D2", "F3", "C4", "E4"], ["G2", "F3", "B3", "E4"], ["C3", "E3", "B3", "D4"]]
+```
+
+- **Options.** The options are the ones of `Voicing.get`, for every chord. A chord can be an object with its own options, which are merged over them (all of them except `previous` and `metric`, which belong to the whole sequence):
+
+  ```js
+  Voicing.sequence(["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"], { voices: 4 });
+  ```
+
+- **What each step costs:** the voice-leading distance from the voicing before (`metric`, see [VoiceLeading.path](../voice-leading)), plus the voicing's own cost (register and spacing, see the rules below). So the progression doesn't drift away from the range.
+- **Root position:** only the first chord prefers it, and only when there's no `previous` (the voicing before the first chord).
+- **`maxLeap`:** the largest move of a voice, in semitones. A voicing that needs a larger move is skipped, unless every voicing of its chord does.
+- **Chords without voicings** give `[]`, and the next chord is led from the last one.
+
 ### The rules
 
 1. **Tones.** The notes of the symbol. With fewer `voices`, the least important go first: the root and the natural 5th; the 3rd and the 7th stay, and so does the tension that names the chord (the 13 of a 13 chord). See `Chord.degreesByImportance`.
@@ -128,7 +162,7 @@ The weights are tonal's own starting values, checked against the voicings of jaz
 
 Before tonal 6.10, `Voicing` took voicings from a small dictionary (`VoicingDictionary`). That form still works when the second argument is a range array, or with more than two arguments, and will be removed in tonal 7:
 
-> **Migration (tonal 6.10):** `Voicing.get(chord)` and `Voicing.search(chord)` without a range now use the rules above, so their results change: `Voicing.get("Dm7")` was `["F3", "A3", "C4", "E4"]` (a rootless voicing from the dictionary) and is now `["D3", "F3", "A3", "C4"]`. For the old results, pass the range: `Voicing.get("Dm7", ["C3", "C5"])`. For rootless jazz voicings with the new rules, use `{ voices: 4, extensions: "available", bass: "external" }`.
+> **Migration (tonal 6.10):** `Voicing.get(chord)`, `Voicing.search(chord)` and `Voicing.sequence(chords)` without a range now use the rules above, so their results change: `Voicing.get("Dm7")` was `["F3", "A3", "C4", "E4"]` (a rootless voicing from the dictionary) and is now `["D3", "F3", "A3", "C4"]`. For the old results, pass the range: `Voicing.get("Dm7", ["C3", "C5"])`. For rootless jazz voicings with the new rules, use `{ voices: 4, extensions: "available", bass: "external" }`.
 
 > **Migration (tonal 6.7):** `get` now returns `[]` when no voicing is found; check `voicing.length === 0` instead of `!voicing` or `??`. `search` without a dictionary now searches `VoicingDictionary.all` (it was `VoicingDictionary.triads`), so it returns more results.
 
@@ -207,9 +241,7 @@ If no voicing is found, it returns an empty array (before 6.7 it returned `undef
 Voicing.get("C13"); // => []
 ```
 
-### Voicing.sequence
-
-`Voicing.sequence` still uses the dictionary voicings; it will take the same options as `Voicing.get`.
+### Voicing.sequence (legacy)
 
 ```ts
 Voicing.sequence(
