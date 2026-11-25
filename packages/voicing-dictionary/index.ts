@@ -1,6 +1,7 @@
 import Chord from "@tonaljs/chord";
 import { all, lefthand, triads, VoicingDictionary } from "./data";
 export { all, lefthand, triads } from "./data";
+export type { VoicingDictionary } from "./data";
 
 /** The dictionary used by default in `lookup`: the same as `lefthand`. */
 export const defaultDictionary: VoicingDictionary = lefthand;
