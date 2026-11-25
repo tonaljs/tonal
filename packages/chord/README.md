@@ -297,7 +297,7 @@ The degrees of a chord sorted by how much they define it, to choose which ones t
 6. the other extensions, implied by the one that names the chord
 7. the fifth, if it's natural
 
-The order follows jazz voicing practice: the 3rd and 7th define the quality and are kept, the root is left out when a bass player has it, and the natural 5th goes first (Bill Dobbins, *The Contemporary Jazz Pianist* 2, p. 11; Tim Richards, *Exploring Jazz Piano*; Mark Levine, *The Jazz Piano Book*, ch. 7). So four voices of C13 are the root, 3rd, 7th and 13th, and without the root the 3rd, 7th, 13th and 9th:
+The order follows jazz voicing practice: the 3rd and 7th define the quality and are kept, the root is left out when a bass player has it, and the natural 5th goes first. So four voices of C13 are the root, 3rd, 7th and 13th, and without the root the 3rd, 7th, 13th and 9th:
 
 ```js
 Chord.degreesByImportance("C13"); // => ["3", "b7", "13", "1", "9", "5"]
@@ -306,6 +306,13 @@ Chord.degreesByImportance("C7#5"); // => ["3", "b7", "#5", "1"]
 Chord.degreesByImportance("Csus4"); // => ["4", "1", "5"]
 Chord.degreesByImportance("Cm6"); // => ["b3", "6", "1", "5"]
 ```
+
+Sources:
+
+- Bill Dobbins, _The Contemporary Jazz Pianist_, vol. 2, p. 11: the 3rd and 7th (or 3rd and 6th) carry the quality of a chord; the root and the natural 5th can go.
+- Tim Richards, _Exploring Jazz Piano_: "dominant chords should never omit the seventh" (vol. 1, p. 226), and the three-note 13th chord is 7-3-13, without root and 5th (vol. 2, fig. 7.3).
+- Mark Levine, _The Jazz Piano Book_, ch. 7: rootless voicings leave the root to the bass player.
+- Phil DeGreg, _Jazz Keyboard Harmony_, chs. 4 and 6, and Dan Haerle, _Jazz Piano Voicing Skills_, skills 40–45: three- and four-note rootless voicings keep the 3rd and 7th, also on m7b5 and dim7.
 
 ## Finding chords
 

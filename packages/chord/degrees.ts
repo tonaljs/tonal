@@ -117,6 +117,11 @@ export function probableDegree(
  * 6. the other extensions, implied by the one that names the chord
  * 7. the fifth, if it's natural
  *
+ * See `Chord.degreesByImportance` for the sources: Dobbins, *The Contemporary
+ * Jazz Pianist* vol. 2; Richards, *Exploring Jazz Piano*; Levine, *The Jazz
+ * Piano Book*; DeGreg, *Jazz Keyboard Harmony*; Haerle, *Jazz Piano Voicing
+ * Skills*.
+ *
  * @private
  */
 export function sortByImportance(
