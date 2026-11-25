@@ -18,6 +18,7 @@ import {
   PlaceOptions,
   withBass,
 } from "./place";
+import { VoicingSpacing } from "./spacing";
 import { chordInfo, chooseTones, VoicingBass } from "./tones";
 
 const defaultRange = ["C3", "C5"];
@@ -26,6 +27,9 @@ const defaultVoiceLeading = VoiceLeading.topNoteDiff;
 
 export type { NoteRange, AnchorMode } from "./place";
 export type { VoicingBass } from "./tones";
+export type { VoicingSpacing } from "./spacing";
+export { analyze, drop, invert } from "./notes";
+export type { VoicingAnalysis } from "./notes";
 
 /**
  * How to voice a chord. Every option can be given for a whole progression
@@ -71,6 +75,13 @@ export type VoicingOptions = {
   metric?: VoiceLeadingMetric;
   /** Skip voicings below the low interval limits. Default `true`. */
   lowIntervals?: boolean;
+  /**
+   * Only voicings with this spacing: `"close"`, `"open"`, `"drop2"`,
+   * `"drop3"`, `"drop24"`, `"spread"`, `"block"` (close under the top note,
+   * doubled an octave below), or the chord steps between neighbour voices
+   * (`[2, 1, 2]` is drop 2 for four voices).
+   */
+  spacing?: VoicingSpacing;
 };
 
 const DEFAULT_RANGE: NoteRange = ["C3", "C5"];
@@ -109,6 +120,7 @@ function rankVoicings(
     family: info.family,
     guides: guideDegrees(info.degrees),
     lowIntervals: options.lowIntervals ?? true,
+    spacing: options.spacing,
     previous: options.previous,
     metric: options.metric,
     anchor: options.anchor,

@@ -47,6 +47,7 @@ Options, for one chord or (in `Voicing.sequence`) a whole progression:
 | `metric`         | `"L1"`             | How to measure the voice leading from `previous` (see [VoiceLeading](../voice-leading))                                                                                                                            |
 | `anchor`, `mode` |                    | Place the voicing against a note, without context: `"below"` (top note at or below it), `"duck"` (below it, without it), `"above"` (bottom note at or above it), `"root"` (the root at the bottom, at or above it) |
 | `lowIntervals`   | `true`             | Skip voicings below the low interval limits                                                                                                                                                                        |
+| `spacing`        |                    | Only voicings with this spacing: `"close"`, `"open"`, `"drop2"`, `"drop3"`, `"drop24"`, `"spread"`, `"block"`, or the chord steps between neighbour voices (`[2, 1, 2]`). See [Spacing](#spacing)                  |
 
 ```js
 Voicing.get("C7", { voices: 3 }); // => ["C4", "E4", "Bb4"]
@@ -110,6 +111,62 @@ Voicing.sequence(["Dm7", "G7", "Cmaj7"], {
 - **`maxLeap`:** the largest move of a voice, in semitones. A voicing that needs a larger move is skipped, unless every voicing of its chord does.
 - **Chords without voicings** give `[]`, and the next chord is led from the last one.
 
+### Spacing
+
+How the notes of a voicing are spread is measured in **chord steps**: how many notes of the voicing's own pitch classes there are from one voice up to the next. Close position is one step between neighbours (C4 E4 G4), open position two (C4 G4 E5). The `spacing` option keeps only the voicings with a given spacing:
+
+| Spacing              | Rule                                                                                                                                                                               | Example (Cmaj7)             |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| `"close"`            | one chord step between neighbours                                                                                                                                                  | C4 E4 G4 B4                 |
+| `"open"`             | two chord steps between neighbours (triads)                                                                                                                                        | C3 G3 E4 (C)                |
+| `"drop2"`, `"drop3"` | a close voicing with the 2nd or 3rd voice from the top an octave lower                                                                                                             | C3 G3 B3 E4, C3 B3 E4 G4    |
+| `"drop24"`           | the 2nd and 4th voices from the top an octave lower                                                                                                                                | C3 G3 E4 B4                 |
+| `"spread"`           | the root at the bottom, a wide interval above it (a 5th, 7th or 10th, or a 3rd and then a 4th or more), then intervals from a minor 2nd to a major 6th; more than an octave in all | C3 G3 B3 D4 E4              |
+| `"block"`            | close under the top note, with the top note doubled an octave lower                                                                                                                | A3 C4 E4 G4 A4 (C6, top A4) |
+| `[2, 1, 2]`          | the chord steps between each pair of neighbour voices                                                                                                                              | D3 A3 C4 F4 (Dm7)           |
+
+```js
+Voicing.get("Cmaj7", { spacing: "drop2" }); // => ["C3", "G3", "B3", "E4"]
+Voicing.sequence(["Dm7", "G7", "Cmaj7"], { spacing: "drop2" });
+// => [["D3", "A3", "C4", "F4"], ["D3", "G3", "B3", "F4"], ["C3", "G3", "B3", "E4"]]
+```
+
+## Working with voicings
+
+### `Voicing.analyze`
+
+`analyze(notes: string[], chord?: string) => { empty, notes, bass, top, span, steps, spacing, degrees }`
+
+Describe a voicing: its notes from the bottom, the bass and top notes, the span, the chord steps between neighbours, the first named spacing that fits (block, close, open, drop2, drop3, drop24, spread), and, with a chord symbol, the degree of each note:
+
+```js
+Voicing.analyze(["G3", "C4", "E4", "B4"], "Cmaj7");
+// => { empty: false, notes: ["G3", "C4", "E4", "B4"], bass: "G3", top: "B4", span: "10M", steps: [2, 1, 2], spacing: "drop2", degrees: ["5", "1", "3", "7"] }
+```
+
+### `Voicing.invert`
+
+`invert(notes: string[], n: number) => string[]`
+
+Move every voice `n` steps along the voicing's own notes (up for a positive `n`, down for a negative one). In close position it's the usual inversion; in other spacings the voicing keeps its shape, which moving the bass to the top would destroy:
+
+```js
+Voicing.invert(["C4", "E4", "G4"], 1); // => ["E4", "G4", "C5"]
+Voicing.invert(["C4", "G4", "E5"], 1); // => ["E4", "C5", "G5"]
+Voicing.invert(["C4", "E4", "G4"], -1); // => ["G3", "C4", "E4"]
+```
+
+### `Voicing.drop`
+
+`drop(notes: string[], n: number | number[]) => string[]`
+
+Lower voices an octave, counting from the top (1 is the top voice). A close voicing with the 2nd voice dropped is a drop 2:
+
+```js
+Voicing.drop(["C4", "E4", "G4", "B4"], 2); // => ["G3", "C4", "E4", "B4"]
+Voicing.drop(["C4", "E4", "G4", "B4"], [2, 4]); // => ["C3", "G3", "E4", "B4"]
+```
+
 ### The rules
 
 1. **Tones.** The notes of the symbol. With fewer `voices`, the least important go first: the root and the natural 5th; the 3rd and the 7th stay, and so does the tension that names the chord (the 13 of a 13 chord). See `Chord.degreesByImportance`.
@@ -156,7 +213,9 @@ The weights are tonal's own starting values, checked against the voicings of jaz
 - Bill Dobbins, _The Contemporary Jazz Pianist_, vol. 2, p. 11: the 3rd and the 7th carry the quality; extensions don't sit far below chord tones; avoid unnecessary doubling.
 - Tim Richards, _Exploring Jazz Piano_, vol. 1, p. 223: doubling the melody an octave below.
 - Gary Lindsay, _Jazz Arranging Techniques_ (2005), ch. 12, pp. 93–94 (low interval limits) and ch. 16 (spread voicings: the lowest interval up to a 10th).
-- Dmitri Tymoczko, _Tonality: An Owner's Manual_ (2023), prelude to ch. 2: a voicing is a pattern of spacing measured in steps along the chord.
+- Dmitri Tymoczko, _Tonality: An Owner's Manual_ (2023), prelude to ch. 2: a voicing is a pattern of spacing measured in steps along the chord; close and open position; inverting by moving every voice along the chord keeps the spacing.
+- Gary Lindsay, _Jazz Arranging Techniques_ (2005), ch. 11: drop 2, drop 3 and drop 2 & 4 ("lowering the 2nd voice from the top, one octave").
+- Block chords: Mark Levine, _The Jazz Piano Book_ (1989), ch. 19; Tim Richards, _Exploring Jazz Piano_, vol. 1, p. 223.
 
 ## Legacy: dictionary voicings (deprecated)
 
