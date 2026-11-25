@@ -322,12 +322,22 @@ describe("Voicing.sequence with options", () => {
     bass: "external" as const,
   };
 
-  test("pop progression: root position first, then the smoothest inversions", () => {
+  test("pop progression: root position, or inversions over a bass part", () => {
+    // the voicing carries its own bass: root position (C E A would be Am/C)
     expect(Voicing.sequence(["C", "Am", "F", "G"])).toEqual([
       ["C4", "E4", "G4"],
-      ["C4", "E4", "A4"],
-      ["C4", "F4", "A4"],
-      ["B3", "D4", "G4"],
+      ["A3", "C4", "E4"],
+      ["F3", "A3", "C4"],
+      ["G3", "B3", "D4"],
+    ]);
+    // a bass part plays the root, and the triads above it invert
+    expect(
+      Voicing.sequence(["C", "Am", "F", "G"], { bass: "root", voices: 3 }),
+    ).toEqual([
+      ["C3", "G3", "C4", "E4"],
+      ["A2", "A3", "C4", "E4"],
+      ["F2", "A3", "C4", "F4"],
+      ["G2", "B3", "D4", "G4"],
     ]);
   });
 
@@ -398,9 +408,9 @@ describe("Voicing.sequence with options", () => {
 
   test("chords without voicings keep their place", () => {
     expect(Voicing.sequence(["C", "xx", "F"])).toEqual([
-      ["C4", "E4", "G4"],
+      ["C3", "G3", "E4"],
       [],
-      ["C4", "F4", "A4"],
+      ["F3", "A3", "C4"],
     ]);
     expect(Voicing.sequence([])).toEqual([]);
   });
