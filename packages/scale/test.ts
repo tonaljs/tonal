@@ -674,7 +674,9 @@ describe("@tonaljs/scale", () => {
           }
         }
       }
-    });
+      // every scale type, 21 tonics and two sizes: about 1 s locally, over
+      // the default 5 s on slow CI runners
+    }, 30_000);
   });
 
   describe("laws for every scale type and tonic", () => {
