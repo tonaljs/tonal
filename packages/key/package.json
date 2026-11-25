@@ -20,8 +20,8 @@
     "@tonaljs/roman-numeral": "4.10.1"
   },
   "devDependencies": {
-    "@tonaljs/chord": "6.4.0",
-    "@tonaljs/scale": "4.15.0"
+    "@tonaljs/chord": "6.5.0",
+    "@tonaljs/scale": "4.15.1"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

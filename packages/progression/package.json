@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/progression",
-  "version": "4.11.3",
+  "version": "4.11.4",
   "description": "Build musical chord progressions",
   "keywords": [
     "chord",
@@ -17,7 +17,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord": "6.4.0",
+    "@tonaljs/chord": "6.5.0",
     "@tonaljs/chord-type": "5.4.0",
     "@tonaljs/pitch-distance": "5.1.1",
     "@tonaljs/pitch-interval": "6.3.0",
