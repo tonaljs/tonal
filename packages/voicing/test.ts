@@ -5,7 +5,7 @@ import ChordType from "@tonaljs/chord-type";
 import Note from "@tonaljs/note";
 import VoicingDictionary from "@tonaljs/voicing-dictionary";
 import { topNoteDiff } from "@tonaljs/voice-leading";
-import Voicing from "./index";
+import * as Voicing from "./index";
 
 const { lefthand, triads } = VoicingDictionary;
 
@@ -403,5 +403,180 @@ describe("Voicing.sequence with options", () => {
       ["C4", "F4", "A4"],
     ]);
     expect(Voicing.sequence([])).toEqual([]);
+  });
+});
+
+describe("spacing", () => {
+  test("named spacings", () => {
+    expect(Voicing.get("Cmaj7", { spacing: "close" })).toEqual([
+      "C4",
+      "E4",
+      "G4",
+      "B4",
+    ]);
+    expect(Voicing.get("C", { spacing: "open" })).toEqual(["C3", "G3", "E4"]);
+    expect(Voicing.get("Cmaj7", { spacing: "drop2" })).toEqual([
+      "C3",
+      "G3",
+      "B3",
+      "E4",
+    ]);
+    expect(Voicing.get("Cmaj7", { spacing: "drop3" })).toEqual([
+      "C3",
+      "B3",
+      "E4",
+      "G4",
+    ]);
+    expect(Voicing.get("Cmaj7", { spacing: "drop24" })).toEqual([
+      "C3",
+      "G3",
+      "E4",
+      "B4",
+    ]);
+    expect(
+      Voicing.get("C6", { spacing: "block", voices: 5, top: "A4" }),
+    ).toEqual(["A3", "C4", "E4", "G4", "A4"]);
+    expect(Voicing.get("Dm7", { spacing: [2, 1, 2] })).toEqual([
+      "D3",
+      "A3",
+      "C4",
+      "F4",
+    ]);
+  });
+
+  test("every voicing of a spacing has it", () => {
+    const names = ["close", "open", "drop2", "drop3", "drop24"] as const;
+    for (const chord of ["Cmaj7", "Dm7", "G7", "F#m7b5", "Bb6"]) {
+      for (const spacing of names) {
+        for (const v of Voicing.search(chord, {
+          spacing,
+          range: ["C3", "C6"],
+        })) {
+          const analysis = Voicing.analyze(v, chord);
+          if (spacing === "close")
+            expect(analysis.steps.every((s) => s === 1)).toBe(true);
+          if (spacing === "drop2") {
+            // undo the drop: the lowest voice up an octave gives a close voicing
+            const up = Voicing.analyze([
+              Note.transpose(v[0], "8P"),
+              ...v.slice(1),
+            ]);
+            expect(up.steps.every((s) => s === 1)).toBe(true);
+          }
+        }
+      }
+    }
+  });
+
+  test("spread: the root at the bottom, wide at the bottom", () => {
+    const v = Voicing.get("Cmaj7", {
+      spacing: "spread",
+      voices: 5,
+      extensions: "available",
+      range: ["C3", "D5"],
+    });
+    expect(v).toEqual(["C3", "G3", "B3", "D4", "E4"]);
+    // also a drop 3 of five voices, the name analyze gives first
+    expect(Voicing.analyze(v, "Cmaj7").spacing).toBe("drop3");
+    for (const w of Voicing.search("Cmaj7", {
+      spacing: "spread",
+      voices: 5,
+      extensions: "available",
+      range: ["C3", "D5"],
+    })) {
+      expect(Note.pitchClass(w[0])).toBe("C");
+      expect(Note.midi(w[w.length - 1])! - Note.midi(w[0])!).toBeGreaterThan(
+        12,
+      );
+    }
+  });
+});
+
+describe("Voicing.analyze", () => {
+  test("describes a voicing", () => {
+    expect(Voicing.analyze(["G3", "C4", "E4", "B4"], "Cmaj7")).toEqual({
+      empty: false,
+      notes: ["G3", "C4", "E4", "B4"],
+      bass: "G3",
+      top: "B4",
+      span: "10M",
+      steps: [2, 1, 2],
+      spacing: "drop2",
+      degrees: ["5", "1", "3", "7"],
+    });
+  });
+
+  test("names", () => {
+    expect(Voicing.analyze(["E4", "C4", "G4"]).notes).toEqual([
+      "C4",
+      "E4",
+      "G4",
+    ]);
+    expect(Voicing.analyze(["C4", "E4", "G4"]).spacing).toBe("close");
+    expect(Voicing.analyze(["C4", "G4", "E5"]).spacing).toBe("open");
+    expect(Voicing.analyze(["E3", "C4", "G4", "B4"]).spacing).toBe("drop3");
+    expect(Voicing.analyze(["C3", "G3", "E4", "B4"]).spacing).toBe("drop24");
+    expect(Voicing.analyze(["A3", "C4", "E4", "G4", "A4"]).spacing).toBe(
+      "block",
+    );
+    expect(
+      Voicing.analyze(["C3", "B3", "E4", "A4", "D5"], "Cmaj7").spacing,
+    ).toBe("spread");
+  });
+
+  test("invalid", () => {
+    expect(Voicing.analyze([]).empty).toBe(true);
+    expect(Voicing.analyze(["C", "E"]).empty).toBe(true);
+  });
+});
+
+describe("Voicing.invert and drop", () => {
+  test("invert moves every voice along the voicing's notes", () => {
+    expect(Voicing.invert(["C4", "E4", "G4"], 1)).toEqual(["E4", "G4", "C5"]);
+    expect(Voicing.invert(["C4", "E4", "G4"], -1)).toEqual(["G3", "C4", "E4"]);
+    expect(Voicing.invert(["C4", "G4", "E5"], 1)).toEqual(["E4", "C5", "G5"]);
+    expect(Voicing.invert(["C#4", "E#4", "G#4", "B4"], 1)).toEqual([
+      "E#4",
+      "G#4",
+      "B4",
+      "C#5",
+    ]);
+    expect(Voicing.invert(["C4", "E4"], 0)).toEqual(["C4", "E4"]);
+    expect(Voicing.invert(["C"], 1)).toEqual([]);
+  });
+
+  test("laws: invert keeps the spacing and goes back", () => {
+    const voicings = [
+      ["C4", "E4", "G4"],
+      ["G3", "C4", "E4", "B4"],
+      ["D3", "A3", "C4", "F4", "E5"],
+    ];
+    for (const v of voicings) {
+      for (const n of [1, 2, 3, -1, -2]) {
+        const inverted = Voicing.invert(v, n);
+        expect(Voicing.analyze(inverted).steps).toEqual(
+          Voicing.analyze(v).steps,
+        );
+        expect(Voicing.invert(inverted, -n)).toEqual(v);
+      }
+    }
+  });
+
+  test("drop lowers voices counted from the top", () => {
+    const close = ["C4", "E4", "G4", "B4"];
+    expect(Voicing.drop(close, 2)).toEqual(["G3", "C4", "E4", "B4"]);
+    expect(Voicing.drop(close, 3)).toEqual(["E3", "C4", "G4", "B4"]);
+    expect(Voicing.drop(close, [2, 4])).toEqual(["C3", "G3", "E4", "B4"]);
+    expect(Voicing.drop(close, 5)).toEqual([]);
+    expect(Voicing.drop(["C"], 1)).toEqual([]);
+  });
+
+  test("laws: drop keeps the pitch classes, and names its spacing", () => {
+    const close = ["D4", "F4", "A4", "C5"];
+    const pcs = (v: string[]) => v.map(Note.pitchClass).sort();
+    expect(pcs(Voicing.drop(close, 2))).toEqual(pcs(close));
+    expect(Voicing.analyze(Voicing.drop(close, 2)).spacing).toBe("drop2");
+    expect(Voicing.analyze(Voicing.drop(close, 3)).spacing).toBe("drop3");
+    expect(Voicing.analyze(Voicing.drop(close, [2, 4])).spacing).toBe("drop24");
   });
 });

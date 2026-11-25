@@ -1,4 +1,5 @@
 import { chroma as noteChroma, get as getNote } from "@tonaljs/note";
+import { hasSpacing, stepsOf, VoicingSpacing } from "./spacing";
 import {
   distance as voiceLeadingDistance,
   VoiceLeadingMetric,
@@ -75,6 +76,8 @@ export type PlaceOptions = {
   mode?: AnchorMode;
   /** Prefer the chord's bass at the bottom (no context). Default true. */
   rootPosition?: boolean;
+  /** A named spacing or the chord steps between neighbour voices. */
+  spacing?: VoicingSpacing;
 };
 
 const midiOf = (note: string) => getNote(note).midi ?? NaN;
@@ -142,6 +145,12 @@ export function arrangements(
 
 function fits(voicing: Pitch[], options: PlaceOptions): boolean {
   const midis = voicing.map((p) => p.midi);
+  if (
+    options.spacing &&
+    !hasSpacing(midis, options.spacing, options.rootChroma)
+  ) {
+    return false;
+  }
   // a range for each voice
   if (options.ranges) {
     if (options.ranges.length !== voicing.length) return false;
@@ -226,16 +235,6 @@ export function withBass(upper: Pitch[][], options: PlaceOptions): Candidate[] {
 const EXTENSION_NUMS = [2, 4, 6, 9, 11, 13];
 const degreeNum = (degree: string) => +(degree.match(/\d+$/)?.[0] ?? NaN);
 
-// How many chord steps (notes of the voicing's own pitch classes) separate
-// two notes: 1 for neighbours in close position
-function chordSteps(chromas: number[], low: number, high: number): number {
-  let steps = 0;
-  for (let m = low + 1; m <= high; m++) {
-    if (chromas.includes(((m % 12) + 12) % 12)) steps++;
-  }
-  return steps;
-}
-
 /**
  * The cost of a candidate: lower is better. Every term is documented in the
  * README (`Voicing.search`).
@@ -284,10 +283,7 @@ export function cost(candidate: Candidate, options: PlaceOptions): number {
   }
 
   // spacing: one per chord step beyond close position between neighbours
-  const chromas = [...new Set(pitches.map((p) => p.chroma))];
-  for (let i = 1; i < midis.length; i++) {
-    total += Math.max(0, chordSteps(chromas, midis[i - 1], midis[i]) - 1);
-  }
+  for (const step of stepsOf(midis)) total += Math.max(0, step - 1);
   // minor 9ths between any two notes, except the root under a b9 on a dominant
   for (let i = 0; i < all.length; i++) {
     for (let j = i + 1; j < all.length; j++) {

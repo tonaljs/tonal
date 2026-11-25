@@ -325,7 +325,10 @@ exports[`tonal > Modules exports functions 1`] = `
     "topNoteDiff",
   ],
   "Voicing": [
+    "analyze",
+    "drop",
     "get",
+    "invert",
     "search",
     "sequence",
   ],

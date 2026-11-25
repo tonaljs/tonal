@@ -1581,12 +1581,30 @@ type VoiceLeadingPath = {
 
 import { Voicing } from "tonal"; // or: import * as Voicing from "@tonaljs/voicing";
 
+Voicing.analyze(notes: string[], chord?: string): VoicingAnalysis
+  Describe a voicing (a list of notes with octave): its notes from the bottom, the bass and top notes, the span, the spacing in chord steps and its name (block, close, open, drop2, drop3, drop24, spread), and, with a chord symbol, the chord degree of each note. It returns `empty: true` if the voicing is empty or has a note without octave.
+  Voicing.analyze(["G3", "C4", "E4", "B4"], "Cmaj7").spacing; // => "drop2"
+  Voicing.analyze(["G3", "C4", "E4", "B4"], "Cmaj7").degrees; // => ["5", "1", "3", "7"]
+  Voicing.analyze(["C4", "G4", "E5"]).steps; // => [2, 2]
+
+Voicing.drop(notes: string[], n: number | number[]): string[]
+  Drop voices of a voicing an octave: `n` is the position of the voice counting from the top (1 is the top voice), or a list of positions. A close voicing with the 2nd voice from the top dropped is a "drop 2" voicing. The result is sorted from the bottom, and the spelling is kept. It returns `[]` if the voicing is invalid or a position doesn't exist.
+  Voicing.drop(["C4", "E4", "G4", "B4"], 2); // => ["G3", "C4", "E4", "B4"]
+  Voicing.drop(["C4", "E4", "G4", "B4"], 3); // => ["E3", "C4", "G4", "B4"]
+  Voicing.drop(["C4", "E4", "G4", "B4"], [2, 4]); // => ["C3", "G3", "E4", "B4"]
+
 Voicing.get(chord: string, options?: VoicingOptions): string[]
 Voicing.get(chord: string, range?: string[], dictionary?: VoicingDictionary, voiceLeading?: VoiceLeadingFunction, lastVoicing?: string[]): string[]
   Get a voicing of a chord: a list of notes with octave, from the bottom. By default it has the notes of the symbol, in root position, near the middle of the range ["C3", "C5"]: `Voicing.get("C7")` is C, E, G and Bb. Options choose the number of voices, the tensions, who plays the bass, the range, the top note, and lead from a previous voicing. It returns `[]` if the chord is not valid or no voicing fits.
   Voicing.get("C7"); // => ["C4", "E4", "G4", "Bb4"]
   Voicing.get("Dm7", { voices: 4, extensions: "available", bass: "external" }); // => ["F3", "A3", "C4", "E4"]
   Voicing.get("G7", { voices: 4, extensions: "available", bass: "external", previous: ["F3", "A3", "C4", "E4"] }); // => ["F3", "A3", "B3", "E4"]
+
+Voicing.invert(notes: string[], n: number): string[]
+  Invert a voicing: move every voice `n` steps along the voicing's own notes (up for a positive `n`, down for a negative one), so the spacing doesn't change. In close position it's the usual inversion (C4 E4 G4 becomes E4 G4 C5); in other spacings the voicing keeps its shape. The spelling is kept. It returns `[]` if the voicing is empty or has a note without octave.
+  Voicing.invert(["C4", "E4", "G4"], 1); // => ["E4", "G4", "C5"]
+  Voicing.invert(["C4", "G4", "E5"], 1); // => ["E4", "C5", "G5"]
+  Voicing.invert(["C4", "E4", "G4"], -1); // => ["G3", "C4", "E4"]
 
 Voicing.search(chord: string, options?: VoicingOptions): string[][]
 Voicing.search(chord: string, range?: string[], dictionary?: VoicingDictionary): string[][]
@@ -1606,6 +1624,17 @@ Types:
 
 type VoiceLeadingFunction = (voicings: string[][], lastVoicing: string[]) => string[]
 
+type VoicingAnalysis = {
+  empty: boolean;
+  notes: string[];
+  bass: string;
+  top: string;
+  span: string;
+  steps: number[];
+  spacing: '' | 'close' | 'open' | 'drop2' | 'drop3' | 'drop24' | 'spread' | 'block';
+  degrees: string[];
+}
+
 type VoicingDictionary = { [symbol: string]: string[]; }
 
 type VoicingOptions = {
@@ -1621,6 +1650,7 @@ type VoicingOptions = {
   previous?: string[] | undefined;
   metric?: VoiceLeadingMetric | undefined;
   lowIntervals?: boolean | undefined;
+  spacing?: VoicingSpacing | undefined;
 }
 
 ## VoicingDictionary
