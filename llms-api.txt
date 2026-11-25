@@ -1,4 +1,4 @@
-# tonal 6.9.0 API
+# tonal 6.10.0 API
 
 Every public function of the `tonal` npm package, generated from its
 TypeScript source. One entry per function: the signature, then a one-line
@@ -277,9 +277,9 @@ Chord.degrees(chordName: ChordNameOrTokens, tonic?: string): (degree: number) =>
 
 Chord.degreesByImportance(chordName: ChordNameOrTokens): ChordDegreeName[]
   Get the degree names of a chord (as in `Chord.formula`) sorted by how much they define it, to choose which ones to keep when there are fewer voices than chord tones. It returns `[]` if the chord isn't valid.
-  Chord.degreesByImportance("C13"); // => ["3", "b7", "9", "1", "5", "13"]
-  Chord.degreesByImportance("C7#5"); // => ["3", "#5", "b7", "1"]
-  Chord.degreesByImportance("Csus4"); // => ["4", "1", "5"]
+  Chord.degreesByImportance("C13"); // => ["3", "b7", "13", "1", "9", "5"]
+  Chord.degreesByImportance("Cm7b5"); // => ["b3", "b7", "b5", "1"]
+  Chord.degreesByImportance("C7#5"); // => ["3", "b7", "#5", "1"]
 
 Chord.detect(source: string[], options?: Partial<DetectOptions>): string[]
   Find the chord symbols that have the notes of a list, best first. It returns `[]` if no chord matches or no note is valid.
@@ -1534,65 +1534,135 @@ type ValidTimeSignature = {
 
 import { VoiceLeading } from "tonal"; // or: import * as VoiceLeading from "@tonaljs/voice-leading";
 
+VoiceLeading.distance(from: string[], to: string[], options?: VoiceLeadingOptions): number | null
+  Get the size of the smallest voice leading between two voicings (lists of notes with octave): by default, the total number of semitones the voices move. It returns `null` if a voicing is empty or has a note without octave. See `VoiceLeading.get` for how the voices are matched.
+  VoiceLeading.distance(["C4", "E4", "G4"], ["B3", "D4", "G4"]); // => 3
+  VoiceLeading.distance(["C4", "E4", "G4"], ["B3", "D4", "G4"], { metric: "Linf" }); // => 2
+  VoiceLeading.distance(["C4", "E4"], ["C"]); // => null
+
+VoiceLeading.get(from: string[], to: string[], options?: VoiceLeadingOptions): VoiceLeadingMapping
+  Get the smallest voice leading between two voicings (lists of notes with octave): how far the voices move, and where each voice goes. It returns `{ distance: null, moves: [] }` if a voicing is empty or has a note without octave.
+  VoiceLeading.get(["C4", "E4", "G4"], ["B3", "D4", "G4"]); // => { distance: 3, moves: [["C4", "B3"], ["E4", "D4"], ["G4", "G4"]] }
+  VoiceLeading.get(["C4", "E4", "G4"], ["C4", "E4", "G4", "B4"]).moves; // => [["C4", "C4"], ["E4", "E4"], ["G4", "G4"], ["G4", "B4"]]
+
+VoiceLeading.path(candidates: string[][][], options?: VoiceLeadingPathOptions): VoiceLeadingPath
+  Get the smoothest path through the candidate voicings of a list of chords: one voicing per chord, so that the total voice-leading distance between consecutive voicings (plus the cost of each candidate, if given) is the smallest possible. It returns `[]` for a chord without valid candidates and leads the next chord from the last voicing.
+  VoiceLeading.path([[["C4", "E4", "G4"]], [["F4", "A4", "C5"], ["C4", "F4", "A4"]], [["G4", "B4", "D5"], ["B3", "D4", "G4"]]]).voicings; // => [["C4", "E4", "G4"], ["C4", "F4", "A4"], ["B3", "D4", "G4"]]
+  VoiceLeading.path([[["C4", "E4", "G4"]], [["F4", "A4", "C5"], ["C4", "F4", "A4"]], [["G4", "B4", "D5"], ["B3", "D4", "G4"]]]).steps; // => [0, 3, 6]
+
+VoiceLeading.pcDistance(from: string[], to: string[], options?: VoiceLeadingOptions): number | null
+  Get the size of the smallest voice leading between two sets of pitch classes, without octaves: each voice moves the shortest way to its new pitch class. Notes with octave are read as their pitch class, and repeated pitch classes count once. It returns `null` if a list is empty or has an invalid note.
+  VoiceLeading.pcDistance(["C", "E", "G"], ["C", "E", "A"]); // => 2
+  VoiceLeading.pcDistance(Chord.notes("C"), Chord.notes("Em")); // => 1
+  VoiceLeading.pcDistance(Chord.notes("Dm7"), Chord.notes("G7")); // => 3
+
 VoiceLeading.topNoteDiff(voicings: string[][], lastVoicing: string[]): string[]
+  [deprecated] It only looks at the top note: use `VoiceLeading.path`, or `Voicing.get` with `previous`, which measure every voice. Removed in tonal 7.
   Pick the voicing whose top note is closest to the top note of the last voicing (the first of them on a tie). If there is no last voicing, it picks the first one. It returns `[]` if there are no voicings, and doesn't change the given list.
   VoiceLeading.topNoteDiff([["C4", "E4", "G4"], ["E4", "G4", "C5"], ["G4", "C5", "E5"]], ["D4", "F4", "A4"]); // => ["C4", "E4", "G4"]
+
+Types:
+
+type VoiceLeadingMapping = {
+  distance: number | null;
+  moves: VoiceLeadingMove[];
+}
+
+type VoiceLeadingOptions = {
+  metric?: VoiceLeadingMetric | undefined;
+}
+
+type VoiceLeadingPath = {
+  voicings: string[][];
+  cost: number;
+  steps: number[];
+}
 
 ## Voicing
 
 import { Voicing } from "tonal"; // or: import * as Voicing from "@tonaljs/voicing";
 
-Voicing.get(chord: string, range?: string[], dictionary?: VoicingDictionary, voiceLeading?: VoiceLeadingFunction, lastVoicing?: string[]): string[]
-  Get a voicing (a list of notes with octaves) of a chord symbol inside a range. Without `lastVoicing` it picks the lowest voicing; with it, the `voiceLeading` function picks the voicing that follows it best. Returns `[]` if the chord is unknown or no voicing fits the range.
-  Voicing.get("Cmaj7"); // => ["E3", "G3", "B3", "D4"]
-  Voicing.get("Dm7", ["C3", "C5"], undefined, undefined, ["C4", "E4", "G4", "B4"]); // => ["C4", "E4", "F4", "A4"]
-  Voicing.get("xx"); // => []
+Voicing.analyze(notes: string[], chord?: string): VoicingAnalysis
+  Describe a voicing (a list of notes with octave): its notes from the bottom, the bass and top notes, the span, the spacing in chord steps and its name (block, close, open, drop2, drop3, drop24, spread), and, with a chord symbol, the chord degree of each note. It returns `empty: true` if the voicing is empty or has a note without octave.
+  Voicing.analyze(["G3", "C4", "E4", "B4"], "Cmaj7").spacing; // => "drop2"
+  Voicing.analyze(["G3", "C4", "E4", "B4"], "Cmaj7").degrees; // => ["5", "1", "3", "7"]
+  Voicing.analyze(["C4", "G4", "E5"]).steps; // => [2, 2]
 
-Voicing.search(chord: string, range?: string[], dictionary?: VoicingDictionary): string[][]
-  Get all the voicings of a chord symbol that fit inside a range: each voicing of the dictionary, at every position in the range. Returns `[]` if the chord is not in the dictionary.
-  Voicing.search("C", ["C3", "C5"], VoicingDictionary.triads).slice(0, 3); // => [["C3", "E3", "G3"], ["C4", "E4", "G4"], ["E3", "G3", "C4"]]
+Voicing.drop(notes: string[], n: number | number[]): string[]
+  Drop voices of a voicing an octave: `n` is the position of the voice counting from the top (1 is the top voice), or a list of positions. A close voicing with the 2nd voice from the top dropped is a "drop 2" voicing. The result is sorted from the bottom, and the spelling is kept. It returns `[]` if the voicing is invalid or a position doesn't exist.
+  Voicing.drop(["C4", "E4", "G4", "B4"], 2); // => ["G3", "C4", "E4", "B4"]
+  Voicing.drop(["C4", "E4", "G4", "B4"], 3); // => ["E3", "C4", "G4", "B4"]
+  Voicing.drop(["C4", "E4", "G4", "B4"], [2, 4]); // => ["C3", "G3", "E4", "B4"]
 
-Voicing.sequence(chords: string[], range?: string[], dictionary?: VoicingDictionary, voiceLeading?: VoiceLeadingFunction, lastVoicing?: string[]): string[][]
-  Get a voicing for each chord of a list, each one voice-led from the previous. A chord without voicing gives `[]` and the next chord is led from the last chord that had one.
-  Voicing.sequence(["Dm7", "G7", "Cmaj7"]); // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
+Voicing.get(chord: string, options?: VoicingOptions): string[]
+Voicing.get(chord: string, range?: string[], dictionary?: VoicingDictionary, voiceLeading?: VoiceLeadingFunction, lastVoicing?: string[]): string[]  [deprecated] Use the options object: `Voicing.get(chord, { range, previous })`. Removed in tonal 7.
+  Get a voicing of a chord: a list of notes with octave, from the bottom. By default it has the notes of the symbol, in root position, near the middle of the range ["C3", "C5"]: `Voicing.get("C7")` is C, E, G and Bb. Options choose the number of voices, the tensions, who plays the bass, the range, the top note, and lead from a previous voicing. It returns `[]` if the chord is not valid or no voicing fits.
+  Voicing.get("C7"); // => ["C4", "E4", "G4", "Bb4"]
+  Voicing.get("Dm7", { voices: 4, extensions: "available", bass: "external" }); // => ["F3", "A3", "C4", "E4"]
+  Voicing.get("G7", { voices: 4, extensions: "available", bass: "external", previous: ["F3", "A3", "C4", "E4"] }); // => ["F3", "A3", "B3", "E4"]
+
+Voicing.invert(notes: string[], n: number): string[]
+  Invert a voicing: move every voice `n` steps along the voicing's own notes (up for a positive `n`, down for a negative one), so the spacing doesn't change. In close position it's the usual inversion (C4 E4 G4 becomes E4 G4 C5); in other spacings the voicing keeps its shape. The spelling is kept. It returns `[]` if the voicing is empty or has a note without octave.
+  Voicing.invert(["C4", "E4", "G4"], 1); // => ["E4", "G4", "C5"]
+  Voicing.invert(["C4", "G4", "E5"], 1); // => ["E4", "C5", "G5"]
+  Voicing.invert(["C4", "E4", "G4"], -1); // => ["G3", "C4", "E4"]
+
+Voicing.search(chord: string, options?: VoicingOptions): string[][]
+Voicing.search(chord: string, range?: string[], dictionary?: VoicingDictionary): string[][]  [deprecated] Use the options object: `Voicing.search(chord, { range })`. Removed in tonal 7.
+  Get every voicing of a chord that fits the options, best first. Each voicing is a list of notes with octave, from the bottom. It returns `[]` if the chord is not valid or no voicing fits.
+  Voicing.search("C").slice(0, 2); // => [["C4", "E4", "G4"], ["C3", "E3", "G3"]]
+  Voicing.search("C7", { voices: 3 })[0]; // => ["C4", "E4", "Bb4"]
+  Voicing.search("C7", { bass: "root", voices: 3 })[0]; // => ["C2", "Bb3", "E4", "G4"]
+
+Voicing.sequence(chords: (string | VoicingChord)[], options?: SequenceOptions): string[][]
+Voicing.sequence(chords: string[], range?: string[], dictionary?: VoicingDictionary, voiceLeading?: VoiceLeadingFunction, lastVoicing?: string[]): string[][]  [deprecated] Use the options object: `Voicing.sequence(chords, { range, previous })`. Removed in tonal 7.
+  Get a voicing for each chord of a list: the smoothest path through the voicings `Voicing.search` gives for each chord, so that the voices move as little as possible over the whole progression (an exact path, not a greedy one). The options are the ones of `Voicing.get`, for every chord, and each chord can be an object with its own (`{ chord: "G7", voices: 5 }`), all but `previous` and `metric`, which belong to the whole sequence. `maxLeap` limits the move of each voice. A chord without voicings gives `[]`, and the next one is led from the last.
+  Voicing.sequence(["C", "Am", "F", "G"]); // => [["C4", "E4", "G4"], ["A3", "C4", "E4"], ["F3", "A3", "C4"], ["G3", "B3", "D4"]]
+  Voicing.sequence(["Dm7", "G7", "Cmaj7"], { voices: 4, extensions: "available", bass: "external" }); // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
+  Voicing.sequence(["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"], { voices: 4 }).map((v) => v.length); // => [4, 5, 4]
+
+Voicing.templates(): string[]
+  Get the names of tonal's voicing templates, for the `template` option: shell, guide-tones, rootless, rootless-spread, so-what, fourths, upper-structure (and upper-structure-II, -bIII, -bV, -bVI, -VI) and triad-over-root. Each one is in two or more jazz piano books (see the README).
+  Voicing.templates().includes("rootless"); // => true
 
 Types:
 
 type VoiceLeadingFunction = (voicings: string[][], lastVoicing: string[]) => string[]
 
-type VoicingDictionary = { [symbol: string]: string[]; }
-
-## VoicingDictionary
-
-import { VoicingDictionary } from "tonal"; // or: import * as VoicingDictionary from "@tonaljs/voicing-dictionary";
-
-VoicingDictionary.lookup(symbol: string, dictionary?: VoicingDictionary): string[] | undefined
-  Get the voicings of a chord type in a dictionary, each one a string of intervals like "3M 5P 7M 9M". The symbol can be any alias of a chord type in the dictionary. Returns undefined if it's not found.
-  VoicingDictionary.lookup("maj7"); // => ["3M 5P 7M 9M", "7M 9M 10M 12P"]
-  VoicingDictionary.lookup("M7"); // => ["3M 5P 7M 9M", "7M 9M 10M 12P"]
-  VoicingDictionary.lookup("zz"); // => undefined
-
-Constants:
-
-VoicingDictionary.all: VoicingDictionary
-  The `triads` and `lefthand` dictionaries merged. The default of `Voicing`.
-
-VoicingDictionary.defaultDictionary: VoicingDictionary
-  The dictionary used by default in `lookup`: the same as `lefthand`.
-
-VoicingDictionary.lefthand: VoicingDictionary
-  Left hand voicings of seventh and extended chords ("m7", "7", "maj7"...), as intervals from the root. The default dictionary of `lookup`.
-
-VoicingDictionary.triads: VoicingDictionary
-  Voicings of triads ("M", "m", "o", "aug"), as intervals from the root.
-
-Types:
+type VoicingAnalysis = {
+  empty: boolean;
+  notes: string[];
+  bass: string;
+  top: string;
+  span: string;
+  steps: number[];
+  spacing: '' | 'close' | 'open' | 'drop2' | 'drop3' | 'drop24' | 'spread' | 'block';
+  degrees: string[];
+}
 
 type VoicingDictionary = { [symbol: string]: string[]; }
+
+type VoicingOptions = {
+  voices?: number | NoteRange[] | undefined;
+  extensions?: string[] | 'available' | undefined;
+  bass?: VoicingBass | undefined;
+  range?: NoteRange | undefined;
+  bassRange?: NoteRange | undefined;
+  top?: string | NoteRange | undefined;
+  degrees?: string[] | undefined;
+  anchor?: string | undefined;
+  mode?: AnchorMode | undefined;
+  previous?: string[] | undefined;
+  metric?: VoiceLeadingMetric | undefined;
+  lowIntervals?: boolean | undefined;
+  template?: string | string[] | undefined;
+  spacing?: VoicingSpacing | undefined;
+}
 
 ## Deprecated namespaces
 
 - ChordDictionary: use ChordType
 - PcSet: use Pcset
 - ScaleDictionary: use ScaleType
+- VoicingDictionary: use Voicing (get, search and sequence with options or templates)
 - Tonal: use the top-level functions

@@ -1,8 +1,8 @@
-# Voicing dictionary
+# Voicing dictionary (deprecated)
 
-> Dictionaries of chord voicings
+> The old dictionaries of chord voicings, replaced by Voicing options and templates
 
-Contains dictionaries for many chord voicings. Used by [@tonaljs/voicing](https://tonaljs.github.io/tonal/docs/voicings/voicings.md).
+Contains dictionaries for many chord voicings. Used by the deprecated positional form of [@tonaljs/voicing](https://tonaljs.github.io/tonal/docs/voicings/voicings.md).
 
 ## API
 

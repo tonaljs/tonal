@@ -22,16 +22,16 @@ import { Chord, Interval, Key, Note, Scale } from "tonal";
 `tonal` exports one namespace per module (`Note`, `Interval`, `Chord`,
 `ChordType`, `Scale`, `ScaleType`, `Key`, `Mode`, `Midi`, `Pcset`,
 `Progression`, `RomanNumeral`, `Range`, `Collection`, `Voicing`,
-`VoicingDictionary`, `VoiceLeading`, `TimeSignature`, `DurationValue`,
+`VoiceLeading`, `TimeSignature`, `DurationValue`,
 `RhythmPattern`, `AbcNotation`) and a few top-level functions (`note`,
 `interval`, `transpose`, `distance`). Each namespace is also its own npm package:
 `import * as Chord from "@tonaljs/chord"`. Use `tonal` unless bundle size
 matters. In a browser without a bundler, `tonal/browser/tonal.min.js` defines a
 `Tonal` global.
 
-Don't use the deprecated namespaces `Tonal`, `PcSet`, `ChordDictionary` and
-`ScaleDictionary`: use the top-level functions, `Pcset`, `ChordType` and
-`ScaleType`.
+Don't use the deprecated namespaces `Tonal`, `PcSet`, `ChordDictionary`,
+`ScaleDictionary` and `VoicingDictionary`: use the top-level functions, `Pcset`,
+`ChordType`, `ScaleType` and `Voicing` (with options or templates).
 
 ## How tonal works
 
@@ -138,7 +138,7 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   ```js
   Chord.formula("Cm7"); // => ["1", "b3", "5", "b7"]
   Chord.noteOf("G13", "3"); // => "B"
-  Chord.degreesByImportance("G13"); // => ["3", "b7", "9", "1", "5", "13"]
+  Chord.degreesByImportance("G13"); // => ["3", "b7", "13", "1", "9", "5"]
   ```
 
 - `Chord.get(name).complexity` (or `ChordType.get(type).complexity`) is the
@@ -193,14 +193,79 @@ into its parts.
 ## Voicings
 
 ```js
-Voicing.get("Dm7"); // => ["F3", "A3", "C4", "E4"]
-Voicing.search("Cmaj7", ["E3", "D5"]); // every voicing in the range
-Voicing.sequence(["Dm7", "G7", "Cmaj7"], ["E3", "G4"]); // one voicing per chord, smooth voice leading
+Voicing.get("C7"); // => ["C4", "E4", "G4", "Bb4"] (the symbol's notes, root position)
+Voicing.get("C13", { voices: 4 }); // => ["C4", "E4", "A4", "Bb4"] (3rd, 7th and 13th kept)
+Voicing.get("Dm7", { voices: 4, extensions: "available", bass: "external" }); // => ["F3", "A3", "C4", "E4"] (rootless)
+Voicing.get("G7", {
+  voices: 4,
+  extensions: "available",
+  bass: "external",
+  previous: ["F3", "A3", "C4", "E4"],
+}); // => ["F3", "A3", "B3", "E4"]
+Voicing.search("C"); // every voicing that fits, best first
+Voicing.sequence(["Dm7", "G7", "Cmaj7"], {
+  voices: 4,
+  extensions: "available",
+  bass: "external",
+}); // the smoothest path over the whole progression
+Voicing.sequence(["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"], { voices: 4 }); // options per chord
+Voicing.get("Dm7", { template: "rootless" }); // => ["F3", "A3", "C4", "E4"] (Voicing.templates() lists the catalogue)
+Voicing.get("Cmaj7", { spacing: "drop2" }); // => ["C3", "G3", "B3", "E4"] (close, open, drop2, drop3, drop24, spread, block)
+Voicing.analyze(["G3", "C4", "E4", "B4"], "Cmaj7").spacing; // => "drop2"
+Voicing.invert(["C4", "E4", "G4"], 1); // => ["E4", "G4", "C5"]
+Voicing.drop(["C4", "E4", "G4", "B4"], 2); // => ["G3", "C4", "E4", "B4"]
 ```
 
-Voicings come from a dictionary of voicings for common chord types
-(`VoicingDictionary`), within a range of notes. This module is being
-extended: check the API list for its current functions.
+The chord symbol says which notes the chord has; the options say how to play
+them: `voices` (a number, or a range per voice), `extensions` (`"available"` or
+a list of degrees), `bass` (`"none"`, `"root"` for a bass part, `"external"` for
+a bass player), `range`, `top` (a melody note), `previous`, `anchor`. The rules
+are in the API list. `[]` means the chord isn't valid or no voicing fits.
+
+Calling `Voicing.get`, `search` or `sequence` with a range array as the second
+argument uses the old dictionary voicings (`VoicingDictionary`), which are
+deprecated, as is `VoiceLeading.topNoteDiff`: use the options object and
+`previous` (or `VoiceLeading.path`).
+
+`VoiceLeading` measures how far the voices move between two voicings (notes
+with octave) and finds the smoothest path through candidate voicings. It works
+with any voicings, including ones you build yourself:
+
+```js
+VoiceLeading.distance(["C4", "E4", "G4"], ["B3", "D4", "G4"]); // => 3 (semitones in total)
+VoiceLeading.pcDistance(Chord.notes("C"), Chord.notes("Am")); // => 2 (pitch classes, no octaves)
+VoiceLeading.path([
+  [["C4", "E4", "G4"]],
+  [
+    ["F4", "A4", "C5"],
+    ["C4", "F4", "A4"],
+  ],
+]).voicings;
+// => [["C4", "E4", "G4"], ["C4", "F4", "A4"]]
+```
+
+`distance` and `pcDistance` return `null`, not a number, for an empty voicing
+or a note without octave.
+
+`VoiceLeading` measures how far the voices move between two voicings (notes
+with octave) and finds the smoothest path through candidate voicings. It works
+with any voicings, including ones you build yourself:
+
+```js
+VoiceLeading.distance(["C4", "E4", "G4"], ["B3", "D4", "G4"]); // => 3 (semitones in total)
+VoiceLeading.pcDistance(Chord.notes("C"), Chord.notes("Am")); // => 2 (pitch classes, no octaves)
+VoiceLeading.path([
+  [["C4", "E4", "G4"]],
+  [
+    ["F4", "A4", "C5"],
+    ["C4", "F4", "A4"],
+  ],
+]).voicings;
+// => [["C4", "E4", "G4"], ["C4", "F4", "A4"]]
+```
+
+`distance` and `pcDistance` return `null`, not a number, for an empty voicing
+or a note without octave.
 
 ## Time
 
