@@ -23,16 +23,16 @@ import { Chord, Interval, Key, Note, Scale } from "tonal";
 `tonal` exports one namespace per module (`Note`, `Interval`, `Chord`,
 `ChordType`, `Scale`, `ScaleType`, `Key`, `Mode`, `Midi`, `Pcset`,
 `Progression`, `RomanNumeral`, `Range`, `Collection`, `Voicing`,
-`VoicingDictionary`, `VoiceLeading`, `TimeSignature`, `DurationValue`,
+`VoiceLeading`, `TimeSignature`, `DurationValue`,
 `RhythmPattern`, `AbcNotation`) and a few top-level functions (`note`,
 `interval`, `transpose`, `distance`). Each namespace is also its own npm package:
 `import * as Chord from "@tonaljs/chord"`. Use `tonal` unless bundle size
 matters. In a browser without a bundler, `tonal/browser/tonal.min.js` defines a
 `Tonal` global.
 
-Don't use the deprecated namespaces `Tonal`, `PcSet`, `ChordDictionary` and
-`ScaleDictionary`: use the top-level functions, `Pcset`, `ChordType` and
-`ScaleType`.
+Don't use the deprecated namespaces `Tonal`, `PcSet`, `ChordDictionary`,
+`ScaleDictionary` and `VoicingDictionary`: use the top-level functions, `Pcset`,
+`ChordType`, `ScaleType` and `Voicing` (with options or templates).
 
 ## How tonal works
 
@@ -225,7 +225,8 @@ are in the API list. `[]` means the chord isn't valid or no voicing fits.
 
 Calling `Voicing.get`, `search` or `sequence` with a range array as the second
 argument uses the old dictionary voicings (`VoicingDictionary`), which are
-deprecated.
+deprecated, as is `VoiceLeading.topNoteDiff`: use the options object and
+`previous` (or `VoiceLeading.path`).
 
 `VoiceLeading` measures how far the voices move between two voicings (notes
 with octave) and finds the smoothest path through candidate voicings. It works

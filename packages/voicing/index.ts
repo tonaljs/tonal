@@ -304,6 +304,7 @@ function compareMidis(a: number[], b: number[]): number {
  * Voicing.get("G7", { voices: 4, extensions: "available", bass: "external", previous: ["F3", "A3", "C4", "E4"] }); // => ["F3", "A3", "B3", "E4"]
  */
 export function get(chord: string, options?: VoicingOptions): string[];
+/** @deprecated Use the options object: `Voicing.get(chord, { range, previous })`. Removed in tonal 7. */
 export function get(
   chord: string,
   range?: string[],
@@ -379,6 +380,7 @@ export function get(
  * Voicing.search("C7", { bass: "root", voices: 3 })[0]; // => ["C2", "Bb3", "E4", "G4"]
  */
 export function search(chord: string, options?: VoicingOptions): string[][];
+/** @deprecated Use the options object: `Voicing.search(chord, { range })`. Removed in tonal 7. */
 export function search(
   chord: string,
   range?: string[],
@@ -526,6 +528,7 @@ export function sequence(
   chords: (string | VoicingChord)[],
   options?: SequenceOptions,
 ): string[][];
+/** @deprecated Use the options object: `Voicing.sequence(chords, { range, previous })`. Removed in tonal 7. */
 export function sequence(
   chords: string[],
   range?: string[],

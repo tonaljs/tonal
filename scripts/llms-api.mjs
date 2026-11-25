@@ -24,6 +24,8 @@ const DEPRECATED_NAMESPACES = {
   ChordDictionary: "ChordType",
   PcSet: "Pcset",
   ScaleDictionary: "ScaleType",
+  VoicingDictionary:
+    "Voicing (get, search and sequence with options or templates)",
   Tonal: "the top-level functions",
 };
 // `Core` is the same as the top-level functions, which are listed once.
@@ -179,7 +181,15 @@ function section(
 
     const type = checker.getTypeOfSymbolAtLocation(symbol, decl);
     const signatures = type.getCallSignatures();
-    const deprecated = deprecation(symbol, decl, checker);
+    // An overloaded function can deprecate some of its signatures only: mark
+    // those lines, and the whole function only when all of them are.
+    const signatureDeprecations = signatures.map(signatureDeprecation);
+    const overloaded = signatures.length > 1;
+    const deprecated = overloaded
+      ? signatureDeprecations.every(Boolean)
+        ? signatureDeprecations[0]
+        : ""
+      : deprecation(symbol, decl, checker);
     const description = describe(symbol, checker);
 
     if (signatures.length === 0) {
@@ -191,8 +201,11 @@ function section(
     }
 
     const lines = signatures.map(
-      (sig) =>
-        `${prefix}${name}${clean(checker.signatureToString(sig, decl, TYPE_FLAGS & ~ts.TypeFormatFlags.WriteArrowStyleSignature))}`,
+      (sig, i) =>
+        `${prefix}${name}${clean(checker.signatureToString(sig, decl, TYPE_FLAGS & ~ts.TypeFormatFlags.WriteArrowStyleSignature))}` +
+        (overloaded && !deprecated && signatureDeprecations[i]
+          ? `  [deprecated] ${signatureDeprecations[i]}`
+          : ""),
     );
     for (const sig of signatures) {
       collectTypes(sig.getReturnType(), checker, types);
@@ -268,6 +281,14 @@ function examples(symbol) {
 }
 
 /** The deprecation note: from a @deprecated tag or a deprecate() wrapper */
+/** The @deprecated text of one signature of a function, or "" */
+function signatureDeprecation(sig) {
+  const tag = sig.getJsDocTags().find((t) => t.name === "deprecated");
+  if (!tag) return "";
+  const text = ts.displayPartsToString(tag.text).replace(/\s+/g, " ").trim();
+  return text || "Deprecated.";
+}
+
 function deprecation(symbol, decl, checker) {
   for (const tag of symbol.getJsDocTags(checker)) {
     if (tag.name === "deprecated") {
