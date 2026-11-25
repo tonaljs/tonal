@@ -402,9 +402,10 @@ exports[`@tonal/key > C minor chords 1`] = `
     ],
   },
   {
-    "name": "Bbb7",
+    "name": "A7",
     "roles": [
       "subV/bVI",
+      "V/II",
     ],
   },
   {
@@ -432,7 +433,7 @@ exports[`@tonal/key > C minor chords 1`] = `
     ],
   },
   {
-    "name": "Fbm7",
+    "name": "Em7",
     "roles": [
       "subii/bVI",
     ],
@@ -482,12 +483,6 @@ exports[`@tonal/key > C minor chords 1`] = `
   {
     "name": "Bm7b5",
     "roles": [],
-  },
-  {
-    "name": "A7",
-    "roles": [
-      "V/II",
-    ],
   },
   {
     "name": "Em7b5",
@@ -887,7 +882,7 @@ exports[`@tonal/key > minorKey 1`] = `
       "C harmonic minor",
       "D locrian 6",
       "Eb major augmented",
-      "F lydian diminished",
+      "F dorian #4",
       "G phrygian dominant",
       "Ab lydian #9",
       "B ultralocrian",
@@ -970,7 +965,7 @@ exports[`@tonal/key > minorKey 1`] = `
       "",
       "Dbm7",
       "Ebm7",
-      "Fbm7",
+      "Em7",
       "",
     ],
     "substituteDominants": [
@@ -979,7 +974,7 @@ exports[`@tonal/key > minorKey 1`] = `
       "",
       "Gb7",
       "Ab7",
-      "Bbb7",
+      "A7",
       "",
     ],
     "substituteDominantsMinorRelative": [
@@ -988,7 +983,7 @@ exports[`@tonal/key > minorKey 1`] = `
       "",
       "Dbm7",
       "Ebm7",
-      "Fbm7",
+      "Em7",
       "",
     ],
     "tonic": "C",
@@ -1211,7 +1206,7 @@ exports[`@tonal/key > minorKey 1`] = `
       "",
       "Dbm7",
       "Ebm7",
-      "Fbm7",
+      "Em7",
       "Gbm7",
     ],
     "substituteDominants": [
@@ -1220,7 +1215,7 @@ exports[`@tonal/key > minorKey 1`] = `
       "",
       "Gb7",
       "Ab7",
-      "Bbb7",
+      "A7",
       "Cb7",
     ],
     "substituteDominantsMinorRelative": [
@@ -1229,7 +1224,7 @@ exports[`@tonal/key > minorKey 1`] = `
       "",
       "Dbm7",
       "Ebm7",
-      "Fbm7",
+      "Em7",
       "Gbm7",
     ],
     "tonic": "C",
@@ -1257,7 +1252,7 @@ exports[`@tonal/key > minorKey 2`] = `
       "Bb harmonic minor",
       "C locrian 6",
       "Db major augmented",
-      "Eb lydian diminished",
+      "Eb dorian #4",
       "F phrygian dominant",
       "Gb lydian #9",
       "A ultralocrian",
@@ -1340,7 +1335,7 @@ exports[`@tonal/key > minorKey 2`] = `
       "",
       "Cbm7",
       "Dbm7",
-      "Ebbm7",
+      "Dm7",
       "",
     ],
     "substituteDominants": [
@@ -1349,7 +1344,7 @@ exports[`@tonal/key > minorKey 2`] = `
       "",
       "Fb7",
       "Gb7",
-      "Abb7",
+      "G7",
       "",
     ],
     "substituteDominantsMinorRelative": [
@@ -1358,7 +1353,7 @@ exports[`@tonal/key > minorKey 2`] = `
       "",
       "Cbm7",
       "Dbm7",
-      "Ebbm7",
+      "Dm7",
       "",
     ],
     "tonic": "Bb",
@@ -1581,8 +1576,8 @@ exports[`@tonal/key > minorKey 2`] = `
       "",
       "Cbm7",
       "Dbm7",
-      "Ebbm7",
-      "Fbm7",
+      "Dm7",
+      "Em7",
     ],
     "substituteDominants": [
       "Cb7",
@@ -1590,8 +1585,8 @@ exports[`@tonal/key > minorKey 2`] = `
       "",
       "Fb7",
       "Gb7",
-      "Abb7",
-      "Bbb7",
+      "G7",
+      "A7",
     ],
     "substituteDominantsMinorRelative": [
       "Gbm7",
@@ -1599,8 +1594,8 @@ exports[`@tonal/key > minorKey 2`] = `
       "",
       "Cbm7",
       "Dbm7",
-      "Ebbm7",
-      "Fbm7",
+      "Dm7",
+      "Em7",
     ],
     "tonic": "Bb",
     "triads": [
@@ -1627,7 +1622,7 @@ exports[`@tonal/key > minorKey 3`] = `
       "B harmonic minor",
       "C# locrian 6",
       "D major augmented",
-      "E lydian diminished",
+      "E dorian #4",
       "F# phrygian dominant",
       "G lydian #9",
       "A# ultralocrian",

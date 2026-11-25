@@ -1,4 +1,4 @@
-import { transpose, transposeFifths } from "@tonaljs/note";
+import { simplify, transpose, transposeFifths } from "@tonaljs/note";
 import { accToAlt, altToAcc, note } from "@tonaljs/pitch-note";
 import { get as roman } from "@tonaljs/roman-numeral";
 
@@ -41,7 +41,7 @@ export interface KeyScale {
   readonly secondaryDominants: readonly string[];
   /** The ii chord that precedes each secondary dominant ("" if none): a minor seventh, or a half-diminished chord when the target is minor. */
   readonly secondaryDominantSupertonics: readonly string[];
-  /** Tritone substitution of each secondary dominant ("" if none): the dominant seventh a tritone away. */
+  /** Tritone substitution of each secondary dominant ("" if none): the dominant seventh a tritone away, spelled a diminished fifth above it (Gb7 for C7) unless that needs a double flat or sharp (A7, not Bbb7, for Eb7). */
   readonly substituteDominants: readonly string[];
   /** The minor seventh ii chord that precedes each substitute dominant ("" if none). */
   readonly substituteDominantSupertonics: readonly string[];
@@ -146,12 +146,9 @@ function keyScale(
       secondaryDominants,
       triads,
     );
-    const substituteDominants = secondaryDominants.map((chord) => {
-      if (!chord) return "";
-      const domRoot = chord.slice(0, -1);
-      const subRoot = transpose(domRoot, "5d");
-      return subRoot + "7";
-    });
+    const substituteDominants = secondaryDominants.map((chord) =>
+      chord ? substituteRoot(chord.slice(0, -1)) + "7" : "",
+    );
     const substituteDominantSupertonics =
       substituteSupertonics(substituteDominants);
 
@@ -174,6 +171,14 @@ function keyScale(
       substituteDominantsMinorRelative: substituteDominantSupertonics,
     };
   };
+}
+
+// The root of a substitute dominant: a diminished fifth above the dominant's
+// root (Gb for C), or its simplest enharmonic when that has a double
+// accidental, as a lead sheet writes it (A, not Bbb, for Eb)
+function substituteRoot(dominantRoot: string) {
+  const root = transpose(dominantRoot, "5d");
+  return note(root).acc.length > 1 ? simplify(root) : root;
 }
 
 // The root of the ii chord of a dominant: a fifth above its root
@@ -221,7 +226,7 @@ const HarmonicScale = keyScale(
   "m dim aug m   dim".split(" "),
   "mMaj7 m7b5 +maj7 m7 7 maj7 o7".split(" "),
   "T SD T SD D SD D".split(" "),
-  "harmonic minor,locrian 6,major augmented,lydian diminished,phrygian dominant,lydian #9,ultralocrian".split(
+  "harmonic minor,locrian 6,major augmented,dorian #4,phrygian dominant,lydian #9,ultralocrian".split(
     ",",
   ),
 );
