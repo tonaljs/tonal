@@ -109,12 +109,18 @@ export function probableDegree(
  *
  * 1. the third, or for chords without third the 4th, 2nd or 11th that
  *    replaces it
- * 2. the fifth, if it's altered
- * 3. the seventh, or the 6th for chords without seventh
- * 4. the first of the other degrees (the first extension)
+ * 2. the seventh, or the 6th for chords without seventh
+ * 3. the fifth, if it's altered
+ * 4. the extension that names the chord (the highest one), then the altered
+ *    extensions
  * 5. the root
- * 6. the fifth, if it's natural
- * 7. the rest of the other degrees
+ * 6. the other extensions, implied by the one that names the chord
+ * 7. the fifth, if it's natural
+ *
+ * See `Chord.degreesByImportance` for the sources: Dobbins, *The Contemporary
+ * Jazz Pianist* vol. 2; Richards, *Exploring Jazz Piano*; Levine, *The Jazz
+ * Piano Book*; DeGreg, *Jazz Keyboard Harmony*; Haerle, *Jazz Piano Voicing
+ * Skills*.
  *
  * @private
  */
@@ -129,16 +135,24 @@ export function sortByImportance(
   const fifth = find(5);
   const seventh = find(7, 6);
   const root = find(1);
-  const others = degrees.filter(
+  const extensions = degrees.filter(
     (d) => d !== third && d !== fifth && d !== seventh && d !== root,
   );
+  const named = extensions.reduce<ChordDegreeName | undefined>(
+    (top, d) => (top === undefined || degreeNum(d) > degreeNum(top) ? d : top),
+    undefined,
+  );
+  const isAltered = (d: ChordDegreeName) => d[0] === "b" || d[0] === "#";
+  const altered = extensions.filter((d) => d !== named && isAltered(d));
+  const implied = extensions.filter((d) => d !== named && !isAltered(d));
   return [
     third,
-    fifth !== "5" ? fifth : undefined,
     seventh,
-    others[0],
+    fifth !== "5" ? fifth : undefined,
+    named,
+    ...altered,
     root,
+    ...implied,
     fifth === "5" ? fifth : undefined,
-    ...others.slice(1),
   ].filter((d): d is ChordDegreeName => d !== undefined);
 }

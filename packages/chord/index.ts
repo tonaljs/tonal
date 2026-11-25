@@ -511,16 +511,35 @@ export function noteOf(
  *
  * 1. the third, or for chords without third the 4th, 2nd or 11th that
  *    replaces it
- * 2. the fifth, if it's altered
- * 3. the seventh, or the 6th for chords without seventh
- * 4. the first extension (the first degree not listed here)
+ * 2. the seventh, or the 6th for chords without seventh
+ * 3. the fifth, if it's altered
+ * 4. the extension that names the chord (the highest one), then the altered
+ *    extensions
  * 5. the root
- * 6. the fifth, if it's natural
- * 7. the other extensions
+ * 6. the other extensions, implied by the one that names the chord
+ * 7. the fifth, if it's natural
+ *
+ * So four voices of C13 are the root, 3rd, 7th and 13th, and without the root
+ * (when a bass player has it) the 3rd, 7th, 13th and 9th.
+ *
+ * Sources, from jazz voicing practice:
+ *
+ * - Bill Dobbins, *The Contemporary Jazz Pianist*, vol. 2, p. 11: the 3rd and
+ *   7th (or 3rd and 6th) carry the quality of a chord; the root and the
+ *   natural 5th can go.
+ * - Tim Richards, *Exploring Jazz Piano*: "dominant chords should never omit
+ *   the seventh" (vol. 1, p. 226), and the three-note 13th chord is 7-3-13,
+ *   without root and 5th (vol. 2, fig. 7.3).
+ * - Mark Levine, *The Jazz Piano Book*, ch. 7: rootless voicings leave the
+ *   root to the bass player.
+ * - Phil DeGreg, *Jazz Keyboard Harmony*, chs. 4 and 6, and Dan Haerle, *Jazz
+ *   Piano Voicing Skills*, skills 40-45: three- and four-note rootless
+ *   voicings keep the 3rd and 7th, also on m7b5 and dim7.
  *
  * @example
- * Chord.degreesByImportance("C13"); // => ["3", "b7", "9", "1", "5", "13"]
- * Chord.degreesByImportance("C7#5"); // => ["3", "#5", "b7", "1"]
+ * Chord.degreesByImportance("C13"); // => ["3", "b7", "13", "1", "9", "5"]
+ * Chord.degreesByImportance("Cm7b5"); // => ["b3", "b7", "b5", "1"]
+ * Chord.degreesByImportance("C7#5"); // => ["3", "b7", "#5", "1"]
  * Chord.degreesByImportance("Csus4"); // => ["4", "1", "5"]
  * Chord.degreesByImportance("m6"); // => ["b3", "6", "1", "5"]
  */

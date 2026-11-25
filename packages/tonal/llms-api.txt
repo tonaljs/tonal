@@ -277,9 +277,9 @@ Chord.degrees(chordName: ChordNameOrTokens, tonic?: string): (degree: number) =>
 
 Chord.degreesByImportance(chordName: ChordNameOrTokens): ChordDegreeName[]
   Get the degree names of a chord (as in `Chord.formula`) sorted by how much they define it, to choose which ones to keep when there are fewer voices than chord tones. It returns `[]` if the chord isn't valid.
-  Chord.degreesByImportance("C13"); // => ["3", "b7", "9", "1", "5", "13"]
-  Chord.degreesByImportance("C7#5"); // => ["3", "#5", "b7", "1"]
-  Chord.degreesByImportance("Csus4"); // => ["4", "1", "5"]
+  Chord.degreesByImportance("C13"); // => ["3", "b7", "13", "1", "9", "5"]
+  Chord.degreesByImportance("Cm7b5"); // => ["b3", "b7", "b5", "1"]
+  Chord.degreesByImportance("C7#5"); // => ["3", "b7", "#5", "1"]
 
 Chord.detect(source: string[], options?: Partial<DetectOptions>): string[]
   Find the chord symbols that have the notes of a list, best first. It returns `[]` if no chord matches or no note is valid.
