@@ -1534,9 +1534,48 @@ type ValidTimeSignature = {
 
 import { VoiceLeading } from "tonal"; // or: import * as VoiceLeading from "@tonaljs/voice-leading";
 
+VoiceLeading.distance(from: string[], to: string[], options?: VoiceLeadingOptions): number | null
+  Get the size of the smallest voice leading between two voicings (lists of notes with octave): by default, the total number of semitones the voices move. It returns `null` if a voicing is empty or has a note without octave. See `VoiceLeading.get` for how the voices are matched.
+  VoiceLeading.distance(["C4", "E4", "G4"], ["B3", "D4", "G4"]); // => 3
+  VoiceLeading.distance(["C4", "E4", "G4"], ["B3", "D4", "G4"], { metric: "Linf" }); // => 2
+  VoiceLeading.distance(["C4", "E4"], ["C"]); // => null
+
+VoiceLeading.get(from: string[], to: string[], options?: VoiceLeadingOptions): VoiceLeadingMapping
+  Get the smallest voice leading between two voicings (lists of notes with octave): how far the voices move, and where each voice goes. It returns `{ distance: null, moves: [] }` if a voicing is empty or has a note without octave.
+  VoiceLeading.get(["C4", "E4", "G4"], ["B3", "D4", "G4"]); // => { distance: 3, moves: [["C4", "B3"], ["E4", "D4"], ["G4", "G4"]] }
+  VoiceLeading.get(["C4", "E4", "G4"], ["C4", "E4", "G4", "B4"]).moves; // => [["C4", "C4"], ["E4", "E4"], ["G4", "G4"], ["G4", "B4"]]
+
+VoiceLeading.path(candidates: string[][][], options?: VoiceLeadingPathOptions): VoiceLeadingPath
+  Get the smoothest path through the candidate voicings of a list of chords: one voicing per chord, so that the total voice-leading distance between consecutive voicings (plus the cost of each candidate, if given) is the smallest possible. It returns `[]` for a chord without valid candidates and leads the next chord from the last voicing.
+  VoiceLeading.path([[["C4", "E4", "G4"]], [["F4", "A4", "C5"], ["C4", "F4", "A4"]], [["G4", "B4", "D5"], ["B3", "D4", "G4"]]]).voicings; // => [["C4", "E4", "G4"], ["C4", "F4", "A4"], ["B3", "D4", "G4"]]
+  VoiceLeading.path([[["C4", "E4", "G4"]], [["F4", "A4", "C5"], ["C4", "F4", "A4"]], [["G4", "B4", "D5"], ["B3", "D4", "G4"]]]).steps; // => [0, 3, 6]
+
+VoiceLeading.pcDistance(from: string[], to: string[], options?: VoiceLeadingOptions): number | null
+  Get the size of the smallest voice leading between two sets of pitch classes, without octaves: each voice moves the shortest way to its new pitch class. Notes with octave are read as their pitch class, and repeated pitch classes count once. It returns `null` if a list is empty or has an invalid note.
+  VoiceLeading.pcDistance(["C", "E", "G"], ["C", "E", "A"]); // => 2
+  VoiceLeading.pcDistance(Chord.notes("C"), Chord.notes("Em")); // => 1
+  VoiceLeading.pcDistance(Chord.notes("Dm7"), Chord.notes("G7")); // => 3
+
 VoiceLeading.topNoteDiff(voicings: string[][], lastVoicing: string[]): string[]
   Pick the voicing whose top note is closest to the top note of the last voicing (the first of them on a tie). If there is no last voicing, it picks the first one. It returns `[]` if there are no voicings, and doesn't change the given list.
   VoiceLeading.topNoteDiff([["C4", "E4", "G4"], ["E4", "G4", "C5"], ["G4", "C5", "E5"]], ["D4", "F4", "A4"]); // => ["C4", "E4", "G4"]
+
+Types:
+
+type VoiceLeadingMapping = {
+  distance: number | null;
+  moves: VoiceLeadingMove[];
+}
+
+type VoiceLeadingOptions = {
+  metric?: VoiceLeadingMetric | undefined;
+}
+
+type VoiceLeadingPath = {
+  voicings: string[][];
+  cost: number;
+  steps: number[];
+}
 
 ## Voicing
 

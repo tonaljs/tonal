@@ -318,6 +318,10 @@ exports[`tonal > Modules exports functions 1`] = `
     "transpose",
   ],
   "VoiceLeading": [
+    "distance",
+    "get",
+    "path",
+    "pcDistance",
     "topNoteDiff",
   ],
   "Voicing": [
