@@ -115,7 +115,7 @@ tokenizeNote(str: string): NoteTokens
   tokenizeNote("Bb4") // => ["B", "b", "4", ""]
   tokenizeNote("C# major") // => ["C", "#", "", "major"]
 
-tonicIntervalsTransposer(intervals: string[], tonic: string | undefined | null): (normalized: number) => string
+tonicIntervalsTransposer(intervals: string[], tonic: string | undefined | null): (normalized: number) => '' | NoteName
   Create a function that, given a (possibly negative) scale degree index, returns the note of that degree: the intervals are cycled and the octave goes up (or down) every time they wrap. It returns "" for every degree if there is no tonic.
   const degree = tonicIntervalsTransposer(["1P", "3M", "5P"], "C");
   [0, 1, 2, 3, -1].map(degree) // => ["C", "E", "G", "C", "G"]
@@ -132,7 +132,7 @@ type Direction = 1 | -1
 
 type Interval = {
   empty: boolean;
-  name: string;
+  name: IntervalName;
   num: number;
   q: Quality;
   type: Type;
@@ -146,7 +146,9 @@ type Interval = {
   oct: number;
 }
 
-type IntervalLiteral = string | Pitch | NamedPitch
+type IntervalLiteral = Pitch | NamedPitch | IntervalName
+
+type IntervalName = KnownIntervalName | (string & {})
 
 type NamedPitch = {
   name: string;
@@ -154,10 +156,10 @@ type NamedPitch = {
 
 type Note = {
   empty: boolean;
-  name: string;
+  name: NoteName;
   letter: string;
   acc: string;
-  pc: string;
+  pc: PcName;
   chroma: number;
   height: number;
   coord: PitchCoordinates;
@@ -169,7 +171,11 @@ type Note = {
   dir?: Direction | undefined;
 }
 
-type NoteLiteral = string | Pitch | NamedPitch
+type NoteLiteral = Pitch | NamedPitch | NoteName
+
+type NoteName = (string & {}) | KnownNoteName
+
+type PcName = (string & {}) | KnownPcName
 
 type Pitch = {
   step: number;
@@ -269,7 +275,7 @@ Chord.degreeOf(chordName: ChordNameOrTokens, noteName: NoteName): ChordDegreeNam
   Chord.degreeOf("C7b9", "C#4"); // => "b9"
   Chord.degreeOf("Cm", "Eb"); // => "b3"
 
-Chord.degrees(chordName: ChordNameOrTokens, tonic?: string): (degree: number) => string
+Chord.degrees(chordName: ChordNameOrTokens, tonic?: string): (degree: number) => '' | NoteName
   Get a function that returns the note of a chord by its position, 1 being the tonic. The position counts the chord notes, so the 3rd note of C is "G" and the 4th is "C" an octave up. For the note of the degree named "3", see `Chord.noteOf`; for positions starting at 0, `Chord.steps`.
   [1, 2, 3, 4].map(Chord.degrees("C")); // => ["C", "E", "G", "C"]
   [1, 2, 3, 4].map(Chord.degrees(["C4", "M"])); // => ["C4", "E4", "G4", "C5"]
@@ -326,7 +332,7 @@ Chord.reduced(chordName: string): string[]
   Chord.reduced("Cmaj7"); // => ["C5", "CM"]
   Chord.reduced("Cmaj9"); // => ["C5", "CM", "Cmaj7", "Csus2", "CMadd9"]
 
-Chord.steps(chordName: ChordNameOrTokens, tonic?: string): (normalized: number) => string
+Chord.steps(chordName: ChordNameOrTokens, tonic?: string): (normalized: number) => '' | NoteName
   Get a function that returns the note of a chord by its position, 0 being the tonic (like `Chord.degrees` but 0-based). Negative steps go down. The function returns `""` if the chord isn't valid.
   [0, 1, 2, 3].map(Chord.steps("C")); // => ["C", "E", "G", "C"]
   [-1, 0, 1].map(Chord.steps(["C4", "M"])); // => ["G3", "C4", "E4"]
@@ -352,7 +358,7 @@ type Chord = {
   bass: string;
   rootDegree: number;
   symbol: string;
-  notes: string[];
+  notes: NoteName[];
   name: string;
   quality: ChordQuality;
   family: ChordFamily;
@@ -362,7 +368,7 @@ type Chord = {
   setNum: number;
   chroma: string;
   normalized: string;
-  intervals: string[];
+  intervals: IntervalName[];
 }
 
 type ChordFamily = '' | 'major' | 'minor' | 'dominant' | 'half-diminished' | 'diminished' | 'augmented' | 'suspended' | 'power'
@@ -370,6 +376,10 @@ type ChordFamily = '' | 'major' | 'minor' | 'dominant' | 'half-diminished' | 'di
 type ChordNameOrTokens = string | [string] | [string, string] | [string, string, string]
 
 type ChordQuality = 'Major' | 'Minor' | 'Augmented' | 'Diminished' | 'Unknown'
+
+type IntervalName = KnownIntervalName | (string & {})
+
+type NoteName = (string & {}) | KnownNoteName
 
 ## ChordType
 
@@ -444,10 +454,12 @@ type ChordType = {
   setNum: number;
   chroma: string;
   normalized: string;
-  intervals: string[];
+  intervals: IntervalName[];
 }
 
 type ChordTypeName = string | number
+
+type IntervalName = KnownIntervalName | (string & {})
 
 ## Collection
 
@@ -533,7 +545,7 @@ Interval.add(a: IntervalName, b: IntervalName): IntervalName | undefined
   Interval.add("3m", "5P") // => "7m"
   Interval.add("3M", "3M") // => "5A"
 
-Interval.addTo(interval: string): (other: string) => string | undefined
+Interval.addTo(interval: string): (other: string) => IntervalName | undefined
   Get a function that adds the given interval to another interval.
   ["1P", "2M", "3M"].map(Interval.addTo("5P")) // => ["5P", "6M", "7M"]
 
@@ -578,7 +590,7 @@ Interval.multiply(name: IntervalName, times: number): IntervalName
   Interval.multiply("2M", 3) // => "4A"
   Interval.multiply("3M", -2) // => "-5A"
 
-Interval.name(name: string): string
+Interval.name(name: string): IntervalName
   Get the normalized name of an interval (number first), or "" if not valid.
   Interval.name("4P") // => "4P"
   Interval.name("P4") // => "4P"
@@ -641,7 +653,7 @@ type Direction = 1 | -1
 
 type Interval = {
   empty: boolean;
-  name: string;
+  name: IntervalName;
   num: number;
   q: Quality;
   type: Type;
@@ -655,13 +667,15 @@ type Interval = {
   oct: number;
 }
 
-type IntervalLiteral = string | Pitch | NamedPitch
+type IntervalLiteral = Pitch | NamedPitch | IntervalName
+
+type IntervalName = KnownIntervalName | (string & {})
 
 type NamedPitch = {
   name: string;
 }
 
-type NoteLiteral = string | Pitch | NamedPitch
+type NoteLiteral = Pitch | NamedPitch | NoteName
 
 type Pitch = {
   step: number;
@@ -835,7 +849,7 @@ Mode.all(): Mode[]
   Get a list of the seven modes, from ionian to locrian.
   Mode.all().map((m) => m.name); // => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"]
 
-Mode.distance(destination: ModeLiteral, source: ModeLiteral): string
+Mode.distance(destination: ModeLiteral, source: ModeLiteral): '' | IntervalName
   Get the interval from the tonic of a source mode to the tonic of a destination mode that has the same notes (the interval is negative when it goes down). It returns `""` if a mode is invalid.
   Mode.distance("dorian", "major"); // => "2M"
   Mode.distance("lydian", "ionian"); // => "-5P"
@@ -857,13 +871,13 @@ Mode.names(): string[]
   Get the names of the seven modes, from ionian to locrian.
   Mode.names(); // => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"]
 
-Mode.notes(modeName: ModeLiteral, tonic: NoteName): string[]
+Mode.notes(modeName: ModeLiteral, tonic: NoteName): NoteName[]
   Get the notes of a mode on a tonic, as pitch classes if the tonic has no octave. It returns `[]` for an invalid mode. (An invalid tonic gives a list of `""`.)
   Mode.notes("ionian", "C"); // => ["C", "D", "E", "F", "G", "A", "B"]
   Mode.notes("dorian", "D"); // => ["D", "E", "F", "G", "A", "B", "C"]
   Mode.notes("nonsense", "C"); // => []
 
-Mode.relativeTonic(destination: ModeLiteral, source: ModeLiteral, tonic: NoteName): string
+Mode.relativeTonic(destination: ModeLiteral, source: ModeLiteral, tonic: NoteName): NoteName
   Get the tonic of a destination mode that has the same notes as a source mode on a tonic: D dorian and C ionian share notes, so the relative dorian tonic of C ionian is D. It returns `""` if a mode is invalid.
   Mode.relativeTonic("dorian", "major", "C"); // => "D"
   Mode.relativeTonic("major", "dorian", "D"); // => "C"
@@ -880,6 +894,8 @@ Mode.triads(modeName: ModeLiteral, tonic: NoteName): string[]
 
 Types:
 
+type IntervalName = KnownIntervalName | (string & {})
+
 type Mode = {
   name: string;
   modeNum: number;
@@ -891,10 +907,12 @@ type Mode = {
   setNum: number;
   chroma: string;
   normalized: string;
-  intervals: string[];
+  intervals: IntervalName[];
 }
 
 type ModeLiteral = string | { name: string; }
+
+type NoteName = (string & {}) | KnownNoteName
 
 ## Note
 
@@ -962,7 +980,7 @@ Note.midi(note: NoteLiteral): number | null
   Note.midi("C4") // => 60
   Note.midi("C") // => null
 
-Note.name(note: NoteLiteral): string
+Note.name(note: NoteLiteral): NoteName
   Get the normalized note name, or "" if not valid.
   Note.name("db4") // => "Db4"
   Note.name("x") // => ""
@@ -977,7 +995,7 @@ Note.octave(note: NoteLiteral): number | undefined
   Note.octave("C4") // => 4
   Note.octave("C") // => undefined
 
-Note.pitchClass(note: NoteLiteral): string
+Note.pitchClass(note: NoteLiteral): PcName
   Get the pitch class name (the note name without octave), or "" if not valid.
   Note.pitchClass("Db4") // => "Db"
 
@@ -1005,7 +1023,7 @@ Note.transpose(noteName: NoteLiteral, intervalName: IntervalLiteral | [number, n
   Note.transpose("D", "3M") // => "F#"
   Note.transpose("x", "3M") // => ""
 
-Note.transposeBy(interval: IntervalName): (note: NoteName) => string
+Note.transposeBy(interval: IntervalName): (note: NoteName) => NoteName
   Get a function that transposes a note by the given interval.
   ["C", "D", "E"].map(Note.transposeBy("5P")) // => ["G", "A", "B"]
 
@@ -1014,7 +1032,7 @@ Note.transposeFifths(noteName: NoteName, fifths: number): NoteName
   Note.transposeFifths("G4", 1) // => "D5"
   [0, 1, 2, 3, 4].map(fifths => Note.transposeFifths("C", fifths)) // => ["C", "G", "D", "A", "E"]
 
-Note.transposeFrom(note: NoteName): (interval: IntervalName) => string
+Note.transposeFrom(note: NoteName): (interval: IntervalName) => NoteName
   Get a function that transposes the given note by an interval.
   ["1P", "3M", "5P"].map(Note.transposeFrom("C")) // => ["C", "E", "G"]
 
@@ -1023,18 +1041,20 @@ Note.transposeOctaves(noteName: NoteName, octaves: number): NoteName
   Note.transposeOctaves("C4", 1) // => "C5"
   Note.transposeOctaves("C4", -2) // => "C2"
 
-Note.trBy(interval: IntervalName): (note: NoteName) => string
+Note.trBy(interval: IntervalName): (note: NoteName) => NoteName
   Alias of Note.transposeBy.
 
 Note.trFifths(noteName: NoteName, fifths: number): NoteName
   Alias of Note.transposeFifths.
 
-Note.trFrom(note: NoteName): (interval: IntervalName) => string
+Note.trFrom(note: NoteName): (interval: IntervalName) => NoteName
   Alias of Note.transposeFrom.
 
 Types:
 
 type Direction = 1 | -1
+
+type IntervalName = KnownIntervalName | (string & {})
 
 type NamedPitch = {
   name: string;
@@ -1042,10 +1062,10 @@ type NamedPitch = {
 
 type Note = {
   empty: boolean;
-  name: string;
+  name: NoteName;
   letter: string;
   acc: string;
-  pc: string;
+  pc: PcName;
   chroma: number;
   height: number;
   coord: PitchCoordinates;
@@ -1059,7 +1079,11 @@ type Note = {
 
 type NoteComparator = (a: Note, b: Note) => number
 
-type NoteLiteral = string | Pitch | NamedPitch
+type NoteLiteral = Pitch | NamedPitch | NoteName
+
+type NoteName = (string & {}) | KnownNoteName
+
+type PcName = (string & {}) | KnownPcName
 
 type Pitch = {
   step: number;
@@ -1083,7 +1107,7 @@ Pcset.chromas(): PcsetChroma[]
   Pcset.chromas().length; // => 2048
   Pcset.chromas().slice(0, 2); // => ["100000000000", "100000000001"]
 
-Pcset.filter(set: Set): (notes: NoteName[]) => string[]
+Pcset.filter(set: Set): (notes: NoteName[]) => NoteName[]
   Get a function that keeps the notes of a list that belong to a pitch class set, ignoring octaves. The notes are returned as they were given.
   Pcset.filter(["C", "D", "E"])(["c2", "c#2", "d2", "c3", "c#3", "d3"]); // => ["c2", "d2", "c3", "d3"]
   Pcset.filter(["C2"])(["c2", "c#2", "d2", "c3", "c#3", "d3"]); // => ["c2", "c3"]
@@ -1097,7 +1121,7 @@ Pcset.get(src: Set): Pcset
 Pcset.includes(set: Set): (noteName: NoteName) => boolean
   [deprecated] Use Pcset.isNoteIncludedIn instead.
 
-Pcset.intervals(set: Set): string[]
+Pcset.intervals(set: Set): IntervalName[]
   Get the interval names of a pitch class set, measured from C and ordered by pitch class. It returns `[]` for an invalid set.
   Pcset.intervals(["c", "d", "e"]); // => ["1P", "2M", "3M"]
   Pcset.intervals(["D", "F#"]); // => ["2M", "5d"]
@@ -1152,16 +1176,20 @@ Pcset.EmptyPcset: Pcset
 
 Types:
 
+type IntervalName = KnownIntervalName | (string & {})
+
+type NoteName = (string & {}) | KnownNoteName
+
 type Pcset = {
   name: string;
   empty: boolean;
   setNum: number;
   chroma: string;
   normalized: string;
-  intervals: string[];
+  intervals: IntervalName[];
 }
 
-type Set = string | number | Partial<Pcset> | string[] | string[]
+type Set = string | number | Partial<Pcset> | NoteName[] | IntervalName[]
 
 ## Progression
 
@@ -1184,7 +1212,7 @@ type NamedPitch = {
   name: string;
 }
 
-type NoteLiteral = string | Pitch | NamedPitch
+type NoteLiteral = Pitch | NamedPitch | NoteName
 
 type Pitch = {
   step: number;
@@ -1403,10 +1431,14 @@ Scale.transposeBySteps(scaleName: string | ScaleNameTokens, noteName: string, st
 
 Types:
 
+type IntervalName = KnownIntervalName | (string & {})
+
+type NoteName = (string & {}) | KnownNoteName
+
 type Scale = {
   tonic: string | null;
   type: string;
-  notes: string[];
+  notes: NoteName[];
   name: string;
   aliases: string[];
   family: string;
@@ -1415,7 +1447,7 @@ type Scale = {
   setNum: number;
   chroma: string;
   normalized: string;
-  intervals: string[];
+  intervals: IntervalName[];
 }
 
 type ScaleChord = {
@@ -1472,6 +1504,8 @@ ScaleType.NoScaleType: ScaleType
 
 Types:
 
+type IntervalName = KnownIntervalName | (string & {})
+
 type ScaleType = {
   name: string;
   aliases: string[];
@@ -1481,7 +1515,7 @@ type ScaleType = {
   setNum: number;
   chroma: string;
   normalized: string;
-  intervals: string[];
+  intervals: IntervalName[];
 }
 
 type ScaleTypeName = string | number

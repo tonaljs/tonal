@@ -54,3 +54,7 @@ This function always returns an object:
 ```js
 note("hello"); // => { empty: true, name: "" }
 ```
+
+## Types
+
+`NoteName`, `PcName` and `NoteWithOctave` accept any string, and list the common names so editors can suggest them: the 35 pitch classes from `C` to `B` with nothing, `#`, `b`, `##` or `bb` (`KnownPcName`), and the same names at octaves 0 to 8 (`KnownNoteWithOctave`). `KnownNoteName` is both together.

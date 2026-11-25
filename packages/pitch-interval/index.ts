@@ -12,7 +12,26 @@ import {
 
 const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 
-export type IntervalName = string;
+type MajorableNumber = 2 | 3 | 6 | 7 | 9 | 10 | 13 | 14;
+type MajorableQuality = "d" | "m" | "M" | "A";
+type PerfectableNumber = 1 | 4 | 5 | 8 | 11 | 12 | 15;
+type PerfectableQuality = "d" | "P" | "A";
+type Down = "" | "-";
+
+/**
+ * The common interval names up to 15, up or down, in both orders: "3M",
+ * "-5P", "M3", "P-5"...
+ */
+export type KnownIntervalName =
+  | `${Down}${MajorableNumber}${MajorableQuality}`
+  | `${Down}${PerfectableNumber}${PerfectableQuality}`
+  | `${MajorableQuality}${Down}${MajorableNumber}`
+  | `${PerfectableQuality}${Down}${PerfectableNumber}`;
+
+// Any string is still a valid name, since tonal parses more than the known
+// names ("+3M", "dd5", "AA4", "16M"). The known names are there for editors to
+// suggest: `string & {}` keeps them, where a plain `string` would swallow them.
+export type IntervalName = KnownIntervalName | (string & {});
 export type IntervalLiteral = IntervalName | Pitch | NamedPitch;
 
 // Any number of augmented or diminished: "A", "AA", "d", "ddddd"...
