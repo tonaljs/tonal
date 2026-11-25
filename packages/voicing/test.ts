@@ -626,8 +626,10 @@ describe("templates", () => {
         ["B", "F", "A"],
       ]),
     );
-    // a triad has no 7th: the template doesn't apply
-    expect(Voicing.get("C", { template: "rootless" })).toEqual([]);
+    // a triad has no 7th: the template doesn't apply, and the rules voice it
+    expect(Voicing.get("C", { template: "rootless" })).toEqual(
+      Voicing.get("C"),
+    );
   });
 
   test("the ii-V-I with a template", () => {
@@ -672,7 +674,10 @@ describe("templates", () => {
     });
     expect(pcs(v).slice(0, 3)).toEqual(["C", "E", "Bb"]);
     expect([...pcs(v).slice(3)].sort()).toEqual(["Ab", "C", "D#"]);
-    expect(Voicing.get("Cmaj7", { template: "upper-structure" })).toEqual([]);
+    // not a dominant: the rules voice it
+    expect(Voicing.get("Cmaj7", { template: "upper-structure" })).toEqual(
+      Voicing.get("Cmaj7"),
+    );
   });
 
   test("custom templates: degrees, with | between the hands", () => {
@@ -697,5 +702,48 @@ describe("templates", () => {
 
   test("unknown templates give []", () => {
     expect(Voicing.get("C7", { template: "nope" })).toEqual([]);
+  });
+});
+
+describe("templates fall back to the rules", () => {
+  test("a chord the template has no form for is voiced by the rules", () => {
+    expect(Voicing.get("G7", { template: "so-what" })).toEqual(
+      Voicing.get("G7"),
+    );
+    expect(Voicing.get("C", { template: "rootless" })).toEqual(
+      Voicing.get("C"),
+    );
+    const result = Voicing.sequence(["Dm7", "G7", "Cmaj7"], {
+      template: "so-what",
+      range: ["C3", "C6"],
+    });
+    expect(result.every((v) => v.length > 0)).toBe(true);
+    // the minor chord is a So What voicing (three 4ths and a 3rd on D)
+    expect(result[0].map((n) => Note.pitchClass(n))).toEqual([
+      "D",
+      "G",
+      "C",
+      "F",
+      "A",
+    ]);
+  });
+});
+
+describe("doubling: the root or the 5th", () => {
+  test("a triad in four voices can double the 5th", () => {
+    const voicings = Voicing.search("D", { voices: 4 });
+    const fifths = (v: string[]) =>
+      v.filter((n) => Note.pitchClass(n) === "A").length;
+    expect(voicings.some((v) => fifths(v) === 2)).toBe(true);
+    // drop 2 in C3-C5 needs the 5th doubled: F#3 A3 D4 A4
+    expect(Voicing.search("D", { voices: 4, spacing: "drop2" })).toContainEqual(
+      ["F#3", "A3", "D4", "A4"],
+    );
+  });
+
+  test("the 3rd is never doubled to fill voices", () => {
+    for (const v of Voicing.search("C", { voices: 5, range: ["C3", "C6"] })) {
+      expect(v.filter((n) => Note.pitchClass(n) === "E").length).toBe(1);
+    }
   });
 });

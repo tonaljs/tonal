@@ -233,13 +233,13 @@ export function chooseTones(
       ? [...set.slice(0, Math.max(0, voices - 1)), lead]
       : set,
   );
+  // more voices than tones: the lead once, then the root or the 5th
   const doubling = [
-    ...(lead ? [lead] : []),
     ...(bass === "external" ? [] : ["1"]),
     ...(fifth ? [fifth] : []),
   ];
   return unique(sets).flatMap((set) =>
-    withDoublings(set, voices, doubling, noteFor),
+    withDoublings(set, voices, doubling, noteFor, lead),
   );
 }
 
@@ -256,24 +256,36 @@ function defaultVoices(
   return bass === "none" ? all : all - 1;
 }
 
+// Fill the voices left by doubling: the lead (a melody note on top) once,
+// then any mix of the given degrees (the root and the 5th), every mix being a
+// candidate. The 3rd and the 7th are never doubled this way.
 function withDoublings(
   set: string[],
   voices: number,
   doubling: string[],
   noteFor: (d: string) => string,
+  lead?: string,
 ): VoicingTones[] {
-  const degrees = [...set];
-  const cycle = doubling.filter((d) => noteFor(d) !== "");
-  for (let i = 0; degrees.length < voices && cycle.length; i++) {
-    degrees.push(cycle[i % cycle.length]);
-  }
-  if (degrees.length < voices) return [];
-  return [
-    {
-      degrees,
-      notes: degrees.map((d) => getNote(noteFor(d)).pc),
-    },
-  ];
+  const base = [...set];
+  if (lead && base.length < voices) base.push(lead);
+  const toTones = (degrees: string[]): VoicingTones => ({
+    degrees,
+    notes: degrees.map((d) => getNote(noteFor(d)).pc),
+  });
+  const extra = voices - base.length;
+  if (extra <= 0) return [toTones(base)];
+  const options = doubling.filter((d) => noteFor(d) !== "");
+  if (!options.length) return [];
+  // every multiset of `extra` degrees from the options
+  const mixes: string[][] = [];
+  const add = (start: number, chosen: string[]) => {
+    if (chosen.length === extra) return mixes.push(chosen);
+    for (let i = start; i < options.length; i++) {
+      add(i, [...chosen, options[i]]);
+    }
+  };
+  add(0, []);
+  return mixes.map((mix) => toTones([...base, ...mix]));
 }
 
 function unique(sets: string[][]): string[][] {

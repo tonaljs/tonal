@@ -82,7 +82,10 @@ export type VoicingOptions = {
    * "rootless", "shell", "so-what", "upper-structure"…) or chord degrees from
    * the bottom, with `|` between the hands (`"R | 3-7-9"`). Each note is the
    * nearest pitch above the one below. With `voices`, only the forms with
-   * that many notes; otherwise the largest forms that fit in the range.
+   * that many notes; otherwise the largest forms that fit in the range. A
+   * chord the template gives nothing for (no form for its family, as a
+   * dominant with "so-what", or none that fits) is voiced by the rules. An
+   * unknown template name gives `[]`.
    */
   template?: string | string[];
   /**
@@ -137,8 +140,20 @@ function rankVoicings(
     mode: options.mode,
     rootPosition,
   };
-  const upper = options.template
+  // an unknown template name is an error, not a reason to use the rules
+  if (
+    typeof options.template === "string" &&
+    !TEMPLATES[options.template] &&
+    !/\d/.test(options.template)
+  ) {
+    return [];
+  }
+  // a template, or the rules when the template gives nothing for this chord
+  const fromTemplate = options.template
     ? templateArrangements(chord, options.template, info.family, voices, place)
+    : [];
+  const upper = fromTemplate.length
+    ? fromTemplate
     : tones.flatMap((t) => arrangements(t.notes, t.degrees, place));
   const candidates = upper.length
     ? withBass(upper, place).filter((c) => passesAnchor(c, place))
@@ -344,7 +359,7 @@ export function get(
  *    colours (13 on major, 11 on minor) when there are voices left. When the
  *    3rd and the 7th, or the root and the 5th, tie for the last voice, both
  *    are tried. More voices than tones double the top note (with a fixed
- *    `top`), then the root, then the 5th.
+ *    `top`), then the root or the 5th: every mix is tried.
  * 2. Placement: every arrangement inside the range (or the range of each
  *    voice), with neighbour voices at most an octave apart (a 10th for the
  *    lowest two), the top note and the slash bass where asked, and no
