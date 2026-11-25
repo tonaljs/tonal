@@ -326,7 +326,10 @@ export function path(
     const edges = nodes.map((n) => from.map((f) => edge(f, n.pitches)));
     const limit =
       maxLeap !== undefined &&
-      edges.some((row) => row.some((e) => e.leap <= maxLeap))
+      edges.some((row) =>
+        // from a candidate that the path can be at (not a skipped one)
+        row.some((e, j) => e.leap <= maxLeap && base[j] < Infinity),
+      )
         ? maxLeap
         : Infinity;
     steps.push(
