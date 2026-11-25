@@ -64,23 +64,70 @@ export type TimedNotes = {
   duration: number;
 };
 
-/** Play groups of notes one after the other, each for its own duration. */
-export async function playTimeline(steps: TimedNotes[]): Promise<void> {
+/**
+ * A timeline being played: when its beginning is (audio clock, seconds), how
+ * long it lasts, and whether it starts again when it ends.
+ */
+export type Playback = { start: number; duration: number; loop?: boolean };
+
+export type ScheduleOptions = {
+  /** Seconds into the timeline to start from (default 0) */
+  from?: number;
+  /** The audio time at which `from` sounds (default now) */
+  at?: number;
+  /** Stop what is sounding first (default true) */
+  replace?: boolean;
+};
+
+/**
+ * Schedule groups of notes one after the other, each for its own duration,
+ * starting `from` seconds into the timeline: a group already sounding at that
+ * point plays at once, for the time it has left. Resolves with the audio time
+ * of the timeline's beginning and its length.
+ */
+export async function scheduleTimeline(
+  steps: TimedNotes[],
+  { from = 0, at, replace = true }: ScheduleOptions = {},
+): Promise<Playback> {
   const piano = await loadPiano();
   const now = context!.currentTime;
-  piano.stop();
-  let time = now;
+  if (replace) piano.stop();
+  const startsAt = (at ?? now) - from;
+  const cut = startsAt + from;
+  let time = startsAt;
   for (const { notes, duration } of steps) {
-    notes.forEach((note, j) => {
-      piano.start({
-        note,
-        velocity: 76,
-        time: time + j * 0.012,
-        duration: duration * 1.1,
+    const end = time + duration;
+    if (end > cut) {
+      const begin = Math.max(time, cut);
+      notes.forEach((note, j) => {
+        piano.start({
+          note,
+          velocity: 76,
+          time: begin + j * 0.012,
+          duration: (end - begin) * 1.1,
+        });
       });
-    });
-    time += duration;
+    }
+    time = end;
   }
+  return { start: startsAt, duration: time - startsAt };
+}
+
+/** Play groups of notes one after the other, each for its own duration. */
+export function playTimeline(steps: TimedNotes[]): Promise<Playback> {
+  return scheduleTimeline(steps);
+}
+
+/** Stop every note, also the ones scheduled to start later. */
+export async function stopAll(): Promise<void> {
+  if (!loading) return;
+  const piano = await loading;
+  piano.stop();
+}
+
+/** The time of the audio clock, in seconds (0 before anything plays). */
+export function audioTime(): number {
+  return context?.currentTime ?? 0;
 }
 
 /** Play note names (with octave) or midi numbers. Resolves once they start. */

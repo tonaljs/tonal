@@ -5,8 +5,9 @@ title: Getting started
 [![npm version](https://img.shields.io/npm/v/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
 
 `tonal` is a music theory library. Contains functions to manipulate tonal
-elements of music (note, intervals, chords, scales, modes, keys). It deals with
-abstractions (not actual music or sound).
+elements of music (note, intervals, chords, scales, modes, keys) and to voice
+chords and progressions. It deals with abstractions (not actual music or
+sound).
 
 `tonal` is implemented in Typescript and published as a collection of Javascript
 npm packages.
@@ -17,7 +18,7 @@ mutation, and entities are represented by data structures instead of objects.
 ## Example
 
 ```js
-import { Chord, Interval, Note, Scale } from "tonal";
+import { Chord, Interval, Note, Scale, Voicing } from "tonal";
 
 Note.midi("C4"); // => 60
 Note.freq("a4"); // => 440
@@ -37,6 +38,11 @@ const triad = Chord.degrees("Cm");
 [1, 2, 3].map(triad); // => ["C", "Eb", "G"];
 [2, 3, 1].map(triad); // => ["Eb", "G", "C"];
 [3, 1, 2].map(triad); // => ["G", "C", "Eb"];
+
+// Voicings: rootless, with a bass player, led smoothly from chord to chord
+Voicing.get("Dm7", { voices: 4, extensions: "available", bass: "external" }); // => ["F3", "A3", "C4", "E4"]
+Voicing.sequence(["Dm7", "G7", "Cmaj7"], { template: "rootless" });
+// => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
 ```
 
 ## Install

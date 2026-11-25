@@ -77,5 +77,20 @@
         "url": "/docs/basics/intervals"
       }
     ]
+  },
+  {
+    "slug": "voicings",
+    "title": "Voicings",
+    "description": "Voice a chord progression for piano: how many voices, which tensions, who plays the bass, rootless and So What templates, drop 2 and spread. Each chord led smoothly from the one before.",
+    "docs": [
+      {
+        "title": "Voicings",
+        "url": "/docs/voicings/voicings"
+      },
+      {
+        "title": "Voice leading",
+        "url": "/docs/voicings/leading"
+      }
+    ]
   }
 ]
