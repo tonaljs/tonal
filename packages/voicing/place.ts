@@ -242,20 +242,54 @@ const EXTENSION_NUMS = [2, 4, 6, 9, 11, 13];
 const degreeNum = (degree: string) => +(degree.match(/\d+$/)?.[0] ?? NaN);
 
 /**
- * The cost of a candidate: lower is better. Every term is documented in the
- * README (`Voicing.search`).
+ * The weight of each term of the cost of a voicing. The context (the voice
+ * leading from `previous`, or the distance from `anchor`) weighs 1 per
+ * semitone.
  *
  * @private
  */
-export function cost(candidate: Candidate, options: PlaceOptions): number {
+export const WEIGHTS = {
+  /** Per semitone from the voicing's centroid to the middle of the range */
+  register: 0.25,
+  /** When the chord's bass isn't at the bottom, without context */
+  inversion: 12,
+  /** Per chord step beyond close position between neighbour voices */
+  spacing: 1,
+  /** Per minor 9th between two notes (except the root under a b9) */
+  minorNinth: 3,
+  /** When the root is played elsewhere and the lowest voice isn't a guide tone */
+  guideBottom: 6,
+  /** Per tension right below a chord tone more than a whole step away */
+  extensionBelow: 2,
+};
+
+/** The terms of the cost of a voicing, before the weights. @private */
+export type CostTerms = { context: number } & Record<
+  keyof typeof WEIGHTS,
+  number
+>;
+
+/** The unweighted terms of the cost of a candidate. @private */
+export function costTerms(
+  candidate: Candidate,
+  options: PlaceOptions,
+): CostTerms {
   const { pitches } = candidate;
   const midis = pitches.map((p) => p.midi);
   const all = candidate.bass ? [candidate.bass.midi, ...midis] : midis;
-  let total = 0;
+  const terms: CostTerms = {
+    context: 0,
+    register: 0,
+    inversion: 0,
+    spacing: 0,
+    minorNinth: 0,
+    guideBottom: 0,
+    extensionBelow: 0,
+  };
 
   if (options.previous && options.previous.length) {
     // voice leading from the previous voicing
-    total +=
+    terms.context =
       voiceLeadingDistance(options.previous, candidate.notes, {
         metric: options.metric,
       }) ?? 0;
@@ -264,7 +298,7 @@ export function cost(candidate: Candidate, options: PlaceOptions): number {
     const mode = options.mode ?? "below";
     const ref =
       mode === "below" || mode === "duck" ? midis[midis.length - 1] : midis[0];
-    total += Math.abs(ref - anchor);
+    terms.context = Math.abs(ref - anchor);
   } else {
     // register: the centroid near the centre of the range
     const low = midiOf(
@@ -276,7 +310,7 @@ export function cost(candidate: Candidate, options: PlaceOptions): number {
         : options.range[1],
     );
     const centroid = midis.reduce((s, m) => s + m, 0) / midis.length;
-    total += 0.25 * Math.abs(centroid - (low + high) / 2);
+    terms.register = Math.abs(centroid - (low + high) / 2);
     // root position without context
     if (
       options.rootPosition !== false &&
@@ -284,12 +318,12 @@ export function cost(candidate: Candidate, options: PlaceOptions): number {
       options.bassNote !== undefined &&
       pitches[0].chroma !== noteChroma(options.bassNote)
     ) {
-      total += 12;
+      terms.inversion = 1;
     }
   }
 
-  // spacing: one per chord step beyond close position between neighbours
-  for (const step of stepsOf(midis)) total += Math.max(0, step - 1);
+  // spacing: chord steps beyond close position between neighbours
+  for (const step of stepsOf(midis)) terms.spacing += Math.max(0, step - 1);
   // minor 9ths between any two notes, except the root under a b9 on a dominant
   for (let i = 0; i < all.length; i++) {
     for (let j = i + 1; j < all.length; j++) {
@@ -297,13 +331,13 @@ export function cost(candidate: Candidate, options: PlaceOptions): number {
       const rootUnderB9 =
         (options.family === "dominant" || options.family === "altered") &&
         ((all[i] % 12) + 12) % 12 === options.rootChroma;
-      if (!rootUnderB9) total += 3;
+      if (!rootUnderB9) terms.minorNinth++;
     }
   }
   // When the root is played elsewhere, the lowest voice is a guide tone: the
   // 3rd or the 7th (the A and B forms of rootless voicings)
   if (options.bass !== "none" && !options.guides.includes(pitches[0].degree)) {
-    total += 6;
+    terms.guideBottom = 1;
   }
   // an extension right below a chord tone more than a whole step away
   for (let i = 0; i < pitches.length - 1; i++) {
@@ -311,9 +345,32 @@ export function cost(candidate: Candidate, options: PlaceOptions): number {
     const nextIsTone = !EXTENSION_NUMS.includes(
       degreeNum(pitches[i + 1].degree),
     );
-    if (isExtension && nextIsTone && midis[i + 1] - midis[i] > 2) total += 2;
+    if (isExtension && nextIsTone && midis[i + 1] - midis[i] > 2) {
+      terms.extensionBelow++;
+    }
   }
-  return total;
+  return terms;
+}
+
+/**
+ * The cost of a candidate: lower is better. Every term is documented in the
+ * README (`Voicing.search`).
+ *
+ * @private
+ */
+export function cost(
+  candidate: Candidate,
+  options: PlaceOptions,
+  weights: typeof WEIGHTS = WEIGHTS,
+): number {
+  const terms = costTerms(candidate, options);
+  return (
+    terms.context +
+    (Object.keys(weights) as (keyof typeof WEIGHTS)[]).reduce(
+      (sum, key) => sum + weights[key] * terms[key],
+      0,
+    )
+  );
 }
 
 /** The hard filter of each anchor mode. @private */

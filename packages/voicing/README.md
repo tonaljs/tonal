@@ -230,7 +230,7 @@ Voicing.drop(["C4", "E4", "G4", "B4"], [2, 4]); // => ["C3", "G3", "E4", "B4"]
      - 6 when the root is played elsewhere and the lowest voice isn't the 3rd or the 7th.
 4. **Ties:** the lower voicing, then the lower notes.
 
-The weights are tonal's own starting values, checked against the voicings of jazz piano method books.
+The weights are tonal's own. They were checked against the 148 voicings of Phil DeGreg's _Jazz Keyboard Harmony_, under the condition of keeping the textbook results of the tests (close position by default, the rootless A/B forms, the pop I–vi–IV–V): no other set of weights did meaningfully better. The book's voicings that the cost doesn't put first are two-handed open voicings, which you get by asking for them (`spacing`, or a template such as `rootless-spread`).
 
 ### Sources
 
