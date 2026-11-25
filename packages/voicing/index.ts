@@ -145,8 +145,14 @@ function searchVoicings(chord: string, options: VoicingOptions = {}) {
   return rankVoicings(chord, options).map((r) => r.notes);
 }
 
-/** A chord of a sequence with its own options. */
-export type VoicingChord = { chord: string } & VoicingOptions;
+/**
+ * A chord of a sequence with its own options: the options of `Voicing.get`
+ * except `previous` and `metric`, which belong to the whole sequence.
+ */
+export type VoicingChord = { chord: string } & Omit<
+  VoicingOptions,
+  "previous" | "metric"
+>;
 
 /** The options of `Voicing.sequence`. */
 export type SequenceOptions = VoicingOptions & {
@@ -167,7 +173,13 @@ function sequenceVoicings(
   const lists = chords.map((item, i) => {
     const { chord, ...own } =
       typeof item === "string" ? { chord: item } : (item ?? { chord: "" });
-    const merged: VoicingOptions = { ...shared, ...own, previous: undefined };
+    // previous and metric belong to the whole sequence, not to one chord
+    const merged: VoicingOptions = {
+      ...shared,
+      ...own,
+      previous: undefined,
+      metric: undefined,
+    };
     // root position only matters for the first chord without context
     const rootPosition = i === 0 && !previous?.length;
     return rankVoicings(chord ?? "", merged, rootPosition);
@@ -411,8 +423,10 @@ function legacySearch(
  * voicings `Voicing.search` gives for each chord, so that the voices move as
  * little as possible over the whole progression (an exact path, not a
  * greedy one). The options are the ones of `Voicing.get`, for every chord, and
- * each chord can be an object with its own (`{ chord: "G7", voices: 5 }`). A
- * chord without voicings gives `[]`, and the next one is led from the last.
+ * each chord can be an object with its own (`{ chord: "G7", voices: 5 }`), all
+ * but `previous` and `metric`, which belong to the whole sequence. `maxLeap`
+ * limits the move of each voice. A chord without voicings gives `[]`, and the
+ * next one is led from the last.
  *
  * Each step costs the voice-leading distance from the voicing before (see
  * `VoiceLeading.path`) plus the voicing's own cost in `Voicing.search`

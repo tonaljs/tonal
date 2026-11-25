@@ -99,7 +99,7 @@ Voicing.sequence(["Dm7", "G7", "Cmaj7"], {
 // => [["D2", "F3", "C4", "E4"], ["G2", "F3", "B3", "E4"], ["C3", "E3", "B3", "D4"]]
 ```
 
-- **Options.** The options are the ones of `Voicing.get`, for every chord. A chord can be an object with its own options, which are merged over them:
+- **Options.** The options are the ones of `Voicing.get`, for every chord. A chord can be an object with its own options, which are merged over them (all of them except `previous` and `metric`, which belong to the whole sequence):
 
   ```js
   Voicing.sequence(["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"], { voices: 4 });
