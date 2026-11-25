@@ -115,11 +115,13 @@ Any list of candidates works, so `path` can lead your own voicing tables, or voi
   - §2.8: efficient voice leading as a short path between chords.
 - Andrew Viterbi, "Error bounds for convolutional codes and an asymptotically optimum decoding algorithm" (1967): the dynamic programming behind `path`.
 
-## Voice leading functions
+## Deprecated: voice leading functions
+
+> **Deprecated (tonal 6.10), removed in tonal 7.** `topNoteDiff` only looks at the top note. Use `VoiceLeading.path`, or `Voicing.get` and `Voicing.sequence` with `previous`, which measure every voice.
 
 ### `VoiceLeading.topNoteDiff`
 
-A `VoiceLeadingFunction`, used by `Voicing.get` and `Voicing.sequence`: it picks the voicing whose top note is closest to the top note of the last voicing (the first of them on a tie), and `[]` if there are no voicings.
+A `VoiceLeadingFunction`, used by the positional (deprecated) form of `Voicing.get` and `Voicing.sequence`: it picks the voicing whose top note is closest to the top note of the last voicing (the first of them on a tie), and `[]` if there are no voicings.
 
 ```js
 VoiceLeading.topNoteDiff(

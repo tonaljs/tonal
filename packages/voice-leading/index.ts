@@ -363,7 +363,13 @@ export function path(
   return { voicings, cost, steps: added };
 }
 
-// A function that decides which of a set of voicings is picked as a follow up to lastVoicing.
+/**
+ * A function that decides which of a set of voicings is picked as a follow up
+ * to lastVoicing.
+ *
+ * @deprecated Used by the deprecated positional forms of `Voicing.get` and
+ * `Voicing.sequence`. Removed in tonal 7.
+ */
 export declare type VoiceLeadingFunction = (
   voicings: string[][],
   lastVoicing: string[],
@@ -377,6 +383,8 @@ export declare type VoiceLeadingFunction = (
  *
  * @param voicings - candidate voicings, like [["C4", "E4", "G4"], ["E4", "G4", "C5"]]
  * @param lastVoicing - the previous voicing
+ * @deprecated It only looks at the top note: use `VoiceLeading.path`, or
+ * `Voicing.get` with `previous`, which measure every voice. Removed in tonal 7.
  * @example
  * VoiceLeading.topNoteDiff([["C4", "E4", "G4"], ["E4", "G4", "C5"], ["G4", "C5", "E5"]], ["D4", "F4", "A4"]); // => ["C4", "E4", "G4"]
  */

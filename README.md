@@ -123,9 +123,9 @@ Using a coding agent? Point it to [llms.txt](https://tonaljs.github.io/tonal/llm
 
 #### Voicings
 
-- [@tonaljs/voicing](/packages/voicing/): Voicings and voice leadings for chords
-- [@tonaljs/voice-leading](/packages/voice-leading/): Voice leading logic for transitions between voicings
-- [@tonaljs/voicing-dictionary](/packages/voicing-dictionary/): Collections of chord voicings
+- [@tonaljs/voicing](/packages/voicing/): Voicings of any chord by rules and templates, for one chord or a whole progression
+- [@tonaljs/voice-leading](/packages/voice-leading/): Voice-leading distance and the smoothest path between voicings
+- [@tonaljs/voicing-dictionary](/packages/voicing-dictionary/): Collections of chord voicings (deprecated: use `Voicing`)
 
 #### Keys, chord progressions
 
