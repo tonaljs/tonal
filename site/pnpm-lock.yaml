@@ -36,8 +36,8 @@ importers:
         specifier: 1.2.1
         version: 1.2.1
       tonal:
-        specifier: 6.10.0
-        version: 6.10.0
+        specifier: 6.11.0
+        version: 6.11.0
       zod:
         specifier: ^4.6.7
         version: 4.6.7
@@ -1014,8 +1014,8 @@ packages:
   '@tonaljs/interval@5.2.0':
     resolution: {integrity: sha512-RMpAgVxmXbOAlctEZl2Nzm3f9oafWCSdUnWyR5mZpaaizjlZ0g6AiO2AxcC5GDRkHGbsKIvM402JfTtnd+ilAA==}
 
-  '@tonaljs/key@4.11.8':
-    resolution: {integrity: sha512-dHXEhK/hddwCzdeK7x+khGNuBaaetQ3530/90869lydMhFakOMTXWL0daH4K8x+ykkPHQEvjR+/KRzn0kn5GjQ==}
+  '@tonaljs/key@4.12.0':
+    resolution: {integrity: sha512-FS9vykMdAqT3T593Y/1JWGKNPAGI4Mvy2V5Y/JAhZPqn9ZylDvAA2IIO5PoEaCwkTGmz0a9j0TXUzKday8f81w==}
 
   '@tonaljs/midi@4.11.0':
     resolution: {integrity: sha512-r9VGAdydLvtsqQEZXqrDH6kti3VFxb5D7GMvE7iUxeFzNesa6y5O+UX/7MEKcwZ1tM2sgbWWqag15Bw36PKy+Q==}
@@ -2556,8 +2556,8 @@ packages:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
 
-  tonal@6.10.0:
-    resolution: {integrity: sha512-luls2pScA5B0rWhtMopU5GhQ6fDtc5AhZ+AV9mbu1sd4r9ZzsAgnlfJFHACxzDsjIJTIrDXM+Enur9LA3LcMIQ==}
+  tonal@6.11.0:
+    resolution: {integrity: sha512-RwXkQNVPWuk0nlzNIyb0a5OFgehZPIPqbLvBclyrcg3lV/n69jqHfgHf+k4Wc+PpqhkNN3MekHW0mJ0Aa5yhqg==}
 
   trim-lines@3.0.1:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
@@ -3520,7 +3520,7 @@ snapshots:
       '@tonaljs/pitch-distance': 5.1.1
       '@tonaljs/pitch-interval': 6.3.0
 
-  '@tonaljs/key@4.11.8':
+  '@tonaljs/key@4.12.0':
     dependencies:
       '@tonaljs/note': 4.12.7
       '@tonaljs/pitch-note': 6.1.3
@@ -5386,7 +5386,7 @@ snapshots:
     dependencies:
       is-number: 7.0.0
 
-  tonal@6.10.0:
+  tonal@6.11.0:
     dependencies:
       '@tonaljs/abc-notation': 4.9.5
       '@tonaljs/array': 4.8.7
@@ -5396,7 +5396,7 @@ snapshots:
       '@tonaljs/core': 5.0.6
       '@tonaljs/duration-value': 4.9.2
       '@tonaljs/interval': 5.2.0
-      '@tonaljs/key': 4.11.8
+      '@tonaljs/key': 4.12.0
       '@tonaljs/midi': 4.11.0
       '@tonaljs/mode': 4.9.8
       '@tonaljs/note': 4.12.7

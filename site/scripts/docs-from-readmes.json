@@ -61,6 +61,7 @@
   {
     "page": "harmony/keys.md",
     "readme": "key",
+    "apps": ["key-explorer"],
     "title": "Keys",
     "description": "Key scales and chords"
   },

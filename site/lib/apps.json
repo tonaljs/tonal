@@ -30,6 +30,21 @@
     ]
   },
   {
+    "slug": "key-explorer",
+    "title": "Key explorer",
+    "description": "Click a key on the circle of fifths to get its signature, scale and chords: diatonic chords with their functions, secondary and substitute dominants with their ii, chord scales, and the related keys. Major and the three minor scales.",
+    "docs": [
+      {
+        "title": "Keys",
+        "url": "/docs/harmony/keys"
+      },
+      {
+        "title": "Progressions",
+        "url": "/docs/harmony/progressions"
+      }
+    ]
+  },
+  {
     "slug": "chart-reader",
     "title": "Chart reader",
     "description": "Paste a chord chart to read every symbol: notes, family, complexity and roman numerals in a key, with applied dominants. Transpose it and play it.",
@@ -43,7 +58,7 @@
         "url": "/docs/harmony/progressions"
       },
       {
-        "title": "Roman numerals",
+        "title": "Progressions",
         "url": "/docs/notation/roman-numerals"
       }
     ]
