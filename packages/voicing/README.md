@@ -134,7 +134,7 @@ Voicing.sequence(["Dm7", "G7", "Cmaj7"], { spacing: "drop2" });
 
 ### Templates
 
-A template fixes the order of a voicing's notes as chord degrees, from the bottom; each note is the nearest pitch above the one below (after a `|`, the right hand can also start an octave higher). A plain number is the chord's own degree with that number (`3` is the b3 of a minor chord; `7` is the 6th of a sixth chord); `R` is the root. A form whose plain degrees from 1 to 7 the chord doesn't have doesn't apply (no `rootless` voicing of a triad). With `voices`, only the forms with that many notes; otherwise the largest forms that fit in the range. Several forms (the "A" and "B" forms) are ranked like any voicing, and in a sequence the voice leading chooses between them.
+A template fixes the order of a voicing's notes as chord degrees, from the bottom; each note is the nearest pitch above the one below (after a `|`, the right hand can also start an octave higher). A plain number is the chord's own degree with that number (`3` is the b3 of a minor chord; `7` is the 6th of a sixth chord); `R` is the root. A form whose plain degrees from 1 to 7 the chord doesn't have doesn't apply (no `rootless` voicing of a triad). A chord the template gives nothing for (no form applies, or none fits the range) is voiced by the rules with the same options, so `{ template: "so-what" }` on a ii–V–I gives So What voicings for the minor and major chords and rule voicings for the dominant. An unknown template name gives `[]`. With `voices`, only the forms with that many notes; otherwise the largest forms that fit in the range. Several forms (the "A" and "B" forms) are ranked like any voicing, and in a sequence the voice leading chooses between them.
 
 ```js
 Voicing.get("Dm7", { template: "rootless" }); // => ["F3", "A3", "C4", "E4"]
@@ -213,7 +213,7 @@ Voicing.drop(["C4", "E4", "G4", "B4"], [2, 4]); // => ["C3", "G3", "E4", "B4"]
 
    - When a bass part or a bass player has the root, the voicing leaves it out (except in half-diminished and diminished chords).
    - When the 3rd and the 7th tie for the last voice, both are tried, and so are the root slot and the 5th slot: the choice below picks the "A" or "B" form.
-   - More voices than tones double the top note an octave below (with a fixed `top`), then the root, then the 5th.
+   - More voices than tones double the top note an octave below (with a fixed `top`), then the root or the 5th: every mix is tried, and the cost chooses. The 3rd and the 7th are not doubled.
 2. **Placement.** Every arrangement inside the range (or the range of each voice), with:
    - neighbour voices at most an octave apart, and the lowest two at most a 10th;
    - the top note and the slash bass where asked;
