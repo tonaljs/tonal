@@ -119,19 +119,20 @@
   {
     "page": "voicings/voicings.md",
     "readme": "voicing",
+    "apps": ["voicings"],
     "title": "Chord Voicings",
-    "description": "Generate chord voicings"
+    "description": "Voice any chord or progression, with voices, tensions, bass, templates and spacing"
   },
   {
     "page": "voicings/dictionary.md",
     "readme": "voicing-dictionary",
-    "title": "Voicing dictionary",
-    "description": "Dictionaries of chord voicings"
+    "title": "Voicing dictionary (deprecated)",
+    "description": "The old dictionaries of chord voicings, replaced by Voicing options and templates"
   },
   {
     "page": "voicings/leading.md",
     "readme": "voice-leading",
     "title": "Voice leading",
-    "description": "Choose the smoothest transition between voicings"
+    "description": "Voice-leading distance and the smoothest path between voicings"
   }
 ]
