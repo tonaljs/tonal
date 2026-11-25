@@ -919,23 +919,43 @@ describe("tonal-chord", () => {
       expect(Chord.degreesByImportance("C11")).toEqual($("11 b7 9 1 5"));
       expect(Chord.degreesByImportance("Cmaj7")).toEqual($("3 7 1 5"));
       expect(Chord.degreesByImportance("C7")).toEqual($("3 b7 1 5"));
-      expect(Chord.degreesByImportance("Cm7b5")).toEqual($("b3 b5 b7 1"));
-      expect(Chord.degreesByImportance("Cdim7")).toEqual($("b3 b5 bb7 1"));
-      expect(Chord.degreesByImportance("C7#5")).toEqual($("3 #5 b7 1"));
+      expect(Chord.degreesByImportance("Cm7b5")).toEqual($("b3 b7 b5 1"));
+      expect(Chord.degreesByImportance("Cdim7")).toEqual($("b3 bb7 b5 1"));
+      expect(Chord.degreesByImportance("C7#5")).toEqual($("3 b7 #5 1"));
       expect(Chord.degreesByImportance("C7b9")).toEqual($("3 b7 b9 1 5"));
-      expect(Chord.degreesByImportance("C7#5#9")).toEqual($("3 #5 b7 #9 1"));
+      expect(Chord.degreesByImportance("C7#5#9")).toEqual($("3 b7 #5 #9 1"));
       expect(Chord.degreesByImportance("Calt7")).toEqual($("3 b7 b9 1"));
       expect(Chord.degreesByImportance("C7b9b13")).toEqual(
-        $("3 b7 b9 1 5 b13"),
+        $("3 b7 b13 b9 1 5"),
       );
-      expect(Chord.degreesByImportance("C13")).toEqual($("3 b7 9 1 5 13"));
-      expect(Chord.degreesByImportance("Cm11")).toEqual($("b3 b7 9 1 5 11"));
+      expect(Chord.degreesByImportance("C13")).toEqual($("3 b7 13 1 9 5"));
+      expect(Chord.degreesByImportance("Cm11")).toEqual($("b3 b7 11 1 9 5"));
       expect(Chord.degreesByImportance("C13#11")).toEqual(
-        $("3 b7 9 1 5 #11 13"),
+        $("3 b7 13 #11 1 9 5"),
       );
       expect(Chord.degreesByImportance("C7(no3)")).toEqual($("b7 1 5"));
       expect(Chord.degreesByImportance("C7/E")).toEqual($("3 b7 1 5"));
       expect(Chord.degreesByImportance("Cnonsense")).toEqual([]);
+    });
+
+    test("degreesByImportance keeps what jazz voicings keep", () => {
+      // the 3rd and the 7th come first, even with an altered fifth
+      expect(Chord.degreesByImportance("Cm7b5").slice(0, 2)).toEqual(
+        $("b3 b7"),
+      );
+      expect(Chord.degreesByImportance("Co7").slice(0, 2)).toEqual($("b3 bb7"));
+      // four voices of a 13 chord keep the 13: root, 3, 7, 13
+      expect(Chord.degreesByImportance("C13").slice(0, 4)).toEqual(
+        $("3 b7 13 1"),
+      );
+      // the extension that names the chord comes before the root
+      expect(Chord.degreesByImportance("Cmaj9")).toEqual($("3 7 9 1 5"));
+      expect(Chord.degreesByImportance("Cm9")).toEqual($("b3 b7 9 1 5"));
+      // the natural fifth is always last
+      for (const type of ChordType.all()) {
+        const sorted = Chord.degreesByImportance(["C", type.aliases[0]]);
+        if (sorted.includes("5")) expect(sorted.at(-1), type.name).toBe("5");
+      }
     });
 
     test("degreesByImportance lists every degree of every chord type once", () => {

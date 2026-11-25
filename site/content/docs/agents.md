@@ -139,7 +139,7 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   ```js
   Chord.formula("Cm7"); // => ["1", "b3", "5", "b7"]
   Chord.noteOf("G13", "3"); // => "B"
-  Chord.degreesByImportance("G13"); // => ["3", "b7", "9", "1", "5", "13"]
+  Chord.degreesByImportance("G13"); // => ["3", "b7", "13", "1", "9", "5"]
   ```
 
 - `Chord.get(name).complexity` (or `ChordType.get(type).complexity`) is the
