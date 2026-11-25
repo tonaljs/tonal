@@ -74,8 +74,6 @@ export type PlaceOptions = {
   metric?: VoiceLeadingMetric;
   anchor?: string;
   mode?: AnchorMode;
-  /** Prefer the chord's bass at the bottom (no context). Default true. */
-  rootPosition?: boolean;
   /** A named spacing or the chord steps between neighbour voices. */
   spacing?: VoicingSpacing;
   /** Check the gaps between neighbour voices. Default true. */
@@ -251,7 +249,7 @@ const degreeNum = (degree: string) => +(degree.match(/\d+$/)?.[0] ?? NaN);
 export const WEIGHTS = {
   /** Per semitone from the voicing's centroid to the middle of the range */
   register: 0.25,
-  /** When the chord's bass isn't at the bottom, without context */
+  /** When the voicing carries its own bass and the chord's bass isn't at the bottom (not with an anchor) */
   inversion: 12,
   /** Per chord step beyond close position between neighbour voices */
   spacing: 1,
@@ -311,15 +309,17 @@ export function costTerms(
     );
     const centroid = midis.reduce((s, m) => s + m, 0) / midis.length;
     terms.register = Math.abs(centroid - (low + high) / 2);
-    // root position without context
-    if (
-      options.rootPosition !== false &&
-      options.bass === "none" &&
-      options.bassNote !== undefined &&
-      pitches[0].chroma !== noteChroma(options.bassNote)
-    ) {
-      terms.inversion = 1;
-    }
+  }
+  // A voicing that carries its own bass is heard from its lowest note: it
+  // prefers the chord's bass there (C E A alone sounds like Am/C), with or
+  // without a previous voicing. An anchor places the voicing freely.
+  if (
+    !options.anchor &&
+    options.bass === "none" &&
+    options.bassNote !== undefined &&
+    pitches[0].chroma !== noteChroma(options.bassNote)
+  ) {
+    terms.inversion = 1;
   }
 
   // spacing: chord steps beyond close position between neighbours

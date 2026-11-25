@@ -86,7 +86,9 @@ A voicing for each chord of a progression: the smoothest path through the voicin
 
 ```js
 Voicing.sequence(["C", "Am", "F", "G"]);
-// => [["C4", "E4", "G4"], ["C4", "E4", "A4"], ["C4", "F4", "A4"], ["B3", "D4", "G4"]]
+// => [["C4", "E4", "G4"], ["A3", "C4", "E4"], ["F3", "A3", "C4"], ["G3", "B3", "D4"]]
+Voicing.sequence(["C", "Am", "F", "G"], { bass: "root", voices: 3 });
+// => [["C3", "G3", "C4", "E4"], ["A2", "A3", "C4", "E4"], ["F2", "A3", "C4", "F4"], ["G2", "B3", "D4", "G4"]]
 Voicing.sequence(["Dm7", "G7", "Cmaj7"], {
   voices: 4,
   extensions: "available",
@@ -108,7 +110,7 @@ Voicing.sequence(["Dm7", "G7", "Cmaj7"], {
   ```
 
 - **What each step costs:** the voice-leading distance from the voicing before (`metric`, see [VoiceLeading.path](../voice-leading)), plus the voicing's own cost (register and spacing, see the rules below). So the progression doesn't drift away from the range.
-- **Root position:** only the first chord prefers it, and only when there's no `previous` (the voicing before the first chord).
+- **Root position:** a voicing that carries its own bass (`bass: "none"`) is heard from its lowest note, so every chord prefers its bass there: C E A alone sounds like Am/C. The preference is soft, and the voice leading can still choose an inversion when it saves a lot. For triads that invert over a root, use a bass part: `{ bass: "root", voices: 3 }`.
 - **`maxLeap`:** the largest move of a voice, in semitones. A voicing that needs a larger move is skipped, unless every voicing of its chord does.
 - **Chords without voicings** give `[]`, and the next chord is led from the last one.
 
@@ -222,7 +224,8 @@ Voicing.drop(["C4", "E4", "G4", "B4"], [2, 4]); // => ["C3", "G3", "E4", "B4"]
    - **context:**
      - with `previous`: the voice-leading distance (1 per semitone);
      - with `anchor`: the distance of the top note (`below`, `duck`) or the bottom note (`above`, `root`) from it;
-     - otherwise: 0.25 per semitone between the voicing's average note and the middle of the range, plus 12 when the chord's bass isn't at the bottom.
+     - otherwise: 0.25 per semitone between the voicing's average note and the middle of the range.
+   - **root position:** 12 when the voicing carries its own bass (`bass: "none"`) and the chord's bass isn't at the bottom, with or without `previous` (not with an `anchor`, which places the voicing freely).
    - **spacing:** 1 per chord step beyond close position between neighbour voices (C4 E4 G4 is close; C4 G4 E5 is two extra steps).
    - **sound:**
      - 3 per minor 9th between two notes, except the root under a b9 on a dominant;

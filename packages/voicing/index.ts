@@ -103,11 +103,7 @@ const DEFAULT_BASS_RANGE: NoteRange = ["C2", "C3"];
 type Ranked = { notes: string[]; cost: number };
 
 // The voicings of a chord with their cost, best first
-function rankVoicings(
-  chord: string,
-  options: VoicingOptions = {},
-  rootPosition = true,
-): Ranked[] {
+function rankVoicings(chord: string, options: VoicingOptions = {}): Ranked[] {
   const info = chordInfo(chord);
   if (!info) return [];
   const ranges = Array.isArray(options.voices) ? options.voices : undefined;
@@ -138,7 +134,6 @@ function rankVoicings(
     metric: options.metric,
     anchor: options.anchor,
     mode: options.mode,
-    rootPosition,
   };
   // an unknown template name is an error, not a reason to use the rules
   if (
@@ -210,7 +205,7 @@ function sequenceVoicings(
 ): string[][] {
   if (!Array.isArray(chords)) return [];
   const { previous, maxLeap, metric, ...shared } = options;
-  const lists = chords.map((item, i) => {
+  const lists = chords.map((item) => {
     const { chord, ...own } =
       typeof item === "string" ? { chord: item } : (item ?? { chord: "" });
     // previous and metric belong to the whole sequence, not to one chord
@@ -220,9 +215,7 @@ function sequenceVoicings(
       previous: undefined,
       metric: undefined,
     };
-    // root position only matters for the first chord without context
-    const rootPosition = i === 0 && !previous?.length;
-    return rankVoicings(chord ?? "", merged, rootPosition);
+    return rankVoicings(chord ?? "", merged);
   });
   return voiceLeadingPath(
     lists.map((list) => list.map((r) => r.notes)),
@@ -366,8 +359,9 @@ export function get(
  *    interval below the low interval limits.
  * 3. Cost, lower first: the voice leading from `previous` (one per
  *    semitone); or the distance from the `anchor`; or a quarter per semitone
- *    from the centroid to the middle of the range, plus 12 when the chord's
- *    bass isn't at the bottom. Always: one per chord step beyond close
+ *    from the centroid to the middle of the range. Twelve when the voicing
+ *    carries its own bass and the chord's bass isn't at the bottom (not with
+ *    an anchor). Always: one per chord step beyond close
  *    position between neighbour voices, three per minor 9th between two
  *    notes (except the root under a b9 on a dominant), two per tension
  *    right below a chord tone more than a whole step away, and six when a
@@ -522,7 +516,9 @@ function legacySearch(
  * Each step costs the voice-leading distance from the voicing before (see
  * `VoiceLeading.path`) plus the voicing's own cost in `Voicing.search`
  * (register, spacing), so the progression doesn't drift away from the range.
- * Only the first chord prefers root position, when there's no `previous`.
+ * With the bass in the voicing (`bass: "none"`), every chord prefers root
+ * position, since the lowest note is heard as the bass; for triads that invert
+ * over a root, use `{ bass: "root", voices: 3 }`.
  * `maxLeap` limits the move of each voice.
  *
  * (Called with a range array as the second argument, it uses the old
@@ -535,7 +531,7 @@ function legacySearch(
  * @param chords - chord symbols, or objects with a chord and its own options
  * @param options - the options of `Voicing.get` for every chord, plus `maxLeap`
  * @example
- * Voicing.sequence(["C", "Am", "F", "G"]); // => [["C4", "E4", "G4"], ["C4", "E4", "A4"], ["C4", "F4", "A4"], ["B3", "D4", "G4"]]
+ * Voicing.sequence(["C", "Am", "F", "G"]); // => [["C4", "E4", "G4"], ["A3", "C4", "E4"], ["F3", "A3", "C4"], ["G3", "B3", "D4"]]
  * Voicing.sequence(["Dm7", "G7", "Cmaj7"], { voices: 4, extensions: "available", bass: "external" }); // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
  * Voicing.sequence(["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"], { voices: 4 }).map((v) => v.length); // => [4, 5, 4]
  */
