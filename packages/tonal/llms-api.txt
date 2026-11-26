@@ -1348,8 +1348,8 @@ RhythmPattern.random(length: number, probability?: number, rnd?: () => number): 
   Create a random rhythm pattern of the given length: each step is 1 when `rnd()` is at least `probability`. Pass `rnd` to make it deterministic.
   RhythmPattern.random(4, 0.5, () => 0.7) // => [1, 1, 1, 1]
 
-RhythmPattern.rotate(pattern: RhythmPattern, rotations: number): RhythmPattern
-  Rotate a pattern to the right (a negative number rotates to the left). It returns a new pattern.
+RhythmPattern.rotate<T extends number>(pattern: T[], rotations: number): T[]
+  Rotate a pattern to the right (a negative number rotates to the left). It returns a new pattern of the same type, so it rotates any array of numbers (probabilities or accents too), or `[]` if it isn't an array.
   RhythmPattern.rotate([1, 0, 0, 1], 2) // => [0, 1, 1, 0]
   RhythmPattern.rotate([1, 0, 0, 1], -1) // => [0, 0, 1, 1]
 

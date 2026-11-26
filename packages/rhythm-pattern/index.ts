@@ -215,7 +215,8 @@ export function probability(
 
 /**
  * Rotate a pattern to the right (a negative number rotates to the left). It
- * returns a new pattern.
+ * returns a new pattern of the same type, so it rotates any array of numbers
+ * (probabilities or accents too), or `[]` if it isn't an array.
  * @param pattern the pattern to rotate
  * @param rotations the number of steps to rotate
  * @returns the rotated pattern (an array of 0s and 1s)
@@ -223,14 +224,11 @@ export function probability(
  * RhythmPattern.rotate([1, 0, 0, 1], 2) // => [0, 1, 1, 0]
  * RhythmPattern.rotate([1, 0, 0, 1], -1) // => [0, 0, 1, 1]
  */
-export function rotate(
-  pattern: RhythmPattern,
-  rotations: number,
-): RhythmPattern {
+export function rotate<T extends number>(pattern: T[], rotations: number): T[] {
   if (!Array.isArray(pattern)) return [];
   if (!Number.isInteger(rotations)) rotations = 0;
   const len = pattern.length;
-  const rotated: RhythmPattern = [];
+  const rotated: T[] = [];
   for (let i = 0; i < len; i++) {
     const pos = (((i - rotations) % len) + len) % len;
     rotated[i] = pattern[pos];
