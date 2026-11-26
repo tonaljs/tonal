@@ -181,6 +181,34 @@ Note.distance("C3", "E3"); // => "3M"
 Note.distance("C3", "E4"); // => "10M"
 ```
 
+## Register
+
+### `Note.fold`
+
+`fold(notes: string[], range: [low: string, high: string], options?: { each?: boolean }) => string[]`
+
+Move notes by octaves into a range of notes (both ends included), keeping their spelling. By default the whole figure moves together, so it keeps its shape: it moves by the fewest octaves that put every note in the range, and doesn't move if it's already there:
+
+```js
+Note.fold(["C2", "E2", "G2", "Bb2"], ["E2", "G3"]); // => ["C3", "E3", "G3", "Bb3"]
+Note.fold(["C5", "E5", "G5"], ["C3", "C5"]); // => ["C4", "E4", "G4"]
+```
+
+With `each: true`, each note moves on its own by the fewest octaves that put it in the range:
+
+```js
+Note.fold(["C2", "E2", "G2", "Bb2"], ["E2", "G3"], { each: true });
+// => ["C3", "E2", "G2", "Bb2"]
+```
+
+The rules at the edges:
+
+- A figure that doesn't fit in the range at any octave has its lowest note put in the lowest octave at or above `low`: `Note.fold(["C2", "E4"], ["E2", "G3"])` is `["C3", "E5"]`.
+- In a range under an octave, a note may have no octave inside it: with `each: true` it goes to the octave nearest the range, and a tie goes up.
+- To keep the shape where it fits and fix only the notes at the edges, fold the whole figure first and then each note: `Note.fold(Note.fold(notes, range), range, { each: true })`.
+
+It returns `[]` if the notes are empty or one has no octave, or if the range isn't two notes with octave from low to high. (This `fold` moves notes into a register; it isn't the `fold` of functional programming, which is `reduce`.)
+
 ## Named collections
 
 ### `Note.names`

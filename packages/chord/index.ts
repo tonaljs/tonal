@@ -403,6 +403,30 @@ export function steps(chordName: ChordNameOrTokens, tonic?: string) {
   return tonicIntervalsTransposer(chord.intervals, note);
 }
 
+/**
+ * Get the bass note of a chord: the slash bass of a slash chord, or the root.
+ * (`Chord.get(name).bass` is `""` when there's no slash.) With an octave, the
+ * note is in that octave; to fit it into a range instead, use `Note.fold`.
+ *
+ * It returns `""` if the chord isn't valid or has no tonic, or if the octave
+ * isn't an integer.
+ *
+ * @param chordName - the chord, like "C7/E"
+ * @param octave - the octave of the note (optional)
+ * @returns the bass note: a pitch class, or a note in the octave
+ * @example
+ * Chord.bass("C7/E"); // => "E"
+ * Chord.bass("C7"); // => "C"
+ * Chord.bass("C7/E", 2); // => "E2"
+ */
+export function bass(chordName: ChordNameOrTokens, octave?: number): string {
+  const chord = get(chordName);
+  const pc = note(chord.bass || chord.tonic || "").pc;
+  if (chord.empty || !pc) return "";
+  if (octave === undefined) return pc;
+  return Number.isInteger(octave) ? pc + octave : "";
+}
+
 // The intervals of the chord type, before the bass rotates or extends them
 function typeIntervals(chord: Chord): string[] {
   const ivls = chord.intervals;
@@ -576,4 +600,5 @@ export default {
   degreeOf,
   noteOf,
   degreesByImportance,
+  bass,
 };

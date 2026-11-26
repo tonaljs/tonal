@@ -1,6 +1,6 @@
 import { degreeOf, get as getChord } from "@tonaljs/chord";
 import { distance as intervalBetween } from "@tonaljs/interval";
-import { get as getNote, transpose } from "@tonaljs/note";
+import { get as getNote, transpose, transposeOctaves } from "@tonaljs/note";
 import { spacingName, stepsOf, VoicingSpacing } from "./spacing";
 
 type Pitch = { name: string; pc: string; midi: number; chroma: number };
@@ -174,4 +174,37 @@ export function drop(notes: string[], n: number | number[]): string[] {
     positions.includes(list.length - i) ? transpose(p.name, "-8P") : p.name,
   );
   return pitches(dropped)?.map((p) => p.name) ?? [];
+}
+
+/**
+ * Get a function that returns the note of a voicing by its position, 0 being
+ * the lowest voice, so a note pattern (`Pattern.arpeggio`, `Pattern.sequence`)
+ * plays over it. Past the top voice, the voicing repeats above itself: each
+ * copy moves up the fewest octaves that put its lowest note at or above the
+ * top note (one octave for a voicing within an octave, two for C3 G3 E4), so
+ * the positions keep going up. Negative positions go down the same way: -1 is
+ * the top voice of the copy below. The spelling is kept.
+ *
+ * The function returns `""` for a position that isn't an integer, or for
+ * every position if the voicing is empty or has a note without octave.
+ *
+ * @param notes - the voicing, like ["C4", "E4", "G4"]
+ * @returns a function from a position to a note
+ * @example
+ * [0, 1, 2, 3].map(Voicing.steps(["C4", "E4", "G4"])); // => ["C4", "E4", "G4", "C5"]
+ * [2, 3, -1].map(Voicing.steps(["C3", "G3", "E4"])); // => ["E4", "C5", "E2"]
+ * Pattern.arpeggio("up-down", 4).map(Voicing.steps(["E3", "G3", "B3", "D4"])); // => ["E3", "G3", "B3", "D4", "B3", "G3"]
+ */
+export function steps(notes: string[]): (step: number) => string {
+  const list = pitches(notes);
+  if (!list) return () => "";
+  const n = list.length;
+  const span = list[n - 1].midi - list[0].midi;
+  const octaves = Math.max(1, Math.ceil(span / 12));
+  return (step: number) => {
+    if (!Number.isInteger(step)) return "";
+    const copy = Math.floor(step / n);
+    const note = list[step - copy * n].name;
+    return copy === 0 ? note : transposeOctaves(note, copy * octaves);
+  };
 }

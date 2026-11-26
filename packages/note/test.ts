@@ -157,4 +157,54 @@ describe("note", () => {
     expect(Note.fromFreq(0)).toEqual("");
     expect(Note.fromFreq(NaN)).toEqual("");
   });
+
+  describe("fold", () => {
+    test("the whole figure", () => {
+      expect(Note.fold($("C2 E2 G2 Bb2"), ["E2", "G3"])).toEqual(
+        $("C3 E3 G3 Bb3"),
+      );
+      expect(Note.fold($("C5 E5 G5"), ["C3", "C5"])).toEqual($("C4 E4 G4"));
+      // already in the range: it doesn't move
+      expect(Note.fold($("E3 G3"), ["C3", "C5"])).toEqual($("E3 G3"));
+      // the fewest octaves
+      expect(Note.fold($("C1 E1"), ["C3", "C6"])).toEqual($("C3 E3"));
+      expect(Note.fold($("C7 E7"), ["C3", "C6"])).toEqual($("C5 E5"));
+      // too wide: the lowest note in the lowest octave at or above low
+      expect(Note.fold($("C2 E4"), ["E2", "G3"])).toEqual($("C3 E5"));
+      // the spelling is kept
+      expect(Note.fold($("Cb1 E#1"), ["C2", "C4"])).toEqual($("Cb3 E#3"));
+    });
+
+    test("each note", () => {
+      expect(
+        Note.fold($("C2 E2 G2 Bb2"), ["E2", "G3"], { each: true }),
+      ).toEqual($("C3 E2 G2 Bb2"));
+      expect(Note.fold($("C1 G5 E3"), ["C3", "C4"], { each: true })).toEqual(
+        $("C3 G3 E3"),
+      );
+      // a range under an octave: the octave nearest the range
+      expect(Note.fold($("C4 F#4 A4"), ["D4", "G4"], { each: true })).toEqual(
+        $("C4 F#4 A4"),
+      );
+      expect(Note.fold($("C5 A2"), ["D4", "G4"], { each: true })).toEqual(
+        $("C4 A4"),
+      );
+      // a tie goes up
+      expect(Note.fold(["C4"], ["D4", "Bb4"], { each: true })).toEqual(["C5"]);
+      // each: false is the whole figure
+      expect(Note.fold($("C2 E2"), ["E2", "G3"], { each: false })).toEqual(
+        $("C3 E3"),
+      );
+    });
+
+    test("invalid", () => {
+      expect(Note.fold([], ["C3", "C4"])).toEqual([]);
+      expect(Note.fold(["C"], ["C3", "C4"])).toEqual([]);
+      expect(Note.fold(["C4", "x"], ["C3", "C4"])).toEqual([]);
+      expect(Note.fold(["C4"], ["C4", "C3"])).toEqual([]);
+      expect(Note.fold(["C4"], ["C", "C4"])).toEqual([]);
+      expect(Note.fold(["C4"], ["C3"] as never)).toEqual([]);
+      expect(Note.fold(["C4"], ["C3", "C5"], null as never)).toEqual(["C4"]);
+    });
+  });
 });
