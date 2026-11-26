@@ -9,7 +9,7 @@ import { Time } from "tonal";
 
 Time.fromBarBeat("2:3", "4/4"); // => [6, 1]  (beat 3 of bar 2: six quarters in)
 Time.duration("q."); // => [3, 2]  (a dotted quarter)
-Time.meter("6/8").beats; // => [[3, 2], [3, 2]]  (two dotted quarters)
+Time.meter("6/8").pulses; // => [[3, 2], [3, 2]]  (felt in two dotted quarters)
 Time.onsets([1, 0, 0, 1, 0, 0, 1, 0], [1, 2]); // => [[0, 1], [3, 2], [3, 1]]
 ```
 
@@ -119,25 +119,27 @@ Time.mul(Time.duration("e"), [2, 3]); // => [1, 3]  (a triplet eighth)
 
 ### `Time.meter`
 
-`meter(timeSignature: string) => { empty, name, bar, beats }`
+`meter(timeSignature: string) => { empty, name, bar, beat, pulses }`
 
-The length of a bar and of each of its pulses, in quarter notes, from a [time signature](/packages/time-signature). The pulses are the beats a musician counts:
+A [time signature](/packages/time-signature) in quarter notes: the length of a bar, of a beat and of each pulse.
 
-- simple meters (the lower number is 2 or 4): one per lower note, so 4/4 has four quarters and 2/2 two half notes;
-- compound meters (6/8, 9/8, 12/8, 3/8): a dotted note per three, so 6/8 has two dotted quarters;
-- additive meters: one per group, so 2+2+3/8 has a quarter, a quarter and a dotted quarter;
-- other meters (5/8, 7/8): one per lower note (default groupings such as 2+2+3 for 7/8 aren't guessed: write the additive meter).
+- The **beat** is the lower note: what `"bar:beat"` counts, as MEI, DAWs and most music software count. A quarter in 4/4, a half note in 2/2, an eighth in 6/8 and in 7/8.
+- The **pulses** are the groups the meter is felt in, used to place chords in a bar:
+  - simple meters (the lower number is 2 or 4): one per lower note, so 4/4 has four quarters and 2/2 two half notes;
+  - compound meters (6/8, 9/8, 12/8, 3/8): a dotted note per three, so 6/8 has two dotted quarters;
+  - additive meters: one per group, so 2+2+3/8 has a quarter, a quarter and a dotted quarter;
+  - other meters (5/8, 7/8): one per lower note (groupings such as 2+2+3 for 7/8 aren't guessed: write the additive meter).
 
 ```js
-Time.meter("6/8"); // => { empty: false, name: "6/8", bar: [3, 1], beats: [[3, 2], [3, 2]] }
-Time.meter("2+2+3/8").beats; // => [[1, 1], [1, 1], [3, 2]]
+Time.meter("6/8"); // => { empty: false, name: "6/8", bar: [3, 1], beat: [1, 2], pulses: [[3, 2], [3, 2]] }
+Time.meter("2+2+3/8").pulses; // => [[1, 1], [1, 1], [3, 2]]
 ```
 
 An invalid time signature gives a meter with `empty: true`.
 
 ## Bar and beat
 
-Positions are quarters from the start, but people count bars and beats. `"bar:beat"` counts both from 1, with an optional fraction of the beat: `"2:3+1/3"` is a third of the way into beat 3 of bar 2. Beats are the meter's pulses, so in 6/8 `"1:2"` is the second dotted quarter. These functions take a time signature or a meter.
+Positions are quarters from the start, but people count bars and beats. `"bar:beat"` counts both from 1, with an optional fraction of the beat: `"2:3+1/3"` is a third of the way into beat 3 of bar 2. The beat is the lower note of the meter, whatever its grouping: in 6/8 there are six beats, so the second dotted quarter is `"1:4"`, and 2+2+3/8 counts seven eighths like 7/8. These functions take a time signature or a meter.
 
 ### `Time.fromBarBeat`
 
@@ -146,7 +148,7 @@ Positions are quarters from the start, but people count bars and beats. `"bar:be
 ```js
 Time.fromBarBeat("2:3", "4/4"); // => [6, 1]
 Time.fromBarBeat("2:3+1/3", "4/4"); // => [19, 3]
-Time.fromBarBeat("1:2", "6/8"); // => [3, 2]
+Time.fromBarBeat("1:4", "6/8"); // => [3, 2]  (the second dotted quarter)
 ```
 
 ### `Time.toBarBeat`

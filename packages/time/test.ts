@@ -92,37 +92,48 @@ describe("@tonaljs/time", () => {
   });
 
   describe("meter", () => {
-    test("simple, compound, additive and other meters", () => {
+    test("bar, beat and pulses", () => {
       expect(Time.meter("4/4")).toEqual({
         empty: false,
         name: "4/4",
         bar: [4, 1],
-        beats: [
+        beat: [1, 1],
+        pulses: [
           [1, 1],
           [1, 1],
           [1, 1],
           [1, 1],
         ],
       });
-      expect(Time.meter("3/4").beats).toHaveLength(3);
-      expect(Time.meter("2/2").beats).toEqual([
+      expect(Time.meter("3/4").pulses).toHaveLength(3);
+      expect(Time.meter("2/2").beat).toEqual([2, 1]);
+      expect(Time.meter("2/2").pulses).toEqual([
         [2, 1],
         [2, 1],
       ]);
-      expect(Time.meter("6/8").bar).toEqual([3, 1]);
-      expect(Time.meter("6/8").beats).toEqual([
-        [3, 2],
-        [3, 2],
-      ]);
-      expect(Time.meter("12/8").beats).toHaveLength(4);
-      expect(Time.meter("3/8").beats).toEqual([[3, 2]]);
+      // compound: the beat is the eighth, the pulses dotted quarters
+      expect(Time.meter("6/8")).toEqual({
+        empty: false,
+        name: "6/8",
+        bar: [3, 1],
+        beat: [1, 2],
+        pulses: [
+          [3, 2],
+          [3, 2],
+        ],
+      });
+      expect(Time.meter("12/8").pulses).toHaveLength(4);
+      expect(Time.meter("3/8").pulses).toEqual([[3, 2]]);
+      // additive: one pulse per group
       expect(Time.meter("2+2+3/8").bar).toEqual([7, 2]);
-      expect(Time.meter("2+2+3/8").beats).toEqual([
+      expect(Time.meter("2+2+3/8").beat).toEqual([1, 2]);
+      expect(Time.meter("2+2+3/8").pulses).toEqual([
         [1, 1],
         [1, 1],
         [3, 2],
       ]);
-      expect(Time.meter("7/8").beats).toHaveLength(7);
+      // not grouped by guess
+      expect(Time.meter("7/8").pulses).toHaveLength(7);
       expect(Time.meter("C").name).toBe("4/4");
     });
 
@@ -133,9 +144,11 @@ describe("@tonaljs/time", () => {
 
     test("invalid", () => {
       expect(Time.meter("x").empty).toBe(true);
-      expect(Time.meter("x").beats).toEqual([]);
+      expect(Time.meter("x").pulses).toEqual([]);
       expect(Time.meter({} as never).empty).toBe(true);
-      expect(Time.meter({ bar: 1, beats: 5 } as never).empty).toBe(true);
+      expect(Time.meter({ bar: 1, beat: 1, pulses: 5 } as never).empty).toBe(
+        true,
+      );
     });
   });
 
@@ -154,23 +167,31 @@ describe("@tonaljs/time", () => {
       expect(Time.fromBarBeat("1:1", "4/4")).toEqual([0, 1]);
       expect(Time.fromBarBeat("2:3", "4/4")).toEqual([6, 1]);
       expect(Time.fromBarBeat("2:3+1/3", "4/4")).toEqual([19, 3]);
-      expect(Time.fromBarBeat("1:2", "6/8")).toEqual([3, 2]);
-      expect(Time.fromBarBeat("2:3+1/3", "2+2+3/8")).toEqual([6, 1]);
+      // the beat is the lower note: in 6/8, beat 4 is the second dotted quarter
+      expect(Time.fromBarBeat("1:4", "6/8")).toEqual([3, 2]);
+      expect(Time.fromBarBeat("1:2", "6/8")).toEqual([1, 2]);
+      expect(Time.fromBarBeat("1:3", "3/8")).toEqual([1, 1]);
+      // 2+2+3/8 counts seven eighths, like 7/8
+      expect(Time.fromBarBeat("2:5", "2+2+3/8")).toEqual([11, 2]);
+      expect(Time.fromBarBeat("2:5", "7/8")).toEqual([11, 2]);
       expect(Time.fromBarBeat("2:1", Time.meter("3/4"))).toEqual([3, 1]);
     });
 
     test("toBarBeat and round trips", () => {
       expect(Time.toBarBeat([19, 3], "4/4")).toBe("2:3+1/3");
       expect(Time.toBarBeat(28, "4/4")).toBe("8:1");
-      expect(Time.toBarBeat([5, 2], "2+2+3/8")).toBe("1:3+1/3");
+      expect(Time.toBarBeat([5, 2], "2+2+3/8")).toBe("1:6");
       expect(Time.toBarBeat([7, 2], "2+2+3/8")).toBe("2:1");
+      expect(Time.toBarBeat([3, 2], "6/8")).toBe("1:4");
+      expect(Time.toBarBeat([2, 3], "6/8")).toBe("1:2+1/3");
       const cases: [string, string][] = [
         ["1:1", "4/4"],
         ["3:2", "4/4"],
         ["4:4+1/3", "4/4"],
         ["12:2+3/4", "4/4"],
-        ["5:2+2/3", "6/8"],
-        ["3:3+1/2", "2+2+3/8"],
+        ["5:5+2/3", "6/8"],
+        ["3:6+1/2", "2+2+3/8"],
+        ["1:6", "6/8"],
         ["2:7", "7/8"],
       ];
       for (const [text, sig] of cases) {
@@ -190,6 +211,7 @@ describe("@tonaljs/time", () => {
     test("invalid", () => {
       expect(Time.fromBarBeat("0:1", "4/4")).toBeNull();
       expect(Time.fromBarBeat("1:5", "4/4")).toBeNull();
+      expect(Time.fromBarBeat("1:7", "6/8")).toBeNull();
       expect(Time.fromBarBeat("1:1+3/2", "4/4")).toBeNull();
       expect(Time.fromBarBeat("1:1+1/0", "4/4")).toBeNull();
       expect(Time.fromBarBeat("x", "4/4")).toBeNull();

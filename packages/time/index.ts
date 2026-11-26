@@ -18,15 +18,26 @@ export type Fraction = [n: number, d: number];
  */
 export type TimeValue = Fraction | number | string;
 
-/** A meter: the length of its bar and of each of its pulses, in quarters. */
+/**
+ * A meter, in quarter notes: the length of its bar, of the beat that
+ * `"bar:beat"` counts (the lower note) and of each of its pulses (the groups
+ * it's felt in).
+ */
 export type Meter = {
   empty: boolean;
   name: string;
   bar: Fraction;
-  beats: Fraction[];
+  beat: Fraction;
+  pulses: Fraction[];
 };
 
-const NO_METER: Meter = { empty: true, name: "", bar: [0, 1], beats: [] };
+const NO_METER: Meter = {
+  empty: true,
+  name: "",
+  bar: [0, 1],
+  beat: [0, 1],
+  pulses: [],
+};
 
 const gcd = (a: number, b: number): number =>
   b === 0 ? Math.abs(a) : gcd(b, a % b);
@@ -188,24 +199,25 @@ export function toString(value: TimeValue): string {
 }
 
 /**
- * Get a meter from a time signature: the length of its bar and of each of
- * its pulses, in quarter notes. The pulses are the beats a musician counts:
+ * Get a meter from a time signature, in quarter notes: the length of its
+ * bar, of its beat and of each of its pulses.
  *
- * - simple meters (the lower number is 2 or 4): one per lower note, so 4/4
- *   has four `[1, 1]` and 2/2 two `[2, 1]`;
- * - compound meters (6/8, 9/8, 12/8, 3/8): one dotted note per three, so 6/8
- *   has two `[3, 2]`;
- * - additive meters: one per group, so 2+2+3/8 has `[1, 1]`, `[1, 1]` and
- *   `[3, 2]`;
- * - other meters (5/8, 7/8): one per lower note.
+ * - The **beat** is the lower note, what `"bar:beat"` counts (as MEI and most
+ *   music software do): a quarter in 4/4, an eighth in 6/8 and in 7/8.
+ * - The **pulses** are the groups the meter is felt in: one per lower note in
+ *   simple meters (4/4 has four quarters, 2/2 two half notes); a dotted note
+ *   per three in compound meters (6/8 has two dotted quarters, 3/8 one);
+ *   one per group in additive meters (2+2+3/8 has a quarter, a quarter and a
+ *   dotted quarter); one per lower note otherwise (7/8 isn't grouped by
+ *   guess: write 2+2+3/8).
  *
  * It returns a meter with `empty: true` if the time signature isn't valid.
  *
  * @param timeSignature - a time signature, like "6/8" or "2+2+3/8"
  * @returns the meter
  * @example
- * Time.meter("6/8") // => { empty: false, name: "6/8", bar: [3, 1], beats: [[3, 2], [3, 2]] }
- * Time.meter("2+2+3/8").beats // => [[1, 1], [1, 1], [3, 2]]
+ * Time.meter("6/8") // => { empty: false, name: "6/8", bar: [3, 1], beat: [1, 2], pulses: [[3, 2], [3, 2]] }
+ * Time.meter("2+2+3/8").pulses // => [[1, 1], [1, 1], [3, 2]]
  */
 export function meter(timeSignature: TimeSignatureLiteral | Meter): Meter {
   if (isMeter(timeSignature)) return timeSignature;
@@ -217,20 +229,31 @@ export function meter(timeSignature: TimeSignatureLiteral | Meter): Meter {
     : ts.upper;
   if (!Number.isSafeInteger(upper * 4)) return NO_METER;
   const note = (count: number) => reduce(count * 4, lower) as Fraction;
-  const beats: Fraction[] = ts.additive.length
+  const pulses: Fraction[] = ts.additive.length
     ? ts.additive.map(note)
     : ts.type === "compound"
       ? Array.from({ length: upper / 3 }, () => note(3))
       : Array.from({ length: upper }, () => note(1));
-  return { empty: false, name: ts.name, bar: note(upper), beats };
+  return {
+    empty: false,
+    name: ts.name,
+    bar: note(upper),
+    beat: note(1),
+    pulses,
+  };
 }
 
 function isMeter(value: unknown): value is Meter {
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
     return false;
   }
-  const { bar, beats } = value as Meter;
-  return !!fraction(bar) && Array.isArray(beats) && beats.every(fraction);
+  const { bar, beat, pulses } = value as Meter;
+  return (
+    !!fraction(bar) &&
+    !!fraction(beat) &&
+    Array.isArray(pulses) &&
+    pulses.every(fraction)
+  );
 }
 
 // The sum of fractions, or null if one isn't valid or it overflows
@@ -263,9 +286,9 @@ const BAR_BEAT = /^(\d+):(\d+)(?:\+(\d+)\/(\d+))?$/;
 /**
  * Get the position of a bar and beat in a meter, in quarter notes from the
  * start. The text is `"bar:beat"`, both from 1, with an optional fraction of
- * the beat: `"2:3+1/3"` is a third of the way into beat 3 of bar 2. Beats are
- * the meter's pulses (in 6/8, a dotted quarter). It returns `null` if the
- * text isn't valid in the meter.
+ * the beat: `"2:3+1/3"` is a third of the way into beat 3 of bar 2. The
+ * beat is the lower note of the meter, so in 6/8 `"1:4"` is the second
+ * dotted quarter. It returns `null` if the text isn't valid in the meter.
  *
  * @param text - the bar and beat, like "2:3" or "2:3+1/3"
  * @param timeSignature - the meter, like "4/4"
@@ -273,7 +296,7 @@ const BAR_BEAT = /^(\d+):(\d+)(?:\+(\d+)\/(\d+))?$/;
  * @example
  * Time.fromBarBeat("2:3", "4/4") // => [6, 1]
  * Time.fromBarBeat("2:3+1/3", "4/4") // => [19, 3]
- * Time.fromBarBeat("1:2", "6/8") // => [3, 2]
+ * Time.fromBarBeat("1:4", "6/8") // => [3, 2]
  */
 export function fromBarBeat(
   text: string,
@@ -285,13 +308,10 @@ export function fromBarBeat(
   const bar = +match[1];
   const beat = +match[2];
   const offset: Fraction = match[3] ? [+match[3], +match[4]] : [0, 1];
-  if (bar < 1 || beat < 1 || beat > m.beats.length) return null;
+  const beats = div(m.bar, m.beat);
+  if (!beats || bar < 1 || beat < 1 || beat > beats[0] / beats[1]) return null;
   if (offset[1] === 0 || offset[0] >= offset[1]) return null;
-  return sum([
-    mul(bar - 1, m.bar),
-    ...m.beats.slice(0, beat - 1),
-    mul(offset, m.beats[beat - 1]),
-  ]);
+  return sum([mul(bar - 1, m.bar), mul(beat - 1, m.beat), mul(offset, m.beat)]);
 }
 
 /**
@@ -317,17 +337,13 @@ export function toBarBeat(
   const bars = div(pos, m.bar);
   if (!bars) return "";
   const bar = Math.floor(bars[0] / bars[1]);
-  let inBar = sub(pos, mul(bar, m.bar) ?? NaN);
-  for (let i = 0; inBar && i < m.beats.length; i++) {
-    if (compare(inBar, m.beats[i]) < 0) {
-      const offset = div(inBar, m.beats[i]);
-      if (!offset) return "";
-      const rest = offset[0] === 0 ? "" : `+${offset[0]}/${offset[1]}`;
-      return `${bar + 1}:${i + 1}${rest}`;
-    }
-    inBar = sub(inBar, m.beats[i]);
-  }
-  return "";
+  const inBar = sub(pos, mul(bar, m.bar) ?? NaN);
+  const beats = inBar && div(inBar, m.beat);
+  if (!beats) return "";
+  const beat = Math.floor(beats[0] / beats[1]);
+  const offset = sub(beats, beat) as Fraction;
+  const rest = offset[0] === 0 ? "" : `+${offset[0]}/${offset[1]}`;
+  return `${bar + 1}:${beat + 1}${rest}`;
 }
 
 /**

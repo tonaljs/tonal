@@ -1695,15 +1695,15 @@ Time.fraction(value: TimeValue): Fraction | null
   Time.fraction([2, 4]) // => [1, 2]
 
 Time.fromBarBeat(text: string, timeSignature: TimeSignatureLiteral | Meter): Fraction | null
-  Get the position of a bar and beat in a meter, in quarter notes from the start. The text is `"bar:beat"`, both from 1, with an optional fraction of the beat: `"2:3+1/3"` is a third of the way into beat 3 of bar 2. Beats are the meter's pulses (in 6/8, a dotted quarter). It returns `null` if the text isn't valid in the meter.
+  Get the position of a bar and beat in a meter, in quarter notes from the start. The text is `"bar:beat"`, both from 1, with an optional fraction of the beat: `"2:3+1/3"` is a third of the way into beat 3 of bar 2. The beat is the lower note of the meter, so in 6/8 `"1:4"` is the second dotted quarter. It returns `null` if the text isn't valid in the meter.
   Time.fromBarBeat("2:3", "4/4") // => [6, 1]
   Time.fromBarBeat("2:3+1/3", "4/4") // => [19, 3]
-  Time.fromBarBeat("1:2", "6/8") // => [3, 2]
+  Time.fromBarBeat("1:4", "6/8") // => [3, 2]
 
 Time.meter(timeSignature: TimeSignatureLiteral | Meter): Meter
-  Get a meter from a time signature: the length of its bar and of each of its pulses, in quarter notes. The pulses are the beats a musician counts:
-  Time.meter("6/8") // => { empty: false, name: "6/8", bar: [3, 1], beats: [[3, 2], [3, 2]] }
-  Time.meter("2+2+3/8").beats // => [[1, 1], [1, 1], [3, 2]]
+  Get a meter from a time signature, in quarter notes: the length of its bar, of its beat and of each of its pulses.
+  Time.meter("6/8") // => { empty: false, name: "6/8", bar: [3, 1], beat: [1, 2], pulses: [[3, 2], [3, 2]] }
+  Time.meter("2+2+3/8").pulses // => [[1, 1], [1, 1], [3, 2]]
 
 Time.mul(a: TimeValue, b: TimeValue): Fraction | null
   Multiply two time values: a duration by a number of times, or by a tuplet ratio. It returns `null` if one isn't valid.
@@ -1739,7 +1739,8 @@ type Meter = {
   empty: boolean;
   name: string;
   bar: Fraction;
-  beats: Fraction[];
+  beat: Fraction;
+  pulses: Fraction[];
 }
 
 type TimeValue = string | number | Fraction

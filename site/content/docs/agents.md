@@ -324,8 +324,8 @@ playback.
 `[1, 3]`. Don't do time arithmetic with floats (84 triplet eighths add up to
 27.999… quarters): use `Time.add`, `Time.compare` and `Time.equal`. Inputs
 also take exact numbers (`1.5`; not `0.1` or `1 / 3`, which give `null`) and
-strings (`"1/3"`). Bars and beats count from 1, and beats are the meter's
-pulses (in 6/8, a dotted quarter):
+strings (`"1/3"`). Bars and beats count from 1, and a beat is the lower note
+of the meter (in 6/8, an eighth: the second dotted quarter is `"1:4"`):
 
 ```js
 Time.fromBarBeat("2:3+1/3", "4/4"); // => [19, 3]
