@@ -43,7 +43,9 @@ The functions here only make and change lists of numbers. Turning an index into 
 
 - Over a scale: `Scale.steps("C4 major")`. Index 7 is `C5`, index -1 is `B3`.
 - Over a chord: `Chord.steps(["C4", "maj7"])`. Index 4 is `C5`.
-- Over a voicing (a list of notes, low to high): `indexes.map((i) => voicing[i])`, for indexes from 0 to n - 1, which is what every arpeggio order gives.
+- Over a voicing: `Voicing.steps(["C3", "G3", "E4"])`. Index 3 is `C5`: past the top voice, the voicing repeats above itself.
+
+To keep the notes in a register, fold them with [`Note.fold`](/packages/note#notefold).
 
 Indexes count from 0, like every index in tonal: the 1-2-3-5 of the books is `[0, 1, 2, 4]`. A list counted from 1 plays over a scale with `Scale.degrees` instead:
 
@@ -84,8 +86,7 @@ The orders that go "and back" play each end once, so the loop doesn't repeat a n
 Pattern.arpeggio("converge", 4); // => [0, 3, 1, 2]
 Pattern.arpeggio("thumb-up", 4); // => [0, 1, 0, 2, 0, 3]
 
-const voicing = ["E3", "G3", "B3", "D4"];
-Pattern.arpeggio("pinky-up", 4).map((i) => voicing[i]);
+Pattern.arpeggio("pinky-up", 4).map(Voicing.steps(["E3", "G3", "B3", "D4"]));
 // => ["E3", "D4", "G3", "D4", "B3", "D4"]
 ```
 

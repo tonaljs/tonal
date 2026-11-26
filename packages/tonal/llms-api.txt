@@ -264,6 +264,12 @@ Array.sortedUniqNoteNames(arr: string[]): string[]
 
 import { Chord } from "tonal"; // or: import * as Chord from "@tonaljs/chord";
 
+Chord.bass(chordName: ChordNameOrTokens, octave?: number): string
+  Get the bass note of a chord: the slash bass of a slash chord, or the root. (`Chord.get(name).bass` is `""` when there's no slash.) With an octave, the note is in that octave; to fit it into a range instead, use `Note.fold`.
+  Chord.bass("C7/E"); // => "E"
+  Chord.bass("C7"); // => "C"
+  Chord.bass("C7/E", 2); // => "E2"
+
 Chord.chord(src: ChordNameOrTokens): Chord
   An alias of `Chord.get`, handy when importing from `@tonaljs/chord`.
   Chord.chord("Dm7").symbol; // => "Dm7"
@@ -958,6 +964,12 @@ Note.enharmonic(noteName: string, destName?: string): string
   Note.enharmonic("C") // => "C"
   Note.enharmonic("F2", "E#") // => "E#2"
 
+Note.fold(notes: NoteName[], range: [low: NoteName, high: NoteName], options?: FoldOptions): string[]
+  Move notes by octaves into a range of notes, `[low, high]` (both included), keeping their spelling.
+  Note.fold(["C2", "E2", "G2", "Bb2"], ["E2", "G3"]); // => ["C3", "E3", "G3", "Bb3"]
+  Note.fold(["C2", "E2", "G2", "Bb2"], ["E2", "G3"], { each: true }); // => ["C3", "E2", "G2", "Bb2"]
+  Note.fold(["C5", "E5", "G5"], ["C3", "C5"]); // => ["C4", "E4", "G4"]
+
 Note.freq(note: NoteLiteral): number | null
   Get the frequency in hertz of a note (A4 is 440), or null if the note has no octave or is not valid.
   Note.freq("A4") // => 440
@@ -1064,6 +1076,10 @@ Note.trFrom(note: NoteName): (interval: IntervalName) => NoteName
 Types:
 
 type Direction = 1 | -1
+
+type FoldOptions = {
+  each?: boolean | undefined;
+}
 
 type IntervalName = KnownIntervalName | (string & {})
   An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
@@ -1778,6 +1794,12 @@ Voicing.sequence(chords: string[], range?: string[], dictionary?: VoicingDiction
   Voicing.sequence(["C", "Am", "F", "G"]); // => [["C4", "E4", "G4"], ["A3", "C4", "E4"], ["F3", "A3", "C4"], ["G3", "B3", "D4"]]
   Voicing.sequence(["Dm7", "G7", "Cmaj7"], { voices: 4, extensions: "available", bass: "external" }); // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
   Voicing.sequence(["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"], { voices: 4 }).map((v) => v.length); // => [4, 5, 4]
+
+Voicing.steps(notes: string[]): (step: number) => string
+  Get a function that returns the note of a voicing by its position, 0 being the lowest voice, so a note pattern (`Pattern.arpeggio`, `Pattern.sequence`) plays over it. Past the top voice, the voicing repeats above itself: each copy moves up the fewest octaves that put its lowest note at or above the top note (one octave for a voicing within an octave, two for C3 G3 E4), so the positions keep going up. Negative positions go down the same way: -1 is the top voice of the copy below. The spelling is kept.
+  [0, 1, 2, 3].map(Voicing.steps(["C4", "E4", "G4"])); // => ["C4", "E4", "G4", "C5"]
+  [2, 3, -1].map(Voicing.steps(["C3", "G3", "E4"])); // => ["E4", "C5", "E2"]
+  Pattern.arpeggio("up-down", 4).map(Voicing.steps(["E3", "G3", "B3", "D4"])); // => ["E3", "G3", "B3", "D4", "B3", "G3"]
 
 Voicing.templates(): string[]
   Get the names of tonal's voicing templates, for the `template` option: shell, guide-tones, rootless, rootless-spread, so-what, fourths, upper-structure (and upper-structure-II, -bIII, -bV, -bVI, -VI) and triad-over-root. Each one is in two or more jazz piano books (see the README).

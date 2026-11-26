@@ -272,9 +272,11 @@ or a note without octave.
 
 `Pattern` makes arpeggio orders and melodic sequences as lists of 0-based
 indexes. Turn them into notes with the notes they're played over: `Scale.steps`
-for a scale, `Chord.steps` for a chord (both wrap into the next octave and go
-down for negative indexes), or `voicing[i]` for a list of notes. Books count
-from 1: their 1-2-3-5 is `[0, 1, 2, 4]`.
+for a scale, `Chord.steps` for a chord, `Voicing.steps` for a voicing (a list
+of notes with octave). All three wrap above the top and go down for negative
+indexes: `Voicing.steps(v)(-1)` is the top voice an octave (or more) down, not
+the top voice, which is `v.at(-1)`. Books count from 1: their 1-2-3-5 is
+`[0, 1, 2, 4]`.
 
 ```js
 Pattern.arpeggio("up-down", 4); // => [0, 1, 2, 3, 2, 1]
@@ -291,6 +293,22 @@ ask for the order over more notes (`arpeggio("up", 3 * 2)`), or move it by an
 octave's worth of notes (`sequence(arpeggio("up-down", 3), 3, 2).flat()`).
 `Pattern` has no rhythm: put the notes on the onsets of a `RhythmPattern`, and
 rotate an order with `RhythmPattern.rotate`, which takes any list of numbers.
+
+Keep a figure in a register with `Note.fold(notes, [low, high])`: it moves the
+whole figure by octaves (its shape stays), or each note with `{ each: true }`.
+For a bass line, `Chord.bass(chord, octave)` is the slash bass or the root
+(`Chord.get(chord).bass` is `""` without a slash):
+
+```js
+Pattern.arpeggio("up-down", 4).map(Voicing.steps(Voicing.get("Dm7")));
+// => ["D3", "F3", "A3", "C4", "A3", "F3"]
+Note.fold(["C2", "E2", "G2", "Bb2"], ["E2", "G3"]); // => ["C3", "E3", "G3", "Bb3"]
+Chord.bass("C7/E", 2); // => "E2"
+```
+
+Approach notes are transpositions of the target: `Note.transpose(target, "-2m")`
+(a half step below), `Scale.transposeBySteps(scale, target, -1)` (a scale step
+below).
 
 ## Time
 

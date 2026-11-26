@@ -591,6 +591,73 @@ describe("Voicing.invert and drop", () => {
   });
 });
 
+describe("Voicing.steps", () => {
+  test("positions wrap above the top", () => {
+    expect([0, 1, 2, 3, 4].map(Voicing.steps(["C4", "E4", "G4"]))).toEqual([
+      "C4",
+      "E4",
+      "G4",
+      "C5",
+      "E5",
+    ]);
+    // a voicing wider than an octave moves up two octaves
+    expect([0, 1, 2, 3, 4, 5].map(Voicing.steps(["C3", "G3", "E4"]))).toEqual([
+      "C3",
+      "G3",
+      "E4",
+      "C5",
+      "G5",
+      "E6",
+    ]);
+    // exactly an octave: the copy starts on the top note
+    expect([3, 4].map(Voicing.steps(["C4", "E4", "G4", "C5"]))).toEqual([
+      "C5",
+      "C5",
+    ]);
+  });
+
+  test("negative positions go down", () => {
+    expect([-1, -2, -3, -4].map(Voicing.steps(["C4", "E4", "G4"]))).toEqual([
+      "G3",
+      "E3",
+      "C3",
+      "G2",
+    ]);
+    expect([-1].map(Voicing.steps(["C3", "G3", "E4"]))).toEqual(["E2"]);
+  });
+
+  test("sorted from the bottom, spelling kept", () => {
+    expect([0, 1, 2, 3].map(Voicing.steps(["Ab4", "C4", "Eb4"]))).toEqual([
+      "C4",
+      "Eb4",
+      "Ab4",
+      "C5",
+    ]);
+    expect([0, 1].map(Voicing.steps(["Fb4"]))).toEqual(["Fb4", "Fb5"]);
+  });
+
+  test("with note patterns", () => {
+    const voicing = Voicing.get("Dm7");
+    expect(voicing).toEqual(["D3", "F3", "A3", "C4"]);
+    expect([0, 1, 2, 3, 2, 1].map(Voicing.steps(voicing))).toEqual([
+      "D3",
+      "F3",
+      "A3",
+      "C4",
+      "A3",
+      "F3",
+    ]);
+  });
+
+  test("invalid", () => {
+    expect(Voicing.steps([])(0)).toEqual("");
+    expect(Voicing.steps(["C4", "E"])(0)).toEqual("");
+    expect(Voicing.steps(["C4", "x"])(0)).toEqual("");
+    expect(Voicing.steps(["C4"])(0.5)).toEqual("");
+    expect(Voicing.steps(["C4"])(NaN)).toEqual("");
+  });
+});
+
 describe("templates", () => {
   const pcs = (v: string[]) => v.map((n) => Note.pitchClass(n));
 

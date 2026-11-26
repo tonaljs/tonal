@@ -266,6 +266,92 @@ export function transposeOctaves(
   return transpose(noteName, [0, octaves]);
 }
 
+/** The options of `Note.fold`. */
+export type FoldOptions = {
+  /** Move each note on its own instead of the whole figure. Default `false`. */
+  each?: boolean;
+};
+
+// The octave moves that put the notes from `lowest` to `highest` (heights)
+// in the range, as [from, to] (none if from > to)
+const octavesInto = (
+  low: number,
+  high: number,
+  lowest: number,
+  highest: number,
+) => [Math.ceil((low - lowest) / 12), Math.floor((high - highest) / 12)];
+
+// The move of fewest octaves in [from, to]
+const fewest = (from: number, to: number) =>
+  from > 0 ? from : to < 0 ? to : 0;
+
+/**
+ * Move notes by octaves into a range of notes, `[low, high]` (both
+ * included), keeping their spelling.
+ *
+ * By default the whole figure moves together, so it keeps its shape: it moves
+ * by the fewest octaves that put every note in the range, and doesn't move if
+ * it's already there. A figure too wide for the range has its lowest note put
+ * in the lowest octave at or above `low`. With `each: true`, each note moves
+ * on its own by the fewest octaves that put it in the range. In a range under
+ * an octave a note may have no octave there: it goes to the octave nearest
+ * the range (ties go up). To keep the shape where it fits and fix the notes
+ * at the edges, fold the whole figure first and then each note.
+ *
+ * It returns `[]` if the notes are empty or one has no octave, or if the
+ * range isn't two notes with octave from low to high.
+ * @param notes - the notes, like ["C2", "E2", "G2"]
+ * @param range - the lowest and highest notes, like ["E2", "G3"]
+ * @param options - `each: true` to move each note on its own
+ * @returns the notes moved into the range
+ * @example
+ * Note.fold(["C2", "E2", "G2", "Bb2"], ["E2", "G3"]); // => ["C3", "E3", "G3", "Bb3"]
+ * Note.fold(["C2", "E2", "G2", "Bb2"], ["E2", "G3"], { each: true }); // => ["C3", "E2", "G2", "Bb2"]
+ * Note.fold(["C5", "E5", "G5"], ["C3", "C5"]); // => ["C4", "E4", "G4"]
+ */
+export function fold(
+  notes: NoteName[],
+  range: [low: NoteName, high: NoteName],
+  options?: FoldOptions,
+): string[] {
+  if (!Array.isArray(notes) || notes.length === 0) return [];
+  if (!Array.isArray(range) || range.length !== 2) return [];
+  const [low, high] = range.map(props);
+  const list = notes.map(props);
+  const hasOctave = (n: Note) => !n.empty && n.oct !== undefined;
+  if (!hasOctave(low) || !hasOctave(high) || low.height > high.height) {
+    return [];
+  }
+  if (!list.every(hasOctave)) return [];
+  const move = (n: Note, octaves: number) =>
+    octaves === 0 ? n.name : transposeOctaves(n.name, octaves);
+
+  if (options?.each === true) {
+    return list.map((n) => {
+      const [from, to] = octavesInto(
+        low.height,
+        high.height,
+        n.height,
+        n.height,
+      );
+      if (from <= to) return move(n, fewest(from, to));
+      // no octave in the range: the nearest one, below or above it
+      const below = low.height - (n.height + 12 * (from - 1));
+      const above = n.height + 12 * from - high.height;
+      return move(n, above <= below ? from : from - 1);
+    });
+  }
+  const heights = list.map((n) => n.height);
+  const [from, to] = octavesInto(
+    low.height,
+    high.height,
+    Math.min(...heights),
+    Math.max(...heights),
+  );
+  const octaves = from <= to ? fewest(from, to) : from;
+  return list.map((n) => move(n, octaves));
+}
+
 export type NoteComparator = (a: Note, b: Note) => number;
 
 // Invalid notes compare as equal
@@ -430,4 +516,5 @@ export default {
   trFifths,
   simplify,
   enharmonic,
+  fold,
 };

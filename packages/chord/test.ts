@@ -311,6 +311,21 @@ describe("tonal-chord", () => {
     );
   });
 
+  test("Chord.bass", () => {
+    expect(Chord.bass("C7/E")).toEqual("E");
+    expect(Chord.bass("C7")).toEqual("C");
+    expect(Chord.bass("Bb7/Ab")).toEqual("Ab");
+    expect(Chord.bass("C7/E", 2)).toEqual("E2");
+    expect(Chord.bass("Cmaj7", -1)).toEqual("C-1");
+    // tokens with the tonic octave give the pitch class
+    expect(Chord.bass(["C4", "7"])).toEqual("C");
+    expect(Chord.bass(["C", "7", "G"], 2)).toEqual("G2");
+    // no tonic, not a chord or not an octave
+    expect(Chord.bass("maj7")).toEqual("");
+    expect(Chord.bass("nonsense")).toEqual("");
+    expect(Chord.bass("C7", 2.5)).toEqual("");
+  });
+
   test("seventh augmented fifth and major eleventh", () => {
     expect(Chord.get("Caug7").type).toEqual("seventh augmented fifth");
     expect(Chord.get("Cmaj11").notes).toEqual(["C", "E", "G", "B", "D", "F"]);

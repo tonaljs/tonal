@@ -216,6 +216,51 @@ Range.numeric([-3, 3]).map(Chord.steps("aug", "C4"));
 // => ["C3", "E3", "G#3", "C4", "E4", "G#4", "C5"]
 ```
 
+### `Chord.bass`
+
+`bass(chord: string, octave?: number) => string`
+
+The bass note of a chord: the slash bass of a slash chord, or the root. (`Chord.get(name).bass` is `""` when there's no slash.) With an octave, the note is in that octave:
+
+```js
+Chord.bass("C7/E"); // => "E"
+Chord.bass("C7"); // => "C"
+Chord.bass("C7/E", 2); // => "E2"
+```
+
+To keep a bass line in an instrument's range, fold it with [`Note.fold`](/packages/note#notefold):
+
+```js
+const chords = ["Cmaj7", "A7/C#", "Dm7", "G7"];
+chords.map((chord) => Chord.bass(chord, 2)); // => ["C2", "C#2", "D2", "G2"]
+Note.fold(
+  chords.map((chord) => Chord.bass(chord, 2)),
+  ["E1", "D2"],
+  { each: true },
+);
+// => ["C2", "C#2", "D2", "G1"]
+```
+
+#### Approach notes
+
+A bass line often leads into the next chord's bass with an approach note. Each kind is a transposition of the target:
+
+```js
+const target = Chord.bass("G7", 2); // => "G2"
+Note.transpose(target, "-2m"); // => "F#2"  (a half step below)
+Note.transpose(target, "2m"); // => "Ab2"  (a half step above)
+Scale.transposeBySteps("C major", target, -1); // => "F2"  (a scale step below)
+Scale.transposeBySteps("C major", target, 1); // => "A2"  (a scale step above)
+Note.transpose(target, "-4P"); // => "D2"  (its fifth, below it)
+[Note.transpose(target, "2m"), Note.transpose(target, "-2m")]; // => ["Ab2", "F#2"]  (an enclosure)
+
+// a bar of Dm7 leading to G7
+[...[0, 1, 2].map(Chord.steps(["D2", "m7"])), Note.transpose(target, "-2m")];
+// => ["D2", "F2", "A2", "F#2"]
+```
+
+A half step is a minor second, so the note below is the leading tone (`E#` below `F#`), and the note above can need `Note.simplify` (`Fb2` above `Eb2` is `E2`). `Scale.transposeBySteps` needs a target in the scale: move it in with `Scale.nearest` first. Which approach to use, and when, is up to the app.
+
 ## Chord degrees by name
 
 The degrees of a chord are named as in chord formulas, counted from the major scale of the root: `1`, `b3`, `3`, `4`, `b5`, `5`, `#5`, `6`, `bb7`, `b7`, `7`, `b9`, `9`, `#9`, `11`, `#11`, `b13`, `13`. So the third of a minor chord is `b3`, and `3` is always a major third.

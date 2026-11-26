@@ -30,7 +30,7 @@ const defaultVoiceLeading = VoiceLeading.topNoteDiff;
 export type { NoteRange, AnchorMode } from "./place";
 export type { VoicingBass } from "./tones";
 export type { VoicingSpacing } from "./spacing";
-export { analyze, drop, invert } from "./notes";
+export { analyze, drop, invert, steps } from "./notes";
 export type { VoicingAnalysis } from "./notes";
 
 /**
