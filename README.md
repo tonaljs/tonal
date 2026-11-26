@@ -2,20 +2,21 @@
 
 [![npm version](https://img.shields.io/npm/v/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
 
-`tonal` is a music theory library. Contains functions to manipulate tonal
-elements of music (note, intervals, chords, scales, modes, keys). It deals with
-abstractions (not actual music or sound).
+`tonal` is a music theory library for building composition tools: notes,
+intervals, chords, scales, keys, voicings, progressions and rhythm patterns.
 
-`tonal` is implemented in Typescript and published as a collection of Javascript
-npm packages.
-
-It uses a functional programming style: all functions are pure, there is no data
-mutation, and entities are represented by data structures instead of objects.
+- **Pure functions, data in and out:** no mutation, no classes. Invalid input
+  gives an empty value (`""`, `[]`, `null` or `{ empty: true }`) instead of an
+  exception (a few low-level helpers still throw: fixing them is in progress).
+- **Written in TypeScript**, with no runtime dependencies, and published as
+  `tonal` and as a collection of smaller `@tonaljs/*` packages.
+- **It describes music, it doesn't play it:** notes, chords and where things are
+  in musical time, never sound or scheduling. Use an audio library for that.
 
 ## Example
 
 ```js
-import { Chord, Interval, Note, Scale } from "tonal";
+import { Chord, Interval, Note, RhythmPattern, Scale, Voicing } from "tonal";
 
 Note.midi("C4"); // => 60
 Note.freq("a4"); // => 440
@@ -29,12 +30,23 @@ Scale.get("C major").notes; // => ["C", "D", "E", "F", "G", "A", "B"];
 [1, 3, 5, 7].map(Scale.degrees("C major")); // => ["C", "E", "G", "B"]
 
 Chord.get("Cmaj7").name; // => "C major seventh"
+Chord.detect(["D", "F", "A", "C"]); // => ["Dm7", "F6/D"]
+Scale.chords("D dorian", { size: 4 }).map((c) => c.symbol);
+// => ["Dm7", "Em7", "Fmaj7", "G7", "Am7", "Bm7b5", "Cmaj7"]
 
 // Chord inversions
 const triad = Chord.degrees("Cm");
 [1, 2, 3].map(triad); // => ["C", "Eb", "G"];
 [2, 3, 1].map(triad); // => ["Eb", "G", "C"];
 [3, 1, 2].map(triad); // => ["G", "C", "Eb"];
+
+// Voicings with smooth voice leading
+Voicing.sequence(["Dm7", "G7", "Cmaj7"]);
+// => [["D3", "F3", "A3", "C4"], ["D3", "F3", "G3", "B3"], ["C3", "E3", "G3", "B3"]]
+
+// Rhythm patterns
+RhythmPattern.euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
+RhythmPattern.toDurations([1, 0, 0, 1, 0, 0, 1, 0]); // => [3, 3, 2]
 ```
 
 ## Install
@@ -101,6 +113,8 @@ transpose("A4", "P5");
 
 Visit the [documentation site](https://tonaljs.github.io/tonal/docs) or the README.md of each module 👇
 
+To see what tonal can do, try the [apps](https://tonaljs.github.io/tonal/apps/): a chord finder, scale chords, a key explorer, voicings and more, each showing the tonal calls behind it.
+
 Using a coding agent? Point it to [llms.txt](https://tonaljs.github.io/tonal/llms.txt): it links to a [guide for agents](https://tonaljs.github.io/tonal/docs/agents/) and to [every function with its signature](https://tonaljs.github.io/tonal/llms-api.txt), which is also in the npm package as `node_modules/tonal/llms-api.txt`.
 
 #### Notes and intervals
@@ -156,6 +170,8 @@ Read [contributing document](/docs/CONTRIBUTING.md). To contribute open a PR and
 - If it's a music theory change (like the name of a scale), link to reliable references.
 - If it's a new feature, add documentation: changes to the README of the affected module(s) are expected.
 - Add tests: changes to the test.ts file of the affected module(s) are expected.
+- If it changes a published package, add a changeset (`npx changeset`).
+- If it changes a public function or its JSDoc, regenerate the API list for agents (`npm run docs:api`).
 - All tests are green (`npm run test:all`)
 
 ## Inspiration
