@@ -187,6 +187,30 @@ Voicing.drop(["C4", "E4", "G4", "B4"], 2); // => ["G3", "C4", "E4", "B4"]
 Voicing.drop(["C4", "E4", "G4", "B4"], [2, 4]); // => ["C3", "G3", "E4", "B4"]
 ```
 
+### `Voicing.steps`
+
+`steps(notes: string[]) => (step: number) => string`
+
+A function that returns the note of a voicing by its position, 0 being the lowest voice, like `Scale.steps` and `Chord.steps` do for scales and chords. It plays a [note pattern](https://tonaljs.github.io/tonal/docs/time/note-patterns.md) over a voicing:
+
+```js
+[0, 1, 2, 3].map(Voicing.steps(["C4", "E4", "G4"])); // => ["C4", "E4", "G4", "C5"]
+Pattern.arpeggio("pinky-up", 4).map(Voicing.steps(["E3", "G3", "B3", "D4"]));
+// => ["E3", "D4", "G3", "D4", "B3", "D4"]
+```
+
+Past the top voice, the voicing repeats above itself: each copy moves up the fewest octaves that put its lowest note at or above the top note. That's one octave for a voicing within an octave and two for an open voicing such as C3 G3 E4, so the positions keep going up and an arpeggio over more octaves keeps its shape:
+
+```js
+[2, 3, -1].map(Voicing.steps(["C3", "G3", "E4"])); // => ["E4", "C5", "E2"]
+Pattern.arpeggio("up-down", 3 * 2).map(Voicing.steps(["C3", "G3", "E4"]));
+// => ["C3", "G3", "E4", "C5", "G5", "E6", "G5", "C5", "E4", "G3"]
+```
+
+Negative positions go down the same way: -1 is the top voice of the copy below, not the top voice. For the top voice, use `notes.at(-1)`; for every voice but the lowest, `notes.slice(1)`; to leave out the positions past the top instead of repeating the voicing, test `step < notes.length`. To keep the notes in a register, fold them with [`Note.fold`](https://tonaljs.github.io/tonal/docs/basics/notes.md#notefold).
+
+The notes are sorted from the bottom and keep their spelling. The function returns `""` for a position that isn't an integer, or for every position if the voicing is empty or has a note without octave.
+
 ### The rules
 
 1. **Tones.** The notes of the symbol. With fewer `voices`, the least important go first: the root and the natural 5th; the 3rd and the 7th stay, and so does the tension that names the chord (the 13 of a 13 chord). See `Chord.degreesByImportance`.

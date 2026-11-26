@@ -52,9 +52,10 @@ you need in the API list instead of guessing their names.
 - [ABC Notation](https://tonaljs.github.io/tonal/docs/notation/abc-notation.md): Convert note names between scientific and abc notation
 - [Roman Numerals](https://tonaljs.github.io/tonal/docs/notation/roman-numerals.md): Functions to parse roman numerals
 
-## Time and Rhythm
+## Time, Rhythm and Patterns
 
 - [Time duration](https://tonaljs.github.io/tonal/docs/time/duration.md)
+- [Note Patterns](https://tonaljs.github.io/tonal/docs/time/note-patterns.md): Arpeggio orders and melodic sequences as lists of indexes
 - [Rhythm Patterns](https://tonaljs.github.io/tonal/docs/time/patterns.md): Generate, read and measure rhythm patterns
 - [Time signatures](https://tonaljs.github.io/tonal/docs/time/signatures.md)
 
