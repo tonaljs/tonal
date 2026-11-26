@@ -1,4 +1,4 @@
-# tonal 6.11.0 API
+# tonal 6.13.0 API
 
 Every public function of the `tonal` npm package, generated from its
 TypeScript source. One entry per function: the signature, then a one-line
@@ -34,12 +34,12 @@ altToAcc(alt: number): string
   altToAcc(-1) // => "b"
   altToAcc(0) // => ""
 
-chroma({ step, alt }: Pitch): number
-  Get the chroma (pitch class number, from 0 to 11) of a pitch.
+chroma(pitch: Pitch): number
+  Get the chroma (pitch class number, from 0 to 11) of a pitch, or `NaN` if it isn't a pitch.
   chroma({ step: 0, alt: 1 }) // => 1
 
 coordinates(pitch: Pitch): PitchCoordinates
-  Get the coordinates of a pitch object: `[fifths]` for a pitch class and `[fifths, octaves]` for a note or an interval (the direction is applied to both numbers).
+  Get the coordinates of a pitch object: `[fifths]` for a pitch class and `[fifths, octaves]` for a note or an interval (the direction is applied to both numbers). It's `[NaN]` if it isn't a pitch.
   coordinates({ step: 4, alt: 0, oct: 4 }) // => [1, 4]
   coordinates({ step: 4, alt: 0 }) // => [1]
 
@@ -59,8 +59,8 @@ distance(fromNote: NoteLiteral, toNote: NoteLiteral): IntervalName
   distance("C", "E") // => "3M"
   distance("G4", "C4") // => "-5P"
 
-height({ step, alt, oct, dir }: Pitch): number
-  Get the height of a pitch: its distance in semitones from C0 (so it is the midi number minus 12). A descending interval has a negative height, and a pitch without octave gets a number far below any note.
+height(pitch: Pitch): number
+  Get the height of a pitch: its distance in semitones from C0 (so it is the midi number minus 12). A descending interval has a negative height, and a pitch without octave gets a number far below any note. It's `NaN` if it isn't a pitch.
   height({ step: 0, alt: 0, oct: 4 }) // => 48
   height({ step: 0, alt: 0 }) // => -1200
 
@@ -84,7 +84,7 @@ isPitch(pitch: unknown): pitch is Pitch
   isPitch({ name: "C" }) // => false
 
 midi(pitch: Pitch): number | null
-  Get the midi number of a pitch, or `null` if the pitch has no octave or is outside the midi range (0 to 127).
+  Get the midi number of a pitch, or `null` if it isn't a pitch, has no octave or is outside the midi range (0 to 127).
   midi({ step: 0, alt: 0, oct: 4 }) // => 60
   midi({ step: 0, alt: 0 }) // => null
 
@@ -95,7 +95,7 @@ note(src: NoteLiteral): Note
   note("x").empty // => true
 
 pitch(coord: PitchCoordinates): Pitch
-  Get the pitch object from its coordinates (the inverse of `coordinates`).
+  Get the pitch object from its coordinates (the inverse of `coordinates`). Invalid coordinates give a pitch of `NaN`s, which `isPitch` rejects.
   pitch([1]) // => { step: 4, alt: 0 }
   pitch([1, 0]) // => { step: 4, alt: 0, oct: 0 }
 
@@ -115,7 +115,7 @@ tokenizeNote(str: string): NoteTokens
   tokenizeNote("Bb4") // => ["B", "b", "4", ""]
   tokenizeNote("C# major") // => ["C", "#", "", "major"]
 
-tonicIntervalsTransposer(intervals: string[], tonic: string | undefined | null): (normalized: number) => string
+tonicIntervalsTransposer(intervals: string[], tonic: string | undefined | null): (_normalized: number) => string
   Create a function that, given a (possibly negative) scale degree index, returns the note of that degree: the intervals are cycled and the octave goes up (or down) every time they wrap. It returns "" for every degree if there is no tonic.
   const degree = tonicIntervalsTransposer(["1P", "3M", "5P"], "C");
   [0, 1, 2, 3, -1].map(degree) // => ["C", "E", "G", "C", "G"]
@@ -132,7 +132,7 @@ type Direction = 1 | -1
 
 type Interval = {
   empty: boolean;
-  name: string;
+  name: IntervalName;
   num: number;
   q: Quality;
   type: Type;
@@ -146,7 +146,10 @@ type Interval = {
   oct: number;
 }
 
-type IntervalLiteral = string | Pitch | NamedPitch
+type IntervalLiteral = Pitch | NamedPitch | IntervalName
+
+type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
 type NamedPitch = {
   name: string;
@@ -154,10 +157,10 @@ type NamedPitch = {
 
 type Note = {
   empty: boolean;
-  name: string;
+  name: NoteName;
   letter: string;
   acc: string;
-  pc: string;
+  pc: PcName;
   chroma: number;
   height: number;
   coord: PitchCoordinates;
@@ -169,7 +172,13 @@ type Note = {
   dir?: Direction | undefined;
 }
 
-type NoteLiteral = string | Pitch | NamedPitch
+type NoteLiteral = Pitch | NamedPitch | NoteName
+
+type NoteName = (string & {}) | KnownNoteName
+  A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
+
+type PcName = (string & {}) | KnownPcName
+  A pitch class name (a note without octave). Any string is accepted; editors suggest the 35 common names (`KnownPcName`): "C" to "B" with nothing, "#", "b", "##" or "bb", such as "C" or "Eb".
 
 type Pitch = {
   step: number;
@@ -326,7 +335,7 @@ Chord.reduced(chordName: string): string[]
   Chord.reduced("Cmaj7"); // => ["C5", "CM"]
   Chord.reduced("Cmaj9"); // => ["C5", "CM", "Cmaj7", "Csus2", "CMadd9"]
 
-Chord.steps(chordName: ChordNameOrTokens, tonic?: string): (normalized: number) => string
+Chord.steps(chordName: ChordNameOrTokens, tonic?: string): (_normalized: number) => string
   Get a function that returns the note of a chord by its position, 0 being the tonic (like `Chord.degrees` but 0-based). Negative steps go down. The function returns `""` if the chord isn't valid.
   [0, 1, 2, 3].map(Chord.steps("C")); // => ["C", "E", "G", "C"]
   [-1, 0, 1].map(Chord.steps(["C4", "M"])); // => ["G3", "C4", "E4"]
@@ -352,7 +361,7 @@ type Chord = {
   bass: string;
   rootDegree: number;
   symbol: string;
-  notes: string[];
+  notes: NoteName[];
   name: string;
   quality: ChordQuality;
   family: ChordFamily;
@@ -362,14 +371,21 @@ type Chord = {
   setNum: number;
   chroma: string;
   normalized: string;
-  intervals: string[];
+  intervals: IntervalName[];
 }
 
 type ChordFamily = '' | 'major' | 'minor' | 'dominant' | 'half-diminished' | 'diminished' | 'augmented' | 'suspended' | 'power'
+  A coarse classification of chord types, for choices that depend on the kind of chord (a bass line or a comping pattern). It's empty for an empty type.
 
 type ChordNameOrTokens = string | [string] | [string, string] | [string, string, string]
 
 type ChordQuality = 'Major' | 'Minor' | 'Augmented' | 'Diminished' | 'Unknown'
+
+type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
+
+type NoteName = (string & {}) | KnownNoteName
+  A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
 
 ## ChordType
 
@@ -431,6 +447,7 @@ ChordType.symbols(): string[]
 Types:
 
 type ChordFamily = '' | 'major' | 'minor' | 'dominant' | 'half-diminished' | 'diminished' | 'augmented' | 'suspended' | 'power'
+  A coarse classification of chord types, for choices that depend on the kind of chord (a bass line or a comping pattern). It's empty for an empty type.
 
 type ChordQuality = 'Major' | 'Minor' | 'Augmented' | 'Diminished' | 'Unknown'
 
@@ -444,10 +461,13 @@ type ChordType = {
   setNum: number;
   chroma: string;
   normalized: string;
-  intervals: string[];
+  intervals: IntervalName[];
 }
 
 type ChordTypeName = string | number
+
+type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
 ## Collection
 
@@ -533,7 +553,7 @@ Interval.add(a: IntervalName, b: IntervalName): IntervalName | undefined
   Interval.add("3m", "5P") // => "7m"
   Interval.add("3M", "3M") // => "5A"
 
-Interval.addTo(interval: string): (other: string) => string | undefined
+Interval.addTo(interval: string): (other: string) => IntervalName | undefined
   Get a function that adds the given interval to another interval.
   ["1P", "2M", "3M"].map(Interval.addTo("5P")) // => ["5P", "6M", "7M"]
 
@@ -578,7 +598,7 @@ Interval.multiply(name: IntervalName, times: number): IntervalName
   Interval.multiply("2M", 3) // => "4A"
   Interval.multiply("3M", -2) // => "-5A"
 
-Interval.name(name: string): string
+Interval.name(name: string): IntervalName
   Get the normalized name of an interval (number first), or "" if not valid.
   Interval.name("4P") // => "4P"
   Interval.name("P4") // => "4P"
@@ -641,7 +661,7 @@ type Direction = 1 | -1
 
 type Interval = {
   empty: boolean;
-  name: string;
+  name: IntervalName;
   num: number;
   q: Quality;
   type: Type;
@@ -655,13 +675,16 @@ type Interval = {
   oct: number;
 }
 
-type IntervalLiteral = string | Pitch | NamedPitch
+type IntervalLiteral = Pitch | NamedPitch | IntervalName
+
+type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
 type NamedPitch = {
   name: string;
 }
 
-type NoteLiteral = string | Pitch | NamedPitch
+type NoteLiteral = Pitch | NamedPitch | NoteName
 
 type Pitch = {
   step: number;
@@ -835,7 +858,7 @@ Mode.all(): Mode[]
   Get a list of the seven modes, from ionian to locrian.
   Mode.all().map((m) => m.name); // => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"]
 
-Mode.distance(destination: ModeLiteral, source: ModeLiteral): string
+Mode.distance(destination: ModeLiteral, source: ModeLiteral): '' | IntervalName
   Get the interval from the tonic of a source mode to the tonic of a destination mode that has the same notes (the interval is negative when it goes down). It returns `""` if a mode is invalid.
   Mode.distance("dorian", "major"); // => "2M"
   Mode.distance("lydian", "ionian"); // => "-5P"
@@ -857,13 +880,13 @@ Mode.names(): string[]
   Get the names of the seven modes, from ionian to locrian.
   Mode.names(); // => ["ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"]
 
-Mode.notes(modeName: ModeLiteral, tonic: NoteName): string[]
+Mode.notes(modeName: ModeLiteral, tonic: NoteName): NoteName[]
   Get the notes of a mode on a tonic, as pitch classes if the tonic has no octave. It returns `[]` for an invalid mode. (An invalid tonic gives a list of `""`.)
   Mode.notes("ionian", "C"); // => ["C", "D", "E", "F", "G", "A", "B"]
   Mode.notes("dorian", "D"); // => ["D", "E", "F", "G", "A", "B", "C"]
   Mode.notes("nonsense", "C"); // => []
 
-Mode.relativeTonic(destination: ModeLiteral, source: ModeLiteral, tonic: NoteName): string
+Mode.relativeTonic(destination: ModeLiteral, source: ModeLiteral, tonic: NoteName): NoteName
   Get the tonic of a destination mode that has the same notes as a source mode on a tonic: D dorian and C ionian share notes, so the relative dorian tonic of C ionian is D. It returns `""` if a mode is invalid.
   Mode.relativeTonic("dorian", "major", "C"); // => "D"
   Mode.relativeTonic("major", "dorian", "D"); // => "C"
@@ -880,6 +903,9 @@ Mode.triads(modeName: ModeLiteral, tonic: NoteName): string[]
 
 Types:
 
+type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
+
 type Mode = {
   name: string;
   modeNum: number;
@@ -891,10 +917,13 @@ type Mode = {
   setNum: number;
   chroma: string;
   normalized: string;
-  intervals: string[];
+  intervals: IntervalName[];
 }
 
 type ModeLiteral = string | { name: string; }
+
+type NoteName = (string & {}) | KnownNoteName
+  A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
 
 ## Note
 
@@ -906,7 +935,7 @@ Note.accidentals(note: NoteLiteral): string
   Note.accidentals("C4") // => ""
 
 Note.ascending(a: Note, b: Note): number
-  A comparator to sort Note objects (as returned by Note.get) from lowest to highest.
+  A comparator to sort Note objects (as returned by Note.get) from lowest to highest. Invalid notes compare as equal to any other.
   ["D4", "C4", "B3"].map(Note.get).sort(Note.ascending).map(n => n.name) // => ["B3", "C4", "D4"]
 
 Note.chroma(note: NoteLiteral): number
@@ -962,7 +991,7 @@ Note.midi(note: NoteLiteral): number | null
   Note.midi("C4") // => 60
   Note.midi("C") // => null
 
-Note.name(note: NoteLiteral): string
+Note.name(note: NoteLiteral): NoteName
   Get the normalized note name, or "" if not valid.
   Note.name("db4") // => "Db4"
   Note.name("x") // => ""
@@ -977,7 +1006,7 @@ Note.octave(note: NoteLiteral): number | undefined
   Note.octave("C4") // => 4
   Note.octave("C") // => undefined
 
-Note.pitchClass(note: NoteLiteral): string
+Note.pitchClass(note: NoteLiteral): PcName
   Get the pitch class name (the note name without octave), or "" if not valid.
   Note.pitchClass("Db4") // => "Db"
 
@@ -1005,7 +1034,7 @@ Note.transpose(noteName: NoteLiteral, intervalName: IntervalLiteral | [number, n
   Note.transpose("D", "3M") // => "F#"
   Note.transpose("x", "3M") // => ""
 
-Note.transposeBy(interval: IntervalName): (note: NoteName) => string
+Note.transposeBy(interval: IntervalName): (note: NoteName) => NoteName
   Get a function that transposes a note by the given interval.
   ["C", "D", "E"].map(Note.transposeBy("5P")) // => ["G", "A", "B"]
 
@@ -1014,7 +1043,7 @@ Note.transposeFifths(noteName: NoteName, fifths: number): NoteName
   Note.transposeFifths("G4", 1) // => "D5"
   [0, 1, 2, 3, 4].map(fifths => Note.transposeFifths("C", fifths)) // => ["C", "G", "D", "A", "E"]
 
-Note.transposeFrom(note: NoteName): (interval: IntervalName) => string
+Note.transposeFrom(note: NoteName): (interval: IntervalName) => NoteName
   Get a function that transposes the given note by an interval.
   ["1P", "3M", "5P"].map(Note.transposeFrom("C")) // => ["C", "E", "G"]
 
@@ -1023,18 +1052,21 @@ Note.transposeOctaves(noteName: NoteName, octaves: number): NoteName
   Note.transposeOctaves("C4", 1) // => "C5"
   Note.transposeOctaves("C4", -2) // => "C2"
 
-Note.trBy(interval: IntervalName): (note: NoteName) => string
+Note.trBy(interval: IntervalName): (note: NoteName) => NoteName
   Alias of Note.transposeBy.
 
 Note.trFifths(noteName: NoteName, fifths: number): NoteName
   Alias of Note.transposeFifths.
 
-Note.trFrom(note: NoteName): (interval: IntervalName) => string
+Note.trFrom(note: NoteName): (interval: IntervalName) => NoteName
   Alias of Note.transposeFrom.
 
 Types:
 
 type Direction = 1 | -1
+
+type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
 type NamedPitch = {
   name: string;
@@ -1042,10 +1074,10 @@ type NamedPitch = {
 
 type Note = {
   empty: boolean;
-  name: string;
+  name: NoteName;
   letter: string;
   acc: string;
-  pc: string;
+  pc: PcName;
   chroma: number;
   height: number;
   coord: PitchCoordinates;
@@ -1059,7 +1091,13 @@ type Note = {
 
 type NoteComparator = (a: Note, b: Note) => number
 
-type NoteLiteral = string | Pitch | NamedPitch
+type NoteLiteral = Pitch | NamedPitch | NoteName
+
+type NoteName = (string & {}) | KnownNoteName
+  A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
+
+type PcName = (string & {}) | KnownPcName
+  A pitch class name (a note without octave). Any string is accepted; editors suggest the 35 common names (`KnownPcName`): "C" to "B" with nothing, "#", "b", "##" or "bb", such as "C" or "Eb".
 
 type Pitch = {
   step: number;
@@ -1083,7 +1121,7 @@ Pcset.chromas(): PcsetChroma[]
   Pcset.chromas().length; // => 2048
   Pcset.chromas().slice(0, 2); // => ["100000000000", "100000000001"]
 
-Pcset.filter(set: Set): (notes: NoteName[]) => string[]
+Pcset.filter(set: Set): (notes: NoteName[]) => NoteName[]
   Get a function that keeps the notes of a list that belong to a pitch class set, ignoring octaves. The notes are returned as they were given.
   Pcset.filter(["C", "D", "E"])(["c2", "c#2", "d2", "c3", "c#3", "d3"]); // => ["c2", "d2", "c3", "d3"]
   Pcset.filter(["C2"])(["c2", "c#2", "d2", "c3", "c#3", "d3"]); // => ["c2", "c3"]
@@ -1097,7 +1135,7 @@ Pcset.get(src: Set): Pcset
 Pcset.includes(set: Set): (noteName: NoteName) => boolean
   [deprecated] Use Pcset.isNoteIncludedIn instead.
 
-Pcset.intervals(set: Set): string[]
+Pcset.intervals(set: Set): IntervalName[]
   Get the interval names of a pitch class set, measured from C and ordered by pitch class. It returns `[]` for an invalid set.
   Pcset.intervals(["c", "d", "e"]); // => ["1P", "2M", "3M"]
   Pcset.intervals(["D", "F#"]); // => ["2M", "5d"]
@@ -1152,16 +1190,23 @@ Pcset.EmptyPcset: Pcset
 
 Types:
 
+type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
+
+type NoteName = (string & {}) | KnownNoteName
+  A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
+
 type Pcset = {
   name: string;
   empty: boolean;
   setNum: number;
   chroma: string;
   normalized: string;
-  intervals: string[];
+  intervals: IntervalName[];
 }
 
-type Set = string | number | Partial<Pcset> | string[] | string[]
+type Set = string | number | Partial<Pcset> | NoteName[] | IntervalName[]
+  A definition of a pitch class set. It could be: - The pitch class set chroma (a 12-length string with only 1s or 0s) - The pitch class set number (an integer between 1 and 4095) - An array of note names - An array of interval names
 
 ## Progression
 
@@ -1184,7 +1229,7 @@ type NamedPitch = {
   name: string;
 }
 
-type NoteLiteral = string | Pitch | NamedPitch
+type NoteLiteral = Pitch | NamedPitch | NoteName
 
 type Pitch = {
   step: number;
@@ -1225,15 +1270,73 @@ RhythmPattern.binary(...numbers: number[]): RhythmPattern
   RhythmPattern.binary(13) // => [1, 1, 0, 1]
   RhythmPattern.binary(12, 13) // => [1, 1, 0, 0, 1, 1, 0, 1]
 
+RhythmPattern.complement(pattern: number[]): RhythmPattern
+  Get the complement of a rhythm pattern: the rhythm of its rests (every 0 becomes 1 and every 1 becomes 0). It returns `[]` if the pattern isn't an array of 0s and 1s.
+  RhythmPattern.complement([1, 0, 0, 1, 0, 0, 1, 0]) // => [0, 1, 1, 0, 1, 1, 0, 1]
+
+RhythmPattern.distance(a: number[], b: number[], metric?: RhythmDistanceMetric): number | null
+  Get the distance between two rhythm patterns of the same length: - `"hamming"` (the default): the number of steps where they differ. - `"swap"`: the number of swaps of a step with the next one that turn one into the other, which is how far each onset moves (the first onset of one goes to the first of the other, and so on). Both need the same number of onsets.
+  RhythmPattern.distance(RhythmPattern.fromDurations([4, 2, 4, 2, 4]), RhythmPattern.fromDurations([3, 3, 4, 4, 2]), "swap") // => 3
+  RhythmPattern.distance([1, 0, 1, 0], [1, 1, 0, 0]) // => 2
+
 RhythmPattern.euclid(steps: number, beats: number): RhythmPattern
-  Create a Euclidean rhythm pattern: the given number of beats spread as evenly as possible over the steps.
+  Create a Euclidean rhythm pattern: the given number of beats spread as evenly as possible over the steps (a maximally even pattern). Note the order: steps first, then beats, the opposite of Toussaint's E(beats, steps) and of many live-coding tools. The result can be a rotation of the pattern those give: the onsets are the same distances apart.
   RhythmPattern.euclid(8, 3) // => [1, 0, 0, 1, 0, 0, 1, 0]
+
+RhythmPattern.evenness(pattern: number[]): number | null
+  Get how evenly the onsets of a rhythm pattern are spread over the loop, at most 1: the sum of the straight-line distances between every pair of onsets, with the steps drawn on a circle, divided by the same sum for a maximally even pattern with as many onsets. It's 1 for a maximally even pattern (and for one with fewer than two onsets), and lower the more the onsets bunch together. It returns `null` if the pattern is empty or isn't an array of 0s and 1s.
+  RhythmPattern.evenness(RhythmPattern.fromDurations([3, 3, 4, 3, 3])) // => 1
+  RhythmPattern.evenness(RhythmPattern.fromDurations([3, 3, 4, 2, 4])) // => 0.9972137053736072
+
+RhythmPattern.fromDurations(durations: number[]): RhythmPattern
+  Create a rhythm pattern from durations: each duration is an onset (a 1) followed by rests, so a duration of n takes n steps. A duration of 0 adds nothing. It returns `[]` if a duration is negative or not an integer.
+  RhythmPattern.fromDurations([3, 3, 2]) // => [1, 0, 0, 1, 0, 0, 1, 0]
+  RhythmPattern.fromDurations([1, 2, 2, 1]) // => [1, 1, 0, 1, 0, 1]
+
+RhythmPattern.fromOnsets(positions: number[], length?: number): RhythmPattern
+  Create a rhythm pattern from the positions of its onsets, counted from 0. The length defaults to the last position + 1; positions at or past the length are left out. It returns `[]` if a position or the length is negative or not an integer.
+  RhythmPattern.fromOnsets([0, 3, 6], 8) // => [1, 0, 0, 1, 0, 0, 1, 0]
+  RhythmPattern.fromOnsets([0, 2, 5, 8]) // => [1, 0, 1, 0, 0, 1, 0, 0, 1]
+
+RhythmPattern.hasOddity(pattern: number[]): boolean
+  Test whether a rhythm pattern has rhythmic oddity: no two of its onsets are opposite each other on the loop, so none splits it into two equal halves. A pattern with an odd number of steps always has it. It returns `false` if the pattern is empty or isn't an array of 0s and 1s.
+  RhythmPattern.hasOddity(RhythmPattern.fromDurations([3, 3, 4, 2, 4])) // => true
+  RhythmPattern.hasOddity(RhythmPattern.fromDurations([4, 2, 4, 2, 4])) // => false
 
 RhythmPattern.hex(hexNumber: string): RhythmPattern
   Create a rhythm pattern from a hexadecimal string: each digit gives four steps (non-hex digits give four 0s).
   RhythmPattern.hex("8f"); // => [1, 0, 0, 0, 1, 1, 1, 1]
 
+RhythmPattern.intervalVector(pattern: number[]): number[]
+  Get the interval vector of a rhythm pattern: how many pairs of onsets are at each distance, from 1 to half the length. The distance between two onsets is the shortest way round the loop (in a cycle of 16 steps, the onsets at 0 and 10 are 6 steps apart). It returns `[]` if the pattern isn't an array of 0s and 1s.
+  RhythmPattern.intervalVector(RhythmPattern.fromDurations([3, 3, 4, 2, 4])) // => [0, 1, 2, 2, 0, 3, 2, 0]
+
+RhythmPattern.isDeep(pattern: number[]): boolean
+  Test whether a rhythm pattern is deep: each distance between two onsets (from `RhythmPattern.intervalVector`) occurs a different number of times. Distances that don't occur aren't counted. It returns `false` if the pattern has fewer than two onsets or isn't an array of 0s and 1s.
+  RhythmPattern.isDeep([1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1]) // => true
+  RhythmPattern.isDeep(RhythmPattern.fromDurations([3, 3, 4, 2, 4])) // => false
+
+RhythmPattern.isMaximallyEven(pattern: number[]): boolean
+  Test whether a rhythm pattern is maximally even: its onsets are spread over the loop as evenly as the steps allow. Every pair of onsets that are the same number of onsets apart is the same number of steps apart, or one step more. Patterns with fewer than two onsets are maximally even. `RhythmPattern.euclid` always gives one. It returns `false` if the pattern is empty or isn't an array of 0s and 1s.
+  RhythmPattern.isMaximallyEven([1, 0, 0, 1, 0, 0, 1, 0]) // => true
+  RhythmPattern.isMaximallyEven([1, 1, 0, 1, 0, 0, 0, 0]) // => false
+
+RhythmPattern.necklace(pattern: number[]): RhythmPattern
+  Get the necklace of a rhythm pattern: the rotation that is the largest when read as a binary number, so it starts with an onset. All the rotations of a pattern have the same necklace, so two rhythms are rotations of each other when their necklaces are equal. It returns `[]` if the pattern isn't an array of 0s and 1s.
+  RhythmPattern.necklace([0, 1, 0, 0, 1, 0, 0, 1]) // => [1, 0, 1, 0, 0, 1, 0, 0]
+
+RhythmPattern.oddity(pattern: number[]): number | null
+  Get how far a rhythm pattern is from losing its rhythmic oddity: for each onset, the number of steps to the nearest step opposite an onset, added up. Higher is odder; a pattern with two opposite onsets can still score above 0. It returns `null` if the length is odd (no step is opposite another), or if the pattern is empty or isn't an array of 0s and 1s.
+  RhythmPattern.oddity(RhythmPattern.fromDurations([3, 3, 4, 2, 4])) // => 7
+  RhythmPattern.oddity(RhythmPattern.fromDurations([3, 3, 4, 4, 2])) // => 4
+
+RhythmPattern.offbeatness(pattern: number[]): number | null
+  Get the off-beatness of a rhythm pattern: the number of onsets on steps that no regular subdivision of the loop reaches, other than every step (the steps that share no divisor with the length: the odd steps of a loop of 16, steps 1, 5, 7 and 11 of a loop of 12). It returns `null` if the pattern is empty or isn't an array of 0s and 1s.
+  RhythmPattern.offbeatness(RhythmPattern.fromDurations([3, 3, 4, 2, 4])) // => 1
+  RhythmPattern.offbeatness([1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1]) // => 3
+
 RhythmPattern.onsets(...numbers: number[]): RhythmPattern
+  [deprecated] The numbers are gaps, not onsets: use `RhythmPattern.fromDurations` with each number + 1 (`onsets(1, 2)` is `fromDurations([2, 3])`). Removed in tonal 7.
   Create a rhythm pattern from the gaps between onsets: each number is how many 0s follow a 1.
   RhythmPattern.onsets(1, 2, 2, 1) // => [1, 0, 1, 0, 0, 1, 0, 0, 1, 0]
 
@@ -1245,12 +1348,24 @@ RhythmPattern.random(length: number, probability?: number, rnd?: () => number): 
   Create a random rhythm pattern of the given length: each step is 1 when `rnd()` is at least `probability`. Pass `rnd` to make it deterministic.
   RhythmPattern.random(4, 0.5, () => 0.7) // => [1, 1, 1, 1]
 
-RhythmPattern.rotate(pattern: RhythmPattern, rotations: number): RhythmPattern
-  Rotate a pattern to the right (a negative number rotates to the left). It returns a new pattern.
+RhythmPattern.rotate<T extends number>(pattern: T[], rotations: number): T[]
+  Rotate a pattern to the right (a negative number rotates to the left). It returns a new pattern of the same type, so it rotates any array of numbers (probabilities or accents too), or `[]` if it isn't an array.
   RhythmPattern.rotate([1, 0, 0, 1], 2) // => [0, 1, 1, 0]
   RhythmPattern.rotate([1, 0, 0, 1], -1) // => [0, 0, 1, 1]
 
+RhythmPattern.toDurations(pattern: number[]): number[]
+  Get the durations of a rhythm pattern: the number of steps from each onset to the next. The pattern is a loop, so the last onset lasts until the first one comes round again (rests before the first onset count there). It returns `[]` if the pattern has no onsets or isn't an array of 0s and 1s.
+  RhythmPattern.toDurations([1, 0, 0, 1, 0, 0, 1, 0]) // => [3, 3, 2]
+  RhythmPattern.toDurations([0, 1, 0, 1]) // => [2, 2]
+
+RhythmPattern.toOnsets(pattern: number[]): number[]
+  Get the positions of the onsets of a rhythm pattern, counted from 0. It returns `[]` if the pattern isn't an array of 0s and 1s.
+  RhythmPattern.toOnsets([1, 0, 0, 1, 0, 0, 1, 0]) // => [0, 3, 6]
+
 Types:
+
+type RhythmDistanceMetric = 'hamming' | 'swap'
+  How `RhythmPattern.distance` compares two patterns.
 
 type RhythmPatternValue = 0 | 1
 
@@ -1403,10 +1518,16 @@ Scale.transposeBySteps(scaleName: string | ScaleNameTokens, noteName: string, st
 
 Types:
 
+type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
+
+type NoteName = (string & {}) | KnownNoteName
+  A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
+
 type Scale = {
   tonic: string | null;
   type: string;
-  notes: string[];
+  notes: NoteName[];
   name: string;
   aliases: string[];
   family: string;
@@ -1415,7 +1536,7 @@ type Scale = {
   setNum: number;
   chroma: string;
   normalized: string;
-  intervals: string[];
+  intervals: IntervalName[];
 }
 
 type ScaleChord = {
@@ -1472,6 +1593,9 @@ ScaleType.NoScaleType: ScaleType
 
 Types:
 
+type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
+
 type ScaleType = {
   name: string;
   aliases: string[];
@@ -1481,7 +1605,7 @@ type ScaleType = {
   setNum: number;
   chroma: string;
   normalized: string;
-  intervals: string[];
+  intervals: IntervalName[];
 }
 
 type ScaleTypeName = string | number

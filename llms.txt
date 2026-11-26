@@ -55,7 +55,7 @@ you need in the API list instead of guessing their names.
 ## Time and Rhythm
 
 - [Time duration](https://tonaljs.github.io/tonal/docs/time/duration.md)
-- [Rhythm Patterns](https://tonaljs.github.io/tonal/docs/time/patterns.md): Generate and manipulate rhythmic patterns
+- [Rhythm Patterns](https://tonaljs.github.io/tonal/docs/time/patterns.md): Generate, read and measure rhythm patterns
 - [Time signatures](https://tonaljs.github.io/tonal/docs/time/signatures.md)
 
 ## Dictionaries

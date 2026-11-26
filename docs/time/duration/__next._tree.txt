@@ -1,7 +1,7 @@
-:HL["/tonal/_next/static/chunks/22omy2yx5pbx1.css","style"]
+:HL["/tonal/_next/static/chunks/3ryqov8ifrcpo.css","style"]
 :HL["/tonal/_next/static/media/07c7676b89ed2778-s.p.2bn3s6zvc0dyp.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["https://img.shields.io/badge/@tonaljs-duration--value-yellow.svg?style=flat-square","image"]
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"slug","t":"oc","k":"time/duration","s":[]},"h":64,"c":"$Q3"}]]
 1:[["children",{"s":"docs","h":32,"c":"$Q2"}]]
-0:{"b":"cI4m0QyTOOSVtx3sz5dhd","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"MlNNktd-oEJItKLTG-3pM","t":{"t":{"s":"","h":80,"c":"$Q1"}}}

@@ -101,7 +101,7 @@ Voicing.sequence(["Dm7", "G7", "Cmaj7"], {
 
 - **What each step costs:** the voice-leading distance from the voicing before (`metric`, see [VoiceLeading.path](https://tonaljs.github.io/tonal/docs/voicings/leading.md)), plus the voicing's own cost (register and spacing, see the rules below). So the progression doesn't drift away from the range.
 - **Root position:** a voicing that carries its own bass (`bass: "none"`) is heard from its lowest note, so every chord prefers its bass there: C E A alone sounds like Am/C. The preference is soft, and the voice leading can still choose an inversion when it saves a lot. For triads that invert over a root, use a bass part: `{ bass: "root", voices: 3 }`.
-- **`maxLeap`:** the largest move of a voice, in semitones. A voicing that needs a larger move is skipped, unless every voicing of its chord does.
+- **`maxLeap`:** the largest move of a voice, in semitones. A voicing that needs a larger move from every voicing the sequence can be at in the chord before is skipped, unless every voicing of its chord does (then none is skipped).
 - **Chords without voicings** give `[]`, and the next chord is led from the last one.
 
 ### Spacing
