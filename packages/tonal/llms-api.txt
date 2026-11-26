@@ -309,6 +309,11 @@ type ChartBar = {
   repeatEnd?: number | undefined;
   ending?: number[] | undefined;
   doubleBar?: true | undefined;
+  segno?: true | undefined;
+  coda?: true | undefined;
+  toCoda?: true | undefined;
+  fine?: true | undefined;
+  jump?: Jump | undefined;
 }
 
 type ChartChord = {
@@ -346,6 +351,7 @@ type TimeValue = string | number | Fraction
 
 type UnrollOptions = {
   choruses?: number | undefined;
+  repeatsOnJump?: boolean | undefined;
 }
 
 ## Chord
