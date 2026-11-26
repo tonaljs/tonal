@@ -47,6 +47,7 @@ export function range(from: number, to: number): number[] {
  * Collection.rotate(-1, [1, 2, 3]) // => [3, 1, 2]
  */
 export function rotate<T>(times: number, arr: T[]): T[] {
+  if (!Array.isArray(arr)) return [];
   const len = arr.length;
   const n = ((times % len) + len) % len;
   return arr.slice(n, len).concat(arr.slice(0, n));
@@ -63,6 +64,7 @@ export function rotate<T>(times: number, arr: T[]): T[] {
  * Collection.compact(["a", null, "b", 0, undefined]) // => ["a", "b", 0]
  */
 export function compact(arr: any[]): any[] {
+  if (!Array.isArray(arr)) return [];
   return arr.filter((n) => n === 0 || n);
 }
 
@@ -79,6 +81,8 @@ export function compact(arr: any[]): any[] {
  * Collection.shuffle(["C", "D", "E", "F"], () => 0.5) // => ["C", "F", "D", "E"]
  */
 export function shuffle(arr: any[], rnd = Math.random): any[] {
+  if (!Array.isArray(arr)) return [];
+  if (typeof rnd !== "function") rnd = Math.random;
   let i: number;
   let t: any;
   let m: number = arr.length;
@@ -109,6 +113,7 @@ export function shuffle(arr: any[], rnd = Math.random): any[] {
  * ]
  */
 export function permutations(arr: any[]): any[] {
+  if (!Array.isArray(arr)) return [];
   if (arr.length === 0) {
     return [[]];
   }

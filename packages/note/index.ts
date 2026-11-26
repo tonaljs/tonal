@@ -16,7 +16,9 @@ const NAMES = ["C", "D", "E", "F", "G", "A", "B"];
 
 const toName = (n: Note) => n.name;
 const onlyNotes = (array: any[]) =>
-  array.map(props).filter((n) => !n.empty) as Note[];
+  (Array.isArray(array) ? array : [])
+    .map(props)
+    .filter((n) => !n.empty) as Note[];
 
 /**
  * Get the natural note names without octave. If an array is given, get the
@@ -266,14 +268,19 @@ export function transposeOctaves(
 
 export type NoteComparator = (a: Note, b: Note) => number;
 
+// Invalid notes compare as equal
+const heightOf = (n: Note) =>
+  n && typeof n.height === "number" ? n.height : NaN;
+
 /**
  * A comparator to sort Note objects (as returned by Note.get) from lowest to
- * highest.
+ * highest. Invalid notes compare as equal to any other.
  *
  * @example
  * ["D4", "C4", "B3"].map(Note.get).sort(Note.ascending).map(n => n.name) // => ["B3", "C4", "D4"]
  */
-export const ascending: NoteComparator = (a, b) => a.height - b.height;
+export const ascending: NoteComparator = (a, b) =>
+  heightOf(a) - heightOf(b) || 0;
 /**
  * A comparator to sort Note objects (as returned by Note.get) from highest to
  * lowest.
@@ -281,7 +288,8 @@ export const ascending: NoteComparator = (a, b) => a.height - b.height;
  * @example
  * ["D4", "C4", "B3"].map(Note.get).sort(Note.descending).map(n => n.name) // => ["D4", "C4", "B3"]
  */
-export const descending: NoteComparator = (a, b) => b.height - a.height;
+export const descending: NoteComparator = (a, b) =>
+  heightOf(b) - heightOf(a) || 0;
 
 /**
  * Get the names of the valid notes sorted from lowest to highest (or with the
@@ -295,7 +303,7 @@ export function sortedNames(
   notes: any[],
   comparator?: NoteComparator,
 ): string[] {
-  comparator = comparator || ascending;
+  comparator = typeof comparator === "function" ? comparator : ascending;
   return onlyNotes(notes).sort(comparator).map(toName);
 }
 

@@ -17,6 +17,7 @@ import { midiToNoteName, toMidi, ToNoteNameOptions } from "@tonaljs/midi";
  * Range.numeric(["x"]) // => []
  */
 export function numeric(notes: (string | number)[]): number[] {
+  if (!Array.isArray(notes)) return [];
   const midi: number[] = compact(
     notes.map((note) =>
       typeof note === "number" ? (isFinite(note) ? note : null) : toMidi(note),

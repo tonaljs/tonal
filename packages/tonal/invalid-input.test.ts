@@ -5,80 +5,15 @@ import * as Tonal from "./index";
 // { empty: true }), never an exception. This calls every public function with
 // invalid values and fails if one throws.
 //
-// These still throw, and are listed in the invalid-input ticket. Remove a name
-// when its function is fixed; don't add new ones.
-const KNOWN_THROWS = new Set([
-  "accToAlt",
-  "altToAcc",
-  "Array.compact",
-  "Array.permutations",
-  "Array.rotate",
-  "Array.shuffle",
-  "Array.sortedNoteNames",
-  "Array.sortedUniqNoteNames",
-  "ChordDictionary.add",
-  "ChordType.add",
-  "chroma",
-  "Collection.compact",
-  "Collection.permutations",
-  "Collection.rotate",
-  "Collection.shuffle",
-  "coordinates",
-  "coordToInterval",
-  "coordToNote",
-  "Core.accToAlt",
-  "Core.altToAcc",
-  "Core.chroma",
-  "Core.coordinates",
-  "Core.coordToInterval",
-  "Core.coordToNote",
-  "Core.deprecate",
-  "Core.fillStr",
-  "Core.height",
-  "Core.midi",
-  "Core.pitch",
-  "Core.tonicIntervalsTransposer",
-  "deprecate",
-  "fillStr",
-  "height",
-  "midi",
-  "Midi.pcset",
-  "Midi.pcsetDegrees",
-  "Midi.pcsetNearest",
-  "Midi.pcsetSteps",
-  "Note.ascending",
-  "Note.descending",
-  "Note.sortedNames",
-  "Note.sortedUniqNames",
-  "Pcset.filter",
-  "PcSet.filter",
-  "pitch",
-  "Progression.fromRomanNumerals",
-  "Progression.toRomanNumerals",
-  "Range.chromatic",
-  "Range.numeric",
-  "RhythmPattern.binary",
-  "RhythmPattern.hex",
-  "RhythmPattern.probability",
-  "RhythmPattern.rotate",
-  "Scale.detect",
-  "Scale.scaleNotes",
-  "TimeSignature.get",
-  "TimeSignature.parse",
-  "Tonal.accToAlt",
-  "Tonal.altToAcc",
-  "Tonal.chroma",
-  "Tonal.coordinates",
-  "Tonal.coordToInterval",
-  "Tonal.coordToNote",
-  "Tonal.deprecate",
-  "Tonal.fillStr",
-  "Tonal.height",
-  "Tonal.midi",
-  "Tonal.pitch",
-  "Tonal.tonicIntervalsTransposer",
-  "tonicIntervalsTransposer",
-  "VoiceLeading.topNoteDiff",
+// Exempt, because they aren't music functions and a bad call is a
+// programming error worth seeing: `deprecate` wraps a function to deprecate
+// it, and `ChordType.add` registers a chord type when an app starts.
+const EXEMPT = new Map([
+  ["deprecate", "wraps a function"],
+  ["Core.deprecate", "wraps a function"],
+  ["Tonal.deprecate", "wraps a function"],
+  ["ChordType.add", "registers a chord type"],
+  ["ChordDictionary.add", "registers a chord type"],
 ]);
 
 const INVALID: unknown[] = [
@@ -150,7 +85,7 @@ describe("invalid input", () => {
   it("no public function throws", () => {
     const failures = quiet(() =>
       publicFunctions()
-        .filter(([name]) => !KNOWN_THROWS.has(name))
+        .filter(([name]) => !EXEMPT.has(name))
         .map(([name, fn]) => [name, throwingCalls(fn)] as const)
         .filter(([, calls]) => calls.length > 0)
         .map(([name, calls]) => `${name}${calls[0]}`),
@@ -158,13 +93,47 @@ describe("invalid input", () => {
     expect(failures).toEqual([]);
   });
 
-  it("the known exceptions still throw (remove the fixed ones)", () => {
-    const fixed = quiet(() =>
-      publicFunctions()
-        .filter(([name]) => KNOWN_THROWS.has(name))
-        .filter(([, fn]) => throwingCalls(fn).length === 0)
-        .map(([name]) => name),
-    );
-    expect(fixed).toEqual([]);
+  it("every exempt function exists", () => {
+    const names = new Set(publicFunctions().map(([name]) => name));
+    expect([...EXEMPT.keys()].filter((name) => !names.has(name))).toEqual([]);
+  });
+
+  it("gives the empty value of each type", () => {
+    const T = Tonal;
+    // the low-level pitch helpers give NaN (null in tonal 7)
+    expect(T.chroma(null as never)).toBeNaN();
+    expect(T.height({} as never)).toBeNaN();
+    expect(T.coordinates(null as never)).toEqual([NaN]);
+    expect(T.isPitch(T.pitch(null as never))).toBe(false);
+    expect(T.midi(5 as never)).toBe(null);
+    expect(T.coordToNote(null as never).empty).toBe(true);
+    expect(T.coordToInterval(5 as never).empty).toBe(true);
+    expect(T.accToAlt(null as never)).toBe(0);
+    expect(T.altToAcc(NaN)).toBe("");
+    expect(T.fillStr("#", 1.5)).toBe("");
+    expect(T.tonicIntervalsTransposer(null as never, "C")(1)).toBe("");
+    // lists
+    expect(T.Collection.rotate(1, null as never)).toEqual([]);
+    expect(T.Collection.permutations(5 as never)).toEqual([]);
+    expect(T.Midi.pcset(5 as never)).toEqual([]);
+    expect(T.Note.sortedNames(null as never)).toEqual([]);
+    expect(T.Pcset.filter(["C"])(null as never)).toEqual([]);
+    expect(T.Progression.toRomanNumerals("C", null as never)).toEqual([]);
+    expect(T.Range.chromatic(null as never)).toEqual([]);
+    expect(T.Scale.detect(null as never)).toEqual([]);
+    expect(T.Scale.scaleNotes(5 as never)).toEqual([]);
+    expect(T.RhythmPattern.binary(1.5)).toEqual([]);
+    expect(T.RhythmPattern.hex(5 as never)).toEqual([]);
+    // objects
+    expect(T.TimeSignature.get(null as never).empty).toBe(true);
+    expect(T.TimeSignature.parse({} as never)).toEqual([0, 0]);
+    // a bad option falls back to its default
+    expect(T.Note.sortedNames(["D4", "C4"], "x" as never)).toEqual([
+      "C4",
+      "D4",
+    ]);
+    expect(T.RhythmPattern.rotate([1, 0], NaN)).toEqual([1, 0]);
+    // invalid notes sort as equal to the others
+    expect(T.Note.ascending(T.Note.get("x"), T.Note.get("C4"))).toBe(0);
   });
 });

@@ -30,6 +30,7 @@ export function fromRomanNumerals(
   tonic: NoteLiteral,
   chords: string[],
 ): string[] {
+  if (!Array.isArray(chords)) return [];
   return chords.map((chord) => {
     const rn = romanNumeral(chord);
     if (rn.empty) return "";
@@ -136,6 +137,7 @@ export function toRomanNumerals(
   tonic: NoteLiteral,
   chords: string[],
 ): string[] {
+  if (!Array.isArray(chords)) return [];
   return chords.map((chord) => {
     const [note, chordType] = tokenize(chord);
     const intervalName = distance(tonic, note);

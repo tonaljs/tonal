@@ -93,7 +93,11 @@ export const stepToLetter = (step: number) => "CDEFGAB".charAt(step);
  * altToAcc(0) // => ""
  */
 export const altToAcc = (alt: number): string =>
-  alt < 0 ? fillStr("b", -alt) : fillStr("#", alt);
+  !Number.isInteger(alt)
+    ? ""
+    : alt < 0
+      ? fillStr("b", -alt)
+      : fillStr("#", alt);
 /**
  * Get the alteration number of an accidentals string.
  *
@@ -103,7 +107,7 @@ export const altToAcc = (alt: number): string =>
  * accToAlt("") // => 0
  */
 export const accToAlt = (acc: string): number =>
-  acc[0] === "b" ? -acc.length : acc.length;
+  typeof acc !== "string" ? 0 : acc[0] === "b" ? -acc.length : acc.length;
 
 /**
  * Get the Note object of a note literal (a note name, a pitch object or an

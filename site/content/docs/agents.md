@@ -41,7 +41,7 @@ Don't use the deprecated namespaces `Tonal`, `PcSet`, `ChordDictionary`,
 named by strings (`"Cmaj7"`, `"D dorian"`). Functions that parse a name return
 a plain object with its properties. There are no classes and nothing mutates.
 
-**Invalid input never throws.** It returns an empty value, so check it:
+**Invalid input never throws**, not even a value of the wrong type (`Chord.get(undefined)`); the one exception is `ChordType.add`, which registers a chord type. It returns an empty value, so check it:
 
 ```js
 Note.get("H4").empty; // => true

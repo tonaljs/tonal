@@ -100,6 +100,7 @@ export function parse(literal: TimeSignatureLiteral): ParsedTimeSignature {
     return parse([up, low]);
   }
 
+  if (!Array.isArray(literal)) return [0, 0];
   const [up, down] = literal;
   const denominator = +down;
   if (typeof up === "number") {

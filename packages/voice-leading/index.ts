@@ -393,8 +393,8 @@ export declare type VoiceLeadingFunction = (
  * VoiceLeading.topNoteDiff([["C4", "E4", "G4"], ["E4", "G4", "C5"], ["G4", "C5", "E5"]], ["D4", "F4", "A4"]); // => ["C4", "E4", "G4"]
  */
 export const topNoteDiff: VoiceLeadingFunction = (voicings, lastVoicing) => {
-  if (!voicings.length) return [];
-  if (!lastVoicing || !lastVoicing.length) {
+  if (!Array.isArray(voicings) || !voicings.length) return [];
+  if (!Array.isArray(lastVoicing) || !lastVoicing.length) {
     return voicings[0];
   }
   const topNoteMidi = (voicing: string[]) =>

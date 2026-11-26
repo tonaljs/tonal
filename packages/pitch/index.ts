@@ -55,34 +55,43 @@ export interface Pitch {
 
 const SIZES = [0, 2, 4, 5, 7, 9, 11];
 /**
- * Get the chroma (pitch class number, from 0 to 11) of a pitch.
+ * Get the chroma (pitch class number, from 0 to 11) of a pitch, or `NaN` if
+ * it isn't a pitch.
  *
  * @example
  * chroma({ step: 0, alt: 1 }) // => 1
  */
-export const chroma = ({ step, alt }: Pitch) => (SIZES[step] + alt + 120) % 12;
+export const chroma = (pitch: Pitch) =>
+  // NaN for an invalid pitch: null in tonal 7
+  isPitch(pitch) ? (SIZES[pitch.step] + pitch.alt + 120) % 12 : NaN;
 
 /**
  * Get the height of a pitch: its distance in semitones from C0 (so it is the
  * midi number minus 12). A descending interval has a negative height, and a
- * pitch without octave gets a number far below any note.
+ * pitch without octave gets a number far below any note. It's `NaN` if it
+ * isn't a pitch.
  *
  * @example
  * height({ step: 0, alt: 0, oct: 4 }) // => 48
  * height({ step: 0, alt: 0 }) // => -1200
  */
-export const height = ({ step, alt, oct, dir = 1 }: Pitch) =>
-  dir * (SIZES[step] + alt + 12 * (oct === undefined ? -100 : oct));
+export const height = (pitch: Pitch) => {
+  // NaN for an invalid pitch: null in tonal 7
+  if (!isPitch(pitch)) return NaN;
+  const { step, alt, oct, dir = 1 } = pitch;
+  return dir * (SIZES[step] + alt + 12 * (oct === undefined ? -100 : oct));
+};
 
 /**
- * Get the midi number of a pitch, or `null` if the pitch has no octave or is
- * outside the midi range (0 to 127).
+ * Get the midi number of a pitch, or `null` if it isn't a pitch, has no
+ * octave or is outside the midi range (0 to 127).
  *
  * @example
  * midi({ step: 0, alt: 0, oct: 4 }) // => 60
  * midi({ step: 0, alt: 0 }) // => null
  */
 export const midi = (pitch: Pitch) => {
+  if (!isPitch(pitch)) return null;
   const h = height(pitch);
   return pitch.oct !== undefined && h >= -12 && h <= 115 ? h + 12 : null;
 };
@@ -117,13 +126,15 @@ const STEPS_TO_OCTS = FIFTHS.map((fifths: number) =>
 /**
  * Get the coordinates of a pitch object: `[fifths]` for a pitch class and
  * `[fifths, octaves]` for a note or an interval (the direction is applied to
- * both numbers).
+ * both numbers). It's `[NaN]` if it isn't a pitch.
  *
  * @example
  * coordinates({ step: 4, alt: 0, oct: 4 }) // => [1, 4]
  * coordinates({ step: 4, alt: 0 }) // => [1]
  */
 export function coordinates(pitch: Pitch): PitchCoordinates {
+  // [NaN] for an invalid pitch: null in tonal 7
+  if (!isPitch(pitch)) return [NaN];
   const { step, alt, oct, dir = 1 } = pitch;
   const f = FIFTHS[step] + 7 * alt;
   if (oct === undefined) {
@@ -141,12 +152,15 @@ const FIFTHS_TO_STEPS = [3, 0, 4, 1, 5, 2, 6];
 
 /**
  * Get the pitch object from its coordinates (the inverse of `coordinates`).
+ * Invalid coordinates give a pitch of `NaN`s, which `isPitch` rejects.
  *
  * @example
  * pitch([1]) // => { step: 4, alt: 0 }
  * pitch([1, 0]) // => { step: 4, alt: 0, oct: 0 }
  */
 export function pitch(coord: PitchCoordinates): Pitch {
+  // a pitch of NaNs for invalid coordinates (isPitch is false): null in tonal 7
+  if (!Array.isArray(coord)) return { step: NaN, alt: NaN };
   const [f, o, dir] = coord;
   const step = FIFTHS_TO_STEPS[unaltered(f)];
   const alt = Math.floor((f + 1) / 7);

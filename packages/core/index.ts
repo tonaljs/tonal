@@ -11,7 +11,10 @@ export * from "@tonaljs/pitch-note";
  * @example
  * fillStr("#", 3) // => "###"
  */
-export const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
+export const fillStr = (s: string, n: number) =>
+  typeof s === "string" && Number.isInteger(n)
+    ? Array(Math.abs(n) + 1).join(s)
+    : "";
 
 /**
  * Wrap a function so it logs a deprecation warning (naming the alternative)
