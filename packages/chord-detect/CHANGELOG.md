@@ -1,5 +1,26 @@
 # @tonaljs/chord-detect
 
+## 4.11.2
+
+### Patch Changes
+
+- f95a90c: Invalid input gives an empty value instead of an exception in more functions:
+
+  - Every `Chord` function given something that isn't a string (`Chord.get(undefined)`, `Chord.notes(null)`, `Chord.degrees(5)`…) gives an empty chord, `[]` or `""`. So do `Voicing.get`, `Voicing.search` and `Voicing.sequence`.
+  - `Chord.detect` gives `[]` when the notes aren't an array.
+  - `ChordType.complexity` gives `0`, and `ChordType.family` `""`, when the intervals aren't an array (`ChordType.complexity("m7")` used to throw).
+  - `RhythmPattern.toDurations(undefined)` gives `[]`.
+
+  A new test calls every public function with invalid values and fails if one throws, apart from a list of known cases still to fix.
+
+- Updated dependencies [1a13828]
+- Updated dependencies [f95a90c]
+  - @tonaljs/pitch-note@6.2.1
+  - @tonaljs/pitch-interval@6.4.1
+  - @tonaljs/pitch-distance@5.1.3
+  - @tonaljs/pcset@4.10.8
+  - @tonaljs/chord-type@5.4.2
+
 ## 4.11.1
 
 ### Patch Changes

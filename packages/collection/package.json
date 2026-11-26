@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/collection",
-  "version": "4.9.2",
+  "version": "4.9.3",
   "description": "Utility functions to work with collections (arrays)",
   "keywords": [
     "collection",

@@ -1,5 +1,16 @@
 # @tonaljs/mode
 
+## 4.9.10
+
+### Patch Changes
+
+- Updated dependencies [1a13828]
+  - @tonaljs/pitch-note@6.2.1
+  - @tonaljs/pitch-distance@5.1.3
+  - @tonaljs/collection@4.9.3
+  - @tonaljs/pcset@4.10.8
+  - @tonaljs/scale-type@4.10.2
+
 ## 4.9.9
 
 ### Patch Changes
