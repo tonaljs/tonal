@@ -9,6 +9,7 @@ import * as Key from "@tonaljs/key";
 import * as Midi from "@tonaljs/midi";
 import * as Mode from "@tonaljs/mode";
 import * as Note from "@tonaljs/note";
+import * as Pattern from "@tonaljs/pattern";
 import * as Pcset from "@tonaljs/pcset";
 import * as Progression from "@tonaljs/progression";
 import * as Range from "@tonaljs/range";
@@ -48,6 +49,7 @@ export {
   Midi,
   Mode,
   Note,
+  Pattern,
   PcSet,
   Pcset,
   Progression,

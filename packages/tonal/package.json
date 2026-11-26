@@ -29,6 +29,7 @@
     "@tonaljs/midi": "4.11.2",
     "@tonaljs/mode": "4.9.10",
     "@tonaljs/note": "4.12.9",
+    "@tonaljs/pattern": "0.0.0",
     "@tonaljs/pcset": "4.10.8",
     "@tonaljs/progression": "4.11.6",
     "@tonaljs/range": "4.9.10",
