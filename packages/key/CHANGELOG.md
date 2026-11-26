@@ -1,5 +1,13 @@
 # @tonaljs/key
 
+## 4.12.3
+
+### Patch Changes
+
+- Updated dependencies [659c1a5]
+- Updated dependencies [7ce587b]
+  - @tonaljs/note@4.13.0
+
 ## 4.12.2
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/pattern",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Note patterns: arpeggio orders and melodic sequences as lists of indexes",
   "keywords": [
     "arpeggio",
@@ -16,8 +16,8 @@
   ],
   "types": "dist/index.d.ts",
   "devDependencies": {
-    "@tonaljs/chord": "6.5.2",
-    "@tonaljs/scale": "4.15.3"
+    "@tonaljs/chord": "6.6.0",
+    "@tonaljs/scale": "4.15.4"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",
