@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/range",
-  "version": "4.9.9",
+  "version": "4.9.10",
   "description": "Create (musical) note ranges",
   "keywords": [
     "range",
@@ -15,8 +15,8 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/collection": "4.9.2",
-    "@tonaljs/midi": "4.11.1"
+    "@tonaljs/collection": "4.9.3",
+    "@tonaljs/midi": "4.11.2"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

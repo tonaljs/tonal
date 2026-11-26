@@ -1,5 +1,15 @@
 # @tonaljs/voicing-dictionary
 
+## 5.1.13
+
+### Patch Changes
+
+- Updated dependencies [1a13828]
+- Updated dependencies [f95a90c]
+  - @tonaljs/note@4.12.9
+  - @tonaljs/voice-leading@5.2.2
+  - @tonaljs/chord@6.5.2
+
 ## 5.1.12
 
 ### Patch Changes
