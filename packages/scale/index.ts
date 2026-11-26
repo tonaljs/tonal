@@ -148,6 +148,7 @@ export function detect(
   notes: string[],
   options: { tonic?: string; match?: "exact" | "fit" } = {},
 ): string[] {
+  if (!Array.isArray(notes)) return [];
   const notesChroma = chroma(notes);
   const tonic = note(options.tonic ?? notes[0] ?? "");
   const tonicChroma = tonic.chroma;
@@ -281,6 +282,7 @@ export function reduced(name: string): string[] {
  * Scale.scaleNotes(["D4", "c#5", "A5", "F#6"]); // => ["D", "F#", "A", "C#"]
  */
 export function scaleNotes(notes: NoteName[]) {
+  if (!Array.isArray(notes)) return [];
   const pcset: string[] = notes.map((n) => note(n).pc).filter((x) => x);
   const tonic = pcset[0];
   const scale = sortedUniqNames(pcset);

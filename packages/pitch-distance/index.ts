@@ -57,6 +57,7 @@ export function tonicIntervalsTransposer(
   intervals: string[],
   tonic: string | undefined | null,
 ) {
+  if (!Array.isArray(intervals)) return (_normalized: number) => "";
   const len = intervals.length;
   return (normalized: number) => {
     if (!tonic) return "";

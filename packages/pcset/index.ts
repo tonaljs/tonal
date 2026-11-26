@@ -322,7 +322,7 @@ export const includes = isNoteIncludedIn;
 export function filter(set: Set) {
   const isIncluded = isNoteIncludedIn(set);
   return (notes: NoteName[]) => {
-    return notes.filter(isIncluded);
+    return Array.isArray(notes) ? notes.filter(isIncluded) : [];
   };
 }
 

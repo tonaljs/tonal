@@ -12,6 +12,7 @@ export type RhythmPattern = Array<RhythmPatternValue>;
  * RhythmPattern.binary(12, 13) // => [1, 1, 0, 0, 1, 1, 0, 1]
  */
 export function binary(...numbers: number[]): RhythmPattern {
+  if (!numbers.every((n) => Number.isInteger(n) && n >= 0)) return [];
   return numbers.reduce((pattern, number) => {
     number
       .toString(2)
@@ -32,6 +33,7 @@ export function binary(...numbers: number[]): RhythmPattern {
  * RhythmPattern.hex("8f"); // => [1, 0, 0, 0, 1, 1, 1, 1]
  */
 export function hex(hexNumber: string): RhythmPattern {
+  if (typeof hexNumber !== "string") return [];
   const pattern: RhythmPattern = [];
   for (let i = 0; i < hexNumber.length; i++) {
     const digit = parseInt("0x" + hexNumber[i]);
@@ -206,6 +208,8 @@ export function probability(
   probabilities: number[],
   rnd: () => number = Math.random,
 ): RhythmPattern {
+  if (!Array.isArray(probabilities)) return [];
+  if (typeof rnd !== "function") rnd = Math.random;
   return probabilities.map((probability) => (rnd() <= probability ? 1 : 0));
 }
 
@@ -223,6 +227,8 @@ export function rotate(
   pattern: RhythmPattern,
   rotations: number,
 ): RhythmPattern {
+  if (!Array.isArray(pattern)) return [];
+  if (!Number.isInteger(rotations)) rotations = 0;
   const len = pattern.length;
   const rotated: RhythmPattern = [];
   for (let i = 0; i < len; i++) {

@@ -49,6 +49,7 @@ export function range(from: number, to: number): number[] {
  * Array.rotate(-1, [1, 2, 3]) // => [3, 1, 2]
  */
 export function rotate<T>(times: number, arr: T[]): T[] {
+  if (!Array.isArray(arr)) return [];
   const len = arr.length;
   const n = ((times % len) + len) % len;
   return arr.slice(n, len).concat(arr.slice(0, n));
@@ -65,6 +66,7 @@ export function rotate<T>(times: number, arr: T[]): T[] {
  * Array.compact(["a", null, "b", 0, undefined]) // => ["a", "b", 0]
  */
 export function compact(arr: any[]): any[] {
+  if (!Array.isArray(arr)) return [];
   return arr.filter((n) => n === 0 || n);
 }
 
@@ -83,6 +85,7 @@ export function compact(arr: any[]): any[] {
  * // => ["C", "F", "G", "A", "B"]
  */
 export function sortedNoteNames(notes: string[]): string[] {
+  if (!Array.isArray(notes)) return [];
   const valid = notes.map((n) => note(n)).filter((n) => !n.empty) as Note[];
   return valid.sort((a, b) => a.height - b.height).map((n) => n.name);
 }
@@ -115,6 +118,8 @@ export function sortedUniqNoteNames(arr: string[]): string[] {
  * Array.shuffle(["C", "D", "E", "F"], () => 0.5) // => ["C", "F", "D", "E"]
  */
 export function shuffle(arr: any[], rnd = Math.random): any[] {
+  if (!Array.isArray(arr)) return [];
+  if (typeof rnd !== "function") rnd = Math.random;
   let i: number;
   let t: any;
   let m: number = arr.length;
@@ -145,6 +150,7 @@ export function shuffle(arr: any[], rnd = Math.random): any[] {
  * ]
  */
 export function permutations(arr: any[]): any[] {
+  if (!Array.isArray(arr)) return [];
   if (arr.length === 0) {
     return [[]];
   }

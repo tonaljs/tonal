@@ -34,12 +34,12 @@ altToAcc(alt: number): string
   altToAcc(-1) // => "b"
   altToAcc(0) // => ""
 
-chroma({ step, alt }: Pitch): number
-  Get the chroma (pitch class number, from 0 to 11) of a pitch.
+chroma(pitch: Pitch): number
+  Get the chroma (pitch class number, from 0 to 11) of a pitch, or `NaN` if it isn't a pitch.
   chroma({ step: 0, alt: 1 }) // => 1
 
 coordinates(pitch: Pitch): PitchCoordinates
-  Get the coordinates of a pitch object: `[fifths]` for a pitch class and `[fifths, octaves]` for a note or an interval (the direction is applied to both numbers).
+  Get the coordinates of a pitch object: `[fifths]` for a pitch class and `[fifths, octaves]` for a note or an interval (the direction is applied to both numbers). It's `[NaN]` if it isn't a pitch.
   coordinates({ step: 4, alt: 0, oct: 4 }) // => [1, 4]
   coordinates({ step: 4, alt: 0 }) // => [1]
 
@@ -59,8 +59,8 @@ distance(fromNote: NoteLiteral, toNote: NoteLiteral): IntervalName
   distance("C", "E") // => "3M"
   distance("G4", "C4") // => "-5P"
 
-height({ step, alt, oct, dir }: Pitch): number
-  Get the height of a pitch: its distance in semitones from C0 (so it is the midi number minus 12). A descending interval has a negative height, and a pitch without octave gets a number far below any note.
+height(pitch: Pitch): number
+  Get the height of a pitch: its distance in semitones from C0 (so it is the midi number minus 12). A descending interval has a negative height, and a pitch without octave gets a number far below any note. It's `NaN` if it isn't a pitch.
   height({ step: 0, alt: 0, oct: 4 }) // => 48
   height({ step: 0, alt: 0 }) // => -1200
 
@@ -84,7 +84,7 @@ isPitch(pitch: unknown): pitch is Pitch
   isPitch({ name: "C" }) // => false
 
 midi(pitch: Pitch): number | null
-  Get the midi number of a pitch, or `null` if the pitch has no octave or is outside the midi range (0 to 127).
+  Get the midi number of a pitch, or `null` if it isn't a pitch, has no octave or is outside the midi range (0 to 127).
   midi({ step: 0, alt: 0, oct: 4 }) // => 60
   midi({ step: 0, alt: 0 }) // => null
 
@@ -95,7 +95,7 @@ note(src: NoteLiteral): Note
   note("x").empty // => true
 
 pitch(coord: PitchCoordinates): Pitch
-  Get the pitch object from its coordinates (the inverse of `coordinates`).
+  Get the pitch object from its coordinates (the inverse of `coordinates`). Invalid coordinates give a pitch of `NaN`s, which `isPitch` rejects.
   pitch([1]) // => { step: 4, alt: 0 }
   pitch([1, 0]) // => { step: 4, alt: 0, oct: 0 }
 
@@ -115,7 +115,7 @@ tokenizeNote(str: string): NoteTokens
   tokenizeNote("Bb4") // => ["B", "b", "4", ""]
   tokenizeNote("C# major") // => ["C", "#", "", "major"]
 
-tonicIntervalsTransposer(intervals: string[], tonic: string | undefined | null): (normalized: number) => '' | NoteName
+tonicIntervalsTransposer(intervals: string[], tonic: string | undefined | null): (_normalized: number) => string
   Create a function that, given a (possibly negative) scale degree index, returns the note of that degree: the intervals are cycled and the octave goes up (or down) every time they wrap. It returns "" for every degree if there is no tonic.
   const degree = tonicIntervalsTransposer(["1P", "3M", "5P"], "C");
   [0, 1, 2, 3, -1].map(degree) // => ["C", "E", "G", "C", "G"]
@@ -278,7 +278,7 @@ Chord.degreeOf(chordName: ChordNameOrTokens, noteName: NoteName): ChordDegreeNam
   Chord.degreeOf("C7b9", "C#4"); // => "b9"
   Chord.degreeOf("Cm", "Eb"); // => "b3"
 
-Chord.degrees(chordName: ChordNameOrTokens, tonic?: string): (degree: number) => '' | NoteName
+Chord.degrees(chordName: ChordNameOrTokens, tonic?: string): (degree: number) => string
   Get a function that returns the note of a chord by its position, 1 being the tonic. The position counts the chord notes, so the 3rd note of C is "G" and the 4th is "C" an octave up. For the note of the degree named "3", see `Chord.noteOf`; for positions starting at 0, `Chord.steps`.
   [1, 2, 3, 4].map(Chord.degrees("C")); // => ["C", "E", "G", "C"]
   [1, 2, 3, 4].map(Chord.degrees(["C4", "M"])); // => ["C4", "E4", "G4", "C5"]
@@ -335,7 +335,7 @@ Chord.reduced(chordName: string): string[]
   Chord.reduced("Cmaj7"); // => ["C5", "CM"]
   Chord.reduced("Cmaj9"); // => ["C5", "CM", "Cmaj7", "Csus2", "CMadd9"]
 
-Chord.steps(chordName: ChordNameOrTokens, tonic?: string): (normalized: number) => '' | NoteName
+Chord.steps(chordName: ChordNameOrTokens, tonic?: string): (_normalized: number) => string
   Get a function that returns the note of a chord by its position, 0 being the tonic (like `Chord.degrees` but 0-based). Negative steps go down. The function returns `""` if the chord isn't valid.
   [0, 1, 2, 3].map(Chord.steps("C")); // => ["C", "E", "G", "C"]
   [-1, 0, 1].map(Chord.steps(["C4", "M"])); // => ["G3", "C4", "E4"]
@@ -935,7 +935,7 @@ Note.accidentals(note: NoteLiteral): string
   Note.accidentals("C4") // => ""
 
 Note.ascending(a: Note, b: Note): number
-  A comparator to sort Note objects (as returned by Note.get) from lowest to highest.
+  A comparator to sort Note objects (as returned by Note.get) from lowest to highest. Invalid notes compare as equal to any other.
   ["D4", "C4", "B3"].map(Note.get).sort(Note.ascending).map(n => n.name) // => ["B3", "C4", "D4"]
 
 Note.chroma(note: NoteLiteral): number

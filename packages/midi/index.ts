@@ -154,7 +154,11 @@ function pcsetFromMidi(midi: number[]): number[] {
  * Midi.pcset("100100100101") // => [0, 3, 6, 9, 11]
  */
 export function pcset(notes: number[] | string): number[] {
-  return Array.isArray(notes) ? pcsetFromMidi(notes) : pcsetFromChroma(notes);
+  return Array.isArray(notes)
+    ? pcsetFromMidi(notes)
+    : typeof notes === "string"
+      ? pcsetFromChroma(notes)
+      : [];
 }
 
 /**

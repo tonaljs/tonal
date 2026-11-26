@@ -215,6 +215,7 @@ export function coordToInterval(
   coord: PitchCoordinates,
   forceDescending?: boolean,
 ): Interval {
+  if (!Array.isArray(coord)) return NoInterval;
   const [f, o = 0] = coord;
   // A fifth is 4 letter steps and 7 semitones, an octave 7 and 12
   const steps = f * 4 + o * 7;
