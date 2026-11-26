@@ -228,15 +228,14 @@ Chord.bass("C7"); // => "C"
 Chord.bass("C7/E", 2); // => "E2"
 ```
 
-To keep a bass line in an instrument's range, fold it with [`Note.fold`](/packages/note#notefold):
+To put a bass line in an instrument's range, fold the pitch classes with [`Note.fold`](/packages/note#notefold): each goes to the lowest octave in the range:
 
 ```js
 const chords = ["Cmaj7", "A7/C#", "Dm7", "G7"];
-chords.map((chord) => Chord.bass(chord, 2)); // => ["C2", "C#2", "D2", "G2"]
+chords.map((chord) => Chord.bass(chord)); // => ["C", "C#", "D", "G"]
 Note.fold(
-  chords.map((chord) => Chord.bass(chord, 2)),
+  chords.map((chord) => Chord.bass(chord)),
   ["E1", "D2"],
-  { each: true },
 );
 // => ["C2", "C#2", "D2", "G1"]
 ```

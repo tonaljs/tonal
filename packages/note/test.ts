@@ -197,9 +197,25 @@ describe("note", () => {
       );
     });
 
+    test("pitch classes", () => {
+      // the lowest octave at or above low
+      expect(Note.fold($("D G C"), ["E2", "D3"])).toEqual($("D3 G2 C3"));
+      expect(Note.fold($("E"), ["E2", "D3"])).toEqual(["E2"]);
+      expect(Note.fold($("Cb F#"), ["C3", "C5"], { each: true })).toEqual(
+        $("Cb4 F#3"),
+      );
+      // a range under an octave: the nearest octave (ties go up)
+      expect(Note.fold($("C A"), ["D4", "G4"])).toEqual($("C4 A4"));
+      // with notes: the notes move together, the pitch classes on their own
+      expect(Note.fold($("C2 E2 G"), ["E2", "G3"])).toEqual($("C3 E3 G2"));
+      expect(Note.fold($("C2 E2 G"), ["E2", "G3"], { each: true })).toEqual(
+        $("C3 E2 G2"),
+      );
+    });
+
     test("invalid", () => {
       expect(Note.fold([], ["C3", "C4"])).toEqual([]);
-      expect(Note.fold(["C"], ["C3", "C4"])).toEqual([]);
+      expect(Note.fold(["x"], ["C3", "C4"])).toEqual([]);
       expect(Note.fold(["C4", "x"], ["C3", "C4"])).toEqual([]);
       expect(Note.fold(["C4"], ["C4", "C3"])).toEqual([]);
       expect(Note.fold(["C4"], ["C", "C4"])).toEqual([]);
