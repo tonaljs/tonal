@@ -100,7 +100,8 @@
     "page": "time/note-patterns.md",
     "readme": "pattern",
     "title": "Note Patterns",
-    "description": "Arpeggio orders and melodic sequences as lists of indexes"
+    "description": "Arpeggio orders and melodic sequences as lists of indexes",
+    "apps": ["note-patterns"]
   },
   {
     "page": "time/patterns.md",

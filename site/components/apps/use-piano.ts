@@ -47,10 +47,13 @@ export function usePiano() {
     current.current = null;
     setPlaying(null);
   }, []);
+  // leaving the page: the notes are scheduled ahead on a piano shared by every
+  // page, so stop them too, or they keep sounding after a link is followed
   useEffect(
     () => () => {
       run.current++;
       clearTimeout(timer.current);
+      void stopAll();
     },
     [],
   );
