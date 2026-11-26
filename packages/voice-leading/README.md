@@ -101,7 +101,7 @@ Options:
 
 - `metric`: as in `distance`.
 - `previous`: the voicing before the first chord.
-- `maxLeap`: the largest move of a voice, in semitones. A candidate that needs a larger move is skipped, unless every candidate of its chord does.
+- `maxLeap`: the largest move of a voice, in semitones. A candidate that needs a larger move from every voicing the path can be at in the chord before is skipped, unless every candidate of its chord does (then none is skipped). A skipped candidate doesn't lead the next chord.
 - `costs`: the cost of each candidate itself, added to the voice-leading cost (same shape as the candidates).
 
 Any list of candidates works, so `path` can lead your own voicing tables, or voicings for other instruments, as well as the ones from `Voicing`.
