@@ -19,6 +19,7 @@
   "dependencies": {
     "@tonaljs/abc-notation": "4.9.7",
     "@tonaljs/array": "4.8.9",
+    "@tonaljs/chart": "0.0.0",
     "@tonaljs/chord-type": "5.4.2",
     "@tonaljs/chord": "6.6.0",
     "@tonaljs/collection": "4.9.3",

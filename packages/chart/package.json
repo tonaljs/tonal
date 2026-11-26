@@ -1,0 +1,31 @@
+{
+  "name": "@tonaljs/chart",
+  "version": "0.0.0",
+  "description": "Chord charts: bars, sections and meters, the played form, and the chord at a position",
+  "keywords": [
+    "chart",
+    "lead sheet",
+    "chords",
+    "form",
+    "music",
+    "theory"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "@tonaljs/chord": "6.6.0",
+    "@tonaljs/time": "0.0.0"
+  },
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown"
+  }
+}

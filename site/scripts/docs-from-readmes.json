@@ -59,6 +59,12 @@
     "apps": ["scale-chords", "scale-families", "scale-harmonizer"]
   },
   {
+    "page": "harmony/charts.md",
+    "readme": "chart",
+    "title": "Chord charts",
+    "description": "Bars, sections and meters, the played form, and the chord at a position"
+  },
+  {
     "page": "harmony/keys.md",
     "readme": "key",
     "apps": ["key-explorer"],

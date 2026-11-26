@@ -1,0 +1,155 @@
+# @tonaljs/chart ![tonal](https://img.shields.io/badge/@tonaljs-chart-yellow.svg?style=flat-square) [![npm version](https://img.shields.io/npm/v/@tonaljs/chart.svg?style=flat-square)](https://www.npmjs.com/package/@tonaljs/chart)
+
+> Chord charts: bars, sections and meters, the played form, and the chord at a position
+
+A chord chart is what a lead sheet or a fake book shows: bars of chord symbols, with sections and meters. `Chart` reads one from text, gives the bars in the order they're played, and answers which chord plays at a position. Positions and durations are exact [time values](/packages/time): quarter notes, as `[numerator, denominator]` fractions.
+
+```js
+import { Chart } from "tonal";
+
+const chart = Chart.parse("[A] | Dm7 G7 | Cmaj7 |\n[B] | Fmaj7 | 3/4 E7 |");
+const chords = Chart.chords(chart);
+Chart.chordAt(chords, 3)?.symbol; // => "G7"
+```
+
+It describes where chords are, never when they play: there are no seconds and no tempo.
+
+## Usage
+
+ES6:
+
+```js
+import { Chart } from "tonal";
+```
+
+node:
+
+```js
+const { Chart } = require("tonal");
+```
+
+single module:
+
+```js
+import { parse, chords } from "@tonaljs/chart";
+```
+
+## The written chart
+
+### `Chart.parse`
+
+`parse(text: string, options?: { meter?: string }) => Chart`
+
+Read a chart from text: bars between `|`, chords separated by spaces.
+
+```js
+Chart.parse("| Dm7 G7 | Cmaj7 |").bars;
+// => [
+//   { meter: "4/4", chords: [{ symbol: "Dm7", at: [0, 1] }, { symbol: "G7", at: [2, 1] }] },
+//   { meter: "4/4", chords: [{ symbol: "Cmaj7", at: [0, 1] }] },
+// ]
+```
+
+Each bar has its `meter` and its `chords`, each chord its `symbol` as written and where it starts in the bar (`at`, in quarter notes). The first bar of a section has its `section` name.
+
+The syntax:
+
+| Write | Means |
+|---|---|
+| `\|` | a bar line; a new line ends a bar too, and `\|\|` is a bar line |
+| `Cmaj7`, `Cm7 b9` | a chord: a word starting with a note letter, with the words after it that aren't chords (its qualifiers) |
+| `N.C.` | no chord: a rest |
+| `%` | the chords of the bar before |
+| `\| \|` | an empty bar: the chord before goes on |
+| `[A]`, `[Verse 1]` | a section starts on this bar (alone between bar lines, `\| [A] \| C \|`, on the next bar) |
+| `3/4`, `2+2+3/8` | the meter changes from this bar on (4/4 by default, or `options.meter`) |
+| `A7@4`, `A7@2+1/2` | a chord on beat 4, or half a beat after beat 2 |
+
+A beat is the meter's lower note, as in [`Time.fromBarBeat`](/packages/time): in 6/8, `G7@4` is on the second dotted quarter.
+
+### Where chords start in a bar
+
+Chords without `@` are placed by the meter's pulses (the groups it's felt in, from [`Time.meter`](/packages/time)), the way a musician reads a chart: with n chords in p pulses, each chord gets `floor(p / n)` pulses and the first `p mod n` chords one more. More chords than pulses split the bar equally.
+
+| Bar | Chords start at (quarters) |
+|---|---|
+| `\| C F \|` | 0, 2 |
+| `\| C F G \|` | 0, 2, 3 (2 + 1 + 1 beats) |
+| `3/4 \| C F \|` | 0, 2 |
+| `6/8 \| C F \|` | 0, 3/2 (two dotted quarters) |
+| `\| Em7 A7@4 \|` | 0, 3 |
+
+In a bar where some chords have `@`, a chord without it starts on beat 1 if it's first, or on the next pulse after the chord before.
+
+### `Chart.problems`
+
+`problems(chart: Chart) => string[]`
+
+What the parser couldn't read, by bar: words, chord symbols, meters and positions. Those are left out; an empty list means the chart is fine.
+
+```js
+Chart.problems(Chart.parse("| Cmaj7 | Xyz |")); // => ['bar 2: unknown word "Xyz"']
+```
+
+## The played form
+
+### `Chart.unroll`
+
+`unroll(chart: Chart, options?: { choruses?: number }) => PlayedBar[]`
+
+The bars in the order they're played, each with its index in the chart (`bar`), its `index` in the played form, where it starts (`start`, quarter notes from the start), its `length`, its `meter`, its `section`, its place in the section (`sectionBar` from 0, and `sectionLength`), its `chorus` and its `pass`. `choruses` plays the form more than once.
+
+```js
+const chart = Chart.parse("[A] | Dm7 G7 | Cmaj7 |\n[B] | Fmaj7 | 3/4 E7 |");
+Chart.unroll(chart).map((b) => [b.section, b.sectionBar, b.sectionLength, b.start, b.meter]);
+// => [["A", 0, 2, [0, 1], "4/4"], ["A", 1, 2, [4, 1], "4/4"], ["B", 0, 2, [8, 1], "4/4"], ["B", 1, 2, [12, 1], "3/4"]]
+```
+
+A run of a section starts at a bar that starts a section (`[A]`), or at a new chorus, so the places count within it: an AABA form written as `[A] ... [A] ... [B] ... [A] ...` is four runs. Fills and endings in an app usually go on the last bar of a run.
+
+### `Chart.chords`
+
+`chords(chart: Chart, options?: { choruses?: number }) => PlayedChord[]`
+
+The chords as they're played: each with its `symbol`, its `start` and `duration` in quarter notes from the start of the played form, and its `bar` in the played form. A chord lasts until the next one, or the end of the form. A chord written again is played again (a new entry), and an empty bar continues the chord before.
+
+```js
+Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |")).map((c) => [c.symbol, c.start, c.duration]);
+// => [["Dm7", [0, 1], [2, 1]], ["G7", [2, 1], [2, 1]], ["Cmaj7", [4, 1], [4, 1]]]
+```
+
+### `Chart.chordAt`
+
+`chordAt(chords: PlayedChord[], position: TimeValue) => PlayedChord | null`
+
+The chord playing at a position, from the list `Chart.chords` gives. The position is a time value: a fraction, an exact number or a string. A chord plays from its start until the next one starts; before the first chord or after the end, it's `null`.
+
+```js
+const chords = Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |"));
+Chart.chordAt(chords, 3)?.symbol; // => "G7"
+Chart.chordAt(chords, [8, 1]); // => null
+```
+
+### `Chart.position`
+
+`position(played: PlayedBar[], text: string) => [number, number] | null`
+
+A bar and beat of the played form, in quarter notes: `"9:3"` is beat 3 of the 9th played bar, in that bar's meter.
+
+```js
+Chart.position(Chart.unroll(Chart.parse("| C | 3/4 G | F |")), "3:2"); // => [8, 1]
+```
+
+## A chart with a rhythm
+
+`Time.onsets` turns a [rhythm pattern](/packages/rhythm-pattern) into positions, so a chart can be accompanied with a rhythm: the onsets in each played bar, and the chord at each one.
+
+```js
+const chart = Chart.parse("| Dm7 | G7 | Cmaj7 | % |");
+const chords = Chart.chords(chart);
+const tresillo = Time.onsets(RhythmPattern.euclid(8, 3), [1, 2]); // [[0, 1], [3, 2], [3, 1]]
+Chart.unroll(chart)
+  .flatMap((bar) => tresillo.map((at) => Time.add(bar.start, at)))
+  .map((position) => Chart.chordAt(chords, position)?.symbol);
+// => ["Dm7", "Dm7", "Dm7", "G7", "G7", "G7", "Cmaj7", "Cmaj7", "Cmaj7", "Cmaj7", "Cmaj7", "Cmaj7"]
+```
