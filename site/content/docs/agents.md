@@ -275,6 +275,22 @@ is nothing in seconds, no tempo-based timing, no scheduling and no audio.
 `TimeSignature`, `DurationValue` and `RhythmPattern` cover meters, note values
 and rhythm patterns. Use an audio or scheduling library for playback.
 
+A rhythm pattern is an array of 0s and 1s, one per step, read as a loop.
+Build one from durations or onset positions (counted from 0), and read them
+back with the `to` functions. Don't use the deprecated `onsets`, whose numbers
+are the rests after each onset:
+
+```js
+RhythmPattern.fromDurations([3, 3, 2]); // => [1, 0, 0, 1, 0, 0, 1, 0]
+RhythmPattern.fromOnsets([0, 3, 6], 8); // => [1, 0, 0, 1, 0, 0, 1, 0]
+RhythmPattern.toDurations([1, 0, 0, 1, 0, 0, 1, 0]); // => [3, 3, 2]
+```
+
+The measures (`evenness`, `oddity`, `offbeatness`, `distance`) return `null`
+when they can't be computed, and the tests (`isMaximallyEven`, `isDeep`,
+`hasOddity`) return `false`. `euclid` takes the steps first:
+`euclid(8, 3)` is the tresillo, E(3, 8) in most other tools.
+
 ## Common mistakes
 
 - Using functions that don't exist or are deprecated: check the

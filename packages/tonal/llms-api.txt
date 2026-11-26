@@ -1270,15 +1270,73 @@ RhythmPattern.binary(...numbers: number[]): RhythmPattern
   RhythmPattern.binary(13) // => [1, 1, 0, 1]
   RhythmPattern.binary(12, 13) // => [1, 1, 0, 0, 1, 1, 0, 1]
 
+RhythmPattern.complement(pattern: number[]): RhythmPattern
+  Get the complement of a rhythm pattern: the rhythm of its rests (every 0 becomes 1 and every 1 becomes 0). It returns `[]` if the pattern isn't an array of 0s and 1s.
+  RhythmPattern.complement([1, 0, 0, 1, 0, 0, 1, 0]) // => [0, 1, 1, 0, 1, 1, 0, 1]
+
+RhythmPattern.distance(a: number[], b: number[], metric?: RhythmDistanceMetric): number | null
+  Get the distance between two rhythm patterns of the same length: - `"hamming"` (the default): the number of steps where they differ. - `"swap"`: the number of swaps of a step with the next one that turn one into the other, which is how far each onset moves (the first onset of one goes to the first of the other, and so on). Both need the same number of onsets.
+  RhythmPattern.distance(RhythmPattern.fromDurations([4, 2, 4, 2, 4]), RhythmPattern.fromDurations([3, 3, 4, 4, 2]), "swap") // => 3
+  RhythmPattern.distance([1, 0, 1, 0], [1, 1, 0, 0]) // => 2
+
 RhythmPattern.euclid(steps: number, beats: number): RhythmPattern
-  Create a Euclidean rhythm pattern: the given number of beats spread as evenly as possible over the steps.
+  Create a Euclidean rhythm pattern: the given number of beats spread as evenly as possible over the steps (a maximally even pattern). Note the order: steps first, then beats, the opposite of Toussaint's E(beats, steps) and of many live-coding tools. The result can be a rotation of the pattern those give: the onsets are the same distances apart.
   RhythmPattern.euclid(8, 3) // => [1, 0, 0, 1, 0, 0, 1, 0]
+
+RhythmPattern.evenness(pattern: number[]): number | null
+  Get how evenly the onsets of a rhythm pattern are spread over the loop, at most 1: the sum of the straight-line distances between every pair of onsets, with the steps drawn on a circle, divided by the same sum for a maximally even pattern with as many onsets. It's 1 for a maximally even pattern (and for one with fewer than two onsets), and lower the more the onsets bunch together. It returns `null` if the pattern is empty or isn't an array of 0s and 1s.
+  RhythmPattern.evenness(RhythmPattern.fromDurations([3, 3, 4, 3, 3])) // => 1
+  RhythmPattern.evenness(RhythmPattern.fromDurations([3, 3, 4, 2, 4])) // => 0.9972137053736072
+
+RhythmPattern.fromDurations(durations: number[]): RhythmPattern
+  Create a rhythm pattern from durations: each duration is an onset (a 1) followed by rests, so a duration of n takes n steps. A duration of 0 adds nothing. It returns `[]` if a duration is negative or not an integer.
+  RhythmPattern.fromDurations([3, 3, 2]) // => [1, 0, 0, 1, 0, 0, 1, 0]
+  RhythmPattern.fromDurations([1, 2, 2, 1]) // => [1, 1, 0, 1, 0, 1]
+
+RhythmPattern.fromOnsets(positions: number[], length?: number): RhythmPattern
+  Create a rhythm pattern from the positions of its onsets, counted from 0. The length defaults to the last position + 1; positions at or past the length are left out. It returns `[]` if a position or the length is negative or not an integer.
+  RhythmPattern.fromOnsets([0, 3, 6], 8) // => [1, 0, 0, 1, 0, 0, 1, 0]
+  RhythmPattern.fromOnsets([0, 2, 5, 8]) // => [1, 0, 1, 0, 0, 1, 0, 0, 1]
+
+RhythmPattern.hasOddity(pattern: number[]): boolean
+  Test whether a rhythm pattern has rhythmic oddity: no two of its onsets are opposite each other on the loop, so none splits it into two equal halves. A pattern with an odd number of steps always has it. It returns `false` if the pattern is empty or isn't an array of 0s and 1s.
+  RhythmPattern.hasOddity(RhythmPattern.fromDurations([3, 3, 4, 2, 4])) // => true
+  RhythmPattern.hasOddity(RhythmPattern.fromDurations([4, 2, 4, 2, 4])) // => false
 
 RhythmPattern.hex(hexNumber: string): RhythmPattern
   Create a rhythm pattern from a hexadecimal string: each digit gives four steps (non-hex digits give four 0s).
   RhythmPattern.hex("8f"); // => [1, 0, 0, 0, 1, 1, 1, 1]
 
+RhythmPattern.intervalVector(pattern: number[]): number[]
+  Get the interval vector of a rhythm pattern: how many pairs of onsets are at each distance, from 1 to half the length. The distance between two onsets is the shortest way round the loop (in a cycle of 16 steps, the onsets at 0 and 10 are 6 steps apart). It returns `[]` if the pattern isn't an array of 0s and 1s.
+  RhythmPattern.intervalVector(RhythmPattern.fromDurations([3, 3, 4, 2, 4])) // => [0, 1, 2, 2, 0, 3, 2, 0]
+
+RhythmPattern.isDeep(pattern: number[]): boolean
+  Test whether a rhythm pattern is deep: each distance between two onsets (from `RhythmPattern.intervalVector`) occurs a different number of times. Distances that don't occur aren't counted. It returns `false` if the pattern has fewer than two onsets or isn't an array of 0s and 1s.
+  RhythmPattern.isDeep([1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1]) // => true
+  RhythmPattern.isDeep(RhythmPattern.fromDurations([3, 3, 4, 2, 4])) // => false
+
+RhythmPattern.isMaximallyEven(pattern: number[]): boolean
+  Test whether a rhythm pattern is maximally even: its onsets are spread over the loop as evenly as the steps allow. Every pair of onsets that are the same number of onsets apart is the same number of steps apart, or one step more. Patterns with fewer than two onsets are maximally even. `RhythmPattern.euclid` always gives one. It returns `false` if the pattern is empty or isn't an array of 0s and 1s.
+  RhythmPattern.isMaximallyEven([1, 0, 0, 1, 0, 0, 1, 0]) // => true
+  RhythmPattern.isMaximallyEven([1, 1, 0, 1, 0, 0, 0, 0]) // => false
+
+RhythmPattern.necklace(pattern: number[]): RhythmPattern
+  Get the necklace of a rhythm pattern: the rotation that is the largest when read as a binary number, so it starts with an onset. All the rotations of a pattern have the same necklace, so two rhythms are rotations of each other when their necklaces are equal. It returns `[]` if the pattern isn't an array of 0s and 1s.
+  RhythmPattern.necklace([0, 1, 0, 0, 1, 0, 0, 1]) // => [1, 0, 1, 0, 0, 1, 0, 0]
+
+RhythmPattern.oddity(pattern: number[]): number | null
+  Get how far a rhythm pattern is from losing its rhythmic oddity: for each onset, the number of steps to the nearest step opposite an onset, added up. Higher is odder; a pattern with two opposite onsets can still score above 0. It returns `null` if the length is odd (no step is opposite another), or if the pattern is empty or isn't an array of 0s and 1s.
+  RhythmPattern.oddity(RhythmPattern.fromDurations([3, 3, 4, 2, 4])) // => 7
+  RhythmPattern.oddity(RhythmPattern.fromDurations([3, 3, 4, 4, 2])) // => 4
+
+RhythmPattern.offbeatness(pattern: number[]): number | null
+  Get the off-beatness of a rhythm pattern: the number of onsets on steps that no regular subdivision of the loop reaches, other than every step (the steps that share no divisor with the length: the odd steps of a loop of 16, steps 1, 5, 7 and 11 of a loop of 12). It returns `null` if the pattern is empty or isn't an array of 0s and 1s.
+  RhythmPattern.offbeatness(RhythmPattern.fromDurations([3, 3, 4, 2, 4])) // => 1
+  RhythmPattern.offbeatness([1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1]) // => 3
+
 RhythmPattern.onsets(...numbers: number[]): RhythmPattern
+  [deprecated] The numbers are gaps, not onsets: use `RhythmPattern.fromDurations` with each number + 1 (`onsets(1, 2)` is `fromDurations([2, 3])`). Removed in tonal 7.
   Create a rhythm pattern from the gaps between onsets: each number is how many 0s follow a 1.
   RhythmPattern.onsets(1, 2, 2, 1) // => [1, 0, 1, 0, 0, 1, 0, 0, 1, 0]
 
@@ -1295,7 +1353,19 @@ RhythmPattern.rotate(pattern: RhythmPattern, rotations: number): RhythmPattern
   RhythmPattern.rotate([1, 0, 0, 1], 2) // => [0, 1, 1, 0]
   RhythmPattern.rotate([1, 0, 0, 1], -1) // => [0, 0, 1, 1]
 
+RhythmPattern.toDurations(pattern: number[]): number[]
+  Get the durations of a rhythm pattern: the number of steps from each onset to the next. The pattern is a loop, so the last onset lasts until the first one comes round again (rests before the first onset count there). It returns `[]` if the pattern has no onsets or isn't an array of 0s and 1s.
+  RhythmPattern.toDurations([1, 0, 0, 1, 0, 0, 1, 0]) // => [3, 3, 2]
+  RhythmPattern.toDurations([0, 1, 0, 1]) // => [2, 2]
+
+RhythmPattern.toOnsets(pattern: number[]): number[]
+  Get the positions of the onsets of a rhythm pattern, counted from 0. It returns `[]` if the pattern isn't an array of 0s and 1s.
+  RhythmPattern.toOnsets([1, 0, 0, 1, 0, 0, 1, 0]) // => [0, 3, 6]
+
 Types:
+
+type RhythmDistanceMetric = 'hamming' | 'swap'
+  How `RhythmPattern.distance` compares two patterns.
 
 type RhythmPatternValue = 0 | 1
 
