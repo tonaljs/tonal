@@ -210,7 +210,7 @@ function getQuality(intervals: string[]): ChordQuality {
  * ChordType.family(["1P", "4P", "5P", "7m"]); // => "suspended"
  */
 export function family(intervals: string[]): ChordFamily {
-  if (!intervals.length) return "";
+  if (!Array.isArray(intervals) || !intervals.length) return "";
   const find = (...nums: number[]) =>
     intervals.find((ivl) => nums.includes(parseInt(ivl, 10)));
   const third = find(3, 10)?.slice(-1);
@@ -258,6 +258,7 @@ export function family(intervals: string[]): ChordFamily {
  * ChordType.get("7b9#11").complexity; // => 7
  */
 export function complexity(intervals: string[]): number {
+  if (!Array.isArray(intervals)) return 0;
   const ivls = intervals.map((name) => interval(name)).filter((i) => !i.empty);
   const added = Math.max(0, new Set(ivls.map((i) => i.chroma)).size - 3);
   const fifths = [...new Set(ivls.map((i) => i.coord[0]))];

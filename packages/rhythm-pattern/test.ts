@@ -139,6 +139,8 @@ describe("onsets and durations (#483)", () => {
     expect(R.fromOnsets(3 as unknown as number[])).toEqual([]);
     expect(R.toOnsets([1, 2])).toEqual([]);
     expect(R.toDurations([1, 2])).toEqual([]);
+    expect(R.toDurations(undefined as unknown as number[])).toEqual([]);
+    expect(R.toDurations(null as unknown as number[])).toEqual([]);
   });
 });
 

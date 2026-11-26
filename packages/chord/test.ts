@@ -987,3 +987,17 @@ describe("tonal-chord", () => {
   });
   */
 });
+
+describe("non-string input", () => {
+  test("gives empty values, not exceptions", () => {
+    for (const x of [undefined, null, 5, {}] as unknown as string[]) {
+      expect(Chord.get(x).empty).toBe(true);
+      expect(Chord.getChord(x).empty).toBe(true);
+      expect(Chord.tokenize(x)).toEqual(["", "", ""]);
+      expect(Chord.notes(x)).toEqual([]);
+      expect([1, 2].map(Chord.degrees(x))).toEqual(["", ""]);
+      expect(Chord.chordScales(x)).toEqual([]);
+      expect(Chord.noteOf(x, "3")).toEqual("");
+    }
+  });
+});

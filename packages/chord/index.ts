@@ -98,6 +98,7 @@ const isNoChord = (name: string) => /^N\.?C\.?$/i.test(name);
  * Chord.tokenize("Cnonsense"); // => ["C", "nonsense", ""]
  */
 export function tokenize(name: string): ChordNameTokens {
+  if (typeof name !== "string") return ["", "", ""];
   const [letter, acc, oct, type] = tokenizeNote(name);
   if (letter === "") {
     return tokenizeBass("", name);
@@ -147,7 +148,7 @@ function tokenizeBass(note: string, chord: string): ChordNameTokens {
 export function get(src: ChordNameOrTokens): Chord {
   if (Array.isArray(src)) {
     return getChord(src[1] || "", src[0], src[2]);
-  } else if (src === "") {
+  } else if (typeof src !== "string" || src === "") {
     return NoChord;
   } else {
     const [tonic, type, bass] = tokenize(src);
@@ -177,6 +178,7 @@ export function getChord(
   optionalTonic?: string,
   optionalBass?: string,
 ): Chord {
+  if (typeof typeName !== "string") return NoChord;
   if (!optionalTonic && !optionalBass && isNoChord(typeName)) {
     return NoChordSymbol;
   }

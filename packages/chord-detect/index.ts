@@ -97,6 +97,7 @@ export function detect(
   source: string[],
   options: Partial<DetectOptions> = {},
 ): string[] {
+  if (!Array.isArray(source)) return [];
   const valid = source.map((n) => note(n)).filter((n) => !n.empty);
   if (valid.length === 0) {
     return [];

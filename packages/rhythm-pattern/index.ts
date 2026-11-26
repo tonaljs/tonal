@@ -163,6 +163,7 @@ export function toOnsets(pattern: number[]): number[] {
  */
 export function toDurations(pattern: number[]): number[] {
   const positions = toOnsets(pattern);
+  if (positions.length === 0) return [];
   const n = pattern.length;
   return positions.map(
     (p, i) =>
