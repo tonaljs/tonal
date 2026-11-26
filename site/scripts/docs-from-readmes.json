@@ -100,7 +100,8 @@
     "page": "time/patterns.md",
     "readme": "rhythm-pattern",
     "title": "Rhythm Patterns",
-    "description": "Generate and manipulate rhythmic patterns"
+    "description": "Generate, read and measure rhythm patterns",
+    "apps": ["rhythm-patterns"]
   },
   {
     "page": "time/signatures.md",
