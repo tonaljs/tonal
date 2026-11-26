@@ -21,7 +21,7 @@ import { Chord, Interval, Key, Note, Scale } from "tonal";
 ```
 
 `tonal` exports one namespace per module (`Note`, `Interval`, `Chord`,
-`ChordType`, `Scale`, `ScaleType`, `Key`, `Mode`, `Midi`, `Pcset`,
+`ChordType`, `Scale`, `ScaleType`, `Key`, `Mode`, `Chart`, `Midi`, `Pcset`,
 `Progression`, `RomanNumeral`, `Range`, `Collection`, `Voicing`,
 `VoiceLeading`, `Time`, `TimeSignature`, `DurationValue`,
 `RhythmPattern`, `Pattern`, `AbcNotation`) and a few top-level functions (`note`,
@@ -190,6 +190,30 @@ Progression.toRomanNumerals("C", ["Dm7", "G7", "Cmaj7"]); // => ["IIm7", "V7", "
 Lowercase numerals are minor (`"ii7"` is the same as `"IIm7"`). Applied
 chords such as `"V7/V"` are supported. `RomanNumeral.get` parses one numeral
 into its parts.
+
+## Chord charts
+
+`Chart.parse` reads a chart from text: bars between `|`, chords separated by
+spaces, `%` repeats a bar, `[A]` starts a section, `3/4` changes the meter,
+`A7@4` places a chord on beat 4. Several chords in a bar without `@` are
+placed by the meter's pulses (`| C F G |` is 2+1+1 beats). Check
+`Chart.problems(chart)`: words it can't read are left out, not errors.
+
+`Chart.unroll` gives the bars as they're played (with `start`, `section`,
+`sectionBar`, `chorus`); `Chart.chords` the chords with `start` and
+`duration`; `Chart.chordAt(chords, position)` the chord at a position. Every
+position and duration is a `Time` value in quarter notes (`[n, d]`):
+
+```js
+const chart = Chart.parse("| Dm7 G7 | Cmaj7 |");
+const chords = Chart.chords(chart);
+chords.map((c) => [c.symbol, c.start, c.duration]);
+// => [["Dm7", [0, 1], [2, 1]], ["G7", [2, 1], [2, 1]], ["Cmaj7", [4, 1], [4, 1]]]
+Chart.chordAt(chords, 3)?.symbol; // => "G7"
+```
+
+To accompany a chart with a rhythm, add `Time.onsets(pattern, step)` to each
+played bar's `start` and ask `Chart.chordAt` for each position.
 
 ## Voicings
 

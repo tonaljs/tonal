@@ -154,8 +154,9 @@ Using a coding agent? Point it to [llms.txt](https://tonaljs.github.io/tonal/llm
 - [@tonaljs/voice-leading](/packages/voice-leading/): Voice-leading distance and the smoothest path between voicings
 - [@tonaljs/voicing-dictionary](/packages/voicing-dictionary/): Collections of chord voicings (deprecated: use `Voicing`)
 
-#### Keys, chord progressions
+#### Keys, chord progressions, charts
 
+- [@tonaljs/chart](/packages/chart): Chord charts: bars, sections and meters, the played form, and the chord at a position
 - [@tonaljs/key](/packages/key): Major and minor keys, their scales and chords
 - [@tonaljs/mode](/packages/mode): A dictionary of Greek modes (ionian,
   dorian...)

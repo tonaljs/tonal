@@ -1,5 +1,6 @@
 import * as AbcNotation from "@tonaljs/abc-notation";
 import * as Array from "@tonaljs/array";
+import * as Chart from "@tonaljs/chart";
 import * as Chord from "@tonaljs/chord";
 import * as ChordType from "@tonaljs/chord-type";
 import * as Collection from "@tonaljs/collection";
@@ -39,6 +40,7 @@ const ScaleDictionary = ScaleType;
 export {
   AbcNotation,
   Array,
+  Chart,
   Chord,
   ChordDictionary,
   ChordType,

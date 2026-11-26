@@ -260,6 +260,88 @@ Array.sortedUniqNoteNames(arr: string[]): string[]
   Same as sortedNoteNames, but with repeated names removed.
   Array.sortedUniqNoteNames(["a", "b", "c2", "1p", "p2", "c2", "b", "c", "c3"])
 
+## Chart
+
+import { Chart } from "tonal"; // or: import * as Chart from "@tonaljs/chart";
+
+Chart.chordAt(chords: PlayedChord[], position: TimeValue): PlayedChord | null
+  Get the chord playing at a position (in quarter notes from the start of the played form, as a fraction, an exact number or a string), from the list `Chart.chords` gives. A chord plays from its start until the next one starts. It returns `null` before the first chord, after the end, or if the position isn't valid.
+  const chords = Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |"));
+  Chart.chordAt(chords, 3)?.symbol // => "G7"
+  Chart.chordAt(chords, [8, 1]) // => null
+
+Chart.chords(chart: Chart, options?: UnrollOptions): PlayedChord[]
+  Get the chords of a chart as they're played: each with its symbol, where it starts and how long it lasts (in quarter notes from the start of the played form), and its bar in the played form. A chord lasts until the next chord, or the end of the form: a bar with no chords continues the chord before, and a chord written again is played again (a new entry). `N.C.` is a chord too, a rest.
+  Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |")).map((c) => [c.symbol, c.start, c.duration])
+
+Chart.parse(text: string, options?: ParseOptions): Chart
+  Read a chart from text: bars between `|` (a new line ends a bar too), chords separated by spaces.
+  Chart.parse("| Dm7 G7 | Cmaj7 |").bars
+  Chart.parse("| C F G |").bars[0].chords.map((c) => c.at) // => [[0, 1], [2, 1], [3, 1]]
+
+Chart.position(played: PlayedBar[], text: string): Fraction | null
+  Get the position of a bar and beat of the played form, in quarter notes from its start: `"9:3"` is beat 3 of the 9th played bar, in that bar's meter (a beat is the meter's lower note, as in `Time.fromBarBeat`). It returns `null` if the bar or the beat isn't in the form.
+  const played = Chart.unroll(Chart.parse("| C | 3/4 G | F |"));
+  Chart.position(played, "3:2") // => [8, 1]
+
+Chart.problems(chart: Chart): string[]
+  Get what can't be played in a chart: the words, chords and positions that `Chart.parse` couldn't read, by bar. An empty list means the chart is fine.
+  Chart.problems(Chart.parse("| Cmaj7 | Xyz |")) // => ['bar 2: unknown word "Xyz"']
+
+Chart.unroll(chart: Chart, options?: UnrollOptions): PlayedBar[]
+  Get the played form of a chart: every bar in the order it's played, with where it starts (in quarter notes), its length, its section, its place in the section and its chorus. `choruses` plays the form more than once.
+  Chart.unroll(Chart.parse("[A] | C | G | [B] | F |")).map((b) => `${b.section}${b.sectionBar}`)
+
+Types:
+
+type Chart = {
+  empty: boolean;
+  bars: ChartBar[];
+  problems: string[];
+}
+
+type ChartBar = {
+  meter: string;
+  chords: ChartChord[];
+  section?: string | undefined;
+}
+
+type ChartChord = {
+  symbol: string;
+  at: Fraction;
+}
+
+type ParseOptions = {
+  meter?: string | undefined;
+}
+
+type PlayedBar = {
+  bar: number;
+  index: number;
+  start: Fraction;
+  length: Fraction;
+  meter: string;
+  section: string;
+  sectionBar: number;
+  sectionLength: number;
+  chorus: number;
+  pass: number;
+}
+
+type PlayedChord = {
+  symbol: string;
+  start: Fraction;
+  duration: Fraction;
+  bar: number;
+}
+
+type TimeValue = string | number | Fraction
+  A time value as input: a fraction (`[3, 2]`), an exact number (`1.5`) or a string (`"3/2"`, `"1.5"`). Numbers must be multiples of 1/1024, so `0.1` and `1 / 3` aren't accepted: write `[1, 3]` or `"1/3"`.
+
+type UnrollOptions = {
+  choruses?: number | undefined;
+}
+
 ## Chord
 
 import { Chord } from "tonal"; // or: import * as Chord from "@tonaljs/chord";
