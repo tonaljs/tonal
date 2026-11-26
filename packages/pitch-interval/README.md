@@ -59,3 +59,7 @@ A unison, fourth, fifth or octave can't be major or minor, and a second, third, 
 interval("5m").empty; // => true
 interval("2P").empty; // => true
 ```
+
+## Types
+
+`IntervalName` accepts any string, and lists the common names so editors can suggest them: every interval up to 15, up or down, in both orders, such as `3M`, `-5P`, `M3` or `P-5` (`KnownIntervalName`).

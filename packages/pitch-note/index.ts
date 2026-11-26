@@ -10,9 +10,22 @@ import {
 
 const fillStr = (s: string, n: number) => Array(Math.abs(n) + 1).join(s);
 
-export type NoteWithOctave = string;
-export type PcName = string;
-export type NoteName = NoteWithOctave | PcName;
+type Letter = "C" | "D" | "E" | "F" | "G" | "A" | "B";
+type Accidentals = "#" | "b" | "##" | "bb";
+type Octave = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+
+/** The 35 common pitch class names: "C" to "B" with nothing, "#", "b", "##" or "bb" */
+export type KnownPcName = Letter | `${Letter}${Accidentals}`;
+/** The common pitch class names at octaves 0 to 8 ("C4", "F#2", "Bb0"...) */
+export type KnownNoteWithOctave = `${KnownPcName}${Octave}`;
+export type KnownNoteName = KnownNoteWithOctave | KnownPcName;
+
+// Any string is still a valid name, since tonal parses more than the known
+// names ("c#4", "Cx4", "C-1", "Cbbb"). The known names are there for editors to
+// suggest: `string & {}` keeps them, where a plain `string` would swallow them.
+export type NoteWithOctave = KnownNoteWithOctave | (string & {});
+export type PcName = KnownPcName | (string & {});
+export type NoteName = KnownNoteName | (string & {});
 export type NoteLiteral = NoteName | Pitch | NamedPitch;
 
 export interface Note extends Pitch, NamedPitch {
