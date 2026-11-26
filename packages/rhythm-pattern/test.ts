@@ -46,6 +46,12 @@ describe("rhythm-pattern", () => {
     expect(R.rotate([1, 0, 0, 1], 4)).toEqual([1, 0, 0, 1]);
     expect(R.rotate([1, 0, 0, 1], -1)).toEqual([0, 0, 1, 1]);
     expect(R.rotate([1, 0, 0, 1], -2)).toEqual([0, 1, 1, 0]);
+    // any number[] of 0s and 1s, not only the RhythmPattern type
+    const mapped: number[] = [1, 0, 0, 1].map((x) => x);
+    expect(R.rotate(mapped, 1)).toEqual([1, 1, 0, 0]);
+    // any numbers: probabilities or accents too
+    expect(R.rotate([0.6, 0, 0.2], 1)).toEqual([0.2, 0.6, 0]);
+    expect(R.rotate(null as unknown as number[], 1)).toEqual([]);
   });
 
   it("generates euclidian patterns", () => {
