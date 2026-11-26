@@ -107,5 +107,16 @@
         "url": "/docs/voicings/leading"
       }
     ]
+  },
+  {
+    "slug": "rhythm-patterns",
+    "title": "Rhythm patterns",
+    "description": "Draw a rhythm on a circle, or pick a clave or a Euclidean rhythm, and see why some rhythms recur around the world: evenness, rhythmic oddity, deepness, off-beatness and distances, from Toussaint's The Geometry of Musical Rhythm. Play it with drums.",
+    "docs": [
+      {
+        "title": "Rhythm patterns",
+        "url": "/docs/time/patterns"
+      }
+    ]
   }
 ]

@@ -8,9 +8,12 @@ const SOURCE =
 /** The frame of an app page: title, description, and links to its docs. */
 export function AppPage({
   slug,
+  samples = "Piano",
   children,
 }: {
   slug: string;
+  /** The samples the app plays, for the credit */
+  samples?: string;
   children: ReactNode;
 }) {
   const app = getApp(slug);
@@ -48,7 +51,7 @@ export function AppPage({
           Source of this app
         </a>
         <span>
-          Piano samples played with{" "}
+          {samples} samples played with{" "}
           <a
             href="https://github.com/danigb/smplr"
             className="underline hover:text-fd-foreground"
