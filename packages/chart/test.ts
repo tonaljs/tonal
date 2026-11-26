@@ -227,6 +227,120 @@ describe("@tonaljs/chart", () => {
     });
   });
 
+  describe("repeats and endings", () => {
+    // the played bars, as their chords with the pass (p2) and ending (e2)
+    const order = (text: string, options?: Chart.UnrollOptions) => {
+      const chart = Chart.parse(text);
+      return Chart.unroll(chart, options)
+        .map(
+          (b) =>
+            chart.bars[b.bar].chords.map((c) => c.symbol).join("") +
+            (b.pass > 1 ? `p${b.pass}` : "") +
+            (b.ending ? `e${b.ending}` : ""),
+        )
+        .join(" ");
+    };
+
+    test("the written chart", () => {
+      const chart = Chart.parse("|: A |1 B :|2 C || D :|x3");
+      expect(chart.bars).toEqual([
+        {
+          meter: "4/4",
+          chords: [{ symbol: "A", at: [0, 1] }],
+          repeatStart: true,
+        },
+        {
+          meter: "4/4",
+          chords: [{ symbol: "B", at: [0, 1] }],
+          ending: [1],
+          repeatEnd: 2,
+        },
+        {
+          meter: "4/4",
+          chords: [{ symbol: "C", at: [0, 1] }],
+          ending: [2],
+          doubleBar: true,
+        },
+        { meter: "4/4", chords: [{ symbol: "D", at: [0, 1] }], repeatEnd: 3 },
+      ]);
+      // a meter after a bar line isn't an ending
+      expect(Chart.parse("|3/4 C |").bars[0].meter).toBe("3/4");
+      expect(Chart.parse("|1,2 C |").bars[0].ending).toEqual([1, 2]);
+      // across lines: ":|" at the start of a line closes the bar before
+      expect(Chart.parse("|: A |\n:|2 C |").bars[0].repeatEnd).toBe(2);
+    });
+
+    test("repeats", () => {
+      expect(order("|: A | B :|")).toBe("A B Ap2 Bp2");
+      expect(order("|: A | B :| C |")).toBe("A B Ap2 Bp2 C");
+      expect(order("|: A :|x3 B |")).toBe("A Ap2 Ap3 B");
+      // without a start: from the start, or after the repeat before
+      expect(order("| A :| B |")).toBe("A Ap2 B");
+      expect(order("|: A :| B :|")).toBe("A Ap2 B Bp2");
+      // two repeats in a row
+      expect(order("|: A :| |: B :|")).toBe("A Ap2 B Bp2");
+      expect(order("|: A :|: B :|")).toBe("A Ap2 B Bp2");
+    });
+
+    test("endings", () => {
+      expect(order("|: A |1 B :|2 C | D |")).toBe("A Be1 Ap2 Cp2e2 D");
+      // a double bar closes the last ending
+      expect(order("|: A |1 B :|2 C | D || E |")).toBe(
+        "A Be1 Ap2 Cp2e2 Dp2e2 E",
+      );
+      // an ending for several passes; as many passes as the highest ending
+      expect(order("|: A |1,2 B :|3 C |")).toBe("A Be1 Ap2 Bp2e2 Ap3 Cp3e3");
+      expect(order("|: A |1 B :|2 C :|3 D |")).toBe(
+        "A Be1 Ap2 Cp2e2 Ap3 Dp3e3",
+      );
+      // a first ending alone: the second pass skips it
+      expect(order("|: A |1 B :| C |")).toBe("A Be1 Ap2 C");
+    });
+
+    test("an AABA tune with first and second endings", () => {
+      const tune =
+        "[A] |: Cmaj7 | Am7 |1 Dm7 | G7 :|2 Dm7 G7 | Cmaj7 ||\n" +
+        "[B] | Em7 | A7 | Dm7 | G7 |\n[A] | Cmaj7 | Am7 | Dm7 G7 | Cmaj7 |";
+      expect(order(tune)).toBe(
+        "Cmaj7 Am7 Dm7e1 G7e1 Cmaj7p2 Am7p2 Dm7G7p2e2 Cmaj7p2e2 " +
+          "Em7 A7 Dm7 G7 Cmaj7 Am7 Dm7G7 Cmaj7",
+      );
+      const form = Chart.unroll(Chart.parse(tune));
+      // going back to the bar that starts [A] starts a new run, as if the two
+      // A sections were written out
+      expect(form.map((b) => `${b.section}${b.sectionBar}`).join(" ")).toBe(
+        "A0 A1 A2 A3 A0 A1 A2 A3 B0 B1 B2 B3 A0 A1 A2 A3",
+      );
+      expect(Chart.chords(Chart.parse(tune)).at(-1)?.start).toEqual([60, 1]);
+    });
+
+    test("with choruses", () => {
+      expect(order("|: A |1 B :|2 C |", { choruses: 2 })).toBe(
+        "A Be1 Ap2 Cp2e2 A Be1 Ap2 Cp2e2",
+      );
+    });
+
+    test("charts that can't be unrolled", () => {
+      const problems = (text: string) => Chart.problems(Chart.parse(text));
+      expect(problems("|: A |: B :|")).toEqual([
+        "bar 2: a repeat starts inside another repeat",
+      ]);
+      expect(problems("|: A | B |")).toEqual([
+        "bar 1: a repeat starts without a repeat end",
+      ]);
+      expect(problems("| A |1 B | C |")).toEqual([
+        "bar 2: ending 1 has no repeat end",
+      ]);
+      expect(problems("|: A |1 B |2 C :|")).toEqual([
+        "bar 2: ending 1 has no repeat end",
+      ]);
+      expect(problems("|0 A :|")).toEqual(['bar 1: invalid ending "0"']);
+      expect(Chart.unroll(Chart.parse("|: A |: B :|"))).toEqual([]);
+      expect(Chart.chords(Chart.parse("| A |1 B | C |"))).toEqual([]);
+      expect(Chart.unroll(Chart.parse("| A :|x200000"))).toEqual([]);
+    });
+  });
+
   describe("chords and chordAt", () => {
     test("chords last until the next one", () => {
       expect(played("| Dm7 G7 | Cmaj7 | | N.C. |")).toEqual([

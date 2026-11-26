@@ -28,6 +28,14 @@ export type ChartBar = {
   chords: ChartChord[];
   /** On the first bar of a section: its name */
   section?: string;
+  /** `|:` before the bar: a repeat starts */
+  repeatStart?: true;
+  /** `:|` after the bar: a repeat ends, with its number of passes (2) */
+  repeatEnd?: number;
+  /** `|1` or `|1,2` before the bar: an ending starts, for these passes */
+  ending?: number[];
+  /** `||` after the bar: a double bar (it closes an ending) */
+  doubleBar?: true;
 };
 
 /** A chart as written: bars of chords, with sections and meters. */
@@ -65,6 +73,8 @@ export type PlayedBar = {
   chorus: number;
   /** The pass through the repeat it's in, from 1 (1 outside repeats) */
   pass: number;
+  /** The ending it's in, if any: the pass it's played on */
+  ending?: number;
 };
 
 /** The options of `Chart.unroll` and `Chart.chords`. */
@@ -90,8 +100,34 @@ const EMPTY: Chart = { empty: true, bars: [], problems: [] };
 const CHORD = /^([A-G]|N\.?C\.?(@|$))/;
 const NO_CHORD = /^N\.?C\.?$/;
 const METER = /^\d+(\+\d+)*\/\d+$/;
-// a section label or a mark, which can have spaces: "[Verse 1]", "<To Coda>"
-const LABELS = /\[[^\]]*\]|<[^>]*>/g;
+// a section label or a mark, which can have spaces: "[Verse 1]", "<To Coda>",
+// and the bar line marks the parser writes for repeats and endings: "{rs}"
+const LABELS = /\[[^\]]*\]|<[^>]*>|\{[^}]*\}/g;
+// the marks that belong to the bar before them (a repeat end, a double bar)
+const CLOSING = /^\{(re|db)/;
+
+// Bar lines with repeats and endings, as marks next to plain bar lines:
+// ":|x3" is "{re:3} |", "|:" is "| {rs}", "|2" is "| {e:2}", "||" is "{db} |"
+function markBarLines(line: string): string {
+  return (
+    line
+      // ":| |:" is ":|:", and ":| |2" is ":|2": no empty bar between them
+      .replace(/:\|\s+\|/g, ":|")
+      .replace(
+        /(\|\|?)?:\|(\|)?(?:x(\d+))?(\d+(?:,\d+)*)?(:)?/g,
+        (_, before, double, times, endings, start) =>
+          `${before ? "|" : ""} {re${times ? `:${times}` : ""}}` +
+          `${double ? " {db}" : ""} |` +
+          `${endings ? ` {e:${endings}}` : ""}${start ? " {rs}" : ""} `,
+      )
+      .replace(
+        /(\|\|?):/g,
+        (_, bar) => `${bar === "||" ? " {db} " : ""}| {rs} `,
+      )
+      .replace(/\|(\d+(?:,\d+)*)(?![\d/+])/g, "| {e:$1} ")
+      .replace(/\|\|/g, " {db} |")
+  );
+}
 const POSITION = /^(.*)@(\d+(?:\+\d+\/\d+)?)$/;
 
 // A chord as written: its symbol and its position, if it has one
@@ -117,6 +153,9 @@ function splitPosition(word: string): [string, string | undefined] {
  *   on (`options.meter` at the start, 4/4 by default).
  * - `A7@4` places a chord on beat 4, and `A7@2+1/2` half a beat later. A
  *   beat is the meter's lower note, as in `Time.fromBarBeat`.
+ * - `|:` and `:|` start and end a repeat (`:|x3` plays it three times);
+ *   `|1` (or `|1,2`) starts an ending, and `:|2` ends a repeat and starts
+ *   ending 2. `||` is a double bar. See `Chart.unroll` for how they're played.
  *
  * Chords without a position are placed by the meter's pulses (the groups it's
  * felt in, from `Time.meter`): with n chords in p pulses, each chord gets
@@ -154,6 +193,12 @@ export function parse(text: string, options?: ParseOptions): Chart {
     let items: Item[] = [];
     for (const label of labels) {
       if (label.startsWith("[")) bar.section = label.slice(1, -1).trim();
+      else if (label === "{rs}") bar.repeatStart = true;
+      else if (label.startsWith("{e:")) {
+        const numbers = label.slice(3, -1).split(",").map(Number);
+        if (numbers.every((n) => n > 0)) bar.ending = numbers;
+        else problem(`invalid ending "${label.slice(3, -1)}"`);
+      } else if (CLOSING.test(label)) closeBar(bar, label);
       else problem(`unknown mark "${label}"`);
     }
     for (const word of words) {
@@ -185,27 +230,41 @@ export function parse(text: string, options?: ParseOptions): Chart {
     bars.push(bar);
   };
 
-  for (const line of text.replace(/\|\|/g, "|").split("\n")) {
-    const segments = line.split("|");
+  // a repeat end or a double bar, after a bar
+  const closeBar = (bar: ChartBar, label: string) => {
+    if (label === "{db}") bar.doubleBar = true;
+    else bar.repeatEnd = label === "{re}" ? 2 : +label.slice(4, -1);
+  };
+
+  for (const line of text.split("\n")) {
+    const segments = markBarLines(line).split("|");
     segments.forEach((segment, i) => {
       const labels = segment.match(LABELS) ?? [];
       const words = segment.replace(LABELS, " ").split(/\s+/).filter(Boolean);
       const outside = i === 0 || i === segments.length - 1;
       const hasChord = words.some((w) => CHORD.test(w) || w === "%");
       // text before the first bar line, or after the last one, is a bar only
-      // when it has chords; otherwise its labels go to the next bar. So does
-      // a bar with only section labels ("| [A] | C |")
-      const onlySections =
-        !words.length && labels.length && labels.every((l) => l[0] === "[");
-      if ((outside && !hasChord) || onlySections) {
-        pending = [...pending, ...labels, ...words];
+      // when it has chords; otherwise its labels go to the next bar. So do
+      // marks alone between bar lines ("| [A] | C |")
+      const onlyMarks = !words.length && labels.length > 0;
+      if ((outside && !hasChord) || onlyMarks) {
+        // a repeat end or a double bar closes the bar before
+        const last = bars[bars.length - 1];
+        for (const label of labels.filter((l) => CLOSING.test(l))) {
+          if (last) closeBar(last, label);
+        }
+        pending = [
+          ...pending,
+          ...labels.filter((l) => !CLOSING.test(l)),
+          ...words,
+        ];
         return;
       }
       const all = [...pending, ...labels, ...words];
       pending = [];
       readBar(
-        all.filter((w) => !/^[[<]/.test(w)),
-        all.filter((w) => /^[[<]/.test(w)),
+        all.filter((w) => !/^[[<{]/.test(w)),
+        all.filter((w) => /^[[<{]/.test(w)),
       );
     });
   }
@@ -274,8 +333,10 @@ function place(
 }
 
 /**
- * Get what can't be played in a chart: the words, chords and positions that
- * `Chart.parse` couldn't read, by bar. An empty list means the chart is fine.
+ * Get what can't be played in a chart, by bar: the words, chords and
+ * positions that `Chart.parse` couldn't read, and repeats and endings that
+ * don't close (a chart with those unrolls to `[]`). An empty list means the
+ * chart is fine.
  *
  * @param chart - a chart from `Chart.parse`
  * @returns the problems, like `bar 3: unknown chord "Xm7"`
@@ -284,7 +345,8 @@ function place(
  */
 export function problems(chart: Chart): string[] {
   if (!isChart(chart)) return [];
-  return Array.isArray(chart.problems) ? [...chart.problems] : [];
+  const parsed = Array.isArray(chart.problems) ? chart.problems : [];
+  return [...parsed, ...structure(chart).problems];
 }
 
 function isChart(value: unknown): value is Chart {
@@ -295,13 +357,159 @@ function isChart(value: unknown): value is Chart {
   );
 }
 
-// The bars to play, in order, with their chorus and pass
-type Step = { bar: number; chorus: number; pass: number };
+// An ending of a group: where it starts and its last bar
+type Ending = { bar: number; numbers: number[]; end: number; group: Ending[] };
+// A repeat end: where it goes back to, and how many passes it plays
+type Repeat = { start: number; passes: number };
+
+type Structure = {
+  repeats: Map<number, Repeat>; // by the bar of the repeat end
+  starts: Set<number>; // the bars repeats go back to
+  endings: Map<number, Ending>; // by the bar each ending starts on
+  inside: boolean[]; // the bars in a repeat or an ending
+  problems: string[];
+};
+
+// The repeats and endings of a chart
+function structure(chart: Chart): Structure {
+  const bars = chart.bars;
+  const problems: string[] = [];
+  const problem = (i: number, message: string) =>
+    problems.push(`bar ${i + 1}: ${message}`);
+  const repeats = new Map<number, Repeat>();
+  const endings = new Map<number, Ending>();
+  let open = -1; // the bar of an open |:
+  let afterEnd = 0; // the bar after the last :|
+  let group: Ending[] | null = null;
+  let groupStart = 0; // where the repeat of the group starts
+
+  // the last ending of a group without its own :| lasts until a double bar
+  // (closeGroup(i) on it), or one bar
+  const closeGroup = (end?: number) => {
+    const last = group?.[group.length - 1];
+    if (last && last.end < 0) last.end = end ?? last.bar;
+    if (group && !group.some((e) => repeats.has(e.end))) {
+      problem(group[0].bar, `ending ${group[0].numbers} has no repeat end`);
+    }
+    group = null;
+  };
+
+  bars.forEach((bar, i) => {
+    if (group && (bar.repeatStart || bar.section !== undefined)) {
+      closeGroup();
+    }
+    if (bar.repeatStart) {
+      if (open >= 0) problem(i, "a repeat starts inside another repeat");
+      open = i;
+    }
+    if (bar.ending) {
+      if (!group) {
+        group = [];
+        groupStart = open >= 0 ? open : afterEnd;
+      } else {
+        const before = group[group.length - 1];
+        if (before.end < 0) {
+          problem(before.bar, `ending ${before.numbers} has no repeat end`);
+          before.end = i - 1;
+        }
+      }
+      const ending: Ending = { bar: i, numbers: bar.ending, end: -1, group };
+      group.push(ending);
+      endings.set(i, ending);
+    }
+    if (bar.repeatEnd !== undefined) {
+      const start = group ? groupStart : open >= 0 ? open : afterEnd;
+      const highest = group ? Math.max(...group.flatMap((e) => e.numbers)) : 0;
+      const passes = Math.max(bar.repeatEnd, highest);
+      if (!Number.isInteger(passes) || passes < 1) {
+        problem(i, `invalid number of passes`);
+      }
+      repeats.set(i, { start, passes });
+      const last = group?.[group.length - 1];
+      if (last && last.end < 0) last.end = i;
+      open = -1;
+      afterEnd = i + 1;
+    }
+    if (group && bar.doubleBar) closeGroup(i);
+  });
+  closeGroup();
+  if (open >= 0) problem(open, "a repeat starts without a repeat end");
+  // the highest passes of a group apply to each of its repeat ends
+  for (const ending of endings.values()) {
+    const highest = Math.max(...ending.group.flatMap((e) => e.numbers));
+    for (const e of ending.group) {
+      const repeat = repeats.get(e.end);
+      if (repeat) repeat.passes = Math.max(repeat.passes, highest);
+    }
+  }
+
+  const inside: boolean[] = bars.map(() => false);
+  const mark = (from: number, to: number) => {
+    for (let i = from; i <= to; i++) inside[i] = true;
+  };
+  repeats.forEach((repeat, end) => mark(repeat.start, end));
+  endings.forEach((ending) => mark(ending.bar, ending.end));
+  const starts = new Set([...repeats.values()].map((r) => r.start));
+  return { repeats, starts, endings, inside, problems };
+}
+
+// The bars to play, in order, with their chorus, pass and ending
+type Step = { bar: number; chorus: number; pass: number; ending?: number };
+
+// a guard against charts that would play for too long (":|x100000")
+const MAX_BARS = 100000;
 
 function playOrder(chart: Chart, choruses: number): Step[] {
+  const { repeats, starts, endings, inside, problems } = structure(chart);
+  if (problems.length) return [];
+  // the ending each bar is in
+  const endingOf = new Map<number, Ending>();
+  endings.forEach((e) => {
+    for (let i = e.bar; i <= e.end; i++) endingOf.set(i, e);
+  });
   const steps: Step[] = [];
   for (let chorus = 1; chorus <= choruses; chorus++) {
-    chart.bars.forEach((_, bar) => steps.push({ bar, chorus, pass: 1 }));
+    let pass = 1;
+    let back = false; // arrived by going back to a repeat start
+    let i = 0;
+    while (i < chart.bars.length) {
+      if (steps.length > MAX_BARS) return [];
+      if (starts.has(i) && !back) pass = 1;
+      back = false;
+      const ending = endings.get(i);
+      if (ending && !ending.numbers.includes(pass)) {
+        // the ending for this pass; past the last one, the last ending if it
+        // doesn't repeat, or the bar after the endings
+        const target = ending.group.find((e) => e.numbers.includes(pass));
+        const last = ending.group[ending.group.length - 1];
+        const next = target
+          ? target.bar
+          : repeats.has(last.end)
+            ? last.end + 1
+            : last.bar;
+        if (next !== i) {
+          i = next;
+          continue;
+        }
+      }
+      const step: Step = { bar: i, chorus, pass: inside[i] ? pass : 1 };
+      const inEnding = endingOf.get(i);
+      if (inEnding) {
+        step.ending = inEnding.numbers.includes(pass)
+          ? pass
+          : Math.max(...inEnding.numbers);
+      }
+      steps.push(step);
+      if (!inside[i]) pass = 1;
+      const repeat = repeats.get(i);
+      if (repeat && pass < repeat.passes) {
+        pass++;
+        i = repeat.start;
+        back = true;
+        continue;
+      }
+      i++;
+    }
   }
   return steps;
 }
@@ -314,14 +522,28 @@ const chorusesOf = (options?: UnrollOptions) => {
 /**
  * Get the played form of a chart: every bar in the order it's played, with
  * where it starts (in quarter notes), its length, its section, its place in
- * the section and its chorus. `choruses` plays the form more than once.
+ * the section, its chorus, and its pass and ending in a repeat. `choruses`
+ * plays the form more than once.
+ *
+ * Repeats and endings:
+ *
+ * - `:|` goes back to its `|:`, or, without one, to the start of the chart
+ *   or the bar after the `:|` before. It plays 2 passes, `:|x3` three, and as
+ *   many as the highest ending: `|1,2 ... :|3` plays three.
+ * - On each pass, the ending for that pass is played and the others are
+ *   skipped. When no ending is for the pass, the last ending is played if it
+ *   doesn't repeat, and otherwise the endings are skipped.
+ * - An ending with a `:|` ends there. The last one lasts until a `||`, or
+ *   one bar.
+ * - A `|:` inside a repeat, a `|:` without a `:|`, or an ending without any
+ *   `:|` is a problem (`Chart.problems`), and the chart unrolls to `[]`.
  *
  * A run of a section starts at a bar that starts a section (`[A]`), or at a
- * new chorus, so `sectionBar` and `sectionLength` count within it: written
- * as `[A] ... [A] ...`, an AA form is two runs.
+ * new chorus, so `sectionBar` and `sectionLength` count within it: an AA
+ * form is two runs, written out or with a repeat.
  *
- * It returns `[]` if the chart is empty or `choruses` isn't a positive
- * integer.
+ * It returns `[]` if the chart is empty or has a problem, or if `choruses`
+ * isn't a positive integer.
  *
  * @param chart - a chart from `Chart.parse`
  * @param options - `choruses`: how many times the form is played (1)
@@ -329,6 +551,8 @@ const chorusesOf = (options?: UnrollOptions) => {
  * @example
  * Chart.unroll(Chart.parse("[A] | C | G | [B] | F |")).map((b) => `${b.section}${b.sectionBar}`)
  * // => ["A0", "A1", "B0"]
+ * Chart.unroll(Chart.parse("|: C |1 G :|2 F |")).map((b) => [b.bar, b.pass, b.ending])
+ * // => [[0, 1, undefined], [1, 1, 1], [0, 2, undefined], [2, 2, 2]]
  */
 export function unroll(chart: Chart, options?: UnrollOptions): PlayedBar[] {
   const choruses = chorusesOf(options);
@@ -355,6 +579,7 @@ export function unroll(chart: Chart, options?: UnrollOptions): PlayedBar[] {
       chorus: step.chorus,
       pass: step.pass,
     };
+    if (step.ending !== undefined) played.ending = step.ending;
     start = add(start, length) as Fraction;
     return played;
   });

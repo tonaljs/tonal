@@ -195,7 +195,8 @@ into its parts.
 
 `Chart.parse` reads a chart from text: bars between `|`, chords separated by
 spaces, `%` repeats a bar, `[A]` starts a section, `3/4` changes the meter,
-`A7@4` places a chord on beat 4. Several chords in a bar without `@` are
+`A7@4` places a chord on beat 4, `|: ... :|` repeats, `|1 ... :|2 ...` are
+endings. Several chords in a bar without `@` are
 placed by the meter's pulses (`| C F G |` is 2+1+1 beats). Check
 `Chart.problems(chart)`: words it can't read are left out, not errors.
 

@@ -64,6 +64,9 @@ The syntax:
 | `[A]`, `[Verse 1]` | a section starts on this bar (alone between bar lines, `\| [A] \| C \|`, on the next bar) |
 | `3/4`, `2+2+3/8` | the meter changes from this bar on (4/4 by default, or `options.meter`) |
 | `A7@4`, `A7@2+1/2` | a chord on beat 4, or half a beat after beat 2 |
+| `\|:`, `:\|`, `:\|x3` | a repeat starts, ends, ends after three passes |
+| `\|1`, `\|1,2`, `:\|2` | an ending starts, for pass 1 (or 1 and 2); a repeat ends and ending 2 starts |
+| `\|\|` | a double bar: it closes an ending |
 
 A beat is the meter's lower note, as in [`Time.fromBarBeat`](/packages/time): in 6/8, `G7@4` is on the second dotted quarter.
 
@@ -85,7 +88,7 @@ In a bar where some chords have `@`, a chord without it starts on beat 1 if it's
 
 `problems(chart: Chart) => string[]`
 
-What the parser couldn't read, by bar: words, chord symbols, meters and positions. Those are left out; an empty list means the chart is fine.
+What can't be played, by bar: the words, chord symbols, meters and positions the parser couldn't read (those are left out), and repeats and endings that don't close (a chart with those unrolls to `[]`). An empty list means the chart is fine.
 
 ```js
 Chart.problems(Chart.parse("| Cmaj7 | Xyz |")); // => ['bar 2: unknown word "Xyz"']
@@ -105,7 +108,31 @@ Chart.unroll(chart).map((b) => [b.section, b.sectionBar, b.sectionLength, b.star
 // => [["A", 0, 2, [0, 1], "4/4"], ["A", 1, 2, [4, 1], "4/4"], ["B", 0, 2, [8, 1], "4/4"], ["B", 1, 2, [12, 1], "3/4"]]
 ```
 
-A run of a section starts at a bar that starts a section (`[A]`), or at a new chorus, so the places count within it: an AABA form written as `[A] ... [A] ... [B] ... [A] ...` is four runs. Fills and endings in an app usually go on the last bar of a run.
+A run of a section starts at a bar that starts a section (`[A]`), or at a new chorus, so the places count within it: an AABA form is four runs, whether the A sections are written out or repeated. Fills and endings in an app usually go on the last bar of a run.
+
+### Repeats and endings
+
+`unroll` plays repeats and endings as a musician reads them. Each played bar has its `pass` through the repeat (1 outside repeats) and, in an ending, its `ending`:
+
+```js
+Chart.unroll(Chart.parse("|: C |1 G :|2 F |")).map((b) => [b.bar, b.pass, b.ending]);
+// => [[0, 1, undefined], [1, 1, 1], [0, 2, undefined], [2, 2, 2]]
+```
+
+- `:|` goes back to its `|:`; without one, to the start of the chart or to the bar after the `:|` before. It plays 2 passes, `:|x3` three, and as many as the highest ending: `|: A |1,2 B :|3 C |` plays A B A B A C.
+- On each pass, the ending for that pass is played and the others are skipped. When no ending is for the pass, the last ending is played if it doesn't repeat; otherwise the endings are skipped, so `|: A |1 B :| C |` plays A B A C.
+- An ending with its own `:|` ends there. The last ending lasts until a `||`, or one bar: in `|: A |1 B :|2 C | D || E |` the second ending is C and D.
+- Repeats don't nest: a `|:` inside a repeat, a `|:` without a `:|` and an ending without any `:|` are problems.
+
+A tune in AABA form with a first and a second ending:
+
+```js
+const tune = Chart.parse(
+  "[A] |: Cmaj7 | Am7 |1 Dm7 | G7 :|2 Dm7 G7 | Cmaj7 ||\n" +
+    "[B] | Em7 | A7 | Dm7 | G7 |\n[A] | Cmaj7 | Am7 | Dm7 G7 | Cmaj7 |",
+);
+Chart.unroll(tune).length; // => 16
+```
 
 ### `Chart.chords`
 
