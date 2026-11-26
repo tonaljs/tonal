@@ -23,7 +23,7 @@ import { Chord, Interval, Key, Note, Scale } from "tonal";
 `tonal` exports one namespace per module (`Note`, `Interval`, `Chord`,
 `ChordType`, `Scale`, `ScaleType`, `Key`, `Mode`, `Midi`, `Pcset`,
 `Progression`, `RomanNumeral`, `Range`, `Collection`, `Voicing`,
-`VoiceLeading`, `TimeSignature`, `DurationValue`,
+`VoiceLeading`, `Time`, `TimeSignature`, `DurationValue`,
 `RhythmPattern`, `Pattern`, `AbcNotation`) and a few top-level functions (`note`,
 `interval`, `transpose`, `distance`). Each namespace is also its own npm package:
 `import * as Chord from "@tonaljs/chord"`. Use `tonal` unless bundle size
@@ -315,8 +315,26 @@ below).
 
 tonal describes where things are in musical time, never when they play: there
 is nothing in seconds, no tempo-based timing, no scheduling and no audio.
-`TimeSignature`, `DurationValue` and `RhythmPattern` cover meters, note values
-and rhythm patterns. Use an audio or scheduling library for playback.
+`Time`, `TimeSignature`, `DurationValue` and `RhythmPattern` cover positions,
+meters, note values and rhythm patterns. Use an audio or scheduling library for
+playback.
+
+`Time` measures in quarter notes and returns exact fractions,
+`[numerator, denominator]`: a dotted quarter is `[3, 2]`, a triplet eighth
+`[1, 3]`. Don't do time arithmetic with floats (84 triplet eighths add up to
+27.999… quarters): use `Time.add`, `Time.compare` and `Time.equal`. Inputs
+also take exact numbers (`1.5`; not `0.1` or `1 / 3`, which give `null`) and
+strings (`"1/3"`). Bars and beats count from 1, and a beat is the lower note
+of the meter (in 6/8, an eighth: the second dotted quarter is `"1:4"`):
+
+```js
+Time.fromBarBeat("2:3+1/3", "4/4"); // => [19, 3]
+Time.toBarBeat(28, "4/4"); // => "8:1"
+Time.duration("q."); // => [3, 2]
+Time.onsets([1, 0, 0, 1, 0, 0, 1, 0], [1, 2]); // => [[0, 1], [3, 2], [3, 1]]
+```
+
+For seconds, convert at the end: `Time.toNumber(position) * 60 / bpm`.
 
 A rhythm pattern is an array of 0s and 1s, one per step, read as a loop.
 Build one from durations or onset positions (counted from 0), and read them

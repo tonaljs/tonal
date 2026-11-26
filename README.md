@@ -164,6 +164,7 @@ Using a coding agent? Point it to [llms.txt](https://tonaljs.github.io/tonal/llm
 
 #### Time, rhythm, patterns
 
+- [@tonaljs/time](/packages/time): Musical time as exact fractions of quarter notes: positions, durations, meters and bar:beat
 - [@tonaljs/pattern](/packages/pattern): Note patterns: arpeggio orders and melodic sequences as lists of indexes
 - [@tonaljs/rhythm-pattern](/packages/rhythm-pattern): Generate, read and measure rhythm patterns (Euclidean rhythms, evenness, oddity...)
 - [@tonaljs/time-signature](/packages/time-signature): Parse time signatures

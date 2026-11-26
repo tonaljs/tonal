@@ -37,6 +37,7 @@
     "@tonaljs/roman-numeral": "4.10.3",
     "@tonaljs/scale-type": "4.10.2",
     "@tonaljs/scale": "4.15.4",
+    "@tonaljs/time": "0.0.0",
     "@tonaljs/time-signature": "4.10.3",
     "@tonaljs/voice-leading": "5.2.3",
     "@tonaljs/voicing-dictionary": "5.1.14",
