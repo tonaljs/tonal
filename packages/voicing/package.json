@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/voicing",
-  "version": "5.3.0",
+  "version": "5.3.1",
   "description": "Voicings and Voice Leading for Chords",
   "keywords": [
     "chord",
@@ -17,12 +17,12 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord": "6.5.0",
+    "@tonaljs/chord": "6.5.1",
     "@tonaljs/interval": "5.2.0",
-    "@tonaljs/note": "4.12.7",
-    "@tonaljs/range": "4.9.8",
-    "@tonaljs/voice-leading": "5.2.0",
-    "@tonaljs/voicing-dictionary": "5.1.11"
+    "@tonaljs/note": "4.12.8",
+    "@tonaljs/range": "4.9.9",
+    "@tonaljs/voice-leading": "5.2.1",
+    "@tonaljs/voicing-dictionary": "5.1.12"
   },
   "author": "felix91@gmail.com",
   "license": "MIT",

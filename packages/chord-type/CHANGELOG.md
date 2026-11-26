@@ -1,5 +1,13 @@
 # @tonaljs/chord-type
 
+## 5.4.1
+
+### Patch Changes
+
+- Updated dependencies [ce9b347]
+  - @tonaljs/pitch-interval@6.4.0
+  - @tonaljs/pcset@4.10.7
+
 ## 5.4.0
 
 ### Minor Changes

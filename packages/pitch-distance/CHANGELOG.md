@@ -1,5 +1,13 @@
 # @tonaljs/pitch-distance
 
+## 5.1.2
+
+### Patch Changes
+
+- Updated dependencies [ce9b347]
+  - @tonaljs/pitch-note@6.2.0
+  - @tonaljs/pitch-interval@6.4.0
+
 ## 5.1.1
 
 ### Patch Changes

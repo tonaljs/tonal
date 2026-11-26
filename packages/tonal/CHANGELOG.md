@@ -1,5 +1,38 @@
 # tonal
 
+## 6.12.0
+
+### Minor Changes
+
+- ce9b347: `NoteName`, `PcName`, `NoteWithOctave` and `IntervalName` now list the common note and interval names, so editors suggest them, and still accept any string. The listed names are exported on their own as `KnownNoteName`, `KnownPcName`, `KnownNoteWithOctave` and `KnownIntervalName`; the known intervals are written number first, as tonal returns them (`3M`, `-5P`). Types only, nothing changes at runtime.
+
+  If your code types a `Record<NoteName, X>` (or `Record<IntervalName, X>`), it now needs every known name as a key: use `Partial<Record<NoteName, X>>` or `Record<string, X>` instead.
+
+### Patch Changes
+
+- 9407d57: Fix `VoiceLeading.path` and `Voicing.sequence` with `maxLeap`: the path could go through a candidate skipped for its large move, and the chords before it came back as `[]` with an infinite cost
+- Updated dependencies [90f13ee]
+- Updated dependencies [ce9b347]
+- Updated dependencies [9407d57]
+  - @tonaljs/voice-leading@5.2.1
+  - @tonaljs/voicing@5.3.1
+  - @tonaljs/core@5.1.0
+  - @tonaljs/voicing-dictionary@5.1.12
+  - @tonaljs/abc-notation@4.9.6
+  - @tonaljs/array@4.8.8
+  - @tonaljs/chord@6.5.1
+  - @tonaljs/key@4.12.1
+  - @tonaljs/midi@4.11.1
+  - @tonaljs/mode@4.9.9
+  - @tonaljs/note@4.12.8
+  - @tonaljs/pcset@4.10.7
+  - @tonaljs/progression@4.11.5
+  - @tonaljs/roman-numeral@4.10.2
+  - @tonaljs/scale@4.15.2
+  - @tonaljs/chord-type@5.4.1
+  - @tonaljs/range@4.9.9
+  - @tonaljs/scale-type@4.10.1
+
 ## 6.11.0
 
 ### Minor Changes

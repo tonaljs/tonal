@@ -1,5 +1,13 @@
 # @tonaljs/voice-leading
 
+## 5.2.1
+
+### Patch Changes
+
+- 90f13ee: Document the `maxLeap` rule as it works since the last fix: a candidate is skipped when it needs a larger move from every voicing the path can be at in the chord before, and a skipped candidate doesn't lead the next chord
+- 9407d57: Fix `VoiceLeading.path` and `Voicing.sequence` with `maxLeap`: the path could go through a candidate skipped for its large move, and the chords before it came back as `[]` with an infinite cost
+  - @tonaljs/note@4.12.8
+
 ## 5.2.0
 
 ### Minor Changes

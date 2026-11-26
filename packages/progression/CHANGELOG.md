@@ -1,5 +1,17 @@
 # @tonaljs/progression
 
+## 4.11.5
+
+### Patch Changes
+
+- Updated dependencies [ce9b347]
+  - @tonaljs/pitch-note@6.2.0
+  - @tonaljs/pitch-interval@6.4.0
+  - @tonaljs/chord@6.5.1
+  - @tonaljs/pitch-distance@5.1.2
+  - @tonaljs/roman-numeral@4.10.2
+  - @tonaljs/chord-type@5.4.1
+
 ## 4.11.4
 
 ### Patch Changes

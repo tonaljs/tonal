@@ -1,5 +1,14 @@
 # @tonaljs/key
 
+## 4.12.1
+
+### Patch Changes
+
+- Updated dependencies [ce9b347]
+  - @tonaljs/pitch-note@6.2.0
+  - @tonaljs/note@4.12.8
+  - @tonaljs/roman-numeral@4.10.2
+
 ## 4.12.0
 
 ### Minor Changes
