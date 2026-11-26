@@ -5,8 +5,9 @@ title: Getting started
 [![npm version](https://img.shields.io/npm/v/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
 
 `tonal` is a music theory library. Contains functions to manipulate tonal
-elements of music (note, intervals, chords, scales, modes, keys) and to voice
-chords and progressions. It deals with abstractions (not actual music or
+elements of music (note, intervals, chords, scales, modes, keys), to voice
+chords and progressions, and to build note patterns (arpeggios, melodic
+sequences) and rhythm patterns. It deals with abstractions (not actual music or
 sound).
 
 `tonal` is implemented in Typescript and published as a collection of Javascript
@@ -18,7 +19,15 @@ mutation, and entities are represented by data structures instead of objects.
 ## Example
 
 ```js
-import { Chord, Interval, Note, Scale, Voicing } from "tonal";
+import {
+  Chord,
+  Interval,
+  Note,
+  Pattern,
+  RhythmPattern,
+  Scale,
+  Voicing,
+} from "tonal";
 
 Note.midi("C4"); // => 60
 Note.freq("a4"); // => 440
@@ -43,6 +52,13 @@ const triad = Chord.degrees("Cm");
 Voicing.get("Dm7", { voices: 4, extensions: "available", bass: "external" }); // => ["F3", "A3", "C4", "E4"]
 Voicing.sequence(["Dm7", "G7", "Cmaj7"], { template: "rootless" });
 // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
+
+// Note patterns: an arpeggio over a voicing
+Pattern.arpeggio("up-down", 4).map(Voicing.steps(["D3", "F3", "A3", "C4"]));
+// => ["D3", "F3", "A3", "C4", "A3", "F3"]
+
+// Rhythm patterns
+RhythmPattern.euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
 ```
 
 ## Install
