@@ -661,8 +661,17 @@ function playOrder(
     }
     return steps;
   }
-  // the part before the jump once per chorus (from the start, then from where
-  // the jump goes back to); then, once, the jump and the coda
+  // a plain D.C. or D.S. is part of the tune: each chorus plays it
+  if (jump.stop === undefined && jump.coda === undefined) {
+    for (let chorus = 1; chorus <= choruses; chorus++) {
+      if (!walk(0, jump.bar, chorus, false)) return [];
+      if (!walk(jump.target, undefined, chorus, true)) return [];
+    }
+    return steps;
+  }
+  // al Fine and al Coda: the part before the jump once per chorus (from the
+  // start, then from where the jump goes back to); then, once, the jump and
+  // the coda, which end the tune
   for (let chorus = 1; chorus <= choruses; chorus++) {
     const from = chorus === 1 ? 0 : jump.target;
     if (!walk(from, jump.bar, chorus, false)) return [];
@@ -707,9 +716,11 @@ const chorusesOf = (options?: UnrollOptions) => {
  * - After the jump, repeats aren't taken and the endings are chosen as on a
  *   pass past the last one (the last ending, if it doesn't repeat), unless
  *   `repeatsOnJump`.
- * - With `choruses`, the part before the jump is played once per chorus (the
- *   first time from the start, then from where the jump goes back to), and
- *   the jump and the coda once, at the end of the last chorus.
+ * - With `choruses` and an `al Fine` or `al Coda`, the part before the jump
+ *   is played once per chorus (the first time from the start, then from
+ *   where the jump goes back to), and the jump and the coda once, at the end
+ *   of the last chorus: they end the tune. A plain D.C. or D.S. is part of
+ *   the tune, so each chorus plays the whole tune with its jump.
  * - `<To Coda>` and `<Coda>` without a jump are a `<D.C. al Coda>` at the
  *   end of the bar before the coda.
  *

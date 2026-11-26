@@ -197,7 +197,8 @@ into its parts.
 spaces, `%` repeats a bar, `[A]` starts a section, `3/4` changes the meter,
 `A7@4` places a chord on beat 4, `|: ... :|` repeats, `|1 ... :|2 ...` are
 endings, and `<D.S. al Coda>`, `<Segno>`, `<To Coda>`, `<Coda>`, `<Fine>`
-are jumps. With `choruses`, the coda is played once, at the end. Several chords in a bar without `@` are
+are jumps. With `choruses`, a coda or a Fine is played once, at the end; a
+plain D.C. or D.S. is played in every chorus. Several chords in a bar without `@` are
 placed by the meter's pulses (`| C F G |` is 2+1+1 beats). Check
 `Chart.problems(chart)`: words it can't read are left out, not errors.
 

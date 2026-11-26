@@ -142,11 +142,17 @@ order("| Dm | <Segno> C | F <To Coda> | G <D.S. al Coda> | <Coda> Am |");
 ```
 
 - After the jump, repeats aren't taken and only the last ending is played (or none, if it repeats), as most players read it: `| C |: D |1 E :|2 F | G <D.C.> |` plays C D E D F G C D F G. `repeatsOnJump: true` takes the repeats again.
-- **Choruses: the coda ends the tune.** With `choruses: n`, the part before the jump is played n times (the first time from the start, then from where the jump goes back to, so an intro before the segno is played once), and the jump and the coda once, at the end of the last chorus. With one chorus, it's the reading above.
+- **Choruses: the coda ends the tune.** With `choruses: n` and an `al Coda` or `al Fine`, the part before the jump is played n times (the first time from the start, then from where the jump goes back to, so an intro before the segno is played once), and the jump and the coda (or the Fine) once, at the end of the last chorus. With one chorus, it's the reading above.
 
   ```js
   order("| C | F <To Coda> | G <D.C. al Coda> | <Coda> Am |", { choruses: 2 });
   // => ["C", "F", "G", "C", "F", "G", "C", "F", "Am"]
+  ```
+
+- A plain `<D.C.>` or `<D.S.>` (without `al Fine` or `al Coda`) marks no ending: it's part of the tune, like a written repeat, so each chorus plays the whole tune with its jump.
+
+  ```js
+  order("| C | G <D.C.> |", { choruses: 2 }); // => ["C", "G", "C", "G", "C", "G", "C", "G"]
   ```
 
 - `<To Coda>` and `<Coda>` without a jump are read as a D.C. al Coda at the end of the bar before the coda, as in many chart apps: the form loops and ends with the coda.

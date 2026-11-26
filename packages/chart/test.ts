@@ -427,6 +427,16 @@ describe("@tonaljs/chart", () => {
       );
     });
 
+    test("choruses: a plain D.C. or D.S. is part of the tune", () => {
+      expect(order("| A | B <D.C.> |", { choruses: 2 })).toBe(
+        "A B A B Ac2 Bc2 Ac2 Bc2",
+      );
+      // the whole tune, intro included
+      expect(order("| F | <Segno> A | B <D.S.> |", { choruses: 2 })).toBe(
+        "F A B A B Fc2 Ac2 Bc2 Ac2 Bc2",
+      );
+    });
+
     test("marks that don't fit", () => {
       expect(problems("| A | B <D.S.> |")).toEqual([
         "bar 2: D.S. without a <Segno>",
