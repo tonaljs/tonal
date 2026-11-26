@@ -307,6 +307,8 @@ RhythmPattern.intervalVector(major); // => [2, 5, 4, 3, 6, 1]
 
 - Godfried T. Toussaint, _The Geometry of Musical Rhythm_ (CRC Press, 2013): the six timelines (ch. 7), the interval vector (ch. 8), necklaces (ch. 14), rhythmic oddity (ch. 15), off-beatness (ch. 16), evenness and maximally even rhythms (ch. 18), Euclidean rhythms (ch. 19), complementary rhythms (ch. 23), deep rhythms (ch. 25), distances (ch. 33) and the oddity score (ch. 37).
 - John Clough and Jack Douthett, "Maximally Even Sets", _Journal of Music Theory_ 35 (1991).
+- `fromDurations`, `fromOnsets`, `toDurations` and `toOnsets` were proposed in [#483](https://github.com/tonaljs/tonal/issues/483).
+- tonal's own choices, where the book leaves them open: the rotation that stands for a necklace (the largest binary number), evenness divided by the sum of a maximally even pattern (so it ends at 1), `null` for the oddity score of an odd length, and `euclid`'s floor formula (the same pattern as Bjorklund's algorithm, up to rotation).
 
 ## References
 

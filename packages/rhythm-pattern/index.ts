@@ -78,6 +78,11 @@ const isPattern = (pattern: unknown): pattern is RhythmPattern =>
  * Create a rhythm pattern from durations: each duration is an onset (a 1)
  * followed by rests, so a duration of n takes n steps. A duration of 0 adds
  * nothing. It returns `[]` if a duration is negative or not an integer.
+ *
+ * Sources: proposed in tonaljs/tonal#483, which found that `onsets` takes
+ * gaps; durations as inter-onset intervals, as Godfried T. Toussaint writes
+ * them in *The Geometry of Musical Rhythm* (2013), ch. 7 (the clave son is
+ * [3-3-4-2-4]).
  * @param durations the number of steps from each onset to the next
  * @returns an array of 0s and 1s
  * @example
@@ -98,6 +103,9 @@ export function fromDurations(durations: number[]): RhythmPattern {
  * The length defaults to the last position + 1; positions at or past the
  * length are left out. It returns `[]` if a position or the length is
  * negative or not an integer.
+ *
+ * Sources: proposed in tonaljs/tonal#483. Positions count from 0, like every
+ * index in tonal (the issue counted from 1).
  * @param positions the steps that have an onset (0 is the first step)
  * @param length the length of the pattern (optional)
  * @returns an array of 0s and 1s
@@ -122,6 +130,8 @@ export function fromOnsets(
 /**
  * Get the positions of the onsets of a rhythm pattern, counted from 0. It
  * returns `[]` if the pattern isn't an array of 0s and 1s.
+ *
+ * Sources: the inverse of `fromOnsets` (tonaljs/tonal#483).
  * @param pattern an array of 0s and 1s
  * @returns the steps that have an onset
  * @example
@@ -141,6 +151,10 @@ export function toOnsets(pattern: number[]): number[] {
  * to the next. The pattern is a loop, so the last onset lasts until the first
  * one comes round again (rests before the first onset count there). It
  * returns `[]` if the pattern has no onsets or isn't an array of 0s and 1s.
+ *
+ * Sources: the inverse of `fromDurations` (tonaljs/tonal#483). Reading the
+ * pattern as a loop follows Toussaint's cyclic rhythms (*The Geometry of
+ * Musical Rhythm*, 2013, ch. 7).
  * @param pattern an array of 0s and 1s
  * @returns the duration of each onset, in steps
  * @example
@@ -223,6 +237,11 @@ export function rotate(
  * order: steps first, then beats, the opposite of Toussaint's E(beats,
  * steps) and of many live-coding tools. The result can be a rotation of the
  * pattern those give: the onsets are the same distances apart.
+ *
+ * Sources: Godfried T. Toussaint, "The Euclidean Algorithm Generates
+ * Traditional Musical Rhythms" (2005), and *The Geometry of Musical Rhythm*
+ * (2013), ch. 19. tonal spreads the beats with a floor formula instead of
+ * Bjorklund's algorithm, which gives the same pattern up to rotation.
  * @param steps The length of the pattern
  * @param beats The number of beats
  * @returns an array with 0s and 1s representing the rhythmic pattern
@@ -274,7 +293,9 @@ export function complement(pattern: number[]): RhythmPattern {
  * the pattern isn't an array of 0s and 1s.
  *
  * Sources: Godfried T. Toussaint, *The Geometry of Musical Rhythm* (2013),
- * ch. 14, "Necklaces and Bracelets".
+ * ch. 14, "Necklaces and Bracelets": a necklace is a rhythm up to rotation.
+ * Which rotation stands for it (the largest binary number) is tonal's
+ * choice.
  * @param pattern an array of 0s and 1s
  * @returns the rotation that represents all of them
  * @example
@@ -378,7 +399,9 @@ const chordSum = (positions: number[], n: number) => {
  *
  * Sources: Godfried T. Toussaint, *The Geometry of Musical Rhythm* (2013),
  * ch. 18: the distances along the circle can't tell even rhythms from uneven
- * ones, the straight-line distances can (László Fejes Tóth, 1956).
+ * ones, the straight-line distances can (László Fejes Tóth, 1956). Dividing
+ * by the sum of a maximally even pattern, so the scale ends at 1, is tonal's
+ * choice.
  * @param pattern an array of 0s and 1s
  * @returns the evenness (at most 1), or null
  * @example
@@ -447,7 +470,8 @@ export function hasOddity(pattern: number[]): boolean {
  *
  * Sources: Godfried T. Toussaint, *The Geometry of Musical Rhythm* (2013),
  * ch. 37: of the six timelines of the book, the clave son scores the highest
- * (7).
+ * (7). The book only scores even lengths; `null` for odd ones is tonal's
+ * choice.
  * @param pattern an array of 0s and 1s
  * @returns the oddity score, or null
  * @example
@@ -500,10 +524,12 @@ export type RhythmDistanceMetric = "hamming" | "swap";
  *
  * It returns `null` if the lengths (or, for `"swap"`, the numbers of onsets)
  * differ, if the metric is unknown, or if a pattern isn't an array of 0s and
- * 1s.
+ * 1s. Both distances compare the patterns as written, so a rhythm and its
+ * rotation can be far apart: compare their `necklace`s for that.
  *
  * Sources: Godfried T. Toussaint, *The Geometry of Musical Rhythm* (2013),
- * ch. 33, "Rhythmic Similarity and Dissimilarity".
+ * ch. 33, "Rhythmic Similarity and Dissimilarity", where the swap distance
+ * moves along the pattern (not round the loop), as here.
  * @param a an array of 0s and 1s
  * @param b an array of 0s and 1s
  * @param metric "hamming" (default) or "swap"
