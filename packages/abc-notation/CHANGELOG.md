@@ -1,5 +1,13 @@
 # @tonaljs/abc-notation
 
+## 4.9.6
+
+### Patch Changes
+
+- Updated dependencies [ce9b347]
+  - @tonaljs/pitch-note@6.2.0
+  - @tonaljs/pitch-distance@5.1.2
+
 ## 4.9.5
 
 ### Patch Changes

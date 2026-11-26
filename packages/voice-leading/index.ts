@@ -34,7 +34,8 @@ export type VoiceLeadingPathOptions = VoiceLeadingOptions & {
   previous?: string[];
   /**
    * The largest move of a voice, in semitones. A candidate that needs a larger
-   * move is skipped, unless every candidate of its chord does.
+   * move from every voicing the path can be at in the chord before is skipped,
+   * unless every candidate of its chord does (then none is skipped).
    */
   maxLeap?: number;
   /**

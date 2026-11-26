@@ -1,5 +1,17 @@
 # @tonaljs/chord
 
+## 6.5.1
+
+### Patch Changes
+
+- Updated dependencies [ce9b347]
+  - @tonaljs/pitch-note@6.2.0
+  - @tonaljs/chord-detect@4.11.1
+  - @tonaljs/pcset@4.10.7
+  - @tonaljs/pitch-distance@5.1.2
+  - @tonaljs/chord-type@5.4.1
+  - @tonaljs/scale-type@4.10.1
+
 ## 6.5.0
 
 ### Minor Changes

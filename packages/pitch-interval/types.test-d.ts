@@ -27,20 +27,21 @@ describe("interval name types", () => {
     expectTypeOf<IntervalName>().not.toEqualTypeOf<string>();
   });
 
-  test("the common names are known, in both orders and directions", () => {
+  test("the common names are known, up and down", () => {
     expectTypeOf<"1P">().toExtend<KnownIntervalName>();
     expectTypeOf<"3M">().toExtend<KnownIntervalName>();
     expectTypeOf<"-5P">().toExtend<KnownIntervalName>();
-    expectTypeOf<"M3">().toExtend<KnownIntervalName>();
-    expectTypeOf<"P-5">().toExtend<KnownIntervalName>();
     expectTypeOf<"15A">().toExtend<KnownIntervalName>();
-    expectTypeOf<"d14">().toExtend<KnownIntervalName>();
+    expectTypeOf<"-14d">().toExtend<KnownIntervalName>();
   });
 
   test("other strings aren't known names", () => {
     expectTypeOf<"3P">().not.toExtend<KnownIntervalName>();
     expectTypeOf<"5m">().not.toExtend<KnownIntervalName>();
-    expectTypeOf<"-M3">().not.toExtend<KnownIntervalName>();
+    // quality first is accepted, but not suggested: tonal writes number first
+    expectTypeOf<"M3">().not.toExtend<KnownIntervalName>();
+    expectTypeOf<"P-5">().not.toExtend<KnownIntervalName>();
+    expectTypeOf<"M3">().toExtend<IntervalName>();
     expectTypeOf<"16M">().not.toExtend<KnownIntervalName>();
     expectTypeOf<"">().not.toExtend<KnownIntervalName>();
   });

@@ -19,18 +19,21 @@ type PerfectableQuality = "d" | "P" | "A";
 type Down = "" | "-";
 
 /**
- * The common interval names up to 15, up or down, in both orders: "3M",
- * "-5P", "M3", "P-5"...
+ * The common interval names up to 15, up or down, number first as tonal
+ * writes them: "3M", "-5P", "9m"...
  */
 export type KnownIntervalName =
   | `${Down}${MajorableNumber}${MajorableQuality}`
-  | `${Down}${PerfectableNumber}${PerfectableQuality}`
-  | `${MajorableQuality}${Down}${MajorableNumber}`
-  | `${PerfectableQuality}${Down}${PerfectableNumber}`;
+  | `${Down}${PerfectableNumber}${PerfectableQuality}`;
 
 // Any string is still a valid name, since tonal parses more than the known
-// names ("+3M", "dd5", "AA4", "16M"). The known names are there for editors to
+// names ("M3", "P-5", "+3M", "dd5", "AA4", "16M"). The known names are there for editors to
 // suggest: `string & {}` keeps them, where a plain `string` would swallow them.
+/**
+ * An interval name. Any string is accepted, quality first too ("M3"); editors
+ * suggest the common names (`KnownIntervalName`): every interval up to 15, up
+ * or down, number first as tonal writes them, such as "3M" or "-5P".
+ */
 export type IntervalName = KnownIntervalName | (string & {});
 export type IntervalLiteral = IntervalName | Pitch | NamedPitch;
 

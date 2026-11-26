@@ -106,8 +106,9 @@ type Ranked = { notes: string[]; cost: number };
 function rankVoicings(chord: string, options: VoicingOptions = {}): Ranked[] {
   const info = chordInfo(chord);
   if (!info) return [];
-  const ranges = Array.isArray(options.voices) ? options.voices : undefined;
-  const voices = ranges ? ranges.length : options.voices;
+  const given = options.voices;
+  const ranges = Array.isArray(given) ? given : undefined;
+  const voices = Array.isArray(given) ? given.length : given;
   if (voices !== undefined && !(Number.isInteger(voices) && voices > 0)) {
     return [];
   }
@@ -193,8 +194,9 @@ export type VoicingChord = { chord: string } & Omit<
 export type SequenceOptions = VoicingOptions & {
   /**
    * The largest move of a voice between two chords, in semitones. A voicing
-   * that needs a larger move is skipped, unless every voicing of its chord
-   * does.
+   * that needs a larger move from every voicing the sequence can be at in the
+   * chord before is skipped, unless every voicing of its chord does (then
+   * none is skipped).
    */
   maxLeap?: number;
 };
@@ -519,7 +521,6 @@ function legacySearch(
  * With the bass in the voicing (`bass: "none"`), every chord prefers root
  * position, since the lowest note is heard as the bass; for triads that invert
  * over a root, use `{ bass: "root", voices: 3 }`.
- * `maxLeap` limits the move of each voice.
  *
  * (Called with a range array as the second argument, it uses the old
  * dictionary voicings, which are deprecated: see the README.)

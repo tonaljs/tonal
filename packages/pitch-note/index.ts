@@ -23,8 +23,23 @@ export type KnownNoteName = KnownNoteWithOctave | KnownPcName;
 // Any string is still a valid name, since tonal parses more than the known
 // names ("c#4", "Cx4", "C-1", "Cbbb"). The known names are there for editors to
 // suggest: `string & {}` keeps them, where a plain `string` would swallow them.
+/**
+ * A note name with octave. Any string is accepted; editors suggest the common
+ * names (`KnownNoteWithOctave`): "C" to "B" with nothing, "#", "b", "##" or
+ * "bb", at octaves 0 to 8, such as "C4" or "F#2".
+ */
 export type NoteWithOctave = KnownNoteWithOctave | (string & {});
+/**
+ * A pitch class name (a note without octave). Any string is accepted; editors
+ * suggest the 35 common names (`KnownPcName`): "C" to "B" with nothing, "#",
+ * "b", "##" or "bb", such as "C" or "Eb".
+ */
 export type PcName = KnownPcName | (string & {});
+/**
+ * A note name, with or without octave. Any string is accepted; editors suggest
+ * the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##"
+ * or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
+ */
 export type NoteName = KnownNoteName | (string & {});
 export type NoteLiteral = NoteName | Pitch | NamedPitch;
 
