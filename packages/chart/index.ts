@@ -36,7 +36,26 @@ export type ChartBar = {
   ending?: number[];
   /** `||` after the bar: a double bar (it closes an ending) */
   doubleBar?: true;
+  /** `<Segno>`: the sign a D.S. goes back to, at the start of the bar */
+  segno?: true;
+  /** `<Coda>`: the coda starts on this bar */
+  coda?: true;
+  /** `<To Coda>`: after a jump, go to the coda at the end of this bar */
+  toCoda?: true;
+  /** `<Fine>`: after a jump, the end, at the end of this bar */
+  fine?: true;
+  /** `<D.C.>`, `<D.S. al Coda>`…: a jump at the end of this bar */
+  jump?: Jump;
 };
+
+/** A jump back: da capo (to the start) or dal segno (to the sign). */
+export type Jump =
+  | "D.C."
+  | "D.C. al Fine"
+  | "D.C. al Coda"
+  | "D.S."
+  | "D.S. al Fine"
+  | "D.S. al Coda";
 
 /** A chart as written: bars of chords, with sections and meters. */
 export type Chart = {
@@ -81,6 +100,8 @@ export type PlayedBar = {
 export type UnrollOptions = {
   /** How many times the form is played. Default 1. */
   choruses?: number;
+  /** Take the repeats again after a D.C. or a D.S. Default false. */
+  repeatsOnJump?: boolean;
 };
 
 /** A chord of the played form. */
@@ -103,8 +124,31 @@ const METER = /^\d+(\+\d+)*\/\d+$/;
 // a section label or a mark, which can have spaces: "[Verse 1]", "<To Coda>",
 // and the bar line marks the parser writes for repeats and endings: "{rs}"
 const LABELS = /\[[^\]]*\]|<[^>]*>|\{[^}]*\}/g;
-// the marks that belong to the bar before them (a repeat end, a double bar)
-const CLOSING = /^\{(re|db)/;
+// The navigation marks, by their letters: "<D.S. al Coda>" is "dsalcoda"
+const MARKS: Record<string, Jump | "segno" | "coda" | "toCoda" | "fine"> = {
+  segno: "segno",
+  coda: "coda",
+  tocoda: "toCoda",
+  fine: "fine",
+  dc: "D.C.",
+  dcalfine: "D.C. al Fine",
+  dcalcoda: "D.C. al Coda",
+  ds: "D.S.",
+  dsalfine: "D.S. al Fine",
+  dsalcoda: "D.S. al Coda",
+};
+const markOf = (label: string) =>
+  label[0] === "<"
+    ? MARKS[label.slice(1, -1).toLowerCase().replace(/[.\s]/g, "")]
+    : undefined;
+
+// The marks that act at the end of a bar, so alone between bar lines they
+// belong to the bar before: a repeat end, a double bar, a jump, To Coda, Fine
+function isClosing(label: string): boolean {
+  if (/^\{(re|db)/.test(label)) return true;
+  const mark = markOf(label);
+  return !!mark && mark !== "segno" && mark !== "coda";
+}
 
 // Bar lines with repeats and endings, as marks next to plain bar lines:
 // ":|x3" is "{re:3} |", "|:" is "| {rs}", "|2" is "| {e:2}", "||" is "{db} |"
@@ -156,6 +200,10 @@ function splitPosition(word: string): [string, string | undefined] {
  * - `|:` and `:|` start and end a repeat (`:|x3` plays it three times);
  *   `|1` (or `|1,2`) starts an ending, and `:|2` ends a repeat and starts
  *   ending 2. `||` is a double bar. See `Chart.unroll` for how they're played.
+ * - `<Segno>` and `<Coda>` mark the start of their bar; `<To Coda>`,
+ *   `<Fine>`, `<D.C.>`, `<D.C. al Fine>`, `<D.C. al Coda>`, `<D.S.>`,
+ *   `<D.S. al Fine>` and `<D.S. al Coda>` act at the end of their bar (alone
+ *   between bar lines, at the end of the bar before).
  *
  * Chords without a position are placed by the meter's pulses (the groups it's
  * felt in, from `Time.meter`): with n chords in p pulses, each chord gets
@@ -198,7 +246,9 @@ export function parse(text: string, options?: ParseOptions): Chart {
         const numbers = label.slice(3, -1).split(",").map(Number);
         if (numbers.every((n) => n > 0)) bar.ending = numbers;
         else problem(`invalid ending "${label.slice(3, -1)}"`);
-      } else if (CLOSING.test(label)) closeBar(bar, label);
+      } else if (isClosing(label)) closeBar(bar, label);
+      else if (markOf(label) === "segno") bar.segno = true;
+      else if (markOf(label) === "coda") bar.coda = true;
       else problem(`unknown mark "${label}"`);
     }
     for (const word of words) {
@@ -230,10 +280,15 @@ export function parse(text: string, options?: ParseOptions): Chart {
     bars.push(bar);
   };
 
-  // a repeat end or a double bar, after a bar
+  // a repeat end, a double bar, a jump, To Coda or Fine, after a bar
   const closeBar = (bar: ChartBar, label: string) => {
+    const mark = markOf(label);
     if (label === "{db}") bar.doubleBar = true;
-    else bar.repeatEnd = label === "{re}" ? 2 : +label.slice(4, -1);
+    else if (label.startsWith("{re")) {
+      bar.repeatEnd = label === "{re}" ? 2 : +label.slice(4, -1);
+    } else if (mark === "toCoda") bar.toCoda = true;
+    else if (mark === "fine") bar.fine = true;
+    else if (mark) bar.jump = mark as Jump;
   };
 
   for (const line of text.split("\n")) {
@@ -248,14 +303,14 @@ export function parse(text: string, options?: ParseOptions): Chart {
       // marks alone between bar lines ("| [A] | C |")
       const onlyMarks = !words.length && labels.length > 0;
       if ((outside && !hasChord) || onlyMarks) {
-        // a repeat end or a double bar closes the bar before
+        // a repeat end, a double bar or a jump closes the bar before
         const last = bars[bars.length - 1];
-        for (const label of labels.filter((l) => CLOSING.test(l))) {
+        for (const label of labels.filter(isClosing)) {
           if (last) closeBar(last, label);
         }
         pending = [
           ...pending,
-          ...labels.filter((l) => !CLOSING.test(l)),
+          ...labels.filter((l) => !isClosing(l)),
           ...words,
         ];
         return;
@@ -362,7 +417,12 @@ type Ending = { bar: number; numbers: number[]; end: number; group: Ending[] };
 // A repeat end: where it goes back to, and how many passes it plays
 type Repeat = { start: number; passes: number };
 
+// A jump: from the end of its bar back to `target`, then on to the end of
+// `stop` (Fine or To Coda, or the end of the chart), then from `coda`
+type JumpPlan = { bar: number; target: number; stop?: number; coda?: number };
+
 type Structure = {
+  jump?: JumpPlan;
   repeats: Map<number, Repeat>; // by the bar of the repeat end
   starts: Set<number>; // the bars repeats go back to
   endings: Map<number, Ending>; // by the bar each ending starts on
@@ -450,7 +510,73 @@ function structure(chart: Chart): Structure {
   repeats.forEach((repeat, end) => mark(repeat.start, end));
   endings.forEach((ending) => mark(ending.bar, ending.end));
   const starts = new Set([...repeats.values()].map((r) => r.start));
-  return { repeats, starts, endings, inside, problems };
+  const jump = jumpOf(bars, problem);
+  return { jump, repeats, starts, endings, inside, problems };
+}
+
+// The jump of a chart, checking its marks
+function jumpOf(
+  bars: ChartBar[],
+  problem: (i: number, message: string) => void,
+): JumpPlan | undefined {
+  // the bar of each mark (one of each)
+  const at: Record<string, number> = {};
+  const once = (name: string, label: string, i: number) => {
+    if (at[name] === undefined) at[name] = i;
+    else problem(i, `a second ${label}`);
+  };
+  bars.forEach((bar, i) => {
+    if (bar.segno) once("segno", "<Segno>", i);
+    if (bar.coda) once("coda", "<Coda>", i);
+    if (bar.toCoda) once("toCoda", "<To Coda>", i);
+    if (bar.fine) once("fine", "<Fine>", i);
+    if (bar.jump) once("jump", "jump", i);
+  });
+  const { segno, coda, toCoda, fine } = at;
+  let bar = at.jump;
+  let jump = bar !== undefined ? bars[bar].jump : undefined;
+  // To Coda and Coda without a jump: a D.C. al Coda before the coda
+  if (!jump && toCoda !== undefined && coda !== undefined && toCoda < coda) {
+    bar = coda - 1;
+    jump = "D.C. al Coda";
+  }
+  const alFine = jump?.endsWith("al Fine");
+  const alCoda = jump?.endsWith("al Coda");
+  let ok = true;
+  const fail = (i: number, message: string) => {
+    problem(i, message);
+    ok = false;
+  };
+  if (fine !== undefined && !alFine) {
+    fail(fine, "<Fine> without a D.C. al Fine or D.S. al Fine");
+  }
+  if (!alCoda && toCoda !== undefined) {
+    fail(toCoda, "<To Coda> without a D.C. al Coda or D.S. al Coda");
+  }
+  if (!alCoda && coda !== undefined) {
+    fail(coda, "<Coda> without a D.C. al Coda or D.S. al Coda");
+  }
+  if (!jump || bar === undefined) return undefined;
+  const ds = jump.startsWith("D.S.");
+  if (ds && segno === undefined) fail(bar, `${jump} without a <Segno>`);
+  if (ds && segno !== undefined && segno > bar) {
+    fail(segno, "<Segno> after the jump");
+  }
+  if (!ds && segno !== undefined) fail(segno, "<Segno> without a D.S.");
+  if (alFine && fine === undefined) fail(bar, `${jump} without a <Fine>`);
+  if (alFine && fine !== undefined && fine > bar) {
+    fail(fine, "<Fine> after the jump");
+  }
+  if (alCoda && (toCoda === undefined || coda === undefined)) {
+    fail(bar, `${jump} without a <To Coda> and a <Coda>`);
+  } else if (alCoda && (toCoda > bar || coda <= bar)) {
+    fail(coda, "<To Coda> must come before the jump, and <Coda> after it");
+  }
+  if (!ok) return undefined;
+  const target = ds ? segno : 0;
+  if (alFine) return { bar, target, stop: fine };
+  if (alCoda) return { bar, target, stop: toCoda, coda };
+  return { bar, target };
 }
 
 // The bars to play, in order, with their chorus, pass and ending
@@ -459,8 +585,12 @@ type Step = { bar: number; chorus: number; pass: number; ending?: number };
 // a guard against charts that would play for too long (":|x100000")
 const MAX_BARS = 100000;
 
-function playOrder(chart: Chart, choruses: number): Step[] {
-  const { repeats, starts, endings, inside, problems } = structure(chart);
+function playOrder(
+  chart: Chart,
+  choruses: number,
+  repeatsOnJump: boolean,
+): Step[] {
+  const { jump, repeats, starts, endings, inside, problems } = structure(chart);
   if (problems.length) return [];
   // the ending each bar is in
   const endingOf = new Map<number, Ending>();
@@ -468,19 +598,30 @@ function playOrder(chart: Chart, choruses: number): Step[] {
     for (let i = e.bar; i <= e.end; i++) endingOf.set(i, e);
   });
   const steps: Step[] = [];
-  for (let chorus = 1; chorus <= choruses; chorus++) {
+
+  // Play from a bar until the end of `stop` (or of the chart). After a jump,
+  // repeats aren't taken (unless repeatsOnJump), and the endings are chosen
+  // as on a pass past the last one
+  const walk = (
+    from: number,
+    stop: number | undefined,
+    chorus: number,
+    afterJump: boolean,
+  ) => {
+    const noRepeats = afterJump && !repeatsOnJump;
     let pass = 1;
     let back = false; // arrived by going back to a repeat start
-    let i = 0;
+    let i = from;
     while (i < chart.bars.length) {
-      if (steps.length > MAX_BARS) return [];
+      if (steps.length > MAX_BARS) return false;
       if (starts.has(i) && !back) pass = 1;
       back = false;
+      const choice = noRepeats ? Infinity : pass;
       const ending = endings.get(i);
-      if (ending && !ending.numbers.includes(pass)) {
+      if (ending && !ending.numbers.includes(choice)) {
         // the ending for this pass; past the last one, the last ending if it
         // doesn't repeat, or the bar after the endings
-        const target = ending.group.find((e) => e.numbers.includes(pass));
+        const target = ending.group.find((e) => e.numbers.includes(choice));
         const last = ending.group[ending.group.length - 1];
         const next = target
           ? target.bar
@@ -495,21 +636,40 @@ function playOrder(chart: Chart, choruses: number): Step[] {
       const step: Step = { bar: i, chorus, pass: inside[i] ? pass : 1 };
       const inEnding = endingOf.get(i);
       if (inEnding) {
-        step.ending = inEnding.numbers.includes(pass)
-          ? pass
+        step.ending = inEnding.numbers.includes(choice)
+          ? choice
           : Math.max(...inEnding.numbers);
       }
       steps.push(step);
       if (!inside[i]) pass = 1;
       const repeat = repeats.get(i);
-      if (repeat && pass < repeat.passes) {
+      if (!noRepeats && repeat && pass < repeat.passes) {
         pass++;
         i = repeat.start;
         back = true;
         continue;
       }
+      if (i === stop) return true;
       i++;
     }
+    return true;
+  };
+
+  if (!jump) {
+    for (let chorus = 1; chorus <= choruses; chorus++) {
+      if (!walk(0, undefined, chorus, false)) return [];
+    }
+    return steps;
+  }
+  // the part before the jump once per chorus (from the start, then from where
+  // the jump goes back to); then, once, the jump and the coda
+  for (let chorus = 1; chorus <= choruses; chorus++) {
+    const from = chorus === 1 ? 0 : jump.target;
+    if (!walk(from, jump.bar, chorus, false)) return [];
+  }
+  if (!walk(jump.target, jump.stop, choruses, true)) return [];
+  if (jump.coda !== undefined && !walk(jump.coda, undefined, choruses, false)) {
+    return [];
   }
   return steps;
 }
@@ -538,6 +698,21 @@ const chorusesOf = (options?: UnrollOptions) => {
  * - A `|:` inside a repeat, a `|:` without a `:|`, or an ending without any
  *   `:|` is a problem (`Chart.problems`), and the chart unrolls to `[]`.
  *
+ * Jumps (one per chart, with one `<Segno>` and one `<Coda>`):
+ *
+ * - After the bar with a D.C. the play goes back to the start, and after a
+ *   D.S. to the `<Segno>`. Then it goes on to the end, stops after the
+ *   `<Fine>` (al Fine), or goes from the end of the `<To Coda>` bar to the
+ *   `<Coda>` (al Coda). `<Fine>` and `<To Coda>` count only after the jump.
+ * - After the jump, repeats aren't taken and the endings are chosen as on a
+ *   pass past the last one (the last ending, if it doesn't repeat), unless
+ *   `repeatsOnJump`.
+ * - With `choruses`, the part before the jump is played once per chorus (the
+ *   first time from the start, then from where the jump goes back to), and
+ *   the jump and the coda once, at the end of the last chorus.
+ * - `<To Coda>` and `<Coda>` without a jump are a `<D.C. al Coda>` at the
+ *   end of the bar before the coda.
+ *
  * A run of a section starts at a bar that starts a section (`[A]`), or at a
  * new chorus, so `sectionBar` and `sectionLength` count within it: an AA
  * form is two runs, written out or with a repeat.
@@ -564,25 +739,28 @@ export function unroll(chart: Chart, options?: UnrollOptions): PlayedBar[] {
     sections[i] = name;
   });
   let start: Fraction = [0, 1];
-  const played: PlayedBar[] = playOrder(chart, choruses).map((step, index) => {
-    const bar = chart.bars[step.bar];
-    const length = getMeter(bar.meter).bar;
-    const played: PlayedBar = {
-      bar: step.bar,
-      index,
-      start,
-      length,
-      meter: bar.meter,
-      section: sections[step.bar],
-      sectionBar: 0,
-      sectionLength: 0,
-      chorus: step.chorus,
-      pass: step.pass,
-    };
-    if (step.ending !== undefined) played.ending = step.ending;
-    start = add(start, length) as Fraction;
-    return played;
-  });
+  const repeatsOnJump = options?.repeatsOnJump === true;
+  const played: PlayedBar[] = playOrder(chart, choruses, repeatsOnJump).map(
+    (step, index) => {
+      const bar = chart.bars[step.bar];
+      const length = getMeter(bar.meter).bar;
+      const played: PlayedBar = {
+        bar: step.bar,
+        index,
+        start,
+        length,
+        meter: bar.meter,
+        section: sections[step.bar],
+        sectionBar: 0,
+        sectionLength: 0,
+        chorus: step.chorus,
+        pass: step.pass,
+      };
+      if (step.ending !== undefined) played.ending = step.ending;
+      start = add(start, length) as Fraction;
+      return played;
+    },
+  );
   // the runs of sections
   let runStart = 0;
   played.forEach((bar, i) => {

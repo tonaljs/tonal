@@ -67,6 +67,9 @@ The syntax:
 | `\|:`, `:\|`, `:\|x3` | a repeat starts, ends, ends after three passes |
 | `\|1`, `\|1,2`, `:\|2` | an ending starts, for pass 1 (or 1 and 2); a repeat ends and ending 2 starts |
 | `\|\|` | a double bar: it closes an ending |
+| `<Segno>`, `<Coda>` | the sign a D.S. goes back to, and where the coda starts (at the start of the bar) |
+| `<To Coda>`, `<Fine>` | where the play goes to the coda, or ends, after a jump (at the end of the bar) |
+| `<D.C.>`, `<D.S. al Coda>`… | a jump at the end of the bar: `D.C.` or `D.S.`, alone or `al Fine` or `al Coda` |
 
 A beat is the meter's lower note, as in [`Time.fromBarBeat`](/packages/time): in 6/8, `G7@4` is on the second dotted quarter.
 
@@ -123,6 +126,31 @@ Chart.unroll(Chart.parse("|: C |1 G :|2 F |")).map((b) => [b.bar, b.pass, b.endi
 - On each pass, the ending for that pass is played and the others are skipped. When no ending is for the pass, the last ending is played if it doesn't repeat; otherwise the endings are skipped, so `|: A |1 B :| C |` plays A B A C.
 - An ending with its own `:|` ends there. The last ending lasts until a `||`, or one bar: in `|: A |1 B :|2 C | D || E |` the second ending is C and D.
 - Repeats don't nest: a `|:` inside a repeat, a `|:` without a `:|` and an ending without any `:|` are problems.
+
+### Jumps: D.C., D.S., coda and fine
+
+After the bar with a D.C., the play goes back to the start; after a D.S., to the `<Segno>`. Then it goes on to the end, stops after the `<Fine>` (al Fine), or jumps from the end of the `<To Coda>` bar to the `<Coda>` (al Coda). `<Fine>` and `<To Coda>` count only after the jump.
+
+```js
+const order = (text, options) => {
+  const chart = Chart.parse(text);
+  return Chart.unroll(chart, options).map((b) => chart.bars[b.bar].chords[0].symbol);
+};
+order("| C <Fine> | F | G <D.C. al Fine> |"); // => ["C", "F", "G", "C"]
+order("| Dm | <Segno> C | F <To Coda> | G <D.S. al Coda> | <Coda> Am |");
+// => ["Dm", "C", "F", "G", "C", "F", "Am"]
+```
+
+- After the jump, repeats aren't taken and only the last ending is played (or none, if it repeats), as most players read it: `| C |: D |1 E :|2 F | G <D.C.> |` plays C D E D F G C D F G. `repeatsOnJump: true` takes the repeats again.
+- **Choruses: the coda ends the tune.** With `choruses: n`, the part before the jump is played n times (the first time from the start, then from where the jump goes back to, so an intro before the segno is played once), and the jump and the coda once, at the end of the last chorus. With one chorus, it's the reading above.
+
+  ```js
+  order("| C | F <To Coda> | G <D.C. al Coda> | <Coda> Am |", { choruses: 2 });
+  // => ["C", "F", "G", "C", "F", "G", "C", "F", "Am"]
+  ```
+
+- `<To Coda>` and `<Coda>` without a jump are read as a D.C. al Coda at the end of the bar before the coda, as in many chart apps: the form loops and ends with the coda.
+- One jump, one `<Segno>` and one `<Coda>` per chart. A D.S. without a segno, an `al Coda` without `<To Coda>` and `<Coda>`, an `al Fine` without `<Fine>`, or a mark that its jump doesn't use is a problem, and the chart unrolls to `[]`.
 
 A tune in AABA form with a first and a second ending:
 
