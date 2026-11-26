@@ -87,6 +87,22 @@ Chords without `@` are placed by the meter's pulses (the groups it's felt in, fr
 
 In a bar where some chords have `@`, a chord without it starts on beat 1 if it's first, or on the next pulse after the chord before.
 
+### `Chart.fromForm`
+
+`fromForm(sections: Record<string, string>, form: string, options?: { meter?: string }) => Chart`
+
+A chart from named sections and a form: the sections in the order the form lists them, each starting with its name. The form is names separated by spaces, with `*n` to play one n times; `"AABA"` is read letter by letter when there's no section with that name. Each section is read on its own (from `options.meter`, 4/4 by default), so it keeps its meter wherever it's played, and it can have its own repeats and jumps.
+
+```js
+const chart = Chart.fromForm({ A: "| C | G |", B: "| F |" }, "A A B A");
+Chart.unroll(chart).map((b) => `${b.section}${b.sectionBar}`);
+// => ["A0", "A1", "A0", "A1", "B0", "A0", "A1"]
+
+Chart.fromForm({ Intro: "| Am | D7 |", A: "| C | G |", B: "3/4 | F | E7 |" }, "Intro A*2 B A");
+```
+
+A name that isn't a section gives an empty chart, and `Chart.problems` says which. Problems inside a section are listed with its name.
+
 ### `Chart.problems`
 
 `problems(chart: Chart) => string[]`

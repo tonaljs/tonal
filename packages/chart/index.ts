@@ -884,3 +884,72 @@ export function position(played: PlayedBar[], text: string): Fraction | null {
   const inBar = fromBarBeat(`1:${match[2]}`, bar.meter);
   return inBar ? add(bar.start, inBar) : null;
 }
+
+/**
+ * Build a chart from named sections and a form: the sections in the order
+ * the form lists them. Each section is a chart text (as in `Chart.parse`),
+ * read on its own from `options.meter` (4/4 by default), so it has the same
+ * meter wherever it's played; its first bar starts the section with its
+ * name. The form is names separated by spaces, with `*n` to play one n
+ * times: `"Intro A*2 B A"`. A form like `"AABA"` is read letter by letter
+ * when there's no section with that name.
+ *
+ * Problems in a section are listed with its name. It returns a chart with
+ * `empty: true` if a name in the form isn't a section (`Chart.problems`
+ * says which) or the form is empty.
+ *
+ * @param sections - the chart text of each section, by name
+ * @param form - the order of the sections, like "A A B A" or "Intro A*2 B"
+ * @param options - `meter`: the time signature of every section
+ * @returns the written chart
+ * @example
+ * const chart = Chart.fromForm({ A: "| C | G |", B: "| F |" }, "A A B A");
+ * Chart.unroll(chart).map((b) => `${b.section}${b.sectionBar}`)
+ * // => ["A0", "A1", "A0", "A1", "B0", "A0", "A1"]
+ */
+export function fromForm(
+  sections: Record<string, string>,
+  form: string,
+  options?: ParseOptions,
+): Chart {
+  if (typeof sections !== "object" || sections === null) return EMPTY;
+  if (typeof form !== "string") return EMPTY;
+  const has = (name: string) =>
+    Object.prototype.hasOwnProperty.call(sections, name) &&
+    typeof sections[name] === "string";
+  // each name, as many times as it's played
+  const names: string[] = [];
+  for (const token of form.split(/\s+/).filter(Boolean)) {
+    const [, name, times] = /^(.+?)(?:\*(\d+))?$/.exec(token) as string[];
+    const count = times === undefined ? 1 : +times;
+    const letters = name.split("");
+    const list = has(name)
+      ? [name]
+      : letters.length > 1 && letters.every(has)
+        ? letters
+        : undefined;
+    if (!list) {
+      return { ...EMPTY, problems: [`unknown section "${name}"`] };
+    }
+    for (let i = 0; i < count; i++) names.push(...list);
+  }
+  if (!names.length) return EMPTY;
+  // each section is read once
+  const parsed = new Map<string, Chart>();
+  const problems: string[] = [];
+  for (const name of new Set(names)) {
+    const chart = parse(sections[name], options);
+    parsed.set(name, chart);
+    if (chart.empty) problems.push(`section "${name}" has no bars`);
+    for (const problem of chart.problems) {
+      problems.push(`section "${name}", ${problem}`);
+    }
+  }
+  const bars: ChartBar[] = names.flatMap((name) =>
+    (parsed.get(name) as Chart).bars.map((bar, i) =>
+      i === 0 ? { ...bar, section: name } : { ...bar },
+    ),
+  );
+  if (!bars.length) return { ...EMPTY, problems };
+  return { empty: false, bars, problems };
+}

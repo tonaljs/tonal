@@ -466,6 +466,79 @@ describe("@tonaljs/chart", () => {
     });
   });
 
+  describe("fromForm", () => {
+    const sections = {
+      Intro: "| Am | D7 |",
+      A: "| C | G |",
+      B: "3/4 | F | E7 |",
+    };
+    const runs = (form: string) =>
+      Chart.unroll(Chart.fromForm(sections, form))
+        .map((b) => `${b.section}${b.sectionBar}`)
+        .join(" ");
+
+    test("sections in the order of the form", () => {
+      expect(runs("A A B A")).toBe("A0 A1 A0 A1 B0 B1 A0 A1");
+      expect(runs("Intro A*2 B A")).toBe(
+        "Intro0 Intro1 A0 A1 A0 A1 B0 B1 A0 A1",
+      );
+      // letter by letter, when no section has that name
+      expect(runs("AABA")).toBe("A0 A1 A0 A1 B0 B1 A0 A1");
+      const chart = Chart.fromForm(sections, "A B");
+      expect(chart.bars.map((b) => b.section)).toEqual([
+        "A",
+        undefined,
+        "B",
+        undefined,
+      ]);
+    });
+
+    test("each section keeps its own meter", () => {
+      const form = Chart.unroll(Chart.fromForm(sections, "A B A"));
+      expect(form.map((b) => b.meter)).toEqual([
+        "4/4",
+        "4/4",
+        "3/4",
+        "3/4",
+        "4/4",
+        "4/4",
+      ]);
+      expect(form[5].start).toEqual([18, 1]);
+      const waltz = Chart.fromForm({ A: "| C |" }, "A", { meter: "3/4" });
+      expect(waltz.bars[0].meter).toBe("3/4");
+    });
+
+    test("repeats and jumps in the sections", () => {
+      const chart = Chart.fromForm(
+        { A: "|: C | G :|", B: "| F <D.C.> |" },
+        "A B",
+      );
+      expect(
+        Chart.unroll(chart)
+          .map((b) => chart.bars[b.bar].chords[0].symbol)
+          .join(" "),
+      ).toBe("C G C G F C G F");
+    });
+
+    test("problems", () => {
+      const unknown = Chart.fromForm(sections, "A C");
+      expect(unknown.empty).toBe(true);
+      expect(Chart.problems(unknown)).toEqual(['unknown section "C"']);
+      expect(
+        Chart.problems(Chart.fromForm({ A: "| C | xyz |" }, "A A")),
+      ).toEqual(['section "A", bar 2: unknown word "xyz"']);
+      expect(
+        Chart.problems(Chart.fromForm({ A: "", B: "| C |" }, "A B")),
+      ).toEqual(['section "A" has no bars']);
+      expect(Chart.fromForm(sections, "").empty).toBe(true);
+      expect(Chart.fromForm(null as never, "A").empty).toBe(true);
+      expect(Chart.fromForm(sections, 5 as never).empty).toBe(true);
+      expect(Chart.fromForm({ toString: 5 } as never, "toString").empty).toBe(
+        true,
+      );
+    });
+  });
+
   describe("chords and chordAt", () => {
     test("chords last until the next one", () => {
       expect(played("| Dm7 G7 | Cmaj7 | | N.C. |")).toEqual([
