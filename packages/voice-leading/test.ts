@@ -296,6 +296,19 @@ describe("VoiceLeading.path", () => {
     expect(forced.voicings[1]).toEqual(["C5", "E5", "G5"]);
   });
 
+  test("maxLeap doesn't lead from a skipped candidate", () => {
+    // A5 is skipped, so every candidate of the last chord needs a large move
+    const result = VoiceLeading.path(
+      [[["C4"]], [["D4"], ["A5"]], [["G5"], ["E5"]]],
+      { maxLeap: 4 },
+    );
+    expect(result).toEqual({
+      voicings: [["C4"], ["D4"], ["E5"]],
+      cost: 16,
+      steps: [0, 2, 14],
+    });
+  });
+
   test("chords without candidates", () => {
     expect(
       VoiceLeading.path([
