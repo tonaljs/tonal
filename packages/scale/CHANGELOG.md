@@ -1,5 +1,14 @@
 # @tonaljs/scale
 
+## 4.15.4
+
+### Patch Changes
+
+- Updated dependencies [659c1a5]
+- Updated dependencies [7ce587b]
+  - @tonaljs/note@4.13.0
+  - @tonaljs/chord@6.6.0
+
 ## 4.15.3
 
 ### Patch Changes

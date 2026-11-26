@@ -1,4 +1,4 @@
-# tonal 6.13.0 API
+# tonal 6.14.0 API
 
 Every public function of the `tonal` npm package, generated from its
 TypeScript source. One entry per function: the signature, then a one-line

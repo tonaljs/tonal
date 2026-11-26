@@ -1,32 +1,67 @@
+<!-- generated from README.md by scripts/tonal-readme.mjs: edit that one -->
+
 # tonal
 
 [![npm version](https://img.shields.io/npm/v/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
-[![build status](https://img.shields.io/github/workflow/status/tonaljs/tonal/tests?style=flat-square)](https://github.com/tonaljs/tonal/actions)
-![minified size](https://img.shields.io/badge/minified-31.1kb-blue?style=flat-square)
-![gzipped size](https://img.shields.io/badge/gzipped-11.01kb-blue?style=flat-square)
 
-`tonal` is a music theory library. Contains functions to manipulate tonal
-elements of music (note, intervals, chords, scales, modes, keys). It deals with
-abstractions (not actual music or sound).
+`tonal` is a music theory library for building composition tools: notes,
+intervals, chords, scales, keys, voicings, progressions, note patterns and
+rhythm patterns.
 
-`tonal` is implemented in Typescript and published as a collection of Javascript
-npm packages.
-
-It uses a functional programming style: all functions are pure, there is no data
-mutation, and entities are represented by data structures instead of objects.
+- **Pure functions, data in and out:** no mutation, no classes. Invalid input
+  gives an empty value (`""`, `[]`, `null` or `{ empty: true }`) instead of an
+  exception.
+- **Written in TypeScript**, with no runtime dependencies, and published as
+  `tonal` and as a collection of smaller `@tonaljs/*` packages.
+- **It describes music, it doesn't play it:** notes, chords and where things are
+  in musical time, never sound or scheduling. Use an audio library for that.
 
 ## Example
 
 ```js
-import { Interval, Note, Scale } from "tonal";
+import {
+  Chord,
+  Interval,
+  Note,
+  Pattern,
+  RhythmPattern,
+  Scale,
+  Voicing,
+} from "tonal";
 
-Note.midi("A4"); // => 69
-Note.freq("A4"); // => 440
+Note.midi("C4"); // => 60
+Note.freq("a4"); // => 440
 Note.accidentals("c#2"); // => '#'
 Note.transpose("C4", "5P"); // => "G4"
 Interval.semitones("5P"); // => 7
 Interval.distance("C4", "G4"); // => "5P"
-Scale.get("C major").notes; // =>["C", "D", "E", "F", "G", "A", "B"];
+
+// Scales
+Scale.get("C major").notes; // => ["C", "D", "E", "F", "G", "A", "B"];
+[1, 3, 5, 7].map(Scale.degrees("C major")); // => ["C", "E", "G", "B"]
+
+Chord.get("Cmaj7").name; // => "C major seventh"
+Chord.detect(["D", "F", "A", "C"]); // => ["Dm7", "F6/D"]
+Scale.chords("D dorian", { size: 4 }).map((c) => c.symbol);
+// => ["Dm7", "Em7", "Fmaj7", "G7", "Am7", "Bm7b5", "Cmaj7"]
+
+// Chord inversions
+const triad = Chord.degrees("Cm");
+[1, 2, 3].map(triad); // => ["C", "Eb", "G"];
+[2, 3, 1].map(triad); // => ["Eb", "G", "C"];
+[3, 1, 2].map(triad); // => ["G", "C", "Eb"];
+
+// Voicings with smooth voice leading
+Voicing.sequence(["Dm7", "G7", "Cmaj7"]);
+// => [["D3", "F3", "A3", "C4"], ["D3", "F3", "G3", "B3"], ["C3", "E3", "G3", "B3"]]
+
+// Note patterns: arpeggios and melodic sequences as indexes
+Pattern.arpeggio("up-down", 4).map(Chord.steps(["C4", "maj7"]));
+// => ["C4", "E4", "G4", "B4", "G4", "E4"]
+
+// Rhythm patterns
+RhythmPattern.euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
+RhythmPattern.toDurations([1, 0, 0, 1, 0, 0, 1, 0]); // => [3, 3, 2]
 ```
 
 ## Install
@@ -37,17 +72,19 @@ Install all packages at once:
 npm install --save tonal
 ```
 
+You can read [CHANGELOG here](https://github.com/tonaljs/tonal/blob/main/docs/CHANGELOG.md).
+
 ## Usage
 
-Tonal is compatible with both ES5 and ES6 modules, and browser.
+Tonal works with ES modules (`import`), CommonJS (`require`) and in the browser.
 
-#### ES6 `import`:
+#### ES modules (`import`)
 
 ```js
 import { Note, Scale } from "tonal";
 ```
 
-#### ES5 `require`:
+#### CommonJS (`require`)
 
 ```js
 const { Note, Scale } = require("tonal");
@@ -65,16 +102,16 @@ You can use the browser version from jsdelivr CDN directly in your html:
 ```
 
 Or if you prefer, grab the
-[minified browser ready version](https://raw.githubusercontent.com/tonaljs/tonal/master/packages/tonal/browser/tonal.min.js)
+[minified browser ready version](https://raw.githubusercontent.com/tonaljs/tonal/main/packages/tonal/browser/tonal.min.js)
 from the repository.
 
 #### Bundle size
 
 `tonal` includes all published modules.
 
-Although the final bundle it is small, you can
-reduce bundle sizes even more by installing the modules individually, and
-importing only the functions you need.
+The browser build is about 27 KB gzipped. You can reduce bundle sizes even
+more by installing the modules individually, and importing only the functions
+you need.
 
 Note that individual modules are prefixed with `@tonaljs/`. For example:
 
@@ -89,57 +126,69 @@ transpose("A4", "P5");
 
 ## Documentation
 
-Generally, you just need to install `tonal` package (before it was called `@tonaljs/tonal`).
+Visit the [documentation site](https://tonaljs.github.io/tonal/docs) or the README.md of each module 👇
 
-The API documentation is inside README.md of each module 👇
+To see what tonal can do, try the [apps](https://tonaljs.github.io/tonal/apps/): a chord finder, scale chords, a key explorer, voicings and more, each showing the tonal calls behind it.
+
+Using a coding agent? Point it to [llms.txt](https://tonaljs.github.io/tonal/llms.txt): it links to a [guide for agents](https://tonaljs.github.io/tonal/docs/agents/) and to [every function with its signature](https://tonaljs.github.io/tonal/llms-api.txt), which is also in the npm package as `node_modules/tonal/llms-api.txt`.
 
 #### Notes and intervals
 
-- [@tonaljs/note](/packages/note): Note operations (simplify, transposeBy )
-- [@tonaljs/midi](/packages/midi): Midi number conversions
-- [@tonaljs/interval](/packages/interval): Interval operations (add, simplify,
+- [@tonaljs/note](https://github.com/tonaljs/tonal/tree/main/packages/note): Note operations (simplify, transposeBy )
+- [@tonaljs/midi](https://github.com/tonaljs/tonal/tree/main/packages/midi): Midi number conversions
+- [@tonaljs/interval](https://github.com/tonaljs/tonal/tree/main/packages/interval): Interval operations (add, simplify,
   invert)
-- [@tonaljs/pitch-notation-abc](/packages/pitch-notation-abc): Parse ABC
+- [@tonaljs/abc-notation](https://github.com/tonaljs/tonal/tree/main/packages/abc-notation): Parse ABC
   notation notes
 
 #### Scales and chords
 
-- [@tonaljs/scale](/packages/scale): Scales
-- [@tonaljs/scale-type](/packages/scale-type): A dictionary of scales
-- [@tonaljs/chord](/packages/chord): Chords
-- [@tonaljs/chord-type](/packages/chord-type): A dictionary of chords
-- [@tonaljs/chord-detect](/packages/chord-detect): Detect chords from notes
-- [@tonaljs/pcset](/packages/pcset): Pitch class sets. Compare note groups.
+- [@tonaljs/scale](https://github.com/tonaljs/tonal/tree/main/packages/scale): Scales
+- [@tonaljs/scale-type](https://github.com/tonaljs/tonal/tree/main/packages/scale-type): A dictionary of scales
+- [@tonaljs/chord](https://github.com/tonaljs/tonal/tree/main/packages/chord): Chords
+- [@tonaljs/chord-type](https://github.com/tonaljs/tonal/tree/main/packages/chord-type): A dictionary of chords
+- [@tonaljs/chord-detect](https://github.com/tonaljs/tonal/tree/main/packages/chord-detect): Detect chords from notes
+- [@tonaljs/pcset](https://github.com/tonaljs/tonal/tree/main/packages/pcset): Pitch class sets. Compare note groups.
+
+#### Voicings
+
+- [@tonaljs/voicing](https://github.com/tonaljs/tonal/tree/main/packages/voicing): Voicings of any chord by rules and templates, for one chord or a whole progression
+- [@tonaljs/voice-leading](https://github.com/tonaljs/tonal/tree/main/packages/voice-leading): Voice-leading distance and the smoothest path between voicings
+- [@tonaljs/voicing-dictionary](https://github.com/tonaljs/tonal/tree/main/packages/voicing-dictionary): Collections of chord voicings (deprecated: use `Voicing`)
 
 #### Keys, chord progressions
 
-- [@tonaljs/key](/packages/key): Major and minor keys, it's scales and chords
-- [@tonaljs/mode](/packages/mode): A dictionary of Greek modes (ionian,
+- [@tonaljs/key](https://github.com/tonaljs/tonal/tree/main/packages/key): Major and minor keys, their scales and chords
+- [@tonaljs/mode](https://github.com/tonaljs/tonal/tree/main/packages/mode): A dictionary of Greek modes (ionian,
   dorian...)
-- [@tonaljs/progression](/packages/progression): Chord progressions
-- [@tonaljs/roman-numeral](/packages/roman-numeral): Parse roman numeral symbols
+- [@tonaljs/progression](https://github.com/tonaljs/tonal/tree/main/packages/progression): Chord progressions
+- [@tonaljs/roman-numeral](https://github.com/tonaljs/tonal/tree/main/packages/roman-numeral): Parse roman numeral symbols
 
-#### Time, rhythm
+#### Time, rhythm, patterns
 
-- [@tonaljs/time-signature](/packages/time-signature): Parse time signatures
-- [@tonaljs/duration-value](/packages/duration-value): Note duration values
+- [@tonaljs/pattern](https://github.com/tonaljs/tonal/tree/main/packages/pattern): Note patterns: arpeggio orders and melodic sequences as lists of indexes
+- [@tonaljs/rhythm-pattern](https://github.com/tonaljs/tonal/tree/main/packages/rhythm-pattern): Generate, read and measure rhythm patterns (Euclidean rhythms, evenness, oddity...)
+- [@tonaljs/time-signature](https://github.com/tonaljs/tonal/tree/main/packages/time-signature): Parse time signatures
+- [@tonaljs/duration-value](https://github.com/tonaljs/tonal/tree/main/packages/duration-value): Note duration values
 
 #### Utilities
 
-- [@tonaljs/core](/packages/core): Core functions (note, interval, transpose and
+- [@tonaljs/core](https://github.com/tonaljs/tonal/tree/main/packages/core): Core functions (note, interval, transpose and
   distance)
-- [@tonaljs/collection](/packages/collection): Utility functions to work with
+- [@tonaljs/collection](https://github.com/tonaljs/tonal/tree/main/packages/collection): Utility functions to work with
   collections (range, shuffle, permutations)
-- [@tonaljs/range](/packages/range): Create note ranges
+- [@tonaljs/range](https://github.com/tonaljs/tonal/tree/main/packages/range): Create note ranges
 
 ## Contributing
 
-Read [contributing document](/docs/CONTRIBUTING.md). To contribute open a PR and ensure:
+Read [contributing document](https://github.com/tonaljs/tonal/blob/main/docs/CONTRIBUTING.md). To contribute open a PR and ensure:
 
-- If is a music theory change (like the name of a scale) link to reliable references.
-- If is a new feature, add documentation: changes to README of the affected module(s) are expected.
-- Ad tests: changes to the test.ts file of the affected module(s) are expected.
-- All tests are green
+- If it's a music theory change (like the name of a scale), link to reliable references.
+- If it's a new feature, add documentation: changes to the README of the affected module(s) are expected.
+- Add tests: changes to the test.ts file of the affected module(s) are expected.
+- If it changes a published package, add a changeset (`npx changeset`).
+- If it changes a public function or its JSDoc, regenerate the API list for agents (`npm run docs:api`).
+- All tests are green (`npm run test:all`)
 
 ## Inspiration
 
@@ -148,9 +197,10 @@ This library takes inspiration from other music theory libraries:
 - Teoria: https://github.com/saebekassebil/teoria
 - Impro-Visor: https://www.cs.hmc.edu/~keller/jazz/improvisor/
 - MusicKit: https://github.com/benzguo/MusicKit
-- Music21: http://web.mit.edu/music21/doc/index.html
+- Music21: https://www.music21.org/music21docs/
 - Sharp11: https://github.com/jsrmath/sharp11
 - python-mingus: https://github.com/bspaans/python-mingus
+- Open Music Theory: https://viva.pressbooks.pub/openmusictheory/
 
 ## Projects using tonal
 
@@ -172,6 +222,15 @@ Showcase of projects that are using Tonal:
 - [Chordify](https://ashleymays.github.io/Chordify) by [ashleymays](https://github.com/ashleymays)
 - [Chordal](https://chordal.vercel.app) by [kad1kad](https://github.com/kad1kad)
 - [muted.io](https://muted.io/) by [thisisseb](https://github.com/thisisseb)
+- [Midi Sandbox](https://midisandbox.com/) by [jdlee022](https://github.com/jdlee022)
+- [music, eternal](https://eternal.rob.computer) by [kousun12](https://github.com/kousun12)
+- [Chromatone.center](https://chromatone.center) by [davay42](https://github.com/davay42)
+- [Super Oscillator](https://github.com/lukehorvat/super-oscillator) by [lukehorvat](https://github.com/lukehorvat)
+- [StringScales](https://stringscales.com/) by [Ambewas](https://github.com/ambewas)
+- [Polychron](https://github.com/PolychronMidi/Polychron) by [i1li](https://github.com/i1li)
+- [MusicTrainer](https://musictrainer.barnman.cc) by [zilongliu](https://github.com/Zilong-L)
+- [RiffScore](https://riffscore.netlify.app/) by [joekotvas](https://github.com/joekotvas/)
+- [tonal_rs](https://github.com/TvrtkoM/tonal_rs) rust port by [TvrtkoM](https://github.com/TvrtkoM/)
 
 Thank you all!
 
@@ -180,4 +239,4 @@ Add your project here by
 
 ## License
 
-[MIT License](docs/LICENSE)
+[MIT License](https://github.com/tonaljs/tonal/blob/main/docs/LICENSE)
