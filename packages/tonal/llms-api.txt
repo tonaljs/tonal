@@ -285,12 +285,13 @@ Chart.position(played: PlayedBar[], text: string): Fraction | null
   Chart.position(played, "3:2") // => [8, 1]
 
 Chart.problems(chart: Chart): string[]
-  Get what can't be played in a chart: the words, chords and positions that `Chart.parse` couldn't read, by bar. An empty list means the chart is fine.
+  Get what can't be played in a chart, by bar: the words, chords and positions that `Chart.parse` couldn't read, and repeats and endings that don't close (a chart with those unrolls to `[]`). An empty list means the chart is fine.
   Chart.problems(Chart.parse("| Cmaj7 | Xyz |")) // => ['bar 2: unknown word "Xyz"']
 
 Chart.unroll(chart: Chart, options?: UnrollOptions): PlayedBar[]
-  Get the played form of a chart: every bar in the order it's played, with where it starts (in quarter notes), its length, its section, its place in the section and its chorus. `choruses` plays the form more than once.
+  Get the played form of a chart: every bar in the order it's played, with where it starts (in quarter notes), its length, its section, its place in the section, its chorus, and its pass and ending in a repeat. `choruses` plays the form more than once.
   Chart.unroll(Chart.parse("[A] | C | G | [B] | F |")).map((b) => `${b.section}${b.sectionBar}`)
+  Chart.unroll(Chart.parse("|: C |1 G :|2 F |")).map((b) => [b.bar, b.pass, b.ending])
 
 Types:
 
@@ -304,6 +305,10 @@ type ChartBar = {
   meter: string;
   chords: ChartChord[];
   section?: string | undefined;
+  repeatStart?: true | undefined;
+  repeatEnd?: number | undefined;
+  ending?: number[] | undefined;
+  doubleBar?: true | undefined;
 }
 
 type ChartChord = {
@@ -326,6 +331,7 @@ type PlayedBar = {
   sectionLength: number;
   chorus: number;
   pass: number;
+  ending?: number | undefined;
 }
 
 type PlayedChord = {
