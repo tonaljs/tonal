@@ -24,7 +24,7 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "smplr": "1.2.1",
-    "tonal": "6.13.0",
+    "tonal": "6.14.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {
