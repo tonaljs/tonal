@@ -49,15 +49,15 @@ You can read [CHANGELOG here](https://github.com/tonaljs/tonal/blob/main/docs/CH
 
 ## Usage
 
-Tonal is compatible with both ES5 and ES6 modules, and browser.
+Tonal works with ES modules (`import`), CommonJS (`require`) and in the browser.
 
-#### ES6 `import`:
+#### ES modules (`import`)
 
 ```js
 import { Note, Scale } from "tonal";
 ```
 
-#### ES5 `require`:
+#### CommonJS (`require`)
 
 ```js
 const { Note, Scale } = require("tonal");
@@ -75,16 +75,16 @@ You can use the browser version from jsdelivr CDN directly in your html:
 ```
 
 Or if you prefer, grab the
-[minified browser ready version](https://raw.githubusercontent.com/tonaljs/tonal/master/packages/tonal/browser/tonal.min.js)
+[minified browser ready version](https://raw.githubusercontent.com/tonaljs/tonal/main/packages/tonal/browser/tonal.min.js)
 from the repository.
 
 #### Bundle size
 
 `tonal` includes all published modules.
 
-Although the final bundle it is small, you can
-reduce bundle sizes even more by installing the modules individually, and
-importing only the functions you need.
+The browser build is about 27 KB gzipped. You can reduce bundle sizes even
+more by installing the modules individually, and importing only the functions
+you need.
 
 Note that individual modules are prefixed with `@tonaljs/`. For example:
 
@@ -129,7 +129,7 @@ Using a coding agent? Point it to [llms.txt](https://tonaljs.github.io/tonal/llm
 
 #### Keys, chord progressions
 
-- [@tonaljs/key](/packages/key): Major and minor keys, it's scales and chords
+- [@tonaljs/key](/packages/key): Major and minor keys, their scales and chords
 - [@tonaljs/mode](/packages/mode): A dictionary of Greek modes (ionian,
   dorian...)
 - [@tonaljs/progression](/packages/progression): Chord progressions
@@ -137,7 +137,7 @@ Using a coding agent? Point it to [llms.txt](https://tonaljs.github.io/tonal/llm
 
 #### Time, rhythm
 
-- [@tonaljs/rhythm-pattern](/packages/rhythm-pattern): Generate and manipulate rhythmic patterns
+- [@tonaljs/rhythm-pattern](/packages/rhythm-pattern): Generate, read and measure rhythm patterns (Euclidean rhythms, evenness, oddity...)
 - [@tonaljs/time-signature](/packages/time-signature): Parse time signatures
 - [@tonaljs/duration-value](/packages/duration-value): Note duration values
 
@@ -153,10 +153,10 @@ Using a coding agent? Point it to [llms.txt](https://tonaljs.github.io/tonal/llm
 
 Read [contributing document](/docs/CONTRIBUTING.md). To contribute open a PR and ensure:
 
-- If is a music theory change (like the name of a scale) link to reliable references.
-- If is a new feature, add documentation: changes to README of the affected module(s) are expected.
-- Ad tests: changes to the test.ts file of the affected module(s) are expected.
-- All tests are green
+- If it's a music theory change (like the name of a scale), link to reliable references.
+- If it's a new feature, add documentation: changes to the README of the affected module(s) are expected.
+- Add tests: changes to the test.ts file of the affected module(s) are expected.
+- All tests are green (`npm run test:all`)
 
 ## Inspiration
 
