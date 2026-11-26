@@ -207,7 +207,14 @@ The rules at the edges:
 - In a range under an octave, a note may have no octave inside it: with `each: true` it goes to the octave nearest the range, and a tie goes up.
 - To keep the shape where it fits and fix only the notes at the edges, fold the whole figure first and then each note: `Note.fold(Note.fold(notes, range), range, { each: true })`.
 
-It returns `[]` if the notes are empty or one has no octave, or if the range isn't two notes with octave from low to high. (This `fold` moves notes into a register; it isn't the `fold` of functional programming, which is `reduce`.)
+A pitch class (a note without octave) has no octave to keep, so it goes on its own to the lowest octave at or above `low` (or, in a range under an octave, to the octave nearest the range), whatever the mode. It places notes in a register:
+
+```js
+Note.fold(["D", "G", "C"], ["E2", "D3"]); // => ["D3", "G2", "C3"]
+Note.fold(["C2", "E2", "G"], ["E2", "G3"]); // => ["C3", "E3", "G2"]
+```
+
+It returns `[]` if the notes are empty or one isn't a note, or if the range isn't two notes with octave from low to high. (This `fold` moves notes into a register; it isn't the `fold` of functional programming, which is `reduce`.)
 
 ## Named collections
 

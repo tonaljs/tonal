@@ -298,8 +298,12 @@ const fewest = (from: number, to: number) =>
  * the range (ties go up). To keep the shape where it fits and fix the notes
  * at the edges, fold the whole figure first and then each note.
  *
- * It returns `[]` if the notes are empty or one has no octave, or if the
- * range isn't two notes with octave from low to high.
+ * A pitch class (a note without octave) has no octave to keep, so it goes on
+ * its own to the lowest octave at or above `low` (or, in a range under an
+ * octave, to the octave nearest the range), in either mode.
+ *
+ * It returns `[]` if the notes are empty or one isn't a note, or if the range
+ * isn't two notes with octave from low to high.
  * @param notes - the notes, like ["C2", "E2", "G2"]
  * @param range - the lowest and highest notes, like ["E2", "G3"]
  * @param options - `each: true` to move each note on its own
@@ -308,6 +312,7 @@ const fewest = (from: number, to: number) =>
  * Note.fold(["C2", "E2", "G2", "Bb2"], ["E2", "G3"]); // => ["C3", "E3", "G3", "Bb3"]
  * Note.fold(["C2", "E2", "G2", "Bb2"], ["E2", "G3"], { each: true }); // => ["C3", "E2", "G2", "Bb2"]
  * Note.fold(["C5", "E5", "G5"], ["C3", "C5"]); // => ["C4", "E4", "G4"]
+ * Note.fold(["D", "G", "C"], ["E2", "D3"]); // => ["D3", "G2", "C3"]
  */
 export function fold(
   notes: NoteName[],
@@ -322,34 +327,37 @@ export function fold(
   if (!hasOctave(low) || !hasOctave(high) || low.height > high.height) {
     return [];
   }
-  if (!list.every(hasOctave)) return [];
+  if (list.some((n) => n.empty)) return [];
   const move = (n: Note, octaves: number) =>
     octaves === 0 ? n.name : transposeOctaves(n.name, octaves);
 
+  // one note on its own, by the fewest octaves
+  const foldNote = (n: Note) => {
+    const [from, to] = octavesInto(low.height, high.height, n.height, n.height);
+    if (from <= to) return move(n, fewest(from, to));
+    // no octave in the range: the nearest one, below or above it
+    const below = low.height - (n.height + 12 * (from - 1));
+    const above = n.height + 12 * from - high.height;
+    return move(n, above <= below ? from : from - 1);
+  };
+  // a pitch class starts in the octave of `low`, so the fewest octaves from
+  // there is the lowest octave at or above it
+  const foldPitchClass = (n: Note) => foldNote(props(n.pc + low.oct));
+
   if (options?.each === true) {
-    return list.map((n) => {
-      const [from, to] = octavesInto(
+    return list.map((n) => (hasOctave(n) ? foldNote(n) : foldPitchClass(n)));
+  }
+  const heights = list.filter(hasOctave).map((n) => n.height);
+  const [from, to] = heights.length
+    ? octavesInto(
         low.height,
         high.height,
-        n.height,
-        n.height,
-      );
-      if (from <= to) return move(n, fewest(from, to));
-      // no octave in the range: the nearest one, below or above it
-      const below = low.height - (n.height + 12 * (from - 1));
-      const above = n.height + 12 * from - high.height;
-      return move(n, above <= below ? from : from - 1);
-    });
-  }
-  const heights = list.map((n) => n.height);
-  const [from, to] = octavesInto(
-    low.height,
-    high.height,
-    Math.min(...heights),
-    Math.max(...heights),
-  );
+        Math.min(...heights),
+        Math.max(...heights),
+      )
+    : [0, 0];
   const octaves = from <= to ? fewest(from, to) : from;
-  return list.map((n) => move(n, octaves));
+  return list.map((n) => (hasOctave(n) ? move(n, octaves) : foldPitchClass(n)));
 }
 
 export type NoteComparator = (a: Note, b: Note) => number;
