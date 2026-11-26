@@ -330,9 +330,13 @@ function collectTypes(type, checker, types) {
       !types.has(alias.getName())
     ) {
       // a named union, such as type ChordQuality = "Major" | "Minor" | ...
+      // With its JSDoc description, which explains a union that names types
+      // not listed here (`NoteName = KnownNoteName | (string & {})`)
+      const description = describe(alias, checker);
       types.set(
         alias.getName(),
-        `type ${alias.getName()} = ${typeText(t, aliasDecl, checker, ts.TypeFormatFlags.InTypeAlias)}`,
+        `type ${alias.getName()} = ${typeText(t, aliasDecl, checker, ts.TypeFormatFlags.InTypeAlias)}` +
+          (description ? `\n  ${description}` : ""),
       );
     }
     if (t.isUnion() || t.isIntersection()) return t.types.forEach(visit);

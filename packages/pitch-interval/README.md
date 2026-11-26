@@ -62,4 +62,4 @@ interval("2P").empty; // => true
 
 ## Types
 
-`IntervalName` accepts any string, and lists the common names so editors can suggest them: every interval up to 15, up or down, in both orders, such as `3M`, `-5P`, `M3` or `P-5` (`KnownIntervalName`).
+`IntervalName` accepts any string, and lists the common names so editors can suggest them: every interval up to 15, up or down, number first as tonal writes them, such as `3M` or `-5P` (`KnownIntervalName`). Quality first (`M3`, `P-5`) is accepted too, but not suggested.

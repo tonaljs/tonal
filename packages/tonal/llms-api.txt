@@ -149,6 +149,7 @@ type Interval = {
 type IntervalLiteral = Pitch | NamedPitch | IntervalName
 
 type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
 type NamedPitch = {
   name: string;
@@ -174,8 +175,10 @@ type Note = {
 type NoteLiteral = Pitch | NamedPitch | NoteName
 
 type NoteName = (string & {}) | KnownNoteName
+  A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
 
 type PcName = (string & {}) | KnownPcName
+  A pitch class name (a note without octave). Any string is accepted; editors suggest the 35 common names (`KnownPcName`): "C" to "B" with nothing, "#", "b", "##" or "bb", such as "C" or "Eb".
 
 type Pitch = {
   step: number;
@@ -372,14 +375,17 @@ type Chord = {
 }
 
 type ChordFamily = '' | 'major' | 'minor' | 'dominant' | 'half-diminished' | 'diminished' | 'augmented' | 'suspended' | 'power'
+  A coarse classification of chord types, for choices that depend on the kind of chord (a bass line or a comping pattern). It's empty for an empty type.
 
 type ChordNameOrTokens = string | [string] | [string, string] | [string, string, string]
 
 type ChordQuality = 'Major' | 'Minor' | 'Augmented' | 'Diminished' | 'Unknown'
 
 type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
 type NoteName = (string & {}) | KnownNoteName
+  A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
 
 ## ChordType
 
@@ -441,6 +447,7 @@ ChordType.symbols(): string[]
 Types:
 
 type ChordFamily = '' | 'major' | 'minor' | 'dominant' | 'half-diminished' | 'diminished' | 'augmented' | 'suspended' | 'power'
+  A coarse classification of chord types, for choices that depend on the kind of chord (a bass line or a comping pattern). It's empty for an empty type.
 
 type ChordQuality = 'Major' | 'Minor' | 'Augmented' | 'Diminished' | 'Unknown'
 
@@ -460,6 +467,7 @@ type ChordType = {
 type ChordTypeName = string | number
 
 type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
 ## Collection
 
@@ -670,6 +678,7 @@ type Interval = {
 type IntervalLiteral = Pitch | NamedPitch | IntervalName
 
 type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
 type NamedPitch = {
   name: string;
@@ -895,6 +904,7 @@ Mode.triads(modeName: ModeLiteral, tonic: NoteName): string[]
 Types:
 
 type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
 type Mode = {
   name: string;
@@ -913,6 +923,7 @@ type Mode = {
 type ModeLiteral = string | { name: string; }
 
 type NoteName = (string & {}) | KnownNoteName
+  A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
 
 ## Note
 
@@ -1055,6 +1066,7 @@ Types:
 type Direction = 1 | -1
 
 type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
 type NamedPitch = {
   name: string;
@@ -1082,8 +1094,10 @@ type NoteComparator = (a: Note, b: Note) => number
 type NoteLiteral = Pitch | NamedPitch | NoteName
 
 type NoteName = (string & {}) | KnownNoteName
+  A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
 
 type PcName = (string & {}) | KnownPcName
+  A pitch class name (a note without octave). Any string is accepted; editors suggest the 35 common names (`KnownPcName`): "C" to "B" with nothing, "#", "b", "##" or "bb", such as "C" or "Eb".
 
 type Pitch = {
   step: number;
@@ -1177,8 +1191,10 @@ Pcset.EmptyPcset: Pcset
 Types:
 
 type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
 type NoteName = (string & {}) | KnownNoteName
+  A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
 
 type Pcset = {
   name: string;
@@ -1190,6 +1206,7 @@ type Pcset = {
 }
 
 type Set = string | number | Partial<Pcset> | NoteName[] | IntervalName[]
+  A definition of a pitch class set. It could be: - The pitch class set chroma (a 12-length string with only 1s or 0s) - The pitch class set number (an integer between 1 and 4095) - An array of note names - An array of interval names
 
 ## Progression
 
@@ -1432,8 +1449,10 @@ Scale.transposeBySteps(scaleName: string | ScaleNameTokens, noteName: string, st
 Types:
 
 type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
 type NoteName = (string & {}) | KnownNoteName
+  A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
 
 type Scale = {
   tonic: string | null;
@@ -1505,6 +1524,7 @@ ScaleType.NoScaleType: ScaleType
 Types:
 
 type IntervalName = KnownIntervalName | (string & {})
+  An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
 type ScaleType = {
   name: string;
