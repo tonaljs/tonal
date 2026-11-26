@@ -7,7 +7,7 @@ intervals, chords, scales, keys, voicings, progressions and rhythm patterns.
 
 - **Pure functions, data in and out:** no mutation, no classes. Invalid input
   gives an empty value (`""`, `[]`, `null` or `{ empty: true }`) instead of an
-  exception (a few low-level helpers still throw: fixing them is in progress).
+  exception.
 - **Written in TypeScript**, with no runtime dependencies, and published as
   `tonal` and as a collection of smaller `@tonaljs/*` packages.
 - **It describes music, it doesn't play it:** notes, chords and where things are
