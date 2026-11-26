@@ -42,6 +42,7 @@ next-env.d.ts
 /content/docs/notation/abc-notation.md
 /content/docs/notation/roman-numerals.md
 /content/docs/time/duration.md
+/content/docs/time/note-patterns.md
 /content/docs/time/patterns.md
 /content/docs/time/signatures.md
 /content/docs/utils/collections.md

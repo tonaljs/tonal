@@ -186,6 +186,13 @@ exports[`tonal > Modules exports functions 1`] = `
     "transposeFrom",
     "transposeOctaves",
   ],
+  "Pattern": [
+    "alternate",
+    "arpeggio",
+    "arpeggios",
+    "repeat",
+    "sequence",
+  ],
   "PcSet": [
     "EmptyPcset",
     "chroma",
@@ -372,6 +379,7 @@ exports[`tonal > exported modules and functions 1`] = `
   "Midi",
   "Mode",
   "Note",
+  "Pattern",
   "PcSet",
   "Pcset",
   "Progression",

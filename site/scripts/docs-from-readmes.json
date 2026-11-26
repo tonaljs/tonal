@@ -97,6 +97,12 @@
     "title": "Time duration"
   },
   {
+    "page": "time/note-patterns.md",
+    "readme": "pattern",
+    "title": "Note Patterns",
+    "description": "Arpeggio orders and melodic sequences as lists of indexes"
+  },
+  {
     "page": "time/patterns.md",
     "readme": "rhythm-pattern",
     "title": "Rhythm Patterns",

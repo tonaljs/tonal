@@ -3,7 +3,8 @@
 [![npm version](https://img.shields.io/npm/v/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
 
 `tonal` is a music theory library for building composition tools: notes,
-intervals, chords, scales, keys, voicings, progressions and rhythm patterns.
+intervals, chords, scales, keys, voicings, progressions, note patterns and
+rhythm patterns.
 
 - **Pure functions, data in and out:** no mutation, no classes. Invalid input
   gives an empty value (`""`, `[]`, `null` or `{ empty: true }`) instead of an
@@ -16,7 +17,15 @@ intervals, chords, scales, keys, voicings, progressions and rhythm patterns.
 ## Example
 
 ```js
-import { Chord, Interval, Note, RhythmPattern, Scale, Voicing } from "tonal";
+import {
+  Chord,
+  Interval,
+  Note,
+  Pattern,
+  RhythmPattern,
+  Scale,
+  Voicing,
+} from "tonal";
 
 Note.midi("C4"); // => 60
 Note.freq("a4"); // => 440
@@ -43,6 +52,10 @@ const triad = Chord.degrees("Cm");
 // Voicings with smooth voice leading
 Voicing.sequence(["Dm7", "G7", "Cmaj7"]);
 // => [["D3", "F3", "A3", "C4"], ["D3", "F3", "G3", "B3"], ["C3", "E3", "G3", "B3"]]
+
+// Note patterns: arpeggios and melodic sequences as indexes
+Pattern.arpeggio("up-down", 4).map(Chord.steps(["C4", "maj7"]));
+// => ["C4", "E4", "G4", "B4", "G4", "E4"]
 
 // Rhythm patterns
 RhythmPattern.euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
@@ -149,8 +162,9 @@ Using a coding agent? Point it to [llms.txt](https://tonaljs.github.io/tonal/llm
 - [@tonaljs/progression](/packages/progression): Chord progressions
 - [@tonaljs/roman-numeral](/packages/roman-numeral): Parse roman numeral symbols
 
-#### Time, rhythm
+#### Time, rhythm, patterns
 
+- [@tonaljs/pattern](/packages/pattern): Note patterns: arpeggio orders and melodic sequences as lists of indexes
 - [@tonaljs/rhythm-pattern](/packages/rhythm-pattern): Generate, read and measure rhythm patterns (Euclidean rhythms, evenness, oddity...)
 - [@tonaljs/time-signature](/packages/time-signature): Parse time signatures
 - [@tonaljs/duration-value](/packages/duration-value): Note duration values

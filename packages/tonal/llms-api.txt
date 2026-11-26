@@ -1108,6 +1108,40 @@ type Pitch = {
 
 type PitchCoordinates = PitchClassCoordinates | NoteCoordinates | IntervalCoordinates
 
+## Pattern
+
+import { Pattern } from "tonal"; // or: import * as Pattern from "@tonaljs/pattern";
+
+Pattern.alternate(groups: number[][]): number[][]
+  Reverse every other group, starting with the second: the first group stays as it is, the second is played backwards, and so on. A sequence of thirds becomes thirds alternately up and down.
+  Pattern.alternate([[0, 2], [1, 3], [2, 4], [3, 5]]) // => [[0, 2], [3, 1], [2, 4], [5, 3]]
+
+Pattern.arpeggio(name: ArpeggioName | (string & {}), n: number): number[]
+  Get an arpeggio order over n notes: the indexes of the notes (0 is the lowest, n - 1 the highest) in the order they're played, once round the loop. The order adapts to the number of notes: `"up"` is 3 notes over a triad, 4 over a seventh chord. Every index is in 0..n - 1.
+  Pattern.arpeggio("up-down", 4) // => [0, 1, 2, 3, 2, 1]
+  Pattern.arpeggio("converge", 4) // => [0, 3, 1, 2]
+  Pattern.arpeggio("thumb-up", 4) // => [0, 1, 0, 2, 0, 3]
+
+Pattern.arpeggios(): ArpeggioName[]
+  Get the names of the arpeggio orders that `Pattern.arpeggio` knows.
+  Pattern.arpeggios() // => ["up", "down", "up-down", "down-up", "up-down-repeat", "down-up-repeat", "converge", "diverge", "converge-diverge", "thumb-up", "thumb-up-down", "pinky-up", "pinky-up-down"]
+
+Pattern.repeat(indexes: number[], times: number): number[]
+  Repeat each index a number of times, in place: `[0, 1]` twice is `[0, 0, 1, 1]`. Over an arpeggio, it gives the doubled orders. (To repeat the whole list, use `Pattern.sequence` with a step of 0.)
+  Pattern.repeat([0, 1, 2], 2) // => [0, 0, 1, 1, 2, 2]
+  Pattern.repeat(Pattern.arpeggio("down", 3), 2) // => [2, 2, 1, 1, 0, 0]
+
+Pattern.sequence(cell: number[], step: number, count: number): number[][]
+  Move a cell of indexes by a step, again and again: a melodic sequence. Group i is the cell with i × step added to each index, so the cell keeps its shape and moves through the notes it's realised over (a scale moves diatonically). It returns the groups; `.flat()` gives one list.
+  Pattern.sequence([0, 1, 2, 3], 1, 3) // => [[0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5]]
+  Pattern.sequence([0, 2], 1, 4) // => [[0, 2], [1, 3], [2, 4], [3, 5]]
+  Pattern.sequence([0, 1, 2], 1, 3).flat().map(Scale.steps("C4 major pentatonic")) // => ["C4", "D4", "E4", "D4", "E4", "G4", "E4", "G4", "A4"]
+
+Types:
+
+type ArpeggioName = 'up' | 'down' | 'up-down' | 'down-up' | 'up-down-repeat' | 'down-up-repeat' | 'converge' | 'diverge' | 'converge-diverge' | 'thumb-up' | 'thumb-up-down' | 'pinky-up' | 'pinky-up-down'
+  The name of an arpeggio order. Other strings are accepted (and give `[]`), so a name read at runtime still type-checks.
+
 ## Pcset
 
 import { Pcset } from "tonal"; // or: import * as Pcset from "@tonaljs/pcset";
