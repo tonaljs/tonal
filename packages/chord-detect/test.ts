@@ -134,3 +134,11 @@ describe("@tonal/chord-detect", () => {
     expect(detect([])).toEqual([]);
   });
 });
+
+describe("non-array input", () => {
+  test("gives []", () => {
+    for (const x of [undefined, null, "C E G", 5] as unknown as string[][]) {
+      expect(detect(x)).toEqual([]);
+    }
+  });
+});

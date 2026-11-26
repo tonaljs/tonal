@@ -242,3 +242,12 @@ describe("chord type input safety", () => {
     }
   });
 });
+
+describe("non-array input", () => {
+  test("complexity and family give empty values", () => {
+    for (const x of [undefined, null, "m7", 5] as unknown as string[]) {
+      expect(ChordType.complexity(x)).toBe(0);
+      expect(ChordType.family(x)).toBe("");
+    }
+  });
+});
