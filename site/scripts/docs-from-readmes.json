@@ -92,6 +92,12 @@
     "apps": ["chart-reader"]
   },
   {
+    "page": "time/time.md",
+    "readme": "time",
+    "title": "Time",
+    "description": "Positions, durations, meters and bar:beat as exact fractions of quarter notes"
+  },
+  {
     "page": "time/duration.md",
     "readme": "duration-value",
     "title": "Time duration"

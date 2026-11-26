@@ -17,6 +17,7 @@ import * as RhythmPattern from "@tonaljs/rhythm-pattern";
 import * as RomanNumeral from "@tonaljs/roman-numeral";
 import * as Scale from "@tonaljs/scale";
 import * as ScaleType from "@tonaljs/scale-type";
+import * as Time from "@tonaljs/time";
 import * as TimeSignature from "@tonaljs/time-signature";
 import * as VoiceLeading from "@tonaljs/voice-leading";
 import * as Voicing from "@tonaljs/voicing";
@@ -59,6 +60,7 @@ export {
   Scale,
   ScaleDictionary,
   ScaleType,
+  Time,
   TimeSignature,
   Tonal,
   VoiceLeading,
