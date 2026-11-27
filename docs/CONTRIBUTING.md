@@ -44,9 +44,15 @@ To create a new module:
 
 ## Music, not sound
 
-tonal describes music, it doesn't play it. For time this means **where**, never **when**: tonal has positions and durations, meters, bars and beats, rhythm patterns, chord charts and the chord at a position, but nothing in seconds, no tempo, no events or scheduling, no clocks and no state. `Math.random` only comes in as an injected `rnd` function. A function that needs any of those belongs in the app or an audio library.
+tonal describes music, it doesn't play it. For time, tonal says **where** things are: positions and durations, meters, bars and beats, rhythm patterns, chord charts and the chord at a position. Saying **when** they play (tempo, tempo maps, seconds) is planned, and comes step by step. Playing stays outside: clocks, scheduling, audio and state. `Math.random` only comes in as an injected `rnd` function. A function that needs any of those belongs in the app or an audio library.
 
 Time values are numbers of **quarter notes**, as in music21, MIDI and MusicXML, returned as exact fractions `[numerator, denominator]` (`@tonaljs/time`): a dotted quarter is `[3, 2]`, a triplet eighth `[1, 3]`. Floats can't hold a third exactly, and the error lands on the wrong bar of a chart. Functions also take exact numbers as input (multiples of 1/1024, like `1.5`) and strings (`"1/3"`). Bars and beats are written `"bar:beat"`, both from 1, and a beat is the meter's lower note (in 6/8, an eighth). New time functions use these values and `Time`'s helpers (`add`, `compare`, `equal`), never float arithmetic.
+
+New functions that place things in time follow the conventions of `Chart`:
+
+- `at` is a position inside a container (a chord in its bar: `ChartChord.at`), and `start` a position from the start of the piece or the played form (`PlayedBar.start`, `PlayedChord.start`).
+- What is played has a `start` and a `duration`, and what it holds is its `value`: a played chord is `{ value, start, duration, bar }`, with the chord symbol as `value`. The other fields say where it comes from (`bar`), and a function that changes when something is played keeps them.
+- A span is half-open: a chord that starts at 0 and lasts 4 quarters covers `[0, 4)`, so at 4 the next one plays (`Chart.chordAt`, `Chart.barAt`). A query for what's in a range takes what starts in it, so two ranges next to each other never give the same thing twice.
 
 ## Documentation
 

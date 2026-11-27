@@ -12,7 +12,8 @@ patterns and rhythm patterns.
 - **Written in TypeScript**, with no runtime dependencies, and published as
   `tonal` and as a collection of smaller `@tonaljs/*` packages.
 - **It describes music, it doesn't play it:** notes, chords and where things are
-  in musical time, never sound or scheduling. Use an audio library for that.
+  in musical time (when they play, with tempo and seconds, comes step by step),
+  never sound or scheduling. Use an audio library for that.
 
 ## Example
 

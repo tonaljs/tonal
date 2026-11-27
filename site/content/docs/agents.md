@@ -347,11 +347,11 @@ below).
 
 ## Time
 
-tonal describes where things are in musical time, never when they play: there
-is nothing in seconds, no tempo-based timing, no scheduling and no audio.
-`Time`, `TimeSignature`, `DurationValue` and `RhythmPattern` cover positions,
-meters, note values and rhythm patterns. Use an audio or scheduling library for
-playback.
+tonal describes where things are in musical time: `Time`, `TimeSignature`,
+`DurationValue`, `RhythmPattern` and `Chart` cover positions, meters, note
+values, rhythm patterns and chord charts. When they play (tempo, seconds) isn't
+in tonal yet; it's planned, step by step. Playback, clocks and scheduling stay
+outside: use an audio or scheduling library for those.
 
 `Time` measures in quarter notes and returns exact fractions,
 `[numerator, denominator]`: a dotted quarter is `[3, 2]`, a triplet eighth

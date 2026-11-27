@@ -36,8 +36,8 @@ importers:
         specifier: 1.2.1
         version: 1.2.1
       tonal:
-        specifier: 6.14.0
-        version: 6.14.0
+        specifier: 6.15.0
+        version: 6.15.0
       zod:
         specifier: ^4.6.7
         version: 4.6.7
@@ -993,6 +993,9 @@ packages:
   '@tonaljs/array@4.8.9':
     resolution: {integrity: sha512-ITZQ0tuN2ca1CkwfBGZfHtPeWG8MDNpGFGURY1EUPsvl4Kc8AJJVn+vBj9JntVCSGY6p830RROe6lNG9EucOuA==}
 
+  '@tonaljs/chart@1.0.0':
+    resolution: {integrity: sha512-VDMFqdfDLm133069cp6R5gdKi3ypW/6s2EZCrVc+1z3vv/FN5Pde+AAKg/2df1ghF8x0BlhaV6uWs906l0iLTA==}
+
   '@tonaljs/chord-detect@4.11.2':
     resolution: {integrity: sha512-4peW4x91q4klzbc5VY/0FYa32kKowIlLzcEAPP6hc28WE1JejllBONG8Wtm+Zr9PmzwvODP3XQOgnT16uiL0fQ==}
 
@@ -1064,6 +1067,9 @@ packages:
 
   '@tonaljs/time-signature@4.10.3':
     resolution: {integrity: sha512-xXtwKloDp5msxUnOWjlqklhqFO+0m3Ks7phXis1TezUWaFXPZNvXk6DuJcMv6KkajMEXJBAtVUY/Ycxj2BrhKA==}
+
+  '@tonaljs/time@1.0.0':
+    resolution: {integrity: sha512-5Z59Ndn6U+c5Jd7oWLxJV5F6SiYCPwKBI7iZtMUr4GO2bX7Z3HvuNEj9CJQKpeTnl+xtK20pTF0PEUyeYJrzvw==}
 
   '@tonaljs/voice-leading@5.2.3':
     resolution: {integrity: sha512-JbC5y6kssJS7OB104DCldSa8my4RWMtvIPgTWC3wppMyfpOIsXMfhp4CeuwxDwxvIe4L2nUD5UcjZc6g/mFFrg==}
@@ -2559,8 +2565,8 @@ packages:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
 
-  tonal@6.14.0:
-    resolution: {integrity: sha512-wj9SGnZc9OWz7HRKhtVo5uSzXI6iovL2aJN9JjejJJFK0deokL4QPA6F/0wpTNOGzSAzGylJA9y8dpm2ritrZg==}
+  tonal@6.15.0:
+    resolution: {integrity: sha512-rmqbZ82dvsv55eEG/JCYpQpLGQv9e56amLpAMRlJNuJKUuRBKD50TzvtzRdESd0iWSgdnAfuI4s5+aAFN5yWUA==}
 
   trim-lines@3.0.1:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
@@ -3482,6 +3488,11 @@ snapshots:
     dependencies:
       '@tonaljs/pitch-note': 6.2.1
 
+  '@tonaljs/chart@1.0.0':
+    dependencies:
+      '@tonaljs/chord': 6.6.0
+      '@tonaljs/time': 1.0.0
+
   '@tonaljs/chord-detect@4.11.2':
     dependencies:
       '@tonaljs/chord-type': 5.4.2
@@ -3615,6 +3626,11 @@ snapshots:
       '@tonaljs/scale-type': 4.10.2
 
   '@tonaljs/time-signature@4.10.3': {}
+
+  '@tonaljs/time@1.0.0':
+    dependencies:
+      '@tonaljs/duration-value': 4.9.2
+      '@tonaljs/time-signature': 4.10.3
 
   '@tonaljs/voice-leading@5.2.3':
     dependencies:
@@ -5391,10 +5407,11 @@ snapshots:
     dependencies:
       is-number: 7.0.0
 
-  tonal@6.14.0:
+  tonal@6.15.0:
     dependencies:
       '@tonaljs/abc-notation': 4.9.7
       '@tonaljs/array': 4.8.9
+      '@tonaljs/chart': 1.0.0
       '@tonaljs/chord': 6.6.0
       '@tonaljs/chord-type': 5.4.2
       '@tonaljs/collection': 4.9.3
@@ -5413,6 +5430,7 @@ snapshots:
       '@tonaljs/roman-numeral': 4.10.3
       '@tonaljs/scale': 4.15.4
       '@tonaljs/scale-type': 4.10.2
+      '@tonaljs/time': 1.0.0
       '@tonaljs/time-signature': 4.10.3
       '@tonaljs/voice-leading': 5.2.3
       '@tonaljs/voicing': 5.4.0

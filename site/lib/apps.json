@@ -47,8 +47,12 @@
   {
     "slug": "chart-reader",
     "title": "Chart reader",
-    "description": "Paste a chord chart to read every symbol: notes, family, complexity and roman numerals in a key, with applied dominants. Transpose it and play it.",
+    "description": "Paste a chord chart with sections, repeats, endings and D.S. al Coda to see the form as it's played, bar by bar, and read every symbol: notes, family, complexity and roman numerals in a key, with applied dominants. Transpose it and play it.",
     "docs": [
+      {
+        "title": "Chord charts",
+        "url": "/docs/harmony/charts"
+      },
       {
         "title": "Chords",
         "url": "/docs/groups/chords"
@@ -58,7 +62,7 @@
         "url": "/docs/harmony/progressions"
       },
       {
-        "title": "Progressions",
+        "title": "Roman numerals",
         "url": "/docs/notation/roman-numerals"
       }
     ]
@@ -111,22 +115,30 @@
   {
     "slug": "rhythm-patterns",
     "title": "Rhythm patterns",
-    "description": "Draw a rhythm on a circle, or pick a clave or a Euclidean rhythm, and see why some rhythms recur around the world: evenness, rhythmic oddity, deepness, off-beatness and distances, from Toussaint's The Geometry of Musical Rhythm. Play it with drums.",
+    "description": "Draw a rhythm on a circle, or pick a clave or a Euclidean rhythm, and see why some rhythms recur around the world: evenness, rhythmic oddity, deepness, off-beatness and distances, from Toussaint's The Geometry of Musical Rhythm. Lay it over a meter (6/8, 2+2+3/8) to hear its pulses, and play it with drums.",
     "docs": [
       {
         "title": "Rhythm patterns",
         "url": "/docs/time/patterns"
+      },
+      {
+        "title": "Time",
+        "url": "/docs/time/time"
       }
     ]
   },
   {
     "slug": "note-patterns",
     "title": "Note patterns",
-    "description": "Play arpeggios and melodic sequences over a chord progression: an arpeggio order or a cell of indexes, over each chord's voicing, its chord tones or the scale, kept in a register and put on a rhythm.",
+    "description": "Play arpeggios and melodic sequences over a chord chart, with its repeats and sections: an arpeggio order or a cell of indexes, over each chord's voicing, its chord tones or the scale, kept in a register and put on a rhythm.",
     "docs": [
       {
         "title": "Note patterns",
         "url": "/docs/time/note-patterns"
+      },
+      {
+        "title": "Chord charts",
+        "url": "/docs/harmony/charts"
       },
       {
         "title": "Chord voicings",
