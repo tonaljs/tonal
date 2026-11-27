@@ -6,8 +6,8 @@ title: Getting started
 
 `tonal` is a music theory library. Contains functions to manipulate tonal
 elements of music (note, intervals, chords, scales, modes, keys), to voice
-chords and progressions, and to build note patterns (arpeggios, melodic
-sequences) and rhythm patterns. It deals with abstractions (not actual music or
+chords and progressions, to read chord charts, and to build note patterns
+(arpeggios, melodic sequences) and rhythm patterns. It deals with abstractions (not actual music or
 sound).
 
 `tonal` is implemented in Typescript and published as a collection of Javascript
@@ -20,6 +20,7 @@ mutation, and entities are represented by data structures instead of objects.
 
 ```js
 import {
+  Chart,
   Chord,
   Interval,
   Note,
@@ -59,6 +60,10 @@ Pattern.arpeggio("up-down", 4).map(Voicing.steps(["D3", "F3", "A3", "C4"]));
 
 // Rhythm patterns
 RhythmPattern.euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
+
+// Chord charts and exact time, in quarter notes
+const chords = Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |"));
+Chart.chordAt(chords, 2)?.symbol; // => "G7"
 ```
 
 ## Install

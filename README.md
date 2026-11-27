@@ -3,8 +3,8 @@
 [![npm version](https://img.shields.io/npm/v/tonal.svg?style=flat-square)](https://www.npmjs.com/package/tonal)
 
 `tonal` is a music theory library for building composition tools: notes,
-intervals, chords, scales, keys, voicings, progressions, note patterns and
-rhythm patterns.
+intervals, chords, scales, keys, voicings, progressions, chord charts, note
+patterns and rhythm patterns.
 
 - **Pure functions, data in and out:** no mutation, no classes. Invalid input
   gives an empty value (`""`, `[]`, `null` or `{ empty: true }`) instead of an
@@ -18,12 +18,14 @@ rhythm patterns.
 
 ```js
 import {
+  Chart,
   Chord,
   Interval,
   Note,
   Pattern,
   RhythmPattern,
   Scale,
+  Time,
   Voicing,
 } from "tonal";
 
@@ -60,6 +62,16 @@ Pattern.arpeggio("up-down", 4).map(Chord.steps(["C4", "maj7"]));
 // Rhythm patterns
 RhythmPattern.euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
 RhythmPattern.toDurations([1, 0, 0, 1, 0, 0, 1, 0]); // => [3, 3, 2]
+
+// Chord charts: sections, repeats and endings, the chord at a position
+const chart = Chart.parse("[A] | Dm7 G7 | Cmaj7 | % |\n[B] |: Fmaj7 |1 E7 :|2 E7 Am7 |");
+const chords = Chart.chords(chart);
+chords.map((c) => c.symbol);
+// => ["Dm7", "G7", "Cmaj7", "Cmaj7", "Fmaj7", "E7", "Fmaj7", "E7", "Am7"]
+Chart.chordAt(chords, Time.fromBarBeat("1:3", "4/4"))?.symbol; // => "G7"
+
+// Time: exact positions and durations, in quarter notes
+Time.add(Time.duration("q."), [1, 3]); // => [11, 6]
 ```
 
 ## Install
