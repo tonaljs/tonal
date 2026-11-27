@@ -402,6 +402,20 @@ export function WalkingBass() {
           <code>lib/walking-bass.ts</code>).
         </p>
         <DynamicCodeBlock lang="js" code={code(line, state, note)} />
+        <p className="text-sm text-fd-muted-foreground">
+          How often a bass plays each kind of note, interval and approach comes
+          from our counts of{" "}
+          <a
+            href="https://aim-qmul.github.io/FiloBass"
+            className="underline hover:text-fd-foreground"
+          >
+            FiloBass
+          </a>
+          , 48 transcribed jazz walking bass lines (Jasper Riley and Simon
+          Dixon, &ldquo;FiloBass: A Dataset and Corpus Based Study of Jazz
+          Basslines&rdquo;, ISMIR 2023). Only rounded percentages are used, not
+          the transcriptions.
+        </p>
       </section>
     </div>
   );
@@ -540,11 +554,7 @@ function Bars({
 }
 
 // The tonal calls behind the line, for the selected note (or the first one)
-function code(
-  line: BassLine,
-  state: State,
-  selected: BassNote | undefined,
-) {
+function code(line: BassLine, state: State, selected: BassNote | undefined) {
   const note = selected ?? line.notes[0];
   if (!note) return 'import { Chart } from "tonal";';
   const key = state.key;

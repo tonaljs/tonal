@@ -8,8 +8,11 @@
 // 1. The chart is played (`Chart.unroll`, `Chart.chords`) and cut into slots:
 //    quarter notes when walking, half notes in two-feel. `N.C.` is a rest.
 // 2. Every pitch in the range is a candidate on every slot. How likely each
-//    one is comes from a few tables, set from what real bass lines do (our
-//    counts of the FiloBass corpus, 48 jazz walking lines):
+//    one is comes from a few tables, set from what real bass lines do: our
+//    own counts of FiloBass, a corpus of 48 transcribed jazz walking lines
+//    (Jasper Riley and Simon Dixon, "FiloBass: A Dataset and Corpus Based
+//    Study of Jazz Basslines", ISMIR 2023, https://aim-qmul.github.io/FiloBass).
+//    Only rounded percentages are used here, never the transcriptions:
 //    - what the note is over the chord (root, 3rd, 5th, 7th, a tension of the
 //      chord's scale, or chromatic), by where the slot is: the first beat of a
 //      chord, the last beat before a new one, or a beat in between;
