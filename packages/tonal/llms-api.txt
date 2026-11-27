@@ -273,12 +273,12 @@ Chart.barAt(played: PlayedBar[], position: TimeValue): PlayedBar | null
 Chart.chordAt(chords: PlayedChord[], position: TimeValue): PlayedChord | null
   Get the chord playing at a position (in quarter notes from the start of the played form, as a fraction, an exact number or a string), from the list `Chart.chords` gives. A chord plays from its start until the next one starts. It returns `null` before the first chord, after the end, or if the position isn't valid.
   const chords = Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |"));
-  Chart.chordAt(chords, 3)?.symbol // => "G7"
+  Chart.chordAt(chords, 3)?.value // => "G7"
   Chart.chordAt(chords, [8, 1]) // => null
 
 Chart.chords(chart: Chart, options?: UnrollOptions): PlayedChord[]
-  Get the chords of a chart as they're played: each with its symbol, where it starts and how long it lasts (in quarter notes from the start of the played form), and its bar in the played form. A chord lasts until the next chord, or the end of the form: a bar with no chords continues the chord before, and a chord written again is played again (a new entry). `N.C.` is a chord too, a rest.
-  Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |")).map((c) => [c.symbol, c.start, c.duration])
+  Get the chords of a chart as they're played: each with its symbol (`value`), where it starts and how long it lasts (in quarter notes from the start of the played form), and its bar in the played form. A chord lasts until the next chord, or the end of the form: a bar with no chords continues the chord before, and a chord written again is played again (a new entry). `N.C.` is a chord too, a rest.
+  Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |")).map((c) => [c.value, c.start, c.duration])
 
 Chart.fromForm(sections: Record<string, string>, form: string, options?: ParseOptions): Chart
   Build a chart from named sections and a form: the sections in the order the form lists them. Each section is a chart text (as in `Chart.parse`), read on its own from `options.meter` (4/4 by default), so it has the same meter wherever it's played; its first bar starts the section with its name. The form is names separated by spaces, with `*n` to play one n times: `"Intro A*2 B A"`. A form like `"AABA"` is read letter by letter when there's no section with that name.
@@ -308,7 +308,7 @@ Chart.transpose(chart: Chart, interval: string): Chart
   Chart.toText(Chart.transpose(Chart.parse("|: Dm7 G7 | C :|"), "2M"))
 
 Chart.unroll(chart: Chart, options?: UnrollOptions): PlayedBar[]
-  Get the played form of a chart: every bar in the order it's played, with where it starts (in quarter notes), its length, its section, its place in the section, its chorus, and its pass and ending in a repeat. `choruses` plays the form more than once.
+  Get the played form of a chart: every bar in the order it's played, with where it starts (in quarter notes), its duration, its section, its place in the section, its chorus, and its pass and ending in a repeat. `choruses` plays the form more than once.
   Chart.unroll(Chart.parse("[A] | C | G | [B] | F |")).map((b) => `${b.section}${b.sectionBar}`)
   Chart.unroll(Chart.parse("|: C |1 G :|2 F |")).map((b) => [b.bar, b.pass, b.ending])
 
@@ -336,7 +336,7 @@ type ChartBar = {
 }
 
 type ChartChord = {
-  symbol: string;
+  value: string;
   at: Fraction;
 }
 
@@ -348,7 +348,7 @@ type PlayedBar = {
   bar: number;
   index: number;
   start: Fraction;
-  length: Fraction;
+  duration: Fraction;
   meter: string;
   section: string;
   sectionBar: number;
@@ -359,7 +359,7 @@ type PlayedBar = {
 }
 
 type PlayedChord = {
-  symbol: string;
+  value: string;
   start: Fraction;
   duration: Fraction;
   bar: number;

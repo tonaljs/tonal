@@ -7,8 +7,8 @@
 - c774490: A new package, `@tonaljs/chart` (`Chart` in `tonal`): chord charts. Positions and durations are `Time` values (quarter notes, as exact fractions).
 
   - `parse(text)` reads bars between `|`, chords as written (`Cm7 b9`, `N.C.`), `%`, empty bars, sections (`[A]`), meter changes (`3/4`) and positions (`A7@4`). Chords without a position are placed by the meter's pulses: `| C F G |` is 2+1+1 beats, two chords in 6/8 split the bar in half. `problems(chart)` lists what it couldn't read.
-  - `unroll(chart, { choruses })` gives the bars as they're played, with their start, length, meter, section, place in the section and chorus.
-  - `chords(chart)` gives the played chords with their start and duration (until the next chord), `chordAt(chords, position)` the chord at a position, and `position(played, "9:3")` a bar and beat of the played form.
+  - `unroll(chart, { choruses })` gives the bars as they're played, with their start, duration, meter, section, place in the section and chorus.
+  - `chords(chart)` gives the played chords, `{ value, start, duration, bar }`, with the chord symbol as `value` and the duration until the next chord, `chordAt(chords, position)` the chord at a position, and `position(played, "9:3")` a bar and beat of the played form.
 
 - 5acfe18: A new package, `@tonaljs/time` (`Time` in `tonal`): musical time as exact values. Positions and durations are numbers of quarter notes, returned as reduced fractions (`[3, 2]` is a dotted quarter, `[1, 3]` a triplet eighth), so triplets and septuplets add up exactly. As input, functions also take exact numbers (multiples of 1/1024, like `1.5`) and strings (`"3/2"`).
 

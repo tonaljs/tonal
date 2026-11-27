@@ -63,7 +63,7 @@ RhythmPattern.euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
 
 // Chord charts and exact time, in quarter notes
 const chords = Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |"));
-Chart.chordAt(chords, 2)?.symbol; // => "G7"
+Chart.chordAt(chords, 2)?.value; // => "G7"
 ```
 
 ## Install
