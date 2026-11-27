@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 
 import { get as scale } from "@tonaljs/scale";
 // tslint:disable-next-line: no-implicit-dependencies
-import { get as chord } from "@tonaljs/chord";
+import { get as chord, chordScale } from "@tonaljs/chord";
 import { note } from "@tonaljs/pitch-note";
 import * as Key from "./index";
 
@@ -304,6 +304,35 @@ describe("@tonal/key", () => {
         expect(chromas(notes), name).toEqual(chromas(keyScale.scale));
         expect(notes[0], name).toBe(keyScale.scale[i]);
       });
+    }
+  });
+
+  test("Chord.chordScale in a key agrees with the key's chord scales", () => {
+    for (const tonic of ["C", "F", "Bb", "Db", "E", "F#"]) {
+      const major = Key.majorKey(tonic);
+      const minor = Key.minorKey(major.minorRelative);
+      const scales: [string, Key.KeyScale][] = [
+        [`${tonic} major`, major],
+        [`${minor.tonic} minor`, minor.natural],
+        [`${minor.tonic} harmonic minor`, minor.harmonic],
+        [`${minor.tonic} melodic minor`, minor.melodic],
+      ];
+      for (const [key, keyScale] of scales) {
+        keyScale.chords.forEach((name, i) => {
+          const expected = scale(keyScale.chordScales[i]).name;
+          expect([key, name, chordScale(name, { key })]).toEqual([
+            key,
+            name,
+            expected,
+          ]);
+          const triad = keyScale.triads[i];
+          expect([key, triad, chordScale(triad, { key })]).toEqual([
+            key,
+            triad,
+            expected,
+          ]);
+        });
+      }
     }
   });
 });

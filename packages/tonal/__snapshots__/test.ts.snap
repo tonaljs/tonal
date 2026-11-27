@@ -33,7 +33,9 @@ exports[`tonal > Modules exports functions 1`] = `
   "Chord": [
     "bass",
     "chord",
+    "chordScale",
     "chordScales",
+    "classify",
     "degreeOf",
     "degrees",
     "degreesByImportance",
@@ -46,6 +48,7 @@ exports[`tonal > Modules exports functions 1`] = `
     "notes",
     "reduced",
     "steps",
+    "tensions",
     "tokenize",
     "transpose",
   ],

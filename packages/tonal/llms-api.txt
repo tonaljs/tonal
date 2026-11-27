@@ -387,9 +387,23 @@ Chord.chord(src: ChordNameOrTokens): Chord
   An alias of `Chord.get`, handy when importing from `@tonaljs/chord`.
   Chord.chord("Dm7").symbol; // => "Dm7"
 
-Chord.chordScales(name: string): string[]
+Chord.chordScale(name: string, options?: ChordScaleOptions): string
+  Get the scale of a chord, as a full name: the first of its ranked chord scales (see `Chord.chordScales`). It returns "" if the chord has no tonic, the key isn't valid, or no scale contains the chord.
+  Chord.chordScale("Dm7", { key: "C major" }); // => "D dorian"
+  Chord.chordScale("D7", { key: "C major" }); // => "D mixolydian"
+  Chord.chordScale("A7", { key: "C major" }); // => "A mixolydian b6"
+
+Chord.chordScales(name: string, options?: ChordScaleOptions): string[]
   Get the names of the scale types that contain all the notes of a chord, as type names without tonic. It returns `[]` if the chord isn't valid.
   Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "phrygian b4", "mixolydian b2", "spanish heptatonic", "half-whole diminished", "chromatic"]
+  Chord.chordScales("D7", { key: "C major" }).slice(0, 3); // => ["mixolydian", "lydian dominant", "mixolydian b6"]
+  Chord.chordScales("E7", { key: "C major" })[0]; // => "phrygian dominant"
+
+Chord.classify(name: string, noteName: string, options?: ClassifyOptions): NoteClass
+  Get what a note is over a chord: a chord tone, a tension, an avoid note, or outside. Only its pitch class counts. It returns "" if the chord has no tonic, or the note, scale or key isn't valid.
+  Chord.classify("Cmaj7", "E"); // => "chord tone"
+  Chord.classify("C7", "Db"); // => "tension"
+  Chord.classify("Cmaj7", "F"); // => "avoid"
 
 Chord.degreeOf(chordName: ChordNameOrTokens, noteName: NoteName): ChordDegreeName
   Get the degree name that a note plays in a chord, counted from the major scale of the root (the bass of a slash chord doesn't change it). The opposite of `Chord.noteOf`.
@@ -459,6 +473,12 @@ Chord.steps(chordName: ChordNameOrTokens, tonic?: string): (_normalized: number)
   [0, 1, 2, 3].map(Chord.steps("C")); // => ["C", "E", "G", "C"]
   [-1, 0, 1].map(Chord.steps(["C4", "M"])); // => ["G3", "C4", "E4"]
 
+Chord.tensions(name: ChordNameOrTokens): ChordDegreeName[]
+  Get the tensions of a chord: the notes a chord can add without changing what it is, as degree names (`b9`, `9`, `#9`, `11`, `#11`, `b13`, `13`, and `7` on 6, m6 and dim7 chords), counted from the major scale of the root as in `Chord.formula`. It works with a chord type alone, and returns `[]` if the chord isn't valid.
+  Chord.tensions("C7"); // => ["b9", "9", "#9", "#11", "b13", "13"]
+  Chord.tensions("Cmaj7"); // => ["9", "#11", "13"]
+  Chord.tensions("C7b9"); // => ["#9", "#11", "b13", "13"]
+
 Chord.tokenize(name: string): ChordNameTokens
   Split a chord name into `[tonic, type, bass]`. Each part is a string that is `""` when missing, and a name without tonic is all type. It never throws.
   Chord.tokenize("Cmaj7"); // => ["C", "maj7", ""]
@@ -500,8 +520,22 @@ type ChordNameOrTokens = string | [string] | [string, string] | [string, string,
 
 type ChordQuality = 'Major' | 'Minor' | 'Augmented' | 'Diminished' | 'Unknown'
 
+type ChordScaleOptions = {
+  key?: string | undefined;
+  tensions?: string[] | undefined;
+}
+
+type ClassifyOptions = {
+  scale?: string | undefined;
+  key?: string | undefined;
+  tensions?: string[] | undefined;
+}
+
 type IntervalName = KnownIntervalName | (string & {})
   An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
+
+type NoteClass = '' | 'chord tone' | 'tension' | 'avoid' | 'outside'
+  What a note is over a chord: see `Chord.classify`.
 
 type NoteName = (string & {}) | KnownNoteName
   A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
