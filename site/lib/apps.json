@@ -149,5 +149,28 @@
         "url": "/docs/time/patterns"
       }
     ]
+  },
+  {
+    "slug": "walking-bass",
+    "title": "Walking bass",
+    "description": "Paste a chord chart to get a walking bass line: targets on each chord, approach notes into the next one, two-feel in the head, with a ride to play along.",
+    "docs": [
+      {
+        "title": "Chords",
+        "url": "/docs/groups/chords"
+      },
+      {
+        "title": "Scales",
+        "url": "/docs/groups/scales"
+      },
+      {
+        "title": "Notes",
+        "url": "/docs/basics/notes"
+      },
+      {
+        "title": "Chord charts",
+        "url": "/docs/harmony/charts"
+      }
+    ]
   }
 ]

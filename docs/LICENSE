@@ -20,3 +20,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+---
+
+Scope: this MIT license covers the tonal library (packages/) and the
+documentation (site/content/docs, generated from the package READMEs). The code
+of the documentation site and its apps (site/, except site/content/docs) is
+licensed under the GNU Affero General Public License v3.0 (see site/LICENSE).
+The file site/lib/walking-bass-figures.ts is under neither license: it is
+derived from data made available for non-commercial research (see its header);
+site/README.md grants an additional permission under AGPL section 7 to combine
+it with the site's code.
+No published npm package includes the site.
