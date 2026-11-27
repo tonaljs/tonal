@@ -16,7 +16,8 @@
     "page": "basics/notes.md",
     "readme": "note",
     "title": "Notes",
-    "description": "Parse and manipulate notes"
+    "description": "Parse and manipulate notes",
+    "apps": ["walking-bass"]
   },
   {
     "page": "dictionaries/chord-types.md",
@@ -36,7 +37,7 @@
     "readme": "chord",
     "title": "Chords",
     "description": "Get and manipulate chords",
-    "apps": ["chord-finder", "chart-reader"]
+    "apps": ["chord-finder", "chart-reader", "walking-bass"]
   },
   {
     "page": "groups/chord-detection.md",
@@ -56,12 +57,17 @@
     "readme": "scale",
     "title": "Scales",
     "description": "Work with scales",
-    "apps": ["scale-chords", "scale-families", "scale-harmonizer"]
+    "apps": [
+      "scale-chords",
+      "scale-families",
+      "scale-harmonizer",
+      "walking-bass"
+    ]
   },
   {
     "page": "harmony/charts.md",
     "readme": "chart",
-    "apps": ["chart-reader", "note-patterns"],
+    "apps": ["chart-reader", "note-patterns", "walking-bass"],
     "title": "Chord charts",
     "description": "Bars, sections, meters, repeats, endings and jumps, the played form, and the chord at a position"
   },

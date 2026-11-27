@@ -17,6 +17,8 @@ export type RollChord = {
   /** The labels below the column */
   label: string;
   sublabel?: string;
+  /** The fill of its notes (a Tailwind class), instead of the default */
+  className?: string;
 };
 
 // how far a voice moves: none (held), a step, a 3rd, or a leap
@@ -255,7 +257,14 @@ export function PianoRoll({
               width={Math.max(chord.duration * unit - 4, 2)}
               height={ROW - 2}
               rx={2}
-              className={selected === i ? "fill-sky-600" : "fill-sky-500/70"}
+              className={
+                chord.className
+                  ? `${chord.className} ${selected === i ? "stroke-fd-foreground" : ""}`
+                  : selected === i
+                    ? "fill-sky-600"
+                    : "fill-sky-500/70"
+              }
+              strokeWidth={selected === i && chord.className ? 1.5 : 0}
               pointerEvents="none"
             >
               <title>{n}</title>
