@@ -213,9 +213,10 @@ const KINDS: Record<Place, Record<Kind, number>> = {
     tension: 0.2,
     chromatic: 0.17,
   },
-  // beat 3 in a one-chord bar: R, 5, 3 and 13 lead
+  // beat 3 in a one-chord bar: 5, 3 and 13 lead; the root less than the
+  // corpus's 36%, which counts bars with two chords
   beat3: {
-    root: 0.22,
+    root: 0.15,
     fifth: 0.17,
     third: 0.17,
     seventh: 0.08,
@@ -297,15 +298,16 @@ const INTO: Record<number, number> = {
 const intoWeight = (semitones: number) => INTO[semitones] ?? 0.002;
 
 /**
- * Keeping a direction: a move in the same direction as the one before is this
- * much more likely than turning (FiloBass turns after one interval 50% of the
- * time, after two 23%, three 12%, four 6%: runs of three and four notes are
- * common, a scale or a chromatic climb).
+ * Keeping a direction, inside a chord and into a new one: a move in the same
+ * direction as the one before is this much more likely than turning. Real
+ * lines keep going inside a chord (FiloBass one-chord bars: up-up-up 21%,
+ * down-down-down 17%) and often turn at the change, where the approach table
+ * takes over.
  */
-const KEEP_DIRECTION = 1.35;
+const KEEP_DIRECTION = { inChord: 2.0, intoChord: 0.8 };
 
 /** A repeated note inside a chord, less likely than the interval table says. */
-const REPEAT_IN_CHORD = 0.7;
+const REPEAT_IN_CHORD = 0.5;
 
 /**
  * How a note that isn't in the chord is led, as bass methods teach it: how
@@ -465,7 +467,11 @@ export function walkingBass(text: string, options: BassOptions): BassLine {
     const size = Math.abs(d);
     const leap = size >= 5 ? options.leaps + 0.02 : 1;
     const keep =
-      from.dir !== 0 && Math.sign(d) === from.dir ? KEEP_DIRECTION : 1;
+      from.dir !== 0 && Math.sign(d) === from.dir
+        ? to.onset
+          ? KEEP_DIRECTION.intoChord
+          : KEEP_DIRECTION.inChord
+        : 1;
     const repeat = d === 0 && !to.onset ? REPEAT_IN_CHORD : 1;
     const base = to.onset ? intoWeight(d) : intervalWeight(d);
     return base * leap * keep * repeat * voiceLeading(fromSlot, from, to, midi);
