@@ -188,6 +188,7 @@ exports[`tonal > Modules exports functions 1`] = `
     "midi",
     "name",
     "names",
+    "nearest",
     "octave",
     "pitchClass",
     "simplify",

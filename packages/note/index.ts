@@ -366,6 +366,95 @@ export type NoteComparator = (a: Note, b: Note) => number;
 const heightOf = (n: Note) =>
   n && typeof n.height === "number" ? n.height : NaN;
 
+/** Options of `Note.nearest`. */
+export type NearestOptions = {
+  /**
+   * "nearest" (default), or "up" or "down" for the nearest strictly above or
+   * below the reference.
+   */
+  direction?: "nearest" | "up" | "down";
+  /** The lowest and highest notes the result can be (both included). */
+  range?: [low: NoteName, high: NoteName];
+};
+
+/**
+ * Place a note near another: the octave of a note (or pitch class) nearest a
+ * reference note, keeping its spelling. For a line built one note at a time,
+ * where each note goes near the one before.
+ *
+ * - `direction: "nearest"` (the default): the nearest octave; a tritone either
+ *   way goes up, and the reference's own pitch class stays in its octave.
+ * - `direction: "up"` or `"down"`: the nearest strictly above or below, so the
+ *   reference's own pitch class goes an octave away.
+ * - `range`: the result is in `[low, high]`. When the direction has no octave
+ *   in the range, the nearest octave in the range is used instead, so a line
+ *   turns around at the edges; when the range has no octave of the note, the
+ *   result is "".
+ *
+ * Only the pitch class of the note counts (`"Eb4"` is placed like `"Eb"`). It
+ * returns "" if the note isn't valid, the reference has no octave, or the
+ * range isn't two notes with octave from low to high.
+ *
+ * @param noteName - the note or pitch class to place
+ * @param reference - the note to place it near, with octave
+ * @param options - the direction and the range
+ * @example
+ * Note.nearest("Eb", "C3"); // => "Eb3"
+ * Note.nearest("A", "C3"); // => "A2"
+ * Note.nearest("A", "C3", { direction: "up" }); // => "A3"
+ * Note.nearest("C", "C3", { direction: "up" }); // => "C4"
+ * Note.nearest("D", "F1", { range: ["E1", "G3"], direction: "down" }); // => "D2"
+ * ["E", "G", "B", "D"].reduce((line, pc) => [...line, Note.nearest(pc, line[line.length - 1])], ["C3"]); // => ["C3", "E3", "G3", "B3", "D4"]
+ */
+export function nearest(
+  noteName: NoteName,
+  reference: NoteName,
+  options: NearestOptions = {},
+): string {
+  const n = props(noteName);
+  const ref = props(reference);
+  const direction = options.direction ?? "nearest";
+  if (n.empty || ref.empty || ref.oct === undefined) return "";
+  if (!["nearest", "up", "down"].includes(direction)) return "";
+  let low = -Infinity;
+  let high = Infinity;
+  // two octaves either side: a spelling like B#2 or Cb3 crosses the octave
+  let octaves = [ref.oct - 2, ref.oct + 2];
+  if (options.range !== undefined) {
+    const range = options.range;
+    if (!Array.isArray(range) || range.length !== 2) return "";
+    const [l, h] = range.map(props);
+    if (l.empty || h.empty || l.oct === undefined || h.oct === undefined) {
+      return "";
+    }
+    if (l.height > h.height) return "";
+    low = l.height;
+    high = h.height;
+    octaves = [Math.min(ref.oct, l.oct) - 2, Math.max(ref.oct, h.oct) + 2];
+  }
+  // every octave of the note in the range, from low to high
+  const candidates: Note[] = [];
+  for (let oct = octaves[0]; oct <= octaves[1]; oct++) {
+    const c = props(n.pc + oct);
+    if (c.height >= low && c.height <= high) candidates.push(c);
+  }
+  const dist = (c: Note) => c.height - ref.height;
+  const above = candidates.filter((c) => dist(c) > 0);
+  const below = candidates.filter((c) => dist(c) < 0);
+  const chosen =
+    direction === "up" && above.length
+      ? above[0]
+      : direction === "down" && below.length
+        ? below[below.length - 1]
+        : candidates.reduce<Note | undefined>((best, c) => {
+            if (!best) return c;
+            const d = Math.abs(dist(c));
+            const b = Math.abs(dist(best));
+            return d < b || (d === b && dist(c) > 0) ? c : best;
+          }, undefined);
+  return chosen ? chosen.name : "";
+}
+
 /**
  * A comparator to sort Note objects (as returned by Note.get) from lowest to
  * highest. Invalid notes compare as equal to any other.
@@ -525,4 +614,5 @@ export default {
   simplify,
   enharmonic,
   fold,
+  nearest,
 };

@@ -1160,6 +1160,12 @@ Note.names(array?: any[]): string[]
   Note.names() // => ["C", "D", "E", "F", "G", "A", "B"]
   Note.names(["c", "d4", "x"]) // => ["C", "D4"]
 
+Note.nearest(noteName: NoteName, reference: NoteName, options?: NearestOptions): string
+  Place a note near another: the octave of a note (or pitch class) nearest a reference note, keeping its spelling. For a line built one note at a time, where each note goes near the one before.
+  Note.nearest("Eb", "C3"); // => "Eb3"
+  Note.nearest("A", "C3"); // => "A2"
+  Note.nearest("A", "C3", { direction: "up" }); // => "A3"
+
 Note.octave(note: NoteLiteral): number | undefined
   Get the octave number of a note, or undefined if it has no octave or is not valid.
   Note.octave("C4") // => 4
@@ -1233,6 +1239,11 @@ type IntervalName = KnownIntervalName | (string & {})
 
 type NamedPitch = {
   name: string;
+}
+
+type NearestOptions = {
+  direction?: 'nearest' | 'up' | 'down' | undefined;
+  range?: [low: NoteName, high: NoteName] | undefined;
 }
 
 type Note = {

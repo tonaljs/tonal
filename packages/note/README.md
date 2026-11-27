@@ -216,6 +216,43 @@ Note.fold(["C2", "E2", "G"], ["E2", "G3"]); // => ["C3", "E3", "G2"]
 
 It returns `[]` if the notes are empty or one isn't a note, or if the range isn't two notes with octave from low to high. (This `fold` moves notes into a register; it isn't the `fold` of functional programming, which is `reduce`.)
 
+### `Note.nearest`
+
+`nearest(note: string, reference: string, options?: { direction?: "nearest" | "up" | "down", range?: [low: string, high: string] }) => string`
+
+Place a note near another: the octave of a note (or pitch class) nearest a reference note, keeping its spelling. For a line built one note at a time, where each note goes near the one before:
+
+```js
+Note.nearest("Eb", "C3"); // => "Eb3" (3 semitones up, not 9 down)
+Note.nearest("A", "C3"); // => "A2"
+Note.nearest("F#", "C3"); // => "F#3" (a tritone either way goes up)
+Note.nearest("Eb4", "C3"); // => "Eb3" (only the pitch class counts)
+```
+
+With `direction: "up"` or `"down"` it's the nearest strictly above or below, so the reference's own pitch class goes an octave away:
+
+```js
+Note.nearest("A", "C3", { direction: "up" }); // => "A3"
+Note.nearest("C", "C3", { direction: "up" }); // => "C4"
+Note.nearest("E", "C3", { direction: "down" }); // => "E2"
+```
+
+With a `range` the result is in it (both ends included). When the direction has no octave in the range, the nearest octave in the range is used, so a line turns around at the edges; when the range has no octave of the note at all, the result is `""`:
+
+```js
+Note.nearest("G", "F1", { range: ["E1", "G3"] }); // => "G1"
+Note.nearest("D", "F1", { range: ["E1", "G3"], direction: "down" }); // => "D2"
+```
+
+A line, each note near the one before:
+
+```js
+["E", "G", "B", "D"].reduce((line, pc) => [...line, Note.nearest(pc, line[line.length - 1])], ["C3"]);
+// => ["C3", "E3", "G3", "B3", "D4"]
+```
+
+It returns `""` if the note isn't valid, the reference has no octave, or the range isn't two notes with octave from low to high. `Note.fold` places notes in a range without a reference; `Scale.nearest` finds the scale note nearest a note.
+
 ## Named collections
 
 ### `Note.names`
