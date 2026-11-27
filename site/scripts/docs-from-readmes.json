@@ -61,6 +61,7 @@
   {
     "page": "harmony/charts.md",
     "readme": "chart",
+    "apps": ["chart-reader"],
     "title": "Chord charts",
     "description": "Bars, sections and meters, the played form, and the chord at a position"
   },

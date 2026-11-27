@@ -47,8 +47,12 @@
   {
     "slug": "chart-reader",
     "title": "Chart reader",
-    "description": "Paste a chord chart to read every symbol: notes, family, complexity and roman numerals in a key, with applied dominants. Transpose it and play it.",
+    "description": "Paste a chord chart with sections, repeats, endings and D.S. al Coda to see the form as it's played, bar by bar, and read every symbol: notes, family, complexity and roman numerals in a key, with applied dominants. Transpose it and play it.",
     "docs": [
+      {
+        "title": "Chord charts",
+        "url": "/docs/harmony/charts"
+      },
       {
         "title": "Chords",
         "url": "/docs/groups/chords"
@@ -58,7 +62,7 @@
         "url": "/docs/harmony/progressions"
       },
       {
-        "title": "Progressions",
+        "title": "Roman numerals",
         "url": "/docs/notation/roman-numerals"
       }
     ]
