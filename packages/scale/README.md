@@ -181,6 +181,40 @@ Scale.nearest("C major", "Eb"); // => "E"
 
 The result is spelled as in the scale (`Scale.nearest("C major", "Cb4")` is `"B3"`), and a scale note gives itself back.
 
+### `Scale.approaches`
+
+`approaches(scaleName: string, target: string) => ApproachNotes`
+
+The notes that lead to a target note, each with an octave next to it: a half step below or above, the nearest scale note below or above, the target's fifth (its dominant) a fourth below or a fifth above, and the two-note figures made of them:
+
+```js
+Scale.approaches("G mixolydian", "G2");
+// => {
+//   below: "F#2", above: "Ab2",
+//   scaleBelow: "F2", scaleAbove: "A2",
+//   dominantBelow: "D2", dominantAbove: "D3",
+//   enclosure: ["A2", "F#2"],            // the scale note above, then the half step below
+//   chromaticEnclosure: ["Ab2", "F#2"],  // the half step above, then the half step below
+//   doubleBelow: ["F2", "F#2"],          // two half steps up to the target
+//   doubleAbove: ["A2", "Ab2"],          // two half steps down to the target
+// }
+```
+
+The half step below is the leading tone (`E#2` below `F#2`); the other chromatic notes are spelled from the target, respelled only when they would need a double sharp or flat. The scale notes are spelled as in the scale, and the target doesn't need to be in it:
+
+```js
+Scale.approaches("C major", "F#2").below; // => "E#2"
+Scale.approaches("C major", "F#2").scaleAbove; // => "G2"
+```
+
+For the scale of a chord in a key, use `Chord.chordScale`:
+
+```js
+Scale.approaches(Chord.chordScale("E7", { key: "C major" }), "E2").scaleAbove; // => "F2" (E phrygian dominant)
+```
+
+With `""` as the scale only the chromatic notes and the dominants are given; a target without an octave gives empty fields. These are the most common ways a walking bass moves into a chord change (in the FiloBass corpus: from a half step below or above, a whole step above, or a fourth below). Which one to use, and when, is up to the app.
+
 ### `Scale.scaleNotes`
 
 `scaleNotes(notes: string[]) => string[]`

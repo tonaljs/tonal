@@ -284,6 +284,7 @@ exports[`tonal > Modules exports functions 1`] = `
     "tokenize",
   ],
   "Scale": [
+    "approaches",
     "chords",
     "degrees",
     "detect",

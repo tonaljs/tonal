@@ -1626,6 +1626,12 @@ type RomanNumeral = {
 
 import { Scale } from "tonal"; // or: import * as Scale from "@tonaljs/scale";
 
+Scale.approaches(scaleName: string | ScaleNameTokens, target: string): ApproachNotes
+  Get the notes that lead to a target note: a half step below or above, the nearest scale note below or above, the target's fifth (its dominant), and the two-note figures made of them. Each is a note with octave next to the target; which one to play, and when, is up to the app.
+  Scale.approaches("G mixolydian", "G2").below; // => "F#2"
+  Scale.approaches("G mixolydian", "G2").scaleBelow; // => "F2"
+  Scale.approaches("G mixolydian", "G2").dominantBelow; // => "D2"
+
 Scale.chords(scaleName: string | ScaleNameTokens, options?: Partial<ScaleChordsOptions>): ScaleChord[]
   Get the chord built on each degree of a scale, by stacking scale notes.
   Scale.chords("C major").map((c) => c.symbol); // => ["C", "Dm", "Em", "F", "G", "Am", "Bdim"]
@@ -1714,6 +1720,19 @@ Scale.transposeBySteps(scaleName: string | ScaleNameTokens, noteName: string, st
   Scale.transposeBySteps("C major", "E", 2); // => "G"
 
 Types:
+
+type ApproachNotes = {
+  below: string;
+  above: string;
+  scaleBelow: string;
+  scaleAbove: string;
+  dominantBelow: string;
+  dominantAbove: string;
+  enclosure: string[];
+  chromaticEnclosure: string[];
+  doubleBelow: string[];
+  doubleAbove: string[];
+}
 
 type IntervalName = KnownIntervalName | (string & {})
   An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
