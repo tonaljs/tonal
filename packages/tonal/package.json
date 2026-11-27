@@ -1,6 +1,6 @@
 {
   "name": "tonal",
-  "version": "6.14.0",
+  "version": "6.15.0",
   "description": "tonaljs music theory library",
   "keywords": [
     "music",
@@ -19,7 +19,7 @@
   "dependencies": {
     "@tonaljs/abc-notation": "4.9.7",
     "@tonaljs/array": "4.8.9",
-    "@tonaljs/chart": "0.0.0",
+    "@tonaljs/chart": "1.0.0",
     "@tonaljs/chord-type": "5.4.2",
     "@tonaljs/chord": "6.6.0",
     "@tonaljs/collection": "4.9.3",
@@ -38,7 +38,7 @@
     "@tonaljs/roman-numeral": "4.10.3",
     "@tonaljs/scale-type": "4.10.2",
     "@tonaljs/scale": "4.15.4",
-    "@tonaljs/time": "0.0.0",
+    "@tonaljs/time": "1.0.0",
     "@tonaljs/time-signature": "4.10.3",
     "@tonaljs/voice-leading": "5.2.3",
     "@tonaljs/voicing-dictionary": "5.1.14",
