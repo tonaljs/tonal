@@ -58,7 +58,7 @@ export type BassOptions = {
   /** A key or scale name, like "F major" */
   key: string;
   choruses: number;
-  /** Walking in four, two-feel, or the head in two and the solos walking */
+  /** Walking in four, two-feel, or the first chorus in two and then walking */
   feel: Feel;
   /** The lowest and highest notes (sounding) */
   range: [string, string];
@@ -107,13 +107,15 @@ type Slot = {
 
 const num = (value: Time.TimeValue) => Time.toNumber(value) ?? 0;
 
-// two-feel in the head (the first and last chorus), except in a bridge
-function isTwoFeel(feel: Feel, bar: Chart.PlayedBar, choruses: number) {
+// two-feel in the head (the first chorus), except in a bridge, then walking:
+// FiloBass players play 37% of their bars in two-feel in the first tenth of a
+// track, 12% in the second, and 1-3% after that (10% in the last tenth: most
+// heads out are walked)
+function isTwoFeel(feel: Feel, bar: Chart.PlayedBar) {
   if (feel === "walk") return false;
   if (feel === "two") return true;
-  const head = bar.chorus === 1 || bar.chorus === choruses;
   const bridge = /^(b|bridge)$/i.test(bar.section);
-  return head && !bridge;
+  return bar.chorus === 1 && !bridge;
 }
 
 function slotsOf(text: string, options: BassOptions) {
@@ -128,7 +130,7 @@ function slotsOf(text: string, options: BassOptions) {
     // halves only when every chord of the bar starts on beat 1 or 3
     const changes = [...starts].filter((s) => s > start && s < start + length);
     const two =
-      isTwoFeel(options.feel, bar, options.choruses) &&
+      isTwoFeel(options.feel, bar) &&
       length % 2 === 0 &&
       changes.every((s) => (s - start) % 2 === 0);
     const step = two ? 2 : 1;
