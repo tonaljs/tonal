@@ -16,8 +16,8 @@
   ],
   "types": "dist/index.d.ts",
   "devDependencies": {
-    "@tonaljs/chord": "6.6.0",
-    "@tonaljs/scale": "4.15.4"
+    "@tonaljs/chord": "6.7.0",
+    "@tonaljs/scale": "4.16.0"
   },
   "author": "danigb@gmail.com",
   "license": "MIT",

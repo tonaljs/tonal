@@ -1,5 +1,27 @@
 # tonal
 
+## 6.16.0
+
+### Minor Changes
+
+- Harmony for composition tools: `Chord.tensions`, `Chord.classify` (chord tone, tension, avoid or outside) and `Chord.chordScale`/`Chord.chordScales` ranked in a key; `Scale.approaches`, the notes that lead to a target; `Note.nearest`, a note placed near another; and `N.C.` as a rest in charts (`rest: true`).
+
+### Patch Changes
+
+- Updated dependencies [33c19cb]
+- Updated dependencies [dcafad8]
+- Updated dependencies [8b44eee]
+- Updated dependencies [bf3c850]
+  - @tonaljs/chart@1.1.0
+  - @tonaljs/chord@6.7.0
+  - @tonaljs/note@4.14.0
+  - @tonaljs/scale@4.16.0
+  - @tonaljs/key@4.12.4
+  - @tonaljs/progression@4.11.8
+  - @tonaljs/voicing@5.4.1
+  - @tonaljs/voicing-dictionary@5.1.15
+  - @tonaljs/voice-leading@5.2.4
+
 ## 6.15.0
 
 ### Minor Changes

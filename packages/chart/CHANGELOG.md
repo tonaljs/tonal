@@ -1,5 +1,16 @@
 # @tonaljs/chart
 
+## 1.1.0
+
+### Minor Changes
+
+- 33c19cb: `N.C.` (no chord) is marked as a rest: its chord has `rest: true`, in `Chart.parse` and in the played chords of `Chart.chords` (so `Chart.chordAt(chords, position)?.rest` says whether nothing plays there). Other chords have no `rest` field.
+
+### Patch Changes
+
+- Updated dependencies [dcafad8]
+  - @tonaljs/chord@6.7.0
+
 ## 1.0.0
 
 ### Major Changes

@@ -1,5 +1,12 @@
 # @tonaljs/progression
 
+## 4.11.8
+
+### Patch Changes
+
+- Updated dependencies [dcafad8]
+  - @tonaljs/chord@6.7.0
+
 ## 4.11.7
 
 ### Patch Changes
