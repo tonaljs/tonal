@@ -206,17 +206,18 @@ bar at a position. Several chords in a bar without `@` are
 placed by the meter's pulses (`| C F G |` is 2+1+1 beats). Check
 `Chart.problems(chart)`: words it can't read are left out, not errors.
 
-`Chart.unroll` gives the bars as they're played (with `start`, `section`,
-`sectionBar`, `chorus`); `Chart.chords` the chords with `start` and
-`duration`; `Chart.chordAt(chords, position)` the chord at a position. Every
-position and duration is a `Time` value in quarter notes (`[n, d]`):
+`Chart.unroll` gives the bars as they're played (with `start`, `duration`,
+`section`, `sectionBar`, `chorus`); `Chart.chords` the chords with `value`
+(the symbol), `start` and `duration`; `Chart.chordAt(chords, position)` the
+chord at a position. Every position and duration is a `Time` value in quarter
+notes (`[n, d]`):
 
 ```js
 const chart = Chart.parse("| Dm7 G7 | Cmaj7 |");
 const chords = Chart.chords(chart);
-chords.map((c) => [c.symbol, c.start, c.duration]);
+chords.map((c) => [c.value, c.start, c.duration]);
 // => [["Dm7", [0, 1], [2, 1]], ["G7", [2, 1], [2, 1]], ["Cmaj7", [4, 1], [4, 1]]]
-Chart.chordAt(chords, 3)?.symbol; // => "G7"
+Chart.chordAt(chords, 3)?.value; // => "G7"
 ```
 
 To accompany a chart with a rhythm, add `Time.onsets(pattern, step)` to each
@@ -313,7 +314,9 @@ the top voice, which is `v.at(-1)`. Books count from 1: their 1-2-3-5 is
 Pattern.arpeggio("up-down", 4); // => [0, 1, 2, 3, 2, 1]
 Pattern.arpeggio("up-down", 4).map(Chord.steps(["C4", "maj7"]));
 // => ["C4", "E4", "G4", "B4", "G4", "E4"]
-Pattern.sequence([0, 1, 2, 3], 1, 3).flat().map(Scale.steps("C4 major pentatonic"));
+Pattern.sequence([0, 1, 2, 3], 1, 3)
+  .flat()
+  .map(Scale.steps("C4 major pentatonic"));
 // => ["C4", "D4", "E4", "G4", "D4", "E4", "G4", "A4", "E4", "G4", "A4", "C5"]
 ```
 

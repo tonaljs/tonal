@@ -13,10 +13,10 @@ import {
   fraction as toFraction,
 } from "@tonaljs/time";
 
-/** A chord of a written bar: its symbol as written and where it starts. */
+/** A chord of a written bar: its symbol (`value`) and where it starts. */
 export type ChartChord = {
   /** The chord symbol as written: "Cmaj7", "Cm7 b9", "N.C." */
-  symbol: string;
+  value: string;
   /** Where it starts, in quarter notes from the start of the bar */
   at: Fraction;
 };
@@ -80,8 +80,8 @@ export type PlayedBar = {
   index: number;
   /** Where it starts, in quarter notes from the start of the played form */
   start: Fraction;
-  /** Its length, in quarter notes */
-  length: Fraction;
+  /** How long it lasts: the length of the bar, in quarter notes */
+  duration: Fraction;
   meter: string;
   /** The section it's in ("" before the first section) */
   section: string;
@@ -107,7 +107,8 @@ export type UnrollOptions = {
 
 /** A chord of the played form. */
 export type PlayedChord = {
-  symbol: string;
+  /** The chord symbol as written: "Cmaj7", "Cm7 b9", "N.C." */
+  value: string;
   /** Where it starts, in quarter notes from the start of the played form */
   start: Fraction;
   /** How long it lasts: until the next chord, or the end of the form */
@@ -227,8 +228,8 @@ function markBarLines(line: string): string {
 
 const POSITION = /^(.*)@(\d+(?:\+\d+\/\d+)?)$/;
 
-// A chord as written: its symbol and its position, if it has one
-type Item = { symbol: string; position?: string };
+// A chord as written: its value (the symbol) and its position, if it has one
+type Item = { value: string; position?: string };
 
 // "A7@4" is ["A7", "4"]; "A7" is ["A7", undefined]
 function splitPosition(word: string): [string, string | undefined] {
@@ -276,7 +277,7 @@ function splitPosition(word: string): [string, string | undefined] {
  * @returns the written chart
  * @example
  * Chart.parse("| Dm7 G7 | Cmaj7 |").bars
- * // => [{ meter: "4/4", chords: [{ symbol: "Dm7", at: [0, 1] }, { symbol: "G7", at: [2, 1] }] }, { meter: "4/4", chords: [{ symbol: "Cmaj7", at: [0, 1] }] }]
+ * // => [{ meter: "4/4", chords: [{ value: "Dm7", at: [0, 1] }, { value: "G7", at: [2, 1] }] }, { meter: "4/4", chords: [{ value: "Cmaj7", at: [0, 1] }] }]
  * Chart.parse("| C F G |").bars[0].chords.map((c) => c.at) // => [[0, 1], [2, 1], [3, 1]]
  */
 export function parse(text: string, options?: ParseOptions): Chart {
@@ -315,20 +316,20 @@ export function parse(text: string, options?: ParseOptions): Chart {
         items = [...items, ...previous.map((item) => ({ ...item }))];
       } else if (CHORD.test(word)) {
         const [symbol, position] = splitPosition(word);
-        items.push({ symbol, position });
+        items.push({ value: symbol, position });
       } else if (items.length) {
         const last = items[items.length - 1];
         const [qualifier, position] = splitPosition(word);
-        last.symbol += ` ${qualifier}`;
+        last.value += ` ${qualifier}`;
         if (position) last.position = position;
       } else {
         problem(`unknown word "${word}"`);
       }
     }
     for (const item of items) {
-      if (NO_CHORD.test(item.symbol)) item.symbol = "N.C.";
-      else if (getChord(item.symbol).empty) {
-        problem(`unknown chord "${item.symbol}"`);
+      if (NO_CHORD.test(item.value)) item.value = "N.C.";
+      else if (getChord(item.value).empty) {
+        problem(`unknown chord "${item.value}"`);
       }
     }
     bar.chords = place(items, getMeter(bar.meter), problem);
@@ -412,13 +413,13 @@ function place(
       const extra = pulses.length % n;
       let pulse = 0;
       return items.map((item, i) => {
-        const chord = { symbol: item.symbol, at: starts[pulse] };
+        const chord = { value: item.value, at: starts[pulse] };
         pulse += each + (i < extra ? 1 : 0);
         return chord;
       });
     }
     return items.map((item, i) => ({
-      symbol: item.symbol,
+      value: item.value,
       at: mul(m.bar, [i, n]) as Fraction,
     }));
   }
@@ -429,17 +430,17 @@ function place(
     const before = chords[i - 1]?.at;
     let position = explicit[i];
     if (position && before && compare(position, before) <= 0) {
-      problem(`"${item.symbol}" is placed before the chord before it`);
+      problem(`"${item.value}" is placed before the chord before it`);
     }
     if (!position) {
       position = before
         ? (starts.find((s) => compare(s, before) > 0) ?? before)
         : [0, 1];
       if (before && compare(position, before) <= 0) {
-        problem(`no room for "${item.symbol}" after the chord before it`);
+        problem(`no room for "${item.value}" after the chord before it`);
       }
     }
-    chords.push({ symbol: item.symbol, at: position });
+    chords.push({ value: item.value, at: position });
   });
   return chords;
 }
@@ -747,7 +748,7 @@ const chorusesOf = (options?: UnrollOptions) => {
 
 /**
  * Get the played form of a chart: every bar in the order it's played, with
- * where it starts (in quarter notes), its length, its section, its place in
+ * where it starts (in quarter notes), its duration, its section, its place in
  * the section, its chorus, and its pass and ending in a repeat. `choruses`
  * plays the form more than once.
  *
@@ -811,12 +812,12 @@ export function unroll(chart: Chart, options?: UnrollOptions): PlayedBar[] {
   const played: PlayedBar[] = playOrder(chart, choruses, repeatsOnJump).map(
     (step, index) => {
       const bar = chart.bars[step.bar];
-      const length = getMeter(bar.meter).bar;
+      const duration = getMeter(bar.meter).bar;
       const played: PlayedBar = {
         bar: step.bar,
         index,
         start,
-        length,
+        duration,
         meter: bar.meter,
         section: sections[step.bar],
         sectionBar: 0,
@@ -825,7 +826,7 @@ export function unroll(chart: Chart, options?: UnrollOptions): PlayedBar[] {
         pass: step.pass,
       };
       if (step.ending !== undefined) played.ending = step.ending;
-      start = add(start, length) as Fraction;
+      start = add(start, duration) as Fraction;
       return played;
     },
   );
@@ -849,9 +850,9 @@ export function unroll(chart: Chart, options?: UnrollOptions): PlayedBar[] {
 }
 
 /**
- * Get the chords of a chart as they're played: each with its symbol, where
- * it starts and how long it lasts (in quarter notes from the start of the
- * played form), and its bar in the played form. A chord lasts until the next
+ * Get the chords of a chart as they're played: each with its symbol
+ * (`value`), where it starts and how long it lasts (in quarter notes from the
+ * start of the played form), and its bar in the played form. A chord lasts until the next
  * chord, or the end of the form: a bar with no chords continues the chord
  * before, and a chord written again is played again (a new entry). `N.C.`
  * is a chord too, a rest.
@@ -862,7 +863,7 @@ export function unroll(chart: Chart, options?: UnrollOptions): PlayedBar[] {
  * @param options - as in `Chart.unroll`
  * @returns the played chords
  * @example
- * Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |")).map((c) => [c.symbol, c.start, c.duration])
+ * Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |")).map((c) => [c.value, c.start, c.duration])
  * // => [["Dm7", [0, 1], [2, 1]], ["G7", [2, 1], [2, 1]], ["Cmaj7", [4, 1], [4, 1]]]
  */
 export function chords(chart: Chart, options?: UnrollOptions): PlayedChord[] {
@@ -871,14 +872,14 @@ export function chords(chart: Chart, options?: UnrollOptions): PlayedChord[] {
   for (const bar of played) {
     for (const chord of chart.bars[bar.bar].chords) {
       list.push({
-        symbol: chord.symbol,
+        value: chord.value,
         start: add(bar.start, chord.at) as Fraction,
         bar: bar.index,
       });
     }
   }
   const last = played[played.length - 1];
-  const end = last ? add(last.start, last.length) : null;
+  const end = last ? add(last.start, last.duration) : null;
   return list.map((chord, i) => ({
     ...chord,
     duration: sub(list[i + 1]?.start ?? end ?? 0, chord.start) as Fraction,
@@ -897,7 +898,7 @@ export function chords(chart: Chart, options?: UnrollOptions): PlayedChord[] {
  * @returns the chord, or null
  * @example
  * const chords = Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |"));
- * Chart.chordAt(chords, 3)?.symbol // => "G7"
+ * Chart.chordAt(chords, 3)?.value // => "G7"
  * Chart.chordAt(chords, [8, 1]) // => null
  */
 export function chordAt(
@@ -1105,13 +1106,13 @@ function barLineAfter(bar: ChartBar): string {
 // there
 function chordsText(bar: ChartBar): string[] {
   const m = getMeter(bar.meter);
-  const items = bar.chords.map((c) => ({ symbol: c.symbol }));
+  const items = bar.chords.map((c) => ({ value: c.value }));
   const placed = place(items, m, () => undefined);
   const moved = bar.chords.some(
     (c, i) => !placed[i] || compare(c.at, placed[i].at) !== 0,
   );
   return bar.chords.map((c) =>
-    moved ? `${c.symbol}@${toBarBeat(c.at, m).slice(2)}` : c.symbol,
+    moved ? `${c.value}@${toBarBeat(c.at, m).slice(2)}` : c.value,
   );
 }
 
@@ -1136,10 +1137,10 @@ export function transpose(chart: Chart, interval: string): Chart {
       ...bar,
       chords: bar.chords.map((chord) => ({
         ...chord,
-        symbol:
-          chord.symbol === "N.C."
-            ? chord.symbol
-            : transposeChord(chord.symbol, interval) || chord.symbol,
+        value:
+          chord.value === "N.C."
+            ? chord.value
+            : transposeChord(chord.value, interval) || chord.value,
       })),
     })),
   };
@@ -1175,6 +1176,6 @@ export function barAt(
     else hi = mid - 1;
   }
   const bar = played[lo];
-  const end = add(bar.start, bar.length);
+  const end = add(bar.start, bar.duration);
   return end && compare(at, end) < 0 ? bar : null;
 }

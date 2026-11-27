@@ -64,11 +64,13 @@ RhythmPattern.euclid(8, 3); // => [1, 0, 0, 1, 0, 0, 1, 0]
 RhythmPattern.toDurations([1, 0, 0, 1, 0, 0, 1, 0]); // => [3, 3, 2]
 
 // Chord charts: sections, repeats and endings, the chord at a position
-const chart = Chart.parse("[A] | Dm7 G7 | Cmaj7 | % |\n[B] |: Fmaj7 |1 E7 :|2 E7 Am7 |");
+const chart = Chart.parse(
+  "[A] | Dm7 G7 | Cmaj7 | % |\n[B] |: Fmaj7 |1 E7 :|2 E7 Am7 |",
+);
 const chords = Chart.chords(chart);
-chords.map((c) => c.symbol);
+chords.map((c) => c.value);
 // => ["Dm7", "G7", "Cmaj7", "Cmaj7", "Fmaj7", "E7", "Fmaj7", "E7", "Am7"]
-Chart.chordAt(chords, Time.fromBarBeat("1:3", "4/4"))?.symbol; // => "G7"
+Chart.chordAt(chords, Time.fromBarBeat("1:3", "4/4"))?.value; // => "G7"
 
 // Time: exact positions and durations, in quarter notes
 Time.add(Time.duration("q."), [1, 3]); // => [11, 6]

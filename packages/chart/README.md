@@ -9,7 +9,7 @@ import { Chart } from "tonal";
 
 const chart = Chart.parse("[A] | Dm7 G7 | Cmaj7 |\n[B] | Fmaj7 | 3/4 E7 |");
 const chords = Chart.chords(chart);
-Chart.chordAt(chords, 3)?.symbol; // => "G7"
+Chart.chordAt(chords, 3)?.value; // => "G7"
 ```
 
 It describes where chords are, never when they play: there are no seconds and no tempo.
@@ -47,31 +47,31 @@ Read a chart from text: bars between `|`, chords separated by spaces.
 ```js
 Chart.parse("| Dm7 G7 | Cmaj7 |").bars;
 // => [
-//   { meter: "4/4", chords: [{ symbol: "Dm7", at: [0, 1] }, { symbol: "G7", at: [2, 1] }] },
-//   { meter: "4/4", chords: [{ symbol: "Cmaj7", at: [0, 1] }] },
+//   { meter: "4/4", chords: [{ value: "Dm7", at: [0, 1] }, { value: "G7", at: [2, 1] }] },
+//   { meter: "4/4", chords: [{ value: "Cmaj7", at: [0, 1] }] },
 // ]
 ```
 
-Each bar has its `meter` and its `chords`, each chord its `symbol` as written and where it starts in the bar (`at`, in quarter notes). The first bar of a section has its `section` name.
+Each bar has its `meter` and its `chords`, each chord its symbol as written (`value`) and where it starts in the bar (`at`, in quarter notes). The first bar of a section has its `section` name.
 
 The syntax:
 
-| Write | Means |
-|---|---|
-| `\|` | a bar line; a new line ends a bar too, and `\|\|` is a bar line |
-| `Cmaj7`, `Cm7 b9` | a chord: a word starting with a note letter, with the words after it that aren't chords (its qualifiers) |
-| `N.C.` | no chord: a rest |
-| `%` | the chords of the bar before |
-| `\| \|` | an empty bar: the chord before goes on |
-| `[A]`, `[Verse 1]` | a section starts on this bar (alone between bar lines, `\| [A] \| C \|`, on the next bar) |
-| `3/4`, `2+2+3/8` | the meter changes from this bar on (4/4 by default, or `options.meter`) |
-| `A7@4`, `A7@2+1/2` | a chord on beat 4, or half a beat after beat 2 |
-| `\|:`, `:\|`, `:\|x3` | a repeat starts, ends, ends after three passes |
-| `\|1`, `\|1,2`, `:\|2` | an ending starts, for pass 1 (or 1 and 2); a repeat ends and ending 2 starts |
-| `\|\|` | a double bar: it closes an ending |
-| `<Segno>`, `<Coda>` | the sign a D.S. goes back to, and where the coda starts (at the start of the bar) |
-| `<To Coda>`, `<Fine>` | where the play goes to the coda, or ends, after a jump (at the end of the bar) |
-| `<D.C.>`, `<D.S. al Coda>`… | a jump at the end of the bar: `D.C.` or `D.S.`, alone or `al Fine` or `al Coda` |
+| Write                       | Means                                                                                                    |
+| --------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `\|`                        | a bar line; a new line ends a bar too, and `\|\|` is a bar line                                          |
+| `Cmaj7`, `Cm7 b9`           | a chord: a word starting with a note letter, with the words after it that aren't chords (its qualifiers) |
+| `N.C.`                      | no chord: a rest                                                                                         |
+| `%`                         | the chords of the bar before                                                                             |
+| `\| \|`                     | an empty bar: the chord before goes on                                                                   |
+| `[A]`, `[Verse 1]`          | a section starts on this bar (alone between bar lines, `\| [A] \| C \|`, on the next bar)                |
+| `3/4`, `2+2+3/8`            | the meter changes from this bar on (4/4 by default, or `options.meter`)                                  |
+| `A7@4`, `A7@2+1/2`          | a chord on beat 4, or half a beat after beat 2                                                           |
+| `\|:`, `:\|`, `:\|x3`       | a repeat starts, ends, ends after three passes                                                           |
+| `\|1`, `\|1,2`, `:\|2`      | an ending starts, for pass 1 (or 1 and 2); a repeat ends and ending 2 starts                             |
+| `\|\|`                      | a double bar: it closes an ending                                                                        |
+| `<Segno>`, `<Coda>`         | the sign a D.S. goes back to, and where the coda starts (at the start of the bar)                        |
+| `<To Coda>`, `<Fine>`       | where the play goes to the coda, or ends, after a jump (at the end of the bar)                           |
+| `<D.C.>`, `<D.S. al Coda>`… | a jump at the end of the bar: `D.C.` or `D.S.`, alone or `al Fine` or `al Coda`                          |
 
 A beat is the meter's lower note, as in [`Time.fromBarBeat`](/packages/time): in 6/8, `G7@4` is on the second dotted quarter.
 
@@ -81,13 +81,13 @@ Bar lines with only spaces between them are one bar line (`:| |2` is `:|2`, `|| 
 
 Chords without `@` are placed by the meter's pulses (the groups it's felt in, from [`Time.meter`](/packages/time)), the way a musician reads a chart: with n chords in p pulses, each chord gets `floor(p / n)` pulses and the first `p mod n` chords one more. More chords than pulses split the bar equally.
 
-| Bar | Chords start at (quarters) |
-|---|---|
-| `\| C F \|` | 0, 2 |
-| `\| C F G \|` | 0, 2, 3 (2 + 1 + 1 beats) |
-| `3/4 \| C F \|` | 0, 2 |
-| `6/8 \| C F \|` | 0, 3/2 (two dotted quarters) |
-| `\| Em7 A7@4 \|` | 0, 3 |
+| Bar              | Chords start at (quarters)   |
+| ---------------- | ---------------------------- |
+| `\| C F \|`      | 0, 2                         |
+| `\| C F G \|`    | 0, 2, 3 (2 + 1 + 1 beats)    |
+| `3/4 \| C F \|`  | 0, 2                         |
+| `6/8 \| C F \|`  | 0, 3/2 (two dotted quarters) |
+| `\| Em7 A7@4 \|` | 0, 3                         |
 
 In a bar where some chords have `@`, a chord without it starts on beat 1 if it's first, or on the next pulse after the chord before.
 
@@ -102,7 +102,10 @@ const chart = Chart.fromForm({ A: "| C | G |", B: "| F |" }, "A A B A");
 Chart.unroll(chart).map((b) => `${b.section}${b.sectionBar}`);
 // => ["A0", "A1", "A0", "A1", "B0", "A0", "A1"]
 
-Chart.fromForm({ Intro: "| Am | D7 |", A: "| C | G |", B: "3/4 | F | E7 |" }, "Intro A*2 B A");
+Chart.fromForm(
+  { Intro: "| Am | D7 |", A: "| C | G |", B: "3/4 | F | E7 |" },
+  "Intro A*2 B A",
+);
 ```
 
 A name that isn't a section gives an empty chart, and `Chart.problems` says which. Problems inside a section are listed with its name.
@@ -124,7 +127,9 @@ Chart.toText(Chart.parse("[A] |: C | G7 :| [B] | F |")); // => "[A] |: C | G7 :|
 Transpose the chords of a chart, keeping its sections, meters, repeats, jumps and positions (`N.C.` stays):
 
 ```js
-Chart.toText(Chart.transpose(Chart.parse("[A] |: Dm7 G7 |1 Cmaj7 :|2 Cmaj7 C7 ||"), "-5P"));
+Chart.toText(
+  Chart.transpose(Chart.parse("[A] |: Dm7 G7 |1 Cmaj7 :|2 Cmaj7 C7 ||"), "-5P"),
+);
 // => "[A] |: Gm7 C7 |1 Fmaj7 :|2 Fmaj7 F7 ||"
 ```
 
@@ -144,11 +149,17 @@ Chart.problems(Chart.parse("| Cmaj7 | Xyz |")); // => ['bar 2: unknown word "Xyz
 
 `unroll(chart: Chart, options?: { choruses?: number }) => PlayedBar[]`
 
-The bars in the order they're played, each with its index in the chart (`bar`), its `index` in the played form, where it starts (`start`, quarter notes from the start), its `length`, its `meter`, its `section`, its place in the section (`sectionBar` from 0, and `sectionLength`), its `chorus` and its `pass`. `choruses` plays the form more than once.
+The bars in the order they're played, each with its index in the chart (`bar`), its `index` in the played form, where it starts (`start`, quarter notes from the start), its `duration`, its `meter`, its `section`, its place in the section (`sectionBar` from 0, and `sectionLength`), its `chorus` and its `pass`. `choruses` plays the form more than once.
 
 ```js
 const chart = Chart.parse("[A] | Dm7 G7 | Cmaj7 |\n[B] | Fmaj7 | 3/4 E7 |");
-Chart.unroll(chart).map((b) => [b.section, b.sectionBar, b.sectionLength, b.start, b.meter]);
+Chart.unroll(chart).map((b) => [
+  b.section,
+  b.sectionBar,
+  b.sectionLength,
+  b.start,
+  b.meter,
+]);
 // => [["A", 0, 2, [0, 1], "4/4"], ["A", 1, 2, [4, 1], "4/4"], ["B", 0, 2, [8, 1], "4/4"], ["B", 1, 2, [12, 1], "3/4"]]
 ```
 
@@ -159,7 +170,11 @@ A run of a section starts at a bar that starts a section (`[A]`), or at a new ch
 `unroll` plays repeats and endings as a musician reads them. Each played bar has its `pass` through the repeat (1 outside repeats) and, in an ending, its `ending`:
 
 ```js
-Chart.unroll(Chart.parse("|: C |1 G :|2 F |")).map((b) => [b.bar, b.pass, b.ending]);
+Chart.unroll(Chart.parse("|: C |1 G :|2 F |")).map((b) => [
+  b.bar,
+  b.pass,
+  b.ending,
+]);
 // => [[0, 1, undefined], [1, 1, 1], [0, 2, undefined], [2, 2, 2]]
 ```
 
@@ -175,7 +190,9 @@ After the bar with a D.C., the play goes back to the start; after a D.S., to the
 ```js
 const order = (text, options) => {
   const chart = Chart.parse(text);
-  return Chart.unroll(chart, options).map((b) => chart.bars[b.bar].chords[0].symbol);
+  return Chart.unroll(chart, options).map(
+    (b) => chart.bars[b.bar].chords[0].value,
+  );
 };
 order("| C <Fine> | F | G <D.C. al Fine> |"); // => ["C", "F", "G", "C"]
 order("| Dm | <Segno> C | F <To Coda> | G <D.S. al Coda> | <Coda> Am |");
@@ -213,10 +230,14 @@ Chart.unroll(tune).length; // => 16
 
 `chords(chart: Chart, options?: { choruses?: number }) => PlayedChord[]`
 
-The chords as they're played: each with its `symbol`, its `start` and `duration` in quarter notes from the start of the played form, and its `bar` in the played form. A chord lasts until the next one, or the end of the form. A chord written again is played again (a new entry), and an empty bar continues the chord before.
+The chords as they're played: each with its symbol (`value`), its `start` and `duration` in quarter notes from the start of the played form, and its `bar` in the played form. A chord lasts until the next one, or the end of the form. A chord written again is played again (a new entry), and an empty bar continues the chord before.
 
 ```js
-Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |")).map((c) => [c.symbol, c.start, c.duration]);
+Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |")).map((c) => [
+  c.value,
+  c.start,
+  c.duration,
+]);
 // => [["Dm7", [0, 1], [2, 1]], ["G7", [2, 1], [2, 1]], ["Cmaj7", [4, 1], [4, 1]]]
 ```
 
@@ -228,7 +249,7 @@ The chord playing at a position, from the list `Chart.chords` gives. The positio
 
 ```js
 const chords = Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |"));
-Chart.chordAt(chords, 3)?.symbol; // => "G7"
+Chart.chordAt(chords, 3)?.value; // => "G7"
 Chart.chordAt(chords, [8, 1]); // => null
 ```
 
@@ -265,6 +286,6 @@ const chords = Chart.chords(chart);
 const tresillo = Time.onsets(RhythmPattern.euclid(8, 3), [1, 2]); // [[0, 1], [3, 2], [3, 1]]
 Chart.unroll(chart)
   .flatMap((bar) => tresillo.map((at) => Time.add(bar.start, at)))
-  .map((position) => Chart.chordAt(chords, position)?.symbol);
+  .map((position) => Chart.chordAt(chords, position)?.value);
 // => ["Dm7", "Dm7", "Dm7", "G7", "G7", "G7", "Cmaj7", "Cmaj7", "Cmaj7", "Cmaj7", "Cmaj7", "Cmaj7"]
 ```

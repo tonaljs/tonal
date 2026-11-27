@@ -1,17 +1,17 @@
 import { describe, expect, test } from "vitest";
 import * as Chart from "./index";
 
-// the chords of each bar, as "symbol@at"
+// the chords of each bar, as "value@at"
 const bars = (text: string, options?: Chart.ParseOptions) =>
   Chart.parse(text, options).bars.map((bar) =>
-    bar.chords.map((c) => `${c.symbol}@${c.at[0]}/${c.at[1]}`).join(" "),
+    bar.chords.map((c) => `${c.value}@${c.at[0]}/${c.at[1]}`).join(" "),
   );
 
-// the played chords, as "symbol start+duration"
+// the played chords, as "value start+duration"
 const played = (text: string, options?: Chart.UnrollOptions) =>
   Chart.chords(Chart.parse(text), options).map(
     (c) =>
-      `${c.symbol} ${c.start[0]}/${c.start[1]}+${c.duration[0]}/${c.duration[1]}`,
+      `${c.value} ${c.start[0]}/${c.start[1]}+${c.duration[0]}/${c.duration[1]}`,
   );
 
 describe("@tonaljs/chart", () => {
@@ -20,12 +20,12 @@ describe("@tonaljs/chart", () => {
       expect(Chart.parse("| Cmaj7 | Dm7 G7 |")).toEqual({
         empty: false,
         bars: [
-          { meter: "4/4", chords: [{ symbol: "Cmaj7", at: [0, 1] }] },
+          { meter: "4/4", chords: [{ value: "Cmaj7", at: [0, 1] }] },
           {
             meter: "4/4",
             chords: [
-              { symbol: "Dm7", at: [0, 1] },
-              { symbol: "G7", at: [2, 1] },
+              { value: "Dm7", at: [0, 1] },
+              { value: "G7", at: [2, 1] },
             ],
           },
         ],
@@ -170,9 +170,9 @@ describe("@tonaljs/chart", () => {
   });
 
   describe("unroll", () => {
-    test("bars with their position, length and meter", () => {
+    test("bars with their position, duration and meter", () => {
       const form = Chart.unroll(Chart.parse("| C | 3/4 G | F | 6/8 C |"));
-      expect(form.map((b) => [b.start, b.length, b.meter])).toEqual([
+      expect(form.map((b) => [b.start, b.duration, b.meter])).toEqual([
         [[0, 1], [4, 1], "4/4"],
         [[4, 1], [3, 1], "3/4"],
         [[7, 1], [3, 1], "3/4"],
@@ -234,7 +234,7 @@ describe("@tonaljs/chart", () => {
       return Chart.unroll(chart, options)
         .map(
           (b) =>
-            chart.bars[b.bar].chords.map((c) => c.symbol).join("") +
+            chart.bars[b.bar].chords.map((c) => c.value).join("") +
             (b.pass > 1 ? `p${b.pass}` : "") +
             (b.ending ? `e${b.ending}` : ""),
         )
@@ -246,22 +246,22 @@ describe("@tonaljs/chart", () => {
       expect(chart.bars).toEqual([
         {
           meter: "4/4",
-          chords: [{ symbol: "A", at: [0, 1] }],
+          chords: [{ value: "A", at: [0, 1] }],
           repeatStart: true,
         },
         {
           meter: "4/4",
-          chords: [{ symbol: "B", at: [0, 1] }],
+          chords: [{ value: "B", at: [0, 1] }],
           ending: [1],
           repeatEnd: 2,
         },
         {
           meter: "4/4",
-          chords: [{ symbol: "C", at: [0, 1] }],
+          chords: [{ value: "C", at: [0, 1] }],
           ending: [2],
           doubleBar: true,
         },
-        { meter: "4/4", chords: [{ symbol: "D", at: [0, 1] }], repeatEnd: 3 },
+        { meter: "4/4", chords: [{ value: "D", at: [0, 1] }], repeatEnd: 3 },
       ]);
       // a meter after a bar line isn't an ending
       expect(Chart.parse("|3/4 C |").bars[0].meter).toBe("3/4");
@@ -348,7 +348,7 @@ describe("@tonaljs/chart", () => {
       return Chart.unroll(chart, options)
         .map(
           (b) =>
-            chart.bars[b.bar].chords.map((c) => c.symbol).join("") +
+            chart.bars[b.bar].chords.map((c) => c.value).join("") +
             (b.chorus > 1 ? `c${b.chorus}` : ""),
         )
         .join(" ");
@@ -515,7 +515,7 @@ describe("@tonaljs/chart", () => {
       );
       expect(
         Chart.unroll(chart)
-          .map((b) => chart.bars[b.bar].chords[0].symbol)
+          .map((b) => chart.bars[b.bar].chords[0].value)
           .join(" "),
       ).toBe("C G C G F C G F");
     });
@@ -626,7 +626,7 @@ describe("@tonaljs/chart", () => {
       expect(Chart.toText(Chart.transpose(chart, "2M"))).toBe(
         "[A] |: Em7 A7 |1 Dmaj7 :|2 D7/F# Dm7 b9 | N.C. <D.C.> |",
       );
-      expect(Chart.transpose(chart, "-2m").bars[0].chords[0].symbol).toBe(
+      expect(Chart.transpose(chart, "-2m").bars[0].chords[0].value).toBe(
         "C#m7",
       );
       expect(Chart.transpose(chart, "x").empty).toBe(true);
@@ -678,27 +678,27 @@ describe("@tonaljs/chart", () => {
       );
       const form = Chart.unroll(Chart.parse("| C7 |".repeat(12)));
       const at = (text: string) => Chart.position(form, text) ?? -1;
-      expect(Chart.chordAt(blues, at("8:3"))?.symbol).toBe("A7");
-      expect(Chart.chordAt(blues, at("11:3"))?.symbol).toBe("A7");
+      expect(Chart.chordAt(blues, at("8:3"))?.value).toBe("A7");
+      expect(Chart.chordAt(blues, at("11:3"))?.value).toBe("A7");
       // the last triplet eighth before beat 3
-      expect(Chart.chordAt(blues, at("11:2+2/3"))?.symbol).toBe("C7");
-      expect(Chart.chordAt(blues, at("12:4"))?.symbol).toBe("G7");
+      expect(Chart.chordAt(blues, at("11:2+2/3"))?.value).toBe("C7");
+      expect(Chart.chordAt(blues, at("12:4"))?.value).toBe("G7");
       expect(Chart.chordAt(blues, 48)).toBeNull();
       // a triplet-eighth comping: twelve onsets in the A7 bars
       const onsets = Array.from({ length: 144 }, (_, i): [number, number] => [
         i,
         3,
       ]);
-      const symbols = onsets.map((p) => Chart.chordAt(blues, p)?.symbol);
+      const symbols = onsets.map((p) => Chart.chordAt(blues, p)?.value);
       expect(symbols.filter((s) => s === "A7")).toHaveLength(12 + 6);
     });
 
     test("chordAt takes exact numbers and strings", () => {
       const chords = Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |"));
-      expect(Chart.chordAt(chords, 0)?.symbol).toBe("Dm7");
-      expect(Chart.chordAt(chords, 1.5)?.symbol).toBe("Dm7");
-      expect(Chart.chordAt(chords, 2)?.symbol).toBe("G7");
-      expect(Chart.chordAt(chords, "7/2")?.symbol).toBe("G7");
+      expect(Chart.chordAt(chords, 0)?.value).toBe("Dm7");
+      expect(Chart.chordAt(chords, 1.5)?.value).toBe("Dm7");
+      expect(Chart.chordAt(chords, 2)?.value).toBe("G7");
+      expect(Chart.chordAt(chords, "7/2")?.value).toBe("G7");
       expect(Chart.chordAt(chords, [8, 1])).toBeNull();
       expect(Chart.chordAt(chords, -1)).toBeNull();
       expect(Chart.chordAt(chords, 0.1)).toBeNull();
@@ -708,7 +708,7 @@ describe("@tonaljs/chart", () => {
     test("a chart that starts with an empty bar", () => {
       const chords = Chart.chords(Chart.parse("| | C |"));
       expect(Chart.chordAt(chords, 1)).toBeNull();
-      expect(Chart.chordAt(chords, 4)?.symbol).toBe("C");
+      expect(Chart.chordAt(chords, 4)?.value).toBe("C");
     });
   });
 
