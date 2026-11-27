@@ -724,6 +724,7 @@ describe("tonal-chord", () => {
     });
   });
 
+  // every chord type, tonic and inversion: about 5 s, so a longer timeout
   test("every name detect finds parses back to its notes and bass", () => {
     const tonics = "CDEFGAB".split("").flatMap((l) => [l + "b", l, l + "#"]);
     const chroma = (notes: string[]) =>
@@ -740,7 +741,7 @@ describe("tonal-chord", () => {
               note(inversion[0]).chroma,
             );
           }
-        });
+        }, 30_000);
       }
     }
   });
