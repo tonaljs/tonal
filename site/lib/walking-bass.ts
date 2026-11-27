@@ -289,49 +289,49 @@ const FIT: {
   interval: Record<string, number>;
   kinds: Record<string, Record<string, number>>;
 } = {
-  "interval": {
+  interval: {
     "0": 0.411,
     "1": 0.835,
     "2": 0.824,
     "3-4": 1.627,
     "5": 0.727,
     "6-7": 1.852,
-    "8-12": 1.5
+    "8-12": 1.5,
   },
-  "kinds": {
-    "onset": {
-      "root": 0.986,
-      "third": 1.091,
-      "fifth": 1.057,
-      "seventh": 0.855,
-      "tension": 0.834,
-      "chromatic": 1.639
+  kinds: {
+    onset: {
+      root: 0.986,
+      third: 1.091,
+      fifth: 1.057,
+      seventh: 0.855,
+      tension: 0.834,
+      chromatic: 1.639,
     },
-    "last": {
-      "root": 1.548,
-      "third": 0.878,
-      "fifth": 0.749,
-      "seventh": 0.953,
-      "tension": 0.923,
-      "chromatic": 1.116
+    last: {
+      root: 1.548,
+      third: 0.878,
+      fifth: 0.749,
+      seventh: 0.953,
+      tension: 0.923,
+      chromatic: 1.116,
     },
-    "beat2": {
-      "root": 1.693,
-      "third": 1.067,
-      "fifth": 0.761,
-      "seventh": 0.704,
-      "tension": 0.971,
-      "chromatic": 1.612
+    beat2: {
+      root: 1.693,
+      third: 1.067,
+      fifth: 0.761,
+      seventh: 0.704,
+      tension: 0.971,
+      chromatic: 1.612,
     },
-    "beat3": {
-      "root": 0.919,
-      "third": 1.078,
-      "fifth": 0.912,
-      "seventh": 0.755,
-      "tension": 1.015,
-      "chromatic": 1.68
-    }
-  }
+    beat3: {
+      root: 0.919,
+      third: 1.078,
+      fifth: 0.912,
+      seventh: 0.755,
+      tension: 1.015,
+      chromatic: 1.68,
+    },
+  },
 };
 // fit:end
 
