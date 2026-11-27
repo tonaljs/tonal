@@ -82,7 +82,7 @@ const DEFAULTS: State = {
   variety: 1,
   chromatic: 1,
   leaps: 1,
-  skips: 0.15,
+  skips: 1,
   tempo: 160,
   ride: true,
 };
@@ -293,12 +293,10 @@ export function WalkingBass() {
             onChange={(leaps) => set({ leaps })}
           />
           <Slider
-            label="Skips"
+            label="Between the beats"
             value={state.skips}
-            max={0.5}
-            step={0.05}
             onChange={(skips) => set({ skips })}
-            format={(v) => `${Math.round(v * 100)}%`}
+            format={(v) => `×${v.toFixed(1)}`}
           />
         </div>
       </section>

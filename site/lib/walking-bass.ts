@@ -28,7 +28,8 @@
 // 4. tonal names what was drawn: `Chord.classify` says what each note is over
 //    its chord, `Scale.approaches` which kind of approach leads into the next
 //    chord, and the chord and its scale spell the notes.
-// 5. Skips (a ghost eighth before a new chord) are added to the line.
+// 5. Notes between the beats are added to the line: eighths and triplets in
+//    walking, the rhythms of two-feel (see BETWEEN, EXTRA and TWO_FEEL).
 import { Chart, Chord, Note, Scale, Time } from "tonal";
 
 /** What a note does in the line. */
@@ -69,7 +70,7 @@ export type BassOptions = {
   chromatic: number;
   /** How willing to leap a fourth or more (0 to 2) */
   leaps: number;
-  /** The share of approach notes played with a skip (0 to 1) */
+  /** How many notes between the beats: 1 is as many as real players (0 to 2) */
   skips: number;
 };
 
@@ -82,7 +83,7 @@ export const DEFAULT_OPTIONS: BassOptions = {
   variety: 1,
   chromatic: 1,
   leaps: 1,
-  skips: 0.15,
+  skips: 1,
 };
 
 // --- the slots -------------------------------------------------------------
@@ -952,7 +953,13 @@ export function walkingBass(text: string, options: BassOptions): BassLine {
   }
 
   const steps = describe(slots, chosen, info, figureOf);
-  const notes = withSkips(steps, slots, options, random(options.seed + 1));
+  const notes = withRhythm(
+    steps,
+    slots,
+    info,
+    options,
+    random(options.seed + 1),
+  );
   const chords = Chart.chords(chart, { choruses: options.choruses }).map(
     (c) => ({ value: c.value, start: num(c.start), duration: num(c.duration) }),
   );
@@ -1068,50 +1075,236 @@ function describe(
   });
 }
 
-// an approach in walking (or the last half in two-feel) can be played with a
-// skip: the note, then the same note as a ghost on the swung eighth before
-// the next chord
-function withSkips(
+// --- the notes between the beats ----------------------------------------------
+
+/**
+ * How often a walking bar has a note between the beats, after each beat
+ * (FiloBass: 29% of walking bars, a little more after beats 1 and 4); 82%
+ * are a swung eighth, 16% a triplet (two notes). Checked with the harness.
+ */
+const BETWEEN = {
+  afterBeat: [0.087, 0.058, 0.064, 0.085],
+  triplet: 0.16,
+};
+
+/**
+ * What the note between the beats is (FiloBass): the next note early 20%, an
+ * open string dropped as a ghost and back up 19% (D2 70% of them, A1 15%), the
+ * note before again 15%, a half step into the next 10%, a whole step into the
+ * next 9%, the octave of the note before 3%.
+ */
+type Extra = "anticipate" | "drop" | "repeat" | "half" | "whole" | "octave";
+const EXTRA: Record<Extra, number> = {
+  anticipate: 0.15,
+  drop: 0.19,
+  repeat: 0.09,
+  half: 0.08,
+  whole: 0.09,
+  octave: 0.03,
+};
+// with two notes between the beats, the first fills and the last leads in
+const FILL: Partial<Record<Extra, number>> = {
+  repeat: 0.25,
+  drop: 0.6,
+  octave: 0.15,
+};
+const LEAD: Partial<Record<Extra, number>> = {
+  anticipate: 0.3,
+  half: 0.35,
+  whole: 0.35,
+};
+
+/**
+ * The rhythms of a two-feel bar, as positions in quarter notes (FiloBass, 851
+ * bars): the two half notes alone are only 22%; a quarter on beat 4, an eighth
+ * after beat 2 or 4, or both, make the rest.
+ */
+const TWO_FEEL: [number[], number][] = [
+  [[0, 2], 0.22],
+  [[0, 2, 3], 0.14],
+  [[0, 1.5, 2, 3.5], 0.12],
+  [[0, 2, 3.5], 0.107],
+  [[0, 1.5, 2, 3], 0.08],
+  [[0, 1.5, 2], 0.067],
+  [[0, 1.5, 2, 2.5, 3], 0.067],
+  [[0, 1.5, 2, 2.5], 0.036],
+];
+
+/**
+ * The open strings a bass drops to as ghost notes, sounding, in order of
+ * preference (FiloBass: D2 70% of the drops, A1 15%, E1 3%).
+ */
+const DROP_TO = ["D2", "A1", "E1"];
+
+const pick = <T extends string>(
+  weights: Partial<Record<T, number>>,
+  rnd: () => number,
+) => {
+  const entries = Object.entries(weights) as [T, number][];
+  let r = rnd() * entries.reduce((a, [, w]) => a + w, 0);
+  for (const [k, w] of entries) if ((r -= w) <= 0) return k;
+  return entries[entries.length - 1][0];
+};
+
+/**
+ * Add the notes between the beats to a line in slots: in walking, a swung
+ * eighth or a triplet after some beats; in two-feel, a rhythm from the table.
+ * `amount` scales how often (1 is as often as the players).
+ */
+function withRhythm(
   steps: Step[],
   slots: Slot[],
+  info: Record<string, ChordInfo>,
   options: BassOptions,
   rnd: () => number,
 ): BassNote[] {
+  const [low, high] = options.range.map((n) => Note.midi(n) ?? 0);
+  const amount = options.skips;
   const notes: BassNote[] = [];
+  const bySlot = new Map(steps.map((s) => [s.slot, s]));
+
+  // the note of an extra kind, between `step` and the note after it
+  const extraNote = (kind: Extra, step: Step, next: Step) => {
+    const midi = Note.midi(step.note) ?? 0;
+    const nextMidi = Note.midi(next.note) ?? 0;
+    const scale = info[slots[next.slot].chord]?.scale ?? "";
+    const a = Scale.approaches(scale, next.note);
+    const fromBelow = midi < nextMidi;
+    switch (kind) {
+      case "anticipate":
+        return {
+          note: next.note,
+          role: "approach" as Role,
+          why: `${next.note} early, on the eighth before it`,
+        };
+      case "repeat":
+        return {
+          note: step.note,
+          role: "ghost" as Role,
+          why: "the note again, as a ghost note",
+        };
+      case "drop": {
+        // D2 first, then A1 and E1, at least a minor third below
+        const open = DROP_TO.find((s) => {
+          const m = Note.midi(s) ?? 0;
+          return m <= midi - 3 && m >= low;
+        });
+        return open
+          ? {
+              note: open,
+              role: "ghost" as Role,
+              why: `an open string (${open}) dropped as a ghost note`,
+            }
+          : undefined;
+      }
+      case "half": {
+        const note = fromBelow ? a.below : a.above;
+        return note
+          ? {
+              note,
+              role: "approach" as Role,
+              why: `a half step into ${next.note}`,
+            }
+          : undefined;
+      }
+      case "whole": {
+        const note = fromBelow ? a.scaleBelow : a.scaleAbove;
+        return note
+          ? {
+              note,
+              role: "approach" as Role,
+              why: `the scale step into ${next.note}`,
+            }
+          : undefined;
+      }
+      case "octave": {
+        const down = Note.transpose(step.note, "-8P");
+        const up = Note.transpose(step.note, "8P");
+        const note =
+          (Note.midi(down) ?? 0) >= low
+            ? down
+            : (Note.midi(up) ?? 0) <= high
+              ? up
+              : "";
+        return note
+          ? { note, role: step.role, why: "the note before, an octave away" }
+          : undefined;
+      }
+    }
+  };
+
   for (const step of steps) {
     const slot = slots[step.slot];
-    const base = {
+    const next = bySlot.get(step.slot + 1);
+    const base = { role: step.role, chord: slot.chord, bar: slot.bar };
+    // where the extra notes go, as offsets from the slot's start: exact
+    // fractions, since a triplet is a third of a beat
+    let extras: Time.Fraction[] = [];
+    if (next && !slot.two && slot.duration === 1) {
+      const rate = BETWEEN.afterBeat[Math.min(slot.beat, 3)] * amount;
+      if (rnd() < rate) {
+        const triplet: Time.Fraction[] = [
+          [1, 3],
+          [2, 3],
+        ];
+        extras = rnd() < BETWEEN.triplet ? triplet : [[1, 2]];
+      }
+    } else if (next && slot.two) {
+      // the bar's rhythm is drawn on its first half, and kept for the second
+      const shape = shapeOf(slot, slots, step.slot, amount, rnd);
+      extras = shape
+        .filter((p) => p > slot.beat && p < slot.beat + 2)
+        .map((p) => Time.fraction(p - slot.beat)!);
+    }
+    const slotStart = Time.fraction(slot.start)!;
+    const ends: Time.Fraction[] = [...extras, Time.fraction(slot.duration)!];
+    notes.push({
+      ...base,
       note: step.note,
-      role: step.role,
-      chord: slot.chord,
       why: step.why,
-      bar: slot.bar,
-    };
-    const skip =
-      slot.place === "last" &&
-      !!slots[step.slot + 1]?.chord &&
-      rnd() < options.skips;
-    if (!skip) {
+      start: slotStart,
+      duration: ends[0],
+    });
+    let previous = step;
+    extras.forEach((offset, k) => {
+      const last = k === extras.length - 1;
+      const weights = extras.length === 1 ? EXTRA : last ? LEAD : FILL;
+      let made: ReturnType<typeof extraNote>;
+      for (let tries = 0; tries < 4 && !made; tries++)
+        made = extraNote(pick(weights, rnd), previous, next!);
+      made ??= {
+        note: next!.note,
+        role: "approach",
+        why: `${next!.note} early, on the eighth before it`,
+      };
       notes.push({
         ...base,
-        start: Time.fraction(slot.start)!,
-        duration: Time.fraction(slot.duration)!,
+        ...made,
+        start: Time.add(slotStart, offset)!,
+        duration: Time.sub(ends[k + 1], offset)!,
       });
-      continue;
-    }
-    const first = slot.duration - 0.5;
-    notes.push({
-      ...base,
-      start: Time.fraction(slot.start)!,
-      duration: Time.fraction(first)!,
-    });
-    notes.push({
-      ...base,
-      role: "ghost",
-      why: "a skip: the note again, as a ghost note, on the eighth before the next chord",
-      start: Time.fraction(slot.start + first)!,
-      duration: Time.fraction(0.5)!,
+      previous = { ...step, note: made.note };
     });
   }
   return notes;
+}
+
+// the rhythm of a two-feel bar: one per bar, drawn once (cached on the bar)
+const shapes = new WeakMap<Slot, number[]>();
+function shapeOf(
+  slot: Slot,
+  slots: Slot[],
+  index: number,
+  amount: number,
+  rnd: () => number,
+) {
+  const first = slot.beat === 0 ? slot : slots[index - 1];
+  let shape = shapes.get(first);
+  if (!shape) {
+    const weights = TWO_FEEL.map(([s, w]) => (s.length === 2 ? w : w * amount));
+    let r = rnd() * weights.reduce((a, b) => a + b, 0);
+    shape = TWO_FEEL.find((_, k) => (r -= weights[k]) <= 0)?.[0] ?? [0, 2];
+    shapes.set(first, shape);
+  }
+  return shape;
 }
