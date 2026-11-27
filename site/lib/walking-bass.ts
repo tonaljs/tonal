@@ -12,7 +12,9 @@
 //    own counts of FiloBass, a corpus of 48 transcribed jazz walking lines
 //    (Jasper Riley and Simon Dixon, "FiloBass: A Dataset and Corpus Based
 //    Study of Jazz Basslines", ISMIR 2023, https://aim-qmul.github.io/FiloBass).
-//    Only rounded percentages are used here, never the transcriptions:
+//    What is used here are our counts: rounded percentages, and a vocabulary
+//    of common four-note figures as degrees (FIGURES) with their frequencies;
+//    no transcribed line is included:
 //    - what the note is over the chord (root, 3rd, 5th, 7th, a tension of the
 //      chord's scale, or chromatic), by where the slot is: the first beat of a
 //      chord, the last beat before a new one, or a beat in between;

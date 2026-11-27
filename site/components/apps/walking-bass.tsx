@@ -401,8 +401,8 @@ export function WalkingBass() {
         </p>
         <DynamicCodeBlock lang="js" code={code(line, state, note)} />
         <p className="text-sm text-fd-muted-foreground">
-          How often a bass plays each kind of note, interval and approach comes
-          from our counts of{" "}
+          How often a bass plays each kind of note, interval, approach and
+          figure comes from our counts of{" "}
           <a
             href="https://aim-qmul.github.io/FiloBass"
             className="underline hover:text-fd-foreground"
@@ -411,8 +411,10 @@ export function WalkingBass() {
           </a>
           , 48 transcribed jazz walking bass lines (Jasper Riley and Simon
           Dixon, &ldquo;FiloBass: A Dataset and Corpus Based Study of Jazz
-          Basslines&rdquo;, ISMIR 2023). Only rounded percentages are used, not
-          the transcriptions.
+          Basslines&rdquo;, ISMIR 2023). The app uses our counts from them:
+          rounded percentages, and a vocabulary of common four-note figures as
+          degrees (like R-9-b3-3) with how often each is played before a chord
+          change. No transcribed line is included.
         </p>
       </section>
     </div>
