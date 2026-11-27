@@ -1,5 +1,12 @@
 # @tonaljs/voice-leading
 
+## 5.2.4
+
+### Patch Changes
+
+- Updated dependencies [8b44eee]
+  - @tonaljs/note@4.14.0
+
 ## 5.2.3
 
 ### Patch Changes
