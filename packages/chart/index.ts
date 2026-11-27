@@ -1,4 +1,4 @@
-import { get as getChord } from "@tonaljs/chord";
+import { get as getChord, transpose as transposeChord } from "@tonaljs/chord";
 import {
   add,
   compare,
@@ -9,6 +9,7 @@ import {
   mul,
   sub,
   TimeValue,
+  toBarBeat,
   fraction as toFraction,
 } from "@tonaljs/time";
 
@@ -150,28 +151,80 @@ function isClosing(label: string): boolean {
   return !!mark && mark !== "segno" && mark !== "coda";
 }
 
+// A bar line: ":|x3", "|:", "||", "|1,2", ":|2", ":|:"…
+const BAR_LINE =
+  /:\|(\|)?(?:x(\d+))?(\d+(?:,\d+)*)?(:)?|(\|\|?):|(\|\|?)(\d+(?:,\d+)*)(?![\d/+])|\|\||\|/g;
+
+// The marks of a bar line: for the bar before it (a repeat end, a double
+// bar) and for the bar after it (a repeat start, an ending)
+type BarLine = {
+  from: number;
+  to: number;
+  close: string[];
+  open: string[];
+  // whether the last bar line merged into it is a plain "|"
+  plain: boolean;
+  // an empty bar comes before it ("| |")
+  empty?: boolean;
+};
+
 // Bar lines with repeats and endings, as marks next to plain bar lines:
-// ":|x3" is "{re:3} |", "|:" is "| {rs}", "|2" is "| {e:2}", "||" is "{db} |"
+// ":|x3" is "{re:3} |", "|:" is "| {rs}", "|2" is "| {e:2}", "||" is
+// "{db} |". Bar lines with only spaces between them are one bar line
+// (":| |2" is ":|2"), except two plain ones: "| |" is an empty bar.
 function markBarLines(line: string): string {
-  return (
-    line
-      // ":| |:" is ":|:", and ":| |2" is ":|2": no empty bar between them
-      .replace(/:\|\s+\|/g, ":|")
-      .replace(
-        /(\|\|?)?:\|(\|)?(?:x(\d+))?(\d+(?:,\d+)*)?(:)?/g,
-        (_, before, double, times, endings, start) =>
-          `${before ? "|" : ""} {re${times ? `:${times}` : ""}}` +
-          `${double ? " {db}" : ""} |` +
-          `${endings ? ` {e:${endings}}` : ""}${start ? " {rs}" : ""} `,
-      )
-      .replace(
-        /(\|\|?):/g,
-        (_, bar) => `${bar === "||" ? " {db} " : ""}| {rs} `,
-      )
-      .replace(/\|(\d+(?:,\d+)*)(?![\d/+])/g, "| {e:$1} ")
-      .replace(/\|\|/g, " {db} |")
-  );
+  const lines: BarLine[] = [];
+  for (const m of line.matchAll(BAR_LINE)) {
+    const [text, double, times, endings, start, startBar, endingBar, ending] =
+      m;
+    const close: string[] = [];
+    const open: string[] = [];
+    if (text.startsWith(":|")) {
+      close.push(times ? `{re:${times}}` : "{re}");
+      if (double) close.push("{db}");
+      if (endings) open.push(`{e:${endings}}`);
+      if (start) open.push("{rs}");
+    } else if (startBar) {
+      if (startBar === "||") close.push("{db}");
+      open.push("{rs}");
+    } else if (endingBar) {
+      if (endingBar === "||") close.push("{db}");
+      open.push(`{e:${ending}}`);
+    } else if (text === "||") {
+      close.push("{db}");
+    }
+    const plain = !close.length && !open.length;
+    const bar: BarLine = {
+      from: m.index,
+      to: m.index + text.length,
+      close,
+      open,
+      plain,
+    };
+    const before = lines[lines.length - 1];
+    const between = before ? line.slice(before.to, bar.from) : "x";
+    if (before && !between.trim() && !(before.plain && plain)) {
+      before.to = bar.to;
+      before.close.push(...close);
+      before.open.push(...open);
+      before.plain = plain;
+    } else {
+      // two plain bar lines with only spaces between them: an empty bar
+      if (before && !between.trim()) bar.empty = true;
+      lines.push(bar);
+    }
+  }
+  let result = "";
+  let from = 0;
+  for (const bar of lines) {
+    result += line.slice(from, bar.from);
+    if (bar.empty) result += " {empty} ";
+    result += ` ${bar.close.join(" ")} | ${bar.open.join(" ")} `;
+    from = bar.to;
+  }
+  return result + line.slice(from);
 }
+
 const POSITION = /^(.*)@(\d+(?:\+\d+\/\d+)?)$/;
 
 // A chord as written: its symbol and its position, if it has one
@@ -200,6 +253,8 @@ function splitPosition(word: string): [string, string | undefined] {
  * - `|:` and `:|` start and end a repeat (`:|x3` plays it three times);
  *   `|1` (or `|1,2`) starts an ending, and `:|2` ends a repeat and starts
  *   ending 2. `||` is a double bar. See `Chart.unroll` for how they're played.
+ *   Bar lines with only spaces between them are one bar line (`:| |2` is
+ *   `:|2`), except two plain ones: `| |` is an empty bar.
  * - `<Segno>` and `<Coda>` mark the start of their bar; `<To Coda>`,
  *   `<Fine>`, `<D.C.>`, `<D.C. al Fine>`, `<D.C. al Coda>`, `<D.S.>`,
  *   `<D.S. al Fine>` and `<D.S. al Coda>` act at the end of their bar (alone
@@ -241,6 +296,7 @@ export function parse(text: string, options?: ParseOptions): Chart {
     let items: Item[] = [];
     for (const label of labels) {
       if (label.startsWith("[")) bar.section = label.slice(1, -1).trim();
+      else if (label === "{empty}") continue;
       else if (label === "{rs}") bar.repeatStart = true;
       else if (label.startsWith("{e:")) {
         const numbers = label.slice(3, -1).split(",").map(Number);
@@ -294,14 +350,15 @@ export function parse(text: string, options?: ParseOptions): Chart {
   for (const line of text.split("\n")) {
     const segments = markBarLines(line).split("|");
     segments.forEach((segment, i) => {
-      const labels = segment.match(LABELS) ?? [];
+      const labels: string[] = segment.match(LABELS) ?? [];
       const words = segment.replace(LABELS, " ").split(/\s+/).filter(Boolean);
       const outside = i === 0 || i === segments.length - 1;
       const hasChord = words.some((w) => CHORD.test(w) || w === "%");
       // text before the first bar line, or after the last one, is a bar only
       // when it has chords; otherwise its labels go to the next bar. So do
       // marks alone between bar lines ("| [A] | C |")
-      const onlyMarks = !words.length && labels.length > 0;
+      const onlyMarks =
+        !words.length && labels.length > 0 && !labels.includes("{empty}");
       if ((outside && !hasChord) || onlyMarks) {
         // a repeat end, a double bar or a jump closes the bar before
         const last = bars[bars.length - 1];
@@ -952,4 +1009,172 @@ export function fromForm(
   );
   if (!bars.length) return { ...EMPTY, problems };
   return { empty: false, bars, problems };
+}
+
+/**
+ * Write a chart as text, in the syntax of `Chart.parse`, so that parsing it
+ * gives the same chart: `Chart.parse(Chart.toText(chart))` has the same
+ * bars. Each section starts a line, and a line has at most 4 bars. Meters are
+ * written where they change, and positions (`@`) only in the bars where the
+ * chords aren't where the split rule would put them. `%` is written out as
+ * the chords it repeats.
+ *
+ * It returns `""` if the chart is empty or isn't a chart.
+ *
+ * @param chart - a chart, from `Chart.parse` or `Chart.transpose`
+ * @returns the chart as text
+ * @example
+ * Chart.toText(Chart.parse("[A] |: C | G7 :| [B] | F |"))
+ * // => "[A] |: C | G7 :|\n[B] | F |"
+ */
+export function toText(chart: Chart): string {
+  if (!isChart(chart) || chart.empty) return "";
+  const lines: string[] = [];
+  let line = "";
+  let inLine = 0;
+  let meterName = "4/4";
+  // an empty bar is written between two plain bar lines: "| |"
+  const empty = (bar?: ChartBar) => !!bar && !bar.chords.length;
+  const padBefore = (text: string, bar: ChartBar) =>
+    empty(bar) && text !== "|" ? `${text} |` : text;
+  const padAfter = (text: string, bar?: ChartBar) =>
+    empty(bar) && text !== "|" ? `| ${text}` : text;
+  chart.bars.forEach((bar, i) => {
+    const before = chart.bars[i - 1];
+    const left = barLineBefore(bar);
+    if (!before || bar.section !== undefined || inLine === 4) {
+      if (before) {
+        lines.push(`${line} ${padAfter(barLineAfter(before), before)}`);
+      }
+      const start = padBefore(left, bar);
+      line = bar.section !== undefined ? `[${bar.section}] ${start}` : start;
+      inLine = 0;
+    } else {
+      const right = barLineAfter(before);
+      const join =
+        right === "|"
+          ? left
+          : left === "|"
+            ? right
+            : // ":|" and "|2" are ":|2", but ":|x3" and "|2" stay apart
+              /\d$/.test(right)
+              ? `${right} ${left}`
+              : `${right}${left.slice(1)}`;
+      line += ` ${padBefore(padAfter(join, before), bar)}`;
+    }
+    const words: string[] = [];
+    // a bar with only marks would give them to the next bar: its meter
+    // keeps it a bar
+    const marksOnly =
+      !bar.chords.length &&
+      !!(bar.segno || bar.coda || bar.toCoda || bar.fine || bar.jump);
+    if (bar.meter !== meterName || marksOnly) words.push(bar.meter);
+    meterName = bar.meter;
+    if (bar.segno) words.push("<Segno>");
+    if (bar.coda) words.push("<Coda>");
+    words.push(...chordsText(bar));
+    if (bar.toCoda) words.push("<To Coda>");
+    if (bar.fine) words.push("<Fine>");
+    if (bar.jump) words.push(`<${bar.jump}>`);
+    line += words.length ? ` ${words.join(" ")}` : " ";
+    inLine++;
+  });
+  const last = chart.bars[chart.bars.length - 1];
+  lines.push(`${line} ${padAfter(barLineAfter(last), last)}`);
+  return lines.join("\n");
+}
+
+// The bar line before a bar: a repeat start, an ending, or a plain one
+function barLineBefore(bar: ChartBar): string {
+  const marks: string[] = [];
+  if (bar.repeatStart) marks.push("|:");
+  if (bar.ending) marks.push(`|${bar.ending.join(",")}`);
+  return marks.length ? marks.join(" ") : "|";
+}
+
+// The bar line after a bar: a repeat end, a double bar, or a plain one
+function barLineAfter(bar: ChartBar): string {
+  if (bar.repeatEnd !== undefined) {
+    const times = bar.repeatEnd === 2 ? "" : `x${bar.repeatEnd}`;
+    return `:|${bar.doubleBar ? "|" : ""}${times}`;
+  }
+  return bar.doubleBar ? "||" : "|";
+}
+
+// The chords of a bar, with positions when the split rule wouldn't place them
+// there
+function chordsText(bar: ChartBar): string[] {
+  const m = getMeter(bar.meter);
+  const items = bar.chords.map((c) => ({ symbol: c.symbol }));
+  const placed = place(items, m, () => undefined);
+  const moved = bar.chords.some(
+    (c, i) => !placed[i] || compare(c.at, placed[i].at) !== 0,
+  );
+  return bar.chords.map((c) =>
+    moved ? `${c.symbol}@${toBarBeat(c.at, m).slice(2)}` : c.symbol,
+  );
+}
+
+/**
+ * Transpose the chords of a chart by an interval, keeping everything else
+ * (sections, meters, repeats, jumps, positions). `N.C.` stays. It returns a
+ * chart with `empty: true` if the interval isn't valid or the chart is empty.
+ *
+ * @param chart - a chart, from `Chart.parse`
+ * @param interval - the interval, like "4P" or "-2M"
+ * @returns the transposed chart
+ * @example
+ * Chart.toText(Chart.transpose(Chart.parse("|: Dm7 G7 | C :|"), "2M"))
+ * // => "|: Em7 A7 | D :|"
+ */
+export function transpose(chart: Chart, interval: string): Chart {
+  if (!isChart(chart) || chart.empty) return EMPTY;
+  if (!transposeChord("C", interval)) return EMPTY;
+  return {
+    ...chart,
+    bars: chart.bars.map((bar) => ({
+      ...bar,
+      chords: bar.chords.map((chord) => ({
+        ...chord,
+        symbol:
+          chord.symbol === "N.C."
+            ? chord.symbol
+            : transposeChord(chord.symbol, interval) || chord.symbol,
+      })),
+    })),
+  };
+}
+
+/**
+ * Get the bar of the played form at a position (in quarter notes from its
+ * start, as a fraction, an exact number or a string), from the list
+ * `Chart.unroll` gives: a bar from its start until the next one starts. It
+ * returns `null` before the start, after the end, or if the position isn't
+ * valid.
+ *
+ * @param played - the played form, from `Chart.unroll`
+ * @param position - the position, in quarter notes
+ * @returns the played bar, or null
+ * @example
+ * const played = Chart.unroll(Chart.parse("| C | 3/4 G | F |"));
+ * Chart.barAt(played, 5)?.index // => 1
+ * Chart.barAt(played, 10) // => null
+ */
+export function barAt(
+  played: PlayedBar[],
+  position: TimeValue,
+): PlayedBar | null {
+  const at = toFraction(position);
+  if (!Array.isArray(played) || !played.length || !at) return null;
+  if (compare(played[0].start, at) > 0) return null;
+  let lo = 0;
+  let hi = played.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if (compare(played[mid].start, at) <= 0) lo = mid;
+    else hi = mid - 1;
+  }
+  const bar = played[lo];
+  const end = add(bar.start, bar.length);
+  return end && compare(at, end) < 0 ? bar : null;
 }
