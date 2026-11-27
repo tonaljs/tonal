@@ -73,6 +73,8 @@ The syntax:
 
 A beat is the meter's lower note, as in [`Time.fromBarBeat`](/packages/time): in 6/8, `G7@4` is on the second dotted quarter.
 
+Two bar lines with only spaces between them are one bar line when the first ends something and the second starts something: `:| |2` is `:|2`, and `|| |:` is `||:`. Otherwise the spaces are an empty bar, as in `| |`: `|: |` is an empty bar with a repeat start.
+
 ### Where chords start in a bar
 
 Chords without `@` are placed by the meter's pulses (the groups it's felt in, from [`Time.meter`](/packages/time)), the way a musician reads a chart: with n chords in p pulses, each chord gets `floor(p / n)` pulses and the first `p mod n` chords one more. More chords than pulses split the bar equally.
@@ -102,6 +104,27 @@ Chart.fromForm({ Intro: "| Am | D7 |", A: "| C | G |", B: "3/4 | F | E7 |" }, "I
 ```
 
 A name that isn't a section gives an empty chart, and `Chart.problems` says which. Problems inside a section are listed with its name.
+
+### `Chart.toText`
+
+`toText(chart: Chart) => string`
+
+Write a chart back as text, so that `Chart.parse` gives the same chart. Each section starts a line, a line has at most four bars, meters are written where they change, and positions (`@`) only where the chords aren't where the split rule would put them:
+
+```js
+Chart.toText(Chart.parse("[A] |: C | G7 :| [B] | F |")); // => "[A] |: C | G7 :|\n[B] | F |"
+```
+
+### `Chart.transpose`
+
+`transpose(chart: Chart, interval: string) => Chart`
+
+Transpose the chords of a chart, keeping its sections, meters, repeats, jumps and positions (`N.C.` stays):
+
+```js
+Chart.toText(Chart.transpose(Chart.parse("[A] |: Dm7 G7 |1 Cmaj7 :|2 Cmaj7 C7 ||"), "-5P"));
+// => "[A] |: Gm7 C7 |1 Fmaj7 :|2 Fmaj7 F7 ||"
+```
 
 ### `Chart.problems`
 
@@ -205,6 +228,19 @@ The chord playing at a position, from the list `Chart.chords` gives. The positio
 const chords = Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |"));
 Chart.chordAt(chords, 3)?.symbol; // => "G7"
 Chart.chordAt(chords, [8, 1]); // => null
+```
+
+### `Chart.barAt`
+
+`barAt(played: PlayedBar[], position: TimeValue) => PlayedBar | null`
+
+The played bar at a position, from the list `Chart.unroll` gives: for a playhead, or to know where a note falls in the form (its section, the place in it, the pass, the ending).
+
+```js
+const played = Chart.unroll(Chart.parse("[A] |: C |1 G7 :|2 F |"));
+const bar = Chart.barAt(played, 9);
+[bar.bar, bar.pass, bar.sectionBar]; // => [0, 2, 0]  (the first bar, on the second pass)
+Chart.barAt(played, 16); // => null  (after the end)
 ```
 
 ### `Chart.position`

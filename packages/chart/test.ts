@@ -539,6 +539,100 @@ describe("@tonaljs/chart", () => {
     });
   });
 
+  describe("bar lines next to each other", () => {
+    const count = (text: string) => Chart.parse(text).bars.length;
+    test("one that ends and one that starts are one bar line", () => {
+      expect(count("|: A |1,2 B :|x3 |3 C |")).toBe(3);
+      expect(count("|: A |1,2 B :|x3|3 C |")).toBe(3);
+      expect(count("| A || |: B :|")).toBe(2);
+      expect(count("|: A :| |: B :|")).toBe(2);
+      expect(Chart.parse("|: A |1,2 B :|x3 |3 C |").bars[2].ending).toEqual([
+        3,
+      ]);
+    });
+
+    test("otherwise, spaces between bar lines are an empty bar", () => {
+      expect(count("| A | | B |")).toBe(3);
+      expect(count("| A :| | B |")).toBe(3);
+      expect(count("|: | A :|")).toBe(2);
+    });
+  });
+
+  describe("toText, transpose and barAt", () => {
+    const charts = [
+      "| Cmaj7 | Dm7 G7 |",
+      "Cmaj7 | Am7\nDm7 | G7",
+      "| Cm7 b9 F7 | NC | N.C. |",
+      "| Dm7 G7 | % | | C |",
+      "[A] | C | G |\n[Verse 2] | F | C |",
+      "| C | 3/4 G | F | 6/8 C |",
+      "| C | C F | C F G | C F G A | C F G A B |",
+      "6/8 | C F | C F G | C G@4 |",
+      "| Em7 A7@4 | C@2+1/2 | Dm7@1 G7@3 | C F@2 G |",
+      "2+2+3/8 | C F | C@3 G |",
+      "|: A |1 B :|2 C || D :|x3",
+      "|: A |1,2 B :|x3 |3 C |",
+      "|: A :| |: B :|",
+      "| A || |: B :|",
+      "|: | A :|",
+      "| A :| | B |",
+      "| A :|| B |",
+      "| | C |",
+      "[A] |: Cmaj7 | Am7 |1 Dm7 | G7 :|2 Dm7 G7 | Cmaj7 ||\n[B] | Em7 | A7 | Dm7 | G7 |",
+      "| F | <Segno> A | B <To Coda> | C | <d.s. al coda> | <Coda> D <Fine> |",
+      "[Intro] | Gm7 C7 |\n[A] | <Segno> F | Gm7 C7 <To Coda> | G7 <D.S. al Coda> |\n[Coda] | <Coda> F6 |",
+      "3/4 |: Gmaj7 | Em7 :|x3 4/4 Gmaj7 C7 | G6 |",
+    ];
+
+    test("toText gives back the same chart", () => {
+      for (const text of charts) {
+        const chart = Chart.parse(text);
+        expect(Chart.parse(Chart.toText(chart)).bars, text).toEqual(chart.bars);
+      }
+    });
+
+    test("toText", () => {
+      expect(Chart.toText(Chart.parse("[A] |: C | G7 :| [B] | F |"))).toBe(
+        "[A] |: C | G7 :|\n[B] | F |",
+      );
+      // four bars a line, meters where they change, positions where needed
+      expect(
+        Chart.toText(
+          Chart.parse("| C | D | E | F | G | 3/4 A | B@2 C | Dm7 G7 | %"),
+        ),
+      ).toBe("| C | D | E | F |\n| G | 3/4 A | B@2 C@3 | Dm7 G7 |\n| Dm7 G7 |");
+      expect(Chart.toText(Chart.parse(""))).toBe("");
+      expect(Chart.toText(null as never)).toBe("");
+    });
+
+    test("transpose", () => {
+      const chart = Chart.parse(
+        "[A] |: Dm7 G7 |1 Cmaj7 :|2 C7/E Cm7 b9@3 | N.C. <D.C.> |",
+      );
+      expect(Chart.toText(Chart.transpose(chart, "2M"))).toBe(
+        "[A] |: Em7 A7 |1 Dmaj7 :|2 D7/F# Dm7 b9 | N.C. <D.C.> |",
+      );
+      expect(Chart.transpose(chart, "-2m").bars[0].chords[0].symbol).toBe(
+        "C#m7",
+      );
+      expect(Chart.transpose(chart, "x").empty).toBe(true);
+      expect(Chart.transpose(Chart.parse(""), "2M").empty).toBe(true);
+    });
+
+    test("barAt", () => {
+      const played = Chart.unroll(Chart.parse("| C | 3/4 G | F |"));
+      expect(Chart.barAt(played, 0)?.index).toBe(0);
+      expect(Chart.barAt(played, 3.5)?.index).toBe(0);
+      expect(Chart.barAt(played, 4)?.index).toBe(1);
+      expect(Chart.barAt(played, "13/2")?.index).toBe(1);
+      expect(Chart.barAt(played, [7, 1])?.index).toBe(2);
+      expect(Chart.barAt(played, 11)).toBeNull();
+      expect(Chart.barAt(played, -1)).toBeNull();
+      expect(Chart.barAt(played, 0.1)).toBeNull();
+      expect(Chart.barAt([], 0)).toBeNull();
+    });
+  });
+
   describe("chords and chordAt", () => {
     test("chords last until the next one", () => {
       expect(played("| Dm7 G7 | Cmaj7 | | N.C. |")).toEqual([

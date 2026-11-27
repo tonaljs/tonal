@@ -19,12 +19,15 @@ exports[`tonal > Modules exports functions 1`] = `
     "sortedUniqNoteNames",
   ],
   "Chart": [
+    "barAt",
     "chordAt",
     "chords",
     "fromForm",
     "parse",
     "position",
     "problems",
+    "toText",
+    "transpose",
     "unroll",
   ],
   "Chord": [

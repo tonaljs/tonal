@@ -264,6 +264,12 @@ Array.sortedUniqNoteNames(arr: string[]): string[]
 
 import { Chart } from "tonal"; // or: import * as Chart from "@tonaljs/chart";
 
+Chart.barAt(played: PlayedBar[], position: TimeValue): PlayedBar | null
+  Get the bar of the played form at a position (in quarter notes from its start, as a fraction, an exact number or a string), from the list `Chart.unroll` gives: a bar from its start until the next one starts. It returns `null` before the start, after the end, or if the position isn't valid.
+  const played = Chart.unroll(Chart.parse("| C | 3/4 G | F |"));
+  Chart.barAt(played, 5)?.index // => 1
+  Chart.barAt(played, 10) // => null
+
 Chart.chordAt(chords: PlayedChord[], position: TimeValue): PlayedChord | null
   Get the chord playing at a position (in quarter notes from the start of the played form, as a fraction, an exact number or a string), from the list `Chart.chords` gives. A chord plays from its start until the next one starts. It returns `null` before the first chord, after the end, or if the position isn't valid.
   const chords = Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |"));
@@ -292,6 +298,14 @@ Chart.position(played: PlayedBar[], text: string): Fraction | null
 Chart.problems(chart: Chart): string[]
   Get what can't be played in a chart, by bar: the words, chords and positions that `Chart.parse` couldn't read, and repeats and endings that don't close (a chart with those unrolls to `[]`). An empty list means the chart is fine.
   Chart.problems(Chart.parse("| Cmaj7 | Xyz |")) // => ['bar 2: unknown word "Xyz"']
+
+Chart.toText(chart: Chart): string
+  Write a chart as text, in the syntax of `Chart.parse`, so that parsing it gives the same chart: `Chart.parse(Chart.toText(chart))` has the same bars. Each section starts a line, and a line has at most 4 bars. Meters are written where they change, and positions (`@`) only in the bars where the chords aren't where the split rule would put them. `%` is written out as the chords it repeats.
+  Chart.toText(Chart.parse("[A] |: C | G7 :| [B] | F |"))
+
+Chart.transpose(chart: Chart, interval: string): Chart
+  Transpose the chords of a chart by an interval, keeping everything else (sections, meters, repeats, jumps, positions). `N.C.` stays. It returns a chart with `empty: true` if the interval isn't valid or the chart is empty.
+  Chart.toText(Chart.transpose(Chart.parse("|: Dm7 G7 | C :|"), "2M"))
 
 Chart.unroll(chart: Chart, options?: UnrollOptions): PlayedBar[]
   Get the played form of a chart: every bar in the order it's played, with where it starts (in quarter notes), its length, its section, its place in the section, its chorus, and its pass and ending in a repeat. `choruses` plays the form more than once.
