@@ -142,6 +142,20 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   Chord.degreesByImportance("G13"); // => ["3", "b7", "13", "1", "9", "5"]
   ```
 
+- To play a pattern written over one chord over another (a bass line over
+  C7 over Fm7b5), use `Chord.fitNote(note, from, to)`: each note keeps its
+  role (the 3rd goes to the new 3rd, 11 to #11 on a dominant) and stays near
+  its place. Transposing by the root gets the 3rd wrong. A phrase is a `map`;
+  pass `{ bass: true }` for the slash bass, `{ scale }` to let the chord's
+  scale decide, `{ keep: "non-chord" }` so passing notes keep their interval
+  from the root (otherwise a chromatic line can collapse), and `Note.fold` to
+  keep the result in a range:
+
+  ```js
+  Chord.fitNote("E4", "C7", "Fm7b5"); // => "Ab4"
+  ["C2", "E2", "G2", "Bb2"].map((n) => Chord.fitNote(n, "C7", "Fm7")); // => ["F2", "Ab2", "C3", "Eb3"]
+  ```
+
 - `Chord.get(name).complexity` (or `ChordType.get(type).complexity`) is the
   number of notes added to a triad plus two for each chromatic note (outside
   the major scale that holds most of the chord, as spelled): `m` is 0, `m7`

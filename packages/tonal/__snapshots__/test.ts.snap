@@ -41,6 +41,8 @@ exports[`tonal > Modules exports functions 1`] = `
     "degreesByImportance",
     "detect",
     "extended",
+    "fitDegree",
+    "fitNote",
     "formula",
     "get",
     "getChord",
