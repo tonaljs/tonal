@@ -90,23 +90,6 @@ const FAMILY_DOTS: Record<string, string> = {
 
 type ChartChord = { text: string; chord: ReturnType<typeof Chord.get> };
 
-// Transpose the chords of a chart text, leaving its marks and sections as
-// they are
-function transposeText(text: string, interval: string): string {
-  return text
-    .split(/(\[[^\]]*\]|<[^>]*>)/)
-    .map((part, i) =>
-      i % 2
-        ? part
-        : part.replace(
-            /(^|[\s|:])([A-G][^\s|@]*)/g,
-            (_, before: string, word: string) =>
-              before + (Chord.transpose(word, interval) || word),
-          ),
-    )
-    .join("");
-}
-
 const chromas = (notes: string[]) =>
   notes
     .map((n) => Note.get(n).chroma)
@@ -256,13 +239,10 @@ export function ChartReader() {
     }
     let frame = 0;
     const tick = () => {
+      // the audio clock is a float: exact on a grid of 1/1024 of a quarter
       const quarters = (audioTime() - playing.start) / QUARTER;
-      const index = played.findIndex((b) => {
-        const start = Time.toNumber(b.start) ?? 0;
-        return (
-          quarters >= start && quarters < start + (Time.toNumber(b.length) ?? 0)
-        );
-      });
+      const at = Math.floor(quarters * 1024) / 1024;
+      const index = Chart.barAt(played, at)?.index ?? -1;
       setNow((before) =>
         before === index ? before : index < 0 ? null : index,
       );
@@ -275,7 +255,8 @@ export function ChartReader() {
   const nowBar = now !== null ? played[now]?.bar : undefined;
 
   function transposeTo(newKey: string) {
-    setText(transposeText(text, Interval.distance(key, newKey)));
+    const interval = Interval.distance(key, newKey);
+    setText(Chart.toText(Chart.transpose(chart, interval)));
     setKey(newKey);
   }
 
@@ -806,6 +787,14 @@ function code(
   if (playedChords.length) {
     lines.push(
       `Chart.chordAt(chords, 6)?.symbol; // => ${show(Chart.chordAt(playedChords, 6)?.symbol ?? null)}`,
+    );
+  }
+  if (playedChords.length) {
+    lines.push(
+      "",
+      "// transposed a fourth up, written back as text",
+      `Chart.toText(Chart.transpose(chart, "4P"));`,
+      `// => ${show(Chart.toText(Chart.transpose(Chart.parse(text), "4P")))}`,
     );
   }
   lines.push(
