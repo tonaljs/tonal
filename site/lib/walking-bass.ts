@@ -175,66 +175,67 @@ type Kind = "root" | "third" | "fifth" | "seventh" | "tension" | "chromatic";
 
 /**
  * How often each kind of note is played, by place in the chord (FiloBass,
- * on-beat notes; the 3rd, 5th and 7th are the chord's own, whatever their
- * alteration; "tension" is any other note of the chord's scale).
+ * the bars walked in quarters; the 3rd, 5th and 7th are the chord's own,
+ * whatever their alteration; "tension" is any other note of the chord's
+ * scale).
  */
 const KINDS: Record<Place, Record<Kind, number>> = {
-  // the first beat of a chord: R 69, 5 11, 3 5 (+b3 3), 7 3; a chromatic
-  // note is rare (the b3 counted there is mostly a minor chord's 3rd)
+  // the first beat of a chord: R 69, 5 12, 3 8, 7 3, a tension 6, chromatic 3
   onset: {
-    root: 0.7,
-    fifth: 0.11,
-    third: 0.07,
-    seventh: 0.03,
-    tension: 0.05,
-    chromatic: 0.015,
+    root: 0.685,
+    third: 0.076,
+    fifth: 0.119,
+    seventh: 0.025,
+    tension: 0.063,
+    chromatic: 0.031,
   },
-  // the last beat before a new chord: R 19, 3 18, 5 15, b5 12, 7 12, 9 5
+  // the last beat before a new chord: anything, chromatic 22%
   last: {
-    root: 0.18,
-    third: 0.2,
-    fifth: 0.15,
-    seventh: 0.12,
-    tension: 0.13,
-    chromatic: 0.22,
+    root: 0.172,
+    third: 0.154,
+    fifth: 0.149,
+    seventh: 0.076,
+    tension: 0.225,
+    chromatic: 0.224,
   },
-  // a chord held from the bar before
+  // a chord held from the bar before (FiloBass changes chord every bar: set
+  // by hand, between the first beat and beat 3)
   beat1: {
     root: 0.45,
-    fifth: 0.15,
     third: 0.15,
+    fifth: 0.15,
     seventh: 0.07,
     tension: 0.1,
     chromatic: 0.08,
   },
-  // beat 2: 5 16, 3 15 (+b3 7), 9 13, R 11, b7 8, 7 7, b5 7, b9 6
+  // beat 2, where the line moves: tensions 31%, chromatic 17%
   beat2: {
-    root: 0.11,
-    third: 0.21,
-    fifth: 0.16,
-    seventh: 0.15,
-    tension: 0.2,
-    chromatic: 0.17,
+    root: 0.08,
+    third: 0.173,
+    fifth: 0.156,
+    seventh: 0.11,
+    tension: 0.308,
+    chromatic: 0.173,
   },
-  // beat 3 in a one-chord bar: 5, 3 and 13 lead; the root less than the
-  // corpus's 36%, which counts bars with two chords
+  // beat 3 inside a chord
   beat3: {
-    root: 0.15,
-    fifth: 0.17,
-    third: 0.17,
-    seventh: 0.08,
-    tension: 0.24,
-    chromatic: 0.12,
+    root: 0.217,
+    third: 0.193,
+    fifth: 0.175,
+    seventh: 0.074,
+    tension: 0.233,
+    chromatic: 0.107,
   },
+  // beat 4 inside a chord that goes on (rare: set like the last beat)
   beat4: {
-    root: 0.15,
-    third: 0.2,
-    fifth: 0.15,
-    seventh: 0.12,
-    tension: 0.18,
-    chromatic: 0.2,
+    root: 0.172,
+    third: 0.154,
+    fifth: 0.149,
+    seventh: 0.076,
+    tension: 0.225,
+    chromatic: 0.224,
   },
-  // beat 3 in two-feel: a chord tone
+  // beat 3 in two-feel: a chord tone (set by hand)
   two: {
     root: 0.3,
     fifth: 0.35,
@@ -248,7 +249,8 @@ const KINDS: Record<Place, Record<Kind, number>> = {
 /**
  * How often each interval is played, in semitones (FiloBass: 0 7.4%, 1 30%,
  * 2 17%, 3-4 14.5%, 5 10%, 6-7 12.4%, 8-12 7.3%, more 1.2%), shared between
- * up and down. The octave takes a good part of the 8-12.
+ * up and down. Of the leaps of 8-12, a minor sixth is the most common (a
+ * sixth down to a chord tone), then the octave.
  */
 function intervalWeight(semitones: number) {
   const size = Math.abs(semitones);
@@ -265,38 +267,111 @@ function intervalWeight(semitones: number) {
               ? 0.1
               : size <= 7
                 ? 0.124 / 2
-                : size === 12
+                : size === 8
                   ? 0.03
-                  : size < 12
-                    ? 0.043 / 4
-                    : 0.004;
-  return size === 0 ? both : both / 2;
+                  : size === 12
+                    ? 0.022
+                    : size < 12
+                      ? 0.02 / 3
+                      : 0.0005;
+  const fit = FIT.interval[intervalClass(size)] ?? 1;
+  return (size === 0 ? both : both / 2) * fit;
+}
+
+// Corrections to the tables, fitted with the walking bass harness in the
+// research repo (assist-tonal, spikes/walking-bass-eval/fit.py), which
+// rewrites the block between the markers. The tables measure things that
+// overlap (most scale tones are a step away), so multiplying them gives too
+// many steps and too few leaps; each factor is the ratio of the corpus share
+// to the generated one, applied until they agree.
+// fit:start
+const FIT: {
+  interval: Record<string, number>;
+  kinds: Record<string, Record<string, number>>;
+} = {
+  "interval": {
+    "0": 0.411,
+    "1": 0.835,
+    "2": 0.824,
+    "3-4": 1.627,
+    "5": 0.727,
+    "6-7": 1.852,
+    "8-12": 1.5
+  },
+  "kinds": {
+    "onset": {
+      "root": 0.986,
+      "third": 1.091,
+      "fifth": 1.057,
+      "seventh": 0.855,
+      "tension": 0.834,
+      "chromatic": 1.639
+    },
+    "last": {
+      "root": 1.548,
+      "third": 0.878,
+      "fifth": 0.749,
+      "seventh": 0.953,
+      "tension": 0.923,
+      "chromatic": 1.116
+    },
+    "beat2": {
+      "root": 1.693,
+      "third": 1.067,
+      "fifth": 0.761,
+      "seventh": 0.704,
+      "tension": 0.971,
+      "chromatic": 1.612
+    },
+    "beat3": {
+      "root": 0.919,
+      "third": 1.078,
+      "fifth": 0.912,
+      "seventh": 0.755,
+      "tension": 1.015,
+      "chromatic": 1.68
+    }
+  }
+};
+// fit:end
+
+/** The class of an interval size, as the corpus counts are grouped. */
+function intervalClass(size: number) {
+  return size <= 2
+    ? `${size}`
+    : size <= 4
+      ? "3-4"
+      : size === 5
+        ? "5"
+        : size <= 7
+          ? "6-7"
+          : size <= 12
+            ? "8-12"
+            : ">12";
 }
 
 /**
- * How often each interval leads into a new chord, signed (FiloBass, 13,704
- * chord changes): from a half step below 27.4%, a half step above 21.6%, a
- * whole step above 12.1%, a fourth below 10.5%, the same note 5.3%, a fifth
- * above 4.4%, a whole step below 4.1%; everything else about 1% or less.
+ * How often each interval leads into a new chord, signed (FiloBass, the bars
+ * walked in quarters): from a half step below 31%, a half step above 26%, a
+ * whole step above 13.5%, a fourth below 8.4%, a whole step below 4.3%, a
+ * fifth above 4.2%; the same note only 1%.
  */
 const INTO: Record<number, number> = {
-  1: 0.274,
-  [-1]: 0.216,
-  [-2]: 0.121,
-  5: 0.105,
-  0: 0.053,
-  [-7]: 0.044,
-  2: 0.041,
-  [-3]: 0.019,
-  3: 0.017,
-  6: 0.015,
+  1: 0.312,
+  [-1]: 0.258,
+  [-2]: 0.135,
+  5: 0.084,
+  2: 0.043,
+  [-7]: 0.042,
+  [-3]: 0.018,
+  3: 0.016,
   4: 0.013,
-  [-4]: 0.012,
-  [-6]: 0.011,
-  7: 0.011,
+  [-6]: 0.012,
+  0: 0.01,
+  6: 0.01,
+  7: 0.008,
   [-5]: 0.008,
-  12: 0.005,
-  [-12]: 0.005,
+  [-4]: 0.008,
 };
 const intoWeight = (semitones: number) => INTO[semitones] ?? 0.002;
 
@@ -323,8 +398,9 @@ const RULES = {
   chromaticLeap: 0.03,
   /** A scale tone outside the chord, reached by a leap and left by a leap */
   betweenLeaps: 0.1,
-  /** A leap of a tritone or more into a note outside the chord */
-  leapIntoNonChord: 0.15,
+  /** A leap of a tritone or more into a note outside the chord (players do
+   * it, about a quarter of their big leaps, then resolve it by step) */
+  leapIntoNonChord: 0.7,
   /** A leap of a fourth or more between two chord tones: more likely */
   chordToneLeap: 1.3,
   /** A leap into a new chord from a note reached by a leap */
@@ -455,7 +531,10 @@ export function walkingBass(text: string, options: BassOptions): BassLine {
     const chromatic = kind === "chromatic" ? options.chromatic + 0.02 : 1;
     const z = (midi - REGISTER.centre) / REGISTER.spread;
     return (
-      ((KINDS[slot.place][kind] * chromatic) / sameKind) *
+      ((KINDS[slot.place][kind] *
+        (FIT.kinds[slot.place]?.[kind] ?? 1) *
+        chromatic) /
+        sameKind) *
       Math.exp(-0.5 * z * z)
     );
   };
