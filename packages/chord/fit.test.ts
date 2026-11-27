@@ -138,6 +138,40 @@ describe("Chord.fitNote", () => {
     expect(fitNote("C3", "C7", "F7", { bass: true })).toBe("F3");
   });
 
+  test("non-chord tones can keep their interval", () => {
+    const line = ["C3", "Db3", "D3", "Eb3", "E3"];
+    // fitted by role, the chromatic line collapses
+    expect(line.map((n) => fitNote(n, "C7", "Fmaj7"))).toEqual([
+      "F3",
+      "G3",
+      "G3",
+      "G3",
+      "A3",
+    ]);
+    // kept, the non-chord tones move with the root, spelled by their role
+    // (Eb is the #9 of C7), and chord tones still fit
+    const keep = { keep: "non-chord" } as const;
+    expect(line.map((n) => fitNote(n, "C7", "Fmaj7", keep))).toEqual([
+      "F3",
+      "Gb3",
+      "G3",
+      "G#3",
+      "A3",
+    ]);
+    expect(line.map((n) => fitNote(n, "C7", "Fm7", keep))).toEqual([
+      "F3",
+      "Gb3",
+      "G3",
+      "G#3",
+      "Ab3",
+    ]);
+    // a chord tone of `from` is still fitted, with scale and bass
+    expect(fitNote("Bb3", "C7", "Fmaj7", keep)).toBe("E4");
+    expect(
+      fitNote("C3", "C7", "F7/Eb", { keep: "non-chord", bass: true }),
+    ).toBe("Eb3");
+  });
+
   test("pitch classes give pitch classes", () => {
     expect(fitNote("E", "C7", "Am7")).toBe("C");
     expect(fitNote("Bb", "C7", "Fmaj7")).toBe("E");

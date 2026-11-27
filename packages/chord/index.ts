@@ -862,6 +862,12 @@ export interface FitOptions {
    * bass lines). Other roles don't change.
    */
   bass?: boolean;
+  /**
+   * `fitNote` only: with "non-chord", a note that isn't a chord tone of `from`
+   * keeps its interval from the root instead of being fitted, so passing and
+   * chromatic notes stay where they were relative to the fitted chord tones.
+   */
+  keep?: "non-chord";
 }
 
 // The degrees of a scale name ("F locrian"), counted from a root
@@ -937,6 +943,9 @@ export function fitDegree(
  * 1. Its role in `from`: `Chord.degreeOf(from, note)`.
  * 2. The role in `to`: `Chord.fitDegree(role, to, { scale })`. With
  *    `bass: true`, the root role goes to the slash bass of `to`.
+ *    With `keep: "non-chord"`, a note that isn't a chord tone of `from` keeps
+ *    its role as it is (its interval from the root): `C Db D` over C7 gives
+ *    `F Gb G` over Fmaj7 instead of `F G G`.
  * 3. Its octave: the note moves with the root, the nearest way (a tritone
  *    goes up), and the fitted note is the one nearest that, ties up.
  *
@@ -947,7 +956,8 @@ export function fitDegree(
  * @param noteName - the note, like "E4"
  * @param from - the chord the note was written over, like "C7"
  * @param to - the chord to fit it to, like "Fm7b5"
- * @param options - `scale`: the scale of `to`; `bass`: the root goes to the slash bass
+ * @param options - `scale`: the scale of `to`; `bass`: the root goes to the
+ * slash bass; `keep: "non-chord"`: notes outside `from` keep their interval
  * @example
  * Chord.fitNote("E4", "C7", "Fm7b5"); // => "Ab4"
  * Chord.fitNote("D4", "C7", "Fm7b5"); // => "G4"
@@ -955,6 +965,8 @@ export function fitDegree(
  * Chord.fitNote("F4", "C7", "Fmaj7"); // => "B4"
  * Chord.fitNote("C3", "C7", "F7/Eb", { bass: true }); // => "Eb3"
  * ["C3", "E3", "G3", "A3"].map((n) => Chord.fitNote(n, "C7", "Ebm7")); // => ["Eb3", "Gb3", "Bb3", "C4"]
+ * ["C3", "Db3", "D3"].map((n) => Chord.fitNote(n, "C7", "Fmaj7")); // => ["F3", "G3", "G3"]
+ * ["C3", "Db3", "D3"].map((n) => Chord.fitNote(n, "C7", "Fmaj7", { keep: "non-chord" })); // => ["F3", "Gb3", "G3"]
  */
 export function fitNote(
   noteName: NoteName,
@@ -970,7 +982,8 @@ export function fitNote(
   if (n.empty || source.empty || target.empty || fromRoot.empty || toRoot.empty)
     return "";
   const role = degreeOf(from, n.name);
-  const degree = fitDegree(role, to, options);
+  const kept = options.keep === "non-chord" && !formula(from).includes(role);
+  const degree = kept ? role : fitDegree(role, to, options);
   if (!degree) return "";
   const pc =
     options.bass && degree === "1" && target.bass

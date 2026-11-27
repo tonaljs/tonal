@@ -364,7 +364,7 @@ A pattern written over one chord (a bass line over C7) can be played over any ot
 
 ### `Chord.fitNote`
 
-`fitNote(note: string, from: string, to: string, options?: { scale?: string, bass?: boolean }) => string`
+`fitNote(note: string, from: string, to: string, options?: { scale?: string, bass?: boolean, keep?: "non-chord" }) => string`
 
 The note's role in `from` (`Chord.degreeOf`), moved to `to` with `Chord.fitDegree`, in the octave nearest the note moved with the root (the root moves the nearest way, a tritone goes up; ties go up). A pitch class gives a pitch class.
 
@@ -391,6 +391,14 @@ Roles count from the root. With `{ bass: true }`, the root role goes to the slas
 ```js
 Chord.fitNote("C3", "C7", "F7/Eb"); // => "F3"
 Chord.fitNote("C3", "C7", "F7/Eb", { bass: true }); // => "Eb3"
+```
+
+Every note is fitted by its role, also the notes that aren't chord tones of the source chord, so a chromatic line can collapse. With `{ keep: "non-chord" }`, those notes keep their interval from the root (passing and approach notes move with the root) and only the chord tones are fitted:
+
+```js
+const line = ["C3", "Db3", "D3"];
+line.map((n) => Chord.fitNote(n, "C7", "Fmaj7")); // => ["F3", "G3", "G3"]
+line.map((n) => Chord.fitNote(n, "C7", "Fmaj7", { keep: "non-chord" })); // => ["F3", "Gb3", "G3"]
 ```
 
 To keep the fitted notes in a range, use `Note.fold` after fitting.

@@ -548,6 +548,7 @@ type ClassifyOptions = {
 type FitOptions = {
   scale?: string | undefined;
   bass?: boolean | undefined;
+  keep?: 'non-chord' | undefined;
 }
 
 type IntervalName = KnownIntervalName | (string & {})

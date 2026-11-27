@@ -147,7 +147,9 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   role (the 3rd goes to the new 3rd, 11 to #11 on a dominant) and stays near
   its place. Transposing by the root gets the 3rd wrong. A phrase is a `map`;
   pass `{ bass: true }` for the slash bass, `{ scale }` to let the chord's
-  scale decide, and `Note.fold` to keep the result in a range:
+  scale decide, `{ keep: "non-chord" }` so passing notes keep their interval
+  from the root (otherwise a chromatic line can collapse), and `Note.fold` to
+  keep the result in a range:
 
   ```js
   Chord.fitNote("E4", "C7", "Fm7b5"); // => "Ab4"
