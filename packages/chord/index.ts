@@ -12,7 +12,7 @@ import {
   transpose as transposeNote,
 } from "@tonaljs/pitch-distance";
 import { NoteName, note, tokenizeNote } from "@tonaljs/pitch-note";
-import { all as scaleTypes } from "@tonaljs/scale-type";
+import { all as scaleTypes, get as getScaleType } from "@tonaljs/scale-type";
 import { composeChordType } from "./compose";
 import {
   ChordDegreeName,
@@ -21,6 +21,14 @@ import {
   probableDegree,
   sortByImportance,
 } from "./degrees";
+import {
+  COMMON_CHORD_SCALES,
+  chromaPcs,
+  clashes,
+  degreePc,
+  slotPcs,
+  tensionsOf,
+} from "./tensions";
 
 export type { ChordDegreeName } from "./degrees";
 
@@ -296,20 +304,279 @@ export function transpose(chordName: string, interval: string): string {
   return transposeNote(tonic, interval) + type + slash;
 }
 
+/** Options of `Chord.chordScales` and `Chord.chordScale`. */
+export interface ChordScaleOptions {
+  /**
+   * A key or scale name, like "C major", "A minor" or "A harmonic minor": the
+   * scales are ranked by how well they fit it.
+   */
+  key?: string;
+  /**
+   * The chord's tensions, as degree names, instead of `Chord.tensions(chord)`.
+   * They decide which scales agree with the chord.
+   */
+  tensions?: ChordDegreeName[];
+}
+
 /**
  * Get the names of the scale types that contain all the notes of a chord, as
  * type names without tonic. It returns `[]` if the chord isn't valid.
  *
+ * Without options the list is in the order of the scale catalogue. With a
+ * `key` it's ranked, and the first one is the chord's scale in that key
+ * (`Chord.chordScale`):
+ *
+ * 1. the key's own mode on the chord's root, when it contains the chord;
+ * 2. the common chord scales (the modes of major, melodic minor and harmonic
+ *    minor, the two diminished scales and whole tone) that agree with the
+ *    chord: none of their notes is another form of the chord's 3rd, 5th or 7th
+ *    unless it's one of its tensions (so dorian #4, with a natural 5th, doesn't
+ *    agree with m7b5);
+ * 3. the common chord scales that don't agree with the chord;
+ * 4. every other scale.
+ *
+ * Within each group: fewest notes outside the key first, then the scales of
+ * seven notes, then the ones that share more notes with the key, then the
+ * order of the list above (and the catalogue order). It returns `[]` if a key
+ * is given and isn't valid, or the chord has no tonic.
+ *
+ * The rule ranks by notes, not by function: in a key every diatonic chord gets
+ * the scale `Key` gives it, secondary dominants get mixolydian (to a major
+ * chord) or phrygian dominant (to a minor chord), but a tritone substitute gets
+ * phrygian dominant, not the lydian dominant the books give it.
+ *
+ * @param name - the chord symbol
+ * @param options - the key, and the tensions to use instead of `Chord.tensions`
  * @example
  * Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "phrygian b4", "mixolydian b2", "spanish heptatonic", "half-whole diminished", "chromatic"]
+ * Chord.chordScales("D7", { key: "C major" }).slice(0, 3); // => ["mixolydian", "lydian dominant", "mixolydian b6"]
+ * Chord.chordScales("E7", { key: "C major" })[0]; // => "phrygian dominant"
  */
-export function chordScales(name: string): string[] {
+export function chordScales(
+  name: string,
+  options?: ChordScaleOptions,
+): string[] {
   const s = get(name);
   const isChordIncluded = isSupersetOf(s.chroma);
-  return scaleTypes()
+  const names = scaleTypes()
     .filter((scale) => isChordIncluded(scale.chroma))
     .map((scale) => scale.name);
+  if (!options?.key) return names;
+  return rankScales(name, names, options);
 }
+
+/**
+ * Get the scale of a chord, as a full name: the first of its ranked chord
+ * scales (see `Chord.chordScales`). It returns "" if the chord has no tonic,
+ * the key isn't valid, or no scale contains the chord.
+ *
+ * Without a key the common chord scales that agree with the chord come first,
+ * in the order of their list: so C7 gets mixolydian, Cm7b5 locrian and Cdim7
+ * the whole-half diminished scale.
+ *
+ * @param name - the chord symbol
+ * @param options - the key, and the tensions to use instead of `Chord.tensions`
+ * @example
+ * Chord.chordScale("Dm7", { key: "C major" }); // => "D dorian"
+ * Chord.chordScale("D7", { key: "C major" }); // => "D mixolydian"
+ * Chord.chordScale("A7", { key: "C major" }); // => "A mixolydian b6"
+ * Chord.chordScale("Bdim7", { key: "C major" }); // => "B diminished"
+ * Chord.chordScale("Cdim7"); // => "C diminished"
+ */
+export function chordScale(
+  name: string,
+  options: ChordScaleOptions = {},
+): string {
+  const chord = get(name);
+  if (chord.empty || !chord.tonic) return "";
+  const names = chordScales(name);
+  const ranked = rankScales(name, names, options);
+  return ranked.length ? `${chord.tonic} ${ranked[0]}` : "";
+}
+
+// The pitch classes (from the root) of a chord's tones, its tensions and slots
+function chordPcs(name: string, tensions?: ChordDegreeName[]) {
+  const chord = get(name);
+  const root = note(chord.tonic || "");
+  if (chord.empty || root.empty) return undefined;
+  const f = formula(name);
+  const tones = new Set(f.map(degreePc));
+  const bass = note(chord.bass);
+  if (!bass.empty) tones.add((bass.chroma - root.chroma + 12) % 12);
+  const list = tensions ?? tensionsOf(f);
+  return {
+    root: root.chroma,
+    tones,
+    slots: slotPcs(f),
+    tensions: new Set(list.map(degreePc).filter((pc) => pc >= 0)),
+  };
+}
+
+// The pitch classes of a key or scale name ("C major"), from `from`
+function keyPcs(key: string, from: number): number[] | undefined {
+  const i = key.indexOf(" ");
+  if (i === -1) return undefined;
+  const tonic = note(key.slice(0, i));
+  const type = getScaleType(key.slice(i + 1));
+  if (tonic.empty || type.empty) return undefined;
+  return chromaPcs(type.chroma, (from - tonic.chroma + 12) % 12);
+}
+
+function rankScales(
+  name: string,
+  names: string[],
+  options: ChordScaleOptions,
+): string[] {
+  const pcs = chordPcs(name, options.tensions);
+  if (!pcs) return [];
+  const key = options.key ? keyPcs(options.key, pcs.root) : undefined;
+  if (options.key && !key) return [];
+  const inKey = new Set(key ?? []);
+  const common = COMMON_CHORD_SCALES.map((n) => getScaleType(n).name);
+  const ranked = names.map((scaleName, i) => {
+    const scale = chromaPcs(getScaleType(scaleName).chroma);
+    const out = key ? scale.filter((pc) => !inKey.has(pc)).length : 0;
+    const order = common.indexOf(scaleName);
+    // another form of the chord's 3rd, 5th or 7th that isn't a tension
+    const agrees = !scale.some(
+      (pc) => pcs.slots.has(pc) && !pcs.tones.has(pc) && !pcs.tensions.has(pc),
+    );
+    const own = key !== undefined && out === 0 && scale.length === inKey.size;
+    const group = own ? 0 : order === -1 ? 3 : agrees ? 1 : 2;
+    return {
+      scaleName,
+      group,
+      out,
+      notSeven: scale.length === 7 ? 0 : 1,
+      shared: key ? scale.length - out : 0,
+      order: order === -1 ? common.length + i : order,
+    };
+  });
+  return ranked
+    .sort(
+      (a, b) =>
+        a.group - b.group ||
+        a.out - b.out ||
+        a.notSeven - b.notSeven ||
+        b.shared - a.shared ||
+        a.order - b.order,
+    )
+    .map((r) => r.scaleName);
+}
+
+/**
+ * Get the tensions of a chord: the notes a chord can add without changing
+ * what it is, as degree names (`b9`, `9`, `#9`, `11`, `#11`, `b13`, `13`, and
+ * `7` on 6, m6 and dim7 chords), counted from the major scale of the root as
+ * in `Chord.formula`. It works with a chord type alone, and returns `[]` if
+ * the chord isn't valid.
+ *
+ * The tensions come from a table by the chord's 3rd, 5th and 7th (from Ted
+ * Pease, *Jazz Composition*, p. xv, and John Novello, *The Contemporary
+ * Keyboardist*, p. 96):
+ *
+ * | Chord | Tensions |
+ * |---|---|
+ * | maj7, major triad | 9, #11, 13 |
+ * | 6 | 9, #11, 7 |
+ * | augmented, 7#5 | 9, #11 |
+ * | 7 | b9, 9, #9, #11, b13, 13 |
+ * | 7sus4 | b9, 9, 13 |
+ * | mMaj7 | 9, 11, 13 |
+ * | m6 | 9, 11, 7 |
+ * | m7, minor triad | 9, 11 |
+ * | m7b5, diminished triad | 9, 11, b13 |
+ * | dim7 | 9, 11, b13, 7 |
+ * | no 3rd | 9, 11, 13 |
+ *
+ * Then the ones the chord already says are left out: a tension with the
+ * pitch class of a chord tone (C9 has no 9 tension, C7b5 no #11); over a major
+ * 3rd, a written b9 or #9 leaves out the 9 and a written 9 leaves out b9 and
+ * #9; a written 13 leaves out b13, and a written b13 leaves out 13.
+ *
+ * The 13 on m7 is a tension only in Dorian: `Chord.classify` takes it from a
+ * key or scale. To use other tensions, pass them as the `tensions` option of
+ * `classify`, `chordScales` and `chordScale`.
+ *
+ * @param name - the chord symbol or type
+ * @example
+ * Chord.tensions("C7"); // => ["b9", "9", "#9", "#11", "b13", "13"]
+ * Chord.tensions("Cmaj7"); // => ["9", "#11", "13"]
+ * Chord.tensions("C7b9"); // => ["#9", "#11", "b13", "13"]
+ * Chord.tensions("m7"); // => ["9", "11"]
+ * Chord.tensions("Cdim7"); // => ["9", "11", "b13", "7"]
+ */
+export function tensions(name: ChordNameOrTokens): ChordDegreeName[] {
+  return tensionsOf(formula(name));
+}
+
+/** What a note is over a chord: see `Chord.classify`. */
+export type NoteClass = "chord tone" | "tension" | "avoid" | "outside" | "";
+
+/** Options of `Chord.classify`. */
+export interface ClassifyOptions extends ChordScaleOptions {
+  /** A scale name, like "D dorian": the notes it adds are tensions. */
+  scale?: string;
+}
+
+/**
+ * Get what a note is over a chord: a chord tone, a tension, an avoid note, or
+ * outside. Only its pitch class counts. It returns "" if the chord has no
+ * tonic, or the note, scale or key isn't valid.
+ *
+ * The rule, in order:
+ *
+ * 1. "chord tone": a note of the chord (the bass of a slash chord too).
+ * 2. "avoid": a half step above a chord tone, or another form of the chord's
+ *    3rd, 5th or 7th (the major 3rd over a minor chord, the 5th over a b5, the
+ *    b7 over a maj7), unless it's one of the chord's tensions. So b9 on a
+ *    dominant is a tension, and F on Cmaj7 is avoid.
+ * 3. "tension": without a scale, one of `Chord.tensions`; with a scale, any
+ *    other note of the scale.
+ * 4. "outside": everything else (with a scale, a note not in it).
+ *
+ * The scale is `scale`, or the chord's scale in `key` (`Chord.chordScale`).
+ * `tensions` is used instead of `Chord.tensions(chord)`, both for the avoid
+ * exception and as the tensions without a scale.
+ *
+ * An avoid note is a note to handle with care, not a wrong one (Mark Levine,
+ * *The Jazz Piano Book*): it works as a passing note, or resolving down.
+ *
+ * @param name - the chord symbol
+ * @param noteName - the note or pitch class
+ * @param options - a scale or a key, and the tensions to use
+ * @example
+ * Chord.classify("Cmaj7", "E"); // => "chord tone"
+ * Chord.classify("C7", "Db"); // => "tension"
+ * Chord.classify("Cmaj7", "F"); // => "avoid"
+ * Chord.classify("Dm7", "B"); // => "outside"
+ * Chord.classify("Dm7", "B", { key: "C major" }); // => "tension"
+ * Chord.classify("Em7", "F", { key: "C major" }); // => "avoid"
+ * Chord.classify("Dm7", "B", { tensions: ["9", "11", "13"] }); // => "tension"
+ */
+export function classify(
+  name: string,
+  noteName: string,
+  options: ClassifyOptions = {},
+): NoteClass {
+  const pcs = chordPcs(name, options.tensions);
+  const n = note(noteName);
+  if (!pcs || n.empty) return "";
+  const scaleName =
+    options.scale ??
+    (options.key
+      ? chordScale(name, { key: options.key, tensions: options.tensions })
+      : undefined);
+  const scale =
+    scaleName === undefined ? undefined : keyPcs(scaleName, pcs.root);
+  if (scaleName !== undefined && !scale) return "";
+  const pc = (n.chroma - pcs.root + 12) % 12;
+  if (pcs.tones.has(pc)) return "chord tone";
+  if (clashes(pc, pcs.tones, pcs.slots, pcs.tensions)) return "avoid";
+  const available = scale ? new Set(scale) : pcs.tensions;
+  return available.has(pc) ? "tension" : "outside";
+}
+
 /**
  * Get the symbols of the chords that have all the notes of a chord and at
  * least one more, on the same tonic. It returns `[]` if the chord isn't valid.
@@ -588,6 +855,9 @@ export default {
   get,
   detect,
   chordScales,
+  chordScale,
+  tensions,
+  classify,
   extended,
   reduced,
   tokenize,

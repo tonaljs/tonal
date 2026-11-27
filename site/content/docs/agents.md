@@ -147,6 +147,25 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   the major scale that holds most of the chord, as spelled): `m` is 0, `m7`
   1, `dim7` 3, `7b9#11` 7. Sort by it to list common chords first.
 
+- To ask "can this note go over this chord", use `Chord.classify`: it returns
+  `"chord tone"`, `"tension"`, `"avoid"` (a half step above a chord tone, or
+  another form of its 3rd, 5th or 7th) or `"outside"`. Pass a `key` (or a
+  `scale`) for the notes that depend on it, like the 13 of a minor 7th.
+  `Chord.tensions` lists a chord's tensions as degree names, and
+  `Chord.chordScale` gives the scale for a chord in a key:
+
+  ```js
+  Chord.classify("Cmaj7", "F"); // => "avoid"
+  Chord.classify("Dm7", "B", { key: "C major" }); // => "tension"
+  Chord.tensions("C7b9"); // => ["#9", "#11", "b13", "13"]
+  Chord.chordScale("D7", { key: "C major" }); // => "D mixolydian"
+  ```
+
+  The tensions are one documented table; to use your own, pass
+  `{ tensions: [...] }` to `classify`, `chordScales` or `chordScale`.
+  `Chord.chordScales(chord)` without a key isn't ranked: use
+  `Chord.chordScale` or pass `{ key }` for the best scale first.
+
 - `Chord.degrees` and `Chord.steps` are different: they count chord notes by
   position (1 or 0 is the root), not degrees by name. `Chord.degrees("C")(3)`
   is `"G"`, the third note of the chord.

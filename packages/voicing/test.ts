@@ -6,6 +6,7 @@ import Note from "@tonaljs/note";
 import VoicingDictionary from "@tonaljs/voicing-dictionary";
 import { topNoteDiff } from "@tonaljs/voice-leading";
 import * as Voicing from "./index";
+import { AVAILABLE } from "./tones";
 
 const { lefthand, triads } = VoicingDictionary;
 
@@ -821,6 +822,35 @@ describe("doubling: the root or the 5th", () => {
   test("the 3rd is never doubled to fill voices", () => {
     for (const v of Voicing.search("C", { voices: 5, range: ["C3", "C6"] })) {
       expect(v.filter((n) => Note.pitchClass(n) === "E").length).toBe(1);
+    }
+  });
+});
+
+describe("available extensions", () => {
+  test("every tension a family adds is one of Chord.tensions", () => {
+    const chords: Record<string, string> = {
+      major: "Cmaj7",
+      minor: "Cm7",
+      dominant: "C7",
+      altered: "C7b9",
+      suspended: "C7sus4",
+      "half-diminished": "Cm7b5",
+      diminished: "Cdim7",
+    };
+    const pc = (symbol: string, degree: string) =>
+      Note.chroma(Chord.noteOf(symbol, degree));
+    for (const [family, table] of Object.entries(AVAILABLE)) {
+      const symbol = chords[family];
+      const allowed = [...Chord.tensions(symbol), ...Chord.formula(symbol)].map(
+        (d) => pc(symbol, d),
+      );
+      for (const degree of [...table.root, ...table.fifth, ...table.extras]) {
+        expect([family, degree, allowed.includes(pc(symbol, degree))]).toEqual([
+          family,
+          degree,
+          true,
+        ]);
+      }
     }
   });
 });
