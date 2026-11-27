@@ -307,6 +307,25 @@ const KEEP_DIRECTION = 1.35;
 /** A repeated note inside a chord, less likely than the interval table says. */
 const REPEAT_IN_CHORD = 0.7;
 
+/**
+ * How a note that isn't in the chord is led, as bass methods teach it: how
+ * much less likely each move is than the tables above say.
+ */
+const RULES = {
+  /** A chromatic note left by a whole step (a half step is best) */
+  chromaticWholeStep: 0.6,
+  /** A chromatic note left by a leap: it doesn't resolve */
+  chromaticLeap: 0.03,
+  /** A scale tone outside the chord, reached by a leap and left by a leap */
+  betweenLeaps: 0.1,
+  /** A leap of a tritone or more into a note outside the chord */
+  leapIntoNonChord: 0.15,
+  /** A leap of a fourth or more between two chord tones: more likely */
+  chordToneLeap: 1.3,
+  /** A leap into a new chord from a note reached by a leap */
+  leapAfterLeap: 0.15,
+};
+
 /** The register: around F2 (MIDI 41), most notes within an octave of it. */
 const REGISTER = { centre: 41, spread: 14 };
 
@@ -437,19 +456,74 @@ export function walkingBass(text: string, options: BassOptions): BassLine {
   };
   // how likely a move is, from a pitch to one on the next slot; `turn` is the
   // direction of the move into the pitch before (-1, 0 or 1)
-  const transition = (to: Slot, from: number, turn: number, midi: number) => {
-    const d = midi - from;
-    const leap = Math.abs(d) >= 5 ? options.leaps + 0.02 : 1;
-    const keep = turn !== 0 && Math.sign(d) === turn ? KEEP_DIRECTION : 1;
+  const kindOf = (slot: Slot, midi: number) =>
+    info[slot.chord].kinds[midi % 12];
+
+  // how likely a move is, from a state on a slot to a pitch on the next one
+  const transition = (fromSlot: Slot, from: State, to: Slot, midi: number) => {
+    const d = midi - from.midi;
+    const size = Math.abs(d);
+    const leap = size >= 5 ? options.leaps + 0.02 : 1;
+    const keep =
+      from.dir !== 0 && Math.sign(d) === from.dir ? KEEP_DIRECTION : 1;
     const repeat = d === 0 && !to.onset ? REPEAT_IN_CHORD : 1;
-    return (
-      (to.onset ? intoWeight(d) : intervalWeight(d)) * leap * keep * repeat
-    );
+    const base = to.onset ? intoWeight(d) : intervalWeight(d);
+    return base * leap * keep * repeat * voiceLeading(fromSlot, from, to, midi);
   };
 
-  // the states of the lattice: a pitch, and the direction it was reached in
-  const DIRS = [-1, 0, 1];
-  const states = pitches.flatMap((midi) => DIRS.map((dir) => ({ midi, dir })));
+  // what a bass player doesn't do with a note that isn't in the chord
+  const voiceLeading = (
+    fromSlot: Slot,
+    from: State,
+    to: Slot,
+    midi: number,
+  ) => {
+    const size = Math.abs(midi - from.midi);
+    const before = kindOf(fromSlot, from.midi);
+    const after = kindOf(to, midi);
+    let weight = 1;
+    // 1. a chromatic note moves on by step, best by a half step
+    if (before === "chromatic") {
+      weight *=
+        size === 1
+          ? 1
+          : size === 2
+            ? RULES.chromaticWholeStep
+            : RULES.chromaticLeap;
+    }
+    // 2. a scale tone that isn't in the chord isn't between two leaps
+    if (before === "tension" && from.leap && size >= 3) {
+      weight *= RULES.betweenLeaps;
+    }
+    // 3. no big leap into a note that isn't in the chord
+    if (size >= 6 && (after === "chromatic" || after === "tension")) {
+      weight *= RULES.leapIntoNonChord;
+    }
+    // 5. leaps are between chord tones: an arpeggio, an octave drop
+    const chordTone = (k: Kind) => k !== "tension" && k !== "chromatic";
+    if (size >= 5 && chordTone(before) && chordTone(after)) {
+      weight *= RULES.chordToneLeap;
+    }
+    // 4. into a new chord, not a leap after a leap: an approach from the
+    //    fifth (a fourth below, a fifth above) is reached by step or a third
+    if (to.onset && fromSlot.place === "last" && from.leap && size >= 5) {
+      weight *= RULES.leapAfterLeap;
+    }
+    return weight;
+  };
+
+  // the states of the lattice: a pitch, the direction it was reached in, and
+  // whether it was reached by a leap (a minor third or more)
+  type State = { midi: number; dir: number; leap: boolean };
+  const states: State[] = pitches.flatMap((midi) =>
+    [-1, 0, 1].flatMap((dir) =>
+      [false, true].map((leap) => ({ midi, dir, leap })),
+    ),
+  );
+  const reaches = (from: State, to: State) => {
+    const d = to.midi - from.midi;
+    return Math.sign(d) === to.dir && Math.abs(d) >= 3 === to.leap;
+  };
 
   // the slots with notes, in runs between rests
   const runs: number[][] = [];
@@ -466,16 +540,17 @@ export function walkingBass(text: string, options: BassOptions): BassLine {
     const forward: number[][] = [];
     run.forEach((index, k) => {
       const slot = slots[index];
-      const row = states.map(({ midi, dir }) => {
-        const e = emission(slot, midi) ** power;
-        if (k === 0) return dir === 0 ? e : 0;
+      const fromSlot = slots[run[k - 1]];
+      const row = states.map((state) => {
+        const e = emission(slot, state.midi) ** power;
+        if (k === 0) return state.dir === 0 && !state.leap ? e : 0;
         const before = forward[k - 1];
         let sum = 0;
         for (let q = 0; q < states.length; q++) {
-          const from = states[q];
-          if (before[q] > 0 && Math.sign(midi - from.midi) === dir) {
+          if (before[q] > 0 && reaches(states[q], state)) {
             sum +=
-              before[q] * transition(slot, from.midi, from.dir, midi) ** power;
+              before[q] *
+              transition(fromSlot, states[q], slot, state.midi) ** power;
           }
         }
         return e * sum;
@@ -487,12 +562,12 @@ export function walkingBass(text: string, options: BassOptions): BassLine {
     let s = draw(forward[forward.length - 1], rnd);
     chosen.set(run[run.length - 1], states[s].midi);
     for (let k = run.length - 2; k >= 0; k--) {
+      const slot = slots[run[k]];
       const next = slots[run[k + 1]];
       const to = states[s];
       const weights = forward[k].map((f, q) => {
-        const from = states[q];
-        if (f === 0 || Math.sign(to.midi - from.midi) !== to.dir) return 0;
-        return f * transition(next, from.midi, from.dir, to.midi) ** power;
+        if (f === 0 || !reaches(states[q], to)) return 0;
+        return f * transition(slot, states[q], next, to.midi) ** power;
       });
       s = draw(weights, rnd);
       chosen.set(run[k], states[s].midi);
