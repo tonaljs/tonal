@@ -349,7 +349,10 @@ rotate an order with `RhythmPattern.rotate`, which takes any list of numbers.
 
 Keep a figure in a register with `Note.fold(notes, [low, high])`: it moves the
 whole figure by octaves (its shape stays), or each note with `{ each: true }`.
-A pitch class goes to the lowest octave in the range.
+A pitch class goes to the lowest octave in the range. To place a note near the
+one before (a line built one note at a time), use `Note.nearest(note, previous)`:
+the nearest octave, keeping the spelling (`Note.nearest("A", "C3")` is `"A2"`),
+with `direction: "up" | "down"` and a `range` it turns around in.
 For a bass line, `Chord.bass(chord, octave)` is the slash bass or the root
 (`Chord.get(chord).bass` is `""` without a slash):
 
