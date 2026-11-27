@@ -4,6 +4,7 @@
 
 > **Try it:** [Chord finder](https://tonaljs.github.io/tonal/apps/chord-finder/). Play or type some notes to get the chord name, or type a chord symbol to get its notes.
 > **Try it:** [Chart reader](https://tonaljs.github.io/tonal/apps/chart-reader/). Paste a chord chart with sections, repeats, endings and D.S. al Coda to see the form as it's played, bar by bar, and read every symbol: notes, family, complexity and roman numerals in a key, with applied dominants. Transpose it and play it.
+> **Try it:** [Walking bass](https://tonaljs.github.io/tonal/apps/walking-bass/). Paste a chord chart to get a walking bass line: targets on each chord, approach notes into the next one, two-feel in the head, with a ride to play along.
 
 ```js
 import { Chord } from "tonal";
@@ -233,23 +234,20 @@ Note.fold(
 
 #### Approach notes
 
-A bass line often leads into the next chord's bass with an approach note. Each kind is a transposition of the target:
+A bass line often leads into the next chord's bass with an approach note. `Scale.approaches` gives every kind (a half step, a scale step, the dominant, enclosures) next to the target, with the chord's scale from `Chord.chordScale`:
 
 ```js
 const target = Chord.bass("G7", 2); // => "G2"
-Note.transpose(target, "-2m"); // => "F#2"  (a half step below)
-Note.transpose(target, "2m"); // => "Ab2"  (a half step above)
-Scale.transposeBySteps("C major", target, -1); // => "F2"  (a scale step below)
-Scale.transposeBySteps("C major", target, 1); // => "A2"  (a scale step above)
-Note.transpose(target, "-4P"); // => "D2"  (its fifth, below it)
-[Note.transpose(target, "2m"), Note.transpose(target, "-2m")]; // => ["Ab2", "F#2"]  (an enclosure)
+const scale = Chord.chordScale("G7", { key: "C major" }); // => "G mixolydian"
+Scale.approaches(scale, target).below; // => "F#2"
+Scale.approaches(scale, target).scaleBelow; // => "F2"
 
 // a bar of Dm7 leading to G7
-[...[0, 1, 2].map(Chord.steps(["D2", "m7"])), Note.transpose(target, "-2m")];
+[...[0, 1, 2].map(Chord.steps(["D2", "m7"])), Scale.approaches(scale, target).below];
 // => ["D2", "F2", "A2", "F#2"]
 ```
 
-A half step is a minor second, so the note below is the leading tone (`E#` below `F#`), and the note above can need `Note.simplify` (`Fb2` above `Eb2` is `E2`). `Scale.transposeBySteps` needs a target in the scale: move it in with `Scale.nearest` first. Which approach to use, and when, is up to the app.
+Which approach to use, and when, is up to the app.
 
 ## Chord degrees by name
 
@@ -387,17 +385,123 @@ Transpose a chord symbol by an interval:
 Chord.transpose("Eb7b9", "5P"); // => "Bb7b9"
 ```
 
-## Relationships
+## Tensions, avoid notes and chord scales
+
+Over a chord, a note is a chord tone, a tension (a note the chord can add without changing what it is), an avoid note (one that clashes with it) or outside. Which scale fits a chord depends on the key.
+
+### `Chord.tensions`
+
+`tensions(chordName: string) => string[]`
+
+The tensions of a chord, as degree names (see [chord degrees by name](#chord-degrees-by-name)). They come from a table by the chord's 3rd, 5th and 7th, after Ted Pease (*Jazz Composition*, p. xv) and John Novello (*The Contemporary Keyboardist*, p. 96):
+
+| Chord | Tensions |
+|---|---|
+| maj7, major triad | 9, #11, 13 |
+| 6 | 9, #11, 7 |
+| augmented, 7#5 | 9, #11 |
+| 7 | b9, 9, #9, #11, b13, 13 |
+| 7sus4 | b9, 9, 13 |
+| mMaj7 | 9, 11, 13 |
+| m6 | 9, 11, 7 |
+| m7, minor triad | 9, 11 |
+| m7b5, diminished triad | 9, 11, b13 |
+| dim7 | 9, 11, b13, 7 |
+| no 3rd | 9, 11, 13 |
+
+The tensions the chord already says are left out: a chord tone (C9 has no 9 tension), the 9 when the symbol has b9 or #9 over a major 3rd (and b9 and #9 when it has the 9), and the b13 when it has the 13 (and the other way round).
+
+```js
+Chord.tensions("C7"); // => ["b9", "9", "#9", "#11", "b13", "13"]
+Chord.tensions("Cmaj7"); // => ["9", "#11", "13"]
+Chord.tensions("C7b9"); // => ["#9", "#11", "b13", "13"]
+Chord.tensions("m7"); // => ["9", "11"]
+```
+
+The 13 of a minor 7th is a tension only in Dorian, so it comes from a key or a scale (see `Chord.classify`).
+
+### `Chord.classify`
+
+`classify(chordName: string, note: string, options?: { key?: string, scale?: string, tensions?: string[] }) => "chord tone" | "tension" | "avoid" | "outside" | ""`
+
+What a note is over a chord. Only its pitch class counts. The rule, in order:
+
+1. **chord tone**: a note of the chord.
+2. **avoid**: a half step above a chord tone, or another form of the chord's 3rd, 5th or 7th (the major 3rd over a minor chord, the 5th over a b5, the b7 over a maj7), unless it's one of the chord's tensions. So b9 on a dominant is a tension, and F on Cmaj7 is avoid.
+3. **tension**: without a scale, one of `Chord.tensions`; with a scale, any other note of the scale.
+4. **outside**: everything else (with a scale, a note not in it).
+
+```js
+Chord.classify("Cmaj7", "E"); // => "chord tone"
+Chord.classify("C7", "Db"); // => "tension"
+Chord.classify("Cmaj7", "F"); // => "avoid"
+Chord.classify("Dm7", "B"); // => "outside"
+Chord.classify("Dm7", "B", { key: "C major" }); // => "tension" (D dorian)
+Chord.classify("Em7", "F", { key: "C major" }); // => "avoid" (b9 in E phrygian)
+Chord.classify("G7", "Ab", { scale: "G phrygian dominant" }); // => "tension"
+```
+
+With `key`, the scale is the chord's scale in that key (`Chord.chordScale`); `scale` gives it directly. An avoid note is one to handle with care, not a wrong one: it works as a passing note, or resolving down (Mark Levine, *The Jazz Piano Book*).
+
+#### Your own tensions
+
+The books don't agree on every tension. To use others, pass them as `tensions`, with the same shape `Chord.tensions` returns. They decide which notes escape avoid, and without a key or scale they are also the tensions:
+
+```js
+Chord.classify("Dm7", "B", { tensions: ["9", "11", "13"] }); // => "tension"
+Chord.classify("Cmaj7", "F", { tensions: [...Chord.tensions("Cmaj7"), "11"] }); // => "tension"
+```
+
+With a key or scale the tensions are the notes of the scale, so a listed tension outside it is outside. To make it a tension, choose a scale that has it:
+
+```js
+Chord.classify("G7", "Ab", { key: "C major" }); // => "outside" (G mixolydian has no Ab)
+Chord.classify("G7", "Ab", { scale: "G phrygian dominant" }); // => "tension"
+```
+
+`Chord.chordScales` and `Chord.chordScale` take the same option.
 
 ### `Chord.chordScales`
 
-`chordScales(chordName: string) => string[]`
+`chordScales(chordName: string, options?: { key?: string, tensions?: string[] }) => string[]`
 
-Get all scales where the given chord fits:
+The scale types (names without tonic) that contain every note of the chord. Without options they are in the order of the scale catalogue:
 
 ```js
 Chord.chordScales("C7b9"); // => ["phrygian dominant", "flamenco", "phrygian b4", "mixolydian b2", "spanish heptatonic", "half-whole diminished", "chromatic"]
 ```
+
+With a `key` (a key or scale name, like `"C major"`, `"A minor"` or `"A harmonic minor"`) they are ranked:
+
+1. the key's own mode on the chord's root, when it contains the chord;
+2. the common chord scales (the modes of major, melodic minor and harmonic minor, the two diminished scales and whole tone) that agree with the chord: none of their notes is another form of the chord's 3rd, 5th or 7th unless it's a tension (dorian #4, with a natural 5th, doesn't agree with m7b5);
+3. the common chord scales that don't agree;
+4. every other scale.
+
+Within each group, the fewest notes outside the key first, then the scales of seven notes, then the ones that share more notes with the key.
+
+```js
+Chord.chordScales("D7", { key: "C major" }).slice(0, 3); // => ["mixolydian", "lydian dominant", "mixolydian b6"]
+```
+
+### `Chord.chordScale`
+
+`chordScale(chordName: string, options?: { key?: string, tensions?: string[] }) => string`
+
+The first ranked chord scale, as a full name:
+
+```js
+Chord.chordScale("Dm7", { key: "C major" }); // => "D dorian"
+Chord.chordScale("D7", { key: "C major" }); // => "D mixolydian"
+Chord.chordScale("E7", { key: "C major" }); // => "E phrygian dominant"
+Chord.chordScale("Fm6", { key: "C major" }); // => "F melodic minor"
+Chord.chordScale("Bdim7", { key: "C major" }); // => "B diminished"
+Chord.chordScale("Cdim7"); // => "C diminished"
+```
+
+In a key every diatonic chord gets the scale `Key` gives it (`Key.majorKey("C").chordScales`). The rule ranks by notes, not by function: secondary dominants get mixolydian (to a major chord) or phrygian dominant (to a minor chord), borrowed chords their minor-key scale, but a tritone substitute gets phrygian dominant, not the lydian dominant the books give it.
+
+## Relationships
 
 ### `Chord.extended`
 

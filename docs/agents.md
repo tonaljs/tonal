@@ -146,6 +146,25 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   the major scale that holds most of the chord, as spelled): `m` is 0, `m7`
   1, `dim7` 3, `7b9#11` 7. Sort by it to list common chords first.
 
+- To ask "can this note go over this chord", use `Chord.classify`: it returns
+  `"chord tone"`, `"tension"`, `"avoid"` (a half step above a chord tone, or
+  another form of its 3rd, 5th or 7th) or `"outside"`. Pass a `key` (or a
+  `scale`) for the notes that depend on it, like the 13 of a minor 7th.
+  `Chord.tensions` lists a chord's tensions as degree names, and
+  `Chord.chordScale` gives the scale for a chord in a key:
+
+  ```js
+  Chord.classify("Cmaj7", "F"); // => "avoid"
+  Chord.classify("Dm7", "B", { key: "C major" }); // => "tension"
+  Chord.tensions("C7b9"); // => ["#9", "#11", "b13", "13"]
+  Chord.chordScale("D7", { key: "C major" }); // => "D mixolydian"
+  ```
+
+  The tensions are one documented table; to use your own, pass
+  `{ tensions: [...] }` to `classify`, `chordScales` or `chordScale`.
+  `Chord.chordScales(chord)` without a key isn't ranked: use
+  `Chord.chordScale` or pass `{ key }` for the best scale first.
+
 - `Chord.degrees` and `Chord.steps` are different: they count chord notes by
   position (1 or 0 is the root), not degrees by name. `Chord.degrees("C")(3)`
   is `"G"`, the third note of the chord.
@@ -204,6 +223,8 @@ writes it back as text, and `Chart.barAt(played, position)` gives the played
 bar at a position. Several chords in a bar without `@` are
 placed by the meter's pulses (`| C F G |` is 2+1+1 beats). Check
 `Chart.problems(chart)`: words it can't read are left out, not errors.
+`N.C.` (or `NC`) is a rest: its chord has `rest: true`, so check it before
+playing a chord (`Chord.get("N.C.")` has no notes and no tonic).
 
 `Chart.unroll` gives the bars as they're played (with `start`, `duration`,
 `section`, `sectionBar`, `chorus`); `Chart.chords` the chords with `value`
@@ -329,7 +350,10 @@ rotate an order with `RhythmPattern.rotate`, which takes any list of numbers.
 
 Keep a figure in a register with `Note.fold(notes, [low, high])`: it moves the
 whole figure by octaves (its shape stays), or each note with `{ each: true }`.
-A pitch class goes to the lowest octave in the range.
+A pitch class goes to the lowest octave in the range. To place a note near the
+one before (a line built one note at a time), use `Note.nearest(note, previous)`:
+the nearest octave, keeping the spelling (`Note.nearest("A", "C3")` is `"A2"`),
+with `direction: "up" | "down"` and a `range` it turns around in.
 For a bass line, `Chord.bass(chord, octave)` is the slash bass or the root
 (`Chord.get(chord).bass` is `""` without a slash):
 
@@ -340,9 +364,12 @@ Note.fold(["C2", "E2", "G2", "Bb2"], ["E2", "G3"]); // => ["C3", "E3", "G3", "Bb
 Chord.bass("C7/E", 2); // => "E2"
 ```
 
-Approach notes are transpositions of the target: `Note.transpose(target, "-2m")`
-(a half step below), `Scale.transposeBySteps(scale, target, -1)` (a scale step
-below).
+Approach notes to a target come from `Scale.approaches(scale, target)`: a
+record with each kind (`below`, `above`, `scaleBelow`, `scaleAbove`,
+`dominantBelow`, `dominantAbove`, `enclosure`, `chromaticEnclosure`,
+`doubleBelow`, `doubleAbove`), notes with octave next to the target. Use the
+chord's scale in a key: `Scale.approaches(Chord.chordScale("G7", { key: "C major" }), "G2").below`
+is `"F#2"`.
 
 ## Time
 

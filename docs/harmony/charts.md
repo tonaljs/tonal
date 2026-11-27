@@ -4,6 +4,7 @@
 
 > **Try it:** [Chart reader](https://tonaljs.github.io/tonal/apps/chart-reader/). Paste a chord chart with sections, repeats, endings and D.S. al Coda to see the form as it's played, bar by bar, and read every symbol: notes, family, complexity and roman numerals in a key, with applied dominants. Transpose it and play it.
 > **Try it:** [Note patterns](https://tonaljs.github.io/tonal/apps/note-patterns/). Play arpeggios and melodic sequences over a chord chart, with its repeats and sections: an arpeggio order or a cell of indexes, over each chord's voicing, its chord tones or the scale, kept in a register and put on a rhythm.
+> **Try it:** [Walking bass](https://tonaljs.github.io/tonal/apps/walking-bass/). Paste a chord chart to get a walking bass line: targets on each chord, approach notes into the next one, two-feel in the head, with a ride to play along.
 
 A chord chart is what a lead sheet or a fake book shows: bars of chord symbols, with sections and meters. `Chart` reads one from text, gives the bars in the order they're played, and answers which chord plays at a position. Positions and durations are exact [time values](https://tonaljs.github.io/tonal/docs/time/time.md): quarter notes, as `[numerator, denominator]` fractions.
 
@@ -43,7 +44,7 @@ The syntax:
 | --------------------------- | -------------------------------------------------------------------------------------------------------- |
 | `\|`                        | a bar line; a new line ends a bar too, and `\|\|` is a bar line                                          |
 | `Cmaj7`, `Cm7 b9`           | a chord: a word starting with a note letter, with the words after it that aren't chords (its qualifiers) |
-| `N.C.`                      | no chord: a rest                                                                                         |
+| `N.C.`                      | no chord: a rest (the chord has `rest: true`)                                                            |
 | `%`                         | the chords of the bar before                                                                             |
 | `\| \|`                     | an empty bar: the chord before goes on                                                                   |
 | `[A]`, `[Verse 1]`          | a section starts on this bar (alone between bar lines, `\| [A] \| C \|`, on the next bar)                |
