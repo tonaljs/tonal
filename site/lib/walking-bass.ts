@@ -290,46 +290,46 @@ const FIT: {
   kinds: Record<string, Record<string, number>>;
 } = {
   interval: {
-    "0": 0.411,
-    "1": 0.835,
-    "2": 0.824,
-    "3-4": 1.627,
-    "5": 0.727,
-    "6-7": 1.852,
-    "8-12": 1.5,
+    "0": 0.444,
+    "1": 0.813,
+    "2": 0.726,
+    "3-4": 1.687,
+    "5": 0.747,
+    "6-7": 1.979,
+    "8-12": 1.664,
   },
   kinds: {
     onset: {
-      root: 0.986,
-      third: 1.091,
-      fifth: 1.057,
-      seventh: 0.855,
-      tension: 0.834,
-      chromatic: 1.639,
+      root: 0.941,
+      third: 1.535,
+      fifth: 0.836,
+      seventh: 1.097,
+      tension: 1.422,
+      chromatic: 1.749,
     },
     last: {
-      root: 1.548,
-      third: 0.878,
-      fifth: 0.749,
-      seventh: 0.953,
-      tension: 0.923,
-      chromatic: 1.116,
+      root: 1.471,
+      third: 0.826,
+      fifth: 0.761,
+      seventh: 0.881,
+      tension: 1.15,
+      chromatic: 0.998,
     },
     beat2: {
-      root: 1.693,
-      third: 1.067,
-      fifth: 0.761,
-      seventh: 0.704,
-      tension: 0.971,
-      chromatic: 1.612,
+      root: 2.123,
+      third: 1.797,
+      fifth: 1.04,
+      seventh: 0.869,
+      tension: 0.792,
+      chromatic: 0.98,
     },
     beat3: {
-      root: 0.919,
-      third: 1.078,
-      fifth: 0.912,
-      seventh: 0.755,
-      tension: 1.015,
-      chromatic: 1.68,
+      root: 1.002,
+      third: 1.678,
+      fifth: 0.865,
+      seventh: 1.115,
+      tension: 0.755,
+      chromatic: 1.076,
     },
   },
 };
@@ -382,7 +382,7 @@ const intoWeight = (semitones: number) => INTO[semitones] ?? 0.002;
  * down-down-down 17%) and often turn at the change, where the approach table
  * takes over.
  */
-const KEEP_DIRECTION = { inChord: 2.0, intoChord: 0.8 };
+const KEEP_DIRECTION = { inChord: 1.75, intoChord: 0.8 };
 
 /** A repeated note inside a chord, less likely than the interval table says. */
 const REPEAT_IN_CHORD = 0.5;
@@ -406,6 +406,242 @@ const RULES = {
   /** A leap into a new chord from a note reached by a leap */
   leapAfterLeap: 0.15,
 };
+
+/**
+ * The figures a bass plays over a one-chord bar before a new chord, by how
+ * the root moves (semitones up, 0-11), and how often (% of those bars):
+ * the walking bass harness (assist-tonal, spikes/walking-bass-eval) counts
+ * them in FiloBass's bars walked in quarters and rewrites the block between
+ * the markers. Players reuse a vocabulary: the 100 most common figures cover
+ * 61% of their bars, where note-by-note choices spread over many more. A
+ * chord a fourth up is most often reached by a chromatic climb from the root
+ * (R-9-b3-3, 16%).
+ */
+// figures:start
+const FIGURES: Record<string, Record<string, number>> = {
+  "0": {
+    "5-b13-13-7": 10.5,
+    "5-13-b7-7": 6.4,
+    "R-9-3-5": 5.5,
+    "5-7-R-3": 5,
+    "R-b5-5-b9": 4.1,
+    "5-b5-5-7": 2.7,
+    "5-11-3-9": 2.7,
+    "R-9-5-9": 2.3,
+    "R-9-3-9": 2.3,
+    "R-7-13-5": 1.8,
+    "5-13-7-9": 1.8,
+    "R-b7-13-b13": 1.8,
+    "R-b7-13-5": 1.8,
+    "R-13-5-7": 1.8,
+    "5-9-11-b5": 1.8,
+    "R-9-b3-3": 1.8,
+  },
+  "1": {
+    "R-3-5-R": 16.5,
+    "5-9-R-5": 8.9,
+    "R-b5-5-R": 7.6,
+    "R-7-R-R": 7.6,
+    "R-9-b3-R": 7.6,
+    "R-7-13-5": 5.1,
+    "R-5-b3-R": 5.1,
+  },
+  "2": {
+    "R-5-R-b9": 8.9,
+    "R-9-b3-b9": 7.3,
+    "R-7-R-b9": 5,
+    "R-3-5-b9": 3.1,
+    "R-3-13-3": 2.7,
+    "R-b7-13-b9": 2.7,
+    "R-R-5-R": 2.7,
+    "5-11-3-b3": 2.3,
+    "3-R-5-R": 1.9,
+    "R-9-b3-11": 1.5,
+    "R-5-b3-R": 1.5,
+    "5-b13-13-b3": 1.5,
+    "R-5-13-b3": 1.5,
+    "R-3-11-b5": 1.5,
+  },
+  "3": {
+    "R-7-R-9": 23.1,
+    "5-7-R-9": 9.6,
+  },
+  "4": {
+    "R-5-b5-11": 7.1,
+    "R-9-b3-11": 6.2,
+    "R-13-5-11": 4.4,
+    "5-9-R-11": 3.5,
+    "R-R-9-b3": 3.5,
+  },
+  "5": {
+    "R-9-b3-3": 16.8,
+    "R-b9-9-3": 4.4,
+    "R-b7-13-5": 2.7,
+    "5-7-R-3": 2.6,
+    "R-5-3-R": 2.2,
+    "5-b9-R-b5": 2.1,
+    "R-b7-5-R": 2,
+    "R-9-3-R": 1.8,
+    "R-3-13-5": 1.7,
+    "R-5-R-b5": 1.5,
+    "R-9-3-5": 1.3,
+    "R-5-b7-7": 1.3,
+    "R-3-5-b5": 1.3,
+    "R-5-R-b7": 1,
+    "5-b9-R-3": 1,
+    "R-5-R-5": 1,
+    "R-9-5-b5": 1,
+    "R-b3-5-R": 0.8,
+    "R-b7-5-b5": 0.8,
+    "R-R-5-R": 0.8,
+    "R-13-5-b5": 0.8,
+    "R-b3-5-b5": 0.8,
+    "5-11-3-R": 0.7,
+    "R-5-b3-R": 0.7,
+    "R-b5-5-b5": 0.7,
+    "R-9-5-9": 0.7,
+    "b7-7-R-b5": 0.6,
+    "R-9-b3-9": 0.6,
+    "R-b7-b13-5": 0.6,
+    "R-3-13-R": 0.6,
+    "R-9-b3-R": 0.6,
+    "5-11-3-9": 0.5,
+    "3-5-R-5": 0.5,
+    "3-5-R-3": 0.5,
+    "b3-9-R-b7": 0.5,
+    "R-5-9-b9": 0.5,
+    "R-9-b3-5": 0.4,
+    "11-5-13-b7": 0.4,
+    "R-7-R-9": 0.4,
+    "R-5-b3-3": 0.4,
+    "5-7-R-b5": 0.4,
+    "5-b9-R-5": 0.4,
+    "R-7-b7-R": 0.4,
+    "3-9-R-b7": 0.4,
+    "11-b5-5-R": 0.4,
+    "R-9-R-b7": 0.4,
+    "R-5-R-3": 0.4,
+    "5-13-b7-7": 0.4,
+    "5-9-R-5": 0.4,
+    "9-7-R-3": 0.4,
+    "R-b3-b5-R": 0.4,
+    "3-9-R-3": 0.4,
+    "R-b7-5-b9": 0.4,
+    "R-b5-b3-R": 0.4,
+    "5-R-5-b5": 0.4,
+    "3-R-5-b5": 0.4,
+    "R-3-5-R": 0.3,
+    "5-9-R-3": 0.3,
+    "3-5-R-b7": 0.3,
+    "R-R-b7-13": 0.3,
+    "R-b5-R-b5": 0.3,
+    "R-5-R-R": 0.3,
+    "3-11-3-R": 0.3,
+    "R-b9-9-b3": 0.3,
+    "b7-7-R-3": 0.3,
+    "R-7-R-3": 0.3,
+    "3-R-5-3": 0.3,
+    "5-3-9-R": 0.3,
+    "3-9-R-b5": 0.3,
+    "5-5-R-5": 0.3,
+    "R-b3-5-b7": 0.3,
+    "9-b9-R-b7": 0.3,
+    "R-13-b7-b13": 0.3,
+    "R-b5-R-3": 0.2,
+    "R-b9-9-5": 0.2,
+    "R-b9-9-b9": 0.2,
+    "R-b7-b5-R": 0.2,
+    "b7-9-R-3": 0.2,
+    "5-b13-13-R": 0.2,
+    "b7-9-R-b7": 0.2,
+    "R-R-R-R": 0.2,
+    "R-7-R-R": 0.2,
+    "3-5-9-R": 0.2,
+    "R-b7-b13-9": 0.2,
+    "R-b13-b5-R": 0.2,
+    "R-3-5-b7": 0.2,
+    "5-13-5-3": 0.2,
+    "R-11-5-b5": 0.2,
+    "R-3-13-b5": 0.2,
+    "b7-13-b7-7": 0.2,
+    "R-R-5-3": 0.2,
+    "R-R-R-3": 0.2,
+    "R-b7-13-9": 0.2,
+  },
+  "6": {
+    "R-b7-5-b7": 7.2,
+    "R-7-13-5": 5.4,
+    "R-b9-9-R": 4.2,
+    "R-5-R-5": 4.2,
+    "R-b5-5-R": 4.2,
+    "R-3-13-5": 3.6,
+    "R-5-9-R": 3,
+    "R-b9-9-5": 2.4,
+    "5-b9-R-5": 2.4,
+    "R-5-R-R": 2.4,
+    "R-3-5-R": 2.4,
+    "9-5-R-5": 2.4,
+    "R-3-13-b9": 2.4,
+    "R-7-R-11": 2.4,
+    "3-9-R-b7": 2.4,
+    "5-R-13-5": 2.4,
+  },
+  "7": {
+    "R-b9-9-b5": 12.3,
+    "R-b7-13-b13": 9.1,
+    "R-3-11-b5": 4.8,
+    "R-b9-9-b13": 3.7,
+    "R-7-b7-13": 3.7,
+    "R-5-b9-3": 2.7,
+    "3-11-3-9": 2.7,
+    "R-3-13-b13": 2.1,
+    "5-b13-13-b13": 2.1,
+    "3-9-R-b9": 2.1,
+  },
+  "9": {
+    "R-R-7-b7": 12.4,
+    "R-R-b7-b7": 7.7,
+    "R-9-5-b7": 4.6,
+    "R-9-R-b7": 4.1,
+    "R-R-7-3": 4.1,
+    "R-5-b5-11": 4.1,
+    "R-7-R-b7": 3.6,
+    "R-3-R-b7": 3.6,
+    "R-9-b3-R": 2.6,
+    "R-R-b7-b13": 2.6,
+    "R-R-9-11": 2.6,
+    "R-5-11-b13": 2.6,
+    "R-13-5-11": 2.6,
+    "R-9-b3-3": 2.1,
+    "R-7-R-3": 2.1,
+    "R-R-b7-11": 2.1,
+  },
+  "10": {
+    "R-5-R-7": 13,
+    "5-11-3-R": 10.1,
+    "R-7-R-7": 7.2,
+    "R-3-5-R": 5.8,
+    "R-b3-5-R": 5.8,
+    "5-b9-R-5": 5.8,
+  },
+  "11": {
+    "R-b3-5-R": 11.9,
+    "R-5-3-R": 6.7,
+    "R-3-5-R": 6.3,
+    "R-b5-5-R": 5.6,
+    "R-b3-9-R": 3.2,
+    "R-5-R-b5": 3.2,
+    "R-9-b3-R": 2.5,
+    "R-R-5-R": 2.1,
+    "R-3-13-5": 2.1,
+    "R-7-13-5": 1.8,
+    "R-R-b3-R": 1.4,
+    "R-b9-9-R": 1.4,
+    "5-7-R-b7": 1.4,
+    "R-5-R-11": 1.4,
+  },
+};
+// figures:end
 
 /** The register: around F2 (MIDI 41), most notes within an octave of it. */
 const REGISTER = { centre: 41, spread: 14 };
@@ -613,6 +849,56 @@ export function walkingBass(text: string, options: BassOptions): BassLine {
     return Math.sign(d) === to.dir && Math.abs(d) >= 3 === to.leap;
   };
 
+  // a figure for each one-chord bar walked in quarters before a new chord:
+  // the pitch class of each of its notes, or none (free)
+  const figureRnd = random(options.seed + 2);
+  const figureOf = new Map<
+    number,
+    { pc: number; figure: string; motion: string }
+  >();
+  slots.forEach((slot, i) => {
+    if (slot.beat !== 0 || !slot.chord || slot.two) return;
+    const bar = slots.slice(i, i + 4);
+    const next = slots[i + 4];
+    if (
+      bar.length !== 4 ||
+      !bar.every(
+        (s) => s.chord === slot.chord && s.bar === slot.bar && !s.two,
+      ) ||
+      !next?.chord ||
+      !next.onset
+    ) {
+      return;
+    }
+    const root = Note.chroma(Chord.get(slot.chord).tonic ?? "");
+    const nextRoot = Note.chroma(Chord.get(next.chord).tonic ?? "");
+    if (root === undefined || nextRoot === undefined) return;
+    const motion = (nextRoot - root + 12) % 12;
+    const table = FIGURES[motion];
+    if (!table) return;
+    let r = figureRnd() * 100;
+    const chosenFigure = Object.entries(table).find(
+      ([, share]) => (r -= share) < 0,
+    );
+    if (!chosenFigure) return;
+    const degrees = chosenFigure[0].split("-");
+    const pcs = degrees.map((d) =>
+      Note.chroma(Chord.noteOf(slot.chord, d === "R" ? "1" : d)),
+    );
+    if (pcs.some((pc) => pc === undefined)) return;
+    pcs.forEach((pc, k) =>
+      figureOf.set(i + k, {
+        pc: pc!,
+        figure: chosenFigure[0],
+        motion: MOTIONS[motion] ?? `${motion} semitones up`,
+      }),
+    );
+  });
+  const allowed = (index: number, midi: number) => {
+    const f = figureOf.get(index);
+    return !f || f.pc === midi % 12 ? 1 : 0;
+  };
+
   // the slots with notes, in runs between rests
   const runs: number[][] = [];
   slots.forEach((slot, i) => {
@@ -630,7 +916,8 @@ export function walkingBass(text: string, options: BassOptions): BassLine {
       const slot = slots[index];
       const fromSlot = slots[run[k - 1]];
       const row = states.map((state) => {
-        const e = emission(slot, state.midi) ** power;
+        const e =
+          (emission(slot, state.midi) * allowed(index, state.midi)) ** power;
         if (k === 0) return state.dir === 0 && !state.leap ? e : 0;
         const before = forward[k - 1];
         let sum = 0;
@@ -662,7 +949,7 @@ export function walkingBass(text: string, options: BassOptions): BassLine {
     }
   }
 
-  const steps = describe(slots, chosen, info);
+  const steps = describe(slots, chosen, info, figureOf);
   const notes = withSkips(steps, slots, options, random(options.seed + 1));
   const chords = Chart.chords(chart, { choruses: options.choruses }).map(
     (c) => ({ value: c.value, start: num(c.start), duration: num(c.duration) }),
@@ -703,10 +990,26 @@ function spell(midi: number, chord: ChordInfo, rising: boolean) {
   return rising ? Note.fromMidiSharps(midi) : Note.fromMidi(midi);
 }
 
+const MOTIONS: Record<number, string> = {
+  0: "the same root",
+  1: "a half step up",
+  2: "a whole step up",
+  3: "a minor third up",
+  4: "a major third up",
+  5: "a fourth up",
+  6: "a tritone away",
+  7: "a fifth up",
+  8: "a major third down",
+  9: "a minor third down",
+  10: "a whole step down",
+  11: "a half step down",
+};
+
 function describe(
   slots: Slot[],
   chosen: Map<number, number>,
   info: Record<string, ChordInfo>,
+  figureOf: Map<number, { figure: string; motion: string }>,
 ): Step[] {
   const indexes = [...chosen.keys()].sort((a, b) => a - b);
   const names = new Map<number, string>();
@@ -754,6 +1057,10 @@ function describe(
       } else if (midi === Note.midi(target)) {
         why += `, the same note as the next chord's first`;
       }
+    }
+    const figure = figureOf.get(i);
+    if (figure) {
+      why += `; in the figure ${figure.figure}, which players use before a chord ${figure.motion}`;
     }
     return { slot: i, note, role, why };
   });
