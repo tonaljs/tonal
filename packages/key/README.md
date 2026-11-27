@@ -171,6 +171,70 @@ Key.minorKeyChords("C")
 // => "Cm7, Dm7b5, Ebmaj7, Fm7, Gm7, Abmaj7, Bb7, G7, C7, D7, Eb7, F7, Gm7b5, Am7b5, Bbm7, Db7, Gb7, Ab7, A7, Cb7, Abm7, Dbm7, Ebm7, Em7, Gbm7, CmMaj7, Eb+maj7, Bo7, Am7, Cm6, Dm7, Bm7b5, Em7b5"
 ```
 
+### `Key.analyzeChord`
+
+`analyzeChord(key: string, chord: string, options?: { previous?: string, next?: string }) => ChordReading[]`
+
+What a chord does in a key: every reading, ranked, the first being the default. The key is `"C major"`, `"A minor"` or a tonic alone (major). The neighbours are optional, but some readings need them:
+
+```js
+Key.analyzeChord("C major", "A7", { next: "Dm7" })[0];
+// => {
+//   chord: "A7",
+//   numeral: "V7/ii",        // as the books write it
+//   degree: "VI7",           // the chord's numeral on the tonic
+//   source: "secondary dominant",
+//   function: "D",           // "T", "SD", "D" or ""
+//   scale: "",               // the scale it comes from, for diatonic and borrowed chords
+//   target: "ii",            // the numeral it leads to
+//   resolution: "functioning", // does the next chord go to the target?
+//   chordScale: "A mixolydian b6",
+// }
+```
+
+The same chord can be several things. `Bb7` before `C` in C major is a backdoor dominant, a chord borrowed from C minor and a tritone substitute of `E7`:
+
+```js
+Key.analyzeChord("C major", "Bb7", { next: "C" }).map((r) => r.source);
+// => ["backdoor", "borrowed", "tritone substitute"]
+Key.analyzeChord("C major", "Am7", { next: "D7" }).map((r) => r.numeral);
+// => ["ii7/V", "vi7"]
+```
+
+The readings, by source:
+
+| Source                   | Rule                                                                                                   | Example in C major                                              |
+| ------------------------ | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------- |
+| `diatonic`               | every note in a scale of the key (minor: natural, harmonic, melodic), root on a degree                 | `Dm9` is `ii9`                                                  |
+| `secondary dominant`     | a dominant or major triad a fifth above a degree whose chord is major or minor, not the tonic          | `A7` is `V7/ii`, `E` is `V/vi`                                  |
+| `tritone substitute`     | a dominant a half step above one of those degrees or the tonic                                         | `Db7` is `subV7/I`                                              |
+| `related ii`             | a m7 or m7b5 a fifth above a next chord that is a secondary dominant                                   | `Am7` before `D7` is `ii7/V`                                    |
+| `borrowed`               | in the parallel key, or in a parallel mode when nothing else reads the chord                           | `Fm7` is `iv7` (C minor), `Bbmaj7` is `bVIImaj7` (C mixolydian) |
+| `backdoor`               | a dominant a whole step below the tonic, before the tonic                                              | `Bb7` before `C`                                                |
+| `passing diminished`     | a dim7 a half step below a next chord on a degree, or between two chords a whole step apart going down | `C#o7` before `Dm7` is `viio7/ii`; `Em7 Ebo7 Dm7`               |
+| `common-tone diminished` | a dim7 on the root of the chord before or after                                                        | `Co7` before `C`                                                |
+| `chromatic`              | nothing else matches                                                                                   | `F#maj7` is `#IVmaj7`                                           |
+
+Readings the neighbours confirm come first (the next chord on the target, a related ii, a backdoor or diminished chord, a secondary dominant after its related ii), then the sources in the order of the table. The vi of a major key before the V is `"SD"` instead of `"T"`.
+
+Every numeral but `subV` gives the chord back with `Progression.fromRomanNumerals`. Lowercase numerals are minor or diminished chords (`ii7` is `Dm7`, `viio` is `Bdim`).
+
+To analyse a progression, pass each chord its neighbours:
+
+```js
+const chords = ["Cmaj7", "A7", "Dm7", "G7"];
+chords.map(
+  (chord, i) =>
+    Key.analyzeChord("C major", chord, {
+      previous: chords[i - 1],
+      next: chords[i + 1],
+    })[0].numeral,
+);
+// => ["Imaj7", "V7/ii", "ii7", "V7"]
+```
+
+The key stays the same for every chord: finding the local keys of a progression (a ii-V-I in another key) is not part of it.
+
 ## How to...
 
 ### How to get minor tonic from key signature

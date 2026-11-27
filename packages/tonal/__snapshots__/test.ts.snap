@@ -141,6 +141,7 @@ exports[`tonal > Modules exports functions 1`] = `
     "transposeFifths",
   ],
   "Key": [
+    "analyzeChord",
     "majorKey",
     "majorKeyChords",
     "majorTonicFromKeySignature",
