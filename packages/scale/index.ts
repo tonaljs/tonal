@@ -586,7 +586,111 @@ function chordSymbol(notes: string[]): string {
 }
 
 /** @deprecated */
+/** The approach notes to a target: see `Scale.approaches`. */
+export interface ApproachNotes {
+  /** A half step below: the leading tone. */
+  below: string;
+  /** A half step above. */
+  above: string;
+  /** The nearest scale note below the target. */
+  scaleBelow: string;
+  /** The nearest scale note above the target. */
+  scaleAbove: string;
+  /** The target's fifth, a fourth below it. */
+  dominantBelow: string;
+  /** The target's fifth, a fifth above it. */
+  dominantAbove: string;
+  /** The scale note above, then the half step below. */
+  enclosure: string[];
+  /** The half step above, then the half step below. */
+  chromaticEnclosure: string[];
+  /** Two half steps up to the target: a whole step below, then a half step below. */
+  doubleBelow: string[];
+  /** Two half steps down to the target: a whole step above, then a half step above. */
+  doubleAbove: string[];
+}
+
+const NoApproachNotes: ApproachNotes = {
+  below: "",
+  above: "",
+  scaleBelow: "",
+  scaleAbove: "",
+  dominantBelow: "",
+  dominantAbove: "",
+  enclosure: [],
+  chromaticEnclosure: [],
+  doubleBelow: [],
+  doubleAbove: [],
+};
+
+// Transpose, and respell a double sharp or flat
+function approachNote(target: string, interval: string): string {
+  const name = transpose(target, interval);
+  return /bb|##/.test(name) ? enharmonic(name) : name;
+}
+
+/**
+ * Get the notes that lead to a target note: a half step below or above, the
+ * nearest scale note below or above, the target's fifth (its dominant), and
+ * the two-note figures made of them. Each is a note with octave next to the
+ * target; which one to play, and when, is up to the app.
+ *
+ * The half step below is the leading tone (`E#2` below `F#2`). The notes above
+ * a half step or a whole step, and the fifths, are spelled from the target,
+ * respelled only when they would need a double sharp or flat. The scale notes
+ * are spelled as in the scale, and the target doesn't need to be in it. For
+ * the scale of a chord in a key, use `Chord.chordScale`.
+ *
+ * It returns empty fields when the target has no octave or isn't valid; with
+ * no valid scale (like `""`), only the scale notes and the enclosure are
+ * empty.
+ *
+ * These are the most common ways a walking bass moves into a chord change:
+ * in the FiloBass corpus of jazz bass lines (Riley and Dixon, ISMIR 2023),
+ * from a half step below or above, a whole step above, or a fourth below.
+ *
+ * @param scaleName - the scale name with tonic, or "" for chromatic approaches only
+ * @param target - the target note, with octave
+ * @example
+ * Scale.approaches("G mixolydian", "G2").below; // => "F#2"
+ * Scale.approaches("G mixolydian", "G2").scaleBelow; // => "F2"
+ * Scale.approaches("G mixolydian", "G2").dominantBelow; // => "D2"
+ * Scale.approaches("G mixolydian", "G2").enclosure; // => ["A2", "F#2"]
+ * Scale.approaches(Chord.chordScale("G7", { key: "C major" }), "G2").scaleAbove; // => "A2"
+ */
+export function approaches(
+  scaleName: string | ScaleNameTokens,
+  target: string,
+): ApproachNotes {
+  const n = note(target);
+  if (n.empty || n.oct === undefined) return { ...NoApproachNotes };
+  const name = n.name;
+  const below = approachNote(name, "-2m");
+  const above = approachNote(name, "2m");
+  const stepper = scaleStepper(scaleName);
+  let scaleBelow = "";
+  let scaleAbove = "";
+  if (stepper) {
+    const [step, dist] = stepper.closest(n.height);
+    scaleBelow = stepper.stepName(dist < 0 ? step : step - 1);
+    scaleAbove = stepper.stepName(dist > 0 ? step : step + 1);
+  }
+  return {
+    below,
+    above,
+    scaleBelow,
+    scaleAbove,
+    dominantBelow: approachNote(name, "-4P"),
+    dominantAbove: approachNote(name, "5P"),
+    enclosure: scaleAbove ? [scaleAbove, below] : [],
+    chromaticEnclosure: [above, below],
+    doubleBelow: [approachNote(name, "-2M"), below],
+    doubleAbove: [approachNote(name, "2M"), above],
+  };
+}
+
 export default {
+  approaches,
   chords,
   degrees,
   detect,

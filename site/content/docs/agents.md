@@ -360,9 +360,12 @@ Note.fold(["C2", "E2", "G2", "Bb2"], ["E2", "G3"]); // => ["C3", "E3", "G3", "Bb
 Chord.bass("C7/E", 2); // => "E2"
 ```
 
-Approach notes are transpositions of the target: `Note.transpose(target, "-2m")`
-(a half step below), `Scale.transposeBySteps(scale, target, -1)` (a scale step
-below).
+Approach notes to a target come from `Scale.approaches(scale, target)`: a
+record with each kind (`below`, `above`, `scaleBelow`, `scaleAbove`,
+`dominantBelow`, `dominantAbove`, `enclosure`, `chromaticEnclosure`,
+`doubleBelow`, `doubleAbove`), notes with octave next to the target. Use the
+chord's scale in a key: `Scale.approaches(Chord.chordScale("G7", { key: "C major" }), "G2").below`
+is `"F#2"`.
 
 ## Time
 

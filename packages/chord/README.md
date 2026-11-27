@@ -242,23 +242,20 @@ Note.fold(
 
 #### Approach notes
 
-A bass line often leads into the next chord's bass with an approach note. Each kind is a transposition of the target:
+A bass line often leads into the next chord's bass with an approach note. `Scale.approaches` gives every kind (a half step, a scale step, the dominant, enclosures) next to the target, with the chord's scale from `Chord.chordScale`:
 
 ```js
 const target = Chord.bass("G7", 2); // => "G2"
-Note.transpose(target, "-2m"); // => "F#2"  (a half step below)
-Note.transpose(target, "2m"); // => "Ab2"  (a half step above)
-Scale.transposeBySteps("C major", target, -1); // => "F2"  (a scale step below)
-Scale.transposeBySteps("C major", target, 1); // => "A2"  (a scale step above)
-Note.transpose(target, "-4P"); // => "D2"  (its fifth, below it)
-[Note.transpose(target, "2m"), Note.transpose(target, "-2m")]; // => ["Ab2", "F#2"]  (an enclosure)
+const scale = Chord.chordScale("G7", { key: "C major" }); // => "G mixolydian"
+Scale.approaches(scale, target).below; // => "F#2"
+Scale.approaches(scale, target).scaleBelow; // => "F2"
 
 // a bar of Dm7 leading to G7
-[...[0, 1, 2].map(Chord.steps(["D2", "m7"])), Note.transpose(target, "-2m")];
+[...[0, 1, 2].map(Chord.steps(["D2", "m7"])), Scale.approaches(scale, target).below];
 // => ["D2", "F2", "A2", "F#2"]
 ```
 
-A half step is a minor second, so the note below is the leading tone (`E#` below `F#`), and the note above can need `Note.simplify` (`Fb2` above `Eb2` is `E2`). `Scale.transposeBySteps` needs a target in the scale: move it in with `Scale.nearest` first. Which approach to use, and when, is up to the app.
+Which approach to use, and when, is up to the app.
 
 ## Chord degrees by name
 
@@ -456,11 +453,18 @@ With `key`, the scale is the chord's scale in that key (`Chord.chordScale`); `sc
 
 #### Your own tensions
 
-The books don't agree on every tension. To use others, pass them as `tensions`, with the same shape `Chord.tensions` returns. They are used both as the tensions and as the exceptions to avoid:
+The books don't agree on every tension. To use others, pass them as `tensions`, with the same shape `Chord.tensions` returns. They decide which notes escape avoid, and without a key or scale they are also the tensions:
 
 ```js
 Chord.classify("Dm7", "B", { tensions: ["9", "11", "13"] }); // => "tension"
 Chord.classify("Cmaj7", "F", { tensions: [...Chord.tensions("Cmaj7"), "11"] }); // => "tension"
+```
+
+With a key or scale the tensions are the notes of the scale, so a listed tension outside it is outside. To make it a tension, choose a scale that has it:
+
+```js
+Chord.classify("G7", "Ab", { key: "C major" }); // => "outside" (G mixolydian has no Ab)
+Chord.classify("G7", "Ab", { scale: "G phrygian dominant" }); // => "tension"
 ```
 
 `Chord.chordScales` and `Chord.chordScale` take the same option.
