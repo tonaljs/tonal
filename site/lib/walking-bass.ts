@@ -1,25 +1,31 @@
 // A walking bass line over a chord chart. The generator lives in the app:
 // tonal gives the pieces (the played form and its chords, the chord's scale
-// in a key, what a note is over a chord, approach notes, the octave of a note
-// near another), and this file puts them together with its own rules.
+// in a key, what a note is over a chord, approach notes), and this file puts
+// them together with its own rules.
 //
 // How a line is made:
 //
 // 1. The chart is played (`Chart.unroll`, `Chart.chords`) and cut into slots:
-//    quarter notes when walking, half notes in two-feel.
-// 2. A beam search walks the slots. On the first slot of a chord it places a
-//    target (the root or slash bass, sometimes the 5th or 3rd); on the slot
-//    before a new chord it places an approach to the next target, chosen with
-//    the target (`Scale.approaches`); in between, chord and scale tones
-//    (`Chord.classify` with the key) and chromatic passing notes. Each note
-//    goes up or down from the one before (`Note.nearest`) inside the range.
-// 3. Each choice has a cost from simple rules (below); a seeded random number
-//    adds variety, so a seed gives the same line again.
-// 4. Skips (an eighth ghost note before a target) are added to the line.
-//
-// The costs follow what real bass lines do (FiloBass, our counts: the root on
-// 70% of beat 1s; into a chord change from a half step below 27%, a half step
-// above 22%, a whole step above 12%, a fourth below 10%), set by hand for now.
+//    quarter notes when walking, half notes in two-feel. `N.C.` is a rest.
+// 2. Every pitch in the range is a candidate on every slot. How likely each
+//    one is comes from a few tables, set from what real bass lines do (our
+//    counts of the FiloBass corpus, 48 jazz walking lines):
+//    - what the note is over the chord (root, 3rd, 5th, 7th, a tension of the
+//      chord's scale, or chromatic), by where the slot is: the first beat of a
+//      chord, the last beat before a new one, or a beat in between;
+//    - the interval from the note before, and a separate table for the
+//      interval into a new chord (from a half step below 27%, a half step
+//      above 22%, a whole step above 12%, a fourth below 10%...);
+//    - the register, around F2.
+// 3. A whole line is drawn from those probabilities (forward filtering,
+//    backward sampling, as a hidden Markov model generates): every line is
+//    different, typical lines are more likely, and a seed gives the same line
+//    again. The lowest-cost line would be a stepwise crawl; real lines leap a
+//    fourth or more 30% of the time.
+// 4. tonal names what was drawn: `Chord.classify` says what each note is over
+//    its chord, `Scale.approaches` which kind of approach leads into the next
+//    chord, and the chord and its scale spell the notes.
+// 5. Skips (a ghost eighth before a new chord) are added to the line.
 import { Chart, Chord, Note, Scale, Time } from "tonal";
 
 /** What a note does in the line. */
@@ -54,11 +60,11 @@ export type BassOptions = {
   /** The lowest and highest notes (sounding) */
   range: [string, string];
   seed: number;
-  /** How much to vary between near-best lines (0 to 2) */
+  /** How far from the most typical line (0 to 2) */
   variety: number;
   /** How willing to use chromatic notes (0 to 2) */
   chromatic: number;
-  /** How willing to leap (0 to 2) */
+  /** How willing to leap a fourth or more (0 to 2) */
   leaps: number;
   /** The share of approach notes played with a skip (0 to 1) */
   skips: number;
@@ -78,11 +84,14 @@ export const DEFAULT_OPTIONS: BassOptions = {
 
 // --- the slots -------------------------------------------------------------
 
+/** Where a slot is in its chord, for the tables below. */
+type Place = "onset" | "last" | "beat1" | "beat2" | "beat3" | "beat4" | "two";
+
 /** A place for a note: a quarter (walking) or a half note (two-feel). */
 type Slot = {
   start: number;
   duration: number;
-  /** The chord symbol, or "" for no chord (N.C.) */
+  /** The chord symbol, or "" for a rest (N.C.) */
   chord: string;
   bar: number;
   /** The beat in the bar, from 0 */
@@ -90,6 +99,7 @@ type Slot = {
   /** The first slot of a chord */
   onset: boolean;
   two: boolean;
+  place: Place;
 };
 
 const num = (value: Time.TimeValue) => Time.toNumber(value) ?? 0;
@@ -121,35 +131,197 @@ function slotsOf(text: string, options: BassOptions) {
     const step = two ? 2 : 1;
     for (let beat = 0; beat + step <= length; beat += step) {
       const at = start + beat;
-      const chord = Chart.chordAt(chords, at)?.value ?? "";
+      const chord = Chart.chordAt(chords, at);
       const previous = slots[slots.length - 1];
+      // a rest (N.C.), or a symbol tonal can't read
+      const value =
+        chord && !chord.rest && Chord.get(chord.value).tonic ? chord.value : "";
       slots.push({
         start: at,
         duration: step,
-        // no chord (N.C.) or a symbol tonal can't read: a rest
-        chord: Chord.get(chord).tonic ? chord : "",
+        chord: value,
         bar: bar.index,
         beat,
-        onset: starts.has(at) || !previous || previous.chord !== chord,
+        onset: starts.has(at) || !previous || previous.chord !== value,
         two,
+        place: "beat1",
       });
     }
   }
+  // where each slot is in its chord
+  slots.forEach((slot, i) => {
+    const next = slots[i + 1];
+    const lastOfChord = !!next && next.chord !== "" && next.onset;
+    slot.place = slot.onset
+      ? "onset"
+      : lastOfChord
+        ? "last"
+        : slot.two
+          ? "two"
+          : (["beat1", "beat2", "beat3", "beat4"] as const)[
+              Math.min(slot.beat, 3)
+            ];
+  });
   return { chart, slots };
 }
 
-// --- what tonal says about each chord ---------------------------------------
+// --- the tables --------------------------------------------------------------
 
-type Target = { pc: string; role: Role; cost: number; degree: string };
+/** What a note is over a chord, as the tables count it. */
+type Kind = "root" | "third" | "fifth" | "seventh" | "tension" | "chromatic";
+
+/**
+ * How often each kind of note is played, by place in the chord (FiloBass,
+ * on-beat notes; the 3rd, 5th and 7th are the chord's own, whatever their
+ * alteration; "tension" is any other note of the chord's scale).
+ */
+const KINDS: Record<Place, Record<Kind, number>> = {
+  // the first beat of a chord: R 69, 5 11, 3 5 (+b3 3), 7 3; a chromatic
+  // note is rare (the b3 counted there is mostly a minor chord's 3rd)
+  onset: {
+    root: 0.7,
+    fifth: 0.11,
+    third: 0.07,
+    seventh: 0.03,
+    tension: 0.05,
+    chromatic: 0.015,
+  },
+  // the last beat before a new chord: R 19, 3 18, 5 15, b5 12, 7 12, 9 5
+  last: {
+    root: 0.18,
+    third: 0.2,
+    fifth: 0.15,
+    seventh: 0.12,
+    tension: 0.13,
+    chromatic: 0.22,
+  },
+  // a chord held from the bar before
+  beat1: {
+    root: 0.45,
+    fifth: 0.15,
+    third: 0.15,
+    seventh: 0.07,
+    tension: 0.1,
+    chromatic: 0.08,
+  },
+  // beat 2: 5 16, 3 15 (+b3 7), 9 13, R 11, b7 8, 7 7, b5 7, b9 6
+  beat2: {
+    root: 0.11,
+    third: 0.21,
+    fifth: 0.16,
+    seventh: 0.15,
+    tension: 0.2,
+    chromatic: 0.17,
+  },
+  // beat 3 in a one-chord bar: R, 5, 3 and 13 lead
+  beat3: {
+    root: 0.22,
+    fifth: 0.17,
+    third: 0.17,
+    seventh: 0.08,
+    tension: 0.24,
+    chromatic: 0.12,
+  },
+  beat4: {
+    root: 0.15,
+    third: 0.2,
+    fifth: 0.15,
+    seventh: 0.12,
+    tension: 0.18,
+    chromatic: 0.2,
+  },
+  // beat 3 in two-feel: a chord tone
+  two: {
+    root: 0.3,
+    fifth: 0.35,
+    third: 0.15,
+    seventh: 0.08,
+    tension: 0.08,
+    chromatic: 0.04,
+  },
+};
+
+/**
+ * How often each interval is played, in semitones (FiloBass: 0 7.4%, 1 30%,
+ * 2 17%, 3-4 14.5%, 5 10%, 6-7 12.4%, 8-12 7.3%, more 1.2%), shared between
+ * up and down. The octave takes a good part of the 8-12.
+ */
+function intervalWeight(semitones: number) {
+  const size = Math.abs(semitones);
+  const both =
+    size === 0
+      ? 0.074
+      : size === 1
+        ? 0.3
+        : size === 2
+          ? 0.17
+          : size <= 4
+            ? 0.145 / 2
+            : size === 5
+              ? 0.1
+              : size <= 7
+                ? 0.124 / 2
+                : size === 12
+                  ? 0.03
+                  : size < 12
+                    ? 0.043 / 4
+                    : 0.004;
+  return size === 0 ? both : both / 2;
+}
+
+/**
+ * How often each interval leads into a new chord, signed (FiloBass, 13,704
+ * chord changes): from a half step below 27.4%, a half step above 21.6%, a
+ * whole step above 12.1%, a fourth below 10.5%, the same note 5.3%, a fifth
+ * above 4.4%, a whole step below 4.1%; everything else about 1% or less.
+ */
+const INTO: Record<number, number> = {
+  1: 0.274,
+  [-1]: 0.216,
+  [-2]: 0.121,
+  5: 0.105,
+  0: 0.053,
+  [-7]: 0.044,
+  2: 0.041,
+  [-3]: 0.019,
+  3: 0.017,
+  6: 0.015,
+  4: 0.013,
+  [-4]: 0.012,
+  [-6]: 0.011,
+  7: 0.011,
+  [-5]: 0.008,
+  12: 0.005,
+  [-12]: 0.005,
+};
+const intoWeight = (semitones: number) => INTO[semitones] ?? 0.002;
+
+/**
+ * Keeping a direction: a move in the same direction as the one before is this
+ * much more likely than turning (FiloBass turns after one interval 50% of the
+ * time, after two 23%, three 12%, four 6%: runs of three and four notes are
+ * common, a scale or a chromatic climb).
+ */
+const KEEP_DIRECTION = 1.35;
+
+/** A repeated note inside a chord, less likely than the interval table says. */
+const REPEAT_IN_CHORD = 0.7;
+
+/** The register: around F2 (MIDI 41), most notes within an octave of it. */
+const REGISTER = { centre: 41, spread: 14 };
+
+// --- what tonal says about each chord ---------------------------------------
 
 type ChordInfo = {
   symbol: string;
   /** The chord's scale in the key, like "G mixolydian" */
   scale: string;
-  scaleNotes: string[];
-  targets: Target[];
-  /** The class of each pitch class (chroma 0-11) over the chord */
+  /** The kind of each pitch class (chroma 0-11) over the chord */
+  kinds: Kind[];
+  /** The class tonal gives each pitch class (Chord.classify) */
   classes: string[];
+  /** How to spell each pitch class: the chord's notes, then its scale's */
+  names: string[];
 };
 
 const CHROMAS = [
@@ -170,98 +342,35 @@ const CHROMAS = [
 function chordInfo(symbol: string, key: string): ChordInfo {
   const scale =
     Chord.chordScale(symbol, { key }) || Chord.chordScale(symbol) || "";
+  const chord = Chord.get(symbol);
+  const root = Note.chroma(Chord.bass(symbol)) ?? 0;
   const formula = Chord.formula(symbol);
-  const find = (...degrees: string[]) =>
-    degrees.find((d) => formula.includes(d));
-  const fifth = find("5", "b5", "#5");
-  const third = find("3", "b3", "4");
-  const targets: Target[] = [
-    { pc: Chord.bass(symbol), role: "root", cost: 0, degree: "the root" },
-  ];
-  if (fifth) {
-    targets.push({
-      pc: Chord.noteOf(symbol, fifth),
-      role: "chord tone",
-      cost: 1.6,
-      degree: `the ${fifth}`,
-    });
+  const pcOf = (...degrees: string[]) =>
+    degrees
+      .filter((d) => formula.includes(d))
+      .map((d) => Note.chroma(Chord.noteOf(symbol, d)));
+  const third = pcOf("3", "b3", "4", "2");
+  const fifth = pcOf("5", "b5", "#5");
+  const seventh = pcOf("7", "b7", "bb7", "6");
+  const classes = CHROMAS.map((pc) => Chord.classify(symbol, pc, { key }));
+  const kinds = CHROMAS.map((_, pc): Kind => {
+    if (pc === root) return "root";
+    if (third.includes(pc)) return "third";
+    if (fifth.includes(pc)) return "fifth";
+    if (seventh.includes(pc)) return "seventh";
+    const c = classes[pc];
+    return c === "tension" || c === "chord tone" ? "tension" : "chromatic";
+  });
+  // the scale's spelling, then the chord's (which wins)
+  const names = CHROMAS.map(() => "");
+  for (const n of [...Scale.get(scale).notes, ...chord.notes]) {
+    const pc = Note.chroma(n);
+    if (pc !== undefined) names[pc] = Note.pitchClass(n);
   }
-  if (third) {
-    targets.push({
-      pc: Chord.noteOf(symbol, third),
-      role: "chord tone",
-      cost: 2.6,
-      degree: `the ${third}`,
-    });
-  }
-  return {
-    symbol,
-    scale,
-    scaleNotes: Scale.get(scale).notes,
-    targets: targets.filter((t) => t.pc),
-    classes: CHROMAS.map((pc) => Chord.classify(symbol, pc, { key })),
-  };
+  return { symbol, scale, kinds, classes, names };
 }
 
-// --- costs -------------------------------------------------------------------
-
-const midi = (name: string) => Note.midi(name) ?? NaN;
-
-function intervalCost(semitones: number, leaps: number) {
-  const size = Math.abs(semitones);
-  const base = [2.5, 0, 0, 0.4, 0.4, 0.8, 1.6, 1, 1.8, 1.8, 2.5, 2.5, 2.5];
-  const cost = base[Math.min(size, 12)] ?? 4;
-  return size >= 3 ? cost * leaps : cost;
-}
-
-// the role of a note in the middle of a chord, by beat strength
-const MIDDLE: Record<string, number[]> = {
-  // beat 1 (a chord held from the bar before), 2, 3, 4
-  "chord tone": [0.2, 0.3, 0.1, 0.4],
-  "scale tone": [1, 0.3, 0.8, 0.5],
-  avoid: [3, 1.5, 2.5, 1.5],
-  passing: [3.5, 1.2, 2.5, 1],
-};
-
-// approach kinds into a target, and their cost
-const APPROACH: [keyof Scale.ApproachNotes, number, string][] = [
-  ["below", 0, "a half step below"],
-  ["above", 0.3, "a half step above"],
-  ["scaleAbove", 0.7, "the scale note above"],
-  ["dominantBelow", 0.8, "its fifth, a fourth below"],
-  ["dominantAbove", 1.4, "its fifth, a fifth above"],
-  ["scaleBelow", 1.4, "the scale note below"],
-];
-
-// two-note approaches, on the two slots before a target
-const APPROACH2: [keyof Scale.ApproachNotes, number, string][] = [
-  [
-    "enclosure",
-    1.1,
-    "an enclosure: the scale note above, then a half step below",
-  ],
-  ["chromaticEnclosure", 1.4, "a chromatic enclosure"],
-  ["doubleBelow", 1.3, "two half steps up"],
-  ["doubleAbove", 1.5, "two half steps down"],
-];
-
-// --- the search --------------------------------------------------------------
-
-type Step = {
-  slot: number;
-  note: string;
-  midi: number;
-  role: Role;
-  why: string;
-};
-
-type State = {
-  cost: number;
-  /** The notes so far, last first */
-  path: Step[];
-  /** Notes already chosen for the next slots (an approach and its target) */
-  pending: Step[];
-};
+// --- the sampler -------------------------------------------------------------
 
 /** A seeded random number generator (mulberry32). */
 export function random(seed: number) {
@@ -275,13 +384,22 @@ export function random(seed: number) {
   };
 }
 
-const BEAM = 48;
+// draw an index with probability proportional to its weight
+function draw(weights: number[], rnd: () => number) {
+  const total = weights.reduce((a, b) => a + b, 0);
+  let r = rnd() * total;
+  for (let i = 0; i < weights.length; i++) {
+    r -= weights[i];
+    if (r <= 0) return i;
+  }
+  return weights.length - 1;
+}
 
 export type BassLine = {
   notes: BassNote[];
   /** The chords of the played form, for the labels */
   chords: { value: string; start: number; duration: number }[];
-  /** The scale and the targets of each chord symbol */
+  /** The scale and kinds of each chord symbol */
   info: Record<string, ChordInfo>;
   problems: string[];
   /** The length of the played form, in quarter notes */
@@ -292,9 +410,11 @@ export type BassLine = {
 export function walkingBass(text: string, options: BassOptions): BassLine {
   const { chart, slots } = slotsOf(text, options);
   const rnd = random(options.seed);
-  const [low, high] = options.range.map(midi);
-  const range = options.range;
-  const centre = (low + high) / 2 - 4;
+  const low = Note.midi(options.range[0]) ?? 28;
+  const high = Note.midi(options.range[1]) ?? 55;
+  const pitches = Array.from({ length: high - low + 1 }, (_, i) => low + i);
+  // variety is a temperature: 0 the most typical lines, 2 the least
+  const power = 1 / (0.4 + 0.6 * options.variety);
 
   const info: Record<string, ChordInfo> = {};
   for (const slot of slots) {
@@ -303,319 +423,83 @@ export function walkingBass(text: string, options: BassOptions): BassLine {
     }
   }
 
-  const inRange = (name: string) => {
-    const m = midi(name);
-    return m >= low && m <= high;
+  // how likely a pitch is on a slot, on its own
+  const emission = (slot: Slot, midi: number) => {
+    const chord = info[slot.chord];
+    const kind = chord.kinds[midi % 12];
+    const sameKind = chord.kinds.filter((k) => k === kind).length;
+    const chromatic = kind === "chromatic" ? options.chromatic + 0.02 : 1;
+    const z = (midi - REGISTER.centre) / REGISTER.spread;
+    return (
+      ((KINDS[slot.place][kind] * chromatic) / sameKind) *
+      Math.exp(-0.5 * z * z)
+    );
   };
-  const register = (m: number) =>
-    Math.max(0, Math.abs(m - centre) - 7) * 0.25 +
-    (m - low < 2 || high - m < 2 ? 0.5 : 0);
-  const noise = () => rnd() * options.variety;
-
-  // the octaves of a pitch class near the note before: one up, one down
-  const near = (pc: string, previous?: Step) => {
-    if (!previous) {
-      // the first note: every octave in the range
-      const list: string[] = [];
-      for (let oct = 0; oct <= 7; oct++) {
-        if (inRange(pc + oct)) list.push(pc + oct);
-      }
-      return list;
-    }
-    const up = Note.nearest(pc, previous.note, { direction: "up", range });
-    const down = Note.nearest(pc, previous.note, { direction: "down", range });
-    return [...new Set([up, down].filter(Boolean))];
-  };
-
-  // the cost of going from one note to another
-  const move = (from: Step | undefined, to: string) => {
-    if (!from) return register(midi(to));
-    const d = midi(to) - from.midi;
-    // a chromatic note resolves by step
-    const resolve =
-      (from.role === "passing" || from.role === "approach") && Math.abs(d) > 2
-        ? 2
-        : 0;
-    return intervalCost(d, options.leaps) + register(midi(to)) + resolve;
+  // how likely a move is, from a pitch to one on the next slot; `turn` is the
+  // direction of the move into the pitch before (-1, 0 or 1)
+  const transition = (to: Slot, from: number, turn: number, midi: number) => {
+    const d = midi - from;
+    const leap = Math.abs(d) >= 5 ? options.leaps + 0.02 : 1;
+    const keep = turn !== 0 && Math.sign(d) === turn ? KEEP_DIRECTION : 1;
+    const repeat = d === 0 && !to.onset ? REPEAT_IN_CHORD : 1;
+    return (
+      (to.onset ? intoWeight(d) : intervalWeight(d)) * leap * keep * repeat
+    );
   };
 
-  // the figure of a bar repeats the bar before: a little more expensive
-  const repeatsFigure = (path: Step[], slot: number) => {
-    const bar = slots[slot].bar;
-    const recent = path.slice(0, 10);
-    const figure = (b: number) =>
-      recent
-        .filter((s) => slots[s.slot].bar === b)
-        .map((s) => s.midi)
-        .reverse();
-    const a = figure(bar);
-    const b = figure(bar - 1);
-    if (a.length < 3 || a.length !== b.length) return false;
-    const shape = (f: number[]) =>
-      f
-        .slice(1)
-        .map((m, i) => m - f[i])
-        .join();
-    return shape(a) === shape(b);
-  };
+  // the states of the lattice: a pitch, and the direction it was reached in
+  const DIRS = [-1, 0, 1];
+  const states = pitches.flatMap((midi) => DIRS.map((dir) => ({ midi, dir })));
 
-  // approach notes, by scale and target
-  const memo = new Map<string, Scale.ApproachNotes>();
-  const approachesTo = (scale: string, goal: string) => {
-    const key = `${scale}|${goal}`;
-    let found = memo.get(key);
-    if (!found) {
-      found = Scale.approaches(scale, goal);
-      memo.set(key, found);
-    }
-    return found;
-  };
+  // the slots with notes, in runs between rests
+  const runs: number[][] = [];
+  slots.forEach((slot, i) => {
+    if (!slot.chord) return;
+    const last = runs[runs.length - 1];
+    if (last && last[last.length - 1] === i - 1) last.push(i);
+    else runs.push([i]);
+  });
 
-  // the next slot with a chord after `i`, if it starts a new chord
-  const nextTarget = (i: number) => {
-    const next = slots[i + 1];
-    return next && next.chord && next.onset ? next : undefined;
-  };
-
-  let beam: State[] = [{ cost: 0, path: [], pending: [] }];
-
-  for (let i = 0; i < slots.length; i++) {
-    const slot = slots[i];
-    const next: State[] = [];
-    const push = (state: State, steps: Step[], cost: number) => {
-      const [first, ...rest] = steps;
-      const path = [first, ...state.path];
-      let total = state.cost + cost + noise();
-      if (slot.beat + slot.duration >= 4 && repeatsFigure(path, i))
-        total += 1.5;
-      next.push({ cost: total, path, pending: rest });
-    };
-
-    for (const state of beam) {
-      const previous = state.path[0];
-      // a rest (N.C.): no note
-      if (!slot.chord) {
-        next.push({ ...state, pending: [] });
-        continue;
-      }
-      // a note chosen with the one before
-      if (state.pending.length) {
-        const [first, ...rest] = state.pending;
-        next.push({
-          cost: state.cost,
-          path: [first, ...state.path],
-          pending: rest,
-        });
-        continue;
-      }
-      const chord = info[slot.chord];
-      const after =
-        previous && slots[previous.slot + 1] === slot ? previous : undefined;
-
-      // the first note of a chord, not prepared by an approach
-      if (slot.onset) {
-        for (const target of chord.targets) {
-          for (const note of near(target.pc, after)) {
-            const d = after ? midi(note) - after.midi : 1;
-            const repeated = d === 0 ? 5 : 0;
-            const unprepared = after && Math.abs(d) > 2 ? 0.8 : 0;
-            push(
-              state,
-              [
-                {
-                  slot: i,
-                  note,
-                  midi: midi(note),
-                  role: target.role,
-                  why: `${target.degree} of ${slot.chord}`,
-                },
-              ],
-              target.cost + move(after, note) + repeated + unprepared,
-            );
+  const chosen = new Map<number, number>();
+  for (const run of runs) {
+    // forward: how likely each state is on each slot, given the slots before
+    const forward: number[][] = [];
+    run.forEach((index, k) => {
+      const slot = slots[index];
+      const row = states.map(({ midi, dir }) => {
+        const e = emission(slot, midi) ** power;
+        if (k === 0) return dir === 0 ? e : 0;
+        const before = forward[k - 1];
+        let sum = 0;
+        for (let q = 0; q < states.length; q++) {
+          const from = states[q];
+          if (before[q] > 0 && Math.sign(midi - from.midi) === dir) {
+            sum +=
+              before[q] * transition(slot, from.midi, from.dir, midi) ** power;
           }
         }
-        continue;
-      }
-
-      const role = (pc: string): Role => {
-        const c = chord.classes[Note.chroma(pc) ?? 0];
-        return c === "chord tone"
-          ? "chord tone"
-          : c === "tension"
-            ? "scale tone"
-            : "passing";
-      };
-      const roleCost = (pc: string) => {
-        const c = chord.classes[Note.chroma(pc) ?? 0];
-        const beat = Math.min(slot.beat, 3);
-        if (slot.two) return c === "chord tone" ? 0 : c === "tension" ? 1 : 3;
-        const table =
-          c === "chord tone"
-            ? MIDDLE["chord tone"]
-            : c === "tension"
-              ? MIDDLE["scale tone"]
-              : c === "avoid"
-                ? MIDDLE.avoid
-                : MIDDLE.passing;
-        const chromatic = c === "avoid" || c === "outside";
-        return table[beat] * (chromatic ? options.chromatic : 1);
-      };
-
-      // the slot before a new chord: an approach, chosen with its target
-      const target = nextTarget(i);
-      if (target) {
-        const nextChord = info[target.chord];
-        for (const t of nextChord.targets) {
-          for (const goal of near(t.pc, after)) {
-            const approaches = approachesTo(nextChord.scale, goal);
-            for (const [kind, cost, words] of APPROACH) {
-              const note = approaches[kind] as string;
-              if (!note || !inRange(note)) continue;
-              const chromatic =
-                kind === "below" || kind === "above" ? options.chromatic : 1;
-              // in two-feel, beat 3 is more often a chord tone
-              const two = slot.two ? 1.2 : 0;
-              const d = midi(goal) - midi(note);
-              push(
-                state,
-                [
-                  {
-                    slot: i,
-                    note,
-                    midi: midi(note),
-                    role: "approach",
-                    why: `approach to ${goal}: ${words}`,
-                  },
-                  {
-                    slot: i + 1,
-                    note: goal,
-                    midi: midi(goal),
-                    role: t.role,
-                    why: `${t.degree} of ${target.chord}`,
-                  },
-                ],
-                t.cost +
-                  cost * chromatic +
-                  two +
-                  move(after, note) +
-                  register(midi(goal)) +
-                  (d === 0 ? 5 : 0),
-              );
-            }
-          }
-        }
-      }
-
-      // two slots before a new chord, in the same chord: a two-note approach
-      const target2 =
-        !target && slots[i + 1]?.chord === slot.chord
-          ? nextTarget(i + 1)
-          : undefined;
-      if (target2 && !slots[i + 1].onset) {
-        const nextChord = info[target2.chord];
-        for (const t of nextChord.targets.slice(0, 1)) {
-          for (const goal of near(t.pc, after)) {
-            const approaches = approachesTo(nextChord.scale, goal);
-            for (const [kind, cost, words] of APPROACH2) {
-              const pair = approaches[kind] as string[];
-              if (pair.length !== 2 || !pair.every(inRange)) continue;
-              push(
-                state,
-                [
-                  ...pair.map((note, k) => ({
-                    slot: i + k,
-                    note,
-                    midi: midi(note),
-                    role: "approach" as Role,
-                    why: `approach to ${goal}: ${words}`,
-                  })),
-                  {
-                    slot: i + 2,
-                    note: goal,
-                    midi: midi(goal),
-                    role: t.role,
-                    why: `${t.degree} of ${target2.chord}`,
-                  },
-                ],
-                t.cost +
-                  cost * options.chromatic +
-                  move(after, pair[0]) +
-                  intervalCost(midi(pair[1]) - midi(pair[0]), 1) +
-                  register(midi(goal)),
-              );
-            }
-          }
-        }
-      }
-
-      // a note in the middle of the chord: a chord or scale tone, or a
-      // chromatic passing note
-      const pcs = new Set(chord.scaleNotes);
-      for (const pc of pcs) {
-        for (const note of near(pc, after)) {
-          const repeated = after && midi(note) === after.midi ? 1 : 0;
-          push(
-            state,
-            [
-              {
-                slot: i,
-                note,
-                midi: midi(note),
-                role: role(pc),
-                why: whyMiddle(slot.chord, pc, role(pc)),
-              },
-            ],
-            roleCost(pc) + move(after, note) + repeated,
-          );
-        }
-      }
-      if (after) {
-        for (const ivl of ["2m", "-2m"]) {
-          const note = Note.simplify(Note.transpose(after.note, ivl));
-          if (!note || !inRange(note) || pcs.has(Note.pitchClass(note))) {
-            continue;
-          }
-          push(
-            state,
-            [
-              {
-                slot: i,
-                note,
-                midi: midi(note),
-                role: "passing",
-                why: `chromatic passing note, ${ivl === "2m" ? "up" : "down"} from ${after.note}`,
-              },
-            ],
-            roleCost(Note.pitchClass(note)) + move(after, note),
-          );
-        }
-      }
-    }
-
-    // a slot nothing could be played on: keep the line as it was
-    if (!next.length) {
-      beam = beam.map((state) => ({ ...state, pending: [] }));
-      continue;
-    }
-    // keep the best states, one per last note and pending notes
-    next.sort((a, b) => a.cost - b.cost);
-    const seen = new Set<string>();
-    beam = [];
-    for (const state of next) {
-      const key = [
-        state.path[0]?.midi,
-        state.path[1]?.midi,
-        ...state.pending.map((s) => s.midi),
-      ].join();
-      if (seen.has(key)) continue;
-      seen.add(key);
-      beam.push(state);
-      if (beam.length >= BEAM) break;
+        return e * sum;
+      });
+      const total = row.reduce((a, b) => a + b, 0) || 1;
+      forward.push(row.map((v) => v / total));
+    });
+    // backward: draw the last state, then each one before given the next
+    let s = draw(forward[forward.length - 1], rnd);
+    chosen.set(run[run.length - 1], states[s].midi);
+    for (let k = run.length - 2; k >= 0; k--) {
+      const next = slots[run[k + 1]];
+      const to = states[s];
+      const weights = forward[k].map((f, q) => {
+        const from = states[q];
+        if (f === 0 || Math.sign(to.midi - from.midi) !== to.dir) return 0;
+        return f * transition(next, from.midi, from.dir, to.midi) ** power;
+      });
+      s = draw(weights, rnd);
+      chosen.set(run[k], states[s].midi);
     }
   }
 
-  const best = beam[0];
-  const steps = best ? [...best.path].reverse() : [];
+  const steps = describe(slots, chosen, info);
   const notes = withSkips(steps, slots, options, random(options.seed + 1));
   const chords = Chart.chords(chart, { choruses: options.choruses }).map(
     (c) => ({ value: c.value, start: num(c.start), duration: num(c.duration) }),
@@ -630,17 +514,91 @@ export function walkingBass(text: string, options: BassOptions): BassLine {
   };
 }
 
-function whyMiddle(chord: string, pc: string, role: Role) {
-  const degree = Chord.degreeOf(chord, pc);
-  if (role === "chord tone") return `chord tone: the ${degree} of ${chord}`;
-  if (role === "scale tone")
-    return `scale tone: the ${degree}, in the chord's scale`;
-  return `passing note: the ${degree}, outside the chord`;
+// --- naming what was drawn ---------------------------------------------------
+
+type Step = { slot: number; note: string; role: Role; why: string };
+
+const APPROACH_WORDS: [keyof Scale.ApproachNotes, string][] = [
+  ["below", "a half step below"],
+  ["above", "a half step above"],
+  ["scaleAbove", "the scale note above"],
+  ["scaleBelow", "the scale note below"],
+  ["dominantBelow", "its fifth, a fourth below"],
+  ["dominantAbove", "its fifth, a fifth above"],
+];
+
+// the name of a pitch over a chord, spelled by the chord or its scale, or by
+// the direction it moves in when it's chromatic
+function spell(midi: number, chord: ChordInfo, rising: boolean) {
+  const pc = chord.names[midi % 12];
+  if (pc) {
+    const octave = Math.floor(midi / 12) - 1;
+    for (const oct of [octave, octave - 1, octave + 1]) {
+      if (Note.midi(pc + oct) === midi) return pc + oct;
+    }
+  }
+  return rising ? Note.fromMidiSharps(midi) : Note.fromMidi(midi);
+}
+
+function describe(
+  slots: Slot[],
+  chosen: Map<number, number>,
+  info: Record<string, ChordInfo>,
+): Step[] {
+  const indexes = [...chosen.keys()].sort((a, b) => a - b);
+  const names = new Map<number, string>();
+  for (const i of indexes) {
+    const midi = chosen.get(i)!;
+    const before = chosen.get(i - 1);
+    const rising = before === undefined || midi > before;
+    names.set(i, spell(midi, info[slots[i].chord], rising));
+  }
+  return indexes.map((i) => {
+    const slot = slots[i];
+    const chord = info[slot.chord];
+    const midi = chosen.get(i)!;
+    let note = names.get(i)!;
+    const pc = midi % 12;
+    const degree = Chord.degreeOf(slot.chord, note);
+    let role: Role =
+      chord.kinds[pc] === "root"
+        ? "root"
+        : chord.classes[pc] === "chord tone"
+          ? "chord tone"
+          : chord.classes[pc] === "tension"
+            ? "scale tone"
+            : "passing";
+    let why =
+      role === "root"
+        ? `the root of ${slot.chord}`
+        : role === "chord tone"
+          ? `chord tone: the ${degree} of ${slot.chord}`
+          : role === "scale tone"
+            ? `scale tone: the ${degree}, in ${chord.scale}`
+            : `chromatic: the ${degree}, outside ${chord.scale}`;
+    // the note before a new chord: which approach to the target it is
+    const next = slots[i + 1];
+    const target = names.get(i + 1);
+    if (slot.place === "last" && next && target) {
+      const approaches = Scale.approaches(info[next.chord].scale, target);
+      const found = APPROACH_WORDS.find(
+        ([kind]) => Note.midi(approaches[kind] as string) === midi,
+      );
+      if (found) {
+        note = approaches[found[0]] as string;
+        role = "approach";
+        why = `approach to ${target} (${next.chord}): ${found[1]}`;
+      } else if (midi === Note.midi(target)) {
+        why += `, the same note as the next chord's first`;
+      }
+    }
+    return { slot: i, note, role, why };
+  });
 }
 
 // an approach in walking (or the last half in two-feel) can be played with a
 // skip: the note, then the same note as a ghost on the swung eighth before
-// the target
+// the next chord
 function withSkips(
   steps: Step[],
   slots: Slot[],
@@ -658,8 +616,8 @@ function withSkips(
       bar: slot.bar,
     };
     const skip =
-      step.role === "approach" &&
-      slots[step.slot + 1]?.onset &&
+      slot.place === "last" &&
+      !!slots[step.slot + 1]?.chord &&
       rnd() < options.skips;
     if (!skip) {
       notes.push({
@@ -678,7 +636,7 @@ function withSkips(
     notes.push({
       ...base,
       role: "ghost",
-      why: "a skip: the note again, as a ghost note, on the eighth before the target",
+      why: "a skip: the note again, as a ghost note, on the eighth before the next chord",
       start: Time.fraction(slot.start + first)!,
       duration: Time.fraction(0.5)!,
     });

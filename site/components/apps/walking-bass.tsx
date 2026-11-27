@@ -401,7 +401,7 @@ export function WalkingBass() {
           and the random choices live in the app (
           <code>lib/walking-bass.ts</code>).
         </p>
-        <DynamicCodeBlock lang="js" code={code(line, state, note, options)} />
+        <DynamicCodeBlock lang="js" code={code(line, state, note)} />
       </section>
     </div>
   );
@@ -544,17 +544,15 @@ function code(
   line: BassLine,
   state: State,
   selected: BassNote | undefined,
-  options: BassOptions,
 ) {
   const note = selected ?? line.notes[0];
   if (!note) return 'import { Chart } from "tonal";';
   const key = state.key;
   const index = line.notes.indexOf(note);
-  const previous = index > 0 ? line.notes[index - 1] : undefined;
   const next = line.notes.slice(index + 1).find((n) => n.role !== "ghost");
   const scale = line.info[note.chord]?.scale ?? "";
   const lines = [
-    'import { Chart, Chord, Note, Scale } from "tonal";',
+    'import { Chart, Chord, Scale } from "tonal";',
     "",
     "// the chords of the played form, in quarter notes",
     `const chords = Chart.chords(Chart.parse(chart), { choruses: ${state.choruses} });`,
@@ -574,25 +572,6 @@ function code(
     `Chord.classify(${show(note.chord)}, ${show(note.note)}, { key: ${show(key)} });`,
     `// => ${show(Chord.classify(note.chord, note.note, { key }))}`,
   ];
-  if (previous) {
-    const pc = Note.pitchClass(note.note);
-    const up = Note.nearest(pc, previous.note, {
-      direction: "up",
-      range: options.range,
-    });
-    const down = Note.nearest(pc, previous.note, {
-      direction: "down",
-      range: options.range,
-    });
-    lines.push(
-      "",
-      `// ${pc} up or down from the note before, in the range`,
-      `Note.nearest(${show(pc)}, ${show(previous.note)}, { direction: "up", range: ${show(options.range)} });`,
-      `// => ${show(up)}`,
-      `Note.nearest(${show(pc)}, ${show(previous.note)}, { direction: "down", range: ${show(options.range)} });`,
-      `// => ${show(down)}`,
-    );
-  }
   if (note.role === "approach" && next) {
     const nextScale = line.info[next.chord]?.scale ?? "";
     const a = Scale.approaches(nextScale, next.note);
