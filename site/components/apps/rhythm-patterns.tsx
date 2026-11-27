@@ -2,7 +2,7 @@
 
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { useEffect, useMemo, useState } from "react";
-import { RhythmPattern } from "tonal";
+import { RhythmPattern, Time } from "tonal";
 import { Chip, Toggle } from "./controls";
 import { type DrumStatus, useRhythmPlayer } from "./use-rhythm-player";
 
@@ -30,6 +30,34 @@ const SON = RhythmPattern.fromDurations(TIMELINES[1].durations);
 
 // beats of 2, 3 or 4 steps; the one that divides the length, 4 first
 const defaultBeat = (n: number) => (n % 4 === 0 ? 4 : n % 3 === 0 ? 3 : 2);
+
+const METERS = [
+  "4/4",
+  "3/4",
+  "2/2",
+  "6/8",
+  "12/8",
+  "2+2+3/8",
+  "3+3+2/8",
+  "3+2/8",
+];
+
+// A pattern laid over one bar of a meter: how long a step lasts, and the
+// steps where the meter's pulses start (null if a pulse falls between steps)
+function overMeter(meterName: string, length: number) {
+  const meter = Time.meter(meterName);
+  const step = Time.div(meter.bar, length);
+  if (meter.empty || !step) return null;
+  const steps: number[] = [];
+  let at: Time.Fraction = [0, 1];
+  for (const pulse of meter.pulses) {
+    const index = Time.div(at, step);
+    if (!index || index[1] !== 1) return null;
+    steps.push(index[0]);
+    at = Time.add(at, pulse) as Time.Fraction;
+  }
+  return { meter, step, steps };
+}
 
 const parseNumbers = (text: string): number[] | null => {
   const words = text
@@ -67,6 +95,8 @@ export function RhythmPatterns() {
   const [pattern, setPattern] = useState<number[]>(SON);
   const [bpm, setBpm] = useState(100);
   const [beat, setBeat] = useState(4);
+  // a meter to lay the pattern over ("" for none: a beat of some steps)
+  const [meterName, setMeterName] = useState("");
   const [pulse, setPulse] = useState(true);
   const [euclidSteps, setEuclidSteps] = useState(16);
   const [euclidBeats, setEuclidBeats] = useState(5);
@@ -89,6 +119,8 @@ export function RhythmPatterns() {
     if (linkBpm >= 40 && linkBpm <= 240) setBpm(linkBpm);
     const linkBeat = Number(params.get("beat"));
     if ([2, 3, 4].includes(linkBeat)) setBeat(linkBeat);
+    const linkMeter = params.get("meter") ?? "";
+    if (METERS.includes(linkMeter)) setMeterName(linkMeter);
     setLinkRead(true);
   }, []);
 
@@ -100,18 +132,27 @@ export function RhythmPatterns() {
       bpm: String(bpm),
       beat: String(beat),
     });
+    if (meterName) params.set("meter", meterName);
     window.history.replaceState(
       null,
       "",
       `${window.location.pathname}?${params.toString()}`,
     );
-  }, [linkRead, pattern, bpm, beat]);
+  }, [linkRead, pattern, bpm, beat, meterName]);
 
   // what plays: the pattern, and a pulse on every beat (a beat is a quarter
   // note when it has 4 steps, a dotted quarter with 3, an eighth with 2)
+  // with a meter, the pattern is one bar and the kick plays its pulses
+  const fit = useMemo(
+    () => (meterName ? overMeter(meterName, pattern.length) : null),
+    [meterName, pattern.length],
+  );
   const pulsePattern = useMemo(
-    () => pattern.map((_, i) => (i % beat === 0 ? 1 : 0)),
-    [pattern, beat],
+    () =>
+      pattern.map((_, i) =>
+        fit ? (fit.steps.includes(i) ? 1 : 0) : i % beat === 0 ? 1 : 0,
+      ),
+    [pattern, beat, fit],
   );
   const { update } = player;
   useEffect(() => {
@@ -123,9 +164,12 @@ export function RhythmPatterns() {
           ? [{ pattern: pulsePattern, sound: "kick" as const, velocity: 70 }]
           : []),
       ],
-      secondsPerBeat / beat,
+      // with a meter, the tempo is in quarter notes
+      fit
+        ? secondsPerBeat * (Time.toNumber(fit.step) ?? 0)
+        : secondsPerBeat / beat,
     );
-  }, [update, pattern, pulsePattern, pulse, bpm, beat]);
+  }, [update, pattern, pulsePattern, pulse, bpm, beat, fit]);
 
   const m = useMemo(() => measure(pattern), [pattern]);
   const preset = PRESETS.find(
@@ -215,14 +259,14 @@ export function RhythmPatterns() {
       <section className="flex flex-col items-center gap-4 md:flex-row md:items-start">
         <RhythmCircle
           pattern={pattern}
-          beat={beat}
+          pulses={pulsePattern}
           step={player.step}
           onToggle={toggle}
         />
         <div className="flex w-full min-w-0 flex-col gap-3">
           <StepRow
             pattern={pattern}
-            beat={beat}
+            pulses={pulsePattern}
             step={player.step}
             onToggle={toggle}
           />
@@ -268,17 +312,37 @@ export function RhythmPatterns() {
                 onChange={resize}
               />
             </label>
-            <Toggle
-              label="Beat"
-              value={beat}
-              options={[
-                [2, "2 steps"],
-                [3, "3"],
-                [4, "4"],
-              ]}
-              onChange={setBeat}
-            />
+            <label className="flex items-center gap-2">
+              <span className="text-fd-muted-foreground">Meter</span>
+              <select
+                value={meterName}
+                onChange={(e) => setMeterName(e.target.value)}
+                className="rounded-lg border border-fd-border bg-fd-background px-2 py-0.5"
+              >
+                <option value="">none</option>
+                {METERS.map((name) => (
+                  <option key={name} value={name}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {meterName ? null : (
+              <Toggle
+                label="Beat"
+                value={beat}
+                options={[
+                  [2, "2 steps"],
+                  [3, "3"],
+                  [4, "4"],
+                ]}
+                onChange={setBeat}
+              />
+            )}
           </div>
+          {meterName ? (
+            <MeterNote meterName={meterName} fit={fit} steps={pattern.length} />
+          ) : null}
           <PlayControls
             playing={player.playing}
             status={player.status}
@@ -297,7 +361,10 @@ export function RhythmPatterns() {
 
       <section className="flex flex-col gap-2">
         <h2 className="text-lg font-semibold">The code</h2>
-        <DynamicCodeBlock lang="js" code={code(pattern, m, preset)} />
+        <DynamicCodeBlock
+          lang="js"
+          code={code(pattern, m, preset, fit ? meterName : "")}
+        />
       </section>
     </div>
   );
@@ -443,12 +510,13 @@ const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
  */
 function RhythmCircle({
   pattern,
-  beat,
+  pulses,
   step,
   onToggle,
 }: {
   pattern: number[];
-  beat: number;
+  /** 1 on the steps where a beat or pulse starts */
+  pulses: number[];
   step: number | null;
   onToggle: (i: number) => void;
 }) {
@@ -535,7 +603,7 @@ function RhythmCircle({
                 y={ly}
                 textAnchor="middle"
                 dominantBaseline="central"
-                className={`text-[11px] ${i % beat === 0 ? "fill-fd-foreground font-semibold" : "fill-fd-muted-foreground"}`}
+                className={`text-[11px] ${pulses[i] === 1 ? "fill-fd-foreground font-semibold" : "fill-fd-muted-foreground"}`}
               >
                 {i}
               </text>
@@ -550,12 +618,13 @@ function RhythmCircle({
 /** The pattern in box notation, one box per step, the beats marked. */
 function StepRow({
   pattern,
-  beat,
+  pulses,
   step,
   onToggle,
 }: {
   pattern: number[];
-  beat: number;
+  /** 1 on the steps where a beat or pulse starts */
+  pulses: number[];
   step: number | null;
   onToggle: (i: number) => void;
 }) {
@@ -569,7 +638,7 @@ function StepRow({
           aria-pressed={s === 1}
           onClick={() => onToggle(i)}
           className={`h-8 w-7 shrink-0 border-y border-e border-fd-border font-mono text-sm first:rounded-s-md first:border-s last:rounded-e-md ${
-            i % beat === 0 && i > 0 ? "border-s-2 border-s-fd-foreground" : ""
+            pulses[i] === 1 && i > 0 ? "border-s-2 border-s-fd-foreground" : ""
           } ${
             s
               ? "bg-sky-600 text-white dark:bg-sky-400 dark:text-black"
@@ -767,10 +836,49 @@ function Compare({
   );
 }
 
+// What a meter does to the pattern: the length of a step and the pulses
+function MeterNote({
+  meterName,
+  fit,
+  steps,
+}: {
+  meterName: string;
+  fit: ReturnType<typeof overMeter>;
+  steps: number;
+}) {
+  if (!fit) {
+    const meter = Time.meter(meterName);
+    const beats = Time.div(meter.bar, meter.beat);
+    return (
+      <p className="text-sm text-fd-muted-foreground">
+        The pulses of <span className="font-mono">{meterName}</span> don&apos;t
+        fall on the steps of a {steps}-step pattern
+        {beats ? `: try ${beats[0]} or ${beats[0] * 2} steps` : ""}.
+      </p>
+    );
+  }
+  return (
+    <p className="text-sm text-fd-muted-foreground">
+      One bar of <span className="font-mono">{meterName}</span>: a step lasts{" "}
+      <span className="font-mono">{Time.toString(fit.step)}</span> of a quarter
+      note, and the kick plays the meter&apos;s pulses (
+      <span className="font-mono">
+        {fit.meter.pulses.map((p) => Time.toString(p)).join(" + ")}
+      </span>{" "}
+      quarters) on steps{" "}
+      <span className="font-mono">
+        {fit.steps.map((s) => s + 1).join(", ")}
+      </span>
+      . The tempo is in quarter notes.
+    </p>
+  );
+}
+
 function code(
   pattern: number[],
   m: ReturnType<typeof measure>,
   preset: Preset | undefined,
+  meterName: string,
 ) {
   const make = preset
     ? `RhythmPattern.fromDurations(${list(preset.durations)})`
@@ -794,6 +902,20 @@ function code(
   if (pattern.length === 16) {
     lines.push(
       `RhythmPattern.distance(pattern, RhythmPattern.fromDurations([3, 3, 4, 2, 4]), "swap"); // => ${list(RhythmPattern.distance(pattern, SON, "swap"))}`,
+    );
+  }
+  if (meterName) {
+    const meter = Time.meter(meterName);
+    const step = Time.div(meter.bar, pattern.length) ?? [0, 1];
+    const fraction = (f: Time.Fraction) => `[${f[0]}, ${f[1]}]`;
+    lines[0] = `import { RhythmPattern, Time } from "tonal";`;
+    lines.push(
+      "",
+      `// one bar of ${meterName}, in quarter notes`,
+      `const meter = Time.meter(${JSON.stringify(meterName)});`,
+      `meter.pulses; // => [${meter.pulses.map(fraction).join(", ")}]`,
+      `Time.onsets(pattern, Time.div(meter.bar, ${pattern.length}));`,
+      `// => [${Time.onsets(pattern, step).map(fraction).join(", ")}]`,
     );
   }
   return lines.join("\n");

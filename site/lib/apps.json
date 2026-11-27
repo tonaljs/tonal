@@ -115,11 +115,15 @@
   {
     "slug": "rhythm-patterns",
     "title": "Rhythm patterns",
-    "description": "Draw a rhythm on a circle, or pick a clave or a Euclidean rhythm, and see why some rhythms recur around the world: evenness, rhythmic oddity, deepness, off-beatness and distances, from Toussaint's The Geometry of Musical Rhythm. Play it with drums.",
+    "description": "Draw a rhythm on a circle, or pick a clave or a Euclidean rhythm, and see why some rhythms recur around the world: evenness, rhythmic oddity, deepness, off-beatness and distances, from Toussaint's The Geometry of Musical Rhythm. Lay it over a meter (6/8, 2+2+3/8) to hear its pulses, and play it with drums.",
     "docs": [
       {
         "title": "Rhythm patterns",
         "url": "/docs/time/patterns"
+      },
+      {
+        "title": "Time",
+        "url": "/docs/time/time"
       }
     ]
   },
