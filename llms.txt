@@ -37,6 +37,7 @@ you need in the API list instead of guessing their names.
 
 ## Harmony
 
+- [Chord charts](https://tonaljs.github.io/tonal/docs/harmony/charts.md): Bars, sections, meters, repeats, endings and jumps, the played form, and the chord at a position
 - [Keys](https://tonaljs.github.io/tonal/docs/harmony/keys.md): Key scales and chords
 - [Modes](https://tonaljs.github.io/tonal/docs/harmony/modes.md): Greek modes dictionary
 - [Progressions](https://tonaljs.github.io/tonal/docs/harmony/progressions.md): Parse and create harmonic progressions
@@ -58,6 +59,7 @@ you need in the API list instead of guessing their names.
 - [Note Patterns](https://tonaljs.github.io/tonal/docs/time/note-patterns.md): Arpeggio orders and melodic sequences as lists of indexes
 - [Rhythm Patterns](https://tonaljs.github.io/tonal/docs/time/patterns.md): Generate, read and measure rhythm patterns
 - [Time signatures](https://tonaljs.github.io/tonal/docs/time/signatures.md)
+- [Time](https://tonaljs.github.io/tonal/docs/time/time.md): Positions, durations, meters and bar:beat as exact fractions of quarter notes
 
 ## Dictionaries
 

@@ -1,4 +1,4 @@
-# tonal 6.14.0 API
+# tonal 6.15.0 API
 
 Every public function of the `tonal` npm package, generated from its
 TypeScript source. One entry per function: the signature, then a one-line
@@ -259,6 +259,119 @@ Array.sortedNoteNames(notes: string[]): string[]
 Array.sortedUniqNoteNames(arr: string[]): string[]
   Same as sortedNoteNames, but with repeated names removed.
   Array.sortedUniqNoteNames(["a", "b", "c2", "1p", "p2", "c2", "b", "c", "c3"])
+
+## Chart
+
+import { Chart } from "tonal"; // or: import * as Chart from "@tonaljs/chart";
+
+Chart.barAt(played: PlayedBar[], position: TimeValue): PlayedBar | null
+  Get the bar of the played form at a position (in quarter notes from its start, as a fraction, an exact number or a string), from the list `Chart.unroll` gives: a bar from its start until the next one starts. It returns `null` before the start, after the end, or if the position isn't valid.
+  const played = Chart.unroll(Chart.parse("| C | 3/4 G | F |"));
+  Chart.barAt(played, 5)?.index // => 1
+  Chart.barAt(played, 10) // => null
+
+Chart.chordAt(chords: PlayedChord[], position: TimeValue): PlayedChord | null
+  Get the chord playing at a position (in quarter notes from the start of the played form, as a fraction, an exact number or a string), from the list `Chart.chords` gives. A chord plays from its start until the next one starts. It returns `null` before the first chord, after the end, or if the position isn't valid.
+  const chords = Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |"));
+  Chart.chordAt(chords, 3)?.value // => "G7"
+  Chart.chordAt(chords, [8, 1]) // => null
+
+Chart.chords(chart: Chart, options?: UnrollOptions): PlayedChord[]
+  Get the chords of a chart as they're played: each with its symbol (`value`), where it starts and how long it lasts (in quarter notes from the start of the played form), and its bar in the played form. A chord lasts until the next chord, or the end of the form: a bar with no chords continues the chord before, and a chord written again is played again (a new entry). `N.C.` is a chord too, a rest.
+  Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |")).map((c) => [c.value, c.start, c.duration])
+
+Chart.fromForm(sections: Record<string, string>, form: string, options?: ParseOptions): Chart
+  Build a chart from named sections and a form: the sections in the order the form lists them. Each section is a chart text (as in `Chart.parse`), read on its own from `options.meter` (4/4 by default), so it has the same meter wherever it's played; its first bar starts the section with its name. The form is names separated by spaces, with `*n` to play one n times: `"Intro A*2 B A"`. A form like `"AABA"` is read letter by letter when there's no section with that name.
+  const chart = Chart.fromForm({ A: "| C | G |", B: "| F |" }, "A A B A");
+  Chart.unroll(chart).map((b) => `${b.section}${b.sectionBar}`)
+
+Chart.parse(text: string, options?: ParseOptions): Chart
+  Read a chart from text: bars between `|` (a new line ends a bar too), chords separated by spaces.
+  Chart.parse("| Dm7 G7 | Cmaj7 |").bars
+  Chart.parse("| C F G |").bars[0].chords.map((c) => c.at) // => [[0, 1], [2, 1], [3, 1]]
+
+Chart.position(played: PlayedBar[], text: string): Fraction | null
+  Get the position of a bar and beat of the played form, in quarter notes from its start: `"9:3"` is beat 3 of the 9th played bar, in that bar's meter (a beat is the meter's lower note, as in `Time.fromBarBeat`). It returns `null` if the bar or the beat isn't in the form.
+  const played = Chart.unroll(Chart.parse("| C | 3/4 G | F |"));
+  Chart.position(played, "3:2") // => [8, 1]
+
+Chart.problems(chart: Chart): string[]
+  Get what can't be played in a chart, by bar: the words, chords and positions that `Chart.parse` couldn't read, and repeats and endings that don't close (a chart with those unrolls to `[]`). An empty list means the chart is fine.
+  Chart.problems(Chart.parse("| Cmaj7 | Xyz |")) // => ['bar 2: unknown word "Xyz"']
+
+Chart.toText(chart: Chart): string
+  Write a chart as text, in the syntax of `Chart.parse`, so that parsing it gives the same chart: `Chart.parse(Chart.toText(chart))` has the same bars. Each section starts a line, and a line has at most 4 bars. Meters are written where they change, and positions (`@`) only in the bars where the chords aren't where the split rule would put them. `%` is written out as the chords it repeats.
+  Chart.toText(Chart.parse("[A] |: C | G7 :| [B] | F |"))
+
+Chart.transpose(chart: Chart, interval: string): Chart
+  Transpose the chords of a chart by an interval, keeping everything else (sections, meters, repeats, jumps, positions). `N.C.` stays. It returns a chart with `empty: true` if the interval isn't valid or the chart is empty.
+  Chart.toText(Chart.transpose(Chart.parse("|: Dm7 G7 | C :|"), "2M"))
+
+Chart.unroll(chart: Chart, options?: UnrollOptions): PlayedBar[]
+  Get the played form of a chart: every bar in the order it's played, with where it starts (in quarter notes), its duration, its section, its place in the section, its chorus, and its pass and ending in a repeat. `choruses` plays the form more than once.
+  Chart.unroll(Chart.parse("[A] | C | G | [B] | F |")).map((b) => `${b.section}${b.sectionBar}`)
+  Chart.unroll(Chart.parse("|: C |1 G :|2 F |")).map((b) => [b.bar, b.pass, b.ending])
+
+Types:
+
+type Chart = {
+  empty: boolean;
+  bars: ChartBar[];
+  problems: string[];
+}
+
+type ChartBar = {
+  meter: string;
+  chords: ChartChord[];
+  section?: string | undefined;
+  repeatStart?: true | undefined;
+  repeatEnd?: number | undefined;
+  ending?: number[] | undefined;
+  doubleBar?: true | undefined;
+  segno?: true | undefined;
+  coda?: true | undefined;
+  toCoda?: true | undefined;
+  fine?: true | undefined;
+  jump?: Jump | undefined;
+}
+
+type ChartChord = {
+  value: string;
+  at: Fraction;
+}
+
+type ParseOptions = {
+  meter?: string | undefined;
+}
+
+type PlayedBar = {
+  bar: number;
+  index: number;
+  start: Fraction;
+  duration: Fraction;
+  meter: string;
+  section: string;
+  sectionBar: number;
+  sectionLength: number;
+  chorus: number;
+  pass: number;
+  ending?: number | undefined;
+}
+
+type PlayedChord = {
+  value: string;
+  start: Fraction;
+  duration: Fraction;
+  bar: number;
+}
+
+type TimeValue = string | number | Fraction
+  A time value as input: a fraction (`[3, 2]`), an exact number (`1.5`) or a string (`"3/2"`, `"1.5"`). Numbers must be multiples of 1/1024, so `0.1` and `1 / 3` aren't accepted: write `[1, 3]` or `"1/3"`.
+
+type UnrollOptions = {
+  choruses?: number | undefined;
+  repeatsOnJump?: boolean | undefined;
+}
 
 ## Chord
 
@@ -1659,6 +1772,92 @@ type ScaleType = {
 }
 
 type ScaleTypeName = string | number
+
+## Time
+
+import { Time } from "tonal"; // or: import * as Time from "@tonaljs/time";
+
+Time.add(a: TimeValue, b: TimeValue): Fraction | null
+  Add two time values. It returns `null` if one isn't valid.
+  Time.add([1, 3], [1, 6]) // => [1, 2]
+  Time.add(4, "1/3") // => [13, 3]
+
+Time.compare(a: TimeValue, b: TimeValue): number
+  Compare two time values: negative if the first is earlier, 0 if they're equal, positive if it's later, so it sorts a list. Invalid values sort as equal (0).
+  Time.compare([1, 3], 0.5) // => -1
+  [[3, 2], [1, 3], 1].sort(Time.compare) // => [[1, 3], 1, [3, 2]]
+
+Time.div(a: TimeValue, b: TimeValue): Fraction | null
+  Divide a time value by another: how many of the second fit in the first. It returns `null` if one isn't valid or the divisor is 0.
+  Time.div(4, [1, 3]) // => [12, 1]
+
+Time.duration(name: string): Fraction | null
+  Get the length of a duration value ("q", "eighth", "h." with dots) in quarter notes. Tuplets are a multiplication: a triplet eighth is `Time.mul(Time.duration("e"), [2, 3])`. It returns `null` if the name isn't a duration.
+  Time.duration("q.") // => [3, 2]
+  Time.duration("e") // => [1, 2]
+  Time.duration("w") // => [4, 1]
+
+Time.equal(a: TimeValue, b: TimeValue): boolean
+  Test whether two time values are equal: `[2, 4]`, `"1/2"` and `0.5` are. It returns `false` if one isn't valid.
+  Time.equal([2, 4], 0.5) // => true
+
+Time.fraction(value: TimeValue): Fraction | null
+  Get a time value as a reduced fraction of quarter notes, or `null` if it isn't valid. It takes a fraction (`[2, 4]`), an exact number (`1.5`: a multiple of 1/1024) or a string (`"3/2"`, `"1.5"`). Numbers that aren't exact, like `0.1` or `1 / 3`, give `null`: write `[1, 3]` or `"1/3"`.
+  Time.fraction(1.5) // => [3, 2]
+  Time.fraction("6/4") // => [3, 2]
+  Time.fraction([2, 4]) // => [1, 2]
+
+Time.fromBarBeat(text: string, timeSignature: TimeSignatureLiteral | Meter): Fraction | null
+  Get the position of a bar and beat in a meter, in quarter notes from the start. The text is `"bar:beat"`, both from 1, with an optional fraction of the beat: `"2:3+1/3"` is a third of the way into beat 3 of bar 2. The beat is the lower note of the meter, so in 6/8 `"1:4"` is the second dotted quarter. It returns `null` if the text isn't valid in the meter.
+  Time.fromBarBeat("2:3", "4/4") // => [6, 1]
+  Time.fromBarBeat("2:3+1/3", "4/4") // => [19, 3]
+  Time.fromBarBeat("1:4", "6/8") // => [3, 2]
+
+Time.meter(timeSignature: TimeSignatureLiteral | Meter): Meter
+  Get a meter from a time signature, in quarter notes: the length of its bar, of its beat and of each of its pulses.
+  Time.meter("6/8") // => { empty: false, name: "6/8", bar: [3, 1], beat: [1, 2], pulses: [[3, 2], [3, 2]] }
+  Time.meter("2+2+3/8").pulses // => [[1, 1], [1, 1], [3, 2]]
+
+Time.mul(a: TimeValue, b: TimeValue): Fraction | null
+  Multiply two time values: a duration by a number of times, or by a tuplet ratio. It returns `null` if one isn't valid.
+  Time.mul([1, 2], [2, 3]) // => [1, 3]
+  Time.mul([3, 2], 4) // => [6, 1]
+
+Time.onsets(pattern: number[], step: TimeValue, start?: TimeValue): Fraction[]
+  Get the positions of the onsets of a rhythm pattern (an array of 0s and 1s, like `RhythmPattern` makes), with each step lasting `step` quarter notes, from `start` (0 by default). It returns `[]` if the pattern isn't an array of 0s and 1s or a time value isn't valid.
+  Time.onsets([1, 0, 0, 1, 0, 0, 1, 0], [1, 2]) // => [[0, 1], [3, 2], [3, 1]]
+  Time.onsets([1, 1, 1], [1, 3], 4) // => [[4, 1], [13, 3], [14, 3]]
+
+Time.sub(a: TimeValue, b: TimeValue): Fraction | null
+  Subtract a time value from another. It returns `null` if one isn't valid.
+  Time.sub(4, [1, 3]) // => [11, 3]
+
+Time.toBarBeat(position: TimeValue, timeSignature: TimeSignatureLiteral | Meter): string
+  Get the bar and beat of a position in a meter, as `"bar:beat"` from 1, with the fraction of the beat when it's off the beat: the inverse of `Time.fromBarBeat`. It returns `""` if the position is negative or isn't valid.
+  Time.toBarBeat([19, 3], "4/4") // => "2:3+1/3"
+  Time.toBarBeat(28, "4/4") // => "8:1"
+
+Time.toNumber(value: TimeValue): number | null
+  Get a time value as a number of quarter notes, for an app's output (an audio library, MIDI ticks). It returns `null` if it isn't valid.
+  Time.toNumber([3, 2]) // => 1.5
+
+Time.toString(value: TimeValue): string
+  Get a time value as a string: `"3/2"`, or `"3"` for a whole number of quarters. It returns `""` if it isn't valid.
+  Time.toString([3, 2]) // => "3/2"
+  Time.toString(4) // => "4"
+
+Types:
+
+type Meter = {
+  empty: boolean;
+  name: string;
+  bar: Fraction;
+  beat: Fraction;
+  pulses: Fraction[];
+}
+
+type TimeValue = string | number | Fraction
+  A time value as input: a fraction (`[3, 2]`), an exact number (`1.5`) or a string (`"3/2"`, `"1.5"`). Numbers must be multiples of 1/1024, so `0.1` and `1 / 3` aren't accepted: write `[1, 3]` or `"1/3"`.
 
 ## TimeSignature
 

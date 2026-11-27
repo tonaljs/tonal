@@ -3,7 +3,7 @@
 > Get and manipulate chords
 
 > **Try it:** [Chord finder](https://tonaljs.github.io/tonal/apps/chord-finder/). Play or type some notes to get the chord name, or type a chord symbol to get its notes.
-> **Try it:** [Chart reader](https://tonaljs.github.io/tonal/apps/chart-reader/). Paste a chord chart to read every symbol: notes, family, complexity and roman numerals in a key, with applied dominants. Transpose it and play it.
+> **Try it:** [Chart reader](https://tonaljs.github.io/tonal/apps/chart-reader/). Paste a chord chart with sections, repeats, endings and D.S. al Coda to see the form as it's played, bar by bar, and read every symbol: notes, family, complexity and roman numerals in a key, with applied dominants. Transpose it and play it.
 
 ```js
 import { Chord } from "tonal";

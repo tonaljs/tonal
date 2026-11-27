@@ -2,7 +2,7 @@
 
 > Generate, read and measure rhythm patterns
 
-> **Try it:** [Rhythm patterns](https://tonaljs.github.io/tonal/apps/rhythm-patterns/). Draw a rhythm on a circle, or pick a clave or a Euclidean rhythm, and see why some rhythms recur around the world: evenness, rhythmic oddity, deepness, off-beatness and distances, from Toussaint's The Geometry of Musical Rhythm. Play it with drums.
+> **Try it:** [Rhythm patterns](https://tonaljs.github.io/tonal/apps/rhythm-patterns/). Draw a rhythm on a circle, or pick a clave or a Euclidean rhythm, and see why some rhythms recur around the world: evenness, rhythmic oddity, deepness, off-beatness and distances, from Toussaint's The Geometry of Musical Rhythm. Lay it over a meter (6/8, 2+2+3/8) to hear its pulses, and play it with drums.
 
 A rhythmic pattern is an array of `1` and `0` indicating beats (onsets) or rests (respectively). They are dimension-less: each element is a step, with no duration in time. A pattern is a loop, so the step after the last is the first again:
 

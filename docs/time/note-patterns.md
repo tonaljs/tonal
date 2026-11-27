@@ -2,7 +2,7 @@
 
 > Arpeggio orders and melodic sequences as lists of indexes
 
-> **Try it:** [Note patterns](https://tonaljs.github.io/tonal/apps/note-patterns/). Play arpeggios and melodic sequences over a chord progression: an arpeggio order or a cell of indexes, over each chord's voicing, its chord tones or the scale, kept in a register and put on a rhythm.
+> **Try it:** [Note patterns](https://tonaljs.github.io/tonal/apps/note-patterns/). Play arpeggios and melodic sequences over a chord chart, with its repeats and sections: an arpeggio order or a cell of indexes, over each chord's voicing, its chord tones or the scale, kept in a register and put on a rhythm.
 
 A note pattern says **which notes, in which order**: arpeggio orders (up, up-down, converge, thumb…) and melodic sequences (groups of four through a scale, thirds, 1-2-3-5). It doesn't say when they sound: that's a rhythm, and [`RhythmPattern`](https://tonaljs.github.io/tonal/docs/time/patterns.md) builds those.
 

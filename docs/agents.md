@@ -20,9 +20,9 @@ import { Chord, Interval, Key, Note, Scale } from "tonal";
 ```
 
 `tonal` exports one namespace per module (`Note`, `Interval`, `Chord`,
-`ChordType`, `Scale`, `ScaleType`, `Key`, `Mode`, `Midi`, `Pcset`,
+`ChordType`, `Scale`, `ScaleType`, `Key`, `Mode`, `Chart`, `Midi`, `Pcset`,
 `Progression`, `RomanNumeral`, `Range`, `Collection`, `Voicing`,
-`VoiceLeading`, `TimeSignature`, `DurationValue`,
+`VoiceLeading`, `Time`, `TimeSignature`, `DurationValue`,
 `RhythmPattern`, `Pattern`, `AbcNotation`) and a few top-level functions (`note`,
 `interval`, `transpose`, `distance`). Each namespace is also its own npm package:
 `import * as Chord from "@tonaljs/chord"`. Use `tonal` unless bundle size
@@ -190,6 +190,38 @@ Lowercase numerals are minor (`"ii7"` is the same as `"IIm7"`). Applied
 chords such as `"V7/V"` are supported. `RomanNumeral.get` parses one numeral
 into its parts.
 
+## Chord charts
+
+`Chart.parse` reads a chart from text: bars between `|`, chords separated by
+spaces, `%` repeats a bar, `[A]` starts a section, `3/4` changes the meter,
+`A7@4` places a chord on beat 4, `|: ... :|` repeats, `|1 ... :|2 ...` are
+endings, and `<D.S. al Coda>`, `<Segno>`, `<To Coda>`, `<Coda>`, `<Fine>`
+are jumps. With `choruses`, a coda or a Fine is played once, at the end; a
+plain D.C. or D.S. is played in every chorus. `Chart.fromForm({ A: "| C | G |",
+B: "| F |" }, "A A B A")` builds a chart from named sections and a form.
+`Chart.transpose(chart, "2M")` transposes its chords, `Chart.toText(chart)`
+writes it back as text, and `Chart.barAt(played, position)` gives the played
+bar at a position. Several chords in a bar without `@` are
+placed by the meter's pulses (`| C F G |` is 2+1+1 beats). Check
+`Chart.problems(chart)`: words it can't read are left out, not errors.
+
+`Chart.unroll` gives the bars as they're played (with `start`, `duration`,
+`section`, `sectionBar`, `chorus`); `Chart.chords` the chords with `value`
+(the symbol), `start` and `duration`; `Chart.chordAt(chords, position)` the
+chord at a position. Every position and duration is a `Time` value in quarter
+notes (`[n, d]`):
+
+```js
+const chart = Chart.parse("| Dm7 G7 | Cmaj7 |");
+const chords = Chart.chords(chart);
+chords.map((c) => [c.value, c.start, c.duration]);
+// => [["Dm7", [0, 1], [2, 1]], ["G7", [2, 1], [2, 1]], ["Cmaj7", [4, 1], [4, 1]]]
+Chart.chordAt(chords, 3)?.value; // => "G7"
+```
+
+To accompany a chart with a rhythm, add `Time.onsets(pattern, step)` to each
+played bar's `start` and ask `Chart.chordAt` for each position.
+
 ## Voicings
 
 ```js
@@ -281,7 +313,9 @@ the top voice, which is `v.at(-1)`. Books count from 1: their 1-2-3-5 is
 Pattern.arpeggio("up-down", 4); // => [0, 1, 2, 3, 2, 1]
 Pattern.arpeggio("up-down", 4).map(Chord.steps(["C4", "maj7"]));
 // => ["C4", "E4", "G4", "B4", "G4", "E4"]
-Pattern.sequence([0, 1, 2, 3], 1, 3).flat().map(Scale.steps("C4 major pentatonic"));
+Pattern.sequence([0, 1, 2, 3], 1, 3)
+  .flat()
+  .map(Scale.steps("C4 major pentatonic"));
 // => ["C4", "D4", "E4", "G4", "D4", "E4", "G4", "A4", "E4", "G4", "A4", "C5"]
 ```
 
@@ -312,10 +346,28 @@ below).
 
 ## Time
 
-tonal describes where things are in musical time, never when they play: there
-is nothing in seconds, no tempo-based timing, no scheduling and no audio.
-`TimeSignature`, `DurationValue` and `RhythmPattern` cover meters, note values
-and rhythm patterns. Use an audio or scheduling library for playback.
+tonal describes where things are in musical time: `Time`, `TimeSignature`,
+`DurationValue`, `RhythmPattern` and `Chart` cover positions, meters, note
+values, rhythm patterns and chord charts. When they play (tempo, seconds) isn't
+in tonal yet; it's planned, step by step. Playback, clocks and scheduling stay
+outside: use an audio or scheduling library for those.
+
+`Time` measures in quarter notes and returns exact fractions,
+`[numerator, denominator]`: a dotted quarter is `[3, 2]`, a triplet eighth
+`[1, 3]`. Don't do time arithmetic with floats (84 triplet eighths add up to
+27.999… quarters): use `Time.add`, `Time.compare` and `Time.equal`. Inputs
+also take exact numbers (`1.5`; not `0.1` or `1 / 3`, which give `null`) and
+strings (`"1/3"`). Bars and beats count from 1, and a beat is the lower note
+of the meter (in 6/8, an eighth: the second dotted quarter is `"1:4"`):
+
+```js
+Time.fromBarBeat("2:3+1/3", "4/4"); // => [19, 3]
+Time.toBarBeat(28, "4/4"); // => "8:1"
+Time.duration("q."); // => [3, 2]
+Time.onsets([1, 0, 0, 1, 0, 0, 1, 0], [1, 2]); // => [[0, 1], [3, 2], [3, 1]]
+```
+
+For seconds, convert at the end: `Time.toNumber(position) * 60 / bpm`.
 
 A rhythm pattern is an array of 0s and 1s, one per step, read as a loop.
 Build one from durations or onset positions (counted from 0), and read them
