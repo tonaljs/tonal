@@ -224,6 +224,8 @@ writes it back as text, and `Chart.barAt(played, position)` gives the played
 bar at a position. Several chords in a bar without `@` are
 placed by the meter's pulses (`| C F G |` is 2+1+1 beats). Check
 `Chart.problems(chart)`: words it can't read are left out, not errors.
+`N.C.` (or `NC`) is a rest: its chord has `rest: true`, so check it before
+playing a chord (`Chord.get("N.C.")` has no notes and no tonic).
 
 `Chart.unroll` gives the bars as they're played (with `start`, `duration`,
 `section`, `sectionBar`, `chorus`); `Chart.chords` the chords with `value`

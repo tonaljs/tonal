@@ -60,7 +60,7 @@ The syntax:
 | --------------------------- | -------------------------------------------------------------------------------------------------------- |
 | `\|`                        | a bar line; a new line ends a bar too, and `\|\|` is a bar line                                          |
 | `Cmaj7`, `Cm7 b9`           | a chord: a word starting with a note letter, with the words after it that aren't chords (its qualifiers) |
-| `N.C.`                      | no chord: a rest                                                                                         |
+| `N.C.`                      | no chord: a rest (the chord has `rest: true`)                                                            |
 | `%`                         | the chords of the bar before                                                                             |
 | `\| \|`                     | an empty bar: the chord before goes on                                                                   |
 | `[A]`, `[Verse 1]`          | a section starts on this bar (alone between bar lines, `\| [A] \| C \|`, on the next bar)                |

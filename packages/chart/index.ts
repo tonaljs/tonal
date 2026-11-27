@@ -19,6 +19,8 @@ export type ChartChord = {
   value: string;
   /** Where it starts, in quarter notes from the start of the bar */
   at: Fraction;
+  /** `N.C.` (no chord): a rest, nothing is played until the next chord */
+  rest?: true;
 };
 
 /** A bar of the written chart. */
@@ -115,6 +117,8 @@ export type PlayedChord = {
   duration: Fraction;
   /** The index of its bar in the played form */
   bar: number;
+  /** `N.C.` (no chord): a rest, nothing is played until the next chord */
+  rest?: true;
 };
 
 const EMPTY: Chart = { empty: true, bars: [], problems: [] };
@@ -332,7 +336,9 @@ export function parse(text: string, options?: ParseOptions): Chart {
         problem(`unknown chord "${item.value}"`);
       }
     }
-    bar.chords = place(items, getMeter(bar.meter), problem);
+    bar.chords = place(items, getMeter(bar.meter), problem).map((chord) =>
+      chord.value === "N.C." ? { ...chord, rest: true } : chord,
+    );
     if (items.length) previous = items;
     bars.push(bar);
   };
@@ -855,7 +861,8 @@ export function unroll(chart: Chart, options?: UnrollOptions): PlayedBar[] {
  * start of the played form), and its bar in the played form. A chord lasts until the next
  * chord, or the end of the form: a bar with no chords continues the chord
  * before, and a chord written again is played again (a new entry). `N.C.`
- * is a chord too, a rest.
+ * is a chord too, a rest, with `rest: true`: nothing plays until the next
+ * chord (`Chord.get("N.C.")` has no notes and no tonic).
  *
  * It returns `[]` if the chart is empty or the options aren't valid.
  *
@@ -875,6 +882,7 @@ export function chords(chart: Chart, options?: UnrollOptions): PlayedChord[] {
         value: chord.value,
         start: add(bar.start, chord.at) as Fraction,
         bar: bar.index,
+        ...(chord.rest ? { rest: true as const } : {}),
       });
     }
   }

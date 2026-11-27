@@ -730,4 +730,24 @@ describe("@tonaljs/chart", () => {
       expect(Chart.position(null as never, "1:1")).toBeNull();
     });
   });
+
+  test("N.C. is a rest", () => {
+    const chart = Chart.parse("| Dm7 G7 | NC | Cmaj7 |");
+    expect(chart.bars[1].chords).toEqual([
+      { value: "N.C.", at: [0, 1], rest: true },
+    ]);
+    expect(chart.bars[0].chords[0].rest).toBeUndefined();
+    expect(Chart.chords(chart).map((c) => [c.value, c.rest])).toEqual([
+      ["Dm7", undefined],
+      ["G7", undefined],
+      ["N.C.", true],
+      ["Cmaj7", undefined],
+    ]);
+    expect(Chart.chordAt(Chart.chords(chart), 5)?.rest).toBe(true);
+    const moved = Chart.transpose(chart, "2M");
+    expect(moved.bars[1].chords).toEqual([
+      { value: "N.C.", at: [0, 1], rest: true },
+    ]);
+    expect(Chart.parse(Chart.toText(chart)).bars).toEqual(chart.bars);
+  });
 });

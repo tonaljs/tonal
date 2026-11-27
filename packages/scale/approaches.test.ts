@@ -34,7 +34,11 @@ describe("approaches", () => {
 
   test("spelling: the leading tone below, double accidentals respelled", () => {
     expect(Scale.approaches("", "F#2").below).toEqual("E#2");
-    expect(Scale.approaches("", "Eb2").above).toEqual("Fb2");
+    expect(Scale.approaches("", "Eb2").above).toEqual("E2");
+    expect(Scale.approaches("", "Bb1").above).toEqual("B1");
+    expect(Scale.approaches("", "B1").above).toEqual("C2");
+    expect(Scale.approaches("", "Ab2").doubleAbove).toEqual(["Bb2", "A2"]);
+    expect(Scale.approaches("", "Bb2").doubleAbove).toEqual(["C3", "B2"]);
     expect(Scale.approaches("", "Cb3").below).toEqual("Bb2");
     expect(Scale.approaches("", "B2").doubleAbove).toEqual(["C#3", "C3"]);
     expect(Scale.approaches("", "Fb2").below).toEqual("Eb2");
