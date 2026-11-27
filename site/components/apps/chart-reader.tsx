@@ -199,8 +199,8 @@ export function ChartReader() {
     () =>
       chart.bars.map((bar) =>
         bar.chords.map((c): ChartChord => ({
-          text: c.symbol,
-          chord: Chord.get(c.symbol),
+          text: c.value,
+          chord: Chord.get(c.value),
         })),
       ),
     [chart],
@@ -242,7 +242,7 @@ export function ChartReader() {
     }
     for (const c of playedChords) {
       list.push({
-        notes: voice(Chord.get(c.symbol).notes),
+        notes: voice(Chord.get(c.value).notes),
         duration: (Time.toNumber(c.duration) ?? 0) * QUARTER,
       });
     }
@@ -798,12 +798,12 @@ function code(
     "",
     "// the chords, with their start and duration in quarter notes",
     `const chords = Chart.chords(chart${optsText});`,
-    "chords.slice(0, 4).map((c) => [c.symbol, c.start, c.duration]);",
-    `// => ${show(firstChords.map((c) => [c.symbol, c.start, c.duration]))}`,
+    "chords.slice(0, 4).map((c) => [c.value, c.start, c.duration]);",
+    `// => ${show(firstChords.map((c) => [c.value, c.start, c.duration]))}`,
   ];
   if (playedChords.length) {
     lines.push(
-      `Chart.chordAt(chords, 6)?.symbol; // => ${show(Chart.chordAt(playedChords, 6)?.symbol ?? null)}`,
+      `Chart.chordAt(chords, 6)?.value; // => ${show(Chart.chordAt(playedChords, 6)?.value ?? null)}`,
     );
   }
   if (playedChords.length) {

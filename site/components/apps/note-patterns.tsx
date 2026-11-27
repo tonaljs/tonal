@@ -344,7 +344,7 @@ export function NotePatterns() {
 
   const segments = useMemo(() => {
     const flat = playedChords.map((c) => ({
-      chord: Chord.get(c.symbol),
+      chord: Chord.get(c.value),
       from: c.start,
       to: Time.add(c.start, c.duration) as Time.Fraction,
     }));
@@ -405,7 +405,7 @@ export function NotePatterns() {
           ? played
           : Note.fold(played, range, { each: state.fold === "each" });
       return {
-        text: chord.empty ? playedChords[i].symbol : chord.symbol,
+        text: chord.empty ? playedChords[i].value : chord.symbol,
         symbol,
         pool,
         realise,
@@ -426,7 +426,7 @@ export function NotePatterns() {
   const events = useMemo(() => {
     const segmentOf = new Map(playedChords.map((c, i) => [c, i]));
     const positions = form.flatMap((bar) =>
-      Time.onsets(rhythm, Time.div(bar.length, rhythm.length) ?? 0, bar.start),
+      Time.onsets(rhythm, Time.div(bar.duration, rhythm.length) ?? 0, bar.start),
     );
     const count = new Map<number, number>();
     const list: Event[] = [];
@@ -458,7 +458,7 @@ export function NotePatterns() {
 
   const last = form[form.length - 1];
   const total = last
-    ? (Time.toNumber(Time.add(last.start, last.length) ?? 0) ?? 0)
+    ? (Time.toNumber(Time.add(last.start, last.duration) ?? 0) ?? 0)
     : 0;
   // what Play plays: the notes, and rests where there are none
   const timeline = useMemo(() => {
