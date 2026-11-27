@@ -130,11 +130,15 @@
   {
     "slug": "note-patterns",
     "title": "Note patterns",
-    "description": "Play arpeggios and melodic sequences over a chord progression: an arpeggio order or a cell of indexes, over each chord's voicing, its chord tones or the scale, kept in a register and put on a rhythm.",
+    "description": "Play arpeggios and melodic sequences over a chord chart, with its repeats and sections: an arpeggio order or a cell of indexes, over each chord's voicing, its chord tones or the scale, kept in a register and put on a rhythm.",
     "docs": [
       {
         "title": "Note patterns",
         "url": "/docs/time/note-patterns"
+      },
+      {
+        "title": "Chord charts",
+        "url": "/docs/harmony/charts"
       },
       {
         "title": "Chord voicings",

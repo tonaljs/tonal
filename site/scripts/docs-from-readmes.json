@@ -61,9 +61,9 @@
   {
     "page": "harmony/charts.md",
     "readme": "chart",
-    "apps": ["chart-reader"],
+    "apps": ["chart-reader", "note-patterns"],
     "title": "Chord charts",
-    "description": "Bars, sections and meters, the played form, and the chord at a position"
+    "description": "Bars, sections, meters, repeats, endings and jumps, the played form, and the chord at a position"
   },
   {
     "page": "harmony/keys.md",
@@ -101,6 +101,7 @@
   {
     "page": "time/time.md",
     "readme": "time",
+    "apps": ["rhythm-patterns", "note-patterns"],
     "title": "Time",
     "description": "Positions, durations, meters and bar:beat as exact fractions of quarter notes"
   },

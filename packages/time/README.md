@@ -2,7 +2,7 @@
 
 > Musical time as exact fractions of quarter notes: positions, durations, meters and bar:beat
 
-`Time` says **where** something is in musical time: positions and durations in quarter notes, meters, bar and beat. It never says **when** it plays: there are no seconds, no tempo and no scheduling, which belong to an audio library.
+`Time` says **where** something is in musical time: positions and durations in quarter notes, meters, bar and beat. It doesn't say **when** it plays yet: there are no seconds and no tempo. They're planned, step by step. Playing and scheduling belong to an audio library.
 
 ```js
 import { Time } from "tonal";

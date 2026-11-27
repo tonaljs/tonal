@@ -12,9 +12,9 @@ const chords = Chart.chords(chart);
 Chart.chordAt(chords, 3)?.value; // => "G7"
 ```
 
-It describes where chords are, never when they play: there are no seconds and no tempo.
+It describes where chords are, not when they play: there are no seconds and no tempo yet.
 
-A chart is plain data (bars with their meter, chords and marks; see `Chart.parse`), and every other function works on it. The text syntax is one way to build it; an app that reads another format (iReal Pro, MusicXML, its own editor) can build the bars itself, and `Chart.toText` writes any chart back as text.
+A chart is plain data (bars with their meter, chords and marks; see `Chart.parse`), and every other function works on it. The text syntax is one way to build it; an app that reads another format (another app's charts, MusicXML, its own editor) can build the bars itself, and `Chart.toText` writes any chart back as text.
 
 ## Usage
 
