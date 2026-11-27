@@ -20,3 +20,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+---
+
+Exception: the file site/lib/walking-bass-figures.ts (a table of walking bass
+figures counted from the FiloBass corpus, used by the walking bass app of the
+documentation site) is not covered by the MIT license above. It is derived from
+data made available for non-commercial research; see the header of that file.
+No published npm package includes it.
