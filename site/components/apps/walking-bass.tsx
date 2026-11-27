@@ -452,10 +452,9 @@ export function WalkingBass() {
           Basslines&rdquo;, ISMIR 2023): rounded percentages, and a vocabulary
           of common four-note figures as degrees (like R-9-b3-3) with how often
           each is played before a chord change. No transcribed line is included.
-          Unlike the rest of tonal, the figure table (
-          <code>lib/walking-bass-figures.ts</code>) is not under the MIT
-          license: like the FiloBass data, it&rsquo;s for non-commercial
-          research use.
+          Unlike the rest of this site (AGPL-3.0), the figure table (
+          <code>lib/walking-bass-figures.ts</code>) is not under its license:
+          like the FiloBass data, it&rsquo;s for non-commercial research use.
         </p>
       </section>
     </div>

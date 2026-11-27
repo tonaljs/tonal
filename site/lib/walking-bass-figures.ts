@@ -1,6 +1,7 @@
-// NOT UNDER THE MIT LICENSE.
+// NOT UNDER THE MIT OR THE AGPL LICENSE.
 //
-// Unlike the rest of tonal, this file is not licensed under the MIT license.
+// Unlike the rest of tonal (the library under the MIT license, this site under
+// the AGPL-3.0), this file is under neither.
 // It holds the figures a walking bass plays over a one-chord bar before a new
 // chord, as degrees (like "R-9-b3-3"), by how the root moves (semitones up,
 // 0-11), with how often each is played (% of those bars). They are our own

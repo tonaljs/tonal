@@ -4,6 +4,7 @@ import { getApp } from "@/lib/apps";
 
 const SOURCE =
   "https://github.com/tonaljs/tonal/blob/main/site/components/apps";
+const LICENSE = "https://github.com/tonaljs/tonal/blob/main/site/LICENSE";
 
 /** The frame of an app page: title, description, and links to its docs. */
 export function AppPage({
@@ -49,6 +50,9 @@ export function AppPage({
           className="underline hover:text-fd-foreground"
         >
           Source of this app
+        </a>
+        <a href={LICENSE} className="underline hover:text-fd-foreground">
+          License: AGPL-3.0
         </a>
         <span>
           {samples} samples played with{" "}

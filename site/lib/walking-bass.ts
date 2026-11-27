@@ -14,7 +14,7 @@
 //    Study of Jazz Basslines", ISMIR 2023, https://aim-qmul.github.io/FiloBass).
 //    What is used here are our counts: rounded percentages, and a vocabulary
 //    of common four-note figures as degrees with their frequencies (FIGURES,
-//    in walking-bass-figures.ts, which is not under the MIT license); no
+//    in walking-bass-figures.ts, which is not under the site's license); no
 //    transcribed line is included:
 //    - what the note is over the chord (root, 3rd, 5th, 7th, a tension of the
 //      chord's scale, or chromatic), by where the slot is: the first beat of a
@@ -34,7 +34,7 @@
 // 5. Notes between the beats are added to the line: eighths and triplets in
 //    walking, the rhythms of two-feel (see BETWEEN, EXTRA and TWO_FEEL).
 import { Chart, Chord, Note, Scale, Time } from "tonal";
-// not under tonal's MIT license: see the header of that file
+// not under the site's AGPL (nor MIT): see the header of that file
 import { FIGURES } from "./walking-bass-figures.ts";
 
 /** What a note does in the line. */

@@ -2,6 +2,7 @@
   "name": "site",
   "version": "0.0.0",
   "private": true,
+  "license": "AGPL-3.0-only",
   "scripts": {
     "docs": "node scripts/docs-from-readmes.mjs && node scripts/llms.mjs",
     "prebuild": "npm run docs",

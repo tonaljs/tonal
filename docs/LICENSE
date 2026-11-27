@@ -22,8 +22,10 @@ SOFTWARE.
 
 ---
 
-Exception: the file site/lib/walking-bass-figures.ts (a table of walking bass
-figures counted from the FiloBass corpus, used by the walking bass app of the
-documentation site) is not covered by the MIT license above. It is derived from
-data made available for non-commercial research; see the header of that file.
-No published npm package includes it.
+Scope: this MIT license covers the tonal library (packages/) and the
+documentation (site/content/docs, generated from the package READMEs). The code
+of the documentation site and its apps (site/, except site/content/docs) is
+licensed under the GNU Affero General Public License v3.0 (see site/LICENSE).
+The file site/lib/walking-bass-figures.ts is under neither license: it is
+derived from data made available for non-commercial research (see its header).
+No published npm package includes the site.
