@@ -274,6 +274,11 @@ Chart.chords(chart: Chart, options?: UnrollOptions): PlayedChord[]
   Get the chords of a chart as they're played: each with its symbol, where it starts and how long it lasts (in quarter notes from the start of the played form), and its bar in the played form. A chord lasts until the next chord, or the end of the form: a bar with no chords continues the chord before, and a chord written again is played again (a new entry). `N.C.` is a chord too, a rest.
   Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |")).map((c) => [c.symbol, c.start, c.duration])
 
+Chart.fromForm(sections: Record<string, string>, form: string, options?: ParseOptions): Chart
+  Build a chart from named sections and a form: the sections in the order the form lists them. Each section is a chart text (as in `Chart.parse`), read on its own from `options.meter` (4/4 by default), so it has the same meter wherever it's played; its first bar starts the section with its name. The form is names separated by spaces, with `*n` to play one n times: `"Intro A*2 B A"`. A form like `"AABA"` is read letter by letter when there's no section with that name.
+  const chart = Chart.fromForm({ A: "| C | G |", B: "| F |" }, "A A B A");
+  Chart.unroll(chart).map((b) => `${b.section}${b.sectionBar}`)
+
 Chart.parse(text: string, options?: ParseOptions): Chart
   Read a chart from text: bars between `|` (a new line ends a bar too), chords separated by spaces.
   Chart.parse("| Dm7 G7 | Cmaj7 |").bars
