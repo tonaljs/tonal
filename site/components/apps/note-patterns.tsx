@@ -2,8 +2,16 @@
 
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { useEffect, useMemo, useState } from "react";
-import { Chord, Note, Pattern, RhythmPattern, Scale, Voicing } from "tonal";
-import { parseChart } from "@/lib/chart";
+import {
+  Chart,
+  Chord,
+  Note,
+  Pattern,
+  RhythmPattern,
+  Scale,
+  Time,
+  Voicing,
+} from "tonal";
 import { audioTime } from "@/lib/piano";
 import {
   Chip,
@@ -215,8 +223,8 @@ const RANGE_NOTES = Array.from({ length: 5 * 12 + 1 }, (_, i) =>
   Note.fromMidi(36 + i),
 ).filter((n) => !n.includes("b"));
 
-// one bar lasts two seconds when it's played
-const BAR = 2;
+// a quarter note lasts half a second when it's played (a 4/4 bar, 2 seconds)
+const QUARTER = 0.5;
 
 const parseCell = (text: string) =>
   text
@@ -237,9 +245,9 @@ type Segment = {
   setup: string[];
   indexes: number[];
   notes: string[];
-  /** Where the chord starts and ends, in rhythm steps */
-  from: number;
-  to: number;
+  /** Where the chord starts and ends, in quarter notes */
+  from: Time.Fraction;
+  to: Time.Fraction;
 };
 
 type Event = {
@@ -324,26 +332,24 @@ export function NotePatterns() {
     );
   }, [linkRead, key, scaleType, text, state]);
 
-  const bars = useMemo(() => parseChart(text), [text]);
+  // the chart, its played form and its chords, from Chart
+  const chart = useMemo(() => Chart.parse(text), [text]);
+  const form = useMemo(() => Chart.unroll(chart), [chart]);
+  const playedChords = useMemo(() => Chart.chords(chart), [chart]);
   const rhythm = (RHYTHMS.find((r) => r.id === state.rhythm) ?? RHYTHMS[0])
     .pattern;
   const stepsPerBar = rhythm.length;
-  // memoized: a new array on every render would change the timeline, and
-  // updateSteps would reschedule the piano and render again, forever
-  const onsets = useMemo(() => RhythmPattern.toOnsets(rhythm), [rhythm]);
   const scaleName = `${key} ${scaleType}`;
   const range: [string, string] = [state.low, state.high];
 
   const segments = useMemo(() => {
-    const flat = bars.flatMap((bar, b) =>
-      bar.map((item, i) => ({
-        item,
-        from: b * stepsPerBar + Math.floor((i * stepsPerBar) / bar.length),
-        to: b * stepsPerBar + Math.floor(((i + 1) * stepsPerBar) / bar.length),
-      })),
-    );
-    const symbols = flat.map(({ item }) =>
-      item.chord.empty ? "" : item.chord.symbol,
+    const flat = playedChords.map((c) => ({
+      chord: Chord.get(c.symbol),
+      from: c.start,
+      to: Time.add(c.start, c.duration) as Time.Fraction,
+    }));
+    const symbols = flat.map(({ chord }) =>
+      chord.empty || !chord.notes.length ? "" : chord.symbol,
     );
     // the voicings, with voice leading from one chord to the next
     const voicings = Voicing.sequence(
@@ -356,14 +362,14 @@ export function NotePatterns() {
         : { range: [state.low, state.high] as [string, string] },
     );
     let v = 0;
-    return flat.map(({ item, from, to }, i): Segment => {
+    return flat.map(({ chord, from, to }, i): Segment => {
       const symbol = symbols[i];
       let pool: string[] = [];
       let realise: (index: number) => string = () => "";
       let over = "";
       let setup: string[] = [];
       // the chord's tonic in the lowest octave of the range
-      const tonic = item.chord.tonic ?? "";
+      const tonic = chord.tonic ?? "";
       const [root = ""] = tonic
         ? Note.fold([tonic], [state.low, state.high])
         : [];
@@ -377,7 +383,7 @@ export function NotePatterns() {
         over = "Voicing.steps(voicing)";
       } else if (symbol && state.pool === "chord") {
         realise = Chord.steps(symbol, root);
-        pool = item.chord.notes.map((_, j) => realise(j));
+        pool = chord.notes.map((_, j) => realise(j));
         over = `Chord.steps(${show(symbol)}, root)`;
         setup = placed;
       } else if (symbol) {
@@ -399,7 +405,7 @@ export function NotePatterns() {
           ? played
           : Note.fold(played, range, { each: state.fold === "each" });
       return {
-        text: item.text,
+        text: chord.empty ? playedChords[i].symbol : chord.symbol,
         symbol,
         pool,
         realise,
@@ -413,50 +419,63 @@ export function NotePatterns() {
     });
     // the state, the chart and the scale make the segments
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bars, state, scaleName, stepsPerBar]);
+  }, [playedChords, state, scaleName]);
 
-  // a note on each onset; the pattern starts again with each chord
+  // a note on each onset of the rhythm, in every played bar (each step lasts
+  // the bar's length over the steps); the pattern starts again with each chord
   const events = useMemo(() => {
+    const segmentOf = new Map(playedChords.map((c, i) => [c, i]));
+    const positions = form.flatMap((bar) =>
+      Time.onsets(rhythm, Time.div(bar.length, rhythm.length) ?? 0, bar.start),
+    );
+    const count = new Map<number, number>();
     const list: Event[] = [];
-    segments.forEach((segment, s) => {
+    positions.forEach((position, p) => {
+      const chord = Chart.chordAt(playedChords, position);
+      const s = chord ? segmentOf.get(chord) : undefined;
+      if (s === undefined) return;
+      const segment = segments[s];
       if (!segment.notes.length) return;
-      const steps = onsets
-        .map((o) => o + Math.floor(segment.from / stepsPerBar) * stepsPerBar)
-        .filter((o) => o >= segment.from && o < segment.to);
-      steps.forEach((start, j) => {
-        const end = steps[j + 1] ?? segment.to;
-        const k = j % segment.notes.length;
-        if (!segment.notes[k]) return;
-        list.push({
-          segment: s,
-          index: segment.indexes[k],
-          note: segment.notes[k],
-          start,
-          duration: end - start,
-        });
+      const j = count.get(s) ?? 0;
+      count.set(s, j + 1);
+      const k = j % segment.notes.length;
+      if (!segment.notes[k]) return;
+      // until the next onset, or the end of the chord
+      const next = positions[p + 1];
+      const end =
+        next && Time.compare(next, segment.to) < 0 ? next : segment.to;
+      const start = Time.toNumber(position) ?? 0;
+      list.push({
+        segment: s,
+        index: segment.indexes[k],
+        note: segment.notes[k],
+        start,
+        duration: (Time.toNumber(end) ?? 0) - start,
       });
     });
     return list;
-  }, [segments, onsets, stepsPerBar]);
+  }, [form, playedChords, segments, rhythm]);
 
-  const total = bars.length * stepsPerBar;
-  const secondsPerStep = BAR / stepsPerBar;
+  const last = form[form.length - 1];
+  const total = last
+    ? (Time.toNumber(Time.add(last.start, last.length) ?? 0) ?? 0)
+    : 0;
   // what Play plays: the notes, and rests where there are none
   const timeline = useMemo(() => {
     const steps: { notes: string[]; duration: number }[] = [];
     let time = 0;
     for (const e of events) {
       if (e.start > time) {
-        steps.push({ notes: [], duration: (e.start - time) * secondsPerStep });
+        steps.push({ notes: [], duration: (e.start - time) * QUARTER });
       }
-      steps.push({ notes: [e.note], duration: e.duration * secondsPerStep });
+      steps.push({ notes: [e.note], duration: e.duration * QUARTER });
       time = e.start + e.duration;
     }
     if (total > time) {
-      steps.push({ notes: [], duration: (total - time) * secondsPerStep });
+      steps.push({ notes: [], duration: (total - time) * QUARTER });
     }
     return steps;
-  }, [events, total, secondsPerStep]);
+  }, [events, total]);
 
   useEffect(() => {
     updateSteps(timeline, { loop });
@@ -479,7 +498,8 @@ export function NotePatterns() {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
         <label htmlFor="patterns-input" className="text-sm font-medium">
-          Chords: bars between “|”, “%” repeats a bar
+          Chords: bars between “|”, with sections, meters, repeats and jumps as
+          in the chart reader
         </label>
         <textarea
           id="patterns-input"
@@ -717,10 +737,12 @@ export function NotePatterns() {
           <div className="overflow-x-auto rounded-xl border border-fd-border bg-fd-card p-2">
             <PianoRoll
               chords={roll}
-              unit={Math.max(14, Math.round(160 / stepsPerBar))}
+              unit={
+                (Math.max(14, Math.round(160 / stepsPerBar)) * stepsPerBar) / 4
+              }
               selected={selected}
               playback={playing}
-              secondsPerUnit={secondsPerStep}
+              secondsPerUnit={QUARTER}
               clock={audioTime}
               onSelect={(i) => {
                 setSelected(i);
