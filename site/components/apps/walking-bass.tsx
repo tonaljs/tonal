@@ -82,7 +82,7 @@ const DEFAULTS: State = {
   variety: 1,
   chromatic: 1,
   leaps: 1,
-  skips: 1,
+  skips: 0.4,
   tempo: 160,
   ride: true,
 };

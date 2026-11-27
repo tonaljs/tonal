@@ -71,7 +71,10 @@ export type BassOptions = {
   chromatic: number;
   /** How willing to leap a fourth or more (0 to 2) */
   leaps: number;
-  /** How many notes between the beats: 1 is as many as real players (0 to 2) */
+  /**
+   * How many notes between the beats: 1 is as many as real players (0 to 2);
+   * 0.4 by default, which sounds less busy
+   */
   skips: number;
 };
 
@@ -84,7 +87,7 @@ export const DEFAULT_OPTIONS: BassOptions = {
   variety: 1,
   chromatic: 1,
   leaps: 1,
-  skips: 1,
+  skips: 0.4,
 };
 
 // --- the slots -------------------------------------------------------------
