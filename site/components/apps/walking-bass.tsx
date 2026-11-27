@@ -94,6 +94,8 @@ export function WalkingBass() {
   const [state, setState] = useState<State>(DEFAULTS);
   const [selected, setSelected] = useState<number | null>(null);
   const [loop, setLoop] = useState(true);
+  // a new line on every turn of the loop
+  const [renew, setRenew] = useState(true);
   const [linkRead, setLinkRead] = useState(false);
   const set = (patch: Partial<State>) => setState((s) => ({ ...s, ...patch }));
 
@@ -156,15 +158,39 @@ export function WalkingBass() {
 
   // playback
   const { play, stop, playing, status } = useBand();
+  // the next turn of a loop: a new line (the next seed) when renewing, shown
+  // when that turn starts without starting the playback again
+  const latest = useRef({ text, options, renew });
+  latest.current = { text, options, renew };
+  const fromLoop = useRef(false);
+  const nextTurn = useCallback((current: BassLine) => {
+    const { text, options, renew } = latest.current;
+    if (!renew) return { line: current, show: () => {} };
+    const seed = options.seed + 1;
+    latest.current.options = { ...options, seed };
+    return {
+      line: walkingBass(text, { ...options, seed }),
+      show: () => {
+        fromLoop.current = true;
+        setSelected(null);
+        setState((s) => ({ ...s, seed }));
+      },
+    };
+  }, []);
   const playLine = useCallback(
-    () => play(line, state.tempo, state.ride, loop),
-    [play, line, state.tempo, state.ride, loop],
+    () => play(line, state.tempo, state.ride, loop, nextTurn),
+    [play, line, state.tempo, state.ride, loop, nextTurn],
   );
   // a new line, tempo or ride while playing: play it again from the start
+  // (but not when the loop itself drew the new line)
   const restart = useRef(playLine);
   restart.current = playLine;
   const isPlaying = !!playing;
   useEffect(() => {
+    if (fromLoop.current) {
+      fromLoop.current = false;
+      return;
+    }
     // only when what plays changes, not when playback starts
     if (isPlaying) restart.current();
   }, [line, state.tempo, state.ride]);
@@ -328,6 +354,18 @@ export function WalkingBass() {
               onChange={(e) => setLoop(e.target.checked)}
             />
             Loop
+          </label>
+          <label
+            className="flex items-center gap-1"
+            title="Draw a new line (the next seed) on every turn of the loop"
+          >
+            <input
+              type="checkbox"
+              checked={renew}
+              disabled={!loop}
+              onChange={(e) => setRenew(e.target.checked)}
+            />
+            New line each loop
           </label>
           <label className="flex items-center gap-1">
             <input
@@ -597,6 +635,10 @@ function code(line: BassLine, state: State, selected: BassNote | undefined) {
 
 type BandStatus = "idle" | "loading" | "ready" | "error";
 
+// schedule the next turn of a loop this long before the current one ends
+// (drawing a new line takes a few hundred milliseconds)
+const LOOP_AHEAD = 1.5;
+
 // Play the line with a bass and a ride, once or in a loop
 function useBand() {
   const [status, setStatus] = useState<BandStatus>("idle");
@@ -607,10 +649,14 @@ function useBand() {
   } | null>(null);
   const run = useRef(0);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const shownTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
 
   const clear = useCallback(() => {
     run.current++;
     clearTimeout(timer.current);
+    clearTimeout(shownTimer.current);
     setPlaying(null);
   }, []);
 
@@ -618,42 +664,74 @@ function useBand() {
     () => () => {
       run.current++;
       clearTimeout(timer.current);
+      clearTimeout(shownTimer.current);
       void stopBand();
     },
     [],
   );
 
   const play = useCallback(
-    (line: BassLine, tempo: number, ride: boolean, loop: boolean) => {
+    (
+      line: BassLine,
+      tempo: number,
+      ride: boolean,
+      loop: boolean,
+      next?: (current: BassLine) => { line: BassLine; show: () => void },
+    ) => {
       clear();
       void stopBand();
       const id = run.current;
-      const notes = line.notes.map((n) => ({
-        start: num(n.start),
-        duration: num(n.duration),
-        note: n.note,
-        ghost: n.role === "ghost",
-      }));
+      const notesOf = (l: BassLine) =>
+        l.notes.map((n) => ({
+          start: num(n.start),
+          duration: num(n.duration),
+          note: n.note,
+          ghost: n.role === "ghost",
+        }));
       setStatus((s) => (s === "ready" ? s : "loading"));
-      const turn = (at?: number) =>
-        playBand(notes, { length: line.length, tempo, ride, at }).then(
+      // a turn: its notes are scheduled ahead (`at`), and what it shows
+      // changes when it starts
+      const turn = (current: BassLine, at?: number, show?: () => void) =>
+        playBand(notesOf(current), {
+          length: current.length,
+          tempo,
+          ride,
+          at,
+        }).then(
           (playback) => {
             if (id !== run.current) return;
             setStatus("ready");
-            setPlaying({ ...playback, loop });
+            const shown = () => {
+              if (id !== run.current) return;
+              show?.();
+              setPlaying({ ...playback, loop });
+            };
+            if (at === undefined) shown();
+            else
+              shownTimer.current = setTimeout(
+                shown,
+                Math.max(0, (playback.start - bandTime()) * 1000),
+              );
             const end = playback.start + playback.duration;
             timer.current = setTimeout(
               () => {
                 if (id !== run.current) return;
-                if (loop) void turn(end);
-                else setPlaying(null);
+                if (!loop) {
+                  setPlaying(null);
+                  return;
+                }
+                const following = next
+                  ? next(current)
+                  : { line: current, show: () => {} };
+                void turn(following.line, end, following.show);
               },
-              Math.max(0, (end - bandTime() - 0.4) * 1000),
+              // early enough to draw the next line and schedule it
+              Math.max(0, (end - bandTime() - LOOP_AHEAD) * 1000),
             );
           },
           () => setStatus("error"),
         );
-      void turn();
+      void turn(line);
     },
     [clear],
   );
