@@ -12,9 +12,8 @@
 //    own counts of FiloBass, a corpus of 48 transcribed jazz walking lines
 //    (Jasper Riley and Simon Dixon, "FiloBass: A Dataset and Corpus Based
 //    Study of Jazz Basslines", ISMIR 2023, https://aim-qmul.github.io/FiloBass).
-//    What is used here are our counts: rounded percentages, and a vocabulary
-//    of common four-note figures as degrees (FIGURES) with their frequencies;
-//    no transcribed line is included:
+//    Only rounded percentages are used here, never the transcriptions; the
+//    shapes of a bar (SHAPES) are set by hand and only checked against it:
 //    - what the note is over the chord (root, 3rd, 5th, 7th, a tension of the
 //      chord's scale, or chromatic), by where the slot is: the first beat of a
 //      chord, the last beat before a new one, or a beat in between;
@@ -295,46 +294,46 @@ const FIT: {
   kinds: Record<string, Record<string, number>>;
 } = {
   interval: {
-    "0": 0.444,
-    "1": 0.813,
-    "2": 0.726,
-    "3-4": 1.687,
-    "5": 0.747,
-    "6-7": 1.979,
-    "8-12": 1.664,
+    "0": 0.469,
+    "1": 0.716,
+    "2": 0.741,
+    "3-4": 1.581,
+    "5": 0.927,
+    "6-7": 2.485,
+    "8-12": 1.679,
   },
   kinds: {
     onset: {
-      root: 0.941,
-      third: 1.535,
-      fifth: 0.836,
-      seventh: 1.097,
-      tension: 1.422,
-      chromatic: 1.749,
+      root: 0.868,
+      third: 1.511,
+      fifth: 1.378,
+      seventh: 1.184,
+      tension: 1.439,
+      chromatic: 2.299,
     },
     last: {
-      root: 1.471,
-      third: 0.826,
-      fifth: 0.761,
-      seventh: 0.881,
-      tension: 1.15,
-      chromatic: 0.998,
+      root: 1.732,
+      third: 0.789,
+      fifth: 0.736,
+      seventh: 0.912,
+      tension: 0.922,
+      chromatic: 1.163,
     },
     beat2: {
-      root: 2.123,
-      third: 1.797,
-      fifth: 1.04,
-      seventh: 0.869,
-      tension: 0.792,
-      chromatic: 0.98,
+      root: 2.801,
+      third: 0.841,
+      fifth: 0.762,
+      seventh: 0.278,
+      tension: 1.252,
+      chromatic: 3.222,
     },
     beat3: {
-      root: 1.002,
-      third: 1.678,
-      fifth: 0.865,
-      seventh: 1.115,
-      tension: 0.755,
-      chromatic: 1.076,
+      root: 1.752,
+      third: 0.762,
+      fifth: 0.697,
+      seventh: 1.315,
+      tension: 1.0,
+      chromatic: 1.765,
     },
   },
 };
@@ -413,240 +412,107 @@ const RULES = {
 };
 
 /**
- * The figures a bass plays over a one-chord bar before a new chord, by how
- * the root moves (semitones up, 0-11), and how often (% of those bars):
- * the walking bass harness (assist-tonal, spikes/walking-bass-eval) counts
- * them in FiloBass's bars walked in quarters and rewrites the block between
- * the markers. Players reuse a vocabulary: the 100 most common figures cover
- * 61% of their bars, where note-by-note choices spread over many more. A
- * chord a fourth up is most often reached by a chromatic climb from the root
- * (R-9-b3-3, 16%).
+ * The shape of a one-chord bar before a new chord, as bass methods teach it:
+ * start on the root and lead to the next chord's root. Set by hand, and
+ * checked against real lines with the walking bass harness (assist-tonal,
+ * spikes/walking-bass-eval):
+ *
+ * - a chromatic climb: the three notes before the new chord rise by half
+ *   steps to a half step below its root (before a chord a fourth up this is
+ *   R-9-b3-3, before a fifth up R-3-11-b5);
+ * - a chromatic descent: the same from above (before a fifth up, R-b7-13-b13);
+ * - a climb from the fifth: the chromatic climb, starting on the fifth
+ *   (before the same root, 5-13-b7-7);
+ * - an arpeggio up (R-3-5) or down (R-5-3), and a scale run up or down in the
+ *   chord's scale (R-9-3, R-b7-13), the last beat left to the approach;
+ * - free: the note-by-note tables decide.
+ *
+ * A chromatic line goes on in the direction it leaves the root in: a climb
+ * starts above the root, a descent below it, a third away at most. So they
+ * depend on how the root moves, as in real lines (no climb into the same
+ * root, or into a chord a half step down).
  */
-// figures:start
-const FIGURES: Record<string, Record<string, number>> = {
-  "0": {
-    "5-b13-13-7": 10.5,
-    "5-13-b7-7": 6.4,
-    "R-9-3-5": 5.5,
-    "5-7-R-3": 5,
-    "R-b5-5-b9": 4.1,
-    "5-b5-5-7": 2.7,
-    "5-11-3-9": 2.7,
-    "R-9-5-9": 2.3,
-    "R-9-3-9": 2.3,
-    "R-7-13-5": 1.8,
-    "5-13-7-9": 1.8,
-    "R-b7-13-b13": 1.8,
-    "R-b7-13-5": 1.8,
-    "R-13-5-7": 1.8,
-    "5-9-11-b5": 1.8,
-    "R-9-b3-3": 1.8,
-  },
-  "1": {
-    "R-3-5-R": 16.5,
-    "5-9-R-5": 8.9,
-    "R-b5-5-R": 7.6,
-    "R-7-R-R": 7.6,
-    "R-9-b3-R": 7.6,
-    "R-7-13-5": 5.1,
-    "R-5-b3-R": 5.1,
-  },
-  "2": {
-    "R-5-R-b9": 8.9,
-    "R-9-b3-b9": 7.3,
-    "R-7-R-b9": 5,
-    "R-3-5-b9": 3.1,
-    "R-3-13-3": 2.7,
-    "R-b7-13-b9": 2.7,
-    "R-R-5-R": 2.7,
-    "5-11-3-b3": 2.3,
-    "3-R-5-R": 1.9,
-    "R-9-b3-11": 1.5,
-    "R-5-b3-R": 1.5,
-    "5-b13-13-b3": 1.5,
-    "R-5-13-b3": 1.5,
-    "R-3-11-b5": 1.5,
-  },
-  "3": {
-    "R-7-R-9": 23.1,
-    "5-7-R-9": 9.6,
-  },
-  "4": {
-    "R-5-b5-11": 7.1,
-    "R-9-b3-11": 6.2,
-    "R-13-5-11": 4.4,
-    "5-9-R-11": 3.5,
-    "R-R-9-b3": 3.5,
-  },
-  "5": {
-    "R-9-b3-3": 16.8,
-    "R-b9-9-3": 4.4,
-    "R-b7-13-5": 2.7,
-    "5-7-R-3": 2.6,
-    "R-5-3-R": 2.2,
-    "5-b9-R-b5": 2.1,
-    "R-b7-5-R": 2,
-    "R-9-3-R": 1.8,
-    "R-3-13-5": 1.7,
-    "R-5-R-b5": 1.5,
-    "R-9-3-5": 1.3,
-    "R-5-b7-7": 1.3,
-    "R-3-5-b5": 1.3,
-    "R-5-R-b7": 1,
-    "5-b9-R-3": 1,
-    "R-5-R-5": 1,
-    "R-9-5-b5": 1,
-    "R-b3-5-R": 0.8,
-    "R-b7-5-b5": 0.8,
-    "R-R-5-R": 0.8,
-    "R-13-5-b5": 0.8,
-    "R-b3-5-b5": 0.8,
-    "5-11-3-R": 0.7,
-    "R-5-b3-R": 0.7,
-    "R-b5-5-b5": 0.7,
-    "R-9-5-9": 0.7,
-    "b7-7-R-b5": 0.6,
-    "R-9-b3-9": 0.6,
-    "R-b7-b13-5": 0.6,
-    "R-3-13-R": 0.6,
-    "R-9-b3-R": 0.6,
-    "5-11-3-9": 0.5,
-    "3-5-R-5": 0.5,
-    "3-5-R-3": 0.5,
-    "b3-9-R-b7": 0.5,
-    "R-5-9-b9": 0.5,
-    "R-9-b3-5": 0.4,
-    "11-5-13-b7": 0.4,
-    "R-7-R-9": 0.4,
-    "R-5-b3-3": 0.4,
-    "5-7-R-b5": 0.4,
-    "5-b9-R-5": 0.4,
-    "R-7-b7-R": 0.4,
-    "3-9-R-b7": 0.4,
-    "11-b5-5-R": 0.4,
-    "R-9-R-b7": 0.4,
-    "R-5-R-3": 0.4,
-    "5-13-b7-7": 0.4,
-    "5-9-R-5": 0.4,
-    "9-7-R-3": 0.4,
-    "R-b3-b5-R": 0.4,
-    "3-9-R-3": 0.4,
-    "R-b7-5-b9": 0.4,
-    "R-b5-b3-R": 0.4,
-    "5-R-5-b5": 0.4,
-    "3-R-5-b5": 0.4,
-    "R-3-5-R": 0.3,
-    "5-9-R-3": 0.3,
-    "3-5-R-b7": 0.3,
-    "R-R-b7-13": 0.3,
-    "R-b5-R-b5": 0.3,
-    "R-5-R-R": 0.3,
-    "3-11-3-R": 0.3,
-    "R-b9-9-b3": 0.3,
-    "b7-7-R-3": 0.3,
-    "R-7-R-3": 0.3,
-    "3-R-5-3": 0.3,
-    "5-3-9-R": 0.3,
-    "3-9-R-b5": 0.3,
-    "5-5-R-5": 0.3,
-    "R-b3-5-b7": 0.3,
-    "9-b9-R-b7": 0.3,
-    "R-13-b7-b13": 0.3,
-    "R-b5-R-3": 0.2,
-    "R-b9-9-5": 0.2,
-    "R-b9-9-b9": 0.2,
-    "R-b7-b5-R": 0.2,
-    "b7-9-R-3": 0.2,
-    "5-b13-13-R": 0.2,
-    "b7-9-R-b7": 0.2,
-    "R-R-R-R": 0.2,
-    "R-7-R-R": 0.2,
-    "3-5-9-R": 0.2,
-    "R-b7-b13-9": 0.2,
-    "R-b13-b5-R": 0.2,
-    "R-3-5-b7": 0.2,
-    "5-13-5-3": 0.2,
-    "R-11-5-b5": 0.2,
-    "R-3-13-b5": 0.2,
-    "b7-13-b7-7": 0.2,
-    "R-R-5-3": 0.2,
-    "R-R-R-3": 0.2,
-    "R-b7-13-9": 0.2,
-  },
-  "6": {
-    "R-b7-5-b7": 7.2,
-    "R-7-13-5": 5.4,
-    "R-b9-9-R": 4.2,
-    "R-5-R-5": 4.2,
-    "R-b5-5-R": 4.2,
-    "R-3-13-5": 3.6,
-    "R-5-9-R": 3,
-    "R-b9-9-5": 2.4,
-    "5-b9-R-5": 2.4,
-    "R-5-R-R": 2.4,
-    "R-3-5-R": 2.4,
-    "9-5-R-5": 2.4,
-    "R-3-13-b9": 2.4,
-    "R-7-R-11": 2.4,
-    "3-9-R-b7": 2.4,
-    "5-R-13-5": 2.4,
-  },
-  "7": {
-    "R-b9-9-b5": 12.3,
-    "R-b7-13-b13": 9.1,
-    "R-3-11-b5": 4.8,
-    "R-b9-9-b13": 3.7,
-    "R-7-b7-13": 3.7,
-    "R-5-b9-3": 2.7,
-    "3-11-3-9": 2.7,
-    "R-3-13-b13": 2.1,
-    "5-b13-13-b13": 2.1,
-    "3-9-R-b9": 2.1,
-  },
-  "9": {
-    "R-R-7-b7": 12.4,
-    "R-R-b7-b7": 7.7,
-    "R-9-5-b7": 4.6,
-    "R-9-R-b7": 4.1,
-    "R-R-7-3": 4.1,
-    "R-5-b5-11": 4.1,
-    "R-7-R-b7": 3.6,
-    "R-3-R-b7": 3.6,
-    "R-9-b3-R": 2.6,
-    "R-R-b7-b13": 2.6,
-    "R-R-9-11": 2.6,
-    "R-5-11-b13": 2.6,
-    "R-13-5-11": 2.6,
-    "R-9-b3-3": 2.1,
-    "R-7-R-3": 2.1,
-    "R-R-b7-11": 2.1,
-  },
-  "10": {
-    "R-5-R-7": 13,
-    "5-11-3-R": 10.1,
-    "R-7-R-7": 7.2,
-    "R-3-5-R": 5.8,
-    "R-b3-5-R": 5.8,
-    "5-b9-R-5": 5.8,
-  },
-  "11": {
-    "R-b3-5-R": 11.9,
-    "R-5-3-R": 6.7,
-    "R-3-5-R": 6.3,
-    "R-b5-5-R": 5.6,
-    "R-b3-9-R": 3.2,
-    "R-5-R-b5": 3.2,
-    "R-9-b3-R": 2.5,
-    "R-R-5-R": 2.1,
-    "R-3-13-5": 2.1,
-    "R-7-13-5": 1.8,
-    "R-R-b3-R": 1.4,
-    "R-b9-9-R": 1.4,
-    "5-7-R-b7": 1.4,
-    "R-5-R-11": 1.4,
-  },
+type Shape =
+  | "chromatic climb"
+  | "climb from the fifth"
+  | "chromatic descent"
+  | "arpeggio up"
+  | "arpeggio down"
+  | "scale up"
+  | "scale down"
+  | "free";
+const SHAPES: Record<Shape, number> = {
+  "chromatic climb": 0.16,
+  "climb from the fifth": 0.05,
+  "chromatic descent": 0.07,
+  "arpeggio up": 0.08,
+  "arpeggio down": 0.05,
+  "scale up": 0.07,
+  "scale down": 0.1,
+  free: 0.47,
 };
-// figures:end
+
+// the pitch class of each note of a shape (undefined: free), or undefined if
+// the shape doesn't fit the bar
+function shapePcs(
+  shape: Shape,
+  symbol: string,
+  nextSymbol: string,
+  scale: string,
+): (number | undefined)[] | undefined {
+  const bass = Chord.bass(symbol);
+  const start = Note.chroma(bass);
+  const target = Note.chroma(Chord.bass(nextSymbol));
+  if (start === undefined || target === undefined) return undefined;
+  const pc = (n: number) => ((n % 12) + 12) % 12;
+  // the first note of a line is up (or down) from the root by a third at most
+  const above = (a: number, b: number) => pc(b - a) >= 1 && pc(b - a) <= 4;
+  const below = (a: number, b: number) => pc(a - b) >= 1 && pc(a - b) <= 4;
+  const degree = (...ds: string[]) => {
+    const formula = Chord.formula(symbol);
+    const d = ds.find((x) => formula.includes(x));
+    return d ? Note.chroma(Chord.noteOf(symbol, d)) : undefined;
+  };
+  const step = (n: number) =>
+    Note.chroma(Scale.transposeBySteps(scale, Note.pitchClass(bass), n));
+  switch (shape) {
+    case "chromatic climb": {
+      const line = [pc(target - 3), pc(target - 2), pc(target - 1)];
+      return above(start, line[0]) ? [start, ...line] : undefined;
+    }
+    case "climb from the fifth": {
+      const fifth = degree("5", "b5", "#5");
+      const line = [pc(target - 3), pc(target - 2), pc(target - 1)];
+      return fifth !== undefined && above(fifth, line[0])
+        ? [fifth, ...line]
+        : undefined;
+    }
+    case "chromatic descent": {
+      const line = [pc(target + 3), pc(target + 2), pc(target + 1)];
+      return below(start, line[0]) ? [start, ...line] : undefined;
+    }
+    case "arpeggio up":
+    case "arpeggio down": {
+      const third = degree("3", "b3", "4");
+      const fifth = degree("5", "b5", "#5");
+      if (third === undefined || fifth === undefined) return undefined;
+      return shape === "arpeggio up"
+        ? [start, third, fifth, undefined]
+        : [start, fifth, third, undefined];
+    }
+    case "scale up":
+    case "scale down": {
+      const dir = shape === "scale up" ? 1 : -1;
+      const a = step(dir);
+      const b = step(2 * dir);
+      return a === undefined || b === undefined
+        ? undefined
+        : [start, a, b, undefined];
+    }
+    default:
+      return undefined;
+  }
+}
 
 /** The register: around F2 (MIDI 41), most notes within an octave of it. */
 const REGISTER = { centre: 41, spread: 14 };
@@ -854,12 +720,12 @@ export function walkingBass(text: string, options: BassOptions): BassLine {
     return Math.sign(d) === to.dir && Math.abs(d) >= 3 === to.leap;
   };
 
-  // a figure for each one-chord bar walked in quarters before a new chord:
+  // a shape for each one-chord bar walked in quarters before a new chord:
   // the pitch class of each of its notes, or none (free)
-  const figureRnd = random(options.seed + 2);
+  const shapeRnd = random(options.seed + 2);
   const figureOf = new Map<
     number,
-    { pc: number; figure: string; motion: string }
+    { pc: number; shape: Shape; next: string }
   >();
   slots.forEach((slot, i) => {
     if (slot.beat !== 0 || !slot.chord || slot.two) return;
@@ -875,29 +741,24 @@ export function walkingBass(text: string, options: BassOptions): BassLine {
     ) {
       return;
     }
-    const root = Note.chroma(Chord.get(slot.chord).tonic ?? "");
-    const nextRoot = Note.chroma(Chord.get(next.chord).tonic ?? "");
-    if (root === undefined || nextRoot === undefined) return;
-    const motion = (nextRoot - root + 12) % 12;
-    const table = FIGURES[motion];
-    if (!table) return;
-    let r = figureRnd() * 100;
-    const chosenFigure = Object.entries(table).find(
-      ([, share]) => (r -= share) < 0,
-    );
-    if (!chosenFigure) return;
-    const degrees = chosenFigure[0].split("-");
-    const pcs = degrees.map((d) =>
-      Note.chroma(Chord.noteOf(slot.chord, d === "R" ? "1" : d)),
-    );
-    if (pcs.some((pc) => pc === undefined)) return;
-    pcs.forEach((pc, k) =>
-      figureOf.set(i + k, {
-        pc: pc!,
-        figure: chosenFigure[0],
-        motion: MOTIONS[motion] ?? `${motion} semitones up`,
-      }),
-    );
+    const scale = info[slot.chord].scale;
+    const options_ = (Object.keys(SHAPES) as Shape[])
+      .map((shape) => ({
+        shape,
+        pcs:
+          shape === "free"
+            ? []
+            : shapePcs(shape, slot.chord, next.chord, scale),
+      }))
+      .filter((o) => o.pcs !== undefined);
+    let r = shapeRnd() * options_.reduce((a, o) => a + SHAPES[o.shape], 0);
+    const chosen = options_.find((o) => (r -= SHAPES[o.shape]) <= 0);
+    if (!chosen || chosen.shape === "free") return;
+    chosen.pcs!.forEach((pc, k) => {
+      if (pc !== undefined) {
+        figureOf.set(i + k, { pc, shape: chosen.shape, next: next.chord });
+      }
+    });
   });
   const allowed = (index: number, midi: number) => {
     const f = figureOf.get(index);
@@ -1001,26 +862,11 @@ function spell(midi: number, chord: ChordInfo, rising: boolean) {
   return rising ? Note.fromMidiSharps(midi) : Note.fromMidi(midi);
 }
 
-const MOTIONS: Record<number, string> = {
-  0: "the same root",
-  1: "a half step up",
-  2: "a whole step up",
-  3: "a minor third up",
-  4: "a major third up",
-  5: "a fourth up",
-  6: "a tritone away",
-  7: "a fifth up",
-  8: "a major third down",
-  9: "a minor third down",
-  10: "a whole step down",
-  11: "a half step down",
-};
-
 function describe(
   slots: Slot[],
   chosen: Map<number, number>,
   info: Record<string, ChordInfo>,
-  figureOf: Map<number, { figure: string; motion: string }>,
+  figureOf: Map<number, { shape: Shape; next: string }>,
 ): Step[] {
   const indexes = [...chosen.keys()].sort((a, b) => a - b);
   const names = new Map<number, string>();
@@ -1071,7 +917,7 @@ function describe(
     }
     const figure = figureOf.get(i);
     if (figure) {
-      why += `; in the figure ${figure.figure}, which players use before a chord ${figure.motion}`;
+      why += `; part of ${figure.shape === "free" ? "" : `a ${figure.shape}`} leading to ${figure.next}`;
     }
     return { slot: i, note, role, why };
   });
