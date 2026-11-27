@@ -15,12 +15,16 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/pitch-note": "6.2.1",
+    "@tonaljs/chord": "6.7.0",
     "@tonaljs/note": "4.14.0",
-    "@tonaljs/roman-numeral": "4.10.3"
+    "@tonaljs/pitch-distance": "5.1.3",
+    "@tonaljs/pitch-interval": "6.4.1",
+    "@tonaljs/pitch-note": "6.2.1",
+    "@tonaljs/progression": "4.11.8",
+    "@tonaljs/roman-numeral": "4.10.3",
+    "@tonaljs/scale-type": "4.10.2"
   },
   "devDependencies": {
-    "@tonaljs/chord": "6.7.0",
     "@tonaljs/scale": "4.16.0"
   },
   "author": "danigb@gmail.com",

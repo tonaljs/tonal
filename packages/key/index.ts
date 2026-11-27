@@ -1,6 +1,14 @@
 import { simplify, transpose, transposeFifths } from "@tonaljs/note";
 import { accToAlt, altToAcc, note } from "@tonaljs/pitch-note";
 import { get as roman } from "@tonaljs/roman-numeral";
+import {
+  analyze,
+  type AnalyzeChordOptions,
+  type ChordReading,
+  keyForms,
+} from "./analyze";
+
+export type { AnalyzeChordOptions, ChordReading, ChordSource } from "./analyze";
 
 const Empty: readonly string[] = Object.freeze([] as string[]);
 
@@ -382,6 +390,59 @@ export function majorTonicFromKeySignature(
     return transposeFifths("C", accToAlt(sig));
   }
   return null;
+}
+
+/**
+ * Analyse a chord in a key: every reading of what the chord does there,
+ * ranked, the first being the default. Each reading has its numeral as the
+ * books write it ("V7/ii", "subV7/I", "ii7/V", "bVIImaj7"), the chord's plain
+ * numeral on the tonic (`degree`), its source, harmonic function ("T", "SD",
+ * "D" or ""), the scale it comes from, the numeral it leads to (`target`),
+ * whether the next chord goes there (`resolution`) and a chord scale chosen
+ * by function. Returns `[]` for an invalid key or chord; a valid chord always
+ * has at least one reading.
+ *
+ * The key is "C major", "A minor" or a tonic alone ("C", major). A minor key
+ * has the chords of its natural, harmonic and melodic forms. A slash chord is
+ * read without its bass. The readings, by source:
+ *
+ * - "diatonic": every note in a scale of the key, root on a degree.
+ * - "secondary dominant": a dominant or major triad a fifth above a degree
+ *   whose chord is major or minor, not the tonic ("A7" in C is "V7/ii").
+ * - "tritone substitute": a dominant a half step above one of those degrees
+ *   or the tonic ("Db7" in C is "subV7/I"); chord scale lydian dominant.
+ * - "related ii": a m7 or m7b5 a fifth above a next chord that is a
+ *   secondary dominant ("Am7" before "D7" in C is "ii7/V").
+ * - "borrowed": in the parallel key (major or the minor forms), or in a
+ *   parallel mode when nothing else reads the chord ("Fm7" in C is "iv7").
+ * - "backdoor": a dominant a whole step below the tonic, before the tonic.
+ * - "passing diminished": a dim7 a half step below a next chord on a degree
+ *   ("C#o7" before "Dm7" is "viio7/ii"), or between two chords a whole step
+ *   apart going down ("Em7 Ebo7 Dm7").
+ * - "common-tone diminished": a dim7 on the root of the chord before or after.
+ * - "chromatic": when nothing else matches.
+ *
+ * Ranking: readings the neighbours confirm first (the next chord on the
+ * target, a related ii, a backdoor or diminished chord, a secondary dominant
+ * after its related ii), then by source in the order above. The vi of a
+ * major key before the V is "SD" instead of "T".
+ *
+ * @param key - the key, like "C major" or "A minor"
+ * @param chord - the chord symbol, like "A7"
+ * @param options - `previous` and `next`, the chords around it
+ * @example
+ * Key.analyzeChord("C major", "A7", { next: "Dm7" })[0].numeral; // => "V7/ii"
+ * Key.analyzeChord("C major", "Bb7", { next: "C" }).map((r) => r.source); // => ["backdoor", "borrowed", "tritone substitute"]
+ * Key.analyzeChord("C major", "Am7", { next: "D7" }).map((r) => r.numeral); // => ["ii7/V", "vi7"]
+ * Key.analyzeChord("A minor", "E7")[0].scale; // => "A harmonic minor"
+ */
+export function analyzeChord(
+  key: string,
+  chord: string,
+  options?: AnalyzeChordOptions,
+): ChordReading[] {
+  const forms = keyForms(key, MajorScale, minorKey);
+  return forms ? analyze(forms, chord, options) : [];
 }
 
 /** @deprecated Use the named exports instead. */

@@ -856,6 +856,12 @@ type Type = 'perfectable' | 'majorable'
 
 import { Key } from "tonal"; // or: import * as Key from "@tonaljs/key";
 
+Key.analyzeChord(key: string, chord: string, options?: AnalyzeChordOptions): ChordReading[]
+  Analyse a chord in a key: every reading of what the chord does there, ranked, the first being the default. Each reading has its numeral as the books write it ("V7/ii", "subV7/I", "ii7/V", "bVIImaj7"), the chord's plain numeral on the tonic (`degree`), its source, harmonic function ("T", "SD", "D" or ""), the scale it comes from, the numeral it leads to (`target`), whether the next chord goes there (`resolution`) and a chord scale chosen by function. Returns `[]` for an invalid key or chord; a valid chord always has at least one reading.
+  Key.analyzeChord("C major", "A7", { next: "Dm7" })[0].numeral; // => "V7/ii"
+  Key.analyzeChord("C major", "Bb7", { next: "C" }).map((r) => r.source); // => ["backdoor", "borrowed", "tritone substitute"]
+  Key.analyzeChord("C major", "Am7", { next: "D7" }).map((r) => r.numeral); // => ["ii7/V", "vi7"]
+
 Key.majorKey(tonic: string): MajorKey
   Get a major key: its signature, scale, triads, seventh chords, harmonic functions and secondary and substitute dominants. For an invalid tonic it returns a key with empty strings and arrays.
   Key.majorKey("F").scale; // => ["F", "G", "A", "Bb", "C", "D", "E"]
@@ -883,6 +889,26 @@ Key.minorKeyChords(tonic: string): KeyChord[]
   Key.minorKeyChords("A").slice(0, 2); // => [{ name: "Am7", roles: ["T", "ii/bVII"] }, { name: "Bm7b5", roles: ["SD", "ii/I"] }]
 
 Types:
+
+type AnalyzeChordOptions = {
+  previous?: string | undefined;
+  next?: string | undefined;
+}
+
+type ChordReading = {
+  chord: string;
+  numeral: string;
+  degree: string;
+  source: ChordSource;
+  function: '' | 'D' | 'T' | 'SD';
+  scale: string;
+  target: string;
+  resolution: '' | 'functioning' | 'non-functioning';
+  chordScale: string;
+}
+
+type ChordSource = 'diatonic' | 'secondary dominant' | 'tritone substitute' | 'related ii' | 'borrowed' | 'backdoor' | 'passing diminished' | 'common-tone diminished' | 'chromatic'
+  Where a reading of a chord in a key comes from.
 
 type KeyChord = {
   name: string;

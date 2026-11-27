@@ -189,6 +189,13 @@ Key.minorKey("A").harmonic.chords; // => ["AmMaj7", "Bm7b5", "C+maj7", "Dm7", "E
   and substitute dominants). A minor key has three scales: `natural`,
   `harmonic` and `melodic`. In `secondaryDominants` and similar lists, `""`
   means the degree has none.
+- `Key.analyzeChord(key, chord, { previous, next })` says what a chord does
+  in a key: every reading, ranked (`[0]` is the default), each with a
+  numeral as the books write it (`"V7/ii"`, `"subV7/I"`, `"bVIImaj7"`), a
+  `source` (`"diatonic"`, `"secondary dominant"`, `"borrowed"`…), a
+  `function` and a `chordScale` chosen by function. Pass the neighbours:
+  related ii chords, backdoor and diminished readings need them. The key is
+  `"C major"` or `"A minor"`; for a whole progression, `map` over the chords.
 - `Scale.outside(scale, chord)` lists the chord notes that aren't in the
   scale, spelled as in the chord: `Scale.outside("C major", "Bb7")` is
   `["Bb", "Ab"]`, and `[]` when the chord fits. To list the chord types that
