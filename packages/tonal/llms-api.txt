@@ -277,7 +277,7 @@ Chart.chordAt(chords: PlayedChord[], position: TimeValue): PlayedChord | null
   Chart.chordAt(chords, [8, 1]) // => null
 
 Chart.chords(chart: Chart, options?: UnrollOptions): PlayedChord[]
-  Get the chords of a chart as they're played: each with its symbol (`value`), where it starts and how long it lasts (in quarter notes from the start of the played form), and its bar in the played form. A chord lasts until the next chord, or the end of the form: a bar with no chords continues the chord before, and a chord written again is played again (a new entry). `N.C.` is a chord too, a rest.
+  Get the chords of a chart as they're played: each with its symbol (`value`), where it starts and how long it lasts (in quarter notes from the start of the played form), and its bar in the played form. A chord lasts until the next chord, or the end of the form: a bar with no chords continues the chord before, and a chord written again is played again (a new entry). `N.C.` is a chord too, a rest, with `rest: true`: nothing plays until the next chord (`Chord.get("N.C.")` has no notes and no tonic).
   Chart.chords(Chart.parse("| Dm7 G7 | Cmaj7 |")).map((c) => [c.value, c.start, c.duration])
 
 Chart.fromForm(sections: Record<string, string>, form: string, options?: ParseOptions): Chart
@@ -338,6 +338,7 @@ type ChartBar = {
 type ChartChord = {
   value: string;
   at: Fraction;
+  rest?: true | undefined;
 }
 
 type ParseOptions = {
@@ -363,6 +364,7 @@ type PlayedChord = {
   start: Fraction;
   duration: Fraction;
   bar: number;
+  rest?: true | undefined;
 }
 
 type TimeValue = string | number | Fraction

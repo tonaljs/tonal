@@ -200,7 +200,7 @@ Scale.approaches("G mixolydian", "G2");
 // }
 ```
 
-The half step below is the leading tone (`E#2` below `F#2`); the other chromatic notes are spelled from the target, respelled only when they would need a double sharp or flat. The scale notes are spelled as in the scale, and the target doesn't need to be in it:
+The half step below is the leading tone (`E#2` below `F#2`); the notes above take the simplest spelling (`B2` above `Bb2`, not `Cb3`), as a bass line is written; the whole step below and the fifths are spelled from the target, respelled only when they would need a double sharp or flat. The scale notes are spelled as in the scale, and the target doesn't need to be in it:
 
 ```js
 Scale.approaches("C major", "F#2").below; // => "E#2"

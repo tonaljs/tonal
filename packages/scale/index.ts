@@ -7,7 +7,7 @@ import { get as getChord } from "@tonaljs/chord";
 import { detect as detectChord } from "@tonaljs/chord-detect";
 import { all as chordTypes, get as getChordType } from "@tonaljs/chord-type";
 import { range as nums, rotate } from "@tonaljs/collection";
-import { enharmonic, fromMidi, sortedUniqNames } from "@tonaljs/note";
+import { enharmonic, fromMidi, simplify, sortedUniqNames } from "@tonaljs/note";
 import {
   chroma,
   isChroma,
@@ -623,9 +623,15 @@ const NoApproachNotes: ApproachNotes = {
   doubleAbove: [],
 };
 
-// Transpose, and respell a double sharp or flat
-function approachNote(target: string, interval: string): string {
+// Transpose, and respell a double sharp or flat; `simpler` takes the
+// simplest spelling (B, not Cb)
+function approachNote(
+  target: string,
+  interval: string,
+  simpler = false,
+): string {
   const name = transpose(target, interval);
+  if (simpler) return simplify(name);
   return /bb|##/.test(name) ? enharmonic(name) : name;
 }
 
@@ -636,7 +642,8 @@ function approachNote(target: string, interval: string): string {
  * target; which one to play, and when, is up to the app.
  *
  * The half step below is the leading tone (`E#2` below `F#2`). The notes above
- * a half step or a whole step, and the fifths, are spelled from the target,
+ * take the simplest spelling (`B2` above `Bb2`, not `Cb3`), as a bass line is
+ * written. The whole step below and the fifths are spelled from the target,
  * respelled only when they would need a double sharp or flat. The scale notes
  * are spelled as in the scale, and the target doesn't need to be in it. For
  * the scale of a chord in a key, use `Chord.chordScale`.
@@ -666,7 +673,7 @@ export function approaches(
   if (n.empty || n.oct === undefined) return { ...NoApproachNotes };
   const name = n.name;
   const below = approachNote(name, "-2m");
-  const above = approachNote(name, "2m");
+  const above = approachNote(name, "2m", true);
   const stepper = scaleStepper(scaleName);
   let scaleBelow = "";
   let scaleAbove = "";
@@ -685,7 +692,7 @@ export function approaches(
     enclosure: scaleAbove ? [scaleAbove, below] : [],
     chromaticEnclosure: [above, below],
     doubleBelow: [approachNote(name, "-2M"), below],
-    doubleAbove: [approachNote(name, "2M"), above],
+    doubleAbove: [approachNote(name, "2M", true), above],
   };
 }
 
