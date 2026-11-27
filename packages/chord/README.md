@@ -401,6 +401,8 @@ line.map((n) => Chord.fitNote(n, "C7", "Fmaj7")); // => ["F3", "G3", "G3"]
 line.map((n) => Chord.fitNote(n, "C7", "Fmaj7", { keep: "non-chord" })); // => ["F3", "Gb3", "G3"]
 ```
 
+A kept note is spelled by its role, and a chord tone that moves can reach it: Eb is the #9 of C7, so `C Db D Eb E` over Fm7 gives `F Gb G G# Ab`, where G# and Ab sound the same because the 3rd moved down to the passing note. Fixing that needs the whole phrase, so it's left to the app.
+
 To keep the fitted notes in a range, use `Note.fold` after fitting.
 
 ### `Chord.fitDegree`
