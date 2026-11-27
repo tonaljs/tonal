@@ -90,6 +90,24 @@ const FAMILY_DOTS: Record<string, string> = {
 
 type ChartChord = { text: string; chord: ReturnType<typeof Chord.get> };
 
+// Transpose the chords of the text as it's written, keeping its layout, its
+// "%" and the words the parser can't read (Chart.transpose and Chart.toText
+// would write the chart again: the code panel shows them)
+function transposeText(text: string, interval: string): string {
+  return text
+    .split(/(\[[^\]]*\]|<[^>]*>)/)
+    .map((part, i) =>
+      i % 2
+        ? part
+        : part.replace(
+            /(^|[\s|:])([A-G][^\s|@]*)/g,
+            (_, before: string, word: string) =>
+              before + (Chord.transpose(word, interval) || word),
+          ),
+    )
+    .join("");
+}
+
 const chromas = (notes: string[]) =>
   notes
     .map((n) => Note.get(n).chroma)
@@ -255,8 +273,7 @@ export function ChartReader() {
   const nowBar = now !== null ? played[now]?.bar : undefined;
 
   function transposeTo(newKey: string) {
-    const interval = Interval.distance(key, newKey);
-    setText(Chart.toText(Chart.transpose(chart, interval)));
+    setText(transposeText(text, Interval.distance(key, newKey)));
     setKey(newKey);
   }
 
