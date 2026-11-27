@@ -15,5 +15,11 @@ The code of this site (the docs site and its apps) is licensed under the [GNU Af
 - **The documentation** (`content/docs/`), generated from the READMEs of the tonal packages (and the agent guide), is under the [MIT License](../docs/LICENSE), like the library.
 - **`lib/walking-bass-figures.ts`** is under neither license: it holds walking bass figures counted from the FiloBass corpus, whose data are for non-commercial research (see its header).
 
+### Additional permission (AGPL section 7)
+
+The walking bass app combines this site's code with `lib/walking-bass-figures.ts`, whose terms restrict commercial use. So that the two can be conveyed together:
+
+> Additional permission under GNU AGPL version 3 section 7: if you modify this program, or any covered work, by combining it with `lib/walking-bass-figures.ts` (or a modified version of that file), the licensor of this program, danigb, grants you additional permission to convey the resulting work. The terms of `lib/walking-bass-figures.ts` still apply to that file; this permission doesn't extend them to the rest of the program, nor the AGPL to that file.
+
 Code contributed to the site before the change to the AGPL (2026-11-27) was under the MIT License, and those versions stay available under it.
 

@@ -34,7 +34,8 @@
 // 5. Notes between the beats are added to the line: eighths and triplets in
 //    walking, the rhythms of two-feel (see BETWEEN, EXTRA and TWO_FEEL).
 import { Chart, Chord, Note, Scale, Time } from "tonal";
-// not under the site's AGPL (nor MIT): see the header of that file
+// not under the site's AGPL (nor MIT): see the header of that file, and the
+// additional permission to combine them in site/README.md
 import { FIGURES } from "./walking-bass-figures.ts";
 
 /** What a note does in the line. */

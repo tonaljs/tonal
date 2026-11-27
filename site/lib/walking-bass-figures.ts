@@ -13,7 +13,8 @@
 //
 // The FiloBass data are made available for non-commercial research. These
 // counts are derived from them, so use this file only on the same terms, and
-// credit FiloBass. No transcribed line is included. To use the walking bass
+// credit FiloBass. No transcribed line is included. The site's AGPL code may
+// be combined with this file: see the additional permission in site/README.md. To use the walking bass
 // app without it, replace the table with {}: every bar is then drawn note by
 // note.
 //
