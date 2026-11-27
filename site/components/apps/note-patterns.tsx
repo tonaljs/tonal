@@ -49,6 +49,8 @@ type State = {
   // register
   low: string;
   high: string;
+  /** Where each chord starts: near the chord before, or in the lowest octave */
+  start: "near" | "low";
   fold: Fold;
   rhythm: string;
 };
@@ -66,6 +68,7 @@ const DEFAULTS: State = {
   voices: 0,
   low: "C3",
   high: "C6",
+  start: "near",
   fold: "off",
   rhythm: "eighths",
 };
@@ -314,6 +317,8 @@ export function NotePatterns() {
       next.order = DEFAULTS.order;
     if (!RHYTHMS.some((r) => r.id === next.rhythm))
       next.rhythm = DEFAULTS.rhythm;
+    if (next.start !== "near" && next.start !== "low")
+      next.start = DEFAULTS.start;
     setState(next);
     setLinkRead(true);
   }, []);
@@ -362,21 +367,36 @@ export function NotePatterns() {
         : { range: [state.low, state.high] as [string, string] },
     );
     let v = 0;
+    let previous = "";
     return flat.map(({ chord, from, to }, i): Segment => {
       const symbol = symbols[i];
       let pool: string[] = [];
       let realise: (index: number) => string = () => "";
       let over = "";
       let setup: string[] = [];
-      // the chord's tonic in the lowest octave of the range
+      // the chord's tonic near the root of the chord before (in the range),
+      // or in the lowest octave of the range
       const tonic = chord.tonic ?? "";
-      const [root = ""] = tonic
+      const near = state.start === "near" && previous !== "";
+      const [lowest = ""] = tonic
         ? Note.fold([tonic], [state.low, state.high])
         : [];
-      const placed = [
-        `const [root] = Note.fold(${show([tonic])}, ${show([state.low, state.high])});`,
-        `// => ${show([root])}`,
-      ];
+      const root = !tonic
+        ? ""
+        : near
+          ? Note.nearest(tonic, previous, { range: [state.low, state.high] }) ||
+            lowest
+          : lowest;
+      const placed = near
+        ? [
+            `const root = Note.nearest(${show(tonic)}, ${show(previous)}, { range: ${show([state.low, state.high])} });`,
+            `// => ${show(root)} (near the chord before)`,
+          ]
+        : [
+            `const [root] = Note.fold(${show([tonic])}, ${show([state.low, state.high])});`,
+            `// => ${show([root])}`,
+          ];
+      if (root) previous = root;
       if (symbol && state.pool === "voicing") {
         pool = voicings[v] ?? [];
         realise = Voicing.steps(pool);
@@ -426,7 +446,11 @@ export function NotePatterns() {
   const events = useMemo(() => {
     const segmentOf = new Map(playedChords.map((c, i) => [c, i]));
     const positions = form.flatMap((bar) =>
-      Time.onsets(rhythm, Time.div(bar.duration, rhythm.length) ?? 0, bar.start),
+      Time.onsets(
+        rhythm,
+        Time.div(bar.duration, rhythm.length) ?? 0,
+        bar.start,
+      ),
     );
     const count = new Map<number, number>();
     const list: Event[] = [];
@@ -694,6 +718,18 @@ export function NotePatterns() {
             options={RANGE_NOTES}
             onChange={(high) => set({ high })}
           />
+          {state.pool !== "voicing" ? (
+            <Toggle
+              stacked
+              label="Start each chord"
+              value={state.start}
+              options={[
+                ["near", "near the one before"],
+                ["low", "in the lowest octave"],
+              ]}
+              onChange={(start) => set({ start })}
+            />
+          ) : null}
           <Toggle
             stacked
             label="Fold into the range"
