@@ -541,20 +541,30 @@ describe("@tonaljs/chart", () => {
 
   describe("bar lines next to each other", () => {
     const count = (text: string) => Chart.parse(text).bars.length;
-    test("one that ends and one that starts are one bar line", () => {
+    test("bar lines with only spaces between them are one bar line", () => {
       expect(count("|: A |1,2 B :|x3 |3 C |")).toBe(3);
       expect(count("|: A |1,2 B :|x3|3 C |")).toBe(3);
       expect(count("| A || |: B :|")).toBe(2);
       expect(count("|: A :| |: B :|")).toBe(2);
+      expect(count("| A :| | B |")).toBe(2);
+      expect(count("|: | A :|")).toBe(1);
       expect(Chart.parse("|: A |1,2 B :|x3 |3 C |").bars[2].ending).toEqual([
         3,
       ]);
     });
 
-    test("otherwise, spaces between bar lines are an empty bar", () => {
+    test("except two plain ones: an empty bar", () => {
       expect(count("| A | | B |")).toBe(3);
-      expect(count("| A :| | B |")).toBe(3);
-      expect(count("|: | A :|")).toBe(2);
+      expect(count("| A | | | B |")).toBe(4);
+      expect(count("| A :| | | B |")).toBe(3);
+      // the empty bar keeps the marks of the bar lines around it
+      const chart = Chart.parse("|: | | A :|");
+      expect(chart.bars[0]).toEqual({
+        meter: "4/4",
+        chords: [],
+        repeatStart: true,
+      });
+      expect(Chart.parse("| A | | :|").bars[1].repeatEnd).toBe(2);
     });
   });
 
@@ -576,6 +586,10 @@ describe("@tonaljs/chart", () => {
       "| A || |: B :|",
       "|: | A :|",
       "| A :| | B |",
+      "|: | | A :|",
+      "| A :| | | B |",
+      "| A | | | :|",
+      "| A | 3/4 <Segno> | B <D.S.> |",
       "| A :|| B |",
       "| | C |",
       "[A] |: Cmaj7 | Am7 |1 Dm7 | G7 :|2 Dm7 G7 | Cmaj7 ||\n[B] | Em7 | A7 | Dm7 | G7 |",

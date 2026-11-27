@@ -14,6 +14,8 @@ Chart.chordAt(chords, 3)?.symbol; // => "G7"
 
 It describes where chords are, never when they play: there are no seconds and no tempo.
 
+A chart is plain data (bars with their meter, chords and marks; see `Chart.parse`), and every other function works on it. The text syntax is one way to build it; an app that reads another format (iReal Pro, MusicXML, its own editor) can build the bars itself, and `Chart.toText` writes any chart back as text.
+
 ## Usage
 
 ES6:
@@ -73,7 +75,7 @@ The syntax:
 
 A beat is the meter's lower note, as in [`Time.fromBarBeat`](/packages/time): in 6/8, `G7@4` is on the second dotted quarter.
 
-Two bar lines with only spaces between them are one bar line when the first ends something and the second starts something: `:| |2` is `:|2`, and `|| |:` is `||:`. Otherwise the spaces are an empty bar, as in `| |`: `|: |` is an empty bar with a repeat start.
+Bar lines with only spaces between them are one bar line (`:| |2` is `:|2`, `|| |:` is `||:`), except two plain ones: `| |` is an empty bar.
 
 ### Where chords start in a bar
 

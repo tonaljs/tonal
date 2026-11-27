@@ -157,14 +157,21 @@ const BAR_LINE =
 
 // The marks of a bar line: for the bar before it (a repeat end, a double
 // bar) and for the bar after it (a repeat start, an ending)
-type BarLine = { from: number; to: number; close: string[]; open: string[] };
+type BarLine = {
+  from: number;
+  to: number;
+  close: string[];
+  open: string[];
+  // whether the last bar line merged into it is a plain "|"
+  plain: boolean;
+  // an empty bar comes before it ("| |")
+  empty?: boolean;
+};
 
 // Bar lines with repeats and endings, as marks next to plain bar lines:
 // ":|x3" is "{re:3} |", "|:" is "| {rs}", "|2" is "| {e:2}", "||" is
-// "{db} |". A bar line that ends something (":|", "||") followed by one that
-// starts something ("|:", "|2"), with only spaces between them, is one bar
-// line: ":| |2" is ":|2". Otherwise spaces between bar lines are an empty
-// bar, as in "| |".
+// "{db} |". Bar lines with only spaces between them are one bar line
+// (":| |2" is ":|2"), except two plain ones: "| |" is an empty bar.
 function markBarLines(line: string): string {
   const lines: BarLine[] = [];
   for (const m of line.matchAll(BAR_LINE)) {
@@ -186,16 +193,24 @@ function markBarLines(line: string): string {
     } else if (text === "||") {
       close.push("{db}");
     }
-    const bar = { from: m.index, to: m.index + text.length, close, open };
+    const plain = !close.length && !open.length;
+    const bar: BarLine = {
+      from: m.index,
+      to: m.index + text.length,
+      close,
+      open,
+      plain,
+    };
     const before = lines[lines.length - 1];
     const between = before ? line.slice(before.to, bar.from) : "x";
-    const closes = before && before.close.length && !before.open.length;
-    const opens = bar.open.length && !bar.close.length;
-    if (before && !between.trim() && closes && opens) {
+    if (before && !between.trim() && !(before.plain && plain)) {
       before.to = bar.to;
       before.close.push(...close);
       before.open.push(...open);
+      before.plain = plain;
     } else {
+      // two plain bar lines with only spaces between them: an empty bar
+      if (before && !between.trim()) bar.empty = true;
       lines.push(bar);
     }
   }
@@ -203,6 +218,7 @@ function markBarLines(line: string): string {
   let from = 0;
   for (const bar of lines) {
     result += line.slice(from, bar.from);
+    if (bar.empty) result += " {empty} ";
     result += ` ${bar.close.join(" ")} | ${bar.open.join(" ")} `;
     from = bar.to;
   }
@@ -237,9 +253,8 @@ function splitPosition(word: string): [string, string | undefined] {
  * - `|:` and `:|` start and end a repeat (`:|x3` plays it three times);
  *   `|1` (or `|1,2`) starts an ending, and `:|2` ends a repeat and starts
  *   ending 2. `||` is a double bar. See `Chart.unroll` for how they're played.
- *   A bar line that ends something and one that starts something, with
- *   spaces between them, are one (`:| |2` is `:|2`); otherwise spaces
- *   between bar lines are an empty bar (`| |`, `|: |`).
+ *   Bar lines with only spaces between them are one bar line (`:| |2` is
+ *   `:|2`), except two plain ones: `| |` is an empty bar.
  * - `<Segno>` and `<Coda>` mark the start of their bar; `<To Coda>`,
  *   `<Fine>`, `<D.C.>`, `<D.C. al Fine>`, `<D.C. al Coda>`, `<D.S.>`,
  *   `<D.S. al Fine>` and `<D.S. al Coda>` act at the end of their bar (alone
@@ -281,6 +296,7 @@ export function parse(text: string, options?: ParseOptions): Chart {
     let items: Item[] = [];
     for (const label of labels) {
       if (label.startsWith("[")) bar.section = label.slice(1, -1).trim();
+      else if (label === "{empty}") continue;
       else if (label === "{rs}") bar.repeatStart = true;
       else if (label.startsWith("{e:")) {
         const numbers = label.slice(3, -1).split(",").map(Number);
@@ -334,18 +350,15 @@ export function parse(text: string, options?: ParseOptions): Chart {
   for (const line of text.split("\n")) {
     const segments = markBarLines(line).split("|");
     segments.forEach((segment, i) => {
-      const labels = segment.match(LABELS) ?? [];
+      const labels: string[] = segment.match(LABELS) ?? [];
       const words = segment.replace(LABELS, " ").split(/\s+/).filter(Boolean);
       const outside = i === 0 || i === segments.length - 1;
       const hasChord = words.some((w) => CHORD.test(w) || w === "%");
       // text before the first bar line, or after the last one, is a bar only
       // when it has chords; otherwise its labels go to the next bar. So do
-      // sections and marks alone between bar lines ("| [A] | C |"), but
-      // not the marks of a bar line: "|: |" is an empty bar with a repeat
+      // marks alone between bar lines ("| [A] | C |")
       const onlyMarks =
-        !words.length &&
-        labels.length > 0 &&
-        !labels.some((l) => l[0] === "{" && !isClosing(l));
+        !words.length && labels.length > 0 && !labels.includes("{empty}");
       if ((outside && !hasChord) || onlyMarks) {
         // a repeat end, a double bar or a jump closes the bar before
         const last = bars[bars.length - 1];
@@ -1020,27 +1033,42 @@ export function toText(chart: Chart): string {
   let line = "";
   let inLine = 0;
   let meterName = "4/4";
+  // an empty bar is written between two plain bar lines: "| |"
+  const empty = (bar?: ChartBar) => !!bar && !bar.chords.length;
+  const padBefore = (text: string, bar: ChartBar) =>
+    empty(bar) && text !== "|" ? `${text} |` : text;
+  const padAfter = (text: string, bar?: ChartBar) =>
+    empty(bar) && text !== "|" ? `| ${text}` : text;
   chart.bars.forEach((bar, i) => {
     const before = chart.bars[i - 1];
     const left = barLineBefore(bar);
     if (!before || bar.section !== undefined || inLine === 4) {
-      if (before) lines.push(`${line} ${barLineAfter(before)}`);
-      line = bar.section !== undefined ? `[${bar.section}] ${left}` : left;
+      if (before) {
+        lines.push(`${line} ${padAfter(barLineAfter(before), before)}`);
+      }
+      const start = padBefore(left, bar);
+      line = bar.section !== undefined ? `[${bar.section}] ${start}` : start;
       inLine = 0;
     } else {
       const right = barLineAfter(before);
-      line +=
+      const join =
         right === "|"
-          ? ` ${left}`
+          ? left
           : left === "|"
-            ? ` ${right}`
+            ? right
             : // ":|" and "|2" are ":|2", but ":|x3" and "|2" stay apart
               /\d$/.test(right)
-              ? ` ${right} ${left}`
-              : ` ${right}${left.slice(1)}`;
+              ? `${right} ${left}`
+              : `${right}${left.slice(1)}`;
+      line += ` ${padBefore(padAfter(join, before), bar)}`;
     }
     const words: string[] = [];
-    if (bar.meter !== meterName) words.push(bar.meter);
+    // a bar with only marks would give them to the next bar: its meter
+    // keeps it a bar
+    const marksOnly =
+      !bar.chords.length &&
+      !!(bar.segno || bar.coda || bar.toCoda || bar.fine || bar.jump);
+    if (bar.meter !== meterName || marksOnly) words.push(bar.meter);
     meterName = bar.meter;
     if (bar.segno) words.push("<Segno>");
     if (bar.coda) words.push("<Coda>");
@@ -1051,7 +1079,8 @@ export function toText(chart: Chart): string {
     line += words.length ? ` ${words.join(" ")}` : " ";
     inLine++;
   });
-  lines.push(`${line} ${barLineAfter(chart.bars[chart.bars.length - 1])}`);
+  const last = chart.bars[chart.bars.length - 1];
+  lines.push(`${line} ${padAfter(barLineAfter(last), last)}`);
   return lines.join("\n");
 }
 
