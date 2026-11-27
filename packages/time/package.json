@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/time",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Musical time as exact fractions of quarter notes: positions, durations, meters and bar:beat",
   "keywords": [
     "time",

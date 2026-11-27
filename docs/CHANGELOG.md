@@ -1,5 +1,36 @@
 # tonal
 
+## 6.15.0
+
+### Minor Changes
+
+- c774490: A new package, `@tonaljs/chart` (`Chart` in `tonal`): chord charts. Positions and durations are `Time` values (quarter notes, as exact fractions).
+
+  - `parse(text)` reads bars between `|`, chords as written (`Cm7 b9`, `N.C.`), `%`, empty bars, sections (`[A]`), meter changes (`3/4`) and positions (`A7@4`). Chords without a position are placed by the meter's pulses: `| C F G |` is 2+1+1 beats, two chords in 6/8 split the bar in half. `problems(chart)` lists what it couldn't read.
+  - `unroll(chart, { choruses })` gives the bars as they're played, with their start, length, meter, section, place in the section and chorus.
+  - `chords(chart)` gives the played chords with their start and duration (until the next chord), `chordAt(chords, position)` the chord at a position, and `position(played, "9:3")` a bar and beat of the played form.
+
+- 5acfe18: A new package, `@tonaljs/time` (`Time` in `tonal`): musical time as exact values. Positions and durations are numbers of quarter notes, returned as reduced fractions (`[3, 2]` is a dotted quarter, `[1, 3]` a triplet eighth), so triplets and septuplets add up exactly. As input, functions also take exact numbers (multiples of 1/1024, like `1.5`) and strings (`"3/2"`).
+
+  - `fraction`, `add`, `sub`, `mul`, `div`, `compare`, `equal`, `toNumber`, `toString`.
+  - `duration("q.")` is `[3, 2]`: a `DurationValue` in quarters.
+  - `meter("6/8")` gives the length of the bar (`[3, 1]`), of the beat (the lower note: `[1, 2]`) and of each pulse (the groups it's felt in: two dotted quarters); additive meters have one pulse per group.
+  - `fromBarBeat("2:3+1/3", "4/4")` is `[19, 3]`, and `toBarBeat` goes back. Beats are the lower note, as in most music software: in 6/8 the second dotted quarter is `"1:4"`.
+  - `onsets(pattern, step, start)` turns a `RhythmPattern` into positions: `onsets([1, 0, 0, 1, 0, 0, 1, 0], [1, 2])` is `[[0, 1], [3, 2], [3, 1]]`.
+
+  It says where something is in musical time, never when it plays: no seconds, tempo or scheduling.
+
+### Patch Changes
+
+- Updated dependencies [4963a6d]
+- Updated dependencies [d1e5dc0]
+- Updated dependencies [c774490]
+- Updated dependencies [1bb5230]
+- Updated dependencies [c2ccace]
+- Updated dependencies [5acfe18]
+  - @tonaljs/chart@1.0.0
+  - @tonaljs/time@1.0.0
+
 ## 6.14.0
 
 ### Minor Changes
