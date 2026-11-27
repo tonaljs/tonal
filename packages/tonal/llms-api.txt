@@ -435,6 +435,18 @@ Chord.extended(chordName: string): string[]
   Get the symbols of the chords that have all the notes of a chord and at least one more, on the same tonic. It returns `[]` if the chord isn't valid. The opposite of `Chord.reduced`.
   Chord.extended("Cmaj7"); // => ["Cmaj#4", "Cmaj7#9", "Cmaj7#9#11", "Cmaj9", "Cmaj13", "CM7add13", "Cmaj9#11", "CM13#11", "Cmaj11", "CM7b9"]
 
+Chord.fitDegree(degree: ChordDegreeName, to: ChordNameOrTokens, options?: Pick<FitOptions, 'scale'>): ChordDegreeName
+  Get the degree of a chord that plays the role of a degree from another chord: the 3rd goes to the new 3rd, the 9th to a 9th the chord takes. Use it to adapt a pattern written over one chord to another (see `Chord.fitNote`). The number counts in the octave (9 and 2, 11 and 4, 13 and 6 are the same role). The first rule that matches:
+  Chord.fitDegree("3", "Cm7"); // => "b3"
+  Chord.fitDegree("11", "F7"); // => "#11"
+  Chord.fitDegree("9", "Fm7b5"); // => "9"
+
+Chord.fitNote(noteName: NoteName, from: ChordNameOrTokens, to: ChordNameOrTokens, options?: FitOptions): NoteName
+  Fit a note from one chord to another: the note keeps its role (the 3rd goes to the new 3rd, see `Chord.fitDegree`) and stays near its place. Use it to play a pattern written over one chord (a bass line over C7) over any other chord.
+  Chord.fitNote("E4", "C7", "Fm7b5"); // => "Ab4"
+  Chord.fitNote("D4", "C7", "Fm7b5"); // => "G4"
+  Chord.fitNote("D4", "C7", "Fm7b5", { scale: "F locrian" }); // => "Gb4"
+
 Chord.formula(chordName: ChordNameOrTokens): ChordDegreeName[]
   Get the formula of a chord: its degree names, in the order of its intervals, counted from the major scale of the root. It returns `[]` if the chord isn't valid.
   Chord.formula("Cm7"); // => ["1", "b3", "5", "b7"]
@@ -531,6 +543,11 @@ type ClassifyOptions = {
   scale?: string | undefined;
   key?: string | undefined;
   tensions?: string[] | undefined;
+}
+
+type FitOptions = {
+  scale?: string | undefined;
+  bass?: boolean | undefined;
 }
 
 type IntervalName = KnownIntervalName | (string & {})

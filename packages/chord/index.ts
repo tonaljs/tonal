@@ -14,6 +14,7 @@ import {
 import { NoteName, note, tokenizeNote } from "@tonaljs/pitch-note";
 import { all as scaleTypes, get as getScaleType } from "@tonaljs/scale-type";
 import { composeChordType } from "./compose";
+import { fitDegreeIn } from "./fit";
 import {
   ChordDegreeName,
   degreeToInterval,
@@ -849,6 +850,145 @@ function tonicOf(chordName: ChordNameOrTokens): string | undefined {
     : undefined;
 }
 
+/** Options of `Chord.fitDegree` and `Chord.fitNote`. */
+export interface FitOptions {
+  /**
+   * A scale name, like "F locrian": the chord's scale, which decides a role
+   * the chord doesn't have before its tensions do.
+   */
+  scale?: string;
+  /**
+   * `fitNote` only: the root role goes to the target chord's slash bass (for
+   * bass lines). Other roles don't change.
+   */
+  bass?: boolean;
+}
+
+// The degrees of a scale name ("F locrian"), counted from a root
+function scaleDegrees(
+  scaleName: string,
+  root: string,
+): ChordDegreeName[] | undefined {
+  const i = scaleName.indexOf(" ");
+  if (i === -1) return undefined;
+  const tonic = note(scaleName.slice(0, i));
+  const type = getScaleType(scaleName.slice(i + 1));
+  if (tonic.empty || type.empty) return undefined;
+  return type.intervals.map((ivl) =>
+    intervalToDegree(distance(root, transposeNote(tonic.pc, ivl))),
+  );
+}
+
+/**
+ * Get the degree of a chord that plays the role of a degree from another
+ * chord: the 3rd goes to the new 3rd, the 9th to a 9th the chord takes. Use it
+ * to adapt a pattern written over one chord to another (see `Chord.fitNote`).
+ * The number counts in the octave (9 and 2, 11 and 4, 13 and 6 are the same
+ * role). The first rule that matches:
+ *
+ * 0. a chord tone stays, and so does a tension (`Chord.tensions`) when there's
+ *    no `scale` or the scale has it: "7" on Cdim7, "#9" on C7b9;
+ * 1. a chord tone with the same number: "3" is "b3" on Cm7, "7" is "bb7" on
+ *    Cdim7, "11" is "4" on Csus4;
+ * 2. a chord tone with the same pitch class: "#11" is "b5" on Cm7b5;
+ * 3. with a `scale`, the scale note with the same number: "9" is "b9" with
+ *    "C locrian" over Cm7b5;
+ * 4. a tension with the same number (`Chord.tensions`): "11" is "#11" on C7,
+ *    "13" is "b13" on Cm7b5, "b9" is "9" on Cm7;
+ * 5. a 3rd on a chord without 3rd goes to its sus tone ("4" or "2");
+ * 6. otherwise the degree stays: "13" on C7#5.
+ *
+ * Among several candidates, the same alteration wins, then the nearest in
+ * semitones, ties up. It returns "" for an invalid degree, chord or scale.
+ *
+ * @param degree - a degree name, as `Chord.degreeOf` returns: "3", "b9", "#11"
+ * @param to - the chord symbol (or type) to fit it to
+ * @param options - `scale`: the chord's scale, like "C locrian"
+ * @example
+ * Chord.fitDegree("3", "Cm7"); // => "b3"
+ * Chord.fitDegree("11", "F7"); // => "#11"
+ * Chord.fitDegree("9", "Fm7b5"); // => "9"
+ * Chord.fitDegree("9", "Fm7b5", { scale: "F locrian" }); // => "b9"
+ * Chord.fitDegree("3", "F7sus4"); // => "4"
+ */
+export function fitDegree(
+  degree: ChordDegreeName,
+  to: ChordNameOrTokens,
+  options: Pick<FitOptions, "scale"> = {},
+): ChordDegreeName {
+  if (typeof degree !== "string") return "";
+  const f = formula(to);
+  if (!f.length) return "";
+  let scale: ChordDegreeName[] | undefined;
+  if (options.scale) {
+    const root = get(to).tonic || "C";
+    scale = scaleDegrees(options.scale, root);
+    if (!scale) return "";
+  }
+  return fitDegreeIn(degree, f, tensionsOf(f), scale);
+}
+
+/**
+ * Fit a note from one chord to another: the note keeps its role (the 3rd
+ * goes to the new 3rd, see `Chord.fitDegree`) and stays near its place. Use
+ * it to play a pattern written over one chord (a bass line over C7) over any
+ * other chord.
+ *
+ * 1. Its role in `from`: `Chord.degreeOf(from, note)`.
+ * 2. The role in `to`: `Chord.fitDegree(role, to, { scale })`. With
+ *    `bass: true`, the root role goes to the slash bass of `to`.
+ * 3. Its octave: the note moves with the root, the nearest way (a tritone
+ *    goes up), and the fitted note is the one nearest that, ties up.
+ *
+ * A pitch class gives a pitch class. It returns "" for an invalid note, or a
+ * chord that isn't valid or has no tonic. The bass of `from` doesn't change
+ * the roles: they count from the root.
+ *
+ * @param noteName - the note, like "E4"
+ * @param from - the chord the note was written over, like "C7"
+ * @param to - the chord to fit it to, like "Fm7b5"
+ * @param options - `scale`: the scale of `to`; `bass`: the root goes to the slash bass
+ * @example
+ * Chord.fitNote("E4", "C7", "Fm7b5"); // => "Ab4"
+ * Chord.fitNote("D4", "C7", "Fm7b5"); // => "G4"
+ * Chord.fitNote("D4", "C7", "Fm7b5", { scale: "F locrian" }); // => "Gb4"
+ * Chord.fitNote("F4", "C7", "Fmaj7"); // => "B4"
+ * Chord.fitNote("C3", "C7", "F7/Eb", { bass: true }); // => "Eb3"
+ * ["C3", "E3", "G3", "A3"].map((n) => Chord.fitNote(n, "C7", "Ebm7")); // => ["Eb3", "Gb3", "Bb3", "C4"]
+ */
+export function fitNote(
+  noteName: NoteName,
+  from: ChordNameOrTokens,
+  to: ChordNameOrTokens,
+  options: FitOptions = {},
+): NoteName {
+  const n = note(noteName);
+  const source = get(from);
+  const target = get(to);
+  const fromRoot = note(source.tonic || "");
+  const toRoot = note(target.tonic || "");
+  if (n.empty || source.empty || target.empty || fromRoot.empty || toRoot.empty)
+    return "";
+  const role = degreeOf(from, n.name);
+  const degree = fitDegree(role, to, options);
+  if (!degree) return "";
+  const pc =
+    options.bass && degree === "1" && target.bass
+      ? target.bass
+      : noteOf(to, degree);
+  if (!pc || n.height === undefined || n.oct === undefined) return pc;
+
+  // the root motion, the nearest way: -5 to +6 semitones
+  let motion = (((toRoot.chroma - fromRoot.chroma) % 12) + 12) % 12;
+  if (motion > 6) motion -= 12;
+  const moved = n.height + motion;
+  // the octave of `pc` nearest `moved`, ties up
+  const base = note(pc + "0").height;
+  const below = Math.floor((moved - base) / 12);
+  const lower = base + 12 * below;
+  return pc + (lower + 12 - moved <= moved - lower ? below + 1 : below);
+}
+
 /** @deprecated */
 export default {
   getChord,
@@ -869,6 +1009,8 @@ export default {
   formula,
   degreeOf,
   noteOf,
+  fitDegree,
+  fitNote,
   degreesByImportance,
   bass,
 };

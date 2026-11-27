@@ -251,7 +251,10 @@ Scale.approaches(scale, target).below; // => "F#2"
 Scale.approaches(scale, target).scaleBelow; // => "F2"
 
 // a bar of Dm7 leading to G7
-[...[0, 1, 2].map(Chord.steps(["D2", "m7"])), Scale.approaches(scale, target).below];
+[
+  ...[0, 1, 2].map(Chord.steps(["D2", "m7"])),
+  Scale.approaches(scale, target).below,
+];
 // => ["D2", "F2", "A2", "F#2"]
 ```
 
@@ -355,6 +358,65 @@ Sources:
 - Mark Levine, _The Jazz Piano Book_, ch. 7: rootless voicings leave the root to the bass player.
 - Phil DeGreg, _Jazz Keyboard Harmony_, chs. 4 and 6, and Dan Haerle, _Jazz Piano Voicing Skills_, skills 40–45: three- and four-note rootless voicings keep the 3rd and 7th, also on m7b5 and dim7.
 
+## Fit notes to another chord
+
+A pattern written over one chord (a bass line over C7) can be played over any other chord by moving each note to the same role: the 3rd to the new 3rd, the 9th to a 9th the new chord takes. Transposing by the root gets the 3rd wrong between major and minor; fitting doesn't.
+
+### `Chord.fitNote`
+
+`fitNote(note: string, from: string, to: string, options?: { scale?: string, bass?: boolean }) => string`
+
+The note's role in `from` (`Chord.degreeOf`), moved to `to` with `Chord.fitDegree`, in the octave nearest the note moved with the root (the root moves the nearest way, a tritone goes up; ties go up). A pitch class gives a pitch class.
+
+```js
+Chord.fitNote("E4", "C7", "Fm7b5"); // => "Ab4" (3 → b3)
+Chord.fitNote("F4", "C7", "Fmaj7"); // => "B4" (11 → #11)
+Chord.fitNote("E4", "C7", "F7sus4"); // => "Bb4" (3 → 4)
+Chord.fitNote("D4", "C7", "Fm7b5"); // => "G4" (9 is a tension of m7b5)
+Chord.fitNote("D4", "C7", "Fm7b5", { scale: "F locrian" }); // => "Gb4"
+```
+
+A phrase is a `map`. A bar of walking bass over C7, fitted to a ii-V-I in Eb:
+
+```js
+const bar = ["C2", "E2", "G2", "Bb2"];
+["Fm7", "Bb7", "Ebmaj7"].map((chord) =>
+  bar.map((note) => Chord.fitNote(note, "C7", chord)),
+);
+// => [["F2", "Ab2", "C3", "Eb3"], ["Bb1", "D2", "F2", "Ab2"], ["Eb2", "G2", "Bb2", "D3"]]
+```
+
+Roles count from the root. With `{ bass: true }`, the root role goes to the slash bass of the target, for bass lines; no other role changes:
+
+```js
+Chord.fitNote("C3", "C7", "F7/Eb"); // => "F3"
+Chord.fitNote("C3", "C7", "F7/Eb", { bass: true }); // => "Eb3"
+```
+
+To keep the fitted notes in a range, use `Note.fold` after fitting.
+
+### `Chord.fitDegree`
+
+`fitDegree(degree: string, to: string, options?: { scale?: string }) => string`
+
+The degree of `to` that plays the role of `degree`. The number counts in the octave (9 and 2, 11 and 4, 13 and 6 are the same role). The first rule that matches:
+
+0. A chord tone stays, and so does a tension (`Chord.tensions`) when there's no `scale` or the scale has it: `"7"` on Cdim7, `"#9"` on C7b9.
+1. A chord tone with the same number: `"3"` is `"b3"` on Cm7, `"7"` is `"b7"` on C7, `"11"` is `"4"` on Csus4.
+2. A chord tone with the same pitch class: `"#11"` is `"b5"` on Cm7b5.
+3. With a `scale`, the scale note with the same number, counted from the chord's root: `"9"` is `"b9"` with C locrian over Cm7b5.
+4. A tension with the same number: `"11"` is `"#11"` on C7, `"13"` is `"b13"` on Cm7b5, `"b9"` is `"9"` on Cm7.
+5. A 3rd on a chord without 3rd goes to its sus tone (`"4"` or `"2"`).
+6. Otherwise the degree stays: `"13"` on C7#5.
+
+Among several candidates, the same alteration wins, then the nearest in semitones, ties up.
+
+```js
+Chord.fitDegree("3", "Cm7"); // => "b3"
+Chord.fitDegree("11", "F7"); // => "#11"
+Chord.fitDegree("9", "Fm7b5", { scale: "F locrian" }); // => "b9"
+```
+
 ## Finding chords
 
 ### `Chord.detect`
@@ -401,21 +463,21 @@ Over a chord, a note is a chord tone, a tension (a note the chord can add withou
 
 `tensions(chordName: string) => string[]`
 
-The tensions of a chord, as degree names (see [chord degrees by name](#chord-degrees-by-name)). They come from a table by the chord's 3rd, 5th and 7th, after Ted Pease (*Jazz Composition*, p. xv) and John Novello (*The Contemporary Keyboardist*, p. 96):
+The tensions of a chord, as degree names (see [chord degrees by name](#chord-degrees-by-name)). They come from a table by the chord's 3rd, 5th and 7th, after Ted Pease (_Jazz Composition_, p. xv) and John Novello (_The Contemporary Keyboardist_, p. 96):
 
-| Chord | Tensions |
-|---|---|
-| maj7, major triad | 9, #11, 13 |
-| 6 | 9, #11, 7 |
-| augmented, 7#5 | 9, #11 |
-| 7 | b9, 9, #9, #11, b13, 13 |
-| 7sus4 | b9, 9, 13 |
-| mMaj7 | 9, 11, 13 |
-| m6 | 9, 11, 7 |
-| m7, minor triad | 9, 11 |
-| m7b5, diminished triad | 9, 11, b13 |
-| dim7 | 9, 11, b13, 7 |
-| no 3rd | 9, 11, 13 |
+| Chord                  | Tensions                |
+| ---------------------- | ----------------------- |
+| maj7, major triad      | 9, #11, 13              |
+| 6                      | 9, #11, 7               |
+| augmented, 7#5         | 9, #11                  |
+| 7                      | b9, 9, #9, #11, b13, 13 |
+| 7sus4                  | b9, 9, 13               |
+| mMaj7                  | 9, 11, 13               |
+| m6                     | 9, 11, 7                |
+| m7, minor triad        | 9, 11                   |
+| m7b5, diminished triad | 9, 11, b13              |
+| dim7                   | 9, 11, b13, 7           |
+| no 3rd                 | 9, 11, 13               |
 
 The tensions the chord already says are left out: a chord tone (C9 has no 9 tension), the 9 when the symbol has b9 or #9 over a major 3rd (and b9 and #9 when it has the 9), and the b13 when it has the 13 (and the other way round).
 
@@ -449,7 +511,7 @@ Chord.classify("Em7", "F", { key: "C major" }); // => "avoid" (b9 in E phrygian)
 Chord.classify("G7", "Ab", { scale: "G phrygian dominant" }); // => "tension"
 ```
 
-With `key`, the scale is the chord's scale in that key (`Chord.chordScale`); `scale` gives it directly. An avoid note is one to handle with care, not a wrong one: it works as a passing note, or resolving down (Mark Levine, *The Jazz Piano Book*).
+With `key`, the scale is the chord's scale in that key (`Chord.chordScale`); `scale` gives it directly. An avoid note is one to handle with care, not a wrong one: it works as a passing note, or resolving down (Mark Levine, _The Jazz Piano Book_).
 
 #### Your own tensions
 
