@@ -4,5 +4,5 @@
     "noEmit": true,
     "moduleResolution": "bundler"
   },
-  "include": ["packages/*/index.ts"]
+  "include": ["packages/*/index.ts", "integrations/*/index.ts"]
 }

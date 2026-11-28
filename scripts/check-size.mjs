@@ -28,6 +28,7 @@ const ENTRIES = {
   'import { Voicing } from "tonal"': 'import { Voicing } from "tonal"; console.log(Voicing.get("Cmaj7"));',
   'import * as Tonal from "tonal"': 'import * as Tonal from "tonal"; console.log(Tonal);',
   'import { get } from "@tonaljs/note"': 'import { get } from "@tonaljs/note"; console.log(get("C4"));',
+  'import { parse } from "@tonaljs/ireal"': 'import { parse } from "@tonaljs/ireal"; console.log(parse("irealb://"));',
 };
 
 async function measure(code) {
