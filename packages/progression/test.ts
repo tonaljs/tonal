@@ -292,13 +292,26 @@ describe("named progressions", () => {
     ]);
   });
 
-  test("a cadence doesn't land on a ii", () => {
+  test("a match doesn't end on a minor tonic that is a ii", () => {
     // Dm7 is followed by its dominant: not a ii–V–i in D minor
+    const chords = $("Em7 A7 Dm7 G7 Cmaj7");
+    expect(find(chords, "ii–V–I").map((m) => m.tonic)).toEqual(["C"]);
+    // by name or by numerals, the same rule
+    expect(find(chords, "IIm7 V7 Im7")).toEqual([]);
+    expect(find(chords, "V7 Im7|Imaj7").map((m) => m.tonic)).toEqual(["C"]);
+    // a minor chord that isn't on the I is matched (VI7–ii)
+    expect(find(chords, "VI7 IIm7").map((m) => m.tonic)).toEqual(["C"]);
+    // a minor tonic not followed by its dominant is one
+    expect(find($("Em7 A7 Dm7 Bb7"), "ii–V–I").map((m) => m.tonic)).toEqual([
+      "D",
+    ]);
+    // literal: as written
     expect(
-      find($("Em7 A7 Dm7 G7 Cmaj7"), "ii–V–I").map((m) => m.tonic),
-    ).toEqual(["C"]);
-    // as numerals, it matches as written
-    expect(find($("Em7 A7 Dm7 G7 Cmaj7"), "IIm7 V7 Im7")[0].tonic).toBe("D");
+      find(chords, "IIm7 V7 Im7", { literal: true }).map((m) => m.tonic),
+    ).toEqual(["D"]);
+    expect(
+      find(chords, "ii–V–I", { literal: true }).map((m) => m.tonic),
+    ).toEqual(["D", "C"]);
   });
 
   test("not a chord, not a pattern", () => {

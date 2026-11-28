@@ -1553,7 +1553,7 @@ type Set = string | number | Partial<Pcset> | NoteName[] | IntervalName[]
 
 import { Progression } from "tonal"; // or: import * as Progression from "@tonaljs/progression";
 
-Progression.find(chords: string[], pattern: string | string[]): PatternMatch[]
+Progression.find(chords: string[], pattern: string | string[], options?: FindOptions): PatternMatch[]
   Find a named progression in a list of chords, in any key: every place it appears, with its first chord (`start`), how many chords it spans (`length`) and the tonic its numerals are read from. Matches can overlap: a ii–V–I contains a ii–V.
   Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "ii–V–I"); // => [{ name: "ii–V–I", start: 2, length: 3, tonic: "C" }]
   Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "long cadence")[0].tonic; // => "C"
@@ -1582,6 +1582,10 @@ Progression.toRomanNumerals(tonic: NoteLiteral, chords: string[]): string[]
   Progression.toRomanNumerals("C", ["Am", "Bb7"]); // => ["VIm", "bVII7"]
 
 Types:
+
+type FindOptions = {
+  literal?: boolean | undefined;
+}
 
 type NamedPitch = {
   name: string;

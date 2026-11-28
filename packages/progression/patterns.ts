@@ -338,6 +338,12 @@ function patternOf(
     : undefined;
 }
 
+/** The options of `Progression.find`. */
+export type FindOptions = {
+  /** Match the numerals as written, also a minor tonic followed by its dominant (default false) */
+  literal?: boolean;
+};
+
 type Slot = { chroma: number; interval: string; family: string }[];
 
 /** The alternatives of each numeral: its degree (semitones and interval) and family. */
@@ -377,23 +383,27 @@ function slotsOf(numerals: string[]): Slot[] | undefined {
  *
  * A chord repeated right after itself (same root, same family) is held, not a
  * new chord: the match spans its repeats. A symbol that isn't a chord (N.C.)
- * fits nothing. A cadence of the catalogue doesn't land on a minor chord
- * followed by its dominant: in Em7 A7 Dm7 G7 Cmaj7, Dm7 is a ii, so the
- * ii–V–I is only the one in C (numerals given as such are matched as
- * written). It returns `[]` for an unknown pattern.
+ * fits nothing. A match doesn't end on a minor tonic followed by its
+ * dominant (a minor chord on the I, then a dominant a fourth up): that chord
+ * is a ii, so in Em7 A7 Dm7 G7 Cmaj7 the only ii–V–I is the one in C, and
+ * `"IIm7 V7 Im7"` finds nothing. `{ literal: true }` matches the numerals as written, without
+ * this rule. It returns `[]` for an unknown pattern.
  *
  * @param chords - chord symbols, as `Chart.chords(chart).map((c) => c.value)` gives them
  * @param pattern - a pattern name or alias, or numerals
+ * @param options - `literal`: match as written, also a minor tonic that is a ii (false)
  * @returns where the pattern appears, in order
  * @example
  * Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "ii–V–I"); // => [{ name: "ii–V–I", start: 2, length: 3, tonic: "C" }]
  * Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "long cadence")[0].tonic; // => "C"
  * Progression.find(["Fm7", "Bb7", "Ebmaj7", "Ebmaj7"], "IIm7 V7 Imaj7"); // => [{ name: "", start: 0, length: 4, tonic: "Eb" }]
+ * Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "IIm7 V7 Im7", { literal: true }); // => [{ name: "", start: 0, length: 3, tonic: "D" }]
  * Progression.find(["C", "G7"], "nothing"); // => []
  */
 export function find(
   chords: string[],
   pattern: string | string[],
+  options?: FindOptions,
 ): PatternMatch[] {
   if (!Array.isArray(chords)) return [];
   const found = patternOf(pattern);
@@ -451,11 +461,12 @@ export function find(
       });
       if (!fits) continue;
       const last = changes[i + slots.length - 1]!;
-      // a cadence doesn't land on a minor chord followed by its dominant: that
+      // a match doesn't end on a minor tonic followed by its dominant: that
       // chord is a ii (A7 Dm7 G7 is V7/ii, ii, V, not a cadence in D minor)
       const next = changes[i + slots.length];
       if (
-        found.family === "cadence" &&
+        !options?.literal &&
+        last.chroma === tonicChroma &&
         (last.family === "minor" || last.family === "half-diminished") &&
         next &&
         (next.family === "dominant" || next.family === "suspended") &&

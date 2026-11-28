@@ -276,7 +276,9 @@ Named progressions (ii–V–I, turnarounds, the backdoor cadence…) are a
 catalogue, `Progression.patterns()`, ordered by how common they are in jazz
 standards. `Progression.find(chords, "ii–V–I")` finds one in any key (by
 name, alias or numerals, matching chords by `Chord.get(c).family`), and
-`Progression.fromPattern("ii–V–I", "F")` gives its chords in a key:
+`Progression.fromPattern("ii–V–I", "F")` gives its chords in a key. A match
+doesn't end on a minor tonic followed by its dominant (in Em7 A7 Dm7 G7, Dm7
+is a ii); `{ literal: true }` matches the numerals as written:
 
 ```js
 Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "ii–V–I"); // => [{ name: "ii–V–I", start: 2, length: 3, tonic: "C" }]

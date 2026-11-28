@@ -119,7 +119,7 @@ In the same corpus, I–IV–V is in 21% of bluegrass songs and 16% of pop songs
 
 ### `Progression.find`
 
-`find(chords: string[], pattern: string | string[]) => PatternMatch[]`
+`find(chords: string[], pattern: string | string[], options?: { literal?: boolean }) => PatternMatch[]`
 
 Every place a pattern appears in a list of chords, in any key: its first chord (`start`), how many chords it spans (`length`), the `tonic` its numerals are read from, and its `name`. The pattern is a name or alias (case and dashes don't matter), or numerals.
 
@@ -133,7 +133,7 @@ Progression.find(["Fm7", "Bb7", "Ebmaj7", "Ebmaj7"], "IIm7 V7 Imaj7");
 
 - A chord repeated right after itself (same root, same family) is held: the match spans its repeats.
 - Matches can overlap: a ii–V–I contains a ii–V.
-- A cadence of the catalogue doesn't land on a minor chord followed by its dominant: in Em7 A7 Dm7 G7 Cmaj7, Dm7 is a ii, so the only ii–V–I is the one in C. Numerals given as such are matched as written.
+- A match doesn't end on a minor tonic followed by its dominant (a minor chord on the I, then a dominant a fourth up): that chord is a ii. In Em7 A7 Dm7 G7 Cmaj7 the only ii–V–I is the one in C, and `"IIm7 V7 Im7"` finds nothing. With `{ literal: true }` the numerals are matched as written: `find(chords, "IIm7 V7 Im7", { literal: true })` gives the one in D minor.
 - To find patterns in a chart: `Progression.find(Chart.chords(chart).map((c) => c.value), "ii–V–I")`.
 
 ### `Progression.fromPattern`
