@@ -1,5 +1,12 @@
 # @tonaljs/chord
 
+## 6.8.0
+
+### Minor Changes
+
+- 2b416cc: `Chord.fitNote(note, from, to, { scale, bass, keep })` and `Chord.fitDegree(degree, to, { scale })`: play a pattern written over one chord over another, each note keeping its role (the 3rd goes to the new 3rd, 11 to #11 on a dominant, 13 to b13 on a half-diminished chord) by rules built on `Chord.tensions`, near its place. With `{ keep: "non-chord" }`, notes that aren't chord tones of the source chord keep their interval from the root, so passing notes stay chromatic.
+- 7143250: Chord substitutions: `Chord.substitutes(chord, { next, kinds })` lists the chords that can take a chord's place as `{ chords, kind }`: the tritone substitute, the backdoor dominant, the chords made of its notes on another root (Em for Cmaj7, Bm7b5 and Dm6 for G9), the related ii of a dominant, and with `next` the approach chords (secondary and substitute dominants, passing diminished). `Chord.tritoneSubstitute(chord)` gives the tritone substitute alone. `Chord.containing(note)` lists the chords that can harmonise a melody note, with the note's degree in each.
+
 ## 6.7.0
 
 ### Minor Changes

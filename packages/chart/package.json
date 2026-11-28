@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/chart",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Chord charts: bars, sections and meters, the played form, and the chord at a position",
   "keywords": [
     "chart",
@@ -17,7 +17,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord": "6.7.0",
+    "@tonaljs/chord": "6.8.0",
     "@tonaljs/time": "1.0.0"
   },
   "author": "danigb@gmail.com",

@@ -1,5 +1,13 @@
 # @tonaljs/chart
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [2b416cc]
+- Updated dependencies [7143250]
+  - @tonaljs/chord@6.8.0
+
 ## 1.1.0
 
 ### Minor Changes

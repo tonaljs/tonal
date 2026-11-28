@@ -256,4 +256,4 @@ Add your project here by
 
 ## License
 
-[MIT License](https://github.com/tonaljs/tonal/blob/main/docs/LICENSE)
+The library and its documentation: [MIT License](https://github.com/tonaljs/tonal/blob/main/docs/LICENSE). The code of the docs site and its apps (`site/`): [AGPL-3.0](site/LICENSE), see [the site README](site/README.md).

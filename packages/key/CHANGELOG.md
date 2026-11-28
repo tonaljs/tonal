@@ -1,5 +1,21 @@
 # @tonaljs/key
 
+## 4.13.0
+
+### Minor Changes
+
+- bda437e: `Key.analyzeChord(key, chord, { previous, next })`: what a chord does in a key, every reading ranked (diatonic, secondary dominant, tritone substitute, related ii, borrowed, backdoor, passing and common-tone diminished, chromatic), with the numeral as the books write it (`V7/ii`, `subV7/I`), its function, the scale it comes from and a chord scale chosen by function (#187).
+- 917988c: `Key.borrowedChords(key)`: the chords a key borrows from its parallel scales (modal interchange), each with its numeral, the scale it comes from and the numerals it replaces. `Key.substitutes(key, chord, { next, kinds })`: `Chord.substitutes` in a key, plus the key's chords with the same function and the borrowed chords that replace it.
+
+  The key's substitute dominants are now `Chord.tritoneSubstitute` of its secondary dominants, spelled with fewer accidentals as a lead sheet writes them: `B7`, not `Cb7`, for `F7` (in `substituteDominants`, their supertonics and `Key.majorKeyChords` / `minorKeyChords`). Only the roots that were Cb or Fb change.
+
+### Patch Changes
+
+- Updated dependencies [2b416cc]
+- Updated dependencies [7143250]
+  - @tonaljs/chord@6.8.0
+  - @tonaljs/progression@4.11.9
+
 ## 4.12.4
 
 ### Patch Changes
