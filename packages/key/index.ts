@@ -17,7 +17,14 @@ import {
   keySubstitutes,
 } from "./substitutes";
 
+import {
+  type PivotChord,
+  pivotChordsOf,
+  type PivotChordsOptions,
+} from "./pivot";
+
 export type { AnalyzeChordOptions, ChordReading, ChordSource } from "./analyze";
+export type { PivotChord, PivotChordsOptions } from "./pivot";
 export type {
   BorrowedChord,
   KeySubstitute,
@@ -511,6 +518,41 @@ export function substitutes(
   return keySubstitutes(key, chord, options, {
     majorKey: MajorScale,
     minorKey,
+  });
+}
+
+/**
+ * Get the chords two keys share (pivot chords, to modulate from one to the
+ * other), with the numeral of each in both keys (as `Key.analyzeChord`
+ * writes it). Triads by default, 7th chords with `sevenths`. A minor key has
+ * the chords of its natural, harmonic and melodic forms. Chords match by
+ * root and type, whatever their spelling, and are spelled as in the second
+ * key, in the order of the first key's chords.
+ *
+ * With `chromatic`, then the chords of one key that have a functional
+ * reading in the other: the first reading of `Key.analyzeChord` that isn't
+ * "chromatic" or borrowed from a mode (borrowed from the parallel major or
+ * minor counts). D7 is V7/V in C and V7 in G. The chords of the first key
+ * come first, then the second's. `fromSource` and `toSource` say where each
+ * reading comes from. It returns `[]` for an invalid key.
+ *
+ * @param from - a key name, like "C major" (or "C") or "A minor"
+ * @param to - the other key
+ * @param options - `sevenths`, `chromatic`
+ * @example
+ * Key.pivotChords("C major", "G major").map((p) => `${p.chord}: ${p.from} ${p.to}`); // => ["C: I IV", "Em: iii vi", "G: V I", "Am: vi ii"]
+ * Key.pivotChords("C major", "G major", { sevenths: true }).map((p) => p.chord); // => ["Cmaj7", "Em7", "Am7"]
+ * Key.pivotChords("C major", "G major", { chromatic: true }).slice(4).map((p) => `${p.chord}: ${p.from} ${p.to}`); // => ["Dm: ii v", "F: IV bVII", "D: V/V V"]
+ */
+export function pivotChords(
+  from: string,
+  to: string,
+  options: PivotChordsOptions = {},
+): PivotChord[] {
+  return pivotChordsOf(from, to, options, {
+    majorKey: MajorScale,
+    minorKey,
+    analyzeChord,
   });
 }
 

@@ -244,6 +244,11 @@ Key.minorKey("A").harmonic.chords; // => ["AmMaj7", "Bm7b5", "C+maj7", "Dm7", "E
   Scale.rank([], { chords: ["Dm7", "G7", "Cmaj7"] })[0].name; // => "C major"
   ```
 
+- To modulate, `Key.pivotChords(from, to, { sevenths, chromatic })` lists the
+  chords two keys share with their numeral in each (`"Em": "iii"` in C,
+  `"vi"` in G); `chromatic` adds chords with a functional reading in the other
+  key (D: V/V in C, V in G).
+
 - `Scale.outside(scale, chord)` lists the chord notes that aren't in the
   scale, spelled as in the chord: `Scale.outside("C major", "Bb7")` is
   `["Bb", "Ab"]`, and `[]` when the chord fits. To list the chord types that

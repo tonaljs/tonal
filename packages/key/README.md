@@ -262,6 +262,29 @@ Key.substitutes("C major", "E7", { kinds: ["related ii"] });
 // => [{ chords: ["Bm7b5", "E7"], kind: "related ii" }]
 ```
 
+### `Key.pivotChords`
+
+`pivotChords(from: string, to: string, options?: { sevenths?: boolean, chromatic?: boolean }) => { chord, from, to, fromSource, toSource }[]`
+
+The chords two keys share, to modulate from one to the other, with the numeral of each in both keys. Triads by default, 7th chords with `sevenths`; a minor key has the chords of its natural, harmonic and melodic forms. Chords are spelled as in the second key:
+
+```js
+Key.pivotChords("C major", "G major").map(
+  (p) => `${p.chord}: ${p.from} ${p.to}`,
+);
+// => ["C: I IV", "Em: iii vi", "G: V I", "Am: vi ii"]
+Key.pivotChords("C major", "G major", { sevenths: true }).map((p) => p.chord); // => ["Cmaj7", "Em7", "Am7"]
+```
+
+With `chromatic`, also the chords of one key that have a functional reading in the other (a secondary dominant, a chord borrowed from the parallel major or minor), with the source of each reading:
+
+```js
+Key.pivotChords("C major", "G major", { chromatic: true })
+  .slice(4)
+  .map((p) => `${p.chord}: ${p.from} ${p.to}`);
+// => ["Dm: ii v", "F: IV bVII", "D: V/V V"]
+```
+
 ## How to...
 
 ### How to get minor tonic from key signature
