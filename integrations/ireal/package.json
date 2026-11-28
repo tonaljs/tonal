@@ -1,0 +1,33 @@
+{
+  "name": "@tonaljs/ireal",
+  "version": "0.0.0",
+  "description": "Read iReal Pro links (irealb:// and irealbook://) as playlists of songs with a tonal Chart each",
+  "keywords": [
+    "ireal",
+    "ireal pro",
+    "chart",
+    "lead sheet",
+    "chords",
+    "music",
+    "theory"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "dependencies": {
+    "@tonaljs/chart": "1.1.1",
+    "@tonaljs/chord": "6.8.0"
+  },
+  "author": "danigb@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown"
+  }
+}

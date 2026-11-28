@@ -142,6 +142,12 @@ import { transpose } from "@tonaljs/note";
 transpose("A4", "P5");
 ```
 
+## Integrations
+
+Integrations read external formats into tonal's data. They aren't part of `tonal`; install the ones you need:
+
+- [@tonaljs/ireal](/integrations/ireal): iReal Pro links (`irealb://`) as playlists of songs with a `Chart` each.
+
 ## Documentation
 
 Visit the [documentation site](https://tonaljs.github.io/tonal/docs) or the README.md of each module 👇

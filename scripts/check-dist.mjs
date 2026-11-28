@@ -2,11 +2,14 @@
 // Run after `npm run build`: `npm run test:dist`.
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { createRequire } from "node:module";
-import { join } from "node:path";
+import { join, relative } from "node:path";
 import { pathToFileURL } from "node:url";
 import { compileFunction } from "node:vm";
 
-const packagesDir = join(import.meta.dirname, "..", "packages");
+// the packages of tonal and its integrations
+const FOLDERS = ["packages", "integrations"].map((f) =>
+  join(import.meta.dirname, "..", f),
+);
 const require = createRequire(import.meta.url);
 
 // Node adds a synthetic "module.exports" name to CommonJS modules seen from
@@ -64,16 +67,23 @@ async function checkPackage(dir) {
   return errors;
 }
 
-const names = readdirSync(packagesDir).filter((name) =>
-  existsSync(join(packagesDir, name, "package.json")),
+const dirs = FOLDERS.filter((folder) => existsSync(folder)).flatMap((folder) =>
+  readdirSync(folder)
+    .map((name) => join(folder, name))
+    .filter((dir) => existsSync(join(dir, "package.json"))),
 );
+const names = dirs;
 
 let failed = 0;
 for (const name of names) {
-  const errors = await checkPackage(join(packagesDir, name));
+  const errors = await checkPackage(name);
   if (errors.length) {
     failed++;
-    for (const error of errors) console.error(`✗ ${name}: ${error}`);
+    for (const error of errors) {
+      console.error(
+        `✗ ${relative(join(import.meta.dirname, ".."), name)}: ${error}`,
+      );
+    }
   }
 }
 

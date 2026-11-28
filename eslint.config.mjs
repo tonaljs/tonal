@@ -5,10 +5,11 @@ import tsPlugin from "@typescript-eslint/eslint-plugin";
 
 export default [
   {
-    files: ["packages/**/*.ts"],
+    files: ["packages/**/*.ts", "integrations/**/*.ts"],
     ignores: [
       "node_modules/",
       "packages/**/dist/*",
+      "integrations/**/dist/*",
     ],
 
     languageOptions: {

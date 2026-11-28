@@ -14,9 +14,9 @@ const GITHUB = "https://github.com/tonaljs/tonal";
 
 const readme = readFileSync(join(root, "README.md"), "utf8")
   // a package folder
-  .replace(/\]\(\/?(packages\/[\w-]+)\/?\)/g, `](${GITHUB}/tree/main/$1)`)
+  .replace(/\]\(\/?((?:packages|integrations)\/[\w-]+)\/?\)/g, `](${GITHUB}/tree/main/$1)`)
   // a file of the repository
-  .replace(/\]\(\/?((?:docs|packages)\/[^)]+)\)/g, `](${GITHUB}/blob/main/$1)`);
+  .replace(/\]\(\/?((?:docs|packages|integrations)\/[^)]+)\)/g, `](${GITHUB}/blob/main/$1)`);
 
 writeFileSync(
   join(root, "packages", "tonal", "README.md"),

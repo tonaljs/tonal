@@ -8,5 +8,6 @@
   "import { Chart } from \"tonal\"": 33500,
   "import { Voicing } from \"tonal\"": 63900,
   "import * as Tonal from \"tonal\"": 125700,
-  "import { get } from \"@tonaljs/note\"": 1900
+  "import { get } from \"@tonaljs/note\"": 1900,
+  "import { parse } from \"@tonaljs/ireal\"": 33500
 }

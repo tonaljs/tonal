@@ -4,15 +4,15 @@
 // `npm run test:types`.
 import { execFile } from "node:child_process";
 import { existsSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { join, relative } from "node:path";
 import { promisify } from "node:util";
 
 const root = join(import.meta.dirname, "..");
-const packagesDir = join(root, "packages");
+// the packages of tonal and its integrations
+const FOLDERS = ["packages", "integrations"].map((f) => join(root, f));
 const attw = join(root, "node_modules", ".bin", "attw");
 
-async function checkPackage(name) {
-  const dir = join(packagesDir, name);
+async function checkPackage(dir) {
   let stdout;
   try {
     ({ stdout } = await promisify(execFile)(attw, [
@@ -35,8 +35,10 @@ async function checkPackage(name) {
   });
 }
 
-const names = readdirSync(packagesDir).filter((name) =>
-  existsSync(join(packagesDir, name, "package.json")),
+const names = FOLDERS.filter((folder) => existsSync(folder)).flatMap((folder) =>
+  readdirSync(folder)
+    .map((name) => join(folder, name))
+    .filter((dir) => existsSync(join(dir, "package.json"))),
 );
 
 const results = await Promise.all(names.map(checkPackage));
@@ -45,13 +47,15 @@ let failed = 0;
 names.forEach((name, i) => {
   if (results[i].length === 0) return;
   failed++;
-  for (const error of results[i]) console.error(`✗ ${name}: ${error}`);
+  for (const error of results[i]) {
+    console.error(`✗ ${relative(root, name)}: ${error}`);
+  }
 });
 
 if (failed) {
   console.error(
     `\n${failed} of ${names.length} packages have type problems. ` +
-      "Run `npx attw --pack packages/<name>` for details.",
+      "Run `npx attw --pack <folder>/<name>` for details.",
   );
   process.exit(1);
 }

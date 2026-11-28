@@ -2,7 +2,8 @@
   "name": "workspace",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "integrations/*"
   ],
   "main": "packages/tonal/dist/index.js",
   "module": "packages/tonal/dist/index.mjs",
@@ -10,13 +11,13 @@
   "scripts": {
     "release": "node scripts/release.mjs",
     "build": "turbo run build",
-    "format": "prettier --write packages/**/*.ts packages/**/package.json",
+    "format": "prettier --write packages/**/*.ts packages/**/package.json integrations/**/*.ts integrations/**/package.json",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint 'packages/**/*.ts'",
+    "lint": "eslint 'packages/**/*.ts' 'integrations/**/*.ts'",
     "typecheck": "tsc -p tsconfig.sources.json",
-    "lint:fix": "eslint 'packages/**/*.ts' --fix",
+    "lint:fix": "eslint 'packages/**/*.ts' 'integrations/**/*.ts' --fix",
     "test:all": "npm run format && npm run lint && npm run typecheck && npm run test:api && npm run build && npm run test:run && npm run test:dist && npm run test:size && npm run test:types",
     "test:dist": "node scripts/check-dist.mjs",
     "test:types": "node scripts/check-types.mjs",

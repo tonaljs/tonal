@@ -43,6 +43,14 @@ To create a new module:
 - Ensure everything works: run `npm run test:all` at root folder
 - Create a pull request
 
+## Integrations
+
+The packages in `packages/` are the core: they compute on tonal's own data (notes, intervals, chords, scales, time, charts) and are all re-exported by `tonal`. An **integration** reads or writes an external format, or talks to an external system, and turns it into that data: `@tonaljs/ireal` reads iReal Pro links into charts. Integrations:
+
+- live in `integrations/`, with the same build, tests, checks and release process as the packages;
+- depend on the core, and the core never depends on them;
+- aren't re-exported by `tonal` and aren't in its browser bundle: an app installs the ones it uses (`npm i tonal @tonaljs/ireal`).
+
 ## Music, not sound
 
 tonal describes music, it doesn't play it. For time, tonal says **where** things are: positions and durations, meters, bars and beats, rhythm patterns, chord charts and the chord at a position. Saying **when** they play (tempo, tempo maps, seconds) is planned, and comes step by step. Playing stays outside: clocks, scheduling, audio and state. `Math.random` only comes in as an injected `rnd` function. A function that needs any of those belongs in the app or an audio library.
