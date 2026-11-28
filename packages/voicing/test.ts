@@ -316,6 +316,41 @@ describe("Voicing.get and search with options", () => {
   });
 });
 
+describe("a bass part on slash chords", () => {
+  test("plays the slash bass, not the root", () => {
+    expect(Voicing.get("C/E", { bass: "root" })).toEqual(["E2", "G3", "C4"]);
+    expect(Voicing.get("Dm7/C", { bass: "root" })[0]).toBe("C2");
+    expect(Voicing.get("C/G", { bass: "root" })[0]).toBe("G2");
+  });
+
+  test("every slash chord of the common types has a voicing", () => {
+    for (const type of ["", "m", "7", "maj7", "m7", "m7b5", "6", "9"]) {
+      for (const bass of ["3", "5", "b3", "b7"]) {
+        const chord = Chord.get("C" + type);
+        const note = Chord.noteOf("C" + type, bass);
+        if (!note || !chord.notes.includes(note)) continue;
+        const voicing = Voicing.get(`C${type}/${note}`, {
+          bass: "root",
+          voices: 4,
+          extensions: "available",
+        });
+        expect(voicing.length).toBe(5);
+        expect(Note.pitchClass(voicing[0])).toBe(note);
+      }
+    }
+  });
+
+  test("a progression with slash chords", () => {
+    const options = {
+      voices: 4,
+      extensions: "available",
+      bass: "root",
+    } as const;
+    const list = Voicing.sequence(["C/E", "F", "G7/B", "C"], options);
+    expect(list.map((v) => v[0])).toEqual(["E2", "F2", "B2", "C3"]);
+  });
+});
+
 describe("Voicing.sequence with options", () => {
   const jazz = {
     voices: 4,

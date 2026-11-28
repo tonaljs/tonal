@@ -513,7 +513,10 @@ function legacySearch(
  * each chord can be an object with its own (`{ chord: "G7", voices: 5 }`), all
  * but `previous` and `metric`, which belong to the whole sequence. `maxLeap`
  * limits the move of each voice. A chord without voicings gives `[]`, and the
- * next one is led from the last.
+ * next one is led from the last. The defaults play each chord's own notes,
+ * close, with no bass part or tensions: to play a chart, pass `{ voices: 4,
+ * extensions: "available", bass: "root" }` (`voices + 1` notes, the bass
+ * first), or `bass: "external"` with a bass player.
  *
  * Each step costs the voice-leading distance from the voicing before (see
  * `VoiceLeading.path`) plus the voicing's own cost in `Voicing.search`
@@ -521,6 +524,13 @@ function legacySearch(
  * With the bass in the voicing (`bass: "none"`), every chord prefers root
  * position, since the lowest note is heard as the bass; for triads that invert
  * over a root, use `{ bass: "root", voices: 3 }`.
+ *
+ * The defaults play each chord's own notes, close and in the middle, with no
+ * bass part or tensions. To play a chart as a pianist, pass `{ voices: 4,
+ * extensions: "available", bass: "root" }`: a bass part (the chord's bass, in
+ * `bassRange`) under four voices with the tensions that suit each chord, so
+ * each voicing has `voices + 1` notes. With a bass player, use
+ * `bass: "external"`, which leaves the bass note out.
  *
  * (Called with a range array as the second argument, it uses the old
  * dictionary voicings, which are deprecated: see the README.)
@@ -533,6 +543,7 @@ function legacySearch(
  * @param options - the options of `Voicing.get` for every chord, plus `maxLeap`
  * @example
  * Voicing.sequence(["C", "Am", "F", "G"]); // => [["C4", "E4", "G4"], ["A3", "C4", "E4"], ["F3", "A3", "C4"], ["G3", "B3", "D4"]]
+ * Voicing.sequence(["Cmaj7", "Am7", "Dm7", "G7"], { voices: 4, extensions: "available", bass: "root" }); // => [["C3", "G3", "B3", "D4", "E4"], ["A2", "G3", "B3", "C4", "E4"], ["D2", "F3", "A3", "C4", "E4"], ["G2", "F3", "A3", "B3", "E4"]]
  * Voicing.sequence(["Dm7", "G7", "Cmaj7"], { voices: 4, extensions: "available", bass: "external" }); // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
  * Voicing.sequence(["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"], { voices: 4 }).map((v) => v.length); // => [4, 5, 4]
  */

@@ -331,6 +331,19 @@ Voicing.invert(["C4", "E4", "G4"], 1); // => ["E4", "G4", "C5"]
 Voicing.drop(["C4", "E4", "G4", "B4"], 2); // => ["G3", "C4", "E4", "B4"]
 ```
 
+To voice a whole progression (to hear a chart), one call does it, but pass the
+options: the defaults are each chord's own notes, close, with no bass and no
+tensions, which sounds like plain block chords.
+
+```js
+Voicing.sequence(chords, { voices: 4, extensions: "available", bass: "root" });
+// a bass part (the slash bass when there is one) plus 4 voices: voices + 1 notes each
+```
+
+Use `bass: "external"` when a bass line plays the bass (it leaves the bass note
+out; don't add it back). It never throws: an invalid chord gives `[]` in its
+place.
+
 The chord symbol says which notes the chord has; the options say how to play
 them: `voices` (a number, or a range per voice), `extensions` (`"available"` or
 a list of degrees), `bass` (`"none"`, `"root"` for a bass part, `"external"` for
