@@ -146,5 +146,8 @@ export function toRomanNumerals(
   });
 }
 
+export { find, fromPattern, patterns } from "./patterns";
+export type { Pattern, PatternFamily, PatternMatch } from "./patterns";
+
 /** @deprecated Use the named exports instead. */
 export default { fromRomanNumerals, toRomanNumerals };
