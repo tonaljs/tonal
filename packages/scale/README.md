@@ -312,7 +312,7 @@ Scale.rank(["C", "D", "E", "G", "A"], { limit: 1 });
 
 ### `Scale.chords`
 
-`chords(scale: string, options?: { size?: number, step?: number }) => { degree: number, notes: string[], symbol: string }[]`
+`chords(scale: string, options?: { size?: number, step?: number, all?: boolean, types?: string[], order?: "common" | "dictionary" }) => { degree: number, notes: string[], symbol: string }[]`
 
 Get the chord built on each degree of a scale, by stacking scale notes. `size` is the number of notes (3 by default: triads) and `step` the scale steps between them (2 by default: thirds; 3 for fourths, 1 for seconds). It works for any scale with a tonic:
 
@@ -344,7 +344,25 @@ Scale.chords("C major", { size: 4, step: 3 })[1];
 
 A major triad is written without quality (`"C"`), as in `Key`. The chords of major and minor scales are the ones in [`Key`](/packages/key) and [`Mode`](/packages/mode), except the melodic minor tonic: `Scale.chords` stacks thirds (`CmMaj7`), while `Key.minorKey("C").melodic.chords` lists `Cm6`, as used in jazz.
 
-Scales with more than seven notes (bebop, octatonic) or fewer (pentatonic) give stacks that may have no name. To get every chord type that fits a scale, see `Scale.scaleChords`.
+Scales with more than seven notes (bebop, octatonic) or fewer (pentatonic) give stacks that may have no name.
+
+#### Every chord on each degree
+
+With `all: true`, it lists every chord type whose notes are all in the scale, rooted on each degree: the chords to choose from in a key, for any scale. They come by degree and, on each degree, the common ones first (by `complexity`; `order: "dictionary"` keeps the dictionary's order). `types` limits the chord types:
+
+```js
+Scale.chords("B minor", {
+  all: true,
+  types: ["M", "m", "7", "m7", "maj7"],
+}).map((c) => c.symbol);
+// => ["Bm", "Bm7", "D", "Dmaj7", "Em", "Em7", "F#m", "F#m7", "G", "Gmaj7", "A", "A7"]
+Scale.chords("C major", { all: true })
+  .filter((c) => c.degree === 7)
+  .map((c) => c.symbol);
+// => ["Bdim", "Bm7#5", "Bm7b5", "Bquartal", "Bmb6b9", "Bm#5", "B7#5sus4"]
+```
+
+Types match by pitch class and the notes are spelled as in the scale, so a type that spells a note differently is listed with the scale's note: Bm#5 is B D G in C major, and Cdim7 is C Eb Gb A in the diminished scale. `Scale.scaleChords` gives the chord types from the tonic only, without root.
 
 ### `Scale.scaleChords`
 

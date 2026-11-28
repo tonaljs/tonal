@@ -537,6 +537,19 @@ export type ScaleChordsOptions = {
   size: number;
   /** Scale steps between chord notes: 2 (thirds, the default), 3 (fourths) or 1 (seconds) */
   step: number;
+  /**
+   * Every chord type whose notes are in the scale, on each degree, instead
+   * of one stacked chord per degree (`size` and `step` don't apply).
+   */
+  all: boolean;
+  /** With `all`: only these chord types (names or aliases, like ["M", "m7"]). */
+  types: string[];
+  /**
+   * With `all`: "common" (the default) sorts each degree's chords by
+   * `complexity`, then as the dictionary lists them; "dictionary" keeps the
+   * dictionary's order.
+   */
+  order: "common" | "dictionary";
 };
 
 /**
@@ -551,11 +564,23 @@ export type ScaleChordsOptions = {
  * It stacks the scale notes, so the melodic minor tonic is `CmMaj7`, while
  * `Key.minorKey("C").melodic.chords` lists the `Cm6` used in jazz.
  *
+ * With `all: true`, it lists every chord type whose notes are all in the
+ * scale, rooted on each degree: the chords to choose from in a key. They
+ * come by degree, and on each degree the common ones first (by
+ * `complexity`, then the dictionary's order; `order: "dictionary"` keeps
+ * the dictionary's). `types` limits the chord types. Types match by pitch
+ * class and the notes are spelled as in the scale, so a type that spells a
+ * note differently is listed with the scale's note (Bm#5 is B D G in C
+ * major, and Cdim7 is C Eb Gb A in the diminished scale). The symbol is the
+ * root and the type's first alias (a major triad without quality).
+ *
  * @example
  * Scale.chords("C major").map((c) => c.symbol); // => ["C", "Dm", "Em", "F", "G", "Am", "Bdim"]
  * Scale.chords("C major", { size: 4 })[6]; // => { degree: 7, notes: ["B", "D", "F", "A"], symbol: "Bm7b5" }
  * Scale.chords("C4 major")[4].notes; // => ["G4", "B4", "D5"]
  * Scale.chords("C major", { size: 4, step: 3 })[1].notes; // => ["D", "G", "C", "F"]
+ * Scale.chords("B minor", { all: true, types: ["M", "m", "7", "m7", "maj7"] }).map((c) => c.symbol); // => ["Bm", "Bm7", "D", "Dmaj7", "Em", "Em7", "F#m", "F#m7", "G", "Gmaj7", "A", "A7"]
+ * Scale.chords("C major", { all: true }).filter((c) => c.degree === 7).map((c) => c.symbol); // => ["Bdim", "Bm7#5", "Bm7b5", "Bquartal", "Bmb6b9", "Bm#5", "B7#5sus4"]
  */
 export function chords(
   scaleName: string | ScaleNameTokens,
@@ -563,7 +588,9 @@ export function chords(
 ): ScaleChord[] {
   const { size = 3, step = 2 } = options;
   const { intervals, tonic, empty } = get(scaleName);
-  if (empty || !tonic || !isCount(size) || !isCount(step)) return [];
+  if (empty || !tonic) return [];
+  if (options.all) return allChords(scaleName, options);
+  if (!isCount(size) || !isCount(step)) return [];
   const stepName = steps(scaleName);
 
   return intervals.map((_, index) => {
@@ -573,6 +600,47 @@ export function chords(
 }
 
 const isCount = (n: number) => Number.isInteger(n) && n > 0;
+
+// Every chord type whose notes are in the scale, on each degree
+function allChords(
+  scaleName: string | ScaleNameTokens,
+  options: Partial<ScaleChordsOptions>,
+): ScaleChord[] {
+  const scale = get(scaleName);
+  const types = options.types
+    ? options.types.map((t) => getChordType(t)).filter((t) => !t.empty)
+    : chordTypes();
+  const common = options.order !== "dictionary";
+  const pcs = scale.notes.map((n) => note(n));
+  const result: ScaleChord[] = [];
+  pcs.forEach((root, index) => {
+    const found: { chord: ScaleChord; complexity: number; at: number }[] = [];
+    types.forEach((type, at) => {
+      const notes: string[] = [];
+      for (const ivl of type.intervals) {
+        const n = note(transpose(root.name, ivl));
+        const inScale = pcs.find((p) => p.chroma === n.chroma);
+        if (!inScale) return;
+        // spelled as the scale spells it
+        notes.push(
+          inScale.pc === n.pc ? n.name : enharmonic(n.name, inScale.pc),
+        );
+      }
+      const alias = type.aliases[0] ?? "";
+      const symbol = type.name === "major" ? root.pc : root.pc + alias;
+      found.push({
+        chord: { degree: index + 1, notes, symbol },
+        complexity: type.complexity,
+        at,
+      });
+    });
+    if (common) {
+      found.sort((a, b) => a.complexity - b.complexity || a.at - b.at);
+    }
+    result.push(...found.map((f) => f.chord));
+  });
+  return result;
+}
 
 // The best name of the notes over their first note, without the "M" of a
 // major triad

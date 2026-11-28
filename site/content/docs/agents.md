@@ -253,7 +253,8 @@ Key.minorKey("A").harmonic.chords; // => ["AmMaj7", "Bm7b5", "C+maj7", "Dm7", "E
   scale, spelled as in the chord: `Scale.outside("C major", "Bb7")` is
   `["Bb", "Ab"]`, and `[]` when the chord fits. To list the chord types that
   fit a scale, use `Scale.scaleChords`; for the chord on each degree,
-  `Scale.chords`.
+  `Scale.chords`; for every chord on each degree (a chord browser for a key
+  and scale type), `Scale.chords(scale, { all: true, types })`.
 - `Mode` is about the seven Greek modes (`Mode.names()`); for other scales
   use `Scale`. `Scale.modeNames("C harmonic major")` names the modes of any
   scale, and a scale type that is a mode of a parent scale has `family` and
