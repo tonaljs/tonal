@@ -147,6 +147,8 @@ export function toRomanNumerals(
 }
 
 export { find, fromPattern, patterns } from "./patterns";
+export { keys } from "./keys";
+export type { KeysOptions } from "./keys";
 export type {
   FindOptions,
   Pattern,

@@ -1571,6 +1571,11 @@ Progression.fromRomanNumerals(tonic: NoteLiteral, chords: string[]): string[]
   Progression.fromRomanNumerals("C", ["I", "vi", "ii7", "V7"]); // => ["C", "Am", "Dm7", "G7"]
   Progression.fromRomanNumerals("C", ["I", "V7/ii", "ii", "V7"]); // => ["C", "A7", "Dm", "G7"]
 
+Progression.keys(chords: string[], options?: KeysOptions): string[]
+  Get the key of each chord of a progression: where it modulates, and where it only borrows (a secondary dominant keeps the key it's in). It returns a key name per chord, like "C major" or "A minor", and `""` for a symbol that isn't a chord when no chord comes before it. The most common key of a song is its reference key.
+  Progression.keys(["Cmaj7", "A7", "Dm7", "G7", "Cmaj7"]); // => ["C major", "C major", "C major", "C major", "C major"]
+  Progression.keys(["Cm7", "F7", "Bbmaj7", "Ebmaj7", "Am7b5", "D7", "Gm6"]); // => ["Bb major", "Bb major", "Bb major", "Bb major", "G minor", "G minor", "G minor"]
+
 Progression.patterns(): Pattern[]
   Get the catalogue of named progressions: the common ones of jazz (and a few of pop and blues), each with its numerals from the tonic. Ordered by use: how many of a corpus of 1,454 jazz standards have each at least once, from the V–I (in 90%), the ii–V (89%) and the ii–V–I (80%) on; pop and blues last.
   Progression.patterns()[2]; // => { name: "ii–V–I", aliases: ["two-five-one", "regular cadence", "cadence"], numerals: ["IIm7|IIm7b5", "V7|V7sus4", "Imaj7|Im7"], family: "cadence" }
@@ -1582,6 +1587,10 @@ Progression.toRomanNumerals(tonic: NoteLiteral, chords: string[]): string[]
   Progression.toRomanNumerals("C", ["Am", "Bb7"]); // => ["VIm", "bVII7"]
 
 Types:
+
+type KeysOptions = {
+  change?: number | undefined;
+}
 
 type NamedPitch = {
   name: string;
