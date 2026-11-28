@@ -1,5 +1,24 @@
 # tonal
 
+## 6.18.0
+
+### Minor Changes
+
+- 9b2fe65: `Key.pivotChords(from, to, { sevenths, chromatic })`: the chords two keys share (pivot chords for a modulation), with the numeral of each in both keys. Triads by default, 7th chords with `sevenths`; a minor key has the chords of its three forms. With `chromatic`, also the chords with a functional reading in the other key (D: V/V in C, V in G).
+- 6a6884b: `Scale.chords(scale, { all: true, types, order })`: every chord type whose notes are in the scale, rooted on each degree, common ones first (by `complexity`, or the dictionary's order), for any scale with a tonic. The notes are spelled as in the chord (D F# A in the diminished scale, which has Gb).
+- fcc3b64: `Scale.rank(notes, { chords, types, limit })`: the scales that fit a set of notes and chords, best first ("which scale is this?"). Every tonic is tried with the common scale types; the order is fit, then the more common type, then the evidence of the tonic (first and last chord and note), and each result has its `matched`, `missing` and `outside` notes.
+
+### Patch Changes
+
+- 0344655: `Voicing.get`, `search` and `sequence` with `bass: "root"` voice slash chords: the bass part plays the slash bass and the low interval limits count from it, so `Voicing.get("C/E", { bass: "root" })` is `["E2", "G3", "C4"]` instead of `[]`. The docs explain the options to voice a chart (`{ voices: 4, extensions: "available", bass: "root" }`).
+- Updated dependencies [9b2fe65]
+- Updated dependencies [6a6884b]
+- Updated dependencies [fcc3b64]
+- Updated dependencies [0344655]
+  - @tonaljs/key@4.14.0
+  - @tonaljs/scale@4.17.0
+  - @tonaljs/voicing@5.4.3
+
 ## 6.17.0
 
 ### Minor Changes
