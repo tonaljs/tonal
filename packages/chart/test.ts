@@ -441,7 +441,7 @@ describe("@tonaljs/chart", () => {
       expect(problems("| A | B <D.S.> |")).toEqual([
         "bar 2: D.S. without a <Segno>",
       ]);
-      expect(problems("| A <Fine> | B |")).toEqual([
+      expect(problems("| A <Fine> | B <D.C.> |")).toEqual([
         "bar 1: <Fine> without a D.C. al Fine or D.S. al Fine",
       ]);
       expect(problems("| A | B <D.C. al Fine> |")).toEqual([
@@ -503,7 +503,7 @@ describe("@tonaljs/chart", () => {
       expect(
         order("| F |: <Segno> A |1 B :|2 C <Fine> || D <D.S. al 2nd ending> |"),
       ).toBe("F A B A C D A C");
-      // as iReal Pro writes it
+      // also written "2nd End."
       expect(Chart.parse("| A <D.C. al 2nd End.> |").bars[0].jump).toBe(
         "D.C. al 2nd ending",
       );
@@ -538,6 +538,24 @@ describe("@tonaljs/chart", () => {
       expect(problems("|: A |1 B :|2 C || D |3 E |")).toEqual([
         "bar 5: ending 3 is after its group, and no jump goes to it",
       ]);
+    });
+
+    test("a coda alone follows the last chorus", () => {
+      expect(problems("| C | G | <Coda> F |")).toEqual([]);
+      expect(order("| C | G | <Coda> F |")).toBe("C G F");
+      expect(order("| C | G | <Coda> F |", { choruses: 2 })).toBe("C G C G F");
+      // with a repeat in the form, and a vamp in the coda
+      expect(order("|: C :| G | <Coda> F |: Bb :|", { choruses: 2 })).toBe(
+        "C C G C C G F Bb Bb",
+      );
+    });
+
+    test("a fine without a jump is only a sign", () => {
+      expect(problems("| C | F <Fine> | G7 |")).toEqual([]);
+      expect(order("| C | F <Fine> | G7 |")).toBe("C F G7");
+      expect(order("| C | F <Fine> | G7 |", { choruses: 2 })).toBe(
+        "C F G7 C F G7",
+      );
     });
 
     test("a segno without a D.S. is only a sign", () => {

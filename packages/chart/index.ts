@@ -517,6 +517,8 @@ type JumpPlan = {
   stop?: number;
   coda?: number;
   ending?: number;
+  // a <Coda> alone: no jump; each chorus plays up to `bar`, then the coda
+  codaAlone?: true;
 };
 
 type Structure = {
@@ -665,6 +667,10 @@ function jumpOf(
     bar = coda - 1;
     jump = "D.C. al Coda";
   }
+  // a <Coda> alone (no To Coda, no jump): the form is the bars before it,
+  // and the coda follows the last chorus
+  const codaAlone =
+    !jump && coda !== undefined && toCoda === undefined && coda > 0;
   const alFine = jump?.endsWith("al Fine");
   const alCoda = jump?.endsWith("al Coda");
   const alEnding = /al (\d)\w\w ending$/.exec(jump ?? "");
@@ -674,14 +680,18 @@ function jumpOf(
     problem(i, message);
     ok = false;
   };
-  if (fine !== undefined && !alFine && !alEnding) {
+  // a <Fine> without any jump is only a sign
+  if (fine !== undefined && jump && !alFine && !alEnding) {
     fail(fine, "<Fine> without a D.C. al Fine or D.S. al Fine");
   }
   if (!alCoda && toCoda !== undefined) {
     fail(toCoda, "<To Coda> without a D.C. al Coda or D.S. al Coda");
   }
-  if (!alCoda && coda !== undefined) {
+  if (!alCoda && !codaAlone && coda !== undefined) {
     fail(coda, "<Coda> without a D.C. al Coda or D.S. al Coda");
+  }
+  if (codaAlone) {
+    return ok ? { bar: coda - 1, target: 0, coda, codaAlone: true } : undefined;
   }
   if (!jump || bar === undefined) return undefined;
   const ds = jump.startsWith("D.S.");
@@ -809,6 +819,14 @@ function playOrder(
     }
     return steps;
   }
+  // a coda alone: each chorus up to the coda, then the coda once
+  if (jump.codaAlone) {
+    for (let chorus = 1; chorus <= choruses; chorus++) {
+      if (!walk(0, jump.bar, chorus, false)) return [];
+    }
+    if (!walk(jump.coda!, undefined, choruses, false)) return [];
+    return steps;
+  }
   // a plain D.C. or D.S. is part of the tune: each chorus plays it
   if (
     jump.stop === undefined &&
@@ -884,7 +902,10 @@ const chorusesOf = (options?: UnrollOptions) => {
  *   takes no repeats (unless `repeatsOnJump`) and plays that ending at the
  *   group of endings; then it goes on to the end, or stops at a `<Fine>`.
  *   With `choruses` it ends the tune, like `al Fine`.
- * - A `<Segno>` without a D.S. is only a sign.
+ * - A `<Coda>` alone (no `<To Coda>`, no jump): the bars before it are the
+ *   form, and the coda is played once, after the last chorus.
+ * - A `<Segno>` without a D.S., or a `<Fine>` without any jump, is only a
+ *   sign.
  *
  * A run of a section starts at a bar that starts a section (`[A]`), or at a
  * new chorus, so `sectionBar` and `sectionLength` count within it: an AA

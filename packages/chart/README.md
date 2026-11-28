@@ -218,7 +218,13 @@ order("| Dm | <Segno> C | F <To Coda> | G <D.S. al Coda> | <Coda> Am |");
   // => ["C", "G", "C", "F", "Bb", "C", "Eb"]
   ```
 
-- A `<Segno>` without a `D.S.` is only a sign.
+- **A coda alone.** A `<Coda>` with no `<To Coda>` and no jump: the bars before it are the form, and the coda is played once, after the last chorus.
+
+  ```js
+  order("| C | G | <Coda> F |", { choruses: 2 }); // => ["C", "G", "C", "G", "F"]
+  ```
+
+- A `<Segno>` without a `D.S.`, or a `<Fine>` without any jump, is only a sign.
 - A plain `<D.C.>` or `<D.S.>` (without `al Fine` or `al Coda`) marks no ending: it's part of the tune, like a written repeat, so each chorus plays the whole tune with its jump.
 
   ```js
