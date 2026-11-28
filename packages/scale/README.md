@@ -348,7 +348,7 @@ Scales with more than seven notes (bebop, octatonic) or fewer (pentatonic) give 
 
 #### Every chord on each degree
 
-With `all: true`, it lists every chord type whose notes are all in the scale, rooted on each degree: the chords to choose from in a key, for any scale. They come by degree and, on each degree, the common ones first (by `complexity`; `order: "dictionary"` keeps the dictionary's order). `types` limits the chord types:
+With `all: true`, it lists every chord type whose notes are all in the scale, rooted on each degree: the chords to choose from in a key, for any scale. They come by degree and, on each degree, the common ones first (by `complexity`, triads before power and sus chords; `order: "dictionary"` keeps the dictionary's order). `types` limits the chord types:
 
 ```js
 Scale.chords("B minor", {
@@ -359,10 +359,10 @@ Scale.chords("B minor", {
 Scale.chords("C major", { all: true })
   .filter((c) => c.degree === 7)
   .map((c) => c.symbol);
-// => ["Bdim", "Bm7#5", "Bm7b5", "Bquartal", "Bmb6b9", "Bm#5", "B7#5sus4"]
+// => ["Bdim", "Bm7b5", "Bm7#5", "Bmb6b9", "Bquartal", "Bm#5", "B7#5sus4"]
 ```
 
-Types match by pitch class and the notes are spelled as in the scale, so a type that spells a note differently is listed with the scale's note: Bm#5 is B D G in C major, and Cdim7 is C Eb Gb A in the diminished scale. `Scale.scaleChords` gives the chord types from the tonic only, without root.
+Types match by pitch class, and the notes are spelled as in the chord, from its root (as `Chord.get(symbol).notes`): D in the diminished scale is D F# A, though the scale has Gb, and Cdim7 is C Eb Gb Bbb. Among chords of the same `complexity`, those with a 3rd and a 5th come first, then those with a 3rd (`7no5`), then those without (`5`, `sus4`). `Scale.scaleChords` gives the chord types from the tonic only, without root.
 
 ### `Scale.scaleChords`
 
