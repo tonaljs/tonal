@@ -1553,11 +1553,28 @@ type Set = string | number | Partial<Pcset> | NoteName[] | IntervalName[]
 
 import { Progression } from "tonal"; // or: import * as Progression from "@tonaljs/progression";
 
+Progression.find(chords: string[], pattern: string | string[], options?: FindOptions): PatternMatch[]
+  Find a named progression in a list of chords, in any key: every place it appears, with its first chord (`start`), how many chords it spans (`length`) and the tonic its numerals are read from. Matches can overlap: a ii–V–I contains a ii–V.
+  Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "ii–V–I"); // => [{ name: "ii–V–I", start: 2, length: 3, tonic: "C" }]
+  Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "long cadence")[0].tonic; // => "C"
+  Progression.find(["Fm7", "Bb7", "Ebmaj7", "Ebmaj7"], "IIm7 V7 Imaj7"); // => [{ name: "", start: 0, length: 4, tonic: "Eb" }]
+
+Progression.fromPattern(pattern: string | string[], tonic: string, options?: PatternOptions): string[]
+  Get the chords of a named progression in a key: the first alternative of each numeral, as `fromRomanNumerals` reads it. It returns `[]` for an unknown pattern. Names are looked up as in `Progression.find`, in the catalogue or in the `patterns` option.
+  Progression.fromPattern("ii–V–I", "F"); // => ["Gm7", "C7", "Fmaj7"]
+  Progression.fromPattern("long cadence", "Bb"); // => ["Dm7", "G7", "Cm7", "F7", "Bbmaj7"]
+  Progression.fromPattern("andalusian cadence", "A"); // => ["Am", "G", "F", "E"]
+
 Progression.fromRomanNumerals(tonic: NoteLiteral, chords: string[]): string[]
   Convert a list of roman numeral chords to chord symbols in the given tonic. Returns one chord symbol per numeral, and "" for a numeral that is not valid or has an unknown chord type.
   Progression.fromRomanNumerals("C", ["I", "IIm7", "V7"]); // => ["C", "Dm7", "G7"]
   Progression.fromRomanNumerals("C", ["I", "vi", "ii7", "V7"]); // => ["C", "Am", "Dm7", "G7"]
   Progression.fromRomanNumerals("C", ["I", "V7/ii", "ii", "V7"]); // => ["C", "A7", "Dm", "G7"]
+
+Progression.patterns(): Pattern[]
+  Get the catalogue of named progressions: the common ones of jazz (and a few of pop and blues), each with its numerals from the tonic. Ordered by use: how many of a corpus of 1,454 jazz standards have each at least once, from the V–I (in 90%), the ii–V (89%) and the ii–V–I (80%) on; pop and blues last.
+  Progression.patterns()[2]; // => { name: "ii–V–I", aliases: ["two-five-one", "regular cadence", "cadence"], numerals: ["IIm7|IIm7b5", "V7|V7sus4", "Imaj7|Im7"], family: "cadence" }
+  Progression.patterns().filter((p) => p.family === "turnaround").map((p) => p.name); // => ["iii–VI7–ii–V", "I–vi–ii–V", "I–VI7–ii–V", "I–I7–IV", "I–#io–ii", "I–I7–IV–iv", "I–#io–ii–#iio", "I–bIII7–ii–V", "I–bIII7–bVI–bII7", "i–bVI–iiø–V"]
 
 Progression.toRomanNumerals(tonic: NoteLiteral, chords: string[]): string[]
   Convert a list of chord symbols to roman numerals relative to the given tonic. The chord type is kept as written, and the numeral is always uppercase ("IIm7", not "ii7"). A chord that can't be parsed is returned unchanged.
@@ -1571,6 +1588,27 @@ type NamedPitch = {
 }
 
 type NoteLiteral = Pitch | NamedPitch | NoteName
+
+type Pattern = {
+  name: string;
+  aliases: string[];
+  numerals: string[];
+  family: PatternFamily;
+}
+
+type PatternFamily = 'pop' | 'cadence' | 'turnaround' | 'launcher' | 'blues'
+  What a named progression does.
+
+type PatternMatch = {
+  name: string;
+  start: number;
+  length: number;
+  tonic: string;
+}
+
+type PatternOptions = {
+  patterns?: PatternLike[] | undefined;
+}
 
 type Pitch = {
   step: number;

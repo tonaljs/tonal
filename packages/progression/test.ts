@@ -2,7 +2,7 @@ import { get as getChord } from "@tonaljs/chord";
 import { all as allChordTypes, get as getChordType } from "@tonaljs/chord-type";
 import { majorKey } from "@tonaljs/key";
 import { describe, expect, test } from "vitest";
-import Progression from "./index";
+import Progression, { find, fromPattern, patterns } from "./index";
 
 const $ = (str: string) => str.split(" ");
 
@@ -223,5 +223,156 @@ describe("@tonaljs/progression", () => {
       $("VIIdim7 VIIdim Imin7 IImi7 IVdim #Idim7 Imaj7 VIIm7b5 V7"),
     );
     expect(Progression.fromRomanNumerals("C", roman)).toEqual(chords);
+  });
+});
+
+describe("named progressions", () => {
+  test("every pattern finds itself in any key", () => {
+    for (const pattern of patterns()) {
+      for (const tonic of ["C", "F#", "Eb", "Bb"]) {
+        const chords = fromPattern(pattern.name, tonic);
+        expect(chords.every((c) => c !== "")).toBe(true);
+        const found = find(chords, pattern.name);
+        expect([pattern.name, tonic, found[0]]).toEqual([
+          pattern.name,
+          tonic,
+          { name: pattern.name, start: 0, length: chords.length, tonic },
+        ]);
+      }
+    }
+  });
+
+  test("names and aliases are unique", () => {
+    const names = patterns().flatMap((p) => [p.name, ...p.aliases]);
+    expect(new Set(names).size).toBe(names.length);
+  });
+
+  test("by name, alias or numerals", () => {
+    const chords = $("Em7 A7 Dm7 G7 Cmaj7");
+    expect(find(chords, "ii–V–I")).toEqual([
+      { name: "ii–V–I", start: 2, length: 3, tonic: "C" },
+    ]);
+    // dashes and case don't matter for names
+    expect(find(chords, "ii-V-I")).toEqual(find(chords, "ii–V–I"));
+    expect(find(chords, "Long Cadence")[0].name).toBe("iii–VI7–ii–V–I");
+    // but the case of numerals does
+    expect(find($("Fm7 Cmaj7"), "iv–I")).toHaveLength(1);
+    expect(find($("Fm7 Cmaj7"), "IV–I")).toEqual([]);
+    expect(find(chords, "IIm7 V7 Imaj7")).toEqual([
+      { name: "", start: 2, length: 3, tonic: "C" },
+    ]);
+    expect(find(chords, ["IIm7|IIm7b5", "V7"])).toHaveLength(2);
+  });
+
+  test("a chord fits a numeral by its family", () => {
+    expect(find($("Dm9 G13 C6"), "ii–V–I")[0].tonic).toBe("C");
+    expect(find($("Bm7b5 E7b9 Am6"), "ii–V–I")[0].tonic).toBe("A");
+    expect(find($("Dm7 G7sus4 Cmaj7"), "ii–V–I")).toHaveLength(1);
+    expect(find($("Dm7 G Cmaj7"), "ii–V–I")).toEqual([]);
+  });
+
+  test("a chord repeated right after itself is held", () => {
+    expect(find($("Fm7 Bb7 Ebmaj7 Ebmaj7"), "IIm7 V7 Imaj7")).toEqual([
+      { name: "", start: 0, length: 4, tonic: "Eb" },
+    ]);
+    expect(find($("Dm7 Dm9 G7 C"), "ii–V–I")[0]).toEqual({
+      name: "ii–V–I",
+      start: 0,
+      length: 4,
+      tonic: "C",
+    });
+  });
+
+  test("overlapping matches, in order", () => {
+    const chords = $("Dm7 G7 Cmaj7 Em7 A7 Dm7 G7 Cmaj7");
+    expect(find(chords, "ii–V").map((m) => [m.start, m.tonic])).toEqual([
+      [0, "C"],
+      [3, "D"],
+      [5, "C"],
+    ]);
+  });
+
+  test("a match doesn't end on a minor tonic that is a ii", () => {
+    // Dm7 is followed by its dominant: not a ii–V–i in D minor
+    const chords = $("Em7 A7 Dm7 G7 Cmaj7");
+    expect(find(chords, "ii–V–I").map((m) => m.tonic)).toEqual(["C"]);
+    // by name or by numerals, the same rule
+    expect(find(chords, "IIm7 V7 Im7")).toEqual([]);
+    expect(find(chords, "V7 Im7|Imaj7").map((m) => m.tonic)).toEqual(["C"]);
+    // a minor chord that isn't on the I is matched (VI7–ii)
+    expect(find(chords, "VI7 IIm7").map((m) => m.tonic)).toEqual(["C"]);
+    // a minor tonic not followed by its dominant is one
+    expect(find($("Em7 A7 Dm7 Bb7"), "ii–V–I").map((m) => m.tonic)).toEqual([
+      "D",
+    ]);
+    // literal: as written
+    expect(
+      find(chords, "IIm7 V7 Im7", { literal: true }).map((m) => m.tonic),
+    ).toEqual(["D"]);
+    expect(
+      find(chords, "ii–V–I", { literal: true }).map((m) => m.tonic),
+    ).toEqual(["D", "C"]);
+  });
+
+  test("not a chord, not a pattern", () => {
+    expect(find($("Dm7 N.C. G7 C"), "ii–V–I")).toEqual([]);
+    expect(find($("C G7"), "nothing")).toEqual([]);
+    expect(find($("C G7"), "IIm7 Xyz")).toEqual([]);
+    expect(find("C G7" as unknown as string[], "ii–V")).toEqual([]);
+    expect(fromPattern("nothing", "C")).toEqual([]);
+    expect(fromPattern("ii–V–I", "H")).toEqual([]);
+  });
+
+  test("a catalogue of its own", () => {
+    const threeFour = { name: "three-four", numerals: ["IIIm7", "IVmaj7"] };
+    const mine = [...patterns(), threeFour];
+    const chords = $("Em7 Fmaj7 Dm7 G7 Cmaj7");
+    expect(find(chords, "three-four", { patterns: mine })).toEqual([
+      { name: "three-four", start: 0, length: 2, tonic: "C" },
+    ]);
+    // the option takes the place of the catalogue
+    expect(find(chords, "ii–V–I", { patterns: mine })[0].tonic).toBe("C");
+    expect(find(chords, "three-four")).toEqual([]);
+    expect(find(chords, "ii–V–I", { patterns: [threeFour] })).toEqual([]);
+    // aliases, and the ii rule
+    const minor = {
+      name: "minor landing",
+      aliases: ["ml"],
+      numerals: ["V7", "Im7"],
+    };
+    expect(find($("A7 Dm7 G7"), "ml", { patterns: [minor] })).toEqual([]);
+    expect(find($("A7 Dm7 Bb7"), "ML", { patterns: [minor] })[0].tonic).toBe(
+      "D",
+    );
+    // numerals still work; invalid entries are skipped
+    expect(find(chords, "IIm7 V7", { patterns: [] })[0].tonic).toBe("C");
+    const odd = [null, { name: 3 }, threeFour] as unknown as typeof mine;
+    expect(find(chords, "three-four", { patterns: odd })).toHaveLength(1);
+    expect(fromPattern("three-four", "F", { patterns: mine })).toEqual([
+      "Am7",
+      "Bbmaj7",
+    ]);
+    expect(fromPattern("three-four", "F")).toEqual([]);
+  });
+
+  test("fromPattern", () => {
+    expect(fromPattern("ii–V–I", "F")).toEqual(["Gm7", "C7", "Fmaj7"]);
+    expect(fromPattern("andalusian cadence", "A")).toEqual([
+      "Am",
+      "G",
+      "F",
+      "E",
+    ]);
+    expect(fromPattern("POT", "Eb")).toEqual(["Ebmaj7", "C7", "Fm7", "Bb7"]);
+    expect(fromPattern(["IVm7", "bVII7", "Imaj7"], "C")).toEqual([
+      "Fm7",
+      "Bb7",
+      "Cmaj7",
+    ]);
+  });
+
+  test("patterns() is a copy", () => {
+    patterns()[0].aliases.push("changed");
+    expect(patterns()[0].aliases).not.toContain("changed");
   });
 });
