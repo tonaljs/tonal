@@ -272,6 +272,17 @@ Lowercase numerals are minor (`"ii7"` is the same as `"IIm7"`). Applied
 chords such as `"V7/V"` are supported. `RomanNumeral.get` parses one numeral
 into its parts.
 
+Named progressions (ii–V–I, turnarounds, the backdoor cadence…) are a
+catalogue, `Progression.patterns()`, ordered by how common they are in jazz
+standards. `Progression.find(chords, "ii–V–I")` finds one in any key (by
+name, alias or numerals, matching chords by `Chord.get(c).family`), and
+`Progression.fromPattern("ii–V–I", "F")` gives its chords in a key:
+
+```js
+Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "ii–V–I"); // => [{ name: "ii–V–I", start: 2, length: 3, tonic: "C" }]
+Progression.fromPattern("POT", "Eb"); // => ["Ebmaj7", "C7", "Fm7", "Bb7"]
+```
+
 ## Chord charts
 
 `Chart.parse` reads a chart from text: bars between `|`, chords separated by

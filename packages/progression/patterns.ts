@@ -39,12 +39,19 @@ const II = "IIm7|IIm7b5";
 const V = "V7|V7sus4";
 const I = "Imaj7|Im7";
 
-// The catalogue, ordered by use: how many of a corpus of 1,454 jazz standards
-// have each at least once (pop and blues last). Names after John Elliott,
+// The catalogue, ordered by use: how many songs of a corpus of lead sheets
+// have each at least once, found with `find` (1,454 jazz standards; pop and
+// blues last, by the whole corpus of 6,627). Names after John Elliott,
 // *Insights in Jazz* (2009), and Conrad Cork, *The New Guide to Harmony with
 // LEGO Bricks*, are aliases.
 const PATTERNS: Pattern[] = [
-  // the order is set by the corpus check (see the README)
+  // jazz first, by the share of 1,454 jazz standards with each
+  {
+    name: "V–I",
+    aliases: ["perfect cadence", "authentic cadence"],
+    numerals: [V, I],
+    family: "cadence",
+  },
   {
     name: "ii–V",
     aliases: ["two-five", "launcher"],
@@ -58,10 +65,10 @@ const PATTERNS: Pattern[] = [
     family: "cadence",
   },
   {
-    name: "V–I",
-    aliases: ["perfect cadence", "authentic cadence"],
-    numerals: [V, I],
-    family: "cadence",
+    name: "VI7–ii–V",
+    aliases: ["dropback launch"],
+    numerals: ["VI7", II, V],
+    family: "launcher",
   },
   {
     name: "II7–V7",
@@ -76,9 +83,15 @@ const PATTERNS: Pattern[] = [
     family: "turnaround",
   },
   {
-    name: "VI7–ii–V",
-    aliases: ["dropback launch"],
-    numerals: ["VI7", II, V],
+    name: "VI7–ii–V–I",
+    aliases: ["dropback"],
+    numerals: ["VI7", II, V, I],
+    family: "cadence",
+  },
+  {
+    name: "II7–ii–V",
+    aliases: ["dogleg launch"],
+    numerals: ["II7", II, V],
     family: "launcher",
   },
   {
@@ -88,9 +101,15 @@ const PATTERNS: Pattern[] = [
     family: "cadence",
   },
   {
-    name: "VI7–ii–V–I",
-    aliases: ["dropback"],
-    numerals: ["VI7", II, V, I],
+    name: "II7–ii–V–I",
+    aliases: ["dogleg"],
+    numerals: ["II7", II, V, I],
+    family: "cadence",
+  },
+  {
+    name: "ii–V–I7",
+    aliases: ["tension ending"],
+    numerals: [II, V, "I7"],
     family: "cadence",
   },
   {
@@ -112,9 +131,9 @@ const PATTERNS: Pattern[] = [
     family: "cadence",
   },
   {
-    name: "ii–V–I7",
-    aliases: ["tension ending"],
-    numerals: [II, V, "I7"],
+    name: "bVII7–I",
+    aliases: ["backdoor dominant"],
+    numerals: ["bVII7", I],
     family: "cadence",
   },
   {
@@ -124,10 +143,10 @@ const PATTERNS: Pattern[] = [
     family: "cadence",
   },
   {
-    name: "bVII7–I",
-    aliases: ["backdoor dominant"],
-    numerals: ["bVII7", I],
-    family: "cadence",
+    name: "I–VI7–ii–V",
+    aliases: ["POT", "plain old turnaround"],
+    numerals: [I, "VI7", II, V],
+    family: "turnaround",
   },
   {
     name: "ii–V–ii–V–I",
@@ -136,22 +155,10 @@ const PATTERNS: Pattern[] = [
     family: "cadence",
   },
   {
-    name: "I–VI7–ii–V",
-    aliases: ["POT", "plain old turnaround"],
-    numerals: [I, "VI7", II, V],
-    family: "turnaround",
-  },
-  {
-    name: "II7–ii–V–I",
-    aliases: ["dogleg"],
-    numerals: ["II7", II, V, I],
+    name: "iv–I",
+    aliases: ["minor plagal cadence"],
+    numerals: ["IVm7", "Imaj7"],
     family: "cadence",
-  },
-  {
-    name: "II7–ii–V",
-    aliases: ["dogleg launch"],
-    numerals: ["II7", II, V],
-    family: "launcher",
   },
   {
     name: "I–I7–IV",
@@ -178,6 +185,18 @@ const PATTERNS: Pattern[] = [
     family: "cadence",
   },
   {
+    name: "ii–V–I–IV",
+    aliases: ["overrun"],
+    numerals: [II, V, "Imaj7", "IVmaj7"],
+    family: "cadence",
+  },
+  {
+    name: "bVI–V–I",
+    aliases: ["Night and Day cadence"],
+    numerals: ["bVImaj7", V, I],
+    family: "cadence",
+  },
+  {
     name: "ii–bII7–I",
     aliases: ["tritone substitute cadence"],
     numerals: [II, "bII7", I],
@@ -190,39 +209,27 @@ const PATTERNS: Pattern[] = [
     family: "cadence",
   },
   {
-    name: "ii–V–I–IV",
-    aliases: ["overrun"],
-    numerals: [II, V, "Imaj7", "IVmaj7"],
-    family: "cadence",
-  },
-  {
     name: "#ivø–VII7–iii–VI7–ii–V–I",
     aliases: ["starlight cadence"],
     numerals: ["#IVm7b5", "VII7", "IIIm7|IIIm7b5", "VI7", II, V, I],
     family: "cadence",
   },
   {
-    name: "iv–I",
-    aliases: ["minor plagal cadence"],
-    numerals: ["IVm7", "Imaj7"],
-    family: "cadence",
-  },
-  {
-    name: "bVI–V–I",
-    aliases: ["Night and Day cadence"],
-    numerals: ["bVImaj7", V, I],
-    family: "cadence",
-  },
-  {
-    name: "I–bIII7–ii–V",
-    aliases: ["Foggy turnaround"],
-    numerals: [I, "bIII7", II, V],
+    name: "I–I7–IV–iv",
+    aliases: ["to IV and back"],
+    numerals: [I, "I7", "IVmaj7", "IVm7"],
     family: "turnaround",
   },
   {
     name: "I–#io–ii–#iio",
     aliases: ["Rhythm turnaround"],
     numerals: ["Imaj7", "#Io7", II, "#IIo7"],
+    family: "turnaround",
+  },
+  {
+    name: "I–bIII7–ii–V",
+    aliases: ["Foggy turnaround"],
+    numerals: [I, "bIII7", II, V],
     family: "turnaround",
   },
   {
@@ -237,17 +244,23 @@ const PATTERNS: Pattern[] = [
     numerals: ["Im7", "bVImaj7", "IIm7b5", "V7"],
     family: "turnaround",
   },
-  {
-    name: "I–I7–IV–iv",
-    aliases: ["to IV and back"],
-    numerals: [I, "I7", "IVmaj7", "IVm7"],
-    family: "turnaround",
-  },
-  // pop and blues
+  // pop and blues, by the share of the whole corpus (6,627 songs)
   {
     name: "I–IV–V",
     aliases: ["three-chord"],
     numerals: ["I", "IV", "V|V7"],
+    family: "pop",
+  },
+  {
+    name: "I7–IV7–I7",
+    aliases: ["blues"],
+    numerals: ["I7", "IV7", "I7"],
+    family: "blues",
+  },
+  {
+    name: "I–vi–IV–V",
+    aliases: ["fifties", "doo-wop"],
+    numerals: ["I", "VIm", "IV", "V|V7"],
     family: "pop",
   },
   {
@@ -257,22 +270,10 @@ const PATTERNS: Pattern[] = [
     family: "pop",
   },
   {
-    name: "I–vi–IV–V",
-    aliases: ["fifties", "doo-wop"],
-    numerals: ["I", "VIm", "IV", "V|V7"],
-    family: "pop",
-  },
-  {
     name: "i–bVII–bVI–V",
     aliases: ["andalusian cadence"],
     numerals: ["Im", "bVII", "bVI", "V|V7"],
     family: "pop",
-  },
-  {
-    name: "I7–IV7–I7",
-    aliases: ["blues"],
-    numerals: ["I7", "IV7", "I7"],
-    family: "blues",
   },
 ];
 
@@ -280,7 +281,8 @@ const PATTERNS: Pattern[] = [
  * Get the catalogue of named progressions: the common ones of jazz (and a
  * few of pop and blues), each with its numerals from the tonic. Ordered by
  * use: how many of a corpus of 1,454 jazz standards have each at least once,
- * from the ii–V (in 84%) and the ii–V–I (71%) on; pop and blues last.
+ * from the V–I (in 90%), the ii–V (89%) and the ii–V–I (80%) on; pop and
+ * blues last.
  *
  * A numeral is a degree and a chord type, and `|` separates alternatives: a
  * chord fits when it's on that degree and has the same family
@@ -296,8 +298,8 @@ const PATTERNS: Pattern[] = [
  *
  * @returns a copy of the catalogue
  * @example
- * Progression.patterns()[1]; // => { name: "ii–V–I", aliases: ["two-five-one", "regular cadence", "cadence"], numerals: ["IIm7|IIm7b5", "V7|V7sus4", "Imaj7|Im7"], family: "cadence" }
- * Progression.patterns().filter((p) => p.family === "turnaround").map((p) => p.name); // => ["iii–VI7–ii–V", "I–vi–ii–V", "I–VI7–ii–V", "I–I7–IV", "I–#io–ii", "I–bIII7–ii–V", "I–#io–ii–#iio", "I–bIII7–bVI–bII7", "i–bVI–iiø–V", "I–I7–IV–iv"]
+ * Progression.patterns()[2]; // => { name: "ii–V–I", aliases: ["two-five-one", "regular cadence", "cadence"], numerals: ["IIm7|IIm7b5", "V7|V7sus4", "Imaj7|Im7"], family: "cadence" }
+ * Progression.patterns().filter((p) => p.family === "turnaround").map((p) => p.name); // => ["iii–VI7–ii–V", "I–vi–ii–V", "I–VI7–ii–V", "I–I7–IV", "I–#io–ii", "I–I7–IV–iv", "I–#io–ii–#iio", "I–bIII7–ii–V", "I–bIII7–bVI–bII7", "i–bVI–iiø–V"]
  */
 export function patterns(): Pattern[] {
   return PATTERNS.map((p) => ({
@@ -307,14 +309,20 @@ export function patterns(): Pattern[] {
   }));
 }
 
-// names and aliases, ignoring case, spaces and the kind of dash
-const keyOf = (name: string) => name.toLowerCase().replace(/[\s–—-]+/g, "-");
-const BY_NAME = new Map<string, Pattern>();
+// names and aliases, first as written (the case of a numeral matters: "iv–I"
+// isn't "IV–I"), then ignoring case; spaces and the kind of dash never matter
+const dashes = (name: string) => name.replace(/[\s–—-]+/g, "-");
+const EXACT = new Map<string, Pattern>();
+const ANY_CASE = new Map<string, Pattern>();
 for (const p of PATTERNS) {
   for (const name of [p.name, ...p.aliases]) {
-    if (!BY_NAME.has(keyOf(name))) BY_NAME.set(keyOf(name), p);
+    if (!EXACT.has(dashes(name))) EXACT.set(dashes(name), p);
+    const lower = dashes(name).toLowerCase();
+    if (!ANY_CASE.has(lower)) ANY_CASE.set(lower, p);
   }
 }
+const byName = (name: string) =>
+  EXACT.get(dashes(name)) ?? ANY_CASE.get(dashes(name).toLowerCase());
 
 /** A pattern by name or alias, or its numerals (a string with spaces, or an array). */
 function patternOf(
@@ -322,7 +330,7 @@ function patternOf(
 ): { name: string; numerals: string[]; family?: PatternFamily } | undefined {
   if (Array.isArray(pattern)) return { name: "", numerals: pattern };
   if (typeof pattern !== "string") return undefined;
-  const named = BY_NAME.get(keyOf(pattern));
+  const named = byName(pattern);
   if (named) return named;
   const numerals = pattern.trim().split(/\s+/).filter(Boolean);
   return numerals.length > 1 || romanNumeral(numerals[0] ?? "").empty === false
@@ -389,7 +397,7 @@ export function find(
 ): PatternMatch[] {
   if (!Array.isArray(chords)) return [];
   const found = patternOf(pattern);
-  const slots = found && slotsOf(found.numerals);
+  const slots: Slot[] | undefined = found ? slotsOf(found.numerals) : undefined;
   if (!found || !slots) return [];
 
   // the chord changes: a chord repeated right after itself is one
@@ -427,10 +435,10 @@ export function find(
     const first = changes[i];
     if (!first) continue;
     // the tonic of each alternative of the first numeral that fits
-    for (const alt of slots[0]) {
+    for (const alt of slots[0] as Slot) {
       if (alt.family !== first.family) continue;
-      const tonicChroma = (first.chroma - alt.chroma + 12) % 12;
-      const fits = slots.every((slot, k) => {
+      const tonicChroma: number = (first.chroma - alt.chroma + 12) % 12;
+      const fits: boolean = slots.every((slot: Slot, k: number): boolean => {
         const change = changes[i + k];
         return (
           !!change &&
