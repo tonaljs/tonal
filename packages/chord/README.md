@@ -583,28 +583,40 @@ In a key every diatonic chord gets the scale `Key` gives it (`Key.majorKey("C").
 
 ## Substitutions
 
-Functions that return the chords that can take a chord's place, spelled by interval from its root. They return `""` (or `[]`) when the rule doesn't apply. A dominant is a chord with a major 3rd and a minor 7th; a chord with a perfect 5th can be the target of a dominant.
-
-```js
-Chord.tritoneSubstitute("G7"); // => "Db7" (a dominant: same 3rd and 7th, a tritone away)
-Chord.relatedTwo("G7"); // => "Dm7" (before a dominant; "Dm7b5" with { minor: true } or on G7b9)
-Chord.secondaryDominant("Dm7"); // => "A7" (the V7 of a chord)
-Chord.backdoor("C"); // => "Bb7" (the dominant a whole step below)
-Chord.passingDiminished("C", "Dm7"); // => "C#dim7" (between roots a whole step apart)
-Chord.contained("G9"); // => ["Bm7b5", "Dm6"] (chords made of its notes on another root)
-```
-
 ### `Chord.substitutes`
 
-`substitutes(chord: string, options?: { next?: string }) => { chords: string[], kind: string }[]`
+`substitutes(chord: string, options?: { next?: string, kinds?: string[], minor?: boolean }) => { chords: string[], kind: string }[]`
 
-All of them for a chord, in a documented order: the tritone substitute, the backdoor dominant and the contained chords take its place; the related ii goes before a dominant; with the next chord, an approach chord (its secondary dominant, the tritone substitute of that, a passing diminished chord) follows the chord:
+The chords that can take a chord's place, each with its kind, in a documented order (the JSDoc has every rule). A substitute is one chord, or two when it adds one: the related ii before a dominant, or an approach chord to `next` after the chord. Roots are spelled by interval from the chord's root.
+
+| Kind                  | Rule                                                                           | Example                     |
+| --------------------- | ------------------------------------------------------------------------------ | --------------------------- |
+| `tritone substitute`  | a dominant a tritone away                                                      | G7 → Db7                    |
+| `backdoor`            | for a dominant, the 7 chord a whole step below its target                      | G7 → Bb7                    |
+| `contained`           | triads, 7ths and 6ths on another chord tone, made of the chord's notes         | Cmaj7 → Em; G9 → Bm7b5, Dm6 |
+| `related ii`          | the m7 before a dominant (m7b5 on a b9 dominant or with `minor: true`)         | G7 → Dm7 G7                 |
+| `secondary dominant`  | with `next`: the chord, then the V7 of `next`                                  | C → C A7 before Dm7         |
+| `substitute dominant` | with `next`: the chord, then the tritone substitute of that V7                 | C → C Eb7 before Dm7        |
+| `passing diminished`  | with `next` a whole step up: the chord, then the dim7 a half step below `next` | C → C C#dim7 before Dm7     |
 
 ```js
 Chord.substitutes("G7");
 // => [{ chords: ["Db7"], kind: "tritone substitute" }, { chords: ["Bb7"], kind: "backdoor" }, { chords: ["Bdim"], kind: "contained" }, { chords: ["Dm7", "G7"], kind: "related ii" }]
 Chord.substitutes("C", { next: "Dm7" }).map((s) => s.chords);
 // => [["C", "A7"], ["C", "Eb7"], ["C", "C#dim7"]]
+Chord.substitutes("G9", { kinds: ["contained"] }).map((s) => s.chords[0]); // => ["Bm7b5", "Dm6"]
+```
+
+### `Chord.tritoneSubstitute`
+
+`tritoneSubstitute(chord: string) => string`
+
+The most used one on its own: a dominant a tritone away, spelled with fewer accidentals. The substitute of the substitute is the chord.
+
+```js
+Chord.tritoneSubstitute("G7"); // => "Db7"
+Chord.tritoneSubstitute("Db7"); // => "G7"
+Chord.tritoneSubstitute("Gm7"); // => ""
 ```
 
 ### `Chord.containing`

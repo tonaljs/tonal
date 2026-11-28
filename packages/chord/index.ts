@@ -38,26 +38,8 @@ export type {
   SubstituteKind,
   SubstitutesOptions,
 } from "./substitutes";
-export {
-  backdoor,
-  contained,
-  containing,
-  passingDiminished,
-  relatedTwo,
-  secondaryDominant,
-  substitutes,
-  tritoneSubstitute,
-} from "./substitutes";
-import {
-  backdoor,
-  contained,
-  containing,
-  passingDiminished,
-  relatedTwo,
-  secondaryDominant,
-  substitutes,
-  tritoneSubstitute,
-} from "./substitutes";
+export { containing, substitutes, tritoneSubstitute } from "./substitutes";
+import { containing, substitutes, tritoneSubstitute } from "./substitutes";
 
 export { detect } from "@tonaljs/chord-detect";
 
@@ -1053,11 +1035,6 @@ export default {
   degreesByImportance,
   bass,
   tritoneSubstitute,
-  secondaryDominant,
-  relatedTwo,
-  backdoor,
-  passingDiminished,
-  contained,
   containing,
   substitutes,
 };

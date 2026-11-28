@@ -28,6 +28,10 @@ export interface Substitute {
 export interface SubstitutesOptions {
   /** The chord after, like "Dm7": adds the approach chords to it. */
   next?: string;
+  /** Only these kinds, like ["tritone substitute"]. */
+  kinds?: SubstituteKind[];
+  /** The related ii is an m7b5 (for a minor target); by default, on a b9 dominant. */
+  minor?: boolean;
 }
 
 /** A chord of `Chord.containing`: the chord and the note's degree in it. */
@@ -106,16 +110,13 @@ export function tritoneSubstitute(chordName: string): string {
 }
 
 /**
- * Get the secondary dominant of a chord: the 7 chord a perfect 5th above its
+ * The secondary dominant of a chord: the 7 chord a perfect 5th above its
  * root, which resolves to it ("V7 of" the chord).
  *
  * It returns "" if the chord has no root or no perfect 5th (diminished and
  * augmented chords aren't tonicised).
  *
- * @example
- * Chord.secondaryDominant("Dm7"); // => "A7"
- * Chord.secondaryDominant("C#m"); // => "G#7"
- * Chord.secondaryDominant("Bm7b5"); // => ""
+ * @private
  */
 export function secondaryDominant(chordName: string): string {
   const chord = rooted(chordName);
@@ -124,7 +125,7 @@ export function secondaryDominant(chordName: string): string {
 }
 
 /**
- * Get the related ii of a dominant chord: the m7 a perfect 5th above its
+ * The related ii of a dominant chord: the m7 a perfect 5th above its
  * root, which goes before it (Dm7 before G7). It's an m7b5 with
  * `minor: true`, for a dominant that resolves to a minor chord; without the
  * option, it's an m7b5 when the dominant has a b9.
@@ -132,11 +133,7 @@ export function secondaryDominant(chordName: string): string {
  * It returns "" if the chord isn't a dominant (a major 3rd and a minor 7th)
  * or has no root.
  *
- * @example
- * Chord.relatedTwo("G7"); // => "Dm7"
- * Chord.relatedTwo("G7", { minor: true }); // => "Dm7b5"
- * Chord.relatedTwo("G7b9"); // => "Dm7b5"
- * Chord.relatedTwo("Cmaj7"); // => ""
+ * @private
  */
 export function relatedTwo(
   chordName: string,
@@ -150,15 +147,12 @@ export function relatedTwo(
 }
 
 /**
- * Get the backdoor dominant of a chord: the 7 chord a whole step below its
+ * The backdoor dominant of a chord: the 7 chord a whole step below its
  * root, which resolves up to it (Bb7 to C, often after Fm7).
  *
  * It returns "" if the chord has no root or no perfect 5th.
  *
- * @example
- * Chord.backdoor("C"); // => "Bb7"
- * Chord.backdoor("Ebmaj7"); // => "Db7"
- * Chord.backdoor("Bdim"); // => ""
+ * @private
  */
 export function backdoor(chordName: string): string {
   const chord = rooted(chordName);
@@ -167,17 +161,14 @@ export function backdoor(chordName: string): string {
 }
 
 /**
- * Get the passing diminished chord between two chords whose roots are a whole
+ * The passing diminished chord between two chords whose roots are a whole
  * step apart, going up: the dim7 a half step below the second chord (its
  * rootless V7b9), as in I-#I°7-ii, ii-#II°7-iii, IV-#IV°7-V or V-#V°7-vi.
  *
  * It returns "" if the second root isn't a major 2nd above the first, as
  * spelled, or a chord has no root.
  *
- * @example
- * Chord.passingDiminished("C", "Dm7"); // => "C#dim7"
- * Chord.passingDiminished("Fmaj7", "G7"); // => "F#dim7"
- * Chord.passingDiminished("C", "Em7"); // => ""
+ * @private
  */
 export function passingDiminished(from: string, to: string): string {
   const a = rooted(from);
@@ -189,7 +180,7 @@ export function passingDiminished(from: string, to: string): string {
 }
 
 /**
- * Get the chords built on another tone of a chord with only its notes: Em in
+ * The chords built on another tone of a chord with only its notes: Em in
  * Cmaj7, Bm7b5 and Dm6 in G9. They can take the chord's place (a chord on its
  * 3rd is the chord without root). The types are the triads (M, m, dim, aug),
  * the 7th chords (maj7, 7, m7, m7b5, dim7, mMaj7) and 6 and m6:
@@ -203,11 +194,7 @@ export function passingDiminished(from: string, to: string): string {
  * In the order of the chord's notes, the largest first. It returns `[]` if
  * the chord has no root.
  *
- * @example
- * Chord.contained("Cmaj7"); // => ["Em"]
- * Chord.contained("G9"); // => ["Bm7b5", "Dm6"]
- * Chord.contained("C6"); // => ["Am7"]
- * Chord.contained("Cmaj9"); // => ["Em7", "G6"]
+ * @private
  */
 export function contained(chordName: string): string[] {
   const chord = rooted(chordName);
@@ -294,28 +281,39 @@ export function containing(
 /**
  * Get the substitutes of a chord: the chords that can take its place, each
  * with its kind. A substitute is one chord, or two when it adds a chord (the
- * related ii before a dominant, or an approach chord before `next`). In this
- * order, skipping what doesn't apply:
+ * related ii before a dominant, or an approach chord before `next`). Roots
+ * are spelled by interval from the chord's root. A dominant has a major 3rd
+ * and a minor 7th; a target has a perfect 5th (not diminished or augmented).
+ * In this order, skipping what doesn't apply:
  *
- * 1. "tritone substitute": `Chord.tritoneSubstitute`, for a dominant;
- * 2. "backdoor": for a dominant, the backdoor dominant of its target (a 4th
- *    up): Bb7 for G7;
- * 3. "contained": one for each of `Chord.contained`;
- * 4. "related ii": `Chord.relatedTwo` and the chord, for a dominant;
- * 5. "secondary dominant": with `next`, the chord and the secondary dominant
- *    of `next`;
- * 6. "substitute dominant": with `next`, the chord and the tritone substitute
- *    of that dominant;
- * 7. "passing diminished": with `next`, the chord and
- *    `Chord.passingDiminished` to `next`.
+ * 1. "tritone substitute": for a dominant, `Chord.tritoneSubstitute`: Db7
+ *    for G7;
+ * 2. "backdoor": for a dominant, the 7 chord a whole step below its target
+ *    (a 4th up): Bb7 for G7;
+ * 3. "contained": the triads (M, m, dim, aug), 7th chords (maj7, 7, m7,
+ *    m7b5, dim7, mMaj7), 6 and m6 built on another chord tone with only the
+ *    chord's notes, as spelled; the largest on each root, and none whose
+ *    notes are all in another one: Em for Cmaj7, Bm7b5 and Dm6 for G9;
+ * 4. "related ii": for a dominant, the m7 a 5th above its root, then the
+ *    chord: Dm7 G7; an m7b5 on a b9 dominant, or with `minor: true`;
+ * 5. "secondary dominant": with a target as `next`, the chord, then the 7
+ *    chord a 5th above `next`: C A7 before Dm7;
+ * 6. "substitute dominant": with `next`, the chord, then the tritone
+ *    substitute of that dominant: C Eb7 before Dm7;
+ * 7. "passing diminished": with `next` a whole step up (a major 2nd as
+ *    spelled), the chord, then the dim7 a half step below `next` (its
+ *    rootless V7b9): C C#dim7 before Dm7.
  *
  * An approach chord that is the chord itself is skipped (G7 is already the
- * secondary dominant of C). It returns `[]` if the chord has no root.
- * `Key.substitutes` adds the key's own: diatonic and borrowed chords.
+ * secondary dominant of C). `kinds` keeps only those kinds, in the same
+ * order. It returns `[]` if the chord has no root. `Key.substitutes` adds
+ * the key's own: diatonic and borrowed chords.
  *
  * @example
  * Chord.substitutes("G7");
  * // => [{ chords: ["Db7"], kind: "tritone substitute" }, { chords: ["Bb7"], kind: "backdoor" }, { chords: ["Bdim"], kind: "contained" }, { chords: ["Dm7", "G7"], kind: "related ii" }]
+ * Chord.substitutes("G9", { kinds: ["contained"] }).map((s) => s.chords[0]); // => ["Bm7b5", "Dm6"]
+ * Chord.substitutes("G7", { kinds: ["related ii"], minor: true }); // => [{ chords: ["Dm7b5", "G7"], kind: "related ii" }]
  * Chord.substitutes("C", { next: "Dm7" }).map((s) => s.chords);
  * // => [["C", "A7"], ["C", "Eb7"], ["C", "C#dim7"]]
  */
@@ -326,8 +324,10 @@ export function substitutes(
   const chord = rooted(chordName);
   if (!chord) return [];
   const result: Substitute[] = [];
+  const kinds = options.kinds;
   const add = (kind: SubstituteKind, ...chords: string[]) => {
-    if (chords.every((c) => c)) result.push({ chords, kind });
+    if ((!kinds || kinds.includes(kind)) && chords.every((c) => c))
+      result.push({ chords, kind });
   };
   const name = chordName;
   if (isDominant(name)) {
@@ -335,7 +335,8 @@ export function substitutes(
     add("backdoor", backdoor(transposeNote(chord.tonic!, "4P")));
   }
   for (const c of contained(name)) add("contained", c);
-  if (isDominant(name)) add("related ii", relatedTwo(name), name);
+  if (isDominant(name))
+    add("related ii", relatedTwo(name, { minor: options.minor }), name);
   const next = options.next;
   if (next && rooted(next)) {
     const same = (approach: string) =>

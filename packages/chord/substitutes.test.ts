@@ -2,17 +2,19 @@ import { describe, expect, test } from "vitest";
 import ChordType from "@tonaljs/chord-type";
 import { transpose as transposeNote } from "@tonaljs/pitch-distance";
 import {
-  backdoor,
-  contained,
   containing,
   get,
   noteOf,
-  passingDiminished,
-  relatedTwo,
-  secondaryDominant,
   substitutes,
   tritoneSubstitute,
 } from "./index";
+import {
+  backdoor,
+  contained,
+  passingDiminished,
+  relatedTwo,
+  secondaryDominant,
+} from "./substitutes";
 
 const ROOTS = "C Db D Eb E F F# G Ab A Bb B C# Gb Cb".split(" ");
 const DOMINANTS = ["7", "9", "13", "7b9", "7#9", "7#11", "7b13", "7#5", "9#11"];
@@ -222,6 +224,34 @@ describe("Chord.substitutes", () => {
     expect(substitutes("G7", { next: "C" }).map((s) => s.kind)).not.toContain(
       "secondary dominant",
     );
+  });
+
+  test("kinds", () => {
+    expect(substitutes("G7", { kinds: ["tritone substitute"] })).toEqual([
+      { chords: ["Db7"], kind: "tritone substitute" },
+    ]);
+    expect(
+      substitutes("G9", { kinds: ["contained"] }).map((s) => s.chords[0]),
+    ).toEqual(["Bm7b5", "Dm6"]);
+    expect(
+      substitutes("C", { next: "Dm7", kinds: ["passing diminished"] }),
+    ).toEqual([{ chords: ["C", "C#dim7"], kind: "passing diminished" }]);
+    // the order is the catalogue's, not the order of `kinds`
+    expect(
+      substitutes("G7", { kinds: ["related ii", "tritone substitute"] }).map(
+        (s) => s.kind,
+      ),
+    ).toEqual(["tritone substitute", "related ii"]);
+    expect(substitutes("G7", { kinds: [] })).toEqual([]);
+  });
+
+  test("minor", () => {
+    expect(substitutes("G7", { kinds: ["related ii"], minor: true })).toEqual([
+      { chords: ["Dm7b5", "G7"], kind: "related ii" },
+    ]);
+    expect(
+      substitutes("G7b9", { kinds: ["related ii"], minor: false })[0].chords,
+    ).toEqual(["Dm7", "G7b9"]);
   });
 
   test("no substitutes", () => {

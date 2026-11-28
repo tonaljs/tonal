@@ -379,12 +379,6 @@ type UnrollOptions = {
 
 import { Chord } from "tonal"; // or: import * as Chord from "@tonaljs/chord";
 
-Chord.backdoor(chordName: string): string
-  Get the backdoor dominant of a chord: the 7 chord a whole step below its root, which resolves up to it (Bb7 to C, often after Fm7).
-  Chord.backdoor("C"); // => "Bb7"
-  Chord.backdoor("Ebmaj7"); // => "Db7"
-  Chord.backdoor("Bdim"); // => ""
-
 Chord.bass(chordName: ChordNameOrTokens, octave?: number): string
   Get the bass note of a chord: the slash bass of a slash chord, or the root. (`Chord.get(name).bass` is `""` when there's no slash.) With an octave, the note is in that octave; to fit it into a range instead, use `Note.fold`.
   Chord.bass("C7/E"); // => "E"
@@ -412,12 +406,6 @@ Chord.classify(name: string, noteName: string, options?: ClassifyOptions): NoteC
   Chord.classify("Cmaj7", "E"); // => "chord tone"
   Chord.classify("C7", "Db"); // => "tension"
   Chord.classify("Cmaj7", "F"); // => "avoid"
-
-Chord.contained(chordName: string): string[]
-  Get the chords built on another tone of a chord with only its notes: Em in Cmaj7, Bm7b5 and Dm6 in G9. They can take the chord's place (a chord on its 3rd is the chord without root). The types are the triads (M, m, dim, aug), the 7th chords (maj7, 7, m7, m7b5, dim7, mMaj7) and 6 and m6:
-  Chord.contained("Cmaj7"); // => ["Em"]
-  Chord.contained("G9"); // => ["Bm7b5", "Dm6"]
-  Chord.contained("C6"); // => ["Am7"]
 
 Chord.containing(noteName: NoteName, options?: { types?: string[]; }): ContainingChord[]
   Get the chords that have a note as a chord tone or a tension (`Chord.tensions`), with the note's degree in each: the chords that can harmonise a melody note. The types are maj7, 7 and m7 by default (as Pease harmonises a melody note), or `types`.
@@ -494,28 +482,10 @@ Chord.notes(chordName: ChordNameOrTokens, tonic?: string): string[]
   Chord.notes("Cmaj7", "C4"); // => ["C4", "E4", "G4", "B4"]
   Chord.notes("maj7", "D"); // => ["D", "F#", "A", "C#"]
 
-Chord.passingDiminished(from: string, to: string): string
-  Get the passing diminished chord between two chords whose roots are a whole step apart, going up: the dim7 a half step below the second chord (its rootless V7b9), as in I-#I°7-ii, ii-#II°7-iii, IV-#IV°7-V or V-#V°7-vi.
-  Chord.passingDiminished("C", "Dm7"); // => "C#dim7"
-  Chord.passingDiminished("Fmaj7", "G7"); // => "F#dim7"
-  Chord.passingDiminished("C", "Em7"); // => ""
-
 Chord.reduced(chordName: string): string[]
   Get the symbols of the chords whose notes are all in a chord and are fewer, on the same tonic. It returns `[]` if the chord isn't valid. The opposite of `Chord.extended`.
   Chord.reduced("Cmaj7"); // => ["C5", "CM"]
   Chord.reduced("Cmaj9"); // => ["C5", "CM", "Cmaj7", "Csus2", "CMadd9"]
-
-Chord.relatedTwo(chordName: string, options?: { minor?: boolean; }): string
-  Get the related ii of a dominant chord: the m7 a perfect 5th above its root, which goes before it (Dm7 before G7). It's an m7b5 with `minor: true`, for a dominant that resolves to a minor chord; without the option, it's an m7b5 when the dominant has a b9.
-  Chord.relatedTwo("G7"); // => "Dm7"
-  Chord.relatedTwo("G7", { minor: true }); // => "Dm7b5"
-  Chord.relatedTwo("G7b9"); // => "Dm7b5"
-
-Chord.secondaryDominant(chordName: string): string
-  Get the secondary dominant of a chord: the 7 chord a perfect 5th above its root, which resolves to it ("V7 of" the chord).
-  Chord.secondaryDominant("Dm7"); // => "A7"
-  Chord.secondaryDominant("C#m"); // => "G#7"
-  Chord.secondaryDominant("Bm7b5"); // => ""
 
 Chord.steps(chordName: ChordNameOrTokens, tonic?: string): (_normalized: number) => string
   Get a function that returns the note of a chord by its position, 0 being the tonic (like `Chord.degrees` but 0-based). Negative steps go down. The function returns `""` if the chord isn't valid.
@@ -523,9 +493,10 @@ Chord.steps(chordName: ChordNameOrTokens, tonic?: string): (_normalized: number)
   [-1, 0, 1].map(Chord.steps(["C4", "M"])); // => ["G3", "C4", "E4"]
 
 Chord.substitutes(chordName: string, options?: SubstitutesOptions): Substitute[]
-  Get the substitutes of a chord: the chords that can take its place, each with its kind. A substitute is one chord, or two when it adds a chord (the related ii before a dominant, or an approach chord before `next`). In this order, skipping what doesn't apply:
+  Get the substitutes of a chord: the chords that can take its place, each with its kind. A substitute is one chord, or two when it adds a chord (the related ii before a dominant, or an approach chord before `next`). Roots are spelled by interval from the chord's root. A dominant has a major 3rd and a minor 7th; a target has a perfect 5th (not diminished or augmented). In this order, skipping what doesn't apply:
   Chord.substitutes("G7");
-  Chord.substitutes("C", { next: "Dm7" }).map((s) => s.chords);
+  Chord.substitutes("G9", { kinds: ["contained"] }).map((s) => s.chords[0]); // => ["Bm7b5", "Dm6"]
+  Chord.substitutes("G7", { kinds: ["related ii"], minor: true }); // => [{ chords: ["Dm7b5", "G7"], kind: "related ii" }]
 
 Chord.tensions(name: ChordNameOrTokens): ChordDegreeName[]
   Get the tensions of a chord: the notes a chord can add without changing what it is, as degree names (`b9`, `9`, `#9`, `11`, `#11`, `b13`, `13`, and `7` on 6, m6 and dim7 chords), counted from the major scale of the root as in `Chord.formula`. It works with a chord type alone, and returns `[]` if the chord isn't valid.
@@ -621,6 +592,8 @@ type SubstituteKind = 'tritone substitute' | 'backdoor' | 'contained' | 'related
 
 type SubstitutesOptions = {
   next?: string | undefined;
+  kinds?: SubstituteKind[] | undefined;
+  minor?: boolean | undefined;
 }
 
 ## ChordType
