@@ -217,6 +217,9 @@ export function withBass(upper: Pitch[][], options: PlaceOptions): Candidate[] {
     chroma: noteChroma(name) as number,
     degree: "bass",
   }));
+  // the bass part plays the chord's bass (E of C/E), so the low intervals
+  // are counted from it, as from a root
+  const bassChroma = noteChroma(options.bassNote) as number;
   return upper.flatMap((pitches) =>
     basses
       .filter((b) => b.midi < pitches[0].midi)
@@ -225,7 +228,7 @@ export function withBass(upper: Pitch[][], options: PlaceOptions): Candidate[] {
           !options.lowIntervals ||
           passesLowIntervalLimits(
             [b.midi, ...pitches.map((p) => p.midi)],
-            options.rootChroma,
+            bassChroma,
           ),
       )
       .map((b) => ({
