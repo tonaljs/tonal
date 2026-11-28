@@ -172,5 +172,24 @@
         "url": "/docs/harmony/charts"
       }
     ]
+  },
+  {
+    "slug": "reharmonizer",
+    "title": "Reharmonizer",
+    "description": "Paste a chart to get its key and what each chord does in it, swap chords for their substitutes, find the pivot chords to modulate, and hear a motif fitted to every chord.",
+    "docs": [
+      {
+        "title": "Keys",
+        "url": "/docs/harmony/keys"
+      },
+      {
+        "title": "Chords",
+        "url": "/docs/groups/chords"
+      },
+      {
+        "title": "Scales",
+        "url": "/docs/groups/scales"
+      }
+    ]
   }
 ]

@@ -62,6 +62,8 @@ export type TimedNotes = {
   notes: (string | number)[];
   /** Seconds until the next ones */
   duration: number;
+  /** Notes that start with these and last longer: a chord under a melody */
+  held?: { notes: (string | number)[]; duration: number };
 };
 
 /**
@@ -95,7 +97,7 @@ export async function scheduleTimeline(
   const startsAt = (at ?? now) - from;
   const cut = startsAt + from;
   let time = startsAt;
-  for (const { notes, duration } of steps) {
+  for (const { notes, duration, held } of steps) {
     const end = time + duration;
     if (end > cut) {
       const begin = Math.max(time, cut);
@@ -105,6 +107,19 @@ export async function scheduleTimeline(
           velocity: 76,
           time: begin + j * 0.012,
           duration: (end - begin) * 1.1,
+        });
+      });
+    }
+    // held notes sound from their step for their own duration
+    const heldEnd = time + (held?.duration ?? 0);
+    if (held && heldEnd > cut) {
+      const begin = Math.max(time, cut);
+      held.notes.forEach((note, j) => {
+        piano.start({
+          note,
+          velocity: 64,
+          time: begin + j * 0.012,
+          duration: (heldEnd - begin) * 1.05,
         });
       });
     }

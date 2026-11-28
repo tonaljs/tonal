@@ -37,7 +37,7 @@
     "readme": "chord",
     "title": "Chords",
     "description": "Get and manipulate chords",
-    "apps": ["chord-finder", "chart-reader", "walking-bass"]
+    "apps": ["chord-finder", "chart-reader", "walking-bass", "reharmonizer"]
   },
   {
     "page": "groups/chord-detection.md",
@@ -61,7 +61,8 @@
       "scale-chords",
       "scale-families",
       "scale-harmonizer",
-      "walking-bass"
+      "walking-bass",
+      "reharmonizer"
     ]
   },
   {
@@ -74,7 +75,7 @@
   {
     "page": "harmony/keys.md",
     "readme": "key",
-    "apps": ["key-explorer"],
+    "apps": ["key-explorer", "reharmonizer"],
     "title": "Keys",
     "description": "Key scales and chords"
   },
