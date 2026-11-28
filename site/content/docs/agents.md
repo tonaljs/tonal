@@ -26,9 +26,10 @@ import { Chord, Interval, Key, Note, Scale } from "tonal";
 `VoiceLeading`, `Time`, `TimeSignature`, `DurationValue`,
 `RhythmPattern`, `Pattern`, `AbcNotation`) and a few top-level functions (`note`,
 `interval`, `transpose`, `distance`). Each namespace is also its own npm package:
-`import * as Chord from "@tonaljs/chord"`. Use `tonal` unless bundle size
-matters. In a browser without a bundler, `tonal/browser/tonal.min.js` defines a
-`Tonal` global.
+`import * as Chord from "@tonaljs/chord"`. Use `tonal`: every module is
+side-effect free, so a bundler keeps only the namespaces you import. In a
+browser without a bundler, `tonal/browser/tonal.min.js` defines a `Tonal`
+global (every module, about 40 KB gzipped).
 
 Don't use the deprecated namespaces `Tonal`, `PcSet`, `ChordDictionary`,
 `ScaleDictionary` and `VoicingDictionary`: use the top-level functions, `Pcset`,

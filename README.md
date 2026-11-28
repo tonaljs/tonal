@@ -120,11 +120,16 @@ from the repository.
 
 #### Bundle size
 
-`tonal` includes all published modules.
+`tonal` includes all published modules. Every module is side-effect free, so
+a bundler (Vite, esbuild, Rollup, webpack) keeps only the modules you import:
+`import { Note } from "tonal"` adds about 3.5 KB gzipped, and `Chord` or
+`Chart` about 12 KB.
 
-The browser build is about 27 KB gzipped. You can reduce bundle sizes even
-more by installing the modules individually, and importing only the functions
-you need.
+The browser build has every module: about 40 KB gzipped. CommonJS
+(`require("tonal")`) also loads every module.
+
+For the smallest bundles, install the modules you need individually and
+import only the functions you use.
 
 Note that individual modules are prefixed with `@tonaljs/`. For example:
 
