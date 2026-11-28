@@ -176,7 +176,7 @@
   {
     "slug": "reharmonizer",
     "title": "Reharmonizer",
-    "description": "Paste a chart to get its key and what each chord does in it, swap chords for their substitutes, find the pivot chords to modulate, and hear a motif fitted to every chord.",
+    "description": "Paste a chart and reharmonize it: the original on top with what each chord does in the key, and below a dropdown of substitutes on each chord, or one click for tritone subs, ii–Vs, secondary dominants or passing diminished chords. Hear one after the other, with a melody that follows the chords.",
     "docs": [
       {
         "title": "Keys",

@@ -6,37 +6,74 @@ import { Chart, Chord, Key, Note, Scale, Voicing } from "tonal";
 import type { TimedNotes } from "@/lib/piano";
 import { audioTime } from "@/lib/piano";
 import { voice } from "@/lib/voice";
-import { Chip, PianoMessage, show, TONICS, Toggle } from "./controls";
+import { Chip, PianoMessage, show, TONICS } from "./controls";
 import { usePiano } from "./use-piano";
 
 type Reading = ReturnType<typeof Key.analyzeChord>[number];
-type Substitute = ReturnType<typeof Key.substitutes>[number];
+type Kind = ReturnType<typeof Key.substitutes>[number]["kind"];
+type Option = { chords: string[]; kind: Kind | "original" };
 
 const EXAMPLES: { title: string; chart: string }[] = [
   { title: "ii–V–I", chart: "| Dm7 | G7 | Cmaj7 | Cmaj7 |" },
   {
     title: "Turnaround",
-    chart:
-      "| Cmaj7 | Am7 | Dm7 | G7 |\n| Cmaj7 A7 | Dm7 G7 | Em7 A7 | Dm7 G7 |",
+    chart: "| Cmaj7 | Am7 | Dm7 | G7 |\n| Cmaj7 | Am7 | Dm7 G7 | Cmaj7 |",
   },
   {
     title: "Minor ii–V–i",
     chart: "| Bm7b5 | E7 | Am7 | Am7 |\n| Dm7 | G7 | Cmaj7 | E7 |",
   },
   {
-    title: "Jazz blues",
-    chart:
-      "| F7 | Bb7 | F7 | Cm7 F7 |\n| Bb7 | Bo7 | F7 | D7 |\n| Gm7 | C7 | F7 D7 | Gm7 C7 |",
-  },
-  {
     title: "Rhythm changes",
     chart:
       "| Bbmaj7 G7 | Cm7 F7 | Dm7 G7 | Cm7 F7 |\n| Fm7 Bb7 | Ebmaj7 Ab7 | Dm7 G7 | Cm7 F7 |",
   },
+  { title: "Pop", chart: "| C | G | Am | F |\n| C | G | F | C |" },
   {
-    title: "Pop",
-    chart: "| C | G | Am | F |\n| C | G | F | F |",
+    title: "Ballad",
+    chart: "| Fmaj7 | Dm7 | Gm7 | C7 |\n| Fmaj7 | Bbmaj7 | Gm7 C7 | Fmaj7 |",
   },
+];
+
+// One click fills the dropdowns of every chord that is still the original
+const STRATEGIES: { id: string; title: string; kind: Kind; help: string }[] = [
+  {
+    id: "tritone",
+    title: "Tritone subs",
+    kind: "tritone substitute",
+    help: "every dominant by the dominant a tritone away",
+  },
+  {
+    id: "two",
+    title: "ii–V",
+    kind: "related ii",
+    help: "the related ii before every dominant",
+  },
+  {
+    id: "secondary",
+    title: "Secondary dominants",
+    kind: "secondary dominant",
+    help: "a V7 of the next chord in the second half of the chord",
+  },
+  {
+    id: "passing",
+    title: "Passing diminished",
+    kind: "passing diminished",
+    help: "a dim7 between roots a whole step apart",
+  },
+];
+
+// The kinds in the dropdown, in this order
+const KINDS: Kind[] = [
+  "tritone substitute",
+  "related ii",
+  "backdoor",
+  "contained",
+  "diatonic",
+  "borrowed",
+  "secondary dominant",
+  "substitute dominant",
+  "passing diminished",
 ];
 
 // a quarter note lasts half a second (120 bpm), a bar has four
@@ -58,41 +95,60 @@ const FUNCTION_NAMES: Record<string, string> = {
 
 const KEYS = TONICS.flatMap((t) => [`${t} major`, `${t} minor`]);
 
+type Slot = { bar: number; index: number; chord: string; flat: number };
+// a chord of a version, with its place and its share of the bar
+type Played = { slot: number; chord: string; start: number; duration: number };
+
 // The chords of a chart, bar by bar (repeats and jumps are read, not played)
 function readBars(text: string): string[][] {
   return Chart.parse(text).bars.map((bar) => bar.chords.map((c) => c.value));
 }
 
-// Bars back to text, four to a line
-function writeBars(bars: string[][]): string {
-  const lines: string[] = [];
-  for (let i = 0; i < bars.length; i += 4) {
-    const line = bars
-      .slice(i, i + 4)
-      .map((b) => ` ${b.join(" ")} `)
-      .join("|");
-    lines.push(`|${line}|`);
-  }
-  return lines.join("\n");
+// Each slot's chords, in time: a slot shares its bar with the others, and a
+// substitute of two chords shares the slot's time
+function timeline(slots: Slot[], bars: string[][], chosen: string[][]) {
+  const list: Played[] = [];
+  slots.forEach((s, i) => {
+    const slotTime = BAR / bars[s.bar].length;
+    const start = s.bar * BAR + s.index * slotTime;
+    const chords = chosen[i];
+    chords.forEach((chord, j) => {
+      list.push({
+        slot: i,
+        chord,
+        start: start + (j * slotTime) / chords.length,
+        duration: slotTime / chords.length,
+      });
+    });
+  });
+  return list;
 }
 
-type Slot = { bar: number; index: number; chord: string; flat: number };
+// Voice a list of chords so they move little, or each on its own
+function voiceAll(chords: string[]): string[][] {
+  try {
+    const list = Voicing.sequence(chords);
+    return chords.map((c, i) =>
+      list[i]?.length ? list[i] : voice(Chord.get(c).notes),
+    );
+  } catch {
+    return chords.map((c) => voice(Chord.get(c).notes));
+  }
+}
 
 export function Reharmonizer() {
   const [text, setText] = useState(EXAMPLES[1].chart);
   const [keyChoice, setKeyChoice] = useState("auto");
-  const [selected, setSelected] = useState<number | null>(null);
-  const [history, setHistory] = useState<string[]>([]);
-  const [target, setTarget] = useState("G major");
-  const [pivotSevenths, setPivotSevenths] = useState(true);
-  const [pivotChromatic, setPivotChromatic] = useState(false);
+  // the option chosen in each slot's dropdown (0 is the original)
+  const [choices, setChoices] = useState<Record<number, number>>({});
+  const [inspect, setInspect] = useState<number | null>(null);
+  const [melody, setMelody] = useState(false);
   const [motifText, setMotifText] = useState("C4 E4 G4 A4 Bb4 A4 G4 E4");
   const [motifChord, setMotifChord] = useState("C7");
-  const [keepPassing, setKeepPassing] = useState(true);
-  const [withMotif, setWithMotif] = useState<"chords" | "motif">("motif");
   const [linkRead, setLinkRead] = useState(false);
   const { status, play, playSteps, stop, playing } = usePiano();
-  const [now, setNow] = useState<number | null>(null);
+  const [what, setWhat] = useState<"original" | "new" | "ab">("ab");
+  const [now, setNow] = useState<{ version: 0 | 1; slot: number } | null>(null);
 
   // read a shared link
   useEffect(() => {
@@ -101,6 +157,16 @@ export function Reharmonizer() {
     if (chart) setText(chart);
     const key = params.get("key");
     if (key && KEYS.includes(key)) setKeyChoice(key);
+    const picks = params.get("picks");
+    if (picks) {
+      const read: Record<number, number> = {};
+      for (const pair of picks.split(",")) {
+        const [slot, option] = pair.split(":").map(Number);
+        if (slot >= 0 && option > 0) read[slot] = option;
+      }
+      setChoices(read);
+    }
+    if (params.get("melody") === "true") setMelody(true);
     const motif = params.get("motif");
     if (motif) setMotifText(motif);
     const over = params.get("over");
@@ -113,14 +179,22 @@ export function Reharmonizer() {
     if (!linkRead) return;
     const params = new URLSearchParams({ chart: text });
     if (keyChoice !== "auto") params.set("key", keyChoice);
-    params.set("motif", motifText);
-    params.set("over", motifChord);
+    const picks = Object.entries(choices)
+      .filter(([, o]) => o > 0)
+      .map(([s, o]) => `${s}:${o}`)
+      .join(",");
+    if (picks) params.set("picks", picks);
+    if (melody) {
+      params.set("melody", "true");
+      params.set("motif", motifText);
+      params.set("over", motifChord);
+    }
     window.history.replaceState(
       null,
       "",
       `${window.location.pathname}?${params.toString().replaceAll("+", "%20")}`,
     );
-  }, [linkRead, text, keyChoice, motifText, motifChord]);
+  }, [linkRead, text, keyChoice, choices, melody, motifText, motifChord]);
 
   const bars = useMemo(() => readBars(text), [text]);
   const slots = useMemo(() => {
@@ -144,100 +218,114 @@ export function Reharmonizer() {
 
   const readings = useMemo(
     () =>
-      slots.map((s, i) =>
-        Key.analyzeChord(key, s.chord, {
+      symbols.map((c, i) =>
+        Key.analyzeChord(key, c, {
           previous: symbols[i - 1],
           next: symbols[i + 1],
         }),
       ),
-    [slots, symbols, key],
+    [symbols, key],
   );
 
-  const current = selected !== null ? slots[selected] : undefined;
-  const substitutes = useMemo(
+  // the dropdown of each slot: the original, then its substitutes in the key
+  const options = useMemo(
     () =>
-      current
-        ? Key.substitutes(key, current.chord, {
-            next: symbols[current.flat + 1],
-          })
-        : [],
-    [current, key, symbols],
-  );
-
-  const pivots = useMemo(
-    () =>
-      Key.pivotChords(key, target, {
-        sevenths: pivotSevenths,
-        chromatic: pivotChromatic,
+      symbols.map((c, i): Option[] => {
+        const subs = Key.substitutes(key, c, { next: symbols[i + 1] });
+        const sorted = KINDS.flatMap((k) => subs.filter((s) => s.kind === k));
+        return [{ chords: [c], kind: "original" }, ...sorted];
       }),
-    [key, target, pivotSevenths, pivotChromatic],
+    [symbols, key],
   );
+  const chosen = useMemo(
+    () =>
+      options.map((list, i) => list[choices[i] ?? 0]?.chords ?? list[0].chords),
+    [options, choices],
+  );
+  const changed = (i: number) =>
+    (choices[i] ?? 0) > 0 && !!options[i]?.[choices[i]];
 
-  // the motif, written over one chord, fitted to every chord of the chart
+  const original = useMemo(
+    () =>
+      timeline(
+        slots,
+        bars,
+        symbols.map((c) => [c]),
+      ),
+    [slots, bars, symbols],
+  );
+  const reharmonized = useMemo(
+    () => timeline(slots, bars, chosen),
+    [slots, bars, chosen],
+  );
+  // the numeral of each new chord in the new progression
+  const newReadings = useMemo(() => {
+    const list = reharmonized.map((p) => p.chord);
+    return list.map(
+      (c, i) =>
+        Key.analyzeChord(key, c, {
+          previous: list[i - 1],
+          next: list[i + 1],
+        })[0],
+    );
+  }, [reharmonized, key]);
+
+  // the motif, written over one chord, fitted to each chord
   const motif = useMemo(
     () =>
       motifText
         .split(/[\s,]+/)
-        .filter(Boolean)
         .filter((n) => !Note.get(n).empty && Note.get(n).oct !== undefined),
     [motifText],
   );
-  const fitOptions = useMemo(
-    () => (keepPassing ? { keep: "non-chord" as const } : {}),
-    [keepPassing],
-  );
-  const fitted = useMemo(
-    () =>
-      slots.map((s) =>
-        motif.map((n) => Chord.fitNote(n, motifChord, s.chord, fitOptions)),
-      ),
-    [slots, motif, motifChord, fitOptions],
-  );
+  const motifOk = !Chord.get(motifChord).empty && !!Chord.get(motifChord).tonic;
 
-  // voiced chords that move little from one to the next
-  const voicings = useMemo(() => {
-    try {
-      const list = Voicing.sequence(symbols);
-      return symbols.map((c, i) =>
-        list[i]?.length ? list[i] : voice(Chord.get(c).notes),
-      );
-    } catch {
-      return symbols.map((c) => voice(Chord.get(c).notes));
-    }
-  }, [symbols]);
-
-  // what Play plays: each chord for its share of the bar, and the motif over it
   const steps = useMemo(() => {
-    const list: TimedNotes[] = [];
-    slots.forEach((s, i) => {
-      const duration = (BAR / bars[s.bar].length) * QUARTER;
-      const chord = voicings[i] ?? [];
-      const line = fitted[i].filter(Boolean);
-      if (withMotif === "chords" || !line.length) {
-        list.push({ notes: chord, duration });
-        return;
-      }
-      const each = duration / line.length;
-      line.forEach((n, j) => {
-        list.push({
-          notes: [n],
-          duration: each,
-          held: j === 0 ? { notes: chord, duration } : undefined,
-        });
+    const build = (version: Played[]): TimedNotes[] => {
+      const voiced = voiceAll(version.map((p) => p.chord));
+      const list: TimedNotes[] = [];
+      let time = 0;
+      version.forEach((p, i) => {
+        // a rest for the bars without chords
+        if (p.start > time)
+          list.push({ notes: [], duration: (p.start - time) * QUARTER });
+        time = p.start + p.duration;
+        const duration = p.duration * QUARTER;
+        const chord = voiced[i] ?? [];
+        const line = melody && motifOk ? fitMotif(motif, motifChord, p) : [];
+        if (!line.length) {
+          list.push({ notes: chord, duration });
+          return;
+        }
+        const each = duration / line.length;
+        line.forEach((n, j) =>
+          list.push({
+            notes: n ? [n] : [],
+            duration: each,
+            held: j === 0 ? { notes: chord, duration } : undefined,
+          }),
+        );
       });
-    });
-    return list;
-  }, [slots, bars, voicings, fitted, withMotif]);
+      const end = bars.length * BAR;
+      if (end > time)
+        list.push({ notes: [], duration: (end - time) * QUARTER });
+      return list;
+    };
+    return { a: build(original), b: build(reharmonized) };
+  }, [original, reharmonized, melody, motif, motifChord, motifOk, bars]);
 
-  // the chord that sounds now
-  const starts = useMemo(() => {
-    let t = 0;
-    return slots.map((s) => {
-      const at = t;
-      t += (BAR / bars[s.bar].length) * QUARTER;
-      return at;
-    });
-  }, [slots, bars]);
+  function start(which: typeof what) {
+    setWhat(which);
+    const list =
+      which === "original"
+        ? steps.a
+        : which === "new"
+          ? steps.b
+          : [...steps.a, ...steps.b];
+    playSteps(list, { loop: which === "ab" });
+  }
+
+  // follow the playback: the version and the slot that sound now
   useEffect(() => {
     if (!playing) {
       setNow(null);
@@ -245,42 +333,57 @@ export function Reharmonizer() {
     }
     let frame = 0;
     const tick = () => {
-      const t = audioTime() - playing.start;
-      let index = -1;
-      for (let i = 0; i < starts.length; i++) if (starts[i] <= t) index = i;
-      setNow((before) => (before === index ? before : index));
+      let t = (audioTime() - playing.start) / QUARTER;
+      const length = bars.length * BAR;
+      let version: 0 | 1 = what === "new" ? 1 : 0;
+      if (what === "ab") {
+        t = t % (length * 2);
+        if (t >= length) {
+          version = 1;
+          t -= length;
+        }
+      }
+      const list = version ? reharmonized : original;
+      let slot = -1;
+      for (const p of list) if (p.start <= t) slot = p.slot;
+      setNow((before) =>
+        before && before.version === version && before.slot === slot
+          ? before
+          : { version, slot },
+      );
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [playing, starts]);
+  }, [playing, what, bars, original, reharmonized]);
 
-  function edit(newText: string) {
-    setHistory((h) => [...h, text]);
+  function loadChart(newText: string) {
     setText(newText);
+    setChoices({});
+    setInspect(null);
+    setKeyChoice("auto");
   }
 
-  function choose(i: number) {
-    setSelected(i);
-    const notes = voicings[i];
-    if (notes?.length) play(notes);
+  function choose(slot: number, option: number) {
+    setChoices((c) => ({ ...c, [slot]: option }));
+    const chords = options[slot][option]?.chords ?? [];
+    play(voice(Chord.get(chords[0]).notes));
   }
 
-  function apply(sub: Substitute) {
-    if (!current) return;
-    const next = bars.map((b) => b.slice());
-    next[current.bar].splice(current.index, 1, ...sub.chords);
-    edit(writeBars(next));
-    setSelected(null);
+  // a strategy: the first option of its kind, where the chord is the original
+  function applyStrategy(kind: Kind) {
+    setChoices((c) => {
+      const next = { ...c };
+      options.forEach((list, i) => {
+        if ((next[i] ?? 0) > 0) return;
+        const at = list.findIndex((o) => o.kind === kind);
+        if (at > 0) next[i] = at;
+      });
+      return next;
+    });
   }
 
-  function undo() {
-    const last = history[history.length - 1];
-    if (last === undefined) return;
-    setHistory((h) => h.slice(0, -1));
-    setText(last);
-    setSelected(null);
-  }
+  const inspected = inspect !== null ? slots[inspect] : undefined;
 
   return (
     <div className="flex flex-col gap-6">
@@ -291,10 +394,11 @@ export function Reharmonizer() {
         <textarea
           id="reharmonizer-input"
           value={text}
-          rows={3}
+          rows={2}
           onChange={(e) => {
             setText(e.target.value);
-            setSelected(null);
+            setChoices({});
+            setInspect(null);
           }}
           spellCheck={false}
           autoComplete="off"
@@ -303,14 +407,7 @@ export function Reharmonizer() {
         <div className="flex flex-wrap gap-2 text-sm">
           <span className="text-fd-muted-foreground">Try:</span>
           {EXAMPLES.map((example) => (
-            <Chip
-              key={example.title}
-              onClick={() => {
-                edit(example.chart);
-                setKeyChoice("auto");
-                setSelected(null);
-              }}
-            >
+            <Chip key={example.title} onClick={() => loadChart(example.chart)}>
               {example.title}
             </Chip>
           ))}
@@ -322,7 +419,10 @@ export function Reharmonizer() {
           <span className="font-medium">Key</span>
           <select
             value={keyChoice}
-            onChange={(e) => setKeyChoice(e.target.value)}
+            onChange={(e) => {
+              setKeyChoice(e.target.value);
+              setChoices({});
+            }}
             className="rounded-lg border border-fd-border bg-fd-background px-2 py-1.5"
           >
             <option value="auto">Detected: {detected}</option>
@@ -333,83 +433,180 @@ export function Reharmonizer() {
             ))}
           </select>
         </label>
-        <Toggle
-          stacked
-          label="Play"
-          value={withMotif}
-          options={[
-            ["chords", "Chords"],
-            ["motif", "Chords and motif"],
-          ]}
-          onChange={setWithMotif}
-        />
-        <button
-          type="button"
-          className="rounded-lg border border-fd-border px-3 py-1.5 hover:bg-fd-accent disabled:opacity-50"
-          onClick={undo}
-          disabled={!history.length}
-        >
-          Undo
-        </button>
-        <button
-          type="button"
-          className="ms-auto rounded-lg bg-fd-primary px-3 py-1.5 font-medium text-fd-primary-foreground hover:opacity-90"
-          onClick={playing ? stop : () => playSteps(steps)}
-          disabled={!steps.length}
-        >
-          {playing ? "Stop" : "Play"}
-        </button>
+        <div className="flex flex-col gap-1">
+          <span className="font-medium">Reharmonize</span>
+          <div className="flex flex-wrap gap-2">
+            {STRATEGIES.map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                title={s.help}
+                className="rounded-lg border border-fd-border px-2 py-1 hover:bg-fd-accent"
+                onClick={() => applyStrategy(s.kind)}
+              >
+                {s.title}
+              </button>
+            ))}
+            <button
+              type="button"
+              className="rounded-lg border border-fd-border px-2 py-1 hover:bg-fd-accent disabled:opacity-50"
+              onClick={() => setChoices({})}
+              disabled={!Object.values(choices).some((o) => o > 0)}
+            >
+              Reset
+            </button>
+          </div>
+        </div>
       </div>
-      <PianoMessage status={status} />
 
       {slots.length ? (
         <section className="flex flex-col gap-2">
-          <h2 className="text-lg font-semibold">The chart in {key}</h2>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <h2 className="text-lg font-semibold">In {key}</h2>
+            <div className="ms-auto flex flex-wrap items-center gap-2 text-sm">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={melody}
+                  onChange={(e) => setMelody(e.target.checked)}
+                />
+                With melody
+              </label>
+              {(
+                [
+                  ["original", "Original"],
+                  ["new", "Reharmonized"],
+                  ["ab", "A/B"],
+                ] as const
+              ).map(([id, label]) => (
+                <button
+                  key={id}
+                  type="button"
+                  className={`rounded-lg px-3 py-1.5 font-medium ${
+                    playing && what === id
+                      ? "bg-fd-primary text-fd-primary-foreground"
+                      : "border border-fd-border hover:bg-fd-accent"
+                  }`}
+                  onClick={() => (playing && what === id ? stop() : start(id))}
+                >
+                  {playing && what === id ? "Stop" : `▶ ${label}`}
+                </button>
+              ))}
+            </div>
+          </div>
+          <PianoMessage status={status} />
           <p className="text-sm text-fd-muted-foreground">
-            Each chord with its first reading in the key (
-            <span className="font-mono">Key.analyzeChord</span>, with the chords
-            before and after). Click one to see every reading and its
-            substitutes.
+            The original on top, with what each chord does in the key (
+            <span className="font-mono">Key.analyzeChord</span>; click one for
+            every reading). Below, a dropdown on each chord with its substitutes
+            (<span className="font-mono">Key.substitutes</span>); “A/B” plays
+            one then the other, in a loop.
           </p>
-          <ol className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-fd-border bg-fd-border sm:grid-cols-4">
+          <ol className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             {bars.map((bar, b) => (
-              <li key={b} className="flex min-h-20 gap-1 bg-fd-card p-1.5">
-                {bar.length ? (
-                  bar.map((chord, i) => {
+              <li
+                key={b}
+                className="flex flex-col gap-1 rounded-xl border border-fd-border bg-fd-card p-1.5"
+              >
+                <div className="flex gap-1">
+                  {bar.map((chord, i) => {
                     const slot = slots.find(
                       (s) => s.bar === b && s.index === i,
                     )!;
                     const reading = readings[slot.flat][0];
+                    const sounding =
+                      now?.version === 0 && now.slot === slot.flat;
                     return (
                       <button
                         key={i}
                         type="button"
-                        onClick={() => choose(slot.flat)}
+                        onClick={() => {
+                          setInspect(slot.flat);
+                          play(voice(Chord.get(chord).notes));
+                        }}
                         className={`flex min-w-0 flex-1 flex-col items-start rounded-md border-l-4 px-2 py-1 text-left ${
                           FUNCTION_COLORS[reading?.function ?? ""]
                         } ${
-                          selected === slot.flat
-                            ? "bg-fd-primary/15 ring-1 ring-fd-primary"
-                            : now === slot.flat
-                              ? "bg-amber-500/15"
+                          sounding
+                            ? "bg-amber-500/20"
+                            : inspect === slot.flat
+                              ? "bg-fd-primary/15"
                               : "hover:bg-fd-accent"
                         }`}
                       >
                         <span className="font-mono font-semibold">{chord}</span>
-                        <span className="font-mono text-sm">
+                        <span className="font-mono text-xs text-fd-muted-foreground">
                           {reading?.numeral ?? "?"}
                         </span>
-                        {reading && reading.source !== "diatonic" ? (
-                          <span className="text-[11px] text-fd-muted-foreground">
-                            {reading.source}
-                          </span>
-                        ) : null}
                       </button>
                     );
-                  })
-                ) : (
-                  <span className="p-2 text-fd-muted-foreground">—</span>
-                )}
+                  })}
+                </div>
+                <div className="flex gap-1">
+                  {bar.map((_, i) => {
+                    const slot = slots.find(
+                      (s) => s.bar === b && s.index === i,
+                    )!;
+                    const n = slot.flat;
+                    const sounding = now?.version === 1 && now.slot === n;
+                    const parts = reharmonized.filter((p) => p.slot === n);
+                    const first = reharmonized.indexOf(parts[0]);
+                    return (
+                      <div
+                        key={i}
+                        className={`flex min-w-0 flex-1 flex-col gap-0.5 rounded-md px-1 py-1 ${
+                          sounding
+                            ? "bg-amber-500/20"
+                            : changed(n)
+                              ? "bg-emerald-500/10 ring-1 ring-emerald-500/50"
+                              : ""
+                        }`}
+                      >
+                        <select
+                          aria-label={`Substitute for ${slot.chord}`}
+                          value={choices[n] ?? 0}
+                          onChange={(e) => choose(n, Number(e.target.value))}
+                          className="w-full min-w-0 rounded border border-fd-border bg-fd-background px-1 py-0.5 font-mono text-sm"
+                        >
+                          {groups(options[n]).map(([kind, list]) =>
+                            kind === "original" ? (
+                              list.map(({ option, at }) => (
+                                <option key={at} value={at}>
+                                  {option.chords.join(" ")}
+                                </option>
+                              ))
+                            ) : (
+                              <optgroup key={kind} label={kind}>
+                                {list.map(({ option, at }) => (
+                                  <option key={at} value={at}>
+                                    {option.chords.join(" ")}
+                                  </option>
+                                ))}
+                              </optgroup>
+                            ),
+                          )}
+                        </select>
+                        <span className="flex gap-1 font-mono text-xs text-fd-muted-foreground">
+                          {parts.map((p, j) => (
+                            <span key={j} className="flex-1 truncate">
+                              {newReadings[first + j]?.numeral ?? "?"}
+                            </span>
+                          ))}
+                          {changed(n) ? (
+                            <button
+                              type="button"
+                              title="Back to the original"
+                              className="text-fd-muted-foreground hover:text-fd-foreground"
+                              onClick={() => choose(n, 0)}
+                            >
+                              ×
+                            </button>
+                          ) : null}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
               </li>
             ))}
           </ol>
@@ -422,6 +619,10 @@ export function Reharmonizer() {
                 {name}
               </span>
             ))}
+            <span className="flex items-center gap-1">
+              <span className="inline-block h-3 w-3 rounded-sm bg-emerald-500/30" />
+              changed
+            </span>
           </p>
         </section>
       ) : (
@@ -430,197 +631,49 @@ export function Reharmonizer() {
         </p>
       )}
 
-      {current ? (
-        <ChordPanel
-          chord={current.chord}
-          readings={readings[current.flat]}
-          substitutes={substitutes}
-          onApply={apply}
-          onHear={(chords) =>
-            playSteps(
-              chords.map((c) => ({
-                notes: voice(Chord.get(c).notes),
-                duration: 1,
-              })),
-            )
-          }
-        />
+      {melody ? (
+        <section className="flex flex-col gap-2">
+          <h2 className="text-lg font-semibold">The melody</h2>
+          <p className="text-sm text-fd-muted-foreground">
+            A figure written over one chord, fitted to every chord it plays over
+            (<span className="font-mono">Chord.fitNote</span>, passing notes
+            keep their interval): change a chord and the same line follows it.
+          </p>
+          <div className="flex flex-wrap items-end gap-x-6 gap-y-3 text-sm">
+            <label className="flex flex-col gap-1">
+              <span className="font-medium">Notes</span>
+              <input
+                value={motifText}
+                onChange={(e) => setMotifText(e.target.value)}
+                spellCheck={false}
+                className="w-72 rounded-lg border border-fd-border bg-fd-background px-2 py-1.5 font-mono"
+              />
+            </label>
+            <label className="flex flex-col gap-1">
+              <span className="font-medium">Written over</span>
+              <input
+                value={motifChord}
+                onChange={(e) => setMotifChord(e.target.value)}
+                spellCheck={false}
+                className="w-24 rounded-lg border border-fd-border bg-fd-background px-2 py-1.5 font-mono"
+              />
+            </label>
+          </div>
+          {!motifOk ? (
+            <p className="text-sm text-rose-500">
+              “{motifChord}” isn&apos;t a chord with a root.
+            </p>
+          ) : null}
+        </section>
       ) : null}
 
-      <section className="flex flex-col gap-3">
-        <h2 className="text-lg font-semibold">Modulate</h2>
-        <div className="flex flex-wrap items-end gap-x-6 gap-y-3 text-sm">
-          <label className="flex flex-col gap-1">
-            <span className="font-medium">From {key} to</span>
-            <select
-              value={target}
-              onChange={(e) => setTarget(e.target.value)}
-              className="rounded-lg border border-fd-border bg-fd-background px-2 py-1.5"
-            >
-              {KEYS.map((k) => (
-                <option key={k} value={k}>
-                  {k}
-                </option>
-              ))}
-            </select>
-          </label>
-          <Toggle
-            stacked
-            label="Chords"
-            value={pivotSevenths ? "7" : "3"}
-            options={[
-              ["3", "Triads"],
-              ["7", "Sevenths"],
-            ]}
-            onChange={(v) => setPivotSevenths(v === "7")}
-          />
-          <label className="flex items-center gap-2 pb-1.5">
-            <input
-              type="checkbox"
-              checked={pivotChromatic}
-              onChange={(e) => setPivotChromatic(e.target.checked)}
-            />
-            Chromatic readings too
-          </label>
-        </div>
-        {pivots.length ? (
-          <table className="w-fit text-sm">
-            <thead>
-              <tr className="text-left text-fd-muted-foreground">
-                <th className="pe-4 font-normal">Pivot</th>
-                <th className="pe-4 font-normal">in {key}</th>
-                <th className="pe-4 font-normal">in {target}</th>
-                <th className="font-normal" />
-              </tr>
-            </thead>
-            <tbody>
-              {pivots.map((p) => (
-                <tr key={p.chord + p.from}>
-                  <td className="pe-4 font-mono font-semibold">{p.chord}</td>
-                  <td className="pe-4 font-mono">
-                    {p.from}
-                    {p.fromSource !== "diatonic" ? (
-                      <span className="ms-1 font-sans text-xs text-fd-muted-foreground">
-                        {p.fromSource}
-                      </span>
-                    ) : null}
-                  </td>
-                  <td className="pe-4 font-mono">
-                    {p.to}
-                    {p.toSource !== "diatonic" ? (
-                      <span className="ms-1 font-sans text-xs text-fd-muted-foreground">
-                        {p.toSource}
-                      </span>
-                    ) : null}
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      className="rounded-md bg-fd-secondary px-2 py-0.5 text-xs hover:bg-fd-accent"
-                      title="Add a bar with the pivot and a ii–V–I in the new key"
-                      onClick={() => {
-                        const tonic = target.split(" ")[0];
-                        const minor = target.endsWith("minor");
-                        const two = Key.majorKey(tonic).chords[1];
-                        const cadence = minor
-                          ? [
-                              Key.minorKey(tonic).harmonic.chords[1],
-                              Key.minorKey(tonic).harmonic.chords[4],
-                              Key.minorKey(tonic).natural.chords[0],
-                            ]
-                          : [
-                              two,
-                              Key.majorKey(tonic).chords[4],
-                              Key.majorKey(tonic).chords[0],
-                            ];
-                        edit(
-                          writeBars([
-                            ...bars,
-                            [p.chord],
-                            [cadence[0], cadence[1]],
-                            [cadence[2]],
-                          ]),
-                        );
-                        setKeyChoice("auto");
-                      }}
-                    >
-                      Modulate with it
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p className="text-sm text-fd-muted-foreground">
-            No shared chords: try a closer key, or chromatic readings.
-          </p>
-        )}
-      </section>
-
-      <section className="flex flex-col gap-3">
-        <h2 className="text-lg font-semibold">A motif over every chord</h2>
-        <p className="text-sm text-fd-muted-foreground">
-          Write a figure over one chord: each note keeps its role on every chord
-          of the chart (<span className="font-mono">Chord.fitNote</span>): the
-          3rd goes to the new 3rd, the 11th to a #11 on a dominant.
-        </p>
-        <div className="flex flex-wrap items-end gap-x-6 gap-y-3 text-sm">
-          <label className="flex flex-col gap-1">
-            <span className="font-medium">Notes</span>
-            <input
-              value={motifText}
-              onChange={(e) => setMotifText(e.target.value)}
-              spellCheck={false}
-              className="w-72 rounded-lg border border-fd-border bg-fd-background px-2 py-1.5 font-mono"
-            />
-          </label>
-          <label className="flex flex-col gap-1">
-            <span className="font-medium">Written over</span>
-            <input
-              value={motifChord}
-              onChange={(e) => setMotifChord(e.target.value)}
-              spellCheck={false}
-              className="w-24 rounded-lg border border-fd-border bg-fd-background px-2 py-1.5 font-mono"
-            />
-          </label>
-          <label className="flex items-center gap-2 pb-1.5">
-            <input
-              type="checkbox"
-              checked={keepPassing}
-              onChange={(e) => setKeepPassing(e.target.checked)}
-            />
-            Passing notes keep their interval
-          </label>
-        </div>
-        {Chord.get(motifChord).empty || !Chord.get(motifChord).tonic ? (
-          <p className="text-sm text-rose-500">
-            “{motifChord}” isn&apos;t a chord with a root.
-          </p>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="text-sm">
-              <tbody>
-                {slots.map((s, i) => (
-                  <tr
-                    key={i}
-                    className={now === i ? "bg-amber-500/15" : undefined}
-                  >
-                    <td className="pe-4 font-mono font-semibold">{s.chord}</td>
-                    <td className="font-mono whitespace-nowrap">
-                      {fitted[i].map((n, j) => (
-                        <span key={j} className="me-2 inline-block w-9">
-                          {n || "·"}
-                        </span>
-                      ))}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </section>
+      {inspected ? (
+        <ReadingsPanel
+          chord={inspected.chord}
+          readings={readings[inspected.flat]}
+          onClose={() => setInspect(null)}
+        />
+      ) : null}
 
       <section className="flex flex-col gap-2">
         <h2 className="text-lg font-semibold">The code</h2>
@@ -630,19 +683,12 @@ export function Reharmonizer() {
             symbols,
             ranked: ranked.slice(0, 3).map((r) => r.name),
             key,
-            current,
-            readings: current ? readings[current.flat] : [],
-            substitutes,
-            target,
-            pivotOptions: {
-              sevenths: pivotSevenths,
-              chromatic: pivotChromatic,
-            },
-            pivots,
-            motif,
-            motifChord,
-            fitOptions,
-            fitted,
+            inspected,
+            readings: inspected ? readings[inspected.flat] : [],
+            options,
+            choices,
+            newChords: reharmonized.map((p) => p.chord),
+            melody: melody && motifOk ? { motif, motifChord } : null,
           })}
         />
       </section>
@@ -650,101 +696,74 @@ export function Reharmonizer() {
   );
 }
 
-const KIND_ORDER = [
-  "tritone substitute",
-  "related ii",
-  "backdoor",
-  "contained",
-  "diatonic",
-  "borrowed",
-  "secondary dominant",
-  "substitute dominant",
-  "passing diminished",
-];
+// The motif notes over a chord of a version: the notes of the motif that fall
+// in the chord's time, fitted to it (the motif spans one bar)
+function fitMotif(motif: string[], over: string, played: Played): string[] {
+  if (!motif.length) return [];
+  const per = motif.length / BAR;
+  const from = Math.round((played.start % BAR) * per);
+  const to = Math.round(((played.start % BAR) + played.duration) * per);
+  return motif
+    .slice(from, Math.max(to, from + 1))
+    .map((n) => Chord.fitNote(n, over, played.chord, { keep: "non-chord" }));
+}
 
-function ChordPanel({
+// The options of a dropdown grouped by kind, keeping their index
+function groups(list: Option[]) {
+  const out: [Option["kind"], { option: Option; at: number }[]][] = [];
+  list.forEach((option, at) => {
+    const last = out[out.length - 1];
+    if (last && last[0] === option.kind) last[1].push({ option, at });
+    else out.push([option.kind, [{ option, at }]]);
+  });
+  return out;
+}
+
+function ReadingsPanel({
   chord,
   readings,
-  substitutes,
-  onApply,
-  onHear,
+  onClose,
 }: {
   chord: string;
   readings: Reading[];
-  substitutes: Substitute[];
-  onApply: (sub: Substitute) => void;
-  onHear: (chords: string[]) => void;
+  onClose: () => void;
 }) {
-  const kinds = KIND_ORDER.filter((k) => substitutes.some((s) => s.kind === k));
   return (
-    <section className="flex flex-col gap-4 rounded-xl border border-fd-border p-4">
-      <h2 className="text-lg font-semibold">
-        <span className="font-mono">{chord}</span>
-      </h2>
-      <div className="flex flex-col gap-1 text-sm">
-        <h3 className="font-medium">Readings, the likeliest first</h3>
-        {readings.length ? (
-          <table className="w-fit">
-            <tbody>
-              {readings.map((r, i) => (
-                <tr key={i} className={i ? "text-fd-muted-foreground" : ""}>
-                  <td className="pe-4 font-mono font-semibold">{r.numeral}</td>
-                  <td className="pe-4">{r.source}</td>
-                  <td className="pe-4">{FUNCTION_NAMES[r.function]}</td>
-                  <td className="pe-4">
-                    {r.target ? `to ${r.target}` : ""}
-                    {r.resolution ? ` (${r.resolution})` : ""}
-                  </td>
-                  <td className="font-mono">{r.chordScale}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p className="text-fd-muted-foreground">No reading.</p>
-        )}
+    <section className="flex flex-col gap-2 rounded-xl border border-fd-border p-4 text-sm">
+      <div className="flex items-center">
+        <h2 className="text-lg font-semibold">
+          Readings of <span className="font-mono">{chord}</span>, the likeliest
+          first
+        </h2>
+        <button
+          type="button"
+          className="ms-auto rounded-md px-2 hover:bg-fd-accent"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          ×
+        </button>
       </div>
-      <div className="flex flex-col gap-2 text-sm">
-        <h3 className="font-medium">
-          Substitutes (click to hear, “use” to put it in the chart)
-        </h3>
-        {kinds.length ? (
-          <dl className="grid gap-x-4 gap-y-2 sm:grid-cols-[auto_1fr]">
-            {kinds.map((kind) => (
-              <div key={kind} className="contents">
-                <dt className="text-fd-muted-foreground">{kind}</dt>
-                <dd className="flex flex-wrap gap-2">
-                  {substitutes
-                    .filter((s) => s.kind === kind)
-                    .map((s, i) => (
-                      <span
-                        key={i}
-                        className="flex items-center overflow-hidden rounded-md bg-fd-secondary"
-                      >
-                        <button
-                          type="button"
-                          className="px-2 py-0.5 font-mono hover:bg-fd-accent"
-                          onClick={() => onHear(s.chords)}
-                        >
-                          {s.chords.join(" ")}
-                        </button>
-                        <button
-                          type="button"
-                          className="border-s border-fd-border px-2 py-0.5 text-xs hover:bg-fd-accent"
-                          onClick={() => onApply(s)}
-                        >
-                          use
-                        </button>
-                      </span>
-                    ))}
-                </dd>
-              </div>
+      {readings.length ? (
+        <table className="w-fit">
+          <tbody>
+            {readings.map((r, i) => (
+              <tr key={i} className={i ? "text-fd-muted-foreground" : ""}>
+                <td className="pe-4 font-mono font-semibold">{r.numeral}</td>
+                <td className="pe-4">{r.source}</td>
+                <td className="pe-4">{FUNCTION_NAMES[r.function]}</td>
+                <td className="pe-4">
+                  {r.target ? `to ${r.target}` : ""}
+                  {r.resolution ? ` (${r.resolution})` : ""}
+                </td>
+                <td className="font-mono">{r.chordScale}</td>
+              </tr>
             ))}
-          </dl>
-        ) : (
-          <p className="text-fd-muted-foreground">No substitutes.</p>
-        )}
-      </div>
+          </tbody>
+        </table>
+      ) : (
+        <p className="text-fd-muted-foreground">No reading.</p>
+      )}
     </section>
   );
 }
@@ -753,29 +772,24 @@ function code(p: {
   symbols: string[];
   ranked: string[];
   key: string;
-  current: Slot | undefined;
+  inspected: Slot | undefined;
   readings: Reading[];
-  substitutes: Substitute[];
-  target: string;
-  pivotOptions: { sevenths: boolean; chromatic: boolean };
-  pivots: ReturnType<typeof Key.pivotChords>;
-  motif: string[];
-  motifChord: string;
-  fitOptions: { keep?: "non-chord" };
-  fitted: string[][];
+  options: Option[][];
+  choices: Record<number, number>;
+  newChords: string[];
+  melody: { motif: string[]; motifChord: string } | null;
 }): string {
   const lines = [
     `const chords = ${show(p.symbols)};`,
     `Scale.rank([], { chords, types: ["major", "minor"] }).map((s) => s.name);`,
     `// => ${show(p.ranked)}${p.ranked.length ? " ..." : ""}`,
   ];
-  if (p.current) {
-    const c = p.current.chord;
-    const next = p.symbols[p.current.flat + 1];
-    const previous = p.symbols[p.current.flat - 1];
+  if (p.inspected) {
+    const c = p.inspected.chord;
+    const i = p.inspected.flat;
     const opts = [
-      previous ? `previous: ${show(previous)}` : "",
-      next ? `next: ${show(next)}` : "",
+      p.symbols[i - 1] ? `previous: ${show(p.symbols[i - 1])}` : "",
+      p.symbols[i + 1] ? `next: ${show(p.symbols[i + 1])}` : "",
     ]
       .filter(Boolean)
       .join(", ");
@@ -783,27 +797,25 @@ function code(p: {
       "",
       `Key.analyzeChord(${show(p.key)}, ${show(c)}${opts ? `, { ${opts} }` : ""})[0];`,
       `// => ${show(p.readings[0] ?? null)}`,
-      "",
-      `Key.substitutes(${show(p.key)}, ${show(c)}${next ? `, { next: ${show(next)} }` : ""}).map((s) => s.chords);`,
-      `// => ${show(p.substitutes.map((s) => s.chords))}`,
     );
   }
-  const po = Object.entries(p.pivotOptions)
-    .filter(([, v]) => v)
-    .map(([k]) => `${k}: true`)
-    .join(", ");
-  lines.push(
-    "",
-    `Key.pivotChords(${show(p.key)}, ${show(p.target)}${po ? `, { ${po} }` : ""}).map((p) => \`\${p.chord}: \${p.from} \${p.to}\`);`,
-    `// => ${show(p.pivots.map((x) => `${x.chord}: ${x.from} ${x.to}`))}`,
-  );
-  if (p.motif.length && p.symbols.length) {
-    const fo = p.fitOptions.keep ? `, { keep: "non-chord" }` : "";
+  // the substitutes of the first changed chord, or of the first chord
+  const changedAt = Object.entries(p.choices).find(([, o]) => o > 0)?.[0];
+  const at = changedAt !== undefined ? Number(changedAt) : 0;
+  if (p.symbols[at]) {
+    const next = p.symbols[at + 1];
     lines.push(
       "",
-      `const motif = ${show(p.motif)};`,
-      `motif.map((n) => Chord.fitNote(n, ${show(p.motifChord)}, ${show(p.symbols[0])}${fo}));`,
-      `// => ${show(p.fitted[0])}`,
+      `Key.substitutes(${show(p.key)}, ${show(p.symbols[at])}${next ? `, { next: ${show(next)} }` : ""}).map((s) => \`\${s.kind}: \${s.chords.join(" ")}\`);`,
+      `// => ${show(p.options[at].slice(1).map((o) => `${o.kind}: ${o.chords.join(" ")}`))}`,
+    );
+  }
+  lines.push("", `// the reharmonized chords`, `// => ${show(p.newChords)}`);
+  if (p.melody && p.newChords.length) {
+    lines.push(
+      "",
+      `${show(p.melody.motif)}.map((n) => Chord.fitNote(n, ${show(p.melody.motifChord)}, ${show(p.newChords[0])}, { keep: "non-chord" }));`,
+      `// => ${show(p.melody.motif.map((n) => Chord.fitNote(n, p.melody!.motifChord, p.newChords[0], { keep: "non-chord" })))}`,
     );
   }
   return lines.join("\n");
