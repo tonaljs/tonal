@@ -32,6 +32,32 @@ import {
 } from "./tensions";
 
 export type { ChordDegreeName } from "./degrees";
+export type {
+  ContainingChord,
+  Substitute,
+  SubstituteKind,
+  SubstitutesOptions,
+} from "./substitutes";
+export {
+  backdoor,
+  contained,
+  containing,
+  passingDiminished,
+  relatedTwo,
+  secondaryDominant,
+  substitutes,
+  tritoneSubstitute,
+} from "./substitutes";
+import {
+  backdoor,
+  contained,
+  containing,
+  passingDiminished,
+  relatedTwo,
+  secondaryDominant,
+  substitutes,
+  tritoneSubstitute,
+} from "./substitutes";
 
 export { detect } from "@tonaljs/chord-detect";
 
@@ -1026,4 +1052,12 @@ export default {
   fitNote,
   degreesByImportance,
   bass,
+  tritoneSubstitute,
+  secondaryDominant,
+  relatedTwo,
+  backdoor,
+  passingDiminished,
+  contained,
+  containing,
+  substitutes,
 };

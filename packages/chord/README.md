@@ -581,6 +581,43 @@ Chord.chordScale("Cdim7"); // => "C diminished"
 
 In a key every diatonic chord gets the scale `Key` gives it (`Key.majorKey("C").chordScales`). The rule ranks by notes, not by function: secondary dominants get mixolydian (to a major chord) or phrygian dominant (to a minor chord), borrowed chords their minor-key scale, but a tritone substitute gets phrygian dominant, not the lydian dominant the books give it.
 
+## Substitutions
+
+Functions that return the chords that can take a chord's place, spelled by interval from its root. They return `""` (or `[]`) when the rule doesn't apply. A dominant is a chord with a major 3rd and a minor 7th; a chord with a perfect 5th can be the target of a dominant.
+
+```js
+Chord.tritoneSubstitute("G7"); // => "Db7" (a dominant: same 3rd and 7th, a tritone away)
+Chord.relatedTwo("G7"); // => "Dm7" (before a dominant; "Dm7b5" with { minor: true } or on G7b9)
+Chord.secondaryDominant("Dm7"); // => "A7" (the V7 of a chord)
+Chord.backdoor("C"); // => "Bb7" (the dominant a whole step below)
+Chord.passingDiminished("C", "Dm7"); // => "C#dim7" (between roots a whole step apart)
+Chord.contained("G9"); // => ["Bm7b5", "Dm6"] (chords made of its notes on another root)
+```
+
+### `Chord.substitutes`
+
+`substitutes(chord: string, options?: { next?: string }) => { chords: string[], kind: string }[]`
+
+All of them for a chord, in a documented order: the tritone substitute, the backdoor dominant and the contained chords take its place; the related ii goes before a dominant; with the next chord, an approach chord (its secondary dominant, the tritone substitute of that, a passing diminished chord) follows the chord:
+
+```js
+Chord.substitutes("G7");
+// => [{ chords: ["Db7"], kind: "tritone substitute" }, { chords: ["Bb7"], kind: "backdoor" }, { chords: ["Bdim"], kind: "contained" }, { chords: ["Dm7", "G7"], kind: "related ii" }]
+Chord.substitutes("C", { next: "Dm7" }).map((s) => s.chords);
+// => [["C", "A7"], ["C", "Eb7"], ["C", "C#dim7"]]
+```
+
+### `Chord.containing`
+
+`containing(note: string, options?: { types?: string[] }) => { chord: string, degree: string }[]`
+
+The chords that have a note as a chord tone or a tension (`Chord.tensions`), to harmonise a melody note. maj7, 7 and m7 by default:
+
+```js
+Chord.containing("C", { types: ["m7"] });
+// => [{ chord: "Cm7", degree: "1" }, { chord: "Am7", degree: "b3" }, { chord: "Fm7", degree: "5" }, { chord: "Dm7", degree: "b7" }, { chord: "Bbm7", degree: "9" }, { chord: "Gm7", degree: "11" }]
+```
+
 ## Relationships
 
 ### `Chord.extended`
