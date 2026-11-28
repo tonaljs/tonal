@@ -566,13 +566,15 @@ export type ScaleChordsOptions = {
  *
  * With `all: true`, it lists every chord type whose notes are all in the
  * scale, rooted on each degree: the chords to choose from in a key. They
- * come by degree, and on each degree the common ones first (by
- * `complexity`, then the dictionary's order; `order: "dictionary"` keeps
- * the dictionary's). `types` limits the chord types. Types match by pitch
- * class and the notes are spelled as in the scale, so a type that spells a
- * note differently is listed with the scale's note (Bm#5 is B D G in C
- * major, and Cdim7 is C Eb Gb A in the diminished scale). The symbol is the
- * root and the type's first alias (a major triad without quality).
+ * come by degree, and on each degree the common ones first: by
+ * `complexity`, then the chords with a 3rd and a 5th, then those with a 3rd
+ * (`7no5`), then those without (`5`, `sus4`), then the dictionary's order
+ * (`order: "dictionary"` keeps the dictionary's). `types` limits the chord
+ * types. Types match by pitch class, and the notes are spelled as in the
+ * chord, from its root (as `Chord.get(symbol).notes`): D in the diminished
+ * scale is D F# A, though the scale has Gb, and Cdim7 is C Eb Gb Bbb. The
+ * symbol is the root and the type's first alias (a major triad without
+ * quality).
  *
  * @example
  * Scale.chords("C major").map((c) => c.symbol); // => ["C", "Dm", "Em", "F", "G", "Am", "Bdim"]
@@ -580,7 +582,7 @@ export type ScaleChordsOptions = {
  * Scale.chords("C4 major")[4].notes; // => ["G4", "B4", "D5"]
  * Scale.chords("C major", { size: 4, step: 3 })[1].notes; // => ["D", "G", "C", "F"]
  * Scale.chords("B minor", { all: true, types: ["M", "m", "7", "m7", "maj7"] }).map((c) => c.symbol); // => ["Bm", "Bm7", "D", "Dmaj7", "Em", "Em7", "F#m", "F#m7", "G", "Gmaj7", "A", "A7"]
- * Scale.chords("C major", { all: true }).filter((c) => c.degree === 7).map((c) => c.symbol); // => ["Bdim", "Bm7#5", "Bm7b5", "Bquartal", "Bmb6b9", "Bm#5", "B7#5sus4"]
+ * Scale.chords("C major", { all: true }).filter((c) => c.degree === 7).map((c) => c.symbol); // => ["Bdim", "Bm7b5", "Bm7#5", "Bmb6b9", "Bquartal", "Bm#5", "B7#5sus4"]
  */
 export function chords(
   scaleName: string | ScaleNameTokens,
@@ -612,30 +614,36 @@ function allChords(
     : chordTypes();
   const common = options.order !== "dictionary";
   const pcs = scale.notes.map((n) => note(n));
+  const chromas = new Set(pcs.map((p) => p.chroma));
   const result: ScaleChord[] = [];
   pcs.forEach((root, index) => {
-    const found: { chord: ScaleChord; complexity: number; at: number }[] = [];
+    const found: {
+      chord: ScaleChord;
+      complexity: number;
+      shape: number;
+      at: number;
+    }[] = [];
     types.forEach((type, at) => {
-      const notes: string[] = [];
-      for (const ivl of type.intervals) {
-        const n = note(transpose(root.name, ivl));
-        const inScale = pcs.find((p) => p.chroma === n.chroma);
-        if (!inScale) return;
-        // spelled as the scale spells it
-        notes.push(
-          inScale.pc === n.pc ? n.name : enharmonic(n.name, inScale.pc),
-        );
-      }
+      // spelled as the chord spells it, from the scale note
+      const notes = type.intervals.map((ivl) => transpose(root.name, ivl));
+      if (!notes.every((n) => chromas.has(note(n).chroma))) return;
       const alias = type.aliases[0] ?? "";
       const symbol = type.name === "major" ? root.pc : root.pc + alias;
+      const has = (num: string) =>
+        type.intervals.some((ivl) => ivl.startsWith(num));
       found.push({
         chord: { degree: index + 1, notes, symbol },
         complexity: type.complexity,
+        // a 3rd and a 5th first, then a 3rd, then neither (5, sus4)
+        shape: has("3") ? (has("5") ? 0 : 1) : 2,
         at,
       });
     });
     if (common) {
-      found.sort((a, b) => a.complexity - b.complexity || a.at - b.at);
+      found.sort(
+        (a, b) =>
+          a.complexity - b.complexity || a.shape - b.shape || a.at - b.at,
+      );
     }
     result.push(...found.map((f) => f.chord));
   });

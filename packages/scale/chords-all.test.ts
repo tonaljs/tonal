@@ -55,31 +55,44 @@ describe("Scale.chords with all", () => {
     expect(at).toEqual([...at].sort((a, b) => a - b));
   });
 
-  test("every chord's notes are in the scale, spelled as in it", () => {
+  test("every chord's notes are in the scale, spelled as the chord", () => {
     for (const name of [
       "C major",
       "A harmonic minor",
       "Eb dorian",
       "F# lydian",
       "C diminished",
+      "C altered",
       "D major pentatonic",
       "C chromatic",
       "E persian",
     ]) {
       const scale = get(name);
+      const pcs = scale.notes.map(chroma);
       for (const c of chords(name, { all: true })) {
-        expect(c.notes.every((n) => scale.notes.includes(n))).toBe(true);
-        // the symbol gives the same pitch classes, on the same root
-        const parsed = getChord(c.symbol);
-        expect(parsed.notes.map(chroma)).toEqual(c.notes.map(chroma));
+        expect(c.notes.every((n) => pcs.includes(chroma(n)))).toBe(true);
+        // the notes of the symbol, on a scale note
+        expect(c.notes).toEqual(getChord(c.symbol).notes);
         expect(scale.notes[c.degree - 1]).toBe(c.notes[0]);
       }
     }
-    expect(chords("C diminished", { all: true, types: ["dim7"] })[0]).toEqual({
-      degree: 1,
-      notes: ["C", "Eb", "Gb", "A"],
-      symbol: "Cdim7",
-    });
+    const pick = (scale: string, symbol: string) =>
+      chords(scale, { all: true }).find((c) => c.symbol === symbol)?.notes;
+    // the diminished scale has Gb, the chord F#
+    expect(pick("C diminished", "D")).toEqual(["D", "F#", "A"]);
+    expect(pick("C diminished", "Cdim7")).toEqual(["C", "Eb", "Gb", "Bbb"]);
+    expect(pick("C altered", "Cm7b5")).toEqual(["C", "Eb", "Gb", "Bb"]);
+  });
+
+  test("on each degree, the triads before 5, sus and no5 chords", () => {
+    const first = (scale: string, degree: number, n: number) =>
+      symbols(
+        chords(scale, { all: true }).filter((c) => c.degree === degree),
+      ).slice(0, n);
+    expect(first("C major", 1, 1)).toEqual(["C"]);
+    expect(first("C major", 5, 1)).toEqual(["G"]);
+    expect(first("C major", 2, 1)).toEqual(["Dm"]);
+    expect(first("C major", 7, 1)).toEqual(["Bdim"]);
   });
 
   test("the stacked chords and the key's chords are among them", () => {
