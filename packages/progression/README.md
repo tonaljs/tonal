@@ -164,6 +164,46 @@ Progression.fromPattern("three-four", "F", { patterns }); // => ["Am7", "Bbmaj7"
 
 The option doesn't change the catalogue: each call says which one it uses.
 
+## Tonal centres
+
+### `Progression.keys`
+
+`keys(chords: string[], options?: { change?: number }) => string[]`
+
+The key of each chord of a progression: where it modulates, and where it only borrows. A secondary dominant keeps the key it's in; a cadence somewhere else moves.
+
+```js
+Progression.keys(["Cmaj7", "A7", "Dm7", "G7", "Cmaj7"]);
+// => ["C major", "C major", "C major", "C major", "C major"]
+Progression.keys(["Cm7", "F7", "Bbmaj7", "Ebmaj7", "Am7b5", "D7", "Gm6"]);
+// => ["Bb major", "Bb major", "Bb major", "Bb major", "G minor", "G minor", "G minor"]
+```
+
+The most common key of a song is its reference key. To read a chart: `Progression.keys(Chart.chords(chart).map((c) => c.value))`.
+
+The rules:
+
+1. **What a chord can be in a key.** Each chord scores each of the 24 keys by its degree from the tonic and its class: major (C, Cmaj7, C6), minor (Cm7), minor tonic (Cm6, CmMaj7), dominant (C7), sus dominant (C7sus4), half-diminished, diminished.
+
+   | In a major key                                                                           | Score | In a minor key                             | Score |
+   | ---------------------------------------------------------------------------------------- | ----- | ------------------------------------------ | ----- |
+   | I, V7                                                                                    | 3     | i (minor or minor tonic), V7               | 3     |
+   | V7sus4                                                                                   | 2.5   | iiø                                        | 2.5   |
+   | ii, iii, vi, IV                                                                          | 2     | bIII, iv, bVI, V7sus4                      | 2     |
+   | VI7                                                                                      | 1.5   | bVII7, vii°                                | 1.5   |
+   | I7, bII7, II7, III7, IV7, bVI7, bVII7, i minor tonic, #i°, biii°, iiø, iv, V, viiø, vii° | 1     | I, ii, v, bII7, II7, bIII7, IV7, VIø, bVII | 1     |
+   | i, bIII7, iiiø, #ivø, #iv°, v, bVI, viø, bVII, VII7                                      | 0.5   | I7, bII, IV, VII7                          | 0.5   |
+   | anything else                                                                            | −1    | anything else                              | −1    |
+
+   The full table is in `keys.ts`.
+
+2. **Cadences.** A dominant resolving down a fifth to a major or minor chord adds 2 to the key it lands in, on the dominant, the landing and the ii before; not when the landing is a ii itself (a minor chord followed by its dominant).
+3. **Changing key costs `change`** (4 by default). The keys are the path through the chords with the highest total score, so one chord rarely moves the key and a cadence does. On a tie, a chord stays in the key before: a pivot chord belongs to the key it comes from.
+4. **Spelling.** A key is spelled as a chord on its tonic spells it (Gbmaj7 gives "Gb major"); otherwise with flats for majors (Db, Gb, Ab) and the usual minors (C#, F#, G#).
+5. A chord repeated right after itself counts once; a symbol that isn't a chord takes the key of the chord before (`""` before the first chord).
+
+It's a model of functional harmony. On a corpus of 1,454 jazz standards, the most common key is the one written on the chart for 74% of them (and its relative for 5%); most of the rest are blues (I7 as a tonic reads as the V of IV) and modal tunes (there are no cadences to find).
+
 ## References
 
 - [Roman numeral analysis](https://en.wikipedia.org/wiki/Roman_numeral_analysis)

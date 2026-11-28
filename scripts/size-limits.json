@@ -4,10 +4,10 @@
   "import { Chord } from \"tonal\"": 37500,
   "import { Scale } from \"tonal\"": 36700,
   "import { Key } from \"tonal\"": 51100,
-  "import { Progression } from \"tonal\"": 26300,
+  "import { Progression } from \"tonal\"": 29100,
   "import { Chart } from \"tonal\"": 34600,
   "import { Voicing } from \"tonal\"": 63900,
-  "import * as Tonal from \"tonal\"": 133600,
+  "import * as Tonal from \"tonal\"": 136400,
   "import { get } from \"@tonaljs/note\"": 1900,
   "import { parse } from \"@tonaljs/ireal\"": 33500
 }

@@ -260,6 +260,7 @@ exports[`tonal > Modules exports functions 1`] = `
     "find",
     "fromPattern",
     "fromRomanNumerals",
+    "keys",
     "patterns",
     "toRomanNumerals",
   ],

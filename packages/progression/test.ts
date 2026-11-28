@@ -2,7 +2,7 @@ import { get as getChord } from "@tonaljs/chord";
 import { all as allChordTypes, get as getChordType } from "@tonaljs/chord-type";
 import { majorKey } from "@tonaljs/key";
 import { describe, expect, test } from "vitest";
-import Progression, { find, fromPattern, patterns } from "./index";
+import Progression, { find, fromPattern, keys, patterns } from "./index";
 
 const $ = (str: string) => str.split(" ");
 
@@ -374,5 +374,51 @@ describe("named progressions", () => {
   test("patterns() is a copy", () => {
     patterns()[0].aliases.push("changed");
     expect(patterns()[0].aliases).not.toContain("changed");
+  });
+});
+
+describe("keys", () => {
+  // the keys of a progression, short: "C" major, "Gm" minor
+  const short = (chords: string, options?: { change?: number }) =>
+    keys($(chords), options)
+      .map((k) => k.replace(" major", "").replace(" minor", "m"))
+      .join(" ");
+
+  test("a cadence sets the key", () => {
+    expect(short("Dm7 G7 Cmaj7")).toBe("C C C");
+    expect(short("Bm7b5 E7 Am6")).toBe("Am Am Am");
+  });
+  test("a secondary dominant stays in its key", () => {
+    expect(short("Cmaj7 A7 Dm7 G7 Cmaj7")).toBe("C C C C C");
+  });
+  test("modulations by cadence", () => {
+    expect(
+      short(
+        "Gm7 C7 Fmaj7 Cm7 F7 Bbmaj7 Abm7 Db7 Gbmaj7 Em7 A7 Dmaj7 Gm7 C7 Fmaj7",
+      ),
+    ).toBe("F F F Bb Bb Bb Gb Gb Gb D D D F F F");
+    // a lone chord before a cadence belongs to it: Fmaj7 is the IV of Bb
+    expect(short("Fmaj7 Cm7 F7 Bbmaj7")).toBe("Bb Bb Bb Bb");
+  });
+  test("to the relative minor; a pivot chord stays in the key before", () => {
+    expect(short("Cm7 F7 Bbmaj7 Ebmaj7 Am7b5 D7 Gm6")).toBe(
+      "Bb Bb Bb Bb Gm Gm Gm",
+    );
+  });
+  test("changing key costs `change`", () => {
+    // a backdoor dominant: in C, unless changing key is cheap
+    expect(short("Cmaj7 Fm7 Bb7 Cmaj7")).toBe("C C C C");
+    expect(short("Cmaj7 Fm7 Bb7 Cmaj7", { change: 1 })).not.toBe("C C C C");
+  });
+  test("keys are spelled as their tonic chords", () => {
+    expect(short("C#m7 F#7 Bmaj7 G#m7 C#7 F#maj7")).toBe("B B B F# F# F#");
+    expect(short("Ebm7 Ab7 Dbmaj7")).toBe("Db Db Db");
+  });
+  test("repeats, N.C. and invalid input", () => {
+    expect(short("Cmaj7 Cmaj7 N.C. Dm7 G7 C6")).toBe("C C C C C C");
+    expect(keys($("N.C. Dm7 G7 C"))[0]).toBe("");
+    expect(keys([])).toEqual([]);
+    expect(keys("Dm7 G7" as unknown as string[])).toEqual([]);
+    expect(keys($("Xyz"))).toEqual([""]);
   });
 });
