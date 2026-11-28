@@ -223,6 +223,18 @@ Key.minorKey("A").harmonic.chords; // => ["AmMaj7", "Bm7b5", "C+maj7", "Dm7", "E
   `function` and a `chordScale` chosen by function. Pass the neighbours:
   related ii chords, backdoor and diminished readings need them. The key is
   `"C major"` or `"A minor"`; for a whole progression, `map` over the chords.
+- `Key.substitutes(key, chord, { next, kinds })` is `Chord.substitutes` plus
+  the key's own: `"diatonic"` (chords of the key with the same function) and
+  `"borrowed"` (from `Key.borrowedChords`, the modal interchange table: each
+  with its numeral, the scale it comes from and the numerals it replaces).
+  In a key, the related ii of a dominant to a minor chord is an m7b5:
+
+  ```js
+  Key.substitutes("C major", "Fmaj7", { kinds: ["diatonic", "borrowed"] }).map(
+    (s) => s.chords[0],
+  ); // => ["Dm7", "Ebmaj7", "Fm7", "Fm6", "Bbmaj7"]
+  ```
+
 - `Scale.outside(scale, chord)` lists the chord notes that aren't in the
   scale, spelled as in the chord: `Scale.outside("C major", "Bb7")` is
   `["Bb", "Ab"]`, and `[]` when the chord fits. To list the chord types that

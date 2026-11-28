@@ -96,8 +96,8 @@ Key.minorKey("C"); // =>
     chordScales: ["C minor", "D locrian", "Eb major", "F dorian", "G phrygian", "Ab lydian", "Bb mixolydian"],
     secondaryDominants: ["G7", "", "", "C7", "D7", "Eb7", "F7"],
     secondaryDominantSupertonics: ["Dm7b5", "", "", "Gm7b5", "Am7b5", "Bbm7", "Cm7"],
-    substituteDominants: ["Db7", "", "", "Gb7", "Ab7", "A7", "Cb7"],
-    substituteDominantSupertonics: ["Abm7", "", "", "Dbm7", "Ebm7", "Em7", "Gbm7"],
+    substituteDominants: ["Db7", "", "", "Gb7", "Ab7", "A7", "B7"],
+    substituteDominantSupertonics: ["Abm7", "", "", "Dbm7", "Ebm7", "Em7", "F#m7"],
   },
   harmonic: {
     tonic: "C",
@@ -168,7 +168,7 @@ Return a list of all available chords for a given minor key:
 Key.minorKeyChords("C")
   .map((chord) => chord.name)
   .join(", ");
-// => "Cm7, Dm7b5, Ebmaj7, Fm7, Gm7, Abmaj7, Bb7, G7, C7, D7, Eb7, F7, Gm7b5, Am7b5, Bbm7, Db7, Gb7, Ab7, A7, Cb7, Abm7, Dbm7, Ebm7, Em7, Gbm7, CmMaj7, Eb+maj7, Bo7, Am7, Cm6, Dm7, Bm7b5, Em7b5"
+// => "Cm7, Dm7b5, Ebmaj7, Fm7, Gm7, Abmaj7, Bb7, G7, C7, D7, Eb7, F7, Gm7b5, Am7b5, Bbm7, Db7, Gb7, Ab7, A7, B7, Abm7, Dbm7, Ebm7, Em7, F#m7, CmMaj7, Eb+maj7, Bo7, Am7, Cm6, Dm7, Bm7b5, Em7b5"
 ```
 
 ### `Key.analyzeChord`
@@ -234,6 +234,33 @@ chords.map(
 ```
 
 The key stays the same for every chord: finding the local keys of a progression (a ii-V-I in another key) is not part of it.
+
+### `Key.borrowedChords`
+
+`borrowedChords(key: string) => { chord, numeral, from, replaces }[]`
+
+The chords a key borrows from its parallel scales (modal interchange), with the scale they come from and the numerals of the key's chords they replace. Major keys follow Pease's tables (_Jazz Composition_); minor keys borrow from the parallel major: Imaj7 (the Picardy 3rd), iim7 for ii7b5, IVmaj7 for IV7.
+
+```js
+Key.borrowedChords("C major").map((b) => b.chord);
+// => ["Dm7b5", "Ebmaj7", "Fm7", "Fm6", "Gm7", "Abmaj7", "Bb7", "Dbmaj7", "Bbmaj7", "Cmaj7#11"]
+Key.borrowedChords("C major")[5];
+// => { chord: "Abmaj7", numeral: "bVImaj7", from: "C minor", replaces: ["iv"] }
+Key.borrowedChords("A minor").map((b) => b.chord); // => ["Amaj7", "Bm7", "Dmaj7"]
+```
+
+### `Key.substitutes`
+
+`substitutes(key: string, chord: string, options?: { next?, kinds?, minor? }) => { chords: string[], kind: string }[]`
+
+`Chord.substitutes` in a key, plus the key's own: `"diatonic"`, the key's chords with the same harmonic function (iii and vi for I, ii for IV, vii for V), and `"borrowed"`, the borrowed chords that replace it. The related ii of a dominant to a minor chord of the key is an m7b5.
+
+```js
+Key.substitutes("C major", "Fmaj7").map((s) => `${s.kind}: ${s.chords}`);
+// => ["contained: Am", "diatonic: Dm7", "borrowed: Ebmaj7", "borrowed: Fm7", "borrowed: Fm6", "borrowed: Bbmaj7"]
+Key.substitutes("C major", "E7", { kinds: ["related ii"] });
+// => [{ chords: ["Bm7b5", "E7"], kind: "related ii" }]
+```
 
 ## How to...
 

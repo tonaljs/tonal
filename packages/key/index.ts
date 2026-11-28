@@ -1,4 +1,5 @@
-import { simplify, transpose, transposeFifths } from "@tonaljs/note";
+import { tritoneSubstitute } from "@tonaljs/chord";
+import { transpose, transposeFifths } from "@tonaljs/note";
 import { accToAlt, altToAcc, note } from "@tonaljs/pitch-note";
 import { get as roman } from "@tonaljs/roman-numeral";
 import {
@@ -8,7 +9,21 @@ import {
   keyForms,
 } from "./analyze";
 
+import {
+  type BorrowedChord,
+  borrowedChordsOf,
+  type KeySubstitute,
+  type KeySubstitutesOptions,
+  keySubstitutes,
+} from "./substitutes";
+
 export type { AnalyzeChordOptions, ChordReading, ChordSource } from "./analyze";
+export type {
+  BorrowedChord,
+  KeySubstitute,
+  KeySubstituteKind,
+  KeySubstitutesOptions,
+} from "./substitutes";
 
 const Empty: readonly string[] = Object.freeze([] as string[]);
 
@@ -155,7 +170,7 @@ function keyScale(
       triads,
     );
     const substituteDominants = secondaryDominants.map((chord) =>
-      chord ? substituteRoot(chord.slice(0, -1)) + "7" : "",
+      chord ? tritoneSubstitute(chord) : "",
     );
     const substituteDominantSupertonics =
       substituteSupertonics(substituteDominants);
@@ -179,14 +194,6 @@ function keyScale(
       substituteDominantsMinorRelative: substituteDominantSupertonics,
     };
   };
-}
-
-// The root of a substitute dominant: a diminished fifth above the dominant's
-// root (Gb for C), or its simplest enharmonic when that has a double
-// accidental, as a lead sheet writes it (A, not Bbb, for Eb)
-function substituteRoot(dominantRoot: string) {
-  const root = transpose(dominantRoot, "5d");
-  return note(root).acc.length > 1 ? simplify(root) : root;
 }
 
 // The root of the ii chord of a dominant: a fifth above its root
@@ -443,6 +450,68 @@ export function analyzeChord(
 ): ChordReading[] {
   const forms = keyForms(key, MajorScale, minorKey);
   return forms ? analyze(forms, chord, options) : [];
+}
+
+/**
+ * Get the chords a key borrows from its parallel scales (modal interchange),
+ * as Pease lists them, with their numeral, the scale they come from and the
+ * numerals of the key's chords they replace. In a major key (C):
+ *
+ * - from C minor: Dm7b5 (ii7b5) for ii7; Ebmaj7 (bIIImaj7) for IV or V7;
+ *   Fm7 and Fm6 (iv7, iv6) for IV; Gm7 (v7) for V7; Abmaj7 (bVImaj7) and
+ *   Bb7 (bVII7) for iv;
+ * - from C phrygian: Dbmaj7 (bIImaj7) for iv;
+ * - from C mixolydian: Bbmaj7 (bVIImaj7) for IV;
+ * - from C lydian: Cmaj7#11 (Imaj7#11), a tonic alias.
+ *
+ * In a minor key, from the parallel major (Jazzology, and Pease's Ionian
+ * into Dorian): Imaj7 for i (the Picardy 3rd, the most common), iim7 for
+ * ii7b5, and IVmaj7 for IV7. It returns `[]` for an invalid key.
+ *
+ * @param key - a key name, like "C major" (or "C") or "A minor"
+ * @example
+ * Key.borrowedChords("C major")[0]; // => { chord: "Dm7b5", numeral: "ii7b5", from: "C minor", replaces: ["ii7"] }
+ * Key.borrowedChords("C major").map((b) => b.chord); // => ["Dm7b5", "Ebmaj7", "Fm7", "Fm6", "Gm7", "Abmaj7", "Bb7", "Dbmaj7", "Bbmaj7", "Cmaj7#11"]
+ * Key.borrowedChords("A minor").map((b) => b.chord); // => ["Amaj7", "Bm7", "Dmaj7"]
+ */
+export function borrowedChords(key: string): BorrowedChord[] {
+  return borrowedChordsOf(key, { majorKey: MajorScale, minorKey });
+}
+
+/**
+ * Get the substitutes of a chord in a key: `Chord.substitutes`, then the
+ * key's own, each as `{ chords, kind }`:
+ *
+ * - "diatonic": the key's chords with the same harmonic function
+ *   (`chordsHarmonicFunction`), triads for a triad and 7th chords otherwise:
+ *   Em7 and Am7 for Cmaj7 in C, Dm7 for Fmaj7, Bm7b5 for G7. Only for a chord
+ *   of the key: its root a degree and its notes in the scale (the natural
+ *   minor's, in a minor key);
+ * - "borrowed": the chords of `Key.borrowedChords` that replace the chord's
+ *   numeral (by root, 3rd, and a dominant for "V7").
+ *
+ * The related ii of a dominant is an m7b5 when its target (a 4th up) is a
+ * minor chord of the key, unless `minor` says otherwise: Bm7b5 for E7 in C.
+ * `kinds` keeps only those kinds. It returns `[]` for an invalid key or a
+ * chord without root.
+ *
+ * @param key - a key name, like "C major" (or "C") or "A minor"
+ * @param chord - the chord symbol, like "G7"
+ * @param options - `next`: the chord after; `kinds`; `minor`
+ * @example
+ * Key.substitutes("C major", "Fmaj7").map((s) => `${s.kind}: ${s.chords}`);
+ * // => ["contained: Am", "diatonic: Dm7", "borrowed: Ebmaj7", "borrowed: Fm7", "borrowed: Fm6", "borrowed: Bbmaj7"]
+ * Key.substitutes("C major", "E7", { kinds: ["related ii"] }); // => [{ chords: ["Bm7b5", "E7"], kind: "related ii" }]
+ */
+export function substitutes(
+  key: string,
+  chord: string,
+  options: KeySubstitutesOptions = {},
+): KeySubstitute[] {
+  return keySubstitutes(key, chord, options, {
+    majorKey: MajorScale,
+    minorKey,
+  });
 }
 
 /** @deprecated Use the named exports instead. */

@@ -190,7 +190,7 @@ describe("@tonal/key", () => {
         $("- Bbm7 Cm7 Dbm7 Ebm7 Fm7 -"),
       );
       expect(natural.substituteDominantSupertonics).toEqual(
-        $("Abm7 - - Dbm7 Ebm7 Em7 Gbm7"),
+        $("Abm7 - - Dbm7 Ebm7 Em7 F#m7"),
       );
       expect(harmonic.substituteDominantSupertonics).toEqual(
         $("- - - Dbm7 Ebm7 Em7 -"),
@@ -271,26 +271,27 @@ describe("@tonal/key", () => {
       return [major, minor.natural, minor.harmonic, minor.melodic];
     });
 
-  test("substitute dominants are spelled without double accidentals", () => {
+  test("substitute dominants are spelled with fewer accidentals", () => {
+    // as Chord.tritoneSubstitute: B7, not Cb7, for F7
     expect(Key.majorKey("Eb").substituteDominants).toEqual(
-      $("- Gb7 Ab7 A7 Cb7 Db7 -"),
+      $("- Gb7 Ab7 A7 B7 Db7 -"),
     );
     expect(Key.majorKey("Eb").substituteDominantSupertonics).toEqual(
-      $("- Dbm7 Ebm7 Em7 Gbm7 Abm7 -"),
+      $("- Dbm7 Ebm7 Em7 F#m7 Abm7 -"),
     );
     expect(Key.majorKey("Gb").substituteDominants).toEqual(
-      $("- A7 Cb7 C7 D7 Fb7 -"),
+      $("- A7 B7 C7 D7 E7 -"),
     );
     expect(Key.minorKey("C").natural.substituteDominants).toEqual(
-      $("Db7 - - Gb7 Ab7 A7 Cb7"),
+      $("Db7 - - Gb7 Ab7 A7 B7"),
     );
-    const doubled = allKeyScales()
+    const awkward = allKeyScales()
       .flatMap((s) => [
         ...s.substituteDominants,
         ...s.substituteDominantSupertonics,
       ])
-      .filter((name) => /^[A-G](bb|##)/.test(name));
-    expect(doubled).toEqual([]);
+      .filter((name) => /^([A-G](bb|##)|Cb|Fb|E#|B#)/.test(name));
+    expect(awkward).toEqual([]);
   });
 
   test("every chord scale has only the notes of its key", () => {
