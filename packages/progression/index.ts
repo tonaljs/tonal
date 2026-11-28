@@ -151,7 +151,9 @@ export type {
   FindOptions,
   Pattern,
   PatternFamily,
+  PatternLike,
   PatternMatch,
+  PatternOptions,
 } from "./patterns";
 
 /** @deprecated Use the named exports instead. */

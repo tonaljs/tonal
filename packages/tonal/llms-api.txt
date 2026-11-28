@@ -1559,8 +1559,8 @@ Progression.find(chords: string[], pattern: string | string[], options?: FindOpt
   Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "long cadence")[0].tonic; // => "C"
   Progression.find(["Fm7", "Bb7", "Ebmaj7", "Ebmaj7"], "IIm7 V7 Imaj7"); // => [{ name: "", start: 0, length: 4, tonic: "Eb" }]
 
-Progression.fromPattern(pattern: string | string[], tonic: string): string[]
-  Get the chords of a named progression in a key: the first alternative of each numeral, as `fromRomanNumerals` reads it. It returns `[]` for an unknown pattern.
+Progression.fromPattern(pattern: string | string[], tonic: string, options?: PatternOptions): string[]
+  Get the chords of a named progression in a key: the first alternative of each numeral, as `fromRomanNumerals` reads it. It returns `[]` for an unknown pattern. Names are looked up as in `Progression.find`, in the catalogue or in the `patterns` option.
   Progression.fromPattern("ii–V–I", "F"); // => ["Gm7", "C7", "Fmaj7"]
   Progression.fromPattern("long cadence", "Bb"); // => ["Dm7", "G7", "Cm7", "F7", "Bbmaj7"]
   Progression.fromPattern("andalusian cadence", "A"); // => ["Am", "G", "F", "E"]
@@ -1583,10 +1583,6 @@ Progression.toRomanNumerals(tonic: NoteLiteral, chords: string[]): string[]
 
 Types:
 
-type FindOptions = {
-  literal?: boolean | undefined;
-}
-
 type NamedPitch = {
   name: string;
 }
@@ -1608,6 +1604,10 @@ type PatternMatch = {
   start: number;
   length: number;
   tonic: string;
+}
+
+type PatternOptions = {
+  patterns?: PatternLike[] | undefined;
 }
 
 type Pitch = {

@@ -278,7 +278,10 @@ standards. `Progression.find(chords, "ii–V–I")` finds one in any key (by
 name, alias or numerals, matching chords by `Chord.get(c).family`), and
 `Progression.fromPattern("ii–V–I", "F")` gives its chords in a key. A match
 doesn't end on a minor tonic followed by its dominant (in Em7 A7 Dm7 G7, Dm7
-is a ii); `{ literal: true }` matches the numerals as written:
+is a ii); `{ literal: true }` matches the numerals as written. To add
+patterns, pass a catalogue of your own, `{ patterns: [...Progression.patterns(),
+{ name, numerals }] }`, to `find` and `fromPattern` (it takes the place of
+the default one; nothing global changes):
 
 ```js
 Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "ii–V–I"); // => [{ name: "ii–V–I", start: 2, length: 3, tonic: "C" }]

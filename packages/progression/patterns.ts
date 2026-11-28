@@ -309,28 +309,56 @@ export function patterns(): Pattern[] {
   }));
 }
 
+/** A pattern of the `patterns` option: a name and numerals; aliases and family are optional. */
+export type PatternLike = Pick<Pattern, "name" | "numerals"> &
+  Partial<Pick<Pattern, "aliases" | "family">>;
+
+/** The options of `Progression.fromPattern`. */
+export type PatternOptions = {
+  /** The catalogue to look names up in (default `Progression.patterns()`) */
+  patterns?: PatternLike[];
+};
+
 // names and aliases, first as written (the case of a numeral matters: "iv–I"
 // isn't "IV–I"), then ignoring case; spaces and the kind of dash never matter
 const dashes = (name: string) => name.replace(/[\s–—-]+/g, "-");
-const EXACT = new Map<string, Pattern>();
-const ANY_CASE = new Map<string, Pattern>();
-for (const p of PATTERNS) {
-  for (const name of [p.name, ...p.aliases]) {
-    if (!EXACT.has(dashes(name))) EXACT.set(dashes(name), p);
-    const lower = dashes(name).toLowerCase();
-    if (!ANY_CASE.has(lower)) ANY_CASE.set(lower, p);
+type Lookup = (name: string) => PatternLike | undefined;
+function lookupOf(list: PatternLike[]): Lookup {
+  const exact = new Map<string, PatternLike>();
+  const anyCase = new Map<string, PatternLike>();
+  for (const p of list) {
+    if (!p || typeof p.name !== "string" || !Array.isArray(p.numerals))
+      continue;
+    const aliases = Array.isArray(p.aliases) ? p.aliases : [];
+    for (const name of [p.name, ...aliases]) {
+      if (typeof name !== "string" || !name) continue;
+      if (!exact.has(dashes(name))) exact.set(dashes(name), p);
+      const lower = dashes(name).toLowerCase();
+      if (!anyCase.has(lower)) anyCase.set(lower, p);
+    }
   }
+  return (name) =>
+    exact.get(dashes(name)) ?? anyCase.get(dashes(name).toLowerCase());
 }
-const byName = (name: string) =>
-  EXACT.get(dashes(name)) ?? ANY_CASE.get(dashes(name).toLowerCase());
+const CATALOGUE = lookupOf(PATTERNS);
+// a catalogue of the option is indexed once per array
+const LOOKUPS = new WeakMap<PatternLike[], Lookup>();
+function lookup(options?: PatternOptions): Lookup {
+  const list = options?.patterns;
+  if (!Array.isArray(list)) return CATALOGUE;
+  let found = LOOKUPS.get(list);
+  if (!found) LOOKUPS.set(list, (found = lookupOf(list)));
+  return found;
+}
 
 /** A pattern by name or alias, or its numerals (a string with spaces, or an array). */
 function patternOf(
   pattern: string | string[],
-): { name: string; numerals: string[]; family?: PatternFamily } | undefined {
+  options?: PatternOptions,
+): { name: string; numerals: string[] } | undefined {
   if (Array.isArray(pattern)) return { name: "", numerals: pattern };
   if (typeof pattern !== "string") return undefined;
-  const named = byName(pattern);
+  const named = lookup(options)(pattern);
   if (named) return named;
   const numerals = pattern.trim().split(/\s+/).filter(Boolean);
   return numerals.length > 1 || romanNumeral(numerals[0] ?? "").empty === false
@@ -339,7 +367,7 @@ function patternOf(
 }
 
 /** The options of `Progression.find`. */
-export type FindOptions = {
+export type FindOptions = PatternOptions & {
   /** Match the numerals as written, also a minor tonic followed by its dominant (default false) */
   literal?: boolean;
 };
@@ -389,15 +417,21 @@ function slotsOf(numerals: string[]): Slot[] | undefined {
  * `"IIm7 V7 Im7"` finds nothing. `{ literal: true }` matches the numerals as written, without
  * this rule. It returns `[]` for an unknown pattern.
  *
+ * Names are looked up in `Progression.patterns()`, or in the catalogue of
+ * the `patterns` option, which takes its place: to add patterns, extend it
+ * (`[...Progression.patterns(), { name: "three-four", numerals: ["IIIm7",
+ * "IVmaj7"] }]`). A pattern of the option needs a name and numerals.
+ *
  * @param chords - chord symbols, as `Chart.chords(chart).map((c) => c.value)` gives them
  * @param pattern - a pattern name or alias, or numerals
- * @param options - `literal`: match as written, also a minor tonic that is a ii (false)
+ * @param options - `literal`: match as written, also a minor tonic that is a ii (false); `patterns`: the catalogue (`Progression.patterns()`)
  * @returns where the pattern appears, in order
  * @example
  * Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "ii–V–I"); // => [{ name: "ii–V–I", start: 2, length: 3, tonic: "C" }]
  * Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "long cadence")[0].tonic; // => "C"
  * Progression.find(["Fm7", "Bb7", "Ebmaj7", "Ebmaj7"], "IIm7 V7 Imaj7"); // => [{ name: "", start: 0, length: 4, tonic: "Eb" }]
  * Progression.find(["Em7", "A7", "Dm7", "G7", "Cmaj7"], "IIm7 V7 Im7", { literal: true }); // => [{ name: "", start: 0, length: 3, tonic: "D" }]
+ * Progression.find(["Em7", "Fmaj7", "C"], "three-four", { patterns: [{ name: "three-four", numerals: ["IIIm7", "IVmaj7"] }] }); // => [{ name: "three-four", start: 0, length: 2, tonic: "C" }]
  * Progression.find(["C", "G7"], "nothing"); // => []
  */
 export function find(
@@ -406,7 +440,7 @@ export function find(
   options?: FindOptions,
 ): PatternMatch[] {
   if (!Array.isArray(chords)) return [];
-  const found = patternOf(pattern);
+  const found = patternOf(pattern, options);
   const slots: Slot[] | undefined = found ? slotsOf(found.numerals) : undefined;
   if (!found || !slots) return [];
 
@@ -490,21 +524,25 @@ export function find(
 /**
  * Get the chords of a named progression in a key: the first alternative of
  * each numeral, as `fromRomanNumerals` reads it. It returns `[]` for an
- * unknown pattern.
+ * unknown pattern. Names are looked up as in `Progression.find`, in the
+ * catalogue or in the `patterns` option.
  *
  * @param pattern - a pattern name or alias of `Progression.patterns()`, or numerals
  * @param tonic - the tonic, like "C"
+ * @param options - `patterns`: the catalogue (`Progression.patterns()`)
  * @returns the chord symbols
  * @example
  * Progression.fromPattern("ii–V–I", "F"); // => ["Gm7", "C7", "Fmaj7"]
  * Progression.fromPattern("long cadence", "Bb"); // => ["Dm7", "G7", "Cm7", "F7", "Bbmaj7"]
  * Progression.fromPattern("andalusian cadence", "A"); // => ["Am", "G", "F", "E"]
+ * Progression.fromPattern("three-four", "F", { patterns: [{ name: "three-four", numerals: ["IIIm7", "IVmaj7"] }] }); // => ["Am7", "Bbmaj7"]
  */
 export function fromPattern(
   pattern: string | string[],
   tonic: string,
+  options?: PatternOptions,
 ): string[] {
-  const found = patternOf(pattern);
+  const found = patternOf(pattern, options);
   if (!found || !slotsOf(found.numerals) || note(tonic).empty) return [];
   return found.numerals.map((numeral) => {
     const rn = romanNumeral(String(numeral).split("|")[0].trim());

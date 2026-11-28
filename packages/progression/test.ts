@@ -323,6 +323,38 @@ describe("named progressions", () => {
     expect(fromPattern("ii–V–I", "H")).toEqual([]);
   });
 
+  test("a catalogue of its own", () => {
+    const threeFour = { name: "three-four", numerals: ["IIIm7", "IVmaj7"] };
+    const mine = [...patterns(), threeFour];
+    const chords = $("Em7 Fmaj7 Dm7 G7 Cmaj7");
+    expect(find(chords, "three-four", { patterns: mine })).toEqual([
+      { name: "three-four", start: 0, length: 2, tonic: "C" },
+    ]);
+    // the option takes the place of the catalogue
+    expect(find(chords, "ii–V–I", { patterns: mine })[0].tonic).toBe("C");
+    expect(find(chords, "three-four")).toEqual([]);
+    expect(find(chords, "ii–V–I", { patterns: [threeFour] })).toEqual([]);
+    // aliases, and the ii rule
+    const minor = {
+      name: "minor landing",
+      aliases: ["ml"],
+      numerals: ["V7", "Im7"],
+    };
+    expect(find($("A7 Dm7 G7"), "ml", { patterns: [minor] })).toEqual([]);
+    expect(find($("A7 Dm7 Bb7"), "ML", { patterns: [minor] })[0].tonic).toBe(
+      "D",
+    );
+    // numerals still work; invalid entries are skipped
+    expect(find(chords, "IIm7 V7", { patterns: [] })[0].tonic).toBe("C");
+    const odd = [null, { name: 3 }, threeFour] as unknown as typeof mine;
+    expect(find(chords, "three-four", { patterns: odd })).toHaveLength(1);
+    expect(fromPattern("three-four", "F", { patterns: mine })).toEqual([
+      "Am7",
+      "Bbmaj7",
+    ]);
+    expect(fromPattern("three-four", "F")).toEqual([]);
+  });
+
   test("fromPattern", () => {
     expect(fromPattern("ii–V–I", "F")).toEqual(["Gm7", "C7", "Fmaj7"]);
     expect(fromPattern("andalusian cadence", "A")).toEqual([

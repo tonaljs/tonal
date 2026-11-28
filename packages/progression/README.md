@@ -119,7 +119,7 @@ In the same corpus, I–IV–V is in 21% of bluegrass songs and 16% of pop songs
 
 ### `Progression.find`
 
-`find(chords: string[], pattern: string | string[], options?: { literal?: boolean }) => PatternMatch[]`
+`find(chords: string[], pattern: string | string[], options?: { literal?: boolean, patterns?: PatternLike[] }) => PatternMatch[]`
 
 Every place a pattern appears in a list of chords, in any key: its first chord (`start`), how many chords it spans (`length`), the `tonic` its numerals are read from, and its `name`. The pattern is a name or alias (case and dashes don't matter), or numerals.
 
@@ -138,7 +138,7 @@ Progression.find(["Fm7", "Bb7", "Ebmaj7", "Ebmaj7"], "IIm7 V7 Imaj7");
 
 ### `Progression.fromPattern`
 
-`fromPattern(pattern: string | string[], tonic: string) => string[]`
+`fromPattern(pattern: string | string[], tonic: string, options?: { patterns?: PatternLike[] }) => string[]`
 
 The chords of a pattern in a key: the first alternative of each numeral.
 
@@ -147,6 +147,22 @@ Progression.fromPattern("ii–V–I", "F"); // => ["Gm7", "C7", "Fmaj7"]
 Progression.fromPattern("long cadence", "Bb"); // => ["Dm7", "G7", "Cm7", "F7", "Bbmaj7"]
 Progression.fromPattern("andalusian cadence", "A"); // => ["Am", "G", "F", "E"]
 ```
+
+### A catalogue of your own
+
+`find` and `fromPattern` look names up in `Progression.patterns()`, or in the catalogue of the `patterns` option, which takes its place. To add patterns, extend the catalogue; a pattern needs a `name` and `numerals`, and can have `aliases`:
+
+```js
+const patterns = [
+  ...Progression.patterns(),
+  { name: "three-four", numerals: ["IIIm7", "IVmaj7"] },
+];
+Progression.find(["Em7", "Fmaj7", "C"], "three-four", { patterns });
+// => [{ name: "three-four", start: 0, length: 2, tonic: "C" }]
+Progression.fromPattern("three-four", "F", { patterns }); // => ["Am7", "Bbmaj7"]
+```
+
+The option doesn't change the catalogue: each call says which one it uses.
 
 ## References
 
