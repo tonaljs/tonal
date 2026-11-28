@@ -124,16 +124,21 @@ function timeline(slots: Slot[], bars: string[][], chosen: string[][]) {
   return list;
 }
 
-// Voice a list of chords so they move little, or each on its own
-function voiceAll(chords: string[]): string[][] {
-  try {
-    const list = Voicing.sequence(chords);
-    return chords.map((c, i) =>
-      list[i]?.length ? list[i] : voice(Chord.get(c).notes),
-    );
-  } catch {
-    return chords.map((c) => voice(Chord.get(c).notes));
-  }
+// The options of the voice leading: the root in the bass and four voices
+// with the available tensions above, as a pianist voices a chart
+const LEADING = {
+  voices: 4,
+  extensions: "available",
+  bass: "root",
+} as const;
+
+// Each chord as written, in root position, or voice led: one call to
+// Voicing.sequence, the voices moving as little as they can
+function voiceAll(chords: string[], leading: boolean): string[][] {
+  const plain = (c: string) => voice(Chord.get(c).notes);
+  if (!leading) return chords.map(plain);
+  const list = Voicing.sequence(chords, LEADING);
+  return chords.map((c, i) => (list[i]?.length ? list[i] : plain(c)));
 }
 
 export function Reharmonizer() {
@@ -143,6 +148,7 @@ export function Reharmonizer() {
   const [choices, setChoices] = useState<Record<number, number>>({});
   const [inspect, setInspect] = useState<number | null>(null);
   const [melody, setMelody] = useState(false);
+  const [leading, setLeading] = useState(true);
   const [motifText, setMotifText] = useState("C4 E4 G4 A4 Bb4 A4 G4 E4");
   const [motifChord, setMotifChord] = useState("C7");
   const [linkRead, setLinkRead] = useState(false);
@@ -167,6 +173,7 @@ export function Reharmonizer() {
       setChoices(read);
     }
     if (params.get("melody") === "true") setMelody(true);
+    if (params.get("leading") === "false") setLeading(false);
     const motif = params.get("motif");
     if (motif) setMotifText(motif);
     const over = params.get("over");
@@ -184,6 +191,7 @@ export function Reharmonizer() {
       .map(([s, o]) => `${s}:${o}`)
       .join(",");
     if (picks) params.set("picks", picks);
+    if (!leading) params.set("leading", "false");
     if (melody) {
       params.set("melody", "true");
       params.set("motif", motifText);
@@ -194,7 +202,16 @@ export function Reharmonizer() {
       "",
       `${window.location.pathname}?${params.toString().replaceAll("+", "%20")}`,
     );
-  }, [linkRead, text, keyChoice, choices, melody, motifText, motifChord]);
+  }, [
+    linkRead,
+    text,
+    keyChoice,
+    choices,
+    melody,
+    leading,
+    motifText,
+    motifChord,
+  ]);
 
   const bars = useMemo(() => readBars(text), [text]);
   const slots = useMemo(() => {
@@ -282,7 +299,10 @@ export function Reharmonizer() {
 
   const steps = useMemo(() => {
     const build = (version: Played[]): TimedNotes[] => {
-      const voiced = voiceAll(version.map((p) => p.chord));
+      const voiced = voiceAll(
+        version.map((p) => p.chord),
+        leading,
+      );
       const list: TimedNotes[] = [];
       let time = 0;
       version.forEach((p, i) => {
@@ -312,7 +332,16 @@ export function Reharmonizer() {
       return list;
     };
     return { a: build(original), b: build(reharmonized) };
-  }, [original, reharmonized, melody, motif, motifChord, motifOk, bars]);
+  }, [
+    original,
+    reharmonized,
+    melody,
+    motif,
+    motifChord,
+    motifOk,
+    bars,
+    leading,
+  ]);
 
   function start(which: typeof what) {
     setWhat(which);
@@ -464,6 +493,17 @@ export function Reharmonizer() {
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <h2 className="text-lg font-semibold">In {key}</h2>
             <div className="ms-auto flex flex-wrap items-center gap-2 text-sm">
+              <label
+                className="flex items-center gap-2"
+                title="Voicing.sequence: the root in the bass and four voices with tensions, moving as little as they can"
+              >
+                <input
+                  type="checkbox"
+                  checked={leading}
+                  onChange={(e) => setLeading(e.target.checked)}
+                />
+                Voice leading
+              </label>
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -689,6 +729,7 @@ export function Reharmonizer() {
             choices,
             newChords: reharmonized.map((p) => p.chord),
             melody: melody && motifOk ? { motif, motifChord } : null,
+            leading,
           })}
         />
       </section>
@@ -778,6 +819,7 @@ function code(p: {
   choices: Record<number, number>;
   newChords: string[];
   melody: { motif: string[]; motifChord: string } | null;
+  leading: boolean;
 }): string {
   const lines = [
     `const chords = ${show(p.symbols)};`,
@@ -811,6 +853,14 @@ function code(p: {
     );
   }
   lines.push("", `// the reharmonized chords`, `// => ${show(p.newChords)}`);
+  if (p.leading && p.newChords.length) {
+    const some = p.newChords.slice(0, 4);
+    lines.push(
+      "",
+      `Voicing.sequence(${show(some)}, { voices: 4, extensions: "available", bass: "root" });`,
+      `// => ${show(Voicing.sequence(some, LEADING))}`,
+    );
+  }
   if (p.melody && p.newChords.length) {
     lines.push(
       "",
