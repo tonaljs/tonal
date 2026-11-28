@@ -1,5 +1,12 @@
 # @tonaljs/scale
 
+## 4.17.0
+
+### Minor Changes
+
+- 6a6884b: `Scale.chords(scale, { all: true, types, order })`: every chord type whose notes are in the scale, rooted on each degree, common ones first (by `complexity`, or the dictionary's order), for any scale with a tonic. The notes are spelled as in the chord (D F# A in the diminished scale, which has Gb).
+- fcc3b64: `Scale.rank(notes, { chords, types, limit })`: the scales that fit a set of notes and chords, best first ("which scale is this?"). Every tonic is tried with the common scale types; the order is fit, then the more common type, then the evidence of the tonic (first and last chord and note), and each result has its `matched`, `missing` and `outside` notes.
+
 ## 4.16.1
 
 ### Patch Changes
