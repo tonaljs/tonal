@@ -17,7 +17,7 @@
   {
     "slug": "scale-chords",
     "title": "Scale chords",
-    "description": "Pick a tonic and any of 92 scales to see the chord on each degree: triads, sevenths, or chords stacked in fourths or seconds.",
+    "description": "Pick a tonic and any of 92 scales to see the chord on each degree (triads, sevenths, or chords stacked in fourths or seconds), or browse every chord on each degree: the chords to choose from, filtered by type.",
     "docs": [
       {
         "title": "Scales",
