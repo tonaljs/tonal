@@ -407,6 +407,11 @@ Chord.classify(name: string, noteName: string, options?: ClassifyOptions): NoteC
   Chord.classify("C7", "Db"); // => "tension"
   Chord.classify("Cmaj7", "F"); // => "avoid"
 
+Chord.containing(noteName: NoteName, options?: { types?: string[]; }): ContainingChord[]
+  Get the chords that have a note as a chord tone or a tension (`Chord.tensions`), with the note's degree in each: the chords that can harmonise a melody note. The types are maj7, 7 and m7 by default (as Pease harmonises a melody note), or `types`.
+  Chord.containing("C").slice(0, 4); // => [{ chord: "Cmaj7", degree: "1" }, { chord: "Abmaj7", degree: "3" }, { chord: "Fmaj7", degree: "5" }, { chord: "Dbmaj7", degree: "7" }]
+  Chord.containing("C", { types: ["m7b5"] }).map((c) => c.chord); // => ["Cm7b5", "Am7b5", "F#m7b5", "Dm7b5", "Bbm7b5", "Gm7b5", "Em7b5"]
+
 Chord.degreeOf(chordName: ChordNameOrTokens, noteName: NoteName): ChordDegreeName
   Get the degree name that a note plays in a chord, counted from the major scale of the root (the bass of a slash chord doesn't change it). The opposite of `Chord.noteOf`.
   Chord.degreeOf("C7b9", "Db"); // => "b9"
@@ -487,6 +492,12 @@ Chord.steps(chordName: ChordNameOrTokens, tonic?: string): (_normalized: number)
   [0, 1, 2, 3].map(Chord.steps("C")); // => ["C", "E", "G", "C"]
   [-1, 0, 1].map(Chord.steps(["C4", "M"])); // => ["G3", "C4", "E4"]
 
+Chord.substitutes(chordName: string, options?: SubstitutesOptions): Substitute[]
+  Get the substitutes of a chord: the chords that can take its place, each with its kind. A substitute is one chord, or two when it adds a chord (the related ii before a dominant, or an approach chord before `next`). Roots are spelled by interval from the chord's root. A dominant has a major 3rd and a minor 7th; a target has a perfect 5th (not diminished or augmented). In this order, skipping what doesn't apply:
+  Chord.substitutes("G7");
+  Chord.substitutes("G9", { kinds: ["contained"] }).map((s) => s.chords[0]); // => ["Bm7b5", "Dm6"]
+  Chord.substitutes("G7", { kinds: ["related ii"], minor: true }); // => [{ chords: ["Dm7b5", "G7"], kind: "related ii" }]
+
 Chord.tensions(name: ChordNameOrTokens): ChordDegreeName[]
   Get the tensions of a chord: the notes a chord can add without changing what it is, as degree names (`b9`, `9`, `#9`, `11`, `#11`, `b13`, `13`, and `7` on 6, m6 and dim7 chords), counted from the major scale of the root as in `Chord.formula`. It works with a chord type alone, and returns `[]` if the chord isn't valid.
   Chord.tensions("C7"); // => ["b9", "9", "#9", "#11", "b13", "13"]
@@ -504,6 +515,12 @@ Chord.transpose(chordName: string, interval: string): string
   Chord.transpose("Dm7", "P4"); // => "Gm7"
   Chord.transpose("C/E", "M2"); // => "D/F#"
   Chord.transpose("nonsense", "P4"); // => "nonsense"
+
+Chord.tritoneSubstitute(chordName: string): string
+  Get the tritone substitute of a dominant chord: the same type a tritone away, which keeps its 3rd and 7th (swapped) and resolves down a half step. The root is spelled as a diminished 5th or an augmented 4th above, whichever has fewer accidentals (the diminished 5th on a tie). The substitute of the substitute is the chord, spelled as given when its root is natural (F#7 gives C7, which gives Gb7). A slash bass moves with the root.
+  Chord.tritoneSubstitute("G7"); // => "Db7"
+  Chord.tritoneSubstitute("Db7"); // => "G7"
+  Chord.tritoneSubstitute("F#7"); // => "C7"
 
 Types:
 
@@ -545,6 +562,11 @@ type ClassifyOptions = {
   tensions?: string[] | undefined;
 }
 
+type ContainingChord = {
+  chord: string;
+  degree: string;
+}
+
 type FitOptions = {
   scale?: string | undefined;
   bass?: boolean | undefined;
@@ -559,6 +581,20 @@ type NoteClass = '' | 'chord tone' | 'tension' | 'avoid' | 'outside'
 
 type NoteName = (string & {}) | KnownNoteName
   A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
+
+type Substitute = {
+  chords: string[];
+  kind: SubstituteKind;
+}
+
+type SubstituteKind = 'tritone substitute' | 'backdoor' | 'contained' | 'related ii' | 'secondary dominant' | 'substitute dominant' | 'passing diminished'
+  The kind of a substitute, as returned by `Chord.substitutes`.
+
+type SubstitutesOptions = {
+  next?: string | undefined;
+  kinds?: SubstituteKind[] | undefined;
+  minor?: boolean | undefined;
+}
 
 ## ChordType
 
@@ -925,7 +961,7 @@ type ChordReading = {
   chordScale: string;
 }
 
-type ChordSource = 'diatonic' | 'secondary dominant' | 'tritone substitute' | 'related ii' | 'borrowed' | 'backdoor' | 'passing diminished' | 'common-tone diminished' | 'chromatic'
+type ChordSource = 'tritone substitute' | 'backdoor' | 'related ii' | 'secondary dominant' | 'passing diminished' | 'diatonic' | 'borrowed' | 'common-tone diminished' | 'chromatic'
   Where a reading of a chord in a key comes from.
 
 type KeyChord = {

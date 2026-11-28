@@ -581,6 +581,55 @@ Chord.chordScale("Cdim7"); // => "C diminished"
 
 In a key every diatonic chord gets the scale `Key` gives it (`Key.majorKey("C").chordScales`). The rule ranks by notes, not by function: secondary dominants get mixolydian (to a major chord) or phrygian dominant (to a minor chord), borrowed chords their minor-key scale, but a tritone substitute gets phrygian dominant, not the lydian dominant the books give it.
 
+## Substitutions
+
+### `Chord.substitutes`
+
+`substitutes(chord: string, options?: { next?: string, kinds?: string[], minor?: boolean }) => { chords: string[], kind: string }[]`
+
+The chords that can take a chord's place, each with its kind, in a documented order (the JSDoc has every rule). A substitute is one chord, or two when it adds one: the related ii before a dominant, or an approach chord to `next` after the chord. Roots are spelled by interval from the chord's root.
+
+| Kind                  | Rule                                                                           | Example                     |
+| --------------------- | ------------------------------------------------------------------------------ | --------------------------- |
+| `tritone substitute`  | a dominant a tritone away                                                      | G7 → Db7                    |
+| `backdoor`            | for a dominant, the 7 chord a whole step below its target                      | G7 → Bb7                    |
+| `contained`           | triads, 7ths and 6ths on another chord tone, made of the chord's notes         | Cmaj7 → Em; G9 → Bm7b5, Dm6 |
+| `related ii`          | the m7 before a dominant (m7b5 on a b9 dominant or with `minor: true`)         | G7 → Dm7 G7                 |
+| `secondary dominant`  | with `next`: the chord, then the V7 of `next`                                  | C → C A7 before Dm7         |
+| `substitute dominant` | with `next`: the chord, then the tritone substitute of that V7                 | C → C Eb7 before Dm7        |
+| `passing diminished`  | with `next` a whole step up: the chord, then the dim7 a half step below `next` | C → C C#dim7 before Dm7     |
+
+```js
+Chord.substitutes("G7");
+// => [{ chords: ["Db7"], kind: "tritone substitute" }, { chords: ["Bb7"], kind: "backdoor" }, { chords: ["Bdim"], kind: "contained" }, { chords: ["Dm7", "G7"], kind: "related ii" }]
+Chord.substitutes("C", { next: "Dm7" }).map((s) => s.chords);
+// => [["C", "A7"], ["C", "Eb7"], ["C", "C#dim7"]]
+Chord.substitutes("G9", { kinds: ["contained"] }).map((s) => s.chords[0]); // => ["Bm7b5", "Dm6"]
+```
+
+### `Chord.tritoneSubstitute`
+
+`tritoneSubstitute(chord: string) => string`
+
+The most used one on its own: a dominant a tritone away, spelled with fewer accidentals. The substitute of the substitute is the chord.
+
+```js
+Chord.tritoneSubstitute("G7"); // => "Db7"
+Chord.tritoneSubstitute("Db7"); // => "G7"
+Chord.tritoneSubstitute("Gm7"); // => ""
+```
+
+### `Chord.containing`
+
+`containing(note: string, options?: { types?: string[] }) => { chord: string, degree: string }[]`
+
+The chords that have a note as a chord tone or a tension (`Chord.tensions`), to harmonise a melody note. maj7, 7 and m7 by default:
+
+```js
+Chord.containing("C", { types: ["m7"] });
+// => [{ chord: "Cm7", degree: "1" }, { chord: "Am7", degree: "b3" }, { chord: "Fm7", degree: "5" }, { chord: "Dm7", degree: "b7" }, { chord: "Bbm7", degree: "9" }, { chord: "Gm7", degree: "11" }]
+```
+
 ## Relationships
 
 ### `Chord.extended`

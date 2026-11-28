@@ -156,6 +156,19 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   ["C2", "E2", "G2", "Bb2"].map((n) => Chord.fitNote(n, "C7", "Fm7")); // => ["F2", "Ab2", "C3", "Eb3"]
   ```
 
+- To reharmonise, `Chord.substitutes(chord, { next, kinds })` lists what can
+  take a chord's place as `{ chords, kind }`: the tritone substitute, the
+  backdoor dominant, the chords contained in it (Em for Cmaj7) and the
+  related ii of a dominant, plus approach chords to `next` (secondary and
+  substitute dominants, passing diminished). Filter with `kinds`; for the
+  tritone substitute alone use `Chord.tritoneSubstitute`.
+  `Chord.containing(note)` lists the chords that can harmonise a melody note:
+
+  ```js
+  Chord.tritoneSubstitute("G7"); // => "Db7"
+  Chord.substitutes("C", { next: "Dm7" }).map((s) => s.chords); // => [["C", "A7"], ["C", "Eb7"], ["C", "C#dim7"]]
+  ```
+
 - `Chord.get(name).complexity` (or `ChordType.get(type).complexity`) is the
   number of notes added to a triad plus two for each chromatic note (outside
   the major scale that holds most of the chord, as spelled): `m` is 0, `m7`
