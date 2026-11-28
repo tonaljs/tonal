@@ -291,6 +291,23 @@ Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact", tonic: "B" });
 // => ["B minor pentatonic"]
 ```
 
+### `Scale.rank`
+
+`rank(notes: string[], options?: { chords?: string[], types?: string[], limit?: number }) => { name, tonic, type, matched, missing, outside, chordsOutside }[]`
+
+Which scale is this? Every tonic is tried with the common scale types (major and minor; harmonic and melodic minor; the modes and pentatonics; the blues scales, or `types`), best first: more input notes in the scale, then more chords, then an exact fit, then the more common type, then the evidence of the tonic (the first and last chord and note on it, how often it's played). Unlike `Scale.detect`, the tonic doesn't have to be the first note:
+
+```js
+Scale.rank(["F", "G", "A", "Bb", "C", "D", "E"])
+  .slice(0, 2)
+  .map((s) => s.name);
+// => ["F major", "D minor"]
+Scale.rank(["D", "E", "F", "G", "A", "Bb", "C", "D"])[0].name; // => "D minor"
+Scale.rank([], { chords: ["Am", "Dm", "E7"] })[0].name; // => "A harmonic minor"
+Scale.rank(["C", "D", "E", "G", "A"], { limit: 1 });
+// => [{ name: "C major pentatonic", tonic: "C", type: "major pentatonic", matched: 5, missing: [], outside: [], chordsOutside: [] }]
+```
+
 ## Relationships
 
 ### `Scale.chords`

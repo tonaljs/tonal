@@ -304,6 +304,7 @@ exports[`tonal > Modules exports functions 1`] = `
     "nearest",
     "outside",
     "rangeOf",
+    "rank",
     "reduced",
     "scale",
     "scaleChords",

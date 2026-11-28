@@ -235,6 +235,15 @@ Key.minorKey("A").harmonic.chords; // => ["AmMaj7", "Bm7b5", "C+maj7", "Dm7", "E
   ); // => ["Dm7", "Ebmaj7", "Fm7", "Fm6", "Bbmaj7"]
   ```
 
+- To find the scale of some notes or chords ("which key is this?"), use
+  `Scale.rank(notes, { chords })`: every tonic with the common scale types,
+  best first, each with `matched`, `missing` and `outside` notes.
+  `Scale.detect` only tries the first note as the tonic:
+
+  ```js
+  Scale.rank([], { chords: ["Dm7", "G7", "Cmaj7"] })[0].name; // => "C major"
+  ```
+
 - `Scale.outside(scale, chord)` lists the chord notes that aren't in the
   scale, spelled as in the chord: `Scale.outside("C major", "Bb7")` is
   `["Bb", "Ab"]`, and `[]` when the chord fits. To list the chord types that

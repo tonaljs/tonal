@@ -1811,6 +1811,12 @@ Scale.rangeOf(scale: string | string[]): (fromNote: string, toNote: string) => (
   Scale.rangeOf(["C", "D", "E"])("C4", "E5"); // => ["C4", "D4", "E4", "C5", "D5", "E5"]
   Scale.rangeOf("C major")("C4", "x"); // => []
 
+Scale.rank(notes: string[], options?: RankOptions): RankedScale[]
+  Rank the scales that fit a set of notes (and chords), best first: "which scale is this?". Every tonic is tried with every type of `types` (by default, the common ones: major and minor; harmonic and melodic minor; the modes and the pentatonics; the blues scales). A scale is listed when it holds at least one note or chord. The first difference decides:
+  Scale.rank(["F", "G", "A", "Bb", "C", "D", "E"]).slice(0, 2).map((s) => s.name); // => ["F major", "D minor"]
+  Scale.rank(["D", "E", "F", "G", "A", "Bb", "C", "D"])[0].name; // => "D minor"
+  Scale.rank([], { chords: ["Am", "Dm", "E7"] })[0].name; // => "A harmonic minor"
+
 Scale.reduced(name: string): string[]
   Get the names of the scale types whose notes are all in a scale and are fewer (the tonic is ignored). It returns `[]` if the scale isn't valid. The opposite of `Scale.extended`.
   Scale.reduced("major"); // => ["major pentatonic", "ionian pentatonic", "ritusen"]
@@ -1864,6 +1870,22 @@ type IntervalName = KnownIntervalName | (string & {})
 
 type NoteName = (string & {}) | KnownNoteName
   A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
+
+type RankOptions = {
+  chords?: string[] | undefined;
+  types?: string[] | undefined;
+  limit?: number | undefined;
+}
+
+type RankedScale = {
+  name: string;
+  tonic: string;
+  type: string;
+  matched: number;
+  missing: string[];
+  outside: string[];
+  chordsOutside: string[];
+}
 
 type Scale = {
   tonic: string | null;

@@ -17,6 +17,7 @@ import {
 } from "@tonaljs/pcset";
 import { tonicIntervalsTransposer, transpose } from "@tonaljs/pitch-distance";
 import { note, NoteName } from "@tonaljs/pitch-note";
+import { rank } from "./rank";
 import {
   all,
   get as getScaleType,
@@ -696,6 +697,9 @@ export function approaches(
   };
 }
 
+export { rank } from "./rank";
+export type { RankedScale, RankOptions } from "./rank";
+
 export default {
   approaches,
   chords,
@@ -708,6 +712,7 @@ export default {
   nearest,
   outside,
   rangeOf,
+  rank,
   reduced,
   scaleChords,
   scaleNotes,
