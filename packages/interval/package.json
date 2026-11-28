@@ -14,6 +14,7 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "dependencies": {
     "@tonaljs/pitch": "^5.0.3",
     "@tonaljs/pitch-distance": "^5.1.1",

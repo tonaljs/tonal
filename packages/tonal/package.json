@@ -16,6 +16,7 @@
     "browser"
   ],
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "dependencies": {
     "@tonaljs/abc-notation": "4.9.7",
     "@tonaljs/array": "4.8.9",

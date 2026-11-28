@@ -15,6 +15,7 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "dependencies": {
     "@tonaljs/chord": "6.8.0",
     "@tonaljs/chord-detect": "4.11.2",

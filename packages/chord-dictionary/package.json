@@ -9,6 +9,7 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "dependencies": {
     "@tonaljs/chord-type": "5.4.2"
   },

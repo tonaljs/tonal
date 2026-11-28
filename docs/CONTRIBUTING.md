@@ -38,6 +38,7 @@ To create a new module:
 - Add a new folder inside packages: `packages/my-module`
 - Add a new package.json inside the folder (see any of them as an example)
 - Add required dependencies to "dependencies" inside package.json. Ensure correct dependency versions. For example, if your module needs to use `tonal/core` look at core's package.json to see what version to use
+- Keep `"sideEffects": false` in its package.json, and keep the module free of side effects at import time: building its own data (a dictionary) is fine, changing globals or another module's state on load is not. It lets an app's bundler leave out the modules it doesn't use; `npm run test:size` checks what typical imports weigh
 - Add your functionality and tests
 - Ensure everything works: run `npm run test:all` at root folder
 - Create a pull request

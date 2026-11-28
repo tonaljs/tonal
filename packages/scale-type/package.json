@@ -15,6 +15,7 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "dependencies": {
     "@tonaljs/pcset": "4.10.8"
   },

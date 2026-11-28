@@ -15,6 +15,7 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "dependencies": {
     "@tonaljs/collection": "4.9.3",
     "@tonaljs/pitch": "5.0.4",
