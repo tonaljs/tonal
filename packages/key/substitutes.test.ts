@@ -3,19 +3,10 @@ import {
   substitutes as chordSubstitutes,
   tritoneSubstitute,
 } from "@tonaljs/chord";
-import { chroma as noteChroma } from "@tonaljs/note";
 import { describe, expect, test } from "vitest";
 import { borrowedChords, majorKey, minorKey, substitutes } from "./index";
 
 const TONICS = "C G D A E B F# C# F Bb Eb Ab Db Gb Cb".split(" ");
-const sameChord = (a: string, b: string) =>
-  getChord(a).type === getChord(b).type &&
-  getChord(a)
-    .notes.map((n) => noteChroma(n))
-    .join() ===
-    getChord(b)
-      .notes.map((n) => noteChroma(n))
-      .join();
 const show = (list: { chords: string[]; kind: string }[]) =>
   list.map((s) => `${s.kind}: ${s.chords.join(" ")}`);
 
@@ -39,23 +30,16 @@ describe("the key's per-degree arrays", () => {
           const dominant = key.secondaryDominants[i];
           if (!dominant) return;
           expect(dominantOf(chord)).toBe(dominant);
-          // the key spells it as a diminished 5th (Cb7 for F7), the chord
-          // with fewer accidentals (B7): the same chord, maybe spelled apart
           const sub = key.substituteDominants[i];
-          const fromChord = tritoneSubstitute(dominant);
-          expect(sameChord(fromChord, sub)).toBe(true);
-          if (!/[b#]{2}|Cb|Fb|E#|B#/.test(sub)) expect(fromChord).toBe(sub);
+          expect(tritoneSubstitute(dominant)).toBe(sub);
           if ("secondaryDominantsMinorRelative" in key) {
             const minor = getChord(chord).quality === "Minor";
             expect(relatedTwo(dominant, minor)).toBe(
               key.secondaryDominantsMinorRelative[i],
             );
-            expect(
-              sameChord(
-                relatedTwo(sub, false)!,
-                key.substituteDominantsMinorRelative[i],
-              ),
-            ).toBe(true);
+            expect(relatedTwo(sub, false)).toBe(
+              key.substituteDominantsMinorRelative[i],
+            );
           }
         });
       }

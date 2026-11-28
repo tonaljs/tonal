@@ -1,4 +1,5 @@
-import { simplify, transpose, transposeFifths } from "@tonaljs/note";
+import { tritoneSubstitute } from "@tonaljs/chord";
+import { transpose, transposeFifths } from "@tonaljs/note";
 import { accToAlt, altToAcc, note } from "@tonaljs/pitch-note";
 import { get as roman } from "@tonaljs/roman-numeral";
 import {
@@ -169,7 +170,7 @@ function keyScale(
       triads,
     );
     const substituteDominants = secondaryDominants.map((chord) =>
-      chord ? substituteRoot(chord.slice(0, -1)) + "7" : "",
+      chord ? tritoneSubstitute(chord) : "",
     );
     const substituteDominantSupertonics =
       substituteSupertonics(substituteDominants);
@@ -193,14 +194,6 @@ function keyScale(
       substituteDominantsMinorRelative: substituteDominantSupertonics,
     };
   };
-}
-
-// The root of a substitute dominant: a diminished fifth above the dominant's
-// root (Gb for C), or its simplest enharmonic when that has a double
-// accidental, as a lead sheet writes it (A, not Bbb, for Eb)
-function substituteRoot(dominantRoot: string) {
-  const root = transpose(dominantRoot, "5d");
-  return note(root).acc.length > 1 ? simplify(root) : root;
 }
 
 // The root of the ii chord of a dominant: a fifth above its root
