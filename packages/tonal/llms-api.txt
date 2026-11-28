@@ -916,6 +916,12 @@ Key.analyzeChord(key: string, chord: string, options?: AnalyzeChordOptions): Cho
   Key.analyzeChord("C major", "Bb7", { next: "C" }).map((r) => r.source); // => ["backdoor", "borrowed", "tritone substitute"]
   Key.analyzeChord("C major", "Am7", { next: "D7" }).map((r) => r.numeral); // => ["ii7/V", "vi7"]
 
+Key.borrowedChords(key: string): BorrowedChord[]
+  Get the chords a key borrows from its parallel scales (modal interchange), as Pease lists them, with their numeral, the scale they come from and the numerals of the key's chords they replace. In a major key (C):
+  Key.borrowedChords("C major")[0]; // => { chord: "Dm7b5", numeral: "ii7b5", from: "C minor", replaces: ["ii7"] }
+  Key.borrowedChords("C major").map((b) => b.chord); // => ["Dm7b5", "Ebmaj7", "Fm7", "Fm6", "Gm7", "Abmaj7", "Bb7", "Dbmaj7", "Bbmaj7", "Cmaj7#11"]
+  Key.borrowedChords("A minor").map((b) => b.chord); // => ["Amaj7", "Bm7", "Dmaj7"]
+
 Key.majorKey(tonic: string): MajorKey
   Get a major key: its signature, scale, triads, seventh chords, harmonic functions and secondary and substitute dominants. For an invalid tonic it returns a key with empty strings and arrays.
   Key.majorKey("F").scale; // => ["F", "G", "A", "Bb", "C", "D", "E"]
@@ -942,11 +948,23 @@ Key.minorKeyChords(tonic: string): KeyChord[]
   Get the chords available in a minor key, each with the roles it plays. It merges the chords of the natural, harmonic and melodic scales, so a chord that appears in several scales has all its roles. Returns an empty array for an invalid tonic.
   Key.minorKeyChords("A").slice(0, 2); // => [{ name: "Am7", roles: ["T", "ii/bVII"] }, { name: "Bm7b5", roles: ["SD", "ii/I"] }]
 
+Key.substitutes(key: string, chord: string, options?: KeySubstitutesOptions): KeySubstitute[]
+  Get the substitutes of a chord in a key: `Chord.substitutes`, then the key's own, each as `{ chords, kind }`:
+  Key.substitutes("C major", "Fmaj7").map((s) => `${s.kind}: ${s.chords}`);
+  Key.substitutes("C major", "E7", { kinds: ["related ii"] }); // => [{ chords: ["Bm7b5", "E7"], kind: "related ii" }]
+
 Types:
 
 type AnalyzeChordOptions = {
   previous?: string | undefined;
   next?: string | undefined;
+}
+
+type BorrowedChord = {
+  chord: string;
+  numeral: string;
+  from: string;
+  replaces: string[];
 }
 
 type ChordReading = {
@@ -984,6 +1002,20 @@ type KeyScale = {
   substituteDominantSupertonics: readonly string[];
   secondaryDominantsMinorRelative: readonly string[]; // deprecated
   substituteDominantsMinorRelative: readonly string[]; // deprecated
+}
+
+type KeySubstitute = {
+  chords: string[];
+  kind: KeySubstituteKind;
+}
+
+type KeySubstituteKind = SubstituteKind | 'diatonic' | 'borrowed'
+  The kind of a substitute in a key, as returned by `Key.substitutes`.
+
+type KeySubstitutesOptions = {
+  next?: string | undefined;
+  kinds?: KeySubstituteKind[] | undefined;
+  minor?: boolean | undefined;
 }
 
 type MajorKey = {

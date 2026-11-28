@@ -112,7 +112,7 @@ const NEEDS_NEIGHBOUR: ChordSource[] = [
 const chroma = (name: string) => note(name).chroma;
 const mod12 = (n: number) => ((n % 12) + 12) % 12;
 
-function parse(name: string | undefined): Parsed | undefined {
+export function parse(name: string | undefined): Parsed | undefined {
   if (typeof name !== "string") return undefined;
   const [root, type] = tokenize(name);
   if (!root) return undefined;
@@ -236,7 +236,7 @@ function typeAfter(chord: Parsed): string {
   return shortest ?? chord.type;
 }
 
-function numeralOf(tonic: string, chord: Parsed): string {
+export function numeralOf(tonic: string, chord: Parsed): string {
   const degree = degreeOf(tonic, chord.root);
   if (!degree) return "";
   return (isLower(chord) ? degree.toLowerCase() : degree) + typeAfter(chord);
