@@ -1,6 +1,6 @@
 {
   "name": "@tonaljs/voicing-dictionary",
-  "version": "5.1.15",
+  "version": "5.1.16",
   "description": "Collections of chord voicings",
   "keywords": [
     "chord",
@@ -17,7 +17,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@tonaljs/chord": "6.7.0",
+    "@tonaljs/chord": "6.8.0",
     "@tonaljs/note": "4.14.0",
     "@tonaljs/voice-leading": "5.2.4"
   },

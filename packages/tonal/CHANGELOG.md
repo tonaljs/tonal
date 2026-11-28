@@ -1,5 +1,30 @@
 # tonal
 
+## 6.17.0
+
+### Minor Changes
+
+- 2b416cc: `Chord.fitNote(note, from, to, { scale, bass, keep })` and `Chord.fitDegree(degree, to, { scale })`: play a pattern written over one chord over another, each note keeping its role (the 3rd goes to the new 3rd, 11 to #11 on a dominant, 13 to b13 on a half-diminished chord) by rules built on `Chord.tensions`, near its place. With `{ keep: "non-chord" }`, notes that aren't chord tones of the source chord keep their interval from the root, so passing notes stay chromatic.
+- 7143250: Chord substitutions: `Chord.substitutes(chord, { next, kinds })` lists the chords that can take a chord's place as `{ chords, kind }`: the tritone substitute, the backdoor dominant, the chords made of its notes on another root (Em for Cmaj7, Bm7b5 and Dm6 for G9), the related ii of a dominant, and with `next` the approach chords (secondary and substitute dominants, passing diminished). `Chord.tritoneSubstitute(chord)` gives the tritone substitute alone. `Chord.containing(note)` lists the chords that can harmonise a melody note, with the note's degree in each.
+- bda437e: `Key.analyzeChord(key, chord, { previous, next })`: what a chord does in a key, every reading ranked (diatonic, secondary dominant, tritone substitute, related ii, borrowed, backdoor, passing and common-tone diminished, chromatic), with the numeral as the books write it (`V7/ii`, `subV7/I`), its function, the scale it comes from and a chord scale chosen by function (#187).
+- 917988c: `Key.borrowedChords(key)`: the chords a key borrows from its parallel scales (modal interchange), each with its numeral, the scale it comes from and the numerals it replaces. `Key.substitutes(key, chord, { next, kinds })`: `Chord.substitutes` in a key, plus the key's chords with the same function and the borrowed chords that replace it.
+
+  The key's substitute dominants are now `Chord.tritoneSubstitute` of its secondary dominants, spelled with fewer accidentals as a lead sheet writes them: `B7`, not `Cb7`, for `F7` (in `substituteDominants`, their supertonics and `Key.majorKeyChords` / `minorKeyChords`). Only the roots that were Cb or Fb change.
+
+### Patch Changes
+
+- Updated dependencies [2b416cc]
+- Updated dependencies [7143250]
+- Updated dependencies [bda437e]
+- Updated dependencies [917988c]
+  - @tonaljs/chord@6.8.0
+  - @tonaljs/key@4.13.0
+  - @tonaljs/chart@1.1.1
+  - @tonaljs/progression@4.11.9
+  - @tonaljs/scale@4.16.1
+  - @tonaljs/voicing@5.4.2
+  - @tonaljs/voicing-dictionary@5.1.16
+
 ## 6.16.0
 
 ### Minor Changes
