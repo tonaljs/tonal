@@ -1,0 +1,12 @@
+{
+  "import { Note } from \"tonal\"": 8900,
+  "import { Interval } from \"tonal\"": 6500,
+  "import { Chord } from \"tonal\"": 37500,
+  "import { Scale } from \"tonal\"": 36700,
+  "import { Key } from \"tonal\"": 46300,
+  "import { Progression } from \"tonal\"": 19300,
+  "import { Chart } from \"tonal\"": 33500,
+  "import { Voicing } from \"tonal\"": 63900,
+  "import * as Tonal from \"tonal\"": 125700,
+  "import { get } from \"@tonaljs/note\"": 1900
+}

@@ -16,6 +16,7 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "dependencies": {
     "@tonaljs/pcset": "4.10.8",
     "@tonaljs/pitch-interval": "6.4.1"

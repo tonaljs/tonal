@@ -15,6 +15,7 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "dependencies": {
     "@tonaljs/pitch": "5.0.4",
     "@tonaljs/pitch-interval": "6.4.1",

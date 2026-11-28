@@ -13,6 +13,7 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "author": "danigb@gmail.com",
   "license": "MIT",
   "publishConfig": {

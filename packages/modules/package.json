@@ -9,6 +9,7 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "dependencies": {
     "tonal": "6.18.0"
   },

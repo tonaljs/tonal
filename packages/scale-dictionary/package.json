@@ -9,6 +9,7 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "dependencies": {
     "@tonaljs/scale-type": "4.10.2"
   },

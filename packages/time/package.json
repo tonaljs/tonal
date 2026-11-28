@@ -16,6 +16,7 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
+  "sideEffects": false,
   "dependencies": {
     "@tonaljs/duration-value": "4.9.2",
     "@tonaljs/time-signature": "4.10.3"
