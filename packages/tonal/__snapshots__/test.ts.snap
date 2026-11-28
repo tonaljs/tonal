@@ -153,6 +153,7 @@ exports[`tonal > Modules exports functions 1`] = `
     "majorTonicFromKeySignature",
     "minorKey",
     "minorKeyChords",
+    "pivotChords",
     "substitutes",
   ],
   "Midi": [

@@ -948,6 +948,12 @@ Key.minorKeyChords(tonic: string): KeyChord[]
   Get the chords available in a minor key, each with the roles it plays. It merges the chords of the natural, harmonic and melodic scales, so a chord that appears in several scales has all its roles. Returns an empty array for an invalid tonic.
   Key.minorKeyChords("A").slice(0, 2); // => [{ name: "Am7", roles: ["T", "ii/bVII"] }, { name: "Bm7b5", roles: ["SD", "ii/I"] }]
 
+Key.pivotChords(from: string, to: string, options?: PivotChordsOptions): PivotChord[]
+  Get the chords two keys share (pivot chords, to modulate from one to the other), with the numeral of each in both keys (as `Key.analyzeChord` writes it). Triads by default, 7th chords with `sevenths`. A minor key has the chords of its natural, harmonic and melodic forms. Chords match by root and type, whatever their spelling, and are spelled as in the second key, in the order of the first key's chords.
+  Key.pivotChords("C major", "G major").map((p) => `${p.chord}: ${p.from} ${p.to}`); // => ["C: I IV", "Em: iii vi", "G: V I", "Am: vi ii"]
+  Key.pivotChords("C major", "G major", { sevenths: true }).map((p) => p.chord); // => ["Cmaj7", "Em7", "Am7"]
+  Key.pivotChords("C major", "G major", { chromatic: true }).slice(4).map((p) => `${p.chord}: ${p.from} ${p.to}`); // => ["Dm: ii v", "F: IV bVII", "D: V/V V"]
+
 Key.substitutes(key: string, chord: string, options?: KeySubstitutesOptions): KeySubstitute[]
   Get the substitutes of a chord in a key: `Chord.substitutes`, then the key's own, each as `{ chords, kind }`:
   Key.substitutes("C major", "Fmaj7").map((s) => `${s.kind}: ${s.chords}`);
@@ -1048,6 +1054,19 @@ type MinorKey = {
   tonic: string;
   alteration: number;
   keySignature: string;
+}
+
+type PivotChord = {
+  chord: string;
+  from: string;
+  to: string;
+  fromSource: ChordSource;
+  toSource: ChordSource;
+}
+
+type PivotChordsOptions = {
+  sevenths?: boolean | undefined;
+  chromatic?: boolean | undefined;
 }
 
 ## Midi
