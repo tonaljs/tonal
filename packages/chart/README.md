@@ -181,6 +181,8 @@ Chart.unroll(Chart.parse("|: C |1 G :|2 F |")).map((b) => [
 - `:|` goes back to its `|:`; without one, to the start of the chart or to the bar after the `:|` before. It plays 2 passes, `:|x3` three, and as many as the highest ending: `|: A |1,2 B :|3 C |` plays A B A B A C.
 - On each pass, the ending for that pass is played and the others are skipped. When no ending is for the pass, the last ending is played if it doesn't repeat; otherwise the endings are skipped, so `|: A |1 B :| C |` plays A B A C.
 - An ending with its own `:|` ends there. The last ending lasts until a `||`, or one bar: in `|: A |1 B :|2 C | D || E |` the second ending is C and D.
+- An ending can start a section, as lead sheets often label the second ending: `[A] |: C |1 G :| [B] |2 F |` plays C G C F.
+- An ending written after its group, outside any repeat (a `|3` after `|1` and `|2`, often after the jump), belongs to that group but is only played by a jump to it: see `D.C. al 3rd ending` below.
 - Repeats don't nest: a `|:` inside a repeat, a `|:` without a `:|` and an ending without any `:|` are problems.
 
 ### Jumps: D.C., D.S., coda and fine
@@ -207,6 +209,22 @@ order("| Dm | <Segno> C | F <To Coda> | G <D.S. al Coda> | <Coda> Am |");
   // => ["C", "F", "G", "C", "F", "G", "C", "F", "Am"]
   ```
 
+- **Al 1st, 2nd or 3rd ending.** `<D.C. al 2nd ending>` (also written `<D.C. al 2nd End.>`) goes back to the start, takes no repeats, and plays the 2nd ending at the group of endings; then it goes on to the end, or stops at a `<Fine>`. The same for 1st and 3rd, and for `D.S.`. With choruses it ends the tune, like `al Fine`.
+
+  ```js
+  order("|: C |1 G :|2 F <Fine> || Bb <D.C. al 2nd ending> |");
+  // => ["C", "G", "C", "F", "Bb", "C", "F"]
+  order("|: C |1 G :|2 F || Bb <D.C. al 3rd ending> |3 Eb |");
+  // => ["C", "G", "C", "F", "Bb", "C", "Eb"]
+  ```
+
+- **A coda alone.** A `<Coda>` with no `<To Coda>` and no jump: the bars before it are the form, and the coda is played once, after the last chorus.
+
+  ```js
+  order("| C | G | <Coda> F |", { choruses: 2 }); // => ["C", "G", "C", "G", "F"]
+  ```
+
+- A `<Segno>` without a `D.S.`, or a `<Fine>` without any jump, is only a sign.
 - A plain `<D.C.>` or `<D.S.>` (without `al Fine` or `al Coda`) marks no ending: it's part of the tune, like a written repeat, so each chorus plays the whole tune with its jump.
 
   ```js

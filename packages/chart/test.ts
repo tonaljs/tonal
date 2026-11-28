@@ -441,7 +441,7 @@ describe("@tonaljs/chart", () => {
       expect(problems("| A | B <D.S.> |")).toEqual([
         "bar 2: D.S. without a <Segno>",
       ]);
-      expect(problems("| A <Fine> | B |")).toEqual([
+      expect(problems("| A <Fine> | B <D.C.> |")).toEqual([
         "bar 1: <Fine> without a D.C. al Fine or D.S. al Fine",
       ]);
       expect(problems("| A | B <D.C. al Fine> |")).toEqual([
@@ -456,13 +456,119 @@ describe("@tonaljs/chart", () => {
       expect(problems("| <Coda> A | B <To Coda> <D.C. al Coda> |")).toEqual([
         "bar 1: <To Coda> must come before the jump, and <Coda> after it",
       ]);
-      expect(problems("| A <D.C.> | <Segno> B |")).toEqual([
-        "bar 2: <Segno> without a D.S.",
-      ]);
       expect(problems("| A | B <Wrong> |")).toEqual([
         'bar 2: unknown mark "<Wrong>"',
       ]);
       expect(Chart.unroll(Chart.parse("| A | B <D.S.> |"))).toEqual([]);
+    });
+  });
+
+  describe("the conventions of real charts", () => {
+    // the played bars, as their chords, with the pass (p2) and the ending (e2)
+    const order = (text: string, options?: Chart.UnrollOptions) => {
+      const chart = Chart.parse(text);
+      return Chart.unroll(chart, options)
+        .map((b) => chart.bars[b.bar].chords.map((c) => c.value).join(""))
+        .join(" ");
+    };
+    const problems = (text: string) => Chart.problems(Chart.parse(text));
+
+    test("an ending can start a section", () => {
+      const text = "[A] |: C |1 G :| [B] |2 F |";
+      expect(problems(text)).toEqual([]);
+      expect(order(text)).toBe("C G C F");
+      expect(
+        Chart.unroll(Chart.parse(text)).map((b) => [b.section, b.ending]),
+      ).toEqual([
+        ["A", undefined],
+        ["A", 1],
+        ["A", undefined],
+        ["B", 2],
+      ]);
+      // a section without an ending still closes the group
+      expect(problems("|: C |1 G :| [B] F |")).toEqual([]);
+      expect(order("|: C |1 G :| [B] F |")).toBe("C G C F");
+    });
+
+    test("D.C. or D.S. al 1st, 2nd or 3rd ending", () => {
+      // back to the start, then the second ending, then the Fine
+      expect(order("|: A |1 B :|2 C <Fine> || D <D.C. al 2nd ending> |")).toBe(
+        "A B A C D A C",
+      );
+      // without a Fine, on to the end
+      expect(order("|: A |1 B :|2 C || D <D.C. al 2nd ending> |")).toBe(
+        "A B A C D A C D",
+      );
+      // dal segno
+      expect(
+        order("| F |: <Segno> A |1 B :|2 C <Fine> || D <D.S. al 2nd ending> |"),
+      ).toBe("F A B A C D A C");
+      // also written "2nd End."
+      expect(Chart.parse("| A <D.C. al 2nd End.> |").bars[0].jump).toBe(
+        "D.C. al 2nd ending",
+      );
+      // with choruses, the jump ends the tune
+      expect(
+        order("|: A |1 B :|2 C <Fine> || D <D.C. al 2nd ending> |", {
+          choruses: 2,
+        }),
+      ).toBe("A B A C D A B A C D A C");
+      expect(problems("| A | B <D.C. al 3rd ending> |")).toEqual([
+        "bar 2: D.C. al 3rd ending without an ending 3",
+      ]);
+    });
+
+    test("an ending after the jump joins its group", () => {
+      // ending 3 is written after the jump: only the jump plays it
+      const text = "|: A |1 B :|2 C || D <D.C. al 3rd ending> |3 E |";
+      expect(problems(text)).toEqual([]);
+      expect(order(text)).toBe("A B A C D A E");
+      // the repeat still plays two passes
+      expect(
+        order("|: A |1 B :|2 C || D <D.C. al 3rd ending> |3 E <Fine> | F |"),
+      ).toBe("A B A C D A E");
+      // in a repeat of its own, an ending that goes on with the numbers
+      // (charts that number endings across sections) is a new group, played
+      // as before
+      expect(problems("|: A |1 B :|2 C || [B] |: D |3 E :|4 F |")).toEqual([]);
+      expect(order("|: A |1 B :|2 C || [B] |: D |3 E :|4 F |")).toBe(
+        "A B A C D F",
+      );
+      // without a jump to it, it's never played: a problem
+      expect(problems("|: A |1 B :|2 C || D |3 E |")).toEqual([
+        "bar 5: ending 3 is after its group, and no jump goes to it",
+      ]);
+    });
+
+    test("a coda alone follows the last chorus", () => {
+      expect(problems("| C | G | <Coda> F |")).toEqual([]);
+      expect(order("| C | G | <Coda> F |")).toBe("C G F");
+      expect(order("| C | G | <Coda> F |", { choruses: 2 })).toBe("C G C G F");
+      // with a repeat in the form, and a vamp in the coda
+      expect(order("|: C :| G | <Coda> F |: Bb :|", { choruses: 2 })).toBe(
+        "C C G C C G F Bb Bb",
+      );
+    });
+
+    test("a fine without a jump is only a sign", () => {
+      expect(problems("| C | F <Fine> | G7 |")).toEqual([]);
+      expect(order("| C | F <Fine> | G7 |")).toBe("C F G7");
+      expect(order("| C | F <Fine> | G7 |", { choruses: 2 })).toBe(
+        "C F G7 C F G7",
+      );
+    });
+
+    test("a segno without a D.S. is only a sign", () => {
+      expect(problems("| A <D.C.> | <Segno> B |")).toEqual([]);
+      expect(order("| A | <Segno> B |")).toBe("A B");
+      expect(order("| A | <Segno> B <D.C.> |")).toBe("A B A B");
+    });
+
+    test("the new jumps round-trip as text", () => {
+      const text = "|: A |1 B :|2 C <Fine> ||\n| D <D.C. al 2nd ending> |";
+      const chart = Chart.parse(text);
+      expect(Chart.parse(Chart.toText(chart)).bars).toEqual(chart.bars);
+      expect(Chart.toText(chart)).toContain("<D.C. al 2nd ending>");
     });
   });
 
