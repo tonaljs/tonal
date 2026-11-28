@@ -58,7 +58,13 @@ export type Jump =
   | "D.C. al Coda"
   | "D.S."
   | "D.S. al Fine"
-  | "D.S. al Coda";
+  | "D.S. al Coda"
+  | "D.C. al 1st ending"
+  | "D.C. al 2nd ending"
+  | "D.C. al 3rd ending"
+  | "D.S. al 1st ending"
+  | "D.S. al 2nd ending"
+  | "D.S. al 3rd ending";
 
 /** A chart as written: bars of chords, with sections and meters. */
 export type Chart = {
@@ -142,6 +148,19 @@ const MARKS: Record<string, Jump | "segno" | "coda" | "toCoda" | "fine"> = {
   ds: "D.S.",
   dsalfine: "D.S. al Fine",
   dsalcoda: "D.S. al Coda",
+  // al 1st, 2nd or 3rd ending, also written "2nd End."
+  ...Object.fromEntries(
+    ["D.C.", "D.S."].flatMap((jump) =>
+      ["1st", "2nd", "3rd"].flatMap((n) => {
+        const key = `${jump[2].toLowerCase() === "c" ? "dc" : "ds"}al${n}`;
+        const value = `${jump} al ${n} ending` as Jump;
+        return [
+          [`${key}ending`, value],
+          [`${key}end`, value],
+        ];
+      }),
+    ),
+  ),
 };
 const markOf = (label: string) =>
   label[0] === "<"
@@ -262,8 +281,9 @@ function splitPosition(word: string): [string, string | undefined] {
  *   `:|2`), except two plain ones: `| |` is an empty bar.
  * - `<Segno>` and `<Coda>` mark the start of their bar; `<To Coda>`,
  *   `<Fine>`, `<D.C.>`, `<D.C. al Fine>`, `<D.C. al Coda>`, `<D.S.>`,
- *   `<D.S. al Fine>` and `<D.S. al Coda>` act at the end of their bar (alone
- *   between bar lines, at the end of the bar before).
+ *   `<D.S. al Fine>`, `<D.S. al Coda>` and `<D.C. al 2nd ending>` (1st,
+ *   2nd or 3rd, D.C. or D.S.; also written `<D.C. al 2nd End.>`) act at the
+ *   end of their bar (alone between bar lines, at the end of the bar before).
  *
  * Chords without a position are placed by the meter's pulses (the groups it's
  * felt in, from `Time.meter`): with n chords in p pulses, each chord gets
@@ -476,14 +496,28 @@ function isChart(value: unknown): value is Chart {
   );
 }
 
-// An ending of a group: where it starts and its last bar
-type Ending = { bar: number; numbers: number[]; end: number; group: Ending[] };
+// An ending of a group: where it starts and its last bar. A late ending is
+// written after its group (often after the jump): only a jump to it plays it
+type Ending = {
+  bar: number;
+  numbers: number[];
+  end: number;
+  group: Ending[];
+  late?: true;
+};
 // A repeat end: where it goes back to, and how many passes it plays
 type Repeat = { start: number; passes: number };
 
 // A jump: from the end of its bar back to `target`, then on to the end of
-// `stop` (Fine or To Coda, or the end of the chart), then from `coda`
-type JumpPlan = { bar: number; target: number; stop?: number; coda?: number };
+// `stop` (Fine or To Coda, or the end of the chart), then from `coda`. With
+// `ending` (al 2nd ending), that ending is taken after the jump
+type JumpPlan = {
+  bar: number;
+  target: number;
+  stop?: number;
+  coda?: number;
+  ending?: number;
+};
 
 type Structure = {
   jump?: JumpPlan;
@@ -505,6 +539,7 @@ function structure(chart: Chart): Structure {
   let open = -1; // the bar of an open |:
   let afterEnd = 0; // the bar after the last :|
   let group: Ending[] | null = null;
+  let lastGroup: Ending[] | null = null; // the group closed before
   let groupStart = 0; // where the repeat of the group starts
 
   // the last ending of a group without its own :| lasts until a double bar
@@ -515,11 +550,18 @@ function structure(chart: Chart): Structure {
     if (group && !group.some((e) => repeats.has(e.end))) {
       problem(group[0].bar, `ending ${group[0].numbers} has no repeat end`);
     }
+    if (group) lastGroup = group;
     group = null;
   };
+  const highestOf = (endings: Ending[]) =>
+    Math.max(...endings.filter((e) => !e.late).flatMap((e) => e.numbers));
 
   bars.forEach((bar, i) => {
-    if (group && (bar.repeatStart || bar.section !== undefined)) {
+    // a section closes the group, unless it starts on an ending
+    if (
+      group &&
+      (bar.repeatStart || (bar.section !== undefined && !bar.ending))
+    ) {
       closeGroup();
     }
     if (bar.repeatStart) {
@@ -527,6 +569,16 @@ function structure(chart: Chart): Structure {
       open = i;
     }
     if (bar.ending) {
+      // an ending that continues a group already closed (|3 after |1 and
+      // |2), outside any repeat, joins it, late. Inside a repeat it starts
+      // a group of its own (charts that number endings across sections)
+      const late =
+        !group &&
+        !bar.repeatStart &&
+        open < 0 &&
+        lastGroup !== null &&
+        Math.min(...bar.ending) === highestOf(lastGroup) + 1;
+      if (late) group = lastGroup;
       if (!group) {
         group = [];
         groupStart = open >= 0 ? open : afterEnd;
@@ -538,12 +590,13 @@ function structure(chart: Chart): Structure {
         }
       }
       const ending: Ending = { bar: i, numbers: bar.ending, end: -1, group };
+      if (late) ending.late = true;
       group.push(ending);
       endings.set(i, ending);
     }
     if (bar.repeatEnd !== undefined) {
       const start = group ? groupStart : open >= 0 ? open : afterEnd;
-      const highest = group ? Math.max(...group.flatMap((e) => e.numbers)) : 0;
+      const highest = group ? highestOf(group) : 0;
       const passes = Math.max(bar.repeatEnd, highest);
       if (!Number.isInteger(passes) || passes < 1) {
         problem(i, `invalid number of passes`);
@@ -560,7 +613,7 @@ function structure(chart: Chart): Structure {
   if (open >= 0) problem(open, "a repeat starts without a repeat end");
   // the highest passes of a group apply to each of its repeat ends
   for (const ending of endings.values()) {
-    const highest = Math.max(...ending.group.flatMap((e) => e.numbers));
+    const highest = highestOf(ending.group);
     for (const e of ending.group) {
       const repeat = repeats.get(e.end);
       if (repeat) repeat.passes = Math.max(repeat.passes, highest);
@@ -575,6 +628,14 @@ function structure(chart: Chart): Structure {
   endings.forEach((ending) => mark(ending.bar, ending.end));
   const starts = new Set([...repeats.values()].map((r) => r.start));
   const jump = jumpOf(bars, problem);
+  for (const ending of endings.values()) {
+    if (ending.late && !ending.numbers.includes(jump?.ending ?? NaN)) {
+      problem(
+        ending.bar,
+        `ending ${ending.numbers} is after its group, and no jump goes to it`,
+      );
+    }
+  }
   return { jump, repeats, starts, endings, inside, problems };
 }
 
@@ -606,12 +667,14 @@ function jumpOf(
   }
   const alFine = jump?.endsWith("al Fine");
   const alCoda = jump?.endsWith("al Coda");
+  const alEnding = /al (\d)\w\w ending$/.exec(jump ?? "");
+  const endingNumber = alEnding ? Number(alEnding[1]) : undefined;
   let ok = true;
   const fail = (i: number, message: string) => {
     problem(i, message);
     ok = false;
   };
-  if (fine !== undefined && !alFine) {
+  if (fine !== undefined && !alFine && !alEnding) {
     fail(fine, "<Fine> without a D.C. al Fine or D.S. al Fine");
   }
   if (!alCoda && toCoda !== undefined) {
@@ -626,7 +689,7 @@ function jumpOf(
   if (ds && segno !== undefined && segno > bar) {
     fail(segno, "<Segno> after the jump");
   }
-  if (!ds && segno !== undefined) fail(segno, "<Segno> without a D.S.");
+  // (a segno nobody jumps to is only a sign)
   if (alFine && fine === undefined) fail(bar, `${jump} without a <Fine>`);
   if (alFine && fine !== undefined && fine > bar) {
     fail(fine, "<Fine> after the jump");
@@ -636,8 +699,17 @@ function jumpOf(
   } else if (alCoda && (toCoda > bar || coda <= bar)) {
     fail(coda, "<To Coda> must come before the jump, and <Coda> after it");
   }
+  if (
+    endingNumber !== undefined &&
+    !bars.some((b) => b.ending?.includes(endingNumber))
+  ) {
+    fail(bar, `${jump} without an ending ${endingNumber}`);
+  }
   if (!ok) return undefined;
   const target = ds ? segno : 0;
+  if (endingNumber !== undefined) {
+    return { bar, target, stop: fine, ending: endingNumber };
+  }
   if (alFine) return { bar, target, stop: fine };
   if (alCoda) return { bar, target, stop: toCoda, coda };
   return { bar, target };
@@ -671,6 +743,7 @@ function playOrder(
     stop: number | undefined,
     chorus: number,
     afterJump: boolean,
+    forced?: number, // the ending to take (after a jump al 2nd ending)
   ) => {
     const noRepeats = afterJump && !repeatsOnJump;
     let pass = 1;
@@ -680,13 +753,24 @@ function playOrder(
       if (steps.length > MAX_BARS) return false;
       if (starts.has(i) && !back) pass = 1;
       back = false;
-      const choice = noRepeats ? Infinity : pass;
       const ending = endings.get(i);
+      const isForced =
+        forced !== undefined &&
+        !!ending?.group.some((e) => e.numbers.includes(forced));
+      const choice = isForced ? forced! : noRepeats ? Infinity : pass;
+      if (ending?.late && !ending.numbers.includes(choice)) {
+        // a late ending is only played when a jump goes to it
+        i = ending.end + 1;
+        continue;
+      }
       if (ending && !ending.numbers.includes(choice)) {
         // the ending for this pass; past the last one, the last ending if it
         // doesn't repeat, or the bar after the endings
-        const target = ending.group.find((e) => e.numbers.includes(choice));
-        const last = ending.group[ending.group.length - 1];
+        const target = ending.group.find(
+          (e) => e.numbers.includes(choice) && (!e.late || isForced),
+        );
+        const written = ending.group.filter((e) => !e.late);
+        const last = written[written.length - 1];
         const next = target
           ? target.bar
           : repeats.has(last.end)
@@ -726,7 +810,11 @@ function playOrder(
     return steps;
   }
   // a plain D.C. or D.S. is part of the tune: each chorus plays it
-  if (jump.stop === undefined && jump.coda === undefined) {
+  if (
+    jump.stop === undefined &&
+    jump.coda === undefined &&
+    jump.ending === undefined
+  ) {
     for (let chorus = 1; chorus <= choruses; chorus++) {
       if (!walk(0, jump.bar, chorus, false)) return [];
       if (!walk(jump.target, undefined, chorus, true)) return [];
@@ -740,7 +828,7 @@ function playOrder(
     const from = chorus === 1 ? 0 : jump.target;
     if (!walk(from, jump.bar, chorus, false)) return [];
   }
-  if (!walk(jump.target, jump.stop, choruses, true)) return [];
+  if (!walk(jump.target, jump.stop, choruses, true, jump.ending)) return [];
   if (jump.coda !== undefined && !walk(jump.coda, undefined, choruses, false)) {
     return [];
   }
@@ -768,6 +856,11 @@ const chorusesOf = (options?: UnrollOptions) => {
  *   doesn't repeat, and otherwise the endings are skipped.
  * - An ending with a `:|` ends there. The last one lasts until a `||`, or
  *   one bar.
+ * - An ending can start a section: `[A] |: C |1 G :| [B] |2 F |` is one
+ *   group of endings.
+ * - An ending written after its group, outside any repeat (`|3` after `|1`
+ *   and `|2`), belongs to the group and is only played by a jump al 3rd
+ *   ending; without one, it's a problem.
  * - A `|:` inside a repeat, a `|:` without a `:|`, or an ending without any
  *   `:|` is a problem (`Chart.problems`), and the chart unrolls to `[]`.
  *
@@ -787,6 +880,11 @@ const chorusesOf = (options?: UnrollOptions) => {
  *   the tune, so each chorus plays the whole tune with its jump.
  * - `<To Coda>` and `<Coda>` without a jump are a `<D.C. al Coda>` at the
  *   end of the bar before the coda.
+ * - A jump al 1st, 2nd or 3rd ending goes back to the start or the sign,
+ *   takes no repeats (unless `repeatsOnJump`) and plays that ending at the
+ *   group of endings; then it goes on to the end, or stops at a `<Fine>`.
+ *   With `choruses` it ends the tune, like `al Fine`.
+ * - A `<Segno>` without a D.S. is only a sign.
  *
  * A run of a section starts at a bar that starts a section (`[A]`), or at a
  * new chorus, so `sectionBar` and `sectionLength` count within it: an AA
