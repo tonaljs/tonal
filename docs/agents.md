@@ -141,6 +141,33 @@ Chord.transpose("Dm7", "4P"); // => "Gm7"
   Chord.degreesByImportance("G13"); // => ["3", "b7", "13", "1", "9", "5"]
   ```
 
+- To play a pattern written over one chord over another (a bass line over
+  C7 over Fm7b5), use `Chord.fitNote(note, from, to)`: each note keeps its
+  role (the 3rd goes to the new 3rd, 11 to #11 on a dominant) and stays near
+  its place. Transposing by the root gets the 3rd wrong. A phrase is a `map`;
+  pass `{ bass: true }` for the slash bass, `{ scale }` to let the chord's
+  scale decide, `{ keep: "non-chord" }` so passing notes keep their interval
+  from the root (otherwise a chromatic line can collapse), and `Note.fold` to
+  keep the result in a range:
+
+  ```js
+  Chord.fitNote("E4", "C7", "Fm7b5"); // => "Ab4"
+  ["C2", "E2", "G2", "Bb2"].map((n) => Chord.fitNote(n, "C7", "Fm7")); // => ["F2", "Ab2", "C3", "Eb3"]
+  ```
+
+- To reharmonise, `Chord.substitutes(chord, { next, kinds })` lists what can
+  take a chord's place as `{ chords, kind }`: the tritone substitute, the
+  backdoor dominant, the chords contained in it (Em for Cmaj7) and the
+  related ii of a dominant, plus approach chords to `next` (secondary and
+  substitute dominants, passing diminished). Filter with `kinds`; for the
+  tritone substitute alone use `Chord.tritoneSubstitute`.
+  `Chord.containing(note)` lists the chords that can harmonise a melody note:
+
+  ```js
+  Chord.tritoneSubstitute("G7"); // => "Db7"
+  Chord.substitutes("C", { next: "Dm7" }).map((s) => s.chords); // => [["C", "A7"], ["C", "Eb7"], ["C", "C#dim7"]]
+  ```
+
 - `Chord.get(name).complexity` (or `ChordType.get(type).complexity`) is the
   number of notes added to a triad plus two for each chromatic note (outside
   the major scale that holds most of the chord, as spelled): `m` is 0, `m7`
@@ -188,11 +215,45 @@ Key.minorKey("A").harmonic.chords; // => ["AmMaj7", "Bm7b5", "C+maj7", "Dm7", "E
   and substitute dominants). A minor key has three scales: `natural`,
   `harmonic` and `melodic`. In `secondaryDominants` and similar lists, `""`
   means the degree has none.
+- `Key.analyzeChord(key, chord, { previous, next })` says what a chord does
+  in a key: every reading, ranked (`[0]` is the default), each with a
+  numeral as the books write it (`"V7/ii"`, `"subV7/I"`, `"bVIImaj7"`), a
+  `source` (`"diatonic"`, `"secondary dominant"`, `"borrowed"`…), a
+  `function` and a `chordScale` chosen by function. Pass the neighbours:
+  related ii chords, backdoor and diminished readings need them. The key is
+  `"C major"` or `"A minor"`; for a whole progression, `map` over the chords.
+- `Key.substitutes(key, chord, { next, kinds })` is `Chord.substitutes` plus
+  the key's own: `"diatonic"` (chords of the key with the same function) and
+  `"borrowed"` (from `Key.borrowedChords`, the modal interchange table: each
+  with its numeral, the scale it comes from and the numerals it replaces).
+  In a key, the related ii of a dominant to a minor chord is an m7b5:
+
+  ```js
+  Key.substitutes("C major", "Fmaj7", { kinds: ["diatonic", "borrowed"] }).map(
+    (s) => s.chords[0],
+  ); // => ["Dm7", "Ebmaj7", "Fm7", "Fm6", "Bbmaj7"]
+  ```
+
+- To find the scale of some notes or chords ("which key is this?"), use
+  `Scale.rank(notes, { chords })`: every tonic with the common scale types,
+  best first, each with `matched`, `missing` and `outside` notes.
+  `Scale.detect` only tries the first note as the tonic:
+
+  ```js
+  Scale.rank([], { chords: ["Dm7", "G7", "Cmaj7"] })[0].name; // => "C major"
+  ```
+
+- To modulate, `Key.pivotChords(from, to, { sevenths, chromatic })` lists the
+  chords two keys share with their numeral in each (`"Em": "iii"` in C,
+  `"vi"` in G); `chromatic` adds chords with a functional reading in the other
+  key (D: V/V in C, V in G).
+
 - `Scale.outside(scale, chord)` lists the chord notes that aren't in the
   scale, spelled as in the chord: `Scale.outside("C major", "Bb7")` is
   `["Bb", "Ab"]`, and `[]` when the chord fits. To list the chord types that
   fit a scale, use `Scale.scaleChords`; for the chord on each degree,
-  `Scale.chords`.
+  `Scale.chords`; for every chord on each degree (a chord browser for a key
+  and scale type), `Scale.chords(scale, { all: true, types })`.
 - `Mode` is about the seven Greek modes (`Mode.names()`); for other scales
   use `Scale`. `Scale.modeNames("C harmonic major")` names the modes of any
   scale, and a scale type that is a mode of a parent scale has `family` and
@@ -268,6 +329,19 @@ Voicing.analyze(["G3", "C4", "E4", "B4"], "Cmaj7").spacing; // => "drop2"
 Voicing.invert(["C4", "E4", "G4"], 1); // => ["E4", "G4", "C5"]
 Voicing.drop(["C4", "E4", "G4", "B4"], 2); // => ["G3", "C4", "E4", "B4"]
 ```
+
+To voice a whole progression (to hear a chart), one call does it, but pass the
+options: the defaults are each chord's own notes, close, with no bass and no
+tensions, which sounds like plain block chords.
+
+```js
+Voicing.sequence(chords, { voices: 4, extensions: "available", bass: "root" });
+// a bass part (the slash bass when there is one) plus 4 voices: voices + 1 notes each
+```
+
+Use `bass: "external"` when a bass line plays the bass (it leaves the bass note
+out; don't add it back). It never throws: an invalid chord gives `[]` in its
+place.
 
 The chord symbol says which notes the chord has; the options say how to play
 them: `voices` (a number, or a range per voice), `extensions` (`"available"` or

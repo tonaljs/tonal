@@ -2,10 +2,11 @@
 
 > Work with scales
 
-> **Try it:** [Scale chords](https://tonaljs.github.io/tonal/apps/scale-chords/). Pick a tonic and any of 92 scales to see the chord on each degree: triads, sevenths, or chords stacked in fourths or seconds.
+> **Try it:** [Scale chords](https://tonaljs.github.io/tonal/apps/scale-chords/). Pick a tonic and any of 92 scales to see the chord on each degree (triads, sevenths, or chords stacked in fourths or seconds), or browse every chord on each degree: the chords to choose from, filtered by type.
 > **Try it:** [Scale families](https://tonaljs.github.io/tonal/apps/scale-families/). The seven modes of the major, melodic minor, harmonic minor and other scale families, side by side, and which of them fit a chord.
 > **Try it:** [Scale harmonizer](https://tonaljs.github.io/tonal/apps/scale-harmonizer/). Add voices in thirds, sixths or tenths that stay in a scale to a melody, and see how consonant each interval is.
 > **Try it:** [Walking bass](https://tonaljs.github.io/tonal/apps/walking-bass/). Paste a chord chart to get a walking bass line: targets on each chord, approach notes into the next one, two-feel in the head, with a ride to play along.
+> **Try it:** [Reharmonizer](https://tonaljs.github.io/tonal/apps/reharmonizer/). Paste a chart and reharmonize it: the original on top with what each chord does in the key, and below a dropdown of substitutes on each chord, or one click for tritone subs, ii–Vs, secondary dominants or passing diminished chords. Hear one after the other, with a melody that follows the chords.
 
 `@tonaljs/scale` is a collection of functions to create and manipulate musical scales
 
@@ -278,11 +279,28 @@ Scale.detect(["D", "E", "F#", "A", "B"], { match: "exact", tonic: "B" });
 // => ["B minor pentatonic"]
 ```
 
+### `Scale.rank`
+
+`rank(notes: string[], options?: { chords?: string[], types?: string[], limit?: number }) => { name, tonic, type, matched, missing, outside, chordsOutside }[]`
+
+Which scale is this? Every tonic is tried with the common scale types (major and minor; harmonic and melodic minor; the modes and pentatonics; the blues scales, or `types`), best first: more input notes in the scale, then more chords, then an exact fit, then the more common type, then the evidence of the tonic (the first and last chord and note on it, how often it's played). Unlike `Scale.detect`, the tonic doesn't have to be the first note:
+
+```js
+Scale.rank(["F", "G", "A", "Bb", "C", "D", "E"])
+  .slice(0, 2)
+  .map((s) => s.name);
+// => ["F major", "D minor"]
+Scale.rank(["D", "E", "F", "G", "A", "Bb", "C", "D"])[0].name; // => "D minor"
+Scale.rank([], { chords: ["Am", "Dm", "E7"] })[0].name; // => "A harmonic minor"
+Scale.rank(["C", "D", "E", "G", "A"], { limit: 1 });
+// => [{ name: "C major pentatonic", tonic: "C", type: "major pentatonic", matched: 5, missing: [], outside: [], chordsOutside: [] }]
+```
+
 ## Relationships
 
 ### `Scale.chords`
 
-`chords(scale: string, options?: { size?: number, step?: number }) => { degree: number, notes: string[], symbol: string }[]`
+`chords(scale: string, options?: { size?: number, step?: number, all?: boolean, types?: string[], order?: "common" | "dictionary" }) => { degree: number, notes: string[], symbol: string }[]`
 
 Get the chord built on each degree of a scale, by stacking scale notes. `size` is the number of notes (3 by default: triads) and `step` the scale steps between them (2 by default: thirds; 3 for fourths, 1 for seconds). It works for any scale with a tonic:
 
@@ -314,7 +332,25 @@ Scale.chords("C major", { size: 4, step: 3 })[1];
 
 A major triad is written without quality (`"C"`), as in `Key`. The chords of major and minor scales are the ones in [`Key`](https://tonaljs.github.io/tonal/docs/harmony/keys.md) and [`Mode`](https://tonaljs.github.io/tonal/docs/harmony/modes.md), except the melodic minor tonic: `Scale.chords` stacks thirds (`CmMaj7`), while `Key.minorKey("C").melodic.chords` lists `Cm6`, as used in jazz.
 
-Scales with more than seven notes (bebop, octatonic) or fewer (pentatonic) give stacks that may have no name. To get every chord type that fits a scale, see `Scale.scaleChords`.
+Scales with more than seven notes (bebop, octatonic) or fewer (pentatonic) give stacks that may have no name.
+
+#### Every chord on each degree
+
+With `all: true`, it lists every chord type whose notes are all in the scale, rooted on each degree: the chords to choose from in a key, for any scale. They come by degree and, on each degree, the common ones first (by `complexity`, triads before power and sus chords; `order: "dictionary"` keeps the dictionary's order). `types` limits the chord types:
+
+```js
+Scale.chords("B minor", {
+  all: true,
+  types: ["M", "m", "7", "m7", "maj7"],
+}).map((c) => c.symbol);
+// => ["Bm", "Bm7", "D", "Dmaj7", "Em", "Em7", "F#m", "F#m7", "G", "Gmaj7", "A", "A7"]
+Scale.chords("C major", { all: true })
+  .filter((c) => c.degree === 7)
+  .map((c) => c.symbol);
+// => ["Bdim", "Bm7b5", "Bm7#5", "Bmb6b9", "Bquartal", "Bm#5", "B7#5sus4"]
+```
+
+Types match by pitch class, and the notes are spelled as in the chord, from its root (as `Chord.get(symbol).notes`): D in the diminished scale is D F# A, though the scale has Gb, and Cdim7 is C Eb Gb Bbb. Among chords of the same `complexity`, those with a 3rd and a 5th come first, then those with a 3rd (`7no5`), then those without (`5`, `sus4`). `Scale.scaleChords` gives the chord types from the tonic only, without root.
 
 ### `Scale.scaleChords`
 

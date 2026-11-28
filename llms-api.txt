@@ -1,4 +1,4 @@
-# tonal 6.16.0 API
+# tonal 6.18.0 API
 
 Every public function of the `tonal` npm package, generated from its
 TypeScript source. One entry per function: the signature, then a one-line
@@ -407,6 +407,11 @@ Chord.classify(name: string, noteName: string, options?: ClassifyOptions): NoteC
   Chord.classify("C7", "Db"); // => "tension"
   Chord.classify("Cmaj7", "F"); // => "avoid"
 
+Chord.containing(noteName: NoteName, options?: { types?: string[]; }): ContainingChord[]
+  Get the chords that have a note as a chord tone or a tension (`Chord.tensions`), with the note's degree in each: the chords that can harmonise a melody note. The types are maj7, 7 and m7 by default (as Pease harmonises a melody note), or `types`.
+  Chord.containing("C").slice(0, 4); // => [{ chord: "Cmaj7", degree: "1" }, { chord: "Abmaj7", degree: "3" }, { chord: "Fmaj7", degree: "5" }, { chord: "Dbmaj7", degree: "7" }]
+  Chord.containing("C", { types: ["m7b5"] }).map((c) => c.chord); // => ["Cm7b5", "Am7b5", "F#m7b5", "Dm7b5", "Bbm7b5", "Gm7b5", "Em7b5"]
+
 Chord.degreeOf(chordName: ChordNameOrTokens, noteName: NoteName): ChordDegreeName
   Get the degree name that a note plays in a chord, counted from the major scale of the root (the bass of a slash chord doesn't change it). The opposite of `Chord.noteOf`.
   Chord.degreeOf("C7b9", "Db"); // => "b9"
@@ -434,6 +439,18 @@ Chord.detect(source: string[], options?: Partial<DetectOptions>): string[]
 Chord.extended(chordName: string): string[]
   Get the symbols of the chords that have all the notes of a chord and at least one more, on the same tonic. It returns `[]` if the chord isn't valid. The opposite of `Chord.reduced`.
   Chord.extended("Cmaj7"); // => ["Cmaj#4", "Cmaj7#9", "Cmaj7#9#11", "Cmaj9", "Cmaj13", "CM7add13", "Cmaj9#11", "CM13#11", "Cmaj11", "CM7b9"]
+
+Chord.fitDegree(degree: ChordDegreeName, to: ChordNameOrTokens, options?: Pick<FitOptions, 'scale'>): ChordDegreeName
+  Get the degree of a chord that plays the role of a degree from another chord: the 3rd goes to the new 3rd, the 9th to a 9th the chord takes. Use it to adapt a pattern written over one chord to another (see `Chord.fitNote`). The number counts in the octave (9 and 2, 11 and 4, 13 and 6 are the same role). The first rule that matches:
+  Chord.fitDegree("3", "Cm7"); // => "b3"
+  Chord.fitDegree("11", "F7"); // => "#11"
+  Chord.fitDegree("9", "Fm7b5"); // => "9"
+
+Chord.fitNote(noteName: NoteName, from: ChordNameOrTokens, to: ChordNameOrTokens, options?: FitOptions): NoteName
+  Fit a note from one chord to another: the note keeps its role (the 3rd goes to the new 3rd, see `Chord.fitDegree`) and stays near its place. Use it to play a pattern written over one chord (a bass line over C7) over any other chord.
+  Chord.fitNote("E4", "C7", "Fm7b5"); // => "Ab4"
+  Chord.fitNote("D4", "C7", "Fm7b5"); // => "G4"
+  Chord.fitNote("D4", "C7", "Fm7b5", { scale: "F locrian" }); // => "Gb4"
 
 Chord.formula(chordName: ChordNameOrTokens): ChordDegreeName[]
   Get the formula of a chord: its degree names, in the order of its intervals, counted from the major scale of the root. It returns `[]` if the chord isn't valid.
@@ -475,6 +492,12 @@ Chord.steps(chordName: ChordNameOrTokens, tonic?: string): (_normalized: number)
   [0, 1, 2, 3].map(Chord.steps("C")); // => ["C", "E", "G", "C"]
   [-1, 0, 1].map(Chord.steps(["C4", "M"])); // => ["G3", "C4", "E4"]
 
+Chord.substitutes(chordName: string, options?: SubstitutesOptions): Substitute[]
+  Get the substitutes of a chord: the chords that can take its place, each with its kind. A substitute is one chord, or two when it adds a chord (the related ii before a dominant, or an approach chord before `next`). Roots are spelled by interval from the chord's root. A dominant has a major 3rd and a minor 7th; a target has a perfect 5th (not diminished or augmented). In this order, skipping what doesn't apply:
+  Chord.substitutes("G7");
+  Chord.substitutes("G9", { kinds: ["contained"] }).map((s) => s.chords[0]); // => ["Bm7b5", "Dm6"]
+  Chord.substitutes("G7", { kinds: ["related ii"], minor: true }); // => [{ chords: ["Dm7b5", "G7"], kind: "related ii" }]
+
 Chord.tensions(name: ChordNameOrTokens): ChordDegreeName[]
   Get the tensions of a chord: the notes a chord can add without changing what it is, as degree names (`b9`, `9`, `#9`, `11`, `#11`, `b13`, `13`, and `7` on 6, m6 and dim7 chords), counted from the major scale of the root as in `Chord.formula`. It works with a chord type alone, and returns `[]` if the chord isn't valid.
   Chord.tensions("C7"); // => ["b9", "9", "#9", "#11", "b13", "13"]
@@ -492,6 +515,12 @@ Chord.transpose(chordName: string, interval: string): string
   Chord.transpose("Dm7", "P4"); // => "Gm7"
   Chord.transpose("C/E", "M2"); // => "D/F#"
   Chord.transpose("nonsense", "P4"); // => "nonsense"
+
+Chord.tritoneSubstitute(chordName: string): string
+  Get the tritone substitute of a dominant chord: the same type a tritone away, which keeps its 3rd and 7th (swapped) and resolves down a half step. The root is spelled as a diminished 5th or an augmented 4th above, whichever has fewer accidentals (the diminished 5th on a tie). The substitute of the substitute is the chord, spelled as given when its root is natural (F#7 gives C7, which gives Gb7). A slash bass moves with the root.
+  Chord.tritoneSubstitute("G7"); // => "Db7"
+  Chord.tritoneSubstitute("Db7"); // => "G7"
+  Chord.tritoneSubstitute("F#7"); // => "C7"
 
 Types:
 
@@ -533,6 +562,17 @@ type ClassifyOptions = {
   tensions?: string[] | undefined;
 }
 
+type ContainingChord = {
+  chord: string;
+  degree: string;
+}
+
+type FitOptions = {
+  scale?: string | undefined;
+  bass?: boolean | undefined;
+  keep?: 'non-chord' | undefined;
+}
+
 type IntervalName = KnownIntervalName | (string & {})
   An interval name. Any string is accepted, quality first too ("M3"); editors suggest the common names (`KnownIntervalName`): every interval up to 15, up or down, number first as tonal writes them, such as "3M" or "-5P".
 
@@ -541,6 +581,20 @@ type NoteClass = '' | 'chord tone' | 'tension' | 'avoid' | 'outside'
 
 type NoteName = (string & {}) | KnownNoteName
   A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
+
+type Substitute = {
+  chords: string[];
+  kind: SubstituteKind;
+}
+
+type SubstituteKind = 'tritone substitute' | 'backdoor' | 'contained' | 'related ii' | 'secondary dominant' | 'substitute dominant' | 'passing diminished'
+  The kind of a substitute, as returned by `Chord.substitutes`.
+
+type SubstitutesOptions = {
+  next?: string | undefined;
+  kinds?: SubstituteKind[] | undefined;
+  minor?: boolean | undefined;
+}
 
 ## ChordType
 
@@ -856,6 +910,18 @@ type Type = 'perfectable' | 'majorable'
 
 import { Key } from "tonal"; // or: import * as Key from "@tonaljs/key";
 
+Key.analyzeChord(key: string, chord: string, options?: AnalyzeChordOptions): ChordReading[]
+  Analyse a chord in a key: every reading of what the chord does there, ranked, the first being the default. Each reading has its numeral as the books write it ("V7/ii", "subV7/I", "ii7/V", "bVIImaj7"), the chord's plain numeral on the tonic (`degree`), its source, harmonic function ("T", "SD", "D" or ""), the scale it comes from, the numeral it leads to (`target`), whether the next chord goes there (`resolution`) and a chord scale chosen by function. Returns `[]` for an invalid key or chord; a valid chord always has at least one reading.
+  Key.analyzeChord("C major", "A7", { next: "Dm7" })[0].numeral; // => "V7/ii"
+  Key.analyzeChord("C major", "Bb7", { next: "C" }).map((r) => r.source); // => ["backdoor", "borrowed", "tritone substitute"]
+  Key.analyzeChord("C major", "Am7", { next: "D7" }).map((r) => r.numeral); // => ["ii7/V", "vi7"]
+
+Key.borrowedChords(key: string): BorrowedChord[]
+  Get the chords a key borrows from its parallel scales (modal interchange), as Pease lists them, with their numeral, the scale they come from and the numerals of the key's chords they replace. In a major key (C):
+  Key.borrowedChords("C major")[0]; // => { chord: "Dm7b5", numeral: "ii7b5", from: "C minor", replaces: ["ii7"] }
+  Key.borrowedChords("C major").map((b) => b.chord); // => ["Dm7b5", "Ebmaj7", "Fm7", "Fm6", "Gm7", "Abmaj7", "Bb7", "Dbmaj7", "Bbmaj7", "Cmaj7#11"]
+  Key.borrowedChords("A minor").map((b) => b.chord); // => ["Amaj7", "Bm7", "Dmaj7"]
+
 Key.majorKey(tonic: string): MajorKey
   Get a major key: its signature, scale, triads, seventh chords, harmonic functions and secondary and substitute dominants. For an invalid tonic it returns a key with empty strings and arrays.
   Key.majorKey("F").scale; // => ["F", "G", "A", "Bb", "C", "D", "E"]
@@ -882,7 +948,45 @@ Key.minorKeyChords(tonic: string): KeyChord[]
   Get the chords available in a minor key, each with the roles it plays. It merges the chords of the natural, harmonic and melodic scales, so a chord that appears in several scales has all its roles. Returns an empty array for an invalid tonic.
   Key.minorKeyChords("A").slice(0, 2); // => [{ name: "Am7", roles: ["T", "ii/bVII"] }, { name: "Bm7b5", roles: ["SD", "ii/I"] }]
 
+Key.pivotChords(from: string, to: string, options?: PivotChordsOptions): PivotChord[]
+  Get the chords two keys share (pivot chords, to modulate from one to the other), with the numeral of each in both keys (as `Key.analyzeChord` writes it). Triads by default, 7th chords with `sevenths`. A minor key has the chords of its natural, harmonic and melodic forms. Chords match by root and type, whatever their spelling, and are spelled as in the second key, in the order of the first key's chords.
+  Key.pivotChords("C major", "G major").map((p) => `${p.chord}: ${p.from} ${p.to}`); // => ["C: I IV", "Em: iii vi", "G: V I", "Am: vi ii"]
+  Key.pivotChords("C major", "G major", { sevenths: true }).map((p) => p.chord); // => ["Cmaj7", "Em7", "Am7"]
+  Key.pivotChords("C major", "G major", { chromatic: true }).slice(4).map((p) => `${p.chord}: ${p.from} ${p.to}`); // => ["Dm: ii v", "F: IV bVII", "D: V/V V"]
+
+Key.substitutes(key: string, chord: string, options?: KeySubstitutesOptions): KeySubstitute[]
+  Get the substitutes of a chord in a key: `Chord.substitutes`, then the key's own, each as `{ chords, kind }`:
+  Key.substitutes("C major", "Fmaj7").map((s) => `${s.kind}: ${s.chords}`);
+  Key.substitutes("C major", "E7", { kinds: ["related ii"] }); // => [{ chords: ["Bm7b5", "E7"], kind: "related ii" }]
+
 Types:
+
+type AnalyzeChordOptions = {
+  previous?: string | undefined;
+  next?: string | undefined;
+}
+
+type BorrowedChord = {
+  chord: string;
+  numeral: string;
+  from: string;
+  replaces: string[];
+}
+
+type ChordReading = {
+  chord: string;
+  numeral: string;
+  degree: string;
+  source: ChordSource;
+  function: '' | 'D' | 'T' | 'SD';
+  scale: string;
+  target: string;
+  resolution: '' | 'functioning' | 'non-functioning';
+  chordScale: string;
+}
+
+type ChordSource = 'tritone substitute' | 'backdoor' | 'related ii' | 'secondary dominant' | 'passing diminished' | 'diatonic' | 'borrowed' | 'common-tone diminished' | 'chromatic'
+  Where a reading of a chord in a key comes from.
 
 type KeyChord = {
   name: string;
@@ -904,6 +1008,20 @@ type KeyScale = {
   substituteDominantSupertonics: readonly string[];
   secondaryDominantsMinorRelative: readonly string[]; // deprecated
   substituteDominantsMinorRelative: readonly string[]; // deprecated
+}
+
+type KeySubstitute = {
+  chords: string[];
+  kind: KeySubstituteKind;
+}
+
+type KeySubstituteKind = SubstituteKind | 'diatonic' | 'borrowed'
+  The kind of a substitute in a key, as returned by `Key.substitutes`.
+
+type KeySubstitutesOptions = {
+  next?: string | undefined;
+  kinds?: KeySubstituteKind[] | undefined;
+  minor?: boolean | undefined;
 }
 
 type MajorKey = {
@@ -936,6 +1054,19 @@ type MinorKey = {
   tonic: string;
   alteration: number;
   keySignature: string;
+}
+
+type PivotChord = {
+  chord: string;
+  from: string;
+  to: string;
+  fromSource: ChordSource;
+  toSource: ChordSource;
+}
+
+type PivotChordsOptions = {
+  sevenths?: boolean | undefined;
+  chromatic?: boolean | undefined;
 }
 
 ## Midi
@@ -1699,6 +1830,12 @@ Scale.rangeOf(scale: string | string[]): (fromNote: string, toNote: string) => (
   Scale.rangeOf(["C", "D", "E"])("C4", "E5"); // => ["C4", "D4", "E4", "C5", "D5", "E5"]
   Scale.rangeOf("C major")("C4", "x"); // => []
 
+Scale.rank(notes: string[], options?: RankOptions): RankedScale[]
+  Rank the scales that fit a set of notes (and chords), best first: "which scale is this?". Every tonic is tried with every type of `types` (by default, the common ones: major and minor; harmonic and melodic minor; the modes and the pentatonics; the blues scales). A scale is listed when it holds at least one note or chord. The first difference decides:
+  Scale.rank(["F", "G", "A", "Bb", "C", "D", "E"]).slice(0, 2).map((s) => s.name); // => ["F major", "D minor"]
+  Scale.rank(["D", "E", "F", "G", "A", "Bb", "C", "D"])[0].name; // => "D minor"
+  Scale.rank([], { chords: ["Am", "Dm", "E7"] })[0].name; // => "A harmonic minor"
+
 Scale.reduced(name: string): string[]
   Get the names of the scale types whose notes are all in a scale and are fewer (the tonic is ignored). It returns `[]` if the scale isn't valid. The opposite of `Scale.extended`.
   Scale.reduced("major"); // => ["major pentatonic", "ionian pentatonic", "ritusen"]
@@ -1752,6 +1889,22 @@ type IntervalName = KnownIntervalName | (string & {})
 
 type NoteName = (string & {}) | KnownNoteName
   A note name, with or without octave. Any string is accepted; editors suggest the common names (`KnownNoteName`): "C" to "B" with nothing, "#", "b", "##" or "bb", alone or at octaves 0 to 8, such as "Eb" or "C4".
+
+type RankOptions = {
+  chords?: string[] | undefined;
+  types?: string[] | undefined;
+  limit?: number | undefined;
+}
+
+type RankedScale = {
+  name: string;
+  tonic: string;
+  type: string;
+  matched: number;
+  missing: string[];
+  outside: string[];
+  chordsOutside: string[];
+}
 
 type Scale = {
   tonic: string | null;
@@ -2055,10 +2208,10 @@ Voicing.search(chord: string, range?: string[], dictionary?: VoicingDictionary):
 
 Voicing.sequence(chords: (string | VoicingChord)[], options?: SequenceOptions): string[][]
 Voicing.sequence(chords: string[], range?: string[], dictionary?: VoicingDictionary, voiceLeading?: VoiceLeadingFunction, lastVoicing?: string[]): string[][]  [deprecated] Use the options object: `Voicing.sequence(chords, { range, previous })`. Removed in tonal 7.
-  Get a voicing for each chord of a list: the smoothest path through the voicings `Voicing.search` gives for each chord, so that the voices move as little as possible over the whole progression (an exact path, not a greedy one). The options are the ones of `Voicing.get`, for every chord, and each chord can be an object with its own (`{ chord: "G7", voices: 5 }`), all but `previous` and `metric`, which belong to the whole sequence. `maxLeap` limits the move of each voice. A chord without voicings gives `[]`, and the next one is led from the last.
+  Get a voicing for each chord of a list: the smoothest path through the voicings `Voicing.search` gives for each chord, so that the voices move as little as possible over the whole progression (an exact path, not a greedy one). The options are the ones of `Voicing.get`, for every chord, and each chord can be an object with its own (`{ chord: "G7", voices: 5 }`), all but `previous` and `metric`, which belong to the whole sequence. `maxLeap` limits the move of each voice. A chord without voicings gives `[]`, and the next one is led from the last. The defaults play each chord's own notes, close, with no bass part or tensions: to play a chart, pass `{ voices: 4, extensions: "available", bass: "root" }` (`voices + 1` notes, the bass first), or `bass: "external"` with a bass player.
   Voicing.sequence(["C", "Am", "F", "G"]); // => [["C4", "E4", "G4"], ["A3", "C4", "E4"], ["F3", "A3", "C4"], ["G3", "B3", "D4"]]
+  Voicing.sequence(["Cmaj7", "Am7", "Dm7", "G7"], { voices: 4, extensions: "available", bass: "root" }); // => [["C3", "G3", "B3", "D4", "E4"], ["A2", "G3", "B3", "C4", "E4"], ["D2", "F3", "A3", "C4", "E4"], ["G2", "F3", "A3", "B3", "E4"]]
   Voicing.sequence(["Dm7", "G7", "Cmaj7"], { voices: 4, extensions: "available", bass: "external" }); // => [["F3", "A3", "C4", "E4"], ["F3", "A3", "B3", "E4"], ["E3", "G3", "B3", "D4"]]
-  Voicing.sequence(["Dm7", { chord: "G7", voices: 5 }, "Cmaj7"], { voices: 4 }).map((v) => v.length); // => [4, 5, 4]
 
 Voicing.steps(notes: string[]): (step: number) => string
   Get a function that returns the note of a voicing by its position, 0 being the lowest voice, so a note pattern (`Pattern.arpeggio`, `Pattern.sequence`) plays over it. Past the top voice, the voicing repeats above itself: each copy moves up the fewest octaves that put its lowest note at or above the top note (one octave for a voicing within an octave, two for C3 G3 E4), so the positions keep going up. Negative positions go down the same way: -1 is the top voice of the copy below. The spelling is kept.

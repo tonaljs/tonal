@@ -93,6 +93,23 @@ Voicing.sequence(["Dm7", "G7", "Cmaj7"], {
 // => [["D2", "F3", "C4", "E4"], ["G2", "F3", "B3", "E4"], ["C3", "E3", "B3", "D4"]]
 ```
 
+To play a chart as a pianist does, one call is enough, but the defaults aren't that: without options each chord is its own notes, close, around the middle of the piano, with no bass part and no tensions. Three options make it sound like a chart:
+
+```js
+Voicing.sequence(["Cmaj7", "Am7", "Dm7", "G7", "Cmaj7"], {
+  voices: 4,
+  extensions: "available",
+  bass: "root",
+});
+// => [["C3", "G3", "B3", "D4", "E4"], ["A2", "G3", "B3", "C4", "E4"], ["D2", "F3", "A3", "C4", "E4"],
+//     ["G2", "F3", "A3", "B3", "E4"], ["C3", "E3", "G3", "B3", "D4"]]
+```
+
+- `bass: "root"` adds a bass part under the voices, in `bassRange` (`["C2", "C3"]` by default): the first note of each voicing. `voices` counts the voices above it, so each voicing has `voices + 1` notes. A slash chord's bass part plays its bass (`C/E` starts on E2).
+- `bass: "external"` is for a bass player (a walking bass, a bass track): the voicing leaves the bass note out, so don't add it back.
+- `extensions: "available"` adds the tensions that suit each chord (9 and 13 on a dominant, 9 on a major 7th); without it only the symbol's notes are played.
+- It doesn't throw: a chord that isn't valid gives `[]` in its place, and the next chord is led from the last voicing. Map over the result and skip the empty ones.
+
 - **Options.** The options are the ones of `Voicing.get`, for every chord. A chord can be an object with its own options, which are merged over them (all of them except `previous` and `metric`, which belong to the whole sequence):
 
   ```js
